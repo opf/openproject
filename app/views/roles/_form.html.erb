@@ -30,7 +30,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= error_messages_for 'role' %>
 
 <% unless @role.builtin? %>
-  <div class="form--field"><%= f.text_field :name, required: true, container_class: '-middle' %></div>
+  <div class="form--field -required"><%= f.text_field :name, required: true, container_class: '-middle' %></div>
   <div class="form--field"><%= f.check_box :assignable %></div>
   <% if @role.new_record? && @roles.any? %>
     <div id="member_attributes">
@@ -48,8 +48,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <div id="member_permissions">
-  <% perms_by_module = @permissions.group_by {|p| p.project_module.to_s} %>
-  <% perms_by_module.keys.sort.each do |mod| %>
+  <% @permissions.each do |mod, mod_permissions| %>
     <% module_name = mod.blank? ? 'fieldset--' + Project.model_name.human.downcase.gsub(' ', '_') : 'fieldset--' + l_or_humanize(mod, prefix: 'project_module_').downcase.gsub(' ', '_') %>
     <fieldset class="form--fieldset -collapsible" id="<%= module_name %>">
       <% module_name = mod.blank? ? "form--" + I18n.t('attributes.project') : "form--" + l_or_humanize(mod, prefix: 'project_module_').gsub(' ','_') %>
@@ -62,7 +61,7 @@ See docs/COPYRIGHT.rdoc for more details.
             </span>
           </div>
           <div class="-columns-2">
-            <% perms_by_module[mod].each do |permission| %>
+            <% mod_permissions.each do |permission| %>
               <div class="form--field">
                 <div class="form--field-container">
                   <label class="form--label-with-check-box">

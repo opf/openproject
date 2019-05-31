@@ -61,14 +61,11 @@ export class WorkPackageTableHighlightingService extends WorkPackageQueryStateSe
 
     super.update(this.filteredValue(value));
 
-    // Load dynamic highlighting CSS if enabled
-    if (!this.isDisabled) {
-      this.dynamicCssService.requireHighlighting();
-    }
+    this.dynamicCssService.requireHighlighting();
   }
 
   public valueFromQuery(query:QueryResource):WorkPackageTableHighlight {
-    const highlight = { mode: query.highlightingMode || 'inline', highlightedAttributes: query.highlightedAttributes };
+    const highlight = { mode: query.highlightingMode || 'inline', selectedAttributes: query.highlightedAttributes };
     return this.filteredValue(highlight);
   }
 

@@ -78,9 +78,23 @@ export class WorkPackageChangeset {
     this.buildResource();
   }
 
+  public isChanged(attribute:string) {
+    return this.changes[attribute];
+  }
+
   public clear() {
     this.changes = {};
     this.resetForm();
+  }
+
+  /**
+   * Remove some of the changes by key
+   * @param changes
+   */
+  public clearSome(...changes:string[]) {
+    changes.forEach((key) => {
+      delete this.changes[key];
+    });
   }
 
   public resetForm() {
@@ -153,6 +167,8 @@ export class WorkPackageChangeset {
         .then((form:FormResource) => {
           this.form = form;
 
+          this.rebuildDefaults(form.payload);
+
           this.buildResource();
 
           this.wpFormPromise = null;
@@ -189,22 +205,24 @@ export class WorkPackageChangeset {
               // Ensure the schema is loaded before updating
               this.schemaCacheService.ensureLoaded(savedWp).then(() => {
 
+                // Clear any previous activities
+                this.wpActivity.clear(this.workPackage.id!);
+
                 // Initialize any potentially new HAL values
                 savedWp.retainFrom(this.workPackage);
+                this.inFlight = false;
                 this.workPackage = savedWp;
+                this.wpCacheService.updateWorkPackage(this.workPackage, true);
 
                 if (wasNew) {
                   this.workPackage.overriddenSchema = undefined;
                   this.wpCreate.newWorkPackageCreated(this.workPackage);
                 }
 
-                this.wpActivity.clear(this.workPackage.id);
-
                 // If there is a parent, its view has to be updated as well
                 if (this.workPackage.parent) {
                   this.wpCacheService.loadWorkPackage(this.workPackage.parent.id.toString(), true);
                 }
-                this.wpCacheService.updateWorkPackage(this.workPackage);
                 this.resource = null;
                 this.clear();
                 resolve(this.workPackage);
@@ -220,10 +238,24 @@ export class WorkPackageChangeset {
     });
 
     promise
-      .then(() => this.inFlight = false)
       .catch(() => this.inFlight = false);
 
     return promise;
+  }
+
+  /**
+   * Rebuild default attributes we know might change
+   * Will only apply for new work packages.
+   */
+  private rebuildDefaults(payload:HalResource) {
+    if (!this.workPackage.isNew) {
+      return;
+    }
+
+    // Take over the description from the form
+    // Either it's the same as our changeset or it was set by
+    // a default type value.
+    this.setValue('description', payload.description);
   }
 
   /**
@@ -350,16 +382,16 @@ export class WorkPackageChangeset {
   private buildResource() {
     if (this.empty) {
       this.resource = null;
-      this.wpEditing.updateValue(this.workPackage.id, this);
+      this.wpEditing.updateValue(this.workPackage.id!, this);
       return;
     }
 
-    let payload:any = this.workPackage.$source;
+    let payload:any = { ... this.workPackage.$source };
 
     const resource = this.halResourceService.createHalResourceOfType('WorkPackage', this.mergeWithPayload(payload));
 
     resource.overriddenSchema = this.schema;
     this.resource = (resource as WorkPackageResource);
-    this.wpEditing.updateValue(this.workPackage.id, this);
+    this.wpEditing.updateValue(this.workPackage.id!, this);
   }
 }

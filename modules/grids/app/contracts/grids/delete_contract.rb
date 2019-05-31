@@ -32,7 +32,6 @@ require 'grids/base_contract'
 
 module Grids
   class DeleteContract < BaseContract
-
     def validate
       validate_delete_allowed
 

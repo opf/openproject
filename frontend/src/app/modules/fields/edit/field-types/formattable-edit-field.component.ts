@@ -69,14 +69,17 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   // Values used in template
   public isPreview:boolean = false;
   public previewHtml:string = '';
-  public text = {
-    attachmentLabel: this.I18n.t('js.label_formattable_attachment_hint'),
-    save: this.I18n.t('js.inplace.button_save', {attribute: this.schema.name}),
-    cancel: this.I18n.t('js.inplace.button_cancel', {attribute: this.schema.name})
-  };
+  public text:any = {};
 
   ngOnInit() {
+    super.ngOnInit();
+
     this.handler.registerOnSubmit(() => this.getCurrentValue());
+    this.text = {
+      attachmentLabel: this.I18n.t('js.label_formattable_attachment_hint'),
+      save: this.I18n.t('js.inplace.button_save', {attribute: this.schema.name}),
+      cancel: this.I18n.t('js.inplace.button_cancel', {attribute: this.schema.name})
+    };
   }
 
   public onCkeditorSetup(editor:ICKEditorInstance) {
@@ -126,12 +129,12 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
     if (this.resource.isNew && this.resource.project) {
       return this.resource.project.href;
     } else if (!this.resource.isNew) {
-      return this.pathHelper.api.v3.work_packages.id(this.resource.id).path;
+      return this.pathHelper.api.v3.work_packages.id(this.resource.id!).path;
     }
   }
 
   public reset() {
-    if (this.instance) {
+    if (this.instance && this.instance.initialized) {
       this.instance.content = this.rawValue;
     }
   }
@@ -154,5 +157,12 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
 
   public get isFormattable() {
     return true;
+  }
+
+  protected initialize() {
+    if (this.resource.isNew && this.instance) {
+      // Reset CKEditor when reloading after type/form changes
+      this.reset();
+    }
   }
 }

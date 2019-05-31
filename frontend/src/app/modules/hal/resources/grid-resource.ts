@@ -44,6 +44,8 @@ export class GridResource extends HalResource {
   public widgets:GridWidgetResource[];
   public name:string;
   public options:{[key:string]:unknown};
+  public rowCount:number;
+  public columnCount:number;
 
   public $initialize(source:any) {
     super.$initialize(source);

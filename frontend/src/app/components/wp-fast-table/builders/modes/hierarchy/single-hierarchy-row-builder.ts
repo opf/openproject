@@ -59,9 +59,9 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
     workPackage.ancestors.forEach((ancestor:WorkPackageResource) => {
       element.classList.add(`__hierarchy-group-${ancestor.id}`);
 
-      if (state.collapsed[ancestor.id]) {
+      if (state.collapsed[ancestor.id!]) {
         hidden = true;
-        element.classList.add(collapsedGroupClass(ancestor.id));
+        element.classList.add(collapsedGroupClass(ancestor.id!));
       }
     });
 
@@ -77,7 +77,7 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
                           ancestorGroups:string[],
                           index:number):[HTMLElement, boolean] {
 
-    const workPackage = this.states.workPackages.get(ancestor.id).value!;
+    const workPackage = this.states.workPackages.get(ancestor.id!).value!;
     const [tr, hidden] = this.buildEmpty(workPackage);
     tr.classList.add(additionalHierarchyRowClassName);
     return [tr, hidden];
@@ -106,7 +106,7 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
    */
   private buildHierarchyIndicator(workPackage:WorkPackageResource, jRow:JQuery | null, level:number):HTMLElement {
     const hierarchyIndicator = document.createElement('span');
-    const collapsed = this.wpTableHierarchies.collapsed(workPackage.id);
+    const collapsed = this.wpTableHierarchies.collapsed(workPackage.id!);
     const indicatorWidth = 25 + (20 * level) + 'px';
     hierarchyIndicator.classList.add(hierarchyCellClassName);
     hierarchyIndicator.style.width = indicatorWidth;

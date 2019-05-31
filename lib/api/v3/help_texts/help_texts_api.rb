@@ -39,11 +39,8 @@ module API
             HelpTextCollectionRepresenter.new(@entries, api_v3_paths.help_texts, current_user: current_user)
           end
 
-          params do
-            requires :id, type: Integer, desc: 'Help text id'
-          end
-          route_param :id do
-            before do
+          route_param :id, type: Integer, desc: 'Help text ID' do
+            after_validation do
               @help_text = AttributeHelpText.visible(current_user).find(params[:id])
             end
 

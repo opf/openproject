@@ -42,8 +42,14 @@ module API
                                                                     params)
           end
 
-          route_param :id do
-            before do
+          post &::API::V3::Utilities::Endpoints::Create.new(model: Version).mount
+
+          mount ::API::V3::Versions::AvailableProjectsAPI
+          mount ::API::V3::Versions::Schemas::VersionSchemaAPI
+          mount ::API::V3::Versions::CreateFormAPI
+
+          route_param :id, type: Integer, desc: 'Version ID' do
+            after_validation do
               @version = Version.find(params[:id])
 
               authorized_for_version?(@version)
@@ -55,14 +61,20 @@ module API
 
                 permissions = %i(view_work_packages manage_versions)
 
-                authorize_any(permissions, projects: projects, user: current_user)
+                authorize_any(permissions, projects: projects, user: current_user) do
+                  raise ::API::Errors::NotFound.new
+                end
               end
             end
 
             get do
-              VersionRepresenter.new(@version, current_user: current_user)
+              VersionRepresenter.create(@version, current_user: current_user, embed_links: true)
             end
 
+            patch &::API::V3::Utilities::Endpoints::Update.new(model: Version).mount
+            delete &::API::V3::Utilities::Endpoints::Delete.new(model: Version).mount
+
+            mount ::API::V3::Versions::UpdateFormAPI
             mount ::API::V3::Versions::ProjectsByVersionAPI
           end
         end

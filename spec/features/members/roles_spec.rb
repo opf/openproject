@@ -65,7 +65,7 @@ feature 'members pagination', type: :feature, js: true do
   scenario "Removing Bob's last role results in an error" do
     members_page.edit_user! 'Bob Bobbit', remove_roles: ['alpha']
 
-    expect(page).to have_text 'choose at least one role'
+    expect(page).to have_text 'Roles need to be assigned.'
     expect(members_page).to have_user('Bob Bobbit', roles: ['alpha'])
   end
 end

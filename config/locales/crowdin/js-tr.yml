@@ -5,8 +5,8 @@ tr:
       hide: Gizle
       loading: Yükleniyor ...
     attachments:
-      draggable_hint: 'Drag on editor field to inline image or reference attachment.
-        Closed editor fields will be opened while you keep dragging.
+      draggable_hint: 'Editör alanında, satır içi görüntüye veya referans ekine sürükleyin.
+        Sürüklemeye devam ederken kapalı editör alanları açılacaktır.
 
 '
     autocomplete_select:
@@ -18,11 +18,18 @@ tr:
     close_popup_title: Pencereyi kapat
     close_filter_title: Filtreyi kapat
     close_form_title: Formu kapat
+    card:
+      add_new: Yeni kart ekleyin
+      highlighting:
+        inline: 'Satır içi vurgula:'
+        entire_card_by: Kartın tamamı
+      remove_from_list: Kartı listeden çıkar
     clipboard:
       browser_error: Tarayıcınız panoya kopyalamayı desteklemiyor. Metni lütfen elle
         kopyalayınız.
       copied_successful: Panoya başarıyla kopyalandı!
     button_add_watcher: Takipçi ekle
+    button_back: Geri
     button_back_to_list_view: Listeye görünümüne geri dön
     button_cancel: İptal
     button_close: Kapat
@@ -38,7 +45,7 @@ tr:
     button_duplicate: Çoğalt
     button_edit: Düzenle
     button_filter: Filtre
-    button_advanced_filter: Advanced filter
+    button_advanced_filter: Gelişmiş filtre
     button_list_view: Liste görünümü
     button_show_view: Tam Ekran görünümü
     button_log_time: Zaman kaydet
@@ -59,7 +66,7 @@ tr:
       too_many: Takvimde gösterilebilecek iş paketinden(%{max}) daha fazla iş paketi
         mevcuttur(%{count}). İlişkili olanlara odaklanmak için filtreler ekleyin.
     description_available_columns: Kullanılabilir sütunlar
-    description_current_position: 'Buradasınız:'
+    description_current_position: 'You are here: '
     description_select_work_package: "#%{id} nolu iş paketini seçin"
     description_selected_columns: Seçili Sütunlar
     description_subwork_package: "#%{id} nolu iş paketinin alt parçası"
@@ -74,45 +81,45 @@ tr:
       macro:
         child_pages:
           button: Alt sayfalara bağlantılar
-          include_parent: Include parent
+          include_parent: Üst öğeyi dahil et
           text: "[Placeholder] Alt sayfalara bağlantılar"
           page: Viki sayfası
           this_page: bu sayfa
-          hint: 'Leave this field empty to list all child pages of the current page.
-            If you want to reference a different page, provide its title or slug.
+          hint: 'Geçerli sayfanın tüm alt sayfalarını listelemek için bu alanı boş
+            bırakın. Farklı bir sayfaya referans vermek istiyorsanız, başlığını veya
+            fişini belirtin.
 
 '
         code_block:
-          button: Insert code snippet
-          title: Insert / edit Code snippet
+          button: Kod parçacığı ekle
+          title: Kod parçacığını ekle / düzenle
           language: Biçimlendirme dili
-          language_hint: Enter the formatting language that will be used for highlighting
-            (if supported).
+          language_hint: Vurgulamak için kullanılacak formatlama dilini girin (destekleniyorsa).
         dropdown:
-          macros: Macros
-          chose_macro: Chose macro
+          macros: Makrolar
+          chose_macro: Makro seçin
         toc: İçindekiler
-        toolbar_help: Click to select widget and show the toolbar. Double-click to
-          edit widget
+        toolbar_help: Widget'ı seçmek ve araç çubuğunu göstermek için tıklayın. Widget'ı
+          düzenlemek için çift tıklayın
         wiki_page_include:
-          button: Include content of another wiki page
-          text: "[Placeholder] Included wiki page of"
+          button: Başka bir wiki sayfasının içeriğini ekle
+          text: "[Placeholder] Dahil edilen wiki sayfası"
           page: Viki sayfası
-          not_set: "(Page not yet set)"
+          not_set: "(Sayfa ayarlanmadı)"
           hint: |
-            Include the content of another wiki page by specifying its title or slug.
-            You can include the wiki page of another project by separating them with a colon like the following example.
+            Başlığını veya sümüklü böcek belirterek başka bir wiki sayfasının içeriğini ekleyin.
+            Başka bir projenin wiki sayfasını, aşağıdaki örnekte olduğu gibi iki nokta ile ayırarak ekleyebilirsiniz.
         work_package_button:
-          button: Insert create work package button
+          button: Çalışma paketi yarat düğmesi ekle
           type: İş paketi tipi
           button_style: Düğme biçimini kullan
-          button_style_hint: 'Optional: Check to make macro appear as a button, not
-            as a link.'
+          button_style_hint: 'İsteğe bağlı: Makronun bağlantı olarak değil, düğme
+            olarak görünmesini sağlayın.'
           without_type: İş paketini oluştur
           with_type: İş paketini oluştur (Tür %{typename})
         embedded_table:
           button: Gömülü iş paketi tablosu
-          text: "[Placeholder] Embedded work package table"
+          text: "[Yer Tutucu] Gömülü iş paketi tablosu"
         embedded_calendar:
           text: "[Placeholder] Göümülü takvim"
     custom_actions:
@@ -123,8 +130,8 @@ tr:
       internal: İç hata oluştu.
       cannot_save_changes_with_message: 'Değişikliklerinizin kaydedilememesine sebep
         olan hata: %{error}'
-      query_saving: The view could not be saved.
-      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
+      query_saving: Görünüm kaydedilemedi.
+      embedded_table_loading: 'Gömülü görünüm yüklenemedi: %{message}'
     filter:
       description:
         text_open_filter: Bu filtreyi 'ALT' ve ok tuşları ile açın.
@@ -147,18 +154,55 @@ tr:
     general_text_yes: evet
     general_text_No: Hayır
     general_text_Yes: Evet
+    grid:
+      add_modal:
+        choose_widget: Widget seç
+      widgets:
+        documents:
+          title: Belgeler
+          no_results: Henüz belge yok.
+        news:
+          title: Haberler
+          at: en
+          no_results: Rapor için yeni birşey bulunamadı.
+        time_entries_current_user:
+          title: Harcanan zaman (son 7 gün)
+          no_results: Son 7 güne zaman girişi yok.
+        work_packages_accountable:
+          title: Sorumlusu olduğum iş paketleri
+        work_packages_assigned:
+          title: Bana atanan iş paketleri
+        work_packages_created:
+          title: Oluşturduğum iş paketleri
+        work_packages_watched:
+          title: İzlediğim iş paketleri
+        work_packages_table:
+          title: İş paketleri
+        work_packages_calendar:
+          title: Takvim
+    homescreen:
+      blocks:
+        new_features:
+          text_new_features: Read about new features and product updates.
+          current_new_feature_html: 'OpenProject contains a new <b>Boards view</b>
+            for Agile project management. </br> To activate this new feature for your
+            existing projects, please do the following steps: <ul><li>Activate the
+            module Boards within existing projects'' settings.</li> <li>Configure
+            your Boards in a project.</li> <li>Verify roles and permissions</li></ul>'
+          image_alt_text: Board teaser image
+          learn_about: Learn more about Agile Boards
     label_activate: Etkinleştir
     label_activity_no: Etkinlik giriş numarası %{activityNo}
     label_activity_with_comment_no: Etkinlik giriş numarası %{activityNo}. Kullanıcı
       yorumu var.
-    label_add_column_after: Add column after
-    label_add_column_before: Add column before
+    label_add_column_after: Sonrasına sütun ekle
+    label_add_column_before: Öncesine sütun ekle
     label_add_columns: Sütunlar ekle
     label_add_comment: Yorum ekle
     label_add_comment_title: Yorum yapmak ve diğer kişilere bunu bildirmek için @
       yazın
-    label_add_row_after: Add row after
-    label_add_row_before: Add row before
+    label_add_row_after: Sonrasına satır ekle
+    label_add_row_before: Öncesine satır ekle
     label_add_selected_columns: Seçilen sütunları ekle
     label_added_by: ekleyen
     label_added_time_by: "%{author} %{age} tarafından eklendi"
@@ -169,10 +213,11 @@ tr:
     label_ascending: Azalan
     label_author: 'Yazar: %{user}'
     label_between: arasında
-    label_board: Board
+    label_board: Pano
     label_board_locked: Kilitlendi
-    label_board_plural: Boards
+    label_board_plural: Panolar
     label_board_sticky: Sabit
+    label_create_new: Yeni oluştur
     label_create_work_package: Yeni iş paketi oluştur
     label_created_by: Oluşturan
     label_date: Tarih
@@ -205,7 +250,7 @@ tr:
     label_group_by: Grupla
     label_hide_attributes: Daha az göster
     label_hide_column: Sütunu gizle
-    label_hide_project_menu: Collapse project menu
+    label_hide_project_menu: Proje menüsünü daralt
     label_in: şurada
     label_in_less_than: daha azdır
     label_in_more_than: daha fazla
@@ -220,6 +265,7 @@ tr:
     label_more_than_ago: günler önce
     label_my_page: Benim sayfam
     label_next: Sonraki
+    label_no_color: Renk yok
     label_no_data: Görüntülenecek veri yok
     label_no_due_date: bitiş tarihi yok
     label_no_start_date: başlangıç tarihi yok
@@ -237,9 +283,9 @@ tr:
     label_visibility_settings: Görünürlük ayarları
     label_quote_comment: Yorumu alıntıla
     label_reset: Sıfırla
-    label_remove_column: Remove column
+    label_remove_column: Sütunu kaldır
     label_remove_columns: Seçili sütunları sil
-    label_remove_row: Remove row
+    label_remove_row: Satırı kaldır
     label_save_as: Farklı Kaydet
     label_select_watcher: Takipçi seç...
     label_selected_filter_list: Seçilen filtreler
@@ -250,7 +296,7 @@ tr:
     label_sort_higher: Yukarı taşı
     label_sort_lower: Aşağı taşı
     label_sorting: Sıralama
-    label_star_query: Favored
+    label_star_query: avantajlı
     label_press_enter_to_save: Kaydetmek için enter tuşuna basın.
     label_public_query: Herkese Açık
     label_sum_for: Toplam
@@ -261,7 +307,7 @@ tr:
     label_activity_show_only_comments: Sadece yorumların olduğu etkinlikleri göster
     label_activity_show_all: Tüm etkinlikleri göster
     label_total_progress: Toplam ilerleme %{percent}%
-    label_total_amount: 'Total: %{amount}'
+    label_total_amount: 'Toplam: %{amount}'
     label_updated_on: güncelleme tarihi
     label_warning: Uyarı
     label_work_package: İş paketi
@@ -294,7 +340,7 @@ tr:
     label_upload_notification: Dosyalar yükleniyor...
     label_work_package_upload_notification: "#%{id}: %{subject} iş paketi için dosyalar
       yükleniyor"
-    label_wp_id_added_by: "#%{id} added by %{author}"
+    label_wp_id_added_by: "# %{id} %{author} tarafından eklendi"
     label_files_to_upload: 'Bu dosyalar yüklenecek:'
     label_rejected_files: 'Bu dosyalar yüklenemiyor:'
     label_rejected_files_reason: Dosyaların boyutu %{maximumFilesize} boyutunu aştığı
@@ -308,48 +354,56 @@ tr:
       buttons:
         skip: Atla
         next: Sonraki
-        got_it: Got it
+        got_it: Anladım
       steps:
+        help_menu: "<b> Yardım </b> menüsünde bir kullanım kılavuzu ve ek yardım kaynakları
+          bulacaksınız. <br> OpenProject ile çalışmanın tadını çıkarın!"
+        members: Projenize katılmak için yeni <b> Üyeler </b> davet edin.
+        project_selection: Başlamak için lütfen faydalı demo verileri olan projelerden
+          birine tıklayın. <br> <b> Demo proje </b> klasik proje yönetimi için en
+          iyisidir, <b> Scrum projesi </b> Çevik proje yönetimi için daha iyidir.
+        sidebar_arrow: Ok işereti ile projenin <b> Ana menüsüne </b> geri dönebilirsiniz.
         welcome: En <b>önemli özellikleri</b> öğrenmek için üç dakikalık bir tanıtım
           gezintisine çıkın. <br> Tüm adımları tamamlamanızı öneririz. Turu istediğiniz
           zaman yeniden başlatabilirsiniz.
-        project_selection: Please select one of the projects with useful demo data
-          to get started. <br> The <b>Demo project</b> suits best for classical project
-          management, while the <b>Scrum project</b> is better for Agile project management.
-        sidebar_arrow: With the arrow you can navigate back to the project's <b>Main
-          menu</b>.
-        members: Invite new <b>Members</b> to join your project.
-        wiki: Within the <b>Wiki</b> you can document and share knowledge together
-          with your team.
-        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
-          right you have the Product Backlog or a Bug Backlog, on the left you will
-          have the respective sprints. Here you can create <b>epics, user stories,
-          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
-        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
-          drop-down...
-        backlogs_task_board_select: "... and select the <b>Task board</b> entry."
-        backlogs_task_board: The <b>Task board</b> visualizes the progress for this
-          sprint. Add new tasks or impediments with the + icon next to a user story.
-          Via drag'n'drop you can update the status.
-        wp_toggler: Now let's have a look at the <b>Work package</b> section, which
-          gives you a more detailed view of your work.
-        wp_list: This is the <b>Work package</b> list with the important work within
-          your project, such as tasks, features, milestones, bugs, and more. <br>
-          You can create or edit a work package directly within this list. To see
-          its details you can double click on a row.
-        wp_full_view: Within the <b>Work package details</b> you find all relevant
-          information, such as description, status and priority, activities, dependencies
-          or comments.
-        wp_back_button: With the arrow you can navigate back to the work package list.
-        wp_create_button: The <b>Create</b> button will add a new work package to
-          your project.
-        wp_timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
-          for your project.
-        wp_timeline: Here you can edit your project plan. Create new phases, milestones,
-          and add dependencies. All team members can see and update the latest plan
-          at any time.
-        help_menu: In the <b>Help</b> menu you will find a user guide and additional
-          help resources. <br> Enjoy your work with OpenProject!
+        wiki: "<b> Wiki </b> içerisinde bilgileri ekibinizle birlikte belgeleyebilir
+          ve paylaşabilirsiniz."
+        backlogs:
+          overview: Çalışmanızı <b> İş Listeleri </b> görünümünde yönetin. <br> Sağda,
+            Ürün İş Listesi veya bir Hata İş Listesi bulunur, solda ilgili bölümlere
+            sahip olursunuz. Burada, <b> destanlar, kullanıcı hikayeleri ve hatalar
+            </b> yaratabilir, drag'n'drop ile önceliklendirme yapabilir ve bunları
+            bir sprint'e ekleyebilirsiniz.
+          task_board_arrow: "<b> Görev tahtası </b> nızı görmek için Sprint açılır
+            menüsünü açın ..."
+          task_board_select: "... ve <b>Görev panosu</b> kaydını seçin."
+          task_board: "<b> Görev panosu </b> bu sprint için kaydedilen ilerlemeyi
+            gösterir. Bir kullanıcı hikayesinin yanındaki + simgesi ile yeni görevler
+            veya engeller ekleyin. Sürükle ve bırak özelliği ile durumu güncelleyebilirsiniz."
+        boards:
+          overview: Çalışmanızı sezgisel bir <b> Panolar </b> görünümünde yönetin.
+          lists: Bir Pano görünümünde, örneğin, çoklu listeler (sütunlar) oluşturabilirsiniz.
+            KANBAN kurulu oluşturmak için.
+          add: "+ işaretine tıklamak bir Pano içindeki listeye <b>yeni bir kart ekle</b>yecektir."
+          drag: Yeniden sıralamak için kartlarınızı bir listede ya da başka bir listeye
+            sürükleyip bırakın. Ayrıntılar görünümünde çift tıklatma açılacaktır.
+        wp:
+          toggler: Şimdi, size çalışmanız hakkında daha ayrıntılı bir görünüm sağlayan
+            <b> İş paketi </b> bölümüne göz atalım.
+          list: Bu, projenizdeki görevler, özellikler, kilometre taşları, hatalar
+            ve daha fazlası gibi önemli çalışmaların yer aldığı <b> İş paketi </b>
+            listesidir. <br> Bir çalışma paketini doğrudan bu listeden oluşturabilir
+            veya düzenleyebilirsiniz. Detaylarını görmek için bir satır üzerine çift
+            tıklayabilirsiniz.
+          full_view: "<b> İş paketi ayrıntıları </b> 'nda açıklama, durum ve öncelik,
+            etkinlikler, bağımlılıklar veya yorumlar gibi tüm ilgili bilgileri bulabilirsiniz."
+          back_button: Ok işareti ile iş paketi listesine geri dönebilirsiniz.
+          create_button: "<b> Oluştur </b> düğmesi, projenize yeni bir iş paketi ekler."
+          timeline_button: Projeniz için bir zaman çizelgesi oluşturmak için <b> Gantt
+            şeması </b> 'nı etkinleştirebilirsiniz.
+          timeline: Burada proje planınızı düzenleyebilirsiniz. Yeni aşamalar, kilometre
+            taşları oluşturun ve bağımlılıklar ekleyin. Tüm ekip üyeleri en son planı
+            istedikleri zaman görebilir ve güncelleyebilir.
     password_confirmation:
       field_description: Bu değişikliği onaylamak için hesap parolanızı girmeniz gerekir.
       title: Devam etmek için parolanızı doğrulayın
@@ -376,11 +430,11 @@ tr:
       attribute_groups:
         error_duplicate_group_name: "%{group} ismi birden fazla kullanıldı. Grup isimleri
           eşsiz olmalıdır."
-        error_no_table_configured: Please configure a table for %{group}.
+        error_no_table_configured: Lütfen %{group} için bir tablo yapılandırın.
         reset_title: Form ayarlarlarını sıfırlayın
-        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group and disable ALL custom
-          fields.
+        confirm_reset: 'Uyarı: Form yapılandırmasını sıfırlamak istediğinizden emin
+          misiniz? Bu, nitelikleri varsayılan gruplarına sıfırlar ve TÜM özel alanları
+          devre dışı bırakır.
 
 '
         upgrade_to_ee: Enterprise Edition sürümüne yükseltme
@@ -391,17 +445,17 @@ tr:
         more_information: Daha fazla bilgi
         nevermind: Boşver
         filter_types:
-          parent: being child of
-          precedes: preceding
+          parent: çocuğu olmak
+          precedes: önceki
           follows: takip etmek
-          relates: relating to
-          duplicates: duplicating
+          relates: ile ilgili
+          duplicates: çoğaltmak
           duplicated: tarafından çoğaltılır
           blocks: engelleme
           blocked: bağlı
-          partof: being part of
-          includes: including
-          requires: requiring
+          partof: parçası olmak
+          includes: dahil olmak üzere
+          requires: gerektiren
           required: tarafından gerekli
     time_entry:
       activity: Etkinlik
@@ -457,8 +511,7 @@ tr:
       abort: İptal
     relations_autocomplete:
       placeholder: İlgili çalışma paket kimliğini girin
-      parent_placeholder: Yeni üst seçin, ayarı kaldırmak için enter'a, iptal etmek
-        için ESC'ye basın.
+      parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: Etiket seç
       select_branch: Branş seç
@@ -489,6 +542,7 @@ tr:
     text_query_destroy_confirmation: Seçilen görünümü silmek istediğinizden emin misiniz?
     text_attachment_destroy_confirmation: Eki silmek istediğinizden emin misiniz?
     timelines:
+      quarter_label: Ç%{quarter_number}
       gantt_chart: Gantt görünümü
       labels:
         title: Etiket yapılandırma
@@ -502,8 +556,8 @@ tr:
           özellikleri yerine etiketinin görüneceğini unutmayın.
 
 '
-      button_activate: Show Gantt chart
-      button_deactivate: Hide Gantt chart
+      button_activate: İş-Zaman çizelgesi göster
+      button_deactivate: İş-Zaman çizelgesi gizle.
       cancel: İptal
       change: Planlama değişikliği
       due_date: Bitiş tarihi
@@ -551,8 +605,8 @@ tr:
         quarters: Üç aylık
         years: Yıl
         slider: Yakınlaştırma kaydırıcısı
-        description: 'Select the initial zoom level that should be shown when autozoom
-          is not available.
+        description: 'Otomatik zoom mevcut olmadığında gösterilmesi gereken ilk yakınlaştırma
+          seviyesini seçin.
 
 '
     tl_toolbar:
@@ -605,7 +659,7 @@ tr:
       label_enable_multi_select: Çoklu seçimi etkinleştir
       label_disable_multi_select: Çoklu seçimi devre dışı bırak
       label_filter_add: Filtre ekle
-      label_filter_by_text: Filter by text
+      label_filter_by_text: Metne göre filtrele
       label_options: Ayarlar
       label_column_multiselect: 'Birleştirilmiş aşağı açılan alan: ok tuşlarıyla seçin,
         seçimi enter ile onaylayın, backspace ile silme'
@@ -618,7 +672,7 @@ tr:
       message_work_package_read_only: İş paketi bu durum içinde kilitli. Durumu haricinde
         başka bir özelliği değiştirilemez.
       no_value: Değer yok
-      placeholder_filter_by_text: Subject, description, comments, ...
+      placeholder_filter_by_text: Konu, açıklama, yorumlar, ...
       inline_create:
         title: Listeden yeni bir iş paketi eklemek için buraya tıklayınız
       create:
@@ -640,7 +694,7 @@ tr:
           bileşenleri gizlemek için tıklayın
       faulty_query:
         title: İş paketleri yüklenemiyor.
-        description: Your view is erroneous and could not be processed.
+        description: Görüşün hatalı ve işlenemedi.
       no_results:
         title: Görüntülecek bir iş paketi bulunmuyor.
         description: Ya hiç iş paketi oluşturulmamış, ya da tüm iş paketeri filtrelenmiş.
@@ -703,12 +757,12 @@ tr:
         insert_columns: Sütun ekle ...
         filters: Filtreler
         display_sums: Toplamları görüntüle
-        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
-          view? Title will be set back to previous value.
+        confirm_edit_cancel: Bu görünümün adını düzenlemeyi iptal etmek istediğinizden
+          emin misiniz? Başlık önceki değere ayarlanacaktır.
         click_to_edit_query_name: Bu görünümün başlığını düzenlemek için tıklayın.
         rename_query_placeholder: Bu görünümüm adı
         errors:
-          unretrievable_query: Unable to retrieve view from URL
+          unretrievable_query: URL’den görünüm alınamadı
           not_found: Böyle bir görünüm bulunmamakta
           duplicate_query_title: Bu isimde bir görünüm var. Yinede devam edilsin mi?
         text_no_results: Eşleşen görünüm bulunamadı.
@@ -722,36 +776,35 @@ tr:
         text_select_hint: Seçim kutuları 'ALT' ve ok tuşları ile açılmalıdır.
       table_configuration:
         button: Bu iş paketi tablosunu yapılandır
-        choose_display_mode: Display work packages as
+        choose_display_mode: İş paketlerini farklı olarak göster
         modal_title: İş paketi tablosu yapılandırma
-        embedded_tab_disabled: This configuration tab is not available for the embedded
-          view you're editing.
+        embedded_tab_disabled: Bu yapılandırma sekmesi, düzenlemekte olduğunuz katıştırılmış
+          görünüm için kullanılamaz.
         default: varsayılan
         display_settings: Görünüm ayarları
         default_mode: Düz liste
         hierarchy_mode: Hiyerarşi
-        hierarchy_hint: All filtered table results will be augmented with their ancestors.
-          Hierarchies can be expanded and collapsed.
-        display_sums_hint: Display sums of all summable attributes in a row below
-          the table results.
-        show_timeline_hint: Show an interactive gantt chart on the right side of the
-          table. You can change its width by dragging the divider between table and
-          gantt chart.
-        highlighting: Highlighting
+        hierarchy_hint: Filtrelenen tüm tablo sonuçları atalarıyla artırılacaktır.
+          Hiyerarşiler genişletilebilir ve daraltılabilir.
+        display_sums_hint: Tüm toplanabilir özelliklerin toplamlarını, tablonun sonuçlarının
+          altındaki bir satırda görüntüleyin.
+        show_timeline_hint: Tablonun sağ tarafında etkileşimli bir gantt grafiği göster.
+          Tablo ve gantt tablosu arasındaki bölücüyü sürükleyerek genişliğini değiştirebilirsiniz.
+        highlighting: Vurgulama
         highlighting_mode:
           description: Rekle vurgula
           none: Vurgulama
           inline: Vurgulanan öznitelik(ler)
           inline_all: Tüm öznitelikler
-          entire_row_by: Entire row by
+          entire_row_by: Tüm satır tarafından
           status: Durum
           priority: Öncelik
           type: Tür
-        columns_help_text: Use the input above to add or remove columns to your table
-          view. You can drag and drop the columns to reorder them.
+        columns_help_text: Tablo görünümünüze sütun eklemek veya kaldırmak için yukarıdaki
+          girişi kullanın. Yeniden düzenlemek için sütunları sürükleyip bırakabilirsiniz.
         upsale:
-          attribute_highlighting: Need certain work packages to stand out from the
-            mass?
+          attribute_highlighting: Kitleden sıyrılmak için bazı iş paketlerine mi ihtiyacınız
+            var?
           relation_columns: İş paketleri listesindeki ilişkileri görmek ister misiniz?
           check_out_link: Enterprise sürüme bakın.
         relation_filters:
@@ -803,11 +856,10 @@ tr:
         title: "%{label} için silme işlimini onaylayın"
         text: "%{label} silinecek. Emin misiniz?"
         has_children: 'İş paketi %{childUnits} alt paketlerine sahip:'
-        confirm_deletion_children: I acknowledge that ALL descendants of the listed
-          work packages will be recursively removed.
-        deletes_children: All child work packages and their descendants will also
-          be recursively deleted.
-    notice_no_results_to_display: No visible results to display.
+        confirm_deletion_children: Listelenen iş paketlerinin TÜM soylarının tekrar
+          tekrar kaldırılacağını kabul ediyorum.
+        deletes_children: Tüm çocuk iş paketleri ve torunları da tekrar tekrar silinir.
+    notice_no_results_to_display: Gösterilecek görünür bir sonuç yok.
     notice_successful_create: Oluşturma başarılı.
     notice_successful_delete: Silme başarılı.
     notice_successful_update: Güncelleme başarılı.
@@ -834,7 +886,7 @@ tr:
         messages_on_field: 'Bu alan geçersiz: %{messages}'
     error_could_not_resolve_version_name: Sürüm adı çözümlenemedi
     error_could_not_resolve_user_name: Kullanıcı adı çözümlenemedi
-    error_attachment_upload: 'File failed to upload: %{error}'
+    error_attachment_upload: 'Dosya yüklenemedi: %{error}'
     error_attachment_upload_permission: Bu kaynakta dosya yüklemek için izniniz bulunmamaktadır.
     units:
       workPackage:
@@ -851,36 +903,12 @@ tr:
       button_activate: Zen modunu etkinleştir
       button_deactivate: Zen modunu devre dışı bırak
     global_search:
-      all_projects: In all projects
+      all_projects: Tüm projelerde
       search: Ara
-      close_search: Close search
-      current_project: In this project
-      current_project_and_all_descendants: In this project + subprojects
+      close_search: Aramayı kapat
+      current_project: Bu projede
+      current_project_and_all_descendants: Bu projede + alt projelerde
       title:
-        all_projects: all projects
-        project_and_subprojects: and all subprojects
-        search_for: Search for
-    grid:
-      add_modal:
-        choose_widget: Choose widget
-      widgets:
-        documents:
-          title: Documents
-          no_results: No documents yet.
-        news:
-          title: Haberler
-          at: at
-          no_results: Rapor için yeni birşey bulunamadı.
-        time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
-        work_packages_accountable:
-          title: Sorumlusu olduğum iş paketleri
-        work_packages_assigned:
-          title: Bana atanan iş paketleri
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_calendar:
-          title: Takvim
+        all_projects: tüm projeler
+        project_and_subprojects: ve tüm alt projeler
+        search_for: Aramak

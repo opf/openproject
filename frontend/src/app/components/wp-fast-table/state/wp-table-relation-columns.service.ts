@@ -47,6 +47,7 @@ import {Injectable} from '@angular/core';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
+import {WorkPackageTableHierarchies} from "core-components/wp-fast-table/wp-table-hierarchies";
 
 export type RelationColumnType = 'toType'|'ofType';
 
@@ -65,7 +66,9 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
   }
 
   public valueFromQuery(query:QueryResource):WorkPackageTableRelationColumns {
-    return {};
+    // Take over current expanded values
+    // which are not yet saved
+    return this.current;
   }
 
   /**
@@ -88,7 +91,7 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
     }
 
     // Only if the work package has anything expanded
-    const expanded = this.getExpandFor(workPackage.id);
+    const expanded = this.getExpandFor(workPackage.id!);
     if (expanded === undefined) {
       return;
     }

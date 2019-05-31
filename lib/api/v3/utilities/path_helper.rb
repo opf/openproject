@@ -159,6 +159,26 @@ module API
             "#{root}/help_texts/#{id}"
           end
 
+          def self.memberships
+            "#{root}/memberships"
+          end
+
+          def self.memberships_available_projects
+            "#{memberships}/available_projects"
+          end
+
+          def self.membership(id)
+            "#{memberships}/#{id}"
+          end
+
+          def self.membership_schema
+            "#{memberships}/schema"
+          end
+
+          def self.create_memberships_form
+            "#{memberships}/form"
+          end
+
           def self.message(id)
             "#{root}/messages/#{id}"
           end
@@ -386,8 +406,24 @@ module API
             "#{root}/versions/#{version_id}"
           end
 
+          def self.version_form(version_id)
+            "#{version(version_id)}/form"
+          end
+
           def self.versions
             "#{root}/versions"
+          end
+
+          def self.versions_available_projects
+            "#{versions}/available_projects"
+          end
+
+          def self.version_schema
+            "#{versions}/schema"
+          end
+
+          def self.create_version_form
+            "#{versions}/form"
           end
 
           def self.versions_by_project(project_id)
@@ -467,6 +503,19 @@ module API
 
           def self.work_packages_by_project(project_id)
             "#{project(project_id)}/work_packages"
+          end
+
+          def self.path_for(path, filters: nil, sort_by: nil)
+            query_params = {
+              filters: filters&.to_json,
+              sortBy: sort_by&.to_json
+            }.reject { |_, v| v.blank? }
+
+            if query_params.any?
+              "#{send(path)}?#{query_params.to_query}"
+            else
+              send(path)
+            end
           end
         end
 

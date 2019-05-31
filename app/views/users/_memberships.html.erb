@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<% roles = Role.find_all_givable %>
+<% roles = Role.givable %>
 <% projects = Project.active.order(Arel.sql('lft')) %>
 
 <div class="grid-block">

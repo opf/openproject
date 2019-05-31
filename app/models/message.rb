@@ -30,8 +30,8 @@
 class Message < ActiveRecord::Base
   include OpenProject::Journal::AttachmentHelper
 
-  belongs_to :board
-  has_one :project, through: :board
+  belongs_to :forum
+  has_one :project, through: :forum
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
   acts_as_tree counter_cache: :replies_count, order: "#{Message.table_name}.created_on ASC"
   acts_as_attachable after_add: :attachments_changed,
@@ -42,7 +42,7 @@ class Message < ActiveRecord::Base
 
   acts_as_journalized
 
-  acts_as_event title: Proc.new { |o| "#{o.board.name}: #{o.subject}" },
+  acts_as_event title: Proc.new { |o| "#{o.forum.name}: #{o.subject}" },
                 description: :content,
                 datetime: :created_on,
                 type: Proc.new { |o| o.parent_id.nil? ? 'message' : 'reply' },
@@ -52,28 +52,28 @@ class Message < ActiveRecord::Base
                           { id: msg.id }
                         else
                           { id: msg.parent_id, r: msg.id, anchor: "message-#{msg.id}" }
-                        end.reverse_merge controller: '/messages', action: 'show', board_id: msg.board_id
+                        end.reverse_merge controller: '/messages', action: 'show', forum_id: msg.forum_id
                       end)
 
   acts_as_searchable columns: ['subject', 'content'],
-                     include: { board: :project },
-                     references: [:boards],
+                     include: { forum: :project },
+                     references: [:forums],
                      project_key: 'project_id',
                      date_column: "#{table_name}.created_on"
 
   acts_as_watchable
 
-  validates_presence_of :board, :subject, :content
+  validates_presence_of :forum, :subject, :content
   validates_length_of :subject, maximum: 255
 
   after_create :add_author_as_watcher,
                :update_last_reply_in_parent,
                :send_message_posted_mail
-  after_update :update_ancestors, if: :saved_change_to_board_id?
+  after_update :update_ancestors, if: :saved_change_to_forum_id?
   after_destroy :reset_counters
 
   scope :visible, ->(*args) {
-    includes(board: :project)
+    includes(forum: :project)
       .references(:projects)
       .merge(Project.allowed_to(args.first || User.current, :view_messages))
   }
@@ -101,11 +101,11 @@ class Message < ActiveRecord::Base
     if parent
       parent.reload.update_attribute(:last_reply_id, id)
     end
-    board.reset_counters!
+    forum.reset_counters!
   end
 
   def reset_counters
-    board.reset_counters!
+    forum.reset_counters!
   end
 
   def sticky=(arg)
@@ -132,10 +132,10 @@ class Message < ActiveRecord::Base
 
     with_id
       .or(with_parent_id)
-      .update_all("board_id = #{board_id}")
+      .update_all(forum_id: forum_id)
 
-    Board.reset_counters!(board_id_before_last_save)
-    Board.reset_counters!(board_id)
+    Forum.reset_counters!(forum_id_before_last_save)
+    Forum.reset_counters!(forum_id)
   end
 
   def add_author_as_watcher
@@ -150,7 +150,7 @@ class Message < ActiveRecord::Base
 
     to_mail = recipients +
               root.watcher_recipients +
-              board.watcher_recipients
+              forum.watcher_recipients
 
     to_mail.uniq.each do |user|
       UserMailer.message_posted(user, self, User.current).deliver_now

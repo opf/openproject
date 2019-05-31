@@ -34,6 +34,8 @@ module API
     module Activities
       class ActivityRepresenter < ::API::Decorators::Single
         include API::V3::Utilities
+        include API::Decorators::DateProperty
+        include API::Decorators::FormattableProperty
 
         self_link path: :activity,
                   id_attribute: :notes_id,
@@ -64,14 +66,10 @@ module API
         property :id,
                  getter: ->(*) { notes_id },
                  render_nil: true
-        property :comment,
-                 exec_context: :decorator,
-                 getter: ->(*) {
-                   ::API::Decorators::Formattable.new(represented.notes,
-                                                      object: represented.journable)
-                 },
-                 setter: ->(value, *) { represented.notes = value['raw'] },
-                 render_nil: true
+
+        formattable_property :notes,
+                             as: :comment
+
         property :details,
                  exec_context: :decorator,
                  getter: ->(*) {
@@ -83,7 +81,8 @@ module API
                  },
                  render_nil: true
         property :version, render_nil: true
-        property :created_at, getter: ->(*) { DateTimeFormatter::format_datetime(created_at) }
+
+        date_time_property :created_at
 
         def _type
           if represented.notes.blank?

@@ -76,6 +76,118 @@ describe Sprint, type: :model do
 
         it { expect(Sprint.displayed_left(project)).to match_array [sprint] }
       end
+
+      context 'WITH a shared version from another project' do
+        let!(:parent_project) { FactoryBot.create :project, identifier: "parent", name: "Parent" }
+
+        let!(:home_project) do
+          FactoryBot.create(:project, identifier: "home", name: "Home").tap do |p|
+            p.parent = parent_project
+            p.save!
+          end
+        end
+
+        let!(:sister_project) do
+          FactoryBot.create(:project, identifier: "sister", name: "Sister").tap do |p|
+            p.parent = parent_project
+            p.save!
+          end
+        end
+
+        let!(:version) { FactoryBot.create :version, name: "Shared Version", sharing: "tree", project: home_project }
+
+        let(:displayed) { Sprint.apply_to(sister_project).displayed_left(sister_project) }
+
+        describe 'WITH no version settings' do
+          it "should include the shared version by default" do
+            expect(displayed).to match_array [version]
+          end
+        end
+
+        describe 'WITH display = left in home project' do
+          before do
+            VersionSetting.create version: version, project: home_project, display: VersionSetting::DISPLAY_LEFT
+          end
+
+          it "should include the shared version" do
+            expect(displayed).to match_array [version]
+          end
+        end
+
+        describe 'WITH display = none in home project' do
+          before do
+            VersionSetting.create version: version, project: home_project, display: VersionSetting::DISPLAY_NONE
+          end
+
+          it "should include the shared version" do
+            expect(displayed).to match_array []
+          end
+        end
+
+        describe 'WITH display = left in sister project' do
+          before do
+            VersionSetting.create version: version, project: sister_project, display: VersionSetting::DISPLAY_LEFT
+          end
+
+          it "should include the shared version" do
+            expect(displayed).to match_array [version]
+          end
+        end
+
+        describe 'WITH display = none in sister project' do
+          before do
+            VersionSetting.create version: version, project: sister_project, display: VersionSetting::DISPLAY_NONE
+          end
+
+          it "should not include the shared version" do
+            expect(displayed).to match_array []
+          end
+        end
+
+        describe 'WITH display = left in home project and display = left in sister project' do
+          before do
+            VersionSetting.create version: version, project: home_project, display: VersionSetting::DISPLAY_LEFT
+            VersionSetting.create version: version, project: sister_project, display: VersionSetting::DISPLAY_LEFT
+          end
+
+          it "should include the shared version" do
+            expect(displayed).to match_array [version]
+          end
+        end
+
+        describe 'WITH display = left in home project and display = none in sister project' do
+          before do
+            VersionSetting.create version: version, project: home_project, display: VersionSetting::DISPLAY_LEFT
+            VersionSetting.create version: version, project: sister_project, display: VersionSetting::DISPLAY_NONE
+          end
+
+          it "should not include the shared version" do
+            expect(displayed).to match_array []
+          end
+        end
+
+        describe 'WITH display = none in home project and display = left in sister project' do
+          before do
+            VersionSetting.create version: version, project: home_project, display: VersionSetting::DISPLAY_NONE
+            VersionSetting.create version: version, project: sister_project, display: VersionSetting::DISPLAY_LEFT
+          end
+
+          it "should include the shared version" do
+            expect(displayed).to match_array [version]
+          end
+        end
+
+        describe 'WITH display = none in home project and display = none in sister project' do
+          before do
+            VersionSetting.create version: version, project: home_project, display: VersionSetting::DISPLAY_NONE
+            VersionSetting.create version: version, project: sister_project, display: VersionSetting::DISPLAY_NONE
+          end
+
+          it "should not include the shared version" do
+            expect(displayed).to match_array []
+          end
+        end
+      end
     end
 
     describe '#displayed_right' do

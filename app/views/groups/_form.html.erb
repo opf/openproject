@@ -35,7 +35,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= error_messages_for :group %>
 
 <section class="form--section">
-  <div class="form--field">
+  <div class="form--field -required">
     <%= f.text_field :lastname,
                      label: Group.human_attribute_name(:name),
                      required: true,

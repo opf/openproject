@@ -38,9 +38,9 @@ describe WorkPackage, type: :model do
     let(:project) { FactoryBot.create :project }
     let!(:work_package) do
       FactoryBot.create :work_package,
-                         author: user,
-                         subject: 'I can see you',
-                         project: project
+                        author: user,
+                        subject: 'I can see you',
+                        project: project
     end
 
     context 'after creation' do
@@ -85,8 +85,8 @@ describe WorkPackage, type: :model do
     describe 'notification triggered by subtask update' do
       let!(:child) do
         FactoryBot.create :work_package, subject: "I'm a child",
-                                          parent: work_package,
-                                          done_ratio: 42
+                                         parent: work_package,
+                                         done_ratio: 42
       end
 
       let(:message) { "Updated automatically by changing values within child work package" }
@@ -98,8 +98,8 @@ describe WorkPackage, type: :model do
       before do
         WorkPackages::UpdateService
           .new(user: current_user,
-               work_package: child)
-          .call(attributes: { done_ratio: 99 })
+               model: child)
+          .call(done_ratio: 99)
       end
 
       it "sends out an email including a link to the subtask" do

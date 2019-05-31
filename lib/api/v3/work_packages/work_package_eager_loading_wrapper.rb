@@ -38,6 +38,13 @@ module API
           true
         end
 
+        ##
+        # Workaround against warnings in flatten
+        # delegator does not forward private method #to_ary
+        def to_ary
+          __getobj__.send(:to_ary)
+        end
+
         class << self
           def wrap(ids_in_order, current_user)
             work_packages = add_eager_loading(WorkPackage.where(id: ids_in_order), current_user).to_a
@@ -84,8 +91,11 @@ module API
           end
 
           def add_eager_loading(scope, current_user)
+            # The eager loading on status is required for the readonly? check in the
+            # work package schema
             scope
               .includes(WorkPackageRepresenter.to_eager_load)
+              .includes(:status)
               .include_spent_hours(current_user)
               .select('work_packages.*')
               .distinct

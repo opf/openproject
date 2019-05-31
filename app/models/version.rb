@@ -29,11 +29,8 @@
 #++
 
 class Version < ActiveRecord::Base
-  extend DeprecatedAlias
-
   include Version::ProjectSharing
 
-  after_update :update_issues_from_sharing_change, if: :saved_change_to_sharing?
   belongs_to :project
   has_many :fixed_issues, class_name: 'WorkPackage', foreign_key: 'fixed_version_id', dependent: :nullify
   has_many :work_packages, foreign_key: :fixed_version_id
@@ -134,7 +131,6 @@ class Version < ActiveRecord::Base
       issues_progress(false) + issues_progress(true)
     end
   end
-  deprecated_alias :completed_pourcent, :completed_percent
 
   # Returns the percentage of issues that have been marked as 'closed'.
   def closed_percent
@@ -144,7 +140,6 @@ class Version < ActiveRecord::Base
       issues_progress(false)
     end
   end
-  deprecated_alias :closed_pourcent, :closed_percent
 
   # Returns true if the version is overdue: finish date reached and some open issues
   def overdue?
@@ -197,41 +192,11 @@ class Version < ActiveRecord::Base
     to_s_with_project.downcase <=> other.to_s_with_project.downcase
   end
 
-  # Returns the sharings that +user+ can set the version to
-  def allowed_sharings(user = User.current)
-    VERSION_SHARINGS.select do |s|
-      if sharing == s
-        true
-      else
-        case s
-        when 'system'
-          # Only admin users can set a systemwide sharing
-          user.admin?
-        when 'hierarchy', 'tree'
-          # Only users allowed to manage versions of the root project can
-          # set sharing to hierarchy or tree
-          project.nil? || user.allowed_to?(:manage_versions, project.root)
-        else
-          true
-        end
-      end
-    end
-  end
-
   private
 
   def validate_start_date_before_effective_date
     if effective_date && start_date && effective_date < start_date
       errors.add :effective_date, :greater_than_start_date
-    end
-  end
-
-  # Update the issue's fixed versions. Used if a version's sharing changes.
-  def update_issues_from_sharing_change
-    if VERSION_SHARINGS.index(sharing_before_last_save).nil? ||
-       VERSION_SHARINGS.index(sharing).nil? ||
-       VERSION_SHARINGS.index(sharing_before_last_save) > VERSION_SHARINGS.index(sharing)
-      WorkPackage.update_versions_from_sharing_change self
     end
   end
 
@@ -259,13 +224,17 @@ class Version < ActiveRecord::Base
     @issues_progress ||= {}
     @issues_progress[open] ||= begin
       progress = 0
+
       if issues_count > 0
         ratio = open ? 'done_ratio' : 100
+        sum_sql = self.class.sanitize_sql_array(
+          ["COALESCE(#{WorkPackage.table_name}.estimated_hours, ?) * #{ratio}", estimated_average]
+        )
 
         done = fixed_issues
                .where(statuses: { is_closed: !open })
                .includes(:status)
-               .sum("COALESCE(#{WorkPackage.table_name}.estimated_hours, #{estimated_average}) * #{ratio}")
+               .sum(sum_sql)
         progress = done.to_f / (estimated_average * issues_count)
       end
       progress

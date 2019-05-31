@@ -49,10 +49,7 @@ module API
                                                                     params)
           end
 
-          params do
-            requires :id, type: Integer, desc: 'Relation id'
-          end
-          route_param :id do
+          route_param :id, type: Integer, desc: 'Relation ID' do
             get do
               representer.new(
                 Relation.find_by_id!(params[:id]),

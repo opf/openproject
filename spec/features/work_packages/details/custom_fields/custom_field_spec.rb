@@ -76,12 +76,12 @@ describe 'custom field inplace editor', js: true do
     let(:custom_fields) { [custom_field1, custom_field2] }
     let(:field1) do
       f = wp_page.custom_edit_field(custom_field1)
-      f.field_type = 'ng-select'
+      f.field_type = 'create-autocompleter'
       f
     end
     let(:field2) do
       f = wp_page.custom_edit_field(custom_field2)
-      f.field_type = 'ng-select'
+      f.field_type = 'create-autocompleter'
       f
     end
     let(:initial_custom_values) { {} }
@@ -105,11 +105,13 @@ describe 'custom field inplace editor', js: true do
                                 :"customField#{custom_field2.id}" => 'Y'
 
       field1.activate!
-      expect(field1.input_element.text).to include('bar')
+      expect(field1.input_element).to have_text 'bar'
+
       field1.cancel_by_escape
 
       field2.activate!
-      expect(field2.input_element.text).to include('Y')
+      expect(field2.input_element).to have_text 'Y'
+
       expect_update 'X',
                     message: I18n.t('js.notice_successful_update'),
                     field: field2

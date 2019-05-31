@@ -45,6 +45,8 @@ import {IWorkPackageEditingServiceToken} from '../../wp-edit-form/work-package-e
 import {DynamicCssService} from '../../../modules/common/dynamic-css/dynamic-css.service';
 import {HookService} from 'core-app/modules/plugins/hook-service';
 import {randomString} from "core-app/helpers/random-string";
+import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
+import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
 
 export interface FieldDescriptor {
   name:string;
@@ -60,6 +62,7 @@ export interface GroupDescriptor {
   id:string;
   members:FieldDescriptor[];
   query?:QueryResource;
+  isolated:boolean;
   type:string;
 }
 
@@ -74,6 +77,9 @@ export const overflowingContainerAttribute = 'overflowingIdentifier';
 @Component({
   templateUrl: './wp-single-view.html',
   selector: 'wp-single-view',
+  providers: [
+    PortalCleanupService
+  ]
 })
 export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
   @Input('workPackage') public workPackage:WorkPackageResource;
@@ -127,7 +133,9 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
               protected wpCacheService:WorkPackageCacheService,
               protected hook:HookService,
               protected injector:Injector,
-              readonly elementRef:ElementRef) {
+              readonly elementRef:ElementRef,
+              readonly cleanupService:PortalCleanupService,
+              readonly browserDetector:BrowserDetector) {
   }
 
   public ngOnInit() {
@@ -148,7 +156,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(componentDestroyed(this)),
         distinctUntilChanged<ResourceContextChange>((a, b) => _.isEqual(a, b)),
-        map(() => this.wpEditing.temporaryEditResource(this.workPackage.id).value!)
+        map(() => this.wpEditing.temporaryEditResource(this.workPackage.id!).value!)
       )
       .subscribe((resource:WorkPackageResource) => {
         // Prepare the fields that are required always
@@ -158,7 +166,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
           this.projectContext = {matches: false, href: null};
         } else {
           this.projectContext = {
-            href: this.PathHelper.projectWorkPackagePath(resource.project.idFromLink, this.workPackage.id),
+            href: this.PathHelper.projectWorkPackagePath(resource.project.idFromLink, this.workPackage.id!),
             matches: resource.project.href === this.currentProject.apiv3Path
           };
         }
@@ -173,7 +181,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
 
     // Update the resource context on every update to the temporary resource.
     // This allows detecting a changed type value in a new work package.
-    this.wpEditing.temporaryEditResource(this.workPackage.id)
+    this.wpEditing.temporaryEditResource(this.workPackage.id!)
       .values$()
       .pipe(
         takeUntil(componentDestroyed(this))
@@ -184,7 +192,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // Nothing to do
+    this.cleanupService.clear();
   }
 
   /**
@@ -243,6 +251,13 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
     return this.I18n.t('js.project.work_package_belongs_to', {projectname: project});
   }
 
+  /*
+   * Show two column layout for new WP per default, but disable in MS Edge (#29941)
+   */
+  public get enableTwoColumnLayout() {
+    return this.workPackage.isNew && !this.browserDetector.isEdge;
+  }
+
   /**
    *
    * @param attributeGroups
@@ -261,7 +276,8 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
           name: group.name,
           id: groupId || randomString(16),
           members: this.getFields(resource, group.attributes),
-          type: group._type
+          type: group._type,
+          isolated: false
         };
       } else {
         return {
@@ -270,7 +286,8 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
           query: group._embedded.query,
           relationType: group.relationType,
           members: [group._embedded.query],
-          type: group._type
+          type: group._type,
+          isolated: true
         };
       }
     });

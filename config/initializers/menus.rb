@@ -69,7 +69,7 @@ end
 
 Redmine::MenuManager.map :account_menu do |menu|
   menu.push :my_page,
-            { controller: '/my', action: 'page' },
+            :my_page_path,
             if: Proc.new { User.current.logged? }
   menu.push :my_account,
             { controller: '/my', action: 'account' },
@@ -77,7 +77,8 @@ Redmine::MenuManager.map :account_menu do |menu|
   menu.push :administration,
             { controller: '/users', action: 'index' },
             if: Proc.new { User.current.admin? }
-  menu.push :logout, :signout_path,
+  menu.push :logout,
+            :signout_path,
             if: Proc.new { User.current.logged? }
 end
 
@@ -113,7 +114,7 @@ Redmine::MenuManager.map :my_menu do |menu|
             caption: I18n.t('activerecord.attributes.user.mail_notification'),
             icon: 'icon2 icon-news'
 
-  menu.push :delete_account, :deletion_info_path,
+  menu.push :delete_account, :delete_my_account_info_path,
             caption: I18n.t('account.delete'),
             param: :user_id,
             if: Proc.new { Setting.users_deletable_by_self? },
@@ -271,11 +272,11 @@ Redmine::MenuManager.map :project_menu do |menu|
             caption: :label_news_plural,
             icon: 'icon2 icon-news'
 
-  menu.push :boards,
-            { controller: '/boards', action: 'index', id: nil },
+  menu.push :forums,
+            { controller: '/forums', action: 'index', id: nil },
             param: :project_id,
-            if: Proc.new { |p| p.boards.any? },
-            caption: :label_board_plural,
+            if: Proc.new { |p| p.forums.any? },
+            caption: :label_forum_plural,
             icon: 'icon2 icon-ticket-note'
 
   menu.push :repository,

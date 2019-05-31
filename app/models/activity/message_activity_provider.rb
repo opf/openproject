@@ -32,7 +32,7 @@ class Activity::MessageActivityProvider < Activity::BaseActivityProvider
                             permission: :view_messages
 
   def extend_event_query(query, activity)
-    query.join(boards_table).on(activity_journals_table(activity)[:board_id].eq(boards_table[:id]))
+    query.join(forums_table).on(activity_journals_table(activity)[:forum_id].eq(forums_table[:id]))
   end
 
   def event_query_projection(activity)
@@ -40,20 +40,20 @@ class Activity::MessageActivityProvider < Activity::BaseActivityProvider
       activity_journal_projection_statement(:subject, 'message_subject', activity),
       activity_journal_projection_statement(:content, 'message_content', activity),
       activity_journal_projection_statement(:parent_id, 'message_parent_id', activity),
-      projection_statement(boards_table, :id, 'board_id'),
-      projection_statement(boards_table, :name, 'board_name'),
-      projection_statement(boards_table, :project_id, 'project_id')
+      projection_statement(forums_table, :id, 'forum_id'),
+      projection_statement(forums_table, :name, 'forum_name'),
+      projection_statement(forums_table, :project_id, 'project_id')
     ]
   end
 
   def projects_reference_table(_activity)
-    boards_table
+    forums_table
   end
 
   protected
 
   def event_title(event, _activity)
-    "#{event['board_name']}: #{event['message_subject']}"
+    "#{event['forum_name']}: #{event['message_subject']}"
   end
 
   def event_description(event, _activity)
@@ -74,8 +74,8 @@ class Activity::MessageActivityProvider < Activity::BaseActivityProvider
 
   private
 
-  def boards_table
-    @boards_table ||= Board.arel_table
+  def forums_table
+    @forums_table ||= Forum.arel_table
   end
 
   def url_helper_parameter(event)

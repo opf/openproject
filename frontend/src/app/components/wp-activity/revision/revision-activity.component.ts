@@ -94,7 +94,7 @@ export class RevisionActivityComponent implements OnInit {
       this.userCacheService
         .require(this.activity.author.idFromLink)
         .then((user:UserResource) => {
-          this.userId = user.id;
+          this.userId = user.id!;
           this.userName = user.name;
           this.userActive = user.isActive;
           this.userAvatar = user.avatar;

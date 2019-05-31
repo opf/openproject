@@ -137,7 +137,7 @@ module Redmine::MenuManager::MenuHelper
 
   def render_menu_node_with_children(node, project = nil)
     caption, url, selected = extract_node_details(node, project)
-    html_options = {}
+    html_options = { data: { name: node.name } }
     if selected || any_item_selected?(node.children)
       html_options[:class] = 'open'
       selected = true
@@ -186,12 +186,16 @@ module Redmine::MenuManager::MenuHelper
   def render_single_menu_node(item, caption, url, selected)
     link_text = ''.html_safe
     link_text << op_icon(item.icon) if item.icon.present?
-    link_text << you_are_here_info(selected)
-    link_text << content_tag(:span, caption, class: 'menu-item--title ellipsis', lang: menu_item_locale(item))
+    link_text << content_tag(:span,
+                             class: "menu-item--title ellipsis #{item.badge.present? ? '-has-badge' : ''}",
+                             lang: menu_item_locale(item)) do
+      ''.html_safe + caption + badge_for(item)
+    end
     link_text << ' '.html_safe + op_icon(item.icon_after) if item.icon_after.present?
     html_options = item.html_options(selected: selected)
     html_options[:title] ||= selected ? t(:description_current_position) + caption : caption
-    link_to link_text, url, html_options
+
+    link_to link_text, main_app_url(url), html_options
   end
 
   def render_unattached_menu_item(menu_item, project)
@@ -206,6 +210,7 @@ module Redmine::MenuManager::MenuHelper
 
   def current_menu_item_part_of_menu?(menu, project = nil)
     return true if no_menu_item_wiki_prefix? || wiki_prefix?
+
     all_menu_items_for(menu, project).each do |node|
       return true if node.name == current_menu_item
     end
@@ -225,6 +230,7 @@ module Redmine::MenuManager::MenuHelper
     items = []
     iteratable.each do |node|
       next if node.name == :root
+
       if allowed_node?(node, User.current, project) && visible_node?(menu, node)
         items << node
         if block_given?
@@ -242,7 +248,7 @@ module Redmine::MenuManager::MenuHelper
           when Hash
             project.nil? ? item.url : { item.param => project }.merge(item.url)
           when Symbol
-            send(item.url)
+            main_app.send(item.url)
           else
             item.url
           end
@@ -265,10 +271,10 @@ module Redmine::MenuManager::MenuHelper
     end
 
     if project
-      return user && user.allowed_to?(node.url, project)
+      user && user.allowed_to?(node.url, project)
     else
       # outside a project, all menu items allowed
-      return true
+      true
     end
   end
 
@@ -286,10 +292,10 @@ module Redmine::MenuManager::MenuHelper
 
   def render_single_node_or_partial(node, project)
     if node.partial
-      content_tag('li', render(partial: node.partial), class: 'partial')
+      content_tag('li', render(partial: node.partial), class: "partial", data: { name: node.name })
     else
       caption, url, selected = extract_node_details(node, project)
-      content_tag('li', render_single_menu_node(node, caption, url, selected))
+      content_tag('li', render_single_menu_node(node, caption, url, selected), data: { name: node.name })
     end
   end
 
@@ -308,5 +314,21 @@ module Redmine::MenuManager::MenuHelper
 
   def wiki_prefix?
     current_menu_item.to_s.match? /^wiki-/
+  end
+
+  def badge_for(item)
+    badge = ''.html_safe
+    if item.badge.present?
+      badge += content_tag('span', I18n.t(item.badge), class: 'main-item--badge')
+    end
+    badge
+  end
+
+  def main_app_url(url)
+    if url.is_a? Symbol
+      main_app.send(url)
+    else
+      main_app.url_for(url)
+    end
   end
 end

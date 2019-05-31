@@ -30,7 +30,7 @@ module API
   module V3
     module News
       class NewsAPI < ::API::OpenProjectAPI
-        helpers ::API::Utilities::ParamsHelper
+        helpers ::API::Utilities::PageSizeHelper
 
         resources :news do
           get do
@@ -49,8 +49,8 @@ module API
             end
           end
 
-          route_param :id do
-            before do
+          route_param :id, type: Integer, desc: 'News ID' do
+            after_validation do
               @time_entry = ::News
                             .visible
                             .find(params[:id])

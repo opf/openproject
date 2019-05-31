@@ -70,7 +70,6 @@ class WorkPackages::MovesController < ApplicationController
       end
     end
 
-
     set_flash_from_bulk_work_package_save(@work_packages, unsaved_work_package_ids)
 
     if params[:follow]
@@ -121,7 +120,7 @@ class WorkPackages::MovesController < ApplicationController
   def check_project_uniqueness
     unless @project
       # TODO: let users bulk move/copy work packages from different projects
-      render_error I18n.t('work_packages.move.unsupported_for_multiple_projects')
+      render_error message: :'work_packages.move.unsupported_for_multiple_projects', status: 400
       return false
     end
   end

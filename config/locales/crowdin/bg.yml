@@ -57,9 +57,25 @@ bg:
     index:
       no_results_content_title: В момента има няма режими на удостоверяване.
       no_results_content_text: Създаване на нов режим на удостоверяване
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: none
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
+  forums:
     show:
-      no_results_title_text: Понастоящем няма съобщения на дъската.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: В момента има няма цветове.
@@ -139,9 +155,9 @@ bg:
     settings:
       activities:
         no_results_title_text: В момента има няма дейности на разположение.
-      boards:
-        no_results_title_text: В момента има няма информационни дъски за проекта.
-        no_results_content_text: Създаване на нова дъска
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: В момента има няма категории работни пакети.
         no_results_content_text: Създаване на нова категория работни пакети
@@ -211,7 +227,7 @@ bg:
       reset: Reset to defaults
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts.
+        in Gantt charts. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: В момента има няма работни пакети, присвоен на тази версия.
@@ -369,6 +385,11 @@ bg:
         subscriber: Subscriber
         encoded_token: Enterprise support token
         active_user_count_restriction: Maximum active users
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Забавяне
         from: Работен пакет
@@ -406,6 +427,7 @@ bg:
         spent_on: Дата
         type: Тип
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
@@ -467,11 +489,6 @@ bg:
         client_credentials_user_id: Client Credentials User ID
         scopes: Scopes
         confidential: Confidential
-      grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
     errors:
       messages:
         accepted: трябва да бъде одобрено.
@@ -541,6 +558,10 @@ bg:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -613,6 +634,7 @@ bg:
           attributes:
             attribute_groups:
               attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: The group name '%{group}' is used more than once. Group
                 names must be unique.
               query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
@@ -641,11 +663,15 @@ bg:
               error_not_found: not found
         member:
           principal_blank: Моля изберете поне един потребител или група.
-          role_blank: Моля, изберете поне една роля.
-        grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          role_blank: need to be assigned.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Моля проверете следните полета:'
         header:
@@ -654,7 +680,7 @@ bg:
     models:
       attachment: Файл
       attribute_help_text: Attribute help text
-      board: Форум
+      forum: Форум
       comment: Коментар
       custom_action: Custom action
       custom_field: Потребителски полета
@@ -991,7 +1017,7 @@ bg:
   description_choose_project: Проекти
   description_compare_from: Compare from
   description_compare_to: Compare to
-  description_current_position: 'Вие сте тук:'
+  description_current_position: 'You are here: '
   description_date_from: Въведете начална дата
   description_date_range_interval: Изберете периода, чрез избиране на начална и крайна
     дата
@@ -1039,15 +1065,17 @@ bg:
   error_can_not_remove_role: Тази роля се използва и не може да бъде изтрита.
   error_can_not_reopen_work_package_on_closed_version: Работен пакет, присвоен към
     затворена версия, не може да бъде отворен наново
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Моля, изберете потребител и роля.
+  error_code: Error %{code}
   error_cookie_missing: '"Бисквитката" на OpenProject липсва. Моля уверете се че cookies
     са активирани, тъй като това приложение не функционира правилно без тях.'
   error_custom_option_not_found: Option does not exist.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1064,6 +1092,10 @@ bg:
   error_work_package_not_found_in_project: Работен пакет не е намерен или не принадлежи
     на този проект
   error_must_be_project_member: трябва да бъде член проекта
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: Не е дефиниран работен пакет по подразбиране.
     Моля проверете конфигурацията ( Отидете на Администрация -> Статуси на работни
     пакети).
@@ -1150,13 +1182,13 @@ bg:
           you substantially contribute to this Open-Source community effort.
     links:
       upgrade_enterprise_edition: Upgrade to Enterprise Edition
+      postgres_migration: Migrating your installation to PostgreSQL
       user_guides: Ръководства за потребителя
       faq: Често задавани въпроси
       glossary: Терминологичен речник
       shortcuts: Кратки клавишни комбинации
-      forums: Форуми
       blog: OpenProject блог
-      boards: Форум на Общността
+      forums: Форум на Общността
       newsletter: Security alerts / Newsletter
   links:
     configuration_guide: Configuration guide
@@ -1223,7 +1255,7 @@ bg:
   label_authentication: Оторизация
   label_available_project_work_package_categories: Налични категории работни пакети
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Налични табла
+  label_available_project_forums: Available forums
   label_available_project_versions: Налични версии
   label_available_project_repositories: Достъпни хранилища
   label_api_documentation: API документация
@@ -1231,15 +1263,16 @@ bg:
   label_blocked_by: блокирано от
   label_blocks: блокировки
   label_blog: Блог
-  label_board_locked: Заключен
-  label_board_new: Нов форум
-  label_board_plural: Форуми
-  label_board_sticky: Лепкава
+  label_forums_locked: Заключен
+  label_forum_new: Нов форум
+  label_forum_plural: Форуми
+  label_forum_sticky: Лепкава
   label_boolean: Булев
   label_branch: Клон
   label_browse: Преглед
   label_bulk_edit_selected_work_packages: Групово редактиране на избраните работни
     пакети
+  label_bundled: "(Bundled)"
   label_calendar: Календар
   label_calendar_show: Показване на календар
   label_category: Категория
@@ -1339,6 +1372,7 @@ bg:
   label_equals: е
   label_everywhere: everywhere
   label_example: Пример
+  label_import: Import
   label_export_to: 'Also available in:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} час"
@@ -1376,6 +1410,7 @@ bg:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Начална страница
   label_subject_or_id: Subject or ID
+  label_impressum: Legal notice
   label_in: в
   label_in_less_than: в по-малко от
   label_in_more_than: в повече от
@@ -1425,6 +1460,7 @@ bg:
   label_max_size: Максимален размер
   label_me: мен
   label_member_new: Нов потребител
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Потребители
   label_view_all_members: Покажи всички членове
   label_menu_item_name: Име на елемент от меню
@@ -1453,6 +1489,7 @@ bg:
   label_my_queries: Моите потребителски заявки
   label_never: Никога
   label_new: Нов
+  label_new_features: New features
   label_new_statuses_allowed: Новите статуси за разрешени
   label_news_added: Добавени новини
   label_news_comment_added: Коментар, добавен към новини
@@ -1501,6 +1538,7 @@ bg:
   label_planning: Планиране
   label_please_login: Моля влез в профила си
   label_plugins: Плъгини
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: предхожда
   label_preferences: Предпочитания
   label_preview: Предварителен преглед
@@ -1508,6 +1546,7 @@ bg:
   label_previous_week: Предишната седмица
   label_principal_invite_via_email: " или покани нови потребители по имейл"
   label_principal_search: Добавяне на съществуващи потребители или групи
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Версия на продукта
   label_professional_support: Професионална поддръжка
   label_profile: Профил
@@ -1624,6 +1663,7 @@ bg:
   label_updated_time: Актуализиран преди %{value}
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Актуализирана от %{author} преди %{age}
+  label_upgrade_guides: Upgrade guides
   label_used_by: Използван от
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
@@ -1831,6 +1871,8 @@ bg:
   notice_account_update_failed: Настройка на акаунт не могат да бъдат записани. Моля
     погледнете страницата на акаунта си.
   notice_account_updated: Account was successfully updated.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Грешна парола
   notice_account_registered_and_logged_in: Добре дошли вашият акаунт е активиран.
     Вие сте влезли в момента.
@@ -1881,7 +1923,6 @@ bg:
   notice_to_many_principals_to_display: Има твърде много резултати. Стесните търсенето,
     като въведете името на нов член (или група).
   notice_unable_delete_time_entry: Не може да изтриете запис в регистъра на време.
-  notice_unable_delete_version: Не може да изтриете версия.
   notice_user_missing_authentication_method: Потребителят все още не е избрал парола
     или друг начин за влизане.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
@@ -1957,7 +1998,7 @@ bg:
   permission_export_wiki_pages: Export wiki pages
   permission_list_attachments: List attachments
   permission_log_time: Log spent time
-  permission_manage_boards: Manage forums
+  permission_manage_forums: Manage forums
   permission_manage_categories: Manage work package categories
   permission_manage_work_package_relations: Manage work package relations
   permission_manage_members: Manage members
@@ -2004,7 +2045,7 @@ bg:
     archive:
       are_you_sure: Наистина ли искате да архивирате на проекта "%{name}"?
   project_module_activity: Активност
-  project_module_boards: Форуми
+  project_module_forums: Форуми
   project_module_calendar: Календар
   project_module_work_package_tracking: Проследяване на работен пакет
   project_module_news: Новини
@@ -2223,10 +2264,6 @@ bg:
   setting_log_requesting_user: Log user login, name, and mail address for all requests
   setting_login_required: Authentication required
   setting_mail_from: Emission email address
-  setting_mail_handler_api_enabled: Enable incoming email web service
-  setting_mail_handler_api_description: Имейл уеб манипулаторът позволява на OpenProject
-    да получава имейли, съдържащи конкретни команди като инструментален механизъм
-    (например, за да създава и актуализира работни пакети).
   setting_mail_handler_api_key: API ключ
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines
   setting_mail_handler_body_delimiter_regex: Съкрати мейл адресите от една област
@@ -2481,7 +2518,6 @@ bg:
       color: Цвят
       colors: Цветове
     associations: Dependencies
-    board_could_not_be_saved: Board could not be saved
     button_delete_all: Изтриване на всичко
     change: Change in planning
     children: Дъщерни елементи
@@ -2736,6 +2772,13 @@ bg:
 '
   menu_item: Menu item
   menu_item_setting: Видимост
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'
   wiki_menu_item_for: Menu item for wikipage "%{title}"
   wiki_menu_item_setting: Видимост
   wiki_menu_item_new_main_item_explanation: 'You are deleting the only main wiki menu
@@ -2759,6 +2802,7 @@ bg:
     attributes:
       lock_version: Lock Version
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: You need to be authenticated to access this resource.
       code_401_wrong_credentials: You did not provide the correct credentials.
       code_403: You are not authorized to access this resource.

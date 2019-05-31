@@ -28,39 +28,4 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module TimeEntries
-  class UpdateService
-    include Concerns::Contracted
-    include SharedMixin
-
-    attr_accessor :user,
-                  :time_entry
-
-    def initialize(user:, time_entry:)
-      self.user = user
-      self.time_entry = time_entry
-      self.contract_class = TimeEntries::UpdateContract
-    end
-
-    def call(attributes: {})
-      set_attributes attributes
-
-      success, errors = validate_and_save(time_entry, user)
-      ServiceResult.new success: success, errors: errors, result: time_entry
-    end
-
-    private
-
-    def set_attributes(attributes)
-      time_entry.attributes = attributes
-
-      ##
-      # Update project context if moving time entry
-      if time_entry.work_package && time_entry.work_package_id_changed?
-        time_entry.project_id = time_entry.work_package.project_id
-      end
-
-      use_project_activity(time_entry)
-    end
-  end
-end
+class TimeEntries::UpdateService < ::BaseServices::Update; end

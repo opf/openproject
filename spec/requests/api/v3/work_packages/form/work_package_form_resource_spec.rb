@@ -76,7 +76,7 @@ describe 'API v3 Work package form resource', type: :request do
 
         include_context 'post request'
 
-        it_behaves_like 'not found' do
+        it_behaves_like 'param validation error' do
           let(:id) { 'eeek' }
           let(:type) { 'WorkPackage' }
         end

@@ -41,10 +41,6 @@ class Queries::WorkPackages::Filter::ManualSortFilter <
     true
   end
 
-  def joins
-    ordered_work_packages_join(query)
-  end
-
   def type
     :empty_value
   end

@@ -27,13 +27,20 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<div class="errorExplanation" id="errorExplanation" tabindex="0" role="alert">
+<div id="errorExplanation"
+     class="notification-box errorExplanation -error <%= local_assigns[:classes] || '' %>"
+     tabindex="0"
+     role="alert">
+  <div class="notification-box--content">
   <% if content_for?(:error_details) %>
-    <h2><%= error_message %></h2>
-    <%= content_for :error_details %>
+    <p>
+      <strong><%= error_message %></strong>
+    </p>
+    <p>
+      <%= content_for :error_details %>
+    </p>
   <% else %>
     <%= error_message %>
   <% end %>
-  <i class="icon-close close-handler" role="button" tabindex="0" aria-label="{{ ::I18n.t('js.close_popup_title') }}">
-  </i>
+  </div>
 </div>

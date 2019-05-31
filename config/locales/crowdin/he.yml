@@ -57,9 +57,25 @@ he:
     index:
       no_results_content_title: There are currently no authentication modes.
       no_results_content_text: Create a new authentication mode
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: none
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
+  forums:
     show:
-      no_results_title_text: There are currently no posts for the board.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: There are currently no colors.
@@ -139,9 +155,9 @@ he:
     settings:
       activities:
         no_results_title_text: There are currently no activities available.
-      boards:
-        no_results_title_text: There are currently no boards for the project.
-        no_results_content_text: ליצור לוח חדש
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: There are currently no work package categories.
         no_results_content_text: Create a new work package category
@@ -211,7 +227,7 @@ he:
       reset: Reset to defaults
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts.
+        in Gantt charts. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: אין כרגע חבילות עבודה שהוקצו עבור גירסה זו.
@@ -366,6 +382,11 @@ he:
         subscriber: Subscriber
         encoded_token: Enterprise support token
         active_user_count_restriction: Maximum active users
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: זמן המתנה
         from: חבילת עבודה
@@ -403,6 +424,7 @@ he:
         spent_on: תאריך
         type: סוג
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
@@ -464,11 +486,6 @@ he:
         client_credentials_user_id: Client Credentials User ID
         scopes: Scopes
         confidential: Confidential
-      grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
     errors:
       messages:
         accepted: must be accepted.
@@ -538,6 +555,10 @@ he:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -610,6 +631,7 @@ he:
           attributes:
             attribute_groups:
               attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: The group name '%{group}' is used more than once. Group
                 names must be unique.
               query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
@@ -637,11 +659,15 @@ he:
               error_not_found: not found
         member:
           principal_blank: נא לבחור לפחות משתמש אחד או קבוצה.
-          role_blank: נא לבחור תפקיד אחד לפחות.
-        grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          role_blank: need to be assigned.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'אנא בדוק את השדות הבאים:'
         header:
@@ -652,7 +678,7 @@ he:
     models:
       attachment: קובץ
       attribute_help_text: Attribute help text
-      board: פורום
+      forum: פורום
       comment: תגובה
       custom_action: Custom action
       custom_field: שדה מותאם אישית
@@ -752,7 +778,7 @@ he:
   button_check_all: סמן את כולם
   button_clear: נקה
   button_click_to_reveal: Click to reveal
-  button_close: Close
+  button_close: סגור
   button_collapse_all: סגור הכל
   button_configure: הגדר
   button_continue: Continue
@@ -1014,7 +1040,7 @@ he:
   description_choose_project: פרויקטים
   description_compare_from: Compare from
   description_compare_to: Compare to
-  description_current_position: 'אתה נמצא כאן:'
+  description_current_position: 'You are here: '
   description_date_from: הזן תאריך התחלה
   description_date_range_interval: בחר טווח על-ידי בחירת תאריך התחלה וסיום
   description_date_range_list: בחרו טווח מהרשימה
@@ -1061,15 +1087,17 @@ he:
   error_can_not_remove_role: תפקיד זה נמצא בשימוש ואינו יכול להמחק.
   error_can_not_reopen_work_package_on_closed_version: חבילת עבודה השייכת לגרסה שנסגרה
     אינה יכולה להפתח מחדש
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: נא לבחור משתמש ותפקיד.
+  error_code: Error %{code}
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.
   error_custom_option_not_found: Option does not exist.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1085,6 +1113,10 @@ he:
   error_work_package_not_found_in_project: חבילת העבודה לא נמצאה או לא שייכת לפרוייקט
     זה
   error_must_be_project_member: חייב להיות חבר בפרוייקט
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: אין הגדרת סטטוס ברירת מחדל לחבילת עבודה. אנא
     בדוק את ההגדרות שלך (לך אל ״ניהול -> סטטוסי חבילת עבודה״).
   error_no_type_in_project: אין סוג המשויך לפרויקט זה. אנא בדוק את הגדרות הפרוייקט.
@@ -1167,13 +1199,13 @@ he:
           you substantially contribute to this Open-Source community effort.
     links:
       upgrade_enterprise_edition: Upgrade to Enterprise Edition
+      postgres_migration: Migrating your installation to PostgreSQL
       user_guides: User guides
       faq: FAQ
       glossary: Glossary
       shortcuts: Shortcuts
-      forums: פורומים
       blog: OpenProject blog
-      boards: Community forum
+      forums: Community forum
       newsletter: Security alerts / Newsletter
   links:
     configuration_guide: Configuration guide
@@ -1240,7 +1272,7 @@ he:
   label_authentication: אימות
   label_available_project_work_package_categories: Available work package categories
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Available boards
+  label_available_project_forums: Available forums
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories
   label_api_documentation: API documentation
@@ -1248,14 +1280,15 @@ he:
   label_blocked_by: חסום על ידי
   label_blocks: בלוקים
   label_blog: Blog
-  label_board_locked: נעול
-  label_board_new: פורום חדש
-  label_board_plural: פורומים
-  label_board_sticky: נעוץ
+  label_forums_locked: נעול
+  label_forum_new: פורום חדש
+  label_forum_plural: פורומים
+  label_forum_sticky: נעוץ
   label_boolean: בוליאני
   label_branch: ענף
   label_browse: עיון
   label_bulk_edit_selected_work_packages: חבילות עבודה עריכה בצובר שנבחרו
+  label_bundled: "(Bundled)"
   label_calendar: לוח שנה
   label_calendar_show: הצג לוח שנה
   label_category: קטגוריה
@@ -1307,7 +1340,7 @@ he:
   label_custom_field_new: שדה מותאם אישית חדש
   label_custom_field_plural: שדות מותאמים אישית
   label_custom_field_default_type: סוג ריק
-  label_custom_style: Design
+  label_custom_style: עיצוב
   label_date: תאריך
   label_date_and_time: Date and time
   label_date_from: מ
@@ -1354,6 +1387,7 @@ he:
   label_equals: הינו
   label_everywhere: everywhere
   label_example: דוגמה
+  label_import: Import
   label_export_to: 'Also available in:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} hour"
@@ -1391,6 +1425,7 @@ he:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: דף הבית
   label_subject_or_id: Subject or ID
+  label_impressum: Legal notice
   label_in: ב
   label_in_less_than: in less than
   label_in_more_than: in more than
@@ -1440,6 +1475,7 @@ he:
   label_max_size: גודל מרבי
   label_me: אני
   label_member_new: חבר חדש
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Members
   label_view_all_members: View all members
   label_menu_item_name: Name of menu item
@@ -1468,6 +1504,7 @@ he:
   label_my_queries: My custom queries
   label_never: Never
   label_new: חדש
+  label_new_features: New features
   label_new_statuses_allowed: New statuses allowed
   label_news_added: News added
   label_news_comment_added: Comment added to a news
@@ -1490,8 +1527,8 @@ he:
   label_notify_member_plural: Email updates
   label_on: פועל
   label_open_menu: פתח תפריט
-  label_open_work_packages: open
-  label_open_work_packages_plural: open
+  label_open_work_packages: פתוח
+  label_open_work_packages_plural: פתוח
   label_openproject_website: OpenProject website
   label_optional_description: תיאור
   label_options: אפשריות
@@ -1516,6 +1553,7 @@ he:
   label_planning: תכנון
   label_please_login: Please log in
   label_plugins: פלאגינים
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: precedes
   label_preferences: Preferences
   label_preview: תצוגה מקדימה
@@ -1523,6 +1561,7 @@ he:
   label_previous_week: Previous week
   label_principal_invite_via_email: " or invite new users via email"
   label_principal_search: Add existing users or groups
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Product version
   label_professional_support: Professional support
   label_profile: פרופיל
@@ -1637,6 +1676,7 @@ he:
   label_updated_time: Updated %{value} ago
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Updated by %{author} %{age} ago
+  label_upgrade_guides: Upgrade guides
   label_used_by: Used by
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
@@ -1849,6 +1889,8 @@ he:
   notice_account_update_failed: Account setting could not be saved. Please have a
     look at your account page.
   notice_account_updated: Account was successfully updated.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: סיסמה שגויה
   notice_account_registered_and_logged_in: Welcome, your account has been activated.
     You are logged in now.
@@ -1901,7 +1943,6 @@ he:
     There are too many results.
     Narrow down the search by typing in the name of the new member (or group).
   notice_unable_delete_time_entry: Unable to delete time log entry.
-  notice_unable_delete_version: Unable to delete version.
   notice_user_missing_authentication_method: User has yet to choose a password or
     another way to sign in.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
@@ -1979,7 +2020,7 @@ he:
   permission_export_wiki_pages: ייצוא דפי wiki
   permission_list_attachments: רשימת קבצים מצורפים
   permission_log_time: Log spent time
-  permission_manage_boards: ניהול פורומים
+  permission_manage_forums: ניהול פורומים
   permission_manage_categories: Manage work package categories
   permission_manage_work_package_relations: Manage work package relations
   permission_manage_members: Manage members
@@ -2026,7 +2067,7 @@ he:
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
   project_module_activity: פעילות
-  project_module_boards: פורומים
+  project_module_forums: פורומים
   project_module_calendar: לוח שנה
   project_module_work_package_tracking: Work package tracking
   project_module_news: חדשות
@@ -2247,10 +2288,6 @@ he:
   setting_log_requesting_user: Log user login, name, and mail address for all requests
   setting_login_required: Authentication required
   setting_mail_from: Emission email address
-  setting_mail_handler_api_enabled: Enable incoming email web service
-  setting_mail_handler_api_description: The email web handler enables OpenProject
-    to receive emails containing specific commands as an instrumentation mechanism
-    (e.g., to create and update work packages).
   setting_mail_handler_api_key: API key
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
@@ -2325,7 +2362,7 @@ he:
     plain: Plain text
   status_active: active
   status_archived: archived
-  status_invited: invited
+  status_invited: הוזמנו
   status_locked: locked
   status_registered: registered
   support:
@@ -2505,7 +2542,6 @@ he:
       color: צבע
       colors: צבעים
     associations: Dependencies
-    board_could_not_be_saved: Board could not be saved
     button_delete_all: Delete all
     change: Change in planning
     children: Child elements
@@ -2516,7 +2552,7 @@ he:
       elements.
     delete_all: Delete all
     delete_thing: מחק
-    duration: Duration
+    duration: משך זמן
     duration_days:
       one: יום אחד
       other: "%{count} ימים"
@@ -2718,7 +2754,7 @@ he:
     error_status_change_failed: 'Changing the user status failed due to the following
       errors: %{errors}'
     invite: Invite user via email
-    invited: invited
+    invited: הוזמנו
     lock: Lock permanently
     locked: locked permanently
     no_login: This user authenticates through login by password. Since it is disabled,
@@ -2738,7 +2774,7 @@ he:
     unlock_and_reset_failed_logins: Unlock and reset failed logins
   version_status_closed: סגור
   version_status_locked: locked
-  version_status_open: open
+  version_status_open: פתוח
   note: Note
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: Warning
@@ -2764,6 +2800,13 @@ he:
 '
   menu_item: Menu item
   menu_item_setting: Visibility
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'
   wiki_menu_item_for: Menu item for wikipage "%{title}"
   wiki_menu_item_setting: Visibility
   wiki_menu_item_new_main_item_explanation: 'You are deleting the only main wiki menu
@@ -2787,6 +2830,7 @@ he:
     attributes:
       lock_version: גרסת מנעול
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: אתה צריך להיות מאומת כדי לגשת למשאב זה.
       code_401_wrong_credentials: You did not provide the correct credentials.
       code_403: אתה לא מורשה כדי לקבל גישה למשאב זה.

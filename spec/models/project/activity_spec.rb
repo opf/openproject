@@ -90,19 +90,19 @@ describe Project::Activity, type: :model do
                       repository: repository)
   end
 
-  let(:board) do
-    FactoryBot.create(:board,
+  let(:forum) do
+    FactoryBot.create(:forum,
                       project: project)
   end
 
   let(:message) do
     FactoryBot.create(:message,
-                      board: board)
+                      forum: forum)
   end
 
   let(:message2) do
     FactoryBot.create(:message,
-                      board: board)
+                      forum: forum)
   end
 
   let(:time_entry) do

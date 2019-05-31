@@ -30,7 +30,6 @@
 
 class Queries::WorkPackages::Filter::PrincipalBaseFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
-
   include MeValueFilterMixin
 
   def allowed_values

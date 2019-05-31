@@ -57,9 +57,25 @@ id:
     index:
       no_results_content_title: Tidak ada mode otentikasi saat ini.
       no_results_content_text: Buat mode otentikasi baru
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: kosong
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
+  forums:
     show:
-      no_results_title_text: Tidak ada pos untuk papan saat ini.
+      no_results_title_text: Saat ini tidak ada postingan di forum.
   colors:
     index:
       no_results_title_text: Tidak ada warna saat ini.
@@ -140,9 +156,9 @@ id:
     settings:
       activities:
         no_results_title_text: There are currently no activities available.
-      boards:
-        no_results_title_text: There are currently no boards for the project.
-        no_results_content_text: Create a new board
+      forums:
+        no_results_title_text: Tidak ada forum pada project.
+        no_results_content_text: Buat forum baru
       categories:
         no_results_title_text: There are currently no work package categories.
         no_results_content_text: Create a new work package category
@@ -210,9 +226,10 @@ id:
       edit_query: Edit table
       query_group_placeholder: Give the table a name
       reset: Disetel ulang ke kondisi bawaan
-      type_color_text: |
-        Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts.
+      type_color_text: 'Klik untuk menetapkan atau mengubah warna tipe ini. warna
+        yang dipilah akan membedakan paket kerja.
+
+'
   versions:
     overview:
       no_results_title_text: There are currently no work packages assigned to this
@@ -362,6 +379,11 @@ id:
         subscriber: Pelanggan
         encoded_token: Token pendukung perusahaan
         active_user_count_restriction: Pengguna aktif maksimum
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Jeda
         from: Paket-Penugasan
@@ -399,6 +421,7 @@ id:
         spent_on: Tanggal
         type: Tipe
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
@@ -460,11 +483,6 @@ id:
         client_credentials_user_id: Client Credentials User ID
         scopes: Scopes
         confidential: Confidential
-      grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
     errors:
       messages:
         accepted: harus disetujui.
@@ -509,7 +527,7 @@ id:
         too_long: panjang karakter maksimal %{count}.
         too_short: minimal %{count} karakter.
         unchangeable: cannot be changed.
-        unremovable: cannot be removed.
+        unremovable: tidak bisa dihapus.
         wrong_length: panjang tidak sesuai (harus %{count} karakter).
       models:
         custom_field:
@@ -536,6 +554,10 @@ id:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: tidak dapat dibaca. Apakah Anda yakin ini adalah token pendukung?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -608,6 +630,7 @@ id:
           attributes:
             attribute_groups:
               attribute_unknown: Atribut paket kerja tidak valid digunakan.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: The group name '%{group}' is used more than once. Group
                 names must be unique.
               query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
@@ -635,11 +658,15 @@ id:
               error_not_found: tidak ditemukan
         member:
           principal_blank: Silakan pilih setidaknya satu user atau grup.
-          role_blank: Silakan pilih setidaknya satu Role.
-        grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          role_blank: need to be assigned.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Silakan periksa isian berikut :'
         header:
@@ -648,7 +675,7 @@ id:
     models:
       attachment: File
       attribute_help_text: Atribut teks bantuan
-      board: Forum
+      forum: Forum
       comment: Komentar
       custom_action: Custom action
       custom_field: Isian kustom
@@ -985,7 +1012,7 @@ id:
   description_choose_project: Project
   description_compare_from: Bandingkan dari
   description_compare_to: Bandingkan dengan
-  description_current_position: 'Anda di sini:'
+  description_current_position: 'You are here: '
   description_date_from: Masukkan tanggal start
   description_date_range_interval: Pilih durasi dengan memilih tanggal start dan finish
   description_date_range_list: Pilih durasi dari daftar
@@ -1034,15 +1061,18 @@ id:
   error_can_not_remove_role: Role ini sedang dipakai dan tidak dapat dihapus.
   error_can_not_reopen_work_package_on_closed_version: Paket-Penugasan yang telah
     berakhir tidak dapat dibuka kembali
+  error_can_not_find_all_resources: Tidak dapat menemukan semua sumber daya terkait
+    permintaan ini.
   error_check_user_and_role: Silakan pilih user dan Role.
+  error_code: Error %{code}
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.
   error_custom_option_not_found: Pilihan tidak ada.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Gagal untuk menghapus isian ini.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Tidak dapat dikelompokkan dengan: %{value}'
   error_invalid_query_column: 'Permintaan tidak valid kolom: %{value}'
@@ -1059,6 +1089,11 @@ id:
   error_work_package_not_found_in_project: Paket-Penugasan tidak ditemukan atau tidak
     termasuk dalam Project ini
   error_must_be_project_member: harus sbg Project Member
+  error_migrations_are_pending: Instalasi OpenProject anda tertunda karena migrasi
+    databse. kemungkinan anda melewatkan migrasi yang ada saat upgrade terakhir. silahkan
+    periksa panduan upgrade untuk meng-upgrade dengan benar.
+  error_migrations_visit_upgrade_guides: Silahkan kunjungi panduan dokumentasi upgrade
+    kami
   error_no_default_work_package_status: Status Paket-Penugasan default tidak didefinisikan.
     Silakan periksa konfigurasi (ke "Administrasi -> Paket-Penugasan Status").
   error_no_type_in_project: Tidak ada Tipe terasosiasi dengan Project ini. Silakan
@@ -1143,13 +1178,13 @@ id:
           ini.
     links:
       upgrade_enterprise_edition: Tingkatkan ke edisi enterprise
+      postgres_migration: Migrasi instalasi anda ke PostgreSQL
       user_guides: User guides
       faq: FAQ
       glossary: Glossary
       shortcuts: Shortcuts
-      forums: Forum
       blog: OpenProject blog
-      boards: Community forum
+      forums: Community forum
       newsletter: Peringatan keamanan / Jurnal berkala
   links:
     configuration_guide: Petunjuk Konfigurasi
@@ -1216,7 +1251,7 @@ id:
   label_authentication: Otentikasi
   label_available_project_work_package_categories: Available work package categories
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Available boards
+  label_available_project_forums: Forums tersedia
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories
   label_api_documentation: API documentation
@@ -1224,14 +1259,15 @@ id:
   label_blocked_by: diblokir oleh
   label_blocks: blok
   label_blog: Blog
-  label_board_locked: Locked
-  label_board_new: Forum baru
-  label_board_plural: Forum
-  label_board_sticky: Sticky
+  label_forums_locked: Locked
+  label_forum_new: Forum baru
+  label_forum_plural: Forum
+  label_forum_sticky: Sticky
   label_boolean: Boolean
   label_branch: Branch
   label_browse: Browse
   label_bulk_edit_selected_work_packages: Edit masal Paket-Penugasan yang dipilih
+  label_bundled: "(dibundel)"
   label_calendar: Kalender
   label_calendar_show: Tampilkan kalender
   label_category: Kategori
@@ -1331,6 +1367,7 @@ id:
   label_equals: adalah
   label_everywhere: everywhere
   label_example: Contoh
+  label_import: Impor
   label_export_to: 'Juga tersedia dalam:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} jam"
@@ -1367,6 +1404,7 @@ id:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Home
   label_subject_or_id: Subject or ID
+  label_impressum: Pernyataan hukum
   label_in: dalam
   label_in_less_than: kurang dari
   label_in_more_than: lebih dari
@@ -1416,6 +1454,7 @@ id:
   label_max_size: Ukuran maks.
   label_me: saya
   label_member_new: Member baru
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Member
   label_view_all_members: View all members
   label_menu_item_name: Nama item menu
@@ -1444,6 +1483,7 @@ id:
   label_my_queries: Query kustom saya
   label_never: Never
   label_new: Baru
+  label_new_features: New features
   label_new_statuses_allowed: Status baru yang diijinkan
   label_news_added: News ditambahkan
   label_news_comment_added: Komentar ditambahkan ke dalam Berita
@@ -1492,6 +1532,7 @@ id:
   label_planning: Perencanaan
   label_please_login: Silakan login
   label_plugins: Plugin
+  label_modules_and_plugins: Modul dan Plugin
   label_precedes: mendahului
   label_preferences: Preferensi
   label_preview: Preview
@@ -1499,6 +1540,7 @@ id:
   label_previous_week: Minggu sebelumnya
   label_principal_invite_via_email: " or invite new users via email"
   label_principal_search: Add existing users or groups
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Product version
   label_professional_support: Professional support
   label_profile: Profil
@@ -1614,6 +1656,7 @@ id:
   label_updated_time: Diperbarui %{value} yang lalu
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Diperbarui oleh %{author} %{age} yang lalu
+  label_upgrade_guides: Panduan upgrade
   label_used_by: Digunakan oleh
   label_used_by_types: Digunakan oleh jenis
   label_used_in_projects: Digunakan dalam proyek-proyek
@@ -1817,6 +1860,8 @@ id:
   notice_account_update_failed: Account setting could not be saved. Please have a
     look at your account page.
   notice_account_updated: Akun berhasil diperbarui.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Password salah
   notice_account_registered_and_logged_in: Selamat datang, akun Anda telah diaktifkan.
     Anda sudah login sekarang.
@@ -1866,7 +1911,6 @@ id:
   notice_to_many_principals_to_display: Ada terlalu banyak hasil. Persempit pencarian
     dengan mengetik nama member baru (atau grup).
   notice_unable_delete_time_entry: Entri time log tidak bisa dihapus.
-  notice_unable_delete_version: Gagal menghapus versi.
   notice_user_missing_authentication_method: User has yet to choose a password or
     another way to sign in.
   notice_user_invitation_resent: Sebuah undangan telah dikirim ke %{email}.
@@ -1942,7 +1986,7 @@ id:
   permission_export_wiki_pages: Ekspor halaman Wiki
   permission_list_attachments: Daftar lampiran
   permission_log_time: Catat durasi
-  permission_manage_boards: Kelola Forum
+  permission_manage_forums: Kelola Forum
   permission_manage_categories: Kelola kategori Paket-Penugasan
   permission_manage_work_package_relations: Kelola relasi Paket-Penugasan
   permission_manage_members: Kelola member
@@ -1989,7 +2033,7 @@ id:
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
   project_module_activity: Activity
-  project_module_boards: Forum
+  project_module_forums: Forum
   project_module_calendar: Kalender
   project_module_work_package_tracking: Tracking Paket-Penugasan
   project_module_news: News
@@ -2209,9 +2253,6 @@ id:
   setting_log_requesting_user: Catat user login, nama dan email untuk semua permintaan
   setting_login_required: Diperlukan otentikasi
   setting_mail_from: Emisi alamat email
-  setting_mail_handler_api_enabled: Aktifkan web service untuk email masuk
-  setting_mail_handler_api_description: Email web handler memungkinkan OpenProject
-    untuk mengolah perintah (seperti membuat dan update work packages).
   setting_mail_handler_api_key: API key
   setting_mail_handler_body_delimiters: Potong email setelah baris ini
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
@@ -2469,7 +2510,6 @@ id:
       color: Warna
       colors: Warna
     associations: Dependensi
-    board_could_not_be_saved: Board tidak dapat disimpan
     button_delete_all: Hapus semua
     change: Perubahan dalam perencanaan
     children: Sub-elemen
@@ -2721,6 +2761,13 @@ id:
 '
   menu_item: Menu item
   menu_item_setting: Visibilitas
+  mysql_deprecation:
+    notice: 'Versi lanjut OpenProject kemungkinan akan menghentikan atau mengurangi
+      dukungan terhadap database Mysql dan MariaDB. Instalasi anda masih menggunakan
+      MySQL dan kami sarankan anda untuk melakukan migrasi ke PostgreSQL. Agar proses
+      migrasi lebih mudah disarankan untuk mengikuti panduan migrasi kami:
+
+'
   wiki_menu_item_for: Menu untuk Halaman Wiki "%{title}"
   wiki_menu_item_setting: Visibilitas
   wiki_menu_item_new_main_item_explanation: 'You are deleting the only main wiki menu
@@ -2744,6 +2791,7 @@ id:
     attributes:
       lock_version: Lock Version
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: Anda perlu dikonfirmasi untuk mengakses sumber ini.
       code_401_wrong_credentials: You did not provide the correct credentials.
       code_403: Anda tidak diizinkan untuk mengakses sumber ini.

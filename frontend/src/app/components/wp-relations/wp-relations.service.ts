@@ -5,11 +5,9 @@ import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper
 import {multiInput, MultiInputState, StatesGroup} from 'reactivestates';
 import {StateCacheService} from '../states/state-cache.service';
 import {Injectable} from "@angular/core";
-import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-request.service';
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 
-export type RelationsStateValue = { [relationId:number]:RelationResource };
+export type RelationsStateValue = { [relationId:string]:RelationResource };
 
 export class RelationStateGroup extends StatesGroup {
   name = 'WP-Relations';
@@ -72,7 +70,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
    * Find a given relation by from, to and relation Type
    */
   public find(from:WorkPackageResource, to:WorkPackageResource, type:string):RelationResource|undefined {
-    const relations:RelationsStateValue|undefined = this.state(from.id).value;
+    const relations:RelationsStateValue|undefined = this.state(from.id!).value;
 
     if (!relations) {
       return;
@@ -83,7 +81,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
       // Check that
       // 1. the denormalized relation points at "to"
       // 2. that the denormalized relation type matches.
-      return denormalized.target.id.toString() === to.id.toString() &&
+      return denormalized.target.id === to.id &&
         denormalized.relationType === type;
     });
   }
@@ -147,11 +145,11 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
   private insertIntoStates(relation:RelationResource) {
     _.values(relation.ids).forEach(wpId => {
       this.multiState.get(wpId).doModify((value:RelationsStateValue) => {
-        value[relation.id] = relation;
+        value[relation.id!] = relation;
         return value;
       }, () => {
         let value:RelationsStateValue = {};
-        value[relation.id] = relation;
+        value[relation.id!] = relation;
         return value;
       });
     });
@@ -164,7 +162,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
   private removeFromStates(relation:RelationResource) {
     _.values(relation.ids).forEach(wpId => {
       this.multiState.get(wpId).doModify((value:RelationsStateValue) => {
-        delete value[relation.id];
+        delete value[relation.id!];
         return value;
       }, () => {
         return {};
@@ -181,7 +179,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
    */
   private updateRelationsStateTo(wpId:string, relations:RelationResource[]) {
     const state = this.multiState.get(wpId);
-    const relationsToInsert = _.keyBy(relations, r => r.id);
+    const relationsToInsert = _.keyBy(relations, r => r.id!);
 
     state.putValue(relationsToInsert, 'Overriding relations state.');
   }

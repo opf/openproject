@@ -27,26 +27,21 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/roles/role_collection_representer'
-require 'api/v3/roles/role_representer'
-
 module API
   module V3
     module Roles
       class RolesAPI < ::API::OpenProjectAPI
         resources :roles do
-          get do
-            RoleCollectionRepresenter.new(Role.all,
-                                          api_v3_paths.roles,
-                                          current_user: current_user)
-          end
+          get &::API::V3::Utilities::Endpoints::Index.new(model: Role).mount
 
-          route_param :id do
-            get do
-              role = Role.find(params[:id])
+          route_param :id, type: Integer, desc: 'Role ID' do
+            before do
+              authorize_any(%i[view_members manage_members], global: true)
 
-              RoleRepresenter.new(role, current_user: current_user)
+              @role = Role.find(params[:id])
             end
+
+            get &::API::V3::Utilities::Endpoints::Show.new(model: Role).mount
           end
         end
       end

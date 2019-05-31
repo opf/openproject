@@ -219,13 +219,13 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
       let(:value) { time_entry.id }
     end
 
-    it_behaves_like 'property', :comment do
+    it_behaves_like 'formattable property', :comment do
       let(:value) { time_entry.comments }
     end
 
     context 'with an empty comment' do
       let(:time_entry) { FactoryBot.build_stubbed(:time_entry) }
-      it_behaves_like 'property', :comment do
+      it_behaves_like 'formattable property', :comment do
         let(:value) { time_entry.comments }
       end
     end

@@ -37,12 +37,9 @@ describe 'Query selection', type: :feature do
                               member_through_role: role
   end
 
-  let(:filter_1_name) { 'assignee' }
-  let(:filter_2_name) { 'percentageDone' }
-  let(:i18n_filter_1_name) { WorkPackage.human_attribute_name(:assigned_to) }
-  let(:i18n_filter_2_name) { WorkPackage.human_attribute_name(:done_ratio) }
   let(:default_status) { FactoryBot.create(:default_status) }
   let(:wp_page) { ::Pages::WorkPackagesTable.new project }
+  let(:filters) { ::Components::WorkPackages::Filters.new }
 
 
   let(:query) do
@@ -65,20 +62,12 @@ describe 'Query selection', type: :feature do
   context 'default view, without a query selected' do
     before do
       work_packages_page.visit_index
-      # ensure the page is loaded before expecting anything
-      find('.advanced-filters--filters select option', text: /\AAssignee\Z/,
-                                                       visible: false)
+      filters.open
     end
 
     it 'shows the default (status) filter', js: true do
-      work_packages_page.click_toolbar_button 'Activate Filter'
-      expect(work_packages_page.find_filter('status')).to have_content('Status')
-      expect(work_packages_page.find_filter('status'))
-        .to have_select('operators-status', selected: 'open')
-    end
-
-    it 'shows filter count within toggle button', js: true do
-      expect(find_button('Activate Filter')).to have_text /1$/
+      filters.expect_filter_count 1
+      filters.expect_filter_by 'Status', 'open', nil
     end
   end
 
@@ -90,9 +79,9 @@ describe 'Query selection', type: :feature do
     end
 
     it 'shows the saved filters', js: true do
-      work_packages_page.click_toolbar_button 'Activate Filter'
-      expect(work_packages_page.find_filter(filter_1_name)).to have_content(i18n_filter_1_name)
-      expect(work_packages_page.find_filter(filter_2_name)).to have_content(i18n_filter_2_name)
+      filters.open
+      filters.expect_filter_by 'Assignee', 'is',  ['me']
+      filters.expect_filter_by 'Progress (%)', '>=',  ['10'], 'percentageDone'
     end
 
     it 'shows filter count within toggle button', js: true do

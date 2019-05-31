@@ -28,7 +28,10 @@
 
 require 'spec_helper'
 
-describe 'my', type: :feature, js: true do
+describe 'my',
+         type: :feature,
+         with_config: { session_store: :active_record_store },
+         js: true do
   let(:user_password) { 'bob' * 4 }
   let(:user) do
     FactoryBot.create(:user,
@@ -41,7 +44,11 @@ describe 'my', type: :feature, js: true do
   ##
   # Expecations for a successful account change
   def expect_changed!
-    expect(page).to have_content 'Account was successfully updated.'
+    expect(page).to have_content I18n.t(:notice_account_updated)
+    expect(page).to have_content I18n.t(:notice_account_other_session_expired)
+
+    # expect session to be removed
+    expect(::UserSession.where(user_id: user.id, session_id: 'other').count).to eq 0
 
     user.reload
     expect(user.mail).to eq 'foo@mail.com'
@@ -50,6 +57,10 @@ describe 'my', type: :feature, js: true do
 
   before do
     login_as(user)
+
+    # Create dangling session
+    ::UserSession.create!(data: { 'user_id' => user.id }, session_id: 'other')
+    expect(::UserSession.where(user_id: user.id, session_id: 'other').count).to eq 1
   end
 
   context 'user' do

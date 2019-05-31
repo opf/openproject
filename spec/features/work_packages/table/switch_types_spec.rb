@@ -242,7 +242,7 @@ describe 'Switching types in work package table', js: true do
     end
 
     it 'can switch to the bug type without errors' do
-      type_field.expect_state_text type_task.name
+      type_field.expect_state_text type_task.name.upcase
       type_field.update type_bug.name
 
       # safegurards
@@ -250,7 +250,7 @@ describe 'Switching types in work package table', js: true do
       wp_page.dismiss_notification!
       wp_page.expect_no_notification message: 'Successful update.'
 
-      type_field.expect_state_text type_bug.name
+      type_field.expect_state_text type_bug.name.upcase
 
       work_package.reload
       expect(work_package.type_id).to eq(type_bug.id)
@@ -299,7 +299,7 @@ describe 'Switching types in work package table', js: true do
 
     let(:cf_edit_field) do
       field = wp_page.edit_field "customField#{custom_field.id}"
-      field.field_type = 'select'
+      field.field_type = 'create-autocompleter'
       field
     end
 

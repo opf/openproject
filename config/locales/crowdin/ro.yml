@@ -57,14 +57,30 @@ ro:
     index:
       no_results_content_title: În acest moment nu există moduri de autentificare.
       no_results_content_text: Creare mod de autentificare nou
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: niciunul
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
+  forums:
     show:
-      no_results_title_text: În acest moment nu există mesaje pentru acest forum.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: În acest moment nu există culori.
       no_results_content_text: Creare culoare nouă
-    label_no_color: No color
+    label_no_color: Nicio culoare
   custom_actions:
     actions:
       name: Actions
@@ -142,9 +158,9 @@ ro:
     settings:
       activities:
         no_results_title_text: În acest moment nu există activități disponibile.
-      boards:
-        no_results_title_text: În acest moment nu există forumuri pentru acest proiect.
-        no_results_content_text: Creare forum nou
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: În acest moment nu există categorii de pachete de lucru.
         no_results_content_text: Creare categorie de pachete de lucru nouă
@@ -180,8 +196,8 @@ ro:
   prioritiies:
     edit:
       priority_color_text: |
-        Click to assign or change the color of this priority.
-        It can be used for highlighting work packages in the table.
+        Faceți click pentru a desemna sau schimba culoarea acestui nivel de prioritate.
+        Poate fi utilizate pentru a evidenția pachetele de lucru dintr-un tabel.
   reportings:
     index:
       no_results_title_text: În acest moment nu există rapoarte de stare.
@@ -194,8 +210,8 @@ ro:
         <br/>
         <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
       status_color_text: |
-        Click to assign or change the color of this status.
-        It is shown in the status button and can be used for highlighting work packages in the table.
+        Faceți click pentru a desemna sau schimba culoarea pentru acest flux de lucru.
+        Acesta este afișat în butonul de statut și poate fi folosit pentru a evidenția pachetele de lucru din tabel.
     index:
       no_results_title_text: În acest moment nu există stări pentru pachetele de lucru.
       no_results_content_text: Adăugare stare nouă
@@ -215,7 +231,7 @@ ro:
       reset: Reset to defaults
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts.
+        in Gantt charts. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: În acest moment nu există pachete de lucru alocate acestei
@@ -376,6 +392,11 @@ ro:
         subscriber: Subscriber
         encoded_token: Enterprise support token
         active_user_count_restriction: Număr maxim de utilizatori activi
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Întârziere
         from: Pachet de lucru
@@ -413,6 +434,7 @@ ro:
         spent_on: Dată
         type: Tip
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
@@ -474,11 +496,6 @@ ro:
         client_credentials_user_id: Client Credentials User ID
         scopes: Scopes
         confidential: Confidential
-      grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
     errors:
       messages:
         accepted: trebuie acceptat.
@@ -548,6 +565,10 @@ ro:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -620,6 +641,7 @@ ro:
           attributes:
             attribute_groups:
               attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: The group name '%{group}' is used more than once. Group
                 names must be unique.
               query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
@@ -649,11 +671,15 @@ ro:
               error_not_found: not found
         member:
           principal_blank: Trebuie să alegeţi cel puţin un utilizator sau grup.
-          role_blank: Trebuie să alegeţi cel puţin un rol.
-        grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          role_blank: need to be assigned.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Verificaţi următoarele câmpuri:'
         header:
@@ -663,7 +689,7 @@ ro:
     models:
       attachment: Fișier
       attribute_help_text: Attribute help text
-      board: Forum
+      forum: Forum
       comment: Comentariu
       custom_action: Custom action
       custom_field: Câmp personalizat
@@ -1017,7 +1043,7 @@ ro:
   description_choose_project: Proiecte
   description_compare_from: Compare from
   description_compare_to: Compare to
-  description_current_position: 'Sunteți aici:'
+  description_current_position: 'You are here: '
   description_date_from: Introduceţi data de început
   description_date_range_interval: Alegeți intervalul selectând datele de început
     și sfârșit
@@ -1066,15 +1092,17 @@ ro:
   error_can_not_remove_role: Acest rol este utilizat și nu poate fi șters.
   error_can_not_reopen_work_package_on_closed_version: Un pachet de lucru atribuit
     la o versiune închisă nu poate fi redeschis
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Alegeți un utilizator și un rol.
+  error_code: Error %{code}
   error_cookie_missing: Cookie-ul OpenProject lipseşte. Vă rugăm să verificați setările
     referitoare la cookies, această aplicație nu va funcţiona corespunzător fără acestea.
   error_custom_option_not_found: Option does not exist.
-  error_dependent_work_package: 'Eroare în pachetele de lucru dependente #%{related_id}
-    %{related_subject}: %{error}'
   error_enterprise_activation_user_limit: Contul dvs. nu a putut fi activat (limita
     utilizatorilor a fost atinsă). Contactați administratorul dvs. pentru a avea acces.
   error_failed_to_delete_entry: Failed to delete this entry.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1091,6 +1119,10 @@ ro:
   error_work_package_not_found_in_project: Pachetul de lucru nu a fost găsit sau nu
     aparține acestui proiect
   error_must_be_project_member: trebuie să fie membru al proiectului
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: Nu există un status implicit al pachetelor
     de lucru. Verificați configurația ("Administrare -> Stări pachete de lucru").
   error_no_type_in_project: Nu există un tip asociat cu proiectul. Verificați setările
@@ -1177,13 +1209,13 @@ ro:
           you substantially contribute to this Open-Source community effort.
     links:
       upgrade_enterprise_edition: Achiziționați versiunea Enterprise
+      postgres_migration: Migrating your installation to PostgreSQL
       user_guides: Ghiduri utilizator
       faq: Întrebări Frecvente
       glossary: Glosar
       shortcuts: Scurtături
-      forums: Forumuri
       blog: Blog-ul OpenProject
-      boards: Forum comunitate
+      forums: Forum comunitate
       newsletter: Security alerts / Newsletter
   links:
     configuration_guide: Ghid de configurare
@@ -1249,7 +1281,7 @@ ro:
   label_authentication: Autentificare
   label_available_project_work_package_categories: Categorii de pachete de lucru disponibile
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Planșe disponibile
+  label_available_project_forums: Available forums
   label_available_project_versions: Versiuni disponibile
   label_available_project_repositories: Arhive disponibile
   label_api_documentation: Documentație API
@@ -1257,14 +1289,15 @@ ro:
   label_blocked_by: blocat de
   label_blocks: blochează
   label_blog: Blog
-  label_board_locked: Închis
-  label_board_new: Forum nou
-  label_board_plural: Forumuri
-  label_board_sticky: Lipicios
+  label_forums_locked: Închis
+  label_forum_new: Forum nou
+  label_forum_plural: Forumuri
+  label_forum_sticky: Lipicios
   label_boolean: Valoare logică
   label_branch: Ramură
   label_browse: Răsfoire
   label_bulk_edit_selected_work_packages: Editare în masă a pachetelor de lucru selectate
+  label_bundled: "(Bundled)"
   label_calendar: Calendar
   label_calendar_show: Afișare calendar
   label_category: Categorie
@@ -1364,6 +1397,7 @@ ro:
   label_equals: este
   label_everywhere: everywhere
   label_example: Exemplu
+  label_import: Import
   label_export_to: 'Disponibil și în:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} oră"
@@ -1401,6 +1435,7 @@ ro:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Pagina de start
   label_subject_or_id: Subject or ID
+  label_impressum: Legal notice
   label_in: în
   label_in_less_than: în mai puțin de
   label_in_more_than: în mai mult de
@@ -1450,6 +1485,7 @@ ro:
   label_max_size: Dimensiunea maximă
   label_me: eu
   label_member_new: Membru nou
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Membri
   label_view_all_members: Vizualizare toți participanții
   label_menu_item_name: Numele meniului
@@ -1478,6 +1514,7 @@ ro:
   label_my_queries: Interogările mele
   label_never: Niciodată
   label_new: Nou
+  label_new_features: New features
   label_new_statuses_allowed: Stări noi permise
   label_news_added: Noutăți adăugate
   label_news_comment_added: Comentariu adăugat la noutăți
@@ -1526,6 +1563,7 @@ ro:
   label_planning: Planificare
   label_please_login: Vă rugăm să vă autentificați
   label_plugins: Module
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: precede
   label_preferences: Preferinţe
   label_preview: Previzualizare
@@ -1533,6 +1571,7 @@ ro:
   label_previous_week: Săptămâna trecută
   label_principal_invite_via_email: " sau invită utilizatori folosind email"
   label_principal_search: Adăugare utilizatori sau grupuri existenți
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Versiune produs
   label_professional_support: Suport profesional
   label_profile: Profil
@@ -1650,6 +1689,7 @@ ro:
   label_updated_time: Actualizat acum %{value}
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Actualizat de către %{author} acum %{age}
+  label_upgrade_guides: Upgrade guides
   label_used_by: Folosit de
   label_used_by_types: Folosit/ă/e de tipurile
   label_used_in_projects: Folosit/ă/e în proiectele
@@ -1864,6 +1904,8 @@ ro:
   notice_account_update_failed: Setările contului nu au putut fi salvate. Vă rugăm
     să verificați datele din cont.
   notice_account_updated: Contul a fost actualizat cu succes.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Parolă greşită
   notice_account_registered_and_logged_in: Bun venit, contul a fost activat. Sunteți
     autentificat.
@@ -1914,7 +1956,6 @@ ro:
   notice_to_many_principals_to_display: Există prea multe rezultate. Restrângeți căutarea
     prin tastarea numelui noului membru (sau grup).
   notice_unable_delete_time_entry: Nu se poate șterge intrarea de jurnal.
-  notice_unable_delete_version: Nu se poate șterge versiunea.
   notice_user_missing_authentication_method: Utilizatorul nu a ales încă o parolă
     sau un alt mod de autentificare.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
@@ -1991,7 +2032,7 @@ ro:
   permission_export_wiki_pages: Export pagini wiki
   permission_list_attachments: Listare atașamente
   permission_log_time: Înregistrare timp consumat
-  permission_manage_boards: Gestionare forumuri
+  permission_manage_forums: Gestionare forumuri
   permission_manage_categories: Gestionare categorii de pachete de lucru
   permission_manage_work_package_relations: Gestionare relații pachete de lucru
   permission_manage_members: Gestionare participanți
@@ -2039,7 +2080,7 @@ ro:
     archive:
       are_you_sure: Sunteţi sigur că doriţi să arhivaţi proiectul '%{name}'?
   project_module_activity: Activitate
-  project_module_boards: Forumuri
+  project_module_forums: Forumuri
   project_module_calendar: Calendar
   project_module_work_package_tracking: Urmărire pachete de lucru
   project_module_news: Noutăţi
@@ -2270,10 +2311,6 @@ ro:
     toate cererile
   setting_login_required: Autentificare obligatorie
   setting_mail_from: Adresa de e-mail a expeditorului
-  setting_mail_handler_api_enabled: Activare serviciu web e-mailuri primite
-  setting_mail_handler_api_description: Procesatorul web pentru e-mail permite OpenProject
-    să primească e-mail-uri care conțin anumite comenzi ca un mecanism de instrumentație
-    (de exemplu, pentru a crea și de a actualiza pachete de lucru).
   setting_mail_handler_api_key: Cheie API
   setting_mail_handler_body_delimiters: Trunchiere e-mail-uri după una dintre aceste
     linii
@@ -2543,7 +2580,6 @@ ro:
       color: Culoare
       colors: Culori
     associations: Dependenţe
-    board_could_not_be_saved: Forumul nu a putut fi salvat
     button_delete_all: Șterge tot
     change: Schimbare în planificare
     children: Elemente subordonate
@@ -2802,6 +2838,13 @@ ro:
 '
   menu_item: Element de meniu
   menu_item_setting: Vizibilitate
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'
   wiki_menu_item_for: Meniu pentru pagina wiki "%{title}"
   wiki_menu_item_setting: Vizibilitate
   wiki_menu_item_new_main_item_explanation: 'Ștergeți doar meniul principal wiki.
@@ -2826,6 +2869,7 @@ ro:
     attributes:
       lock_version: Blocare versiune
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: Trebuie să fiți autentificat pentru a accesa această resursă.
       code_401_wrong_credentials: Nu ați furnizat credențialele corecte.
       code_403: Nu sunteți autorizat să accesați această resursă.

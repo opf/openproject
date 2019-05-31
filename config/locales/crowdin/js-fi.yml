@@ -18,11 +18,18 @@ fi:
     close_popup_title: Sulje ponnahdus-ikkuna
     close_filter_title: Sulje suodatin
     close_form_title: Sulje lomake
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: Selaimesi ei tue kopiointia leikepöydälle. Kopioi valittu teksti
         manuaalisesti.
       copied_successful: Onnistuneesti kopioitu leikepöydälle!
     button_add_watcher: Lisää seuraaja
+    button_back: Takaisin
     button_back_to_list_view: Back to list view
     button_cancel: Peruuta
     button_close: Sulje
@@ -59,7 +66,7 @@ fi:
       too_many: There are more work packages (%{count}) than can be displayed by the
         calendar (%{max}). Add filters to focus on the relevant ones.
     description_available_columns: Käytettävissä olevat sarakkeet
-    description_current_position: 'Olet täällä:'
+    description_current_position: 'You are here: '
     description_select_work_package: 'Valitse työpaketti #%{id}'
     description_selected_columns: Valitut sarakkeet
     description_subwork_package: 'Alipaketti työpaketille #%{id}'
@@ -147,6 +154,43 @@ fi:
     general_text_yes: kyllä
     general_text_No: Ei
     general_text_Yes: Kyllä
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Asiakirjat
+          no_results: No documents yet.
+        news:
+          title: Uutiset
+          at: at
+          no_results: Ei mitään uutta raportoitavaksi.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Kaikki työpaketit joista olen vastuussa
+        work_packages_assigned:
+          title: Minulle määritetyt työpaketit
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_table:
+          title: Työpaketit
+        work_packages_calendar:
+          title: Kalenteri
+    homescreen:
+      blocks:
+        new_features:
+          text_new_features: Read about new features and product updates.
+          current_new_feature_html: 'OpenProject contains a new <b>Boards view</b>
+            for Agile project management. </br> To activate this new feature for your
+            existing projects, please do the following steps: <ul><li>Activate the
+            module Boards within existing projects'' settings.</li> <li>Configure
+            your Boards in a project.</li> <li>Verify roles and permissions</li></ul>'
+          image_alt_text: Board teaser image
+          learn_about: Learn more about Agile Boards
     label_activate: Aktivoi
     label_activity_no: Aktiviteettimerkinnän numero %{activityNo}
     label_activity_with_comment_no: Aktiviteettimerkinnän numero %{activityNo}. Sisältää
@@ -172,6 +216,7 @@ fi:
     label_board_locked: Lukittu
     label_board_plural: Boards
     label_board_sticky: Pysyvä
+    label_create_new: Create new
     label_create_work_package: Luo uusi toimia paketti
     label_created_by: Luonut
     label_date: Päivä
@@ -218,6 +263,7 @@ fi:
     label_more_than_ago: enemän kuin päivää sitten
     label_my_page: Oma sivu
     label_next: Seuraava
+    label_no_color: No color
     label_no_data: Ei tietoa näytettäväksi
     label_no_due_date: ei päättymispäivää
     label_no_start_date: ei aloituspäivää
@@ -255,7 +301,7 @@ fi:
     label_subject: Aihe
     label_this_week: tällä viikolla
     label_today: tänään
-    label_up: Up
+    label_up: Ylös
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent} % eteneminen"
@@ -308,46 +354,54 @@ fi:
         next: Seuraava
         got_it: Got it
       steps:
-        welcome: Take a three minutes introduction tour to learn the most <b>important
-          features</b>. <br> We recommend completing the steps until the end. You
-          can restart the tour any time.
-        project_selection: Please select one of the projects with useful demo data
+        help_menu: In the <b>Help</b> menu you will find a user guide and additional
+          help resources. <br> Enjoy your work with OpenProject!
+        members: Invite new <b>Members</b> to join your project.
+        project_selection: Please click on one of the projects with useful demo data
           to get started. <br> The <b>Demo project</b> suits best for classical project
           management, while the <b>Scrum project</b> is better for Agile project management.
         sidebar_arrow: With the arrow you can navigate back to the project's <b>Main
           menu</b>.
-        members: Invite new <b>Members</b> to join your project.
+        welcome: Take a three minutes introduction tour to learn the most <b>important
+          features</b>. <br> We recommend completing the steps until the end. You
+          can restart the tour any time.
         wiki: Within the <b>Wiki</b> you can document and share knowledge together
           with your team.
-        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
-          right you have the Product Backlog or a Bug Backlog, on the left you will
-          have the respective sprints. Here you can create <b>epics, user stories,
-          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
-        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
-          drop-down...
-        backlogs_task_board_select: "... and select the <b>Task board</b> entry."
-        backlogs_task_board: The <b>Task board</b> visualizes the progress for this
-          sprint. Add new tasks or impediments with the + icon next to a user story.
-          Via drag'n'drop you can update the status.
-        wp_toggler: Now let's have a look at the <b>Work package</b> section, which
-          gives you a more detailed view of your work.
-        wp_list: This is the <b>Work package</b> list with the important work within
-          your project, such as tasks, features, milestones, bugs, and more. <br>
-          You can create or edit a work package directly within this list. To see
-          its details you can double click on a row.
-        wp_full_view: Within the <b>Work package details</b> you find all relevant
-          information, such as description, status and priority, activities, dependencies
-          or comments.
-        wp_back_button: With the arrow you can navigate back to the work package list.
-        wp_create_button: The <b>Create</b> button will add a new work package to
-          your project.
-        wp_timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
-          for your project.
-        wp_timeline: Here you can edit your project plan. Create new phases, milestones,
-          and add dependencies. All team members can see and update the latest plan
-          at any time.
-        help_menu: In the <b>Help</b> menu you will find a user guide and additional
-          help resources. <br> Enjoy your work with OpenProject!
+        backlogs:
+          overview: Manage your work in the <b>Backlogs</b> view. <br> On the right
+            you have the Product Backlog or a Bug Backlog, on the left you will have
+            the respective sprints. Here you can create <b>epics, user stories, and
+            bugs</b>, prioritize via drag'n'drop and add them to a sprint.
+          task_board_arrow: To see your <b>Task board</b>, open the Sprint drop-down...
+          task_board_select: "... and select the <b>Task board</b> entry."
+          task_board: The <b>Task board</b> visualizes the progress for this sprint.
+            Add new tasks or impediments with the + icon next to a user story. Via
+            drag'n'drop you can update the status.
+        boards:
+          overview: Manage your work within an intuitive <b>Boards</b> view.
+          lists: You can create multiple lists (columns) within one Board view, e.g.
+            to create a KANBAN board.
+          add: Click the + will <b>add a new card</b> to the list within a Board.
+          drag: Drag & Drop your cards within a list to re-order, or to another list.
+            A double click will open the details view.
+        wp:
+          toggler: Now let's have a look at the <b>Work package</b> section, which
+            gives you a more detailed view of your work.
+          list: This is the <b>Work package</b> list with the important work within
+            your project, such as tasks, features, milestones, bugs, and more. <br>
+            You can create or edit a work package directly within this list. To see
+            its details you can double click on a row.
+          full_view: Within the <b>Work package details</b> you find all relevant
+            information, such as description, status and priority, activities, dependencies
+            or comments.
+          back_button: With the arrow you can navigate back to the work package list.
+          create_button: The <b>Create</b> button will add a new work package to your
+            project.
+          timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
+            for your project.
+          timeline: Here you can edit your project plan. Create new phases, milestones,
+            and add dependencies. All team members can see and update the latest plan
+            at any time.
     password_confirmation:
       field_description: Sinun täytyy syöttää tilisi salasana vahvistaaksesi tämän
         muutoksen.
@@ -455,7 +509,7 @@ fi:
       abort: Keskeytä
     relations_autocomplete:
       placeholder: Kirjoita liittyvä työpaketin tunnus
-      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
+      parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: Valitse tunniste
       select_branch: Valitse haara
@@ -487,6 +541,7 @@ fi:
       view?
     text_attachment_destroy_confirmation: Oletko varma, että haluat poistaa liitteen?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Label configuration
@@ -856,27 +911,3 @@ fi:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
-    grid:
-      add_modal:
-        choose_widget: Choose widget
-      widgets:
-        documents:
-          title: Documents
-          no_results: No documents yet.
-        news:
-          title: Uutiset
-          at: at
-          no_results: Ei mitään uutta raportoitavaksi.
-        time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
-        work_packages_accountable:
-          title: Work packages I am accountable for
-        work_packages_assigned:
-          title: Minulle määritetyt työpaketit
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_calendar:
-          title: Kalenteri

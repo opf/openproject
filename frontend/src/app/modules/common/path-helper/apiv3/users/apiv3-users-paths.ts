@@ -27,9 +27,9 @@
 // ++
 
 import {
-  SimpleResource,
   SimpleResourceCollection
 } from 'core-app/modules/common/path-helper/apiv3/path-resources';
+import {ApiV3UserPaths} from "core-app/modules/common/path-helper/apiv3/users/apiv3-user-paths";
 
 export class Apiv3UsersPaths extends SimpleResourceCollection {
   constructor(basePath:string) {
@@ -43,6 +43,6 @@ export class Apiv3UsersPaths extends SimpleResourceCollection {
 
   // /api/v3/users/:userId
   public id(userId:string|number) {
-    return new SimpleResource(this.path, userId);
+    return new ApiV3UserPaths(this.path, userId);
   }
 }

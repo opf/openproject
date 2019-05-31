@@ -18,11 +18,18 @@ ru:
     close_popup_title: Закрыть всплывающее
     close_filter_title: Закрыть фильтр
     close_form_title: Закрыть форму
+    card:
+      add_new: Добавить новую карточку
+      highlighting:
+        inline: 'Выделение:'
+        entire_card_by: Вся карточка по
+      remove_from_list: Удалить карточку из списка
     clipboard:
       browser_error: Ваш браузер не поддерживает копирование в буфер обмена. Пожалуйста,
         скопируйте выделенный текст вручную.
       copied_successful: Успешно скопировано в буфер обмена!
     button_add_watcher: Добавить наблюдателя
+    button_back: Назад
     button_back_to_list_view: Вернуться к просмотру списка
     button_cancel: Отмена
     button_close: Закрыть
@@ -56,10 +63,10 @@ ru:
     button_export-atom: Скачать Atom
     calendar:
       title: Календарь
-      too_many: Пакетов работ больше (%{count}), чем может отобразить calendar (%{max}).
-        Отфильтруйте нужные пакеты добавив фильтры.
+      too_many: Пакетов работ больше (%{count}), чем может быть показано в календаре
+        (%{max}). Отфильтруйте пакеты, чтобы сфокусироваться на нужных.
     description_available_columns: Доступные столбцы
-    description_current_position: 'Вы находитесь здесь:'
+    description_current_position: 'You are here: '
     description_select_work_package: 'Выберите пакет работ #%{id}'
     description_selected_columns: Выбранные столбцы
     description_subwork_package: 'Потомок пакета работ #%{id}'
@@ -150,6 +157,43 @@ ru:
     general_text_yes: да
     general_text_No: Нет
     general_text_Yes: Да
+    grid:
+      add_modal:
+        choose_widget: Выберите виджет
+      widgets:
+        documents:
+          title: Документы
+          no_results: Документов пока нет.
+        news:
+          title: Новости
+          at: на
+          no_results: Ничего нового для отчета.
+        time_entries_current_user:
+          title: Затраченное время (за последние 7 дней)
+          no_results: Нет записей о входах за последние 7 дней.
+        work_packages_accountable:
+          title: Пакеты работ, в которых я подотчетен
+        work_packages_assigned:
+          title: Переданные мне пакеты работ
+        work_packages_created:
+          title: Пакеты работ, созданные мной
+        work_packages_watched:
+          title: Пакеты работ, просмотренные мной
+        work_packages_table:
+          title: Пакеты работ
+        work_packages_calendar:
+          title: Календарь
+    homescreen:
+      blocks:
+        new_features:
+          text_new_features: Read about new features and product updates.
+          current_new_feature_html: 'OpenProject contains a new <b>Boards view</b>
+            for Agile project management. </br> To activate this new feature for your
+            existing projects, please do the following steps: <ul><li>Activate the
+            module Boards within existing projects'' settings.</li> <li>Configure
+            your Boards in a project.</li> <li>Verify roles and permissions</li></ul>'
+          image_alt_text: Board teaser image
+          learn_about: Learn more about Agile Boards
     label_activate: Активировать
     label_activity_no: Деятельность номер %{activityNo}
     label_activity_with_comment_no: Деятельность номер %{activityNo}. Есть комментарий
@@ -171,10 +215,11 @@ ru:
     label_ascending: По возрастанию
     label_author: 'Автор: %{user}'
     label_between: между
-    label_board: Board
+    label_board: Доска
     label_board_locked: Заперто
-    label_board_plural: Boards
+    label_board_plural: Доски
     label_board_sticky: Стикер
+    label_create_new: Создать новое
     label_create_work_package: Создать новый пакет работ
     label_created_by: Автор
     label_date: Дата
@@ -222,6 +267,7 @@ ru:
     label_more_than_ago: больше, чем дней назад
     label_my_page: Моя страница
     label_next: Следующие
+    label_no_color: Нет цвета
     label_no_data: Нет данных для отображения
     label_no_due_date: без даты окончания
     label_no_start_date: без даты начала
@@ -296,7 +342,7 @@ ru:
     label_upload_notification: Загрузка файлов...
     label_work_package_upload_notification: 'Загрузка файлов для пакета работ #%{id}:
       %{subject}'
-    label_wp_id_added_by: "#%{id} added by %{author}"
+    label_wp_id_added_by: "#%{id} добавлен %{author}"
     label_files_to_upload: 'Эти файлы будут загружены:'
     label_rejected_files: 'Эти файлы не могут быть загружены:'
     label_rejected_files_reason: Эти файлы не могут быть загружены, как их размер
@@ -312,46 +358,54 @@ ru:
         next: Следующие
         got_it: Принять
       steps:
+        help_menu: В меню <b>Справка</b> руководство пользователя и дополнительные
+          справочные материалы. <br>Приятной работы с OpenProject!
+        members: Предложите новому <b>участнику</b> присоединиться к вашему проекту.
+        project_selection: Пожалуйста, кликните по проекту с полезными демонстрационными
+          данными. <br> <b>Демонстрационный проект</b> подходит лучше всего для классического
+          проекта управления, пока <b>проект Scrum</b> лучший в Agile-управлении проектами.
+        sidebar_arrow: Стрелка возвращает к <b>главному меню</b> проекта.
         welcome: Совершите вводный трехминутный тур для знакомства с наиболее <b>важными
           особенностями</b>. <br>Рекомендуем пройти все шаги до конца. Пройти вводный
           тур повторно можно в любое время.
-        project_selection: Пожалуйста, выберите для начала один из проектов с полезными
-          демонстрационными данными. <br> <b>Демонстрационный проект</b> подходит
-          лучше всего для классического проекта управления, пока <b>проект Scrum</b>
-          лучший в Agile-управлении проектами.
-        sidebar_arrow: Стрелка возвращает к <b>главному меню</b> проекта.
-        members: Предложите новому <b>участнику</b> присоединиться к вашему проекту.
         wiki: В пределах <b>вики</b> возможно документирование и обмен знаниями в
           вашей команде.
-        backlogs_overview: Управляйте своей работой в представлении <b>Backlogs</b>.
-          <br> Справа список невыполненных работ и ошибки, слева им соответствующие
-          спринты. Здесь можно создавать <b>эпопеи, описания функциональности пользователей
-          и ошибок</b>, меняя их приоритет с помощью перетаскивания, и добавлять их
-          к спринту.
-        backlogs_task_board_arrow: Чтобы увидеть вашу <b>Панель задач</b>, откройте
-          раскрывающийся список спринта...
-        backlogs_task_board_select: "... и выберите строку <b>Панель задач</b>."
-        backlogs_task_board: "<b>Панель задач</b> визуализирует прогресс этого спринта.
-          Добавьте новые задачи или помехи с помощью значка + рядом с историей пользователя.
-          Используя перетаскивание, вы можете обновить статус."
-        wp_toggler: Давайте теперь в секции <b>Пакет работ</b> посмотрим более детальное
-          описание вашей работы.
-        wp_list: Это список <b>Пакета работ</b> с важной работой в рамках проекта
-          такими как задачи, функции, вехи, ошибки и многое другое. <br>Создать или
-          изменить пакет работ можно непосредственно в этом списке. Чтобы увидеть
-          его детали, нужно дважды щелкнуть по строке.
-        wp_full_view: 'В <b>Деталях пакета работ</b> вы найдете всю необходимую информацию:
-          описание, состояние и приоритет, активность, зависимости или комментарии.'
-        wp_back_button: Стрелка возвращает к списку пакетов работ.
-        wp_create_button: Кнопка <b>Создать</b> добавляет новый пакет работ к вашему
-          проекту.
-        wp_timeline_button: Вы можете активировать <b>Диаграмму Ганта</b> для создания
-          временной шкалы вашего проекта.
-        wp_timeline: Здесь вы можете редактировать план вашего проекта. Создать новые
-          фазы, вехи и добавить зависимости. Отредактированный план может быть отредактирован
-          любым членом вашей команды в любое время.
-        help_menu: В меню <b>Справка</b> руководство пользователя и дополнительные
-          справочные материалы. <br>Приятной работы с OpenProject!
+        backlogs:
+          overview: Управляйте своей работой в представлении <b>Backlogs</b>. <br>
+            Справа список невыполненных работ и ошибки, слева им соответствующие спринты.
+            Здесь можно создавать <b>эпопеи, описания функциональности пользователей
+            и ошибок</b>, меняя их приоритет с помощью перетаскивания, и добавлять
+            их к спринту.
+          task_board_arrow: Чтобы увидеть вашу <b>Панель задач</b>, откройте раскрывающийся
+            список спринта...
+          task_board_select: "... и выберите строку <b>Панель задач</b>."
+          task_board: "<b>Панель задач</b> визуализирует прогресс этого спринта. Добавьте
+            новые задачи или помехи с помощью значка + рядом с историей пользователя.
+            Используя перетаскивание, вы можете обновить статус."
+        boards:
+          overview: Управляйте работой в интуитивном представлении <b>Доски</b>.
+          lists: Можно создать несколько списков (столбцов) в пределах представления
+            одной Доски, например, создав доску KANBAN.
+          add: Клик по + <b>добавит новую карточку</b> к списку Доски.
+          drag: Перетащите ваши карты в список для повторного заказа, или в другой
+            список. Двойной клик мыши откроет детальное представление.
+        wp:
+          toggler: Давайте теперь в секции <b>Пакет работ</b> посмотрим более детальное
+            описание вашей работы.
+          list: Это список <b>Пакета работ</b> с важной работой в рамках проекта такими
+            как задачи, функции, вехи, ошибки и многое другое. <br>Создать или изменить
+            пакет работ можно непосредственно в этом списке. Чтобы увидеть его детали,
+            нужно дважды щелкнуть по строке.
+          full_view: 'В <b>Деталях пакета работ</b> вы найдете всю необходимую информацию:
+            описание, состояние и приоритет, активность, зависимости или комментарии.'
+          back_button: Стрелка возвращает к списку пакетов работ.
+          create_button: Кнопка <b>Создать</b> добавляет новый пакет работ к вашему
+            проекту.
+          timeline_button: Вы можете активировать <b>Диаграмму Ганта</b> для создания
+            временной шкалы вашего проекта.
+          timeline: Здесь вы можете редактировать план вашего проекта. Создать новые
+            фазы, вехи и добавить зависимости. Отредактированный план может быть отредактирован
+            любым членом вашей команды в любое время.
     password_confirmation:
       field_description: Необходимо ввести свой пароль для подтверждения изменений.
       title: Для продолжения введите свой пароль
@@ -457,8 +511,7 @@ ru:
       abort: Прервать
     relations_autocomplete:
       placeholder: Внести Id cвязанного пакета работ
-      parent_placeholder: Выберите нового родителя, нажмите ввод для снятия, escape
-        для отмены
+      parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: Выберите тег
       select_branch: Выберите ветвь
@@ -469,7 +522,7 @@ ru:
         other: Пожалуйста, введите более {{count}} символов
         zero: Please enter more characters
         few: Пожалуйста, введите более {{count}} символов
-        many: Please enter {{count}} more characters
+        many: Пожалуйста, введите {{count}} символа
       load_more: Загрузка дополнительных результатов ...
       no_matches: Совпадения не найдены
       searching: Поиск ...
@@ -478,7 +531,7 @@ ru:
         other: Вы можете выбрать только {{limit}} элементов
         zero: You cannot select any items
         few: Можно выбрать {{limit}} элементов
-        many: You can only select {{limit}} items
+        many: Вы можете выбрать только {{limit}} элемента
     project_menu_details: Детали
     sort:
       sorted_asc: 'Применяется сортировка по возрастанию, '
@@ -493,6 +546,7 @@ ru:
     text_query_destroy_confirmation: Уверены, что хотите удалить выбранное представление?
     text_attachment_destroy_confirmation: Вы уверены, что вы хотите удалить вложение?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Диаграмма Гантта
       labels:
         title: Настройка меток
@@ -814,7 +868,7 @@ ru:
           пакетов работ будут рекурсивно удалены.
         deletes_children: Все дочерние пакеты работ и их потомки будут также рекурсивно
           удалены.
-    notice_no_results_to_display: No visible results to display.
+    notice_no_results_to_display: Нет видимых результатов для отображения.
     notice_successful_create: Создание выполнено.
     notice_successful_delete: Удаление выполнено.
     notice_successful_update: Обновление выполнено.
@@ -854,13 +908,13 @@ ru:
         one: пакет работ с одним дочерним
         other: пакет работ с %{count} дочерними
         few: пакет работ с %{count} дочерними
-        many: "%{count} work package children"
+        many: Пакет работ с %{count} дочерними
       hour:
         one: 1 час
         other: "%{count} часов"
         zero: 0 hours
         few: 'Кол-во часов: %{count}'
-        many: "%{count} hours"
+        many: "%{count} часа"
     zen_mode:
       button_activate: Включить дзен-режим
       button_deactivate: Отключить дзен-режим
@@ -874,27 +928,3 @@ ru:
         all_projects: все проекты
         project_and_subprojects: и все подпроекты
         search_for: Поиск по
-    grid:
-      add_modal:
-        choose_widget: Choose widget
-      widgets:
-        documents:
-          title: Documents
-          no_results: No documents yet.
-        news:
-          title: Новости
-          at: at
-          no_results: Ничего нового для отчета.
-        time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
-        work_packages_accountable:
-          title: Пакеты работ, в которых я подотчетен
-        work_packages_assigned:
-          title: Переданные мне пакеты работ
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_calendar:
-          title: Календарь

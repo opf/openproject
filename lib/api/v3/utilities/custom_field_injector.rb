@@ -59,9 +59,9 @@ module API
         }.freeze
 
         REPRESENTER_MAP = {
-          'user' => Users::UserRepresenter,
-          'version' => Versions::VersionRepresenter,
-          'list' => CustomOptions::CustomOptionRepresenter
+          'user' => '::API::V3::Users::UserRepresenter',
+          'version' => '::API::V3::Versions::VersionRepresenter',
+          'list' => '::API::V3::CustomOptions::CustomOptionRepresenter'
         }.freeze
 
         class << self
@@ -246,6 +246,8 @@ module API
         end
 
         def embedded_link_value_getter(custom_field)
+          klass = representer_class(custom_field)
+
           proc do
             # Do not embed list or multi values as their links contain all the
             # information needed (title and href) already.
@@ -257,9 +259,8 @@ module API
 
             next unless value
 
-            representer_class = REPRESENTER_MAP[custom_field.field_format]
-
-            representer_class.new(value, current_user: current_user)
+            klass
+              .new(value, current_user: current_user)
           end
         end
 
@@ -335,6 +336,11 @@ module API
               title: value.to_s
             }
           end
+        end
+
+        def representer_class(custom_field)
+          REPRESENTER_MAP[custom_field.field_format]
+            .constantize
         end
 
         module RepresenterClass

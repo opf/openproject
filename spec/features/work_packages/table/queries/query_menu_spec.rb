@@ -38,6 +38,15 @@ describe 'Query menu item', js: true do
     login_as(user)
   end
 
+  context 'visiting the global work packages page' do
+    let(:wp_table) { ::Pages::WorkPackagesTable.new }
+    it 'should show the query menu (Regression #30082)' do
+      wp_table.visit!
+      expect(page).to have_selector('.wp-query-menu--container')
+      expect(page).to have_selector('.wp-query-menu--item', wait: 20, minimum: 1)
+    end
+  end
+
   context 'filtering by version in project' do
     let(:version) { FactoryBot.create :version, project: project }
     let(:work_package_with_version) { FactoryBot.create :work_package, project: project, fixed_version: version }
@@ -60,8 +69,7 @@ describe 'Query menu item', js: true do
 
       find('.button', text: 'Save').click
 
-      wp_table.expect_notification message: 'Successful creation.'
-      expect(page).to have_selector('.ui-menu-item', text: 'Some query name')
+      expect(page).to have_selector('.ui-menu-item', text: 'Some query name', wait: 20)
 
       last_query = Query.last
       expect(last_query.is_public).to be_truthy
@@ -72,7 +80,7 @@ describe 'Query menu item', js: true do
       filters.add_filter_by('Version', 'is', version.name)
 
       wp_table.expect_work_package_listed work_package_with_version
-      wp_table.expect_work_package_not_listed work_package_without_version
+      wp_table.ensure_work_package_not_listed! work_package_without_version
 
       wp_table.save_as('Some query name')
 
@@ -110,7 +118,7 @@ describe 'Query menu item', js: true do
       end
 
       wp_table.expect_work_package_listed work_package_with_version
-      wp_table.expect_work_package_not_listed work_package_without_version
+      wp_table.ensure_work_package_not_listed! work_package_without_version
 
       filters.expect_filter_count 2
       filters.open

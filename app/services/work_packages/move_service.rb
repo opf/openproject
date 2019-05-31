@@ -1,4 +1,3 @@
-
 # Moves/copies an work_package to a new project and type
 
 class WorkPackages::MoveService
@@ -44,14 +43,14 @@ class WorkPackages::MoveService
     WorkPackages::CopyService
       .new(user: user,
            work_package: wp)
-      .call(attributes: attributes)
+      .call(attributes.symbolize_keys)
   end
 
   def update(attributes)
     WorkPackages::UpdateService
       .new(user: user,
-           work_package: work_package)
-      .call(attributes: attributes)
+           model: work_package)
+      .call(attributes.symbolize_keys)
   end
 
   def copy_with_updated_parent_id(wp, attributes, ancestors)

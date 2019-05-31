@@ -28,8 +28,8 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% breadcrumb_paths(
-  link_to(t(:label_board_plural), project_boards_path(@project)),
-  link_to(h(@board.name), project_board_path(@project, @board)))
+  link_to(t(:label_forum_plural), project_forums_path(@project)),
+  link_to(h(@forum.name), project_forum_path(@project, @forum)))
 %>
 <% title avatar(@topic.author) + h(@topic.subject) %>
 <%= toolbar title: title do %>

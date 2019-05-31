@@ -75,9 +75,10 @@ export class TableRowEditContext implements WorkPackageEditContext {
       .then((cell) => {
 
         // Forcibly set the width since the edit field may otherwise
-        // be given more width
+        // be given more width. Thereby preserve a minimum width of 120.
         const td = this.findCell(fieldName);
-        const width = td.css('width');
+        var width = td.css('width');
+        width = parseInt(width) > 120 ? width : '120px';
         td.css('max-width', width);
         td.css('width', width);
 
@@ -116,7 +117,6 @@ export class TableRowEditContext implements WorkPackageEditContext {
   }
 
   public onSaved(isInitial:boolean, savedWorkPackage:WorkPackageResource) {
-    // Nothing to do here.
   }
 
   // Ensure the given field is visible.

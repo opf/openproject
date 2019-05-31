@@ -19,11 +19,18 @@ de:
     close_popup_title: Dialog schließen
     close_filter_title: Filter schließen
     close_form_title: Formular schließen
+    card:
+      add_new: Neue Karte hinzufügen
+      highlighting:
+        inline: 'Hervorheben neben Attribut:'
+        entire_card_by: Gesamte Karte nach
+      remove_from_list: Karte aus Liste entfernen
     clipboard:
       browser_error: Ihr Browser unterstützt das Kopieren in die Zwischenablage nicht
         nativ. Bitte selektieren und kopieren Sie den Text händisch.
       copied_successful: Erfolgreich in die Zwischenablage kopiert!
     button_add_watcher: Beobachter hinzufügen
+    button_back: Zurück
     button_back_to_list_view: Zurück zur Listenansicht
     button_cancel: Abbrechen
     button_close: Schließen
@@ -61,7 +68,7 @@ de:
         angezeigt werden können (%{max} maximal). Fügen Sie Filter hinzu, um die Ergebnismenge
         zu reduzieren.
     description_available_columns: Verfügbare Spalten
-    description_current_position: 'Sie sind hier:'
+    description_current_position: 'You are here: '
     description_select_work_package: 'Arbeitspaket #%{id} auswählen'
     description_selected_columns: Ausgewählte Spalten
     description_subwork_package: 'Kind von Arbeitspaket #%{id}'
@@ -155,6 +162,43 @@ de:
     general_text_yes: ja
     general_text_No: Nein
     general_text_Yes: Ja
+    grid:
+      add_modal:
+        choose_widget: Widget auswählen
+      widgets:
+        documents:
+          title: Dokumente
+          no_results: Keine Dokumente.
+        news:
+          title: Neuigkeiten
+          at: um
+          no_results: Nichts Neues zu berichten.
+        time_entries_current_user:
+          title: Verbrachte Zeit (letzte 7 Tage)
+          no_results: Keine Zeiteinträge der letzten 7 Tage.
+        work_packages_accountable:
+          title: Von mir verantwortete Arbeitspakete
+        work_packages_assigned:
+          title: Mir zugewiesene Arbeitspakete
+        work_packages_created:
+          title: Von mir erstellte Arbeitspakete
+        work_packages_watched:
+          title: Von mir beobachtete Arbeitspakete
+        work_packages_table:
+          title: Arbeitspakete
+        work_packages_calendar:
+          title: Kalender
+    homescreen:
+      blocks:
+        new_features:
+          text_new_features: Read about new features and product updates.
+          current_new_feature_html: 'OpenProject contains a new <b>Boards view</b>
+            for Agile project management. </br> To activate this new feature for your
+            existing projects, please do the following steps: <ul><li>Activate the
+            module Boards within existing projects'' settings.</li> <li>Configure
+            your Boards in a project.</li> <li>Verify roles and permissions</li></ul>'
+          image_alt_text: Board teaser image
+          learn_about: Learn more about Agile Boards
     label_activate: Aktivieren
     label_activity_no: 'Aktivitäts-Nummer: %{activityNo}'
     label_activity_with_comment_no: 'Aktivitäts-Nummer: %{activityNo}. Hat einen Benutzerkommentar.'
@@ -180,6 +224,7 @@ de:
     label_board_locked: Gesperrt
     label_board_plural: Boards
     label_board_sticky: Wichtig (immer oben)
+    label_create_new: Neu erstellen
     label_create_work_package: Erstelle neues Arbeitspaket
     label_created_by: Erstellt von
     label_date: Datum
@@ -226,6 +271,7 @@ de:
     label_more_than_ago: vor mehr als (Tage)
     label_my_page: Meine Seite
     label_next: Weiter
+    label_no_color: Keine Farbe
     label_no_data: Es sind keine Daten vorhanden
     label_no_due_date: kein Abgabedatum
     label_no_start_date: kein Startdatum
@@ -301,7 +347,7 @@ de:
     label_upload_notification: Dateien werden hochgeladen...
     label_work_package_upload_notification: 'Hochladen von Dateien für Arbeitspaket
       #%{id}: %{subject}'
-    label_wp_id_added_by: "#%{id} added by %{author}"
+    label_wp_id_added_by: "#%{id} erstellt von %{author}"
     label_files_to_upload: 'Diese Dateien werden hochgeladen:'
     label_rejected_files: 'Diese Dateien können nicht hochgeladen werden:'
     label_rejected_files_reason: Diese Dateien können nicht hochgeladen werden, da
@@ -318,45 +364,55 @@ de:
         next: Weiter
         got_it: Verstanden
       steps:
-        welcome: Lernen Sie in drei Minuten die <b>wichtigen Funktionen</b> kennen.
-          <br> Wir empfehlen Ihnen die Tour bis zum Ende zu machen. Sie können diese
-          jeder Zeit wieder neu starten.
+        help_menu: 'Im <b>Hilfe</b> Menü finden Sie ein Benutzerhandbuch sowie weitere
+          Hilfematerialien.           <br> Viel Spaß mit OpenProject!'
+        members: Sie können hier neue <b>Mitglieder</b> zu Ihrem Projekt hinzufügen.
         project_selection: 'Bitte wählen Sie eines der Projekte mit hilfreichen Demodaten
           aus: <br> Das <b>„Demo project“</b> passt für klassisches Projektmanagement,
           das <b>„Scrum project“</b> ist geeignet für agiles Projektmanagement.'
         sidebar_arrow: Mit dem Pfeil gelangen Sie zurück zum <b>Hauptmenü</b> des
           Projektes.
-        members: Sie können hier neue <b>Mitglieder</b> zu Ihrem Projekt hinzufügen.
+        welcome: Lernen Sie in drei Minuten die <b>wichtigen Funktionen</b> kennen.
+          <br> Wir empfehlen Ihnen die Tour bis zum Ende zu machen. Sie können diese
+          jeder Zeit wieder neu starten.
         wiki: Im <b>Wiki</b> können Sie gemeinsam mit dem Team Informationen dokumentieren
           und eine Wissensdatenbank aufbauen.
-        backlogs_overview: Sie können Anforderungen in der <b>Backlogs Ansicht</b>
-          verwalten. <br> Rechts befindet sich das Product Backlog oder Bug Backlog,
-          links die jeweiligen Sprints. Hier können Sie <b>Epics, User Stories und
-          Fehler</b> anlegen und mit Drag & Drop priorisieren und einem Sprint zuweisen.
-        backlogs_task_board_arrow: Um das <b>Taskboard</b> zu sehen, öffnen Sie das
-          Sprint Drop-down Menü...
-        backlogs_task_board_select: "… und wählen Sie den Menüpunkt <b>Taskboard</b>."
-        backlogs_task_board: Im <b>Taskboard</b> sehen Sie die Aufgaben eines Sprints.
-          Sie können neue Aufgaben oder Sprint-Hindernisse mit dem + Icon einer User
-          Story hinzufügen, einer Person zuweisen und mit Drag & Drop aktualisieren.
-        wp_toggler: Hier sind die <b>Arbeitspakete</b>, die Ihnen eine detailliertere
-          Sicht auf die Arbeit in Ihrem Projekt geben.
-        wp_list: 'Dies ist die Liste der wichtigen <b>Arbeitspakete</b> in Ihrem Projekt,
-          z.B. Aufgaben, Funktionen, Meilensteine, Fehler, und Vieles mehr.           <br> Sie können neue Arbeitspakete direkt in der Liste anlegen und bearbeiten.
-          Ein Doppelklick auf die Zeile öffnet die Detailansicht.'
-        wp_full_view: In der <b>Arbeitspaket-Detailansicht</b> finden Sie alle wichtigen
-          Informationen, wie Beschreibung, Status und Priorität, Aktivitäten, Abhängigkeiten
-          oder Kommentare.
-        wp_back_button: Mit dem Pfeil kommen Sie zurück in die Listenansicht.
-        wp_create_button: Mit <b>Anlegen</b> Können Sie neue Arbeitspakete Ihrem Projekt
-          hinzufügen.
-        wp_timeline_button: Sie können ein <b>Gantt Diagramm</b> aktivieren um Projektpläne
-          zu erstellen.
-        wp_timeline: Hier sehen Sie den Projektplan. Sie können neue Phasen oder Meilensteine
-          sowie Abhängigkeiten hinzufügen und bearbeiten. Das Team sieht jeder Zeit
-          die aktuelle Planung und kann diese bei Bedarf aktualisieren.
-        help_menu: 'Im <b>Hilfe</b> Menü finden Sie ein Benutzerhandbuch sowie weitere
-          Hilfematerialien.           <br> Viel Spaß mit OpenProject!'
+        backlogs:
+          overview: Sie können Anforderungen in der <b>Backlogs Ansicht</b> verwalten.
+            <br> Rechts befindet sich das Product Backlog oder Bug Backlog, links
+            die jeweiligen Sprints. Hier können Sie <b>Epics, User Stories und Fehler</b>
+            anlegen und mit Drag & Drop priorisieren und einem Sprint zuweisen.
+          task_board_arrow: Um das <b>Taskboard</b> zu sehen, öffnen Sie das Sprint
+            Drop-down Menü...
+          task_board_select: "… und wählen Sie den Menüpunkt <b>Taskboard</b>."
+          task_board: Im <b>Taskboard</b> sehen Sie die Aufgaben eines Sprints. Sie
+            können neue Aufgaben oder Sprint-Hindernisse mit dem + Icon einer User
+            Story hinzufügen, einer Person zuweisen und mit Drag & Drop aktualisieren.
+        boards:
+          overview: Verwalten Sie Ihre Arbeit in einer intuitiven <b>Boards</b> -Ansicht.
+          lists: Sie können mehrere Listen (Spalten) innerhalb einer Board-Ansicht
+            erstellen, z.B. um ein KANBAN-Board zu erstellen.
+          add: Klicken Sie + um <b>eine neue Karte</b> zur Liste eines Boards hinzuzufügen.
+          drag: Ziehen Sie Ihre Karten in eine Liste, um diese zu sortieren oder weisen
+            Sie diese einer anderen Liste zu. Ein Doppelklick auf eine Karte öffnet
+            die Detailansicht.
+        wp:
+          toggler: Hier sind die <b>Arbeitspakete</b>, die Ihnen eine detailliertere
+            Sicht auf die Arbeit in Ihrem Projekt geben.
+          list: 'Dies ist die Liste der wichtigen <b>Arbeitspakete</b> in Ihrem Projekt,
+            z.B. Aufgaben, Funktionen, Meilensteine, Fehler, und Vieles mehr.             <br> Sie können neue Arbeitspakete direkt in der Liste anlegen und bearbeiten.
+            Ein Doppelklick auf die Zeile öffnet die Detailansicht.'
+          full_view: In der <b>Arbeitspaket-Detailansicht</b> finden Sie alle wichtigen
+            Informationen, wie Beschreibung, Status und Priorität, Aktivitäten, Abhängigkeiten
+            oder Kommentare.
+          back_button: Mit dem Pfeil kommen Sie zurück in die Listenansicht.
+          create_button: Mit <b>Anlegen</b> Können Sie neue Arbeitspakete Ihrem Projekt
+            hinzufügen.
+          timeline_button: Sie können ein <b>Gantt Diagramm</b> aktivieren um Projektpläne
+            zu erstellen.
+          timeline: Hier sehen Sie den Projektplan. Sie können neue Phasen oder Meilensteine
+            sowie Abhängigkeiten hinzufügen und bearbeiten. Das Team sieht jeder Zeit
+            die aktuelle Planung und kann diese bei Bedarf aktualisieren.
     password_confirmation:
       field_description: Sie müssen Ihr Kennwort eingeben um diese Änderungen zu speichern.
       title: Geben Sie Ihr Kennwort ein um fortzufahren
@@ -463,8 +519,7 @@ de:
       abort: Abbrechen
     relations_autocomplete:
       placeholder: ID des zugehörigen Arbeitspaketes eingeben
-      parent_placeholder: Neues Elternelement wählen, oder enter zum löschen, escape
-        zum abbrechen drücken.
+      parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: Tag auswählen
       select_branch: Branch auswählen
@@ -497,6 +552,7 @@ de:
     text_attachment_destroy_confirmation: Sind Sie sicher, dass Sie diesen Anhang
       löschen möchten?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt-Diagramm
       labels:
         title: Konfiguration von Beschriftungen
@@ -823,7 +879,7 @@ de:
           der hier aufgeführten Arbeitspakete rekursiv entfernt werden.
         deletes_children: Alle untergeordneten Arbeitspaketen und deren Nachkommen
           werden auch rekursiv gelöscht.
-    notice_no_results_to_display: No visible results to display.
+    notice_no_results_to_display: Keine sichtbaren Ergebnisse anzuzeigen.
     notice_successful_create: Erfolgreich angelegt.
     notice_successful_delete: Erfolgreich gelöscht.
     notice_successful_update: Erfolgreich aktualisiert.
@@ -877,27 +933,3 @@ de:
         all_projects: alle Projekte
         project_and_subprojects: und alle Unterprojekte
         search_for: Suche nach
-    grid:
-      add_modal:
-        choose_widget: Choose widget
-      widgets:
-        documents:
-          title: Documents
-          no_results: No documents yet.
-        news:
-          title: Neuigkeiten
-          at: at
-          no_results: Nichts Neues zu berichten.
-        time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
-        work_packages_accountable:
-          title: Von mir verantwortete Arbeitspakete
-        work_packages_assigned:
-          title: Mir zugewiesene Arbeitspakete
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_calendar:
-          title: Kalender

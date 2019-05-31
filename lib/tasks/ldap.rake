@@ -99,7 +99,7 @@ namespace :ldap do
     source.attributes = {
       host: url.host,
       port: url.port,
-      tls: url.scheme == 'ldaps',
+      tls_mode: url.scheme == 'ldaps' ? 'start_tls' : 'plain_ldap',
       account: url.user,
       account_password: url.password,
       base_dn: url.dn,

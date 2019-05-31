@@ -29,10 +29,9 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%= javascript_include_tag "members_select_boxes.js" %>
 
-<%= labelled_tabular_form_for(:member, url: {controller: 'members', action: 'create', project_id: project},
+<%= labelled_tabular_form_for(:member, url: main_app.project_members_path,
                               method: :post,
-                              html: {id: "members_add_form", class: "form -vertical -bordered -medium-compressed"}) do |f| %>
-
+                              html: { id: "members_add_form", class: "form -vertical -bordered -medium-compressed" }) do |f| %>
     <a title="<%= t('js.close_form_title') %>" class="hide-add-member-form-link form--close icon-context icon-close"></a>
     <% csp_onclick('hideAddMemberForm()', '.hide-add-member-form-link') %>
     <div id="new-member-message"></div>

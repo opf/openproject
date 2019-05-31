@@ -36,6 +36,7 @@ describe 'common/_validation_error', type: :view do
 
     render partial: 'common/validation_error.html.erb',
            locals: { error_messages: error_message,
+                     classes: 'Foo',
                      object_name: 'Test' }
   end
 

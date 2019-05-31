@@ -92,7 +92,7 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
     end
 
     it 'allows to save with a single value (Regression test #27833)' do
-      split_page = wp_table.create_wp_split_screen type_task.name
+      split_page = wp_table.create_wp_split_screen type_task
 
       subject = split_page.edit_field(:subject)
       subject.expect_active!
@@ -136,7 +136,7 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
 
       # Expect type set to task
       assignee_field = wp_table.edit_field(nil, :type)
-      assignee_field.expect_state_text type_task.name
+      assignee_field.expect_state_text type_task.name.upcase
 
       # Save the WP
       subject_field.set_value 'Foobar!'
@@ -162,7 +162,7 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
 
       # Type field IS NOT synced
       type_field = split_view_create.edit_field :type
-      type_field.expect_state_text type_bug
+      type_field.expect_state_text type_bug.name.upcase
 
       # Assignee is synced
       assignee_field = split_view_create.edit_field :assignee

@@ -32,8 +32,8 @@ describe Role, type: :model do
         @global_role1 = GlobalRole.create name: 'global_role1', permissions: []
       end
 
-      it { expect(Role.find_all_givable.size).to eq(1) }
-      it { expect(Role.find_all_givable[0]).to eql @mem_role1 }
+      it { expect(Role.givable.size).to eq(1) }
+      it { expect(Role.givable[0]).to eql @mem_role1 }
     end
   end
 

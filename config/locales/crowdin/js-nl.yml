@@ -18,11 +18,18 @@ nl:
     close_popup_title: Popup sluiten
     close_filter_title: Sluit filter
     close_form_title: Sluit formulier
+    card:
+      add_new: Nieuwe kaart toevoegen
+      highlighting:
+        inline: 'Markeer inline:'
+        entire_card_by: Gehele kaart door
+      remove_from_list: Verwijder kaart uit lijst
     clipboard:
       browser_error: Uw browser ondersteunt kopiëren naar het klembord niet. Kopieer
         de geselecteerde tekst handmatig.
       copied_successful: Met succes gekopieerd naar het klembord!
     button_add_watcher: Watcher toevoegen
+    button_back: Terug
     button_back_to_list_view: Terug naar het overzicht
     button_cancel: Annuleren
     button_close: Sluiten
@@ -59,7 +66,7 @@ nl:
       too_many: Er zijn meer werkpakketten (%{count}) dan kunnen worden weergegeven
         op de kalender (%{max}). Voeg filters te concentreren op de relevante items.
     description_available_columns: Beschikbare kolommen
-    description_current_position: 'U bent hier:'
+    description_current_position: 'You are here: '
     description_select_work_package: 'Selecteer werk pakket #%{id}'
     description_selected_columns: Geselecteerde kolommen
     description_subwork_package: 'Kind van werkpakket #%{id}'
@@ -150,6 +157,43 @@ nl:
     general_text_yes: Ja
     general_text_No: Nee
     general_text_Yes: Ja
+    grid:
+      add_modal:
+        choose_widget: Widget kiezen
+      widgets:
+        documents:
+          title: Documenten
+          no_results: Geen documenten.
+        news:
+          title: Nieuws
+          at: bij
+          no_results: Niets nieuws om te rapporteren.
+        time_entries_current_user:
+          title: Besteed tijd (laatste 7 dagen)
+          no_results: Geen tijd items voor de afgelopen 7 dagen.
+        work_packages_accountable:
+          title: Werkpakketten waar ik verantwoordelijk voor ben
+        work_packages_assigned:
+          title: Werkpakketten toegewezen aan mij
+        work_packages_created:
+          title: Werkpakketten gemaakt door mij werk werk
+        work_packages_watched:
+          title: Werkpakketten bekeken door mij
+        work_packages_table:
+          title: Werkpakketten
+        work_packages_calendar:
+          title: Agenda
+    homescreen:
+      blocks:
+        new_features:
+          text_new_features: Read about new features and product updates.
+          current_new_feature_html: 'OpenProject contains a new <b>Boards view</b>
+            for Agile project management. </br> To activate this new feature for your
+            existing projects, please do the following steps: <ul><li>Activate the
+            module Boards within existing projects'' settings.</li> <li>Configure
+            your Boards in a project.</li> <li>Verify roles and permissions</li></ul>'
+          image_alt_text: Board teaser image
+          learn_about: Learn more about Agile Boards
     label_activate: Activeren
     label_activity_no: Activiteit ingangsnummer %{activityNo}
     label_activity_with_comment_no: Activiteit ingangsnummer %{activityNo}. Bevat
@@ -172,10 +216,11 @@ nl:
     label_ascending: Oplopend
     label_author: 'Auteur: %{user}'
     label_between: tussen
-    label_board: Board
+    label_board: Bord
     label_board_locked: Vergrendeld
-    label_board_plural: Boards
+    label_board_plural: Borden
     label_board_sticky: Sticky
+    label_create_new: Nieuwe aanmaken
     label_create_work_package: Nieuw werkpakket maken
     label_created_by: Gemaakt door
     label_date: Datum
@@ -223,6 +268,7 @@ nl:
     label_more_than_ago: meer dan dagen geleden
     label_my_page: Mijn pagina
     label_next: Volgende
+    label_no_color: Geen kleur
     label_no_data: Geen gegevens om weer te geven
     label_no_due_date: geen einddatum
     label_no_start_date: geen startdatum
@@ -298,7 +344,7 @@ nl:
     label_upload_notification: Uploaden van bestanden...
     label_work_package_upload_notification: 'Uploaden van bestanden voor werk pakket
       #%{id}: %{subject}'
-    label_wp_id_added_by: "#%{id} added by %{author}"
+    label_wp_id_added_by: "#%{id} toegevoegd door %{author}"
     label_files_to_upload: 'Deze bestanden worden geüpload:'
     label_rejected_files: 'Deze bestanden kunnen niet worden geüpload:'
     label_rejected_files_reason: Deze bestanden kunnen niet worden geüpload gezien
@@ -315,49 +361,57 @@ nl:
         next: Volgende
         got_it: Begrepen
       steps:
+        help_menu: In het menu <b>Help</b> vindt u een handleiding en aanvullende
+          help-bronnen. <br> genieten van uw werk met OpenProject!
+        members: Nodig nieuwe <b>leden,</b> uit voor uw project.
+        project_selection: Please click on one of the projects with useful demo data
+          to get started. <br> The <b>Demo project</b> suits best for classical project
+          management, while the <b>Scrum project</b> is better for Agile project management.
+        sidebar_arrow: U kunt met de pijl terug navigeren naar het <b>Hoofd menu</b>
+          van het project.
         welcome: Neem drie minuten introductie rondleiding om de meeste <b>belangrijke
           kenmerken </b> te leren. <br> het is raadzaam de stappen uit te voeren tot
           het einde. U kunt de tour ieder moment opnieuw doen.
-        project_selection: Gelieve één van de projecten te selecteren met voor u nuttige
-          voorbeeldgegevens. alvorens aan de slag te gaan <br> Het <b>Demo project</b>
-          is gebaseerd op het klassieke projectmanagement, terwijl het <b>Scrum-project</b>
-          Een beter voorbeeld is voor Agile projectmanagement.
-        sidebar_arrow: U kunt met de pijl terug navigeren naar het <b>Hoofd menu</b>
-          van het project.
-        members: Nodig nieuwe <b>leden,</b> uit voor uw project.
         wiki: U kunt binnen de <b>Wiki</b> kennis delen en documenteren samen met
           uw team.
-        backlogs_overview: Beheer uw werk volgens <b>Backlogs</b> overzicht. <br>
-          aan de rechterkant heb je de Productbacklog of een Bugbacklog, aan de linkerkant
-          zul je de respectieve sprints. Hier kunt u het maken van <b>Epics, gebruiker
-          verhalen en bugs</b>, prioriteren via drag'n'drop en voeg ze toe aan een
-          sprint.
-        backlogs_task_board_arrow: Open de vervolgkeuzelijst van de Sprint om te zien
-          uw <b>Takenlijst</b>...
-        backlogs_task_board_select: "... en selecteer het <b>Taakbord</b>."
-        backlogs_task_board: Het <b>takenbord</b> visualiseert de voortgang voor deze
-          sprint. Toevoegen van nieuwe taken of belemmeringen met de + pictogram naast
-          het verhaal van een gebruiker. Via drag'n'drop kunt u de status bijwerken.
-        wp_toggler: Laten we nu eens een kijkje op de <b>werk pakket</b> -sectie,
-          die je een meer gedetailleerde weergave van uw werk geeft.
-        wp_list: Dit is de <b>werk pakket</b> Lijst met het belangrijke werk dat binnen
-          uw project, zoals taken, functies, mijlpalen, bugs, en meer. <br> u kunt
-          het maken of bewerken van een werkpakket rechtstreeks vanuit deze lijst.
-          Om de details te bekijken kunt u dubbelklikken op een rij.
-        wp_full_view: In de <b>werk pakket details</b> vindt u alle relevante informatie,
-          zoals beschrijving, de status en de prioriteit, de activiteiten, de afhankelijkheden
-          of de opmerkingen.
-        wp_back_button: Met de pijltjestoetsen kunt u navigeren naar de pakketlijst
-          werk.
-        wp_create_button: De <b>maken</b> -knop zal een nieuw werkpakket aan uw project
-          toevoegen.
-        wp_timeline_button: U kunt met de <b>Gantt-diagram</b> een tijdlijn voor uw
-          project maken.
-        wp_timeline: Hier kunt u uw projectplan bewerken. Maak nieuwe fasen, mijlpalen,
-          en voeg afhankelijkheden toe. Alle teamleden kunnen de meest recente planning
-          op elk gewenst moment zien en bijwerken.
-        help_menu: In het menu <b>Help</b> vindt u een handleiding en aanvullende
-          help-bronnen. <br> genieten van uw werk met OpenProject!
+        backlogs:
+          overview: Beheer uw werk volgens <b>Backlogs</b> overzicht. <br> aan de
+            rechterkant heb je de Productbacklog of een Bugbacklog, aan de linkerkant
+            zul je de respectieve sprints. Hier kunt u het maken van <b>Epics, gebruiker
+            verhalen en bugs</b>, prioriteren via drag'n'drop en voeg ze toe aan een
+            sprint.
+          task_board_arrow: Open de vervolgkeuzelijst van de Sprint om te zien uw
+            <b>Takenlijst</b>...
+          task_board_select: "... en selecteer het <b>Taakbord</b>."
+          task_board: Het <b>takenbord</b> visualiseert de voortgang voor deze sprint.
+            Toevoegen van nieuwe taken of belemmeringen met de + pictogram naast het
+            verhaal van een gebruiker. Via drag'n'drop kunt u de status bijwerken.
+        boards:
+          overview: Manage your work within an intuitive <b>Boards</b> view.
+          lists: You can create multiple lists (columns) within one Board view, e.g.
+            to create a KANBAN board.
+          add: Click the + will <b>add a new card</b> to the list within a Board.
+          drag: Drag & Drop your cards within a list to re-order, or to another list.
+            A double click will open the details view.
+        wp:
+          toggler: Laten we nu eens een kijkje op de <b>werk pakket</b> -sectie, die
+            je een meer gedetailleerde weergave van uw werk geeft.
+          list: Dit is de <b>werk pakket</b> Lijst met het belangrijke werk dat binnen
+            uw project, zoals taken, functies, mijlpalen, bugs, en meer. <br> u kunt
+            het maken of bewerken van een werkpakket rechtstreeks vanuit deze lijst.
+            Om de details te bekijken kunt u dubbelklikken op een rij.
+          full_view: In de <b>werk pakket details</b> vindt u alle relevante informatie,
+            zoals beschrijving, de status en de prioriteit, de activiteiten, de afhankelijkheden
+            of de opmerkingen.
+          back_button: Met de pijltjestoetsen kunt u navigeren naar de pakketlijst
+            werk.
+          create_button: De <b>maken</b> -knop zal een nieuw werkpakket aan uw project
+            toevoegen.
+          timeline_button: U kunt met de <b>Gantt-diagram</b> een tijdlijn voor uw
+            project maken.
+          timeline: Hier kunt u uw projectplan bewerken. Maak nieuwe fasen, mijlpalen,
+            en voeg afhankelijkheden toe. Alle teamleden kunnen de meest recente planning
+            op elk gewenst moment zien en bijwerken.
     password_confirmation:
       field_description: U moet uw wachtwoord invoeren om deze wijziging te bevestigen.
       title: Voer uw wachtwoord in om door te gaan
@@ -465,8 +519,7 @@ nl:
       abort: Annuleren
     relations_autocomplete:
       placeholder: Geef het verwante werkpakket-id in
-      parent_placeholder: Kies nieuw bovenliggend, druk op enter om los te koppelen,
-        escape om te annuleren.
+      parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: Selecteer label
       select_branch: Selecteer pad
@@ -498,6 +551,7 @@ nl:
       wilt verwijderen?
     text_attachment_destroy_confirmation: Weet u zeker dat u de bijlage wilt verwijderen?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt-grafiek
       labels:
         title: Label configuratie
@@ -822,7 +876,7 @@ nl:
           de weergegeven werkpakketten verwijderd worden.
         deletes_children: Alle onderliggende werkpakketten en hun nakomelingen ook
           worden verwijderd.
-    notice_no_results_to_display: No visible results to display.
+    notice_no_results_to_display: Geen zichtbare resultaten om weer te geven.
     notice_successful_create: Aanmaak geslaagd.
     notice_successful_delete: Verwijdering geslaagd.
     notice_successful_update: Succesvolle wijziging.
@@ -849,7 +903,7 @@ nl:
         messages_on_field: 'Het veld is ongeldig: %{messages}'
     error_could_not_resolve_version_name: Kan de verstane niet vinden
     error_could_not_resolve_user_name: Kan de gebruikersnaam niet vinden
-    error_attachment_upload: 'File failed to upload: %{error}'
+    error_attachment_upload: 'Bestand uploaden mislukt: %{error}'
     error_attachment_upload_permission: U bent niet gemachtigd om bestanden naar deze
       bron te uploaden.
     units:
@@ -876,27 +930,3 @@ nl:
         all_projects: alle projecten
         project_and_subprojects: en alle subprojecten
         search_for: Zoeken naar
-    grid:
-      add_modal:
-        choose_widget: Choose widget
-      widgets:
-        documents:
-          title: Documents
-          no_results: No documents yet.
-        news:
-          title: Nieuws
-          at: at
-          no_results: Niets nieuws om te rapporteren.
-        time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
-        work_packages_accountable:
-          title: Werkpakketten waar ik verantwoordelijk voor ben
-        work_packages_assigned:
-          title: Werkpakketten toegewezen aan mij
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_calendar:
-          title: Agenda

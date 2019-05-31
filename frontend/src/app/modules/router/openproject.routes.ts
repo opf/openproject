@@ -26,13 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {StateService, Transition, TransitionService, UIRouter, UrlService} from '@uirouter/core';
+import {StateDeclaration, StateService, Transition, TransitionService, UIRouter, UrlService} from '@uirouter/core';
 import {INotification, NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {Injector} from "@angular/core";
 import {FirstRouteService} from "core-app/modules/router/first-route-service";
 import {StatesModule} from "@uirouter/angular";
 import {appBaseSelector, ApplicationBaseComponent} from "core-app/modules/router/base/application-base.component";
+import {BackRoutingService} from "core-app/modules/common/back-routing/back-routing.service";
 
 export const OPENPROJECT_ROUTES = [
   {
@@ -71,6 +72,22 @@ export function bodyClass(className:string|null|undefined, action:'add'|'remove'
     document.body.classList[action](className);
   }
 }
+export function updateMenuItem(menuItemClass:string|undefined, action:'add'|'remove' = 'add') {
+  if (menuItemClass) {
+    let menuItem = jQuery('#main-menu .' +  menuItemClass)[0];
+
+    // Update Class
+    menuItem.classList[action]('selected');
+
+    // Update accessibility label
+    let menuItemTitle = (menuItem.getAttribute('title') || '').split(':').slice(-1)[0];
+    if (action === 'add') {
+      menuItemTitle = I18n.t('js.description_current_position') + menuItemTitle;
+    }
+
+    menuItem.setAttribute('title', menuItemTitle);
+  }
+}
 
 export function uiRouterConfiguration(uiRouter:UIRouter, injector:Injector, module:StatesModule) {
   // Allow optional trailing slashes
@@ -98,6 +115,7 @@ export function initializeUiRouterListeners(injector:Injector) {
     const notificationsService:NotificationsService = injector.get(NotificationsService);
     const currentProject:CurrentProjectService = injector.get(CurrentProjectService);
     const firstRoute:FirstRouteService = injector.get(FirstRouteService);
+    const backRoutingService:BackRoutingService = injector.get(BackRoutingService);
 
     // Check whether we are running within our complete app, or only within some other bootstrapped
     // component
@@ -106,18 +124,22 @@ export function initializeUiRouterListeners(injector:Injector) {
     // Apply classes from bodyClasses in each state definition
     // This was defined as onEnter, onExit functions in each state before
     // but since AOT doesn't allow anonymous functions, we can't re-use them now.
-    $transitions.onEnter({}, function(transition:Transition) {
-      const toState = transition.to();
-
-      // Add body class when leaving this state
-      bodyClass(_.get(toState, 'data.bodyClasses'), 'add');
+    // The transition will only return the target state on `transition.to()`,
+    // however the second parameter has the currently (e.g., parent) entering state chain.
+    $transitions.onEnter({}, function(transition:Transition, state:StateDeclaration) {
+      // Add body class when entering this state
+      bodyClass(_.get(state, 'data.bodyClasses'), 'add');
+      if (transition.from().data && _.get(state, 'data.menuItem') !== transition.from().data.menuItem) {
+        updateMenuItem(_.get(state, 'data.menuItem'), 'add');
+      }
     });
 
-    $transitions.onExit({}, function(transition:Transition) {
-      const fromState = transition.from();
-
+    $transitions.onExit({}, function(transition:Transition, state:StateDeclaration) {
       // Remove body class when leaving this state
-      bodyClass(_.get(fromState, 'data.bodyClasses'), 'remove');
+      bodyClass(_.get(state, 'data.bodyClasses'), 'remove');
+      if (transition.to().data && _.get(state, 'data.menuItem') !== transition.to().data.menuItem) {
+        updateMenuItem(_.get(state, 'data.menuItem'), 'remove');
+      }
     });
 
     $transitions.onStart({}, function(transition:Transition) {
@@ -133,13 +155,12 @@ export function initializeUiRouterListeners(injector:Injector) {
         return $state.target(transition.to(), paramsCopy);
       }
 
+      // Set backRoute to know where we came from
+      backRoutingService.sync(transition);
+
       // Reset profiler, if we're actually profiling
       const profiler:any = (window as any).MiniProfiler;
       profiler && profiler.pageTransition();
-
-      // Remove and add any body class definitions for entering
-      // and exiting states.
-      bodyClass(_.get(toState, 'data.bodyClasses'), 'add');
 
       // Abort the transition and move to the url instead
       if (wpBase === null) {
@@ -147,12 +168,21 @@ export function initializeUiRouterListeners(injector:Injector) {
         // Only move to the URL if we're not coming from an initial URL load
         // (cases like /work_packages/invalid/activity which render a 403 without frontend,
         // but trigger the ui-router state)
-        if (!(transition.options().source === 'url' || firstRoute.isEmpty)) {
-          const target = stateService.href(toState, toParams);
+        const source = transition.options().source;
+
+        // Get the current path and compare
+        const path = window.location.pathname;
+        const target = stateService.href(toState, toParams);
+
+        if (path !== target) {
           window.location.href = target;
           return false;
         }
       }
+
+      // Remove and add any body class definitions for entering
+      // and exiting states.
+      bodyClass(_.get(toState, 'data.bodyClasses'), 'add');
 
       // We need to distinguish between actions that should run on the initial page load
       // (ie. openining a new tab in the details view should focus on the element in the table)

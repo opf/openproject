@@ -53,6 +53,7 @@ module VersionSettingsHelper
 
   def version_hidden_id_field(setting)
     return '' unless setting.id
+
     hidden_field_tag(name_for_setting_attributes('id'), setting.id)
   end
 

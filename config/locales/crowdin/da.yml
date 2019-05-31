@@ -57,9 +57,25 @@ da:
     index:
       no_results_content_title: Der er i øjeblikket ingen godkendelse.
       no_results_content_text: Opret en ny godkendelse
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: ingen
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
+  forums:
     show:
-      no_results_title_text: Der er i øjeblikket ingen indlæg.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Der er i øjeblikket ingen farver.
@@ -139,9 +155,9 @@ da:
     settings:
       activities:
         no_results_title_text: Der er i øjeblikket ingen aktiviteter.
-      boards:
-        no_results_title_text: There are currently no boards for the project.
-        no_results_content_text: Create a new board
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: There are currently no work package categories.
         no_results_content_text: Create a new work package category
@@ -211,7 +227,7 @@ da:
       reset: Reset to defaults
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts.
+        in Gantt charts. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: There are currently no work packages assigned to this
@@ -366,6 +382,11 @@ da:
         subscriber: Subscriber
         encoded_token: Enterprise support token
         active_user_count_restriction: Maximum active users
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Forsinkelse
         from: Arbejdspakke
@@ -403,6 +424,7 @@ da:
         spent_on: Dato
         type: Type
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
@@ -464,11 +486,6 @@ da:
         client_credentials_user_id: Client Credentials User ID
         scopes: Scopes
         confidential: Confidential
-      grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
     errors:
       messages:
         accepted: skal accepteres.
@@ -538,6 +555,10 @@ da:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -609,6 +630,7 @@ da:
           attributes:
             attribute_groups:
               attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: The group name '%{group}' is used more than once. Group
                 names must be unique.
               query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
@@ -637,11 +659,15 @@ da:
               error_not_found: not found
         member:
           principal_blank: Vælg venligst mindst én bruger eller gruppe.
-          role_blank: Vælg venligst mindst én rolle.
-        grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          role_blank: need to be assigned.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Kontroller venligst følgende felter:'
         header:
@@ -650,7 +676,7 @@ da:
     models:
       attachment: Fil
       attribute_help_text: Attribute help text
-      board: Forum
+      forum: Forum
       comment: Kommentar
       custom_action: Custom action
       custom_field: Selvvalgt felt
@@ -748,7 +774,7 @@ da:
   button_check_all: Vælg alt
   button_clear: Ryd
   button_click_to_reveal: Click to reveal
-  button_close: Close
+  button_close: Luk
   button_collapse_all: Fold alle sammen
   button_configure: Opsæt
   button_continue: Fortsæt
@@ -988,7 +1014,7 @@ da:
   description_choose_project: Projekter
   description_compare_from: Sammenlign fra
   description_compare_to: Sammenlign med
-  description_current_position: 'Du er her:'
+  description_current_position: 'You are here: '
   description_date_from: Indtast startdato
   description_date_range_interval: Fastsæt interval ved at vælge start- og slutdato
   description_date_range_list: Fastsæt interval fra liste
@@ -1035,15 +1061,17 @@ da:
   error_can_not_remove_role: Denne rolle er i brug og kan ikke slettes.
   error_can_not_reopen_work_package_on_closed_version: En arbejdspakke der er knyttet
     til en lukket version kan ikke åbnes igen
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Vælg venligst en bruger og en rolle.
+  error_code: Error %{code}
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.
   error_custom_option_not_found: Option does not exist.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1059,6 +1087,10 @@ da:
   error_work_package_not_found_in_project: Arbejdspakken er ikke fundet, eller den
     hører ikke til dette projekt
   error_must_be_project_member: skal være et medlem af projektet
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: Der er ikke angivet en status som standard
     for denne arbejdspakke. Tjek venligst din opsætning (gå til "Administration >
     Status for arbejdspakker").
@@ -1146,13 +1178,13 @@ da:
           you substantially contribute to this Open-Source community effort.
     links:
       upgrade_enterprise_edition: Opgradér til Enterprise Edition
+      postgres_migration: Migrating your installation to PostgreSQL
       user_guides: Brugervejledninger
       faq: Spørgsmål & Svar
       glossary: Ordliste
       shortcuts: Genveje 
-      forums: Fora
       blog: OpenProject blog
-      boards: Community forum
+      forums: Community forum
       newsletter: Security alerts / Newsletter
   links:
     configuration_guide: Configuration guide
@@ -1218,22 +1250,23 @@ da:
   label_authentication: Godkendelse
   label_available_project_work_package_categories: Tilgængelige arbejdspakkekategorier
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Tilgængelige kategorier
+  label_available_project_forums: Available forums
   label_available_project_versions: Tilgængelige versioner
   label_available_project_repositories: Tilgængelige repositorier
   label_api_documentation: API-dokumentation
-  label_between: between
+  label_between: mellem
   label_blocked_by: spærret af
   label_blocks: spærringer
   label_blog: Blog
-  label_board_locked: Låst
-  label_board_new: Nyt forum
-  label_board_plural: Fora
-  label_board_sticky: Fremhævet
+  label_forums_locked: Låst
+  label_forum_new: Nyt forum
+  label_forum_plural: Fora
+  label_forum_sticky: Fremhævet
   label_boolean: Boolsk
   label_branch: Gren
   label_browse: Browse
   label_bulk_edit_selected_work_packages: Rediger valgte arbejdspakker samlet
+  label_bundled: "(Bundled)"
   label_calendar: Kalender
   label_calendar_show: Vis kalender
   label_category: Kategori
@@ -1332,6 +1365,7 @@ da:
   label_equals: er
   label_everywhere: everywhere
   label_example: Eksempel
+  label_import: Import
   label_export_to: 'Også til rådighed i:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} time"
@@ -1369,6 +1403,7 @@ da:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Hjem
   label_subject_or_id: Subject or ID
+  label_impressum: Legal notice
   label_in: i
   label_in_less_than: på mindre end
   label_in_more_than: på mere end
@@ -1418,6 +1453,7 @@ da:
   label_max_size: Maksimal størrelse
   label_me: mig
   label_member_new: Nyt medlem
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Medlemmer
   label_view_all_members: Vis alle medlemmer
   label_menu_item_name: Navn på menupunkt
@@ -1446,6 +1482,7 @@ da:
   label_my_queries: Mine selvvalgte forespørgsler
   label_never: Aldrig
   label_new: Ny
+  label_new_features: New features
   label_new_statuses_allowed: Nye statuser tilladt
   label_news_added: Nyheder tilføjet
   label_news_comment_added: Kommentar tilføjet til en nyhed
@@ -1494,6 +1531,7 @@ da:
   label_planning: Planlæg
   label_please_login: Log venligst ind
   label_plugins: Tilføjelsesprogrammer
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: kommer før
   label_preferences: Indstillinger
   label_preview: Forhåndsvisning
@@ -1501,6 +1539,7 @@ da:
   label_previous_week: Foregående uge
   label_principal_invite_via_email: " eller invitér nye brugere via e-mail"
   label_principal_search: Tilføj eksisterende brugere eller grupper
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Product version
   label_professional_support: Professionel support
   label_profile: Profil
@@ -1615,6 +1654,7 @@ da:
   label_updated_time: Opdateret %{value} siden
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Opdateret af %{author} %{age} siden
+  label_upgrade_guides: Upgrade guides
   label_used_by: Anvendes af
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
@@ -1820,6 +1860,8 @@ da:
   notice_account_update_failed: Account setting could not be saved. Please have a
     look at your account page.
   notice_account_updated: Opdatering af kontoen er lykkedes.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Forkert adgangskode
   notice_account_registered_and_logged_in: Velkommen, din konto er aktiveret. Du er
     nu logget ind.
@@ -1871,7 +1913,6 @@ da:
     Der er for mange resultater.
     Indsnævr søgningen ved at indtste navnet på det nye medlem (eller gruppe).
   notice_unable_delete_time_entry: Ude af stand til at slette tidsregistrering.
-  notice_unable_delete_version: Ude af stand til at slette versionen.
   notice_user_missing_authentication_method: User has yet to choose a password or
     another way to sign in.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
@@ -1900,7 +1941,7 @@ da:
         format: "%n %u"
         units:
           byte:
-            one: Byte
+            one: byte
             other: Bytes
           gb: GB
           kb: kB
@@ -1947,7 +1988,7 @@ da:
   permission_export_wiki_pages: Eksporter wiki-sider
   permission_list_attachments: Oplist vedhæftninger
   permission_log_time: Registrer brugt tid
-  permission_manage_boards: Administrer fora
+  permission_manage_forums: Administrer fora
   permission_manage_categories: Administrer kategorier for arbejdspakker
   permission_manage_work_package_relations: Administrer forbindelser for arbejdspakker
   permission_manage_members: Administrer medlemmer
@@ -1995,7 +2036,7 @@ da:
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
   project_module_activity: Aktivitet
-  project_module_boards: Fora
+  project_module_forums: Fora
   project_module_calendar: Kalender
   project_module_work_package_tracking: Sporing af arbejdspakke
   project_module_news: Nyheder
@@ -2216,10 +2257,6 @@ da:
   setting_log_requesting_user: Log bruger-login, navn og mail-adresse ved hver forespørgsel
   setting_login_required: Godkendelse påkrævet
   setting_mail_from: Mailadresse for udsendelse
-  setting_mail_handler_api_enabled: Aktivér indgående e-mailwebtjeneste
-  setting_mail_handler_api_description: E-mail webhåndteringen muliggør, at OpenProject
-    kan modtage e-mails indeholdende specifikke kommandoer, som en mekanisme til instrumentering
-    (f.eks., at oprette og opdatere arbejdspakker).
   setting_mail_handler_api_key: API-nøgle
   setting_mail_handler_body_delimiters: Afkort mails efter en af disse linier
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
@@ -2474,7 +2511,6 @@ da:
       color: Farve
       colors: Farver
     associations: Aflæggere
-    board_could_not_be_saved: Tavle kan ikke gemmes
     button_delete_all: Slet alt
     change: Ændring i planlægning
     children: Underordnede elementer
@@ -2730,6 +2766,13 @@ da:
 '
   menu_item: Menupunkt
   menu_item_setting: Synlighed
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'
   wiki_menu_item_for: Menupunkt for wikipage "%{title}"
   wiki_menu_item_setting: Synlighed
   wiki_menu_item_new_main_item_explanation: 'Du er ved at slette det eneste overordnede
@@ -2754,6 +2797,7 @@ da:
     attributes:
       lock_version: Lås version
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: Du skal være logget ind for at få adgang til denne ressource.
       code_401_wrong_credentials: Du har ikke givet korrekte loginoplysninger.
       code_403: Du har ikke tilladelse til at få adgang til denne ressource.

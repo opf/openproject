@@ -26,23 +26,29 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {AfterContentInit, Component, Input, ViewChild, ViewEncapsulation} from '@angular/core';
+import {
+  AfterContentInit,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {Observable, of, Subject} from "rxjs";
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from "rxjs/operators";
-import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {NgSelectComponent} from "@ng-select/ng-select";
-import {WorkPackageInlineCreateComponent} from "core-components/wp-inline-create/wp-inline-create.component";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {WorkPackageTableRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
 import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
-import {ReorderQueryService} from "core-app/modules/boards/drag-and-drop/reorder-query.service";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 
 @Component({
   selector: 'board-inline-add-autocompleter',
@@ -57,8 +63,11 @@ export class BoardInlineAddAutocompleterComponent implements AfterContentInit {
     placeholder: this.I18n.t('js.relations_autocomplete.placeholder')
   };
 
-  @Input() appendToContainer:string = '.boards-list--item';
+  @Input() appendToContainer:string = '.board--container';
   @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
+
+  @Output() onCancel = new EventEmitter<undefined>();
+  @Output() onReferenced = new EventEmitter<WorkPackageResource>();
 
   // Whether we're currently loading
   public isLoading = false;
@@ -74,33 +83,49 @@ export class BoardInlineAddAutocompleterComponent implements AfterContentInit {
     switchMap(queryString => this.autocompleteWorkPackages(queryString))
   );
 
-  constructor(private readonly parent:WorkPackageInlineCreateComponent,
-              private readonly querySpace:IsolatedQuerySpace,
+  constructor(private readonly querySpace:IsolatedQuerySpace,
               private readonly pathHelper:PathHelperService,
-              private readonly wpTableRefresh:WorkPackageTableRefreshService,
-              private readonly wpInlineCreateService:WorkPackageInlineCreateService,
               private readonly wpNotificationsService:WorkPackageNotificationService,
               private readonly CurrentProject:CurrentProjectService,
               private readonly halResourceService:HalResourceService,
-              private readonly reorderQueryService:ReorderQueryService,
+              private readonly schemaCacheService:SchemaCacheService,
+              private readonly cdRef:ChangeDetectorRef,
               private readonly I18n:I18nService) {
   }
 
   ngAfterContentInit():void {
-    this.ngSelectComponent && this.ngSelectComponent.open();
+    if (!this.ngSelectComponent) {
+      return;
+    }
+    this.ngSelectComponent.open();
+
+    setTimeout(() => {
+      this.ngSelectComponent.focus();
+    }, 25);
   }
 
   cancel() {
-    this.parent.resetRow();
+    this.onCancel.emit();
   }
 
-  public addWorkPackageToQuery(wpId:string) {
-    this.reorderQueryService
-      .add(this.querySpace, wpId)
-      .then(() => this.wpTableRefresh.request('Row added'));
+  public addWorkPackageToQuery(workPackage?:WorkPackageResource) {
+    if (workPackage) {
+      this.schemaCacheService
+        .ensureLoaded(workPackage)
+        .then(() => {
+          this.onReferenced.emit(workPackage);
+          this.ngSelectComponent.close();
+        });
+    }
   }
 
   private autocompleteWorkPackages(query:string):Observable<WorkPackageResource[]> {
+    // Return when the search string is empty
+    if (query.length === 0) {
+      this.isLoading = false;
+      return of([]);
+    }
+
     const path = this.pathHelper.api.v3.withOptionalProject(this.CurrentProject.id).work_packages;
     const filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
     const rows:WorkPackageResource[] = this.querySpace.rows.getValueOr([]);
@@ -108,7 +133,7 @@ export class BoardInlineAddAutocompleterComponent implements AfterContentInit {
     filters.add('subjectOrId', '**', [query]);
 
     if (rows.length > 0) {
-      filters.add('id', '!', rows.map((wp:WorkPackageResource) => wp.id));
+      filters.add('id', '!', rows.map((wp:WorkPackageResource) => wp.id!));
     }
 
     return this.halResourceService

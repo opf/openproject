@@ -38,14 +38,7 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
   let(:new_record) { true }
   let(:allowed_scopes) { %w(/some/path /some/other/path) }
   let(:allowed_widgets) do
-    [
-      OpenStruct.new(
-        identifier: 'first_widget'
-      ),
-      OpenStruct.new(
-        identifier: 'second_widget'
-      )
-    ]
+    %w(first_widget second_widget)
   end
   let(:contract) do
     contract = double('contract')
@@ -172,9 +165,9 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
         end
 
         it 'embeds the allowed values' do
-          allowed_widgets.each_with_index do |widget, index|
+          allowed_widgets.each_with_index do |identifier, index|
             href_path = "#{path}/_embedded/allowedValues/#{index}/identifier"
-            is_expected.to be_json_eql(widget[:identifier].to_json).at_path(href_path)
+            is_expected.to be_json_eql(identifier.to_json).at_path(href_path)
           end
         end
       end

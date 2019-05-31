@@ -63,7 +63,7 @@ function newSegment(vp:TimelineViewParameters,
   );
 
   // segment.style.backgroundColor = color;
-  segment.style.top = ((yPosition * 41) + top) + 'px';
+  segment.style.top = ((yPosition * 40) + top) + 'px';
   segment.style.left = left + 'px';
   segment.style.width = width + 'px';
   segment.style.height = height + 'px';
@@ -283,12 +283,12 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
     const height = Math.abs(idxTo - idxFrom);
     if (directionY === 'toDown') {
       if (directionX === 'toRight' || directionX === 'beneath') {
-        this.container.append(newSegment(vp, e.classNames, idxFrom, 19, lastX, 1, height * 41, 'black'));
+        this.container.append(newSegment(vp, e.classNames, idxFrom, 19, lastX, 1, height * 40, 'black'));
       } else if (directionX === 'toLeft') {
-        this.container.append(newSegment(vp, e.classNames, idxFrom, 19, lastX, 1, (height * 41) - 10, 'black'));
+        this.container.append(newSegment(vp, e.classNames, idxFrom, 19, lastX, 1, (height * 40) - 10, 'black'));
       }
     } else if (directionY === 'toUp') {
-      this.container.append(newSegment(vp, e.classNames, idxTo, 30, lastX, 1, (height * 41) - 10, 'black'));
+      this.container.append(newSegment(vp, e.classNames, idxTo, 30, lastX, 1, (height * 40) - 10, 'black'));
     }
 
     // Draw end corner to the target

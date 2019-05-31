@@ -38,7 +38,7 @@ module API
               end
             end
 
-            before do
+            after_validation do
               authorize(:view_work_packages, global: true, user: current_user)
             end
 

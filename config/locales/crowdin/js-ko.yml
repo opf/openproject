@@ -18,10 +18,17 @@ ko:
     close_popup_title: 팝업 닫기
     close_filter_title: 필터 닫기
     close_form_title: 폼 닫기
+    card:
+      add_new: 새로운 카드를 추가하다
+      highlighting:
+        inline: '인라인 강조 표시:'
+        entire_card_by: 전체 카드 기준
+      remove_from_list: 목록에서 카드 제거
     clipboard:
       browser_error: 브라우저를 클립보드에 복사를 지원 하지 않습니다. 텍스트를 타이핑하여 복사하십시오.
       copied_successful: 클립보드에 성공적으로 복사됨
     button_add_watcher: 주시자 추가
+    button_back: 뒤로
     button_back_to_list_view: 목록으로 돌아가기
     button_cancel: 취소
     button_close: 닫기
@@ -58,7 +65,7 @@ ko:
       too_many: 달력에서 표시할 수 있는 작업 패키지(%{max}) 보다 더 많은 작업 패키지(%{count})가 있습니다. 관련 작업
         패키지에 집중하려면 필터를 추가하세요.
     description_available_columns: 사용 가능한 열
-    description_current_position: '사용자의 위치:'
+    description_current_position: 'You are here: '
     description_select_work_package: '작업 패키지 #%{id} 선택'
     description_selected_columns: 선택된 열
     description_subwork_package: '작업 패키지 #%{id}의 자식'
@@ -142,16 +149,53 @@ ko:
     general_text_yes: 예
     general_text_No: 아니요
     general_text_Yes: 예
+    grid:
+      add_modal:
+        choose_widget: 위젯 선택
+      widgets:
+        documents:
+          title: 문서
+          no_results: 아직 문서가 없습니다.
+        news:
+          title: 뉴스
+          at: "-"
+          no_results: 새로 보고할 것이 없음
+        time_entries_current_user:
+          title: 경과 시간(지난 7 일)
+          no_results: 지난 7일간 시간 엔트리가 없습니다.
+        work_packages_accountable:
+          title: 내가 담당하는 작업 패키지
+        work_packages_assigned:
+          title: 내게 할당된 작업 패키지
+        work_packages_created:
+          title: 내가 만든 작업 패키지
+        work_packages_watched:
+          title: 내가 본 작업 패키지
+        work_packages_table:
+          title: 작업 패키지
+        work_packages_calendar:
+          title: 달력
+    homescreen:
+      blocks:
+        new_features:
+          text_new_features: Read about new features and product updates.
+          current_new_feature_html: 'OpenProject contains a new <b>Boards view</b>
+            for Agile project management. </br> To activate this new feature for your
+            existing projects, please do the following steps: <ul><li>Activate the
+            module Boards within existing projects'' settings.</li> <li>Configure
+            your Boards in a project.</li> <li>Verify roles and permissions</li></ul>'
+          image_alt_text: Board teaser image
+          learn_about: Learn more about Agile Boards
     label_activate: 활성화
     label_activity_no: 활동 항목 번호 %{activityNo}
     label_activity_with_comment_no: 활동 항목 번호 %{activityNo}. 사용자 의견 포함.
-    label_add_column_after: Add column after
-    label_add_column_before: Add column before
+    label_add_column_after: 다음 뒤에 열 추가
+    label_add_column_before: 다음 앞에 열 추가
     label_add_columns: 열 추가
     label_add_comment: 댓글 달기
     label_add_comment_title: 코멘트를 기입하고 @을 입력하여 다른 사람에게 알려주기
-    label_add_row_after: Add row after
-    label_add_row_before: Add row before
+    label_add_row_after: 다음 뒤에 행 추가
+    label_add_row_before: 다음 앞에 행 추가
     label_add_selected_columns: 선택된 열 추가
     label_added_by: '추가함 : '
     label_added_time_by: "%{author} %{age}가 추가함"
@@ -162,10 +206,11 @@ ko:
     label_ascending: 오름차순
     label_author: '작성자: %{user}'
     label_between: 사이에
-    label_board: Board
+    label_board: 게시판
     label_board_locked: 잠김
-    label_board_plural: Boards
+    label_board_plural: 보드
     label_board_sticky: 스티커형
+    label_create_new: 새로 만들기
     label_create_work_package: 새 작업 패키지 만들기
     label_created_by: 작성자
     label_date: 날짜
@@ -212,6 +257,7 @@ ko:
     label_more_than_ago: 일 이상 전
     label_my_page: 내 페이지
     label_next: 다음
+    label_no_color: 색상 없음
     label_no_data: 표시할 데이터가 없습니다.
     label_no_due_date: 종료일이 지정되지 않음
     label_no_start_date: 시작일이 지정되지 않음
@@ -229,9 +275,9 @@ ko:
     label_visibility_settings: 표시 여부 설정
     label_quote_comment: 코멘트 인용
     label_reset: 재설정
-    label_remove_column: Remove column
+    label_remove_column: 열 제거
     label_remove_columns: 선택된 열 제거
-    label_remove_row: Remove row
+    label_remove_row: 행 제거
     label_save_as: 다른 이름으로 저장
     label_select_watcher: 주시하는 사람을 선택
     label_selected_filter_list: 선택된 필터
@@ -253,7 +299,7 @@ ko:
     label_activity_show_only_comments: 코멘트가 있는 활동만 표시
     label_activity_show_all: 모든 활동 표시
     label_total_progress: "%{percent}% 진행"
-    label_total_amount: 'Total: %{amount}'
+    label_total_amount: '합계: %{amount}'
     label_updated_on: '업데이트 :'
     label_warning: 경고
     label_work_package: 작업 패키지
@@ -283,7 +329,7 @@ ko:
     label_add_description: "%{file} 의 설명 추가"
     label_upload_notification: 파일 업로드 중...
     label_work_package_upload_notification: '작업 패키지 #%{id}: %{subject} 를 위한 파일 업로딩'
-    label_wp_id_added_by: "#%{id} added by %{author}"
+    label_wp_id_added_by: "#%{id} - %{author}님이 추가함"
     label_files_to_upload: 이 파일들이 업로드 됩니다.
     label_rejected_files: 파일들이 업로드 할 수 없습니다.
     label_rejected_files_reason: 파일 사이즈가 %{maximumFilesize} 보다 크기 때문에 업로드할 수 없습니다.
@@ -294,36 +340,45 @@ ko:
       show_modal: 특성 도움말 텍스트 항목 표시
     onboarding:
       buttons:
-        skip: Skip
+        skip: 건너뛰기
         next: 다음
         got_it: 확인
       steps:
-        welcome: 3분 소개 투어를 보고 가장 <b>중요한 기능</b>에 대해 알아보세요. <br> 끝까지 단계를 완료하는 것이 좋습니다.
-          언제든지 투어를 다시 시작할 수 있습니다.
-        project_selection: 시작하려면 유용한 데모 데이터가 포함된 프로젝트 중 하나를 선택하세요. <br> <b>데모 프로젝트</b>는
-          클래식 프로젝트 관리에 최적이지만, 애자일 프로젝트 관리에는 <b>스크럼 프로젝트</b>가 더 적합합니다.
-        sidebar_arrow: 화살표를 사용하여 프로젝트의 <b>기본 메뉴</b>로 다시 돌아갈 수 있습니다.
-        members: 프로젝트에 참여할 새로운 <b>멤버</b>를 초대하세요.
-        wiki: "<b>Wiki</b>에서 문서화하고 팀과 함께 지식을 공유할 수 있습니다."
-        backlogs_overview: "<b>백로그</b> 보기에서 작업을 관리하세요. <br> 오른쪽에 제품 백로그 또는 버그 백로그가
-          있고, 왼쪽에 해당 스프린트가 있습니다. 여기에서 <b>에픽, 사용자 이야기 및 버그</b>를 작성하고 드래그 앤 드롭으로 우선
-          순위를 정하고 스프린트에 추가할 수 있습니다."
-        backlogs_task_board_arrow: "<b>작업 보드</b>를 보려면 스프린트 드롭다운을 여세요..."
-        backlogs_task_board_select: "... 그리고 <b>작업보드</b> 항목을 선택하세요."
-        backlogs_task_board: "<b>작업 보드</b>는 이 스프린트의 진행률을 시각화합니다. 사용자 이야기 옆에 있는 + 아이콘을
-          사용하여 새 작업이나 제한을 추가하세요. 드래그 앤 드롭으로 상태를 업데이트할 수 있습니다."
-        wp_toggler: 이제 <b>작업 패키지</b> 섹션을 살펴보겠습니다. 이 섹션에서는 작업의 자세한 보기가 제공됩니다.
-        wp_list: 작업, 기능, 마일스톤, 버그 등 프로젝트 내 중요 작업이 포함된 <b>작업 패키지</b> 목록입니다. <br> 목록에서
-          바로 작업 패키지를 만들거나 편집할 수 있습니다. 해당 세부 정보를 보려면 행을 두 번 클릭하면 됩니다.
-        wp_full_view: "<b>작업 패키지 세부 정보</b>에서 설명, 상태 및 우선 순위, 활동, 종속성 또는 코멘트 등 모든 관련
-          정보를 찾아볼 수 있습니다."
-        wp_back_button: 화살표를 사용하여 작업 패키지 목록으로 돌아갈 수 있습니다.
-        wp_create_button: "<b>만들기</b> 버튼은 프로젝트에 새로운 작업 패키지를 추가합니다."
-        wp_timeline_button: "<b>Gantt 차트</b>를 활성화하여 프로젝트의 타임라인을 만들 수 있습니다."
-        wp_timeline: 여기에서 프로젝트 계획을 편집할 수 있습니다. 새로운 단계, 마일스톤을 만들고 종속성을 추가하세요. 모든 팀원이
-          언제든지 최신 계획을 보고 업데이트할 수 있습니다.
         help_menu: "<b>도움말</b> 메뉴에서 사용자 가이드 및 추가 도움말 리소스를 찾아볼 수 있습니다. <br> OpenProject에서
           즐겁게 작업하세요!"
+        members: 프로젝트에 참여할 새로운 <b>멤버</b>를 초대하세요.
+        project_selection: Please click on one of the projects with useful demo data
+          to get started. <br> The <b>Demo project</b> suits best for classical project
+          management, while the <b>Scrum project</b> is better for Agile project management.
+        sidebar_arrow: 화살표를 사용하여 프로젝트의 <b>기본 메뉴</b>로 다시 돌아갈 수 있습니다.
+        welcome: 3분 소개 투어를 보고 가장 <b>중요한 기능</b>에 대해 알아보세요. <br> 끝까지 단계를 완료하는 것이 좋습니다.
+          언제든지 투어를 다시 시작할 수 있습니다.
+        wiki: "<b>Wiki</b>에서 문서화하고 팀과 함께 지식을 공유할 수 있습니다."
+        backlogs:
+          overview: "<b>백로그</b> 보기에서 작업을 관리하세요. <br> 오른쪽에 제품 백로그 또는 버그 백로그가 있고, 왼쪽에
+            해당 스프린트가 있습니다. 여기에서 <b>에픽, 사용자 이야기 및 버그</b>를 작성하고 드래그 앤 드롭으로 우선 순위를 정하고
+            스프린트에 추가할 수 있습니다."
+          task_board_arrow: "<b>작업 보드</b>를 보려면 스프린트 드롭다운을 여세요..."
+          task_board_select: "... 그리고 <b>작업보드</b> 항목을 선택하세요."
+          task_board: "<b>작업 보드</b>는 이 스프린트의 진행률을 시각화합니다. 사용자 이야기 옆에 있는 + 아이콘을 사용하여
+            새 작업이나 제한을 추가하세요. 드래그 앤 드롭으로 상태를 업데이트할 수 있습니다."
+        boards:
+          overview: 직관적인 <b>보드</b> 보기에서 작업을 관리하십시오.
+          lists: 하나의 보드 보기에서 여러 목록(열)을 만들 수 있습니다. 예를 들어, KANBAN 보드를 만들 수 있습니다.
+          add: "+를 클릭하면 보드의 목록에 <b>새로운 카드가 추가</b>됩니다."
+          drag: Drag & Drop your cards within a list to re-order, or to another list.
+            A double click will open the details view.
+        wp:
+          toggler: 이제 <b>작업 패키지</b> 섹션을 살펴보겠습니다. 이 섹션에서는 작업의 자세한 보기가 제공됩니다.
+          list: 작업, 기능, 마일스톤, 버그 등 프로젝트 내 중요 작업이 포함된 <b>작업 패키지</b> 목록입니다. <br> 목록에서
+            바로 작업 패키지를 만들거나 편집할 수 있습니다. 해당 세부 정보를 보려면 행을 두 번 클릭하면 됩니다.
+          full_view: "<b>작업 패키지 세부 정보</b>에서 설명, 상태 및 우선 순위, 활동, 종속성 또는 코멘트 등 모든 관련
+            정보를 찾아볼 수 있습니다."
+          back_button: 화살표를 사용하여 작업 패키지 목록으로 돌아갈 수 있습니다.
+          create_button: "<b>만들기</b> 버튼은 프로젝트에 새로운 작업 패키지를 추가합니다."
+          timeline_button: "<b>Gantt 차트</b>를 활성화하여 프로젝트의 타임라인을 만들 수 있습니다."
+          timeline: 여기에서 프로젝트 계획을 편집할 수 있습니다. 새로운 단계, 마일스톤을 만들고 종속성을 추가하세요. 모든 팀원이
+            언제든지 최신 계획을 보고 업데이트할 수 있습니다.
     password_confirmation:
       field_description: 이 변경 내용을 확인하려면 계정 암호를 입력해야 합니다.
       title: 계속하려면 암호 확인
@@ -428,7 +483,7 @@ ko:
       abort: 중단
     relations_autocomplete:
       placeholder: 관련된 작업 패키지 ID 입력
-      parent_placeholder: 새로운 부모를 선택하고, 설정 해제하려면 Enter 키를 누르고, 취소하려면 ESC 키를 누릅니다.
+      parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: 태그 선택
       select_branch: 브랜치 선택
@@ -458,6 +513,7 @@ ko:
     text_query_destroy_confirmation: 선택한 보기를 삭제하시겠습니까?
     text_attachment_destroy_confirmation: 정말 이 첨부 파일을 삭제 하시겠습니까?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt 차트
       labels:
         title: 레이블 구성
@@ -565,7 +621,7 @@ ko:
       label_enable_multi_select: 다중 선택 사용
       label_disable_multi_select: 다중 선택 사용 안 함
       label_filter_add: 필터 추가
-      label_filter_by_text: Filter by text
+      label_filter_by_text: 텍스트로 필터링
       label_options: 옵션
       label_column_multiselect: '결합된 드롭다운 필드: 화살표 키로 선택, Enter로 선택 확인, 백스페이스로 삭제'
       message_error_during_bulk_delete: 작업 패키지를 삭제하는 동안 오류가 발생했습니다.
@@ -574,7 +630,7 @@ ko:
       message_view_spent_time: 이 작업 패키지에 대해 소비한 시간 표시
       message_work_package_read_only: 작업 패키지가 이 상태로 잠겨 있습니다. 상태 이외의 특성은 변경할 수 없습니다.
       no_value: 값 없음
-      placeholder_filter_by_text: Subject, description, comments, ...
+      placeholder_filter_by_text: 제목, 설명, 코멘트, ...
       inline_create:
         title: 이 목록에 새 작업 패키지를 추가하려면 여기를 클릭하세요.
       create:
@@ -747,7 +803,7 @@ ko:
         has_children: 작업 패키지에 %{childUnits}이(가) 있습니다.
         confirm_deletion_children: 나는 작업 패키지의 모든 하위 목록이 재귀적으로 제거되는 것을 인정합니다.
         deletes_children: 모든 하위 작업 패키지 및 그 하위 항목도 재귀적으로 삭제됩니다.
-    notice_no_results_to_display: No visible results to display.
+    notice_no_results_to_display: 표시할 결과가 없습니다.
     notice_successful_create: 생성에 성공했습니다.
     notice_successful_delete: 삭제에 성공했습니다.
     notice_successful_update: 업데이트에 성공했습니다.
@@ -774,7 +830,7 @@ ko:
         messages_on_field: "%{messages} 는 유효하지 않습니다."
     error_could_not_resolve_version_name: 버전 이름을 확인할 수 없습니다.
     error_could_not_resolve_user_name: 사용자 이름을 확인할 수 없습니다.
-    error_attachment_upload: 'File failed to upload: %{error}'
+    error_attachment_upload: '파일 업로드 실패: %{error}'
     error_attachment_upload_permission: 이 리소스에서 파일을 업로드할 수 있는 권한이 없습니다.
     units:
       workPackage:
@@ -791,36 +847,12 @@ ko:
       button_activate: Zen 모드 활성화
       button_deactivate: Zen 모드 비활성화
     global_search:
-      all_projects: In all projects
+      all_projects: 모든 프로젝트에서
       search: 검색
-      close_search: Close search
-      current_project: In this project
-      current_project_and_all_descendants: In this project + subprojects
+      close_search: 검색 닫기
+      current_project: 이 프로젝트에서
+      current_project_and_all_descendants: 이 프로젝트 + 하위 프로젝트에서
       title:
-        all_projects: all projects
-        project_and_subprojects: and all subprojects
-        search_for: Search for
-    grid:
-      add_modal:
-        choose_widget: Choose widget
-      widgets:
-        documents:
-          title: Documents
-          no_results: No documents yet.
-        news:
-          title: 뉴스
-          at: at
-          no_results: 새로 보고할 것이 없음
-        time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
-        work_packages_accountable:
-          title: 내가 담당하는 작업 패키지
-        work_packages_assigned:
-          title: 내게 할당된 작업 패키지
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_calendar:
-          title: 달력
+        all_projects: 모든 프로젝트
+        project_and_subprojects: 그리고 모든 하위 프로젝트
+        search_for: '검색:'

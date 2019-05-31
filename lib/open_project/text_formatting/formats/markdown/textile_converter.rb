@@ -276,7 +276,7 @@ module OpenProject::TextFormatting::Formats
           ::WorkPackage =>  [:description],
           ::Message => [:content],
           ::News => [:description],
-          ::Board => [:description],
+          ::Forum => [:description],
           ::Project => [:description],
           ::Journal => [:notes],
           ::Journal::MessageJournal => [:content],

@@ -46,7 +46,7 @@ module API
         #
         # Both are applied to the query in order to adapt it.
         def create_or_update_query_form(query, contract, form_representer)
-          query = update_query_from_body_and_params(query, request_body, params)
+          query = update_query_from_body_and_params(query)
           contract = contract.new query, current_user
           contract.validate
 
@@ -93,24 +93,23 @@ module API
           ::API::V3::Queries::QueryRepresenter
         end
 
-        ##
-        # @param request [Grape::Request] Request from which to use the query params.
-        def query_from_params(request, current_user:)
-          params = ActionDispatch::Request.new(request.env).query_parameters
-          query = Query.new_default
+        def update_query_from_get_params(query)
+          query_params = ActionDispatch::Request.new(request.env).query_parameters
 
-          UpdateQueryFromV3ParamsService.new(query, current_user).call(params)
-          # the service mutates the given query in place so we just return it
-          query
+          if query_params.is_a?(Hash) && !query_params.empty?
+            UpdateQueryFromV3ParamsService.new(query, current_user).call(query_params)
+          end
         end
 
-        def update_query_from_body_and_params(query, body, params)
+        def update_query_from_body_and_params(query)
           representer = ::API::V3::Queries::QueryRepresenter.create query, current_user: current_user
-          # Note that we do not deal with failures here. The query
-          # needs to be validated later.
-          UpdateQueryFromV3ParamsService.new(query, current_user).call(params)
 
-          representer.from_hash Hash(body)
+          # Update the query from the hash
+          representer.from_hash(Hash(request_body)).tap do |parsed_query|
+            # Note that we do not deal with failures here. The query
+            # needs to be validated later.
+            update_query_from_get_params parsed_query
+          end
         end
       end
     end

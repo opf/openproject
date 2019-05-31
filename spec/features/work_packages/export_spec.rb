@@ -44,6 +44,7 @@ describe 'work package export', type: :feature do
   let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:columns) { ::Components::WorkPackages::Columns.new }
+  let(:filters) { ::Components::WorkPackages::Filters.new }
   let(:group_by) { ::Components::WorkPackages::GroupBy.new }
   let(:hierarchies) { ::Components::WorkPackages::Hierarchies.new }
 
@@ -70,7 +71,8 @@ describe 'work package export', type: :feature do
 
   before do
     work_packages_page.visit_index
-    work_packages_page.click_toolbar_button 'Activate Filter'
+    filters.expect_filter_count 1
+    filters.open
 
     # render the CSV as plain text so we can run expectations against the output
     expect_any_instance_of(WorkPackagesController)
@@ -116,14 +118,13 @@ describe 'work package export', type: :feature do
 
   it 'shows only the work package with the right progress if filtered this way',
      js: true, retry: 2 do
-    select 'Progress (%)', from: 'add_filter_select'
-    fill_in 'values-percentageDone', with: '25'
+    filters.add_filter_by 'Progress (%)', 'is', ['25'], 'percentageDone'
 
     sleep 1
     loading_indicator_saveguard
 
     wp_table.expect_work_package_listed(wp_1)
-    wp_table.expect_work_package_not_listed(wp_2, wp_3, wait: 10)
+    wp_table.ensure_work_package_not_listed!(wp_2, wp_3)
 
     export!
 
@@ -133,8 +134,7 @@ describe 'work package export', type: :feature do
   end
 
   it 'shows only work packages of the filtered type', js: true, retry: 2 do
-    select 'Type', from: 'add_filter_select'
-    select wp_3.type.name, from: 'values-type'
+    filters.add_filter_by 'Type', 'is', wp_3.type.name
 
     expect(page).to have_no_content(wp_2.description) # safeguard
 

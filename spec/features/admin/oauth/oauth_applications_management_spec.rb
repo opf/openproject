@@ -48,7 +48,7 @@ describe 'OAuth applications management', type: :feature, js: true do
     click_on 'Create'
 
 
-    expect(page).to have_selector('#errorExplanation', text: 'Redirect URI must be an absolute URI.')
+    expect(page).to have_selector('.errorExplanation', text: 'Redirect URI must be an absolute URI.')
     fill_in 'application_redirect_uri', with: "urn:ietf:wg:oauth:2.0:oob\nhttps://localhost/my/callback"
     click_on 'Create'
 

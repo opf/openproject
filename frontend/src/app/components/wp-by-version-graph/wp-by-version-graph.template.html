@@ -3,7 +3,7 @@
     <option [ngValue]="option.key" *ngFor="let option of availableGroupBy">{{option.label}}</option>
 </select>
 
-<ng-container wp-isolated-query-space>
+<div class="wp-by-version-graph--container" wp-isolated-query-space>
   <wp-embedded-graph #wpEmbeddedGraphMulti
                    [datasets]="datasets"
                    [initialLoadingIndicator]="false"
@@ -15,4 +15,4 @@
                    [initialLoadingIndicator]="false"
                    *ngIf="displaySingle">
   </wp-embedded-graph>
-</ng-container>
+</div>

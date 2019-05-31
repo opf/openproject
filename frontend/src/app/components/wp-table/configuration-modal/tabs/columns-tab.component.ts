@@ -4,6 +4,7 @@ import {QueryColumn} from 'core-components/wp-query/query-column';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
 import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
+import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 
 interface ColumnLike {
   text:string;
@@ -37,7 +38,8 @@ export class WpTableConfigurationColumnsTab implements TabComponent, AfterViewIn
   constructor(readonly injector:Injector,
               readonly I18n:I18nService,
               readonly wpTableColumns:WorkPackageTableColumnsService,
-              readonly ConfigurationService:ConfigurationService) {
+              readonly ConfigurationService:ConfigurationService,
+              readonly bannerService:BannersService) {
   }
 
   public onSave() {
@@ -64,7 +66,7 @@ export class WpTableConfigurationColumnsTab implements TabComponent, AfterViewIn
   }
 
   ngOnInit() {
-    this.eeShowBanners = jQuery('body').hasClass('ee-banners-visible');
+    this.eeShowBanners = this.bannerService.eeShowBanners;
     this.selectedColumns.forEach((c:ColumnLike) => {
       this.selectedColumnMap[c.id] = true;
     });

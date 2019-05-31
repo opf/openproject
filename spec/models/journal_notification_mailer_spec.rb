@@ -211,8 +211,8 @@ describe JournalNotificationMailer do
 
     def update_by(author, attributes)
       WorkPackages::UpdateService
-        .new(user: author, work_package: work_package)
-        .call(attributes: attributes)
+        .new(user: author, model: work_package)
+        .call(attributes)
     end
 
     shared_context 'updated until Journal 1' do

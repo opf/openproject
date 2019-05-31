@@ -194,7 +194,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
         icon: 'icon-save',
         onClick: ($event:JQueryEventObject) => {
           const query = this.query;
-          if (!query.id && this.allowQueryAction($event, 'updateImmediately')) {
+          if (!query.persisted && this.allowQueryAction($event, 'updateImmediately')) {
             this.opModalService.show(SaveQueryModal, this.injector);
           } else if (query.id && this.allowQueryAction($event, 'updateImmediately')) {
             this.wpListService.save(query);

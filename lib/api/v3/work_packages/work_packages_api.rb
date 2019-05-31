@@ -27,14 +27,13 @@
 #++
 
 require 'api/v3/work_packages/work_package_representer'
-require 'api/v3/work_packages/create_work_packages'
 
 module API
   module V3
     module WorkPackages
       class WorkPackagesAPI < ::API::OpenProjectAPI
         resources :work_packages do
-          helpers ::API::V3::WorkPackages::CreateWorkPackages
+          helpers ::API::V3::WorkPackages::WorkPackagesSharedHelpers
 
           # The endpoint needs to be mounted before the GET :work_packages/:id.
           # Otherwise, the matcher for the :id also seems to match available_projects.
@@ -59,70 +58,41 @@ module API
             end
           end
 
-          post do
-            create_work_packages(request_body, current_user)
-          end
+          post &::API::V3::Utilities::Endpoints::Create.new(model: WorkPackage,
+                                                            parse_service: WorkPackages::ParseParamsService,
+                                                            params_modifier: ->(attributes) {
+                                                              attributes[:send_notifications] = notify_according_to_params
+                                                              attributes
+                                                            })
+                                                       .mount
 
-          params do
-            requires :id, desc: 'Work package id', type: Integer
-          end
-          route_param :id do
+          route_param :id, type: Integer, desc: 'Work package ID' do
             helpers WorkPackagesSharedHelpers
 
             helpers do
               attr_reader :work_package
             end
 
-            before do
-              @work_package = WorkPackage.find(params[:id])
+            after_validation do
+              @work_package = WorkPackage.find(declared_params[:id])
 
               authorize(:view_work_packages, context: @work_package.project) do
                 raise API::Errors::NotFound.new
               end
             end
 
-            get do
-              work_package_representer
-            end
+            get &::API::V3::Utilities::Endpoints::Show.new(model: WorkPackage).mount
 
-            patch do
-              parameters = ::API::V3::WorkPackages::ParseParamsService
-                           .new(current_user)
-                           .call(request_body)
-                           .result
+            patch &::API::V3::WorkPackages::UpdateEndPoint.new(model: WorkPackage,
+                                                               parse_service: ::API::V3::WorkPackages::ParseParamsService,
+                                                               params_modifier: ->(attributes) {
+                                                                 attributes[:send_notifications] = notify_according_to_params
+                                                                 attributes
+                                                               })
+                                                          .mount
 
-              call = ::WorkPackages::UpdateService
-                     .new(
-                       user: current_user,
-                       work_package: @work_package
-                     )
-                     .call(attributes: parameters, send_notifications: notify_according_to_params)
-
-              if call.success?
-                @work_package.reload
-
-                work_package_representer
-              else
-                handle_work_package_errors @work_package, call
-              end
-            end
-
-            delete do
-              authorize(:delete_work_packages, context: @work_package.project)
-
-              call = ::WorkPackages::DestroyService
-                     .new(
-                       user: current_user,
-                       work_package: @work_package
-                     )
-                     .call
-
-              if call.success?
-                status 204
-              else
-                fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
-              end
-            end
+            delete &::API::V3::Utilities::Endpoints::Delete.new(model: WorkPackage)
+                                                           .mount
 
             mount ::API::V3::WorkPackages::WatchersAPI
             mount ::API::V3::Activities::ActivitiesByWorkPackageAPI

@@ -33,6 +33,7 @@ import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-f
 import {QueryFilterResource} from 'core-app/modules/hal/resources/query-filter-resource';
 import {AngularTrackingHelpers} from 'core-components/angular/tracking-functions';
 import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
+import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 
 @Component({
   selector: '[query-filter]',
@@ -60,7 +61,8 @@ export class QueryFilterComponent implements OnInit, OnDestroy {
 
   constructor(readonly wpTableFilters:WorkPackageTableFiltersService,
               readonly wpFiltersService:WorkPackageFiltersService,
-              readonly I18n:I18nService) {
+              readonly I18n:I18nService,
+              readonly bannerService:BannersService) {
   }
 
   public onFilterUpdated(filter:QueryFilterInstanceResource) {
@@ -82,7 +84,7 @@ export class QueryFilterComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.eeShowBanners = jQuery('body').hasClass('ee-banners-visible');
+    this.eeShowBanners = this.bannerService.eeShowBanners;
     this.availableOperators = this.filter.schema.availableOperators;
     this.showValuesInput = this.filter.currentSchema!.isValueRequired();
   }

@@ -91,7 +91,7 @@ export class PathHelperService {
   }
 
   public projectForumPath(projectIdentifier:string) {
-    return this.projectPath(projectIdentifier) + '/boards';
+    return this.projectPath(projectIdentifier) + '/forums';
   }
 
   public projectCalendarPath(projectId:string) {
@@ -128,9 +128,9 @@ export class PathHelperService {
 
   public projectBoardsPath(projectIdentifier:string | null) {
     if (projectIdentifier) {
-      return this.projectWorkPackagesPath(projectIdentifier) + '/boards';
+      return this.projectPath(projectIdentifier) + '/boards';
     } else {
-      return this.workPackagesPath() + '/boards';
+      return this.staticBase + '/boards';
     }
   }
 
@@ -162,6 +162,10 @@ export class PathHelperService {
 
   public versionsPath() {
     return this.staticBase + '/versions';
+  }
+
+  public versionEditPath(id:string|number) {
+    return this.staticBase + '/versions/' + id + '/edit';
   }
 
   public workPackagesPath() {

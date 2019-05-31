@@ -79,6 +79,13 @@ import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.
 import {EditableToolbarTitleComponent} from "core-app/modules/common/editable-toolbar-title/editable-toolbar-title.component";
 import {UserAvatarComponent} from "core-components/user/user-avatar/user-avatar.component";
 import {GonService} from "core-app/modules/common/gon/gon.service";
+import {BackRoutingService} from "core-app/modules/common/back-routing/back-routing.service";
+import {EnterpriseBannerComponent} from "core-components/enterprise-banner/enterprise-banner.component";
+import {DynamicModule} from "ng-dynamic-component";
+import {VersionAutocompleterComponent} from "core-app/modules/common/autocomplete/version-autocompleter.component";
+import {CreateAutocompleterComponent} from "core-app/modules/common/autocomplete/create-autocompleter.component";
+import {HomescreenNewFeaturesBlockComponent} from "core-components/homescreen/blocks/new-features.component";
+import {BoardVideoTeaserModalComponent} from "core-app/modules/boards/board/board-video-teaser-modal/board-video-teaser-modal.component";
 import {PersistentToggleComponent} from "core-app/modules/common/persistent-toggle/persistent-toggle.component";
 import {AutocompleteSelectDecorationComponent} from "core-app/modules/common/autocomplete/autocomplete-select-decoration.component";
 import {AddSectionDropdownComponent} from "core-app/modules/common/hide-section/add-section-dropdown/add-section-dropdown.component";
@@ -112,6 +119,9 @@ export function bootstrapModule(injector:Injector) {
     // Our own A11y module
     OpenprojectAccessibilityModule,
     NgSelectModule,
+
+    DynamicModule.withComponents([VersionAutocompleterComponent,
+                                  CreateAutocompleterComponent])
   ],
   exports: [
     // Re-export all commonly used
@@ -122,6 +132,7 @@ export function bootstrapModule(injector:Injector) {
     PortalModule,
     DragDropModule,
     OpenprojectAccessibilityModule,
+    NgSelectModule,
 
     OpDatePickerComponent,
     OpDateTimeComponent,
@@ -160,9 +171,6 @@ export function bootstrapModule(injector:Injector) {
 
     NoResultsComponent,
 
-    // Autocompleter Component
-    NgSelectModule,
-
     UserAutocompleterComponent,
 
     ScrollableTabsComponent,
@@ -171,6 +179,11 @@ export function bootstrapModule(injector:Injector) {
 
     // User Avatar
     UserAvatarComponent,
+
+    // Enterprise Edition
+    EnterpriseBannerComponent,
+
+    DynamicModule,
 
     AutofocusDirective,
   ],
@@ -233,6 +246,16 @@ export function bootstrapModule(injector:Injector) {
     AddSectionDropdownComponent,
     RemoteFieldUpdaterComponent,
     AutofocusDirective,
+
+    // Enterprise Edition
+    EnterpriseBannerComponent,
+
+    // Autocompleter
+    CreateAutocompleterComponent,
+    VersionAutocompleterComponent,
+
+    HomescreenNewFeaturesBlockComponent,
+    BoardVideoTeaserModalComponent
   ],
   entryComponents: [
     OpDateTimeComponent,
@@ -248,6 +271,10 @@ export function bootstrapModule(injector:Injector) {
     ZenModeButtonComponent,
     CollapsibleSectionComponent,
     UserAutocompleterComponent,
+    UserAvatarComponent,
+
+    HomescreenNewFeaturesBlockComponent,
+    BoardVideoTeaserModalComponent
     UserAvatarComponent,
     PersistentToggleComponent,
     AutocompleteSelectDecorationComponent,
@@ -272,6 +299,7 @@ export function bootstrapModule(injector:Injector) {
     TimezoneService,
     BrowserDetector,
     GonService,
+    BackRoutingService,
     HideSectionService,
   ]
 })

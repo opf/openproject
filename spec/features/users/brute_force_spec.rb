@@ -44,9 +44,7 @@ describe 'Loggin (with brute force protection)', type: :feature do
     expect(page)
       .to have_field 'Login', with: login_attempt
 
-    fill_in 'Password', with: password_attempt
-
-    click_button 'Sign in'
+    login_with(login_attempt, password_attempt)
   end
 
   def pretend_to_have_waited(time)
@@ -104,12 +102,12 @@ describe 'Loggin (with brute force protection)', type: :feature do
     login_with login, invalid_password
 
     expect(page)
-      .to have_content(I18n.t(:notice_account_invalid_credentials_or_blocked))
+      .to have_content(I18n.t(:notice_account_invalid_credentials))
 
     new_login_attempt(login, invalid_password)
 
     expect(page)
-      .to have_content(I18n.t(:notice_account_invalid_credentials_or_blocked))
+      .to have_content(I18n.t(:notice_account_invalid_credentials))
 
     new_login_attempt(login, password)
 

@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Work package relations tab', js: true, selenium: true do
-  include_context 'ui-autocomplete helpers'
+  include_context 'ng-select-autocomplete helpers'
 
   let(:user) { FactoryBot.create :admin }
 

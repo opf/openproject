@@ -51,7 +51,7 @@ export abstract class WorkPackageRelationQueryBase {
    * Request to refresh the results of the embedded table
    */
   public refreshTable() {
-    this.embeddedTable.isInitialized && this.embeddedTable.refresh();
+    this.embeddedTable.isInitialized && this.embeddedTable.loadQuery(true, false);
   }
 
   /**
@@ -63,7 +63,7 @@ export abstract class WorkPackageRelationQueryBase {
 
     _.each(duppedQuery.filters, (filter) => {
       if (filter._links.values[0] && filter._links.values[0].templated) {
-        filter._links.values[0].href = filter._links.values[0].href.replace('{id}', this.workPackage.id);
+        filter._links.values[0].href = filter._links.values[0].href.replace('{id}', this.workPackage.id!);
       }
     });
 

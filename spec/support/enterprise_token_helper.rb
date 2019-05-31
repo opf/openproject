@@ -40,6 +40,8 @@ module AuthenticationHelpers
           .and_return(true)
       end
     end
+
+    allow(OpenProject::Configuration).to receive(:ee_manager_visible?).and_return(false)
   end
 end
 

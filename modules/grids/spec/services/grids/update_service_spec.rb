@@ -33,16 +33,16 @@ require 'spec_helper'
 describe Grids::UpdateService, type: :model do
   let(:user) { FactoryBot.build_stubbed(:user) }
   let(:contract_class) do
-    double('contract_class')
+    double('contract_class', "<=": true)
   end
   let(:grid_valid) { true }
   let(:instance) do
     described_class.new(user: user,
-                        grid: grid,
+                        model: grid,
                         contract_class: contract_class)
   end
   let(:call_attributes) { {} }
-  let(:grid_class) { Grids::MyPage }
+  let(:grid_class) { Grids::Grid }
   let(:set_attributes_success) do
     true
   end
@@ -69,7 +69,7 @@ describe Grids::UpdateService, type: :model do
     allow(Grids::SetAttributesService)
       .to receive(:new)
       .with(user: user,
-            grid: grid,
+            model: grid,
             contract_class: contract_class)
       .and_return(service)
 
@@ -80,7 +80,7 @@ describe Grids::UpdateService, type: :model do
 
   describe 'call' do
     shared_examples_for 'service call' do
-      subject { instance.call(attributes: call_attributes) }
+      subject { instance.call(call_attributes) }
 
       it 'is successful' do
         expect(subject.success?).to be_truthy

@@ -53,7 +53,7 @@ export class NewestActivityOnOverviewComponent extends ActivityPanelBaseControll
   }
 
   ngOnInit() {
-    this.workPackageId = this.workPackage.id;
+    this.workPackageId = this.workPackage.id!;
     super.ngOnInit();
   }
 

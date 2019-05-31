@@ -33,6 +33,8 @@ describe ::API::V3::Users::UserRepresenter do
   let(:current_user) { FactoryBot.build_stubbed(:user) }
   let(:representer) { described_class.new(user, current_user: current_user) }
 
+  include API::V3::Utilities::PathHelper
+
   context 'generation' do
     subject(:generated) { representer.to_json }
 
@@ -173,6 +175,50 @@ describe ::API::V3::Users::UserRepresenter do
           expect(subject).not_to have_json_path('_links/delete/href')
         end
       end
+
+      describe 'memberships' do
+        before do
+          allow(current_user)
+            .to receive(:allowed_to?) do |action, _project, options|
+            permissions.include?(action) && options[:global]
+          end
+        end
+
+        let(:href) do
+          filters = [{ 'principal' => {
+            'operator' => '=',
+            'values' => [user.id.to_s]
+          } }]
+
+          api_v3_paths.path_for(:memberships, filters: filters)
+        end
+
+        context 'if the user has the :view_members permissions' do
+          let(:permissions) { [:view_members] }
+
+          it_behaves_like 'has a titled link' do
+            let(:link) { 'memberships' }
+            let(:title) { I18n.t(:label_member_plural) }
+          end
+        end
+
+        context 'if the user has the :manage_members permissions' do
+          let(:permissions) { [:manage_members] }
+
+          it_behaves_like 'has a titled link' do
+            let(:link) { 'memberships' }
+            let(:title) { I18n.t(:label_member_plural) }
+          end
+        end
+
+        context 'if the user lacks permissions' do
+          let(:permissions) { [] }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'memberships' }
+          end
+        end
+      end
     end
 
     describe 'caching' do
@@ -185,49 +231,38 @@ describe ::API::V3::Users::UserRepresenter do
         representer.to_json
       end
 
-      describe 'caching' do
-        it 'is based on the representer\'s cache_key' do
-          expect(OpenProject::Cache)
-            .to receive(:fetch)
-            .with(representer.json_cache_key)
-            .and_call_original
+      describe '#json_cache_key' do
+        let(:auth_source) { FactoryBot.build_stubbed(:auth_source) }
 
-          representer.to_json
+        before do
+          user.auth_source = auth_source
+        end
+        let!(:former_cache_key) { representer.json_cache_key }
+
+        it 'includes the name of the representer class' do
+          expect(representer.json_cache_key)
+            .to include('API', 'V3', 'Users', 'UserRepresenter')
         end
 
-        describe '#json_cache_key' do
-          let(:auth_source) { FactoryBot.build_stubbed(:auth_source) }
-
-          before do
-            user.auth_source = auth_source
-          end
-          let!(:former_cache_key) { representer.json_cache_key }
-
-          it 'includes the name of the representer class' do
-            expect(representer.json_cache_key)
-              .to include('API', 'V3', 'Users', 'UserRepresenter')
-          end
-
-          it 'changes when the locale changes' do
-            I18n.with_locale(:fr) do
-              expect(representer.json_cache_key)
-                .not_to eql former_cache_key
-            end
-          end
-
-          it 'changes when the user is updated' do
-            user.updated_on = Time.now + 20.seconds
-
+        it 'changes when the locale changes' do
+          I18n.with_locale(:fr) do
             expect(representer.json_cache_key)
               .not_to eql former_cache_key
           end
+        end
 
-          it 'changes when the user\'s auth_source is updated' do
-            user.auth_source.updated_at = Time.now + 20.seconds
+        it 'changes when the user is updated' do
+          user.updated_on = Time.now + 20.seconds
 
-            expect(representer.json_cache_key)
-              .not_to eql former_cache_key
-          end
+          expect(representer.json_cache_key)
+            .not_to eql former_cache_key
+        end
+
+        it 'changes when the user\'s auth_source is updated' do
+          user.auth_source.updated_at = Time.now + 20.seconds
+
+          expect(representer.json_cache_key)
+            .not_to eql former_cache_key
         end
       end
     end

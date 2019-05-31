@@ -637,10 +637,10 @@ For more details and all possible responses see the general specification of [Fo
 
     + pageSize = DEPENDING ON CONFIGURATION (optional, integer, `25`) ... Number of elements to display per page.
 
-    + filters = `[{ "status_id": { "operator": "o", "values": null }}]` (optional, string, `[{ "type_id": { "operator": "=", "values": ['1', '2'] }" }]`) ... JSON specifying filter conditions.
+    + filters = `[{ "status_id": { "operator": "o", "values": null }}]` (optional, string, `[{ "type_id": { "operator": "=", "values": ['1', '2'] }}]`) ... JSON specifying filter conditions.
     Accepts the same format as returned by the [queries](#queries) endpoint. If no filter is to be applied, the client should send an empty array (`[]`).
 
-    + sortBy = ["parent", "asc"] (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria.
+    + sortBy = ["id", "asc"] (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria.
     Accepts the same format as returned by the [queries](#queries) endpoint.
 
     + groupBy (optional, string, `status`) ... The column to group by.
@@ -823,10 +823,10 @@ A project link must be set when creating work packages through this route.
 
     + pageSize = DEPENDING ON CONFIGURATION (optional, integer, `25`) ... Number of elements to display per page.
 
-    + filters = `[{ "status_id": { "operator": "o", "values": null }}]` (optional, string, `[{ "type_id": { "operator": "=", "values": ['1', '2'] }" }]`) ... JSON specifying filter conditions.
+    + filters = `[{ "status_id": { "operator": "o", "values": null }}]` (optional, string, `[{ "type_id": { "operator": "=", "values": ['1', '2'] }}]`) ... JSON specifying filter conditions.
     Accepts the same format as returned by the [queries](#queries) endpoint. If no filter is to be applied, the client should send an empty array (`[]`).
 
-    + sortBy = ["parent", "asc"] (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria.
+    + sortBy = ["id", "asc"] (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria.
     Accepts the same format as returned by the [queries](#queries) endpoint.
 
     + groupBy (optional, string, `status`) ... The column to group by.
@@ -1563,7 +1563,7 @@ While the endpoint does support the pageSize parameter to limit the number of re
 + Parameters
     + pageSize (optional, integer, `25`) ... Maximum number of candidates to list (default 10)
 
-    + filters (optional, string, `[{ "status_id": { "operator": "o", "values": null }" }]`) ... JSON specifying filter conditions.
+    + filters (optional, string, `[{ "status_id": { "operator": "o", "values": null } }]`) ... JSON specifying filter conditions.
         Accepts the same format as returned by the [queries](#queries) endpoint.
 
     + query (optional, string, `"rollout"`) ... Shortcut for filtering by ID or subject
@@ -1710,6 +1710,11 @@ Gets a list of users that are able to be watchers of the specified work package.
                       "self": {
                         "href": "/api/v3/projects/6",
                         "title": "A project"
+                      },
+                      "editWorkPackage": {
+                        "href": "/api/v3//work_packages/{work_package_id}/form",
+                        "templated": true,
+                        "method": "post"
                       },
                       "createWorkPackage": {
                         "href": "/api/v3/projects/6/work_packages/form",

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/state/wp-table-timeline.service';
 import {WorkPackageTablePaginationService} from 'core-components/wp-fast-table/state/wp-table-pagination.service';
 import {OpTableActionFactory} from 'core-components/wp-table/table-actions/table-action';
@@ -11,20 +11,18 @@ import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {WorkPackageEmbeddedBaseComponent} from "core-components/wp-table/embedded/wp-embedded-base.component";
 import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
 import {QueryFormDmService} from "core-app/modules/hal/dm-services/query-form-dm.service";
-import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
+import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {withLatestFrom} from "rxjs/internal/operators";
 
 @Component({
   selector: 'wp-embedded-table',
   templateUrl: './wp-embedded-table.html'
 })
 export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseComponent implements OnInit, AfterViewInit, OnDestroy {
-  @Input('queryId') public queryId?:number;
+  @Input('queryId') public queryId?:string;
   @Input('queryProps') public queryProps:any = {};
-  @Input('loadedQuery') public loadedQuery?:QueryResource;
   @Input() public tableActions:OpTableActionFactory[] = [];
   @Input() public externalHeight:boolean = false;
-
-  @Output() public onFiltersChanged = new EventEmitter<QueryFilterInstanceResource[]>();
 
   readonly QueryDm:QueryDmService = this.injector.get(QueryDmService);
   readonly opModalService:OpModalService = this.injector.get(OpModalService);
@@ -36,6 +34,15 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   // Cache the form promise
   private formPromise:Promise<QueryFormResource>|undefined;
 
+  // If the query was provided to use via the query space,
+  // use it to cache first loading
+  private loadedQuery:QueryResource|undefined;
+
+  ngOnInit() {
+    super.ngOnInit();
+    this.loadedQuery = this.querySpace.query.value;
+  }
+
   ngAfterViewInit():void {
     super.ngAfterViewInit();
 
@@ -43,6 +50,19 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
     if (this.tableActions) {
       this.tableActionsService.setActions(...this.tableActions);
     }
+
+    // Reload results on changes to pagination (Regression #29845)
+    this.querySpace.ready.fireOnStateChange(
+      this.wpTablePagination.state,
+      'Query loaded'
+    ).values$().pipe(
+      untilComponentDestroyed(this),
+      withLatestFrom(this.querySpace.query.values$())
+    ).subscribe(([pagination, query]) => {
+      this.loadingIndicator = this.QueryDm
+        .loadResults(query, this.wpTablePagination.paginationObject)
+        .then((results) => this.initializeStates(query, results));
+    });
   }
 
   public openConfigurationModal(onUpdated:() => void) {
@@ -67,7 +87,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
     this.querySpace.ready.doAndTransition('Query loaded', () => {
       this.wpStatesInitialization.clearStates();
       this.wpStatesInitialization.initializeFromQuery(query, results);
-      this.wpStatesInitialization.updatequerySpace(query, results);
+      this.wpStatesInitialization.updateQuerySpace(query, results);
 
       return this.querySpace.tableRendering.onQueryUpdated.valuesPromise()
         .then(() => {
@@ -96,7 +116,10 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
       .catch(() => this.formPromise = undefined);
   }
 
-  protected loadQuery(visible:boolean = true, firstPage:boolean = false):Promise<QueryResource> {
+  public loadQuery(visible:boolean = true, firstPage:boolean = false):Promise<QueryResource> {
+    // Ensure we are loading the form.
+    this.formPromise = undefined;
+
     if (this.loadedQuery) {
       const query = this.loadedQuery;
       this.loadedQuery = undefined;

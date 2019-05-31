@@ -227,7 +227,8 @@ class JournalManager
   def self.add_journal!(journable, user = User.current, notes = '')
     if journalized? journable
       # Obtain a table lock to ensure consistent version numbers
-      Journal.with_write_lock do
+      Journal.with_write_lock(journable) do
+
         # Maximum version might be nil, so use to_i here.
         version = journable.journals.maximum(:version).to_i + 1
 

@@ -69,7 +69,7 @@ export class CurrentProjectService {
     return this.getCurrent('identifier');
   }
 
-  private getCurrent(key:'id'|'identifier'|'name' ) {
+  private getCurrent(key:'id'|'identifier'|'name') {
     if (this.current && this.current[key]) {
       return this.current[key].toString();
     }

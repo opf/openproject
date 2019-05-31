@@ -58,7 +58,7 @@ export class WpRelationInlineCreateService extends WorkPackageInlineCreateServic
    * Add a new relation of the above type
    */
   public add(from:WorkPackageResource, toId:string):Promise<unknown> {
-    return this.wpRelations.addCommonRelation(toId, this.relationType, from.id);
+    return this.wpRelations.addCommonRelation(toId, this.relationType, from.id!);
   }
 
   /**

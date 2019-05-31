@@ -62,20 +62,38 @@ module Pages
       end
 
       def add_widget(row_number, column_number, name)
-        area = area_of(row_number, column_number)
-        area.hover
-        area.find('.grid--widget-add').click
-
-        within '.op-modal--portal' do
+        within_add_widget_modal(row_number, column_number) do
           expect(page)
             .to have_content(I18n.t('js.grid.add_modal.choose_widget'))
 
-          page.find('.grid--addable-widget', text: name).click
+          page.find('.grid--addable-widget', text: Regexp.new("^#{name}$")).click
+        end
+      end
+
+      def expect_unable_to_add_widget(row_number, column_number, name)
+        within_add_widget_modal(row_number, column_number) do
+          expect(page)
+            .to have_content(I18n.t('js.grid.add_modal.choose_widget'))
+
+          expect(page)
+            .not_to have_selector('.grid--addable-widget', text: Regexp.new("^#{name}$"))
         end
       end
 
       def area_of(row_number, column_number)
         ::Components::Grids::GridArea.of(row_number, column_number).area
+      end
+
+      private
+
+      def within_add_widget_modal(row_number, column_number)
+        area = area_of(row_number, column_number)
+        area.hover
+        area.find('.grid--widget-add').click
+
+        within '.op-modal--portal' do
+          yield
+        end
       end
     end
   end

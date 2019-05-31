@@ -45,9 +45,6 @@ export abstract class AbstractFieldService<T extends Field, C extends IFieldType
   /** Registered field classes */
   protected classes:{[type:string]:C} = {};
 
-  protected constructor(protected injector:Injector) {
-  }
-
   /**
    * Get the field type for the given attribute type.
    * If no registered type exists for the field, returns the default type.
@@ -80,9 +77,7 @@ export abstract class AbstractFieldService<T extends Field, C extends IFieldType
    * @returns {this}
    */
   public addFieldType(fieldClass:any, fieldType:string, attributes:string[]) {
-    fieldClass.$injector = this.injector;
     fieldClass.fieldType = fieldType;
-
     this.register(fieldClass, attributes);
 
     return this;

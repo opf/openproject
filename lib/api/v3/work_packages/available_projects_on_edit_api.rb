@@ -33,7 +33,7 @@ module API
     module WorkPackages
       class AvailableProjectsOnEditAPI < ::API::OpenProjectAPI
         resource :available_projects do
-          before do
+          after_validation do
             authorize(:edit_work_packages, context: @work_package.project)
           end
 

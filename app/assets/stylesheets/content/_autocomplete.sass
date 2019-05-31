@@ -158,6 +158,9 @@ mark.ui-autocomplete-match
     .ng-value-container
       overflow: visible !important
 
+      .ng-placeholder
+        top: 1px !important
+
       input
         height: 100%
         padding: 0
@@ -166,6 +169,14 @@ mark.ui-autocomplete-match
         box-sizing: border-box !important
   .ng-value
     @include text-shortener
+
+.ng-select.-multi-select .ng-select-container
+  height: initial !important
+  min-height: initial !important
+
+// Ensure dropdown is above modals
+.ng-dropdown-panel
+  z-index: 9500 !important
 
 .ng-option
   font-size: 0.875rem

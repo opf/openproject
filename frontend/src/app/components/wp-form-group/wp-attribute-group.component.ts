@@ -26,13 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Input} from '@angular/core';
+import {Component, Injector, Input} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
-import {
-  FieldDescriptor,
-  GroupDescriptor
-} from 'core-components/work-packages/wp-single-view/wp-single-view.component';
+import {FieldDescriptor, GroupDescriptor} from 'core-components/work-packages/wp-single-view/wp-single-view.component';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
 @Component({
@@ -51,7 +48,8 @@ export class WorkPackageFormAttributeGroupComponent {
   };
 
   constructor(readonly I18n:I18nService,
-              public wpEditFieldGroup:WorkPackageEditFieldGroupComponent) {
+              public wpEditFieldGroup:WorkPackageEditFieldGroupComponent,
+              protected injector:Injector) {
   }
 
   public trackByName(_index:number, elem:{ name:string }) {

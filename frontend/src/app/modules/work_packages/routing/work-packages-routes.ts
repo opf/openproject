@@ -39,7 +39,8 @@ import {WorkPackagesListComponent} from "core-app/modules/work_packages/routing/
 import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component";
 import {Ng2StateDeclaration} from "@uirouter/angular";
 import {WorkPackagesBaseComponent} from "core-app/modules/work_packages/routing/wp-base/wp--base.component";
-import {MyPageComponent} from "core-components/routing/my-page/my-page.component";
+
+const menuItemClass = 'work-packages-menu-item';
 
 export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -48,6 +49,10 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     component: WorkPackagesBaseComponent,
     url: '/work_packages?query_id&query_props&start_onboarding_tour',
     redirectTo: 'work-packages.list',
+    data: {
+      bodyClasses: 'router--work-packages-base',
+      menuItem: menuItemClass
+    },
     params: {
       query_id: { type: 'query', dynamic: true },
       // Use custom encoder/decoder that ensures validity of URL string
@@ -63,7 +68,8 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     reloadOnSearch: false,
     data: {
       allowMovingInEditMode: true,
-      bodyClasses: 'full-create'
+      bodyClasses: 'router--work-packages-full-create',
+      menuItem: menuItemClass
     },
   },
   {
@@ -73,7 +79,8 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     reloadOnSearch: false,
     data: {
       allowMovingInEditMode: true,
-      bodyClasses: 'full-create'
+      bodyClasses: 'router--work-packages-full-create',
+      menuItem: menuItemClass
     },
   },
   {
@@ -83,28 +90,45 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     redirectTo: 'work-packages.show.activity',
     component: WorkPackagesFullViewComponent,
     data: {
-      bodyClasses: 'action-show'
+      bodyClasses: 'router--work-packages-full-view',
+      menuItem: menuItemClass
     }
   },
   {
     name: 'work-packages.show.activity',
     url: '/activity',
-    component: WorkPackageActivityTabComponent
+    component: WorkPackageActivityTabComponent,
+    data: {
+      parent: 'work-packages.show',
+      menuItem: menuItemClass
+    }
   },
   {
     name: 'work-packages.show.activity.details',
     url: '/activity/details/#{activity_no:\d+}',
-    component: WorkPackageActivityTabComponent
+    component: WorkPackageActivityTabComponent,
+    data: {
+      parent: 'work-packages.show',
+      menuItem: menuItemClass
+    }
   },
   {
     name: 'work-packages.show.relations',
     url: '/relations',
-    component: WorkPackageRelationsTabComponent
+    component: WorkPackageRelationsTabComponent,
+    data: {
+      parent: 'work-packages.show',
+      menuItem: menuItemClass
+    }
   },
   {
     name: 'work-packages.show.watchers',
     url: '/watchers',
-    component: WorkPackageWatchersTabComponent
+    component: WorkPackageWatchersTabComponent,
+    data: {
+      parent: 'work-packages.show',
+      menuItem: menuItemClass
+    }
   },
   {
     name: 'work-packages.list',
@@ -112,7 +136,8 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     component: WorkPackagesListComponent,
     reloadOnSearch: false,
     data: {
-      bodyClasses: 'action-index'
+      bodyClasses: 'router--work-packages-list-view',
+      menuItem: menuItemClass
     }
   },
   {
@@ -122,7 +147,9 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     reloadOnSearch: false,
     data: {
       allowMovingInEditMode: true,
-      bodyClasses: 'action-create'
+      bodyClasses: 'router--work-packages-split-view-new',
+      menuItem: menuItemClass,
+      parent: 'work-packages.list'
     },
   },
   {
@@ -132,7 +159,9 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     reloadOnSearch: false,
     data: {
       allowMovingInEditMode: true,
-      bodyClasses: 'action-details'
+      bodyClasses: 'router--work-packages-split-view',
+      menuItem: menuItemClass,
+      parent: 'work-packages.list'
     },
   },
   {
@@ -148,33 +177,54 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
       }
     },
     data: {
-      bodyClasses: 'action-details'
+      bodyClasses: 'router--work-packages-split-view',
+      menuItem: menuItemClass
     },
   },
   {
     name: 'work-packages.list.details.overview',
     url: '/overview',
-    component: WorkPackageOverviewTabComponent
+    component: WorkPackageOverviewTabComponent,
+    data: {
+      parent: 'work-packages.list.details',
+      menuItem: menuItemClass
+    }
   },
   {
     name: 'work-packages.list.details.activity',
     url: '/activity',
     component: WorkPackageActivityTabComponent,
+    data: {
+      parent: 'work-packages.list.details',
+      menuItem: menuItemClass
+    }
   },
   {
     name: 'work-packages.list.details.activity.details',
     url: '/activity/details/#{activity_no:\d+}',
-    component: WorkPackageActivityTabComponent
+    component: WorkPackageActivityTabComponent,
+    data: {
+      parent: 'work-packages.list.details',
+      menuItem: menuItemClass
+    }
   },
   {
     name: 'work-packages.list.details.relations',
     url: '/relations',
-    component: WorkPackageRelationsTabComponent
+    component: WorkPackageRelationsTabComponent,
+    data: {
+      parent: 'work-packages.list.details',
+      menuItem: menuItemClass
+    }
   },
   {
     name: 'work-packages.list.details.watchers',
     url: '/watchers',
-    component: WorkPackageWatchersTabComponent
+    component: WorkPackageWatchersTabComponent,
+    data: {
+      parent: 'work-packages.list.details',
+      menuItem: menuItemClass
+    }
   },
   // Avoid lazy-loading the routes for now
   // {

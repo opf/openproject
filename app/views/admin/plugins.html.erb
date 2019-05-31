@@ -27,7 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% html_title l(:label_administration), l(:label_plugins) %>
-<%= toolbar title: l(:label_plugins) %>
+<%= toolbar title: l(:label_modules_and_plugins) %>
 <% if @plugins.any? %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
@@ -46,7 +46,13 @@ See docs/COPYRIGHT.rdoc for more details.
                 <%= content_tag('span', link_to(h(plugin.url), plugin.url), class: 'url') unless plugin.url.blank? %>
               </td>
               <td class="author"><%= plugin.author_url.blank? ? h(plugin.author) : link_to(h(plugin.author), plugin.author_url) %></td>
-              <td class="version"><%=h plugin.version %></td>
+              <td class="version">
+                <% if plugin.bundled %>
+                  <%= t(:label_bundled) %>
+                <% else %>
+                  <%= h plugin.version %>
+                <% end %>
+              </td>
               <td class="configure"><%= link_to(l(:button_configure), controller: '/settings', action: 'plugin', id: plugin.id) if plugin.configurable? %></td>
             </tr>
           <% end %>

@@ -67,7 +67,7 @@ export class WorkPackageRelationsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.canAddRelation = !!this.workPackage.addRelation;
 
-    this.wpRelations.state(this.workPackage.id).values$()
+    this.wpRelations.state(this.workPackage.id!).values$()
       .pipe(
         takeUntil(componentDestroyed(this))
       )
@@ -75,10 +75,10 @@ export class WorkPackageRelationsComponent implements OnInit, OnDestroy {
         this.loadedRelations(relations);
       });
 
-    this.wpRelations.require(this.workPackage.id);
+    this.wpRelations.require(this.workPackage.id!);
 
     // Listen for changes to this WP.
-    this.wpCacheService.loadWorkPackage(this.workPackage.id).values$()
+    this.wpCacheService.loadWorkPackage(this.workPackage.id!).values$()
       .pipe(
         takeUntil(componentDestroyed(this))
       )
@@ -148,7 +148,7 @@ export class WorkPackageRelationsComponent implements OnInit, OnDestroy {
       )
       .subscribe((relatedWorkPackages:WorkPackageResource[]) => {
         this.currentRelations = relatedWorkPackages.map((wp:WorkPackageResource) => {
-          wp.relatedBy = relations[wp.id];
+          wp.relatedBy = relations[wp.id!];
           return wp;
         });
 

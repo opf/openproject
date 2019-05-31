@@ -85,7 +85,7 @@ describe 'filter me value', js: true do
         filters.remove_filter 'status'
         filters.add_filter_by('Assignee', 'is', 'me')
 
-        wp_table.expect_work_package_not_listed(wp_user)
+        wp_table.ensure_work_package_not_listed!(wp_user)
         wp_table.expect_work_package_listed(wp_admin)
 
         wp_table.save_as('Me query')
@@ -99,7 +99,7 @@ describe 'filter me value', js: true do
 
         # Revisit query
         wp_table.visit_query query
-        wp_table.expect_work_package_not_listed(wp_user)
+        wp_table.ensure_work_package_not_listed!(wp_user)
         wp_table.expect_work_package_listed(wp_admin)
 
         filters.open
@@ -188,7 +188,7 @@ describe 'filter me value', js: true do
         filters.remove_filter 'status'
         filters.add_filter_by('CF user', 'is', 'me', cf_accessor_frontend)
 
-        wp_table.expect_work_package_not_listed(wp_user)
+        wp_table.ensure_work_package_not_listed!(wp_user)
         wp_table.expect_work_package_listed(wp_admin)
 
         wp_table.save_as('Me query')
@@ -202,7 +202,7 @@ describe 'filter me value', js: true do
 
         # Revisit query
         wp_table.visit_query query
-        wp_table.expect_work_package_not_listed(wp_user)
+        wp_table.ensure_work_package_not_listed!(wp_user)
         wp_table.expect_work_package_listed(wp_admin)
 
         filters.open

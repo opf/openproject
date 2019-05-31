@@ -40,21 +40,6 @@ See doc/COPYRIGHT.rdoc for more details.
     end
   %>
   <a href="<%= omniauth_start_path(pro[:name], opts) %>" class="auth-provider auth-provider-<%= pro[:name] %> button">
-    <% if pro[:icon] %>
-      <%= content_for :header_tags do %>
-        <style type="text/css">
-            #content .login-auth-providers a.auth-provider.auth-provider-<%= pro[:name] %> {
-              background-image: url('<%= image_path(pro[:icon]) %>');
-            }
-            #top-menu #nav-login-content .login-auth-providers a.auth-provider.auth-provider-<%= pro[:name] %> {
-              background-image: url('<%= image_path(pro[:icon]) %>') ;
-            }
-            .modal-wrapper .login-auth-providers a.auth-provider.auth-provider-<%= pro[:name] %> {
-              background-image: url('<%= image_path(pro[:icon]) %>') ;
-            }
-        </style>
-      <% end %>
-    <% end -%>
     <span class="auth-provider-name"><%= pro[:display_name] || pro[:name] %></span>
   </a>
 <% end %>

@@ -17,9 +17,11 @@ import {NotificationsService} from "core-app/modules/common/notifications/notifi
 import {DomSanitizer} from "@angular/platform-browser";
 import {WorkPackagesListChecksumService} from "core-components/wp-list/wp-list-checksum.service";
 import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
+import {OpTitleService} from "core-components/html/op-title.service";
 
 @Component({
   templateUrl: './wp-calendar.template.html',
+  styleUrls: ['./wp-calendar.sass'],
   selector: 'wp-calendar',
 })
 export class WorkPackagesCalendarController implements OnInit, OnDestroy {
@@ -35,6 +37,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
               readonly wpListService:WorkPackagesListService,
               readonly querySpace:IsolatedQuerySpace,
               readonly wpListChecksumService:WorkPackagesListChecksumService,
+              readonly titleService:OpTitleService,
               readonly urlParamsHelper:UrlParamsHelperService,
               private element:ElementRef,
               readonly i18n:I18nService,
@@ -90,6 +93,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
     jQuery(element).tooltip({
       content: this.contentString(workPackage),
       items: '.fc-content',
+      close: function () { jQuery(".ui-helper-hidden-accessible").remove(); },
       track: true
     });
   }
@@ -102,6 +106,9 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
 
     // Ensure checksum is removed to allow queries to load
     this.wpListChecksumService.clear();
+
+    // Ensure current calendar URL is pushed to history
+    window.history.pushState({}, this.titleService.current, window.location.href);
 
     this.$state.go(
       'work-packages.show',
@@ -158,11 +165,14 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
       let startDate = this.eventDate(workPackage, 'start');
       let endDate = this.eventDate(workPackage, 'due');
 
+      let exclusiveEnd = moment(endDate).add(1, 'days');
+
       return {
         title: workPackage.subject,
         start: startDate,
-        end: endDate,
-        className: `__hl_row_type_${workPackage.type.getId()}`,
+        end: exclusiveEnd,
+        allDay: true,
+        className: `__hl_background_type_${workPackage.type.id}`,
         workPackage: workPackage
       };
     });
@@ -298,6 +308,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
   private removeTooltip(target:ElementRef) {
     // deactivate tooltip so that it is not displayed on the wp show page
     jQuery(target).tooltip({
+      close: function () { jQuery(".ui-helper-hidden-accessible").remove(); },
       disabled: true
     });
   }

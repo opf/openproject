@@ -444,10 +444,16 @@ class User < Principal
   end
 
   def notified_project_ids=(ids)
-    Member.where(['user_id = ?', id])
-      .update_all("mail_notification = #{self.class.connection.quoted_false}")
-    Member.where(['user_id = ? AND project_id IN (?)', id, ids])
-      .update_all("mail_notification = #{self.class.connection.quoted_true}") if ids && !ids.empty?
+    Member
+      .where(user_id: id)
+      .update_all(mail_notification: false)
+
+    if ids && !ids.empty?
+      Member
+        .where(user_id: id, project_id: ids)
+        .update_all(mail_notification: true)
+    end
+
     @notified_projects_ids = nil
     notified_projects_ids
   end
@@ -555,8 +561,13 @@ class User < Principal
   # Return user's roles for project
   def roles_for_project(project)
     roles = []
+
     # No role on archived projects
     return roles unless project && project.active?
+
+    # Return all roles if user is admin
+    return Role.givable.to_a if admin?
+
     if logged?
       # Find project membership
       membership = memberships.detect { |m| m.project_id == project.id }
@@ -912,3 +923,5 @@ class DeletedUser < User
 
   def destroy; false end
 end
+
+require_dependency "system_user"

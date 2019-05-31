@@ -3,7 +3,7 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {
   calculatePositionValueForDayCount,
   calculatePositionValueForDayCountingPx,
-  RenderInfo,
+  RenderInfo, timelineBackgroundElementClass,
   timelineElementCssClass,
   timelineMarkerSelectionStartClass
 } from '../wp-timeline';
@@ -204,22 +204,24 @@ export class TimelineCellRenderer {
    * @return true, if the element should still be displayed.
    *         false, if the element must be removed from the timeline.
    */
-  public update(bar:HTMLDivElement, labels:WorkPackageCellLabels|null, renderInfo:RenderInfo):boolean {
+  public update(element:HTMLDivElement, labels:WorkPackageCellLabels|null, renderInfo:RenderInfo):boolean {
     const changeset = renderInfo.changeset;
+    const bar = element.querySelector(`.${timelineBackgroundElementClass}`) as HTMLElement;
 
     const viewParams = renderInfo.viewParams;
     let start = moment(changeset.value('startDate'));
     let due = moment(changeset.value('dueDate'));
 
     if (_.isNaN(start.valueOf()) && _.isNaN(due.valueOf())) {
-      bar.style.visibility = 'hidden';
+      element.style.visibility = 'hidden';
     } else {
-      bar.style.visibility = 'visible';
+      element.style.visibility = 'visible';
     }
 
     // only start date, fade out bar to the right
     if (_.isNaN(due.valueOf()) && !_.isNaN(start.valueOf())) {
-      due = start.clone();
+      // Set due date to today
+      due = moment();
       bar.style.backgroundImage = `linear-gradient(90deg, rgba(255,255,255,0) 0%, #F1F1F1 100%)`;
     }
 
@@ -231,16 +233,16 @@ export class TimelineCellRenderer {
 
     // offset left
     const offsetStart = start.diff(viewParams.dateDisplayStart, 'days');
-    bar.style.left = calculatePositionValueForDayCount(viewParams, offsetStart);
+    element.style.left = calculatePositionValueForDayCount(viewParams, offsetStart);
 
     // duration
     const duration = due.diff(start, 'days') + 1;
-    bar.style.width = calculatePositionValueForDayCount(viewParams, duration);
+    element.style.width = calculatePositionValueForDayCount(viewParams, duration);
 
     // ensure minimum width
     if (!_.isNaN(start.valueOf()) || !_.isNaN(due.valueOf())) {
       const minWidth = _.max([renderInfo.viewParams.pixelPerDay, 2]);
-      bar.style.minWidth = minWidth + 'px';
+      element.style.minWidth = minWidth + 'px';
     }
 
     // Update labels if any
@@ -258,7 +260,7 @@ export class TimelineCellRenderer {
     if (renderInfo.viewParams.activeSelectionMode) {
       element.style.backgroundImage = null; // required! unable to disable "fade out bar" with css
 
-      if (renderInfo.viewParams.selectionModeStart === '' + renderInfo.workPackage.id) {
+      if (renderInfo.viewParams.selectionModeStart === '' + renderInfo.workPackage.id!) {
         jQuery(element).addClass(timelineMarkerSelectionStartClass);
         element.style.background = null;
       }
@@ -305,17 +307,20 @@ export class TimelineCellRenderer {
    * start to finish date.
    */
   public render(renderInfo:RenderInfo):HTMLDivElement {
+    const container = document.createElement('div');
     const bar = document.createElement('div');
     const left = document.createElement('div');
     const right = document.createElement('div');
 
-    bar.className = timelineElementCssClass + ' ' + this.type;
+    container.className = timelineElementCssClass + ' ' + this.type;
+    bar.className = timelineBackgroundElementClass;
     left.className = classNameLeftHandle;
     right.className = classNameRightHandle;
-    bar.appendChild(left);
-    bar.appendChild(right);
+    container.appendChild(bar);
+    container.appendChild(left);
+    container.appendChild(right);
 
-    return bar;
+    return container;
   }
 
   createAndAddLabels(renderInfo:RenderInfo, element:HTMLElement):WorkPackageCellLabels {
@@ -361,15 +366,15 @@ export class TimelineCellRenderer {
     return labels;
   }
 
-  protected applyTypeColor(wp:WorkPackageResource, element:HTMLElement):void {
+  protected applyTypeColor(wp:WorkPackageResource, bg:HTMLElement):void {
     let type = wp.type;
 
     if (!type) {
-      element.style.backgroundColor = this.fallbackColor;
+      bg.style.backgroundColor = this.fallbackColor;
     }
 
-    const id = type.getId();
-    element.classList.add(Highlighting.rowClass('type', id));
+    const id = type.id;
+    bg.classList.add(Highlighting.backgroundClass('type', id!));
   }
 
   protected assignDate(changeset:WorkPackageChangeset, attributeName:string, value:moment.Moment) {

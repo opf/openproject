@@ -9,9 +9,10 @@ This resource is currently a stub.
 None
 
 ## Linked Properties
-|  Link       | Description                                                   | Type          | Constraints           | Supported operations | Condition                                 |
-|:-----------:|-------------------------------------------------------------- | ------------- | --------------------- | -------------------- | ----------------------------------------- |
-| self        | This group                                                    | Group         | not null              | READ                 |                                           |
+|  Link       | Description                                                                                                                                                           | Type              | Constraints           | Supported operations | Condition                                                     |
+|:-----------:|--------------------------------------------------------------                                                                                                         | -------------     | --------------------- | -------------------- | -----------------------------------------                     |
+| self        | This group                                                                                                                                                            | Group             | not null              | READ                 |                                                               |
+| members     | Link ot collection of all the group's memberships. The list will only include the memberships in projects in which the requesting user has the necessary permissions. | MemberCollection  |                       | READ                 | **Permission**: view members or manage members in any project |
 
 ## Local Properties
 | Property     | Description                                                | Type     | Constraints                                          | Supported operations | Condition                                                                           |

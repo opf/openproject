@@ -97,7 +97,7 @@ class Query < ActiveRecord::Base
   def set_default_sort
     return if sort_criteria.any?
 
-    self.sort_criteria = [['parent', 'asc']]
+    self.sort_criteria = [['id', 'asc']]
   end
 
   def context
@@ -307,7 +307,12 @@ class Query < ActiveRecord::Base
   end
 
   def sort_criteria
-    read_attribute(:sort_criteria) || []
+    (read_attribute(:sort_criteria) || []).tap do |criteria|
+      criteria.map! do |attr, direction|
+        attr = 'id' if attr == 'parent'
+        [attr, direction]
+      end
+    end
   end
 
   def sort_criteria_key(arg)

@@ -60,7 +60,7 @@ export class EditFieldComponent extends Field implements OnInit, OnDestroy {
   public self = this;
 
   /** JQuery accessor to element ref */
-  protected $element:JQuery<HTMLElement>;
+  protected $element:JQuery;
 
   constructor(readonly I18n:I18nService,
               readonly elementRef:ElementRef,
@@ -71,24 +71,23 @@ export class EditFieldComponent extends Field implements OnInit, OnDestroy {
               readonly cdRef:ChangeDetectorRef,
               readonly injector:Injector) {
     super();
-    this.initialize();
+    this.schema = this.schema || this.changeset.schema[this.name];
 
-    this.wpEditing.state(this.changeset.workPackage.id)
+    this.wpEditing.state(this.changeset.workPackage.id!)
       .values$()
       .pipe(
         untilComponentDestroyed(this)
       )
       .subscribe((changeset) => {
-
-        if (!this.changeset.empty && this.changeset.form) {
-          const fieldSchema = changeset.form!.schema[this.name];
+        if (this.changeset.form) {
+          const fieldSchema = changeset.schema[this.name];
 
           if (!fieldSchema) {
             return handler.deactivate(false);
           }
 
           this.changeset = changeset;
-          this.schema = fieldSchema;
+          this.schema = this.changeset.schema[this.name];
           this.initialize();
           this.cdRef.markForCheck();
         }
@@ -97,6 +96,7 @@ export class EditFieldComponent extends Field implements OnInit, OnDestroy {
 
   ngOnInit():void {
     this.$element = jQuery(this.elementRef.nativeElement);
+    this.initialize();
   }
 
   ngOnDestroy() {

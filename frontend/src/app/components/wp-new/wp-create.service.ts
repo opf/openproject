@@ -125,6 +125,7 @@ export class WorkPackageCreateService implements IWorkPackageCreateService {
   public cancelCreation() {
     this.wpEditing.stopEditing('new');
     this.wpCacheService.clearSome('new');
+    this.form = undefined;
   }
 
   public changesetUpdates$() {

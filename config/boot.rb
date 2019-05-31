@@ -38,4 +38,8 @@ end
 
 require 'bundler/setup' # Set up gems listed in the Gemfile.
 
-require 'bootsnap/setup' # Speed up boot time by caching expensive operations.
+if ENV['RAILS_ENV'] == 'development'
+  $stderr.puts "Starting with bootsnap."
+
+  require 'bootsnap/setup' # Speed up boot time by caching expensive operations.
+end

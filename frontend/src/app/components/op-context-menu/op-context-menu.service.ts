@@ -50,7 +50,7 @@ export class OPContextMenuService {
 
     // Listen to any click and close the active context menu
     jQuery(window).on('click', (evt:JQueryEventObject) => {
-      if (this.active && !this.portalHostElement.contains(evt.target as Element)) {
+      if (this.active && evt.button !== 2 && !this.portalHostElement.contains(evt.target as Element)) {
         this.close();
       }
     });

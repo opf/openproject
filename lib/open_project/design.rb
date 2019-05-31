@@ -86,7 +86,6 @@ module OpenProject
       'main-menu-item-height'                                => "40px",
       'main-menu-item-border-color'                          => "$primary-color",
       'main-menu-item-border-width'                          => "1px",
-      'main-menu-enable-toggle-highlighting'                 => "false",
       'main-menu-bg-color'                                   => "#333739",
       'main-menu-bg-selected-background'                     => "#175A8E",
       'main-menu-bg-hover-background'                        => "#124E7C",
@@ -148,6 +147,9 @@ module OpenProject
       'user-avatar-border-radius'                            => "50%",
       'user-avatar-width'                                    => "36px",
       'user-avatar-height'                                   => "36px",
+      'user-avatar-medium-border-radius'                     => "50%",
+      'user-avatar-medium-width'                             => "28px",
+      'user-avatar-medium-height'                            => "28px",
       'user-avatar-mini-border-radius'                       => "50%",
       'user-avatar-mini-width'                               => "20px",
       'user-avatar-mini-height'                              => "20px",
@@ -199,7 +201,9 @@ module OpenProject
       'timeline--separator'                                  => '3px solid #E7E7E7',
       'table-timeline--row-height'                           => '40px',
       'status-selector-bg-color'                             => '#F99601',
-      'status-selector-bg-hover-color'                       => '#E08600'
+      'status-selector-bg-hover-color'                       => '#E08600',
+      'card-font-size'                                       => '16px',
+      'board-teaser-image'                                   => '#{image-url("boards_video_teaser.png")}'
     }.freeze
 
     # Regular expression for references of other variables.

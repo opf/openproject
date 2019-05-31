@@ -1,11 +1,11 @@
-<img *ngIf="userAvatar && !useFallback"
+<img *ngIf="userAvatarUrl && !useFallback"
      [class]="'avatar--fallback ' + classes"
-     [attr.src]="userAvatar"
+     [attr.src]="userAvatarUrl"
      [attr.title]="userName"
      [alt]="userName"
      (error)="replaceWithDefault()" />
 
-<div *ngIf="(!userAvatar || useFallback) && userInitials"
+<div *ngIf="(!userAvatarUrl || useFallback) && userInitials"
      [class]="'avatar-default ' + classes"
      [textContent]="userInitials"
      [style.background]="colorCode">

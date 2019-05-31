@@ -56,7 +56,7 @@ describe OpenProject::Acts::Watchable::Routes do
       end
     end
 
-    ['work_packages', 'news', 'boards', 'messages', 'wikis', 'wiki_pages'].each do |type|
+    ['work_packages', 'news', 'forums', 'messages', 'wikis', 'wiki_pages'].each do |type|
       describe "routing #{type} watches" do
         let(:type) { type }
 

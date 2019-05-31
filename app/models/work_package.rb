@@ -154,7 +154,7 @@ class WorkPackage < ActiveRecord::Base
   # for details.                                    #
   ###################################################
   acts_as_attachable after_remove: :attachments_changed,
-                     order: "#{Attachment.table_name}.filename",
+                     order: "#{Attachment.table_name}.file",
                      add_on_new_permission: :add_work_packages,
                      add_on_persisted_permission: :edit_work_packages,
                      modification_blocked: ->(*) { readonly_status? }
@@ -648,6 +648,7 @@ class WorkPackage < ActiveRecord::Base
   # is simply the default activity and all other attributes are blank.
   def time_entry_blank?(attributes)
     return true if attributes.nil?
+
     key = 'activity_id'
     id = attributes[key]
     default_id = if id && !id.blank?
@@ -678,6 +679,7 @@ class WorkPackage < ActiveRecord::Base
       .includes(:project, :fixed_version)
       .references(:versions).each do |issue|
       next if issue.project.nil? || issue.fixed_version.nil?
+
       unless issue.project.shared_versions.include?(issue.fixed_version)
         issue.fixed_version = nil
         issue.save
@@ -702,6 +704,7 @@ class WorkPackage < ActiveRecord::Base
       duplicate.reload
       # Don't re-close it if it's already closed
       next if duplicate.closed?
+
       # Implicitly creates a new journal
       duplicate.update_attribute :status, status
 

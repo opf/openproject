@@ -33,7 +33,7 @@ module API
     module Projects
       class AvailableResponsiblesAPI < ::API::OpenProjectAPI
         resource :available_responsibles do
-          before do
+          after_validation do
             authorize(:view_work_packages, global: true, user: current_user)
           end
 

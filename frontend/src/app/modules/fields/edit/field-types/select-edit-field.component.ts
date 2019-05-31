@@ -34,6 +34,8 @@ import {EditFieldComponent} from "../edit-field.component";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {NgSelectComponent} from "@ng-select/ng-select";
+import {CreateAutocompleterComponent} from "core-app/modules/common/autocomplete/create-autocompleter.component";
+import {SelectAutocompleterRegisterService} from "app/modules/fields/edit/field-types/select-autocompleter-register.service";
 
 export interface ValueOption {
   name:string;
@@ -44,7 +46,7 @@ export interface ValueOption {
   templateUrl: './select-edit-field.component.html'
 })
 export class SelectEditFieldComponent extends EditFieldComponent implements OnInit {
-  @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
+  public selectAutocompleterRegister = this.injector.get(SelectAutocompleterRegisterService);
 
   public options:any[];
   public valueOptions:ValueOption[];
@@ -56,30 +58,40 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
   public halSorting:HalResourceSortingService;
 
+  private _autocompleterComponent:CreateAutocompleterComponent;
+
+  public referenceOutputs = {
+    onCreate: (newElement:HalResource) => this.onCreate(newElement),
+    onChange: (value:HalResource) => this.onChange(value),
+    onKeydown: (event:JQueryEventObject) => this.handler.handleUserKeydown(event, true),
+    onOpen: () => this.onOpen(),
+    onClose: () => this.onClose(),
+    onAfterViewInit: (component:CreateAutocompleterComponent) => this._autocompleterComponent = component
+  };
+
   protected initialize() {
-    this.handler
-      .$onUserActivate
-      .pipe(
-        untilComponentDestroyed(this)
-      )
-      .subscribe(() => this.openAutocompleteSelectField());
-
     this.halSorting = this.injector.get(HalResourceSortingService);
-
     this.text = {
       requiredPlaceholder: this.I18n.t('js.placeholders.selection'),
       placeholder: this.I18n.t('js.placeholders.default')
     };
 
-    if (Array.isArray(this.schema.allowedValues)) {
-      this.setValues(this.schema.allowedValues);
-    } else if (this.schema.allowedValues) {
-      this.schema.allowedValues.$load().then((values:CollectionResource) => {
-        this.setValues(values.elements);
+    const loadingPromise = this.loadValues();
+    this.handler
+      .$onUserActivate
+      .pipe(
+        untilComponentDestroyed(this)
+      )
+      .subscribe(() => {
+        loadingPromise.then(() => {
+          this._autocompleterComponent.openDirectly = true;
+        });
       });
-    } else {
-      this.setValues([]);
-    }
+  }
+
+  public autocompleterComponent() {
+    let type = this.schema.type;
+    return this.selectAutocompleterRegister.getAutocompleterOfAttribute(type) || CreateAutocompleterComponent;
   }
 
   public ngOnInit() {
@@ -112,12 +124,37 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     });
   }
 
+  private loadValues() {
+    let allowedValues = this.schema.allowedValues;
+    if (Array.isArray(allowedValues)) {
+      this.setValues(allowedValues);
+    } else if (allowedValues) {
+      return allowedValues.$load().then((values:CollectionResource) => {
+        this.setValues(values.elements);
+      });
+    } else {
+      this.setValues([]);
+    }
+    return Promise.resolve();
+  }
+
+  private addValue(val:HalResource) {
+    this.options.push(val);
+    this.valueOptions.push({name: val.name, $href: val.$href});
+  }
+
   public get currentValueInvalid():boolean {
     return !!(
       (this.value && !_.some(this.options, (option:HalResource) => (option.$href === this.value.$href)))
       ||
       (!this.value && this.schema.required)
     );
+  }
+
+  public onCreate(newElement:HalResource) {
+    this.addValue(newElement);
+    this.selectedOption = { name: newElement.name, $href: newElement.$href };
+    this.handler.handleUserSubmit();
   }
 
   public onOpen() {
@@ -128,8 +165,9 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     jQuery(this.hiddenOverflowContainer).removeClass('-hidden-overflow');
   }
 
-  private openAutocompleteSelectField() {
-    this.ngSelectComponent.open();
+  public onChange(value:HalResource) {
+    this.selectedOption = { name: value.name, $href: value.$href };
+    this.handler.handleUserSubmit();
   }
 
   private addEmptyOption() {

@@ -54,16 +54,17 @@ module Concerns::OmniauthLogin
     # Set back url to page the omniauth login link was clicked on
     params[:back_url] = request.env['omniauth.origin']
 
+    user_attributes = omniauth_hash_to_user_attributes(auth_hash)
     user =
       if session.include? :invitation_token
         tok = Token::Invitation.find_by value: session[:invitation_token]
         u = tok.user
-        u.identity_url = identity_url_from_omniauth(auth_hash)
+        u.identity_url = user_attributes[:identity_url]
         tok.destroy
         session.delete :invitation_token
         u
       else
-        User.find_or_initialize_by identity_url: identity_url_from_omniauth(auth_hash)
+        find_or_initialize_user_with(user_attributes)
       end
 
     decision = OpenProject::OmniAuth::Authorization.authorized? auth_hash
@@ -71,6 +72,31 @@ module Concerns::OmniauthLogin
       authorization_successful user, auth_hash
     else
       authorization_failed user, decision.message
+    end
+  end
+
+  def find_or_initialize_user_with(user_attributes = {})
+    user = User.find_by(identity_url: user_attributes[:identity_url])
+    return user unless user.nil?
+
+    if Setting.oauth_allow_remapping_of_existing_users?
+      # Allow to map existing users with an Omniauth source if the login
+      # already exists, and no existing auth source or omniauth provider is
+      # linked
+      user = User.find_by(
+        login: user_attributes[:login],
+        identity_url: nil,
+        auth_source_id: nil
+      )
+    end
+
+    if user.nil?
+      User.new(identity_url: user_attributes[:identity_url])
+    else
+      # We might want to update all the attributes from the provider, but for
+      # backwards-compatibility only the identity_url is updated here
+      user.update_attribute :identity_url, user_attributes[:identity_url]
+      user
     end
   end
 
@@ -111,7 +137,7 @@ module Concerns::OmniauthLogin
   # in our database) will be created using this method.
   def create_user_from_omniauth(user, auth_hash)
     # Self-registration off
-    return self_registration_disabled unless Setting.self_registration?
+    return self_registration_disabled unless Setting.self_registration? || user.invited?
 
     fill_user_fields_from_omniauth user, auth_hash
 

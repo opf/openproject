@@ -45,9 +45,22 @@ zh:
     index:
       no_results_content_title: 目前是非身份验证模式。
       no_results_content_text: 创建一个新的身份验证模式
-  boards:
+  ldap_auth_sources:
+    connection_encryption: 连接加密
+    tls_mode:
+      plain: 无
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: 明文不加密的连接，无TLS协商。
+      simple_tls_description: 隐式 TLS 加密，但没有证书验证。请谨慎使用，并隐式信任 LDAP 连接。
+      start_tls_description: 包含完整验证的显式 TLS 加密。用于通过 TLS/SSL 的 LDAP。
+      section_more_info_link_html: '此部分涉及此LDAP认证源的连接安全。更多信息，访问 <a href="%{link}">网络::LDAP
+        文档</a>。
+
+'
+  forums:
     show:
-      no_results_title_text: 目前没有发布内容。
+      no_results_title_text: 论坛中目前无发贴。
   colors:
     index:
       no_results_title_text: 目前没有颜色。
@@ -102,29 +115,26 @@ zh:
     memberships:
       no_results_title_text: 这个组目前没有项目。
   incoming_mails:
-    ignore_filenames: 'Specify a list of names to ignore when processing attachments
-      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+    ignore_filenames: '指定在处理收到的邮件的附件（例如，签名或图标）时要忽略的名称列表。每行输入一个文件名。
 
 '
   projects:
     delete:
-      scheduled: Deletion has been scheduled and is perfomed in the background. You
-        will be notified of the result.
-      schedule_failed: 'Project cannot be deleted: %{errors}'
-      failed: Deletion of project %{name} has failed
-      failed_text: The request to delete project %{name} has failed. The project was
-        left archived.
-      completed: Deletion of project %{name} completed
-      completed_text: The request to delete project '%{name}' has been completed.
+      scheduled: 删除已经安排，并在后台执行。您将收到结果通知。
+      schedule_failed: '项目不能删除: %{errors}'
+      failed: 项目 %{name} 删除失败
+      failed_text: 删除项目 %{name} 的请求已失败。该项目仍位于存档中。
+      completed: 项目 %{name} 删除完成
+      completed_text: 删除项目“%{name}”的请求已完成。
     index:
       no_results_title_text: 目前没有项目。
       no_results_content_text: 创建一个新的项目
     settings:
       activities:
         no_results_title_text: 目前有可用的任何活动。
-      boards:
-        no_results_title_text: 这个项目目前没有公告板。
-        no_results_content_text: 创建一个新的公告板
+      forums:
+        no_results_title_text: 此项目当前无论坛。
+        no_results_content_text: 创建新论坛
       categories:
         no_results_title_text: 目前没有工作包类别。
         no_results_content_text: 创建一个新的工作包类别
@@ -190,7 +200,7 @@ zh:
       edit_query: 编辑表
       query_group_placeholder: 为表命名
       reset: 重置为默认值
-      type_color_text: '单击可以分配或更改此类型的颜色。选定颜色可区分甘特图中的工作包。
+      type_color_text: '单击可以分配或更改此类型的颜色。选定颜色可区分甘特图中的工作包。因此，建议使用深色。
 
 '
   versions:
@@ -208,7 +218,7 @@ zh:
       one: One descendant work package
       other: "%{count} 个子工作包"
     bulk:
-      could_not_be_saved: 'The following work packages could not be saved:'
+      could_not_be_saved: 无法保存以下工作包：
     move:
       no_common_statuses_exists: 所有选中的工作包都没有可用的状态，因此无法更改其状态。
       unsupported_for_multiple_projects: 不支持多个项目工作包的大批量移动/复制
@@ -321,6 +331,11 @@ zh:
         subscriber: 订阅者
         encoded_token: 企业版支持令牌
         active_user_count_restriction: 最大活动用户数
+      grids/grid:
+        page: 页
+        row_count: 行数
+        column_count: 列数
+        widgets: 小部件
       relation:
         delay: 延迟
         from: 工作包
@@ -357,6 +372,7 @@ zh:
         spent_on: 日期
         type: 类型
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: 默认在版本蓝图中显示
         is_default: 默认激活新项目
@@ -410,18 +426,13 @@ zh:
         type: 类型
         watcher: 关注者
       doorkeeper/application:
-        uid: Client ID
-        secret: Client secret
-        owner: Owner
-        redirect_uri: Redirect URI
-        client_credentials_user_id: Client Credentials User ID
-        scopes: Scopes
-        confidential: Confidential
-      grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
+        uid: 客户端 ID
+        secret: 客户端密钥
+        owner: 所有者
+        redirect_uri: 重定向 URI
+        client_credentials_user_id: 客户端证书用户 ID
+        scopes: 范围
+        confidential: 保密
     errors:
       messages:
         accepted: 必须接受。
@@ -462,7 +473,7 @@ zh:
         too_long: 太长 (最多 %{count} 个字符)。
         too_short: 太短 (最低是 %{count} 个字符)。
         unchangeable: 不能更改。
-        unremovable: cannot be removed.
+        unremovable: 不能删除。
         wrong_length: 长度不正确 (应该是 %{count} 个字符)。
       models:
         custom_field:
@@ -478,15 +489,19 @@ zh:
         doorkeeper/application:
           attributes:
             redirect_uri:
-              fragment_present: cannot contain a fragment.
-              invalid_uri: must be a valid URI.
-              relative_uri: must be an absolute URI.
-              secured_uri: must be an HTTPS/SSL URI.
-              forbidden_uri: is forbidden by the server.
+              fragment_present: 不能包含片段。
+              invalid_uri: 必须是有效的 URI。
+              relative_uri: 必须是绝对URI。
+              secured_uri: 必须是 HTTPS/SSL URI。
+              forbidden_uri: 被服务器禁止。
             scopes:
-              not_match_configured: doesn't match available scopes.
+              not_match_configured: 与可用范围不匹配。
         enterprise_token:
           unreadable: 无法读取。是否确定为支持令牌？
+        grids/grid:
+          overlaps: 重叠.
+          outside: 不在网格内。
+          end_before_start: 结束值需要大于起始值。
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -551,6 +566,7 @@ zh:
           attributes:
             attribute_groups:
               attribute_unknown: 已使用无效的工作包属性。
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: 组名 %{group} 已多次使用。组名不能重复。
               query_invalid: '嵌入式查询 "%{group}" 无效: %{details}'
               group_without_name: 不允许未命名的群组。
@@ -575,11 +591,15 @@ zh:
               error_not_found: 未找到
         member:
           principal_blank: 请选择至少一个用户或组。
-          role_blank: 请选择至少一个角色。
-        grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          role_blank: need to be assigned.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 请检查以下字段：
         header:
@@ -588,7 +608,7 @@ zh:
     models:
       attachment: 文件
       attribute_help_text: 属性帮助文本
-      board: 论坛
+      forum: 论坛
       comment: 评论
       custom_action: 自定义操作
       custom_field: 自定义字段
@@ -609,7 +629,7 @@ zh:
       wiki_page: 维基页面
       workflow: 工作流
       work_package: 工作包
-      doorkeeper/application: OAuth application
+      doorkeeper/application: OAuth应用程序
   errors:
     header_invalid_fields: 以下字段有问题：
     field_erroneous_label: |-
@@ -685,7 +705,7 @@ zh:
   button_change_password: 更改密码
   button_check_all: 全选
   button_clear: 清除
-  button_click_to_reveal: Click to reveal
+  button_click_to_reveal: 单击以显示
   button_close: 关闭
   button_collapse_all: 全部折叠
   button_configure: 配置
@@ -715,7 +735,7 @@ zh:
   button_remove: 移除
   button_rename: 重命名
   button_replace: 替换
-  button_revoke: Revoke
+  button_revoke: 撤消
   button_reply: 答复
   button_reset: 重置
   button_rollback: 回滚到此版本
@@ -916,7 +936,7 @@ zh:
   description_choose_project: 项目
   description_compare_from: 比较开始于
   description_compare_to: 比较截止于
-  description_current_position: 你在这里：
+  description_current_position: 'You are here: '
   description_date_from: 输入开始日期
   description_date_range_interval: 通过选择开始日期和结束日期来选择范围
   description_date_range_list: 从列表中选择范围
@@ -961,12 +981,15 @@ zh:
   error_can_not_invite_user: 无法向用户发送邀请。
   error_can_not_remove_role: 该角色正在使用，无法删除。
   error_can_not_reopen_work_package_on_closed_version: 不能重新打开一个已经分配给已关闭版本的工作包
+  error_can_not_find_all_resources: 无法找到与请求相关的所有资源。
   error_check_user_and_role: 请选择用户和角色。
+  error_code: 错误 %{code}
   error_cookie_missing: OpenProject cookie 丢失。请确保已启用 cookie，因为如果不启用，此应用程序将无法正常运行。
   error_custom_option_not_found: 选项不存在。
-  error_dependent_work_package: '相关工作包中的错误%{related_id} %{related_subject}: %{error}'
   error_enterprise_activation_user_limit: 无法激活您的帐户 (已达到用户限制)。请与管理员联系以获取访问权限。
   error_failed_to_delete_entry: 无法删除此条目。
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: 选中的值无效。
   error_invalid_group_by: 无法按照 %{value} 分组
   error_invalid_query_column: 无效的查询列：%{value}
@@ -978,6 +1001,8 @@ zh:
   error_work_package_done_ratios_not_updated: 工作包完成比率不更新。
   error_work_package_not_found_in_project: 工作包找不到或不属于此项目
   error_must_be_project_member: 必须是项目成员
+  error_migrations_are_pending: 您的 OpenProject 安装具有待定的数据库迁移。您可能在上次升级时错过了迁移。请查阅升级指南，正确升级您的安装。
+  error_migrations_visit_upgrade_guides: 请访问我们的升级指南文档
   error_no_default_work_package_status: 没有定义默认的工作包状态。请检查您的配置 （转到"管理-> 工作包状态"）。
   error_no_type_in_project: 没有类型与此项目关联。请检查的项目设置。
   error_omniauth_registration_timed_out: 通过外部身份验证提供程序注册超时。请再试一次。
@@ -1054,13 +1079,13 @@ zh:
         you_contribute: 开发人员也需要支付账单。使用企业版，您可以为此 Open-Source 社区工作提供大力的财力支持。
     links:
       upgrade_enterprise_edition: 升级到企业版
+      postgres_migration: 将您的安装迁移到 PostgreSQL
       user_guides: 用户指南
       faq: 常见问题
       glossary: 术语表
       shortcuts: 快捷方式
-      forums: 论坛
       blog: OpenProject 博客
-      boards: 社区论坛
+      forums: 社区论坛
       newsletter: 安全警报/通信
   links:
     configuration_guide: 配置指南
@@ -1122,7 +1147,7 @@ zh:
   label_authentication: 身份验证
   label_available_project_work_package_categories: 可用的工作包类别
   label_available_project_work_package_types: 可用的工作包类型
-  label_available_project_boards: 可用的公告板
+  label_available_project_forums: 可用论坛
   label_available_project_versions: 可用版本
   label_available_project_repositories: 可用存储库
   label_api_documentation: API 文档
@@ -1130,14 +1155,15 @@ zh:
   label_blocked_by: 阻止于
   label_blocks: 阻止
   label_blog: 博客
-  label_board_locked: 锁定
-  label_board_new: 新论坛
-  label_board_plural: 论坛
-  label_board_sticky: 置顶
+  label_forums_locked: 锁定
+  label_forum_new: 新论坛
+  label_forum_plural: 论坛
+  label_forum_sticky: 置顶
   label_boolean: 布尔值
   label_branch: 分支
   label_browse: 浏览
   label_bulk_edit_selected_work_packages: 批量编辑所选工作包
+  label_bundled: "(捆绑包)"
   label_calendar: 日历
   label_calendar_show: 显示日历
   label_category: 类别
@@ -1234,8 +1260,9 @@ zh:
   label_environment: 环境
   label_estimates_and_time: 预估成本和时间
   label_equals: 是
-  label_everywhere: everywhere
+  label_everywhere: 任何位置
   label_example: 示例
+  label_import: 导入
   label_export_to: 在其中也可用：
   label_expanded_click_to_collapse: 展开。点击折叠
   label_f_hour: "%{value} 小时"
@@ -1271,7 +1298,8 @@ zh:
   label_history: 历史
   label_hierarchy_leaf: 层次结构叶
   label_home: 首页
-  label_subject_or_id: Subject or ID
+  label_subject_or_id: 主题或ID
+  label_impressum: 法律声明
   label_in: 在
   label_in_less_than: 在小于
   label_in_more_than: 在多于
@@ -1321,6 +1349,7 @@ zh:
   label_max_size: 最大
   label_me: 我
   label_member_new: 新成员
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: 成员
   label_view_all_members: 查看所有成员
   label_menu_item_name: 菜单项名称
@@ -1349,6 +1378,7 @@ zh:
   label_my_queries: 我的自定义查询
   label_never: 永不
   label_new: 新增
+  label_new_features: New features
   label_new_statuses_allowed: 允许的新状态
   label_news_added: 添加新闻
   label_news_comment_added: 评论添加到新闻
@@ -1397,6 +1427,7 @@ zh:
   label_planning: 规划
   label_please_login: 请登录
   label_plugins: 插件
+  label_modules_and_plugins: 模块和插件
   label_precedes: 之前
   label_preferences: 首选项
   label_preview: 预览
@@ -1404,6 +1435,7 @@ zh:
   label_previous_week: 前一周
   label_principal_invite_via_email: " 或通过电子邮件邀请新用户"
   label_principal_search: 添加现有用户或组
+  label_privacy_policy: 数据隐私和安全政策
   label_product_version: 产品版本
   label_professional_support: 专业支持
   label_profile: 配置文件
@@ -1518,6 +1550,7 @@ zh:
   label_updated_time: "%{value} 前更新"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "%{author} 于 %{age} 前更新"
+  label_upgrade_guides: 升级指南
   label_used_by: 使用于
   label_used_by_types: 用于类型
   label_used_in_projects: 用于项目
@@ -1546,7 +1579,7 @@ zh:
   label_view_diff: 查看差异
   label_view_revisions: 查看修订版本
   label_watched_work_packages: 受关注的工作包
-  label_what_is_this: What is this?
+  label_what_is_this: 这是什么?
   label_week: 周
   label_wiki_content_added: 添加 Wiki 页面
   label_wiki_content_updated: 更新 Wiki 页面
@@ -1703,6 +1736,7 @@ zh:
   notice_account_unknown_email: 未知用户。
   notice_account_update_failed: 帐户设置无法保存。请看查看您的帐户页面。
   notice_account_updated: 帐户已成功更新。
+  notice_account_other_session_expired: 与您的帐户关联的所有其他会话都已失效。
   notice_account_wrong_password: 密码错误
   notice_account_registered_and_logged_in: 欢迎，您的帐户已激活。您现在已登录。
   notice_activation_failed: 无法激活该帐户。
@@ -1744,7 +1778,6 @@ zh:
   notice_successful_update: 成功更新。
   notice_to_many_principals_to_display: 有太多结果。\n键入新成员（或组）缩小搜索。
   notice_unable_delete_time_entry: 不能删除时间记录条目。
-  notice_unable_delete_version: 不能删除版本。
   notice_user_missing_authentication_method: 用户尚未选择密码或另一种方式登录。
   notice_user_invitation_resent: 邀请已发送到 %{email}。
   present_access_key_value: '你的 %{key_name} 是: %{value}'
@@ -1815,7 +1848,7 @@ zh:
   permission_export_wiki_pages: 导出 wiki 页面
   permission_list_attachments: 列出附件
   permission_log_time: 记录消耗时间
-  permission_manage_boards: 管理论坛
+  permission_manage_forums: 管理论坛
   permission_manage_categories: 管理工作包类别
   permission_manage_work_package_relations: 管理工作包的关系
   permission_manage_members: 管理成员
@@ -1861,7 +1894,7 @@ zh:
     archive:
       are_you_sure: 是否确定想要存档项目 '%{name}'？
   project_module_activity: 活动
-  project_module_boards: 论坛
+  project_module_forums: 论坛
   project_module_calendar: 日历
   project_module_work_package_tracking: 工作包跟踪
   project_module_news: 新闻
@@ -2042,13 +2075,10 @@ zh:
   setting_log_requesting_user: 记录所有请求的用户帐户，名称和邮件地址
   setting_login_required: 需要身份验证
   setting_mail_from: 发出的电子邮件地址
-  setting_mail_handler_api_enabled: 启用接收电子邮件 web 服务
-  setting_mail_handler_api_description: 电子邮件 web 处理程序启用 OpenProject来接收包含特定命令的电子邮件作为一种工作机制
-    (例如，可以创建和更新工作包)。
   setting_mail_handler_api_key: API 密钥
   setting_mail_handler_body_delimiters: 在这些行之后截断电子邮件
   setting_mail_handler_body_delimiter_regex: 清空符合此正则表达式的电子邮件
-  setting_mail_handler_ignore_filenames: Ignored mail attachments
+  setting_mail_handler_ignore_filenames: 忽略的邮件附件
   setting_new_project_user_role_id: 给创建项目的非管理员用户的角色
   setting_password_active_rules: 激活支付类型
   setting_password_count_former_banned: 禁止重复使用最近使用密码的数量
@@ -2058,7 +2088,7 @@ zh:
   setting_per_page_options: 每页对象选项
   setting_plain_text_mail: 纯文本邮件 (没有 HTML)
   setting_protocol: 协议
-  setting_security_badge_displayed: Display security badge
+  setting_security_badge_displayed: 显示安全徽章
   setting_registration_footer: 注册页脚
   setting_repositories_automatic_managed_vendor: 自动存储库供应商类型
   setting_repositories_encodings: 代码库的编码
@@ -2194,14 +2224,9 @@ zh:
   text_no_configuration_data: 角色、 类型、 工作包状态和工作流有尚未配置。 \n强烈建议加载默认配置。加载完成后你将能够修改它。
   text_no_notes: 没有注释可用于此工作包。
   text_notice_too_many_values_are_inperformant: 注意： 每个页面显示超过 100 个项目会增加页面加载时间。
-  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
-    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
-    administration panel, and on the home page. It is displayed to administrators
-    only. <br/> The badge will check your current OpenProject version against the
-    official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide
-    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
-    configuration documentation</a>.
+  text_notice_security_badge_displayed_html: '注：如果启用，这会在 <a href="%{information_panel_path}">%{information_panel_label}</a>
+    管理面板中和主页上显示一个包含您的安装状态的徽章。徽章仅向管理员显示。<br/>徽章将根据官方的 OpenProject 版本数据库检查您当前的 OpenProject
+    版本，提醒您是否存在任何更新或已知漏洞。如需详细了解检查可以提供哪些信息，需要哪些数据来提供可用更新，以及如何禁用此检查，请访问<a href="%{more_info_url}">配置文档</a>。
 
 '
   text_own_membership_delete_confirmation: 您将要删除部分或全部的权限，可能不能够在那之后编辑此项目。 \n您确定要继续吗？
@@ -2251,7 +2276,6 @@ zh:
       color: 颜色
       colors: 颜色
     associations: 依赖项
-    board_could_not_be_saved: 面板不能被保存
     button_delete_all: 删除所有
     change: 更改计划
     children: 子元素
@@ -2475,6 +2499,11 @@ zh:
 '
   menu_item: 菜单项
   menu_item_setting: 可见性
+  mysql_deprecation:
+    notice: 'OpenProject 的未来版本可能会放弃或减少对 MySQL 和 MariaDB 数据库的支持。您的安装仍在 MySQL 上运行，我们建议您将安装迁移到
+      PostgreSQL。 按照我们的迁移指南操作可以轻松完成此过程：
+
+'
   wiki_menu_item_for: wiki页面” %{title} “的菜单项
   wiki_menu_item_setting: 可见性
   wiki_menu_item_new_main_item_explanation: '您正在删除唯一的主wiki菜单项。您现在需要选择一个wiki页面生成新的主项目。若要删除wiki，wiki模块可以由管理员停用。
@@ -2494,6 +2523,7 @@ zh:
     attributes:
       lock_version: 锁版
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: 你需要被授权访问该资源。
       code_401_wrong_credentials: 你没有提供正确的凭据。
       code_403: 您无权访问此资源。
@@ -2530,113 +2560,83 @@ zh:
       schema: 方案
   doorkeeper:
     pre_authorization:
-      status: Pre-authorization
+      status: 预授权
     errors:
       messages:
-        invalid_request: The request is missing a required parameter, includes an
-          unsupported parameter value, or is otherwise malformed.
-        invalid_redirect_uri: The requested redirect uri is malformed or doesn't match
-          client redirect URI.
-        unauthorized_client: The client is not authorized to perform this request
-          using this method.
-        access_denied: The resource owner or authorization server denied the request.
-        invalid_scope: The requested scope is invalid, unknown, or malformed.
-        invalid_code_challenge_method: The code challenge method must be plain or
-          S256.
-        server_error: The authorization server encountered an unexpected condition
-          which prevented it from fulfilling the request.
-        temporarily_unavailable: The authorization server is currently unable to handle
-          the request due to a temporary overloading or maintenance of the server.
-        credential_flow_not_configured: Resource Owner Password Credentials flow failed
-          due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.
-        resource_owner_authenticator_not_configured: Resource Owner find failed due
-          to Doorkeeper.configure.resource_owner_authenticator being unconfigured.
-        admin_authenticator_not_configured: Access to admin panel is forbidden due
-          to Doorkeeper.configure.admin_authenticator being unconfigured.
-        unsupported_response_type: The authorization server does not support this
-          response type.
-        invalid_client: Client authentication failed due to unknown client, no client
-          authentication included, or unsupported authentication method.
-        invalid_grant: The provided authorization grant is invalid, expired, revoked,
-          does not match the redirection URI used in the authorization request, or
-          was issued to another client.
-        unsupported_grant_type: The authorization grant type is not supported by the
-          authorization server.
+        invalid_request: 请求缺少必要参数，包括不受支持的参数值，或者格式不正确。
+        invalid_redirect_uri: 请求的重定向 URI 格式不正确，或者与客户端重定向 URI 不匹配。
+        unauthorized_client: 客户端无权使用此方法执行此请求。
+        access_denied: 资源所有者或授权服务器拒绝了此请求。
+        invalid_scope: 申请范围无效、未知或形式错误
+        invalid_code_challenge_method: 代码质询方法必须为普通或 S256。
+        server_error: 授权服务器遇到了意外情况，无法完成请求。
+        temporarily_unavailable: 由于暂时性过载或维护，授权服务器当前无法处理请求。
+        credential_flow_not_configured: 由于未配置 Doorkeeper.configure.resource_owner_from_credentials，资源所有者密码凭据流失败。
+        resource_owner_authenticator_not_configured: 由于未配置 Doorkeeper.configure.resource_owner_authenticator，资源所有者查找失败。
+        admin_authenticator_not_configured: 由于未配置 Doorkeeper.configure.admin_authenticator，禁止访问管理面板。
+        unsupported_response_type: 授权服务不支持此响应类型。
+        invalid_client: 由于未知客户端、未包含客户端身份验证或者不受支持的身份验证方法，客户端身份验证失败。
+        invalid_grant: 提供的授权无效、已过期或者已被撤销，与授权请求中使用的重定向 URI 不匹配，或者颁发给其他客户端。
+        unsupported_grant_type: 授权服务器不支持此授权类型。
         invalid_token:
-          revoked: The access token was revoked
-          expired: The access token expired
-          unknown: The access token is invalid
+          revoked: 访问令牌已被撤销
+          expired: 访问令牌已过期
+          unknown: 访问令牌无效
   unsupported_browser:
-    title: Your browser is outdated and unsupported.
-    message: You may run into errors and degraded experience on this page.
+    title: 您的浏览器已经过时，或不被支持。
+    message: 此页面可能会发生运行错误和不良用户体验。
     update_message: 请升级您的浏览器。
     close_warning: 请忽略这个警告。
   oauth:
     application:
-      singular: OAuth application
-      plural: OAuth applications
-      named: OAuth application '%{name}'
-      new: New OAuth application
-      default_scopes: "(Default scopes)"
+      singular: OAuth应用程序
+      plural: OAuth应用程序
+      named: OAuth 应用程序“%{name}”
+      new: 新的 OAuth 应用程序
+      default_scopes: "（默认范围）"
       instructions:
-        name: The name of your application. This will be displayed to other users
-          upon authorization.
-        redirect_uri_html: 'The allowed URLs authorized users can be redirected to.
-          One entry per line. <br/> If you''re registering a desktop application,
-          use the following URL.
+        name: 您的应用程序的名称。将在授权后显示给其他用户。
+        redirect_uri_html: '授权的用户可以重定向到的允许 URL。每行一个条目。<br/>如果您注册的是桌面应用程序，请使用以下 URL。
 
 '
-        confidential: Check if the application will be used where the client secret
-          can be kept confidential. Native mobile apps and Single Page Apps are assumed
-          non-confidential.
-        client_credential_user_id: Optional user ID to impersonate when clients use
-          this application. Leave empty to allow public access only
-        register_intro: If you are developing an OAuth API client application for
-          OpenProject, you can register it using this form for all users to use.
+        confidential: 检查在客户端密钥可以保密的地方是否使用应用程序。原生移动应用和单页应用被假定为非机密。
+        client_credential_user_id: 在客户端使用此应用程序时要冒充的可选用户 ID。留空可以仅允许公开访问
+        register_intro: 如果您正在为 OpenProject 开发 OAuth API 客户端应用程序，则可以使用此表单注册，供所有用户使用。
         default_scopes: ''
-    client_id: Client ID
-    client_secret_notice: 'This is the only time we can print the client secret, please
-      note it down and keep it secure. It should be treated as a password and cannot
-      be retrieved by OpenProject at a later time.
+    client_id: 客户端 ID
+    client_secret_notice: '这是我们唯一可以打印客户端密钥的时间，请记下密钥并保证它的安全。密钥应被视为密码，并且之后无法通过 OpenProject
+      检索。
 
 '
     authorization_dialog:
-      authorize: Authorize
-      cancel: Cancel and deny authorization.
-      prompt_html: Authorize <strong>%{application_name}</strong> to use your account
-        <em>%{login}</em>?
-      title: Authorize %{application_name}
-      wants_to_access_html: 'This application requests access to your OpenProject
-        account. <br/> <strong>It has requested the following permissions:</strong>
+      authorize: 授权
+      cancel: 取消并拒绝授权。
+      prompt_html: 授权 <strong>%{application_name}</strong> 使用您的帐户 <em>%{login}</em>？
+      title: 授权 %{application_name}
+      wants_to_access_html: '此应用程序请求访问您的 OpenProject 帐户。<br/> <strong>它请求了以下权限：</strong>
 
 '
     scopes:
-      api_v3: Full API access
-      api_v3_text: Application will receive full read & write access to the OpenProject
-        API to perform actions on your behalf.
+      api_v3: 完全 API 访问
+      api_v3_text: 应用程序将获得完整的 OpenProject API 读写访问权限，可以代表您执行操作。
     grants:
-      created_date: Approved on
+      created_date: 批准日期
       scopes: 权限
-      successful_application_revocation: Revocation of application %{application_name}
-        successful.
-      none_given: No OAuth applications have been granted access to your user account.
+      successful_application_revocation: 已成功撤销应用程序 %{application_name}。
+      none_given: 没有 OAuth 应用程序已获得访问您的用户帐户的权限。
     x_active_tokens:
       one: one active token
-      other: "%{count} active token"
+      other: "%{count} 个有效令牌"
     flows:
-      authorization_code: Authorization code flow
-      client_credentials: Client credentials flow
-    client_credentials: User used for Client credentials
-    client_credentials_impersonation_set_to: Client credentials user set to
-    client_credentials_impersonation_warning: 'Note: Clients using the ''Client credentials''
-      flow in this application will have the rights of this user'
-    client_credentials_impersonation_html: 'By default, OpenProject provides OAuth
-      2.0 authorization via %{authorization_code_flow_link}. You can optionally enable
-      %{client_credentials_flow_link}, but you must provide a user on whose behalf
-      requests will be performed.
+      authorization_code: 授权码流
+      client_credentials: 客户端凭据流
+    client_credentials: 用于客户端凭据的用户
+    client_credentials_impersonation_set_to: 设置的目标客户端凭据用户
+    client_credentials_impersonation_warning: 注：在此应用程序中使用“客户端凭据”流的客户端将具有此用户的权限。
+    client_credentials_impersonation_html: '默认情况下，OpenProject 通过 %{authorization_code_flow_link}
+      提供 OAuth 2.0 授权。您可以选择启用 %{client_credentials_flow_link}，但您必须提供代其执行请求的用户。
 
 '
-    authorization_error: An authorization error has occurred.
-    revoke_my_application_confirmation: Do you really want to remove this application?
-      This will revoke %{token_count} active for it.
-    my_registered_applications: Registered OAuth applications
+    authorization_error: 发生了验证错误。
+    revoke_my_application_confirmation: 确定想要移除此应用程序吗？这将撤销对其有效的 %{token_count}。
+    my_registered_applications: 已注册的 OAuth 应用程序

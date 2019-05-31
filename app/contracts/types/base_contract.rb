@@ -43,6 +43,7 @@ module Types
     attribute :is_default
     attribute :color_id
     attribute :project_ids
+    attribute :description
     attribute :attribute_groups
 
     validate :validate_current_user_is_admin
@@ -56,6 +57,8 @@ module Types
     end
 
     def validate_attribute_group_names
+      return unless model.attribute_groups_changed?
+
       seen = Set.new
       model.attribute_groups.each do |group|
         errors.add(:attribute_groups, :group_without_name) unless group.key.present?
@@ -64,6 +67,8 @@ module Types
     end
 
     def validate_attribute_groups
+      return unless model.attribute_groups_changed?
+
       model.attribute_groups_objects.each do |group|
         if group.is_a?(Type::QueryGroup)
           validate_query_group(group)
@@ -89,7 +94,11 @@ module Types
 
       group.attributes.each do |key|
         if key.is_a?(String) && valid_attributes.exclude?(key)
-          errors.add(:attribute_groups, :attribute_unknown)
+          errors.add(
+            :attribute_groups,
+            I18n.t('activerecord.errors.models.type.attributes.attribute_groups.attribute_unknown_name',
+                            attribute: key)
+          )
         end
       end
     end

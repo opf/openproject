@@ -1,5 +1,6 @@
 <div *ngIf="workPackage"
-     class="work-package--single-view">
+     class="work-package--single-view"
+     [ngClass]="{'-can-have-columns' : enableTwoColumnLayout }">
   <div class="wp-new--subject-wrapper"
        *ngIf="workPackage.isNew">
     <wp-edit-field [workPackageId]="workPackage.id"
@@ -39,7 +40,7 @@
       <div class="attributes-group--header-container"></div>
     </div>
     <div>
-      <p [hidden]="projectContext.href" [textContent]="text.project.required"></p>
+      <p class="wp-project-context--warning" [hidden]="projectContext.href" [textContent]="text.project.required"></p>
       <div class="attributes-key-value"
            [ngClass]="{'-span-all-columns': descriptor.spanAll }"
            *ngFor="let descriptor of projectContext.field; trackBy:trackByName">
@@ -73,6 +74,10 @@
     </div>
   </div>
 
+  <div *ngIf="workPackage.bcf">
+    <bcf-wp-single-view [workPackage]="workPackage"></bcf-wp-single-view>
+  </div>
+
   <div class="attributes-group description-group">
     <div class="attributes-group--header">
       <div class="attributes-group--header-container">
@@ -104,11 +109,18 @@
       </div>
     </div>
 
-    <ng-container wp-isolated-query-space>
+    <ng-container wp-isolated-query-space *ngIf="group.isolated">
       <ndc-dynamic [ndcDynamicComponent]="attributeGroupComponent(group)"
                    [ndcDynamicInputs]="{ workPackage: workPackage,
                                          group: group,
                                          query: group.query }" >
+      </ndc-dynamic>
+    </ng-container>
+
+    <ng-container *ngIf="!group.isolated">
+      <ndc-dynamic [ndcDynamicComponent]="attributeGroupComponent(group)"
+                   [ndcDynamicInjector]="injector"
+                   [ndcDynamicInputs]="{ workPackage: workPackage, group: group }">
       </ndc-dynamic>
     </ng-container>
   </div>

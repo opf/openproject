@@ -36,23 +36,24 @@ class RolesController < ApplicationController
 
   def index
     @roles = Role
-             .order(Arel.sql('builtin, position'))
-             .page(page_param)
-             .per_page(per_page_param)
+               .order(Arel.sql('builtin, position'))
+               .page(page_param)
+               .per_page(per_page_param)
 
     render action: 'index', layout: false if request.xhr?
   end
 
   def new
     # Prefills the form with 'Non member' role permissions
-    @role = Role.new(permitted_params.role? || { permissions: Role.non_member.permissions })
+    @role = Role.new(permitted_params.role? || {permissions: Role.non_member.permissions})
 
-    @permissions = @role.setable_permissions
+    define_setable_permissions
+
     @roles = Role.order(Arel.sql('builtin, position'))
   end
 
   def create
-    @role = Role.new(permitted_params.role? || { permissions: Role.non_member.permissions })
+    @role = Role.new(permitted_params.role? || {permissions: Role.non_member.permissions})
     if @role.save
       # workflow copy
       if !params[:copy_workflow_from].blank? && (copy_from = Role.find_by(id: params[:copy_workflow_from]))
@@ -62,7 +63,7 @@ class RolesController < ApplicationController
       redirect_to action: 'index'
       notify_changed_roles(:added, @role)
     else
-      @permissions = @role.setable_permissions
+      define_setable_permissions
       @roles = Role.order(Arel.sql('builtin, position'))
 
       render action: 'new'
@@ -71,7 +72,7 @@ class RolesController < ApplicationController
 
   def edit
     @role = Role.find(params[:id])
-    @permissions = @role.setable_permissions
+    define_setable_permissions
   end
 
   def update
@@ -94,13 +95,13 @@ class RolesController < ApplicationController
     redirect_to action: 'index'
     notify_changed_roles(:removed, @role)
   rescue
-    flash[:error] =  l(:error_can_not_remove_role)
+    flash[:error] = l(:error_can_not_remove_role)
     redirect_to action: 'index'
   end
 
   def report
     @roles = Role.order(Arel.sql('builtin, position'))
-    @permissions = Redmine::AccessControl.permissions.select { |p| !p.public? }
+    @permissions = Redmine::AccessControl.permissions.select {|p| !p.public?}
   end
 
   def bulk_update
@@ -121,7 +122,7 @@ class RolesController < ApplicationController
     size = params[:page_limit].to_i
     page = params[:page].to_i
 
-    @roles = Role.paginated_search(params[:q],  page: page, page_limit: size)
+    @roles = Role.paginated_search(params[:q], page: page, page_limit: size)
     # we always get all the items on a page, so just check if we just got the last
     @more = @roles.total_pages > page
     @total = @roles.total_entries
@@ -149,5 +150,19 @@ class RolesController < ApplicationController
 
   def show_local_breadcrumb
     true
+  end
+
+  def define_setable_permissions
+    @permissions = group_permissions_by_module(@role.setable_permissions)
+  end
+
+  def group_permissions_by_module(perms)
+    perms_by_module = perms.group_by {|p| p.project_module.to_s}
+    ::Redmine::AccessControl
+      .sorted_modules
+      .select {|module_name| perms_by_module[module_name].present?}
+      .map do |module_name|
+      [module_name, perms_by_module[module_name]]
+    end
   end
 end

@@ -32,7 +32,6 @@ import {
 } from 'core-app/modules/hal/resources/query-resource';
 
 export interface WorkPackageTableTimelineState {
-  autoZoom:boolean;
   visible:boolean;
   zoomLevel:TimelineZoomLevel;
   labels:TimelineLabels;

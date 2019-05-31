@@ -54,6 +54,7 @@ module API
         def schema(property,
                    type:,
                    name_source: property,
+                   as: camelize(property),
                    required: true,
                    has_default: false,
                    writable: default_writable_property(property),
@@ -81,12 +82,14 @@ module API
                           show_if,
                           required,
                           has_default,
-                          name_source)
+                          name_source,
+                          as)
         end
 
         def schema_with_allowed_link(property,
                                      type: make_type(property),
                                      name_source: property,
+                                     as: camelize(property),
                                      href_callback:,
                                      required: true,
                                      has_default: false,
@@ -110,12 +113,14 @@ module API
                           show_if,
                           required,
                           has_default,
-                          name_source)
+                          name_source,
+                          as)
         end
 
         def schema_with_allowed_collection(property,
                                            type: make_type(property),
                                            name_source: property,
+                                           as: camelize(property),
                                            values_callback: -> do
                                              represented.assignable_values(property, current_user)
                                            end,
@@ -139,7 +144,8 @@ module API
                                                   writable,
                                                   visibility,
                                                   attribute_group,
-                                                  values_callback)
+                                                  values_callback,
+                                                  nil)
           end
 
           schema_property(property,
@@ -147,7 +153,49 @@ module API
                           show_if,
                           required,
                           has_default,
-                          name_source)
+                          name_source,
+                          as)
+        end
+
+        def schema_with_allowed_string_collection(property,
+                                                  type: make_type(property),
+                                                  name_source: property,
+                                                  as: camelize(property),
+                                                  values_callback: -> do
+                                                    represented.assignable_values(property, current_user)
+                                                  end,
+                                                  required: true,
+                                                  has_default: false,
+                                                  writable: default_writable_property(property),
+                                                  visibility: nil,
+                                                  attribute_group: nil,
+                                                  show_if: true)
+          getter = ->(*) do
+            schema_with_allowed_collection_getter(type,
+                                                  name_source,
+                                                  current_user,
+                                                  nil,
+                                                  nil,
+                                                  required,
+                                                  has_default,
+                                                  writable,
+                                                  visibility,
+                                                  attribute_group,
+                                                  values_callback,
+                                                  ->(*) {
+                                                    next unless allowed_values
+
+                                                    allowed_values
+                                                  })
+          end
+
+          schema_property(property,
+                          getter,
+                          show_if,
+                          required,
+                          has_default,
+                          name_source,
+                          as)
         end
 
         def schema_property(property,
@@ -155,10 +203,12 @@ module API
                             show_if,
                             required,
                             has_default,
-                            name_source)
+                            name_source,
+                            property_alias)
           raise ArgumentError unless property
 
           property property,
+                   as: property_alias,
                    exec_context: :decorator,
                    getter: getter,
                    if: show_if,
@@ -287,7 +337,8 @@ module API
                                                 writable,
                                                 visibility,
                                                 attribute_group,
-                                                values_callback)
+                                                values_callback,
+                                                allowed_values_getter)
 
         wrapped_link_factory = if link_factory
                                  ->(value) { instance_exec(value, &link_factory) }
@@ -295,23 +346,31 @@ module API
                                  link_factory
                                end
 
+        attributes = { type: call_or_use(type),
+                       name: call_or_translate(name_source),
+                       current_user: current_user,
+                       value_representer: value_representer,
+                       link_factory: wrapped_link_factory,
+                       required: call_or_use(required),
+                       has_default: call_or_use(has_default),
+                       writable: call_or_use(writable),
+                       visibility: call_or_use(visibility),
+                       attribute_group: call_or_use(attribute_group) }
+
+        attributes[:allowed_values_getter] = allowed_values_getter if allowed_values_getter
+
         representer = ::API::Decorators::AllowedValuesByCollectionRepresenter
-                      .new(type: call_or_use(type),
-                           name: call_or_translate(name_source),
-                           current_user: current_user,
-                           value_representer: value_representer,
-                           link_factory: wrapped_link_factory,
-                           required: call_or_use(required),
-                           has_default: call_or_use(has_default),
-                           writable: call_or_use(writable),
-                           visibility: call_or_use(visibility),
-                           attribute_group: call_or_use(attribute_group))
+                      .new(attributes)
 
         if form_embedded
           representer.allowed_values = instance_exec(&values_callback)
         end
 
         representer
+      end
+
+      def self.camelize(symbol)
+        symbol.to_s.camelize(:lower).to_sym
       end
     end
   end

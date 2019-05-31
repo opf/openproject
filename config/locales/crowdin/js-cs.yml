@@ -18,11 +18,18 @@ cs:
     close_popup_title: Zavřít okno
     close_filter_title: Zavřít filtr
     close_form_title: Zavřít formulář
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: Váš prohlížeč nepodporuje, kopírování do schránky. Ručně zkopírujte
         vybraný text.
       copied_successful: Úspešně zkopírováno do schránky!
     button_add_watcher: Přidat sledující
+    button_back: Zpět
     button_back_to_list_view: Zpět na seznam
     button_cancel: Zrušit
     button_close: Zavřít
@@ -59,7 +66,7 @@ cs:
       too_many: K zobrazení je více pracovních balíčků (%{count}) než je možné zobrazit
         na kalendáři (%{max}). Prosím použijte filtry.
     description_available_columns: Dostupné sloupce
-    description_current_position: 'Nacházíte se zde:'
+    description_current_position: 'You are here: '
     description_select_work_package: 'Vyberte pracovní balíček #%{id}'
     description_selected_columns: Vybrané sloupce
     description_subwork_package: 'Potomek pracovního balíčku #%{id}'
@@ -147,6 +154,43 @@ cs:
     general_text_yes: ano
     general_text_No: Ne
     general_text_Yes: Ano
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Novinky
+          at: at
+          no_results: Žádné novinky.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Pracovní balíčky, za které zodpovídám
+        work_packages_assigned:
+          title: Pracovní balíčky přidělené mně
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_table:
+          title: Pracovní balíčky
+        work_packages_calendar:
+          title: Kalendář
+    homescreen:
+      blocks:
+        new_features:
+          text_new_features: Read about new features and product updates.
+          current_new_feature_html: 'OpenProject contains a new <b>Boards view</b>
+            for Agile project management. </br> To activate this new feature for your
+            existing projects, please do the following steps: <ul><li>Activate the
+            module Boards within existing projects'' settings.</li> <li>Configure
+            your Boards in a project.</li> <li>Verify roles and permissions</li></ul>'
+          image_alt_text: Board teaser image
+          learn_about: Learn more about Agile Boards
     label_activate: Aktivovat
     label_activity_no: Activity entry number %{activityNo}
     label_activity_with_comment_no: Activity entry number %{activityNo}. Has a user
@@ -173,6 +217,7 @@ cs:
     label_board_locked: Uzamčeno
     label_board_plural: Boards
     label_board_sticky: Sticky
+    label_create_new: Vytvořit nový
     label_create_work_package: Vytvořit nový pracovní balíček
     label_created_by: Vytvořil(a)
     label_date: Datum
@@ -219,6 +264,7 @@ cs:
     label_more_than_ago: před více jak (dny)
     label_my_page: Moje stránka
     label_next: Další
+    label_no_color: Bez barvy
     label_no_data: No data to display
     label_no_due_date: žádné datum ukončení
     label_no_start_date: žádné datum začátku
@@ -311,45 +357,53 @@ cs:
         next: Další
         got_it: Got it
       steps:
-        welcome: Naučte se během tří minut <b>důležité funkce</b>. <br> Doporučujeme
-          dokončit prohlídku až do konce. Prohlídku můžete kdykoliv restartovat.
-        project_selection: Please select one of the projects with useful demo data
+        help_menu: In the <b>Help</b> menu you will find a user guide and additional
+          help resources. <br> Enjoy your work with OpenProject!
+        members: Invite new <b>Members</b> to join your project.
+        project_selection: Please click on one of the projects with useful demo data
           to get started. <br> The <b>Demo project</b> suits best for classical project
           management, while the <b>Scrum project</b> is better for Agile project management.
         sidebar_arrow: With the arrow you can navigate back to the project's <b>Main
           menu</b>.
-        members: Invite new <b>Members</b> to join your project.
+        welcome: Naučte se během tří minut <b>důležité funkce</b>. <br> Doporučujeme
+          dokončit prohlídku až do konce. Prohlídku můžete kdykoliv restartovat.
         wiki: Within the <b>Wiki</b> you can document and share knowledge together
           with your team.
-        backlogs_overview: Vaši práci můžete organizovat v <b>backlog</b> pohledu.
-          <br> Na pravé straně je k dispozici backlog produktů či chyb, na levé straně
-          příslušné sprinty. Zde můžete vytvářet <b>epiky, user stories a chybové
-          reporty</b>, měnit priority přetažením myší a přiřazování k jednotlivým
-          sprintům.
-        backlogs_task_board_arrow: Chcete-li vidět Váš <b>seznam úkolů</b>, otevřete
-          Sprint drop-down menu...
-        backlogs_task_board_select: "... and select the <b>Task board</b> entry."
-        backlogs_task_board: The <b>Task board</b> visualizes the progress for this
-          sprint. Add new tasks or impediments with the + icon next to a user story.
-          Via drag'n'drop you can update the status.
-        wp_toggler: Now let's have a look at the <b>Work package</b> section, which
-          gives you a more detailed view of your work.
-        wp_list: This is the <b>Work package</b> list with the important work within
-          your project, such as tasks, features, milestones, bugs, and more. <br>
-          You can create or edit a work package directly within this list. To see
-          its details you can double click on a row.
-        wp_full_view: V <b>detailech pracovního balíčku</b> najdete všechny relevantní
-          informace jako popis, stav, prioritu, activity, návaznosti a komentáře.
-        wp_back_button: With the arrow you can navigate back to the work package list.
-        wp_create_button: The <b>Create</b> button will add a new work package to
-          your project.
-        wp_timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
-          for your project.
-        wp_timeline: Zde můžete upravit váš projektový plán. Vytvářet nové fáze, milníky
-          a přidat závislosti. Všichni členové týmu mohou kdykoliv zobrazit a aktualizovat
-          aktuální plán.
-        help_menu: In the <b>Help</b> menu you will find a user guide and additional
-          help resources. <br> Enjoy your work with OpenProject!
+        backlogs:
+          overview: Vaši práci můžete organizovat v <b>backlog</b> pohledu. <br> Na
+            pravé straně je k dispozici backlog produktů či chyb, na levé straně příslušné
+            sprinty. Zde můžete vytvářet <b>epiky, user stories a chybové reporty</b>,
+            měnit priority přetažením myší a přiřazování k jednotlivým sprintům.
+          task_board_arrow: Chcete-li vidět Váš <b>seznam úkolů</b>, otevřete Sprint
+            drop-down menu...
+          task_board_select: "... and select the <b>Task board</b> entry."
+          task_board: The <b>Task board</b> visualizes the progress for this sprint.
+            Add new tasks or impediments with the + icon next to a user story. Via
+            drag'n'drop you can update the status.
+        boards:
+          overview: Manage your work within an intuitive <b>Boards</b> view.
+          lists: You can create multiple lists (columns) within one Board view, e.g.
+            to create a KANBAN board.
+          add: Click the + will <b>add a new card</b> to the list within a Board.
+          drag: Drag & Drop your cards within a list to re-order, or to another list.
+            A double click will open the details view.
+        wp:
+          toggler: Now let's have a look at the <b>Work package</b> section, which
+            gives you a more detailed view of your work.
+          list: This is the <b>Work package</b> list with the important work within
+            your project, such as tasks, features, milestones, bugs, and more. <br>
+            You can create or edit a work package directly within this list. To see
+            its details you can double click on a row.
+          full_view: V <b>detailech pracovního balíčku</b> najdete všechny relevantní
+            informace jako popis, stav, prioritu, activity, návaznosti a komentáře.
+          back_button: With the arrow you can navigate back to the work package list.
+          create_button: The <b>Create</b> button will add a new work package to your
+            project.
+          timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
+            for your project.
+          timeline: Zde můžete upravit váš projektový plán. Vytvářet nové fáze, milníky
+            a přidat závislosti. Všichni členové týmu mohou kdykoliv zobrazit a aktualizovat
+            aktuální plán.
     password_confirmation:
       field_description: You need to enter your account password to confirm this change.
       title: Pro pokračování potvrďte vaše heslo
@@ -456,8 +510,7 @@ cs:
       abort: Zrušit
     relations_autocomplete:
       placeholder: Zadejte ID pracovního balíčku
-      parent_placeholder: Vyberte nadřazený prvek, enter zruší závislost, escape vrátí
-        předchozí stav.
+      parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: Select tag
       select_branch: Select branch
@@ -493,6 +546,7 @@ cs:
       view?
     text_attachment_destroy_confirmation: Are you sure you want to delete the attachment?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Ganttův diagram
       labels:
         title: Konfigurace popisku
@@ -871,27 +925,3 @@ cs:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
-    grid:
-      add_modal:
-        choose_widget: Choose widget
-      widgets:
-        documents:
-          title: Documents
-          no_results: No documents yet.
-        news:
-          title: Novinky
-          at: at
-          no_results: Žádné novinky.
-        time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
-        work_packages_accountable:
-          title: Work packages I am accountable for
-        work_packages_assigned:
-          title: Pracovní balíčky přidělené mně
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_calendar:
-          title: Kalendář

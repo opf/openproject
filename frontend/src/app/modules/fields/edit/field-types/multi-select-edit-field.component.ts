@@ -43,7 +43,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
 
   readonly I18n:I18nService = this.injector.get(I18nService);
-  public options:any[];
+  public options:any[] = [];
   public valueOptions:ValueOption[];
   public text = {
     requiredPlaceholder: this.I18n.t('js.placeholders.selection'),
@@ -59,30 +59,25 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   private nullOption:ValueOption;
   private _selectedOption:ValueOption[];
 
+  /** Since we need to wait for values to be loaded, remember if the user activated this field*/
+  private requestFocus = false;
+
   ngOnInit() {
+    this.nullOption = { name: this.text.placeholder, $href: null };
+
     this.handler
       .$onUserActivate
       .pipe(
-        untilComponentDestroyed(this)
+        untilComponentDestroyed(this),
       )
-      .subscribe(() => this.openAutocompleteSelectField());
+      .subscribe(() => {
+        this.requestFocus = this.options.length === 0;
 
-    this.nullOption = { name: this.text.placeholder, $href: null };
-
-    if (Array.isArray(this.schema.allowedValues)) {
-      this.setValues(this.schema.allowedValues);
-    } else if (this.schema.allowedValues) {
-      this.schema.allowedValues.$load().then((values:CollectionResource) => {
-        // The select options of the project shall be sorted
-        if (values.count > 0 && (values.elements[0] as any)._type === 'Project') {
-          this.setValues(values.elements, true);
-        } else {
-          this.setValues(values.elements);
+        // If we already have all values loaded, open now.
+        if (!this.requestFocus) {
+          this.openAutocompleteSelectField();
         }
       });
-    } else {
-      this.setValues([]);
-    }
 
     super.ngOnInit();
     this.appendTo = this.overflowingSelector;
@@ -90,7 +85,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
 
   public get value() {
     const val = this.changeset.value(this.name);
-    return val[0];
+    return val ? val[0] : val;
   }
 
   /**
@@ -100,7 +95,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
    */
   public buildSelectedOption() {
     const value:HalResource[] = this.changeset.value(this.name);
-    return value.map(val => this.findValueOption(val));
+    return value ? value.map(val => this.findValueOption(val)) : [];
   }
 
   public get selectedOption() {
@@ -138,7 +133,12 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   }
 
   private openAutocompleteSelectField() {
-    this.ngSelectComponent.open();
+    // The timeout takes care that the opening is added to the end of the current call stack.
+    // Thus we can be sure that the autocompleter is rendered and ready to be opened.
+    let that = this;
+    window.setTimeout(function () {
+      that.ngSelectComponent.open();
+    }, 0);
   }
 
   private findValueOption(option?:HalResource):ValueOption {
@@ -160,12 +160,41 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
       });
     }
 
-    this.options = availableValues;
+    this.options = availableValues || [];
     this.valueOptions = this.options.map(el => {
       return { name: el.name, $href: el.$href };
     });
     this._selectedOption = this.buildSelectedOption();
     this.checkCurrentValueValidity();
+
+    if (this.options.length > 0 && this.requestFocus) {
+      this.openAutocompleteSelectField();
+      this.requestFocus = false;
+    }
+  }
+
+  protected initialize() {
+    super.initialize();
+    this.loadValues();
+  }
+
+  private loadValues() {
+    let allowedValues = this.schema.allowedValues;
+    if (Array.isArray(allowedValues)) {
+      this.setValues(allowedValues);
+    } else if (this.schema.allowedValues) {
+      return this.schema.allowedValues.$load().then((values:CollectionResource) => {
+        // The select options of the project shall be sorted
+        if (values.count > 0 && (values.elements[0] as any)._type === 'Project') {
+          this.setValues(values.elements, true);
+        } else {
+          this.setValues(values.elements);
+        }
+      });
+    } else {
+      this.setValues([]);
+    }
+    return Promise.resolve();
   }
 
   private checkCurrentValueValidity() {

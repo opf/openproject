@@ -50,8 +50,8 @@ describe 'API v3 Attachment resource', type: :request, content_type: :json do
   let(:attachment) { FactoryBot.create(:attachment, container: container, author: author) }
   let(:wiki) { FactoryBot.create(:wiki, project: project) }
   let(:wiki_page) { FactoryBot.create(:wiki_page, wiki: wiki) }
-  let(:board) { FactoryBot.create(:board, project: project) }
-  let(:board_message) { FactoryBot.create(:message, board: board) }
+  let(:forum) { FactoryBot.create(:forum, project: project) }
+  let(:forum_message) { FactoryBot.create(:message, forum: forum) }
   let(:container) { work_package }
 
   before do
@@ -62,7 +62,7 @@ describe 'API v3 Attachment resource', type: :request, content_type: :json do
     subject(:response) { last_response }
     let(:get_path) { api_v3_paths.attachment attachment.id }
 
-    %i[wiki_page work_package board_message].each do |attachment_type|
+    %i[wiki_page work_package forum_message].each do |attachment_type|
       context "with a #{attachment_type} attachment" do
         let(:container) { send(attachment_type) }
 
@@ -89,7 +89,7 @@ describe 'API v3 Attachment resource', type: :request, content_type: :json do
           end
 
           context 'requesting attachments without sufficient permissions' do
-            if attachment_type == :board_message
+            if attachment_type == :forum_message
               let(:current_user) { FactoryBot.create(:user) }
             else
               let(:permissions) { [] }
@@ -208,7 +208,7 @@ describe 'API v3 Attachment resource', type: :request, content_type: :json do
       end
     end
 
-    %i[wiki_page work_package board_message].each do |attachment_type|
+    %i[wiki_page work_package forum_message].each do |attachment_type|
       context "with a #{attachment_type} attachment" do
         let(:container) { send(attachment_type) }
 

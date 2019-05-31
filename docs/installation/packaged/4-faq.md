@@ -10,11 +10,12 @@ Please note that customization is not yet supported for Docker-based installatio
 ### How to migrate from Bitnami to the official OpenProject installation packages?
 
 Please follow the following steps:
-1. Make a dump of your bitnami MySQL database to export your data. You can refer to the [Bitnami documentation][bitnami-mysql].
+1. Make a dump of your bitnami database to export your data. You can refer to the [Bitnami documentation][bitnami-mysql].
 1. Make a dump of files your might have uploaded. You can refer to the [Bitnami documentation][bitnami-backup] to perform a full dump.
 1. Copy both dumps to the server you want to install OpenProject on.
 1. Install OpenProject using the packaged installation.
-1. Import the MySQL dump into your new MySQL database. You can get your MySQL configuration by running `sudo openproject config:get DATABASE_URL`
+1. By default, this will allow you to install a PostgreSQL database, which we recommend. You can migrate your data from MySQL using https://pgloader.io
+1. Import the dump into your new database. You can get your configuration by running `sudo openproject config:get DATABASE_URL`
 1. Extract the bitnami backup, and copy your file assets into the relevant directory (e.g. in `/var/db/openproject/files` for uploaded files)
 1. Restart OpenProject
 
@@ -25,11 +26,20 @@ Please follow the following steps:
 
 Yes, but you will lose the ability to enable Git/SVN repository integration. Note that the OpenProject installer does not support NginX, so you will have to ask to disable the Apache2 integration when running the installer, and then configure NginX yourself so that it forwards traffic to the OpenProject web process (listening by default on 127.0.0.1:6000). If using SSL/TLS, please ensure you set the header value `X-Forwarded-Proto https` so OpenProject can correctly produce responses. [For more information, please visit our forums](https://community.openproject.com/projects/openproject/boards).
 
-### Can I use PostgreSQL instead of MySQL?
+### Can I use MySQL instead of PostgreSQL?
 
-Yes, but you will need to setup the database by yourself, and then set the DATABASE_URL environment variable.
-This can be done with the command `openproject config:set DATABASE_URL="postgres://{user}:{password}@{hostname}:{port}/{database-name}"`.
+Yes, but we are recommending to use PostgreSQL to ensure long-term compatibility with OpenProject. Some features such as full-text search are only available on PostgreSQL, and we may decide to reduce or drop MySQL support at some point in the future.
+
+You will need to setup the database by yourself, and then set the DATABASE_URL environment variable.
+This can be done with the command `openproject config:set DATABASE_URL="mysql://{user}:{password}@{hostname}:{port}/{database-name}"`.
+
 **Note:** When entering DATABASE_URL manually, you need to [percent-escape special characters](https://developer.mozilla.org/en-US/docs/Glossary/percent-encoding) in the password.
+
+### How can I migrate my existing MySQL database to PostgreSQL ?
+
+Older installations of OpenProject have installed a MySQL. With [pgloader](https://pgloader.io), it is trivially easy to convert a dump between MySQL and PostgreSQL installation. You simply run `pgloader <mysql database url> <postgres database url>`. You can find out the DATABASE_URL by using `openproject config:get DATABASE_URL`.
+
+[We have prepared a guide](https://www.openproject.org/operations/upgrading/migrating-packaged-openproject-database-postgresql/) on how to migrate to a PostgreSQL database if you previously used MySQL. 
 
 ### My favorite linux distribution is not listed. What can I do?
 

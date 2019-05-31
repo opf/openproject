@@ -4,6 +4,7 @@ import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-por
 import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
 import {WorkPackageTableFiltersService} from 'core-components/wp-fast-table/state/wp-table-filters.service';
 import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
+import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 
 @Component({
   templateUrl: './filters-tab.component.html'
@@ -25,11 +26,12 @@ export class WpTableConfigurationFiltersTab implements TabComponent {
   constructor(readonly injector:Injector,
               readonly I18n:I18nService,
               readonly wpTableFilters:WorkPackageTableFiltersService,
-              readonly wpFiltersService:WorkPackageFiltersService) {
+              readonly wpFiltersService:WorkPackageFiltersService,
+              readonly bannerService:BannersService) {
   }
 
   ngOnInit() {
-    this.eeShowBanners = jQuery('body').hasClass('ee-banners-visible');
+    this.eeShowBanners = this.bannerService.eeShowBanners;
     this.wpTableFilters
       .onReady()
       .then(() => this.filters = this.wpTableFilters.current);

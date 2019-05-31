@@ -28,13 +28,14 @@
 #++
 
 class Member < ActiveRecord::Base
-  belongs_to :user
+  extend DeprecatedAlias
+
   belongs_to :principal, foreign_key: 'user_id'
   has_many :member_roles, dependent: :destroy, autosave: true
   has_many :roles, through: :member_roles
   belongs_to :project
 
-  validates_presence_of :project
+  validates_presence_of :project, :principal
   validates_uniqueness_of :user_id, scope: :project_id
 
   validate :validate_presence_of_role
@@ -52,7 +53,12 @@ class Member < ActiveRecord::Base
   }
 
   def self.visible(user)
-    where(project_id: Project.visible_by(user))
+    view_members = Project.where(id: Project.allowed_to(user, :view_members))
+    manage_members = Project.where(id: Project.allowed_to(user, :manage_members))
+
+    project_scope = view_members.or(manage_members)
+
+    where(project_id: project_scope.select(:id))
   end
 
   def name
@@ -70,6 +76,9 @@ class Member < ActiveRecord::Base
   end
 
   alias :base_role_ids= :role_ids=
+
+  deprecated_alias :user, :principal
+  deprecated_alias :user=, :principal=
 
   # Set the roles for this member to the given roles_or_role_ids, immediately
   # save the changes and destroy the member in case no role is left.
@@ -117,11 +126,11 @@ class Member < ActiveRecord::Base
     member_roles.detect(&:inherited_from).nil?
   end
 
-  def include?(user)
-    if principal.is_a?(Group)
-      !user.nil? && user.groups.include?(principal)
+  def include?(principal)
+    if user?
+      self.principal == principal
     else
-      self.user == user
+      !principal.nil? && principal.groups.include?(principal)
     end
   end
 
@@ -130,8 +139,9 @@ class Member < ActiveRecord::Base
   # Note: This logic is duplicated for mass deletion in `app/models/group/destroy.rb`.
   #       Accordingly it has to be changed there too should this bit change at all.
   def remove_from_category_assignments
-    Category.where(['project_id = ? AND assigned_to_id = ?', project_id, user_id])
-      .update_all 'assigned_to_id = NULL' if user
+    Category
+      .where(project_id: project_id, assigned_to_id: user_id)
+      .update_all(assigned_to_id: nil)
   end
 
   ##
@@ -139,7 +149,7 @@ class Member < ActiveRecord::Base
   # and haven't been activated yet. Only applies if the member is actually a user
   # as opposed to a group.
   def disposable?
-    user && user.invited? && user.memberships.none? { |m| m.project_id != project_id }
+    user? && principal&.invited? && principal.memberships.none? { |m| m.project_id != project_id }
   end
 
   protected
@@ -153,12 +163,12 @@ class Member < ActiveRecord::Base
   end
 
   def validate_presence_of_role
-    if member_roles.empty?
-      errors.add :base, :role_blank if roles.empty?
-    else
-      errors.add :base, :role_blank if member_roles.all? do |member_role|
-        member_role.marked_for_destruction? || member_role.destroyed?
-      end
+    if (member_roles.empty? && roles.empty?) ||
+       member_roles.all? do |member_role|
+         member_role.marked_for_destruction? || member_role.destroyed?
+       end
+
+      errors.add :roles, :role_blank
     end
   end
 
@@ -167,7 +177,7 @@ class Member < ActiveRecord::Base
   end
 
   def do_add_role(role_or_role_id, inherited_from_id, save_immediately)
-    id = (role_or_role_id.is_a? Role) ? role_or_role_id.id : role_or_role_id
+    id = role_or_role_id.is_a?(Role) ? role_or_role_id.id : role_or_role_id
 
     if save_immediately
       member_roles << MemberRole.new.tap do |member_role|
@@ -186,19 +196,19 @@ class Member < ActiveRecord::Base
   # when no roles are left.
   def do_assign_roles(roles_or_role_ids, save_and_possibly_destroy)
     # ensure we have integer ids
-    ids = roles_or_role_ids.map { |r| (r.is_a? Role) ? r.id : r.to_i }
+    ids = roles_or_role_ids.map { |r| r.is_a?(Role) ? r.id : r.to_i }
 
     # Keep inherited roles
-    ids += member_roles.select { |mr| !mr.inherited_from.nil? }.map(&:role_id)
+    ids += member_roles.reject { |mr| mr.inherited_from.nil? }.map(&:role_id)
 
     new_role_ids = ids - role_ids
     # Add new roles
     # Do this before destroying them, otherwise the Member is destroyed due to not having any
     # Roles assigned via MemberRoles.
-    new_role_ids.each do |id| do_add_role(id, nil, save_and_possibly_destroy) end
+    new_role_ids.each { |id| do_add_role(id, nil, save_and_possibly_destroy) }
 
     # Remove roles (Rails' #role_ids= will not trigger MemberRole#on_destroy)
-    member_roles_to_destroy = member_roles.select { |mr| !ids.include?(mr.role_id) }
+    member_roles_to_destroy = member_roles.reject { |mr| ids.include?(mr.role_id) }
     member_roles_to_destroy.each { |mr| do_remove_member_role(mr, save_and_possibly_destroy) }
   end
 
@@ -230,8 +240,8 @@ class Member < ActiveRecord::Base
   # Note: This logic is duplicated for mass deletion in `app/models/group/destroy.rb`.
   #       Accordingly it has to be changed there too should this bit change at all.
   def unwatch_from_permission_change
-    if user
-      Watcher.prune(user: user, project_id: project.id)
+    if principal
+      Watcher.prune(user: principal, project_id: project.id)
     end
   end
 
@@ -241,5 +251,9 @@ class Member < ActiveRecord::Base
 
   def destroy_notification
     ::OpenProject::Notifications.send(:member_removed, member: self)
+  end
+
+  def user?
+    principal.is_a?(User)
   end
 end

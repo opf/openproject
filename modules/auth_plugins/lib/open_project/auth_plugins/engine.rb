@@ -37,7 +37,7 @@ module OpenProject::AuthPlugins
 
     register 'openproject-auth_plugins',
              author_url: 'http://finn.de',
-             requires_openproject: '>= 3.1.0pre1'
+             bundled: true
 
     initializer 'auth_plugins.register_hooks' do
       require 'open_project/auth_plugins/hooks'

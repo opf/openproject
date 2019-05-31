@@ -53,6 +53,10 @@
   // To display the input field border correctly (input height is 24px)
   line-height: 24px
 
+  // Avoid that the select field gets too small
+  .wp-inline-edit--field.ng-select
+    min-width: 110px
+
 // Styles for inline editable attributes
 .work-package-table--container td.-editable
   display: table-cell
@@ -146,9 +150,15 @@ html:not(.-browser-mobile)
 
 // On edge, pointer-events only work on
 // block or inline-block elements
-html.-browser-edge
-  .wp-table--cell-container .inplace-edit
+body.-browser-edge
+  .wp-table--cell-span
     display: inline-block !important
+
+  // Ensure height is set in table
+  .work-package-table .wp-table--cell-span
+    height: 22px !important
+    line-height: 22px !important
+
 
 .inplace-editing--container
   display: inline-block

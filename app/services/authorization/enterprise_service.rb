@@ -42,7 +42,8 @@ class Authorization::EnterpriseService
                        custom_actions
                        conditional_highlighting
                        readonly_work_packages
-                       attachment_filters).freeze
+                       attachment_filters
+                       board_view).freeze
 
   def initialize(token)
     self.token = token

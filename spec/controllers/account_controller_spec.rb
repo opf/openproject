@@ -342,9 +342,32 @@ describe AccountController, type: :controller do
       allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false)
     end
 
+
+    describe "Missing flash data for user initiated password change" do
+      before do
+        post 'change_password',
+             flash: {
+               _password_change_user_id: nil
+             },
+             params: {
+               username: admin.login,
+               password: 'whatever',
+               new_password: 'whatever',
+               new_password_confirmation: 'whatever2'
+             }
+      end
+
+      it 'should render 404' do
+        expect(response.status).to eq 404
+      end
+    end
+
     describe "User who is not allowed to change password can't login" do
       before do
         post 'change_password',
+             flash: {
+               _password_change_user_id: admin.id
+             },
              params: {
                username: admin.login,
                password: 'adminADMIN!',

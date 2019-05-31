@@ -36,6 +36,7 @@ import {NotificationsService} from 'core-app/modules/common/notifications/notifi
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 @Injectable()
 export class WorkPackageNotificationService {
@@ -70,7 +71,7 @@ export class WorkPackageNotificationService {
    * @param response
    * @param workPackage
    */
-  public handleRawError(response:any, workPackage?:WorkPackageResource) {
+  public handleRawError(response:unknown, workPackage?:WorkPackageResource) {
     console.error("Handling error message %O for work package %O", response, workPackage);
 
     // Some transformation may already have returned the error as a HAL resource,
@@ -79,23 +80,10 @@ export class WorkPackageNotificationService {
       return this.handleErrorResponse(response, workPackage);
     }
 
-    // Otherwise, we try to detect what we got, this may either be an HttpErrorResponse,
-    // some older XHR response object or a string
-    let errorBody:any|string|null;
+    const errorBody = this.retrieveError(response);
 
-    // Angular http response have an error body attribute
-    if (response instanceof HttpErrorResponse) {
-      errorBody = response.message || response.error;
-    }
-
-    // Some older response may have a data attribute
-    if (response && response.data && response.data._type === 'Error') {
-      errorBody = response.data;
-    }
-
-    if (errorBody && errorBody._type === 'Error') {
-      const resource = this.halResourceService.createHalResource(errorBody);
-      return this.handleErrorResponse(resource, workPackage);
+    if (errorBody instanceof HalResource) {
+      return this.handleErrorResponse(errorBody, workPackage);
     }
 
     if (typeof(response) === 'string') {
@@ -104,6 +92,46 @@ export class WorkPackageNotificationService {
     }
 
     this.showGeneralError(errorBody || response);
+  }
+
+  /**
+   * Retrieve an error message string from the given unknown response.
+   * @param response
+   */
+  public retrieveErrorMessage(response:unknown):string {
+    const error = this.retrieveError(response);
+
+    if (error instanceof ErrorResource) {
+      return error.message;
+    }
+
+    if (typeof(error) === 'string') {
+      return error;
+    }
+
+    return this.I18n.t('js.error.internal');
+  }
+
+  public retrieveError(response:unknown):ErrorResource|unknown {
+    // we try to detect what we got, this may either be an HttpErrorResponse,
+    // some older XHR response object or a string
+    let errorBody:any;
+
+    // Angular http response have an error body attribute
+    if (response instanceof HttpErrorResponse) {
+      errorBody = response.message || response.error;
+    }
+
+    // Some older response may have a data attribute
+    if (_.get(response, 'data._type') === 'Error') {
+      errorBody = (response as any).data;
+    }
+
+    if (errorBody && errorBody._type === 'Error') {
+      return this.halResourceService.createHalResourceOfClass(ErrorResource, errorBody);
+    }
+
+    return response;
   }
 
   protected handleErrorResponse(errorResource:any, workPackage?:WorkPackageResource) {
@@ -122,11 +150,11 @@ export class WorkPackageNotificationService {
     this.showCustomError(errorResource, workPackage) || this.showApiErrorMessages(errorResource);
   }
 
-  public showGeneralError(message?:string) {
+  public showGeneralError(message?:unknown) {
     let error = this.I18n.t('js.error.internal');
 
-    if (message) {
-      error += ' ' + message;
+    if (typeof(message) === 'string' || _.has(message, 'toString')) {
+      error += ' ' + (message as any).toString();
     }
 
     this.NotificationsService.addError(error);
@@ -146,7 +174,7 @@ export class WorkPackageNotificationService {
         type: 'error',
         link: {
           text: this.I18n.t('js.work_packages.error.update_conflict_refresh'),
-          target: () => this.wpCacheService.require(workPackage.id, true)
+          target: () => this.wpCacheService.require(workPackage.id!, true)
         }
       });
 

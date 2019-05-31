@@ -305,10 +305,6 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   ul
     font-size: $nm-font-size
     margin: 0 0 0 30px
-    display: inline-block
-
-  h2, p
-    @extend .hidden-for-sighted
 
   .close-handler
     float: none
@@ -356,13 +352,6 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
 .flash + .flash
   margin-top: 3rem
 
-#errorExplanation
-  @extend %error-placeholder
-  top: rem-calc(68px)
-
-  &::before
-    color: $nm-color-error-icon !important
-
 a.notification-box--target-link
   cursor: pointer
   text-decoration: underline
@@ -371,3 +360,15 @@ a.notification-box--target-link
 #errorExplanation,
 .notification-box--wrapper
   top: 4.25rem
+
+#errorExplanation
+  @extend %error-placeholder
+  top: rem-calc(68px)
+
+  &::before
+    color: $nm-color-error-icon !important
+
+  &.-inline
+    position: relative
+    top: 0
+    left: 0

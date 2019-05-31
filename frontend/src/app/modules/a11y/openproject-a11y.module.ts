@@ -33,6 +33,7 @@ import {AccessibleClickDirective} from "core-app/modules/a11y/accessible-click.d
 import {AccessibleByKeyboardComponent} from "core-app/modules/a11y/accessible-by-keyboard.component";
 import {initializeKeyboardShortcuts, KeyboardShortcutService} from "core-app/modules/a11y/keyboard-shortcut-service";
 import {CommonModule} from "@angular/common";
+import {DoubleClickOrTapDirective} from "core-app/modules/a11y/double-click-or-tap.directive";
 
 @NgModule({
   imports: [
@@ -41,6 +42,7 @@ import {CommonModule} from "@angular/common";
   ],
   exports: [
     AccessibleClickDirective,
+    DoubleClickOrTapDirective,
     AccessibleByKeyboardComponent,
   ],
   providers: [
@@ -55,6 +57,7 @@ import {CommonModule} from "@angular/common";
   declarations: [
     AccessibleClickDirective,
     AccessibleByKeyboardComponent,
+    DoubleClickOrTapDirective,
   ]
 })
 export class OpenprojectAccessibilityModule { }

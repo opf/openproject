@@ -45,7 +45,7 @@ module API
             # Permissions are enforced nevertheless.
             @query.valid_subset!
 
-            create_or_update_query_form @query, ::Queries::UpdateContract, UpdateFormRepresenter
+            create_or_update_query_form @query, ::Queries::UpdateFormContract, UpdateFormRepresenter
           end
         end
       end

@@ -42,11 +42,23 @@ namespace :assets do
   end
 
   desc 'Prepare locales and angular assets'
-  task prepare_op: ['openproject:plugins:register_frontend', :angular, :export_locales]
+  task prepare_op: [:angular, :export_locales]
 
   desc 'Compile assets with webpack'
   task :angular do
+
+    # We skip angular compilation if backend was requested
+    # but frontend was not explicitly set
+    if ENV['RECOMPILE_RAILS_ASSETS'] == 'true' && ENV['RECOMPILE_ANGULAR_ASSETS'] != 'true'
+      warn "RECOMPILE_RAILS_ASSETS was set by installation, but RECOMPILE_ANGULAR_ASSETS is false. " \
+           "Skipping angular compilation. Set RECOMPILE_ANGULAR_ASSETS='true' if you need to force it."
+      next
+    end
+
     OpenProject::Assets.clear!
+
+    puts "Linking frontend plugins"
+    Rake::Task['openproject:plugins:register_frontend'].invoke
 
     puts "Building angular frontend"
     Dir.chdir Rails.root.join('frontend') do

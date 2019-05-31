@@ -52,11 +52,13 @@ application. To see all possible command options of this tool you can run:
     admin@openproject-demo:~# sudo openproject
     Usage:
       openproject run COMMAND [options]
-      openproject scale TYPE=NUM
+      openproject scale PROCESS=NUM
       openproject logs [--tail|-n NUMBER]
       openproject config:get VAR
       openproject config:set VAR=VALUE
+      openproject config:unset VAR
       openproject reconfigure
+      openproject restart [PROCESS]
 
 In the rest of this section we'll go over some of the most important commands.
 
@@ -79,7 +81,10 @@ accomplished using the the `–tail` flag. See example below:
 
     sudo openproject logs --tail
 
-You can also find all the logs in `/var/log/openproject/`.
+Note:
+
+* On distributions that are based on systemd, all the logs are sent to journald, so you can also display them via `journalctl`.
+* On older distributions that use either sysvinit or upstart, all the logs are stored in `/var/log/openproject/`.
 
 #### Reconfigure the application
 

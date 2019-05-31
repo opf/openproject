@@ -40,6 +40,7 @@ module Queries::Projects
   register.filter query, filters::CustomFieldFilter
   register.filter query, filters::CreatedOnFilter
   register.filter query, filters::LatestActivityAtFilter
+  register.filter query, filters::PrincipalFilter
 
   register.order query, orders::DefaultOrder
   register.order query, orders::LatestActivityAtOrder

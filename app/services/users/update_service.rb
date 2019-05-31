@@ -29,33 +29,40 @@
 
 module Users
   class UpdateService
+    include ::HookHelper
+
     attr_accessor :current_user
 
     def initialize(current_user:)
       @current_user = current_user
     end
 
-    def call(request, permitted_params, params)
+    def call(permitted_params, params)
       User.execute_as current_user do
-        set_attributes(request, permitted_params, params)
+        set_attributes(permitted_params, params)
       end
     end
 
     private
 
-    def set_attributes(request, permitted_params, params)
-      if request.patch?
-        current_user.attributes = permitted_params.user
-        current_user.pref.attributes = if params[:pref].present?
-                                         permitted_params.pref
-                                       else
-                                         {}
-                                       end
+    def set_attributes(permitted_params, params)
+      current_user.attributes = permitted_params.user
+      current_user.pref.attributes = if params[:pref].present?
+                                       permitted_params.pref
+                                     else
+                                       {}
+                                     end
 
-        if current_user.save
-          success = current_user.pref.save
-          ServiceResult.new(success: success, errors: current_user.errors, result: current_user)
-        end
+      call_hook :service_update_user_before_save,
+                params: params,
+                permitted_params: permitted_params,
+                user: current_user
+
+      if current_user.save
+        success = current_user.pref.save
+        ServiceResult.new(success: success, errors: current_user.errors, result: current_user)
+      else
+        ServiceResult.new(success: false, errors: current_user.errors, result: current_user)
       end
     end
   end

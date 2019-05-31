@@ -30,9 +30,9 @@
 
 class Queries::WorkPackages::Filter::SearchFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
-
   include Queries::WorkPackages::Filter::OrFilterForWpMixin
   include Queries::WorkPackages::Filter::FilterOnTsvMixin
+
   CONTAINS_OPERATOR = '~'.freeze
 
   CE_FILTERS = [
@@ -84,7 +84,13 @@ class Queries::WorkPackages::Filter::SearchFilter <
 
   def filter_configurations
     list = CE_FILTERS
-    list += EE_TSV_FILTERS if EnterpriseToken.allows_to?(:attachment_filters) && OpenProject::Database.allows_tsv?
+    list += EE_TSV_FILTERS if attachment_filters_allowed?
     list
+  end
+
+  private
+
+  def attachment_filters_allowed?
+    EnterpriseToken.allows_to?(:attachment_filters) && OpenProject::Database.allows_tsv?
   end
 end

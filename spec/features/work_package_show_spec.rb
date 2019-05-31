@@ -48,7 +48,7 @@ RSpec.feature 'Work package show page', selenium: true do
 
     wp_page.visit!
 
-    wp_page.expect_attributes type: work_package.type.name,
+    wp_page.expect_attributes type: work_package.type.name.upcase,
                               status: work_package.status.name,
                               priority: work_package.priority.name,
                               assignee: work_package.assigned_to.name,

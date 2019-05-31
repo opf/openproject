@@ -100,7 +100,7 @@ describe 'API v3 Category resource' do
 
       context 'invalid priority id' do
         let(:get_path) { api_v3_paths.category 'bogus' }
-        it_behaves_like 'not found' do
+        it_behaves_like 'param validation error' do
           let(:id) { 'bogus' }
           let(:type) { 'Category' }
         end
@@ -115,7 +115,7 @@ describe 'API v3 Category resource' do
         get get_path
       end
 
-      it_behaves_like 'not found' do
+      it_behaves_like 'param validation error' do
         let(:id) { 'bogus' }
         let(:type) { 'Category' }
       end

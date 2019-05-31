@@ -57,7 +57,7 @@ describe Project, type: :model do
     it { is_expected.to have_many :queries                                       }
     it { is_expected.to have_many :news                                          }
     it { is_expected.to have_many :categories                                    }
-    it { is_expected.to have_many :boards                                        }
+    it { is_expected.to have_many :forums                                        }
     it { is_expected.to have_many(:changesets).through(:repository)              }
 
     it { is_expected.to have_one :repository                                     }
@@ -189,15 +189,15 @@ describe Project, type: :model do
     assert_equal 2, @ecookbook.members.size
     # and 1 is locked
     assert_equal 3, Member.where(['project_id = ?', @ecookbook.id]).size
-    # some boards
-    assert @ecookbook.boards.any?
+    # some forums
+    assert @ecookbook.forums.any?
 
     @ecookbook.destroy
     # make sure that the project non longer exists
     assert_raises(ActiveRecord::RecordNotFound) do Project.find(@ecookbook.id) end
     # make sure related data was removed
     assert_equal 0, Member.where(project_id: @ecookbook.id).count
-    assert_equal 0, Board.where(project_id: @ecookbook.id).count
+    assert_equal 0, Forum.where(project_id: @ecookbook.id).count
     assert_equal 0, WorkPackage.where(project_id: @ecookbook.id).count
   end
 
@@ -215,7 +215,7 @@ describe Project, type: :model do
     assert_equal 0, EnabledModule.count
     assert_equal 0, Category.count
     assert_equal 0, Relation.count
-    assert_equal 0, Board.count
+    assert_equal 0, Forum.count
     assert_equal 0, Message.count
     assert_equal 0, News.count
     assert_equal 0, Query.where('project_id IS NOT NULL').count
@@ -961,12 +961,12 @@ describe Project, type: :model do
       end
     end
 
-    it 'should copy boards' do
+    it 'should copy forums' do
       assert @project.copy(@source_project)
 
-      assert_equal 1, @project.boards.size
-      @project.boards.each do |board|
-        assert !@source_project.boards.include?(board)
+      assert_equal 1, @project.forums.size
+      @project.forums.each do |forum|
+        assert !@source_project.forums.include?(forum)
       end
     end
 

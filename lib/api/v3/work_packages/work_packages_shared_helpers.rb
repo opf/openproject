@@ -26,54 +26,11 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'work_packages/base_contract'
-require 'api/v3/work_packages/work_package_payload_representer'
-
 module API
   module V3
     module WorkPackages
       module WorkPackagesSharedHelpers
         extend Grape::API::Helpers
-
-        def work_package_representer(work_package = @work_package)
-          ::API::V3::WorkPackages::WorkPackageRepresenter.create(
-            work_package,
-            current_user: current_user,
-            embed_links: true
-          )
-        end
-
-        def handle_work_package_errors(work_package, result)
-          errors = result.errors
-          errors = merge_dependent_errors work_package, result if errors.empty?
-
-          api_errors = [::API::Errors::ErrorBase.create_and_merge_errors(errors)]
-
-          fail ::API::Errors::MultipleErrors.create_if_many(api_errors)
-        end
-
-        private
-
-        def merge_dependent_errors(work_package, result)
-          errors = ActiveModel::Errors.new work_package
-
-          result.dependent_results.each do |dr|
-            dr.errors.keys.each do |field|
-              dr.errors.symbols_and_messages_for(field).each do |symbol, full_message, _|
-                dependent_error = I18n.t(
-                  :error_dependent_work_package,
-                  related_id: dr.result.id,
-                  related_subject: dr.result.subject,
-                  error: full_message
-                )
-
-                errors.add :base, symbol, message: dependent_error
-              end
-            end
-          end
-
-          errors
-        end
 
         def notify_according_to_params
           params[:notify] != 'false'

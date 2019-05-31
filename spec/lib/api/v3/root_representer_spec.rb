@@ -31,10 +31,18 @@ require 'spec_helper'
 describe ::API::V3::RootRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:user) { FactoryBot.build(:user) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
   let(:representer) { described_class.new({}, current_user: user) }
   let(:app_title) { 'Foo Project' }
   let(:version) { 'The version is over 9000!' }
+  let(:permissions) { [:view_members] }
+
+  before do
+    allow(user)
+      .to receive(:allowed_to?) do |action, _project, options|
+      permissions.include?(action) && options[:global] = true
+    end
+  end
 
   context 'generation' do
     subject { representer.to_json }
@@ -53,6 +61,34 @@ describe ::API::V3::RootRepresenter do
       it_behaves_like 'has an untitled link' do
         let(:link) { 'configuration' }
         let(:href) { api_v3_paths.configuration }
+      end
+
+      describe 'memberships' do
+        context 'if having the view_members permission in any project' do
+          let(:permissions) { [:view_members] }
+
+          it_behaves_like 'has an untitled link' do
+            let(:link) { 'memberships' }
+            let(:href) { api_v3_paths.memberships }
+          end
+        end
+
+        context 'if having the manage_members permission in any project' do
+          let(:permissions) { [:manage_members] }
+
+          it_behaves_like 'has an untitled link' do
+            let(:link) { 'memberships' }
+            let(:href) { api_v3_paths.memberships }
+          end
+        end
+
+        context 'if lacking permissions' do
+          let(:permissions) { [] }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'members' }
+          end
+        end
       end
 
       it_behaves_like 'has an untitled link' do

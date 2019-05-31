@@ -32,21 +32,7 @@ module API
   module V3
     module Grids
       class UpdateFormRepresenter < FormRepresenter
-        def form_url
-          api_v3_paths.grid_form(represented.id)
-        end
-
-        def resource_url
-          api_v3_paths.grid(represented.id)
-        end
-
-        def commit_method
-          :patch
-        end
-
-        def contract_class
-          ::Grids::UpdateContract
-        end
+        include API::Decorators::UpdateForm
       end
     end
   end

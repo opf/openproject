@@ -48,7 +48,7 @@ class Status < ActiveRecord::Base
   after_save :unmark_old_default_value, if: :is_default?
 
   def unmark_old_default_value
-    Status.where(['id <> ?', id]).update_all("is_default=#{self.class.connection.quoted_false}")
+    Status.where.not(id: id).update_all(is_default: false)
   end
 
   # Returns the default status for new issues

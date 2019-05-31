@@ -1,15 +1,16 @@
 require "spec_helper"
 require "support/pages/work_packages/abstract_work_package"
 
-describe "multi select custom values", js: true do
+describe "multi select custom values", clear_cache: true, js: true do
   let(:type) { FactoryBot.create :type }
   let(:project) { FactoryBot.create :project, types: [type] }
+  let(:multi_value) { true }
 
   let(:custom_field) do
     FactoryBot.create(
       :list_wp_custom_field,
       name: "Ingredients",
-      multi_value: true,
+      multi_value: multi_value,
       types: [type],
       projects: [project],
       possible_values: ["ham", "onions", "pineapple", "mushrooms"]
@@ -20,31 +21,41 @@ describe "multi select custom values", js: true do
     custom_field.custom_options.find { |co| co.value == str }.try(:id)
   end
 
+  def table_edit_field(work_package)
+    field = wp_table.edit_field work_package, "customField#{custom_field.id}"
+    field.field_type = 'create-autocompleter'
+    field
+  end
+
   let(:wp_page) { Pages::FullWorkPackage.new work_package }
   let(:wp_table) { Pages::WorkPackagesTable.new project }
   let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
   let(:columns) { ::Components::WorkPackages::Columns.new }
   let(:group_by) { ::Components::WorkPackages::GroupBy.new }
+  let(:sort_by) { ::Components::WorkPackages::SortBy.new }
 
   let(:user) { FactoryBot.create :admin }
+  let(:cf_frontend) { "customField#{custom_field.id}"}
 
   context "with existing custom values" do
+    let(:work_package_options) { %w[ham pineapple onions] }
     let(:work_package) do
-      wp = FactoryBot.build :work_package, project: project, type: type
+      wp = FactoryBot.build :work_package, project: project, type: type, subject: 'First'
 
       wp.custom_field_values = {
-        custom_field.id => ["ham", "pineapple", "onions"].map { |s| custom_value_for(s) }
+        custom_field.id => work_package_options.map { |s| custom_value_for(s) }
       }
 
       wp.save
       wp
     end
 
+    let(:work_package2_options) { %w[ham] }
     let(:work_package2) do
-      wp = FactoryBot.build :work_package, project: project, type: type
+      wp = FactoryBot.build :work_package, project: project, type: type, subject: 'Second'
 
       wp.custom_field_values = {
-        custom_field.id => ["ham"].map { |s| custom_value_for(s) }
+        custom_field.id => work_package2_options.map { |s| custom_value_for(s) }
       }
 
       wp.save
@@ -54,7 +65,7 @@ describe "multi select custom values", js: true do
     describe 'in single view' do
       let(:edit_field) do
         field = wp_page.edit_field "customField#{custom_field.id}"
-        field.field_type = 'ng-select'
+        field.field_type = 'create-autocompleter'
         field
       end
 
@@ -90,11 +101,7 @@ describe "multi select custom values", js: true do
     end
 
     describe 'in the WP table' do
-      let(:table_edit_field) do
-        field = wp_table.edit_field work_package, "customField#{custom_field.id}"
-        field.field_type = 'ng-select'
-        field
-      end
+      let(:wp1_field) { table_edit_field(work_package) }
 
       before do
         work_package
@@ -127,12 +134,12 @@ describe "multi select custom values", js: true do
         expect(page).to have_selector('.group--value', text: 'ham, onions, pineapple (1)')
         expect(page).to have_selector('.group--value', text: 'ham (1)')
 
-        table_edit_field.activate!
+        wp1_field.activate!
 
-        table_edit_field.unset_value "pineapple", true
-        table_edit_field.unset_value "onions", true
+        wp1_field.unset_value "pineapple", true
+        wp1_field.unset_value "onions", true
 
-        table_edit_field.submit_by_dashboard
+        wp1_field.submit_by_dashboard
 
         # Expect changed groups
         expect(page).to have_selector('.group--value .count', count: 1)
@@ -148,7 +155,7 @@ describe "multi select custom values", js: true do
 
         # Expect none selected in split and table
         field.expect_state_text '-'
-        table_edit_field.expect_state_text '-'
+        wp1_field.expect_state_text '-'
 
         # Activate again
         field.activate!
@@ -160,7 +167,7 @@ describe "multi select custom values", js: true do
 
         expect(field.display_element).to have_text('ham')
         expect(field.display_element).to have_text('onions')
-        table_edit_field.expect_state_text 'ham, onions'
+        wp1_field.expect_state_text 'ham, onions'
 
         field.activate!
         field.set_value "pineapple"
@@ -172,7 +179,72 @@ describe "multi select custom values", js: true do
         expect(field.display_element).to have_text('pineapple')
         expect(field.display_element).to have_text('mushrooms')
 
-        table_edit_field.expect_state_text ", ...\n4"
+        wp1_field.expect_state_text ", ...\n4"
+      end
+    end
+
+    describe 'sorting in the table' do
+      let(:wp1_field) { table_edit_field(work_package) }
+      let(:wp2_field) { table_edit_field(work_package2) }
+      let!(:query) do
+        query = FactoryBot.build(:query, user: user, project: project)
+        query.column_names = ['id', 'type', 'subject', "cf_#{custom_field.id}"]
+        query.filters.clear
+        query.timeline_visible = false
+        query.sort_criteria = [["cf_#{custom_field.id}", 'asc']]
+
+        query.save!
+        query
+      end
+
+      before do
+        work_package
+        work_package2
+
+        login_as(user)
+
+        wp_table.visit_query query
+        wp_table.expect_work_package_listed(work_package)
+        wp_table.expect_work_package_listed(work_package2)
+      end
+
+      describe 'sorting by the multi select field' do
+        let(:multi_value) { true }
+
+        it 'sorts as expected asc and desc' do
+          expect(wp1_field.display_element).to have_text('ham')
+          expect(wp1_field.display_element).to have_text('pineapple')
+          expect(wp2_field.display_element).to have_text('ham')
+
+          wp_table.expect_work_package_order work_package2, work_package
+
+          # Reverse sort
+          sort_by.sort_via_header cf_frontend, descending: true, selector: cf_frontend
+
+          wp_table.expect_work_package_listed(work_package)
+          wp_table.expect_work_package_listed(work_package2)
+          wp_table.expect_work_package_order work_package, work_package2
+        end
+      end
+
+      describe 'sorting by the single select field' do
+        let(:multi_value) { false }
+        let(:work_package2_options) { %w[onions] } # position 2
+        let(:work_package_options) { %w[mushrooms] } # position 4
+
+        it 'sorts as expected asc and desc' do
+          expect(wp2_field.display_element).to have_text('onions')
+          expect(wp1_field.display_element).to have_text('mushrooms')
+
+          wp_table.expect_work_package_order work_package2, work_package
+
+          # Reverse sort
+          sort_by.sort_via_header cf_frontend, descending: true, selector: cf_frontend
+
+          wp_table.expect_work_package_listed(work_package)
+          wp_table.expect_work_package_listed(work_package2)
+          wp_table.expect_work_package_order work_package, work_package2
+        end
       end
     end
   end

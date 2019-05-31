@@ -31,6 +31,7 @@ module API
     module Grids
       class GridRepresenter < ::API::Decorators::Single
         include API::Decorators::LinkedResource
+        include API::Decorators::DateProperty
 
         resource_link :scope,
                       getter: ->(*) {
@@ -99,23 +100,13 @@ module API
                    end
                  end
 
-        property :created_at,
-                 exec_context: :decorator,
-                 writeable: false,
-                 getter: ->(*) {
-                   next unless represented.created_at
+        date_time_property :created_at,
+                           writeable: false,
+                           render_nil: false
 
-                   datetime_formatter.format_datetime(represented.created_at)
-                 }
-
-        property :updated_at,
-                 exec_context: :decorator,
-                 writeable: false,
-                 getter: ->(*) {
-                   next unless represented.updated_at
-
-                   datetime_formatter.format_datetime(represented.updated_at)
-                 }
+        date_time_property :updated_at,
+                           writeable: false,
+                           render_nil: false
 
         def _type
           'Grid'

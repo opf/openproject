@@ -54,8 +54,7 @@ module API
                                                       nil,
                                                       form_embedded: true,
                                                       base_schema_link: schema_link,
-                                                      current_user: current_user,
-                                                      action: action)
+                                                      current_user: current_user)
         end
       end
     end

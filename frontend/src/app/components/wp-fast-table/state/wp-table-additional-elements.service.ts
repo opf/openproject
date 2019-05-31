@@ -52,7 +52,7 @@ export class WorkPackageTableAdditionalElementsService {
   public initialize(rows:WorkPackageResource[]) {
     // Add relations to the stack
     Promise.all([
-      this.requireInvolvedRelations(rows.map(el => el.id)),
+      this.requireInvolvedRelations(rows.map(el => el.id!)),
       this.requireHierarchyElements(rows)
     ]).then((results:string[][]) => {
       this.loadAdditional(_.flatten(results));

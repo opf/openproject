@@ -182,7 +182,7 @@ role_permission038:
 role_permission039:
   id: 39
   role_id: 1
-  permission: 'manage_boards'
+  permission: 'manage_forums'
 role_permission040:
   id: 40
   role_id: 1
@@ -323,7 +323,7 @@ role_permission127:
 role_permission128:
   id: 128
   role_id: 2
-  permission: 'manage_boards'
+  permission: 'manage_forums'
 role_permission129:
   id: 129
   role_id: 2

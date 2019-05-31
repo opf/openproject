@@ -30,7 +30,7 @@ module API
   module V3
     module Principals
       class PrincipalsAPI < ::API::OpenProjectAPI
-        helpers ::API::Utilities::ParamsHelper
+        helpers ::API::Utilities::PageSizeHelper
 
         resource :principals do
           get do

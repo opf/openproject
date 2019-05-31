@@ -214,6 +214,36 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/grids/42/form'
   end
 
+  describe '#memberships' do
+    subject { helper.memberships }
+
+    it_behaves_like 'api v3 path', '/memberships'
+  end
+
+  describe '#memberships_available_projects' do
+    subject { helper.memberships_available_projects }
+
+    it_behaves_like 'api v3 path', '/memberships/available_projects'
+  end
+
+  describe '#membership' do
+    subject { helper.membership(42) }
+
+    it_behaves_like 'api v3 path', '/memberships/42'
+  end
+
+  describe '#membership_schema' do
+    subject { helper.membership_schema }
+
+    it_behaves_like 'api v3 path', '/memberships/schema'
+  end
+
+  describe '#version_memberships_form' do
+    subject { helper.create_memberships_form }
+
+    it_behaves_like 'api v3 path', '/memberships/form'
+  end
+
   describe '#message' do
     subject { helper.message(42) }
 
@@ -582,10 +612,22 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/versions/42'
   end
 
+  describe '#version_form' do
+    subject { helper.version_form(42) }
+
+    it_behaves_like 'api v3 path', '/versions/42/form'
+  end
+
   describe '#versions' do
     subject { helper.versions }
 
     it_behaves_like 'api v3 path', '/versions'
+  end
+
+  describe '#versions_available_projects' do
+    subject { helper.versions_available_projects }
+
+    it_behaves_like 'api v3 path', '/versions/available_projects'
   end
 
   describe '#versions_by_project' do
@@ -598,6 +640,18 @@ describe ::API::V3::Utilities::PathHelper do
     subject { helper.projects_by_version 42 }
 
     it_behaves_like 'api v3 path', '/versions/42/projects'
+  end
+
+  describe '#version_schema' do
+    subject { helper.version_schema }
+
+    it_behaves_like 'api v3 path', '/versions/schema'
+  end
+
+  describe '#version_create_form' do
+    subject { helper.create_version_form }
+
+    it_behaves_like 'api v3 path', '/versions/form'
   end
 
   describe '#work_packages_by_project' do

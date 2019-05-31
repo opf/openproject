@@ -41,8 +41,7 @@ achieved with the `-d` flag:
 
 The one-liner above is great to get started quickly, but if you want to run
 OpenProject in production you will likely want to ensure that your data is not
-lost if you restart the container, as well as ensuring that the logs persist on
-your host machine in case something goes wrong.
+lost if you restart the container.
 
 To achieve this, we recommend that you create a directory on your host system
 where the Docker Engine is installed (for instance: `/var/lib/openproject`)
@@ -52,12 +51,11 @@ You can use the following commands to create the local directories where the
 data will be stored across container restarts, and start the container with
 those directories mounted:
 
-    sudo mkdir -p /var/lib/openproject/{pgdata,logs,static}
+    sudo mkdir -p /var/lib/openproject/{pgdata,static}
 
     docker run -d -p 8080:80 --name openproject -e SECRET_KEY_BASE=secret \
-      -v /var/lib/openproject/pgdata:/var/lib/postgresql/9.6/main \
-      -v /var/lib/openproject/logs:/var/log/supervisor \
-      -v /var/lib/openproject/static:/var/db/openproject \
+      -v /var/lib/openproject/pgdata:/var/openproject/pgdata \
+      -v /var/lib/openproject/static:/var/openproject/assets \
       openproject/community:8
 
 Since we named the container, you can now stop it by running:
@@ -147,3 +145,12 @@ use MySQL instead of PostgreSQL if you wish. Here is how you would do it:
 
 The container will make sure that the database gets the migrations and demo
 data as well.
+
+* I don't want the all-in-one installation. Can I still use the image to launch a specific process?
+
+Yes, you can do so by passing a command when you launch the container. By default the container will run `./docker/supervisord`, but you can override this with `./docker/web`, `./docker/worker`, `./docker/cron` to launch the individual services separately (e.g. in a docker-compose file). Please note that in this configuration you will have to setup the external services (postgres, memcached, email sending) by yourself.
+
+Example:
+
+      docker run -d -e DATABASE_URL=xxx ... openproject/community:8 ./docker/web
+      docker run -d -e DATABASE_URL=xxx ... openproject/community:8 ./docker/worker

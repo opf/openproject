@@ -35,6 +35,6 @@ export class BoardCacheService extends StateCacheService<Board> {
   }
 
   update(board:Board) {
-    this.updateValue(board.id, board);
+    this.updateValue(board.id!, board);
   }
 }

@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Grids::Configuration
+module Grids::Configuration
   class << self
     def register_grid(grid,
                       klass)
@@ -45,6 +45,10 @@ class Grids::Configuration
 
     def all_scopes
       all.map(&:all_scopes).flatten.compact
+    end
+
+    def writable_scopes
+      all.map(&:writable_scopes).flatten.compact
     end
 
     def all
@@ -89,12 +93,34 @@ class Grids::Configuration
       @widget_register[identifier] = Array(grid_classes)
     end
 
-    def allowed_widget?(grid, identifier)
+    def allowed_widget?(grid, identifier, user)
       grid_classes = registered_widget_by_identifier[identifier]
 
-      (grid_classes || []).include?(grid)
+      (grid_classes || []).include?(grid) &&
+        widget_strategy(grid, identifier)&.allowed?(user)
     end
 
+    def all_widget_identifiers(grid)
+      registered_widget_by_identifier.select do |_, grid_classes|
+        grid_classes.include?(grid)
+      end.keys
+    end
+
+    def widget_strategy(grid, identifier)
+      grid_register[grid.to_s]&.widget_strategy(identifier)
+    end
+
+    ##
+    # Determines whether the given scope is writable by the current user
+    def writable_scope?(scope)
+      writable_scopes.include? scope
+    end
+
+    ##
+    # Determine whether the given grid is writable
+    #
+    # @param grid Either a grid instance, or the grid class namespace (e.g., Grids::Grid)
+    # @param user the current user to check against
     def writable?(grid, user)
       grid_register[grid.class.to_s]&.writable?(grid, user)
     end
@@ -117,92 +143,6 @@ class Grids::Configuration
 
     def url_helpers
       @url_helpers ||= OpenProject::StaticRouting::StaticUrlHelpers.new
-    end
-  end
-
-  class Registration
-    class << self
-      def grid_class(name_string = nil)
-        if name_string
-          @grid_class = name_string
-        end
-
-        @grid_class
-      end
-
-      def to_scope(path = nil)
-        if path
-          @to_scope = path
-        end
-
-        @to_scope
-      end
-
-      def widgets(*widgets)
-        if widgets.any?
-          @widgets = widgets
-        end
-
-        @widgets
-      end
-
-      def defaults(hash = nil)
-        # This is called during code load, which
-        # may not have the table available.
-        return unless Grids::Widget.table_exists?
-
-        if hash
-          @defaults = hash
-        end
-
-        params = @defaults.dup
-        params[:widgets] = (params[:widgets] || []).map do |widget|
-          Grids::Widget.new(widget)
-        end
-
-        params
-      end
-
-      def from_scope(_scope)
-        raise NotImplementedError
-      end
-
-      def all_scopes
-        Array(url_helpers.send(@to_scope))
-      end
-
-      def visible(_user = User.current)
-        ::Grids::Grid
-          .where(type: grid_class)
-      end
-
-      def writable?(_grid, _user)
-        true
-      end
-
-      def register!
-        unless @grid_class
-          raise 'Need to define the grid class first. Use grid_class to do so.'
-        end
-        unless @widgets
-          raise 'Need to define at least one widget first. Use widgets to do so.'
-        end
-        unless @to_scope
-          raise 'Need to define a scope. Use to_scope to do so'
-        end
-
-        Grids::Configuration.register_grid(@grid_class, self)
-
-        widgets.each do |widget|
-          Grids::Configuration.register_widget(widget, @grid_class)
-        end
-      end
-
-      private
-
-      def url_helpers
-        @url_helpers ||= OpenProject::StaticRouting::StaticUrlHelpers.new
-      end
     end
   end
 end

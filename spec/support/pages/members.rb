@@ -38,6 +38,13 @@ module Pages
       @project_identifier = project_identifier
     end
 
+    def visit!
+      super
+      expect(page).to have_selector('h2', text: I18n.t(:label_member_plural))
+
+      self
+    end
+
     def path
       "/projects/#{project_identifier}/members"
     end
@@ -117,6 +124,12 @@ module Pages
       find('tr.group', text: user_name_to_text(name))
     end
 
+    ##
+    # Get contents of all cells sorted
+    def contents(column)
+      all("td.#{column}").map(&:text)
+    end
+
     def user_name_to_text(name)
       # the members table shows last name and first name separately
       # let's just look for the last name
@@ -174,6 +187,20 @@ module Pages
       has_text?('No matches found')
     end
 
+    def sort_by(column)
+      find('.generic-table--sort-header a', text: column.upcase).click
+    end
+
+    def expect_sorted_by(column, desc: false)
+      page.within('.generic-table--sort-header', text: column.upcase) do
+        if desc
+          expect(page).to have_selector('.sort.desc')
+        else
+          expect(page).to have_selector('.sort.asc')
+        end
+      end
+    end
+
     ##
     # Indicates whether the given principal has been selected as one
     # of the users to be added to the project in the 'New member' dialogue.
@@ -184,6 +211,10 @@ module Pages
     def select_role!(role_name)
       select = find('select#member_role_ids')
       select.select role_name
+    end
+
+    def expect_role(role_name, present: true)
+      expect(page).to have_conditional_selector(present, '#member_role_ids option', text: role_name)
     end
 
     def enter_principal_search!(principal_name)

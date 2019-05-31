@@ -28,7 +28,7 @@ module OpenProject::Costs
 
     register 'openproject-costs',
              author_url: 'http://finn.de',
-             requires_openproject: "= #{OpenProject::Costs::VERSION}",
+             bundled: true,
              settings: {
                default: { 'costs_currency' => 'EUR','costs_currency_format' => '%n %u' },
                partial: 'settings/openproject_costs'
@@ -61,11 +61,6 @@ module OpenProject::Costs
         permission :view_own_cost_entries, { cost_objects: [:index, :show], costlog: [:index] }
 
         permission :edit_cost_objects, { cost_objects: [:index, :show, :edit, :update, :destroy, :new, :create, :copy] }
-      end
-
-      # register additional permissions for the time log
-      project_module :time_tracking do
-        permission :view_own_time_entries, { timelog: [:index, :report] }
       end
 
       # Menu extensions
@@ -169,7 +164,7 @@ module OpenProject::Costs
       link :showCosts,
            cache_if: -> { current_user_allowed_to(:view_cost_entries, context: represented.project) ||
                           current_user_allowed_to(:view_own_cost_entries, context: represented.project) } do
-        next unless represented.costs_enabled? && represented.persisted?
+        next unless represented.cost_reporting_enabled? && represented.persisted?
 
         {
             href: work_packages_cost_entries_path(represented),

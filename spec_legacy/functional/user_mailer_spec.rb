@@ -396,7 +396,9 @@ describe UserMailer, type: :mailer do
   context 'layout',
           with_settings: {
             available_languages: [:en, :de],
-            localized_emails_header: 'deutscher header'
+            emails_header: {
+              "de" => 'deutscher header'
+            }
           } do
     it 'should include the emails_header depeding on the locale' do
       user = FactoryBot.create(:user, language: :de)

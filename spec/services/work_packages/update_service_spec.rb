@@ -47,7 +47,7 @@ describe WorkPackages::UpdateService, type: :model do
   end
   let(:instance) do
     described_class.new(user: user,
-                        work_package: work_package)
+                        model: work_package)
   end
 
   describe 'call' do
@@ -93,7 +93,7 @@ describe WorkPackages::UpdateService, type: :model do
     end
 
     shared_examples_for 'service call' do
-      subject { instance.call(attributes: call_attributes, send_notifications: send_notifications) }
+      subject { instance.call(call_attributes.merge(send_notifications: send_notifications).symbolize_keys) }
 
       it 'is successful' do
         expect(subject.success?).to be_truthy
@@ -200,7 +200,7 @@ describe WorkPackages::UpdateService, type: :model do
           expect(relations)
             .to receive(:destroy_all)
 
-          instance.call(attributes: { project: target_project })
+          instance.call(project: target_project)
         end
 
         it 'leaves the relations unchanged if the setting allows cross project relations' do
@@ -212,7 +212,7 @@ describe WorkPackages::UpdateService, type: :model do
           expect(work_package)
             .to_not receive(:relations_to)
 
-          instance.call(attributes: { project: target_project })
+          instance.call(project: target_project)
         end
       end
 
@@ -229,7 +229,7 @@ describe WorkPackages::UpdateService, type: :model do
             .to receive(:update_all)
             .with(project_id: target_project.id)
 
-          instance.call(attributes: { project: target_project })
+          instance.call(project: target_project)
         end
       end
     end
@@ -242,7 +242,7 @@ describe WorkPackages::UpdateService, type: :model do
           expect(work_package)
             .to receive(:reset_custom_values!)
 
-          instance.call(attributes: { type: target_type })
+          instance.call(type: target_type)
         end
       end
     end

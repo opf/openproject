@@ -51,8 +51,4 @@ describe 'rendering the login buttons for all providers' do
   it 'should show the test_auth button with the given display_name as its label' do
     expect(rendered).to match /#{providers[1][:display_name]}/
   end
-
-  it 'should render a custom icon if defined' do
-    expect(view.content_for(:header_tags)).to match /#{providers[2][:icon]}/
-  end
 end

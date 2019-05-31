@@ -32,10 +32,8 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%= styled_form_tag({}, id: 'workflow_copy_form') do %>
   <section class="form--section">
-    <div class="form--field">
-      <label class="form--label -required" for="source_type_id"><%= l(:label_copy_source) %>
-        <span class="form--label-required" aria-hidden="true">*</span>
-      </label>
+    <div class="form--field -required">
+      <label class="form--label" for="source_type_id"><%= l(:label_copy_source) %></label>
       <div class="form--field-container">
         <div class="form--select-container -middle">
           <label class="form--label" for="source_type_id"><%= Type.model_name.human %></label>
@@ -54,10 +52,8 @@ See docs/COPYRIGHT.rdoc for more details.
       </div>
     </div>
     <br />
-    <div class="form--field">
-      <label class="form--label -required" for="target_type_ids"><%= l(:label_copy_target) %>
-        <span class="form--label-required" aria-hidden="true">*</span>
-      </label>
+    <div class="form--field -required">
+      <label class="form--label" for="target_type_ids"><%= l(:label_copy_target) %></label>
       <div class="form--field-container">
         <div class="form--select-container -middle">
           <label class="form--label" for="target_type_ids"><%= Type.model_name.human %></label>

@@ -51,19 +51,12 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
     type: {
       association: 'type',
       sortable: "position",
-      highlightable: true,
       groupable: true
     },
     parent: {
       association: 'ancestors_relations',
       default_order: 'asc',
-      sortable: ["CONCAT_WS(',', hierarchy_paths.path, work_packages.id)"],
-      sortable_join: <<-SQL
-        LEFT OUTER JOIN
-          hierarchy_paths
-        ON
-          hierarchy_paths.work_package_id = work_packages.id
-      SQL
+      sortable: false
     },
     status: {
       association: 'status',

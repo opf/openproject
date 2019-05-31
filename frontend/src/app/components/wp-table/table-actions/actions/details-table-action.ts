@@ -18,7 +18,7 @@ export class OpDetailsTableAction extends OpTableAction {
   public buildElement() {
     // Append details button
     let detailsLink = this.uiStatebuilder.linkToDetails(
-      this.workPackage.id,
+      this.workPackage.id!,
       this.text.button,
       ''
     );

@@ -19,11 +19,18 @@ sk:
     close_popup_title: Zavrieť okno
     close_filter_title: Zavrieť filter
     close_form_title: Zavrieť formulár
+    card:
+      add_new: Pridať novú kartu
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Celý riadok o
+      remove_from_list: Odstrániť kartu zo zoznamu
     clipboard:
       browser_error: Váš prehliadač nepodporuje kopírovanie do schránky. Manuálne
         skopírujte vybratý text.
       copied_successful: Úspešne skopírované do schránky!
     button_add_watcher: Pridať pozorovateľa
+    button_back: Späť
     button_back_to_list_view: Späť na zobrazenie zoznamu
     button_cancel: Zrušíť
     button_close: Zatvoriť
@@ -60,7 +67,7 @@ sk:
       too_many: Existuje viac pracovných balíčkov (%{count}), než je možné zobraziť
         v kalendári (%{max}). Pridaním filtrov sa zamerajte na tie relevantné.
     description_available_columns: Dostupné stĺpce
-    description_current_position: 'Nachádzate sa tu:'
+    description_current_position: 'You are here: '
     description_select_work_package: 'Vyberte pracovný balík #%{id}'
     description_selected_columns: Vybraté stĺpce
     description_subwork_package: 'Podradený pracovný balík #%{id}'
@@ -149,6 +156,43 @@ sk:
     general_text_yes: áno
     general_text_No: Nie
     general_text_Yes: Áno
+    grid:
+      add_modal:
+        choose_widget: Vyberte miniaplikáciu
+      widgets:
+        documents:
+          title: Dokumenty
+          no_results: Zatiaľ žiadne dokumenty.
+        news:
+          title: Novinky
+          at: o
+          no_results: Nič nové pre nahlásenie.
+        time_entries_current_user:
+          title: Strávený čas (posledných 7 dní)
+          no_results: Žiadne časové záznamy za posledných 7 dní.
+        work_packages_accountable:
+          title: Pracovné balíčky, za ktoré som zodpovedný(a)
+        work_packages_assigned:
+          title: Mne priradené pracovné balíčky
+        work_packages_created:
+          title: Pracovné balíčky vytvorené mnou
+        work_packages_watched:
+          title: Pracovné balíčky sledované mnou
+        work_packages_table:
+          title: Pracovné balíčky
+        work_packages_calendar:
+          title: Kalendár
+    homescreen:
+      blocks:
+        new_features:
+          text_new_features: Read about new features and product updates.
+          current_new_feature_html: 'OpenProject contains a new <b>Boards view</b>
+            for Agile project management. </br> To activate this new feature for your
+            existing projects, please do the following steps: <ul><li>Activate the
+            module Boards within existing projects'' settings.</li> <li>Configure
+            your Boards in a project.</li> <li>Verify roles and permissions</li></ul>'
+          image_alt_text: Board teaser image
+          learn_about: Learn more about Agile Boards
     label_activate: Aktivovať
     label_activity_no: Záznam aktivity číslo %{activityNo}
     label_activity_with_comment_no: Záznam aktivity číslo %{activityNo} (obsahuje
@@ -170,10 +214,11 @@ sk:
     label_ascending: Vzostupne
     label_author: 'Autor: %{user}'
     label_between: medzi
-    label_board: Board
+    label_board: Nástenka
     label_board_locked: Uzamknuté
-    label_board_plural: Boards
+    label_board_plural: Nástenky
     label_board_sticky: Dôležité (vždy vyššie)
+    label_create_new: Vytvoriť nový
     label_create_work_package: Vytvoriť nový pracovný balíček
     label_created_by: Vytvoril(a)
     label_date: Dátum
@@ -220,6 +265,7 @@ sk:
     label_more_than_ago: pred viac než dňom
     label_my_page: Moja stránka
     label_next: Ďalšie
+    label_no_color: Žiadna farba
     label_no_data: Žiadne dáta na zobrazenie
     label_no_due_date: bez dátumu ukončenia
     label_no_start_date: žiadny dátum začatia
@@ -295,7 +341,7 @@ sk:
     label_upload_notification: Nahrávanie súborov...
     label_work_package_upload_notification: 'Nahrávanie súborov pre Pracovný balík
       #%{id}: %{subject}'
-    label_wp_id_added_by: "#%{id} added by %{author}"
+    label_wp_id_added_by: "#%{id} pridané %{author}"
     label_files_to_upload: 'Tieto súbory budú odovzdané:'
     label_rejected_files: 'Tieto súbory nie je možné odovzdať:'
     label_rejected_files_reason: Tieto súbory nie je možné odovzdať, pretože ich veľkosť
@@ -311,45 +357,54 @@ sk:
         next: Ďalšie
         got_it: Rozumiem
       steps:
-        welcome: Urobte si tri minúty čas na úvodnú prehliadku, aby ste sa naučili
-          čo najviac <b>dôležité funkcie</b>.<br> Doporučujeme dokončiť prehliadku
-          až do konca. Prehliadku môžete kedykoľvek reštartovať.
+        help_menu: V ponuke <b>Help</b> nájdete používateľskú príručku a ďalšie zdroje
+          pomoci. <br> Užite si svoju prácu s programom OpenProject!
+        members: Pozvať nových <b>Členov</b> do vášho projektu.
         project_selection: 'Vyberte jeden z projektov s užitočnými demo dátami: <br><b>"Demo
           projekt"</b> je vhodný pre klasické riadenie projektov, <b>"Scrum projekt"</b>
           je vhodný pre agilné riadenie projektov.'
         sidebar_arrow: Pomocou šípky sa môžete vrátiť späť k projektom <b>Hlavná ponuka</b>.
-        members: Pozvať nových <b>Členov</b> do vášho projektu.
+        welcome: Urobte si tri minúty čas na úvodnú prehliadku, aby ste sa naučili
+          čo najviac <b>dôležité funkcie</b>.<br> Doporučujeme dokončiť prehliadku
+          až do konca. Prehliadku môžete kedykoľvek reštartovať.
         wiki: V rámci <b>Wiki</b> možno dokumentovať a zdieľať znalosti spolu so svojím
           tímom.
-        backlogs_overview: Vašu prácu môžete organizovať v <b>backlog</b> pohľade.
-          <br> Na pravej strane je k dispozícii backlog produktov či chýb, na ľavej
-          strane príslušné šprinty. Tu môžete vytvárať <b>epics, user stories a chybové
-          reporty</b>, meniť priority drag'n'drop myšou a priraďovaním k jednotlivým
-          šprintom.
-        backlogs_task_board_arrow: Ak chcete vidieť Váš <b>zoznam úloh</b>, otvorte
-          Sprint drop-down menu...
-        backlogs_task_board_select: "... a vyberte položku ponuky <b>Task board</b>."
-        backlogs_task_board: V <b>Task Board</b> môžete vidieť úlohy šprintu. Pridávať
-          nové úlohy alebo prekážky s ikonou + vedľa užívateľského príbehu. Prostredníctvom
-          drag and drop môžete aktualizovať stav.
-        wp_toggler: Tu sú <b>Pracovné balíčky</b>, ktoré vám poskytnú podrobnejší
-          pohľad na prácu vo vašom projekte.
-        wp_list: Toto je zoznam dôležitých <b>Pracovných balíčkov</b> vo vašom projekte,
-          napr. úlohy, funkcie, míľniky, chyby a oveľa viac. <br> Nové pracovné balíčky
-          môžete vytvárať a upravovať priamo v zozname. Dvojitým kliknutím na riadok
-          sa otvorí detailný pohľad.
-        wp_full_view: V <b>detailoch pracovného balíčku</b> nájdete všetky relevantné
-          informácie ako popis, stav, prioritu, aktivity, náväznosti a komentáre.
-        wp_back_button: Pomocou šípky sa môžete vrátiť späť na zoznam pracovných balíčkov.
-        wp_create_button: Tlačidlo <b>Vytvoriť</b> pridá nový pracovný balíček pre
-          váš projekt.
-        wp_timeline_button: Môžete aktivovať <b>Ganttov diagram</b> pre vytvorenie
-          časového harmonogramu projektu.
-        wp_timeline: Tu môžete upraviť svoj projektový plán. Vytvárať nové fázy, míľniky
-          a pridávať závislosti. Všetci členovia tímu môžu kedykoľvek zobraziť a aktualizovať
-          aktuálny plán.
-        help_menu: V ponuke <b>Help</b> nájdete používateľskú príručku a ďalšie zdroje
-          pomoci. <br> Užite si svoju prácu s programom OpenProject!
+        backlogs:
+          overview: Vašu prácu môžete organizovať v <b>backlog</b> pohľade. <br> Na
+            pravej strane je k dispozícii backlog produktov či chýb, na ľavej strane
+            príslušné šprinty. Tu môžete vytvárať <b>epics, user stories a chybové
+            reporty</b>, meniť priority drag'n'drop myšou a priraďovaním k jednotlivým
+            šprintom.
+          task_board_arrow: Ak chcete vidieť Váš <b>zoznam úloh</b>, otvorte Sprint
+            drop-down menu...
+          task_board_select: "... a vyberte položku ponuky <b>Task board</b>."
+          task_board: V <b>Task Board</b> môžete vidieť úlohy šprintu. Pridávať nové
+            úlohy alebo prekážky s ikonou + vedľa užívateľského príbehu. Prostredníctvom
+            drag and drop môžete aktualizovať stav.
+        boards:
+          overview: Manage your work within an intuitive <b>Boards</b> view.
+          lists: You can create multiple lists (columns) within one Board view, e.g.
+            to create a KANBAN board.
+          add: Click the + will <b>add a new card</b> to the list within a Board.
+          drag: Drag & Drop your cards within a list to re-order, or to another list.
+            A double click will open the details view.
+        wp:
+          toggler: Tu sú <b>Pracovné balíčky</b>, ktoré vám poskytnú podrobnejší pohľad
+            na prácu vo vašom projekte.
+          list: Toto je zoznam dôležitých <b>Pracovných balíčkov</b> vo vašom projekte,
+            napr. úlohy, funkcie, míľniky, chyby a oveľa viac. <br> Nové pracovné
+            balíčky môžete vytvárať a upravovať priamo v zozname. Dvojitým kliknutím
+            na riadok sa otvorí detailný pohľad.
+          full_view: V <b>detailoch pracovného balíčku</b> nájdete všetky relevantné
+            informácie ako popis, stav, prioritu, aktivity, náväznosti a komentáre.
+          back_button: Pomocou šípky sa môžete vrátiť späť na zoznam pracovných balíčkov.
+          create_button: Tlačidlo <b>Vytvoriť</b> pridá nový pracovný balíček pre
+            váš projekt.
+          timeline_button: Môžete aktivovať <b>Ganttov diagram</b> pre vytvorenie
+            časového harmonogramu projektu.
+          timeline: Tu môžete upraviť svoj projektový plán. Vytvárať nové fázy, míľniky
+            a pridávať závislosti. Všetci členovia tímu môžu kedykoľvek zobraziť a
+            aktualizovať aktuálny plán.
     password_confirmation:
       field_description: Ak chcete potvrdiť túto zmenu, musíte zadať heslo svojho
         účtu.
@@ -457,8 +512,7 @@ sk:
       abort: Zrušiť
     relations_autocomplete:
       placeholder: Zadajte ID pracovného balíčku
-      parent_placeholder: Vyberte nadradený prvok, enter zruší závislosť, escape vráti
-        predchádzajúci stav.
+      parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: Vybrať značku
       select_branch: Vyberte odbor
@@ -469,7 +523,7 @@ sk:
         other: Zadajte ešte minimálne {{count}} znakov
         zero: Please enter more characters
         few: Zadajte ešte minimálne {{count}} znaky
-        many: Please enter {{count}} more characters
+        many: Zadajte ešte minimálne {{count}} znakov
       load_more: Načítanie ďalších záznamov ...
       no_matches: Nenašli sa žiadne záznamy
       searching: Vyhľadávanie ...
@@ -478,7 +532,7 @@ sk:
         other: Môžete vybrať maximálne {{limit}} položiek
         zero: You cannot select any items
         few: Môžete vybrať maximálne {{limit}} položky
-        many: You can only select {{limit}} items
+        many: Môžete vybrať maximálne {{limit}} položku
     project_menu_details: Podrobnosti
     sort:
       sorted_asc: 'Použiť vzostupné zoradenie, '
@@ -493,6 +547,7 @@ sk:
     text_query_destroy_confirmation: Naozaj chcete odstrániť vybraté zobrazenie?
     text_attachment_destroy_confirmation: Naozaj chcete odstrániť prílohu?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Ganttov diagram
       labels:
         title: Konfigurácia popisku
@@ -811,7 +866,7 @@ sk:
           balíčkov, ktoré sú tu uvedené, budú odstránené rekurzívne.
         deletes_children: Všetky podradené pracovné balíčky a s nimi súvisiace budú
           rekurzívne odstránené.
-    notice_no_results_to_display: No visible results to display.
+    notice_no_results_to_display: Žiadne viditeľné výsledky na zobrazenie.
     notice_successful_create: Úspešne vytvorené.
     notice_successful_delete: Úspešne zmazané.
     notice_successful_update: Úspešne aktualizované.
@@ -857,7 +912,7 @@ sk:
         other: "%{count} hodín"
         zero: 0 hours
         few: "%{count} hodiny"
-        many: "%{count} hours"
+        many: "%{count} hodiny"
     zen_mode:
       button_activate: Aktivovať zen režim
       button_deactivate: Deaktivovať zen režim
@@ -871,27 +926,3 @@ sk:
         all_projects: všetky projekty
         project_and_subprojects: a všetky podprojekty
         search_for: Hľadať
-    grid:
-      add_modal:
-        choose_widget: Choose widget
-      widgets:
-        documents:
-          title: Documents
-          no_results: No documents yet.
-        news:
-          title: Novinky
-          at: at
-          no_results: Nič nové pre nahlásenie.
-        time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
-        work_packages_accountable:
-          title: Pracovné balíčky, za ktoré som zodpovedný(a)
-        work_packages_assigned:
-          title: Mne priradené pracovné balíčky
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_calendar:
-          title: Kalendár

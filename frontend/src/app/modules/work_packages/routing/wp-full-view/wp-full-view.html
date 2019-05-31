@@ -9,10 +9,10 @@
       <div id="toolbar">
         <div class="wp-show--header-container">
           <div class="wp-show--back-button hide-when-print">
-              <accessible-by-keyboard (execute)="goToList()"
-                                      linkClass="work-packages-list-view-button button"
-                                      [linkAriaLabel]="text.goToList"
-                                      [linkTitle]="text.goToList">
+              <accessible-by-keyboard (execute)="goBack()"
+                                      linkClass="work-packages-back-button button"
+                                      [linkAriaLabel]="text.goBack"
+                                      [linkTitle]="text.goBack">
                 <op-icon icon-classes="button--icon icon-back-up"></op-icon>
             </accessible-by-keyboard>
           </div>
@@ -56,7 +56,7 @@
           <wp-single-view [workPackage]="workPackage"></wp-single-view>
         </div>
       </div>
-      <div class="work-packages-full-view--split-right">
+      <div class="work-packages-full-view--split-right work-packages-tab-view--overflow">
         <div class="work-packages--panel-inner">
           <span class="hidden-for-sighted" tabindex="-1" focus [textContent]="focusAnchorLabel"></span>
           <div id="tabs">

@@ -157,7 +157,7 @@ describe 'Activity tab', js: true, selenium: true do
                                            'comment',
                                            selector: '.work-packages--activity--add-comment'
 
-        expect(field.editing?).to be true
+        field.expect_active!
 
         # Add our comment
         quote = field.input_element.text

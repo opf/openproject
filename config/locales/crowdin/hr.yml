@@ -55,9 +55,25 @@ hr:
     index:
       no_results_content_title: Trenutno ne postoji mehanizam provjere autentičnosti.
       no_results_content_text: Dodaj novi mod provjere autentičnosti
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: none
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
+  forums:
     show:
-      no_results_title_text: Trenutno nema novih novih postova.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Trenutno nema boja.
@@ -137,9 +153,9 @@ hr:
     settings:
       activities:
         no_results_title_text: Trenutno nema dostupnih aktivnosti.
-      boards:
-        no_results_title_text: Trenutno nema dostupnih foruma za ovaj projekt.
-        no_results_content_text: Novi forum
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Ne postoje kategorije za radni paket.
         no_results_content_text: Nova kategorija za radni paket
@@ -208,7 +224,7 @@ hr:
       reset: Reset to defaults
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts.
+        in Gantt charts. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: Trenutno nije dostupan niti jedan radni paket pridružen
@@ -369,6 +385,11 @@ hr:
         subscriber: Pretplatnik
         encoded_token: Enterprise support token
         active_user_count_restriction: Najviše aktivnih korisnika
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Kašnjenje
         from: Radni paket
@@ -406,6 +427,7 @@ hr:
         spent_on: Datum
         type: Tip
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
@@ -467,11 +489,6 @@ hr:
         client_credentials_user_id: Client Credentials User ID
         scopes: Scopes
         confidential: Confidential
-      grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
     errors:
       messages:
         accepted: mora biti prihvaćeno.
@@ -541,6 +558,10 @@ hr:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -614,6 +635,7 @@ hr:
           attributes:
             attribute_groups:
               attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: The group name '%{group}' is used more than once. Group
                 names must be unique.
               query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
@@ -644,11 +666,15 @@ hr:
               error_not_found: nije pronađeno
         member:
           principal_blank: Molim vas odaberite najamnje jednog korisnika ili grupu.
-          role_blank: Molim vas odaberite najmanje jednu rolu.
-        grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          role_blank: need to be assigned.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Molim vas provjerite sljedeća polja:'
         header:
@@ -658,7 +684,7 @@ hr:
     models:
       attachment: Datoteka
       attribute_help_text: Attribute help text
-      board: Forum
+      forum: Forum
       comment: Komentar
       custom_action: Custom action
       custom_field: Prilagođeno polje
@@ -756,7 +782,7 @@ hr:
   button_check_all: Označi sve
   button_clear: Očisti
   button_click_to_reveal: Click to reveal
-  button_close: Close
+  button_close: Zatvori
   button_collapse_all: Sažmi sve
   button_configure: Postavi
   button_continue: Nastavi
@@ -1008,7 +1034,7 @@ hr:
   description_choose_project: Projekti
   description_compare_from: Compare from
   description_compare_to: Compare to
-  description_current_position: 'Nalazite se ovdje:'
+  description_current_position: 'You are here: '
   description_date_from: Unesite datum početka
   description_date_range_interval: Odaberite raspon tako da odaberete datum početka
     i završetka
@@ -1056,15 +1082,17 @@ hr:
   error_can_not_remove_role: Ova rola se koristi i ne može biti izbrisana.
   error_can_not_reopen_work_package_on_closed_version: Dodijeljeni radni paket zaključenoj
     verziji ne može biti ponovno otvoren
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Molim Vas odaberite korisnika i rolu.
+  error_code: Error %{code}
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.
   error_custom_option_not_found: Opcija ne postoji.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1081,6 +1109,10 @@ hr:
   error_work_package_not_found_in_project: Radni paket nije pronađen ili ne pripada
     ovom projektu
   error_must_be_project_member: mora biti član projekta
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: Početna vrijednost statusa radnog paketa nije
     definirana. Molimo vas provjerite konfiguraciju (Idite na "Administracija->Status
     radnih paketa").
@@ -1167,13 +1199,13 @@ hr:
           you substantially contribute to this Open-Source community effort.
     links:
       upgrade_enterprise_edition: Nadogradnja na izdanje Enterprise
+      postgres_migration: Migrating your installation to PostgreSQL
       user_guides: Korisnički priručnici
       faq: Često postavljana pitanja
       glossary: Kazalo pojmova
       shortcuts: Prečaci
-      forums: Forumi
       blog: OpenProject blog
-      boards: Forum Zajednice
+      forums: Forum Zajednice
       newsletter: Security alerts / Newsletter
   links:
     configuration_guide: Vodič za konfiguraciju
@@ -1240,22 +1272,23 @@ hr:
   label_authentication: Autentifikacija
   label_available_project_work_package_categories: Dostupne kategorije radnih paketa
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Odaberi forume
+  label_available_project_forums: Available forums
   label_available_project_versions: Dostupne verzije
   label_available_project_repositories: Dostupni repozitoriji
   label_api_documentation: API dokumentacija
-  label_between: between
+  label_between: između
   label_blocked_by: blokirano od
   label_blocks: zabrane pristupa
   label_blog: Blog
-  label_board_locked: Zaključano
-  label_board_new: Novi forum
-  label_board_plural: Forumi
-  label_board_sticky: Zaljepljeno
+  label_forums_locked: Zaključano
+  label_forum_new: Novi forum
+  label_forum_plural: Forumi
+  label_forum_sticky: Zaljepljeno
   label_boolean: Boolean
   label_branch: Grana
   label_browse: Pregledaj
   label_bulk_edit_selected_work_packages: Višestruko uređivanje odabranih radnih paketa
+  label_bundled: "(Bundled)"
   label_calendar: Kalendar
   label_calendar_show: Pokaži kalendar
   label_category: Kategorija
@@ -1354,6 +1387,7 @@ hr:
   label_equals: je
   label_everywhere: everywhere
   label_example: Primjer
+  label_import: Import
   label_export_to: 'Također dostupan kao:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} sat"
@@ -1391,6 +1425,7 @@ hr:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Početna
   label_subject_or_id: Subject or ID
+  label_impressum: Legal notice
   label_in: u
   label_in_less_than: u manje od
   label_in_more_than: u više od
@@ -1440,6 +1475,7 @@ hr:
   label_max_size: Maksimalna veličina
   label_me: ja
   label_member_new: Novi član
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Članovi
   label_view_all_members: Pogledaj sve članove
   label_menu_item_name: Naziv stavke izbornika
@@ -1468,6 +1504,7 @@ hr:
   label_my_queries: Moji prilagođeni upiti
   label_never: Nikad
   label_new: Novi
+  label_new_features: New features
   label_new_statuses_allowed: Novi statusi dopušteni
   label_news_added: Vijest dodana
   label_news_comment_added: Komentar dodan vijesti
@@ -1516,6 +1553,7 @@ hr:
   label_planning: Planiranje
   label_please_login: Molimo prijavite se
   label_plugins: Proširenja
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: prethodi
   label_preferences: Preference
   label_preview: Pregled
@@ -1523,6 +1561,7 @@ hr:
   label_previous_week: Prethodni tjedan
   label_principal_invite_via_email: " ili pozovite nove korisnike putem emaila"
   label_principal_search: Dodaj postojeće korisnike ili grupe
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Verzija proizvoda
   label_professional_support: Profesionalna Podrška
   label_profile: Profil
@@ -1638,6 +1677,7 @@ hr:
   label_updated_time: Ažurirano prije %{value}
   label_updated_time_at: "%{author}%{age}"
   label_updated_time_by: Ažurirao korisnik %{author} prije %{age}
+  label_upgrade_guides: Upgrade guides
   label_used_by: Koristio
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
@@ -1857,6 +1897,8 @@ hr:
   notice_account_update_failed: Account setting could not be saved. Please have a
     look at your account page.
   notice_account_updated: Korisnički račun je uspješno ažuriran.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Pogrešna lozinka
   notice_account_registered_and_logged_in: Dobrodošli, vaš korisnički račun je sada
     aktiviran te ste istovremeno i prijavljeni u sustav.
@@ -1908,7 +1950,6 @@ hr:
     Prikazano je previše rezultata.
     Sužite rezultate pretrage na način da unesete ime novog člana (ili grupe).
   notice_unable_delete_time_entry: Nije moguće brisanje evidentiranih zapisa o vremenu.
-  notice_unable_delete_version: Nije moguće izbrisati verziju.
   notice_user_missing_authentication_method: Korisnik mora odabrati lozinku ili drugi
     način prijave.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
@@ -1985,7 +2026,7 @@ hr:
   permission_export_wiki_pages: Izvezi Wiki stranice
   permission_list_attachments: Izlistaj sve privitke
   permission_log_time: Zapiši utrošeno vrijeme
-  permission_manage_boards: Upravljanje Forumima
+  permission_manage_forums: Upravljanje Forumima
   permission_manage_categories: Upravljaj kategorijama radnih paketa
   permission_manage_work_package_relations: Upravljaj relacijama radnih paketa
   permission_manage_members: Upravljanje korisnicima
@@ -2033,7 +2074,7 @@ hr:
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
   project_module_activity: Aktivnost
-  project_module_boards: Forumi
+  project_module_forums: Forumi
   project_module_calendar: Kalendar
   project_module_work_package_tracking: Praćenje radnog paketa
   project_module_news: Vijesti
@@ -2217,7 +2258,7 @@ hr:
   setting_commit_logs_encoding: Commitajte kodiranje poruka
   setting_commit_logtime_activity_id: Aktivnost za zabilježeno vrijeme
   setting_commit_logtime_enabled: Omogućite zapis vremena
-  setting_commit_ref_keywords: Referencing keywords
+  setting_commit_ref_keywords: Referentne ključne riječi
   setting_consent_time: Vrijeme pristanka
   setting_consent_info: Tekst informacije sugkasnosti
   setting_consent_required: Potrebna suglasnost
@@ -2257,10 +2298,6 @@ hr:
     za sve zahtjeve
   setting_login_required: Potrebna autentifikacija
   setting_mail_from: Izvorišna adresa e-pošte
-  setting_mail_handler_api_enabled: Omogućiti dolaznu e-poštu web-usluga
-  setting_mail_handler_api_description: The email web handler enables OpenProject
-    to receive emails containing specific commands as an instrumentation mechanism
-    (e.g., to create and update work packages).
   setting_mail_handler_api_key: API ključ
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
@@ -2515,7 +2552,6 @@ hr:
       color: Boja
       colors: Boje
     associations: Ovisnosti
-    board_could_not_be_saved: Forum nije moguće spremiti
     button_delete_all: Obriši sve
     change: Promjene u planiranju
     children: Podređeni elementi
@@ -2772,6 +2808,13 @@ hr:
 '
   menu_item: Stavka izbornika
   menu_item_setting: Vidljivost
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'
   wiki_menu_item_for: Stavka izbornika za wiki stranicu "%{title}"
   wiki_menu_item_setting: Vidljivost
   wiki_menu_item_new_main_item_explanation: 'Izbrisati će te samo glavnu stavku wiki
@@ -2796,6 +2839,7 @@ hr:
     attributes:
       lock_version: Zaključavanje verzije
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: Morate biti autorizirani za pristup ovom resursu.
       code_401_wrong_credentials: Niste naveli ispravnu akreditaciju.
       code_403: Niste autorizirani za pristup ovom resursu.

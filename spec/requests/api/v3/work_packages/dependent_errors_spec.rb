@@ -76,7 +76,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
   end
 
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
-  let(:permissions) { [:view_work_packages, :edit_work_packages, :create_work_packages] }
+  let(:permissions) { %i[view_work_packages edit_work_packages create_work_packages] }
 
   let(:current_user) do
     user = FactoryBot.create(:user, member_in_project: project, member_through_role: role)
@@ -88,7 +88,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
 
   let(:dependent_error_result) do
     proc do |instance, _attributes, work_package|
-      result = ServiceResult.new(success: true, result: instance.work_package || work_package)
+      result = ServiceResult.new(success: true, result: instance.respond_to?(:model) && instance.model || work_package)
       dep = parent
       dep.errors.add :base, "invalid", message: "invalid"
 
@@ -99,7 +99,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
   end
 
   before do
-    allow(User).to receive(:current).and_return current_user
+    login_as current_user
   end
 
   describe '#patch' do
@@ -134,7 +134,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
         expected_error = {
           "_type": "Error",
           "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
-          "message": "Error in dependent work package ##{parent.id} #{parent.subject}: invalid",
+          "message": "Error attempting to alter dependent object: Work package ##{parent.id} - #{parent.subject}: invalid",
           "_embedded": {
             "details": {
               "attribute": "base"
@@ -187,7 +187,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
         expected_error = {
           "_type": "Error",
           "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
-          "message": "Error in dependent work package ##{parent.id} #{parent.subject}: invalid",
+          "message": "Error attempting to alter dependent object: Work package ##{parent.id} - #{parent.subject}: invalid",
           "_embedded": {
             "details": {
               "attribute": "base"

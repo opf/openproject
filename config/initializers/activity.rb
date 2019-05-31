@@ -55,7 +55,7 @@ Project.register_latest_project_activity on: WikiContent,
                                          attribute: :updated_on
 
 Project.register_latest_project_activity on: Message,
-                                         chain: Board,
+                                         chain: Forum,
                                          attribute: :updated_on
 
 Project.register_latest_project_activity on: TimeEntry,

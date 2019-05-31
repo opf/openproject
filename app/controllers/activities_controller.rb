@@ -53,34 +53,25 @@ class ActivitiesController < ApplicationController
     events = @activity.events(@date_from, @date_to)
     censor_events_from_projects_with_disabled_activity!(events) unless @project
 
-    if events.empty? || stale?(etag: [@activity.scope,
-                                      @date_to,
-                                      @date_from,
-                                      @with_subprojects,
-                                      @author,
-                                      events.first,
-                                      User.current,
-                                      current_language,
-                                      DesignColor.overwritten])
-      respond_to do |format|
-        format.html do
-          @events_by_day = events.group_by { |e| e.event_datetime.in_time_zone(User.current.time_zone).to_date }
-          render layout: false if request.xhr?
+    respond_to do |format|
+      format.html do
+        @events_by_day = events.group_by { |e| e.event_datetime.in_time_zone(User.current.time_zone).to_date }
+        render layout: false if request.xhr?
+      end
+      format.atom do
+        title = l(:label_activity)
+        if @author
+          title = @author.name
+        elsif @activity.scope.size == 1
+          title = l("label_#{@activity.scope.first.singularize}_plural")
         end
-        format.atom do
-          title = l(:label_activity)
-          if @author
-            title = @author.name
-          elsif @activity.scope.size == 1
-            title = l("label_#{@activity.scope.first.singularize}_plural")
-          end
-          render_feed(events, title: "#{@project || Setting.app_title}: #{title}")
-        end
+        render_feed(events, title: "#{@project || Setting.app_title}: #{title}")
       end
     end
 
-  rescue ActiveRecord::RecordNotFound
-    render_404
+  rescue ActiveRecord::RecordNotFound => e
+    op_handle_warning "Failed to find all resources in activities: #{e.message}"
+    render_404 I18n.t(:error_can_not_find_all_resources)
   end
 
   private

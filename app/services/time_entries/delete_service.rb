@@ -28,27 +28,4 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-##
-# Implements the deletion of a time entry.
-class TimeEntries::DeleteService
-  include Concerns::Contracted
-  attr_accessor :user, :time_entry
-
-  def initialize(user:, time_entry:)
-    self.user = user
-    self.time_entry = time_entry
-    self.contract_class = TimeEntries::DeleteContract
-  end
-
-  ##
-  # Deletes the given time entry if allowed.
-  #
-  # @return True if the deletion has been initiated, false otherwise.
-  def call
-    result, errors = validate_and_yield(time_entry, user) do
-      time_entry.destroy
-    end
-
-    ServiceResult.new(success: result, errors: errors, result: time_entry)
-  end
-end
+class TimeEntries::DeleteService < ::BaseServices::Delete; end

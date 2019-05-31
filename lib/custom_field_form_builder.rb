@@ -112,18 +112,15 @@ class CustomFieldFormBuilder < TabularFormBuilder
   # Return custom field label tag
   def custom_field_label_tag
     custom_value = object
-    is_required = object.custom_field.is_required?
 
     classes = 'form--label'
     classes << ' error' unless custom_value.errors.empty?
-    classes << ' -required'if is_required
 
     content_tag 'label',
                 for: custom_field_field_id,
                 class: classes,
                 title: custom_value.custom_field.name do
-      content_tag('span', custom_value.custom_field.name) +
-        (content_tag('span', '*', class: 'form--label-required', :'aria-hidden' => true) if is_required)
+      custom_value.custom_field.name
     end
   end
 end

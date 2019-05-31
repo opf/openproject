@@ -44,7 +44,6 @@ require 'redmine/notifiable'
 require 'csv'
 
 module OpenProject
-
   ##
   # Shortcut to the OpenProject log delegator, which extends
   # default Rails error handling with other error handlers such as sentry.

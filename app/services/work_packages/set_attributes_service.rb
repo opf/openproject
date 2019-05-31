@@ -28,33 +28,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class WorkPackages::SetAttributesService
-  include Concerns::Contracted
-
-  attr_accessor :user,
-                :work_package,
-                :contract_class
-
-  def initialize(user:, work_package:, contract_class:)
-    self.user = user
-    self.work_package = work_package
-    self.contract_class = contract_class
-  end
-
-  def call(attributes)
-    set_attributes(attributes)
-    validate_and_result
-  end
-
+class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
   private
-
-  def validate_and_result
-    success, errors = validate(work_package, user)
-
-    ServiceResult.new(success: success,
-                      errors: errors,
-                      result: work_package)
-  end
 
   def set_attributes(attributes)
     if attributes.key?(:attachment_ids)
@@ -69,6 +44,7 @@ class WorkPackages::SetAttributesService
     update_dates
     reset_custom_values
     reassign_invalid_status_if_type_changed
+    set_templated_description
   end
 
   def set_static_attributes(attributes)
@@ -86,9 +62,40 @@ class WorkPackages::SetAttributesService
     work_package.author ||= user
     work_package.status ||= Status.default
 
-    if Setting.work_package_startdate_is_adddate?
-      work_package.start_date ||= Date.today
-    end
+    work_package.start_date ||= Date.today if Setting.work_package_startdate_is_adddate?
+  end
+
+  def non_or_default_description?
+    work_package.description.blank? || false
+  end
+
+  def set_templated_description
+    # We only set this if the work package is new
+    return unless work_package.new_record?
+
+    # And the type was changed
+    return unless work_package.type_id_changed?
+
+    # And the new type has a default text
+    default_description = work_package.type&.description
+    return unless default_description.present?
+
+    # And the current description matches ANY current default text
+    return unless work_package.description.blank? || is_default_description?
+
+    work_package.description = default_description
+  end
+
+  def is_default_description?
+    Type
+      .pluck(:description)
+      .compact
+      .map(&method(:normalize_whitespace))
+      .include?(normalize_whitespace(work_package.description))
+  end
+
+  def normalize_whitespace(string)
+    string.gsub(/\s/, ' ').squeeze(' ')
   end
 
   def set_custom_attributes(attributes)
@@ -192,5 +199,9 @@ class WorkPackages::SetAttributesService
     if min_start && (min_start > current_start_date)
       min_start
     end
+  end
+
+  def work_package
+    model
   end
 end

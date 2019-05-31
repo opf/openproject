@@ -1,5 +1,7 @@
 #-- encoding: UTF-8
+
 #-- copyright
+
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
@@ -52,8 +54,7 @@ class RootSeeder < Seeder
   def do_seed!
     ActiveRecord::Base.transaction do
       # Basic data needs be seeded before anything else.
-      puts '*** Seeding basic data'
-      BasicDataSeeder.new.seed!
+      seed_basic_data
 
       puts '*** Seeding admin user'
       AdminUserSeeder.new.seed!
@@ -62,16 +63,7 @@ class RootSeeder < Seeder
       DemoDataSeeder.new.seed!
 
       if Rails.env.development?
-        puts '*** Seeding development data'
-        require 'factory_bot'
-        # Load FactoryBot factories
-        begin
-          ::FactoryBot.find_definitions
-        rescue => e
-          raise e unless e.message.downcase.include? "factory already registered"
-        end
-
-        DevelopmentDataSeeder.new.seed!
+        seed_development_data
       end
 
       rails_engines.each do |engine|
@@ -120,5 +112,25 @@ class RootSeeder < Seeder
 
     # Avoid asynchronous DeliverWorkPackageCreatedJob
     Delayed::Worker.delay_jobs = false
+  end
+
+  private
+
+  def seed_development_data
+    puts '*** Seeding development data'
+    require 'factory_bot'
+    # Load FactoryBot factories
+    begin
+      ::FactoryBot.find_definitions
+    rescue => e
+      raise e unless e.message.downcase.include? "factory already registered"
+    end
+
+    DevelopmentDataSeeder.new.seed!
+  end
+
+  def seed_basic_data
+    puts "*** Seeding basic data for #{OpenProject::Configuration['edition']} edition"
+    ::StandardSeeder::BasicDataSeeder.new.seed!
   end
 end

@@ -41,5 +41,9 @@ module OpenProject::Costs::Patches::ProjectPatch
     def costs_enabled?
       module_enabled?(:costs_module)
     end
+
+    def cost_reporting_enabled?
+      costs_enabled? && module_enabled?(:reporting_module)
+    end
   end
 end

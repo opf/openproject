@@ -29,8 +29,9 @@
 import {Component, ElementRef, HostListener, Injector, Input, OnDestroy, OnInit} from '@angular/core';
 import {distinctUntilChanged} from 'rxjs/operators';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
-import {MainMenuToggleService} from "core-components/resizer/main-menu-toggle.service";
 import {TransitionService} from '@uirouter/core';
+import {MainMenuToggleService} from "core-components/main-menu/main-menu-toggle.service";
+import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
 
 @Component({
   selector: 'wp-resizer',
@@ -52,7 +53,8 @@ export class WpResizerDirective implements OnInit, OnDestroy {
 
   constructor(readonly toggleService:MainMenuToggleService,
               private elementRef:ElementRef,
-              readonly $transitions:TransitionService) {
+              readonly $transitions:TransitionService,
+              readonly browserDetector:BrowserDetector) {
   }
 
   ngOnInit() {
@@ -174,9 +176,9 @@ export class WpResizerDirective implements OnInit, OnDestroy {
     this.oldPosition = (e.clientX || e.pageX);
 
     // Get new value depending on the delta
-    // The resizingElement is not allowed to be smaller than 480px
+    // The resizingElement is not allowed to be smaller than 500px
     this.elementFlex = this.elementFlex + delta;
-    let newValue = this.elementFlex < 480 ? 480 : this.elementFlex;
+    let newValue = this.elementFlex < 500 ? 500 : this.elementFlex;
 
     // Store item in local storage
     window.OpenProject.guardedLocalStorage(this.localStorageKey, String(newValue));
@@ -200,7 +202,8 @@ export class WpResizerDirective implements OnInit, OnDestroy {
   }
 
   private toggleColumns(element:HTMLElement, checkWidth:number = 750) {
-    if (element) {
+    // Disable two column layout for MS Edge (#29941)
+    if (element && !this.browserDetector.isEdge) {
       jQuery(element).toggleClass('-can-have-columns', element.offsetWidth > checkWidth);
     }
   }

@@ -193,11 +193,11 @@ describe OpenProject::TextFormatting,
     end
 
     context 'Message links' do
-      let(:board) { FactoryBot.create :board, project: project }
-      let(:message1) { FactoryBot.create :message, board: board }
+      let(:forum) { FactoryBot.create :forum, project: project }
+      let(:message1) { FactoryBot.create :message, forum: forum }
       let(:message2) do
         FactoryBot.create :message,
-                          board: board,
+                          forum: forum,
                           parent: message1
       end
 

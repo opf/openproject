@@ -26,17 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {DisplayField} from "core-app/modules/fields/display/display-field.module";
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-
-export const cssClassCustomOption = 'custom-option';
+import {cssClassCustomOption, DisplayField} from "core-app/modules/fields/display/display-field.module";
 
 export class ResourcesDisplayField extends DisplayField {
-  private text = {
-    empty: this.I18n.t('js.work_packages.no_value'),
-    placeholder: this.I18n.t('js.placeholders.default')
-  };
-
   public isEmpty():boolean {
     return _.isEmpty(this.value);
   }
@@ -72,18 +64,6 @@ export class ResourcesDisplayField extends DisplayField {
   }
 
   /**
-   * Render an empty placeholder if no values are present
-   */
-  protected renderEmpty(element:HTMLElement) {
-    const emptyDiv = document.createElement('div');
-    emptyDiv.setAttribute('title', this.text.empty);
-    emptyDiv.textContent = this.text.placeholder;
-    emptyDiv.classList.add(cssClassCustomOption, '-empty');
-
-    element.appendChild(emptyDiv);
-  }
-
-  /**
    * Renders at most the first two values, followed by a badge indicating
    * the total count.
    */
@@ -104,7 +84,7 @@ export class ResourcesDisplayField extends DisplayField {
   /**
    * Build .custom-option div/span nodes with the given text
    */
-  private optionDiv(text:string, ...classes:string[]) {
+  protected optionDiv(text:string, ...classes:string[]) {
     const div = document.createElement('div');
     const span = document.createElement('span');
     div.classList.add(cssClassCustomOption);
@@ -119,7 +99,7 @@ export class ResourcesDisplayField extends DisplayField {
   /**
    * Return the first two joined values, if any.
    */
-  private valueAbridged(values:any[]) {
+  protected valueAbridged(values:any[]) {
     const valueForDisplay = _.take(values, 2);
 
     if (values.length > 2) {

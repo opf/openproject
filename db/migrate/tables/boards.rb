@@ -41,8 +41,8 @@ class Tables::Boards < Tables::Base
       t.integer :messages_count, default: 0, null: false
       t.integer :last_message_id
 
-      t.index :last_message_id, name: 'index_boards_on_last_message_id'
-      t.index :project_id, name: 'boards_project_id'
+      t.index :last_message_id, name: "index_#{table_name}_on_last_message_id"
+      t.index :project_id, name: "#{table_name}_project_id"
     end
   end
 end

@@ -32,6 +32,6 @@ class Queries::Members::MemberQuery < Queries::BaseQuery
   end
 
   def default_scope
-    Member.all
+    Member.visible(User.current)
   end
 end

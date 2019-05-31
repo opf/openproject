@@ -56,9 +56,25 @@ lt:
     index:
       no_results_content_title: Šiuo metu nėra jokių autentifikacijos būdų.
       no_results_content_text: Sukurti naują autentifikacijos būdą
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: joks
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
+  forums:
     show:
-      no_results_title_text: Nėra jokių įrašų pranešimų lentoje.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Nėra nurodytų spalvų.
@@ -140,9 +156,9 @@ lt:
     settings:
       activities:
         no_results_title_text: Kolkas neprieinama jokia veikla.
-      boards:
-        no_results_title_text: Projektas neturi jokio informacino skydelio.
-        no_results_content_text: Sukurti naują informacinį skydelį
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Nėra darbų paketo kategorijų.
         no_results_content_text: Sukurti naują darbų paketo kategoriją
@@ -212,7 +228,7 @@ lt:
       reset: Atkurti į numatytuosius
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts.
+        in Gantt charts. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: Šiuo metu nėra šiai versijai priskirtų darbų paketų.
@@ -367,6 +383,11 @@ lt:
         subscriber: Prenumeruotojas
         encoded_token: "„Enterprise“ paramos raktas"
         active_user_count_restriction: Maksimalus aktyvių vartotojų skaičius
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Vėlavimas
         from: Darbų paketas
@@ -404,6 +425,7 @@ lt:
         spent_on: Data
         type: Tipas
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
@@ -465,11 +487,6 @@ lt:
         client_credentials_user_id: Client Credentials User ID
         scopes: Scopes
         confidential: Confidential
-      grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
     errors:
       messages:
         accepted: turi būti patvirtinta.
@@ -539,6 +556,10 @@ lt:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: neįmanoma perskaityti. Ar tai tikrai yra paramos raktas?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -610,6 +631,7 @@ lt:
           attributes:
             attribute_groups:
               attribute_unknown: Netinkamas darbų paketo atributas naudotas.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: The group name '%{group}' is used more than once. Group
                 names must be unique.
               query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
@@ -642,11 +664,15 @@ lt:
               error_not_found: nerasta
         member:
           principal_blank: Prašome pasirinkti bent vieną vartotoją ar grupę.
-          role_blank: Prašome pasirinkti bent vieną rolę.
-        grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          role_blank: need to be assigned.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Prašome patikrinti šiuos laukelius:'
         header:
@@ -657,7 +683,7 @@ lt:
     models:
       attachment: Failas
       attribute_help_text: Atributo pagalbos tekstas
-      board: Forumas
+      forum: Forumas
       comment: Komentaras
       custom_action: Pasirinktinis veiksmas
       custom_field: Kliento laukelis
@@ -672,7 +698,7 @@ lt:
         one: Rolė
         other: Rolės (-ė, -ių)
         few: Rolės (-ė, -ių)
-        many: Roles
+        many: Rolės
       type: Tipas
       user: Vartotojas
       version: Versija
@@ -955,7 +981,7 @@ lt:
         one: valanda
         other: valandos (-a, -ų)
         few: valandos (-a, -ų)
-        many: hours
+        many: valandos (-a, -ų)
   default_activity_development: Kūrimas
   default_activity_management: Valdymas
   default_activity_other: Kita
@@ -1022,7 +1048,7 @@ lt:
   description_choose_project: Projektai
   description_compare_from: Palyginti nuo
   description_compare_to: Palyginti iki
-  description_current_position: 'Jūs esate čia:'
+  description_current_position: 'You are here: '
   description_date_from: Įveskite pradžios datą
   description_date_range_interval: Pasirinkite diapazoną nurodydami pradžios ir pabaigos
     datas
@@ -1073,15 +1099,17 @@ lt:
   error_can_not_remove_role: Ši rolė naudojama, todėl negali būti ištrinta.
   error_can_not_reopen_work_package_on_closed_version: Uždarytai versijai priskirtas
     darbų paketas negali būti atvertas
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Prašome pasirinkti vartotoją ir rolę.
+  error_code: Error %{code}
   error_cookie_missing: OpenProject sausainėlis nerastas. Prašome patikrinti, ar sausainėliai
     yra įgalinti, nes kitaip aplikacija tinkamai neveiks.
   error_custom_option_not_found: Galimybė neegzistuoja.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
   error_enterprise_activation_user_limit: Jūsų paskyra negali būti aktyvuota (pasiektas
     vartotojų limitas). Prašome kreiptis į savo sistemos administratorių.
   error_failed_to_delete_entry: Šio įrašo nepavyko panaikinti.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Negalima grupuoti naudojant: %{value}'
   error_invalid_query_column: 'Netinkamas užklausos stulpelis: %{value}'
@@ -1097,6 +1125,10 @@ lt:
   error_work_package_not_found_in_project: Darbų paketas nerastas arba nepriklauso
     šiam projektui
   error_must_be_project_member: turi būti projekto narys
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: Numatytoji darbų paketo būsena nenustatyta.
     Prašome patikrinti nustatymus (Eiti į „Administravimas“->„Darbų paketų būsenos“).
   error_no_type_in_project: Joks tipas nepriskirtas šiam projektui. Prašome patikrinti
@@ -1181,13 +1213,13 @@ lt:
           Edition“ jūs iš esmės prisidėsite prie atviro kodo bendruomenės darbo.
     links:
       upgrade_enterprise_edition: Patobulinti į „Enterprise Edition“ versiją
+      postgres_migration: Migrating your installation to PostgreSQL
       user_guides: Vartotojo vadovai
       faq: D.U.K
       glossary: Aiškinamasis terminų žodynas
       shortcuts: Nuorodos
-      forums: Forumai
       blog: OpenProject blogas
-      boards: Bendruomenės forumas
+      forums: Bendruomenės forumas
       newsletter: Saugos įspėjimai / Naujienos
   links:
     configuration_guide: Konfigūravimo vadovas
@@ -1254,7 +1286,7 @@ lt:
   label_authentication: Autentifikacija
   label_available_project_work_package_categories: Galimos darbų paketo kategorijos
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Galimos skelbimų lentos
+  label_available_project_forums: Available forums
   label_available_project_versions: Galimos versijos
   label_available_project_repositories: Galimos saugyklos
   label_api_documentation: API dokumentacija
@@ -1262,14 +1294,15 @@ lt:
   label_blocked_by: blokuojamas
   label_blocks: blokai
   label_blog: Blog'as
-  label_board_locked: Užrakinta
-  label_board_new: Naujas forumas
-  label_board_plural: Forumai
-  label_board_sticky: Lipnus
+  label_forums_locked: Užrakinta
+  label_forum_new: Naujas forumas
+  label_forum_plural: Forumai
+  label_forum_sticky: Lipnus
   label_boolean: Būlio loginis
   label_branch: Šaka
   label_browse: Naršyti
   label_bulk_edit_selected_work_packages: Masiškai redaguoti pasirinktus darbų paketus
+  label_bundled: "(Bundled)"
   label_calendar: Kalendorius
   label_calendar_show: Rodyti kalendorių
   label_category: Kategorija
@@ -1368,6 +1401,7 @@ lt:
   label_equals: yra
   label_everywhere: everywhere
   label_example: Pavyzdys
+  label_import: Import
   label_export_to: 'Taip pat galima rasti:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} valanda"
@@ -1405,6 +1439,7 @@ lt:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Namai
   label_subject_or_id: Subject or ID
+  label_impressum: Legal notice
   label_in: " "
   label_in_less_than: mažiau nei
   label_in_more_than: daugiau nei
@@ -1454,6 +1489,7 @@ lt:
   label_max_size: Maksimalus dydis
   label_me: aš
   label_member_new: Naujas narys
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Nariai
   label_view_all_members: Rodyti visus narius
   label_menu_item_name: Meniu punkto pavadinimas
@@ -1482,6 +1518,7 @@ lt:
   label_my_queries: Mano sukurtos užklausos
   label_never: Niekada
   label_new: Naujas
+  label_new_features: New features
   label_new_statuses_allowed: Naujos galimos būsenos
   label_news_added: Pridėta naujiena
   label_news_comment_added: Prie naujienos pridėtas komentaras
@@ -1530,6 +1567,7 @@ lt:
   label_planning: Planavimas
   label_please_login: Prašome prisijungti
   label_plugins: Papildiniai
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: ankstesnis
   label_preferences: Parinktys
   label_preview: Peržiūra
@@ -1538,6 +1576,7 @@ lt:
   label_principal_invite_via_email: " arba pakviesti naujus vartotojus naudojant el.
     paštą"
   label_principal_search: Pridėti esamus vartotojus ar grupes
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Produkto versija
   label_professional_support: Profesionali pagalba
   label_profile: Profilis
@@ -1654,6 +1693,7 @@ lt:
   label_updated_time: Atnaujinta prieš %{value}
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "%{author} atnaujino prieš %{age}"
+  label_upgrade_guides: Upgrade guides
   label_used_by: Naudotas
   label_used_by_types: Naudojama šių tipų
   label_used_in_projects: Naudojama šių projektų
@@ -1873,6 +1913,8 @@ lt:
   notice_account_update_failed: Vartotojo paskyros nustatymai negali būti išsaugoti.
     Prašome peržvelgti savo paskyros puslapį.
   notice_account_updated: Paskyra buvo sėkmingai atnaujinta.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Neteisingas slaptažodis
   notice_account_registered_and_logged_in: Sveiki, Jūsų paskyra sėkmingai aktyvuota.
     Dabar esate prisijungę.
@@ -1926,7 +1968,6 @@ lt:
   notice_to_many_principals_to_display: Per daug rezultatų. Susiaurinkite paiešką
     pradėdami įvesti naujo nario (ar grupės) pavadinimą.
   notice_unable_delete_time_entry: Neįmano ištrinti laiko žurnalo įrašo.
-  notice_unable_delete_version: Neįmanoma ištrinti versijos.
   notice_user_missing_authentication_method: Vartotojas dar nepasirinko slaptažodžio
     ar kitokio būdo prisijungimui.
   notice_user_invitation_resent: Pakvietimas buvo nusiųstas į %{email}.
@@ -2005,7 +2046,7 @@ lt:
   permission_export_wiki_pages: Eksportuoti wiki puslapius
   permission_list_attachments: Pateikti priedus
   permission_log_time: Regsitruoti dirbtą laiką
-  permission_manage_boards: Valdyti forumus
+  permission_manage_forums: Valdyti forumus
   permission_manage_categories: Valdyti darbų paketo kategorijas
   permission_manage_work_package_relations: Valdyti darbų paketo ryšius
   permission_manage_members: Valdyti narius
@@ -2054,7 +2095,7 @@ lt:
     archive:
       are_you_sure: Ar Jūs tikrai norite suarchyvuoti projektą '%{name}'?
   project_module_activity: Veikla
-  project_module_boards: Forumai
+  project_module_forums: Forumai
   project_module_calendar: Kalendorius
   project_module_work_package_tracking: Darbų paketo sekimas
   project_module_news: Naujienos
@@ -2283,10 +2324,6 @@ lt:
     adresą visiems prašymams
   setting_login_required: Reikalinga autentifikacija
   setting_mail_from: Išsiuntimo el. pašto adresas
-  setting_mail_handler_api_enabled: Įgalinti įeinančio el. pašto žiniatinklio tarnybą
-  setting_mail_handler_api_description: El. pašto žiniatinklio apdorojimo įrankis
-    leidžia OpenProject gauti laiškus kurių sudėtyje yra specialios komandos, kurios
-    įvykdomos sistemoje (pvz., kurti ir atnaujinti darbų paketus).
   setting_mail_handler_api_key: API raktas
   setting_mail_handler_body_delimiters: Trumpinti laiškus po vienos iš šių eilučių
   setting_mail_handler_body_delimiter_regex: Sutrumpinti laiškus, atitinkančius šią
@@ -2549,7 +2586,6 @@ lt:
       color: Spalva
       colors: Spalvos
     associations: Priklausomybės
-    board_could_not_be_saved: Skelbimų lenta negalėjo būti išsaugota
     button_delete_all: Ištrinti viską
     change: Pakeisti planavime
     children: Vaikų elementai
@@ -2810,6 +2846,13 @@ lt:
 '
   menu_item: Meniu punktas
   menu_item_setting: Matomumas
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'
   wiki_menu_item_for: Meniu punktas wiki puslapiui „%{title}“
   wiki_menu_item_setting: Matomumas
   wiki_menu_item_new_main_item_explanation: 'Jūs ketinate šalinti tik pagrindinį wiki
@@ -2834,6 +2877,7 @@ lt:
     attributes:
       lock_version: Užrakto versija
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: Jums reikia būti autentifikuotam, kad galėtumėte pasiekti šį resursą.
       code_401_wrong_credentials: Jūs nepateikėte teisingų prisijungimo duomenų.
       code_403: Jūs nesate autorizuotas šiam resursui pasiekti.

@@ -37,6 +37,7 @@ import {States} from 'core-components/states.service';
 import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import {FirstRouteService} from "core-app/modules/router/first-route-service";
 import {WorkPackageSingleViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-package-single-view.base";
+import {BackRoutingService} from "core-app/modules/common/back-routing/back-routing.service";
 
 @Component({
   templateUrl: './wp-full-view.html',
@@ -63,6 +64,8 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase {
   public actionsAvailable:any;
   public triggerMoreMenuAction:Function;
 
+  public backRoutingService:BackRoutingService = this.injector.get(BackRoutingService);
+
   constructor(public injector:Injector,
               public states:States,
               public firstRoute:FirstRouteService,
@@ -86,16 +89,15 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase {
     super.init();
 
     // Set Focused WP
-    this.wpTableFocus.updateFocus(this.workPackage.id);
+    this.wpTableFocus.updateFocus(this.workPackage.id!);
 
     this.setWorkPackageScopeProperties(this.workPackage);
-    this.text.goToList = this.I18n.t('js.button_back_to_list_view');
+    this.text.goBack = this.I18n.t('js.button_back');
   }
 
-  public goToList() {
-    this.$state.go('work-packages.list', this.$state.params);
+  public goBack() {
+    this.backRoutingService.goBack();
   }
-
   private setWorkPackageScopeProperties(wp:WorkPackageResource) {
     this.isWatched = wp.hasOwnProperty('unwatch');
     this.displayWatchButton = wp.hasOwnProperty('unwatch') || wp.hasOwnProperty('watch');

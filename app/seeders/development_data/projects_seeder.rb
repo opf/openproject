@@ -78,13 +78,15 @@ module DevelopmentData
 
     def seed_versions(projects)
       projects.each do |p|
-        version_data = I18n.t('seeders.demo_data.projects.scrum-project.versions')
-        version_data.each do |attributes|
-          p.versions << Version.create!(
-            name:    attributes[:name],
-            status:  attributes[:status],
-            sharing: attributes[:sharing]
-          )
+        version_data = project_data_for('scrum-project', 'versions')
+        if version_data.is_a? Array
+          version_data.each do |attributes|
+            p.versions << Version.create!(
+              name:    attributes[:name],
+              status:  attributes[:status],
+              sharing: attributes[:sharing]
+            )
+          end
         end
       end
     end

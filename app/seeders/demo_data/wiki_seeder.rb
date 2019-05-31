@@ -35,7 +35,7 @@ module DemoData
     end
 
     def seed_data!
-      text = translate_with_base_url("seeders.demo_data.projects.#{key}.wiki")
+      text = project_data_for(key, 'wiki')
 
       return if text.is_a?(String) && text.start_with?("translation missing")
 

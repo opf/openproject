@@ -49,10 +49,11 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
   let(:status) { FactoryBot.build(:status, name: 'status 1', is_default: true) }
 
   let(:project) do
-    p = FactoryBot.build(:project, members: [FactoryBot.build(:member,
-                                                                principal: user,
-                                                                roles: [role])],
-                                    types: [type_feature, type_task, type_bug])
+    p = FactoryBot.build(:project,
+                         members: [FactoryBot.build(:member,
+                                                    principal: user,
+                                                    roles: [role])],
+                         types: [type_feature, type_task, type_bug])
 
     p.versions << FactoryBot.build(:version, name: 'Version1', project: p)
     p.versions << FactoryBot.build(:version, name: 'Version2', project: p)
@@ -62,137 +63,137 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
 
   let(:story) do
     story = FactoryBot.build(:work_package,
-                              subject: 'Story',
-                              project: project,
-                              type: type_feature,
-                              fixed_version: version1,
-                              status: status,
-                              author: user,
-                              priority: issue_priority)
+                             subject: 'Story',
+                             project: project,
+                             type: type_feature,
+                             fixed_version: version1,
+                             status: status,
+                             author: user,
+                             priority: issue_priority)
     story
   end
 
   let(:story2) do
     story = FactoryBot.build(:work_package,
-                              subject: 'Story2',
-                              project: project,
-                              type: type_feature,
-                              fixed_version: version1,
-                              status: status,
-                              author: user,
-                              priority: issue_priority)
+                             subject: 'Story2',
+                             project: project,
+                             type: type_feature,
+                             fixed_version: version1,
+                             status: status,
+                             author: user,
+                             priority: issue_priority)
     story
   end
 
   let(:story3) do
     story = FactoryBot.build(:work_package,
-                              subject: 'Story3',
-                              project: project,
-                              type: type_feature,
-                              fixed_version: version1,
-                              status: status,
-                              author: user,
-                              priority: issue_priority)
+                             subject: 'Story3',
+                             project: project,
+                             type: type_feature,
+                             fixed_version: version1,
+                             status: status,
+                             author: user,
+                             priority: issue_priority)
     story
   end
 
   let(:task) {
     FactoryBot.build(:work_package,
-                      subject: 'Task',
-                      type: type_task,
-                      fixed_version: version1,
-                      project: project,
-                      status: status,
-                      author: user,
-                      priority: issue_priority)
+                     subject: 'Task',
+                     type: type_task,
+                     fixed_version: version1,
+                     project: project,
+                     status: status,
+                     author: user,
+                     priority: issue_priority)
   }
 
   let(:task2) {
     FactoryBot.build(:work_package,
-                      subject: 'Task2',
-                      type: type_task,
-                      fixed_version: version1,
-                      project: project,
-                      status: status,
-                      author: user,
-                      priority: issue_priority)
+                     subject: 'Task2',
+                     type: type_task,
+                     fixed_version: version1,
+                     project: project,
+                     status: status,
+                     author: user,
+                     priority: issue_priority)
   }
 
   let(:task3) {
     FactoryBot.build(:work_package,
-                      subject: 'Task3',
-                      type: type_task,
-                      fixed_version: version1,
-                      project: project,
-                      status: status,
-                      author: user,
-                      priority: issue_priority)
+                     subject: 'Task3',
+                     type: type_task,
+                     fixed_version: version1,
+                     project: project,
+                     status: status,
+                     author: user,
+                     priority: issue_priority)
   }
 
   let(:task4) {
     FactoryBot.build(:work_package,
-                      subject: 'Task4',
-                      type: type_task,
-                      fixed_version: version1,
-                      project: project,
-                      status: status,
-                      author: user,
-                      priority: issue_priority)
+                     subject: 'Task4',
+                     type: type_task,
+                     fixed_version: version1,
+                     project: project,
+                     status: status,
+                     author: user,
+                     priority: issue_priority)
   }
 
   let(:task5) {
     FactoryBot.build(:work_package,
-                      subject: 'Task5',
-                      type: type_task,
-                      fixed_version: version1,
-                      project: project,
-                      status: status,
-                      author: user,
-                      priority: issue_priority)
+                     subject: 'Task5',
+                     type: type_task,
+                     fixed_version: version1,
+                     project: project,
+                     status: status,
+                     author: user,
+                     priority: issue_priority)
   }
 
   let(:task6) {
     FactoryBot.build(:work_package,
-                      subject: 'Task6',
-                      type: type_task,
-                      fixed_version: version1,
-                      project: project,
-                      status: status,
-                      author: user,
-                      priority: issue_priority)
+                     subject: 'Task6',
+                     type: type_task,
+                     fixed_version: version1,
+                     project: project,
+                     status: status,
+                     author: user,
+                     priority: issue_priority)
   }
 
   let(:bug) {
     FactoryBot.build(:work_package,
-                      subject: 'Bug',
-                      type: type_bug,
-                      fixed_version: version1,
-                      project: project,
-                      status: status,
-                      author: user,
-                      priority: issue_priority)
+                     subject: 'Bug',
+                     type: type_bug,
+                     fixed_version: version1,
+                     project: project,
+                     status: status,
+                     author: user,
+                     priority: issue_priority)
   }
 
   let(:bug2) {
     FactoryBot.build(:work_package,
-                      subject: 'Bug2',
-                      type: type_bug,
-                      fixed_version: version1,
-                      project: project,
-                      status: status,
-                      author: user,
-                      priority: issue_priority)
+                     subject: 'Bug2',
+                     type: type_bug,
+                     fixed_version: version1,
+                     project: project,
+                     status: status,
+                     author: user,
+                     priority: issue_priority)
   }
 
   let(:bug3) {
     FactoryBot.build(:work_package,
-                      subject: 'Bug3',
-                      type: type_bug,
-                      fixed_version: version1,
-                      project: project,
-                      status: status,
-                      author: user,
-                      priority: issue_priority)
+                     subject: 'Bug3',
+                     type: type_bug,
+                     fixed_version: version1,
+                     project: project,
+                     status: status,
+                     author: user,
+                     priority: issue_priority)
   }
 
   before(:each) do
@@ -232,7 +233,7 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
   end
 
   describe 'WHEN changing fixed_version' do
-    let(:instance) { described_class.new(user: user, work_package: parent) }
+    let(:instance) { described_class.new(user: user, model: parent) }
 
     shared_examples_for "changing parent's fixed_version changes child's fixed version" do
       it "SHOULD change the child's fixed version to the parent's fixed version" do
@@ -244,7 +245,7 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
 
         parent.reload
 
-        instance.call(attributes: { fixed_version: version2 })
+        instance.call(fixed_version: version2)
 
         # Because of performance, these assertions are all in one it statement
         expect(child.reload.fixed_version).to eql version2
@@ -267,7 +268,7 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
 
         parent.reload
 
-        instance.call(attributes: { fixed_version: version2 })
+        instance.call(fixed_version: version2)
 
         # Because of performance, these assertions are all in one it statement
         expect(child.reload.fixed_version).to eql version1
@@ -436,7 +437,7 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
   end
 
   describe 'WHEN changing the parent_id' do
-    let(:instance) { described_class.new(user: user, work_package: child) }
+    let(:instance) { described_class.new(user: user, model: child) }
 
     shared_examples_for "changing the child's parent_issue to the parent changes child's fixed version" do
       it "SHOULD change the child's fixed version to the parent's fixed version" do
@@ -446,7 +447,7 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
         parent.fixed_version = version2
         parent.save!
 
-        instance.call(attributes: { parent_id: parent.id })
+        instance.call(parent_id: parent.id)
 
         # Because of performance, these assertions are all in one it statement
         expect(child.reload.fixed_version).to eql version2
@@ -467,7 +468,7 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
         parent.fixed_version = version2
         parent.save!
 
-        instance.call(attributes: { parent_id: parent.id })
+        instance.call(parent_id: parent.id)
 
         # Because of performance, these assertions are all in one it statement
         expect(child.reload.fixed_version).to eql version1

@@ -49,22 +49,24 @@ describe 'SettingSeeder' do
     expect { subject.seed! }.not_to raise_error
   end
 
-  it 'applies initial settings' do
-    Setting.where(name: %w(commit_fix_status_id new_project_user_role_id)).delete_all
+  shared_examples 'settings' do
+    it 'applies initial settings' do
+      Setting.where(name: %w(commit_fix_status_id new_project_user_role_id)).delete_all
 
-    reseed!
+      reseed!
 
-    expect(Setting.commit_fix_status_id).to eq closed_status.id
-    expect(Setting.new_project_user_role_id).to eq new_project_role.id
-  end
+      expect(Setting.commit_fix_status_id).to eq closed_status.id
+      expect(Setting.new_project_user_role_id).to eq new_project_role.id
+    end
 
-  it 'does not override settings' do
-    Setting.commit_fix_status_id = 1337
-    Setting.where(name: 'new_project_user_role_id').delete_all
+    it 'does not override settings' do
+      Setting.commit_fix_status_id = 1337
+      Setting.where(name: 'new_project_user_role_id').delete_all
 
-    reseed!
+      reseed!
 
-    expect(Setting.commit_fix_status_id).to eq 1337
-    expect(Setting.new_project_user_role_id).to eq new_project_role.id
+      expect(Setting.commit_fix_status_id).to eq 1337
+      expect(Setting.new_project_user_role_id).to eq new_project_role.id
+    end
   end
 end

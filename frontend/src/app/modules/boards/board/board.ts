@@ -1,7 +1,10 @@
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
+import {CardHighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
+import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
 
 export type BoardDisplayMode = 'table'|'cards';
+export type BoardType = 'free'|'action';
 
 export class Board {
   constructor(public grid:GridResource) {
@@ -19,13 +22,32 @@ export class Board {
     return !!this.grid.updateImmediately;
   }
 
-  public get displayMode():BoardDisplayMode {
-    const mode = this.grid.options.display_mode;
-    return (mode === 'table') ? 'table' : 'cards';
+  public get isFree() {
+    return !this.isAction;
   }
 
-  public set displayMode(value:BoardDisplayMode) {
-    this.grid.options.display_mode = value;
+  public get isAction() {
+    return this.grid.options.type === 'action';
+  }
+
+  public get actionAttribute():string|undefined {
+    if (this.isFree) {
+      return undefined;
+    }
+
+    return this.grid.options.attribute as string;
+  }
+
+  public get displayMode():BoardDisplayMode {
+    return 'cards';
+  }
+
+  public set highlightingMode(val:CardHighlightingMode) {
+    this.grid.options.highlightingMode = val;
+  }
+
+  public get highlightingMode():CardHighlightingMode {
+    return (this.grid.options.highlightingMode || 'none') as CardHighlightingMode;
   }
 
   public set name(name:string) {
@@ -33,6 +55,7 @@ export class Board {
   }
 
   public addQuery(widget:GridWidgetResource) {
+    widget.isNew = true;
     this.grid.widgets.push(widget);
   }
 
@@ -46,5 +69,23 @@ export class Board {
 
   public get createdAt() {
     return this.grid.createdAt;
+  }
+
+  public get filters():ApiV3Filter[] {
+    return (this.grid.options.filters || []) as ApiV3Filter[];
+  }
+
+  public set filters(filters:ApiV3Filter[]) {
+    this.grid.options.filters = filters;
+  }
+
+  public sortWidgets() {
+    this.grid.widgets = this.grid.widgets.sort((a, b) => {
+      return a.startColumn - b.startColumn;
+    });
+  }
+
+  public showStatusButton() {
+    return this.actionAttribute !== 'status';
   }
 }

@@ -141,7 +141,7 @@ class MailHandler < ActionMailer::Base
     end
   rescue ActiveRecord::RecordInvalid => e
     # TODO: send a email to the user
-    logger.error e.message if logger
+    logger&.error e.message
     false
   rescue MissingInformation => e
     log "missing information from #{user}: #{e.message}", :error
@@ -218,7 +218,7 @@ class MailHandler < ActionMailer::Base
         reply = Message.new(subject: email.subject.gsub(%r{^.*msg\d+\]}, '').strip,
                             content: cleaned_up_text_body)
         reply.author = user
-        reply.board = message.board
+        reply.forum = message.forum
         message.children << reply
         add_attachments(reply)
         reply
@@ -307,7 +307,7 @@ class MailHandler < ActionMailer::Base
     end
     format ||= '.+'
     text.gsub!(/^(#{keys.join('|')})[ \t]*:[ \t]*(#{format})\s*$/i, '')
-    $2 && $2.strip
+    $2&.strip
   end
 
   def target_project
@@ -459,16 +459,15 @@ class MailHandler < ActionMailer::Base
     keyword = keyword.to_s.downcase
     assignable = issue.assignable_assignees
     assignee = nil
-    assignee ||= assignable.detect { |a|
-      a.mail.to_s.downcase == keyword ||
-        a.login.to_s.downcase == keyword
-    }
+    assignee ||= assignable.detect do |a|
+      [a.mail.to_s.downcase, a.login.to_s.downcase].include?(keyword)
+    end
     if assignee.nil? && keyword.match(/ /)
       firstname, lastname = *(keyword.split) # "First Last Throwaway"
-      assignee ||= assignable.detect { |a|
+      assignee ||= assignable.detect do |a|
         a.is_a?(User) && a.firstname.to_s.downcase == firstname &&
           a.lastname.to_s.downcase == lastname
-      }
+      end
     end
     if assignee.nil?
       assignee ||= assignable.detect { |a| a.is_a?(Group) && a.name.downcase == keyword }
@@ -482,9 +481,9 @@ class MailHandler < ActionMailer::Base
     attributes = collect_wp_attributes_from_email_on_create(work_package)
 
     service_call = WorkPackages::CreateService
-      .new(user: user,
-           contract_class: work_package_create_contract_class)
-      .call(attributes: attributes, work_package: work_package)
+                   .new(user: user,
+                        contract_class: work_package_create_contract_class)
+                   .call(attributes.merge(work_package: work_package).symbolize_keys)
 
     if service_call.success?
       work_package = service_call.result
@@ -508,19 +507,16 @@ class MailHandler < ActionMailer::Base
 
   def update_work_package(work_package)
     attributes = collect_wp_attributes_from_email_on_update(work_package)
-
-    attributes.merge!(attachment_ids: create_attachments_from_mail.map(&:id))
+    attributes[:attachment_ids] = work_package.attachment_ids + create_attachments_from_mail.map(&:id)
 
     service_call = WorkPackages::UpdateService
-      .new(user: user,
-           work_package: work_package,
-           contract_class: work_package_update_contract_class)
-      .call(attributes: attributes)
+                   .new(user: user,
+                        model: work_package,
+                        contract_class: work_package_update_contract_class)
+                   .call(attributes.symbolize_keys)
 
     if service_call.success?
-      work_package = service_call.result
-
-      work_package
+      service_call.result
     else
       service_call.errors
     end
@@ -536,7 +532,7 @@ class MailHandler < ActionMailer::Base
   def log(message, level = :info)
     message = "MailHandler: #{message}"
 
-    logger.send(level, message) if logger && logger.send(level)
+    logger.send(level, message) if logger&.send(level)
   end
 
   def work_package_create_contract_class

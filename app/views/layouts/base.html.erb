@@ -58,7 +58,8 @@ See docs/COPYRIGHT.rdoc for more details.
         data-default-locale="<%= I18n.default_locale %>"
         data-environment="<%= Rails.env %>"/>
   <meta name="current_menu_item" content="<%= current_menu_item %>"/>
-  <meta name="demo_projects_available" content="<%= Setting.demo_projects_available %>"/>
+  <% if Setting.demo_projects_available %><meta name="demo_projects_available" content="true"/><% end %>
+  <% if Setting.boards_demo_data_available %><meta name="boards_demo_data_available" content="true"/><% end %>
   <%= csrf_meta_tags %>
   <%= render 'common/favicons' %>
   <%= stylesheet_link_tag 'openproject', media: "all" %>
@@ -90,7 +91,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= crowdin_in_context_translation %>
 </head>
 <body class="<%= body_css_classes %> __overflowing_element_container __overflowing_body" data-relative_url_root="<%= root_path %>" data-overflowing-identifier=".__overflowing_body">
-<%= render partial: 'browser/unsupported_browser' if unsupported_browser? %>
+<%= render partial: 'warning_bar/warning_bar' %>
 <noscript>
   <div class="top-shelf">
     <p>

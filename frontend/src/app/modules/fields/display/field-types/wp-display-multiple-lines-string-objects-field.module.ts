@@ -26,7 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {cssClassCustomOption, ResourcesDisplayField} from "./wp-display-resources-field.module";
+import {ResourcesDisplayField} from "./wp-display-resources-field.module";
+import {cssClassCustomOption} from "core-app/modules/fields/display/display-field.module";
 
 export class MultipleLinesStringObjectsDisplayField extends ResourcesDisplayField {
 

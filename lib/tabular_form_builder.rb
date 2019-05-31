@@ -238,7 +238,6 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
     content = h(text)
     label_for_field_errors(content, label_options, field)
-    label_for_field_required(content, label_options, options[:required])
     label_for_field_for(options, label_options, field)
     label_for_field_prefix(content, options)
 
@@ -259,16 +258,6 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
-  def label_for_field_required(content, options, is_required)
-    if is_required
-      options[:class] << ' -required'
-      content << content_tag('span',
-                             '*',
-                             class: 'form--label-required',
-                             'aria-hidden': true)
-    end
-  end
-
   def label_for_field_for(options, label_options, field)
     label_options[:for] = options[:for]
   end
@@ -284,7 +273,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
       l(label)
     elsif label
       label
-    elsif @object.is_a?(ActiveRecord::Base)
+    elsif @object.class.respond_to?(:human_attribute_name)
       @object.class.human_attribute_name(field)
     else
       l(field)

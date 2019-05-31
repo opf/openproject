@@ -55,7 +55,7 @@ export class WorkPackageWatcherButtonComponent implements OnInit,  OnDestroy {
   }
 
   ngOnInit() {
-    this.wpCacheService.loadWorkPackage(this.workPackage.id)
+    this.wpCacheService.loadWorkPackage(this.workPackage.id!)
       .values$()
       .pipe(
         takeUntil(componentDestroyed(this))
@@ -82,8 +82,8 @@ export class WorkPackageWatcherButtonComponent implements OnInit,  OnDestroy {
     const toggleLink = this.nextStateLink();
 
     toggleLink(toggleLink.$link.payload).then(() => {
-      this.wpWatchersService.clear(this.workPackage.id);
-      this.wpCacheService.loadWorkPackage(this.workPackage.id, true);
+      this.wpWatchersService.clear(this.workPackage.id!);
+      this.wpCacheService.loadWorkPackage(this.workPackage.id!, true);
     });
   }
 

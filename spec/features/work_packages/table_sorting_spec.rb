@@ -150,9 +150,9 @@ describe 'Select work package row', type: :feature, js: true do
       wp_table.visit!
     end
 
-    it 'default sortation (parent) orders depth first' do
-      wp_table.expect_work_package_listed parent, child1, grand_child1, grand_child3
-      wp_table.expect_work_package_order parent.id, child1.id, grand_child1.id, grand_child3.id
+    it 'default sortation (id) does not order depth first (Reverted in #29122)' do
+      wp_table.expect_work_package_listed parent, child1, grand_child1, child2
+      wp_table.expect_work_package_order parent.id, child1.id, grand_child1.id, child2
     end
   end
 end

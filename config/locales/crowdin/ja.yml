@@ -45,9 +45,21 @@ ja:
     index:
       no_results_content_title: 現在認証モードはありません。
       no_results_content_text: 新しい認証モードを作成
-  boards:
+  ldap_auth_sources:
+    connection_encryption: 接続の暗号化
+    tls_mode:
+      plain: なし
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: 平文の暗号化されていない接続。TLSネゴシエーションはありません。
+      simple_tls_description: 暗黙的にTLS暗号化します。証明書を検証しません。暗黙的にLDAP接続を信頼します、注意して使用してください。
+      start_tls_description: 完全な検証を行い明示的にTLS暗号化します。TLS/SSL経由のLDAPを使用します。
+      section_more_info_link_html: 'このセクションは、このLDAP認証元の接続セキュリティを考慮します。詳細については、<a href="%{link}">Net::LDAPドキュメント</a>を参照してください。
+
+'
+  forums:
     show:
-      no_results_title_text: 現在、掲示板の投稿はありません。
+      no_results_title_text: 現在、フォーラムへの投稿はありません。
   colors:
     index:
       no_results_title_text: 現在、色はありません。
@@ -120,9 +132,9 @@ ja:
     settings:
       activities:
         no_results_title_text: 現在、有効な活動はありません。
-      boards:
-        no_results_title_text: 現在、プロジェクトの掲示板はありません。
-        no_results_content_text: 新しい掲示板を作成
+      forums:
+        no_results_title_text: 現在、プロジェクトに関するフォーラムはありません。
+        no_results_content_text: 新しいフォーラムを作成する
       categories:
         no_results_title_text: 現在、作業項目のカテゴリはありません。
         no_results_content_text: 新しい作業項目のカテゴリを作成
@@ -186,9 +198,9 @@ ja:
       edit_query: テーブルを編集
       query_group_placeholder: テーブルに名前を付けます
       reset: デフォルトに戻す
-      type_color_text: 'このタイプの色を割り当てたり変更する場合にクリックします。 選択された色は、ガントチャートの作業項目を区別します。
-
-'
+      type_color_text: |
+        クリックして、このタイプの色を割り当てたり、変更します。選択した色は、ガントチャートのワークパッケージを区別します。
+        したがって、はっきりした色を使用することをお勧めします。
   versions:
     overview:
       no_results_title_text: このバージョンに割り当てられている作業項目はありません。
@@ -319,6 +331,11 @@ ja:
         subscriber: 購入者
         encoded_token: エンタープライズ サポート トークン
         active_user_count_restriction: アクティブなユーザーの最大数
+      grids/grid:
+        page: ページ
+        row_count: 行数
+        column_count: 列数
+        widgets: ウィジェット
       relation:
         delay: 遅延
         from: 作業項目
@@ -355,6 +372,7 @@ ja:
         spent_on: 日付
         type: 種別
       type:
+        description: デフォルトの説明
         attribute_groups: ''
         is_in_roadmap: デフォルトでロードマップに表示されます
         is_default: デフォルトで新規プロジェクト用に有効化
@@ -415,11 +433,6 @@ ja:
         client_credentials_user_id: クライアント資格情報ユーザーID
         scopes: 範囲
         confidential: 機密
-      grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
     errors:
       messages:
         accepted: は受諾しなければなりません。
@@ -460,7 +473,7 @@ ja:
         too_long: は%{count}文字以内を入力してください。
         too_short: は%{count}文字以上を入力してください。
         unchangeable: 変更できません。
-        unremovable: cannot be removed.
+        unremovable: 削除できません。
         wrong_length: は%{count}文字を入力してください。
       models:
         custom_field:
@@ -485,6 +498,10 @@ ja:
               not_match_configured: 利用可能な範囲と一致しません。
         enterprise_token:
           unreadable: 読み取りできません。サポート トークンですか?
+        grids/grid:
+          overlaps: オーバーラップ。
+          outside: グリッドの外側です。
+          end_before_start: 終了値は開始値よりも大きくする必要があります。
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -549,6 +566,7 @@ ja:
           attributes:
             attribute_groups:
               attribute_unknown: 無効なワークパッケージの属性が使用されています。
+              attribute_unknown_name: '無効なワークパッケージの属性が使用されています: %{attribute}'
               duplicate_group: グループ名 '%{group}' は複数回使用されています。グループ名は一意でなければなりません。
               query_invalid: 埋め込みクエリ '%{group}' は無効です： %{details}
               group_without_name: 名前のないグループは指定できません。
@@ -573,11 +591,14 @@ ja:
               error_not_found: 存在しません
         member:
           principal_blank: 一つ以上のユーザまたはグループを選択してください。
-          role_blank: 1つ以上のロールを選択してください。
-        grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          role_blank: need to be assigned.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
+        version:
+          undeletable_work_packages_attached: 作業パッケージが添付されているため、バージョンを削除できません。
       template:
         body: 次のフィールドをチェックしてください：
         header:
@@ -586,7 +607,7 @@ ja:
     models:
       attachment: ファイル
       attribute_help_text: 属性のヘルプ テキスト
-      board: フォーラム
+      forum: フォーラム
       comment: コメント
       custom_action: カスタムアクション
       custom_field: カスタムフィールド
@@ -914,7 +935,7 @@ ja:
   description_choose_project: プロジェクト
   description_compare_from: 以下と比較：
   description_compare_to: 比較：
-  description_current_position: ここにいます：
+  description_current_position: 'You are here: '
   description_date_from: 開始日
   description_date_range_interval: 日付で指定
   description_date_range_list: 一覧から選択
@@ -959,13 +980,15 @@ ja:
   error_can_not_invite_user: ユーザーへの招待状の送信に失敗しました。
   error_can_not_remove_role: このロールは使用されています。削除できません。
   error_can_not_reopen_work_package_on_closed_version: 終了したバージョンにひも付けされた作業項目は再度開けません。
+  error_can_not_find_all_resources: この要求に、すべての関連リソースを見つけられませんでした。
   error_check_user_and_role: ユーザとロールを選択してください。
+  error_code: エラー %{code}
   error_cookie_missing: OpenProject のcookieが見つかりません。cookieが有効であることを確認してください。そうしないとこのアプリケーションは正しく動作しません。
   error_custom_option_not_found: オプションが存在しません。
-  error_dependent_work_package: '依存するワークパッケージのエラー#%{related_id} %{related_subject}:
-    %{error}'
   error_enterprise_activation_user_limit: あなたのアカウントを有効にすることができませんでした（ユーザー制限に達しました）。アクセスするには管理者に連絡してください。
   error_failed_to_delete_entry: このエントリを削除できませんでした。
+  error_in_dependent: '依存オブジェクトを変更しようとしてエラーが発生しました: %{dependent_class} #%{related_id}
+    - %{related_subject}: %{error}'
   error_invalid_selected_value: 選択された値が無効です。
   error_invalid_group_by: 'グループ化できません: %{value}'
   error_invalid_query_column: '無効なクエリ列: %{value}'
@@ -978,6 +1001,8 @@ ja:
   error_work_package_done_ratios_not_updated: 作業項目の進捗率が更新できません。
   error_work_package_not_found_in_project: 作業項目が見つからないか、このプロジェクトに属してないかです。
   error_must_be_project_member: プロジェクトのメンバーである必要があります。
+  error_migrations_are_pending: OpenProject のインストールはデータベースの移行が保留中です。前回のアップグレード時に移行の実行を行っていない可能性があります。アップグレードガイドを確認して、適切にインストールをアップグレードしてください。
+  error_migrations_visit_upgrade_guides: アップグレードガイドのドキュメントをご覧ください
   error_no_default_work_package_status: 作業項目の既定のステータスが定義されていません。 設定をご確認してください（管理→作業項目ステータス）。
   error_no_type_in_project: このプロジェクトには関連付けている作業項目の型がありません。プロジェクトの設定をご確認してください。
   error_omniauth_registration_timed_out: 外部認証プロバイダーを経由して登録がタイムアウトしました。もう一度やり直してください。
@@ -1054,13 +1079,13 @@ ja:
         you_contribute: 開発者も請求に支払う必要があります。エンタープライズ版で、実質的に、このオープンソース コミュニティの努力に貢献できます。
     links:
       upgrade_enterprise_edition: エンタープライズ版にアップグレード
+      postgres_migration: PostgreSQL にインストールを移行しています
       user_guides: ユーザーガイド
       faq: FAQ
       glossary: 用語集
       shortcuts: ショートカット
-      forums: フォーラム
       blog: OpenProject ブログ
-      boards: コミュニティ フォーラム
+      forums: コミュニティ フォーラム
       newsletter: セキュリティアラート / ニュースレター
   links:
     configuration_guide: 設定ガイド
@@ -1122,7 +1147,7 @@ ja:
   label_authentication: 認証
   label_available_project_work_package_categories: 有効な作業項目のカテゴリ
   label_available_project_work_package_types: 利用可能な作業項目の種類
-  label_available_project_boards: 利用できる掲示板
+  label_available_project_forums: 利用可能なフォーラム
   label_available_project_versions: 利用できるバージョン
   label_available_project_repositories: 使用できるリポジトリ
   label_api_documentation: APIドキュメント
@@ -1130,14 +1155,15 @@ ja:
   label_blocked_by: ブロックされている
   label_blocks: ブロックしている
   label_blog: ブログ
-  label_board_locked: ロックされている
-  label_board_new: 新しいフォーラム
-  label_board_plural: フォーラム
-  label_board_sticky: 固定する
+  label_forums_locked: ロックされている
+  label_forum_new: 新しいフォーラム
+  label_forum_plural: フォーラム
+  label_forum_sticky: 固定する
   label_boolean: ブール型
   label_branch: 分岐
   label_browse: 閲覧
   label_bulk_edit_selected_work_packages: 選択した作業項目を一括編集
+  label_bundled: "(バンドル)"
   label_calendar: カレンダー
   label_calendar_show: カレンダーを表示
   label_category: カテゴリ
@@ -1236,6 +1262,7 @@ ja:
   label_equals: 等しい
   label_everywhere: どこにでも
   label_example: 例
+  label_import: インポート
   label_export_to: こちらもアクセス可能：
   label_expanded_click_to_collapse: 拡大しました。クリックすると閉じます
   label_f_hour: "%{value}時間"
@@ -1272,6 +1299,7 @@ ja:
   label_hierarchy_leaf: 階層枚
   label_home: ホーム
   label_subject_or_id: 件名またはID
+  label_impressum: 法的情報
   label_in: 今日から○日後
   label_in_less_than: 今日から○日後以前
   label_in_more_than: 今日から○日後以降
@@ -1321,6 +1349,7 @@ ja:
   label_max_size: 最大サイズ
   label_me: 自分
   label_member_new: 新規メンバー
+  label_member_all_admin: "(管理ステータスのすべての役割)"
   label_member_plural: メンバー
   label_view_all_members: すべてのメンバーを表示
   label_menu_item_name: メニュー項目の名称
@@ -1349,6 +1378,7 @@ ja:
   label_my_queries: 個人のクエリ
   label_never: なし
   label_new: 新しく作成
+  label_new_features: New features
   label_new_statuses_allowed: ステータスの移行先
   label_news_added: ニュースが追加されました。
   label_news_comment_added: ニュースにコメントが追加されました。
@@ -1397,6 +1427,7 @@ ja:
   label_planning: 計画
   label_please_login: ログインしてください。
   label_plugins: プラグイン
+  label_modules_and_plugins: モジュールとプラグイン
   label_precedes: 次の項目に先行
   label_preferences: 設定
   label_preview: プレビュー
@@ -1404,6 +1435,7 @@ ja:
   label_previous_week: 先週
   label_principal_invite_via_email: " またはメールで新しいユーザを招待"
   label_principal_search: 既存のユーザーまたはグループを追加する
+  label_privacy_policy: データのプライバシーとセキュリティポリシー
   label_product_version: 製品バージョ​​ン
   label_professional_support: プロフェッショナルサポート
   label_profile: プロファイル
@@ -1519,6 +1551,7 @@ ja:
   label_updated_time: "%{value}前に更新"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "%{author}が%{age}前に更新"
+  label_upgrade_guides: アップグレードガイド
   label_used_by: 使用中
   label_used_by_types: タイプで使用
   label_used_in_projects: プロジェクトで使用
@@ -1704,6 +1737,7 @@ ja:
   notice_account_unknown_email: ユーザが存在しません。
   notice_account_update_failed: アカウントの設定は保存できませんでした。個人ページをご確認ください。
   notice_account_updated: アカウントが正常に更新されました。
+  notice_account_other_session_expired: アカウントに関連付けられている他のすべてのセッションは無効になりました。
   notice_account_wrong_password: パスワードが正しくありません。
   notice_account_registered_and_logged_in: ようこそ、アカウントが有効になりました。只今ログイン中ます。
   notice_activation_failed: アカウントをアクティブ化できませんでした。
@@ -1741,7 +1775,6 @@ ja:
   notice_successful_update: 正常に更新しました。
   notice_to_many_principals_to_display: 検索結果が多すぎです。新たにメンバー名（またはグループ名）を入力して検索を絞り込んでください。
   notice_unable_delete_time_entry: 作業時間記録を削除できません。
-  notice_unable_delete_version: バージョンを削除できません。
   notice_user_missing_authentication_method: ユーザーは、サインインのパスワードまたは別の方法を選択する必要があります。
   notice_user_invitation_resent: "%{email} に招待状が送信されました。"
   present_access_key_value: "%{key_name} は: %{value}"
@@ -1813,7 +1846,7 @@ ja:
   permission_export_wiki_pages: Wikiページのエクスポート
   permission_list_attachments: 添付ファイルの一覧表
   permission_log_time: 作業時間の記録
-  permission_manage_boards: フォーラムの管理
+  permission_manage_forums: フォーラムの管理
   permission_manage_categories: 仕事項目のカテゴリの管理
   permission_manage_work_package_relations: 作業項目の関連の管理
   permission_manage_members: メンバーの管理
@@ -1859,7 +1892,7 @@ ja:
     archive:
       are_you_sure: プロジェクト '%{name}' をアーカイブしてもよろしいですか？
   project_module_activity: 活動
-  project_module_boards: フォーラム
+  project_module_forums: フォーラム
   project_module_calendar: カレンダー
   project_module_work_package_tracking: 作業項目の追跡
   project_module_news: ニュース
@@ -2052,9 +2085,6 @@ ja:
   setting_log_requesting_user: 全てのリクエストに対し、ユーザのログイン名、名前、メールアドレスをログに記録する
   setting_login_required: 認証が必要
   setting_mail_from: 送信元のメールアドレス
-  setting_mail_handler_api_enabled: 受信メールWebサービスを有効にする
-  setting_mail_handler_api_description: メールWebハンドラーにより、OpenProjectは機械的な仕組みで特定のコマンドが含まれているメールを受信することができます
-    (例えば、作業項目の作成と更新)。
   setting_mail_handler_api_key: APIキー
   setting_mail_handler_body_delimiters: メール本文から一致する行以降を切り捨てる
   setting_mail_handler_body_delimiter_regex: この正規表現に一致するメールを切り捨てる
@@ -2268,7 +2298,6 @@ ja:
       color: 色
       colors: 色
     associations: 依存関係
-    board_could_not_be_saved: ボードを保存できませんでした。
     button_delete_all: 全ての削除
     change: 計画の変更する
     children: 子要素
@@ -2493,6 +2522,11 @@ ja:
 '
   menu_item: メニュー項目
   menu_item_setting: 可視性
+  mysql_deprecation:
+    notice: 'OpenProject の将来のバージョンは MariaDB と MySQL データベースのサポートがなくなる可能性があります。MySQL
+      のインストールが実行中の場合、PostgreSQL のインストールと移行をお勧めします。 移行ガイドに従うと、このプロセスを簡単に行うことができます:
+
+'
   wiki_menu_item_for: Wikiページ"%{title}"のメニュー項目
   wiki_menu_item_setting: 可視性
   wiki_menu_item_new_main_item_explanation: '唯一の主なＷｉｋｉメニュー項目が削除されます。新しい主要項目が生成するためにＷｉｋｉページを選択する必要があります。Ｗｉｋｉを削除するには、プロジェクト管理者によってＷｉｋｉモジュールを無効にすることができます。
@@ -2512,6 +2546,7 @@ ja:
     attributes:
       lock_version: ロックバージョン
     errors:
+      code_400: '不正なリクエスト: %{message}'
       code_401: このリソースへのアクセスするには認証を行う必要があります。
       code_401_wrong_credentials: 正しい認証情報が提供されていません。
       code_403: このリソースにアクセスする権限がありません。

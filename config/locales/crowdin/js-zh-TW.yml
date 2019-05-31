@@ -17,10 +17,17 @@ zh-TW:
     close_popup_title: 關閉彈出式視窗
     close_filter_title: 關閉篩選器
     close_form_title: 關閉表單
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: 您的瀏覽器不支援複製到剪貼簿。請手動複製選取的文字。
       copied_successful: 成功複製到剪貼簿上!
     button_add_watcher: 新增監看者
+    button_back: 返回
     button_back_to_list_view: 返回清單
     button_cancel: 取消
     button_close: 關閉
@@ -56,7 +63,7 @@ zh-TW:
       title: 行事曆
       too_many: 與日曆 (%{max}) 所顯示的工作包 (%{count}) 相比, 有更多的工作包 (123_0_321)。添加篩選器以將焦點放在相關篩選器上。
     description_available_columns: 可用欄
-    description_current_position: 您在這裏：
+    description_current_position: 'You are here: '
     description_select_work_package: '選取工作項目 #%{id}'
     description_selected_columns: 所選的欄
     description_subwork_package: '子工作項目 #%{id}'
@@ -139,6 +146,43 @@ zh-TW:
     general_text_yes: 是
     general_text_No: 否
     general_text_Yes: 是
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: 文件
+          no_results: No documents yet.
+        news:
+          title: 新知
+          at: at
+          no_results: 沒有新的消息可以報告
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: 我負責的工作項目
+        work_packages_assigned:
+          title: 分配給我的工作項目
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_table:
+          title: 工作項目
+        work_packages_calendar:
+          title: 行事曆
+    homescreen:
+      blocks:
+        new_features:
+          text_new_features: Read about new features and product updates.
+          current_new_feature_html: 'OpenProject contains a new <b>Boards view</b>
+            for Agile project management. </br> To activate this new feature for your
+            existing projects, please do the following steps: <ul><li>Activate the
+            module Boards within existing projects'' settings.</li> <li>Configure
+            your Boards in a project.</li> <li>Verify roles and permissions</li></ul>'
+          image_alt_text: Board teaser image
+          learn_about: Learn more about Agile Boards
     label_activate: 啟用
     label_activity_no: 活動條目編號 %{activityNo}
     label_activity_with_comment_no: 活動條目編號 %{activityNo}。有的使用者評論。
@@ -163,6 +207,7 @@ zh-TW:
     label_board_locked: 鎖定
     label_board_plural: Boards
     label_board_sticky: 附著
+    label_create_new: 新增
     label_create_work_package: 建立新的工作項目
     label_created_by: 建立由
     label_date: 日期
@@ -209,6 +254,7 @@ zh-TW:
     label_more_than_ago: 很多天之前
     label_my_page: 我的首頁
     label_next: 下一個
+    label_no_color: 無顏色
     label_no_data: 沒有資料可顯示
     label_no_due_date: 無結束日期
     label_no_start_date: 無開始日期
@@ -295,27 +341,36 @@ zh-TW:
         next: 下一個
         got_it: 了解
       steps:
-        welcome: 觀看三分鐘的介紹導覽, 以瞭解最多 <b>重要功能</b>。 <br> 我們建議完成所有步驟直到結束。您可以隨時重新開始導覽。
-        project_selection: 請選擇一個具有有用演示資料的專案開始。 <br> <b>演示專案</b> 最適合傳統專案管理, 而 <b>scrum
-          專案</b> 是更好的敏捷專案管理。
-        sidebar_arrow: 使用箭頭, 您可以導航回專案的 <b>主功能表</b>。
-        members: 邀請新的 <b>會員</b> 加入您的專案。
-        wiki: 在 <b>wiki</b> 中, 您可以與您的團隊一起記錄和分享知識。
-        backlogs_overview: 在 <b>積壓工作</b> 視圖中管理您的工作。 <br> 在右邊, 你有產品積壓或錯誤積壓, 在左邊, 你將有各自的衝刺。在這裡,
-          您可以創建 <b>史詩、使用者故事和錯誤</b>, 通過拖動 ' n ' drop 進行優先排序, 並將它們添加到衝刺中。
-        backlogs_task_board_arrow: 要查看您的 <b>任務板</b>, 請打開衝刺下拉式功能表..。
-        backlogs_task_board_select: ", 然後選擇 <b>任務板</b> 條目。"
-        backlogs_task_board: <b>任務板</b> 視覺化此衝刺的進度。使用使用者情景旁邊的 "+" 圖示添加新任務或障礙。通過拖放,
-          您可以更新狀態。
-        wp_toggler: 現在, 讓我們來看看 <b>工作包</b> 部分, 它為您提供了更詳細的工作視圖。
-        wp_list: 這是 <b>工作包</b> 清單, 其中包含專案中的重要工作, 如任務、功能、里程碑、bug 等。 <br> 您可以直接在此清單中創建或編輯工作包。要查看其詳細資訊,
-          您可以按兩下一行。
-        wp_full_view: 在 <b>工作包詳細資訊</b> 中, 您可以找到所有相關資訊, 如描述、狀態和優先順序、活動、依賴項或注釋。
-        wp_back_button: 使用箭頭, 您可以導航回工作包清單。
-        wp_create_button: "<b>創建</b>按鍵將新增一個工作包至您的專案"
-        wp_timeline_button: 您可啟用<b>甘特圖</b>來建立您專案的時間軸
-        wp_timeline: 在這裡您可以編輯您的專案計畫．建立新的階段，里程碑以及相依來源．所有的隊員都可在任何時候檢視及更新最新的計畫．
         help_menu: 您可以在<b>幫助</b>選單裡找到使用者手冊和更多的幫助資源．
+        members: 邀請新的 <b>會員</b> 加入您的專案。
+        project_selection: Please click on one of the projects with useful demo data
+          to get started. <br> The <b>Demo project</b> suits best for classical project
+          management, while the <b>Scrum project</b> is better for Agile project management.
+        sidebar_arrow: 使用箭頭, 您可以導航回專案的 <b>主功能表</b>。
+        welcome: 觀看三分鐘的介紹導覽, 以瞭解最多 <b>重要功能</b>。 <br> 我們建議完成所有步驟直到結束。您可以隨時重新開始導覽。
+        wiki: 在 <b>wiki</b> 中, 您可以與您的團隊一起記錄和分享知識。
+        backlogs:
+          overview: 在 <b>積壓工作</b> 視圖中管理您的工作。 <br> 在右邊, 你有產品積壓或錯誤積壓, 在左邊, 你將有各自的衝刺。在這裡,
+            您可以創建 <b>史詩、使用者故事和錯誤</b>, 通過拖動 ' n ' drop 進行優先排序, 並將它們添加到衝刺中。
+          task_board_arrow: 要查看您的 <b>任務板</b>, 請打開衝刺下拉式功能表..。
+          task_board_select: ", 然後選擇 <b>任務板</b> 條目。"
+          task_board: <b>任務板</b> 視覺化此衝刺的進度。使用使用者情景旁邊的 "+" 圖示添加新任務或障礙。通過拖放, 您可以更新狀態。
+        boards:
+          overview: Manage your work within an intuitive <b>Boards</b> view.
+          lists: You can create multiple lists (columns) within one Board view, e.g.
+            to create a KANBAN board.
+          add: Click the + will <b>add a new card</b> to the list within a Board.
+          drag: Drag & Drop your cards within a list to re-order, or to another list.
+            A double click will open the details view.
+        wp:
+          toggler: 現在, 讓我們來看看 <b>工作包</b> 部分, 它為您提供了更詳細的工作視圖。
+          list: 這是 <b>工作包</b> 清單, 其中包含專案中的重要工作, 如任務、功能、里程碑、bug 等。 <br> 您可以直接在此清單中創建或編輯工作包。要查看其詳細資訊,
+            您可以按兩下一行。
+          full_view: 在 <b>工作包詳細資訊</b> 中, 您可以找到所有相關資訊, 如描述、狀態和優先順序、活動、依賴項或注釋。
+          back_button: 使用箭頭, 您可以導航回工作包清單。
+          create_button: "<b>創建</b>按鍵將新增一個工作包至您的專案"
+          timeline_button: 您可啟用<b>甘特圖</b>來建立您專案的時間軸
+          timeline: 在這裡您可以編輯您的專案計畫．建立新的階段，里程碑以及相依來源．所有的隊員都可在任何時候檢視及更新最新的計畫．
     password_confirmation:
       field_description: 您需要輸入您的帳戶密碼，以確認此更改。
       title: 確認您的密碼以便繼續
@@ -400,7 +455,7 @@ zh-TW:
       group_by_relation_type: 按關聯類型分組
       add_parent: 增加現有的上一層
       add_new_child: 建立新子項
-      create_new: 新建
+      create_new: 新增
       add_existing: 添加現有的
       add_existing_child: 加入現有子項
       remove_child: 移除子項
@@ -416,7 +471,7 @@ zh-TW:
       abort: 捨棄
     relations_autocomplete:
       placeholder: 輸入相關的工作包 ID
-      parent_placeholder: 選擇新的父項, 按 enter 恢復設置, 按esc 取消。
+      parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: 選擇標籤
       select_branch: 選擇分支
@@ -446,6 +501,7 @@ zh-TW:
     text_query_destroy_confirmation: 確實要刪除所選視圖嗎？
     text_attachment_destroy_confirmation: 你確定你想要刪除附件?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: 甘特圖
       labels:
         title: 標籤配置
@@ -784,27 +840,3 @@ zh-TW:
         all_projects: 所有專案
         project_and_subprojects: 和所有的子專案
         search_for: 搜尋
-    grid:
-      add_modal:
-        choose_widget: Choose widget
-      widgets:
-        documents:
-          title: Documents
-          no_results: No documents yet.
-        news:
-          title: 新知
-          at: at
-          no_results: 沒有新的消息可以報告
-        time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
-        work_packages_accountable:
-          title: 我負責的工作項目
-        work_packages_assigned:
-          title: 分配給我的工作項目
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_calendar:
-          title: 行事曆

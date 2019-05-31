@@ -57,9 +57,25 @@ ca:
     index:
       no_results_content_title: Actualment no hi ha cap mode d'autenticació.
       no_results_content_text: Crear un nou mode d'autenticació
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: cap
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
+  forums:
     show:
-      no_results_title_text: Actualment no hi ha cap entrada al tauler.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Actualment no hi ha cap color.
@@ -140,9 +156,9 @@ ca:
     settings:
       activities:
         no_results_title_text: Actualment no hi ha activitats disponibles.
-      boards:
-        no_results_title_text: Actualment no hi ha cap tauler per al projecte.
-        no_results_content_text: Crear una nou tauler
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Actualment no hi ha cap categoria de paquet de treball.
         no_results_content_text: Crear una nova categoria de paquet de treball
@@ -213,7 +229,7 @@ ca:
       reset: Reset to defaults
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts.
+        in Gantt charts. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: Actualment no hi ha cap paquet de treball assignat a
@@ -376,6 +392,11 @@ ca:
         subscriber: Subscriber
         encoded_token: Enterprise support token
         active_user_count_restriction: Maximum active users
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Retard
         from: Paquet de treball
@@ -413,6 +434,7 @@ ca:
         spent_on: Data
         type: Tipus
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
@@ -475,11 +497,6 @@ ca:
         client_credentials_user_id: Client Credentials User ID
         scopes: Scopes
         confidential: Confidential
-      grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
     errors:
       messages:
         accepted: hauran de ser acceptats.
@@ -548,6 +565,10 @@ ca:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -620,6 +641,7 @@ ca:
           attributes:
             attribute_groups:
               attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: The group name '%{group}' is used more than once. Group
                 names must be unique.
               query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
@@ -647,11 +669,15 @@ ca:
               error_not_found: not found
         member:
           principal_blank: Trieu com a mínim un usuari o grup.
-          role_blank: Seleccioneu almenys un rol.
-        grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          role_blank: need to be assigned.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Si us plau, revisi els camps següents:'
         header:
@@ -661,7 +687,7 @@ ca:
     models:
       attachment: Fitxer
       attribute_help_text: Attribute help text
-      board: Fòrum
+      forum: Fòrum
       comment: Comentari
       custom_action: Custom action
       custom_field: Camp personalitzat
@@ -758,7 +784,7 @@ ca:
   button_check_all: Marcar-ho tot
   button_clear: Netejar
   button_click_to_reveal: Click to reveal
-  button_close: Close
+  button_close: Tancar
   button_collapse_all: Replega-ho tot
   button_configure: Configurar
   button_continue: Continue
@@ -1000,7 +1026,7 @@ ca:
   description_choose_project: Projectes
   description_compare_from: Compare from
   description_compare_to: Compare to
-  description_current_position: 'Sou aquí:'
+  description_current_position: 'You are here: '
   description_date_from: Introduir data d'inici
   description_date_range_interval: Escollir un rang seleccionat de dates d'inici i
     fi
@@ -1048,16 +1074,18 @@ ca:
   error_can_not_remove_role: Aquest rol s'està utilitzant i no es pot suprimir.
   error_can_not_reopen_work_package_on_closed_version: Un paquet de treball assignat
     a una versió tancada no es pot reobrir
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Trieu un usuari i un rol.
+  error_code: Error %{code}
   error_cookie_missing: La cookie d'OpenProject no s'ha trobat. Assegureu-vos que
     les cookies estan habilitades, ja que aquesta aplicació no pot funcionar correctament
     sense.
   error_custom_option_not_found: Option does not exist.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1074,6 +1102,10 @@ ca:
   error_work_package_not_found_in_project: El paquet de treball no s'ha trobat o no
     pertany a aquest projecte
   error_must_be_project_member: ha de ser membre del projecte
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: No hi ha cap estat de paquet de treball definit
     per defecte. Comproveu la configuració ("Administració-> Estats dels paquets de
     treball").
@@ -1161,13 +1193,13 @@ ca:
           you substantially contribute to this Open-Source community effort.
     links:
       upgrade_enterprise_edition: Upgrade to Enterprise Edition
+      postgres_migration: Migrating your installation to PostgreSQL
       user_guides: Guies d'usuari
       faq: Preguntes Més Freqüents
       glossary: Glossari
       shortcuts: Dreceres
-      forums: Fòrums
       blog: Blog OpenProject
-      boards: Fòrum de la comunitat
+      forums: Fòrum de la comunitat
       newsletter: Security alerts / Newsletter
   links:
     configuration_guide: Configuration guide
@@ -1235,7 +1267,7 @@ ca:
   label_available_project_work_package_categories: Categories de paquet de treball
     disponibles
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Taulers disponibles
+  label_available_project_forums: Available forums
   label_available_project_versions: Versions disponibles
   label_available_project_repositories: Repositòris disponibles
   label_api_documentation: Documentació d'API
@@ -1243,14 +1275,15 @@ ca:
   label_blocked_by: bloquejats per
   label_blocks: blocs
   label_blog: Blog
-  label_board_locked: Bloquejat
-  label_board_new: Nou fòrum
-  label_board_plural: Fòrums
-  label_board_sticky: Fixa't
+  label_forums_locked: Bloquejat
+  label_forum_new: Nou fòrum
+  label_forum_plural: Fòrums
+  label_forum_sticky: Fixa't
   label_boolean: Booleà
   label_branch: Branca
   label_browse: Navegar
   label_bulk_edit_selected_work_packages: Edició massiva de paquets de treball
+  label_bundled: "(Bundled)"
   label_calendar: Calendari
   label_calendar_show: Mostreu el calendari
   label_category: Categoria
@@ -1349,6 +1382,7 @@ ca:
   label_equals: és
   label_everywhere: everywhere
   label_example: Exemple
+  label_import: Import
   label_export_to: 'També disponible en:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} hora"
@@ -1386,6 +1420,7 @@ ca:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Inici
   label_subject_or_id: Subject or ID
+  label_impressum: Legal notice
   label_in: en
   label_in_less_than: en menys de
   label_in_more_than: en més de
@@ -1435,6 +1470,7 @@ ca:
   label_max_size: Mida màxima
   label_me: jo mateix
   label_member_new: Nou membre
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Membres
   label_view_all_members: Veure tots els membres
   label_menu_item_name: Nom de l'element de menú
@@ -1463,6 +1499,7 @@ ca:
   label_my_queries: Les meves consultes personalitzades
   label_never: Mai
   label_new: Nou
+  label_new_features: New features
   label_new_statuses_allowed: Nous estats permesos
   label_news_added: Notícies afegides
   label_news_comment_added: S'ha afegit un comentari a la notícia
@@ -1511,6 +1548,7 @@ ca:
   label_planning: Planificació
   label_please_login: Si us plau, inicieu sessió
   label_plugins: Complements
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: precedeix
   label_preferences: Preferències
   label_preview: Previsualitzar
@@ -1518,6 +1556,7 @@ ca:
   label_previous_week: Setmana anterior
   label_principal_invite_via_email: " o convidar a nous usuaris per correu electrònic"
   label_principal_search: Afegir usuaris o grups existents
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Versió del producte
   label_professional_support: Suport professional
   label_profile: Perfil
@@ -1635,6 +1674,7 @@ ca:
   label_updated_time: Actualitzat fa %{value}
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Actualitzat per %{author} fa %{age}
+  label_upgrade_guides: Upgrade guides
   label_used_by: Utilitzat per
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
@@ -1848,6 +1888,8 @@ ca:
   notice_account_update_failed: No s'ha pogut desar la configuració del compte. Si
     us plau, revisi la pàgina del compte.
   notice_account_updated: El compte s'ha actualitzat correctament.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Contrasenya errònia
   notice_account_registered_and_logged_in: Benvingut, el seu compte s'ha activat.
     Ara ja està vostè connectat.
@@ -1902,7 +1944,6 @@ ca:
     Afini la cerca escrivint el nom del nou membre (o grup).
   notice_unable_delete_time_entry: No s'ha pogut suprimir l'entrada del registre de
     temps.
-  notice_unable_delete_version: No s'ha pogut suprimir la versió.
   notice_user_missing_authentication_method: L'usuari encara ha de triar una contrassenya
     o una altra manera d'iniciar la sessió.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
@@ -1978,7 +2019,7 @@ ca:
   permission_export_wiki_pages: Exportar les pàgines wiki
   permission_list_attachments: Llista d'adjunts
   permission_log_time: Registrar el temps invertit
-  permission_manage_boards: Gestionar els taulers
+  permission_manage_forums: Gestionar els taulers
   permission_manage_categories: Gestionar les categories del paquet de treball
   permission_manage_work_package_relations: Gestionar les relacions del paquet de
     treball
@@ -2029,7 +2070,7 @@ ca:
     archive:
       are_you_sure: Esteu segur que voleu arxivar el projecte "%{name}"?
   project_module_activity: Activitat
-  project_module_boards: Fòrums
+  project_module_forums: Fòrums
   project_module_calendar: Calendari
   project_module_work_package_tracking: Paquet de treball de seguiment
   project_module_news: Notícies
@@ -2265,12 +2306,6 @@ ca:
     de totes les sol·licituds
   setting_login_required: Es necessita autenticació
   setting_mail_from: Adreça de correu electrònic d'emissió
-  setting_mail_handler_api_enabled: Habilitar el servei web de correus electrònics
-    entrants
-  setting_mail_handler_api_description: El controlador de correu web permet a OpenProject
-    rebre missatges de correu electrònic que continguin ordres específiques com un
-    mecanisme d'instrumentació (per exemple, per crear i actualitzar els paquets de
-    treball).
   setting_mail_handler_api_key: Clau API
   setting_mail_handler_body_delimiters: Trunca els missatges de correu electrònic
     després d'una d'aquestes línies
@@ -2535,7 +2570,6 @@ ca:
       color: Color
       colors: Colors
     associations: Dependències
-    board_could_not_be_saved: No es pot desar el tauler
     button_delete_all: Esborrar tot
     change: Canvi en la planificació
     children: Elements fill
@@ -2794,6 +2828,13 @@ ca:
 '
   menu_item: Element de menú
   menu_item_setting: Visibilitat
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'
   wiki_menu_item_for: Element de menú per a la pàgina wiki "%{title}"
   wiki_menu_item_setting: Visibilitat
   wiki_menu_item_new_main_item_explanation: 'Esteu Suprimint l''únic l''element de
@@ -2818,6 +2859,7 @@ ca:
     attributes:
       lock_version: Bloquejar versió
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: Cal que esteu autenticat per accedir a aquest recurs.
       code_401_wrong_credentials: No heu proporcionat les credencials correctes.
       code_403: No està autoritzat a accedir a aquest recurs.

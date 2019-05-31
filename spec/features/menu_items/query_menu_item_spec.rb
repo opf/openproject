@@ -81,7 +81,7 @@ RSpec.feature 'Query menu items', js: true do
     end
 
     after do
-      ensure_wp_table_loaded
+      work_packages_page.ensure_loaded
     end
   end
 
@@ -103,7 +103,7 @@ RSpec.feature 'Query menu items', js: true do
     end
 
     after do
-      ensure_wp_table_loaded
+      work_packages_page.ensure_loaded
     end
 
     it 'displaying a success message' do

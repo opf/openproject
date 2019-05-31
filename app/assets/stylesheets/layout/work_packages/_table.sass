@@ -26,15 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-.controller-work_packages.action-index,
-.controller-work_packages.action-show,
-.controller-work_packages.full-create
+.router--work-packages-list-view,
+.router--work-packages-full-view,
+.router--work-packages-full-create
   .in_modal &
     #main
       top: 12px
 
-.controller-work_packages.action-index:not(.full-create),
-.controller-work_packages.action-show:not(.full-create)
+.router--work-packages-list-view:not(.router--work-packages-full-create),
+.router--work-packages-full-view:not(.router--work-packages-full-create)
   #content-wrapper
     padding: 0 0 0 20px
 
@@ -69,9 +69,6 @@
     height: auto
     overflow: auto
     flex-shrink: 0
-    // Filters are hidden when not expanded
-    // When expanded, add some distance to the table
-    margin-bottom: 20px
 
 // Outer Flex container for (table+timeline)|details
 .work-packages-split-view
@@ -186,7 +183,7 @@
       &:hover
         text-decoration: none
 
-.controller-work_packages
+.router--work-packages-base
   #content
     height: 100%
 

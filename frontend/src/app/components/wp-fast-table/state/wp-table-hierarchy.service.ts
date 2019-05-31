@@ -20,7 +20,16 @@ export class WorkPackageTableHierarchiesService extends WorkPackageQueryStateSer
   }
 
   public valueFromQuery(query:QueryResource):WorkPackageTableHierarchies {
-    return new WorkPackageTableHierarchies(query.showHierarchies);
+    const value =  new WorkPackageTableHierarchies(query.showHierarchies);
+    const current = this.current;
+
+    // Take over current collapsed values
+    // which are not yet saved
+    if (current) {
+      value.collapsed = current.collapsed;
+    }
+
+    return value;
   }
 
   public hasChanged(query:QueryResource) {
@@ -47,9 +56,6 @@ export class WorkPackageTableHierarchiesService extends WorkPackageQueryStateSer
     if (active) {
       // hierarchies and group by are mutually exclusive
       this.wpTableGroupBy.update(null);
-
-      // hierarchies and sort by are mutually exclusive
-      this.wpTableSortBy.update([]);
     }
 
     this.update(state);

@@ -23,7 +23,6 @@
             "assets": [],
             "styles": [
               "src/styles.css",
-              "node_modules/at.js/dist/css/jquery.atwho.min.css",
               "node_modules/codemirror/lib/codemirror.css",
               "node_modules/jquery-ui/themes/base/core.css",
               "node_modules/jquery-ui/themes/base/datepicker.css",

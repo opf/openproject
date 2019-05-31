@@ -19,5 +19,4 @@ exec bundle exec passenger start \
 	--min-instances "$MIN_INSTANCES" \
 	--max-pool-size "$MAX_INSTANCES" \
 	--spawn-method "$SPAWN_METHOD" \
-	--nginx-config-template "docker/nginx.conf.erb" \
 	--max-preloader-idle-time 0

@@ -65,8 +65,8 @@ export class ActivityPanelBaseController implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.wpCacheService.loadWorkPackage(this.workPackageId)
-      .values$()
+    this.wpCacheService
+      .observe(this.workPackageId)
       .pipe(
         takeUntil(componentDestroyed(this))
       )

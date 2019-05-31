@@ -16,6 +16,7 @@ import {WorkPackageTableEditingContext} from './wp-table-editing';
 
 import {WorkPackageTableRow} from './wp-table.interfaces';
 import {WorkPackageTableConfiguration} from 'core-app/components/wp-table/wp-table-configuration';
+import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
 
 export class WorkPackageTable {
 
@@ -24,6 +25,7 @@ export class WorkPackageTable {
   public wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
   public states:States = this.injector.get(States);
   public I18n:I18nService = this.injector.get(I18nService);
+  public portalCleanupService:PortalCleanupService = this.injector.get(PortalCleanupService);
 
   public originalRows:string[] = [];
   public originalRowIndex:{ [id:string]:WorkPackageTableRow } = {};
@@ -72,7 +74,7 @@ export class WorkPackageTable {
   private buildIndex(rows:WorkPackageResource[]) {
     this.originalRowIndex = {};
     this.originalRows = rows.map((wp:WorkPackageResource, i:number) => {
-      let wpId = wp.id;
+      let wpId = wp.id!;
       this.originalRowIndex[wpId] = <WorkPackageTableRow> {object: wp, workPackageId: wpId, position: i};
       return wpId;
     });
@@ -123,7 +125,7 @@ export class WorkPackageTable {
     }
 
     _.each(pass.renderedOrder, (row) => {
-      if (row.workPackage && row.workPackage.id === workPackage.id) {
+      if (row.workPackage && row.workPackage.id === workPackage.id!) {
         debugLog(`Refreshing rendered row ${row.classIdentifier}`);
         row.workPackage = workPackage;
         pass.refresh(row, workPackage, this.tbody);
@@ -142,6 +144,7 @@ export class WorkPackageTable {
 
 
   private performRenderPass() {
+    this.portalCleanupService.clear();
     this.editing.reset();
     const renderPass = this.lastRenderPass = this.rowBuilder.buildRows();
 

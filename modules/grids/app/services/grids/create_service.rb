@@ -28,43 +28,17 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Grids::CreateService
+class Grids::CreateService < ::BaseServices::Create
   include ::Shared::ServiceContext
-
-  attr_accessor :user,
-                :contract_class
-
-  def initialize(user:, contract_class: Grids::CreateContract)
-    self.user = user
-    self.contract_class = contract_class
-  end
-
-  def call(attributes: {})
-    in_context(false) do
-      create(attributes)
-    end
-  end
 
   protected
 
-  def create(attributes)
+  def set_attributes(attributes)
     grid = new_grid(attributes.delete(:scope))
 
-    set_attributes_call = set_attributes(attributes, grid)
-
-    if set_attributes_call.success? &&
-       !grid.save
-      set_attributes_call.errors = grid.errors
-      set_attributes_call.success = false
-    end
-
-    set_attributes_call
-  end
-
-  def set_attributes(attributes, grid)
     Grids::SetAttributesService
       .new(user: user,
-           grid: grid,
+           model: grid,
            contract_class: contract_class)
       .call(attributes)
   end

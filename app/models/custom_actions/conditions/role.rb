@@ -29,27 +29,51 @@
 #++
 
 class CustomActions::Conditions::Role < CustomActions::Conditions::Base
-  def self.key
-    :role
-  end
-
-  def self.custom_action_scope_has_current(work_packages, user)
-    CustomAction
-      .includes(association_key)
-      .where(habtm_table => { key_id => roles_in_project(work_packages, user) })
-  end
-  private_class_method :custom_action_scope_has_current
-
   def fulfilled_by?(work_package, user)
     values.empty? ||
       (self.class.roles_in_project(work_package, user).map(&:id) & values).any?
   end
 
-  def self.roles_in_project(work_packages, user)
-    ::Role
-      .joins(:members)
-      .where(members: { project_id: Array(work_packages).map(&:project_id).uniq, user_id: user.id })
-      .select(:id)
+  class << self
+    def key
+      :role
+    end
+
+    def roles_in_project(work_packages, user)
+      with_request_store(project_ids_of(work_packages)) do |ids|
+        ::Role
+          .joins(:members)
+          .where(members: { project_id: ids, user_id: user.id })
+          .select(:id)
+      end
+    end
+
+    private
+
+    def custom_action_scope_has_current(work_packages, user)
+      CustomAction
+        .includes(association_key)
+        .where(habtm_table => { key_id => roles_in_project(work_packages, user) })
+    end
+
+    def project_ids_of(work_packages)
+      # Using this if/else instead of Array(work_packages)
+      # to avoid "delegator does not forward private method #to_ary" warnings
+      # for WorkPackageEagerLoadingWrapper
+      if work_packages.respond_to?(:map)
+        work_packages.map(&:project_id).uniq
+      else
+        [work_packages.project_id]
+      end
+    end
+
+    def with_request_store(project_ids)
+      RequestStore.store[:custom_actions_role] ||= Hash.new do |hash, ids|
+        hash[ids] = yield ids
+      end
+
+      RequestStore.store[:custom_actions_role][project_ids]
+    end
   end
 
   private

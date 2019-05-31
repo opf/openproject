@@ -28,9 +28,10 @@
 
 import {WorkPackageTableTimelineService} from '../../wp-fast-table/state/wp-table-timeline.service';
 import {AbstractWorkPackageButtonComponent, ButtonControllerText} from '../wp-buttons.module';
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {TimelineZoomLevel} from 'core-app/modules/hal/resources/query-resource';
+import {componentDestroyed, untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
 export interface TimelineButtonText extends ButtonControllerText {
   zoomOut:string;
@@ -41,8 +42,9 @@ export interface TimelineButtonText extends ButtonControllerText {
 @Component({
   templateUrl: './wp-timeline-toggle-button.html',
   selector: 'wp-timeline-toggle-button',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButtonComponent  {
+export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButtonComponent implements OnInit, OnDestroy {
   public buttonId:string = 'work-packages-timeline-toggle-button';
   public iconClass:string = 'icon-view-timeline';
 
@@ -54,17 +56,49 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
   public minZoomLevel:TimelineZoomLevel = 'days';
   public maxZoomLevel:TimelineZoomLevel = 'years';
 
+  public isAutoZoom = false;
+  public isVisible = false;
+
+  public isMaxLevel:boolean = false;
+  public isMinLevel:boolean = false;
+
   constructor(readonly I18n:I18nService,
+              readonly cdRef:ChangeDetectorRef,
               public wpTableTimeline:WorkPackageTableTimelineService) {
     super(I18n);
 
     this.activateLabel = I18n.t('js.timelines.button_activate');
     this.deactivateLabel = I18n.t('js.timelines.button_deactivate');
 
-
     this.text.zoomIn = I18n.t('js.timelines.zoom.in');
     this.text.zoomOut = I18n.t('js.timelines.zoom.out');
     this.text.zoomAuto = I18n.t('js.timelines.zoom.auto');
+  }
+
+  ngOnInit():void {
+    this.wpTableTimeline
+      .observeUntil(componentDestroyed(this))
+      .subscribe(() => {
+        this.isAutoZoom = this.wpTableTimeline.isAutoZoom();
+        this.isVisible = this.wpTableTimeline.isVisible;
+        this.cdRef.detectChanges();
+      });
+
+    this.wpTableTimeline
+      .appliedZoomLevel$
+      .values$()
+      .pipe(
+        untilComponentDestroyed(this)
+      )
+      .subscribe((current) => {
+        this.isMaxLevel = current === this.maxZoomLevel;
+        this.isMinLevel = current === this.minZoomLevel;
+        this.cdRef.detectChanges();
+      });
+  }
+
+  ngOnDestroy():void {
+    // Nothing to do
   }
 
   public get label():string {
@@ -79,20 +113,8 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
     return true;
   }
 
-  public isActive():boolean {
-    return this.wpTableTimeline.isVisible;
-  }
-
-  public isAutoZoomEnabled():boolean {
-    return this.wpTableTimeline.isAutoZoomEnabled();
-  }
-
   public updateZoomWithDelta(delta:number) {
     this.wpTableTimeline.updateZoomWithDelta(delta);
-  }
-
-  public get currentZoom() {
-    return this.wpTableTimeline.zoomLevel;
   }
 
   public performAction(event:Event) {
@@ -103,11 +125,15 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
     this.wpTableTimeline.toggle();
   }
 
-  public toggleAutoZoom() {
-    this.wpTableTimeline.toggleAutoZoom();
+  public isActive():boolean {
+    return this.isVisible;
+  }
+
+  public enableAutoZoom() {
+    this.wpTableTimeline.enableAutozoom();
   }
 
   public getAutoZoomToggleClass():string {
-    return this.isAutoZoomEnabled() ? '-disabled' : '';
+    return this.isAutoZoom ? '-disabled' : '';
   }
 }

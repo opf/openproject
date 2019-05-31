@@ -97,7 +97,7 @@ describe 'activity comments', js: true do
           let!(:wp2) { FactoryBot.create(:work_package, project: project, subject: 'AutoFoo') }
           it 'autocompletes the other work package' do
             comment_field.input_element.send_keys("##{wp2.id}")
-            expect(page).to have_selector('.atwho-view-ul li', text: wp2.to_s.strip)
+            expect(page).to have_selector('.mention-list-item', text: wp2.to_s.strip)
           end
         end
 

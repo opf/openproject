@@ -127,7 +127,7 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
     end
 
     describe "relation candidates for wp_2" do
-      let(:href) { "/api/v3/work_packages/#{wp_2.id}/available_relation_candidates?query=WP" }
+      let(:href) { "/api/v3/work_packages/#{wp_2.id}/available_relation_candidates?query=WP&type=follows" }
 
       it "should return WP 2.1 and 2.2, WP 1 and all WP 1.x" do
         expect(subjects).to match_array ["WP 1", "WP 1.1", "WP 1.2", "WP 1.2.1", "WP 2.1", "WP 2.2"]
@@ -142,8 +142,18 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
           FactoryBot.create :relation, from: wp_1_1, to: wp_2, relation_type: "relates"
         end
 
-        it 'does not contain the work packages with which a relationship already exists' do
-          expect(subjects).to match_array ["WP 1.2", "WP 1.2.1", "WP 2.1"]
+        context 'for a follows relationship' do
+          it 'does not contain the work packages with which a relationship already exists' do
+            expect(subjects).to match_array ["WP 1.2", "WP 1.2.1", "WP 2.1"]
+          end
+        end
+
+        context 'for a relates relationship' do
+          let(:href) { "/api/v3/work_packages/#{wp_2.id}/available_relation_candidates?query=WP&type=relates" }
+
+          it 'does not contain the work packages with which a relationship already exists but the parent' do
+            expect(subjects).to match_array ["WP 1", "WP 1.2", "WP 1.2.1", "WP 2.1"]
+          end
         end
       end
     end

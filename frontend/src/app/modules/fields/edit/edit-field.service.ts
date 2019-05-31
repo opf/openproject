@@ -36,8 +36,4 @@ export interface IEditFieldType extends IFieldType<EditFieldComponent> {
 
 @Injectable()
 export class EditFieldService extends AbstractFieldService<EditFieldComponent, IEditFieldType> {
-
-  constructor(injector:Injector) {
-    super(injector);
-  }
 }

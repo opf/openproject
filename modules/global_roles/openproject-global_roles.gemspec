@@ -1,13 +1,8 @@
-$LOAD_PATH.push File.expand_path('../lib', __FILE__)
-$LOAD_PATH.push File.expand_path("../../lib", __dir__)
+# encoding: UTF-8
 
-# Maintain your gem's version:
-require 'open_project/global_roles/version'
-
-# Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.name        = 'openproject-global_roles'
-  s.version     = OpenProject::GlobalRoles::VERSION
+  s.version     = '1.0.0'
   s.authors     = 'OpenProject GmbH'
   s.email       = 'info@openproject.com'
   s.homepage    = 'https://community.openproject.org/projects/plugin-global-roles'

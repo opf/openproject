@@ -18,14 +18,21 @@ ar:
     close_popup_title: إغلاق النافذة المنبثقة
     close_filter_title: إغلاق عامل التصفية
     close_form_title: إغلاق النموذج
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: لا يدعم المتصفح الخاص بك النسخ إلى الحافظة, من فضلك انسخ النص
         المختار يدوياً.
       copied_successful: تم النسخ بنجاح إلى الحافظة!
     button_add_watcher: إضافة مراقب
+    button_back: الرجوع للخلف
     button_back_to_list_view: Back to list view
     button_cancel: إلغاء
-    button_close: Close
+    button_close: أغلِق
     button_check_all: اختر الكل
     button_configure-form: Configure form
     button_confirm: تأكيد
@@ -59,7 +66,7 @@ ar:
       too_many: There are more work packages (%{count}) than can be displayed by the
         calendar (%{max}). Add filters to focus on the relevant ones.
     description_available_columns: الأعمدة المتوفرة
-    description_current_position: 'أنت هنا:'
+    description_current_position: 'You are here: '
     description_select_work_package: 'اختر مجموعة العمل #%{id}'
     description_selected_columns: الاعمدة المحددة
     description_subwork_package: 'إنتاج مجموعة العمل #%{id}'
@@ -147,6 +154,43 @@ ar:
     general_text_yes: نعم
     general_text_No: لا
     general_text_Yes: نعم
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: الوثائق
+          no_results: No documents yet.
+        news:
+          title: الأخبار
+          at: at
+          no_results: لا شيء جديد للتقرير.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Work packages I am accountable for
+        work_packages_assigned:
+          title: مجموعات العمل الموكلة لي
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_table:
+          title: مجموعات العمل
+        work_packages_calendar:
+          title: التقويم
+    homescreen:
+      blocks:
+        new_features:
+          text_new_features: Read about new features and product updates.
+          current_new_feature_html: 'OpenProject contains a new <b>Boards view</b>
+            for Agile project management. </br> To activate this new feature for your
+            existing projects, please do the following steps: <ul><li>Activate the
+            module Boards within existing projects'' settings.</li> <li>Configure
+            your Boards in a project.</li> <li>Verify roles and permissions</li></ul>'
+          image_alt_text: Board teaser image
+          learn_about: Learn more about Agile Boards
     label_activate: تفعيل
     label_activity_no: رقم إدخال النشاط%{activityNo}
     label_activity_with_comment_no: رقم إدخال النشاط %{activityNo}. يمتلك تعليق مستخدم.
@@ -166,11 +210,12 @@ ar:
     label_and: و
     label_ascending: ترتيب تصاعدي
     label_author: الكاتب%{user}
-    label_between: between
+    label_between: بين
     label_board: Board
     label_board_locked: مقفل
     label_board_plural: Boards
     label_board_sticky: مثبت
+    label_create_new: Create new
     label_create_work_package: إنشاء حزمة جديدة
     label_created_by: أنشئ بواسطة
     label_date: التاريخ
@@ -217,6 +262,7 @@ ar:
     label_more_than_ago: منذ أكثر من أيام
     label_my_page: صفحتي
     label_next: التالي
+    label_no_color: No color
     label_no_data: لا يوجد بيانات لعرضها
     label_no_due_date: لا يوجد تاريخ انتهاء
     label_no_start_date: لا يوجد تاريخ بدء
@@ -254,7 +300,7 @@ ar:
     label_subject: الموضوع
     label_this_week: هذا الأسبوع
     label_today: اليوم
-    label_up: Up
+    label_up: الأعلى
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent} من التقدم الكلي"
@@ -305,46 +351,54 @@ ar:
         next: التالي
         got_it: Got it
       steps:
-        welcome: Take a three minutes introduction tour to learn the most <b>important
-          features</b>. <br> We recommend completing the steps until the end. You
-          can restart the tour any time.
-        project_selection: Please select one of the projects with useful demo data
+        help_menu: In the <b>Help</b> menu you will find a user guide and additional
+          help resources. <br> Enjoy your work with OpenProject!
+        members: Invite new <b>Members</b> to join your project.
+        project_selection: Please click on one of the projects with useful demo data
           to get started. <br> The <b>Demo project</b> suits best for classical project
           management, while the <b>Scrum project</b> is better for Agile project management.
         sidebar_arrow: With the arrow you can navigate back to the project's <b>Main
           menu</b>.
-        members: Invite new <b>Members</b> to join your project.
+        welcome: Take a three minutes introduction tour to learn the most <b>important
+          features</b>. <br> We recommend completing the steps until the end. You
+          can restart the tour any time.
         wiki: Within the <b>Wiki</b> you can document and share knowledge together
           with your team.
-        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
-          right you have the Product Backlog or a Bug Backlog, on the left you will
-          have the respective sprints. Here you can create <b>epics, user stories,
-          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
-        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
-          drop-down...
-        backlogs_task_board_select: "... and select the <b>Task board</b> entry."
-        backlogs_task_board: The <b>Task board</b> visualizes the progress for this
-          sprint. Add new tasks or impediments with the + icon next to a user story.
-          Via drag'n'drop you can update the status.
-        wp_toggler: Now let's have a look at the <b>Work package</b> section, which
-          gives you a more detailed view of your work.
-        wp_list: This is the <b>Work package</b> list with the important work within
-          your project, such as tasks, features, milestones, bugs, and more. <br>
-          You can create or edit a work package directly within this list. To see
-          its details you can double click on a row.
-        wp_full_view: Within the <b>Work package details</b> you find all relevant
-          information, such as description, status and priority, activities, dependencies
-          or comments.
-        wp_back_button: With the arrow you can navigate back to the work package list.
-        wp_create_button: The <b>Create</b> button will add a new work package to
-          your project.
-        wp_timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
-          for your project.
-        wp_timeline: Here you can edit your project plan. Create new phases, milestones,
-          and add dependencies. All team members can see and update the latest plan
-          at any time.
-        help_menu: In the <b>Help</b> menu you will find a user guide and additional
-          help resources. <br> Enjoy your work with OpenProject!
+        backlogs:
+          overview: Manage your work in the <b>Backlogs</b> view. <br> On the right
+            you have the Product Backlog or a Bug Backlog, on the left you will have
+            the respective sprints. Here you can create <b>epics, user stories, and
+            bugs</b>, prioritize via drag'n'drop and add them to a sprint.
+          task_board_arrow: To see your <b>Task board</b>, open the Sprint drop-down...
+          task_board_select: "... and select the <b>Task board</b> entry."
+          task_board: The <b>Task board</b> visualizes the progress for this sprint.
+            Add new tasks or impediments with the + icon next to a user story. Via
+            drag'n'drop you can update the status.
+        boards:
+          overview: Manage your work within an intuitive <b>Boards</b> view.
+          lists: You can create multiple lists (columns) within one Board view, e.g.
+            to create a KANBAN board.
+          add: Click the + will <b>add a new card</b> to the list within a Board.
+          drag: Drag & Drop your cards within a list to re-order, or to another list.
+            A double click will open the details view.
+        wp:
+          toggler: Now let's have a look at the <b>Work package</b> section, which
+            gives you a more detailed view of your work.
+          list: This is the <b>Work package</b> list with the important work within
+            your project, such as tasks, features, milestones, bugs, and more. <br>
+            You can create or edit a work package directly within this list. To see
+            its details you can double click on a row.
+          full_view: Within the <b>Work package details</b> you find all relevant
+            information, such as description, status and priority, activities, dependencies
+            or comments.
+          back_button: With the arrow you can navigate back to the work package list.
+          create_button: The <b>Create</b> button will add a new work package to your
+            project.
+          timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
+            for your project.
+          timeline: Here you can edit your project plan. Create new phases, milestones,
+            and add dependencies. All team members can see and update the latest plan
+            at any time.
     password_confirmation:
       field_description: تحتاج إلى إدخال كلمة مرور حسابك لتأكيد هذا التغيير.
       title: أكِّد كلمة مرورك للمواصلة
@@ -451,7 +505,7 @@ ar:
       abort: إلغاء
     relations_autocomplete:
       placeholder: أدخل معرّف حزمة العمل ذات الصلة
-      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
+      parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: حدد العلامة
       select_branch: اختر فرع
@@ -489,6 +543,7 @@ ar:
       view?
     text_attachment_destroy_confirmation: هل أنت متأكد أنك تريد حذف المرفق؟
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Label configuration
@@ -672,7 +727,7 @@ ar:
       default_queries:
         latest_activity: Latest activity
         created_by_me: Created by me
-        assigned_to_me: Assigned to me
+        assigned_to_me: مخصص لي
         recently_created: Recently created
         all_open: All open
         summary: مُلخّص
@@ -869,27 +924,3 @@ ar:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
-    grid:
-      add_modal:
-        choose_widget: Choose widget
-      widgets:
-        documents:
-          title: Documents
-          no_results: No documents yet.
-        news:
-          title: الأخبار
-          at: at
-          no_results: لا شيء جديد للتقرير.
-        time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
-        work_packages_accountable:
-          title: Work packages I am accountable for
-        work_packages_assigned:
-          title: مجموعات العمل الموكلة لي
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_calendar:
-          title: التقويم

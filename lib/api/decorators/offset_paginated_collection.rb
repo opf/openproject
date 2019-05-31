@@ -30,20 +30,17 @@
 module API
   module Decorators
     class OffsetPaginatedCollection < ::API::Decorators::Collection
+      include ::API::Utilities::PageSizeHelper
+
       def self.per_page_default(relation)
         relation.base_class.per_page
-      end
-
-      def self.per_page_maximum
-        Setting.api_max_page_size.to_i
       end
 
       def initialize(models, self_link, query: {}, page: nil, per_page: nil, current_user:)
         @self_link_base = self_link
         @query = query
         @page = page || 1
-        @per_page = [per_page || self.class.per_page_default(models),
-                     self.class.per_page_maximum].min
+        @per_page = [per_page || self.class.per_page_default(models), maximum_page_size].min
 
         full_self_link = make_page_link(page: @page, page_size: @per_page)
         paged = paged_models(models)
@@ -66,24 +63,28 @@ module API
       end
 
       link :previousByOffset do
+        next unless @page > 1
+
         {
           href: make_page_link(page: @page - 1, page_size: @per_page)
-        } if @page > 1
+        }
       end
 
       link :nextByOffset do
+        next if (@page * @per_page) >= @total
+
         {
           href: make_page_link(page: @page + 1, page_size: @per_page)
-        } if (@page * @per_page) < @total
+        }
       end
 
       property :page_size,
                exec_context: :decorator,
-               getter: -> (*) { @per_page }
+               getter: ->(*) { @per_page }
 
       property :offset,
                exec_context: :decorator,
-               getter: -> (*) { @page }
+               getter: ->(*) { @page }
 
       private
 

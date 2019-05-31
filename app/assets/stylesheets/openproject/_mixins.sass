@@ -85,7 +85,15 @@
   background: none
   border: none
 
+
+$scrollbar-color: #DDDDDD
+
 @mixin styled-scroll-bar-vertical
+  // Firefox specific styles
+  scrollbar-color: transparent transparent
+  scrollbar-width: thin
+
+  // Other browser styles
   &::-webkit-scrollbar
     width: 8px
     height: 12px
@@ -94,13 +102,20 @@
     background: transparent
 
   &::-webkit-scrollbar-thumb
-    background: #ddd
+    background: $scrollbar-color
     visibility: hidden
 
-  &:hover::-webkit-scrollbar-thumb
-    visibility: visible
+  &:hover
+    scrollbar-color: $scrollbar-color transparent
+    &::-webkit-scrollbar-thumb
+      visibility: visible
 
 @mixin styled-scroll-bar-horizontal
+  // Firefox specific styles
+  scrollbar-color: $scrollbar-color transparent
+  scrollbar-width: thin
+
+  // Other browser styles
   &::-webkit-scrollbar
     width: 12px
     height: 8px
@@ -110,7 +125,7 @@
 
   // Should always be visible otherwise it would not be displayed on mobile or tablet
   &::-webkit-scrollbar-thumb
-    background: #ddd
+    background: $scrollbar-color
     visibility: visible
 
 @mixin two-column-layout
@@ -125,3 +140,11 @@
     // as if it would result in showing the backside of this element.
     // This leads to input and select elements not showing their values.
     backface-visibility: visible
+
+@mixin overlay-background
+  position: absolute
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  z-index: 900

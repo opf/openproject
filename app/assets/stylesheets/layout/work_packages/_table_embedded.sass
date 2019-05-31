@@ -97,5 +97,11 @@ $table-timeline--compact-row-height: 28px
     .wp-table--context-menu-th
       width: 25px
 
+  // Ensure embedded timelines share 50% width
+  // with table side
+  .work-packages-tabletimeline--table-side.-timeline-visible
+    max-width: 50%
+    overflow-x: scroll
+
 wp-query-group .wp-relations-create-button
   margin-left: -6px

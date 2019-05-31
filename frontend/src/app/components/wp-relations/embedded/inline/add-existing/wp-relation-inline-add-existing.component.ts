@@ -35,6 +35,7 @@ import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notific
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {WpRelationInlineCreateServiceInterface} from "core-components/wp-relations/embedded/wp-relation-inline-create.service.interface";
 import {WorkPackageTableRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
+import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 
 @Component({
   templateUrl: './wp-relation-inline-add-existing.component.html'
@@ -67,8 +68,8 @@ export class WpRelationInlineAddExistingComponent {
 
     this.wpInlineCreate.add(this.workPackage, newRelationId)
       .then(() => {
-        this.wpCacheService.loadWorkPackage(this.workPackage.id, true);
-        this.wpTableRefresh.request(`Added relation ${newRelationId}`, true);
+        this.wpCacheService.loadWorkPackage(this.workPackage.id!, true);
+        this.wpTableRefresh.request(`Added relation ${newRelationId}`, { visible: true });
         this.isDisabled = false;
         this.wpInlineCreate.newInlineWorkPackageReferenced.next(newRelationId);
         this.cancel();
@@ -80,8 +81,11 @@ export class WpRelationInlineAddExistingComponent {
       });
   }
 
-  public updateSelectedId(workPackageId:string) {
-    this.selectedWpId = workPackageId;
+  public onReferenced(workPackage?:WorkPackageResource) {
+    if (workPackage) {
+      this.selectedWpId = workPackage.id!;
+      this.addExisting();
+    }
   }
 
   public get relationType() {

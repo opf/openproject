@@ -57,9 +57,25 @@ cs:
     index:
       no_results_content_title: Nyní neexistují žádné ověřovací režimy.
       no_results_content_text: Vytvořit nový režim ověřování
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: žádný
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
+  forums:
     show:
-      no_results_title_text: V současné době neexistují žádné příspěvky pro nástěnku.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Momentálně zde nejsou žádné barvy.
@@ -139,9 +155,9 @@ cs:
     settings:
       activities:
         no_results_title_text: V současné době nejsou k dispozici žádné aktivity.
-      boards:
-        no_results_title_text: Momentálně nejsou k dispozici žádné nástěnky pro projekt.
-        no_results_content_text: Vytvořit novou nástěnku
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Momentálně nejsou k dispozici žádné kategorie pracovních
           balíčků.
@@ -212,7 +228,7 @@ cs:
       reset: Obnovit výchozí nastavení
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts.
+        in Gantt charts. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: Momentálně zde nejsou žádné pracovní balíčky přiřazené
@@ -368,6 +384,11 @@ cs:
         subscriber: Odběratel
         encoded_token: Enterprise support token
         active_user_count_restriction: Maximální počet aktivních uživatelů
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Zpoždění
         from: Pracovní balíček
@@ -405,6 +426,7 @@ cs:
         spent_on: Datum
         type: Typ
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
@@ -466,11 +488,6 @@ cs:
         client_credentials_user_id: Client Credentials User ID
         scopes: Scopes
         confidential: Confidential
-      grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
     errors:
       messages:
         accepted: must be accepted.
@@ -540,6 +557,10 @@ cs:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -613,6 +634,7 @@ cs:
           attributes:
             attribute_groups:
               attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: The group name '%{group}' is used more than once. Group
                 names must be unique.
               query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
@@ -632,8 +654,8 @@ cs:
                   posledních.
                 few: bylo již použito. Zvolte takové, které není stejné jako %{count}
                   posledních.
-                many: has been used before. Please choose one that is different from
-                  your last %{count}.
+                many: bylo již použito. Zvolte takové, které není stejné jako %{count}
+                  posledních.
               match:
                 confirm: Potvrzení nového hesla.
                 description: '"Potvrzení hesla" musí odpovídat vstupu v poli "Nové
@@ -644,11 +666,15 @@ cs:
               error_not_found: nenalezeno
         member:
           principal_blank: Zvolte alespoň jednoho uživatele nebo skupinu.
-          role_blank: Vyberte prosím alespoň jednu roli.
-        grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          role_blank: need to be assigned.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Zkontrolujte, prosím, následující pole:'
         header:
@@ -659,7 +685,7 @@ cs:
     models:
       attachment: Soubor
       attribute_help_text: Attribute help text
-      board: Fórum
+      forum: Fórum
       comment: Komentář
       custom_action: Vlastní akce
       custom_field: Vlastní pole
@@ -674,7 +700,7 @@ cs:
         one: Role
         other: Role
         few: Role
-        many: Roles
+        many: Role
       type: Typ
       user: Uživatel
       version: Verze
@@ -895,14 +921,14 @@ cs:
     distance_in_words:
       about_x_hours:
         one: přibližně 1 hodinu
-        other: about %{count} hours
-        few: about %{count} hours
-        many: about %{count} hours
+        other: přibližně %{count} hodin
+        few: přibližně %{count} hodin
+        many: přibližně %{count} hodin
       about_x_months:
         one: přibližně 1 měsíc
-        other: about %{count} months
-        few: about %{count} months
-        many: about %{count} months
+        other: přibližně %{count} měsíce
+        few: přibližně %{count} měsíce
+        many: přibližně %{count} měsíce
       about_x_years:
         one: přibližně 1 rok
         other: about %{count} years
@@ -926,14 +952,14 @@ cs:
         many: less than %{count} seconds
       over_x_years:
         one: přes 1 rok
-        other: over %{count} years
-        few: over %{count} years
-        many: over %{count} years
+        other: přes %{count} let
+        few: přes %{count} let
+        many: přes %{count} let
       x_days:
         one: 1 den
-        other: "%{count} days"
-        few: "%{count} days"
-        many: "%{count} days"
+        other: "%{count} dní"
+        few: "%{count} dní"
+        many: "%{count} dní"
       x_minutes:
         one: 1 minuta
         other: "%{count} minutes"
@@ -1021,7 +1047,7 @@ cs:
   description_choose_project: Projekty
   description_compare_from: Porovnání z
   description_compare_to: Porovnat s
-  description_current_position: 'Nacházíte se zde:'
+  description_current_position: 'You are here: '
   description_date_from: Zadejte počáteční datum
   description_date_range_interval: Zvolte rozsah výběrem počátečního a koncového data
   description_date_range_list: Vyberte rozsah ze seznamu
@@ -1069,15 +1095,17 @@ cs:
   error_can_not_remove_role: Tato role je používána a nelze ji odstranit.
   error_can_not_reopen_work_package_on_closed_version: Pracovní balíček v uzavřené
     verzi nemůže být znovu otevřen
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Vyberte uživatele a roli.
+  error_code: Error %{code}
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.
   error_custom_option_not_found: Nastavení neexistuje.
-  error_dependent_work_package: 'Chyba v závislém balíčku #%{related_id} %{related_subject}:
-    %{error}'
   error_enterprise_activation_user_limit: Váš účet nebyl aktivován (dosažen limit
     počtu uživatelů). Prosím obraťte se na správce pro získání přístupu.
   error_failed_to_delete_entry: Failed to delete this entry.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1094,6 +1122,10 @@ cs:
   error_work_package_not_found_in_project: Pracovný balíček nebyl nalezen, nebo nepatří
     k tomuto projektu
   error_must_be_project_member: musí být členem projektu
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: Žádný výchozí stav pracovního balíčku není
     definovaný. Prosím zkontrolujte konfiguraci (v "Administrace -> Stav pracovního
     balíčku").
@@ -1180,13 +1212,13 @@ cs:
           you substantially contribute to this Open-Source community effort.
     links:
       upgrade_enterprise_edition: Upgrade to Enterprise Edition
+      postgres_migration: Migrating your installation to PostgreSQL
       user_guides: Uživatelské příručky
       faq: FAQ - často kladené dotazy
       glossary: Glossary
       shortcuts: Klávesové zkratky
-      forums: Diskuse
       blog: OpenProject blog
-      boards: Komunitní fórum
+      forums: Komunitní fórum
       newsletter: Security alerts / Newsletter
   links:
     configuration_guide: Konfigurační manuál
@@ -1252,7 +1284,7 @@ cs:
   label_authentication: Ověření
   label_available_project_work_package_categories: Dostupné kategorie pracovních balíčků
   label_available_project_work_package_types: Dostupné kategorie pracovních balíčků
-  label_available_project_boards: Available boards
+  label_available_project_forums: Available forums
   label_available_project_versions: Dostupné verze
   label_available_project_repositories: Dostupné repozitáře
   label_api_documentation: API dokumentace
@@ -1260,14 +1292,15 @@ cs:
   label_blocked_by: zablokoval
   label_blocks: blocks
   label_blog: Blog
-  label_board_locked: Uzamčeno
-  label_board_new: Nové fórum
-  label_board_plural: Diskuse
-  label_board_sticky: Sticky
+  label_forums_locked: Uzamčeno
+  label_forum_new: Nové fórum
+  label_forum_plural: Diskuse
+  label_forum_sticky: Sticky
   label_boolean: Logická hodnota
   label_branch: Větev
   label_browse: Procházet
   label_bulk_edit_selected_work_packages: Bulk edit selected work packages
+  label_bundled: "(Bundled)"
   label_calendar: Kalendář
   label_calendar_show: Zobrazit kalendář
   label_category: Kategorie
@@ -1366,6 +1399,7 @@ cs:
   label_equals: je
   label_everywhere: everywhere
   label_example: Příklad
+  label_import: Import
   label_export_to: 'Také k dispozici:'
   label_expanded_click_to_collapse: Rozbaleno. Klepnutím sbalte
   label_f_hour: "%{value} hodina"
@@ -1403,6 +1437,7 @@ cs:
   label_hierarchy_leaf: Úroveň hierarchie
   label_home: Domů
   label_subject_or_id: Subject or ID
+  label_impressum: Legal notice
   label_in: v
   label_in_less_than: za méně než
   label_in_more_than: za více než
@@ -1452,8 +1487,9 @@ cs:
   label_max_size: Maximální velikost
   label_me: já
   label_member_new: Nový člen
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Členové
-  label_view_all_members: View all members
+  label_view_all_members: Zobrazit všechny členy
   label_menu_item_name: Název položky menu
   label_message: Zpráva
   label_message_last: Poslední zpráva
@@ -1480,6 +1516,7 @@ cs:
   label_my_queries: Moje vlastní dotazy
   label_never: Nikdy
   label_new: Nové
+  label_new_features: New features
   label_new_statuses_allowed: Nové povolené stavy
   label_news_added: Přidané novinky
   label_news_comment_added: K novince byl přidán komentář
@@ -1519,7 +1556,7 @@ cs:
   label_password_rule_special: Speciální znaky
   label_password_rule_uppercase: Velká písmena
   label_path_encoding: Path encoding
-  label_pdf_with_descriptions: PDF with Descriptions
+  label_pdf_with_descriptions: PDF s popisem
   label_per_page: Per page
   label_people: Lidé
   label_permissions: Práva
@@ -1528,6 +1565,7 @@ cs:
   label_planning: Plánování
   label_please_login: Přihlaste se prosím
   label_plugins: Pluginy
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: předchází
   label_preferences: Nastavení
   label_preview: Náhled
@@ -1535,6 +1573,7 @@ cs:
   label_previous_week: Předchozí týden
   label_principal_invite_via_email: " or invite new users via email"
   label_principal_search: Přidat existující uživatele nebo skupiny
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Verze produktu
   label_professional_support: Profesionální podpora
   label_profile: Profil
@@ -1649,6 +1688,7 @@ cs:
   label_updated_time: Aktualizováno před %{value}
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Aktualizováno uživatelem %{author} před %{age}
+  label_upgrade_guides: Upgrade guides
   label_used_by: Používá
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
@@ -1731,13 +1771,13 @@ cs:
     other: "%{count} uzavřeny"
     zero: 0 closed
     few: "%{count} uzavřeny"
-    many: "%{count} closed"
+    many: "%{count} uzavřeny"
   label_x_comments:
     one: 1 komentář
     other: "%{count} komentářů"
     zero: no comments
     few: "%{count} komentářů"
-    many: "%{count} comments"
+    many: "%{count} komentáře"
   label_x_open_work_packages_abbr:
     one: 1 otevřený
     other: "%{count} otevřených"
@@ -1867,6 +1907,8 @@ cs:
   notice_account_update_failed: Account setting could not be saved. Please have a
     look at your account page.
   notice_account_updated: Účet byl úspěšně změněn.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Chybné heslo
   notice_account_registered_and_logged_in: Welcome, your account has been activated.
     You are logged in now.
@@ -1919,7 +1961,6 @@ cs:
     There are too many results.
     Narrow down the search by typing in the name of the new member (or group).
   notice_unable_delete_time_entry: Nelze odstranit položku protokolu čas.
-  notice_unable_delete_version: Nelze odstranit verzi.
   notice_user_missing_authentication_method: User has yet to choose a password or
     another way to sign in.
   notice_user_invitation_resent: Pozvánka byla odeslána na %{email}.
@@ -1997,7 +2038,7 @@ cs:
   permission_export_wiki_pages: Exportovat Wiki stránky
   permission_list_attachments: Seznam příloh
   permission_log_time: Protokolovat strávený čas
-  permission_manage_boards: Správa fóra
+  permission_manage_forums: Správa fóra
   permission_manage_categories: Spravovat kategorie pracovního balíčku
   permission_manage_work_package_relations: Spravovat vztahy pracovních balíčků
   permission_manage_members: Správa členů
@@ -2044,7 +2085,7 @@ cs:
     archive:
       are_you_sure: Opravdu chcete archivovat projekt '%{name}'?
   project_module_activity: Aktivita
-  project_module_boards: Diskuse
+  project_module_forums: Diskuse
   project_module_calendar: Kalendář
   project_module_work_package_tracking: Sledování pracovních balíčků
   project_module_news: Novinky
@@ -2267,10 +2308,6 @@ cs:
   setting_log_requesting_user: Log user login, name, and mail address for all requests
   setting_login_required: Vyžadována autentizace
   setting_mail_from: Odchozí emailová adresa
-  setting_mail_handler_api_enabled: Enable incoming email web service
-  setting_mail_handler_api_description: The email web handler enables OpenProject
-    to receive emails containing specific commands as an instrumentation mechanism
-    (e.g., to create and update work packages).
   setting_mail_handler_api_key: API klíč
   setting_mail_handler_body_delimiters: Zkrátit e-maily po jednom z těchto řádků
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
@@ -2526,7 +2563,6 @@ cs:
       color: Barva
       colors: Barvy
     associations: Závislosti
-    board_could_not_be_saved: Board could not be saved
     button_delete_all: Odstranit vše
     change: Změna v plánování
     children: Podřízené prvky
@@ -2540,9 +2576,9 @@ cs:
     duration: Doba trvání
     duration_days:
       one: 1 den
-      other: "%{count} days"
-      few: "%{count} days"
-      many: "%{count} days"
+      other: "%{count} dní"
+      few: "%{count} dní"
+      many: "%{count} dní"
     edit_color: Upravit barvy
     edit_thing: Upravit
     edit_timeline: Edit timeline report %{timeline}
@@ -2786,6 +2822,13 @@ cs:
 '
   menu_item: Položka nabídky
   menu_item_setting: Viditelnost
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'
   wiki_menu_item_for: Položka nabídky pro stránku wiki "%{title}"
   wiki_menu_item_setting: Viditelnost
   wiki_menu_item_new_main_item_explanation: 'You are deleting the only main wiki menu
@@ -2809,6 +2852,7 @@ cs:
     attributes:
       lock_version: Uzamknout verzi
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: Pro přístup k tomuto prostředku musíte být přihlášeni.
       code_401_wrong_credentials: Neposkytli jste správné přihlašovací údaje.
       code_403: Nemáte oprávnění k přístupu k tomuto zdroji.

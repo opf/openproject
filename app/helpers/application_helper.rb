@@ -364,9 +364,9 @@ module ApplicationHelper
     if back_url.present?
       back_url = back_url.to_s
     elsif request.get? and !params.blank?
-      params.permit!
-      back_url = url_for(params)
+      back_url = request.url
     end
+
     hidden_field_tag('back_url', back_url) unless back_url.blank?
   end
 
@@ -374,6 +374,10 @@ module ApplicationHelper
     link_to_function(l(:button_check_all), "checkAll('#{form_name}', true)") +
       ' | ' +
       link_to_function(l(:button_uncheck_all), "checkAll('#{form_name}', false)")
+  end
+
+  def current_layout
+    controller.send :_layout, ["html"]
   end
 
   # Generates the HTML for a progress bar

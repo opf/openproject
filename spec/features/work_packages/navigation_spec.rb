@@ -122,15 +122,20 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
     expect(current_path).to eq project_work_package_path(project, work_package, 'activity')
     project_html_title.expect_first_segment wp_title_segment
 
-    # Back to table using the button
-    find('.work-packages-list-view-button').click
+    # Switch tabs
+    full_work_package.switch_to_tab tab: :relations
+    expect(current_path).to eq project_work_package_path(project, work_package, 'relations')
+    project_html_title.expect_first_segment wp_title_segment
+
+    # Back to split screen using the button
+    find('.work-packages-back-button').click
     global_work_packages.expect_work_package_listed(work_package)
-    expect(current_path).to eq project_work_packages_path(project)
-    project_html_title.expect_first_segment 'All open'
+    expect(current_path).to eq project_work_packages_path(project) + "/details/#{work_package.id}/relations"
 
     # Link to full screen from index
     global_work_packages.open_full_screen_by_link(work_package)
 
+    full_work_package.switch_to_tab tab: :activity
     full_work_package.expect_subject
     full_work_package.expect_current_path
 
@@ -143,5 +148,29 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
 
     expect(page).to have_selector('.errorExplanation',
                                   text: I18n.t('notice_not_authorized'))
+  end
+
+  # Regression #29994
+  scenario 'access the work package views directly from a non-angular view' do
+    visit project_path(project)
+
+    find('#main-menu-work-packages ~ .toggler').click
+    expect(page).to have_selector('.wp-query-menu--search-ul')
+    find('.wp-query-menu--item-link', text: query.name).click
+
+    expect(page).not_to have_selector('.title-container', text: 'Overview')
+    page.should have_field('editable-toolbar-title', with: query.name)
+  end
+
+  scenario 'double clicking search result row (Regression #30247)' do
+    work_package.subject = 'Foobar'
+    work_package.save!
+    visit search_path(q: 'Foo', work_packages: 1, scope: :all)
+
+    table = ::Pages::EmbeddedWorkPackagesTable.new page.find('#content')
+    table.expect_work_package_listed work_package
+    full_page = table.open_full_screen_by_doubleclick work_package
+
+    full_page.ensure_page_loaded
   end
 end

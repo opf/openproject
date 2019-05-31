@@ -42,7 +42,7 @@ module API
               end
             end
 
-            before do
+            after_validation do
               authorize(:view_work_packages, global: true, user: current_user)
             end
 
@@ -54,11 +54,7 @@ module API
                                          current_user: current_user)
             end
 
-            params do
-              requires :id, desc: 'Filter instance schema id'
-            end
-
-            route_param :id do
+            route_param :id, type: String, regexp: /\A\w+\z/, desc: 'Filter schema ID' do
               get do
                 ar_name = ::API::Utilities::QueryFiltersNameConverter
                           .to_ar_name(params[:id], refer_to_ids: true)

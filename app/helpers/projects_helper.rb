@@ -80,10 +80,10 @@ module ProjectsHelper
         label: :label_repository
       },
       {
-        name: 'boards',
-        action: :manage_boards,
-        partial: 'project_settings/boards',
-        label: :label_board_plural
+        name: 'forums',
+        action: :manage_forums,
+        partial: 'project_settings/forums',
+        label: :label_forum_plural
       },
       {
         name: 'activities',
@@ -113,11 +113,6 @@ module ProjectsHelper
     else
       options_for_select((grouped.values.first || []), selected && selected.id)
     end
-  end
-
-  def format_version_sharing(sharing)
-    sharing = 'none' unless Version::VERSION_SHARINGS.include?(sharing)
-    l("label_version_sharing_#{sharing}")
   end
 
   def filter_set?

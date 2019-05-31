@@ -3,7 +3,7 @@
 
   <p><%= t('two_factor_authentication.devices.totp.description') %></p>
 
-  <div class="form--field">
+  <div class="form--field -required">
     <%= f.text_field :identifier, required: true, container_class: '-middle' %>
     <div class="form--field-instructions">
       <%= t('two_factor_authentication.devices.text_identifier') %>

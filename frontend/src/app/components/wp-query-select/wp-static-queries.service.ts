@@ -72,7 +72,7 @@ export class WorkPackageStaticQueriesService {
       {
       identifier: 'gantt',
       label: this.text.gantt,
-      query_props: '{"c":["id","subject"],"tv":true,"tzl":"years","hi":true,"g":"","t":"parent:asc","f":[{"n":"status","o":"o","v":[]}]}'
+      query_props: '{"c":["id","subject","startDate","dueDate"],"tv":true,"tzl":"years","hi":true,"g":"","t":"id:asc","t":"startDate:asc","f":[{"n":"status","o":"o","v":[]}]}'
     },
     {
       identifier: 'recently_created',
@@ -100,12 +100,12 @@ export class WorkPackageStaticQueriesService {
         {
           identifier: 'created_by_me',
           label: this.text.created_by_me,
-          query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,parent:asc","f":[{"n":"status","o":"o","v":[]},{"n":"author","o":"=","v":["me"]}]}'
+          query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"author","o":"=","v":["me"]}]}'
         },
         {
           identifier: 'assigned_to_me',
           label: this.text.assigned_to_me,
-          query_props: '{"c":["id","subject","type","status","author","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,parent:asc","f":[{"n":"status","o":"o","v":[]},{"n":"assignee","o":"=","v":["me"]}]}'
+          query_props: '{"c":["id","subject","type","status","author","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"assigneeOrGroup","o":"=","v":["me"]}]}'
         }
       ]);
     }

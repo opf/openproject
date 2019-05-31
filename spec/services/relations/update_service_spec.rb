@@ -41,13 +41,13 @@ describe Relations::UpdateService do
 
   let(:work_package1) do
     FactoryBot.build_stubbed(:work_package,
-                              due_date: work_package1_due_date,
-                              start_date: work_package1_start_date)
+                             due_date: work_package1_due_date,
+                             start_date: work_package1_start_date)
   end
   let(:work_package2) do
     FactoryBot.build_stubbed(:work_package,
-                              due_date: work_package2_due_date,
-                              start_date: work_package2_start_date)
+                             due_date: work_package2_due_date,
+                             start_date: work_package2_start_date)
   end
   let(:instance) do
     described_class.new(user: user, relation: relation)
@@ -73,6 +73,7 @@ describe Relations::UpdateService do
   let(:model_valid) { true }
   let(:contract_valid) { true }
   let(:contract) { double('contract') }
+  let(:symbols_for_base) { [] }
 
   subject do
     instance.call(attributes: attributes)
@@ -163,6 +164,10 @@ describe Relations::UpdateService do
       allow(contract)
         .to receive(:errors)
         .and_return(contract_errors)
+      allow(contract_errors)
+        .to receive(:symbols_for)
+        .with(:base)
+        .and_return(symbols_for_base)
     end
 
     it 'is unsuccessful' do
@@ -184,6 +189,10 @@ describe Relations::UpdateService do
       allow(relation)
         .to receive(:errors)
         .and_return(model_errors)
+      allow(model_errors)
+        .to receive(:symbols_for)
+        .with(:base)
+        .and_return(symbols_for_base)
     end
 
     it 'is unsuccessful' do

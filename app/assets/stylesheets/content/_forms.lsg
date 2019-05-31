@@ -957,13 +957,13 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 ### Standalone
 
 ```
-<label class="form--label-with-check-box">
+<label class="form--label-with-check-box -required">
   <div class="form--check-box-container">
     <input type="checkbox" class="form--check-box">
   </div>
   Pera
 </label>
-<label class="form--label-with-check-box">
+<label class="form--label-with-check-box -required">
   <div class="form--check-box-container">
     <input type="checkbox" class="form--check-box">
   </div>

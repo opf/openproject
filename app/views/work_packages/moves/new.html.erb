@@ -46,7 +46,9 @@ See docs/COPYRIGHT.rdoc for more details.
                     id: 'move_form',
                     data: { 'refresh-url': url_for(action: 'new'), 'input-selector': '#new_project_id' },
                     class: '-wide-labels augment--refresh-on-form-changes') do %>
-  <%= @work_packages.collect {|i| hidden_field_tag('ids[]', i.id)}.join.html_safe %>
+  <% @work_packages.each do |wp| %>
+    <%= hidden_field_tag 'ids[]', wp.id %>
+  <% end %>
   <%= back_url_hidden_field_tag %>
     <section class="form--section">
       <fieldset class="form--fieldset">

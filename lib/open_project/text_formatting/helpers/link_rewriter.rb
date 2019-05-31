@@ -58,7 +58,7 @@ module OpenProject::TextFormatting
       end
 
       def determine_url_segments
-        if context[:request]
+        if request = context[:request]
           return [request.protocol, request.host_with_port]
         end
 

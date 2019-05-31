@@ -30,62 +30,59 @@
 require 'redmine/access_control'
 
 Redmine::AccessControl.map do |map|
-  map.permission :view_project,
-                 { projects: [:show],
-                   activities: [:index] },
-                 public: true
+  map.project_module nil, order: 100 do
+    map.permission :view_project,
+                   { projects: [:show],
+                     activities: [:index] },
+                   public: true
 
-  map.permission :search_project,
-                 { search: :index },
-                 public: true
+    map.permission :search_project,
+                   { search: :index },
+                   public: true
 
-  map.permission :add_project,
-                 { projects: [:new, :create],
-                   members: [:paginate_users] },
-                 require: :loggedin
+    map.permission :add_project,
+                   { projects: [:new, :create],
+                     members: [:paginate_users] },
+                   require: :loggedin
 
-  map.permission :edit_project,
-                 { projects: [:edit, :update, :custom_fields],
-                   project_settings: [:show],
-                   members: [:paginate_users] },
-                 require: :member
-
-  map.permission :select_project_modules,
-                 { projects: :modules },
-                 require: :member
-
-  map.permission :manage_members,
-                 { members: [:index, :new, :create, :update, :destroy, :autocomplete_for_member] },
-                 require: :member
-
-  map.permission :view_members,
-                 { members: [:index] }
-
-  map.permission :manage_versions,
-                 { project_settings: [:show],
-                   versions: [:new, :create, :edit, :update,
-                              :close_completed, :destroy] },
-                 require: :member
-
-  map.permission :manage_types,
-                 { projects: :types },
-                 require: :member
-
-  map.permission :add_subprojects,
-                 { projects: [:new, :create] },
-                 require: :member
-
-  map.permission :copy_projects,
-                 { copy_projects: [:copy, :copy_project],
-                   members: [:paginate_users] },
-                 require: :member
-
-  map.project_module :work_package_tracking do |wpt|
-    # Issue categories
-    wpt.permission :manage_categories,
-                   { project_settings: [:show],
-                     categories: [:new, :create, :edit, :update, :destroy] },
+    map.permission :edit_project,
+                   { projects: [:edit, :update, :custom_fields],
+                     project_settings: [:show],
+                     members: [:paginate_users] },
                    require: :member
+
+    map.permission :select_project_modules,
+                   { projects: :modules },
+                   require: :member
+
+    map.permission :manage_members,
+                   { members: [:index, :new, :create, :update, :destroy, :autocomplete_for_member] },
+                   require: :member
+
+    map.permission :view_members,
+                   { members: [:index] }
+
+    map.permission :manage_versions,
+                   { project_settings: [:show],
+                     versions: [:new, :create, :edit, :update,
+                                :close_completed, :destroy] },
+                   require: :member
+
+    map.permission :manage_types,
+                   { projects: :types },
+                   require: :member
+
+    map.permission :add_subprojects,
+                   { projects: [:new, :create] },
+                   require: :member
+
+    map.permission :copy_projects,
+                   { copy_projects: [:copy, :copy_project],
+                     members: [:paginate_users] },
+                   require: :member
+  end
+
+  map.project_module :work_package_tracking, order: 90 do |wpt|
     # Issues
     wpt.permission :view_work_packages,
                    issues: [:index, :all, :show],
@@ -96,18 +93,11 @@ Redmine::AccessControl.map do |map|
                    work_packages_api: [:get],
                    :'work_packages/reports' => [:report, :report_details]
 
-    wpt.permission :export_work_packages,
-                   work_packages: [:index, :all]
-
     wpt.permission :add_work_packages,
                    issues: [:new, :create],
                    :'issues/previews' => :create,
                    work_packages: [:new, :new_type, :preview, :create],
                    planning_elements: [:create]
-
-    wpt.permission :move_work_packages,
-                   { :'work_packages/moves' => [:new, :create] },
-                   require: :loggedin
 
     wpt.permission :edit_work_packages,
                    { issues: [:edit, :update],
@@ -116,6 +106,10 @@ Redmine::AccessControl.map do |map|
                                      :preview, :quoted],
                      journals: :preview },
                    require: :member
+
+    wpt.permission :move_work_packages,
+                   { :'work_packages/moves' => [:new, :create] },
+                   require: :loggedin
 
     wpt.permission :add_work_package_notes,
                    work_packages: [:edit, :update],
@@ -128,6 +122,16 @@ Redmine::AccessControl.map do |map|
     wpt.permission :edit_own_work_package_notes,
                    { journals: [:edit, :update] },
                    require: :loggedin
+
+
+    # Issue categories
+    wpt.permission :manage_categories,
+                   { project_settings: [:show],
+                     categories: [:new, :create, :edit, :update, :destroy] },
+                   require: :member
+
+    wpt.permission :export_work_packages,
+                   work_packages: [:index, :all]
 
     wpt.permission :delete_work_packages,
                    { issues: :destroy,
@@ -160,17 +164,20 @@ Redmine::AccessControl.map do |map|
   end
 
   map.project_module :time_tracking do |time|
-    time.permission :log_time,
-                    { timelog: [:new, :create, :edit, :update] },
-                    require: :loggedin
-
     time.permission :view_time_entries,
                     timelog: [:index, :show],
                     time_entry_reports: [:report]
 
+    time.permission :log_time,
+                    { timelog: [:new, :create, :edit, :update] },
+                    require: :loggedin
+
     time.permission :edit_time_entries,
                     { timelog: [:new, :create, :edit, :update, :destroy] },
                     require: :member
+
+    time.permission :view_own_time_entries,
+                    timelog: [:index, :report]
 
     time.permission :edit_own_time_entries,
                     { timelog: [:new, :create, :edit, :update, :destroy] },
@@ -182,20 +189,27 @@ Redmine::AccessControl.map do |map|
   end
 
   map.project_module :news do |news|
+    news.permission :view_news,
+                    { news: [:index, :show] },
+                    public: true
+
     news.permission :manage_news,
                     { news: [:new, :create, :edit, :update, :destroy, :preview],
                       :'news/comments' => [:destroy] },
                     require: :member
-
-    news.permission :view_news,
-                    { news: [:index, :show] },
-                    public: true
 
     news.permission :comment_news,
                     :'news/comments' => :create
   end
 
   map.project_module :wiki do |wiki|
+    wiki.permission :view_wiki_pages,
+                    wiki: [:index, :show, :special, :date_index]
+
+    wiki.permission :list_attachments,
+                    { wiki: :list_attachments },
+                    require: :member
+
     wiki.permission :manage_wiki,
                     { wikis: [:edit, :destroy] },
                     require: :member
@@ -217,9 +231,6 @@ Redmine::AccessControl.map do |map|
                     { wiki: :destroy },
                     require: :member
 
-    wiki.permission :view_wiki_pages,
-                    wiki: [:index, :show, :special, :date_index]
-
     wiki.permission :export_wiki_pages,
                     wiki: [:export]
 
@@ -235,10 +246,6 @@ Redmine::AccessControl.map do |map|
 
     wiki.permission :protect_wiki_pages,
                     { wiki: :protect },
-                    require: :member
-
-    wiki.permission :list_attachments,
-                    { wiki: :list_attachments },
                     require: :member
   end
 
@@ -263,32 +270,32 @@ Redmine::AccessControl.map do |map|
                     {}
   end
 
-  map.project_module :boards do |board|
-    board.permission :manage_boards,
-                     { boards: [:new, :create, :edit, :update, :move, :destroy] },
+  map.project_module :forums do |forum|
+    forum.permission :manage_forums,
+                     { forums: [:new, :create, :edit, :update, :move, :destroy] },
                      require: :member
 
-    board.permission :view_messages,
-                     { boards: [:index, :show],
+    forum.permission :view_messages,
+                     { forums: [:index, :show],
                        messages: [:show] },
                      public: true
 
-    board.permission :add_messages,
+    forum.permission :add_messages,
                      messages: [:new, :create, :reply, :quote, :preview]
 
-    board.permission :edit_messages,
+    forum.permission :edit_messages,
                      { messages: [:edit, :update, :preview] },
                      require: :member
 
-    board.permission :edit_own_messages,
+    forum.permission :edit_own_messages,
                      { messages: [:edit, :update, :preview] },
                      require: :loggedin
 
-    board.permission :delete_messages,
+    forum.permission :delete_messages,
                      { messages: :destroy },
                      require: :member
 
-    board.permission :delete_own_messages,
+    forum.permission :delete_own_messages,
                      { messages: :destroy },
                      require: :loggedin
   end

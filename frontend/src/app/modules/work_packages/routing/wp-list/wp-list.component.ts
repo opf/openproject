@@ -35,7 +35,8 @@ import {take} from "rxjs/operators";
 
 @Component({
   selector: 'wp-list',
-  templateUrl: './wp.list.component.html'
+  templateUrl: './wp.list.component.html',
+  styleUrls: ['./wp-list.component.sass']
 })
 export class WorkPackagesListComponent extends WorkPackagesViewBase implements OnDestroy {
   text = {
@@ -63,6 +64,9 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
 
   /** Project identifier of the list */
   projectIdentifier = this.$state.params['projectPath'] || null;
+
+  /** An overlay over the table shown for example when the filters are invalid */
+  showResultOverlay = false;
 
   private readonly titleService:OpTitleService = this.injector.get(OpTitleService);
 
@@ -125,8 +129,9 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
       .catch(() => this.querySaving = false);
   }
 
+
   updateTitle(query:QueryResource) {
-    if (query.id) {
+    if (query.persisted) {
       this.selectedTitle = query.name;
       this.titleEditingEnabled = this.authorisationService.can('query', 'updateImmediately');
     } else {
@@ -156,6 +161,10 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
     return promise;
   }
 
+  public updateResultVisibility(completed:boolean) {
+    this.showResultOverlay = !completed;
+  }
+
   protected updateQueryOnParamsChanges() {
     // Listen for param changes
     this.removeTransitionSubscription = this.$transitions.onSuccess({}, (transition):any => {
@@ -168,7 +177,7 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
 
       const params = transition.params('to');
       let newChecksum = this.wpListService.getCurrentQueryProps(params);
-      let newId = params.query_id && parseInt(params.query_id);
+      let newId:string = params.query_id ? params.query_id.toString() : null;
 
       this.wpListChecksumService
         .executeIfOutdated(newId,

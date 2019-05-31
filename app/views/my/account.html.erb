@@ -36,7 +36,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= activate_angular_js do %>
   <%= password_confirmation_form_for @user,
                                      as: :user,
-                                     url: { action: 'account' },
+                                     url: { action: 'update_account' },
                                      builder: ::TabularFormBuilder,
                                      lang: current_language,
                                      html: { id: 'my_account_form', class: '-wide-labels' } do |f| %>
@@ -49,9 +49,9 @@ See docs/COPYRIGHT.rdoc for more details.
           <%= @user.login %>
         </div>
       </div>
-      <div class="form--field"><%= f.text_field :firstname, required: true, container_class: '-middle' %></div>
-      <div class="form--field"><%= f.text_field :lastname, required: true, container_class: '-middle' %></div>
-      <div class="form--field"><%= f.text_field :mail, required: true, container_class: '-middle' %></div>
+      <div class="form--field -required"><%= f.text_field :firstname, required: true, container_class: '-middle' %></div>
+      <div class="form--field -required"><%= f.text_field :lastname, required: true, container_class: '-middle' %></div>
+      <div class="form--field -required"><%= f.text_field :mail, required: true, container_class: '-middle' %></div>
 
       <%= fields_for :pref, @user.pref, builder: TabularFormBuilder, lang: current_language do |pref_fields| %>
         <div class="form--field"><%= pref_fields.check_box :hide_mail %></div>

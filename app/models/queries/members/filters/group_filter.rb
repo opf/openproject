@@ -32,6 +32,12 @@ class Queries::Members::Filters::GroupFilter < Queries::Members::Filters::Member
   include Queries::Filters::Shared::GroupFilter
 
   def joins
-    { user: :groups }
+    nil
+  end
+
+  def scope
+    scope = model.joins(:principal).merge(User.joins(:groups))
+    scope = scope.where(where)
+    scope
   end
 end

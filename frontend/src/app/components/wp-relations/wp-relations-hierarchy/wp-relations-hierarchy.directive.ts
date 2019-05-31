@@ -63,7 +63,7 @@ export class WorkPackageRelationsHierarchyComponent implements OnInit, OnDestroy
   };
 
   ngOnInit() {
-    this.workPackagePath = this.PathHelper.workPackagePath(this.workPackage.id);
+    this.workPackagePath = this.PathHelper.workPackagePath(this.workPackage.id!);
     this.canModifyHierarchy = !!this.workPackage.changeParent;
     this.canAddRelation = !!this.workPackage.addRelation;
 
@@ -73,7 +73,7 @@ export class WorkPackageRelationsHierarchyComponent implements OnInit, OnDestroy
       showHierarchies: false
     };
 
-    this.wpCacheService.loadWorkPackage(this.workPackage.id).values$()
+    this.wpCacheService.loadWorkPackage(this.workPackage.id!).values$()
       .pipe(
         takeUntil(componentDestroyed(this))
       )

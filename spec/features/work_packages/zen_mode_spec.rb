@@ -39,7 +39,7 @@ describe 'Zen mode', js: true do
     wp_page.expect_no_zen_mode
     wp_page.page.find('#work-packages-zen-mode-toggle-button').click
     wp_page.expect_zen_mode
-    wp_page.page.find('.work-packages-list-view-button').click
+    wp_page.page.find('.work-packages-back-button').click
     wp_page.expect_zen_mode
     wp_page.page.find('#work-packages-zen-mode-toggle-button').click
     wp_page.expect_no_zen_mode

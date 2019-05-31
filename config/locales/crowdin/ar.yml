@@ -57,9 +57,25 @@ ar:
     index:
       no_results_content_title: لا يوجد حالياً أنماط تحقيق.
       no_results_content_text: أنشئ نمط تحقيق جديد
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: لا شيء
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
+  forums:
     show:
-      no_results_title_text: لا يوجد حالياً منشورات على اللوحة.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: لا يوجد حالياً ألوان.
@@ -139,9 +155,9 @@ ar:
     settings:
       activities:
         no_results_title_text: لا يوجد حالياً أنشطة متاحة.
-      boards:
-        no_results_title_text: لا يوجد حالياً أية لوحات للمشروع.
-        no_results_content_text: إنشاء لوح جديد
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: لا يوجد حالياً فئات لحزمة العمل.
         no_results_content_text: إنشاء فئة حزمة عمل جديدة
@@ -211,7 +227,7 @@ ar:
       reset: Reset to defaults
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts.
+        in Gantt charts. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: لا يوجد حالياً حزم عمل مخصصة لهذا الإصدار.
@@ -366,6 +382,11 @@ ar:
         subscriber: Subscriber
         encoded_token: Enterprise support token
         active_user_count_restriction: Maximum active users
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: تأخير
         from: مجموعة العمل
@@ -403,6 +424,7 @@ ar:
         spent_on: التاريخ
         type: النّوع
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
@@ -464,11 +486,6 @@ ar:
         client_credentials_user_id: Client Credentials User ID
         scopes: Scopes
         confidential: Confidential
-      grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
     errors:
       messages:
         accepted: يجب أن تقبل.
@@ -536,6 +553,10 @@ ar:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -608,6 +629,7 @@ ar:
           attributes:
             attribute_groups:
               attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: The group name '%{group}' is used more than once. Group
                 names must be unique.
               query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
@@ -624,15 +646,11 @@ ar:
               reused:
                 one: has been used before. Please choose one that is different from
                   your last one.
-                other: has been used before. Please choose one that is different from
-                  your last %{count}.
+                other: مستخدم من قبل من فضلك اختر واحد اخر من  %{count}. السابقين
                 zero: لقد تم استخدامه من قبل. الرجاء اختيار واحد مختلف عن اخر%{count}.
-                two: has been used before. Please choose one that is different from
-                  your last %{count}.
-                few: has been used before. Please choose one that is different from
-                  your last %{count}.
-                many: has been used before. Please choose one that is different from
-                  your last %{count}.
+                two: مستخدم من قبل من فضلك اختر واحد اخر من  %{count}. السابقين
+                few: مستخدم من قبل من فضلك اختر واحد اخر من  %{count}. السابقين
+                many: مستخدم من قبل من فضلك اختر واحد اخر من  %{count}. السابقين
               match:
                 confirm: تأكيد كلمة المرور الجديدة.
                 description: "'تأكيد كلمة المرور' يجب أن يطابق الإدخال في حقل 'كلمة
@@ -643,11 +661,15 @@ ar:
               error_not_found: لم يتم العثور
         member:
           principal_blank: يرجى اختيار مستخدم واحد على الأقل أو مجموعة.
-          role_blank: من فضلك قم باختيار دور واحد على الأقل.
-        grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          role_blank: need to be assigned.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'من فضلك تحقّقْ من الحقول التالية:'
         header:
@@ -660,7 +682,7 @@ ar:
     models:
       attachment: ملف
       attribute_help_text: Attribute help text
-      board: المنتدى
+      forum: المنتدى
       comment: تعليق
       custom_action: Custom action
       custom_field: حقل مخصص
@@ -675,13 +697,13 @@ ar:
         one: |-
           صلاحية
           الصلاحيات
-        other: Roles
+        other: الأدوار
         zero: دور
         two: |-
           صلاحية
           الصلاحيات
-        few: Roles
-        many: Roles
+        few: الأدوار
+        many: الأدوار
       type: النّوع
       user: المستخدم
       version: الإصدار
@@ -764,7 +786,7 @@ ar:
   button_check_all: اختر الكل
   button_clear: إزالة
   button_click_to_reveal: Click to reveal
-  button_close: Close
+  button_close: أغلِق
   button_collapse_all: طَيْ الجميع
   button_configure: تكوين
   button_continue: Continue
@@ -900,12 +922,12 @@ ar:
   datetime:
     distance_in_words:
       about_x_hours:
-        one: about 1 hour
-        other: about %{count} hours
+        one: منذ %{count}  ساعه
+        other: حوالي %{count}  ساعه
         zero: حوالي %{count} ساعات
-        two: about %{count} hours
-        few: about %{count} hours
-        many: about %{count} hours
+        two: حوالي %{count}  ساعه
+        few: حوالي %{count}  ساعه
+        many: حوالي %{count}  ساعه
       about_x_months:
         one: about 1 month
         other: about %{count} months
@@ -950,12 +972,12 @@ ar:
         few: over %{count} years
         many: over %{count} years
       x_days:
-        one: 1 day
-        other: "%{count} days"
+        one: "%{count} يوم"
+        other: "%{count} يوم"
         zero: "%{count} يوم"
-        two: "%{count} days"
-        few: "%{count} days"
-        many: "%{count} days"
+        two: "%{count} يوم"
+        few: "%{count} يوم"
+        many: "%{count} يوم"
       x_minutes:
         one: 1 minute
         other: "%{count} minutes"
@@ -985,12 +1007,12 @@ ar:
         many: "%{count} seconds"
     units:
       hour:
-        one: hour
-        other: hours
+        one: الساعة
+        other: ساعه
         zero: ساعه
-        two: hours
-        few: hours
-        many: hours
+        two: ساعه
+        few: ساعه
+        many: ساعه
   default_activity_development: التطوير
   default_activity_management: الإدارة
   default_activity_other: اخرى
@@ -1057,7 +1079,7 @@ ar:
   description_choose_project: المشاريع
   description_compare_from: مقارنة من
   description_compare_to: مقارنة مع
-  description_current_position: 'أنت هنا:'
+  description_current_position: 'You are here: '
   description_date_from: ادخل تاريخ البدء
   description_date_range_interval: اختر النطاق عن طريق تحديد تاريخ البدء والانتهاء
   description_date_range_list: اختر نطاقا من القائمة
@@ -1104,16 +1126,18 @@ ar:
   error_can_not_remove_role: هذا الدور هو قيد الاستخدام ولا يمكن حذفه.
   error_can_not_reopen_work_package_on_closed_version: لا يمكن إعادة فتح مجموعة العمل
     المسندة الى نسخة مغلقة
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: الرجاءاختر مستخدم ودور.
+  error_code: Error %{code}
   error_cookie_missing: ملف تعريف الارتباط "كوكي" لأوبن بروجكت مفقود. من فضلك تأكد
     من أن يتم تمكين ملفات تعريف الارتباط "كوكيز"، لأن هذا التطبيق لن يعمل بشكل صحيح
     دون ذلك.
   error_custom_option_not_found: Option does not exist.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1129,6 +1153,10 @@ ar:
   error_work_package_not_found_in_project: مجموعة العمل غير موجودة, أو أنها لا تخص
     هذا المشروع
   error_must_be_project_member: يجب أن تكون عضو في المشروع
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: لم يتم تعريف حالة افتراضية لمجموعة العمل.
     رجاء تحقق من اعداداتك ( من "ادارة-->حالات مجموعة العمل").
   error_no_type_in_project: هذا المشروع غير مرتبط بأي نوع. رجاء تحقق من اعدادات المشروع.
@@ -1212,13 +1240,13 @@ ar:
           you substantially contribute to this Open-Source community effort.
     links:
       upgrade_enterprise_edition: Upgrade to Enterprise Edition
+      postgres_migration: Migrating your installation to PostgreSQL
       user_guides: دليل المستخدم
       faq: الاسئلة الاكثر شيوعا(FAQ)
       glossary: معجم المصطلحات
       shortcuts: اختصارات
-      forums: منتديات
       blog: مدونة أوبِن بروجِكت
-      boards: منتدى المجتمع
+      forums: منتدى المجتمع
       newsletter: Security alerts / Newsletter
   links:
     configuration_guide: Configuration guide
@@ -1284,22 +1312,23 @@ ar:
   label_authentication: المصادقة
   label_available_project_work_package_categories: فئات مجموعة العمل المتاحة
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: الجوانب المتاحة
+  label_available_project_forums: Available forums
   label_available_project_versions: الإصدارات المتوفرة
   label_available_project_repositories: مستودعات البيانات المتوفرة
   label_api_documentation: توثيق API
-  label_between: between
+  label_between: بين
   label_blocked_by: محجوب من قبل
   label_blocks: حجوبات
   label_blog: مدونة
-  label_board_locked: مقفل
-  label_board_new: منتدى جديد
-  label_board_plural: منتديات
-  label_board_sticky: مثبت
+  label_forums_locked: مقفل
+  label_forum_new: منتدى جديد
+  label_forum_plural: منتديات
+  label_forum_sticky: مثبت
   label_boolean: قيمة منطقية
   label_branch: فرع
   label_browse: تصفّح
   label_bulk_edit_selected_work_packages: تحرير كل مجموعات العمل المحددة
+  label_bundled: "(Bundled)"
   label_calendar: التقويم
   label_calendar_show: إظهار التقويم
   label_category: فئة
@@ -1398,6 +1427,7 @@ ar:
   label_equals: يكون
   label_everywhere: everywhere
   label_example: مثال
+  label_import: Import
   label_export_to: 'متاح أيضاً في:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: ساعة%{value}
@@ -1437,6 +1467,7 @@ ar:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: الصفحة الرئيسية
   label_subject_or_id: Subject or ID
+  label_impressum: Legal notice
   label_in: في
   label_in_less_than: في أقل من
   label_in_more_than: في أكثر من
@@ -1486,6 +1517,7 @@ ar:
   label_max_size: الحجم الأقصى
   label_me: لي
   label_member_new: عضو جديد
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: أعضاء
   label_view_all_members: عرض جميع الأعضاء
   label_menu_item_name: اسم عنصر من القائمة
@@ -1514,6 +1546,7 @@ ar:
   label_my_queries: استعلاماتي المخصصة
   label_never: أبداً
   label_new: جديد
+  label_new_features: New features
   label_new_statuses_allowed: الحالات الجديدة المسموح بها
   label_news_added: تم إضافة أحداث
   label_news_comment_added: تم إضافة تعليق إلى أحداث
@@ -1562,6 +1595,7 @@ ar:
   label_planning: تخطيط
   label_please_login: الرجاء تسجيل الدخول
   label_plugins: الإضافات
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: تقدم
   label_preferences: أفضليات
   label_preview: معاينة
@@ -1569,6 +1603,7 @@ ar:
   label_previous_week: الأسبوع الماضي
   label_principal_invite_via_email: " أو دعوة المستخدمين الجدد عبر البريد الالكتروني"
   label_principal_search: إضافة مستخدمين أو مجموعات موجودة
+  label_privacy_policy: Data privacy and security policy
   label_product_version: إصدار المنتج
   label_professional_support: الدعم الفني
   label_profile: الصفحة الشخصية
@@ -1684,6 +1719,7 @@ ar:
   label_updated_time: قبل%{value} تحديث
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: قبل %{author}%{age} تحديث وفق
+  label_upgrade_guides: Upgrade guides
   label_used_by: مستخدم من قبل
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
@@ -1758,40 +1794,40 @@ ar:
   label_workflow_plural: تدفقات العمل
   label_workflow_summary: مُلخّص
   label_x_closed_work_packages_abbr:
-    one: 1 closed
-    other: "%{count} closed"
+    one: 1 مغلقة
+    other: "%{count} مغلق"
     zero: "%{count} مغلق"
-    two: "%{count} closed"
-    few: "%{count} closed"
-    many: "%{count} closed"
+    two: "%{count} مغلق"
+    few: "%{count} مغلق"
+    many: "%{count} مغلق"
   label_x_comments:
     one: 1 comment
-    other: "%{count} comments"
+    other: تعليقات %{count}
     zero: "%{count} تعليقات"
-    two: "%{count} comments"
-    few: "%{count} comments"
-    many: "%{count} comments"
+    two: تعليقات %{count}
+    few: تعليقات %{count}
+    many: تعليقات %{count}
   label_x_open_work_packages_abbr:
     one: 1 open
-    other: "%{count} open"
+    other: "%{count} مفتوحة"
     zero: "%{count} مفتوح"
-    two: "%{count} open"
-    few: "%{count} open"
-    many: "%{count} open"
+    two: "%{count} مفتوحة"
+    few: "%{count} مفتوحة"
+    many: "%{count} مفتوحة"
   label_x_open_work_packages_abbr_on_total:
     one: 1 open / %{total}
-    other: "%{count} open / %{total}"
+    other: مفتوحة %{count}/%{total}
     zero: "%{count} مفتوح / %{total}"
-    two: "%{count} open / %{total}"
-    few: "%{count} open / %{total}"
-    many: "%{count} open / %{total}"
+    two: مفتوحة %{count}/%{total}
+    few: مفتوحة %{count}/%{total}
+    many: مفتوحة %{count}/%{total}
   label_x_projects:
     one: 1 project
-    other: "%{count} projects"
+    other: مشاريع %{count}
     zero: "%{count} مشاريع"
-    two: "%{count} projects"
-    few: "%{count} projects"
-    many: "%{count} projects"
+    two: مشاريع %{count}
+    few: مشاريع %{count}
+    many: مشاريع %{count}
   label_year: السنة
   label_yesterday: الأمس
   label_keyboard_function: دالة
@@ -1900,6 +1936,8 @@ ar:
   notice_account_update_failed: تعذّر حفظ إعدادات الحساب. من فضلك ألقِ نظرة على صفحة
     حسابك.
   notice_account_updated: تم تحديث الحساب بنجاح.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: كلمة المرور خاطئة
   notice_account_registered_and_logged_in: مرحبا، وقد تم تنشيط حسابك. تسجيل الدخول
     الآن.
@@ -1950,7 +1988,6 @@ ar:
   notice_to_many_principals_to_display: هناك الكثير من النتائج. تضييق البحث عن طريق
     كتابة اسم العضو الجديد (أو المجموعة).
   notice_unable_delete_time_entry: غير قادر على حذف إدخال سجل الوقت.
-  notice_unable_delete_version: غير قادر على حذف الإصدار.
   notice_user_missing_authentication_method: على المستخدم اختيار كلمة مرور أو طريقة
     أخرى لتسجيل الدخول.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
@@ -2030,7 +2067,7 @@ ar:
   permission_export_wiki_pages: تصدير صفحات wiki
   permission_list_attachments: قائمة المرفقات
   permission_log_time: تسجيل الوقت المستهلك
-  permission_manage_boards: إدارة منتديات
+  permission_manage_forums: إدارة منتديات
   permission_manage_categories: إدارة فئات مجموعة العمل
   permission_manage_work_package_relations: إدارة علاقات حزم العمل
   permission_manage_members: إدارة الأعضاء
@@ -2077,7 +2114,7 @@ ar:
     archive:
       are_you_sure: هل أنت متأكد من أنك تريد أرشفة المشروع '%{name}'؟
   project_module_activity: النشاط
-  project_module_boards: منتديات
+  project_module_forums: منتديات
   project_module_calendar: التقويم
   project_module_work_package_tracking: تتبع مجموعة العمل
   project_module_news: الأخبار
@@ -2291,10 +2328,6 @@ ar:
     لجميع الطلبات
   setting_login_required: مطلوب مصادقة
   setting_mail_from: انبعاث عنوان البريد الإلكتروني
-  setting_mail_handler_api_enabled: تمكين خدمة ويب البريد الإلكتروني الوارد
-  setting_mail_handler_api_description: معالج ويب البريد الإلكتروني يتيح لOPEN Project
-    أن يتلقى رسائل البريد الإلكتروني التي تحتوي على أوامر محددة كآلية لأجهزة (مثلاً،
-    لإنشاء وتحديث حزم العمل).
   setting_mail_handler_api_key: مفتاح API
   setting_mail_handler_body_delimiters: اقتطاع رسائل البريد الإلكتروني بعد واحد من
     هذه الخطوط
@@ -2546,7 +2579,6 @@ ar:
       color: اللون
       colors: الألوان
     associations: الاعتماديات
-    board_could_not_be_saved: لا يمكن حفظ عنصر
     button_delete_all: حذف الكل
     change: تغيير في تخطيط
     children: العناصر التابعة
@@ -2559,12 +2591,12 @@ ar:
     delete_thing: احذف
     duration: المدّة
     duration_days:
-      one: 1 day
-      other: "%{count} days"
+      one: "%{count} يوم"
+      other: "%{count} يوم"
       zero: "%{count} يوم"
-      two: "%{count} days"
-      few: "%{count} days"
-      many: "%{count} days"
+      two: "%{count} يوم"
+      few: "%{count} يوم"
+      many: "%{count} يوم"
     edit_color: تحرير الألوان
     edit_thing: تعديل
     edit_timeline: تحرير تقرير الخط الزمني %{timeline}
@@ -2806,6 +2838,13 @@ ar:
 '
   menu_item: عناصر القائمة
   menu_item_setting: الظهور
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'
   wiki_menu_item_for: عنصر القائمة "%{title}"
   wiki_menu_item_setting: الظهور
   wiki_menu_item_new_main_item_explanation: 'يتم حذف عنصر القائمة Wiki الرئيسي فقط.
@@ -2828,6 +2867,7 @@ ar:
     attributes:
       lock_version: قفل الإصدار
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: تحتاج إلى مصادقة الوصول إلى هذا المورد.
       code_401_wrong_credentials: لم تقدم بيانات الاعتماد الصحيحة.
       code_403: غير مسموح لك بدخول هذا المورد.

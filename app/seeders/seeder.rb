@@ -56,4 +56,24 @@ class Seeder
   def translate_with_base_url(string)
     I18n.t(string, deep_interpolation: true, base_url: OpenProject::Configuration.rails_relative_url_root)
   end
+
+  def edition_data_for(key)
+    data = translate_with_base_url("seeders.#{OpenProject::Configuration['edition']}.#{key}")
+
+    return nil if data.is_a?(String) && data.start_with?("translation missing")
+
+    data
+  end
+
+  def demo_data_for(key)
+    edition_data_for("demo_data.#{key}")
+  end
+
+  def project_data_for(project, key)
+    demo_data_for "projects.#{project}.#{key}"
+  end
+
+  def project_has_data_for?(project, key)
+    I18n.exists?("seeders.#{OpenProject::Configuration['edition']}.demo_data.projects.#{project}.#{key}")
+  end
 end

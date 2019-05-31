@@ -6,7 +6,7 @@ module DemoData
       def seed_data!
         puts "*** Seeding MyProjectsOverview"
 
-        Array(translate_with_base_url("seeders.demo_data.projects")).each do |key, project|
+        Array(demo_data_for('projects')).each do |key, project|
           puts "   -Creating overview for #{project[:name]}"
 
           if config = project[:"project-overview"]
@@ -35,7 +35,7 @@ module DemoData
       private
 
       def demo_projects_exist?
-        identifiers = Array(I18n.t("seeders.demo_data.projects"))
+        identifiers = Array(demo_data_for('projects'))
           .map { |_key, project| project[:identifier] }
 
         identifiers

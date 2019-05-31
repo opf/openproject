@@ -1,5 +1,4 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import { WorkPackageTableConfigurationObject } from 'core-components/wp-table/wp-table-configuration';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {
   WorkPackageEmbeddedGraphComponent,
@@ -10,6 +9,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 @Component({
   selector: 'wp-by-version-graph',
   templateUrl: './wp-by-version-graph.template.html',
+  styleUrls: ['./wp-by-version-graph.sass']
 })
 
 export class WorkPackageByVersionGraphComponent implements OnInit {
@@ -23,6 +23,7 @@ export class WorkPackageByVersionGraphComponent implements OnInit {
 
   constructor(readonly elementRef:ElementRef,
               readonly I18n:I18nService) {
+
     this.availableGroupBy = [{label: I18n.t('js.work_packages.properties.category'), key: 'category'},
                              {label: I18n.t('js.work_packages.properties.type'), key: 'type'},
                              {label: I18n.t('js.work_packages.properties.status'), key: 'status'},
@@ -39,7 +40,7 @@ export class WorkPackageByVersionGraphComponent implements OnInit {
   }
 
   public setQueryProps() {
-    this.datasets.length = 0;
+    this.datasets = [];
 
     if (this.groupBy === 'status') {
       this.displayModeSingle = true;
@@ -48,10 +49,6 @@ export class WorkPackageByVersionGraphComponent implements OnInit {
       this.displayModeSingle = false;
       this.datasets.push({ label: this.I18n.t('js.label_open_work_packages'), queryProps: this.propsOpen });
       this.datasets.push({ label: this.I18n.t('js.label_closed_work_packages'), queryProps: this.propsClosed });
-    }
-
-    if (this.currentGraph) {
-      this.currentGraph.querySpace.refreshRequired.putValue([false, false], '');
     }
   }
 

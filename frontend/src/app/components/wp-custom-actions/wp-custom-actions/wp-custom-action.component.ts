@@ -72,7 +72,7 @@ export class WpCustomActionComponent {
       .then((savedWp:WorkPackageResource) => {
         this.wpNotificationsService.showSave(savedWp, false);
         this.workPackage = savedWp;
-        this.wpActivity.clear(this.workPackage.id);
+        this.wpActivity.clear(this.workPackage.id!);
         this.wpCacheService.updateWorkPackage(savedWp);
       }).catch((errorResource:any) => {
         this.wpNotificationsService.handleRawError(errorResource, this.workPackage);

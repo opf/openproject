@@ -1,9 +1,13 @@
+@mixin timeline-label
+  height: 16px
+  min-width: 20px
+  font-size: 14px
+  display: inline-block
+  white-space: nowrap
+  vertical-align: middle
+  pointer-events: none
+
 .timeline-element
-
-  // Minimal padding within label
-  .label-content
-    padding: 2px
-
   // Label style
   .-label-style.not-empty
     background-color: white
@@ -15,54 +19,40 @@
     // Ensure line-height is normal
     line-height: 1
 
-  .labelLeft.not-empty,
+  .labelLeft.not-empty
+    @include timeline-label
+
   .labelHoverLeft.not-empty
     pointer-events: none
     white-space: nowrap
+
+  .labelLeft.not-empty,
+  .labelHoverLeft.not-empty
     // Position container left of bar
     position: absolute
     left: 0px
+    top: 0px
     // Then translate by its own width + some margin
     transform: translateX(calc(-100% - 10px))
-    font-size: 12px
     // Ensure line-height is normal
     line-height: 1
-
-  // Add some top padding to the text (NOT the hover labels!)
-  .labelLeft
-    top: 2px
 
   .containerRight
-    pointer-events: none
-    display: inline-block
+    @include timeline-label
     position: absolute
-    margin: 0 0 0 0
-    padding: 0 0 0 0
-    top: -2px
+    top: 0px
+    margin: 0
+    padding: 0
     left: 100%
-    white-space: nowrap
-    line-height: 10px
-    font-size: 12px
-    height: 16px
 
   .labelRight.not-empty
-    display: inline-block
-    pointer-events: none
+    @include timeline-label
     margin-left: 20px
-    font-size: 12px
-    // Ensure line-height is normal
-    line-height: 1
 
   .labelFarRight
-    height: 16px
-    display: inline-block
-    white-space: nowrap
+    @include timeline-label
     font-style: italic
     margin-left: 15px
-    padding: 5px 5px 2px 5px
-    font-size: 13px
-    // Ensure line-height is normal
-    line-height: 1
 
   // label hover right needs different position
   // since its not part of containerRight

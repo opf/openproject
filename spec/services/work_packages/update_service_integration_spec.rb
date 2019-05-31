@@ -100,12 +100,11 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
   end
   let(:instance) do
     described_class.new(user: user,
-                        work_package: work_package)
+                        model: work_package)
   end
 
   subject do
-    instance.call(attributes: attributes,
-                  send_notifications: false)
+    instance.call(attributes.merge(send_notifications: false).symbolize_keys)
   end
 
   describe '#call' do
@@ -279,12 +278,12 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
           let(:other_type) { FactoryBot.create(:type) }
           let(:default_type) { type }
           let(:project_types) { [type, other_type] }
-          let!(:workflow_type) {
+          let!(:workflow_type) do
             FactoryBot.create(:workflow, type: default_type, role: role, old_status_id: status.id)
-          }
-          let!(:workflow_other_type) {
+          end
+          let!(:workflow_other_type) do
             FactoryBot.create(:workflow, type: other_type, role: role, old_status_id: status.id)
-          }
+          end
 
           context 'with the type existing in the target project' do
             it 'keeps the type' do
@@ -1138,7 +1137,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
       it 'reports on invalid attachments and replaces the existent with the new if everything is valid' do
         work_package.attachments.reload
 
-        result = instance.call(attributes: { attachment_ids: [other_users_attachment.id] })
+        result = instance.call(attachment_ids: [other_users_attachment.id])
 
         expect(result)
           .to be_failure
@@ -1152,7 +1151,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
         expect(other_users_attachment.reload.container)
           .to be_nil
 
-        result = instance.call(attributes: { attachment_ids: [new_attachment.id] })
+        result = instance.call(attachment_ids: [new_attachment.id])
 
         expect(result)
           .to be_success
@@ -1166,7 +1165,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
         expect(Attachment.find_by(id: old_attachment.id))
           .to be_nil
 
-        result = instance.call(attributes: { attachment_ids: [] })
+        result = instance.call(attachment_ids: [])
 
         expect(result)
           .to be_success
@@ -1222,10 +1221,9 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
 
     context 'work package does have default status' do
       let(:status) { FactoryBot.create :default_status }
-      let!(:workflow_type) {
+      let!(:workflow_type) do
         FactoryBot.create(:workflow, type: new_type, role: role, old_status_id: status.id)
-      }
-
+      end
 
       it 'does not set the status' do
         expect(work_package).not_to receive(:status=)

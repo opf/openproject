@@ -32,7 +32,7 @@ describe 'Milestones full screen v iew', js: true do
       expect(button['disabled']).to be_falsey
 
       button.click
-      expect(page).to have_selector('.menu-item', text: type.name)
+      expect(page).to have_selector('.menu-item', text: type.name.upcase)
     end
   end
 

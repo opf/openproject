@@ -31,15 +31,15 @@ require 'spec_helper'
 describe MessagesController, 'routing', type: :routing do
   context 'project scoped' do
     it {
-      is_expected.to route(:get, '/boards/lala/topics/new').to(controller: 'messages',
+      is_expected.to route(:get, '/forums/lala/topics/new').to(controller: 'messages',
                                                                action: 'new',
-                                                               board_id: 'lala')
+                                                               forum_id: 'lala')
     }
 
     it {
-      is_expected.to route(:post, '/boards/lala/topics').to(controller: 'messages',
+      is_expected.to route(:post, '/forums/lala/topics').to(controller: 'messages',
                                                             action: 'create',
-                                                            board_id: 'lala')
+                                                            forum_id: 'lala')
     }
   end
 

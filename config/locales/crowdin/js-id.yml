@@ -5,24 +5,31 @@ id:
       hide: Sembunyikan
       loading: Loading ...
     attachments:
-      draggable_hint: 'Drag on editor field to inline image or reference attachment.
-        Closed editor fields will be opened while you keep dragging.
+      draggable_hint: 'Drag pada kotak editor untuk memasukan gambar atau referensikan
+        lampiran. kotak editor akan tetap terbuka saat anda masih melakukan drag.
 
 '
     autocomplete_select:
       placeholder:
-        multi: Add "%{name}"
+        multi: Tambah "%{name}"
         single: Pilih "%{name}"
-      remove: Remove %{name}
-      active: Active %{label} %{name}
+      remove: Hapus %{name}
+      active: Aktif %{label} %{name}
     close_popup_title: Tutup
     close_filter_title: Tutup Penyaring
     close_form_title: Tutup formulir
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: Browser Anda tidak mendukung menyalin ke clipboard. Harap menyalin
         teks yang dipilih secara manual.
       copied_successful: Berhasil disalin ke clipboard!
     button_add_watcher: Tambah pemantau
+    button_back: Kembali
     button_back_to_list_view: Kembali ke tampilan daftar
     button_cancel: Batal
     button_close: Tutup
@@ -59,12 +66,12 @@ id:
       too_many: There are more work packages (%{count}) than can be displayed by the
         calendar (%{max}). Add filters to focus on the relevant ones.
     description_available_columns: Kolom tersedia
-    description_current_position: 'Anda di sini:'
+    description_current_position: 'You are here: '
     description_select_work_package: 'Select work package #%{id}'
     description_selected_columns: Kolom dipilih
     description_subwork_package: 'Child of work package #%{id}'
     editor:
-      preview: Toggle preview mode
+      preview: Beralih ke mode preview
       source_code: Toggle Markdown source mode
       error_saving_failed: 'Saving the document failed with the following error: %{error}'
       error_initialization_failed: Failed to initialize CKEditor!
@@ -73,32 +80,33 @@ id:
         wysiwyg: Switch to WYSIWYG editor
       macro:
         child_pages:
-          button: Links to child pages
-          include_parent: Include parent
-          text: "[Placeholder] Links to child pages of"
+          button: Tautkan ke anak halaman
+          include_parent: Sertakan induk
+          text: "[Placeholder] Tertaut pada anak halaman ke"
           page: Halaman Wiki
-          this_page: this page
-          hint: 'Leave this field empty to list all child pages of the current page.
-            If you want to reference a different page, provide its title or slug.
+          this_page: halaman ini
+          hint: 'Kosongkan kolom ini untuk mencantumkan semua anak halaman dari halaman
+            ini. jika anda ingin mereferensikan halaman berbeda, tambahkan judul atau
+            hal terkait.
 
 '
         code_block:
-          button: Insert code snippet
-          title: Insert / edit Code snippet
-          language: Formatting language
-          language_hint: Enter the formatting language that will be used for highlighting
-            (if supported).
+          button: Sisipkan cuplikan koda
+          title: Sisipkan / edit cuplikan kode
+          language: Memformat bahasa
+          language_hint: Masukan format bahasa yang akan digunakan untuk menyorot(jika
+            didukung).
         dropdown:
-          macros: Macros
-          chose_macro: Chose macro
+          macros: Makro
+          chose_macro: Pilih makro
         toc: Table of contents
-        toolbar_help: Click to select widget and show the toolbar. Double-click to
-          edit widget
+        toolbar_help: Klik untuk memilih widget dan menampilkan toolbar. klik dua
+          kali untuk mengedit widget
         wiki_page_include:
-          button: Include content of another wiki page
-          text: "[Placeholder] Included wiki page of"
+          button: Sertakan isi dari wiki halaman lain
+          text: "[Placeholder] termasuk halaman wiki dari"
           page: Halaman Wiki
-          not_set: "(Page not yet set)"
+          not_set: "(Halaman belum diatur)"
           hint: |
             Include the content of another wiki page by specifying its title or slug.
             You can include the wiki page of another project by separating them with a colon like the following example.
@@ -147,6 +155,43 @@ id:
     general_text_yes: 'yes'
     general_text_No: 'No'
     general_text_Yes: 'Yes'
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Dokumen
+          no_results: No documents yet.
+        news:
+          title: News
+          at: di
+          no_results: Nothing new to report.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Work packages I am accountable for
+        work_packages_assigned:
+          title: Paket-Penugasan yang saya kerjakan
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_table:
+          title: Paket-Penugasan
+        work_packages_calendar:
+          title: Kalender
+    homescreen:
+      blocks:
+        new_features:
+          text_new_features: Read about new features and product updates.
+          current_new_feature_html: 'OpenProject contains a new <b>Boards view</b>
+            for Agile project management. </br> To activate this new feature for your
+            existing projects, please do the following steps: <ul><li>Activate the
+            module Boards within existing projects'' settings.</li> <li>Configure
+            your Boards in a project.</li> <li>Verify roles and permissions</li></ul>'
+          image_alt_text: Board teaser image
+          learn_about: Learn more about Agile Boards
     label_activate: Aktifkan
     label_activity_no: Activity entry number %{activityNo}
     label_activity_with_comment_no: Activity entry number %{activityNo}. Has a user
@@ -173,6 +218,7 @@ id:
     label_board_locked: Locked
     label_board_plural: Boards
     label_board_sticky: Sticky
+    label_create_new: Create new
     label_create_work_package: Buat Paket-Penugasan baru
     label_created_by: Created by
     label_date: Tanggal
@@ -220,6 +266,7 @@ id:
     label_more_than_ago: lusa yang lalu
     label_my_page: My Homepage
     label_next: Lanjut
+    label_no_color: No color
     label_no_data: Tidak ada data untuk ditampilkan
     label_no_due_date: tidak ada tanggal berakhir
     label_no_start_date: tidak ada tanggal mulai
@@ -257,7 +304,7 @@ id:
     label_subject: Perihal
     label_this_week: minggu ini
     label_today: hari ini
-    label_up: Up
+    label_up: Naik
     label_activity_show_only_comments: Tampilkan hanya aktivitas bersama komentar
     label_activity_show_all: Tampilkan semua aktivitas
     label_total_progress: "%{percent}% total progres"
@@ -311,46 +358,54 @@ id:
         next: Lanjut
         got_it: Got it
       steps:
-        welcome: Take a three minutes introduction tour to learn the most <b>important
-          features</b>. <br> We recommend completing the steps until the end. You
-          can restart the tour any time.
-        project_selection: Please select one of the projects with useful demo data
+        help_menu: In the <b>Help</b> menu you will find a user guide and additional
+          help resources. <br> Enjoy your work with OpenProject!
+        members: Invite new <b>Members</b> to join your project.
+        project_selection: Please click on one of the projects with useful demo data
           to get started. <br> The <b>Demo project</b> suits best for classical project
           management, while the <b>Scrum project</b> is better for Agile project management.
         sidebar_arrow: With the arrow you can navigate back to the project's <b>Main
           menu</b>.
-        members: Invite new <b>Members</b> to join your project.
+        welcome: Take a three minutes introduction tour to learn the most <b>important
+          features</b>. <br> We recommend completing the steps until the end. You
+          can restart the tour any time.
         wiki: Within the <b>Wiki</b> you can document and share knowledge together
           with your team.
-        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
-          right you have the Product Backlog or a Bug Backlog, on the left you will
-          have the respective sprints. Here you can create <b>epics, user stories,
-          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
-        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
-          drop-down...
-        backlogs_task_board_select: "... and select the <b>Task board</b> entry."
-        backlogs_task_board: The <b>Task board</b> visualizes the progress for this
-          sprint. Add new tasks or impediments with the + icon next to a user story.
-          Via drag'n'drop you can update the status.
-        wp_toggler: Now let's have a look at the <b>Work package</b> section, which
-          gives you a more detailed view of your work.
-        wp_list: This is the <b>Work package</b> list with the important work within
-          your project, such as tasks, features, milestones, bugs, and more. <br>
-          You can create or edit a work package directly within this list. To see
-          its details you can double click on a row.
-        wp_full_view: Within the <b>Work package details</b> you find all relevant
-          information, such as description, status and priority, activities, dependencies
-          or comments.
-        wp_back_button: With the arrow you can navigate back to the work package list.
-        wp_create_button: The <b>Create</b> button will add a new work package to
-          your project.
-        wp_timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
-          for your project.
-        wp_timeline: Here you can edit your project plan. Create new phases, milestones,
-          and add dependencies. All team members can see and update the latest plan
-          at any time.
-        help_menu: In the <b>Help</b> menu you will find a user guide and additional
-          help resources. <br> Enjoy your work with OpenProject!
+        backlogs:
+          overview: Manage your work in the <b>Backlogs</b> view. <br> On the right
+            you have the Product Backlog or a Bug Backlog, on the left you will have
+            the respective sprints. Here you can create <b>epics, user stories, and
+            bugs</b>, prioritize via drag'n'drop and add them to a sprint.
+          task_board_arrow: To see your <b>Task board</b>, open the Sprint drop-down...
+          task_board_select: "... and select the <b>Task board</b> entry."
+          task_board: The <b>Task board</b> visualizes the progress for this sprint.
+            Add new tasks or impediments with the + icon next to a user story. Via
+            drag'n'drop you can update the status.
+        boards:
+          overview: Manage your work within an intuitive <b>Boards</b> view.
+          lists: You can create multiple lists (columns) within one Board view, e.g.
+            to create a KANBAN board.
+          add: Click the + will <b>add a new card</b> to the list within a Board.
+          drag: Drag & Drop your cards within a list to re-order, or to another list.
+            A double click will open the details view.
+        wp:
+          toggler: Now let's have a look at the <b>Work package</b> section, which
+            gives you a more detailed view of your work.
+          list: This is the <b>Work package</b> list with the important work within
+            your project, such as tasks, features, milestones, bugs, and more. <br>
+            You can create or edit a work package directly within this list. To see
+            its details you can double click on a row.
+          full_view: Within the <b>Work package details</b> you find all relevant
+            information, such as description, status and priority, activities, dependencies
+            or comments.
+          back_button: With the arrow you can navigate back to the work package list.
+          create_button: The <b>Create</b> button will add a new work package to your
+            project.
+          timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
+            for your project.
+          timeline: Here you can edit your project plan. Create new phases, milestones,
+            and add dependencies. All team members can see and update the latest plan
+            at any time.
     password_confirmation:
       field_description: Anda harus mengisi kata sandi akun untuk mengkonfirmasi perubahan.
       title: Konfirmasi kata sandi anda untuk melanjutkan
@@ -457,7 +512,7 @@ id:
       abort: Abort
     relations_autocomplete:
       placeholder: Enter the related work package id
-      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
+      parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: Pilih tag
       select_branch: Pilih cabang
@@ -488,6 +543,7 @@ id:
       view?
     text_attachment_destroy_confirmation: Apakah Anda yakin ingin menghapus lampiran?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Bagan Gantt
       labels:
         title: Label configuration
@@ -862,27 +918,3 @@ id:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
-    grid:
-      add_modal:
-        choose_widget: Choose widget
-      widgets:
-        documents:
-          title: Documents
-          no_results: No documents yet.
-        news:
-          title: News
-          at: at
-          no_results: Nothing new to report.
-        time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
-        work_packages_accountable:
-          title: Work packages I am accountable for
-        work_packages_assigned:
-          title: Paket-Penugasan yang saya kerjakan
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_calendar:
-          title: Kalender

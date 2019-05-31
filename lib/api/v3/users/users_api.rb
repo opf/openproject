@@ -33,7 +33,7 @@ module API
   module V3
     module Users
       class UsersAPI < ::API::OpenProjectAPI
-        helpers ::API::Utilities::ParamsHelper
+        helpers ::API::Utilities::PageSizeHelper
 
         helpers do
           def user_transition(allowed)
@@ -77,10 +77,10 @@ module API
           params do
             requires :id, desc: 'User\'s id'
           end
-          route_param :id do
+          route_param :id  do
             helpers ::API::V3::Users::UpdateUser
 
-            before do
+            after_validation do
               @user =
                 if params[:id] == 'me'
                   User.current
@@ -108,7 +108,7 @@ module API
 
             namespace :lock do
               # Authenticate lock transitions
-              before do
+              after_validation do
                 authorize_admin
               end
 

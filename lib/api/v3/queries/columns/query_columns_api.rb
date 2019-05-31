@@ -38,15 +38,11 @@ module API
               end
             end
 
-            params do
-              requires :id, desc: 'Column id'
-            end
-
-            before do
+            after_validation do
               authorize(:view_work_packages, global: true, user: current_user)
             end
 
-            route_param :id do
+            route_param :id, type: String, regexp: /\A\w+\z/, desc: 'Column ID' do
               get do
                 ar_id = convert_to_ar(params[:id]).to_sym
                 column = Query.available_columns.detect { |candidate| candidate.name == ar_id }

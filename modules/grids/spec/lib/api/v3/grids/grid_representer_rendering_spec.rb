@@ -33,7 +33,7 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
 
   let(:grid) do
     FactoryBot.build_stubbed(
-      :my_page,
+      :grid,
       row_count: 4,
       column_count: 5,
       widgets: [
@@ -68,6 +68,21 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
   let(:current_user) { FactoryBot.build_stubbed(:user) }
   let(:representer) { described_class.new(grid, current_user: current_user) }
 
+  let(:writable) { true }
+  let(:scope_path) { 'bogus_scope' }
+
+  before do
+    allow(::Grids::Configuration)
+      .to receive(:writable?)
+      .with(grid, current_user)
+      .and_return(writable)
+
+    allow(::Grids::Configuration)
+      .to receive(:to_scope)
+      .with(Grids::Grid, [])
+      .and_return(scope_path)
+  end
+
   context 'generation' do
     subject(:generated) { representer.to_json }
 
@@ -76,12 +91,6 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
         is_expected
           .to be_json_eql('Grid'.to_json)
           .at_path('_type')
-      end
-
-      it 'identifies the url the grid is stored for' do
-        is_expected
-          .to be_json_eql(my_page_path.to_json)
-          .at_path('_links/scope/href')
       end
 
       it 'has an id' do
@@ -180,7 +189,7 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
       context 'scope link' do
         it_behaves_like 'has an untitled link' do
           let(:link) { 'scope' }
-          let(:href) { my_page_path }
+          let(:href) { scope_path }
           let(:type) { "text/html" }
 
           it 'has a content type of html' do

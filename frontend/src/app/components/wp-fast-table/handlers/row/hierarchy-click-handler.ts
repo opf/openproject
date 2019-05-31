@@ -20,7 +20,7 @@ export class HierarchyClickHandler extends ClickOrEnterHandler implements TableE
   }
 
   public get SELECTOR() {
-    return `.${tableRowClassName} .wp-table--hierarchy-indicator `;
+    return `.wp-table--hierarchy-indicator`;
   }
 
   public eventScope(table:WorkPackageTable) {

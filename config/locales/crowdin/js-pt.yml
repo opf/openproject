@@ -19,11 +19,18 @@ pt:
     close_popup_title: Fechar janela
     close_filter_title: Fechar filtro
     close_form_title: Fechar formulário
+    card:
+      add_new: Adicionar novo cartão
+      highlighting:
+        inline: 'Destacar inline:'
+        entire_card_by: Cartão inteiro por
+      remove_from_list: Apagar cartão da lista
     clipboard:
       browser_error: O seu navegador não suporta o copiar para a área de transferência.
         Por favor, copie manualmente o texto selecionado.
       copied_successful: Copiado com sucesso para área de transferência!
     button_add_watcher: Adicionar observadores
+    button_back: Voltar
     button_back_to_list_view: Voltar à visualização de lista
     button_cancel: Cancelar
     button_close: Fechar
@@ -39,7 +46,7 @@ pt:
     button_duplicate: Duplicar
     button_edit: Editar
     button_filter: Filtro
-    button_advanced_filter: Advanced filter
+    button_advanced_filter: Filtro avançado
     button_list_view: Ver lista
     button_show_view: Ver em ecrã completo
     button_log_time: Tempo de registro
@@ -60,7 +67,7 @@ pt:
       too_many: Existem mais pacotes de trabalho (%{count}) do que podem ser mostrados
         pelo calendário (%{max}). Adicione filtros para se focar nos que são relevantes.
     description_available_columns: Colunas disponíveis
-    description_current_position: 'Você está aqui:'
+    description_current_position: 'You are here: '
     description_select_work_package: 'Selecionar pacote de trabalho #%{id}'
     description_selected_columns: Colunas selecionadas
     description_subwork_package: 'Filho de pacote de trabalho #%{id}'
@@ -149,17 +156,54 @@ pt:
     general_text_yes: sim
     general_text_No: Não
     general_text_Yes: Sim
+    grid:
+      add_modal:
+        choose_widget: Escolher widget
+      widgets:
+        documents:
+          title: Documentos
+          no_results: Ainda não há documentos.
+        news:
+          title: Noticias
+          at: em
+          no_results: Nada de novo no relatório.
+        time_entries_current_user:
+          title: Tempo gasto (últimos 7 dias)
+          no_results: Não há entradas de tempo nos últimos 7 dias.
+        work_packages_accountable:
+          title: Pacotes de trabalho pelos quais sou responsável
+        work_packages_assigned:
+          title: Tarefas atribuídas a mim
+        work_packages_created:
+          title: Pacotes de trabalho criados por mim
+        work_packages_watched:
+          title: Pacotes de trabalho observados por mim
+        work_packages_table:
+          title: Tarefas
+        work_packages_calendar:
+          title: Calendário
+    homescreen:
+      blocks:
+        new_features:
+          text_new_features: Read about new features and product updates.
+          current_new_feature_html: 'OpenProject contains a new <b>Boards view</b>
+            for Agile project management. </br> To activate this new feature for your
+            existing projects, please do the following steps: <ul><li>Activate the
+            module Boards within existing projects'' settings.</li> <li>Configure
+            your Boards in a project.</li> <li>Verify roles and permissions</li></ul>'
+          image_alt_text: Board teaser image
+          learn_about: Learn more about Agile Boards
     label_activate: Ativar
     label_activity_no: Número de entrada da atividade %{activityNo}
     label_activity_with_comment_no: Número de entrada da atividade %{activityNo}.
       Tem um comentário de utilizador.
-    label_add_column_after: Add column after
-    label_add_column_before: Add column before
+    label_add_column_after: Adicionar coluna após
+    label_add_column_before: Adicionar coluna antes
     label_add_columns: Adicionar colunas
     label_add_comment: Adicionar comentário
     label_add_comment_title: Comentar e escrever @ para notificar outras pessoas
-    label_add_row_after: Add row after
-    label_add_row_before: Add row before
+    label_add_row_after: Adicionar linha depois
+    label_add_row_before: Adicionar linha antes
     label_add_selected_columns: Adicionar colunas selecionadas
     label_added_by: adicionado por
     label_added_time_by: Adicionado por %{author} %{age}
@@ -170,10 +214,11 @@ pt:
     label_ascending: Ascendente
     label_author: 'Autor: %{user}'
     label_between: entre
-    label_board: Board
+    label_board: Quadro
     label_board_locked: Bloqueado
-    label_board_plural: Boards
+    label_board_plural: Quadros
     label_board_sticky: Pegajoso
+    label_create_new: Criar novo
     label_create_work_package: Criar nova tarefa
     label_created_by: Criado por
     label_date: Data
@@ -221,6 +266,7 @@ pt:
     label_more_than_ago: mais do que dias atrás
     label_my_page: A minha página
     label_next: Próxima
+    label_no_color: Sem cor
     label_no_data: Sem dados para apresentar
     label_no_due_date: sem data fim
     label_no_start_date: sem data inicio
@@ -238,9 +284,9 @@ pt:
     label_visibility_settings: Configurações de visibilidade
     label_quote_comment: Citar este comentário
     label_reset: Reiniciar
-    label_remove_column: Remove column
+    label_remove_column: Remover coluna
     label_remove_columns: Remover colunas selecionadas
-    label_remove_row: Remove row
+    label_remove_row: Remover linha
     label_save_as: Guardar como
     label_select_watcher: Selecione um "observador"...
     label_selected_filter_list: Filtros selecionados
@@ -296,7 +342,7 @@ pt:
     label_upload_notification: A carregar ficheiros...
     label_work_package_upload_notification: 'Upload de ficheiros para a tarefa #%{id}:
       %{subject}'
-    label_wp_id_added_by: "#%{id} added by %{author}"
+    label_wp_id_added_by: "#%{id} adicionado por %{author}"
     label_files_to_upload: 'Esses ficheiros serão enviados:'
     label_rejected_files: 'Esses ficheiros não podem ser carregados:'
     label_rejected_files_reason: Esses ficheiros não podem ser carregados enquanto
@@ -308,49 +354,59 @@ pt:
       show_modal: Mostrar entrada do texto de ajuda de atributos
     onboarding:
       buttons:
-        skip: Skip
+        skip: Saltar
         next: Próxima
         got_it: Entendi
       steps:
+        help_menu: No menu <b>Ajuda</b> vai encontrar um guia de utilizador e recursos
+          adicionais de ajuda. <br> Desfrute do seu trabalho com o OpenProject!
+        members: Convide novos <b>Membros</b> para participarem no seu projeto.
+        project_selection: Please click on one of the projects with useful demo data
+          to get started. <br> The <b>Demo project</b> suits best for classical project
+          management, while the <b>Scrum project</b> is better for Agile project management.
+        sidebar_arrow: Com a seta pode navegar até ao <b>menu principal</b> do projeto.
         welcome: Acompanhe um tour de apresentação de 3 minutos para descobrir mais
           <b>recursos importantes</b>.<br> Recomendamos que conclua as etapas até
           ao final. Pode reiniciar o tour a qualquer momento.
-        project_selection: Por favor, selecione um dos projetos com dados de demonstração
-          úteis para começar. <br> O <b>Projeto Demo</b> é o melhor na gestão de projetos
-          clássicos, enquanto o <b>projeto Scrum</b> é melhor na gestão ágil de projetos.
-        sidebar_arrow: Com a seta pode navegar até ao <b>menu principal</b> do projeto.
-        members: Convide novos <b>Membros</b> para participarem no seu projeto.
         wiki: Na <b>Wiki</b> pode documentar e partilhar conhecimento com a sua equipa.
-        backlogs_overview: Faça a gestão do seu trabalho na visão de <b>Backlogs</b>.<br>
-          À direita encontra o Backlog do produto ou um Backlog de Bug, à esquerda
-          terá os sprints respectivos. Aqui pode criar <b>épicos, histórias de utilizadores
-          e bugs</b>, dar prioridade ao arrastar e soltar e adicioná-los a um sprint.
-        backlogs_task_board_arrow: Para ver o seu <b>Quadro de tarefas</b>, abra o
-          menu suspenso de Sprint...
-        backlogs_task_board_select: "... e selecione a entrada <b>Quadro de tarefas</b>."
-        backlogs_task_board: O <b>Quadro de tarefas</b> visualiza o progresso do sprint.
-          Adicione novas tarefas ou impedimentos com o ícone + ao lado de uma história
-          de utilizador. Ao arrastar e soltar pode atualizar o status.
-        wp_toggler: Agora vamosespreitar a seção de <b>Pacote de trabalho</b>, que
-          lhe dá uma visão mais detalhada do seu trabalho.
-        wp_list: Esta é a lista de <b>Pacotes de trabalho</b> com o trabalho importante
-          dentro do seu projeto, tais como tarefas, recursos, marcos, bugs e muito
-          mais. <br>Pode criar ou editar um pacote de trabalho diretamente dentro
-          desta lista. Para ver os seus detalhes, pode clicar duas vezes numa linha.
-        wp_full_view: Nos <b>detalhes do pacote de trabalho</b> encontra todas as
-          informações pertinentes tais como descrição, estado e prioridade, atividades,
-          dependências ou comentários.
-        wp_back_button: Com a seta pode navegar de volta para a lista de pacotes de
-          trabalho.
-        wp_create_button: O botão <b>Criar</b> irá adicionar um novo pacote de trabalho
-          ao seu projeto.
-        wp_timeline_button: Pode ativar o <b>gráfico de Gantt</b> para criar um cronograma
-          do seu projeto.
-        wp_timeline: Aqui pode editar o seu plano de projeto. Criar novas fases, marcos
-          e adicionar dependências. Todos os membros da equipa podem ver e atualizar
-          o plano mais recente a qualquer momento.
-        help_menu: No menu <b>Ajuda</b> vai encontrar um guia de utilizador e recursos
-          adicionais de ajuda. <br> Desfrute do seu trabalho com o OpenProject!
+        backlogs:
+          overview: Faça a gestão do seu trabalho na visão de <b>Backlogs</b>.<br>
+            À direita encontra o Backlog do produto ou um Backlog de Bug, à esquerda
+            terá os sprints respectivos. Aqui pode criar <b>épicos, histórias de utilizadores
+            e bugs</b>, dar prioridade ao arrastar e soltar e adicioná-los a um sprint.
+          task_board_arrow: Para ver o seu <b>Quadro de tarefas</b>, abra o menu suspenso
+            de Sprint...
+          task_board_select: "... e selecione a entrada <b>Quadro de tarefas</b>."
+          task_board: O <b>Quadro de tarefas</b> visualiza o progresso do sprint.
+            Adicione novas tarefas ou impedimentos com o ícone + ao lado de uma história
+            de utilizador. Ao arrastar e soltar pode atualizar o status.
+        boards:
+          overview: Gerencie seu trabalho dentro de uma visão intuitiva de <b>Quadros</b>.
+          lists: Você pode criar várias listas (colunas) dentro de uma visão de um
+            board, por exemplo, para criar um quadro de KANBAN.
+          add: Clique no + irá <b>adicionar um novo cartão</b> à lista dentro de um
+            Quadro.
+          drag: Drag & Drop your cards within a list to re-order, or to another list.
+            A double click will open the details view.
+        wp:
+          toggler: Agora vamosespreitar a seção de <b>Pacote de trabalho</b>, que
+            lhe dá uma visão mais detalhada do seu trabalho.
+          list: Esta é a lista de <b>Pacotes de trabalho</b> com o trabalho importante
+            dentro do seu projeto, tais como tarefas, recursos, marcos, bugs e muito
+            mais. <br>Pode criar ou editar um pacote de trabalho diretamente dentro
+            desta lista. Para ver os seus detalhes, pode clicar duas vezes numa linha.
+          full_view: Nos <b>detalhes do pacote de trabalho</b> encontra todas as informações
+            pertinentes tais como descrição, estado e prioridade, atividades, dependências
+            ou comentários.
+          back_button: Com a seta pode navegar de volta para a lista de pacotes de
+            trabalho.
+          create_button: O botão <b>Criar</b> irá adicionar um novo pacote de trabalho
+            ao seu projeto.
+          timeline_button: Pode ativar o <b>gráfico de Gantt</b> para criar um cronograma
+            do seu projeto.
+          timeline: Aqui pode editar o seu plano de projeto. Criar novas fases, marcos
+            e adicionar dependências. Todos os membros da equipa podem ver e atualizar
+            o plano mais recente a qualquer momento.
     password_confirmation:
       field_description: Tem que digitar a sua palavra-passe para confirmar esta alteração.
       title: Confirme a sua palavra-passe para continuar
@@ -457,8 +513,7 @@ pt:
       abort: Abortar
     relations_autocomplete:
       placeholder: Insira o id de pacote de trabalho relacionado
-      parent_placeholder: Escolher novo pai, prima enter para desativar, esc para
-        cancelar.
+      parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: Selecionar a tag
       select_branch: Selecionar o branch
@@ -489,6 +544,7 @@ pt:
     text_query_destroy_confirmation: Tem certeza que deseja excluir a vista selecionada?
     text_attachment_destroy_confirmation: Tem certeza de que deseja apagar o anexo?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gráfico de Gantt
       labels:
         title: Configuração de etiqueta
@@ -603,7 +659,7 @@ pt:
       label_enable_multi_select: Ativar seleção múltipla
       label_disable_multi_select: Desativar seleção múltipla
       label_filter_add: Adicionar filtro
-      label_filter_by_text: Filter by text
+      label_filter_by_text: Filtrar por texto
       label_options: Opções
       label_column_multiselect: 'Campo dropdown combinada: selecione com as teclas
         de seta, confirmar a seleção com enter, apagar com backspace'
@@ -615,7 +671,7 @@ pt:
       message_work_package_read_only: O pacote de trabalho está bloqueado no presente
         estado. Nenhum atributo que não seja o estado pode ser alterado.
       no_value: Sem valor
-      placeholder_filter_by_text: Subject, description, comments, ...
+      placeholder_filter_by_text: Assunto, descrição, comentários, ...
       inline_create:
         title: Clique aqui para adicionar um novo pacote de trabalho a esta lista
       create:
@@ -807,7 +863,7 @@ pt:
           de trabalho listados serão recursivamente removidos.
         deletes_children: Todos os pacotes de trabalho filhos e seus descendentes
           serão também recursivamente apagados.
-    notice_no_results_to_display: No visible results to display.
+    notice_no_results_to_display: Nenhum resultado visível para exibir.
     notice_successful_create: Criado com sucesso.
     notice_successful_delete: Eliminado com sucesso.
     notice_successful_update: Actualizado com sucesso.
@@ -834,7 +890,7 @@ pt:
         messages_on_field: 'Este campo é inválido: %{messages}'
     error_could_not_resolve_version_name: Não consegui resolver o nome da versão
     error_could_not_resolve_user_name: Não consegui resolver o nome do utilizador
-    error_attachment_upload: 'File failed to upload: %{error}'
+    error_attachment_upload: 'Ocorreu um erro ao enviar o ficheiro: %{error}'
     error_attachment_upload_permission: Não tem permissão para carregar ficheiros
       para este recurso.
     units:
@@ -852,36 +908,12 @@ pt:
       button_activate: Ativar modo zen
       button_deactivate: Desativar modo zen
     global_search:
-      all_projects: In all projects
+      all_projects: Em todos os projetos
       search: Pesquisar
-      close_search: Close search
-      current_project: In this project
-      current_project_and_all_descendants: In this project + subprojects
+      close_search: Fechar busca
+      current_project: Neste projeto
+      current_project_and_all_descendants: Neste projeto + subprojetos
       title:
-        all_projects: all projects
-        project_and_subprojects: and all subprojects
-        search_for: Search for
-    grid:
-      add_modal:
-        choose_widget: Choose widget
-      widgets:
-        documents:
-          title: Documents
-          no_results: No documents yet.
-        news:
-          title: Noticias
-          at: at
-          no_results: Nada de novo no relatório.
-        time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
-        work_packages_accountable:
-          title: Pacotes de trabalho pelos quais sou responsável
-        work_packages_assigned:
-          title: Tarefas atribuídas a mim
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_calendar:
-          title: Calendário
+        all_projects: todos os projetos
+        project_and_subprojects: e todos os subprojetos
+        search_for: Pesquisar por

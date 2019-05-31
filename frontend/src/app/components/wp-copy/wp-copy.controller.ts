@@ -51,7 +51,7 @@ export class WorkPackageCopyController extends WorkPackageCreateController {
       )
       .subscribe((wp:WorkPackageResource) => {
         if (wp.__initialized_at === this.__initialized_at) {
-          this.wpRelations.addCommonRelation(wp.id, 'relates', this.copiedWorkPackageId);
+          this.wpRelations.addCommonRelation(wp.id!, 'relates', this.copiedWorkPackageId);
         }
       });
   }

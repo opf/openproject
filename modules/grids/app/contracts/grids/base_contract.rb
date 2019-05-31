@@ -33,6 +33,8 @@ require 'model_contract'
 module Grids
   class BaseContract < ::ModelContract
     include OpenProject::StaticRouting::UrlHelpers
+    include AssignableValuesContract
+
     attribute :row_count do
       validate_positive_integer(:row_count)
     end
@@ -63,12 +65,12 @@ module Grids
       Grid
     end
 
-    def assignable_values(_column, _user)
-      nil
+    def edit_allowed?
+      config.writable?(model, user)
     end
 
-    def edit_allowed?
-      Grids::Configuration.writable?(model, user)
+    def assignable_widgets
+      all_allowed_widget_identifiers(user)
     end
 
     private
@@ -81,10 +83,10 @@ module Grids
     end
 
     def validate_registered_widgets
-      return unless Grids::Configuration.registered_grid?(model.class)
+      return unless config.registered_grid?(grid_class)
 
       undestroyed_widgets.each do |widget|
-        next if Grids::Configuration.allowed_widget?(model.class, widget.identifier)
+        next if config.allowed_widget?(grid_class, widget.identifier, user)
 
         errors.add(:widgets, :inclusion)
       end
@@ -176,6 +178,20 @@ module Grids
 
     def undestroyed_widgets
       model.widgets.reject(&:marked_for_destruction?)
+    end
+
+    def all_allowed_widget_identifiers(user)
+      config.all_widget_identifiers(grid_class).select do |identifier|
+        config.allowed_widget?(grid_class, identifier, user)
+      end
+    end
+
+    def grid_class
+      model.class
+    end
+
+    def config
+      Grids::Configuration
     end
   end
 end

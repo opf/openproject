@@ -57,9 +57,25 @@ af:
     index:
       no_results_content_title: There are currently no authentication modes.
       no_results_content_text: Create a new authentication mode
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: geen
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
+  forums:
     show:
-      no_results_title_text: There are currently no posts for the board.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: There are currently no colors.
@@ -139,9 +155,9 @@ af:
     settings:
       activities:
         no_results_title_text: There are currently no activities available.
-      boards:
-        no_results_title_text: There are currently no boards for the project.
-        no_results_content_text: Create a new board
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: There are currently no work package categories.
         no_results_content_text: Create a new work package category
@@ -211,7 +227,7 @@ af:
       reset: Reset to defaults
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts.
+        in Gantt charts. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: There are currently no work packages assigned to this
@@ -367,6 +383,11 @@ af:
         subscriber: Subscriber
         encoded_token: Enterprise support token
         active_user_count_restriction: Maximum active users
+      grids/grid:
+        page: Bladsy
+        row_count: Aantal rye
+        column_count: Aantal kolomme
+        widgets: Widgets
       relation:
         delay: Vertraag
         from: Werkspakket
@@ -404,6 +425,7 @@ af:
         spent_on: Datum
         type: Soort
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
@@ -460,16 +482,11 @@ af:
       doorkeeper/application:
         uid: Client ID
         secret: Client secret
-        owner: Owner
+        owner: Eienaar
         redirect_uri: Redirect URI
         client_credentials_user_id: Client Credentials User ID
         scopes: Scopes
         confidential: Confidential
-      grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
     errors:
       messages:
         accepted: must be accepted.
@@ -539,6 +556,10 @@ af:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -611,6 +632,7 @@ af:
           attributes:
             attribute_groups:
               attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: The group name '%{group}' is used more than once. Group
                 names must be unique.
               query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
@@ -639,11 +661,15 @@ af:
               error_not_found: not found
         member:
           principal_blank: Kies asseblief ten minste een gebruiker of groep.
-          role_blank: Kies asseblief ten minste een rol.
-        grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          role_blank: need to be assigned.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Kontroleer asseblief die volgende velde:'
         header:
@@ -652,7 +678,7 @@ af:
     models:
       attachment: Lêer
       attribute_help_text: Attribute help text
-      board: Forum
+      forum: Forum
       comment: Opmerking
       custom_action: Custom action
       custom_field: Pasgemaakte veld
@@ -990,7 +1016,7 @@ af:
   description_choose_project: Projekte
   description_compare_from: Compare from
   description_compare_to: Compare to
-  description_current_position: 'Jy is hier:'
+  description_current_position: 'You are here: '
   description_date_from: Tik begindatum
   description_date_range_interval: Kies reeks deur die begin- en einddatum kies
   description_date_range_list: Kies reeks uit die lys
@@ -1038,16 +1064,18 @@ af:
   error_can_not_remove_role: Hierdie rol word gebruik en kan nie geskrap word nie.
   error_can_not_reopen_work_package_on_closed_version: "'n Werkspakket wat toegewys
     is aan 'n geslote weergawe kan nie weer oopgemaak word nie"
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Kies 'n gebruiker en 'n rol.
+  error_code: Error %{code}
   error_cookie_missing: Die OpenProject koekie word vermis. Verseker asseblief dat
     koekies geaktiveer is, aangesien hierdie toepassing nie behoorlik sal funksioneer
     daarsonder nie.
   error_custom_option_not_found: Option does not exist.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1064,6 +1092,10 @@ af:
   error_work_package_not_found_in_project: Die werkspakket is nie gekry nie of behoort
     nie aan hierdie projek nie
   error_must_be_project_member: moet projeklid wees
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: Geen verstek werkspakket status is gedefinieer
     nie. Kontroleer asseblief jou konfigurasie (gaan na "Administrasie -> Werkspakket
     statusse").
@@ -1152,13 +1184,13 @@ af:
           you substantially contribute to this Open-Source community effort.
     links:
       upgrade_enterprise_edition: Upgrade to Enterprise Edition
+      postgres_migration: Migrating your installation to PostgreSQL
       user_guides: User guides
       faq: FAQ
       glossary: Glossary
       shortcuts: Shortcuts
-      forums: Forums
       blog: OpenProject blog
-      boards: Gemeenskap forum
+      forums: Gemeenskap forum
       newsletter: Security alerts / Newsletter
   links:
     configuration_guide: Configuration guide
@@ -1225,7 +1257,7 @@ af:
   label_authentication: Waarmerking
   label_available_project_work_package_categories: Available work package categories
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Available boards
+  label_available_project_forums: Available forums
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories
   label_api_documentation: API documentation
@@ -1233,14 +1265,15 @@ af:
   label_blocked_by: geblokkeer deur
   label_blocks: blokke
   label_blog: Blog
-  label_board_locked: Gesluit
-  label_board_new: Nuwe forum
-  label_board_plural: Forums
-  label_board_sticky: Klewerig
+  label_forums_locked: Gesluit
+  label_forum_new: Nuwe forum
+  label_forum_plural: Forums
+  label_forum_sticky: Klewerig
   label_boolean: Boolese
   label_branch: Tak
   label_browse: Blaai
   label_bulk_edit_selected_work_packages: Grootmaat redigeer geselekteerde werkspakkette
+  label_bundled: "(Bundled)"
   label_calendar: Kalender
   label_calendar_show: Wys Kalender
   label_category: Kategorie
@@ -1340,6 +1373,7 @@ af:
   label_equals: is
   label_everywhere: everywhere
   label_example: Voorbeeld
+  label_import: Import
   label_export_to: 'Ook beskikbaar in:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} uur"
@@ -1377,6 +1411,7 @@ af:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Tuis
   label_subject_or_id: Subject or ID
+  label_impressum: Legal notice
   label_in: in
   label_in_less_than: in minder as
   label_in_more_than: in meer as
@@ -1426,6 +1461,7 @@ af:
   label_max_size: Maksimum grootte
   label_me: ek
   label_member_new: Nuwe lid
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Lede
   label_view_all_members: View all members
   label_menu_item_name: Naam van kieslysitem
@@ -1454,6 +1490,7 @@ af:
   label_my_queries: My pasgemaakte navrae
   label_never: Never
   label_new: Nuut
+  label_new_features: New features
   label_new_statuses_allowed: Nuwe statusse toegelaat
   label_news_added: Nuus bygevoeg
   label_news_comment_added: Kommentaar bygevoeg by nuus
@@ -1502,6 +1539,7 @@ af:
   label_planning: Beplanning
   label_please_login: Teken asseblief in
   label_plugins: Invoegtoepassings
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: gaan vooraf
   label_preferences: Voorkeure
   label_preview: Voorskou
@@ -1509,6 +1547,7 @@ af:
   label_previous_week: Vorige week
   label_principal_invite_via_email: " or invite new users via email"
   label_principal_search: Add existing users or groups
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Produk weergawe
   label_professional_support: Professional support
   label_profile: Profiel
@@ -1624,6 +1663,7 @@ af:
   label_updated_time: Updated %{value} ago
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Updated by %{author} %{age} ago
+  label_upgrade_guides: Upgrade guides
   label_used_by: Used by
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
@@ -1828,6 +1868,8 @@ af:
   notice_account_update_failed: Account setting could not be saved. Please have a
     look at your account page.
   notice_account_updated: Account was successfully updated.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Wrong password
   notice_account_registered_and_logged_in: Welcome, your account has been activated.
     You are logged in now.
@@ -1880,7 +1922,6 @@ af:
     There are too many results.
     Narrow down the search by typing in the name of the new member (or group).
   notice_unable_delete_time_entry: Unable to delete time log entry.
-  notice_unable_delete_version: Unable to delete version.
   notice_user_missing_authentication_method: User has yet to choose a password or
     another way to sign in.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
@@ -1956,7 +1997,7 @@ af:
   permission_export_wiki_pages: Export wiki pages
   permission_list_attachments: List attachments
   permission_log_time: Log spent time
-  permission_manage_boards: Manage forums
+  permission_manage_forums: Manage forums
   permission_manage_categories: Manage work package categories
   permission_manage_work_package_relations: Manage work package relations
   permission_manage_members: Manage members
@@ -2003,7 +2044,7 @@ af:
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
   project_module_activity: Aktiwiteit
-  project_module_boards: Forums
+  project_module_forums: Forums
   project_module_calendar: Kalender
   project_module_work_package_tracking: Werkspakket rekord
   project_module_news: Nuus
@@ -2224,10 +2265,6 @@ af:
   setting_log_requesting_user: Log user login, name, and mail address for all requests
   setting_login_required: Authentication required
   setting_mail_from: Emission email address
-  setting_mail_handler_api_enabled: Enable incoming email web service
-  setting_mail_handler_api_description: The email web handler enables OpenProject
-    to receive emails containing specific commands as an instrumentation mechanism
-    (e.g., to create and update work packages).
   setting_mail_handler_api_key: API key
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines
   setting_mail_handler_body_delimiter_regex: Stomp eposse af wat ooreenstem met hierdie
@@ -2483,7 +2520,6 @@ af:
       color: Kleur
       colors: Colors
     associations: Dependencies
-    board_could_not_be_saved: Board could not be saved
     button_delete_all: Delete all
     change: Change in planning
     children: Child elements
@@ -2738,6 +2774,13 @@ af:
 '
   menu_item: Menu item
   menu_item_setting: Sigbaarheid
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'
   wiki_menu_item_for: Kieslysitem vir wikibladsy "%{title}"
   wiki_menu_item_setting: Sigbaarheid
   wiki_menu_item_new_main_item_explanation: 'Jy is besig om die enigste hoof wiki-kieslysitem
@@ -2762,6 +2805,7 @@ af:
     attributes:
       lock_version: Slot Weergawe
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: Jy moet gewaarmerk wees om toegang tot hierdie hulpbron te verkry.
       code_401_wrong_credentials: Jy het nie die korrekte verwysings voorsien nie.
       code_403: Jy is nie gemagtig om toegang tot hierdie hulpbron verkry nie.

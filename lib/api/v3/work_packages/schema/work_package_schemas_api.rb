@@ -96,7 +96,7 @@ module API
               requires :type, desc: 'Work package schema id'
             end
             namespace ':project-:type' do
-              before do
+              after_validation do
                 begin
                   @project = Project.find(params[:project])
                   @type = Type.find(params[:type])

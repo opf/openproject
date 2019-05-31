@@ -44,7 +44,7 @@ module AuthenticationHelpers
   def login_with(login, password, autologin: false, visit_signin_path: true)
     visit signin_path if visit_signin_path
 
-    within('#login-form') do
+    within('.user-login--form') do
       fill_in 'username', with: login
       fill_in 'password', with: password
       check I18n.t(:label_stay_logged_in) if autologin

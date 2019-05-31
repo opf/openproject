@@ -72,7 +72,6 @@ export class RelationResource extends HalResource {
   }
 
   // Properties
-  public id:number;
   public description:string|null;
   public name:string;
   public type:any;
@@ -98,7 +97,7 @@ export class RelationResource extends HalResource {
 
     return {
       target: this[target],
-      targetId: this[target].id,
+      targetId: this[target].id!,
       relationType: target === 'from' ? this.reverseType : this.type,
       reverseRelationType: target === 'from' ? this.type : this.reverseType
     };

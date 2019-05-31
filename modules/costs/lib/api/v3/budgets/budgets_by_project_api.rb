@@ -32,7 +32,7 @@ module API
     module Budgets
       class BudgetsByProjectAPI < ::API::OpenProjectAPI
         resources :budgets do
-          before do
+          after_validation do
             authorize_any([:view_work_packages, :view_budgets], projects: @project)
             @budgets = @project.cost_objects
           end

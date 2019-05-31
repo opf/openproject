@@ -33,16 +33,17 @@ module CustomField::OrderStatements
   # Returns false, if the custom field can not be used for sorting.
   def order_statements
     case field_format
-    when 'string', 'text', 'list', 'date', 'bool'
+    when 'list'
+      if multi_value?
+        [select_custom_values_joined_options_as_group]
+      else
+        [select_custom_option_position]
+      end
+    when 'string', 'text', 'date', 'bool'
       if multi_value?
         [select_custom_values_as_group]
       else
-        # COALESCE is here to make sure that blank and NULL values are sorted equally
-        [
-          <<-SQL
-          COALESCE(#{select_custom_value_as_string}, '')
-          SQL
-        ]
+        coalesce_select_custom_value_as_string
       end
     when 'int', 'float'
       # Make the database cast values into numeric
@@ -60,7 +61,30 @@ module CustomField::OrderStatements
     end
   end
 
+  # Returns the grouping result
+  # which differ for multi-value select fields,
+  # because in this case we do want the primary CV values
+  def group_by_statements
+    return order_statements unless field_format == 'list'
+
+    if multi_value?
+      # We want to return the internal IDs in the case of grouping
+      [select_custom_values_as_group]
+    else
+      coalesce_select_custom_value_as_string
+    end
+  end
+
   private
+
+  def coalesce_select_custom_value_as_string
+    # COALESCE is here to make sure that blank and NULL values are sorted equally
+    [
+      <<-SQL
+          COALESCE(#{select_custom_value_as_string}, '')
+      SQL
+    ]
+  end
 
   def select_custom_value_as_string
     <<-SQL
@@ -68,6 +92,18 @@ module CustomField::OrderStatements
         WHERE cv_sort.customized_type='#{self.class.customized_class.name}'
         AND cv_sort.customized_id=#{self.class.customized_class.table_name}.id
         AND cv_sort.custom_field_id=#{id} LIMIT 1)
+    SQL
+  end
+
+  def select_custom_option_position
+    <<-SQL
+    (SELECT co_sort.position FROM #{CustomOption.table_name} co_sort
+        LEFT JOIN #{CustomValue.table_name} cv_sort
+        ON co_sort.id = CAST(cv_sort.value AS decimal(60,3))
+        WHERE cv_sort.custom_field_id=#{id}
+        AND cv_sort.customized_id=#{self.class.customized_class.table_name}.id
+        LIMIT 1
+    )
     SQL
   end
 
@@ -81,6 +117,25 @@ module CustomField::OrderStatements
 
     <<-SQL
       COALESCE((SELECT #{aggr_sql} FROM #{CustomValue.table_name} cv_sort
+        WHERE cv_sort.customized_type='#{self.class.customized_class.name}'
+          AND cv_sort.customized_id=#{self.class.customized_class.table_name}.id
+          AND cv_sort.custom_field_id=#{id}
+          AND cv_sort.value IS NOT NULL), '')
+    SQL
+  end
+
+  def select_custom_values_joined_options_as_group
+    aggr_sql =
+      if OpenProject::Database.mysql?
+        "GROUP_CONCAT(co_sort.value SEPARATOR '.')"
+      else
+        "string_agg(co_sort.value, '.' ORDER BY co_sort.position ASC)"
+      end
+
+    <<-SQL
+      COALESCE((SELECT #{aggr_sql} FROM #{CustomOption.table_name} co_sort
+        LEFT JOIN #{CustomValue.table_name} cv_sort
+        ON co_sort.id = CAST(cv_sort.value AS decimal(60,3))
         WHERE cv_sort.customized_type='#{self.class.customized_class.name}'
           AND cv_sort.customized_id=#{self.class.customized_class.table_name}.id
           AND cv_sort.custom_field_id=#{id}

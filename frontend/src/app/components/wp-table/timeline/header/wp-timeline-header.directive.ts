@@ -32,6 +32,8 @@ import {WorkPackageTimelineTableController} from 'core-components/wp-table/timel
 import * as moment from 'moment';
 import {calculatePositionValueForDayCount, getTimeSlicesForHeader, TimelineViewParameters} from '../wp-timeline';
 import Moment = moment.Moment;
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {WorkPackageTableTimelineService} from "core-components/wp-fast-table/state/wp-table-timeline.service";
 
 
 export const timelineHeaderCSSClass = 'wp-timeline--header-element';
@@ -49,7 +51,9 @@ export class WorkPackageTimelineHeaderController implements OnInit {
   private innerHeader:JQuery;
 
   constructor(elementRef:ElementRef,
-              public workPackageTimelineTableController:WorkPackageTimelineTableController) {
+              readonly I18n:I18nService,
+              readonly wpTimelineService:WorkPackageTableTimelineService,
+              readonly workPackageTimelineTableController:WorkPackageTimelineTableController) {
 
     this.$element = jQuery(elementRef.nativeElement);
   }
@@ -70,7 +74,7 @@ export class WorkPackageTimelineHeaderController implements OnInit {
     }
 
     this.innerHeader.empty();
-    this.innerHeader.attr('data-current-zoom-level', vp.settings.zoomLevel);
+    this.innerHeader.attr('data-current-zoom-level', this.wpTimelineService.zoomLevel);
 
     switch (vp.settings.zoomLevel) {
       case 'days':
@@ -156,7 +160,8 @@ export class WorkPackageTimelineHeaderController implements OnInit {
     });
 
     this.renderTimeSlices(vp, 'quarter', 15, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.innerHTML = 'Q' + start.format('Q');
+      cell.innerHTML = this.I18n.t('js.timelines.quarter_label',
+        { quarter_number: start.format('Q') });
       cell.classList.add('-top-border');
       cell.style.height = '30px';
     });
@@ -175,7 +180,8 @@ export class WorkPackageTimelineHeaderController implements OnInit {
     });
 
     this.renderTimeSlices(vp, 'quarter', 15, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.innerHTML = 'Q' + start.format('Q');
+      cell.innerHTML = this.I18n.t('js.timelines.quarter_label',
+        { quarter_number: start.format('Q') });
       cell.classList.add('-top-border');
       cell.style.height = '30px';
     });

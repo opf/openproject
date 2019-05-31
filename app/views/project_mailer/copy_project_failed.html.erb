@@ -29,6 +29,6 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <h1><%= link_to @source_project.name, project_url(@source_project) %></h1>
 
-<%= t('copy_project.text.failed', source_project_name: @source_project.name, target_project_name: @target_project_name) %>
+<p><%= t('copy_project.text.failed', source_project_name: @source_project.name, target_project_name: @target_project_name) %></p>
 
 <%= @errors.join("<br/>".html_safe) %>

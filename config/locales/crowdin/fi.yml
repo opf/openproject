@@ -56,9 +56,25 @@ fi:
     index:
       no_results_content_title: Tällä hetkellä ei ole todennustiloja.
       no_results_content_text: Luo uusi todennustila
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: ei mitään
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
+  forums:
     show:
-      no_results_title_text: Tällä hetkellä taululla ei ole viestejä.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Tällä hetkellä ei ole värejä.
@@ -66,7 +82,7 @@ fi:
     label_no_color: No color
   custom_actions:
     actions:
-      name: Actions
+      name: Toiminnot
       add: Lisää toiminto
       assigned_to:
         executing_user_value: "(Assign to executing user)"
@@ -138,9 +154,9 @@ fi:
     settings:
       activities:
         no_results_title_text: Tällä hetkellä ei ole aktiviteetteja.
-      boards:
-        no_results_title_text: Tällä hetkellä projektille ei ole tauluja.
-        no_results_content_text: Luo uusi taulu
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Tällä hetkellä ei ole yhtään työpaketin luokkaa.
         no_results_content_text: Lisää uusi työpaketin luokka
@@ -210,7 +226,7 @@ fi:
       reset: Reset to defaults
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts.
+        in Gantt charts. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: Tähän versioon ei ole liitetty yhtään työpakettia.
@@ -344,7 +360,7 @@ fi:
       comment:
         commented: Kommentoitu
       custom_action:
-        actions: Actions
+        actions: Toiminnot
       custom_field:
         default_value: Oletusarvo
         editable: Muokattava
@@ -366,6 +382,11 @@ fi:
         subscriber: Tilaaja
         encoded_token: Enterprise support token
         active_user_count_restriction: Maximum active users
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Viive
         from: Työpaketti
@@ -403,6 +424,7 @@ fi:
         spent_on: Päivä
         type: Tyyppi
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
@@ -465,11 +487,6 @@ fi:
         client_credentials_user_id: Client Credentials User ID
         scopes: Scopes
         confidential: Confidential
-      grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
     errors:
       messages:
         accepted: täytyy olla hyväksytty.
@@ -539,6 +556,10 @@ fi:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -611,6 +632,7 @@ fi:
           attributes:
             attribute_groups:
               attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: The group name '%{group}' is used more than once. Group
                 names must be unique.
               query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
@@ -638,11 +660,15 @@ fi:
               error_not_found: ei löydetty
         member:
           principal_blank: Valitse vähintään yksi käyttäjä tai ryhmä.
-          role_blank: Valitse vähintään yksi rooli.
-        grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          role_blank: need to be assigned.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Tarkista seuraavat kentät:'
         header:
@@ -651,7 +677,7 @@ fi:
     models:
       attachment: Tiedosto
       attribute_help_text: Attribute help text
-      board: Keskustelupalsta
+      forum: Keskustelupalsta
       comment: Kommentti
       custom_action: Custom action
       custom_field: Mukautettu kenttä
@@ -970,13 +996,13 @@ fi:
   default_type_bug: Virhe
   default_type_deliverable: Suorite
   default_type_epic: Epic
-  default_type_feature: Feature
+  default_type_feature: Ominaisuus
   default_type_milestone: Milestone
-  default_type_phase: Phase
+  default_type_phase: Vaihe
   default_type_task: Tehtävä
-  default_type_user_story: User story
+  default_type_user_story: Käyttäjän tarina
   description_active: Aktiivinen?
-  description_attachment_toggle: Show/Hide attachments
+  description_attachment_toggle: Näytä tai Piilota liitteet
   description_autocomplete: 'Tämä kenttä käyttää automaattisen täydennyksen. Kun näppäily
     otsikon työtä paketin saat listan mahdollisista ehdokkaista. Valitse yksi käyttäen
     nuoli ylös ja nuoli alas näppäintä ja valitse sarkain tai näppäile näppäintä.
@@ -987,7 +1013,7 @@ fi:
   description_choose_project: Projektit
   description_compare_from: Verrattuna
   description_compare_to: Verrattuna
-  description_current_position: 'Olet täällä:'
+  description_current_position: 'You are here: '
   description_date_from: Syötä aloituspäivämäärä
   description_date_range_interval: Valitse alkamis- ja päättymispäivämäärä
   description_date_range_list: Valitse alue luettelosta
@@ -1034,15 +1060,17 @@ fi:
   error_can_not_remove_role: Tämä rooli on käytössä joten sitä ei voida poistaa.
   error_can_not_reopen_work_package_on_closed_version: Työn paketti määritetty suljettu
     versio ei voi avata uudelleen
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Please choose a user and a role.
+  error_code: Error %{code}
   error_cookie_missing: OpenProject evästeen puuttuu. Varmista, että evästeet ovat
     käytössä, koska tämä sovellus ei toimi oikein ilman evästeitä.
   error_custom_option_not_found: Vaihtoehtoa ei ole olemassa.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Tämän merkinnän poisto ei onnistunut.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1059,6 +1087,10 @@ fi:
   error_work_package_not_found_in_project: Toimia paketti ei löydy tai ei kuulu tähän
     projektiin
   error_must_be_project_member: on oltava projekti jäsen
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: No default work package status is defined.
     Please check your configuration (Go to "Administration -> Work package statuses").
   error_no_type_in_project: Ei tyyppi liittyy tähän projekti. Ole hyvä ja tarkista
@@ -1144,13 +1176,13 @@ fi:
           edistät merkittävästi tämän avoimen lähdekoodin yhteisön toimintaa.
     links:
       upgrade_enterprise_edition: Päivitä yritysversioon
+      postgres_migration: Migrating your installation to PostgreSQL
       user_guides: Käyttöoppaat
       faq: UKK
       glossary: Sanasto
       shortcuts: Pikanäppäimet
-      forums: Keskustelupalstat
       blog: OpenProject blogi
-      boards: Keskustelupalsta
+      forums: Keskustelupalsta
       newsletter: Suojausvaroitukset / uutiskirje
   links:
     configuration_guide: Configuration guide
@@ -1217,7 +1249,7 @@ fi:
   label_authentication: Varmennus
   label_available_project_work_package_categories: Saatavilla olevat työpakettiluokat
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Saatavilla olevat taulut
+  label_available_project_forums: Available forums
   label_available_project_versions: Saatavana olevat versiot
   label_available_project_repositories: Available repositories
   label_api_documentation: API-dokumentaatio
@@ -1225,14 +1257,15 @@ fi:
   label_blocked_by: estänyt
   label_blocks: estää
   label_blog: Blogi
-  label_board_locked: Lukittu
-  label_board_new: Uusi keskustelupalsta
-  label_board_plural: Keskustelupalstat
-  label_board_sticky: Pysyvä
+  label_forums_locked: Lukittu
+  label_forum_new: Uusi keskustelupalsta
+  label_forum_plural: Keskustelupalstat
+  label_forum_sticky: Pysyvä
   label_boolean: Totuusarvomuuttuja
   label_branch: Haara
   label_browse: Selaus
   label_bulk_edit_selected_work_packages: Muokkaa useaa työpakettia
+  label_bundled: "(Bundled)"
   label_calendar: Kalenteri
   label_calendar_show: Näytä kalenteri
   label_category: Kategoria
@@ -1331,6 +1364,7 @@ fi:
   label_equals: sama kuin
   label_everywhere: everywhere
   label_example: Esimerkki
+  label_import: Import
   label_export_to: Vie
   label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} tunti"
@@ -1368,6 +1402,7 @@ fi:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Koti
   label_subject_or_id: Subject or ID
+  label_impressum: Legal notice
   label_in: tässä
   label_in_less_than: pienempi kuin
   label_in_more_than: suurempi kuin
@@ -1417,6 +1452,7 @@ fi:
   label_max_size: Suurin koko
   label_me: minä
   label_member_new: Uusi jäsen
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Jäsenet
   label_view_all_members: Näytä kaikki jäsenet
   label_menu_item_name: Valinnan nimi
@@ -1445,6 +1481,7 @@ fi:
   label_my_queries: Omat hakuni
   label_never: Never
   label_new: Uusi
+  label_new_features: New features
   label_new_statuses_allowed: Uudet tilat sallittu
   label_news_added: Uutinen lisätty
   label_news_comment_added: Kommentti lisätty uutiseen
@@ -1493,6 +1530,7 @@ fi:
   label_planning: Suunnittelu
   label_please_login: Kirjaudu sisään
   label_plugins: Liitännäiset
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: edeltää
   label_preferences: Asetukset
   label_preview: Esikatselu
@@ -1500,6 +1538,7 @@ fi:
   label_previous_week: Edellinen viikko
   label_principal_invite_via_email: " tai kutsu uusia käyttäjiä sähköpostilla"
   label_principal_search: Lisää olemassa olevia käyttäjiä tai ryhmiä
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Tuotteen versio
   label_professional_support: Ammatillinen apu
   label_profile: Profile
@@ -1615,6 +1654,7 @@ fi:
   label_updated_time: Päivitetty %{value} sitten
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Päivittänyt %{author} %{age} sitten
+  label_upgrade_guides: Upgrade guides
   label_used_by: Käyttää
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
@@ -1765,7 +1805,7 @@ fi:
       link_name: Uusi työpaketti
       link_name_type: New %{type_name}
   mail:
-    actions: Actions
+    actions: Toiminnot
   mail_body_account_activation_request: 'Uusi käyttäjä (%{value}) on rekisteröitynyt.
     Hänen tili odottaa hyväksyntääsi:'
   mail_body_account_information: Sinun tilin tiedot
@@ -1818,6 +1858,8 @@ fi:
   notice_account_update_failed: Tilin asetusten tallentaminen ei onnistunut. Palaa
     takaisin tilisi sivulle.
   notice_account_updated: Tilin päivitys onnistui.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Väärä salasana
   notice_account_registered_and_logged_in: Tervetuloa, tilisi on aktivoitu. Olet kirjautunut
     sisään nyt.
@@ -1867,7 +1909,6 @@ fi:
     On liian paljon tuloksia.
     Rajata hakua kirjoittamalla nimi uuden jäsenen (tai ryhmä).
   notice_unable_delete_time_entry: Ei voi poistaa aikakirjausta.
-  notice_unable_delete_version: Version poisto epäonnistui
   notice_user_missing_authentication_method: Käyttäjä on vielä valita salasana tai
     toinen tapa kirjautua sisään.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
@@ -1943,7 +1984,7 @@ fi:
   permission_export_wiki_pages: Vie wiki-sivuja
   permission_list_attachments: Listaa liitteet
   permission_log_time: Lokita käytettyä aikaa
-  permission_manage_boards: Hallinnoi keskustelupalstaa
+  permission_manage_forums: Hallinnoi keskustelupalstaa
   permission_manage_categories: Hallinnoi tapahtumien luokkia
   permission_manage_work_package_relations: Hallinnoi työpakettien suhteita
   permission_manage_members: Hallinnoi jäseniä
@@ -1990,7 +2031,7 @@ fi:
     archive:
       are_you_sure: Oletko varma, että haluat arkistoida projektin "%{name}"?
   project_module_activity: Aktiviteetti
-  project_module_boards: Keskustelupalstat
+  project_module_forums: Keskustelupalstat
   project_module_calendar: Kalenteri
   project_module_work_package_tracking: Työpaketin seuranta
   project_module_news: Uutiset
@@ -2212,9 +2253,6 @@ fi:
     kaikista pyynnöistä
   setting_login_required: Pakollinen kirjautuminen
   setting_mail_from: Lähettäjän sähköpostiosoite
-  setting_mail_handler_api_enabled: Ota käyttöön WS saapuville sähköposteille
-  setting_mail_handler_api_description: Sähköpostipalvelu mahdollistaa tietynlaisten
-    komentojen (esim. työpaketin luonti ja päivitys) vastaanottamisen sähköpostitse.
   setting_mail_handler_api_key: API avain
   setting_mail_handler_body_delimiters: Katkaise sähköpostit tällaisen rivin jälkeen
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
@@ -2467,7 +2505,6 @@ fi:
       color: Väri
       colors: Värit
     associations: Riippuvuudet
-    board_could_not_be_saved: Taulua ei voitu tallentaa
     button_delete_all: Poista kaikki
     change: Muuta suunnittelussa
     children: Ali-elementit
@@ -2527,7 +2564,7 @@ fi:
       comparisons: Comparisons
       comparison:
         absolute: Absolute
-        none: None
+        none: Ei mitään
         relative: Relative
         compare_relative_prefix: Compare current planning to
         compare_relative_suffix: sitten
@@ -2720,6 +2757,13 @@ fi:
 '
   menu_item: Menu item
   menu_item_setting: Visibility
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'
   wiki_menu_item_for: Menu item for wikipage "%{title}"
   wiki_menu_item_setting: Visibility
   wiki_menu_item_new_main_item_explanation: 'Sinä olet poistat vain tärkeimmät wiki
@@ -2742,6 +2786,7 @@ fi:
     attributes:
       lock_version: Lock Version
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: Sinun täytyy olla todennettu pääsy tähän resurssiin.
       code_401_wrong_credentials: Et ole antanut oikeita käyttäjätietoja.
       code_403: Sinulla ei ole oikeutta käyttää tätä resurssia.

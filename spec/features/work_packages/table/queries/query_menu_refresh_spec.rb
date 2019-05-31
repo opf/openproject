@@ -45,7 +45,7 @@ describe 'Refreshing query menu item', js: true do
   it 'allows refreshing the current query (Bug #26921)' do
     wp_table.expect_work_package_listed work_package
     # Instantiate lazy let here
-    wp_table.expect_work_package_not_listed other_work_package
+    wp_table.ensure_work_package_not_listed! other_work_package
 
     wp_table.save_as('Some query name')
 

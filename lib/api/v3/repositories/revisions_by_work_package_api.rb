@@ -33,7 +33,7 @@ module API
     module Repositories
       class RevisionsByWorkPackageAPI < ::API::OpenProjectAPI
         resources :revisions do
-          before do
+          after_validation do
             authorize(:view_work_packages, context: work_package.project)
           end
 

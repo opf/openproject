@@ -31,9 +31,10 @@ module API
   module Errors
     class InvalidUserStatusTransition < ErrorBase
       identifier 'urn:openproject-org:api:v3:errors:InvalidUserStatusTransition'
+      code 400
 
-      def initialize
-        super 400, I18n.t('api_v3.errors.invalid_user_status_transition')
+      def initialize(*)
+        super I18n.t('api_v3.errors.invalid_user_status_transition')
       end
     end
   end

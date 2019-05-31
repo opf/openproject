@@ -96,7 +96,7 @@
           line-height: $work-package-details--tab-height - 10px
 
 .work-packages-full-view--split-right
-  min-width: 480px
+  min-width: 500px
   overflow-y: auto
   overflow-x: auto
   position: relative
@@ -209,17 +209,10 @@
 .work-packages--type-selector:not(.wp-new-top-row--element)
   .wp-table--cell-span
     padding-right: 5px !important
-    &:after
-      content: ':'
 
   // Remove left padding from type
   .wp-edit-field--display-field
     padding-left: 0 !important
-
-  [class*='__hl_dot_']::before
-    vertical-align: 1px
-    margin-right: 6px
-
 
   @media only screen and (min-width: 679px)
     .wp-edit-field--container.-active

@@ -30,7 +30,8 @@
 module API
   module Errors
     class ErrorBase < Grape::Exceptions::Base
-      attr_reader :code, :message, :details, :errors, :property
+      attr_reader :message, :details, :errors, :property
+      delegate :code, to: :class
 
       class << self
         ##
@@ -70,6 +71,15 @@ module API
           @identifier
         end
 
+        ##
+        # Allows defining this error class's http code
+        # Used to read it otherwise.
+        def code(status = nil)
+          @code = status if status
+
+          @code
+        end
+
         private
 
         def convert_ar_to_api_errors(errors)
@@ -78,11 +88,11 @@ module API
           errors.keys.each do |attribute|
             api_attribute_name = ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)
             errors.symbols_and_messages_for(attribute).each do |symbol, full_message, _|
-              if symbol == :error_readonly
-                api_errors << ::API::Errors::UnwritableProperty.new(api_attribute_name)
-              else
-                api_errors << ::API::Errors::Validation.new(api_attribute_name, full_message)
-              end
+              api_errors << if symbol == :error_readonly
+                              ::API::Errors::UnwritableProperty.new(api_attribute_name)
+                            else
+                              ::API::Errors::Validation.new(api_attribute_name, full_message)
+                            end
             end
           end
 
@@ -90,8 +100,7 @@ module API
         end
       end
 
-      def initialize(code, message)
-        @code = code
+      def initialize(message)
         @message = message
         @errors = []
       end

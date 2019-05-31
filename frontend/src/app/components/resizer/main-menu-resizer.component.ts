@@ -30,9 +30,9 @@ import {ChangeDetectorRef, Component, ElementRef, HostListener, OnDestroy, OnIni
 import {distinctUntilChanged} from 'rxjs/operators';
 import {Subscription} from 'rxjs';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
-import {MainMenuToggleService} from "core-components/resizer/main-menu-toggle.service";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {ResizeDelta} from "core-app/modules/common/resizer/resizer.component";
+import {MainMenuToggleService} from "core-components/main-menu/main-menu-toggle.service";
 
 @Component({
   selector: 'main-menu-resizer',

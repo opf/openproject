@@ -35,7 +35,6 @@ export interface CustomActionResourceLinks {
 }
 
 export class CustomActionResource extends HalResource {
-  public id:number;
   public name:string;
   public description:string;
 }

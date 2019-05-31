@@ -32,6 +32,7 @@ import {HalLink} from 'core-app/modules/hal/hal-link/hal-link';
 import {Injectable} from '@angular/core';
 import {PaginationService} from 'core-components/table-pagination/pagination-service';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import {ApiV3Filter, FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
 
 @Injectable()
 export class UrlParamsHelperService {
@@ -73,7 +74,7 @@ export class UrlParamsHelperService {
     paramsData.hi = !!query.showHierarchies;
     paramsData.g = _.get(query.groupBy, 'id', '');
     paramsData = this.encodeSortBy(paramsData, query);
-    paramsData = this.encodeFilters(paramsData, query);
+    paramsData = this.encodeFilters(paramsData, query.filters);
     paramsData.pa = additional.page;
     paramsData.pp = additional.perPage;
 
@@ -82,8 +83,9 @@ export class UrlParamsHelperService {
 
   private encodeColumns(paramsData:any, query:QueryResource) {
     paramsData.c = query.columns.map(function (column) {
-      return column.id;
-    })
+      return column.id!;
+    });
+
     return paramsData;
   }
 
@@ -115,17 +117,16 @@ export class UrlParamsHelperService {
       paramsData.t = query
         .sortBy
         .map(function (sort:QuerySortByResource) {
-          return sort.id.replace('-', ':')
+          return sort.id!.replace('-', ':')
         })
         .join();
     }
     return paramsData;
   }
 
-  private encodeFilters(paramsData:any, query:QueryResource) {
-    if (query.filters && query.filters.length) {
-      paramsData.f = query
-        .filters
+  public encodeFilters(paramsData:any, filters:QueryFilterInstanceResource[]) {
+    if (filters && filters.length > 0) {
+      paramsData.f = filters
         .map((filter:any) => {
           var id = filter.id;
 
@@ -266,7 +267,7 @@ export class UrlParamsHelperService {
     queryData.groupBy = _.get(query.groupBy, 'id', '');
 
     // Filters
-    queryData.filters = this.buildV3GetFiltersFromQueryResoure(query);
+    queryData.filters = this.buildV3GetFiltersAsJson(query.filters);
 
     // Sortation
     queryData.sortBy = this.buildV3GetSortByFromQuery(query);
@@ -304,19 +305,23 @@ export class UrlParamsHelperService {
     }
   }
 
-  private buildV3GetFiltersFromQueryResoure(query:QueryResource) {
-    let filters = query.filters.map((filter:QueryFilterInstanceResource) => {
+  public buildV3GetFilters(filters:QueryFilterInstanceResource[]):ApiV3Filter[] {
+    let newFilters = filters.map((filter:QueryFilterInstanceResource) => {
       let id = this.buildV3GetFilterIdFromFilter(filter);
       let operator = this.buildV3GetOperatorIdFromFilter(filter);
       let values = this.buildV3GetValuesFromFilter(filter);
 
-      const filterHash:any = {};
-      filterHash[id] = { operator: operator, values: values };
+      const filterHash:ApiV3Filter = {};
+      filterHash[id] = { operator: operator as FilterOperator, values: values };
 
       return filterHash;
     });
 
-    return JSON.stringify(filters);
+    return newFilters;
+  }
+
+  public buildV3GetFiltersAsJson(filter:QueryFilterInstanceResource[]) {
+    return JSON.stringify(this.buildV3GetFilters(filter));
   }
 
   private buildV3GetFilterIdFromFilter(filter:QueryFilterInstanceResource) {
@@ -327,7 +332,7 @@ export class UrlParamsHelperService {
 
   private buildV3GetOperatorIdFromFilter(filter:QueryFilterInstanceResource) {
     if (filter.operator) {
-      return filter.operator.id;
+      return filter.operator.id || filter.operator.idFromLink;
     } else {
       let href = filter._links.operator.href;
 

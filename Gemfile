@@ -34,7 +34,7 @@ gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-import', '~> 0.28.1'
 gem 'activerecord-session_store', '~> 1.1.0'
-gem 'rails', '~> 5.2.2'
+gem 'rails', '~> 5.2.2.1'
 gem 'responders', '~> 2.4'
 
 gem 'rdoc', '>= 2.4.2'
@@ -138,8 +138,7 @@ gem 'lograge', '~> 0.10.0'
 # don't require by default, instead load on-demand when actually configured
 gem 'airbrake', '~> 8.0.1', require: false
 
-gem 'transactional_lock', git: 'https://github.com/finnlabs/transactional_lock.git',
-                          branch: 'master'
+gem 'with_advisory_lock'
 
 gem 'prawn', '~> 2.2'
 gem 'prawn-table', '~> 0.2.2'
@@ -153,7 +152,9 @@ group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
   # see https://github.clientom/mperham/dalli
-  gem 'dalli', '~> 2.7.6'
+  gem 'dalli',
+      git: 'https://github.com/petergoldstein/dalli',
+      ref: '0ff39199b5e91c6dbdaabc7c085b81938d0f08d2'
 
   # Unicorn worker killer to restart unicorn child workers
   gem 'unicorn-worker-killer', require: false
@@ -163,7 +164,6 @@ gem 'autoprefixer-rails', '~> 9.4.5'
 # use until proper release no longer requiring sass exists
 gem 'bourbon', git: 'https://github.com/sikachu/bourbon', ref: 'a12ca168e74d3468c80500b21b525a4e12a19ef9'
 gem 'i18n-js', '~> 3.2.0'
-gem 'sass-rails'
 gem 'sassc-rails', '~> 2.1.0'
 gem 'sprockets', '~> 3.7.0'
 
@@ -171,7 +171,7 @@ gem 'sprockets', '~> 3.7.0'
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
 
-gem 'nokogiri', '~> 1.10.0'
+gem 'nokogiri', '~> 1.10.3'
 
 gem 'carrierwave', '~> 1.3.1'
 gem 'fog-aws'
@@ -247,7 +247,7 @@ end
 group :development do
   gem 'faker'
   gem 'letter_opener'
-  gem 'livingstyleguide', '~> 2.0.1'
+  gem 'livingstyleguide', '~> 2.1.0'
 
   gem 'spring'
   gem 'spring-commands-rspec'
@@ -271,7 +271,7 @@ group :development, :test do
   gem 'pry-stack_explorer', '~> 0.4.9.2'
 end
 
-gem 'bootsnap', '~> 1.3.2', require: true
+gem 'bootsnap', '~> 1.3.2', require: false
 
 # API gems
 gem 'grape', '~> 1.2.3'
@@ -288,6 +288,9 @@ platforms :mri, :mingw, :x64_mingw do
   group :postgres do
     gem 'pg', '~> 1.1.0'
   end
+
+  # Support application loading when no database exists yet.
+  gem 'activerecord-nulldb-adapter', '~> 0.3.9'
 end
 
 group :opf_plugins do
@@ -298,11 +301,8 @@ group :docker, optional: true do
   gem 'passenger', '~> 6.0.1'
 
   # Used to easily precompile assets
-  gem 'health_check', require: !!ENV['HEROKU']
   gem 'newrelic_rpm', require: !!ENV['HEROKU']
   gem 'rails_12factor', require: !!ENV['HEROKU']
-  # Require specific version of sqlite3 for rails
-  gem 'sqlite3', '~> 1.3.6', require: false
 end
 
 # Load Gemfile.local, Gemfile.plugins, plugins', and custom Gemfiles

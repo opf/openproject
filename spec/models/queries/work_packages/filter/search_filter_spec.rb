@@ -41,18 +41,20 @@ describe Queries::WorkPackages::Filter::SearchFilter, type: :model do
   end
 
   shared_examples "subject, description, and comment filter" do
+    subject { WorkPackage.joins(instance.joins).where(instance.where) }
+
     context '' do
       let!(:work_package) { FactoryBot.create(:work_package, subject: "A bogus subject", description: "And a short description") }
 
       it 'finds in subject' do
         instance.values = ['bogus subject']
-        expect(WorkPackage.eager_load(instance.includes).where(instance.where))
+        is_expected
           .to match_array [work_package]
       end
 
       it 'finds in description' do
         instance.values = ['short description']
-        expect(WorkPackage.eager_load(instance.includes).where(instance.where))
+        is_expected
           .to match_array [work_package]
       end
 
@@ -61,9 +63,31 @@ describe Queries::WorkPackages::Filter::SearchFilter, type: :model do
         journal.save
 
         instance.values = [journal.notes]
-        expect(WorkPackage.eager_load(instance.includes).where(instance.where))
+        is_expected
           .to match_array [work_package]
       end
+    end
+  end
+
+  describe 'partial (not fuzzy) match of string in subject (#29832)' do
+    subject { WorkPackage.joins(instance.joins).where(instance.where) }
+    let!(:work_package) { FactoryBot.create(:work_package, subject: "big old cat") }
+
+    it 'finds in subject' do
+      instance.values = ['big cat']
+      is_expected
+        .to match_array [work_package]
+    end
+  end
+
+  describe 'partial match of string in subject and description (#29832)' do
+    subject { WorkPackage.joins(instance.joins).where(instance.where) }
+    let!(:work_package) { FactoryBot.create(:work_package, subject: "big", description: "cat") }
+
+    it 'does not match a partial result currently' do
+      instance.values = ['big cat']
+      is_expected
+        .to match_array []
     end
   end
 
@@ -91,13 +115,13 @@ describe Queries::WorkPackages::Filter::SearchFilter, type: :model do
 
           it "finds in attachment content" do
             instance.values = ['ipsum']
-            expect(WorkPackage.eager_load(instance.includes).where(instance.where))
+            expect(WorkPackage.joins(instance.joins).where(instance.where))
               .to match_array [work_package]
           end
 
           it "finds in attachment file name" do
             instance.values = [filename]
-            expect(WorkPackage.eager_load(instance.includes).where(instance.where))
+            expect(WorkPackage.joins(instance.joins).where(instance.where))
               .to match_array [work_package]
           end
         end

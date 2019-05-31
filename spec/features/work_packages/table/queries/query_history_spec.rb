@@ -111,7 +111,8 @@ describe 'Going back and forth through the browser history', type: :feature, js:
     wp_table.expect_title(version_query.name)
     wp_table.expect_work_package_listed work_package_3
 
-    wp_table.add_filter('Assignee', 'is', user.name)
+    filters.open
+    filters.add_filter_by('Assignee', 'is', user.name)
     filters.expect_filter_count 3
     wp_table.expect_no_work_package_listed
 
@@ -120,15 +121,16 @@ describe 'Going back and forth through the browser history', type: :feature, js:
     wp_table.expect_title(version_query.name)
     wp_table.expect_work_package_listed work_package_3
     filters.expect_filter_count 2
-    wp_table.expect_filter('Status', 'open', nil)
-    wp_table.expect_filter('Version', 'is', version.name)
+    filters.expect_filter_by('Status', 'open', nil)
+    filters.expect_filter_by('Version', 'is', version.name)
 
     page.execute_script('window.history.back()')
 
     wp_table.expect_title(assignee_query.name)
     wp_table.expect_work_package_listed work_package_2
-    wp_table.expect_filter('Status', 'open', nil)
-    wp_table.expect_filter('Assignee', 'is', user.name)
+    filters.open
+    filters.expect_filter_by('Status', 'open', nil)
+    filters.expect_filter_by('Assignee', 'is', user.name)
 
     page.execute_script('window.history.back()')
 
@@ -136,28 +138,32 @@ describe 'Going back and forth through the browser history', type: :feature, js:
     wp_table.expect_work_package_listed work_package_1
     wp_table.expect_work_package_listed work_package_2
     wp_table.expect_work_package_listed work_package_3
-    wp_table.expect_filter('Status', 'open', nil)
+    filters.open
+    filters.expect_filter_by('Status', 'open', nil)
 
     page.execute_script('window.history.forward()')
 
     wp_table.expect_title(assignee_query.name)
     wp_table.expect_work_package_listed work_package_2
-    wp_table.expect_filter('Status', 'open', nil)
-    wp_table.expect_filter('Assignee', 'is', user.name)
+    filters.open
+    filters.expect_filter_by('Status', 'open', nil)
+    filters.expect_filter_by('Assignee', 'is', user.name)
 
     page.execute_script('window.history.forward()')
 
     wp_table.expect_title(version_query.name)
     wp_table.expect_work_package_listed work_package_3
-    wp_table.expect_filter('Status', 'open', nil)
-    wp_table.expect_filter('Version', 'is', version.name)
+    filters.open
+    filters.expect_filter_by('Status', 'open', nil)
+    filters.expect_filter_by('Version', 'is', version.name)
 
     page.execute_script('window.history.forward()')
 
     wp_table.expect_title(version_query.name)
     wp_table.expect_no_work_package_listed
-    wp_table.expect_filter('Status', 'open', nil)
-    wp_table.expect_filter('Version', 'is', version.name)
-    wp_table.expect_filter('Assignee', 'is', user.name)
+    filters.open
+    filters.expect_filter_by('Status', 'open', nil)
+    filters.expect_filter_by('Version', 'is', version.name)
+    filters.expect_filter_by('Assignee', 'is', user.name)
   end
 end

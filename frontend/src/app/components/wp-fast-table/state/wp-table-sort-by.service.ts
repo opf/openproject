@@ -76,11 +76,6 @@ export class WorkPackageTableSortByService extends WorkPackageQueryStateService<
   }
 
   public applyToQuery(query:QueryResource) {
-    if (this.current.length > 0) {
-      // hierarchies and sort by are mutually exclusive
-      let hierarchies = this.querySpace.hierarchies.value!;
-      this.querySpace.hierarchies.putValue({ ...hierarchies, isVisible: false, last: null });
-    }
     query.sortBy = [...this.current];
     return true;
   }
@@ -117,7 +112,14 @@ export class WorkPackageTableSortByService extends WorkPackageQueryStateService<
   }
 
   public add(sortBy:QuerySortByResource) {
-    this.state.doModify(current => current.concat(sortBy));
+    this.state.doModify((current:QuerySortByResource[]) => {
+      let newValue = [sortBy, ...current];
+      return _
+        .uniqBy(newValue, sortBy => sortBy.column.$href)
+        .slice(0, 3);
+
+      return current.concat(sortBy);
+    });
   }
 
   public get current():QuerySortByResource[] {

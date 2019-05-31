@@ -400,7 +400,7 @@ describe User, type: :model do
       it 'should authorize nearly everything for admin users' do
         project = Project.find(1)
         project.enabled_module_names = ['work_package_tracking', 'news', 'wiki', 'repository']
-        assert ! @admin.member_of?(project)
+        assert @admin.member_of?(project)
         %w(edit_work_packages delete_work_packages manage_news manage_repository manage_wiki).each do |p|
           assert @admin.allowed_to?(p.to_sym, project)
         end
@@ -408,7 +408,7 @@ describe User, type: :model do
 
       it 'should authorize normal users depending on their roles' do
         project = Project.find(1)
-        project.enabled_module_names = ['boards']
+        project.enabled_module_names = ['forums']
         assert @jsmith.allowed_to?(:delete_messages, project)    # Manager
         assert ! @dlopper.allowed_to?(:delete_messages, project) # Developper
       end

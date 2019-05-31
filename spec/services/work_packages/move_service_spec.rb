@@ -58,7 +58,7 @@ describe WorkPackages::MoveService, type: :model do
 
       expect(copy_double)
         .to receive(:call)
-        .with(attributes: expected_attributes)
+        .with(expected_attributes)
         .and_return(child_service_result)
 
       allow(work_package)
@@ -109,7 +109,7 @@ describe WorkPackages::MoveService, type: :model do
 
         expect(copy_double)
           .to receive(:call)
-          .with(attributes: expected_child_attributes)
+          .with(expected_child_attributes)
           .and_return(child_child_service_result)
 
         allow(work_package)
@@ -137,12 +137,12 @@ describe WorkPackages::MoveService, type: :model do
       expect(WorkPackages::UpdateService)
         .to receive(:new)
         .with(user: user,
-              work_package: work_package)
+              model: work_package)
         .and_return(update_double)
 
       expect(update_double)
         .to receive(:call)
-        .with(attributes: expected_attributes)
+        .with(expected_attributes)
         .and_return(child_service_result)
     end
 

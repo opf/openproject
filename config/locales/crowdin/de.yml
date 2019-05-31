@@ -57,7 +57,24 @@ de:
     index:
       no_results_content_title: Derzeit gibt es keine Authentifizierungsmodi.
       no_results_content_text: Erstellen Sie einen neuen Authentifizierungsmodus
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Verbindungsverschlüsselung
+    tls_mode:
+      plain: kein
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Unverschlüsselte Verbindung.
+      simple_tls_description: Implizite TLS-Verschlüsselung ohne Verifikation. Mit
+        Bedacht verwenden, da diese Option in impliziten Vertrauen in die LDAP-Verbindung
+        resultiert.
+      start_tls_description: Explizite TLS-Verschlüsselung mit Verifikation der Zertifikatskette.
+        Für LDAP over TLS/SSL verwenden.
+      section_more_info_link_html: 'Dieser Abschnitt betrifft die Verbindungssicherheit
+        dieser LDAP-Authentifizierungsquelle. Besuchen Sie für weitere Informationen
+        die <a href="%{link}">Net::LDAP Dokumentation</a>.
+
+'
+  forums:
     show:
       no_results_title_text: Zur Zeit existieren keine Forumseinträge für dieses Forum.
   colors:
@@ -121,8 +138,9 @@ de:
     memberships:
       no_results_title_text: Diese Gruppe ist zur Zeit keinem Projekt zugewiesen.
   incoming_mails:
-    ignore_filenames: 'Specify a list of names to ignore when processing attachments
-      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+    ignore_filenames: 'Geben Sie eine Liste von Dateinamen an, die beim Verarbeiten
+      von Anhängen für eingehende Mails (z.B. Signaturen oder Symbole) ignoriert werden
+      sollen. Geben Sie einen Dateinamen pro Zeile ein.
 
 '
   projects:
@@ -141,9 +159,9 @@ de:
     settings:
       activities:
         no_results_title_text: Zur Zeit stehen keine Aktivitäten zur Verfügung.
-      boards:
+      forums:
         no_results_title_text: Derzeit gibt es keine Foren für dieses Projekt.
-        no_results_content_text: Neues Forum anlegen
+        no_results_content_text: Neues Forum erstellen
       categories:
         no_results_title_text: Derzeit gibt es keine Arbeitspaket-Kategorien.
         no_results_content_text: Neue Arbeitspaket-Kategorie erstellen
@@ -214,10 +232,9 @@ de:
       edit_query: Tabelle bearbeiten
       query_group_placeholder: Benennen Sie die Tabelle
       reset: Auf Standardwerte zurücksetzen
-      type_color_text: 'Klicken zum Zuweisen einer Farbe für diesen Typ. Diese wird
-        für die Hervorhebung von Arbeitspaketen in Tabellen und Gantt-Diagrammen verwendet.
-
-'
+      type_color_text: |
+        Klicken, um die Farbe dieses Typs zu zuweisen oder zu ändern. Die ausgewählte Farbe unterscheidet Arbeitspakete
+        in Gantt-Diagrammen. Es wird daher empfohlen, eine starke Farbe zu verwenden.
   versions:
     overview:
       no_results_title_text: Derzeit sind keine Arbeitspakete dieser Version zugewiesen.
@@ -233,7 +250,7 @@ de:
       one: Ein untergeordnetes Arbeitspaket
       other: "%{count} untergeordnete Arbeitspakete"
     bulk:
-      could_not_be_saved: 'The following work packages could not be saved:'
+      could_not_be_saved: 'Die folgenden Arbeitspakete konnten nicht gespeichert werden:'
     move:
       no_common_statuses_exists: Es gibt keine gemeinsamen Status für die ausgewählten
         Arbeitspakete. Ihr Status kann daher nicht verändert werden.
@@ -378,6 +395,11 @@ de:
         subscriber: Abonnent
         encoded_token: Enterprise-Edition Support Token
         active_user_count_restriction: Maximale aktive Nutzer
+      grids/grid:
+        page: Seite
+        row_count: Anzahl der Zeilen
+        column_count: Anzahl der Spalten
+        widgets: Widgets
       relation:
         delay: Pufferzeit
         from: Arbeitspaket
@@ -415,6 +437,7 @@ de:
         spent_on: Datum
         type: Typ
       type:
+        description: Standardtext für Beschreibung
         attribute_groups: ''
         is_in_roadmap: In Roadmap standardmäßig angezeigt
         is_default: Typ für neue Projekte standardmäßig aktiviert
@@ -476,11 +499,6 @@ de:
         client_credentials_user_id: Client Credentials User-ID
         scopes: Geltungsbereiche
         confidential: Vertraulich
-      grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
     errors:
       messages:
         accepted: muss akzeptiert werden.
@@ -525,7 +543,7 @@ de:
         too_long: ist zu lang (nicht mehr als %{count} Zeichen).
         too_short: ist zu kurz (nicht weniger als %{count} Zeichen).
         unchangeable: kann nicht geändert werden.
-        unremovable: cannot be removed.
+        unremovable: kann nicht entfernt werden.
         wrong_length: hat die falsche Länge (muss genau %{count} Zeichen haben).
       models:
         custom_field:
@@ -555,6 +573,10 @@ de:
         enterprise_token:
           unreadable: kann nicht gelesen werden. Ist dies ein Enterprise-Edition Support
             Token?
+        grids/grid:
+          overlaps: überlappen.
+          outside: ist außerhalb des Rasters.
+          end_before_start: der Endwert muss größer sein als der Startwert.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -633,6 +655,8 @@ de:
           attributes:
             attribute_groups:
               attribute_unknown: Ungültige Arbeitspaket-Attribute verwendet.
+              attribute_unknown_name: 'Ungültige Arbeitspaket-Attribute verwendet:
+                %{attribute}'
               duplicate_group: Der Gruppen-Name %{group} wird mehr als einmal verwendet.
                 Gruppen-Namen müssen eindeutig sein.
               query_invalid: 'Die eingebettete Ansicht ''%{group}'' ist ungültig:
@@ -661,11 +685,15 @@ de:
               error_not_found: nicht gefunden
         member:
           principal_blank: Bitte wählen Sie mindestens einen Benutzer oder eine Gruppe.
-          role_blank: Bitte wählen Sie mindestens eine Rolle.
-        grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          role_blank: need to be assigned.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
+        version:
+          undeletable_work_packages_attached: Die Version kann nicht gelöscht werden,
+            da sie Arbeitspakete enthält, die an sie angeschlossen sind.
       template:
         body: 'Bitte überprüfen Sie die folgenden Felder:'
         header:
@@ -675,7 +703,7 @@ de:
     models:
       attachment: Datei
       attribute_help_text: Hilfe-Text für Attribute
-      board: Forum
+      forum: Forum
       comment: Kommentar
       custom_action: Benutzerdefinierte Aktion
       custom_field: Benutzerdefiniertes Feld
@@ -1019,7 +1047,7 @@ de:
   description_choose_project: Projekte
   description_compare_from: Vergleiche von
   description_compare_to: Vergleiche mit
-  description_current_position: 'Sie sind hier:'
+  description_current_position: 'You are here: '
   description_date_from: Startdatum eintragen
   description_date_range_interval: Zeitraum durch Start- und Enddatum festlegen
   description_date_range_list: Zeitraum aus einer Liste wählen
@@ -1070,17 +1098,20 @@ de:
   error_can_not_remove_role: Diese Rolle wird verwendet und kann nicht gelöscht werden.
   error_can_not_reopen_work_package_on_closed_version: Das Arbeitspaket ist einer
     abgeschlossenen Version zugeordnet und kann daher nicht wieder geöffnet werden.
+  error_can_not_find_all_resources: Konnte nicht alle verwandten Ressourcen für diese
+    Anfrage finden.
   error_check_user_and_role: Bitte wählen Sie einen Nutzer und eine Rolle.
+  error_code: Fehler %{code}
   error_cookie_missing: Das OpenProject Cookie fehlt. Bitte stellen Sie sicher, dass
     Cookies aktiviert sind, da diese Applikation ohne aktivierte Cookies nicht korrekt
     funktioniert.
   error_custom_option_not_found: Option ist nicht vorhanden.
-  error_dependent_work_package: 'Fehler in abhängigem Arbeitspaket #%{related_id}
-    %{related_subject}: %{error}'
   error_enterprise_activation_user_limit: Ihr Konto konnte nicht aktiviert werden
     (Nutzerlimit erreicht). Bitte kontaktieren Sie Ihren Administrator um Zugriff
     zu erhalten.
   error_failed_to_delete_entry: Fehler beim Löschen dieses Eintrags.
+  error_in_dependent: 'Fehler beim Versuch, abhängiges Objekt zu ändern: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Ausgewählter Wert ist ungültig.
   error_invalid_group_by: 'Kann nicht gruppieren nach: %{value}'
   error_invalid_query_column: 'Ungültige Filter-Spalte: %{value}'
@@ -1097,6 +1128,12 @@ de:
   error_work_package_not_found_in_project: Das Arbeitspaket wurde nicht gefunden oder
     gehört nicht zu diesem Projekt.
   error_must_be_project_member: muss Mitglied des Projekts sein
+  error_migrations_are_pending: Ihre OpenProject-Installation hat noch ausstehende
+    Datenbankmigrationen. Sie haben wahrscheinlich die Migration für Ihr letztes Upgrade
+    nicht durchgeführt. Bitte überprüfen Sie die Upgrade-Anleitung, um Ihre Installation
+    korrekt zu aktualisieren.
+  error_migrations_visit_upgrade_guides: Bitte besuchen Sie unsere Dokumentation zur
+    Aktualisierung von OpenProject
   error_no_default_work_package_status: Es ist kein Status als Standard definiert.
     Bitte überprüfen Sie Ihre Konfiguration (unter "Administration -> Arbeitspaket-Status").
   error_no_type_in_project: Diesem Projekt ist kein Typ zugeordnet. Bitte überprüfen
@@ -1184,13 +1221,13 @@ de:
           OpenProject bei.
     links:
       upgrade_enterprise_edition: Auf Enterprise-Edition upgraden
+      postgres_migration: Migration Ihrer Installation zu PostgreSQL
       user_guides: Benutzerhandbuch
       faq: Häufig gestellte Fragen
       glossary: Glossar
       shortcuts: Tastenkürzel
-      forums: Foren
       blog: OpenProject Blog
-      boards: Community Forum
+      forums: Community Forum
       newsletter: Sicherheitswarnungen / Newsletter
   links:
     configuration_guide: Konfigurationsanleitung
@@ -1258,7 +1295,7 @@ de:
   label_authentication: Authentifizierung
   label_available_project_work_package_categories: Verfügbare Arbeitspaket-Kategorien
   label_available_project_work_package_types: Verfügbare Arbeitspaket-Typen
-  label_available_project_boards: Verfügbare Foren
+  label_available_project_forums: Verfügbare Foren
   label_available_project_versions: Verfügbare Versionen
   label_available_project_repositories: Verfügbare Projektarchive
   label_api_documentation: API-Dokumentation
@@ -1266,14 +1303,15 @@ de:
   label_blocked_by: Blockiert durch
   label_blocks: Blockiert
   label_blog: Blog
-  label_board_locked: Gesperrt
-  label_board_new: Neues Forum
-  label_board_plural: Foren
-  label_board_sticky: Wichtig (immer oben)
+  label_forums_locked: Gesperrt
+  label_forum_new: Neues Forum
+  label_forum_plural: Foren
+  label_forum_sticky: Wichtig (immer oben)
   label_boolean: Boolesch
   label_branch: Zweig
   label_browse: Codebrowser
   label_bulk_edit_selected_work_packages: Alle ausgewählten Arbeitspakete bearbeiten
+  label_bundled: "(Gebündelt)"
   label_calendar: Kalender
   label_calendar_show: Kalender anzeigen
   label_category: Kategorie
@@ -1373,6 +1411,7 @@ de:
   label_equals: ist
   label_everywhere: überall
   label_example: Beispiel
+  label_import: Import
   label_export_to: 'Auch abrufbar als:'
   label_expanded_click_to_collapse: Erweitert. Klicken Sie zum Ausblenden
   label_f_hour: "%{value} Stunde"
@@ -1410,6 +1449,7 @@ de:
   label_hierarchy_leaf: Hierarchie-Blatt
   label_home: Hauptseite
   label_subject_or_id: Titel oder ID
+  label_impressum: Impressum
   label_in: an
   label_in_less_than: in weniger als
   label_in_more_than: in mehr als
@@ -1459,6 +1499,7 @@ de:
   label_max_size: Maximale Größe
   label_me: ich
   label_member_new: Neues Mitglied
+  label_member_all_admin: "(Alle Rollen, da Administrator)"
   label_member_plural: Mitglieder
   label_view_all_members: Alle Mitglieder anzeigen
   label_menu_item_name: Name des Menüpunktes
@@ -1487,6 +1528,7 @@ de:
   label_my_queries: Meine Berichte
   label_never: Nie
   label_new: Neu
+  label_new_features: New features
   label_new_statuses_allowed: Neuer Status
   label_news_added: Neuigkeit hinzugefügt
   label_news_comment_added: Kommentar einer Neuigkeit hinzugefügt
@@ -1535,6 +1577,7 @@ de:
   label_planning: Terminplanung
   label_please_login: Anmelden
   label_plugins: Plugins
+  label_modules_and_plugins: Module und Plugins
   label_precedes: Vorgänger von
   label_preferences: Präferenzen
   label_preview: Vorschau
@@ -1542,6 +1585,7 @@ de:
   label_previous_week: Woche zurück
   label_principal_invite_via_email: " oder Nutzer per E-Mail einladen"
   label_principal_search: Vorhandene Benutzer / Gruppen hinzufügen
+  label_privacy_policy: Datenschutz- und Sicherheitsrichtlinien
   label_product_version: Produktversion
   label_professional_support: Professionelle Unterstützung
   label_profile: Profil
@@ -1572,8 +1616,8 @@ de:
   label_registration_automatic_activation: Automatische Kontoaktivierung
   label_registration_manual_activation: Manuelle Kontoaktivierung
   label_related_work_packages: Zugehörige Arbeitspakete
-  label_relates: Beziehung mit
-  label_relates_to: Beziehung mit
+  label_relates: Verwandt mit
+  label_relates_to: Verwandt mit
   label_relation_delete: Beziehung löschen
   label_relation_new: Neue Beziehung
   label_release_notes: Release Notes
@@ -1658,6 +1702,7 @@ de:
   label_updated_time: Vor %{value} aktualisiert
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Von %{author} vor %{age} aktualisiert
+  label_upgrade_guides: Upgrade-Anleitungen
   label_used_by: Benutzt von
   label_used_by_types: Verwendet von Typen
   label_used_in_projects: Verwendet in Projekten
@@ -1867,6 +1912,8 @@ de:
   notice_account_update_failed: Konto konnte nicht aktualisiert werden. Bitte besuchen
     Sie ihre Profilseite und überprüfen Sie die Einstellungen.
   notice_account_updated: Konto wurde erfolgreich aktualisiert.
+  notice_account_other_session_expired: Alle anderen Sitzungen, die mit Ihrem Konto
+    verbunden sind, wurden beendet.
   notice_account_wrong_password: Falsches Kennwort.
   notice_account_registered_and_logged_in: Willkommen, ihr Benutzerkonto wurde aktiviert.
     Sie sind nun angemeldet.
@@ -1925,7 +1972,6 @@ de:
     Bitte engen Sie die Suche ein, indem sie den Namen der Person (oder der Gruppe) eingeben.
   notice_unable_delete_time_entry: Der Zeiterfassungseintrag konnte nicht gelöscht
     werden.
-  notice_unable_delete_version: Die Version konnte nicht gelöscht werden.
   notice_user_missing_authentication_method: Benutzer muss noch ein Passwort oder
     eine andere Authentifizierungsmethode wählen.
   notice_user_invitation_resent: Eine Einladung wurde an %{email} gesendet.
@@ -2002,7 +2048,7 @@ de:
   permission_export_wiki_pages: Wiki-Seiten exportieren
   permission_list_attachments: Anhänge auflisten
   permission_log_time: Aufwände buchen
-  permission_manage_boards: Foren verwalten
+  permission_manage_forums: Foren verwalten
   permission_manage_categories: Arbeitspaket-Kategorien verwalten
   permission_manage_work_package_relations: Arbeitspaket-Beziehungen verwalten
   permission_manage_members: Mitglieder verwalten
@@ -2051,7 +2097,7 @@ de:
     archive:
       are_you_sure: Sind Sie sicher, dass Sie das Projekt '%{name}' archivieren wollen?
   project_module_activity: Aktivität
-  project_module_boards: Foren
+  project_module_forums: Foren
   project_module_calendar: Kalender
   project_module_work_package_tracking: Arbeitspakete
   project_module_news: Neuigkeiten
@@ -2284,16 +2330,12 @@ de:
     Anfragen
   setting_login_required: Authentifizierung erforderlich
   setting_mail_from: E-Mail-Absender
-  setting_mail_handler_api_enabled: Web-Service für eingehende E-Mails aktivieren
-  setting_mail_handler_api_description: Der E-Mail Web-Service erlaubt es OpenProject,
-    E-Mails mit speziellen Anweisungen zu erhalten und darauf zu reagieren (z.B. zum
-    Anlegen und Aktualisieren von Arbeitspaketen).
   setting_mail_handler_api_key: API-Schlüssel
   setting_mail_handler_body_delimiters: Schneide E-Mails nach einer dieser Zeilen
     ab
   setting_mail_handler_body_delimiter_regex: Schneide E-Mails nach Zeile ab, die diesem
     regulären Ausdruck entspricht
-  setting_mail_handler_ignore_filenames: Ignored mail attachments
+  setting_mail_handler_ignore_filenames: Ignorierte E-Mail-Anhänge
   setting_new_project_user_role_id: Rolle, die einem Nicht-Administrator zugeordnet
     wird, der ein Projekt erstellt
   setting_password_active_rules: Aktive Zeichenklassen
@@ -2554,7 +2596,6 @@ de:
       color: Farbe
       colors: Farben
     associations: Abhängigkeiten
-    board_could_not_be_saved: Forum konnte nicht gespeichert werden
     button_delete_all: Alle löschen
     change: Planungsänderung
     children: Kind-Elemente
@@ -2818,6 +2859,14 @@ de:
 '
   menu_item: Menüpunkt
   menu_item_setting: Sichtbarkeit
+  mysql_deprecation:
+    notice: 'Zukünftige Versionen von OpenProject werden voraussichtlich die Unterstützung
+      für MySQL- und MariaDB-Datenbanken einstellen oder einschränken. Ihre Installation
+      läuft noch auf MySQL und wir empfehlen Ihnen, Ihre Installation auf PostgreSQL
+      zu migrieren. Dieser Prozess ist einfach, wenn wir unseren Migrationsanleitungen
+      folgen:
+
+'
   wiki_menu_item_for: Menüpunkt für die Wikiseite "%{title}"
   wiki_menu_item_setting: Sichtbarkeit
   wiki_menu_item_new_main_item_explanation: 'Der einzige Wiki-Hauptmenüpunkt wird
@@ -2842,6 +2891,7 @@ de:
     attributes:
       lock_version: Version sperren
     errors:
+      code_400: 'Ungültige Anfrage: %{message}'
       code_401: Sie müssen sich authentifizieren, um auf die Ressource zugreifen zu
         können.
       code_401_wrong_credentials: Die von Ihnen benutzten Zugangsdaten sind nicht

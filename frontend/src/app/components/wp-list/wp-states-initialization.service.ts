@@ -56,7 +56,7 @@ export class WorkPackageStatesInitializationService {
     this.initializeFromQuery(query, results);
 
     // Update the (local) table states
-    this.updatequerySpace(query, results);
+    this.updateQuerySpace(query, results);
 
     // Ensure checksum for state is correct
     this.updateChecksum(query, results);
@@ -83,7 +83,7 @@ export class WorkPackageStatesInitializationService {
     this.states.queries.groupBy.putValue(schema.groupBy.allowedValues);
   }
 
-  public updatequerySpace(query:QueryResource, results:WorkPackageCollectionResource) {
+  public updateQuerySpace(query:QueryResource, results:WorkPackageCollectionResource) {
     // Clear table required data states
     this.querySpace.additionalRequiredWorkPackages.clear('Clearing additional WPs before updating rows');
 
@@ -96,7 +96,9 @@ export class WorkPackageStatesInitializationService {
 
     this.querySpace.rows.putValue(results.elements);
 
-    this.wpCacheService.updateWorkPackageList(results.elements);
+    this.authorisationService.initModelAuth('work_packages', results.$links);
+
+    results.elements.forEach(wp => this.wpCacheService.updateWorkPackage(wp, true));
 
     this.querySpace.results.putValue(results);
 

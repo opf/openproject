@@ -207,8 +207,7 @@ namespace :copyright do
   desc 'Update the copyright on .js source files'
   task :update_js, :arg1 do |_task, args|
     excluded = ['app/assets/javascripts/date-de-DE.js',
-                'app/assets/javascripts/date-en-US.js',
-                'app/assets/javascripts/jstoolbar/']
+                'app/assets/javascripts/date-en-US.js']
 
 
     rewrite_copyright('js', excluded, :js, args[:arg1])
@@ -216,8 +215,7 @@ namespace :copyright do
 
   desc 'Update the copyright on .js.erb source files'
   task :update_js_erb, :arg1 do |_task, args|
-    excluded = ['app/assets/javascripts/application.js.erb',
-                'app/assets/javascripts/jstoolbar']
+    excluded = ['app/assets/javascripts/application.js.erb']
 
     rewrite_copyright('js.erb', excluded, :erb, args[:arg1])
   end

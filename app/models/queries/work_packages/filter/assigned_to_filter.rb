@@ -30,7 +30,6 @@
 
 class Queries::WorkPackages::Filter::AssignedToFilter <
   Queries::WorkPackages::Filter::PrincipalBaseFilter
-
   def type
     :list_optional
   end

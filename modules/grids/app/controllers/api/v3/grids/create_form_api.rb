@@ -31,36 +31,11 @@ module API
     module Grids
       class CreateFormAPI < ::API::OpenProjectAPI
         resource :form do
-          helpers do
-            include API::V3::Utilities::FormHelper
-          end
-
-          post do
-            params = API::V3::ParseResourceParamsService
-                     .new(current_user, representer: GridPayloadRepresenter)
-                     .call(request_body)
-                     .result
-
-            grid = ::Grids::Factory.build(params.delete(:scope), current_user)
-
-            call = ::Grids::SetAttributesService
-                   .new(user: current_user,
-                        grid: grid,
-                        contract_class: ::Grids::CreateContract)
-                   .call(params)
-
-            api_errors = ::API::Errors::ErrorBase.create_errors(call.errors)
-
-            # errors for invalid data (e.g. validation errors) are handled inside the form
-            if only_validation_errors(api_errors)
-              status 200
-              CreateFormRepresenter.new(call.result,
-                                        errors: api_errors,
-                                        current_user: current_user)
-            else
-              fail ::API::Errors::MultipleErrors.create_if_many(api_errors)
-            end
-          end
+          post &::API::V3::Utilities::Endpoints::CreateForm.new(model: ::Grids::Grid,
+                                                                instance_generator: ->(params) {
+                                                                  ::Grids::Factory.build(params.delete(:scope), current_user)
+                                                                })
+                                                           .mount
         end
       end
     end

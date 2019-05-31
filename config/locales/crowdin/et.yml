@@ -57,9 +57,25 @@ et:
     index:
       no_results_content_title: There are currently no authentication modes.
       no_results_content_text: Create a new authentication mode
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: pole
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
+  forums:
     show:
-      no_results_title_text: There are currently no posts for the board.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: There are currently no colors.
@@ -139,9 +155,9 @@ et:
     settings:
       activities:
         no_results_title_text: There are currently no activities available.
-      boards:
-        no_results_title_text: There are currently no boards for the project.
-        no_results_content_text: Create a new board
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: There are currently no work package categories.
         no_results_content_text: Create a new work package category
@@ -211,7 +227,7 @@ et:
       reset: Reset to defaults
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts.
+        in Gantt charts. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: There are currently no work packages assigned to this
@@ -365,6 +381,11 @@ et:
         subscriber: Subscriber
         encoded_token: Enterprise support token
         active_user_count_restriction: Maximum active users
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Viivitus
         from: Teema
@@ -402,6 +423,7 @@ et:
         spent_on: Kuupäev
         type: Liik
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
@@ -463,11 +485,6 @@ et:
         client_credentials_user_id: Client Credentials User ID
         scopes: Scopes
         confidential: Confidential
-      grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
     errors:
       messages:
         accepted: must be accepted.
@@ -537,6 +554,10 @@ et:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -609,6 +630,7 @@ et:
           attributes:
             attribute_groups:
               attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: The group name '%{group}' is used more than once. Group
                 names must be unique.
               query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
@@ -623,10 +645,9 @@ et:
               numeric: arvuline (nt 1, 2, 3)
               special: erimärk (nt %, &)
               reused:
-                one: has been used before. Please choose one that is different from
-                  your last one.
-                other: has been used before. Please choose one that is different from
-                  your last %{count}.
+                one: Vali uus parool, mis erineb eelmisest paroolist.
+                other: Vali uus parool, mis erineb eelmiselt kasutatud %{count}-st
+                  paroolist.
               match:
                 confirm: Confirm new password.
                 description: "'Password confirmation' should match the input in the
@@ -637,20 +658,24 @@ et:
               error_not_found: not found
         member:
           principal_blank: Vali vähemalt üks kasutaja või grupp.
-          role_blank: Vali vähemalt üks roll.
-        grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          role_blank: need to be assigned.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Kontrolli järgnevad väljad:'
         header:
-          one: 1 error prohibited this %{model} from being saved
-          other: "%{count} errors prohibited this %{model} from being saved"
+          one: 1 viga ei võimaldanud selle %{model} salvestamist
+          other: "%{count} viga ei võimaldanud selle %{model} salvestamist"
     models:
       attachment: Fail
       attribute_help_text: Attribute help text
-      board: Foorum
+      forum: Foorum
       comment: Kommentaar
       custom_action: Custom action
       custom_field: Lisaväli
@@ -663,7 +688,7 @@ et:
       query: Kohandatud päring
       role:
         one: Roll
-        other: Roles
+        other: Rollid
       type: Liik
       user: Kasutaja
       version: Versioon
@@ -721,7 +746,7 @@ et:
     priority: Prioriteet
     project: Projekt
     responsible: Accountable
-    role: Role
+    role: Roll
     roles: Rollid
     start_date: Alguskuupäev
     status: Olek
@@ -748,7 +773,7 @@ et:
   button_check_all: Märgi kõik
   button_clear: Tühjenda
   button_click_to_reveal: Click to reveal
-  button_close: Close
+  button_close: Sulge
   button_collapse_all: Ahenda kõik
   button_configure: Seadista
   button_continue: Continue
@@ -974,7 +999,7 @@ et:
   default_type_feature: Täiendus
   default_type_milestone: Verstapost
   default_type_phase: Etapp
-  default_type_task: Task
+  default_type_task: Ülesanne
   default_type_user_story: User story
   description_active: Aktiivne?
   description_attachment_toggle: Kuva/peida manused
@@ -988,7 +1013,7 @@ et:
   description_choose_project: Projektid
   description_compare_from: Compare from
   description_compare_to: Compare to
-  description_current_position: 'Oled siin:'
+  description_current_position: 'You are here: '
   description_date_from: Sisestage alguskuupäev
   description_date_range_interval: Vali vahemik algus- ja lõpukuupäeva abil
   description_date_range_list: Vali vahemik nimekirjast
@@ -1035,15 +1060,17 @@ et:
   error_can_not_remove_role: See roll on kasutuses ja seda ei saa kustutada.
   error_can_not_reopen_work_package_on_closed_version: Suletud versiooni juurde kuulunud
     teemat ei saa taasavada
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Palun vali kasutaja ja roll.
+  error_code: Error %{code}
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.
   error_custom_option_not_found: Option does not exist.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1059,6 +1086,10 @@ et:
   error_work_package_not_found_in_project: Teemat ei leitud või see ei kuulu siia
     projekti
   error_must_be_project_member: peab olema projekti liige
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: Teema algolek on määramata. Palun vaata seadistused
     üle ("Seadistused -> Teemade olekud").
   error_no_type_in_project: Ühtegi tüüpi ei ole seotud selle projektiga. Palun kontrolli
@@ -1146,13 +1177,13 @@ et:
           you substantially contribute to this Open-Source community effort.
     links:
       upgrade_enterprise_edition: Upgrade to Enterprise Edition
+      postgres_migration: Migrating your installation to PostgreSQL
       user_guides: User guides
       faq: KKK
       glossary: Sõnastik
       shortcuts: Otseteed
-      forums: Foorumid
       blog: OpenProject blog
-      boards: Community forum
+      forums: Community forum
       newsletter: Security alerts / Newsletter
   links:
     configuration_guide: Configuration guide
@@ -1219,7 +1250,7 @@ et:
   label_authentication: Autentimine
   label_available_project_work_package_categories: Available work package categories
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Available boards
+  label_available_project_forums: Available forums
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories
   label_api_documentation: API documentation
@@ -1227,14 +1258,15 @@ et:
   label_blocked_by: blokeeritud
   label_blocks: blokeerib
   label_blog: Blogi
-  label_board_locked: Lukus
-  label_board_new: Uus foorum
-  label_board_plural: Foorumid
-  label_board_sticky: Külgejääv
+  label_forums_locked: Lukus
+  label_forum_new: Uus foorum
+  label_forum_plural: Foorumid
+  label_forum_sticky: Külgejääv
   label_boolean: Tõeväärtus
   label_branch: Haru
   label_browse: Sirvi
   label_bulk_edit_selected_work_packages: Muuda valitud teemasid korraga
+  label_bundled: "(Bundled)"
   label_calendar: Kalender
   label_calendar_show: Kuva kalender
   label_category: Kategooria
@@ -1286,7 +1318,7 @@ et:
   label_custom_field_new: Uus lisaväli
   label_custom_field_plural: Lisaväljad
   label_custom_field_default_type: Määramata tüüp
-  label_custom_style: Design
+  label_custom_style: Kavandamine
   label_date: Kuupäev
   label_date_and_time: Date and time
   label_date_from: Algus
@@ -1334,6 +1366,7 @@ et:
   label_equals: võrdub
   label_everywhere: everywhere
   label_example: Näide
+  label_import: Import
   label_export_to: 'Saadaval ka:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} tund"
@@ -1359,7 +1392,7 @@ et:
   label_generate_key: Genereeri võti
   label_git_path: Tee .git kataloog
   label_greater_or_equal: ">="
-  label_group_by: Group by
+  label_group_by: Grupeeri
   label_group_new: Uus rühm
   label_group: Grupp
   label_group_named: Group %{name}
@@ -1371,6 +1404,7 @@ et:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Avaleht
   label_subject_or_id: Subject or ID
+  label_impressum: Legal notice
   label_in: sisaldub hulgas
   label_in_less_than: on väiksem kui
   label_in_more_than: on suurem kui
@@ -1420,6 +1454,7 @@ et:
   label_max_size: Maksimaalne suurus
   label_me: mina
   label_member_new: Uus liige
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Liikmed
   label_view_all_members: Vaata kõiki liikmeid
   label_menu_item_name: Menüüvaliku nimi
@@ -1448,6 +1483,7 @@ et:
   label_my_queries: Mu omaloodud päringud
   label_never: Mitte kunagi
   label_new: Uus
+  label_new_features: New features
   label_new_statuses_allowed: Uued olekud lubatud
   label_news_added: Uudis lisatud
   label_news_comment_added: Kommentaar lisatud uudisele
@@ -1496,6 +1532,7 @@ et:
   label_planning: Planeerimine
   label_please_login: Palun logi sisse
   label_plugins: Pluginad
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: eelneb
   label_preferences: Eelistused
   label_preview: Eelvaade
@@ -1503,6 +1540,7 @@ et:
   label_previous_week: Eelmine nädal
   label_principal_invite_via_email: " or invite new users via email"
   label_principal_search: Add existing users or groups
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Product version
   label_professional_support: Professionaalne kasutajatugi
   label_profile: Profiil
@@ -1617,6 +1655,7 @@ et:
   label_updated_time: Uuendatud %{value} tagasi
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Uuendatud %{author} poolt %{age} tagasi
+  label_upgrade_guides: Upgrade guides
   label_used_by: Kasutab
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
@@ -1692,8 +1731,8 @@ et:
   label_workflow_plural: Töövood
   label_workflow_summary: Kokkuvõte
   label_x_closed_work_packages_abbr:
-    one: 1 closed
-    other: "%{count} closed"
+    one: 1 suletud
+    other: "%{count} suletud"
     zero: 0 closed
   label_x_comments:
     one: 1 kommentaar
@@ -1818,6 +1857,8 @@ et:
   notice_account_update_failed: Account setting could not be saved. Please have a
     look at your account page.
   notice_account_updated: Konto on õnnelikult uuendatud.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Vale parool
   notice_account_registered_and_logged_in: Tere, teie konto on aktiveeritud. Teid
     logitakse nüüd sisse.
@@ -1865,7 +1906,6 @@ et:
   notice_to_many_principals_to_display: Leiti liiga palju tulemusi. Palun otsi täpsemini
     sisestades uue kasutaja või grupi nime.
   notice_unable_delete_time_entry: Ajakulu sissekande kustutamine ei õnnestunud.
-  notice_unable_delete_version: Versiooni kustutamine ei õnnestunud.
   notice_user_missing_authentication_method: User has yet to choose a password or
     another way to sign in.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
@@ -1941,7 +1981,7 @@ et:
   permission_export_wiki_pages: Eksportida vikilehti
   permission_list_attachments: Kuvada manuseid
   permission_log_time: Logida ajakulu
-  permission_manage_boards: Hallata foorumeid
+  permission_manage_forums: Hallata foorumeid
   permission_manage_categories: Kategooriaid hallata
   permission_manage_work_package_relations: Teemade seoseid hallata
   permission_manage_members: Halda liikmeid
@@ -1989,7 +2029,7 @@ et:
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
   project_module_activity: Tegevus
-  project_module_boards: Foorumid
+  project_module_forums: Foorumid
   project_module_calendar: Kalender
   project_module_work_package_tracking: Teema jälgimine
   project_module_news: Uudised
@@ -2211,10 +2251,6 @@ et:
   setting_log_requesting_user: Logi iga taotluse kasutajanimi, nimi ja epost
   setting_login_required: Autentimine kohustuslik
   setting_mail_from: Saatja e-posti aadress
-  setting_mail_handler_api_enabled: Enable incoming email web service
-  setting_mail_handler_api_description: The email web handler enables OpenProject
-    to receive emails containing specific commands as an instrumentation mechanism
-    (e.g., to create and update work packages).
   setting_mail_handler_api_key: Veebiteenuse API võti
   setting_mail_handler_body_delimiters: Kärbi e-kirja lõpp peale sellist rida
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
@@ -2290,7 +2326,7 @@ et:
     plain: Plain text
   status_active: aktiivne
   status_archived: archived
-  status_invited: invited
+  status_invited: ktsutud
   status_locked: lukustatud
   status_registered: registreeritud
   support:
@@ -2470,7 +2506,6 @@ et:
       color: Värv
       colors: Värvid
     associations: Projekti sõltuvused
-    board_could_not_be_saved: "(?) ei saa salvestada"
     button_delete_all: Kustuta kõik
     change: Muudatus planeerimises
     children: Alamelemendid
@@ -2665,15 +2700,15 @@ et:
     assign_random_password: Assign random password (sent to user via email)
     blocked: ajutiselt blokeeritud
     blocked_num_failed_logins:
-      one: locked temporarily (one failed login attempt)
-      other: locked temporarily (%{count} failed login attempts)
+      one: ajutiselt blokeeritud (üks ebaõnnestunud sisselogimise katse)
+      other: ajutiselt blokeeritud (%{count} ebaõnnestunud sisselogimise katset)
     confirm_status_change: You are about to change the status of '%{name}'. Are you
       sure you want to continue?
     deleted: Kustutatud kasutaja
     error_status_change_failed: 'Kasutaja oleku muutmine nurjus järgmiste tõrgete
       tõttu: %{errors}'
     invite: Invite user via email
-    invited: invited
+    invited: ktsutud
     lock: Lukustada jäädavalt
     locked: lukustatud jäädavalt
     no_login: This user authenticates through login by password. Since it is disabled,
@@ -2719,6 +2754,13 @@ et:
 '
   menu_item: Menüüvalik
   menu_item_setting: Nähtavus
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'
   wiki_menu_item_for: Menüüvalik vikilehele "%{title}"
   wiki_menu_item_setting: Nähtavus
   wiki_menu_item_new_main_item_explanation: 'Sa oled kustutamas ainsat viki põhilehele
@@ -2742,6 +2784,7 @@ et:
     attributes:
       lock_version: Lock Version
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: You need to be authenticated to access this resource.
       code_401_wrong_credentials: You did not provide the correct credentials.
       code_403: You are not authorized to access this resource.

@@ -67,7 +67,7 @@ describe 'filter work packages', js: true do
       loading_indicator_saveguard
 
       wp_table.expect_work_package_listed work_package_with_watcher
-      wp_table.expect_work_package_not_listed work_package_without_watcher
+      wp_table.ensure_work_package_not_listed! work_package_without_watcher
     end
   end
 
@@ -90,7 +90,7 @@ describe 'filter work packages', js: true do
 
       loading_indicator_saveguard
       wp_table.expect_work_package_listed work_package_with_version
-      wp_table.expect_work_package_not_listed work_package_without_version
+      wp_table.ensure_work_package_not_listed! work_package_without_version
 
       wp_table.save_as('Some query name')
 
@@ -105,7 +105,7 @@ describe 'filter work packages', js: true do
 
       loading_indicator_saveguard
       wp_table.expect_work_package_listed work_package_with_version
-      wp_table.expect_work_package_not_listed work_package_without_version
+      wp_table.ensure_work_package_not_listed! work_package_without_version
 
       filters.open
 
@@ -115,7 +115,7 @@ describe 'filter work packages', js: true do
 
       loading_indicator_saveguard
       wp_table.expect_work_package_listed work_package_without_version
-      wp_table.expect_work_package_not_listed work_package_with_version
+      wp_table.ensure_work_package_not_listed! work_package_with_version
     end
   end
 
@@ -141,7 +141,7 @@ describe 'filter work packages', js: true do
 
       loading_indicator_saveguard
       wp_table.expect_work_package_listed work_package_with_due_date
-      wp_table.expect_work_package_not_listed work_package_without_due_date
+      wp_table.ensure_work_package_not_listed! work_package_without_due_date
 
       wp_table.save_as('Some query name')
 
@@ -156,7 +156,7 @@ describe 'filter work packages', js: true do
 
       loading_indicator_saveguard
       wp_table.expect_work_package_listed work_package_with_due_date
-      wp_table.expect_work_package_not_listed work_package_without_due_date
+      wp_table.ensure_work_package_not_listed! work_package_without_due_date
 
       filters.open
 
@@ -169,7 +169,7 @@ describe 'filter work packages', js: true do
 
       loading_indicator_saveguard
       wp_table.expect_work_package_listed work_package_without_due_date
-      wp_table.expect_work_package_not_listed work_package_with_due_date
+      wp_table.ensure_work_package_not_listed! work_package_with_due_date
     end
   end
 
@@ -214,10 +214,11 @@ describe 'filter work packages', js: true do
     end
 
     it 'allows filtering, saving and retrieving the saved filter' do
+
+      # Wait for form to load
+      filters.expect_loaded
+
       filters.open
-
-      expect(page).to have_selector('#add_filter_select option', text: list_cf.name, wait: 10)
-
       filters.add_filter_by(list_cf.name,
                             'is not',
                             list_cf.custom_options.last.value,
@@ -225,7 +226,7 @@ describe 'filter work packages', js: true do
 
       loading_indicator_saveguard
       wp_table.expect_work_package_listed work_package_with_list_value
-      wp_table.expect_work_package_not_listed work_package_with_anti_list_value
+      wp_table.ensure_work_package_not_listed! work_package_with_anti_list_value
 
       wp_table.save_as('Some query name')
 
@@ -240,7 +241,7 @@ describe 'filter work packages', js: true do
 
       loading_indicator_saveguard
       wp_table.expect_work_package_listed work_package_with_list_value
-      wp_table.expect_work_package_not_listed work_package_with_anti_list_value
+      wp_table.ensure_work_package_not_listed! work_package_with_anti_list_value
 
       filters.open
 
@@ -295,7 +296,7 @@ describe 'filter work packages', js: true do
 
         loading_indicator_saveguard
         wp_table.expect_work_package_listed wp_with_attachment_a, wp_with_attachment_b
-        wp_table.expect_work_package_not_listed wp_without_attachment
+        wp_table.ensure_work_package_not_listed! wp_without_attachment
 
         # content contains single hit with numbers
         filters.remove_filter 'attachmentContent'
@@ -307,7 +308,7 @@ describe 'filter work packages', js: true do
 
         loading_indicator_saveguard
         wp_table.expect_work_package_listed wp_with_attachment_a
-        wp_table.expect_work_package_not_listed wp_without_attachment, wp_with_attachment_b
+        wp_table.ensure_work_package_not_listed! wp_without_attachment, wp_with_attachment_b
 
         filters.remove_filter 'attachmentContent'
 
@@ -319,7 +320,7 @@ describe 'filter work packages', js: true do
 
         loading_indicator_saveguard
         wp_table.expect_work_package_listed wp_with_attachment_b
-        wp_table.expect_work_package_not_listed wp_without_attachment, wp_with_attachment_a
+        wp_table.ensure_work_package_not_listed! wp_without_attachment, wp_with_attachment_a
 
         filters.remove_filter 'attachmentContent'
 
@@ -331,7 +332,7 @@ describe 'filter work packages', js: true do
 
         loading_indicator_saveguard
         wp_table.expect_work_package_listed wp_with_attachment_a
-        wp_table.expect_work_package_not_listed wp_without_attachment, wp_with_attachment_b
+        wp_table.ensure_work_package_not_listed! wp_without_attachment, wp_with_attachment_b
 
         filters.remove_filter 'attachmentContent'
 
@@ -343,7 +344,7 @@ describe 'filter work packages', js: true do
 
         loading_indicator_saveguard
         wp_table.expect_work_package_listed wp_with_attachment_a
-        wp_table.expect_work_package_not_listed wp_without_attachment, wp_with_attachment_b
+        wp_table.ensure_work_package_not_listed! wp_without_attachment, wp_with_attachment_b
 
         filters.remove_filter 'attachmentFileName'
 
@@ -355,7 +356,7 @@ describe 'filter work packages', js: true do
 
         loading_indicator_saveguard
         wp_table.expect_work_package_listed wp_with_attachment_b
-        wp_table.expect_work_package_not_listed wp_with_attachment_a
+        wp_table.ensure_work_package_not_listed! wp_with_attachment_a
       end
     end
   end
@@ -394,7 +395,7 @@ describe 'filter work packages', js: true do
         loading_indicator_saveguard
 
         wp_table.expect_work_package_listed wp_updated_today
-        wp_table.expect_work_package_not_listed wp_updated_5d_ago
+        wp_table.ensure_work_package_not_listed! wp_updated_5d_ago
       end
     end
   end

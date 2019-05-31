@@ -10,11 +10,15 @@ module OpenProject
           message =
             if exception.is_a? Exception
               context[:exception] = exception
-              context[:backtrace] = clean_backtrace(exception)
               "#{exception}: #{exception.message}"
             else
               exception.to_s
             end
+
+          # Mark backtrace
+          if context[:exception]
+            context[:backtrace] = clean_backtrace(context[:exception])
+          end
 
           # Set current contexts
           context[:level] ||= context[:exception] ? :error : :info
@@ -22,9 +26,13 @@ module OpenProject
 
           registered_handlers.values.each do |handler|
             handler.call message, context
+          rescue StandardError => e
+            Rails.logger.error "Failed to delegate log to #{handler.inspect}: #{e.inspect}"
           end
 
           nil
+        rescue StandardError => e
+          Rails.logger.error "Failed to process log message #{exception.inspect}: #{e.inspect}"
         end
 
         %i(debug info warn error fatal unknown).each do |level|

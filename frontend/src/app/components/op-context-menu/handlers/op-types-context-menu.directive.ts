@@ -29,13 +29,14 @@
 import {OpContextMenuItem} from 'core-components/op-context-menu/op-context-menu.types';
 import {StateService} from '@uirouter/core';
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
-import {Directive, ElementRef, Input} from "@angular/core";
+import {Directive, ElementRef, Input, Inject} from "@angular/core";
 import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
 import {OpContextMenuTrigger} from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
 import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
-import {TypeDmService} from "core-app/modules/hal/dm-services/type-dm.service";
 import {Highlighting} from 'core-app/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
+import {WorkPackageCreateService} from 'core-components/wp-new/wp-create.service';
+import {IWorkPackageCreateServiceToken} from 'core-components/wp-new/wp-create.service.interface';
 
 @Directive({
   selector: '[opTypesCreateDropdown]'
@@ -51,7 +52,7 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
               readonly opContextMenu:OPContextMenuService,
               readonly browserDetector:BrowserDetector,
               readonly $state:StateService,
-              readonly typeDmService:TypeDmService) {
+              @Inject(IWorkPackageCreateServiceToken) protected wpCreate:WorkPackageCreateService) {
     super(elementRef, opContextMenu);
   }
 
@@ -67,9 +68,12 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
       this.stateName = 'work-packages.new';
     }
 
-    this.loadingPromise = this.typeDmService
-      .loadAll(this.projectIdentifier)
-      .then(types => this.buildItems(types));
+    this.loadingPromise = this
+      .wpCreate
+      .getEmptyForm(this.projectIdentifier)
+      .then(form => {
+        return this.buildItems(form.schema.type.allowedValues);
+      })
   }
 
   protected open(evt:JQueryEventObject) {
@@ -90,9 +94,9 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
       return {
         disabled: false,
         linkText: type.name,
-        href: this.$state.href(this.stateName, { type: type.id }),
+        href: this.$state.href(this.stateName, { type: type.id! }),
         ariaLabel: type.name,
-        class: Highlighting.dotClass('type', type.id),
+        class: Highlighting.inlineClass('type', type.id!),
         onClick: ($event:JQueryEventObject) => {
           if (LinkHandling.isClickedWithModifier($event)) {
             return false;

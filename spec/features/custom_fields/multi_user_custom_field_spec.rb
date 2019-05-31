@@ -17,7 +17,7 @@ describe "multi select custom values", js: true do
 
   let(:cf_edit_field) do
     field = wp_page.edit_field "customField#{custom_field.id}"
-    field.field_type = 'ng-select'
+    field.field_type = 'create-autocompleter'
     field
   end
 
@@ -74,7 +74,7 @@ describe "multi select custom values", js: true do
       expect(page).to have_text "Billy Nobbler"
       expect(page).to have_text "Anton Lupin"
 
-      page.find("div.custom-option", text: "Billy Nobbler").click
+      page.find(".wp-table--cell-span", text: "Billy Nobbler").click
 
       cf_edit_field.unset_value "Anton Lupin", true
       cf_edit_field.set_value "Cooper Quatermaine"

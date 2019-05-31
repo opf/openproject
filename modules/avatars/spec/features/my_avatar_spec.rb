@@ -23,7 +23,7 @@ describe 'My avatar management', type: :feature, js: true do
 
     it 'renders 404 when visiting and does not render the menu item' do
       visit edit_my_avatar_path
-      expect(page).to have_selector('h2', text: '404')
+      expect(page).to have_text '[Error 404]'
 
       visit my_account_path
       expect(page).to have_no_selector '.avatar-menu-item'

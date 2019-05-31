@@ -241,41 +241,6 @@ describe Version, type: :model do
     end
   end
 
-  it "should update all issue's fixed_version associations in case the hierarchy changed XXX" do
-    User.current = User.find(1) # Need the admin's permissions
-
-    @version = Version.find(7)
-    # Separate hierarchy
-    project_1_issue = WorkPackage.find(1)
-    project_1_issue.fixed_version = @version
-    assert project_1_issue.save, project_1_issue.errors.full_messages.to_s
-
-    project_5_issue = WorkPackage.find(6)
-    project_5_issue.fixed_version = @version
-    assert project_5_issue.save
-
-    # Project
-    project_2_issue = WorkPackage.find(4)
-    project_2_issue.fixed_version = @version
-    assert project_2_issue.save
-
-    # Update the sharing
-    @version.sharing = 'none'
-    assert @version.save
-
-    # Project 1 now out of the shared scope
-    project_1_issue.reload
-    assert_nil project_1_issue.fixed_version, "Fixed version is still set after changing the Version's sharing"
-
-    # Project 5 now out of the shared scope
-    project_5_issue.reload
-    assert_nil project_5_issue.fixed_version, "Fixed version is still set after changing the Version's sharing"
-
-    # Project 2 issue remains
-    project_2_issue.reload
-    assert_equal @version, project_2_issue.fixed_version
-  end
-
   private
 
   def add_work_package(version, attributes = {})

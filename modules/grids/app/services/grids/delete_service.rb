@@ -28,33 +28,4 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Grids::DeleteService
-  include ::Shared::ServiceContext
-  include ::Concerns::Contracted
-
-  attr_accessor :user,
-                :grid,
-                :contract_class
-
-  def initialize(user:, grid:, contract_class: Grids::DeleteContract)
-    self.user = user
-    self.grid = grid
-    self.contract_class = contract_class
-  end
-
-  def call
-    in_context(false) do
-      delete_grid
-    end
-  end
-
-  protected
-
-  def delete_grid
-    result, errors = validate_and_yield(grid, user) do
-      grid.destroy
-    end
-
-    ServiceResult.new(success: result, errors: errors)
-  end
-end
+class Grids::DeleteService < ::BaseServices::Delete; end

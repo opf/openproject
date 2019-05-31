@@ -36,15 +36,48 @@ module API
     module Versions
       class VersionRepresenter < ::API::Decorators::Single
         include API::Decorators::LinkedResource
+        include API::Decorators::DateProperty
+        include API::Decorators::FormattableProperty
         include ::API::Caching::CachedRepresenter
+        extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
 
         cached_representer key_parts: %i(project)
 
         self_link
 
+        link :schema do
+          {
+            href: api_v3_paths.version_schema
+          }
+        end
+
+        link :update,
+             cache_if: -> { current_user_allowed_to(:manage_versions, context: represented.project) } do
+          {
+            href: api_v3_paths.version_form(represented.id),
+            method: :post
+          }
+        end
+
+        link :updateImmediately,
+             cache_if: -> { current_user_allowed_to(:manage_versions, context: represented.project) } do
+          {
+            href: api_v3_paths.version(represented.id),
+            method: :patch
+          }
+        end
+
+        link :delete,
+             cache_if: -> { current_user_allowed_to(:manage_versions, context: represented.project) } do
+          {
+            href: api_v3_paths.version(represented.id),
+            method: :delete
+          }
+        end
+
         associated_resource :project,
                             as: :definingProject,
-                            skip_render: ->(*) { !represented.project.visible?(current_user) }
+                            skip_render: ->(*) { !represented.project || !represented.project.visible?(current_user) }
 
         link :availableInProjects do
           {
@@ -52,40 +85,30 @@ module API
           }
         end
 
-        property :id, render_nil: true
-        property :name, render_nil: true
-
-        property :description,
-                 exec_context: :decorator,
-                 getter: ->(*) {
-                   ::API::Decorators::Formattable.new(represented.description,
-                                                      object: represented,
-                                                      plain: true)
-                 },
+        property :id,
                  render_nil: true
 
-        property :start_date,
-                 exec_context: :decorator,
-                 getter: ->(*) {
-                   datetime_formatter.format_date(represented.start_date, allow_nil: true)
-                 },
+        property :name,
                  render_nil: true
-        property :due_date,
-                 as: 'endDate',
-                 exec_context: :decorator,
-                 getter: ->(*) {
-                   datetime_formatter.format_date(represented.due_date, allow_nil: true)
-                 },
-                 render_nil: true
-        property :status, render_nil: true
-        property :created_on,
-                 as: 'createdAt',
-                 exec_context: :decorator,
-                 getter: ->(*) { datetime_formatter.format_datetime(represented.created_on) }
-        property :updated_on,
-                 as: 'updatedAt',
-                 exec_context: :decorator,
-                 getter: ->(*) { datetime_formatter.format_datetime(represented.updated_on) }
+
+        formattable_property :description,
+                             plain: true
+
+        date_property :start_date
+
+        date_property :effective_date,
+                      as: 'endDate',
+                      writeable: true
+
+        property :status
+
+        property :sharing
+
+        date_time_property :created_on,
+                           as: 'createdAt'
+
+        date_time_property :updated_on,
+                           as: 'updatedAt'
 
         def _type
           'Version'

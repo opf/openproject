@@ -41,7 +41,7 @@ describe Grids::CreateService, type: :model do
     end
   end
   let(:contract_class) do
-    double('contract_class')
+    double('contract_class', '<=': true)
   end
   let(:grid_valid) { true }
   let(:instance) do
@@ -50,7 +50,9 @@ describe Grids::CreateService, type: :model do
   end
   let(:scope) { "some/scope/url" }
   let(:call_attributes) { { scope: scope } }
-  let(:grid_class) { Grids::MyPage }
+  let(:grid_class) do
+    Grids::Grid
+  end
   let(:set_attributes_success) do
     true
   end
@@ -82,7 +84,7 @@ describe Grids::CreateService, type: :model do
     allow(Grids::SetAttributesService)
       .to receive(:new)
       .with(user: user,
-            grid: grid,
+            model: grid,
             contract_class: contract_class)
       .and_return(service)
 
@@ -98,7 +100,7 @@ describe Grids::CreateService, type: :model do
   end
 
   describe 'call' do
-    subject { instance.call(attributes: call_attributes) }
+    subject { instance.call(call_attributes) }
 
     it 'is successful' do
       expect(subject.success?).to be_truthy

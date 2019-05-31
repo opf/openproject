@@ -32,15 +32,11 @@ module API
       module Operators
         class QueryOperatorsAPI < ::API::OpenProjectAPI
           resource :operators do
-            params do
-              requires :id, desc: 'Operator id'
-            end
-
-            before do
+            after_validation do
               authorize(:view_work_packages, global: true, user: current_user)
             end
 
-            route_param :id do
+            route_param :id, type: String, regexp: /\A\w+\z/, desc: 'Operator ID' do
               get do
                 operator = ::Queries::Operators::OPERATORS[params[:id]]
 

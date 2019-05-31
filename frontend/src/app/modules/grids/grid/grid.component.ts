@@ -74,6 +74,10 @@ export class GridComponent implements OnDestroy, OnInit {
     }
   }
 
+  public widgetComponentOutput(resource:GridWidgetResource) {
+    return { resourceChanged: this.layout.saveGrid.bind(this.layout) };
+  }
+
   public get gridColumnStyle() {
     return this.sanitization.bypassSecurityTrustStyle(`repeat(${this.layout.numColumns}, 1fr)`);
   }

@@ -59,6 +59,10 @@ import {WorkPackageTableTimelineState} from "core-components/wp-fast-table/wp-ta
 import {WorkPackageTimelineCell} from "core-components/wp-table/timeline/cells/wp-timeline-cell";
 import {selectorTimelineSide} from "core-components/wp-table/wp-table-scroll-sync";
 import {debugLog, timeOutput} from "core-app/helpers/debug_output";
+import {
+  WorkPackageTableRefreshRequest,
+  WorkPackageTableRefreshService
+} from "core-components/wp-table/wp-table-refresh-request.service";
 
 @Component({
   selector: 'wp-timeline-container',
@@ -103,6 +107,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
               private wpTableTimeline:WorkPackageTableTimelineService,
               private wpNotificationsService:WorkPackageNotificationService,
               private wpRelations:WorkPackageRelationsService,
+              private wpTableRefresh:WorkPackageTableRefreshService,
               private wpTableHierarchies:WorkPackageTableHierarchiesService,
               readonly I18n:I18nService) {
   }
@@ -123,9 +128,6 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
 
     // Refresh on changes to work packages
     this.updateOnWorkPackageChanges();
-
-    // Set initial auto zoom level, if applicable
-    this.applyAutoZoomLevel();
 
     // Refresh timeline rendering callback
     this.setupRefreshListener();
@@ -152,8 +154,6 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
         takeUntil(componentDestroyed(this))
       )
       .subscribe((timelineState:WorkPackageTableTimelineState) => {
-        this.viewParameters.settings.autoZoom = timelineState.autoZoom;
-        this.viewParameters.settings.zoomLevel = timelineState.zoomLevel;
         this.refreshRequest.putValue(undefined);
       });
   }
@@ -217,8 +217,13 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       return;
     }
 
-    // Update autozoom level
-    this.applyAutoZoomLevel();
+    if (this.wpTableTimeline.isAutoZoom()) {
+      // Update autozoom level
+      this.applyAutoZoomLevel();
+    } else {
+      this._viewParameters.settings.zoomLevel = this.wpTableTimeline.zoomLevel;
+      this.wpTableTimeline.appliedZoomLevel = this.wpTableTimeline.zoomLevel;
+    }
 
     // Require dynamic CSS to be visible
     this.dynamicCssService.requireHighlighting();
@@ -265,17 +270,19 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
   }
 
   startAddRelationPredecessor(start:WorkPackageResource) {
-    this.activateSelectionMode(start.id, end => {
+    this.activateSelectionMode(start.id!, end => {
       this.wpRelations
-        .addCommonRelation(start.id, 'follows', end.id)
+        .addCommonRelation(start.id!, 'follows', end.id!)
+        .then(() => this.wpTableRefresh.request('Timeline relation'))
         .catch((error:any) => this.wpNotificationsService.handleRawError(error, end));
     });
   }
 
   startAddRelationFollower(start:WorkPackageResource) {
-    this.activateSelectionMode(start.id, end => {
+    this.activateSelectionMode(start.id!, end => {
       this.wpRelations
-        .addCommonRelation(start.id, 'precedes', end.id)
+        .addCommonRelation(start.id!, 'precedes', end.id!)
+        .then(() => this.wpTableRefresh.request('Timeline relation'))
         .catch((error:any) => this.wpNotificationsService.handleRawError(error, end));
     });
   }
@@ -423,10 +430,6 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
   }
 
   private applyAutoZoomLevel() {
-    if (this.workPackageTable.configuration.isEmbedded || !this.viewParameters.settings.autoZoom) {
-      return;
-    }
-
     if (this.workPackageIdOrder.length === 0) {
       return;
     }
@@ -444,12 +447,13 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
 
         // did the zoom level changed?
         if (previousZoomLevel !== zoomLevel) {
-          this.wpTableTimeline.setZoomLevel(zoomLevel);
+          this._viewParameters.settings.zoomLevel = zoomLevel;
           this.wpTableDirective.timeline.scrollLeft = 0;
         }
+
+        this.wpTableTimeline.appliedZoomLevel = zoomLevel;
         return;
       }
     }
   }
-
 }

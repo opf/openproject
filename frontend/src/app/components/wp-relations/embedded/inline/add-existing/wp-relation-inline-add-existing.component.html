@@ -2,12 +2,11 @@
      data-indicator-name="relationAddChild">
   <div class="v-align wp-relations-create--form wp-relations--add-form">
     <div class="grid-content medium-10">
-      <wp-relations-autocomplete-upgraded
+      <wp-relations-autocomplete
           [workPackage]="workPackage"
-          appendToContainer=".work-packages--details-content"
-          (onWorkPackageIdSelected)="updateSelectedId($event)"
+          (onReferenced)="onReferenced($event)"
           [filterCandidatesFor]="relationType">
-      </wp-relations-autocomplete-upgraded>
+      </wp-relations-autocomplete>
     </div>
     <div class="grid-content medium-2 collapse wp-relations-controls-section relation-row">
       <accessible-by-keyboard

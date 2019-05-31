@@ -116,11 +116,11 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
       note = { journal_notes: 'a comment' }
 
       allow(WorkPackages::UpdateContract).to receive(:new).and_return(NoopContract.new)
-      service = WorkPackages::UpdateService.new(user: author, work_package: work_package)
+      service = WorkPackages::UpdateService.new(user: author, model: work_package)
 
-      expect(service.call(attributes: note)).to be_success
-      expect(service.call(attributes: change)).to be_success
-      expect(service.call(attributes: note)).to be_success
+      expect(service.call(note)).to be_success
+      expect(service.call(change)).to be_success
+      expect(service.call(note)).to be_success
     end
 
     let(:timeout) { Setting.journal_aggregation_time_minutes.to_i.minutes }

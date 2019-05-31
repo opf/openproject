@@ -1,5 +1,5 @@
 <div *ngIf="editable"
-     (focusout)="resetWhenFocusOutside($event)"
+     (focusout)="saveWhenFocusOutside($event)"
      class="editable-toolbar-title--container">
   <a *ngIf="showSave"
      role="link"
@@ -14,7 +14,7 @@
          aria-required="true"
          [attr.name]="selectableTitleIdentifier"
          [focus]="this.initialFocus || undefined"
-         (focus)="selectInput($event)"
+         (focus)="onFocus($event)"
          (keydown.escape)="reset($event)"
          (keydown.enter)="save($event)"
          [attr.placeholder]="text.input_placeholder"
@@ -26,6 +26,6 @@
 </div>
 <h2 *ngIf="!editable"
     [attr.title]="selectedTitle"
-    [ngClass]="{ '-disabled': disabled }"
+    [ngClass]="{ '-disabled': disabled, '-small': smallHeader }"
     class="editable-toolbar-title--fixed"> {{ selectedTitle | slice:0:50 }}
 </h2>

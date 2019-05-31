@@ -165,18 +165,18 @@ describe ActivitiesController, type: :controller do
         end
       end
 
-      context 'boards' do
-        let(:board) {
-          FactoryBot.create(:board,
+      context 'forums' do
+        let(:forum) {
+          FactoryBot.create(:forum,
                              project: project)
         }
         let!(:message_1) {
           FactoryBot.create(:message,
-                             board: board)
+                             forum: forum)
         }
         let!(:message_2) {
           FactoryBot.create(:message,
-                             board: board)
+                             forum: forum)
         }
         let(:params) {
           { project_id: project.id,

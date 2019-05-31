@@ -19,9 +19,9 @@
                       id: 'update-ldap-group-settings-form') do %>
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= t(:label_settings) %></legend>
-      <div class="form--field">
+      <div class="form--field -required">
         <label class="form--label" for='group_key'><%= t('ldap_groups.settings.group_key') %></label>
-        <div class="form--field-container ">
+        <div class="form--field-container">
           <%= styled_text_field_tag 'group_key',
                                     ::OpenProject::LdapGroups.group_key,
                                     container_class: '-middle',

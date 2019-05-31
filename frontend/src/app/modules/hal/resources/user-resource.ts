@@ -32,7 +32,6 @@ import {InputState} from 'reactivestates';
 export class UserResource extends HalResource {
 
   // Properties
-  public id:number|string;
   public login:string;
   public firstName:string;
   public lastName:string;

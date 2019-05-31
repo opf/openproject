@@ -73,25 +73,17 @@ export class CostsByTypeDisplayField extends DisplayField {
     }
 
     public render(element:HTMLElement, displayText:string):void {
-        const showCosts = this.resource.showCosts;
-        if (this.isEmpty() || !showCosts) {
+        if (this.isEmpty()) {
             element.textContent = this.placeholder;
             return;
         }
 
         this.value.elements.forEach((val:ICostsByType, i:number) => {
-            const link = document.createElement('a');
-            link.href = showCosts.href + '?cost_type_id=' + val.costObjectId;
-            link.setAttribute('target', '_blank');
-            link.textContent = val.spentUnits + ' ' + val.costType.name;
-            element.appendChild(link);
-
-            if (i < this.value.elements.length - 1) {
-                const sep = document.createElement('span');
-                sep.textContent = ', ';
-
-                element.appendChild(sep);
-            }
+          if (this.resource.showCosts) {
+            this.renderCostAsLink(val, element, i);
+          } else {
+            this.renderCostAsText(val, element, i);
+          }
         });
     }
 
@@ -100,6 +92,44 @@ export class CostsByTypeDisplayField extends DisplayField {
             !this.value.elements ||
             this.value.elements.length === 0;
     }
+
+
+  /**
+   * Render link to reporting
+   */
+  private renderCostAsLink(val:ICostsByType, element:HTMLElement, i:number) {
+    const showCosts = this.resource.showCosts;
+    const link = document.createElement('a') as HTMLAnchorElement;
+
+    link.href = showCosts.href + '?cost_type_id=' + val.costObjectId;
+    link.setAttribute('target', '_blank');
+    link.textContent = val.spentUnits + ' ' + val.costType.name;
+    element.appendChild(link);
+
+    if (i < this.value.elements.length - 1) {
+      const sep = document.createElement('span');
+      sep.textContent = ', ';
+
+      element.appendChild(sep);
+    }
+
+  }
+
+  /**
+   * Render text
+   */
+  private renderCostAsText(val:ICostsByType, element:HTMLElement, i:number) {
+    const span = document.createElement('span');
+    span.textContent = val.spentUnits + ' ' + val.costType.name;
+
+    if (i < this.value.elements.length - 1) {
+      const sep = document.createElement('span');
+      sep.textContent = ', ';
+
+      element.appendChild(sep);
+    }
+
+  }
 }
 
 

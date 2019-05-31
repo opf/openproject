@@ -45,9 +45,25 @@ zh-TW:
     index:
       no_results_content_title: 目前沒有身份驗證模式
       no_results_content_text: 建立新身分驗證模式
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: 無
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
+  forums:
     show:
-      no_results_title_text: 目前沒有任何貼文在板上
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: 目前沒有顏色
@@ -120,9 +136,9 @@ zh-TW:
     settings:
       activities:
         no_results_title_text: 目前沒有可用的活動
-      boards:
-        no_results_title_text: 目前這個專案沒有佈告欄
-        no_results_content_text: 建立一個新佈告欄
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: 目前沒有工作套件類別
         no_results_content_text: 建立一個新工作套件類別
@@ -188,9 +204,9 @@ zh-TW:
       edit_query: 編輯表格
       query_group_placeholder: 給表格命名
       reset: 重設為預設值
-      type_color_text: '點擊來指定或變更工作項目類型的顏色。被選取的顏色將在甘特圖中用來區別工作項目。
-
-'
+      type_color_text: |
+        Click to assign or change the color of this type. The selected color distinguishes work packages
+        in Gantt charts. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: 目前沒有工作包分配給此版本。
@@ -319,6 +335,11 @@ zh-TW:
         subscriber: 訂閱者
         encoded_token: Enterprise support token
         active_user_count_restriction: 最大活動使用者數
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: 延時
         from: 工作項目
@@ -355,6 +376,7 @@ zh-TW:
         spent_on: 日期
         type: 類型
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: 在 RoadMap 預設為顯示
         is_default: 新專案的預設啟動類型
@@ -415,11 +437,6 @@ zh-TW:
         client_credentials_user_id: 用戶端憑證使用者 id
         scopes: 範圍
         confidential: 機密的
-      grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
     errors:
       messages:
         accepted: 必須被接受
@@ -485,6 +502,10 @@ zh-TW:
               not_match_configured: 與可用的範圍不吻合。
         enterprise_token:
           unreadable: 無法讀取，確定是一個 support token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -549,6 +570,7 @@ zh-TW:
           attributes:
             attribute_groups:
               attribute_unknown: 使用了無效的工作包屬性。
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: 群組名稱 %{group} 已被使用，群組名稱不可重複。
               query_invalid: '這個遷入的查詢 ''%{group}'' 是無效的: %{details}'
               group_without_name: 不允許未命名的群組。
@@ -573,11 +595,15 @@ zh-TW:
               error_not_found: 未找到
         member:
           principal_blank: 請至少選擇一個使用者或群組。
-          role_blank: 請至少選擇一個角色。
-        grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          role_blank: need to be assigned.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 請檢查下列欄位：
         header:
@@ -586,7 +612,7 @@ zh-TW:
     models:
       attachment: 檔案
       attribute_help_text: 屬性說明文字
-      board: 討論區
+      forum: 討論區
       comment: 評論
       custom_action: 自訂動作
       custom_field: 自訂欄位
@@ -916,7 +942,7 @@ zh-TW:
   description_choose_project: 專案
   description_compare_from: 比較：
   description_compare_to: 比較：
-  description_current_position: 您在這裏：
+  description_current_position: 'You are here: '
   description_date_from: 輸入開始日期
   description_date_range_interval: 以開始和結束日期來選擇範圍
   description_date_range_list: 從清單中選擇範圍
@@ -961,12 +987,15 @@ zh-TW:
   error_can_not_invite_user: 無法向用戶發送邀請。
   error_can_not_remove_role: 這個角色正在使用中，無法刪除。
   error_can_not_reopen_work_package_on_closed_version: 被指定到已關閉版本的工作項目將無法重新開啟
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: 請選擇一個使用者與一個角色。
+  error_code: Error %{code}
   error_cookie_missing: OpenProject的Cookie遺失了。請確保瀏覽器的Cookie已經啟用，否則本應用程式將無法正常做用。
   error_custom_option_not_found: 選項不存在。
-  error_dependent_work_package: '相關工作包中的錯誤%{related_id} %{related_subject}: %{error}'
   error_enterprise_activation_user_limit: 無法啟動您的帳戶 (已達到使用者限制)。請與管理員聯繫以獲取存取權限。
   error_failed_to_delete_entry: 刪除此項目失敗。
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: 不合法的項目數值。
   error_invalid_group_by: 無法按照 %{value} 分組
   error_invalid_query_column: 無效的查詢欄：%{value}
@@ -978,6 +1007,10 @@ zh-TW:
   error_work_package_done_ratios_not_updated: 工作項目完成比例未更新
   error_work_package_not_found_in_project: 工作項目找不到或是不屬於這個專案
   error_must_be_project_member: 必須是專案的成員
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: 沒有定義預設的工作項目狀態。請檢查您的設定 (前往 "管理 -> 工作項目狀態")。
   error_no_type_in_project: 這個專案沒有關聯的類型，請檢查專案設定。
   error_omniauth_registration_timed_out: 外部身份驗證註冊逾時，請再試一次。
@@ -1054,13 +1087,13 @@ zh-TW:
         you_contribute: 開發人員也需要生活費。使用企業版，您可以為此 Open-Source 社區工作提供大力的財力支持。
     links:
       upgrade_enterprise_edition: 升級到企業版
+      postgres_migration: Migrating your installation to PostgreSQL
       user_guides: 使用手冊
       faq: 問答集
       glossary: '術語表 '
       shortcuts: 快捷鍵
-      forums: 論壇
       blog: Openproject 部落格
-      boards: 社群論壇
+      forums: 社群論壇
       newsletter: 安全警報 / 消息
   links:
     configuration_guide: 設定指南
@@ -1122,7 +1155,7 @@ zh-TW:
   label_authentication: 身份驗證
   label_available_project_work_package_categories: 可用的工作項目類別
   label_available_project_work_package_types: 可用的工作包類型
-  label_available_project_boards: 可用的佈告欄
+  label_available_project_forums: Available forums
   label_available_project_versions: 可用的版本
   label_available_project_repositories: 可用的版本庫
   label_api_documentation: API文件
@@ -1130,14 +1163,15 @@ zh-TW:
   label_blocked_by: 標示禁止者
   label_blocks: 區塊
   label_blog: 日誌
-  label_board_locked: 鎖定
-  label_board_new: 新增論壇
-  label_board_plural: 論壇
-  label_board_sticky: 附著
+  label_forums_locked: 鎖定
+  label_forum_new: 新增論壇
+  label_forum_plural: 論壇
+  label_forum_sticky: 附著
   label_boolean: 布林值
   label_branch: 分支
   label_browse: 瀏覽
   label_bulk_edit_selected_work_packages: 整批編輯選取的工作項目
+  label_bundled: "(Bundled)"
   label_calendar: 行事曆
   label_calendar_show: 顯示行事曆
   label_category: 類別
@@ -1236,6 +1270,7 @@ zh-TW:
   label_equals: 是
   label_everywhere: 全部
   label_example: 範例
+  label_import: Import
   label_export_to: 也可匯出成
   label_expanded_click_to_collapse: 已擴大。按一下可折疊
   label_f_hour: "%{value} 小時"
@@ -1272,6 +1307,7 @@ zh-TW:
   label_hierarchy_leaf: 頁面結構頁
   label_home: Home
   label_subject_or_id: 主旨或 id
+  label_impressum: Legal notice
   label_in: 在
   label_in_less_than: 少於
   label_in_more_than: 多於
@@ -1321,6 +1357,7 @@ zh-TW:
   label_max_size: 最大容量
   label_me: 我
   label_member_new: 新成員
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: 成員
   label_view_all_members: 查看所有的成員
   label_menu_item_name: 選單項目名稱
@@ -1349,6 +1386,7 @@ zh-TW:
   label_my_queries: 我的自訂查詢
   label_never: 永不
   label_new: 新增
+  label_new_features: New features
   label_new_statuses_allowed: 允許的新狀態
   label_news_added: 消息已新增
   label_news_comment_added: 評論已新增
@@ -1397,6 +1435,7 @@ zh-TW:
   label_planning: 計劃中
   label_please_login: 請登入
   label_plugins: 擴充套件
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: 之前
   label_preferences: 喜好設定
   label_preview: 預覽
@@ -1404,6 +1443,7 @@ zh-TW:
   label_previous_week: 前一週
   label_principal_invite_via_email: 或者透過郵件邀請新的使用者
   label_principal_search: 增加現有使用者或群組
+  label_privacy_policy: Data privacy and security policy
   label_product_version: 產品版本
   label_professional_support: 專業支援
   label_profile: Profile
@@ -1518,6 +1558,7 @@ zh-TW:
   label_updated_time: "%{value}前更新"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: 由%{author}於%{age}前更新
+  label_upgrade_guides: Upgrade guides
   label_used_by: 使用者
   label_used_by_types: 被類別使用中
   label_used_in_projects: 被專案使用中
@@ -1703,6 +1744,8 @@ zh-TW:
   notice_account_unknown_email: 未知的使用者
   notice_account_update_failed: 無法儲存帳戶設置。請檢查您的帳戶頁面。
   notice_account_updated: 帳號更新成功。
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: 密碼錯誤
   notice_account_registered_and_logged_in: 歡迎，您的帳號已被啟用。您現在已經登入了。
   notice_activation_failed: 這個帳號無法被啟用
@@ -1744,7 +1787,6 @@ zh-TW:
     搜尋的結果太多。
     請透過輸入新成員 (群組) 的名稱來縮小搜尋的範圍。
   notice_unable_delete_time_entry: 無法刪除時間日誌項目
-  notice_unable_delete_version: 無法刪除版本
   notice_user_missing_authentication_method: 用戶尚未選擇密碼或其他方式登錄。
   notice_user_invitation_resent: 已向 %{email} 發送邀請。
   present_access_key_value: 您的 %{key_name} 是 %{value}
@@ -1815,7 +1857,7 @@ zh-TW:
   permission_export_wiki_pages: 匯出維基頁面
   permission_list_attachments: 列出附件
   permission_log_time: 記錄耗時
-  permission_manage_boards: 管理論壇
+  permission_manage_forums: 管理論壇
   permission_manage_categories: 管理工作項目類別
   permission_manage_work_package_relations: 管理工作項目關聯
   permission_manage_members: 管理成員
@@ -1861,7 +1903,7 @@ zh-TW:
     archive:
       are_you_sure: 是否確定要 archive 專案 '%{name}'？
   project_module_activity: 活動
-  project_module_boards: 論壇
+  project_module_forums: 論壇
   project_module_calendar: 行事曆
   project_module_work_package_tracking: 工作項目追蹤
   project_module_news: 新知
@@ -2051,8 +2093,6 @@ zh-TW:
   setting_log_requesting_user: 對所有的請求紀錄使用者登入名稱和郵件地址
   setting_login_required: 需要身份驗證
   setting_mail_from: 發出的電子郵件地址
-  setting_mail_handler_api_enabled: 啟用寄入電子郵件網路服務
-  setting_mail_handler_api_description: 電子郵件網路接收使 OpenProject 可以接收包含特殊命令作為編輯機制的電子郵件(例如：建立或更新工作項目)。
   setting_mail_handler_api_key: API 金鑰
   setting_mail_handler_body_delimiters: 在這些行之後截斷電子郵件
   setting_mail_handler_body_delimiter_regex: 清空符合正規表達式的電子郵件
@@ -2268,7 +2308,6 @@ zh-TW:
       color: 顏色
       colors: 顏色
     associations: 依賴相依
-    board_could_not_be_saved: 無法儲存看板
     button_delete_all: 全部删除
     change: 更改計劃
     children: 子元素
@@ -2492,6 +2531,13 @@ zh-TW:
 '
   menu_item: 選單項目
   menu_item_setting: 可見度
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'
   wiki_menu_item_for: Wikipage "%{title}" 的功能表項目
   wiki_menu_item_setting: 可見度
   wiki_menu_item_new_main_item_explanation: '您正在刪除 wiki 唯一的主功能表項目。現在, 您必須選擇一個 wiki
@@ -2512,6 +2558,7 @@ zh-TW:
     attributes:
       lock_version: 鎖定版本
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: |-
         You need to be authenticated to access this resource.
         您必須取得授權才能使用這個資源。

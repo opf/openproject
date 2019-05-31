@@ -29,6 +29,14 @@
 require 'spec_helper'
 
 describe OpenProject::Database do
+  before do
+    described_class.instance_variable_set(:@version, nil)
+  end
+
+  after do
+    described_class.instance_variable_set(:@version, nil)
+  end
+
   it 'should return the correct identifier' do
     allow(OpenProject::Database).to receive(:adapter_name).and_return 'PostgresQL'
 

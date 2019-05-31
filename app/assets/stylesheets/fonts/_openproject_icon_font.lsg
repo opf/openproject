@@ -31,6 +31,7 @@
 <li><span class="icon icon-back-up"></span>back-up</li>
 <li><span class="icon icon-backlogs"></span>backlogs</li>
 <li><span class="icon icon-billing-information"></span>billing-information</li>
+<li><span class="icon icon-boards"></span>boards</li>
 <li><span class="icon icon-bold"></span>bold</li>
 <li><span class="icon icon-budget"></span>budget</li>
 <li><span class="icon icon-bug"></span>bug</li>
@@ -77,6 +78,7 @@
 <li><span class="icon icon-enumerations"></span>enumerations</li>
 <li><span class="icon icon-error"></span>error</li>
 <li><span class="icon icon-export-atom"></span>export-atom</li>
+<li><span class="icon icon-export-bcf"></span>export-bcf</li>
 <li><span class="icon icon-export-csv"></span>export-csv</li>
 <li><span class="icon icon-export-pdf-descr"></span>export-pdf-descr</li>
 <li><span class="icon icon-export-pdf-with-descriptions"></span>export-pdf-with-descriptions</li>
@@ -114,6 +116,7 @@
 <li><span class="icon icon-hosting"></span>hosting</li>
 <li><span class="icon icon-image1"></span>image1</li>
 <li><span class="icon icon-image2"></span>image2</li>
+<li><span class="icon icon-import"></span>import</li>
 <li><span class="icon icon-info1"></span>info1</li>
 <li><span class="icon icon-info2"></span>info2</li>
 <li><span class="icon icon-installation-services"></span>installation-services</li>
@@ -146,6 +149,7 @@
 <li><span class="icon icon-no-zen-mode"></span>no-zen-mode</li>
 <li><span class="icon icon-not-supported"></span>not-supported</li>
 <li><span class="icon icon-notes"></span>notes</li>
+<li><span class="icon icon-openid"></span>openid</li>
 <li><span class="icon icon-openproject"></span>openproject</li>
 <li><span class="icon icon-ordered-list"></span>ordered-list</li>
 <li><span class="icon icon-outline"></span>outline</li>

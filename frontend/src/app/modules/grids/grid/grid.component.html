@@ -52,7 +52,7 @@
       </div>
       <ndc-dynamic [ndcDynamicComponent]="widgetComponent(area.widget)"
                    [ndcDynamicInputs]="{ resource: area.widget }"
-                   [ndcDynamicOutputs]="{}">
+                   [ndcDynamicOutputs]="widgetComponentOutput(area.widget)">
       </ndc-dynamic>
     </div>
     <resizer *ngIf="!drag.currentlyDragging"
@@ -82,7 +82,7 @@
        [cdkDropListConnectedTo]="layout.widgetAreaIds">
     <div class="grid--widget-add"
          *ngIf="add.isAddable(area)"
-         (click)="add.widget(area)">
+         (click)="add.widget(area, layout.schema)">
     </div>
   </div>
 

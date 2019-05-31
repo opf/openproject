@@ -34,7 +34,7 @@ class RandomDataSeeder
     project = DemoData::ProjectSeeder.seed!
 
     DemoData::CustomFieldSeeder.seed!(project)
-    RandomData::BoardSeeder.seed!(project)
+    RandomData::ForumSeeder.seed!(project)
     RandomData::NewsSeeder.seed!(project)
     RandomData::WikiSeeder.seed!(project)
     RandomData::WorkPackageSeeder.new(project).seed!

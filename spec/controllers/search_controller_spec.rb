@@ -142,9 +142,9 @@ describe SearchController, type: :controller do
         it { expect(assigns(:results)).to_not include(work_package_4) }
       end
 
-      describe '#results_by_type' do
-        it { expect(assigns(:results_by_type)).to be_a(Hash) }
-        it { expect(assigns(:results_by_type)['work_packages']).to eql(3) }
+      describe '#results_count' do
+        it { expect(assigns(:results_count)).to be_a(Hash) }
+        it { expect(assigns(:results_count)['work_packages']).to eql(3) }
       end
 
       describe '#view' do

@@ -57,9 +57,25 @@ el:
     index:
       no_results_content_title: There are currently no authentication modes.
       no_results_content_text: Create a new authentication mode
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: none
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
+  forums:
     show:
-      no_results_title_text: There are currently no posts for the board.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: There are currently no colors.
@@ -139,9 +155,9 @@ el:
     settings:
       activities:
         no_results_title_text: There are currently no activities available.
-      boards:
-        no_results_title_text: There are currently no boards for the project.
-        no_results_content_text: Create a new board
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Δημιουργία νέου forum
       categories:
         no_results_title_text: There are currently no work package categories.
         no_results_content_text: Create a new work package category
@@ -185,10 +201,10 @@ el:
   statuses:
     edit:
       status_readonly_html: |
-        Check this option to mark work packages with this status as read-only.
-        No attributes can be changed with the exception of the status.
+        Επιλέξτε το για να επισημάνετε εργασίες μόνο για ανάγνωση.
+        Δεν θα είναι δυνατή η αλλαγή ιδιοτήτων εκτός από την κατάσταση.
         <br/>
-        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+        <strong>Σημείωση</strong>: Μεταβιβαζόμενες τιμές (π.χ., από τα παιδιά ή σχέσεις) θα εξακολουθούν να ισχύουν.
       status_color_text: |
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
@@ -205,13 +221,13 @@ el:
       projects: Projects
       enabled_projects: Enabled projects
       add_group: Add attribute group
-      add_table: Add table of related work packages
-      edit_query: Edit table
-      query_group_placeholder: Give the table a name
+      add_table: Προσθήκη πίνακα με σχετιζόμενες εργασίες
+      edit_query: Επεξεργασία πίνακα
+      query_group_placeholder: Δώστε το όνομα του πίνακα
       reset: Reset to defaults
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts.
+        in Gantt charts. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: There are currently no work packages assigned to this
@@ -262,9 +278,9 @@ el:
           no_results_title_text: There are currently no versions available.
   label_invitation: Invitation
   account:
-    delete: Delete account
-    delete_confirmation: Are you sure you want to delete the account?
-    deleted: Account successfully deleted
+    delete: Διαγραφή λογαριασμού
+    delete_confirmation: Είστε σίγουρος ότι θέλετε να διαγράψετε αυτό το λογαριασμό;
+    deleted: Ο λογαριασμός διαγράφηκε με επιτυχία
     deletion_info:
       data_consequences:
         other: Of the data the user created (e.g. email, preferences, work packages,
@@ -281,10 +297,10 @@ el:
           user". As the data of every deleted account is reassigned to this account
           it will not be possible to distinguish the data you created from the data
           of another deleted account.
-      heading: Delete account %{name}
+      heading: Διαγραφή λογαριασμού %{name}
       info:
-        other: Deleting the user account is an irreversible action.
-        self: Deleting your user account is an irreversible action.
+        other: Η διαγραφή του λογαριασμού χρήστη είναι μια μη αναστρέψιμη ενέργεια.
+        self: Η διαγραφή του λογαριασμού σας είναι μια μη αναστρέψιμη ενέργεια.
       login_consequences:
         other: The account will be deleted from the system. Therefore, the user will
           no longer be able to log in with his current credentials. He/she can choose
@@ -315,7 +331,7 @@ el:
     signup_with_auth_provider: or sign up using
     auth_source_login: Please login as <em>%{login}</em> to activate your account.
     omniauth_login: Please login to activate your account.
-  actionview_instancetag_blank_option: Please select
+  actionview_instancetag_blank_option: Παρακαλώ επιλέξτε
   activerecord:
     attributes:
       announcements:
@@ -324,14 +340,14 @@ el:
         attachment_content: Attachment content
         attachment_file_name: Attachment file name
         downloads: Downloads
-        file: File
-        filename: File
-        filesize: Size
+        file: Aρχείο
+        filename: Aρχείο
+        filesize: Μέγεθος
       attribute_help_text:
         attribute_name: Attribute
         help_text: Help text
       auth_source:
-        account: Account
+        account: Λογαριασμός
         attr_firstname: Firstname attribute
         attr_lastname: Lastname attribute
         attr_login: Login attribute
@@ -339,7 +355,7 @@ el:
         base_dn: Base DN
         host: Host
         onthefly: On-the-fly user creation
-        port: Port
+        port: Θύρα
       changeset:
         repository: Repository
       comment:
@@ -347,11 +363,11 @@ el:
       custom_action:
         actions: Actions
       custom_field:
-        default_value: Default value
-        editable: Editable
+        default_value: Προεπιλεγμένη τιμή
+        editable: Επεξεργάσιμο
         field_format: Format
         is_filter: Used as a filter
-        is_required: Required
+        is_required: Απαιτείται
         max_length: Maximum length
         min_length: Minimum length
         multi_value: Allow multi-select
@@ -367,25 +383,30 @@ el:
         subscriber: Subscriber
         encoded_token: Enterprise support token
         active_user_count_restriction: Maximum active users
+      grids/grid:
+        page: Σελίδα
+        row_count: Πλήθος γραμμών
+        column_count: Πλήθοςστηλών
+        widgets: Widgets
       relation:
-        delay: Delay
-        from: Work package
-        to: Related work package
+        delay: Καθυστέρηση
+        from: Εργασία
+        to: Σχετικές εργασίες
       status:
         is_closed: Work package closed
-        is_readonly: Work package read-only
+        is_readonly: Εργασία μόνο για ανάγνωση
       journal:
-        notes: Notes
+        notes: Παρατηρήσεις
       member:
-        roles: Roles
+        roles: Ρόλοι
       project:
         identifier: Identifier
         latest_activity_at: Latest activity at
-        parent: Subproject of
+        parent: Υποέργο του
         queries: Queries
         types: Types
         versions: Versions
-        work_packages: Work Packages
+        work_packages: Εργασίες
       query:
         column_names: Columns
         relations_to_type_column: Relations to %{type}
@@ -404,6 +425,7 @@ el:
         spent_on: Date
         type: Type
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
@@ -417,14 +439,14 @@ el:
         language: Language
         last_login_on: Last login
         mail_notification: Email notifications
-        new_password: New password
-        password_confirmation: Confirmation
+        new_password: Νέος κωδικός πρόσβασης
+        password_confirmation: Επιβεβαίωση
         consented_at: Consented at
       user_preference:
-        comments_sorting: Display comments
-        hide_mail: Hide my email address
+        comments_sorting: Εμφάνιση σχολίων
+        hide_mail: Απόκρυψη διεύθυνσης email
         impaired: Accessibility mode
-        time_zone: Time zone
+        time_zone: Ζώνη Ώρας
         auto_hide_popups: Auto-hide success notifications
         warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved
           changes
@@ -432,7 +454,7 @@ el:
         effective_date: Finish date
         sharing: Sharing
       wiki_content:
-        text: Text
+        text: Κείμενο
       wiki_page:
         parent_title: Parent page
         redirect_existing_links: Redirect existing links
@@ -445,7 +467,7 @@ el:
         done_ratio: Progress (%)
         end_insertion: End of the insertion
         end_deletion: End of the deletion
-        fixed_version: Version
+        fixed_version: Έκδοση
         parent: Parent
         parent_issue: Parent
         parent_work_package: Parent
@@ -453,7 +475,7 @@ el:
         progress: Progress (%)
         spent_hours: Spent time
         spent_time: Spent time
-        subproject: Subproject
+        subproject: Υποέργο
         time_entries: Log time
         type: Type
         watcher: Watcher
@@ -465,11 +487,6 @@ el:
         client_credentials_user_id: Client Credentials User ID
         scopes: Scopes
         confidential: Confidential
-      grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
     errors:
       messages:
         accepted: must be accepted.
@@ -513,7 +530,7 @@ el:
         too_long: is too long (maximum is %{count} characters).
         too_short: is too short (minimum is %{count} characters).
         unchangeable: cannot be changed.
-        unremovable: cannot be removed.
+        unremovable: δεν μπορεί να αφαιρεθεί.
         wrong_length: is the wrong length (should be %{count} characters).
       models:
         custom_field:
@@ -539,6 +556,10 @@ el:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -611,6 +632,7 @@ el:
           attributes:
             attribute_groups:
               attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: The group name '%{group}' is used more than once. Group
                 names must be unique.
               query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
@@ -639,60 +661,64 @@ el:
               error_not_found: not found
         member:
           principal_blank: Please choose at least one user or group.
-          role_blank: Please choose at least one role.
-        grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          role_blank: need to be assigned.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Please check the following fields:'
         header:
           one: 1 error prohibited this %{model} from being saved
           other: "%{count} errors prohibited this %{model} from being saved"
     models:
-      attachment: File
+      attachment: Aρχείο
       attribute_help_text: Attribute help text
-      board: Forum
-      comment: Comment
+      forum: Forum
+      comment: Σχόλιο
       custom_action: Custom action
       custom_field: Custom field
       group: Group
-      category: Category
-      status: Work package status
+      category: Κατηγορία
+      status: Κατάσταση εργασίας
       member: Member
       news: News
       project: Project
       query: Custom query
       role:
-        one: Role
-        other: Roles
+        one: Ρόλος
+        other: Ρόλοι
       type: Type
-      user: User
-      version: Version
+      user: Χρήστης
+      version: Έκδοση
       wiki: Wiki
       wiki_page: Wiki page
       workflow: Workflow
-      work_package: Work package
+      work_package: Εργασία
       doorkeeper/application: OAuth application
   errors:
-    header_invalid_fields: 'There were problems with the following fields:'
+    header_invalid_fields: 'Υπήρξαν προβλήματα με τα ακόλουθα πεδία:'
     field_erroneous_label: |-
       This field is invalid: %{full_errors}
       Please enter a valid value.
   activity:
-    created: 'Created: %{title}'
-    updated: 'Updated: %{title}'
+    created: 'Δημιουργήθηκε: %{title}'
+    updated: 'Ενημερώθηκε: %{title}'
   attributes:
-    active: Active
-    assigned_to: Assignee
-    assignee: Assignee
+    active: Ενεργό
+    assigned_to: Ανάθεση σε
+    assignee: Ανάθεση σε
     attachments: Attachments
     author: Author
     base: 'General Error:'
     blocks_ids: IDs of blocked work packages
-    category: Category
-    comment: Comment
-    comments: Comment
+    category: Κατηγορία
+    comment: Σχόλιο
+    comments: Σχόλιο
     content: Content
     color: Color
     created_at: Created on
@@ -711,77 +737,77 @@ el:
     groups: Groups
     groupname: Group name
     id: ID
-    is_default: Default value
-    is_for_all: For all projects
-    is_public: Public
-    issue: Work package
-    lastname: Last name
-    login: Login
+    is_default: Προεπιλεγμένη τιμή
+    is_for_all: Για όλα τα έργα
+    is_public: Δημόσιο
+    issue: Εργασία
+    lastname: Επώνυμο
+    login: Σύνδεση
     mail: Email
-    name: Name
-    password: Password
+    name: Όνομα
+    password: Κωδικός
     priority: Priority
     project: Project
     responsible: Accountable
-    role: Role
-    roles: Roles
-    start_date: Start date
-    status: Status
-    subject: Subject
-    summary: Summary
-    title: Title
+    role: Ρόλος
+    roles: Ρόλοι
+    start_date: Ημερομηνία έναρξης
+    status: Κατάσταση
+    subject: Θέμα
+    summary: Περίληψη
+    title: Τίτλος
     type: Type
-    updated_at: Updated on
-    updated_on: Updated on
-    user: User
-    version: Version
-    work_package: Work package
-  button_add: Add
+    updated_at: Τροποποιήθηκε
+    updated_on: Τροποποιήθηκε
+    user: Χρήστης
+    version: Έκδοση
+    work_package: Εργασία
+  button_add: Προσθήκη
   button_add_member: Add member
-  button_add_watcher: Add watcher
-  button_annotate: Annotate
-  button_apply: Apply
-  button_archive: Archive
-  button_back: Back
-  button_cancel: Cancel
-  button_change: Change
+  button_add_watcher: Προσθήκη παρατηρητή
+  button_annotate: Σχολιασμός
+  button_apply: Εφαρμογή
+  button_archive: Αρχείο
+  button_back: Επιστροφή
+  button_cancel: Ακύρωση
+  button_change: Τροποποίηση
   button_change_parent_page: Change parent page
-  button_change_password: Change password
-  button_check_all: Check all
-  button_clear: Clear
+  button_change_password: Αλλαγή κωδικού πρόσβασης
+  button_check_all: Επιλογή όλων
+  button_clear: Εκκαθάριση
   button_click_to_reveal: Click to reveal
   button_close: Close
-  button_collapse_all: Collapse all
-  button_configure: Configure
+  button_collapse_all: Σύμπτυξη όλων
+  button_configure: Ρύθμιση παραμέτρων
   button_continue: Continue
-  button_copy: Copy
+  button_copy: Αντιγραφή
   button_copy_and_follow: Copy and follow
-  button_create: Create
-  button_create_and_continue: Create and continue
-  button_delete: Delete
+  button_create: Δημιουργία
+  button_create_and_continue: Δημιουργία και συνέχεια
+  button_delete: Διαγραφή
   button_decline: Decline
   button_delete_watcher: Delete watcher %{name}
-  button_download: Download
-  button_duplicate: Duplicate
-  button_edit: Edit
+  button_download: Λήψη
+  button_duplicate: Δημιουργία αντιγράφου
+  button_edit: Επεξεργασία
   button_edit_associated_wikipage: 'Edit associated Wiki page: %{page_title}'
-  button_expand_all: Expand all
+  button_expand_all: Ανάπτυξη όλων
   button_filter: Filter
   button_generate: Generate
-  button_list: List
-  button_lock: Lock
+  button_list: Προβολή λίστας
+  button_lock: Κλείδωμα
   button_log_time: Log time
-  button_login: Sign in
-  button_move: Move
+  button_login: Σύνδεση
+  button_move: Μετακίνηση
   button_move_and_follow: Move and follow
   button_print: Print
   button_quote: Quote
   button_remove: Remove
-  button_rename: Rename
+  button_rename: Μετονομασία
   button_replace: Replace
   button_revoke: Revoke
-  button_reply: Reply
-  button_reset: Reset
+  button_reply: Απάντηση
+  button_reset: Επαναφορά
   button_rollback: Rollback to this version
   button_save: Save
   button_save_back: Save and back
@@ -850,35 +876,35 @@ el:
     - Jul
     - Aug
     - Sep
-    - Oct
-    - Nov
-    - Dec
+    - Οκτ
+    - Νοε
+    - Δεκ
     day_names:
-    - Sunday
-    - Monday
-    - Tuesday
-    - Wednesday
-    - Thursday
-    - Friday
-    - Saturday
+    - Κυριακή
+    - Δευτέρα
+    - Τρίτη
+    - Τετάρτη
+    - Πέμπτη
+    - Παρασκευή
+    - Σάββατο
     formats:
       default: "%m/%d/%Y"
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
     - 
-    - January
-    - February
-    - March
-    - April
+    - Ιανουάριος
+    - Φεβρουάριος
+    - Μάρτιος
+    - Απρίλιος
     - May
-    - June
-    - July
-    - August
-    - September
-    - October
-    - November
-    - December
+    - Ιούνιος
+    - Ιούλιος
+    - Αύγουστος
+    - Σεπτέμβριος
+    - Οκτώβριος
+    - Νοέμβριος
+    - Δεκέμβριος
     order:
     - :year
     - :month
@@ -968,7 +994,7 @@ el:
   default_role_non_member: Non member
   default_role_reader: Reader
   default_role_member: Member
-  default_type: Work Package
+  default_type: Εργασία
   default_type_bug: Bug
   default_type_deliverable: Deliverable
   default_type_epic: Epic
@@ -989,7 +1015,7 @@ el:
   description_choose_project: Projects
   description_compare_from: Compare from
   description_compare_to: Compare to
-  description_current_position: 'You are here:'
+  description_current_position: 'You are here: '
   description_date_from: Enter start date
   description_date_range_interval: Choose range by selecting start and end date
   description_date_range_list: Choose range from list
@@ -1001,7 +1027,7 @@ el:
   description_category_reassign: Choose category
   description_message_content: Message content
   description_my_project: You are member
-  description_notes: Notes
+  description_notes: Παρατηρήσεις
   description_parent_work_package: Parent work package of current
   description_project_scope: Search scope
   description_query_sort_criteria_attribute: Sort attribute
@@ -1036,15 +1062,17 @@ el:
   error_can_not_remove_role: This role is in use and cannot be deleted.
   error_can_not_reopen_work_package_on_closed_version: A work package assigned to
     a closed version cannot be reopened
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Please choose a user and a role.
+  error_code: Σφάλμα %{code}
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.
   error_custom_option_not_found: Option does not exist.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1060,6 +1088,10 @@ el:
   error_work_package_not_found_in_project: The work package was not found or does
     not belong to this project
   error_must_be_project_member: must be project member
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: No default work package status is defined.
     Please check your configuration (Go to "Administration -> Work package statuses").
   error_no_type_in_project: No type is associated to this project. Please check the
@@ -1120,7 +1152,7 @@ el:
   general_csv_encoding: UTF-8
   general_csv_separator: ","
   general_first_day_of_week: '7'
-  general_lang_name: English
+  general_lang_name: Ελληνικά
   general_pdf_encoding: ISO-8859-1
   general_text_no: 'no'
   general_text_yes: 'yes'
@@ -1146,13 +1178,13 @@ el:
           you substantially contribute to this Open-Source community effort.
     links:
       upgrade_enterprise_edition: Upgrade to Enterprise Edition
+      postgres_migration: Migrating your installation to PostgreSQL
       user_guides: User guides
       faq: FAQ
       glossary: Glossary
       shortcuts: Shortcuts
-      forums: Forums
       blog: OpenProject blog
-      boards: Community forum
+      forums: Community forum
       newsletter: Security alerts / Newsletter
   links:
     configuration_guide: Configuration guide
@@ -1173,8 +1205,8 @@ el:
         expiration: Expires
       indefinite_expiration: Never
   label_accessibility: Accessibility
-  label_account: Account
-  label_active: Active
+  label_account: Λογαριασμός
+  label_active: Ενεργό
   label_activate_user: Activate user
   label_active_in_new_projects: Active in new projects
   label_activity: Activity
@@ -1218,8 +1250,8 @@ el:
   label_auth_source_plural: Authentication modes
   label_authentication: Authentication
   label_available_project_work_package_categories: Available work package categories
-  label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Available boards
+  label_available_project_work_package_types: Διαθέσιμοι τύποι εργασιών
+  label_available_project_forums: Available forums
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories
   label_api_documentation: API documentation
@@ -1227,17 +1259,18 @@ el:
   label_blocked_by: blocked by
   label_blocks: blocks
   label_blog: Blog
-  label_board_locked: Locked
-  label_board_new: New forum
-  label_board_plural: Forums
-  label_board_sticky: Sticky
+  label_forums_locked: Locked
+  label_forum_new: New forum
+  label_forum_plural: Forums
+  label_forum_sticky: Sticky
   label_boolean: Boolean
   label_branch: Branch
   label_browse: Browse
   label_bulk_edit_selected_work_packages: Bulk edit selected work packages
+  label_bundled: "(Bundled)"
   label_calendar: Calendar
   label_calendar_show: Show Calendar
-  label_category: Category
+  label_category: Κατηγορία
   label_consent_settings: User Consent
   label_wiki_menu_item: Wiki menu item
   label_select_main_menu_item: Select new main menu item
@@ -1269,7 +1302,7 @@ el:
   label_comment_plural: Comments
   label_commits_per_author: Commits per author
   label_commits_per_month: Commits per month
-  label_confirmation: Confirmation
+  label_confirmation: Επιβεβαίωση
   label_contains: contains
   label_content: Content
   label_copied: copied
@@ -1315,7 +1348,7 @@ el:
   label_duplicated_by: duplicated by
   label_duplicate: duplicate
   label_duplicates: duplicates
-  label_edit: Edit
+  label_edit: Επεξεργασία
   label_enable_multi_select: Toggle multiselect
   label_enabled_project_custom_fields: Enabled custom fields
   label_enabled_project_modules: Enabled modules
@@ -1333,6 +1366,7 @@ el:
   label_equals: is
   label_everywhere: everywhere
   label_example: Example
+  label_import: Εισαγωγή
   label_export_to: 'Also available in:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} hour"
@@ -1370,6 +1404,7 @@ el:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Home
   label_subject_or_id: Subject or ID
+  label_impressum: Νομικές επισημάνσεις
   label_in: in
   label_in_less_than: in less than
   label_in_more_than: in more than
@@ -1390,7 +1425,7 @@ el:
   label_journal_diff: Description Comparison
   label_language: Language
   label_jump_to_a_project: Jump to a project...
-  label_keyword_plural: Keywords
+  label_keyword_plural: Λέξεις-κλειδιά
   label_language_based: Based on user's language
   label_last_activity: Last activity
   label_last_change_on: Last change on
@@ -1404,11 +1439,11 @@ el:
   label_ldap_authentication: LDAP authentication
   label_less_or_equal: "<="
   label_less_than_ago: less than days ago
-  label_list: List
+  label_list: Προβολή λίστας
   label_loading: Loading...
   label_lock_user: Lock user
   label_logged_as: Logged in as
-  label_login: Sign in
+  label_login: Σύνδεση
   label_custom_logo: Custom logo
   label_custom_favicon: Custom favicon
   label_custom_touch_icon: Custom touch icon
@@ -1419,6 +1454,7 @@ el:
   label_max_size: Maximum size
   label_me: me
   label_member_new: New member
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Members
   label_view_all_members: View all members
   label_menu_item_name: Name of menu item
@@ -1447,6 +1483,7 @@ el:
   label_my_queries: My custom queries
   label_never: Never
   label_new: New
+  label_new_features: New features
   label_new_statuses_allowed: New statuses allowed
   label_news_added: News added
   label_news_comment_added: Comment added to a news
@@ -1495,6 +1532,7 @@ el:
   label_planning: Planning
   label_please_login: Please log in
   label_plugins: Plugins
+  label_modules_and_plugins: Πρόσθετα και Υπηρεσίες
   label_precedes: precedes
   label_preferences: Preferences
   label_preview: Preview
@@ -1502,6 +1540,7 @@ el:
   label_previous_week: Previous week
   label_principal_invite_via_email: " or invite new users via email"
   label_principal_search: Add existing users or groups
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Product version
   label_professional_support: Professional support
   label_profile: Profile
@@ -1561,7 +1600,7 @@ el:
   label_roadmap_overdue: "%{value} late"
   label_role_and_permissions: Roles and permissions
   label_role_new: New role
-  label_role_plural: Roles
+  label_role_plural: Ρόλοι
   label_role_search: Assign role to new members
   label_scm: SCM
   label_search: Search
@@ -1581,19 +1620,19 @@ el:
   label_start_to_end: start to end
   label_start_to_start: start to start
   label_statistics: Statistics
-  label_status: Status
+  label_status: Κατάσταση
   label_status_updated: Work package status updated
   label_stay_logged_in: Stay logged in
   label_storage_free_space: Remaining disk space
   label_storage_used_space: Used disk space
   label_storage_group: Storage filesystem %{identifier}
   label_storage_for: Encompasses storage for
-  label_string: Text
-  label_subproject: Subproject
+  label_string: Κείμενο
+  label_subproject: Υποέργο
   label_subproject_new: New subproject
   label_subproject_plural: Subprojects
   label_subtask_plural: Subtasks
-  label_summary: Summary
+  label_summary: Περίληψη
   label_system: System
   label_system_storage: Storage information
   label_table_of_contents: Table of contents
@@ -1616,10 +1655,11 @@ el:
   label_updated_time: Updated %{value} ago
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Updated by %{author} %{age} ago
+  label_upgrade_guides: Οδηγίες αναβάθμισης
   label_used_by: Used by
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
-  label_user: User
+  label_user: Χρήστης
   label_user_named: User %{name}
   label_user_activity: "%{value}'s activity"
   label_user_anonymous: Anonymous
@@ -1662,7 +1702,7 @@ el:
   label_wiki_show_new_page_link: Show submenu item 'Create new child page'
   label_wiki_show_submenu_item: 'Show as submenu item of '
   label_wiki_start: Start page
-  label_work_package: Work package
+  label_work_package: Εργασία
   label_work_package_added: Work package added
   label_work_package_attachments: Work package attachments
   label_work_package_category_new: New category
@@ -1673,7 +1713,7 @@ el:
   label_work_package_edit: Edit work package %{name}
   label_work_package_plural: Work packages
   label_work_package_priority_updated: Work package priority updated
-  label_work_package_status: Work package status
+  label_work_package_status: Κατάσταση εργασίας
   label_work_package_status_new: New status
   label_work_package_status_plural: Work package statuses
   label_work_package_types: Work package types
@@ -1688,7 +1728,7 @@ el:
   label_work_package_watchers: Watchers
   label_workflow: Workflow
   label_workflow_plural: Workflows
-  label_workflow_summary: Summary
+  label_workflow_summary: Περίληψη
   label_x_closed_work_packages_abbr:
     one: 1 closed
     other: "%{count} closed"
@@ -1818,6 +1858,8 @@ el:
   notice_account_update_failed: Account setting could not be saved. Please have a
     look at your account page.
   notice_account_updated: Account was successfully updated.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Wrong password
   notice_account_registered_and_logged_in: Welcome, your account has been activated.
     You are logged in now.
@@ -1870,7 +1912,6 @@ el:
     There are too many results.
     Narrow down the search by typing in the name of the new member (or group).
   notice_unable_delete_time_entry: Unable to delete time log entry.
-  notice_unable_delete_version: Unable to delete version.
   notice_user_missing_authentication_method: User has yet to choose a password or
     another way to sign in.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
@@ -1946,7 +1987,7 @@ el:
   permission_export_wiki_pages: Export wiki pages
   permission_list_attachments: List attachments
   permission_log_time: Log spent time
-  permission_manage_boards: Manage forums
+  permission_manage_forums: Manage forums
   permission_manage_categories: Manage work package categories
   permission_manage_work_package_relations: Manage work package relations
   permission_manage_members: Manage members
@@ -1993,7 +2034,7 @@ el:
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
   project_module_activity: Activity
-  project_module_boards: Forums
+  project_module_forums: Forums
   project_module_calendar: Calendar
   project_module_work_package_tracking: Work package tracking
   project_module_news: News
@@ -2008,7 +2049,7 @@ el:
     assigned_to_role: Assignee's role
     member_of_group: Assignee's group
     assignee_or_group: Assignee or belonging group
-    subproject_id: Subproject
+    subproject_id: Υποέργο
     name_or_identifier: Name or identifier
   repositories:
     at_identifier: at %{identifier}
@@ -2214,10 +2255,6 @@ el:
   setting_log_requesting_user: Log user login, name, and mail address for all requests
   setting_login_required: Authentication required
   setting_mail_from: Emission email address
-  setting_mail_handler_api_enabled: Enable incoming email web service
-  setting_mail_handler_api_description: The email web handler enables OpenProject
-    to receive emails containing specific commands as an instrumentation mechanism
-    (e.g., to create and update work packages).
   setting_mail_handler_api_key: API key
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
@@ -2232,7 +2269,7 @@ el:
   setting_per_page_options: Objects per page options
   setting_plain_text_mail: Plain text mail (no HTML)
   setting_protocol: Protocol
-  setting_security_badge_displayed: Display security badge
+  setting_security_badge_displayed: Εμφάνιση πληροφοριών ασφαλείας
   setting_registration_footer: Registration footer
   setting_repositories_automatic_managed_vendor: Automatic repository vendor type
   setting_repositories_encodings: Repositories encodings
@@ -2348,7 +2385,7 @@ el:
   text_database_allows_tsv: Database allows TSVector (optional)
   text_default_administrator_account_changed: Default administrator account changed
   text_default_encoding: 'Default: UTF-8'
-  text_destroy: Delete
+  text_destroy: Διαγραφή
   text_destroy_with_associated: 'There are additional objects assossociated with the
     work package(s) that are to be deleted. Those objects are of the following types:'
   text_destroy_what_to_do: What do you want to do?
@@ -2472,7 +2509,6 @@ el:
       color: Color
       colors: Colors
     associations: Dependencies
-    board_could_not_be_saved: Board could not be saved
     button_delete_all: Delete all
     change: Change in planning
     children: Child elements
@@ -2482,13 +2518,13 @@ el:
     dates_are_calculated_based_on_sub_elements: Dates are calculated based on sub
       elements.
     delete_all: Delete all
-    delete_thing: Delete
+    delete_thing: Διαγραφή
     duration: Duration
     duration_days:
       one: 1 day
       other: "%{count} days"
     edit_color: Edit color
-    edit_thing: Edit
+    edit_thing: Επεξεργασία
     edit_timeline: Edit timeline report %{timeline}
     delete_timeline: Delete timeline report %{timeline}
     empty: "(empty)"
@@ -2524,12 +2560,12 @@ el:
         date: date
         default: default
       column:
-        assigned_to: Assignee
+        assigned_to: Ανάθεση σε
         type: Type
         due_date: End date
-        name: Name
-        status: Status
-        start_date: Start date
+        name: Όνομα
+        status: Κατάσταση
+        start_date: Ημερομηνία έναρξης
       columns: Columns
       comparisons: Comparisons
       comparison:
@@ -2727,6 +2763,13 @@ el:
 '
   menu_item: Menu item
   menu_item_setting: Visibility
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'
   wiki_menu_item_for: Menu item for wikipage "%{title}"
   wiki_menu_item_setting: Visibility
   wiki_menu_item_new_main_item_explanation: 'You are deleting the only main wiki menu
@@ -2750,6 +2793,7 @@ el:
     attributes:
       lock_version: Lock Version
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: You need to be authenticated to access this resource.
       code_401_wrong_credentials: You did not provide the correct credentials.
       code_403: You are not authorized to access this resource.

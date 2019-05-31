@@ -31,9 +31,10 @@ module API
   module Errors
     class Unauthorized < ErrorBase
       identifier 'urn:openproject-org:api:v3:errors:MissingPermission'
+      code 403
 
-      def initialize
-        super 403, I18n.t('api_v3.errors.code_403')
+      def initialize(*)
+        super I18n.t('api_v3.errors.code_403')
       end
     end
   end

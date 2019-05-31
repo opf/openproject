@@ -61,5 +61,7 @@ class CreateWorkPackageService
 
   def assign_defaults(work_package)
     work_package.author ||= user
+    work_package.priority ||= IssuePriority.active.default
+    work_package.status ||= Status.default
   end
 end

@@ -58,9 +58,25 @@ it:
     index:
       no_results_content_title: Al momento non vi è alcuna modalità di autenticazione.
       no_results_content_text: Crea una nuova modalità di autenticazione
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Crittografia connessione
+    tls_mode:
+      plain: nessuno
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Connessione non crittografata, nessuna negoziazione TLS.
+      simple_tls_description: Crittografia TLS implicita, ma senza convalida del certificato.
+        Usala con cautela e se la connessione LDAP è affidabile.
+      start_tls_description: Crittografia TLS esplicita con convalida completa. Per
+        l'uso di LDAP su SSL/TLS.
+      section_more_info_link_html: 'Questa sezione riguarda la sicurezza della connessione
+        di questa fonte di autenticazione LDAP. Per ulteriori informazioni, visita
+        <a href="%{link}">the Net::LDAP documentation</a>.
+
+'
+  forums:
     show:
-      no_results_title_text: Al momento non vi sono messaggi in bacheca.
+      no_results_title_text: Al momento non vi sono post sul forum.
   colors:
     index:
       no_results_title_text: Al momento non vi sono colori.
@@ -120,8 +136,9 @@ it:
     memberships:
       no_results_title_text: Al momento nessun progetto fa parte di questo gruppo.
   incoming_mails:
-    ignore_filenames: 'Specify a list of names to ignore when processing attachments
-      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+    ignore_filenames: 'Specifica un elenco di nomi da ignorare durante l''elaborazione
+      di allegati per posta in arrivo (ad esempio firme o icone). Immettere un nome
+      file per riga.
 
 '
   projects:
@@ -140,9 +157,9 @@ it:
     settings:
       activities:
         no_results_title_text: Al momento non vi sono attività disponibili.
-      boards:
-        no_results_title_text: Al momento non esistono bacheche per il progetto.
-        no_results_content_text: Creare una nuova bacheca
+      forums:
+        no_results_title_text: Al momento non vi sono forum sul progetto.
+        no_results_content_text: Crea un nuovo forum
       categories:
         no_results_title_text: Al momento non è definita nessuna categoria di macro-attività.
         no_results_content_text: Crea una nuova categoria di macro-attività
@@ -210,9 +227,11 @@ it:
       edit_query: Modificare la Tabella
       query_group_placeholder: Assegnare un nome alla tabella
       reset: Ripristino predefinite
-      type_color_text: |
-        Clicca per assegnare o modificare il colore di questo tipo. Il colore selezionato distingue le macro-attività
-        nei Diagrammi di Gantt.
+      type_color_text: 'Clicca per assegnare o cambiare il colore di questo tipo.
+        Il colore selezionato distingue le macro-attività nei diagrammi di Gantt.
+        Ti consigliamo di utilizzare un colore forte.
+
+'
   versions:
     overview:
       no_results_title_text: Al momento non vi è alcuna macro-attività assegnata a
@@ -229,7 +248,7 @@ it:
       one: Una macro-attività discendente
       other: "%{count} macro-attività discendenti"
     bulk:
-      could_not_be_saved: 'The following work packages could not be saved:'
+      could_not_be_saved: 'Le seguenti macro-attività non possono essere salvate:'
     move:
       no_common_statuses_exists: Nessuno stato disponibile per tutte le macro-attività
         selezionate. Non è possibile cambiare lo stato.
@@ -372,6 +391,11 @@ it:
         subscriber: Iscritto
         encoded_token: Token di assistenza Enterprise
         active_user_count_restriction: Numero massimo di utenti attivi
+      grids/grid:
+        page: Pagina
+        row_count: Numero di righe
+        column_count: Numero di colonne
+        widgets: Widget
       relation:
         delay: Ritardo
         from: Macro-attività
@@ -409,6 +433,7 @@ it:
         spent_on: Data
         type: Tipo
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Visualizzato nella tabella di marcia per impostazione predefinita
         is_default: Attivato nei nuovi progetti per impostazione predefinita
@@ -470,11 +495,6 @@ it:
         client_credentials_user_id: ID utente credenziali client
         scopes: Ambiti
         confidential: Confidenziale
-      grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
     errors:
       messages:
         accepted: deve essere accettato.
@@ -518,7 +538,7 @@ it:
         too_long: è troppo lungo (il massimo è %{count} caratteri).
         too_short: è troppo breve (il minimo è %{count} caratteri).
         unchangeable: non può essere modificato.
-        unremovable: cannot be removed.
+        unremovable: non può essere rimosso.
         wrong_length: è della lunghezza sbagliata (dovrebbe essere %{count} caratteri).
       models:
         custom_field:
@@ -546,6 +566,10 @@ it:
         enterprise_token:
           unreadable: non può essere letto. Sei sicuro che si tratta di un token di
             assistenza?
+        grids/grid:
+          overlaps: sovrapposizione.
+          outside: è fuori dalla griglia.
+          end_before_start: il valore finale deve essere più grande del valore iniziale.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -623,6 +647,7 @@ it:
           attributes:
             attribute_groups:
               attribute_unknown: Attributo di macro-attività non valido utilizzato.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: Il nome di gruppo "%{group}" è usato più di una volta.
                 I nomi dei gruppi devono essere univoci.
               query_invalid: 'La query incorporata "%{group}" non è valida: %{details}'
@@ -653,11 +678,15 @@ it:
               error_not_found: non trovato
         member:
           principal_blank: Si prega di scegliere almeno un utente o un gruppo.
-          role_blank: Si prega di scegliere almeno un ruolo.
-        grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          role_blank: need to be assigned.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Perfavore controlla i seguenti campi:'
         header:
@@ -666,7 +695,7 @@ it:
     models:
       attachment: File
       attribute_help_text: Testo guida dell'attributo
-      board: Forum
+      forum: Forum
       comment: Commento
       custom_action: Azione personalizzata
       custom_field: Campo personalizzato
@@ -1007,7 +1036,7 @@ it:
   description_choose_project: Progetti
   description_compare_from: Confronta da
   description_compare_to: Confronta con
-  description_current_position: 'Sei qui:'
+  description_current_position: 'You are here: '
   description_date_from: Inserisci data di inizio
   description_date_range_interval: Scegli l'intervallo selezionando la data di inizio
     e fine
@@ -1058,16 +1087,19 @@ it:
   error_can_not_remove_role: Questo ruolo è in uso e non può essere eliminato.
   error_can_not_reopen_work_package_on_closed_version: Una macro-attività (work package)
     assegnata ad una versione chiusa non può essere riaperta
+  error_can_not_find_all_resources: Impossibile trovare tutte le risorse correlate
+    a questa richiesta.
   error_check_user_and_role: Si prega di scegliere un utente e un ruolo.
+  error_code: Errore %{code}
   error_cookie_missing: Il cookie di OpenProject è mancante. Prego, verifica che i
     cookie siano attivati, questa applicazione non funziona correttamente senza.
   error_custom_option_not_found: L'opzione non esiste.
-  error_dependent_work_package: 'Errore nel pacchetto di lavoro dipendente #%{related_id}
-    %{related_subject}: %{error}'
   error_enterprise_activation_user_limit: Il tuo account potrebbe non essere attivo
     (raggiunto il limite utente). Si prega di contattare l'amministratore per ottenere
     l'accesso.
   error_failed_to_delete_entry: Cancellazione voce non riuscita.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Valore selezionato non valido.
   error_invalid_group_by: 'Impossibile raggruppare per: %{value}'
   error_invalid_query_column: 'Colonna di query non valida: %{value}'
@@ -1083,6 +1115,10 @@ it:
   error_work_package_not_found_in_project: La macro-attività (work package) non è
     stata trovato o non appartiene a questo progetto
   error_must_be_project_member: deve essere membro del progetto
+  error_migrations_are_pending: L'installazione di OpenProject ha migrazioni di database
+    in sospeso. Probabilmente non hai effettuato le migrazioni durante l'ultimo aggiornamento.
+    Controlla la documentazione sull'aggiornamento per aggiornare correttamente l'installazione.
+  error_migrations_visit_upgrade_guides: Visita la nostra documentazione sull'aggiornamento
   error_no_default_work_package_status: Non è configurato alcuno stato predefinito
     per le macro-attività. Per favore controlla la tua configurazione (vai a "Amministrazione
     -> Stato macro-attività").
@@ -1172,13 +1208,13 @@ it:
           Open-Source.
     links:
       upgrade_enterprise_edition: Aggiorna ad Enterprise Edition
+      postgres_migration: Migrazione dell'installazione su PostgreSQL
       user_guides: Guide utente
       faq: FAQ
       glossary: Glossario
       shortcuts: Tasti di scelta rapida
-      forums: Forum
       blog: Blog di OpenProject
-      boards: Forum della Comunità
+      forums: Forum della Comunità
       newsletter: Avvisi di sicurezza / Notizie
   links:
     configuration_guide: Guida di configurazione
@@ -1245,7 +1281,7 @@ it:
   label_authentication: Autenticazione
   label_available_project_work_package_categories: Categorie di macro-attività disponibili
   label_available_project_work_package_types: Tipi di pacchetti di lavoro disponibili
-  label_available_project_boards: Comitati disponibili
+  label_available_project_forums: Forum disponibili
   label_available_project_versions: Versioni disponibili
   label_available_project_repositories: Archivi disponibili
   label_api_documentation: Documentazione API
@@ -1253,15 +1289,16 @@ it:
   label_blocked_by: bloccato da
   label_blocks: blocca
   label_blog: Blog
-  label_board_locked: Chiuso
-  label_board_new: Nuovo forum
-  label_board_plural: Forum
-  label_board_sticky: In evidenza
+  label_forums_locked: Chiuso
+  label_forum_new: Nuovo forum
+  label_forum_plural: Forum
+  label_forum_sticky: In evidenza
   label_boolean: Booleano
   label_branch: Ramo
   label_browse: Naviga
   label_bulk_edit_selected_work_packages: Modifica in blocco le macro-attività (work
     package) selezionati
+  label_bundled: "(Raccolto)"
   label_calendar: Calendario
   label_calendar_show: Mostra Calendario
   label_category: Categoria
@@ -1360,6 +1397,7 @@ it:
   label_equals: è
   label_everywhere: ovunque
   label_example: Esempio
+  label_import: Importazione
   label_export_to: 'Disponibile anche in:'
   label_expanded_click_to_collapse: Espanso. Clicca per comprimere
   label_f_hour: "%{value} ora"
@@ -1397,6 +1435,7 @@ it:
   label_hierarchy_leaf: Foglia della gerarchia
   label_home: Radice (home)
   label_subject_or_id: Oggetto o ID
+  label_impressum: Note legali
   label_in: in
   label_in_less_than: in meno di
   label_in_more_than: in più di
@@ -1446,6 +1485,7 @@ it:
   label_max_size: Dimensione massima
   label_me: io
   label_member_new: Nuovo membro
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Membri
   label_view_all_members: Visualizza tutti i membri
   label_menu_item_name: Nome della voce di menu
@@ -1474,6 +1514,7 @@ it:
   label_my_queries: Le mie query personalizzate
   label_never: Mai
   label_new: Nuovo
+  label_new_features: New features
   label_new_statuses_allowed: Nuovi stati acconsentiti
   label_news_added: Notizie aggiunte
   label_news_comment_added: Commento aggiunto a una notizia
@@ -1522,6 +1563,7 @@ it:
   label_planning: Pianificazione
   label_please_login: Occorre effettuare l'accesso
   label_plugins: Plugin
+  label_modules_and_plugins: Moduli e Plugin
   label_precedes: precede
   label_preferences: Preferenze
   label_preview: Anteprima
@@ -1529,6 +1571,7 @@ it:
   label_previous_week: Settimana precedente
   label_principal_invite_via_email: " o invita nuovi utenti via e-mail"
   label_principal_search: Aggiungi utenti o gruppi esistenti
+  label_privacy_policy: Politica di privacy e sicurezza dei dati
   label_product_version: Versione del prodotto
   label_professional_support: Supporto professionale
   label_profile: Profilo
@@ -1647,6 +1690,7 @@ it:
   label_updated_time: Aggiornato %{value} fa
   label_updated_time_at: "%{author}%{age}"
   label_updated_time_by: Aggiornato da %{author} %{age} fa
+  label_upgrade_guides: Aggiorna guide
   label_used_by: Usato da
   label_used_by_types: Utilizzato dai tipi
   label_used_in_projects: Utilizzato nei progetti
@@ -1860,6 +1904,8 @@ it:
   notice_account_update_failed: L'impostazione dell'account non può essere salvata.
     Controlla la pagina del tuo account.
   notice_account_updated: Account aggiornato con successo.
+  notice_account_other_session_expired: Tutte le altre sessioni legate al tuo account
+    sono state invalidate.
   notice_account_wrong_password: Password sbagliata
   notice_account_registered_and_logged_in: Benvenuto, il tuo account è stato attivato.
     Sei già connesso.
@@ -1914,7 +1960,6 @@ it:
     Affina la ricerca digitando il nome del nuovo membro (o gruppo).
   notice_unable_delete_time_entry: Impossibile eliminare la registrazione di orario
     effettuato.
-  notice_unable_delete_version: Impossibile eliminare la versione.
   notice_user_missing_authentication_method: L'utente deve ancora scegliere una password
     o un altro sistema di autenticazione.
   notice_user_invitation_resent: Un invito è stato inviato a %{email}.
@@ -1991,7 +2036,7 @@ it:
   permission_export_wiki_pages: Esportare pagine wiki
   permission_list_attachments: Elencare allegati
   permission_log_time: Registrazioni dell'orario effettuato
-  permission_manage_boards: Gestire forum
+  permission_manage_forums: Gestire forum
   permission_manage_categories: Gestire le categorie delle macro-attività (work package)
   permission_manage_work_package_relations: Gestisci le correlazioni tra macro-attività
     (work package)
@@ -2041,7 +2086,7 @@ it:
     archive:
       are_you_sure: Sicuro di voler archiviare il progetto '%{name}'?
   project_module_activity: Attività
-  project_module_boards: Forum
+  project_module_forums: Forum
   project_module_calendar: Calendario
   project_module_work_package_tracking: Monitoraggio macro-attività (work-package)
   project_module_news: Notizie
@@ -2281,11 +2326,6 @@ it:
     mail per tutte le richieste
   setting_login_required: Autenticazione richiesta
   setting_mail_from: Indirizzo e-mail di emissione
-  setting_mail_handler_api_enabled: Abilitare il servizio web di posta elettronica
-    in arrivo
-  setting_mail_handler_api_description: Il gestore di posta elettronica web consente
-    ad OpenProject di ricevere e-mail contenenti comandi specifici come strumento
-    di automazione (ad esempio, per creare e aggiornare pacchetti di lavoro).
   setting_mail_handler_api_key: Chiave API
   setting_mail_handler_body_delimiters: Troncare le email dopo una di queste linee
   setting_mail_handler_body_delimiter_regex: Troncare le email che corrispondono a
@@ -2485,14 +2525,15 @@ it:
   text_no_notes: Non ci sono commenti disponibili per questa macro-attività.
   text_notice_too_many_values_are_inperformant: 'Nota: La visualizzazione di più di
     100 elementi per pagina può aumentare il tempo di caricamento della pagina.'
-  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
-    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
-    administration panel, and on the home page. It is displayed to administrators
-    only. <br/> The badge will check your current OpenProject version against the
-    official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide
-    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
-    configuration documentation</a>.
+  text_notice_security_badge_displayed_html: 'Nota: se abilitata questa opzione visualizzerà
+    un badge con lo stato dell''installazione nel pannello di amministrazione di <a
+    href="%{information_panel_path}">%{information_panel_label}</a> e sulla home page.
+    Verrà visualizzata solo agli amministratori. <br/> il badge controllerà la tua
+    attuale versione di OpenProject con l''ultima versione rilasciata per avvisarti
+    di eventuali aggiornamenti o risoluzioni di vulnerabilità note. Per ulteriori
+    informazioni sulle funzionalità offerte dal controllo, su quali dati è necessario
+    fornire per ottenere gli aggiornamenti disponibili e su come disabilitare questo
+    controllo, visita <a href="%{more_info_url}">la documentazione sulla configurazione</a>.
 
 '
   text_own_membership_delete_confirmation: |-
@@ -2559,7 +2600,6 @@ it:
       color: Colore
       colors: Colori
     associations: Dipendenze
-    board_could_not_be_saved: Il quadro non può essere salvato
     button_delete_all: Cancella tutti
     change: Cambiare nella pianificazione
     children: Elementi discendenti
@@ -2823,6 +2863,13 @@ it:
 '
   menu_item: Voce di menu
   menu_item_setting: Visibilità
+  mysql_deprecation:
+    notice: 'Le future versioni di OpenProject probabilmente ridurranno o cesseranno
+      il supporto per i database MySQL e MariaDB. La tua installazione è ancora in
+      esecuzione su MySQL e ti suggeriamo di migrare la tua installazione su PostgreSQL.
+      È un processo facile che puoi trovare seguendo le nostre guide di migrazione:
+
+'
   wiki_menu_item_for: Voce di menù per la pagina wiki "%{title}"
   wiki_menu_item_setting: Visibilità
   wiki_menu_item_new_main_item_explanation: 'Stai eliminando la sola voce del menù
@@ -2847,6 +2894,7 @@ it:
     attributes:
       lock_version: Blocca Versione
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: Devi essere autenticato per accedere a questa risorsa.
       code_401_wrong_credentials: Non hai fornito le credenziali corrette.
       code_403: Non sei autorizzato ad accedere a questa risorsa.
@@ -2905,102 +2953,106 @@ it:
         access_denied: Il proprietario della risorsa o il server di autorizzazione
           hanno rifiutato la richiesta.
         invalid_scope: Lo scopo richiesto non è non valido, sconosciuto o malformato.
-        invalid_code_challenge_method: The code challenge method must be plain or
-          S256.
-        server_error: The authorization server encountered an unexpected condition
-          which prevented it from fulfilling the request.
-        temporarily_unavailable: The authorization server is currently unable to handle
-          the request due to a temporary overloading or maintenance of the server.
-        credential_flow_not_configured: Resource Owner Password Credentials flow failed
-          due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.
-        resource_owner_authenticator_not_configured: Resource Owner find failed due
-          to Doorkeeper.configure.resource_owner_authenticator being unconfigured.
-        admin_authenticator_not_configured: Access to admin panel is forbidden due
-          to Doorkeeper.configure.admin_authenticator being unconfigured.
-        unsupported_response_type: The authorization server does not support this
-          response type.
-        invalid_client: Client authentication failed due to unknown client, no client
-          authentication included, or unsupported authentication method.
-        invalid_grant: The provided authorization grant is invalid, expired, revoked,
-          does not match the redirection URI used in the authorization request, or
-          was issued to another client.
-        unsupported_grant_type: The authorization grant type is not supported by the
-          authorization server.
+        invalid_code_challenge_method: Il metodo di sfida del codice deve essere semplice
+          o S256.
+        server_error: Il server di autorizzazione ha riscontrato una condizione inaspettata
+          che ha impedito di elaborare la richiesta.
+        temporarily_unavailable: Il server di autorizzazione non è attualmente in
+          grado di gestire la richiesta a causa di un sovraccarico temporaneo o della
+          manutenzione del server.
+        credential_flow_not_configured: Il flusso delle Credenziali del Proprietario
+          della Risorsa non è riuscito a causa della mancata configurazione di Doorkeeper.configure.resource_owner_from_credentials.
+        resource_owner_authenticator_not_configured: Ricerca del Proprietario della
+          Risorsa non riuscita a causa della mancata configurazione di Doorkeeper.configure.resource_owner_authenticator.
+        admin_authenticator_not_configured: Impossibile accedere al pannello di amministrazione
+          a causa della mancata configurazione di Doorkeeper.configure.admin_authenticator.
+        unsupported_response_type: Il server di autorizzazione non supporta questo
+          tipo di risposta.
+        invalid_client: L'autenticazione del client non è riuscita a causa di client
+          sconosciuti, della mancata inclusione dell'autenticazione nel client, o
+          del mancato supporto del metodo di autenticazione.
+        invalid_grant: Il permesso di autorizzazione fornito non è valido, è scaduto,
+          è revocato, non corrisponde all'URI di reindirizzamento utilizzato nella
+          richiesta di autorizzazione oppure è stato rilasciato per un altro client.
+        unsupported_grant_type: Il tipo di permesso di autorizzazione non è supportato
+          dal server di autorizzazione.
         invalid_token:
-          revoked: The access token was revoked
+          revoked: Il token di accesso è stato revocato
           expired: Il token di accesso è scaduto
           unknown: Il token di accesso non è valido
   unsupported_browser:
     title: Il tuo browser è obsoleto e non supportato.
-    message: You may run into errors and degraded experience on this page.
+    message: Puoi incorrere in errori ed esperienza non ottimizzata su questa pagina.
     update_message: Aggiornare il browser, prego.
     close_warning: Ignora questo avviso.
   oauth:
     application:
       singular: Applicazione OAuth
       plural: Applicazioni OAuth
-      named: OAuth application '%{name}'
-      new: New OAuth application
-      default_scopes: "(Default scopes)"
+      named: Applicazione OAuth "%{name}"
+      new: Nuova Applicazione OAuth
+      default_scopes: "(Ambiti predefiniti)"
       instructions:
-        name: The name of your application. This will be displayed to other users
-          upon authorization.
-        redirect_uri_html: 'The allowed URLs authorized users can be redirected to.
-          One entry per line. <br/> If you''re registering a desktop application,
-          use the following URL.
+        name: Il nome della tua applicazione. Verrà visualizzato dagli altri utenti
+          all'autorizzazione.
+        redirect_uri_html: 'Gli URL consentiti a cui possono essere reindirizzati
+          gli utenti autorizzati. Una voce per riga. <br/> Se stai registrando un''applicazione
+          desktop, usa il seguente URL.
 
 '
-        confidential: Check if the application will be used where the client secret
-          can be kept confidential. Native mobile apps and Single Page Apps are assumed
-          non-confidential.
-        client_credential_user_id: Optional user ID to impersonate when clients use
-          this application. Leave empty to allow public access only
-        register_intro: If you are developing an OAuth API client application for
-          OpenProject, you can register it using this form for all users to use.
+        confidential: Controlla se l'applicazione verrà utilizzata dove il segreto
+          del client può essere tenuto confidenziale. Applicazioni mobili native e
+          app a pagina singola sono considerate non riservate.
+        client_credential_user_id: ID utente opzionale da impersonare quando i client
+          usano questa applicazione. Lascia vuoto per consentire solo l'accesso pubblico
+        register_intro: Se stai sviluppando un'applicazione client OAuth API per OpenProject
+          è possibile registrarla utilizzando questo modulo per consentirne l'uso
+          a tutti gli utenti.
         default_scopes: ''
     client_id: Client ID
-    client_secret_notice: 'This is the only time we can print the client secret, please
-      note it down and keep it secure. It should be treated as a password and cannot
-      be retrieved by OpenProject at a later time.
+    client_secret_notice: 'Questa è l''unico momento in cui possiamo stampare il segreto
+      del client, abbi cura di annotarlo e tenerlo al sicuro. Dovrebbe essere trattato
+      come una password e non può essere recuperato da OpenProject in un momento successivo.
 
 '
     authorization_dialog:
       authorize: Autorizza
-      cancel: Cancel and deny authorization.
-      prompt_html: Authorize <strong>%{application_name}</strong> to use your account
-        <em>%{login}</em>?
-      title: Authorize %{application_name}
-      wants_to_access_html: 'This application requests access to your OpenProject
-        account. <br/> <strong>It has requested the following permissions:</strong>
+      cancel: Annulla e nega autorizzazioni.
+      prompt_html: Autorizzare <strong>%{application_name}</strong> ad utilizzare
+        il tuo account <em>%{login}</em>?
+      title: Autorizza %{application_name}
+      wants_to_access_html: 'Questa applicazione richiede l''accesso al tuo account
+        OpenProject. <br/> <strong>Ha richiesto i seguenti permessi:</strong>
 
 '
     scopes:
-      api_v3: Full API access
-      api_v3_text: Application will receive full read & write access to the OpenProject
-        API to perform actions on your behalf.
+      api_v3: Accesso Completo API
+      api_v3_text: L'applicazione riceverà l'accesso completo alla lettura e scrittura
+        delle API OpenProject per eseguire azioni a tuo nome.
     grants:
-      created_date: Approved on
+      created_date: Approvato il
       scopes: Permessi
-      successful_application_revocation: Revocation of application %{application_name}
-        successful.
-      none_given: No OAuth applications have been granted access to your user account.
+      successful_application_revocation: Revoca dell'applicazione %{application_name}
+        riuscita.
+      none_given: Nessuna applicazione OAuth ha il permesso per accedere al tuo account
+        utente.
     x_active_tokens:
-      one: one active token
-      other: "%{count} active token"
+      one: un token attivo
+      other: "%{count} token attivi"
     flows:
-      authorization_code: Authorization code flow
-      client_credentials: Client credentials flow
-    client_credentials: User used for Client credentials
-    client_credentials_impersonation_set_to: Client credentials user set to
-    client_credentials_impersonation_warning: 'Note: Clients using the ''Client credentials''
-      flow in this application will have the rights of this user'
-    client_credentials_impersonation_html: 'By default, OpenProject provides OAuth
-      2.0 authorization via %{authorization_code_flow_link}. You can optionally enable
-      %{client_credentials_flow_link}, but you must provide a user on whose behalf
-      requests will be performed.
+      authorization_code: Flusso del codice di autorizzazione
+      client_credentials: Flusso delle credenziali client
+    client_credentials: Utente usato per le credenziali del client
+    client_credentials_impersonation_set_to: Credenziali del client impostate dall'utente
+    client_credentials_impersonation_warning: 'Nota: i clienti che utilizzano il flusso
+      "Credenziali client" di questa applicazione avranno i diritti di questo utente'
+    client_credentials_impersonation_html: 'Per impostazione predefinita, OpenProject
+      fornisce l''autorizzazione OAuth 2.0 tramite %{authorization_code_flow_link}.
+      È possibile abilitare facoltativamente %{client_credentials_flow_link}, ma è
+      necessario fornire un utente a cui nome verranno eseguite le richieste.
 
 '
-    authorization_error: An authorization error has occurred.
-    revoke_my_application_confirmation: Do you really want to remove this application?
-      This will revoke %{token_count} active for it.
-    my_registered_applications: Registered OAuth applications
+    authorization_error: Si è verificato un errore di autorizzazione.
+    revoke_my_application_confirmation: Vuoi davvero rimuovere questa applicazione?
+      Questo revocherà %{token_count} attivo per essa.
+    my_registered_applications: Applicazioni OAuth registrate

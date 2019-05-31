@@ -30,7 +30,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= error_messages_for :status %>
 
 <section class="form--section">
-  <div class="form--field"><%= f.text_field 'name', required: true, container_class: '-middle' %></div>
+  <div class="form--field -required"><%= f.text_field 'name', required: true, container_class: '-middle' %></div>
   <% if WorkPackage.use_status_for_done_ratio? %>
     <div class="form--field"><%= f.select :default_done_ratio,
                     ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }),
@@ -57,6 +57,8 @@ See docs/COPYRIGHT.rdoc for more details.
              locals: {
                form: f,
                object: @status,
+               type: 'status',
+               allow_bright_colors: true,
                label: t('statuses.edit.status_color_text')
             } %>
 

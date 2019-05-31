@@ -31,39 +31,17 @@ module API
     module Grids
       class UpdateFormAPI < ::API::OpenProjectAPI
         resource :form do
-          helpers do
-            include API::V3::Utilities::FormHelper
-          end
+          post &::API::V3::Utilities::Endpoints::UpdateForm.new(model: ::Grids::Grid,
+                                                                params_modifier: ->(params) {
+                                                                  if params[:scope]
+                                                                    params[:type] = ::Grids::Configuration
+                                                                                    .class_from_scope(params.delete(:scope))
+                                                                                    .to_s
+                                                                  end
 
-          post do
-            raise_if_lacking_manage_permission
-
-            params = API::V3::ParseResourceParamsService
-                     .new(current_user, representer: GridPayloadRepresenter)
-                     .call(request_body)
-                     .result
-
-            if params[:scope]
-              params[:type] = ::Grids::Configuration.class_from_scope(params.delete(:scope)).to_s
-            end
-
-            call = ::Grids::SetAttributesService
-                   .new(user: current_user,
-                        grid: @grid,
-                        contract_class: ::Grids::UpdateContract)
-                   .call(params)
-
-            api_errors = ::API::Errors::ErrorBase.create_errors(call.errors)
-
-            if only_validation_errors(api_errors)
-              status 200
-              UpdateFormRepresenter.new(call.result,
-                                        errors: api_errors,
-                                        current_user: current_user)
-            else
-              fail ::API::Errors::MultipleErrors.create_if_many(api_errors)
-            end
-          end
+                                                                  params
+                                                                })
+                                                           .mount
         end
       end
     end

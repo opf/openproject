@@ -30,6 +30,9 @@
 require 'net/ldap'
 
 class LdapAuthSource < AuthSource
+  enum tls_mode: %w[plain_ldap simple_tls start_tls]
+  validates :tls_mode, inclusion: { in: tls_modes.keys }
+
   validates_presence_of :host, :port, :attr_login
   validates_length_of :name, :host, maximum: 60, allow_nil: true
   validates_length_of :account, :account_password, :base_dn, maximum: 255, allow_nil: true
@@ -88,10 +91,18 @@ class LdapAuthSource < AuthSource
     options = { host: host,
                 port: port,
                 force_no_page: true,
-                encryption: (tls ? :simple_tls : nil)
+                encryption: ldap_encryption
               }
     options.merge!(auth: { method: :simple, username: ldap_user, password: ldap_password }) unless ldap_user.blank? && ldap_password.blank?
     Net::LDAP.new options
+  end
+
+  def ldap_encryption
+    if tls_mode == 'plain_ldap'
+      nil
+    else
+      tls_mode.to_sym
+    end
   end
 
   def get_user_attributes_from_ldap_entry(entry)

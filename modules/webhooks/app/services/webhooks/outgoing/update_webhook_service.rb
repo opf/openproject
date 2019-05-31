@@ -28,7 +28,8 @@ module Webhooks
       end
 
       def set_selected_events!(params)
-        webhook.event_names = params.delete(:events).select(&:present?)
+        events = params.delete(:events) || []
+        webhook.event_names = events.select(&:present?)
       end
 
       def set_selected_projects!(params)

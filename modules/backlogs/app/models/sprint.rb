@@ -62,13 +62,27 @@ class Sprint < Version
   }
 
   scope :displayed_left, lambda { |project|
-    joins(sanitize_sql_array(["LEFT OUTER JOIN (SELECT * from #{VersionSetting.table_name}" +
-                                                           ' WHERE project_id = ? ) version_settings' +
-                                                           ' ON version_settings.version_id = versions.id',
-                                 project.id]))
-      .where(['(version_settings.project_id = ? AND version_settings.display = ?)' +
-              ' OR (version_settings.project_id is NULL)',
-              project.id, VersionSetting::DISPLAY_LEFT])
+    joins(sanitize_sql_array([
+      "LEFT OUTER JOIN (SELECT * from #{VersionSetting.table_name}" +
+        ' WHERE project_id = ? ) version_settings' +
+        ' ON version_settings.version_id = versions.id',
+      project.id])
+    )
+      .where([
+        '(version_settings.project_id = ? AND version_settings.display = ?)' +
+          ' OR (version_settings.project_id is NULL)',
+        project.id,
+        VersionSetting::DISPLAY_LEFT
+      ])
+      .joins("
+        LEFT OUTER JOIN (SELECT * FROM #{VersionSetting.table_name}) AS vs
+        ON vs.version_id = #{Version.table_name}.id AND vs.project_id = #{Version.table_name}.project_id
+      ") # next take only those versions which define 'display left' in their home project or the given project (or don't define anything)
+      .where(
+        "(version_settings.display = ? OR vs.display = ? OR vs.display IS NULL)",
+        VersionSetting::DISPLAY_LEFT,
+        VersionSetting::DISPLAY_LEFT
+      )
   }
 
   scope :displayed_right, lambda { |project|

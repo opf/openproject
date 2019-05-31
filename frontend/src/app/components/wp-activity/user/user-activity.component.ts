@@ -112,7 +112,7 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
     this.userCacheService
       .require(this.activity.user.idFromLink)
       .then((user:UserResource) => {
-        this.userId = user.id;
+        this.userId = user.id!;
         this.userName = user.name;
         this.userActive = user.isActive;
         this.userAvatar = user.avatar;

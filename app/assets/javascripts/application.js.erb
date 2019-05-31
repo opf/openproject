@@ -376,6 +376,15 @@ var focusFirstErroneousField = function() {
   erroneousInput.focus();
 };
 
+function initMainMenuExpandStatus() {
+    let wrapper = jQuery('#wrapper');
+    let upToggle = jQuery('ul.menu_root.closed li.open a.arrow-left-to-project');
+
+    if (upToggle.length === 1 && wrapper.hasClass('hidden-navigation')) {
+        upToggle.trigger('click');
+    }
+}
+
 var setupServerResponse = function() {
   initMainMenuExpandStatus();
   focusFirstErroneousField();

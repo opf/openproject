@@ -1,20 +1,5 @@
-import {AfterViewInit, Component, Injector, Input, OnDestroy, OnInit} from '@angular/core';
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {WorkPackageStatesInitializationService} from 'core-components/wp-list/wp-states-initialization.service';
-import {WorkPackageTableRelationColumnsService} from 'core-components/wp-fast-table/state/wp-table-relation-columns.service';
-import {WorkPackageTableHierarchiesService} from 'core-components/wp-fast-table/state/wp-table-hierarchy.service';
-import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/state/wp-table-timeline.service';
-import {WorkPackageTablePaginationService} from 'core-components/wp-fast-table/state/wp-table-pagination.service';
-import {WorkPackageTableGroupByService} from 'core-components/wp-fast-table/state/wp-table-group-by.service';
-import {WorkPackageTableSortByService} from 'core-components/wp-fast-table/state/wp-table-sort-by.service';
-import {WorkPackageTableFiltersService} from 'core-components/wp-fast-table/state/wp-table-filters.service';
-import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
-import {WorkPackageTableSumService} from 'core-components/wp-fast-table/state/wp-table-sum.service';
-import {WorkPackageTableAdditionalElementsService} from 'core-components/wp-fast-table/state/wp-table-additional-elements.service';
+import {AfterViewInit, Component, Injector, Input, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {WorkPackageTableConfiguration} from 'core-components/wp-table/wp-table-configuration';
-import {WorkPackageTableRefreshService} from 'core-components/wp-table/wp-table-refresh-request.service';
-import {OpTableActionsService} from 'core-components/wp-table/table-actions/table-actions.service';
-import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
 import {GroupObject} from 'core-app/modules/hal/resources/wp-collection-resource';
 import {Chart} from 'chart.js';
 import {WorkPackageEmbeddedBaseComponent} from "core-components/wp-table/embedded/wp-embedded-base.component";
@@ -28,26 +13,8 @@ export interface WorkPackageEmbeddedGraphDataset {
 
 @Component({
   selector: 'wp-embedded-graph',
-  templateUrl: './wp-embedded-graph.html',
-  providers: [
-    IsolatedQuerySpace,
-    OpTableActionsService,
-    WorkPackageStatesInitializationService,
-    WorkPackageTableRelationColumnsService,
-    WorkPackageTablePaginationService,
-    WorkPackageTableGroupByService,
-    WorkPackageTableHierarchiesService,
-    WorkPackageTableSortByService,
-    WorkPackageTableColumnsService,
-    WorkPackageTableFiltersService,
-    WorkPackageTableTimelineService,
-    WorkPackageTableSelection,
-    WorkPackageTableSumService,
-    WorkPackageTableAdditionalElementsService,
-    WorkPackageTableRefreshService,
-  ]
+  templateUrl: './wp-embedded-graph.html'
 })
-
 export class WorkPackageEmbeddedGraphComponent extends WorkPackageEmbeddedBaseComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() public datasets:WorkPackageEmbeddedGraphDataset[];
 
@@ -83,17 +50,20 @@ export class WorkPackageEmbeddedGraphComponent extends WorkPackageEmbeddedBaseCo
     super(injector);
   }
 
-  public refresh(visible:boolean = true):Promise<any> {
-    return super.refresh(visible).then(() => this.updateChartData());
+  ngOnChanges(changes:SimpleChanges) {
+    if (this.initialized && (changes.datasets)) {
+      this.loadQuery(false);
+    }
   }
 
   private updateChartData() {
     let uniqLabels = _.uniq(this.datasets.reduce((array, dataset) => {
-      return array.concat(dataset.groups!.map((group) => group.value) as any);
+      let groups = (dataset.groups || []).map((group) => group.value) as any;
+      return array.concat(groups);
     }, [])) as string[];
 
     let labelCountMaps = this.datasets.map((dataset) => {
-      let countMap = dataset.groups!.reduce((hash, group) => {
+      let countMap = (dataset.groups || []).reduce((hash, group) => {
         hash[group.value] = group.count;
         return hash;
       }, {} as any);
@@ -118,7 +88,7 @@ export class WorkPackageEmbeddedGraphComponent extends WorkPackageEmbeddedBaseCo
     this.chartData = labelCountMaps;
   }
 
-  protected loadQuery(visible:boolean = false) {
+  public loadQuery(visible:boolean = false) {
     this.error = null;
 
     let queries = this.datasets.map((dataset:any) => {
@@ -138,6 +108,7 @@ export class WorkPackageEmbeddedGraphComponent extends WorkPackageEmbeddedBaseCo
     const promise = Promise.all(queries)
       .then((datasets) => {
         this.setLoaded();
+        this.updateChartData();
         return datasets;
       })
       .catch((error) => {

@@ -91,6 +91,24 @@ describe 'edit work package', js: true do
     end
   end
 
+  context 'as an admin without roles' do
+    let(:visit_before) { false }
+    let(:work_package) { FactoryBot.create(:work_package, project: project, type: type2) }
+    let(:admin) { FactoryBot.create :admin }
+
+    it 'can still use the manager role' do
+      # A role must still exist
+      workflow
+      login_as admin
+      visit!
+
+      wp_page.update_attributes status: status2.name
+      wp_page.expect_attributes status: status2.name
+
+      wp_page.expect_activity_message("Status changed from #{status.name}\nto #{status2.name}")
+    end
+  end
+
   context 'with progress' do
     let(:visit_before) { false }
 
@@ -122,7 +140,7 @@ describe 'edit work package', js: true do
                               status: status2.name,
                               description: 'a new description'
 
-    wp_page.expect_attributes type: type2.name,
+    wp_page.expect_attributes type: type2.name.upcase,
                               responsible: manager.name,
                               assignee: manager.name,
                               startDate: '03/04/2013',

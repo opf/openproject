@@ -46,7 +46,7 @@
     </div>
   </div>
 
-  <filter-container></filter-container>
+  <filter-container (filtersCompleted)="updateResultVisibility($event)"></filter-container>
 
   <accessible-by-keyboard
     linkClass="hidden-for-sighted skip-navigation-link"
@@ -61,6 +61,8 @@
     <!-- (TABLE + TIMELINE) and FOOTER vertical split-->
     <div class="work-packages-split-view--tabletimeline-side loading-indicator--location"
          data-indicator-name="table">
+      <div class="result-overlay"
+           *ngIf="showResultOverlay"></div>
 
       <!-- TABLE + TIMELINE horizontal split -->
       <wp-table *ngIf="tableInformationLoaded"

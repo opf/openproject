@@ -5,11 +5,11 @@
     <%= link_to t('webhooks.outgoing.form.apiv3_doc_url'), OpenProject::Static::Links.links[:api_docs][:href] %>
   </p>
 
-  <div class="form--field">
+  <div class="form--field -required">
     <%= f.text_field :name, required: true, container_class: '-middle' %>
   </div>
 
-  <div class="form--field">
+  <div class="form--field -required">
       <%= f.url_field :url, required: true, container_class: '-wide' %>
   </div>
 

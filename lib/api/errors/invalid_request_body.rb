@@ -31,10 +31,7 @@ module API
   module Errors
     class InvalidRequestBody < ErrorBase
       identifier 'urn:openproject-org:api:v3:errors:InvalidRequestBody'
-
-      def initialize(message)
-        super 400, message
-      end
+      code 400
     end
   end
 end

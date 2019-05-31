@@ -2,7 +2,7 @@
   <div class="toolbar">
     <div class="title-container">
       <h2 [attr.title]="searchTitle">
-        Search for
+        {{ text.search_for }}
         <i>"{{ searchTerm }}"</i>
         {{ project === '' ? '' : text.in }}
         <i>{{ project }}</i>

@@ -31,7 +31,7 @@ class Widget::Table::ReportTable < Widget::Table
   def configure_walker
     @walker ||= @subject.walker
     @walker.for_final_row do |row, cells|
-      html = "<th scope='row' class='normal inner left'>#{show_row row}#{debug_fields(row)}</th>"
+      html = "<th scope='row' class='normal inner left -break-word'>#{show_row row}#{debug_fields(row)}</th>"
       html << cells.join
       html << "<td class='normal inner right'>#{show_result(row)}#{debug_fields(row)}</th>"
       html.html_safe
@@ -41,7 +41,7 @@ class Widget::Table::ReportTable < Widget::Table
       subrows.flatten!
       unless row.fields.empty?
         subrows[0] = %{
-            <th class='top left' rowspan='#{subrows.size}'>#{show_row row}#{debug_fields(row)}</th>
+            <th class='top left -break-word' rowspan='#{subrows.size}'>#{show_row row}#{debug_fields(row)}</th>
               #{subrows[0].gsub("class='normal", "class='top")}
             <th class='top right' rowspan='#{subrows.size}'>#{show_result(row)}#{debug_fields(row)}</th>
           }.html_safe

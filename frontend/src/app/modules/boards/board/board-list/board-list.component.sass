@@ -1,28 +1,64 @@
+@import 'helpers'
+
+$board-list-max-width: 300px
+
 .board-list--query-container
-  padding: 5px 15px
-  height: 75vh
+  // 100% - board header height
+  height: calc(100% - 42px)
+  max-width: inherit
   overflow-y: auto
+  padding: 5px 0 0 0
+
+  @include styled-scroll-bar-vertical
+
+  // Ensure grid is only applied if button is visible
+  &.-with-create-button
+    display: grid
+    grid-template: 34px 1fr / 1fr
+
+  wp-card-view
+    max-width: inherit
+
+.board-list--container
+  height: 100%
+  max-width: $board-list-max-width
+
+  &:hover
+    .board-list--menu
+      visibility: visible
+
+.board-list--action-bar
+  width: calc(100% - 30px)
+  height: 5px
+  margin: auto
 
 .board-list--header
-  padding: 10px 20px
-  border-bottom: 1px solid #ccc
+  padding: 5px 15px
   display: flex
   align-items: center
 
   editable-toolbar-title
     flex: 1
+    margin-bottom: 0
+    margin-right: 0.25rem
 
-  .board-list--delete-icon
-    opacity: 0
-    position: relative
-    top: -4px
-    left: 4px
+.notification-box
+  margin-top: 0
+  // Avoids having to hide the drag&drop handle of the list
+  z-index: 100
 
-    .board-list--container:hover &
-      opacity: 1
+.board-list--add-button
+  background-color: var(--body-background)
+  width: calc(100% - 30px)
+  margin: 0 15px
+  box-shadow: 1px 1px 3px 0px lightgrey
 
-wp-embedded-table
-  wp-card-view
+  &:hover
+    background-color: #eeeeee50
 
-  height: 100%
-  display: block
+.board-list--menu
+  visibility: hidden
+  @include without-link-styling
+
+  a, a:hover
+    color: var(--light-gray)

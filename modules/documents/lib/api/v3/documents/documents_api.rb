@@ -33,7 +33,7 @@ module API
   module V3
     module Documents
       class DocumentsAPI < ::API::OpenProjectAPI
-        helpers ::API::Utilities::ParamsHelper
+        helpers ::API::Utilities::PageSizeHelper
 
         resources :documents do
           get do
@@ -52,7 +52,7 @@ module API
             end
           end
 
-          route_param :id do
+          route_param :id, type: Integer, desc: 'Document ID' do
             helpers do
               def document
                 Document.visible.find(params[:id])

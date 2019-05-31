@@ -68,7 +68,6 @@ module Queries
     def validate
       validate_project
       user_allowed_to_make_public
-
       super
     end
 
@@ -80,16 +79,18 @@ module Queries
       Project.visible(user).where(id: project_id).exists?
     end
 
+    def may_not_manage_queries?
+      !user.allowed_to?(:manage_public_queries, model.project, global: model.project.nil?)
+    end
+
     def user_allowed_to_make_public
+      # Add error only when changing public flag
+      return unless model.is_public_changed?
       return if model.project_id.present? && model.project.nil?
 
       if is_public && may_not_manage_queries?
         errors.add :public, :error_unauthorized
       end
-    end
-
-    def may_not_manage_queries?
-      !user.allowed_to?(:manage_public_queries, model.project, global: model.project.nil?)
     end
   end
 end

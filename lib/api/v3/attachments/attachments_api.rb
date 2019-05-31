@@ -48,11 +48,8 @@ module API
                                                               current_user: current_user)
           end
 
-          params do
-            requires :id, desc: 'Attachment id'
-          end
-          route_param :id do
-            before do
+          route_param :id, type: Integer, desc: 'Attachment ID' do
+            after_validation do
               @attachment = Attachment.find(params[:id])
 
               raise ::API::Errors::NotFound.new unless @attachment.visible?(current_user)
@@ -75,15 +72,10 @@ module API
             end
 
             namespace :content do
+              helpers ::API::Helpers::AttachmentRenderer
+
               get do
-                if @attachment.external_storage?
-                  redirect @attachment.external_url.to_s
-                else
-                  content_type @attachment.content_type
-                  header['Content-Disposition'] = "attachment; filename=#{@attachment.filename}"
-                  env['api.format'] = :binary
-                  @attachment.diskfile.read
-                end
+                respond_with_attachment @attachment
               end
             end
           end

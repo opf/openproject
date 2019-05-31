@@ -574,13 +574,12 @@ JJ Abrams</textarea>
         }).at_path('label')
       end
 
-      def expected_required_label_like(expected_title, expected_classes = 'form--label')
+      def expected_form_label_like(expected_title, expected_classes = 'form--label')
         expect(output).to be_html_eql(%{
           <label class="#{expected_classes}"
                  for="user_name"
                  title="#{expected_title}">
             #{expected_title}
-            <span class="form--label-required" aria-hidden="true">*</span>
           </label>
         }).at_path('label')
       end
@@ -661,7 +660,7 @@ JJ Abrams</textarea>
         end
 
         it 'uses the label' do
-          expected_required_label_like(I18n.t(:name), 'form--label -required')
+          expected_form_label_like(I18n.t(:name), 'form--label')
         end
       end
     end

@@ -27,6 +27,6 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<h1><%= link_to @project.name, project_url(@project) %></h1>
+<h1><%= @project.name %></h1>
 
-<%= t('projects.delete.completed_text', name: @project.name) %>
+<p><%= t('projects.delete.completed_text', name: @project.name) %></p>

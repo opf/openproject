@@ -37,8 +37,8 @@ import {Injectable} from '@angular/core';
 import {debugLog} from "core-app/helpers/debug_output";
 import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 
-function getWorkPackageId(id:number | string):string {
-  return (id || '__new_work_package__').toString();
+function getWorkPackageId(id:string|null):string {
+  return (id || 'new').toString();
 }
 
 @Injectable()
@@ -55,14 +55,23 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
     this.updateWorkPackageList([val], false);
   }
 
-  updateWorkPackage(wp:WorkPackageResource) {
-    this.updateWorkPackageList([wp], false);
+  updateWorkPackage(wp:WorkPackageResource, immediate:boolean = false):Promise<void> {
+    const wpId = getWorkPackageId(wp.id!);
+
+    if (immediate || wp.isNew) {
+      this.multiState.get(wpId).putValue(wp);
+      return Promise.resolve();
+    } else {
+      return this.schemaCacheService.ensureLoaded(wp).then(() => {
+        this.multiState.get(wpId).putValue(wp);
+      });
+    }
   }
 
   updateWorkPackageList(list:WorkPackageResource[], skipOnIdentical = true) {
     for (var i of list) {
       const wp = i;
-      const workPackageId = getWorkPackageId(wp.id);
+      const workPackageId = getWorkPackageId(wp.id!);
       const state = this.multiState.get(workPackageId);
 
       // If the work package is new, ignore the schema
@@ -71,15 +80,15 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
         continue;
       }
 
-      // Check if the work package has changed
-      if (skipOnIdentical && state.hasValue() && _.isEqual(state.value!.$source, wp.$source)) {
-        debugLog('Skipping identical work package from updating');
-        continue;
-      }
-
       // Ensure the schema is loaded
       // so that no consumer needs to call schema#$load manually
       this.schemaCacheService.ensureLoaded(wp).then(() => {
+        // Check if the work package has changed
+        if (skipOnIdentical && state.hasValue() && _.isEqual(state.value!.$source, wp.$source)) {
+          debugLog('Skipping identical work package from updating');
+          return;
+        }
+
         this.multiState.get(workPackageId).putValue(wp);
       });
     }

@@ -44,6 +44,7 @@ export class WorkPackageBreadcrumbParentComponent {
   public text = {
     edit_parent: this.I18n.t('js.relation_buttons.change_parent'),
     set_or_remove_parent: this.I18n.t('js.relations_autocomplete.parent_placeholder'),
+    remove_parent: this.I18n.t('js.relation_buttons.remove_parent'),
     set_parent: this.I18n.t('js.relation_buttons.set_parent'),
   };
 
@@ -76,12 +77,9 @@ export class WorkPackageBreadcrumbParentComponent {
     this.toggle(true);
   }
 
-  public updateParent(newParentId:string|null) {
+  public updateParent(newParent:WorkPackageResource|null) {
     this.close();
-    if (_.isNil(newParentId)) {
-      newParentId = null;
-    }
-
+    let newParentId = newParent ? newParent.id : null;
     if (_.get(this.parent, 'id', null) === newParentId) {
       return;
     }

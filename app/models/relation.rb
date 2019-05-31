@@ -36,7 +36,7 @@ class Relation < ActiveRecord::Base
 
   virtual_attribute :relation_type do
     types = ((TYPES.keys + [TYPE_HIERARCHY]) & Relation.column_names).select do |name|
-      send(name) > 0
+      send(name).positive?
     end
 
     case types.length
@@ -245,7 +245,7 @@ class Relation < ActiveRecord::Base
   end
 
   def canonical_type
-    self.class(relation_type)
+    self.class.canonical_type(relation_type)
   end
 
   def self.canonical_type(relation_type)
@@ -284,6 +284,7 @@ class Relation < ActiveRecord::Base
     end
 
     return unless relation_type
+
     new_column = self.class.relation_column(relation_type)
 
     send("#{new_column}=", 1) if new_column

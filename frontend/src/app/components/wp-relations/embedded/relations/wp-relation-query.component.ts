@@ -60,7 +60,7 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
       'remove-relation-action',
       this.I18n.t('js.relation_buttons.remove'),
       (relatedTo:WorkPackageResource) => {
-        this.embeddedTable.loadingIndicator = this.wpRelations.require(relatedTo.id)
+        this.embeddedTable.loadingIndicator = this.wpRelations.require(relatedTo.id!)
           .then(() => this.wpInlineCreate.remove(this.workPackage, relatedTo))
           .then(() => this.refreshTable())
           .catch((error) => this.wpNotifications.handleRawError(error, this.workPackage));
@@ -96,7 +96,7 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
 
     // When relations have changed, refresh this table
 
-    this.wpRelations.observe(this.workPackage.id)
+    this.wpRelations.observe(this.workPackage.id!)
       .pipe(untilComponentDestroyed(this))
       .subscribe(() => this.refreshTable());
   }
@@ -109,7 +109,7 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
     this.wpInlineCreate
       .add(this.workPackage, toId)
       .then(() => {
-        this.wpTableRefresh.request(`Added relation ${toId}`, true);
+        this.wpTableRefresh.request(`Added relation ${toId}`, { visible: true });
       })
       .catch(error => this.wpNotifications.handleRawError(error, this.workPackage));
   }

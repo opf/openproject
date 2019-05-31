@@ -28,47 +28,13 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Grids::UpdateService
-  include ::Shared::ServiceContext
-
-  attr_accessor :user,
-                :grid,
-                :contract_class
-
-  def initialize(user:, grid:, contract_class: Grids::UpdateContract)
-    self.user = user
-    self.grid = grid
-    self.contract_class = contract_class
-  end
-
-  def call(attributes: {})
-    in_context(false) do
-      create(attributes)
-    end
-  end
-
+class Grids::UpdateService < ::BaseServices::Update
   protected
 
-  def create(attributes)
+  def update(attributes)
     set_type_for_error_message(attributes.delete(:scope))
 
-    set_attributes_call = set_attributes(attributes, grid)
-
-    if set_attributes_call.success? &&
-       !grid.save
-      set_attributes_call.errors = grid.errors
-      set_attributes_call.success = false
-    end
-
-    set_attributes_call
-  end
-
-  def set_attributes(attributes, grid)
-    Grids::SetAttributesService
-      .new(user: user,
-           grid: grid,
-           contract_class: contract_class)
-      .call(attributes)
+    super
   end
 
   # Changing the scope/type after the grid has been created is prohibited.
@@ -76,7 +42,7 @@ class Grids::UpdateService
   def set_type_for_error_message(scope)
     if scope
       grid_class = ::Grids::Configuration.class_from_scope(scope)
-      grid.type = grid_class.name
+      model.type = grid_class.name
     end
   end
 end

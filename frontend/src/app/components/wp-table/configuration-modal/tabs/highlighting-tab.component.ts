@@ -37,7 +37,6 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
       priority: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.priority'),
       entire_row_by: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.entire_row_by'),
     },
-    upsaleEnterpriseOnly: this.I18n.t('js.upsale.ee_only'),
     upsaleAttributeHighlighting: this.I18n.t('js.work_packages.table_configuration.upsale.attribute_highlighting'),
     upsaleCheckOutLink: this.I18n.t('js.work_packages.table_configuration.upsale.check_out_link')
   };

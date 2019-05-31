@@ -31,10 +31,7 @@ module API
     module CustomActions
       class CustomActionsAPI < ::API::OpenProjectAPI
         resources :custom_actions do
-          params do
-            requires :id, desc: 'Custom action id', type: Integer
-          end
-          route_param :id do
+          route_param :id, type: Integer, desc: 'Custom action ID' do
             helpers do
               def custom_action
                 @custom_action ||= CustomAction.find(params[:id])
@@ -43,7 +40,7 @@ module API
 
             helpers ::API::V3::WorkPackages::WorkPackagesSharedHelpers
 
-            before do
+            after_validation do
               authorize(:edit_work_packages, global: true)
             end
 
@@ -65,7 +62,7 @@ module API
                 end
               end
 
-              before do
+              after_validation do
                 contract = ::CustomActions::ExecuteContract.new(parsed_params)
 
                 unless contract.valid?
@@ -86,7 +83,11 @@ module API
                     work_package.reload
 
                     status 200
-                    body work_package_representer(work_package)
+                    body(::API::V3::WorkPackages::WorkPackageRepresenter.create(
+                           work_package,
+                           current_user: current_user,
+                           embed_links: true
+                         ))
                   end
 
                   call.on_failure do

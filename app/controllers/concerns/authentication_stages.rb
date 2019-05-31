@@ -1,9 +1,9 @@
 module Concerns
   module AuthenticationStages
     def stage_success
-      stage = session[:authentication_stages].first
+      stage = session[:authentication_stages]&.first
 
-      if stage.to_s == params[:stage]
+      if stage && stage.to_s == params[:stage]
         if params[:secret] == stage_secrets[stage]
           session[:authentication_stages] = session[:authentication_stages].drop(1)
 
@@ -16,7 +16,7 @@ module Concerns
       else
         flash[:error] = I18n.t(
           :notice_auth_stage_wrong_stage,
-          expected: stage,
+          expected: stage || '(none)',
           actual: params[:stage]
         )
 

@@ -57,9 +57,25 @@ vi:
     index:
       no_results_content_title: Không có hiện tại không có chế độ xác thực.
       no_results_content_text: Tạo một chế độ xác thực mới
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Mã hóa kết nối
+    tls_mode:
+      plain: không
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Kết nối không được mã hóa, không hỗ trợ TLS.
+      simple_tls_description: Mã hóa TLS ngầm định, nhưng không có xác nhận chứng
+        chỉ. Sử dụng thận trọng và tin tưởng ngầm định về kết nối LDAP.
+      start_tls_description: Mã hóa TLS rõ ràng với xác nhận đầy đủ. Sử dụng cho LDAP
+        qua TLS / SSL.
+      section_more_info_link_html: 'Phần này liên quan đến bảo mật kết nối của nguồn
+        xác thực LDAP này. Để biết thêm thông tin, vui lòng truy cập <a href="%{link}">
+        tài liệu Net::LDAP</a>.
+
+'
+  forums:
     show:
-      no_results_title_text: Hiện có không có bài viết ở bảng điều khiển.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Hiện có không có màu sắc.
@@ -119,29 +135,28 @@ vi:
     memberships:
       no_results_title_text: Hiện có không có dự án thuộc nhóm này.
   incoming_mails:
-    ignore_filenames: 'Specify a list of names to ignore when processing attachments
-      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+    ignore_filenames: 'Chỉ định danh sách các tên cần bỏ qua khi xử lý tệp đính kèm
+      cho thư đến (ví dụ: chữ ký hoặc biểu tượng). Nhập một tên tệp trên mỗi dòng.
 
 '
   projects:
     delete:
-      scheduled: Deletion has been scheduled and is perfomed in the background. You
-        will be notified of the result.
-      schedule_failed: 'Project cannot be deleted: %{errors}'
-      failed: Deletion of project %{name} has failed
-      failed_text: The request to delete project %{name} has failed. The project was
-        left archived.
-      completed: Deletion of project %{name} completed
-      completed_text: The request to delete project '%{name}' has been completed.
+      scheduled: Yêu cầu xóa đã được lên lịch và đang được thực hiện. Bạn sẽ được
+        thông báo về kết quả.
+      schedule_failed: 'Dự án không thể bị xóa: %{errors}'
+      failed: Yêu cầu xóa dự án %{name} không thành công
+      failed_text: Yêu cầu xóa dự án %{name} đã thất bại. Dự án đã được lưu trữ.
+      completed: Đã xóa dự án %{name}
+      completed_text: Yêu cầu xóa dự án '%{name}' đã được hoàn thành.
     index:
       no_results_title_text: Không có dự án nào
       no_results_content_text: Tạo một dự án mới
     settings:
       activities:
         no_results_title_text: Không có hoạt động nào hiện tại.
-      boards:
-        no_results_title_text: Không có hiện tại không có bảng điều khiển cho dự án.
-        no_results_content_text: Tạo ra một bảng mới
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Hiện có không có nhóm gói công việc.
         no_results_content_text: Tạo ra một loại gói công việc mới
@@ -211,7 +226,7 @@ vi:
       reset: Reset to defaults
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts.
+        in Gantt charts. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: There are currently no work packages assigned to this
@@ -228,7 +243,7 @@ vi:
       one: One descendant work package
       other: "%{count} gói sản phẩm phụ thuộc"
     bulk:
-      could_not_be_saved: 'The following work packages could not be saved:'
+      could_not_be_saved: 'Không thể lưu các gói công việc sau:'
     move:
       no_common_statuses_exists: Có là tình trạng không có sẵn cho tất cả các gói
         đã chọn công việc. Tình trạng của họ không thể thay đổi.
@@ -366,6 +381,11 @@ vi:
         subscriber: Subscriber
         encoded_token: Enterprise support token
         active_user_count_restriction: Số người dùng hoạt động tối đa
+      grids/grid:
+        page: Trang
+        row_count: Số dòng
+        column_count: Số cột
+        widgets: Tiện ích
       relation:
         delay: Trì hoãn
         from: Work Package
@@ -403,6 +423,7 @@ vi:
         spent_on: Ngày
         type: Kiểu
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Hiển thị trong lộ trình mặc định
         is_default: Kích hoạt cho các dự án mới theo mặc định
@@ -459,16 +480,11 @@ vi:
       doorkeeper/application:
         uid: Client ID
         secret: Client secret
-        owner: Owner
-        redirect_uri: Redirect URI
+        owner: Người sở hữu
+        redirect_uri: URI đổi hướng
         client_credentials_user_id: Client Credentials User ID
-        scopes: Scopes
-        confidential: Confidential
-      grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
+        scopes: Phạm vi
+        confidential: Bí mật
     errors:
       messages:
         accepted: must be accepted.
@@ -531,14 +547,18 @@ vi:
           attributes:
             redirect_uri:
               fragment_present: cannot contain a fragment.
-              invalid_uri: must be a valid URI.
-              relative_uri: must be an absolute URI.
-              secured_uri: must be an HTTPS/SSL URI.
-              forbidden_uri: is forbidden by the server.
+              invalid_uri: phải là một URI hợp lệ.
+              relative_uri: phải là một URI tuyệt đối.
+              secured_uri: phải là một HTTPS/SSL URI.
+              forbidden_uri: bị chặn bởi máy chủ.
             scopes:
-              not_match_configured: doesn't match available scopes.
+              not_match_configured: không phù hợp bất cứ phạm vi nào.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        grids/grid:
+          overlaps: chồng lấn.
+          outside: nằm ngoài bảng dữ liệu.
+          end_before_start: giá trị kết thúc cần lớn hơn giá trị bắt đầu.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -612,6 +632,7 @@ vi:
           attributes:
             attribute_groups:
               attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: Nhóm tên '%{group}' được sử dụng nhiều hơn một lần.
                 Tên nhóm phải là duy nhất.
               query_invalid: 'Truy vấn nhúng ''%{group}'' là không hợp lệ: %{details}'
@@ -640,11 +661,15 @@ vi:
               error_not_found: not found
         member:
           principal_blank: Vui lòng chọn ít nhất một người dùng hoặc nhóm.
-          role_blank: Vui lòng chọn ít nhất một vai trò.
-        grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          role_blank: need to be assigned.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Vui lòng kiểm tra các mục sau đây:'
         header:
@@ -653,7 +678,7 @@ vi:
     models:
       attachment: Tệp
       attribute_help_text: Thuộc tính văn bản trợ giúp
-      board: Diễn đàn
+      forum: Diễn đàn
       comment: Nhận xét
       custom_action: Tác vụ tùy chỉnh
       custom_field: Tùy chỉnh mục
@@ -750,7 +775,7 @@ vi:
   button_change_password: Thay đổi mật khẩu
   button_check_all: Đánh dấu tất cả
   button_clear: Xóa
-  button_click_to_reveal: Click to reveal
+  button_click_to_reveal: Chọn để xem
   button_close: Đóng
   button_collapse_all: Thu gọn tất cả
   button_configure: Thiết lập
@@ -780,7 +805,7 @@ vi:
   button_remove: Remove
   button_rename: Đổi tên
   button_replace: Replace
-  button_revoke: Revoke
+  button_revoke: Thu hồi
   button_reply: Trả lời
   button_reset: Reset
   button_rollback: Quay trở lại phiên bản này
@@ -990,7 +1015,7 @@ vi:
   description_choose_project: Các dự án
   description_compare_from: Compare from
   description_compare_to: Compare to
-  description_current_position: 'Bạn đang ở đây:'
+  description_current_position: 'You are here: '
   description_date_from: Nhập ngày bắt đầu
   description_date_range_interval: Chọn khoảng thời gian giữa ngày bắt đầu và kết
     thúc
@@ -1038,15 +1063,17 @@ vi:
   error_can_not_remove_role: Vai trò này đang được sử dụng và không thể bị xóa.
   error_can_not_reopen_work_package_on_closed_version: Không thể mở lại cho một work
     package đã được gán cho một phiên bản đã đóng
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Hãy chọn người dùng và một vai trò.
+  error_code: Error %{code}
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.
   error_custom_option_not_found: Option does not exist.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Giá trị đã chọn không hợp lệ.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1063,6 +1090,10 @@ vi:
   error_work_package_not_found_in_project: Work package không được tìm thấy hoặc không
     thuộc về dự án này
   error_must_be_project_member: phải là thành viên dự án
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: Không có tình trạng mặc định được định nghĩa
     cho work package. Vui lòng kiểm tra cấu hình của bạn (đi đến "Quản lý-> các trạng
     thái của work package").
@@ -1149,13 +1180,13 @@ vi:
           you substantially contribute to this Open-Source community effort.
     links:
       upgrade_enterprise_edition: Upgrade to Enterprise Edition
+      postgres_migration: Migrating your installation to PostgreSQL
       user_guides: User guides
       faq: FAQ
       glossary: Glossary
       shortcuts: Shortcuts
-      forums: Diễn đàn
       blog: OpenProject blog
-      boards: Diễn đàn cộng đồng
+      forums: Diễn đàn cộng đồng
       newsletter: Security alerts / Newsletter
   links:
     configuration_guide: Configuration guide
@@ -1222,7 +1253,7 @@ vi:
   label_authentication: Xác thực
   label_available_project_work_package_categories: Available work package categories
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Available boards
+  label_available_project_forums: Available forums
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories
   label_api_documentation: API documentation
@@ -1230,14 +1261,15 @@ vi:
   label_blocked_by: bị chặn bởi
   label_blocks: các khối
   label_blog: Blog
-  label_board_locked: Đã khóa
-  label_board_new: Diễn đàn mới
-  label_board_plural: Diễn đàn
-  label_board_sticky: Chú ý
+  label_forums_locked: Đã khóa
+  label_forum_new: Diễn đàn mới
+  label_forum_plural: Diễn đàn
+  label_forum_sticky: Chú ý
   label_boolean: Boolean
   label_branch: Nhánh
   label_browse: Browse
   label_bulk_edit_selected_work_packages: Chỉnh sửa các work package đã chọn
+  label_bundled: "(Bundled)"
   label_calendar: Lịch
   label_calendar_show: Hiển thị Lịch
   label_category: Thể loại
@@ -1334,8 +1366,9 @@ vi:
   label_environment: Environment
   label_estimates_and_time: Estimates and time
   label_equals: is
-  label_everywhere: everywhere
+  label_everywhere: mọi nơi
   label_example: Ví dụ
+  label_import: Import
   label_export_to: 'Cũng có sẵn tại:'
   label_expanded_click_to_collapse: Mở rộng. Bấm vào để thu gọn
   label_f_hour: "%{value} giờ"
@@ -1372,7 +1405,8 @@ vi:
   label_history: Lịch sử
   label_hierarchy_leaf: Hệ thống phân cấp lá
   label_home: Home
-  label_subject_or_id: Subject or ID
+  label_subject_or_id: Chủ đề hoặc Mã
+  label_impressum: Legal notice
   label_in: trong
   label_in_less_than: ít hơn
   label_in_more_than: nhiều hơn
@@ -1422,6 +1456,7 @@ vi:
   label_max_size: Maximum size
   label_me: me
   label_member_new: New member
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Members
   label_view_all_members: View all members
   label_menu_item_name: Name of menu item
@@ -1450,6 +1485,7 @@ vi:
   label_my_queries: Các truy vấn tùy biến của tôi
   label_never: Never
   label_new: Mới
+  label_new_features: New features
   label_new_statuses_allowed: Trạng thái mới được phép
   label_news_added: Đã thêm tin
   label_news_comment_added: Bình luận được thêm vào một tin tức
@@ -1498,6 +1534,7 @@ vi:
   label_planning: Lập kế hoạch
   label_please_login: Vui lòng đăng nhập
   label_plugins: Plugins
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: trước
   label_preferences: Tùy chỉnh
   label_preview: Xem trước
@@ -1505,6 +1542,7 @@ vi:
   label_previous_week: Tuần trước
   label_principal_invite_via_email: " or invite new users via email"
   label_principal_search: Add existing users or groups
+  label_privacy_policy: Chính sách bảo mật và quyền riêng tư dữ liệu
   label_product_version: Phiên bản sản phẩm
   label_professional_support: Professional support
   label_profile: Hồ sơ
@@ -1620,6 +1658,7 @@ vi:
   label_updated_time: Cập nhật cách đây %{value}
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Cập nhật bởi %{author} cách đây %{age}
+  label_upgrade_guides: Upgrade guides
   label_used_by: Được dùng bởi
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
@@ -1648,7 +1687,7 @@ vi:
   label_view_diff: View differences
   label_view_revisions: View revisions
   label_watched_work_packages: Watched work packages
-  label_what_is_this: What is this?
+  label_what_is_this: Đây là gì?
   label_week: Week
   label_wiki_content_added: Wiki page added
   label_wiki_content_updated: Wiki page updated
@@ -1824,6 +1863,8 @@ vi:
   notice_account_update_failed: Không thể lưu thiết đặt tài khoản. Xin vui lòng kiểm
     tra trong trang tài khoản của bạn.
   notice_account_updated: Account was successfully updated.
+  notice_account_other_session_expired: Tất cả phiên giao dịch khác của tài khoản
+    này đã bị vô hiệu.
   notice_account_wrong_password: Wrong password
   notice_account_registered_and_logged_in: Welcome, your account has been activated.
     You are logged in now.
@@ -1876,7 +1917,6 @@ vi:
     There are too many results.
     Narrow down the search by typing in the name of the new member (or group).
   notice_unable_delete_time_entry: Unable to delete time log entry.
-  notice_unable_delete_version: Unable to delete version.
   notice_user_missing_authentication_method: User has yet to choose a password or
     another way to sign in.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
@@ -1952,7 +1992,7 @@ vi:
   permission_export_wiki_pages: Export wiki pages
   permission_list_attachments: List attachments
   permission_log_time: Log spent time
-  permission_manage_boards: Manage forums
+  permission_manage_forums: Manage forums
   permission_manage_categories: Manage work package categories
   permission_manage_work_package_relations: Manage work package relations
   permission_manage_members: Manage members
@@ -1999,7 +2039,7 @@ vi:
     archive:
       are_you_sure: Bạn có chắc bạn muốn lưu trữ các dự án '%{name}'?
   project_module_activity: Hoạt động
-  project_module_boards: Diễn đàn
+  project_module_forums: Diễn đàn
   project_module_calendar: Lịch
   project_module_work_package_tracking: Theo dõi work package
   project_module_news: Tin tức
@@ -2221,14 +2261,10 @@ vi:
   setting_log_requesting_user: Log user login, name, and mail address for all requests
   setting_login_required: Authentication required
   setting_mail_from: Emission email address
-  setting_mail_handler_api_enabled: Enable incoming email web service
-  setting_mail_handler_api_description: The email web handler enables OpenProject
-    to receive emails containing specific commands as an instrumentation mechanism
-    (e.g., to create and update work packages).
   setting_mail_handler_api_key: API key
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines
   setting_mail_handler_body_delimiter_regex: Xén các email phù hợp với biểu thức này
-  setting_mail_handler_ignore_filenames: Ignored mail attachments
+  setting_mail_handler_ignore_filenames: Tập tin đính kèm mail bị bỏ qua
   setting_new_project_user_role_id: Role given to a non-admin user who creates a project
   setting_password_active_rules: Active character classes
   setting_password_count_former_banned: Number of most recently used passwords banned
@@ -2410,14 +2446,12 @@ vi:
   text_no_notes: There are no comments available for this work package.
   text_notice_too_many_values_are_inperformant: 'Note: Displaying more than 100 items
     per page can increase the page load time.'
-  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
-    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
-    administration panel, and on the home page. It is displayed to administrators
-    only. <br/> The badge will check your current OpenProject version against the
-    official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide
-    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
-    configuration documentation</a>.
+  text_notice_security_badge_displayed_html: 'Lưu ý: nếu được kích hoạt, một bảng
+    thông báo về tình trạng của phần mềm sẽ được hiển thị tại trang quản trị <a href="%{information_panel_path}">%{information_panel_label}</a>,
+    và tại trang chủ. Thông tin này chỉ được thấy bởi Quản trị viên. <br/> Bảng thông
+    báo sẽ kiểm tra các thông tin cập nhật từ OpenProject và thông báo về các cập
+    nhật mới hay các lỗi được phát hiện. Để biết thêm chi tiết, vui lòng tham khảo
+    <a href="%{more_info_url}">tài liệu cấu hình</a>.
 
 '
   text_own_membership_delete_confirmation: |-
@@ -2480,7 +2514,6 @@ vi:
       color: Màu sắc
       colors: Colors
     associations: Dependencies
-    board_could_not_be_saved: Board could not be saved
     button_delete_all: Delete all
     change: Change in planning
     children: Child elements
@@ -2736,6 +2769,13 @@ vi:
 '
   menu_item: Menu item
   menu_item_setting: Visibility
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'
   wiki_menu_item_for: Menu item for wikipage "%{title}"
   wiki_menu_item_setting: Visibility
   wiki_menu_item_new_main_item_explanation: 'You are deleting the only main wiki menu
@@ -2759,6 +2799,7 @@ vi:
     attributes:
       lock_version: Lock Version
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: You need to be authenticated to access this resource.
       code_401_wrong_credentials: You did not provide the correct credentials.
       code_403: You are not authorized to access this resource.
@@ -2803,67 +2844,68 @@ vi:
       schema: Schema
   doorkeeper:
     pre_authorization:
-      status: Pre-authorization
+      status: Xác thực
     errors:
       messages:
-        invalid_request: The request is missing a required parameter, includes an
-          unsupported parameter value, or is otherwise malformed.
-        invalid_redirect_uri: The requested redirect uri is malformed or doesn't match
-          client redirect URI.
-        unauthorized_client: The client is not authorized to perform this request
-          using this method.
-        access_denied: The resource owner or authorization server denied the request.
-        invalid_scope: The requested scope is invalid, unknown, or malformed.
-        invalid_code_challenge_method: The code challenge method must be plain or
+        invalid_request: Yêu cầu thiếu tham số bắt buộc, bao gồm giá trị tham số không
+          được hỗ trợ hoặc không đúng định dạng.
+        invalid_redirect_uri: Uri chuyển hướng được yêu cầu không đúng định dạng hoặc
+          không khớp với URI chuyển hướng máy khách.
+        unauthorized_client: Máy khách không được phép thực hiện yêu cầu bằng phương
+          pháp này.
+        access_denied: Chủ sở hữu tài nguyên hoặc máy chủ ủy quyền đã từ chối yêu
+          cầu.
+        invalid_scope: Phạm vi yêu cầu không hợp lệ, không xác định hoặc không đúng
+          định dạng.
+        invalid_code_challenge_method: Phương thức thử thách mã phải đơn giản hoặc
           S256.
-        server_error: The authorization server encountered an unexpected condition
-          which prevented it from fulfilling the request.
-        temporarily_unavailable: The authorization server is currently unable to handle
-          the request due to a temporary overloading or maintenance of the server.
+        server_error: Máy chủ ủy quyền đã gặp phải một điều kiện không mong muốn khiến
+          nó không thể đáp ứng yêu cầu.
+        temporarily_unavailable: Máy chủ ủy quyền hiện không thể xử lý yêu cầu do
+          quá tải tạm thời hoặc bảo trì máy chủ.
         credential_flow_not_configured: Resource Owner Password Credentials flow failed
           due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.
         resource_owner_authenticator_not_configured: Resource Owner find failed due
           to Doorkeeper.configure.resource_owner_authenticator being unconfigured.
-        admin_authenticator_not_configured: Access to admin panel is forbidden due
-          to Doorkeeper.configure.admin_authenticator being unconfigured.
-        unsupported_response_type: The authorization server does not support this
-          response type.
-        invalid_client: Client authentication failed due to unknown client, no client
-          authentication included, or unsupported authentication method.
-        invalid_grant: The provided authorization grant is invalid, expired, revoked,
-          does not match the redirection URI used in the authorization request, or
-          was issued to another client.
-        unsupported_grant_type: The authorization grant type is not supported by the
-          authorization server.
+        admin_authenticator_not_configured: Quyền truy cập vào bảng quản trị bị cấm
+          do Doorkeeper.configure.admin_authenticator không được định cấu hình.
+        unsupported_response_type: Máy chủ ủy quyền không hỗ trợ loại phản hồi này.
+        invalid_client: Xác thực ứng dụng khách không thành công do máy khách không
+          xác định, không bao gồm xác thực ứng dụng khách hoặc phương thức xác thực
+          không được hỗ trợ.
+        invalid_grant: Quyền được cung cấp không hợp lệ, hết hạn, bị thu hồi, không
+          khớp với URI chuyển hướng được sử dụng trong yêu cầu ủy quyền hoặc được
+          cấp cho một khách hàng khác.
+        unsupported_grant_type: Loại cấp quyền không được hỗ trợ bởi máy chủ ủy quyền.
         invalid_token:
-          revoked: The access token was revoked
-          expired: The access token expired
-          unknown: The access token is invalid
+          revoked: Mã truy cập đã bị thu hồi
+          expired: Mã truy cập đã hết hạn
+          unknown: Mã truy cập không hợp lệ
   unsupported_browser:
-    title: Your browser is outdated and unsupported.
-    message: You may run into errors and degraded experience on this page.
+    title: Trình duyệt của bạn đã lỗi thời hoặc không được hỗ trợ.
+    message: Bạn có thể gặp phải lỗi và trải nghiệm không mong muốn trên trang này.
     update_message: Please update your browser.
     close_warning: Ignore this warning.
   oauth:
     application:
       singular: OAuth application
-      plural: OAuth applications
-      named: OAuth application '%{name}'
-      new: New OAuth application
-      default_scopes: "(Default scopes)"
+      plural: Các ứng dụng OAuth
+      named: Ứng dụng OAuth '%{name}'
+      new: Ứng dụng OAuth mới
+      default_scopes: "(Phạm vi mặc định)"
       instructions:
-        name: The name of your application. This will be displayed to other users
-          upon authorization.
-        redirect_uri_html: 'The allowed URLs authorized users can be redirected to.
-          One entry per line. <br/> If you''re registering a desktop application,
-          use the following URL.
+        name: Tên ứng dụng của bạn. Điều này sẽ được hiển thị cho người dùng khác
+          khi ủy quyền.
+        redirect_uri_html: 'Các URL người dùng được ủy quyền có thể được chuyển hướng
+          đến. Mỗi mục nhập trên một dòng. <br/> Nếu bạn đang đăng ký một ứng dụng
+          máy tính để bàn, hãy sử dụng URL sau.
 
 '
-        confidential: Check if the application will be used where the client secret
-          can be kept confidential. Native mobile apps and Single Page Apps are assumed
-          non-confidential.
-        client_credential_user_id: Optional user ID to impersonate when clients use
-          this application. Leave empty to allow public access only
+        confidential: Kiểm tra xem ứng dụng sẽ được sử dụng trong khi thông tin mật
+          của khách hàng vẫn được đảm bảo. Các ứng dụng di động và Ứng dụng web được
+          cho là không bảo mật.
+        client_credential_user_id: ID người dùng tùy chọn để mạo danh khi khách hàng
+          sử dụng ứng dụng này. Để trống để chỉ cho phép truy cập công cộng
         register_intro: If you are developing an OAuth API client application for
           OpenProject, you can register it using this form for all users to use.
         default_scopes: ''
@@ -2874,8 +2916,8 @@ vi:
 
 '
     authorization_dialog:
-      authorize: Authorize
-      cancel: Cancel and deny authorization.
+      authorize: Xác thực
+      cancel: Hủy bỏ và từ chối xác thực.
       prompt_html: Authorize <strong>%{application_name}</strong> to use your account
         <em>%{login}</em>?
       title: Authorize %{application_name}
@@ -2888,7 +2930,7 @@ vi:
       api_v3_text: Application will receive full read & write access to the OpenProject
         API to perform actions on your behalf.
     grants:
-      created_date: Approved on
+      created_date: Đã duyệt
       scopes: Phân Quyền
       successful_application_revocation: Revocation of application %{application_name}
         successful.

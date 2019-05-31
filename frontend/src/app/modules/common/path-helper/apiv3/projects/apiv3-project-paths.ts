@@ -30,6 +30,7 @@ import {SimpleResource} from 'core-app/modules/common/path-helper/apiv3/path-res
 import {Apiv3QueriesPaths} from 'core-app/modules/common/path-helper/apiv3/queries/apiv3-queries-paths';
 import {Apiv3TypesPaths} from "core-app/modules/common/path-helper/apiv3/types/apiv3-types-paths";
 import {ApiV3WorkPackagesPaths} from "core-app/modules/common/path-helper/apiv3/work_packages/apiv3-work-packages-paths";
+import {Apiv3VersionPaths} from "core-app/modules/common/path-helper/apiv3/versions/apiv3-version-paths";
 
 export class Apiv3ProjectPaths extends SimpleResource {
   // Base path
@@ -44,4 +45,6 @@ export class Apiv3ProjectPaths extends SimpleResource {
   public readonly types = new Apiv3TypesPaths(this.path);
 
   public readonly work_packages = new ApiV3WorkPackagesPaths(this.path);
+
+  public readonly versions = new Apiv3VersionPaths(this.path);
 }

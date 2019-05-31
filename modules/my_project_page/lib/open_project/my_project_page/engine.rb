@@ -34,7 +34,7 @@ module OpenProject::MyProjectPage
 
     register 'openproject-my_project_page',
              author_url: 'http://finn.de',
-             requires_openproject: '>= 4.0.0' do
+             bundled: true do
 
       project_module :my_project_page do
         view_actions.each do |action|

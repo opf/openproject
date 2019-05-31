@@ -105,6 +105,10 @@ module OpenProject::Costs::Patches
         project && project.costs_enabled?
       end
 
+      def cost_reporting_enabled?
+        project && project.cost_reporting_enabled?
+      end
+
       def validate_cost_object
         if cost_object_id_changed?
           unless cost_object_id.blank? || project.cost_object_ids.include?(cost_object_id)

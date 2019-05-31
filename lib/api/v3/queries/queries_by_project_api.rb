@@ -33,7 +33,7 @@ module API
         namespace :queries do
           helpers ::API::V3::Queries::Helpers::QueryRepresenterResponse
 
-          before do
+          after_validation do
             authorize(:view_work_packages, context: @project, user: current_user)
           end
 

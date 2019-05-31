@@ -6,7 +6,7 @@ module OpenProject::XlsExport
 
     register 'openproject-xls_export',
              author_url: 'http://openproject.com/',
-             requires_openproject: '>= 4.0.0'
+             bundled: true
 
     patches %i[Queries::WorkPackages::Columns::WorkPackageColumn]
     # disabled since not yet migrated: :CostReportsController

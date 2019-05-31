@@ -60,9 +60,25 @@ fil:
     index:
       no_results_content_title: Sa kasalukuyan ay walang mga authentication mode.
       no_results_content_text: Gumawa ng bagong authentication mode
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: wala
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
+  forums:
     show:
-      no_results_title_text: Sa kasalukuyan ay walang mga post para sa board.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Walang mga kasulukuyan kulay.
@@ -146,9 +162,9 @@ fil:
     settings:
       activities:
         no_results_title_text: Sa kasalukuyan ay walang mga aktibidad na available.
-      boards:
-        no_results_title_text: Sa kasalukuyan ay walang mga board para sa proyekto.
-        no_results_content_text: Gumawa ng bagong board
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Sa kasalukuyan ay walang work package na mga kategorya.
         no_results_content_text: Gumawa ng bagong work package na kategorya
@@ -219,7 +235,7 @@ fil:
       reset: I-reset sa mga default
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts.
+        in Gantt charts. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: Sa kasalukuyan ay walang mga work packages na nakatala
@@ -386,6 +402,11 @@ fil:
         subscriber: Taga -subaybay
         encoded_token: Enterprise support token
         active_user_count_restriction: Maximum active users
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Antala
         from: Work package
@@ -423,6 +444,7 @@ fil:
         spent_on: Petsa
         type: Uri
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
@@ -484,11 +506,6 @@ fil:
         client_credentials_user_id: Client Credentials User ID
         scopes: Scopes
         confidential: Confidential
-      grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
     errors:
       messages:
         accepted: kailangang tanggapin.
@@ -561,6 +578,10 @@ fil:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: hindi mabasa. Sigurado ka ba na ito ay suportado ng token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -637,6 +658,7 @@ fil:
           attributes:
             attribute_groups:
               attribute_unknown: Hindi balido ang work package attribute ang nagamit.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: The group name '%{group}' is used more than once. Group
                 names must be unique.
               query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
@@ -666,11 +688,15 @@ fil:
               error_not_found: hindi nakita
         member:
           principal_blank: Mangayring pumili na kahit isang gumagamit o grupo.
-          role_blank: Mangyaring pumili ng kahit isang tungkulin.
-        grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          role_blank: need to be assigned.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Mangyaring suriin ang mga sumusunod na mga patlang:'
         header:
@@ -679,7 +705,7 @@ fil:
     models:
       attachment: File
       attribute_help_text: Tekstong tulong na katangian
-      board: Forum
+      forum: Forum
       comment: Komento
       custom_action: Custom aksyon
       custom_field: Pasadyang patlang
@@ -1017,7 +1043,7 @@ fil:
   description_choose_project: Mga proyekto
   description_compare_from: Ikinumpara mula sa
   description_compare_to: Ikinumpara sa
-  description_current_position: 'Nandito ka na:'
+  description_current_position: 'You are here: '
   description_date_from: Ipasok ang petsa ng pasisimula
   description_date_range_interval: Pumili ng saklaw sa pamamagitan ng simula at katapusang
     petsa
@@ -1069,16 +1095,18 @@ fil:
   error_can_not_remove_role: Itong tungkulin ay ginamit pa at hindi pwedeng burahin.
   error_can_not_reopen_work_package_on_closed_version: Ang work package ay nakatalaga
     sa isinarang bersyon na hindi pwede buksan muli
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Mangyaring pumili ng gumagamit at tungkulin.
+  error_code: Error %{code}
   error_cookie_missing: Ang OpenProject cookie ay nawawala. Mangyaring siguraduhin
     na ang mga cookie ay pinagana, bilang aplikasyon na ito ay hindi gumagana ng maayos
     na hindi kasama ang.
   error_custom_option_not_found: Ang opsyon ay hindi umiiral.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Nabigong burahin ang entry na ito.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Hindi ma grupo sa pamamagitan ng: %{value}'
   error_invalid_query_column: Hindi balido ang hanay ng query:%{value}
@@ -1095,6 +1123,10 @@ fil:
   error_work_package_not_found_in_project: Ang work package ay hindi natagpuan o hindi
     kabilang sa proyektong ito
   error_must_be_project_member: dapat ay miyembro ng proyekto
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: Walang default work package estado ang tinukoy.
     Mangyaring suriin ang iyong kumpigurasyon ( Pumunta sa "Administration -> Work
     package statuses").
@@ -1183,13 +1215,13 @@ fil:
           ng Open-Source community.
     links:
       upgrade_enterprise_edition: I-upgrade sa Enterprise Edition
+      postgres_migration: Migrating your installation to PostgreSQL
       user_guides: Mga gabay ng gumagamit
       faq: FAQ
       glossary: Glosaryo
       shortcuts: Mga madalian
-      forums: Mga forum
       blog: Blog ng OpenProject
-      boards: Komunidad forum
+      forums: Komunidad forum
       newsletter: Mga alertong seguridad/ Newsletter
   links:
     configuration_guide: Gabay ng kumpigurasyon
@@ -1258,7 +1290,7 @@ fil:
   label_available_project_work_package_categories: Ang mga kategorya ng magagamit
     na work package
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Mga magagamit na board
+  label_available_project_forums: Available forums
   label_available_project_versions: Ang magagamit na bersyon
   label_available_project_repositories: Magagamit na mga respository
   label_api_documentation: API dokumentasyon
@@ -1266,14 +1298,15 @@ fil:
   label_blocked_by: hinarangan ni
   label_blocks: mga hinarang
   label_blog: Blog
-  label_board_locked: Naka-lock
-  label_board_new: Bagong forum
-  label_board_plural: Mga forum
-  label_board_sticky: Malagkit
+  label_forums_locked: Naka-lock
+  label_forum_new: Bagong forum
+  label_forum_plural: Mga forum
+  label_forum_sticky: Malagkit
   label_boolean: Boolean
   label_branch: Sangay
   label_browse: Browse
   label_bulk_edit_selected_work_packages: Ang bulk edit ng mga napiling work package
+  label_bundled: "(Bundled)"
   label_calendar: Kalendaryo
   label_calendar_show: Ipakita ang kalendaryo
   label_category: Kategorya
@@ -1373,6 +1406,7 @@ fil:
   label_equals: ay
   label_everywhere: everywhere
   label_example: Halimbawa
+  label_import: Import
   label_export_to: 'Magagamit rin sa:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} oras"
@@ -1410,6 +1444,7 @@ fil:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Tahanan
   label_subject_or_id: Subject or ID
+  label_impressum: Legal notice
   label_in: sa
   label_in_less_than: mas mababa kaysa
   label_in_more_than: mahigit sa
@@ -1459,6 +1494,7 @@ fil:
   label_max_size: Pinakamataas na laki
   label_me: ako
   label_member_new: Bagong miyembro
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Mga miyembro
   label_view_all_members: Tingnan ang lahat na mga miyembro
   label_menu_item_name: Pangalan ng pagpipiliang aytem
@@ -1487,6 +1523,7 @@ fil:
   label_my_queries: Ang mga aking custom query
   label_never: Hindi kailanman
   label_new: Bago
+  label_new_features: New features
   label_new_statuses_allowed: Pinayagang bagong estado
   label_news_added: Bagong idinagdag
   label_news_comment_added: Ang komento idinagdag sa mga balita
@@ -1535,6 +1572,7 @@ fil:
   label_planning: Pagpaplano
   label_please_login: Mangyaring mag-log in
   label_plugins: Mga plugin
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: precedes
   label_preferences: Mga kagustuhan
   label_preview: Tanawin ulit
@@ -1543,6 +1581,7 @@ fil:
   label_principal_invite_via_email: " o imbitahin ang bagong gumagamit sa pamamagitan
     ng email"
   label_principal_search: Magdagdag ng umiiral na mga user o grupo
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Produktong bersyon
   label_professional_support: Propesyonal na suporta
   label_profile: Profile
@@ -1659,6 +1698,7 @@ fil:
   label_updated_time: I-update ang nakalipas na %{value}
   label_updated_time_at: "%{author}%{age}"
   label_updated_time_by: Naka-update sa %{author}%{age} na nakalipas
+  label_upgrade_guides: Upgrade guides
   label_used_by: Ginamit ni
   label_used_by_types: Ginamit sa mga uri
   label_used_in_projects: Ginamit sa mga proyekto
@@ -1872,6 +1912,8 @@ fil:
   notice_account_update_failed: Ang akwant setting ay hindi pwede mai-save. Mangyaring
     paki-tingnan sa iyong akwant na pahina.
   notice_account_updated: Ang akawnt ay matagumpay naka-update.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Maling ang password
   notice_account_registered_and_logged_in: Maligayang pagdating, ang iyong akwant
     ay naka-aktibo na. Ikaw ay naka-log in na.
@@ -1926,7 +1968,6 @@ fil:
     Mayroong maraming resulta.
     I-narrow down ang paghahanap sa pamamagitan ng pagtype ng pangalan ng bagong miyembro (o grupo).
   notice_unable_delete_time_entry: Hindi mabura ang oras ng log entry.
-  notice_unable_delete_version: Hindi mabura ang bersyon.
   notice_user_missing_authentication_method: Ang user ay pipili pa ng password o iba
     pang paraan para maka pag-sign in.
   notice_user_invitation_resent: Isang imbitasyon ay ipinadala sa %{email}.
@@ -2003,7 +2044,7 @@ fil:
   permission_export_wiki_pages: I-edit ang mga work package
   permission_list_attachments: Listahan ng paglalakip
   permission_log_time: Big
-  permission_manage_boards: Pamahalain ang mga forum
+  permission_manage_forums: Pamahalain ang mga forum
   permission_manage_categories: Pamahalain ang mga kategorya ng work package
   permission_manage_work_package_relations: Nauugnay na pamahalin ang work package
   permission_manage_members: Pamahalain ang mga miyembro
@@ -2052,7 +2093,7 @@ fil:
     archive:
       are_you_sure: Sigurado ka bang na gusto mong i-archive ang proyekto'%{name}'?
   project_module_activity: Aktibidad
-  project_module_boards: Mga forum
+  project_module_forums: Mga forum
   project_module_calendar: Kalendaryo
   project_module_work_package_tracking: Ang pagtra-track ng work package
   project_module_news: Mga balita
@@ -2292,10 +2333,6 @@ fil:
     lahat na hiling
   setting_login_required: Kailangan ng pagpapatunay
   setting_mail_from: Emission ng email address
-  setting_mail_handler_api_enabled: Paganahin ang paparating na email web service
-  setting_mail_handler_api_description: Ang email web handler ay pinagana ang OpenProject
-    upang makatanggap ng mga mail na naglalaman ng tiyak na command bilang isang intstrumentasyon
-    mechanism ( hal. upang lumikha at i-update ang mga work package).
   setting_mail_handler_api_key: API key
   setting_mail_handler_body_delimiters: I-truncate ang mga email pagatapod ng mga
     linyang ito
@@ -2570,7 +2607,6 @@ fil:
       color: Kulay
       colors: Mga kulay
     associations: Dependencia
-    board_could_not_be_saved: Ang board ay hindi ma i-save
     button_delete_all: Burahin ang lahat
     change: Baguhin ang pagpaplano
     children: Ang mga bata na elemento
@@ -2834,6 +2870,13 @@ fil:
 '
   menu_item: Pagpipilian sa mga aytem
   menu_item_setting: Nakikita
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'
   wiki_menu_item_for: Aytem na pagpipilian sa wikipage na "%{title}"
   wiki_menu_item_setting: Nakikita
   wiki_menu_item_new_main_item_explanation: 'Ikay ay nagtatanggal sa tanging pangunahing
@@ -2859,6 +2902,7 @@ fil:
     attributes:
       lock_version: Nakakandadong bersyon
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: Kailangan mong magpatunay para ma-akses mo ang mapagkukunan na ito.
       code_401_wrong_credentials: Hindi mo na naibigay ang tamang mga kredensyal.
       code_403: Ikaw ay hindi pwedeng magpatunay na mag-akses sa mapagkukunan na ito.

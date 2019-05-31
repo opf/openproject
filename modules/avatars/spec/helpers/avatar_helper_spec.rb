@@ -23,7 +23,7 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
   end
 
   def local_expected_user_avatar_tag(user)
-    tag_options = { 'data-user-avatar-src': local_expected_url(user),
+    tag_options = { 'data-user-id': user.id,
                     'data-user-name': user.name,
                     'data-class-list': 'avatar' }
 
@@ -43,7 +43,7 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
   end
 
   def gravatar_expected_user_avatar_tag(digest, options = {})
-    tag_options = { 'data-user-avatar-src': gravatar_expected_url(digest, options),
+    tag_options = { 'data-user-id': user.id,
                     'data-user-name': user.name,
                     'data-class-list': 'avatar avatar--gravatar-image avatar--fallback' }
 
