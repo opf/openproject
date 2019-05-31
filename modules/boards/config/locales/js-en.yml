@@ -22,6 +22,7 @@ en:
         lock_version: 'Lock version'
         unlock_version: 'Unlock version'
         edit_version: 'Edit version'
+        show_version: 'Show version'
 
       new_board: 'New board'
       add_list: 'Add list'
