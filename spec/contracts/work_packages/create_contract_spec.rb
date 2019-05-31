@@ -119,8 +119,12 @@ describe WorkPackages::CreateContract do
       work_package.project = project
     end
 
-    it 'is valid if the user is the user is the user the contract is evaluated for' do
-      work_package.author = user
+    it 'is valid if the user is set by the sytem and the user is the user the contract is evaluated for' do
+      work_package.extend(Mixins::ChangedBySystem)
+
+      work_package.change_by_system do
+        work_package.author = user
+      end
 
       expect(validated_contract.errors[:author_id]).to be_empty
     end
