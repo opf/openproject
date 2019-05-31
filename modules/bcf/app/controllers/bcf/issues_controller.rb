@@ -92,7 +92,11 @@ module ::Bcf
     private
 
     def import_canceled?
-      if %i[invalid_people_action unknown_mails_action non_members_action].include? 'cancel'
+      if %i[unknown_types_action
+            unknown_statuses_action
+            invalid_people_action
+            unknown_mails_action
+            non_members_action].map { |key| params.dig(:import_options, key) }.include? 'cancel'
         flash[:notice] = I18n.t('bcf.bcf_xml.import_canceled')
         redirect_to action: :index
       end
@@ -100,16 +104,24 @@ module ::Bcf
 
     def set_import_options
       @import_options = {
-        invalid_people_action: params.dig(:import_options, :invalid_people_action).presence || "anonymize",
-        unknown_mails_action: params.dig(:import_options, :unknown_mails_action).presence || 'invite',
-        non_members_action: params.dig(:import_options, :non_members_action).presence || 'add',
-        unknown_mails_invite_role_ids: params.dig(:import_options, :unknown_mails_invite_role_ids) || [],
-        non_members_add_role_ids: params.dig(:import_options, :non_members_add_role_ids) || []
+        unknown_types_action:          params.dig(:import_options, :unknown_types_action).presence    || "use_default",
+        unknown_statuses_action:       params.dig(:import_options, :unknown_statuses_action).presence || "use_default",
+        invalid_people_action:         params.dig(:import_options, :invalid_people_action).presence   || "anonymize",
+        unknown_mails_action:          params.dig(:import_options, :unknown_mails_action).presence    || 'invite',
+        non_members_action:            params.dig(:import_options, :non_members_action).presence      || 'add',
+        unknown_types_chose_ids:       params.dig(:import_options, :unknown_types_chose_ids)          || [],
+        unknown_statuses_chose_ids:    params.dig(:import_options, :unknown_statuses_chose_ids)       || [],
+        unknown_mails_invite_role_ids: params.dig(:import_options, :unknown_mails_invite_role_ids)    || [],
+        non_members_add_role_ids:      params.dig(:import_options, :non_members_add_role_ids)         || []
       }
     end
 
     def render_next
-      if render_config_invalid_people?
+      if render_config_unknown_types?
+        render_config_unknown_types
+      elsif render_config_unknown_statuses?
+        render_config_unknown_statuses
+      elsif render_config_invalid_people?
         render_config_invalid_people
       elsif render_config_unknown_mails?
         render_config_unknown_mails
@@ -137,8 +149,23 @@ module ::Bcf
     end
 
     def render_config_invalid_people?
-      @importer.aggregations.invalid_people.any? && !params.dig(:import_options, :invalid_people_action)
+      @importer.aggregations.invalid_people.any? && !params.dig(:import_options, :invalid_people_action).present?
     end
+
+    def render_config_unknown_types
+      render 'bcf/issues/configure_unknown_types'
+    end
+
+    def render_config_unknown_types?
+      @importer.aggregations.unknown_types.any? && !params.dig(:import_options, :unknown_types_action).present?
+    end
+
+    def render_config_unknown_statuses
+      render 'bcf/issues/configure_unknown_statuses'
+    end
+
+    def render_config_unknown_statuses?
+      @importer.aggregations.unknown_statuses.any? && !params.dig(:import_options, :unknown_statuses_action).present?
     end
 
     def render_config_unknown_mails
@@ -147,7 +174,7 @@ module ::Bcf
     end
 
     def render_config_unknown_mails?
-      @importer.aggregations.unknown_mails.any? && !params.dig(:import_options, :unknown_mails_action)
+      @importer.aggregations.unknown_mails.any? && !params.dig(:import_options, :unknown_mails_action).present?
     end
 
     def render_config_non_members
@@ -156,7 +183,7 @@ module ::Bcf
     end
 
     def render_config_non_members?
-      @importer.aggregations.non_members.any? && !params.dig(:import_options, :non_members_action)
+      @importer.aggregations.non_members.any? && !params.dig(:import_options, :non_members_action).present?
     end
 
     def build_importer

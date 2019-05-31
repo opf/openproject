@@ -35,7 +35,7 @@ module OpenProject::Bcf::BcfXml
         treat_non_members(options)
 
         # Extract all topics of the zip and save them
-        synchronize_topics(zip)
+        synchronize_topics(zip, options)
 
         # TODO: Extract documents
 
@@ -60,7 +60,7 @@ module OpenProject::Bcf::BcfXml
     ##
     # Invite all unknown email addresses and add them
     def treat_unknown_mails(options)
-      if aggregations.treat_unknown_mails?(options)
+      if treat_unknown_mails?(options)
         raise StandardError.new 'For inviting new users you need admin privileges.' unless User.current.admin?
         raise StandardError.new 'Enterprise Edition user limit reached.' unless enterprise_allow_new_users?
 
@@ -124,13 +124,20 @@ module OpenProject::Bcf::BcfXml
         attributes[:comments_count]  = extractor.comments.count
         attributes[:people]          = extractor.people
         attributes[:mail_addresses]  = extractor.mail_addresses
+        attributes[:status]          = extractor.status
+        attributes[:type]            = extractor.type
       end
     end
 
-    def synchronize_topics(zip)
+    def synchronize_topics(zip, import_options)
       yield_markup_bcf_files(zip)
         .map do |entry|
-          issue = IssueReader.new(project, zip, entry, current_user: current_user).extract!
+          issue = IssueReader.new(project,
+                                  zip,
+                                  entry,
+                                  current_user: current_user,
+                                  import_options: import_options,
+                                  aggregations: aggregations).extract!
           if issue.errors.blank?
             issue.save
           end
