@@ -672,12 +672,12 @@ ru:
         member:
           principal_blank: Пожалуйста, выберите по крайней мере одного пользователя
             или группу.
-          role_blank: need to be assigned.
+          role_blank: требуется назначить.
           attributes:
             roles:
-              ungrantable: has an unassignable role.
+              ungrantable: имеет неназначаемую роль.
             principal:
-              unassignable: cannot be assigned to a project.
+              unassignable: не может быть присвоен проекту.
         version:
           undeletable_work_packages_attached: Версия не может быть удалена, так как
             имеет пакеты работ, прикрепленные к ней.
@@ -1054,7 +1054,7 @@ ru:
   description_choose_project: Проекты
   description_compare_from: Сравнить от
   description_compare_to: Сравнить до
-  description_current_position: 'You are here: '
+  description_current_position: 'Вы здесь: '
   description_date_from: Введите дату начала
   description_date_range_interval: Задайте диапазон, указав дату начала и окончания
   description_date_range_list: Выберите диапазон из списка
