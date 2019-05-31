@@ -39,6 +39,9 @@ export class WorkPackageCopyController extends WorkPackageCreateController {
   private __initialized_at:Number;
   private copiedWorkPackageId:string;
 
+  /** Are we in the copying substates ? */
+  public copying = true;
+
   private wpRelations:WorkPackageRelationsService = this.injector.get(WorkPackageRelationsService);
   protected wpEditing:WorkPackageEditingService = this.injector.get<WorkPackageEditingService>(IWorkPackageEditingServiceToken);
 

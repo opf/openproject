@@ -82,7 +82,10 @@ export const overflowingContainerAttribute = 'overflowingIdentifier';
   ]
 })
 export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
-  @Input('workPackage') public workPackage:WorkPackageResource;
+  @Input() public workPackage:WorkPackageResource;
+
+  /** Should we show the project field */
+  @Input() public showProject:boolean = false;
 
   // Grouped fields returned from API
   public groupedFields:GroupDescriptor[] = [];
@@ -171,7 +174,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
           };
         }
 
-        if (isNew && !this.currentProject.inProjectContext) {
+        if (isNew && (!this.currentProject.inProjectContext || this.showProject)) {
           this.projectContext.field = this.getFields(resource, ['project']);
         }
 

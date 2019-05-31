@@ -163,8 +163,9 @@ module API
                                    type: 'Project',
                                    required: true,
                                    href_callback: ->(*) {
-                                     if represented.work_package&.new_record?
-                                       api_v3_paths.available_projects_on_create
+                                     work_package = represented.work_package
+                                     if work_package&.new_record?
+                                       api_v3_paths.available_projects_on_create(work_package.type_id)
                                      else
                                        api_v3_paths.available_projects_on_edit(represented.id)
                                      end
