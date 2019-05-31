@@ -40,10 +40,11 @@ import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
+import {FormResource} from "core-app/modules/hal/resources/form-resource";
 
 @Injectable()
 export class WorkPackageCreateService implements IWorkPackageCreateService {
-  protected form:Promise<HalResource>|undefined;
+  protected form:Promise<FormResource>|undefined;
 
   // Allow callbacks to happen on newly created work packages
   protected newWorkPackageCreatedSubject = new Subject<WorkPackageResource>();
@@ -78,7 +79,7 @@ export class WorkPackageCreateService implements IWorkPackageCreateService {
     });
   }
 
-  public fromCreateForm(form:any) {
+  public fromCreateForm(form:FormResource) {
     let wp = this.halResourceService.createHalResourceOfType<WorkPackageResource>('WorkPackage', form.payload.$plain());
     wp.initializeNewResource(form);
 
@@ -90,31 +91,34 @@ export class WorkPackageCreateService implements IWorkPackageCreateService {
     return changeset;
   }
 
+  public copyWorkPackage(copyFrom:WorkPackageChangeset) {
+    let request = copyFrom.workPackage.$source;
+
+    // Ideally we would make an empty request before to get the create schema (cannot use the update schema of the source changeset)
+    // to get all the writable attributes and only send those.
+    // But as this would require an additional request, we don't.
+    return this.workPackageDmService.emptyCreateForm(request).then(form => {
+      let changeset = this.fromCreateForm(form);
+
+      return changeset;
+    });
+  }
+
   /**
    * Create a copy resource from other and the new work package form
-   * @param otherForm The work package form of another work package
    * @param form Work Package create form
    */
-  public copyFrom(otherForm:any, form:any) {
-    let wp = this.halResourceService.createHalResourceOfType<WorkPackageResource>('WorkPackage', otherForm.payload.$plain());
-
-    // Override values from form payload
-    wp.lockVersion = form.payload.lockVersion;
+  private copyFrom(form:FormResource) {
+    //let wp = fromCreateForm(form);
+    let wp = this.halResourceService.createHalResourceOfType<WorkPackageResource>('WorkPackage', form.payload.$plain());
 
     wp.initializeNewResource(form);
 
     return new WorkPackageChangeset(this.injector, wp, form);
   }
 
-  public copyWorkPackage(copyFromForm:any, projectIdentifier?:string) {
-    let request = copyFromForm.payload.$source;
 
-    return this.workPackageDmService.emptyCreateForm(request, projectIdentifier).then(form => {
-      return this.copyFrom(copyFromForm, form);
-    });
-  }
-
-  public getEmptyForm(projectIdentifier:string|null|undefined):Promise<HalResource> {
+  public getEmptyForm(projectIdentifier:string|null|undefined):Promise<FormResource> {
     if (!this.form) {
       this.form = this.workPackageDmService.emptyCreateForm({}, projectIdentifier);
     }

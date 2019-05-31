@@ -34,6 +34,7 @@ import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper
 import {Injectable} from "@angular/core";
 import {States} from "core-components/states.service";
 import {buildApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
+import {FormResource} from "core-app/modules/hal/resources/form-resource";
 
 @Injectable()
 export class WorkPackageDmService {
@@ -77,9 +78,9 @@ export class WorkPackageDmService {
    *
    * @returns An empty work package form resource.
    */
-  public emptyCreateForm(request:any, projectIdentifier?:string|null):Promise<HalResource> {
+  public emptyCreateForm(request:any, projectIdentifier?:string|null):Promise<FormResource> {
     return this.halResourceService
-      .post<HalResource>(this.workPackagesFormPath(projectIdentifier), request)
+      .post<FormResource>(this.workPackagesFormPath(projectIdentifier), request)
       .toPromise();
   }
 
@@ -91,13 +92,13 @@ export class WorkPackageDmService {
    * @param projectIdentifier: The project to which the work package is initialized
    * @returns An empty work package form resource.
    */
-  public typedCreateForm(typeId:number, projectIdentifier:string|undefined|null):Promise<HalResource> {
+  public typedCreateForm(typeId:number, projectIdentifier:string|undefined|null):Promise<FormResource> {
 
     const typeUrl = this.pathHelper.api.v3.types.id(typeId).toString();
     const request = { _links: { type: { href: typeUrl } } };
 
     return this.halResourceService
-      .post<HalResource>(this.workPackagesFormPath(projectIdentifier), request)
+      .post<FormResource>(this.workPackagesFormPath(projectIdentifier), request)
       .toPromise();
   }
 
