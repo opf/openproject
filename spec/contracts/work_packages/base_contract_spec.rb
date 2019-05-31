@@ -64,6 +64,7 @@ describe WorkPackages::BaseContract do
       delete_work_package_watchers
       manage_work_package_relations
       add_work_package_notes
+      assign_versions
     )
   end
   let(:changed_values) { [] }

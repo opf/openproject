@@ -32,79 +32,80 @@ describe WorkPackages::BulkController, type: :controller do
   let(:user) { FactoryBot.create(:user) }
   let(:user2) { FactoryBot.create(:user) }
   let(:custom_field_value) { '125' }
-  let(:custom_field_1) {
+  let(:custom_field_1) do
     FactoryBot.create(:work_package_custom_field,
-                       field_format: 'string',
-                       is_for_all: true)
-  }
+                      field_format: 'string',
+                      is_for_all: true)
+  end
   let(:custom_field_2) { FactoryBot.create(:work_package_custom_field) }
   let(:custom_field_user) { FactoryBot.create(:user_issue_custom_field) }
   let(:status) { FactoryBot.create(:status) }
-  let(:type) {
+  let(:type) do
     FactoryBot.create(:type_standard,
-                       custom_fields: [custom_field_1, custom_field_2, custom_field_user])
-  }
-  let(:project_1) {
+                      custom_fields: [custom_field_1, custom_field_2, custom_field_user])
+  end
+  let(:project_1) do
     FactoryBot.create(:project,
-                       types: [type],
-                       work_package_custom_fields: [custom_field_2])
-  }
-  let(:project_2) {
+                      types: [type],
+                      work_package_custom_fields: [custom_field_2])
+  end
+  let(:project_2) do
     FactoryBot.create(:project,
-                       types: [type])
-  }
-  let(:role) {
+                      types: [type])
+  end
+  let(:role) do
     FactoryBot.create(:role,
-                       permissions: [:edit_work_packages,
-                                     :view_work_packages,
-                                     :manage_subtasks])
-  }
-  let(:member1_p1) {
+                      permissions: %i[edit_work_packages
+                                      view_work_packages
+                                      manage_subtasks
+                                      assign_versions])
+  end
+  let(:member1_p1) do
     FactoryBot.create(:member,
-                       project: project_1,
-                       principal: user,
-                       roles: [role])
-  }
-  let(:member2_p1) {
+                      project: project_1,
+                      principal: user,
+                      roles: [role])
+  end
+  let(:member2_p1) do
     FactoryBot.create(:member,
-                       project: project_1,
-                       principal: user2,
-                       roles: [role])
-  }
-  let(:member1_p2) {
+                      project: project_1,
+                      principal: user2,
+                      roles: [role])
+  end
+  let(:member1_p2) do
     FactoryBot.create(:member,
-                       project: project_2,
-                       principal: user,
-                       roles: [role])
-  }
-  let(:work_package_1) {
+                      project: project_2,
+                      principal: user,
+                      roles: [role])
+  end
+  let(:work_package_1) do
     FactoryBot.create(:work_package,
-                       author: user,
-                       assigned_to: user,
-                       responsible: user2,
-                       type: type,
-                       status: status,
-                       custom_field_values: { custom_field_1.id => custom_field_value },
-                       project: project_1)
-  }
-  let(:work_package_2) {
+                      author: user,
+                      assigned_to: user,
+                      responsible: user2,
+                      type: type,
+                      status: status,
+                      custom_field_values: { custom_field_1.id => custom_field_value },
+                      project: project_1)
+  end
+  let(:work_package_2) do
     FactoryBot.create(:work_package,
-                       author: user,
-                       assigned_to: user,
-                       responsible: user2,
-                       type: type,
-                       status: status,
-                       custom_field_values: { custom_field_1.id => custom_field_value },
-                       project: project_1)
-  }
-  let(:work_package_3) {
+                      author: user,
+                      assigned_to: user,
+                      responsible: user2,
+                      type: type,
+                      status: status,
+                      custom_field_values: { custom_field_1.id => custom_field_value },
+                      project: project_1)
+  end
+  let(:work_package_3) do
     FactoryBot.create(:work_package,
-                       author: user,
-                       type: type,
-                       status: status,
-                       custom_field_values: { custom_field_1.id => custom_field_value },
-                       project: project_2)
-  }
+                      author: user,
+                      type: type,
+                      status: status,
+                      custom_field_values: { custom_field_1.id => custom_field_value },
+                      project: project_2)
+  end
 
   let(:stub_work_package) { FactoryBot.build_stubbed(:work_package) }
 
@@ -126,7 +127,7 @@ describe WorkPackages::BulkController, type: :controller do
     end
 
     context 'same project' do
-      before do get :edit, params: { ids: [work_package_1.id, work_package_2.id] } end
+      before { get :edit, params: { ids: [work_package_1.id, work_package_2.id] } }
 
       it_behaves_like :response
 
@@ -197,7 +198,7 @@ describe WorkPackages::BulkController, type: :controller do
       context 'in host' do
         let(:url) { '/work_packages' }
 
-        before do put :update, params: { ids: work_package_ids, back_url: url } end
+        before { put :update, params: { ids: work_package_ids, back_url: url } }
 
         subject { response }
 
@@ -209,7 +210,7 @@ describe WorkPackages::BulkController, type: :controller do
       context 'of host' do
         let(:url) { 'http://google.com' }
 
-        before do put :update, params: { ids: work_package_ids, back_url: url } end
+        before { put :update, params: { ids: work_package_ids, back_url: url } }
 
         subject { response }
 
@@ -225,18 +226,18 @@ describe WorkPackages::BulkController, type: :controller do
       let!(:role_with_permission_to_add_watchers) { FactoryBot.create(:role, permissions: role.permissions + [:add_work_package_watchers]) }
       let!(:other_user) { FactoryBot.create :user }
 
-      let!(:other_member_1) {
+      let!(:other_member_1) do
         FactoryBot.create(:member,
-                           project: project_1,
-                           principal: other_user,
-                           roles: [role_with_permission_to_add_watchers])
-      }
-      let!(:other_member_2) {
+                          project: project_1,
+                          principal: other_user,
+                          roles: [role_with_permission_to_add_watchers])
+      end
+      let!(:other_member_2) do
         FactoryBot.create(:member,
-                           project: project_2,
-                           principal: other_user,
-                           roles: [role])
-      }
+                          project: project_2,
+                          principal: other_user,
+                          roles: [role])
+      end
 
       let(:description) { 'Text' }
       let(:work_package_params) do
@@ -300,11 +301,11 @@ describe WorkPackages::BulkController, type: :controller do
         describe '#custom_fields' do
           let(:result) { [custom_field_value] }
 
-          subject {
+          subject do
             WorkPackage.where(id: work_package_ids)
               .map { |w| w.custom_value_for(custom_field_1.id).value }
               .uniq
-          }
+          end
 
           it { is_expected.to match_array(result) }
         end
@@ -313,11 +314,11 @@ describe WorkPackages::BulkController, type: :controller do
           describe '#notes' do
             let(:result) { ['Bulk editing'] }
 
-            subject {
+            subject do
               WorkPackage.where(id: work_package_ids)
                 .map { |w| w.last_journal.notes }
                 .uniq
-            }
+            end
 
             it { is_expected.to match_array(result) }
           end
@@ -325,11 +326,11 @@ describe WorkPackages::BulkController, type: :controller do
           describe '#details' do
             let(:result) { [1] }
 
-            subject {
+            subject do
               WorkPackage.where(id: work_package_ids)
                 .map { |w| w.last_journal.details.size }
                 .uniq
-            }
+            end
 
             it { is_expected.to match_array(result) }
           end
@@ -350,7 +351,7 @@ describe WorkPackages::BulkController, type: :controller do
         let(:work_package_ids) { [work_package_1.id, work_package_2.id, work_package_3.id] }
 
         context 'with permission' do
-          before do member1_p2 end
+          before { member1_p2 }
 
           include_context 'update_request'
 
@@ -381,12 +382,12 @@ describe WorkPackages::BulkController, type: :controller do
           subject { work_packages.map(&:assigned_to_id).uniq }
 
           context 'allowed' do
-            let!(:member_group_p1) {
+            let!(:member_group_p1) do
               FactoryBot.create(:member,
                                 project: project_1,
                                 principal: group,
                                 roles: [role])
-            }
+            end
 
             include_context 'update_request'
             it 'does succeed' do
@@ -417,13 +418,13 @@ describe WorkPackages::BulkController, type: :controller do
 
         describe '#status' do
           let(:closed_status) { FactoryBot.create(:closed_status) }
-          let(:workflow) {
+          let(:workflow) do
             FactoryBot.create(:workflow,
-                               role: role,
-                               type_id: type.id,
-                               old_status: status,
-                               new_status: closed_status)
-          }
+                              role: role,
+                              type_id: type.id,
+                              old_status: status,
+                              new_status: closed_status)
+          end
 
           before do
             workflow
@@ -441,11 +442,11 @@ describe WorkPackages::BulkController, type: :controller do
         end
 
         describe '#parent' do
-          let(:parent) {
+          let(:parent) do
             FactoryBot.create(:work_package,
-                               author: user,
-                               project: project_1)
-          }
+                              author: user,
+                              project: project_1)
+          end
 
           before do
             put :update,
@@ -473,10 +474,10 @@ describe WorkPackages::BulkController, type: :controller do
                 }
           end
 
-          subject {
+          subject do
             work_packages.map { |w| w.custom_value_for(custom_field_1.id).value }
                          .uniq
-          }
+          end
 
           it { is_expected.to match_array [result] }
         end
@@ -511,17 +512,17 @@ describe WorkPackages::BulkController, type: :controller do
 
         describe '#version' do
           describe 'set fixed_version_id attribute to some version' do
-            let(:version) {
+            let(:version) do
               FactoryBot.create(:version,
-                                 status: 'open',
-                                 sharing: 'tree',
-                                 project: subproject)
-            }
-            let(:subproject) {
+                                status: 'open',
+                                sharing: 'tree',
+                                project: subproject)
+            end
+            let(:subproject) do
               FactoryBot.create(:project,
-                                 parent: project_1,
-                                 types: [type])
-            }
+                                parent: project_1,
+                                types: [type])
+            end
 
             before do
               put :update,

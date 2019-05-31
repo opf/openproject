@@ -31,10 +31,8 @@ class MailHandler < ActionMailer::Base
   include ActionView::Helpers::SanitizeHelper
   include Redmine::I18n
 
-  class UnauthorizedAction < StandardError;
-  end
-  class MissingInformation < StandardError;
-  end
+  class UnauthorizedAction < StandardError; end
+  class MissingInformation < StandardError; end
 
   attr_reader :email, :user
 

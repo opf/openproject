@@ -47,7 +47,8 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
                       permissions: %i[view_work_packages
                                       add_work_packages
                                       manage_work_package_relations
-                                      edit_work_packages])
+                                      edit_work_packages
+                                      assign_versions])
   end
   let(:type) { FactoryBot.create(:type) }
   let(:project) { FactoryBot.create(:project, types: [type]) }
