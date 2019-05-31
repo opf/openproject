@@ -4,10 +4,9 @@ $board-list-max-width: 300px
 
 .board-list--query-container
   // 100% - board header height
-  height: calc(100% - 42px)
   max-width: inherit
-  overflow-y: auto
-  padding: 5px 0 0 0
+  overflow: auto
+  height: calc(100% - 42px - 15px)
 
   @include styled-scroll-bar-vertical
 
@@ -15,10 +14,16 @@ $board-list-max-width: 300px
   &.-with-create-button
     display: grid
     grid-template: 34px 1fr / 1fr
-    grid-row-gap: 10px
 
-  wp-card-view
-    max-width: inherit
+// Make the button sticky so that it does not scroll,
+// Unfortunately we cannot let the card container scroll because there seem to be a Chrome bug,
+// which takes the scrollbar sometimes into the width calculation and sometimes not.
+// Thus, the button is sometimes wider than the cards, and sometimes not.
+.board-list--button-container
+  background-color: var(--body-background)
+  position: sticky
+  top: 0px
+  z-index: 20
 
 .board-list--container
   height: 100%
