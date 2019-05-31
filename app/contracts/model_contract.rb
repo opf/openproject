@@ -265,7 +265,7 @@ class ModelContract < Reform::Contract
 
       # This will break once a model that does not respond to project is used.
       # This is intended to be worked on then with the additional knowledge.
-      next if permissions.any? { |p| user.allowed_to?(p, model.project) }
+      next if permissions.any? { |p| user.allowed_to?(p, model.project, global: model.project.nil?) }
 
       true
     end
