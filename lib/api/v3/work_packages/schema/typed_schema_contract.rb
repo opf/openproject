@@ -28,46 +28,17 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
+# The contract is not actually used for validations but rather to display the unimbedded schema
+# as the writable attributes differ depdending on whether the user has the necessary permissions.
+# As we do not know the context of the schema, other than when it is embedded inside a form, we have to allow
+# both possible permissions.
 module API
   module V3
     module WorkPackages
       module Schema
-        class TypedWorkPackageSchema < BaseWorkPackageSchema
-          attr_reader :project, :type, :custom_fields
-
-          def initialize(project:, type:, custom_fields: nil)
-            @project = project
-            @type = type
-            @custom_fields = custom_fields
-          end
-
-          def milestone?
-            type.is_milestone?
-          end
-
-          def available_custom_fields
-            custom_fields || (project.all_work_package_custom_fields.to_a & type.custom_fields.to_a)
-          end
-
-          def no_caching?
-            false
-          end
-
-          private
-
-          def contract
-            @contract ||= begin
-              ::API::V3::WorkPackages::Schema::TypedSchemaContract
-                .new(work_package,
-                     User.current)
-            end
-          end
-
-          def work_package
-            @work_package ||= WorkPackage
-                              .new(project: project,
-                                   type: type)
-          end
+        class TypedSchemaContract < ::WorkPackages::BaseContract
+          default_attribute_permission %i[edit_work_packages add_work_packages]
+          attribute_permission :project_id, :move_work_packages
         end
       end
     end
