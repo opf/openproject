@@ -55,9 +55,7 @@
               </div>
           <% elsif %i(date_property).include?(action.type) %>
             <div class="form--field-container">
-              <wp-custom-actions-admin-date-action field-value="<%= action.values.first %>"
-                                                   field-name="<%= input_name %>">
-              </wp-custom-actions-admin-date-action>
+              <%= tag 'wp-custom-actions-admin-date-action', data: { 'field-value': action.values.first, 'field-name': input_name } %>
             </div>
           <% elsif %i(string_property text_property).include?(action.type) %>
             <div class="form--field-container">

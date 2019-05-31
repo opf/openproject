@@ -1,0 +1,21 @@
+<span class="form--select-container">
+    <select class="form--select"
+            [attr.id]="fieldId"
+            [(ngModel)]="selectedOperator"
+            (change)="toggleValueVisibility()">
+           <option *ngFor="let operator of operators"
+                   [textContent]="operator.label"
+                   [ngValue]="operator">
+           </option>
+    </select>
+</span>
+<span class="form--text-field-container -slim" *ngIf="valueVisible">
+    <input type="text"
+           [attr.id]="fieldId + '_visible'"
+           [(ngModel)]="visibleValue"
+           (change)="updateDbValue()"
+           class="-augmented-datepicker form--text-field">
+</span>
+<input type="hidden"
+       [name]="fieldName"
+       [value]="fieldValue" />

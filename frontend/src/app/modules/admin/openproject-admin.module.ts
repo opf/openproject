@@ -28,22 +28,7 @@
 
 import {NgModule} from '@angular/core';
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
-import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
 import {Ng2StateDeclaration, UIRouterModule} from "@uirouter/angular";
-import {BoardComponent} from "core-app/modules/boards/board/board.component";
-import {BoardListComponent} from "core-app/modules/boards/board/board-list/board-list.component";
-import {BoardsRootComponent} from "core-app/modules/boards/boards-root/boards-root.component";
-import {BoardListsService} from "core-app/modules/boards/board/board-list/board-lists.service";
-import {BoardService} from "core-app/modules/boards/board/board.service";
-import {BoardInlineAddAutocompleterComponent} from "core-app/modules/boards/board/inline-add/board-inline-add-autocompleter.component";
-import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
-import {BoardConfigurationDisplaySettingsTab} from "core-app/modules/boards/board/configuration-modal/tabs/display-settings-tab.component";
-import {BoardsToolbarMenuDirective} from "core-app/modules/boards/board/toolbar-menu/boards-toolbar-menu.directive";
-import {BoardConfigurationService} from "core-app/modules/boards/board/configuration-modal/board-configuration.service";
-import {BoardConfigurationModal} from "core-app/modules/boards/board/configuration-modal/board-configuration.modal";
-import {BoardsIndexPageComponent} from "core-app/modules/boards/index-page/boards-index-page.component";
-import {BoardsMenuComponent} from "core-app/modules/boards/boards-sidebar/boards-menu.component";
-import {BoardDmService} from "core-app/modules/boards/board/board-dm.service";
 import {TypeFormConfigurationComponent} from 'core-app/modules/admin/types/type-form-configuration.component';
 import {GroupEditInPlaceComponent} from 'core-app/modules/admin/types/group-edit-in-place.component';
 

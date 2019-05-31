@@ -26,9 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {openprojectLegacyModule} from "core-app/openproject-legacy-app";
+import {Component, ElementRef, OnInit} from '@angular/core';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import {DynamicBootstrapper} from 'core-app/globals/dynamic-bootstrapper';
 
-export class WpCustomActionsAdminDateActionComponent {
+@Component({
+  selector: 'custom-date-action-admin',
+  templateUrl: './custom-date-action-admin.html'
+})
+export class CustomDateActionAdminComponent implements OnInit {
   public valueVisible = false;
   public fieldName:string;
   public fieldValue:string;
@@ -40,20 +46,20 @@ export class WpCustomActionsAdminDateActionComponent {
   private currentKey = 'current';
   private currentFieldValue = '%CURRENT_DATE%';
 
-  public operators:{key:string, label:string}[];
+  private operators = [
+    {key: this.onKey, label: this.i18n.t('js.custom_actions.date.specific')},
+    {key: this.currentKey, label: this.i18n.t('js.custom_actions.date.current_date')}
+  ];
 
-  constructor() {
-    window.OpenProject.getPluginContext().then((context) => {
-      this.i18n = context.services.i18n;
-
-      this.initialize();
-    });
+  constructor(private elementRef:ElementRef,
+              private I18n:I18nService) {
   }
 
   // cannot use $onInit as it would be called before the operators gets filled
-  public initialize() {
-    this.operators = [{key: this.onKey, label: this.i18n.t('js.custom_actions.date.specific')},
-      {key: this.currentKey, label: this.i18n.t('js.custom_actions.date.current_date')}];
+  public ngOnInit() {
+    const element = this.elementRef.nativeElement as HTMLElement;
+    this.fieldName = element.dataset.fieldName!;
+    this.fieldValue = element.dataset.fieldValue!;
 
     if (this.fieldValue === this.currentFieldValue) {
       this.selectedOperator = this.operators[1];
@@ -88,12 +94,4 @@ export class WpCustomActionsAdminDateActionComponent {
   }
 }
 
-openprojectLegacyModule.component('wpCustomActionsAdminDateAction', {
-  template: require('!!raw-loader!./date-action.component.html'),
-  controller: WpCustomActionsAdminDateActionComponent,
-  bindings: {
-    fieldName: "@",
-    fieldValue: "@",
-  }
-});
-
+DynamicBootstrapper.register({ selector: 'custom-date-action-admin', cls: CustomDateActionAdminComponent });

@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-
 import {FormsModule} from "@angular/forms";
 import {APP_INITIALIZER, Injector, NgModule} from "@angular/core";
 
@@ -92,7 +91,6 @@ import {AddSectionDropdownComponent} from "core-app/modules/common/hide-section/
 import {HideSectionLinkComponent} from "core-app/modules/common/hide-section/hide-section-link/hide-section-link.component";
 import {HideSectionService} from "core-app/modules/common/hide-section/hide-section.service";
 import {RemoteFieldUpdaterComponent} from 'core-app/modules/common/remote-field-updater/remote-field-updater.component';
-import {AutofocusDirective} from 'core-app/modules/common/autofocus/autofocus.directive';
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -184,8 +182,6 @@ export function bootstrapModule(injector:Injector) {
     EnterpriseBannerComponent,
 
     DynamicModule,
-
-    AutofocusDirective,
   ],
   declarations: [
     OpDatePickerComponent,
@@ -245,7 +241,6 @@ export function bootstrapModule(injector:Injector) {
     HideSectionLinkComponent,
     AddSectionDropdownComponent,
     RemoteFieldUpdaterComponent,
-    AutofocusDirective,
 
     // Enterprise Edition
     EnterpriseBannerComponent,
@@ -274,14 +269,13 @@ export function bootstrapModule(injector:Injector) {
     UserAvatarComponent,
 
     HomescreenNewFeaturesBlockComponent,
-    BoardVideoTeaserModalComponent
+    BoardVideoTeaserModalComponent,
     UserAvatarComponent,
     PersistentToggleComponent,
     AutocompleteSelectDecorationComponent,
     HideSectionLinkComponent,
     AddSectionDropdownComponent,
     RemoteFieldUpdaterComponent,
-    AutofocusDirective,
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: bootstrapModule, deps: [Injector], multi: true },
