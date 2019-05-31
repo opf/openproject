@@ -56,6 +56,7 @@ Feature: The work_package hierarchy defines the allowed versions for each work_p
         | edit_work_packages      |
         | manage_subtasks         |
         | add_work_packages       |
+        | assign_versions         |
     And there are the following issue status:
         | name        | is_closed  | is_default  |
         | New         | false      | true        |
@@ -127,7 +128,3 @@ Feature: The work_package hierarchy defines the allowed versions for each work_p
       And the task "Task3" should have "Sprint 001" as its target version
       And task Task1 should have remaining_hours set to 3
       And task Task3 should have remaining_hours set to 7
-
-  #Scenario: Moving a task between stories on the taskboard
-  # not testable for now
-
