@@ -114,11 +114,7 @@ class ModelContract < Reform::Contract
 
   def writable_attributes
     @writable_attributes ||= begin
-      writable = collect_ancestor_attributes(:writable_attributes)
-      writable += model.available_custom_fields.map { |cf| "custom_field_#{cf.id}" } if model.respond_to?(:available_custom_fields)
-      writable = reduce_by_writable_conditions(writable)
-
-      reduce_by_writable_permissions(writable)
+      reduce_writable_attributes(collect_writable_attributes)
     end
   end
 
@@ -220,6 +216,21 @@ class ModelContract < Reform::Contract
     end
 
     attributes.send(cleanup_method)
+  end
+
+  def collect_writable_attributes
+    writable = collect_ancestor_attributes(:writable_attributes)
+
+    if model.respond_to?(:available_custom_fields)
+      writable += model.available_custom_fields.map { |cf| "custom_field_#{cf.id}" }
+    end
+
+    writable
+  end
+
+  def reduce_writable_attributes(attributes)
+    attributes = reduce_by_writable_conditions(attributes)
+    reduce_by_writable_permissions(attributes)
   end
 
   def reduce_by_writable_conditions(attributes)

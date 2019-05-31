@@ -32,8 +32,18 @@ describe ::API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
   let(:project) { FactoryBot.build(:project) }
   let(:type) { FactoryBot.build(:type) }
 
-  let(:current_user) { double }
+  let(:current_user) do
+    double('user').tap do |u|
+      allow(u)
+        .to receive(:allowed_to?)
+        .and_return(true)
+    end
+  end
   subject { described_class.new(project: project, type: type) }
+
+  before do
+    login_as(current_user)
+  end
 
   it 'has the project set' do
     expect(subject.project).to eql(project)
