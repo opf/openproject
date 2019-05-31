@@ -33,7 +33,7 @@ Given /^the [Uu]ser "([^\"]*)" is a "([^\"]*)" (?:in|of) the [Pp]roject "([^\"]*
   p = Project.find_by(name: project) || Project.find_by(identifier: project)
   as_admin do
     Member.new.tap do |m|
-      m.user = u
+      m.principal = u
       m.roles << r
       m.project = p
     end.save!
