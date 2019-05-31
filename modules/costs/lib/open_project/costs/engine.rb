@@ -19,7 +19,6 @@
 
 require 'open_project/plugins'
 
-
 module OpenProject::Costs
   class Engine < ::Rails::Engine
     engine_name :openproject_costs
@@ -85,6 +84,7 @@ module OpenProject::Costs
 
     patches [:Project, :User, :TimeEntry, :PermittedParams,
              :ProjectsController, :ApplicationHelper]
+    patch_with_namespace :WorkPackages, :BaseContract
     patch_with_namespace :API, :V3, :WorkPackages, :Schema, :SpecificWorkPackageSchema
     patch_with_namespace :BasicData, :RoleSeeder
     patch_with_namespace :BasicData, :SettingSeeder
