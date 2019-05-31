@@ -5,7 +5,8 @@
 
 module OpenProject::Bcf::BcfXml
   class MarkupExtractor
-    attr_reader :entry, :markup, :doc
+    attr_reader :entry
+    attr_accessor :markup, :doc
 
     def initialize(entry)
       @markup = entry.get_input_stream.read
@@ -26,6 +27,10 @@ module OpenProject::Bcf::BcfXml
 
     def status
       extract_non_empty :@TopicStatus, attribute: true
+    end
+
+    def type
+      extract_non_empty :@TopicType, attribute: true
     end
 
     def description

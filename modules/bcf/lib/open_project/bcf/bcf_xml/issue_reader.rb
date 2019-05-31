@@ -6,22 +6,31 @@ require_relative 'file_entry'
 
 module OpenProject::Bcf::BcfXml
   class IssueReader
-    attr_reader :zip, :entry, :issue, :extractor, :project, :user, :type
+    attr_reader :zip, :entry, :issue, :extractor, :project, :user, :import_options, :aggregations
 
-    def initialize(project, zip, entry, current_user:)
+    def initialize(project, zip, entry, current_user:, import_options:, aggregations:)
       @zip = zip
       @entry = entry
       @project = project
       @user = current_user
       @issue = find_or_initialize_issue
       @extractor = MarkupExtractor.new(entry)
-
-      # TODO fixed type
-      @type = ::Type.find_by(name: 'Issue [BCF]')
+      @import_options = import_options
+      @aggregations = aggregations
+      @doc = nil
     end
 
     def extract!
-      issue.markup = extractor.markup
+      @doc = extractor.doc
+
+      treat_unknown_types
+      treat_unknown_statuses
+
+      extractor.doc = @doc
+
+      markup = @doc.to_xml(indent: 2)
+      issue.markup = markup
+      extractor.markup = markup
 
       # Viewpoints will be extended on import
       build_viewpoints
@@ -36,6 +45,46 @@ module OpenProject::Bcf::BcfXml
     end
 
     private
+
+    ##
+    # Handle unknown types during import
+    def treat_unknown_types
+      if aggregations.unknown_types.any?
+        if import_options[:unknown_types_action] == 'use_default'
+          replace_type_with(::Type.default.first&.name)
+        elsif import_options[:unknown_types_action] == 'chose' && import_options[:unknown_types_chose_ids].any?
+          replace_type_with(::Type.find_by(id: import_options[:unknown_types_chose_ids].first)&.name)
+        else
+          raise StandardError.new 'Unknown topic type found in import. Use an existing type name.'
+        end
+      end
+    end
+
+    def replace_type_with(new_type_name)
+      raise StandardError.new "New type name can't be blank." unless new_type_name.present?
+
+      @doc.xpath('/Markup/Topic').first.set_attribute('TopicType', new_type_name)
+    end
+
+    ##
+    # Handle unknown statuses during import
+    def treat_unknown_statuses
+      if aggregations.unknown_statuses.any?
+        if import_options[:unknown_statuses_action] == 'use_default'
+          replace_status_with(::Status.default&.name)
+        elsif import_options[:unknown_statuses_action] == 'chose' && import_options[:unknown_statuses_chose_ids].any?
+          replace_status_with(::Status.find_by(id: import_options[:unknown_statuses_chose_ids].first)&.name)
+        else
+          raise StandardError.new 'Unknown topic statuses found in import. Use an existing status name.'
+        end
+      end
+    end
+
+    def replace_status_with(new_status_name)
+      raise StandardError.new "New status name can't be blank." unless new_status_name.present?
+
+      @doc.xpath('/Markup/Topic').first.set_attribute('TopicStatus', new_status_name)
+    end
 
     def synchronize_with_work_package
       is_update = issue.work_package.present?
@@ -78,6 +127,27 @@ module OpenProject::Bcf::BcfXml
 
     def assignee
       find_user_in_project(extractor.assignee)
+    end
+
+    def type
+      type_name = extractor.type
+      type = ::Type.find_by(name: type_name)
+
+      return type if type.present?
+
+      return ::Type.default&.first if import_options[:unknown_types_action] == 'default'
+
+      if import_options[:unknown_types_action] == 'chose' &&
+         import_options[:unknown_types_chose_ids].any?
+        return ::Type.find_by(id: import_options[:unknown_types_chose_ids].first)
+      else
+        issue.errors.add :type,
+                         :blank,
+                          message: "Can't find any matching type."
+        ServiceResult.new success: false,
+                          errors: issue.errors,
+                          result: issue
+      end
     end
 
     def update_work_package
