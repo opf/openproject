@@ -99,7 +99,6 @@ describe MailHandler, type: :model do
       expect(work_package.attachments.first.filename).to eq('Photo25.jpg')
     end
 
-
     context 'with existing attachment' do
       let!(:attachment) { FactoryBot.create(:attachment, container: work_package) }
 
