@@ -53,5 +53,10 @@ module WorkPackages
         errors.add :base, :error_unauthorized
       end
     end
+
+    def attributes_changed_by_user
+      # lock version is initialized by AR itself
+      super - ['lock_version']
+    end
   end
 end

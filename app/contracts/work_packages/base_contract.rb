@@ -47,7 +47,6 @@ module WorkPackages
 
     validate :validate_no_reopen_on_closed_version
 
-    attribute :lock_version
     attribute :project_id
 
     attribute :done_ratio,
