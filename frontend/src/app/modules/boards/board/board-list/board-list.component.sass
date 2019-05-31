@@ -15,6 +15,7 @@ $board-list-max-width: 300px
   &.-with-create-button
     display: grid
     grid-template: 34px 1fr / 1fr
+    grid-row-gap: 10px
 
   wp-card-view
     max-width: inherit
@@ -55,6 +56,9 @@ $board-list-max-width: 300px
 
   &:hover
     background-color: #eeeeee50
+
+  &:disabled
+    background-color: #cccccc50
 
 .board-list--menu
   visibility: hidden

@@ -1,16 +1,6 @@
 <div class="version-board-header"
      [ngClass]="{ '-closed': version.isClosed(), '-locked': version.isLocked() }"
      *ngIf="version">
-  <span *ngIf="version.isLocked()"
-        [attr.title]="text.isLocked"
-        class="icon-locked icon-context">
-
-  </span>
-  <span *ngIf="version.isClosed()"
-        [attr.title]="text.isClosed"
-        class="icon-remove icon-context">
-
-  </span>
   <h2 [textContent]="version.name"
       class="editable-toolbar-title--fixed">
   </h2>
