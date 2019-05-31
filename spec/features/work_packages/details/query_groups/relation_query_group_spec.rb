@@ -64,8 +64,6 @@ describe 'Work package with relation query group', js: true, selenium: true do
   let(:relations_tab) { find('.tabrow li', text: 'RELATIONS') }
   let(:embedded_table) { Pages::EmbeddedWorkPackagesTable.new(first('wp-single-view .work-packages-embedded-view--container')) }
 
-  # let(:visit) { true }
-
   before do
     # inline create needs defaults
     status = work_package.status
@@ -102,7 +100,6 @@ describe 'Work package with relation query group', js: true, selenium: true do
         embedded_table.ensure_work_package_not_listed!(related_work_package)
       end
       relations.expect_not_child(related_work_package)
-
     end
   end
 
