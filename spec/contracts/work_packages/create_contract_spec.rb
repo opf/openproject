@@ -133,7 +133,7 @@ describe WorkPackages::CreateContract do
       work_package.author = FactoryBot.build_stubbed(:user)
 
       expect(validated_contract.errors.symbols_for(:author_id))
-        .to match_array [:invalid]
+        .to match_array %i[invalid error_readonly]
     end
   end
 end

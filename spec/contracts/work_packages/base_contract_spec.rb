@@ -47,7 +47,7 @@ describe WorkPackages::BaseContract do
     permissions.each do |permission|
       allow(u)
         .to receive(:allowed_to?)
-        .with(permission, project)
+        .with(permission, project, global: project.nil?)
         .and_return(true)
     end
 
