@@ -21,7 +21,6 @@ describe 'new work package', js: true do
   let(:notification) { PageObjects::Notifications.new(page) }
   let(:wp_page) { Pages::FullWorkPackageCreate.new }
 
-
   # Changing the type changes the description if it was empty or still the default.
   # Changes in the description shall not be overridden.
   def change_type_and_expect_description
@@ -50,7 +49,6 @@ describe 'new work package', js: true do
 
     expect(page).to have_selector('.wp-edit-field--display-field.description h1', text: 'New Bug template')
   end
-
 
   before do
     login_as(user)
