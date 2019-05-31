@@ -52,13 +52,13 @@ describe 'Version action board', type: :feature, js: true do
   let(:second_project) { FactoryBot.create(:project) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
-  let(:permissions) {
+  let(:permissions) do
     %i[show_board_views manage_board_views add_work_packages manage_versions
-       edit_work_packages view_work_packages manage_public_queries]
-  }
-  let(:permissions_board_manager) {
+       edit_work_packages view_work_packages manage_public_queries assign_versions]
+  end
+  let(:permissions_board_manager) do
     %i[show_board_views manage_board_views view_work_packages manage_public_queries]
-  }
+  end
 
   let!(:open_version) { FactoryBot.create :version, project: project, name: 'Open version' }
   let!(:other_version) { FactoryBot.create :version, project: project, name: 'A second version' }
