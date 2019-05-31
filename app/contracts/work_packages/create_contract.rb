@@ -32,7 +32,10 @@ require 'work_packages/base_contract'
 
 module WorkPackages
   class CreateContract < BaseContract
-    attribute :author_id do
+    # TODO: Think about whether this can be removed
+    # as it is unwriteable. So why bother checking for the correct author
+    attribute :author_id,
+              writeable: false do
       errors.add :author_id, :invalid if model.author != user
     end
 
