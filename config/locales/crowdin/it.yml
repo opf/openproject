@@ -3055,3 +3055,4 @@ it:
     revoke_my_application_confirmation: Vuoi davvero rimuovere questa applicazione?
       Questo revocherà %{token_count} attivo per essa.
     my_registered_applications: Applicazioni OAuth registrate
+  label_new_features: New features

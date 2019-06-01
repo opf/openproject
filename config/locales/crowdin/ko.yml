@@ -2782,3 +2782,4 @@ ko:
     revoke_my_application_confirmation: 이 애플리케이션을 제거하시겠습니까? 그러면 이 애플리케이션에 대해 활성화된
       %{token_count}개가 취소됩니다.
     my_registered_applications: 등록된 OAuth 애플리케이션
+  label_new_features: New features

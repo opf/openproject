@@ -658,12 +658,12 @@ tr:
               error_not_found: bulunamadı
         member:
           principal_blank: Lütfen en az bir kullanıcı veya grup seçin.
-          role_blank: need to be assigned.
+          role_blank: atanması gerek.
           attributes:
             roles:
-              ungrantable: has an unassignable role.
+              ungrantable: atanamaz bir rolü var.
             principal:
-              unassignable: cannot be assigned to a project.
+              unassignable: bir projeye atanamaz.
         version:
           undeletable_work_packages_attached: Eklenmiş iş paketleri olduğu için sürüm
             silinemez.
@@ -1017,7 +1017,7 @@ tr:
   description_choose_project: Projeler
   description_compare_from: Karşılaştır (kaynak)
   description_compare_to: Karşılaştır (hedef)
-  description_current_position: 'You are here: '
+  description_current_position: 'Buradasınız:'
   description_date_from: Başlangıç tarihini girin
   description_date_range_interval: Başlangıç ​​ve bitiş tarihini seçerek aralık seçin
   description_date_range_list: Listeden tarih aralığını seçin
@@ -2962,3 +2962,4 @@ tr:
     revoke_my_application_confirmation: Bu uygulamayı gerçekten kaldırmak istiyor
       musunuz? Bu, %{token_count} aktif olanını iptal edecektir.
     my_registered_applications: OAuth uygulamalarını kayıtedin
+  label_new_features: New features
