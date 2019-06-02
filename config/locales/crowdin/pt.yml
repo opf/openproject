@@ -3024,4 +3024,3 @@ pt:
     revoke_my_application_confirmation: Pretende remover esta aplicação? Isto irá
       revogar %{token_count} ativo para ela.
     my_registered_applications: Aplicações OAuth registadas
-  label_new_features: New features

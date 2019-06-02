@@ -3015,4 +3015,3 @@ uk:
     revoke_my_application_confirmation: Ви дійсно бажаєте видалити цю програму? Це
       скасує %{token_count} активація для цього.
     my_registered_applications: Зареєстровані програми OAuth
-  label_new_features: New features
