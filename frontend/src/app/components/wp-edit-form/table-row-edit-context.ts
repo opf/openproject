@@ -78,7 +78,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
         // be given more width. Thereby preserve a minimum width of 120.
         const td = this.findCell(fieldName);
         var width = td.css('width');
-        width = parseInt(width) > 120 ? width : '120px';
+        width = parseInt(width) > 150 ? width : '150px';
         td.css('max-width', width);
         td.css('width', width);
 

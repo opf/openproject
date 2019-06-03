@@ -84,7 +84,7 @@ describe 'subject inplace editor', js: true, selenium: true do
       field.activate!
 
       field.input_element.find('input').set 'Version that does not exist'
-      expect(page).not_to have_selector('.ng-option', text: 'Create new: Version that does not exist')
+      expect(page).not_to have_selector('.ng-option', text: 'Create: Version that does not exist')
     end
   end
 end
