@@ -26,24 +26,19 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module WorkPackages
-      module AvailableRelationCandidatesHelper
-        include API::V3::Utilities::PathHelper
+require 'spec_helper'
+require_relative './attachment_resource_shared_examples'
 
-        def work_package_scope(from, type)
-          canonical_type = Relation.canonical_type(type)
+describe "work package attachments" do
+  it_behaves_like "an APIv3 attachment resource" do
+    let(:attachment_type) { :work_package }
 
-          if type == Relation::TYPE_RELATES
-            WorkPackage.relateable_to(from).or(WorkPackage.relateable_from(from))
-          elsif type != 'parent' && canonical_type == type
-            WorkPackage.relateable_to(from)
-          else
-            WorkPackage.relateable_from(from)
-          end
-        end
-      end
+    let(:create_permission) { :add_work_packages }
+    let(:read_permission) { :view_work_packages }
+    let(:update_permission) { :edit_work_packages }
+
+    let(:work_package) do
+      FactoryBot.create :work_package, author: current_user, project: project
     end
   end
 end

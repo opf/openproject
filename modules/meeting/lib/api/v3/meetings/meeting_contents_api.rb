@@ -28,19 +28,23 @@
 
 module API
   module V3
-    module WorkPackages
-      module AvailableRelationCandidatesHelper
-        include API::V3::Utilities::PathHelper
+    module Meetings
+      class MeetingContentsAPI < ::API::OpenProjectAPI
+        resources :meeting_contents do
+          helpers do
+            def meeting_content
+              MeetingContent.find params[:id]
+            end
+          end
 
-        def work_package_scope(from, type)
-          canonical_type = Relation.canonical_type(type)
+          route_param :id do
+            get do
+              ::API::V3::MeetingContents::MeetingContentRepresenter.new(
+                meeting_content, current_user: current_user, embed_links: true
+              )
+            end
 
-          if type == Relation::TYPE_RELATES
-            WorkPackage.relateable_to(from).or(WorkPackage.relateable_from(from))
-          elsif type != 'parent' && canonical_type == type
-            WorkPackage.relateable_to(from)
-          else
-            WorkPackage.relateable_from(from)
+            mount ::API::V3::Attachments::AttachmentsByMeetingContentAPI
           end
         end
       end

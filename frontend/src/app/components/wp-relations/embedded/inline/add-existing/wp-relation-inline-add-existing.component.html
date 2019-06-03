@@ -5,6 +5,7 @@
       <wp-relations-autocomplete
           [workPackage]="workPackage"
           (onReferenced)="onReferenced($event)"
+          [additionalFilters]="queryFilters"
           [filterCandidatesFor]="relationType">
       </wp-relations-autocomplete>
     </div>

@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,20 +30,27 @@
 
 module API
   module V3
-    module WorkPackages
-      module AvailableRelationCandidatesHelper
-        include API::V3::Utilities::PathHelper
+    module MeetingContents
+      class MeetingContentRepresenter < ::API::Decorators::Single
+        include API::Decorators::LinkedResource
+        include API::Caching::CachedRepresenter
+        include ::API::V3::Attachments::AttachableRepresenterMixin
 
-        def work_package_scope(from, type)
-          canonical_type = Relation.canonical_type(type)
+        self_link title_getter: ->(*) { nil }
 
-          if type == Relation::TYPE_RELATES
-            WorkPackage.relateable_to(from).or(WorkPackage.relateable_from(from))
-          elsif type != 'parent' && canonical_type == type
-            WorkPackage.relateable_to(from)
-          else
-            WorkPackage.relateable_from(from)
-          end
+        property :id
+
+        associated_resource :project,
+                            link: ->(*) do
+                              next unless represented.project.present?
+                              {
+                                href: api_v3_paths.project(represented.project.id),
+                                title: represented.project.name
+                              }
+                            end
+
+        def _type
+          'MeetingContent'
         end
       end
     end

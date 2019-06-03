@@ -144,10 +144,10 @@ export class BoardVersionActionService implements BoardActionService {
   public disabledAddButtonPlaceholder(version:VersionResource) {
     if (version.isLocked()) {
       return { icon: 'locked', text: this.I18n.t('js.boards.version.locked') };
-    } else if(version.isClosed()) {
+    } else if (version.isClosed()) {
       return { icon: 'not-supported', text: this.I18n.t('js.boards.version.closed') };
     } else {
-      return undefined
+      return undefined;
     }
   }
 

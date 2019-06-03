@@ -66,7 +66,7 @@ tr:
       too_many: Takvimde gösterilebilecek iş paketinden(%{max}) daha fazla iş paketi
         mevcuttur(%{count}). İlişkili olanlara odaklanmak için filtreler ekleyin.
     description_available_columns: Kullanılabilir sütunlar
-    description_current_position: 'You are here: '
+    description_current_position: 'Buradasınız:'
     description_select_work_package: "#%{id} nolu iş paketini seçin"
     description_selected_columns: Seçili Sütunlar
     description_subwork_package: "#%{id} nolu iş paketinin alt parçası"
@@ -511,7 +511,8 @@ tr:
       abort: İptal
     relations_autocomplete:
       placeholder: İlgili çalışma paket kimliğini girin
-      parent_placeholder: Choose new parent or press escape to cancel.
+      parent_placeholder: Yeni bir ebeveyn seçin veya iptal etmek için escape tuşuna
+        basın.
     repositories:
       select_tag: Etiket seç
       select_branch: Branş seç

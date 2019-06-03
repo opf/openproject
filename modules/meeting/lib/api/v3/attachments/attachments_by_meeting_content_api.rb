@@ -28,20 +28,23 @@
 
 module API
   module V3
-    module WorkPackages
-      module AvailableRelationCandidatesHelper
-        include API::V3::Utilities::PathHelper
+    module Attachments
+      class AttachmentsByMeetingContentAPI < ::API::OpenProjectAPI
+        resources :attachments do
+          helpers API::V3::Attachments::AttachmentsByContainerAPI::Helpers
 
-        def work_package_scope(from, type)
-          canonical_type = Relation.canonical_type(type)
+          helpers do
+            def container
+              meeting_content
+            end
 
-          if type == Relation::TYPE_RELATES
-            WorkPackage.relateable_to(from).or(WorkPackage.relateable_from(from))
-          elsif type != 'parent' && canonical_type == type
-            WorkPackage.relateable_to(from)
-          else
-            WorkPackage.relateable_from(from)
+            def get_attachment_self_path
+              api_v3_paths.attachments_by_meeting_content container.id
+            end
           end
+
+          get &API::V3::Attachments::AttachmentsByContainerAPI.read
+          post &API::V3::Attachments::AttachmentsByContainerAPI.create
         end
       end
     end

@@ -61,7 +61,7 @@ class ProjectMailer < BaseMailer
     open_project_headers 'Source-Project' => source_project.identifier,
                          'Author'         => user.login
 
-    message_id project, user
+    message_id source_project, user
 
     with_locale_for(user) do
       subject = I18n.t('copy_project.failed', source_project_name: source_project.name)

@@ -175,6 +175,21 @@ class Attachment < ActiveRecord::Base
     content_type || fallback
   end
 
+  def copy(&block)
+    attachment = dup
+    attachment.file = diskfile
+
+    yield attachment if block_given?
+
+    attachment
+  end
+
+  def copy!(&block)
+    attachment = copy &block
+
+    attachment.save!
+  end
+
   def extract_fulltext
     return unless OpenProject::Database.allows_tsv?
     job = ExtractFulltextJob.new(id)

@@ -26,24 +26,18 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module WorkPackages
-      module AvailableRelationCandidatesHelper
-        include API::V3::Utilities::PathHelper
+require 'spec_helper'
+require_relative './attachment_resource_shared_examples'
 
-        def work_package_scope(from, type)
-          canonical_type = Relation.canonical_type(type)
+describe "wiki page attachments" do
+  it_behaves_like "an APIv3 attachment resource" do
+    let(:attachment_type) { :wiki_page }
 
-          if type == Relation::TYPE_RELATES
-            WorkPackage.relateable_to(from).or(WorkPackage.relateable_from(from))
-          elsif type != 'parent' && canonical_type == type
-            WorkPackage.relateable_to(from)
-          else
-            WorkPackage.relateable_from(from)
-          end
-        end
-      end
-    end
+    let(:create_permission) { nil }
+    let(:read_permission) { :view_wiki_pages }
+    let(:update_permission) { %i(delete_wiki_pages_attachments edit_wiki_pages) }
+
+    let(:wiki) { FactoryBot.create(:wiki, project: project) }
+    let(:wiki_page) { FactoryBot.create(:wiki_page, wiki: wiki) }
   end
 end

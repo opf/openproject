@@ -26,24 +26,18 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module WorkPackages
-      module AvailableRelationCandidatesHelper
-        include API::V3::Utilities::PathHelper
+require 'spec_helper'
+require 'requests/api/v3/attachments/attachment_resource_shared_examples'
 
-        def work_package_scope(from, type)
-          canonical_type = Relation.canonical_type(type)
+describe "meeting agenda attachments" do
+  it_behaves_like "an APIv3 attachment resource" do
+    let(:attachment_type) { :meeting_content }
 
-          if type == Relation::TYPE_RELATES
-            WorkPackage.relateable_to(from).or(WorkPackage.relateable_from(from))
-          elsif type != 'parent' && canonical_type == type
-            WorkPackage.relateable_to(from)
-          else
-            WorkPackage.relateable_from(from)
-          end
-        end
-      end
-    end
+    let(:create_permission) { :create_meetings }
+    let(:read_permission) { :view_meetings }
+    let(:update_permission) { :edit_meetings }
+
+    let(:meeting_content) { FactoryBot.create :meeting_agenda, meeting: meeting }
+    let(:meeting) { FactoryBot.create :meeting, project: project }
   end
 end

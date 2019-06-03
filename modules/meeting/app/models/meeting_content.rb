@@ -25,6 +25,8 @@ require_dependency 'wiki_page'
 require 'wiki_page'
 
 class MeetingContent < ActiveRecord::Base
+  include OpenProject::Journal::AttachmentHelper
+
   belongs_to :meeting
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
 
@@ -33,6 +35,16 @@ class MeetingContent < ActiveRecord::Base
   validates_length_of :comment, maximum: 255, allow_nil: true
 
   before_save :comment_to_journal_notes
+
+  acts_as_attachable(
+    after_remove: :attachments_changed,
+    order: "#{Attachment.table_name}.file",
+    add_on_new_permission: :create_meetings,
+    add_on_persisted_permission: :edit_meetings,
+    view_permission: :view_meetings,
+    delete_permission: :edit_meetings,
+    modification_blocked: ->(*) { false }
+  )
 
   acts_as_journalized
   acts_as_event type: Proc.new { |o| "#{o.class.to_s.underscore.dasherize}" },
