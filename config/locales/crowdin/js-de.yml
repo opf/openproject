@@ -68,7 +68,7 @@ de:
         angezeigt werden können (%{max} maximal). Fügen Sie Filter hinzu, um die Ergebnismenge
         zu reduzieren.
     description_available_columns: Verfügbare Spalten
-    description_current_position: 'You are here: '
+    description_current_position: 'Du bist hier: '
     description_select_work_package: 'Arbeitspaket #%{id} auswählen'
     description_selected_columns: Ausgewählte Spalten
     description_subwork_package: 'Kind von Arbeitspaket #%{id}'
@@ -519,7 +519,8 @@ de:
       abort: Abbrechen
     relations_autocomplete:
       placeholder: ID des zugehörigen Arbeitspaketes eingeben
-      parent_placeholder: Choose new parent or press escape to cancel.
+      parent_placeholder: Wählen Sie einen neuen Teil oder drücken sie Escape, um
+        abzubrechen.
     repositories:
       select_tag: Tag auswählen
       select_branch: Branch auswählen

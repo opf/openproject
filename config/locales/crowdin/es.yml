@@ -439,7 +439,7 @@ es:
         spent_on: Fecha
         type: Tipo
       type:
-        description: Default text for description
+        description: Texto predeterminado para descripción
         attribute_groups: ''
         is_in_roadmap: Mostrado en el plan de desarrollo de forma predeterminada
         is_default: Activado para nuevos proyectos de forma predeterminada
@@ -686,15 +686,15 @@ es:
               error_not_found: no encontrado
         member:
           principal_blank: Por favor seleccione al menos un usuario o grupo.
-          role_blank: need to be assigned.
+          role_blank: necesita ser asignado.
           attributes:
             roles:
-              ungrantable: has an unassignable role.
+              ungrantable: tiene un rol no asignable.
             principal:
-              unassignable: cannot be assigned to a project.
+              unassignable: no puede ser asignado a un proyecto.
         version:
-          undeletable_work_packages_attached: The version cannot be deleted as it
-            has work packages attached to it.
+          undeletable_work_packages_attached: La versión no puede borrarse cuando
+            tiene paquetes de trabajos adjuntos.
       template:
         body: 'Por favor revise los siguientes campos:'
         header:
@@ -1043,7 +1043,7 @@ es:
   description_choose_project: Proyectos
   description_compare_from: Comparar desde
   description_compare_to: Comparar con
-  description_current_position: 'You are here: '
+  description_current_position: 'Usted está aquí: '
   description_date_from: Introduzca la fecha de inicio
   description_date_range_interval: Elija rango mediante la selección de fecha de inicio
     y fin
@@ -1105,7 +1105,7 @@ es:
   error_enterprise_activation_user_limit: Su cuenta no puede ser activada (se alcanzó
     el límite del usuario). Por favor, contacte su administrador para obtener acceso.
   error_failed_to_delete_entry: No se puede eliminar esta entrada.
-  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+  error_in_dependent: 'Error al intentar alterar el objeto dependiente: %{dependent_class}
     #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: El valor seleccionado no es válido.
   error_invalid_group_by: 'No se puede agrupar por: %{value}'
@@ -1493,7 +1493,7 @@ es:
   label_max_size: Tamaño máximo
   label_me: mi
   label_member_new: Nuevo miembro
-  label_member_all_admin: "(All roles due to admin status)"
+  label_member_all_admin: "(Todos los roles se deben al estado del administrador)"
   label_member_plural: Miembros
   label_view_all_members: Ver todos los miembros
   label_menu_item_name: Nombre del elemento de menú
@@ -2892,7 +2892,7 @@ es:
     attributes:
       lock_version: Versión Bloqueada
     errors:
-      code_400: 'Bad request: %{message}'
+      code_400: 'Solicitud errónea: %{message}'
       code_401: Tiene que estar autenticado para acceder a este recurso.
       code_401_wrong_credentials: No se proporcionaron las credenciales correctas.
       code_403: No está autorizado a acceder a este recurso.
