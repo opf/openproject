@@ -127,6 +127,10 @@ export class CreateAutocompleterComponent implements AfterViewInit {
     this.createAllowed ? this.addAutoCompleter.open() : this.autoCompleter.open();
   }
 
+  public closeSelect() {
+    this.createAllowed ? this.addAutoCompleter.close() : this.autoCompleter.close();
+  }
+
   public createNewElement(newElement:string) {
     this.create.emit(newElement);
   }
