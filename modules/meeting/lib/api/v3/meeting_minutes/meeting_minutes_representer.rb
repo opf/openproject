@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,28 +30,9 @@
 
 module API
   module V3
-    class UpdateQueryFromV3ParamsService
-      def initialize(query, user)
-        self.query = query
-        self.current_user = user
+    module MeetingMinutes
+      class MeetingMinutesRepresenter < API::V3::MeetingContents::MeetingContentRepresenter
       end
-
-      def call(params, valid_subset: false)
-        parsed = ::API::V3::ParseQueryParamsService
-                 .new
-                 .call(params)
-
-        if parsed.success?
-          ::UpdateQueryFromParamsService
-            .new(query, current_user)
-            .call(parsed.result, valid_subset: valid_subset)
-        else
-          parsed
-        end
-      end
-
-      attr_accessor :query,
-                    :current_user
     end
   end
 end

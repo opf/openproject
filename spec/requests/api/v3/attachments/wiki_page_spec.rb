@@ -26,30 +26,18 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    class UpdateQueryFromV3ParamsService
-      def initialize(query, user)
-        self.query = query
-        self.current_user = user
-      end
+require 'spec_helper'
+require_relative './attachment_resource_shared_examples'
 
-      def call(params, valid_subset: false)
-        parsed = ::API::V3::ParseQueryParamsService
-                 .new
-                 .call(params)
+describe "wiki page attachments" do
+  it_behaves_like "an APIv3 attachment resource" do
+    let(:attachment_type) { :wiki_page }
 
-        if parsed.success?
-          ::UpdateQueryFromParamsService
-            .new(query, current_user)
-            .call(parsed.result, valid_subset: valid_subset)
-        else
-          parsed
-        end
-      end
+    let(:create_permission) { nil }
+    let(:read_permission) { :view_wiki_pages }
+    let(:update_permission) { %i(delete_wiki_pages_attachments edit_wiki_pages) }
 
-      attr_accessor :query,
-                    :current_user
-    end
+    let(:wiki) { FactoryBot.create(:wiki, project: project) }
+    let(:wiki_page) { FactoryBot.create(:wiki_page, wiki: wiki) }
   end
 end

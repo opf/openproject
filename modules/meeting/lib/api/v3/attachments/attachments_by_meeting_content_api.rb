@@ -28,28 +28,25 @@
 
 module API
   module V3
-    class UpdateQueryFromV3ParamsService
-      def initialize(query, user)
-        self.query = query
-        self.current_user = user
-      end
+    module Attachments
+      class AttachmentsByMeetingContentAPI < ::API::OpenProjectAPI
+        resources :attachments do
+          helpers API::V3::Attachments::AttachmentsByContainerAPI::Helpers
 
-      def call(params, valid_subset: false)
-        parsed = ::API::V3::ParseQueryParamsService
-                 .new
-                 .call(params)
+          helpers do
+            def container
+              meeting_content
+            end
 
-        if parsed.success?
-          ::UpdateQueryFromParamsService
-            .new(query, current_user)
-            .call(parsed.result, valid_subset: valid_subset)
-        else
-          parsed
+            def get_attachment_self_path
+              api_v3_paths.attachments_by_meeting_content container.id
+            end
+          end
+
+          get &API::V3::Attachments::AttachmentsByContainerAPI.read
+          post &API::V3::Attachments::AttachmentsByContainerAPI.create
         end
       end
-
-      attr_accessor :query,
-                    :current_user
     end
   end
 end

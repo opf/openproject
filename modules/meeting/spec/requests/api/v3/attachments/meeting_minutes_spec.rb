@@ -26,30 +26,18 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    class UpdateQueryFromV3ParamsService
-      def initialize(query, user)
-        self.query = query
-        self.current_user = user
-      end
+require 'spec_helper'
+require 'requests/api/v3/attachments/attachment_resource_shared_examples'
 
-      def call(params, valid_subset: false)
-        parsed = ::API::V3::ParseQueryParamsService
-                 .new
-                 .call(params)
+describe "meeting minutes attachments" do
+  it_behaves_like "an APIv3 attachment resource" do
+    let(:attachment_type) { :meeting_content }
 
-        if parsed.success?
-          ::UpdateQueryFromParamsService
-            .new(query, current_user)
-            .call(parsed.result, valid_subset: valid_subset)
-        else
-          parsed
-        end
-      end
+    let(:create_permission) { :create_meetings }
+    let(:read_permission) { :view_meetings }
+    let(:update_permission) { :edit_meetings }
 
-      attr_accessor :query,
-                    :current_user
-    end
+    let(:meeting_content) { FactoryBot.create :meeting_minutes, meeting: meeting }
+    let(:meeting) { FactoryBot.create :meeting, project: project }
   end
 end

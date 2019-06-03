@@ -32,7 +32,7 @@ describe 'Work package with relation query group', js: true, selenium: true do
   include_context 'ng-select-autocomplete helpers'
 
   let(:user) { FactoryBot.create :admin }
-  let(:project) { FactoryBot.create :project }
+  let(:project) { FactoryBot.create :project, types: [type] }
   let(:relation_type) { :parent }
   let(:relation_target) { work_package }
   let(:new_relation) do
@@ -64,6 +64,8 @@ describe 'Work package with relation query group', js: true, selenium: true do
   let(:relations_tab) { find('.tabrow li', text: 'RELATIONS') }
   let(:embedded_table) { Pages::EmbeddedWorkPackagesTable.new(first('wp-single-view .work-packages-embedded-view--container')) }
 
+  let(:visit) { true }
+
   before do
     # inline create needs defaults
     status = work_package.status
@@ -72,8 +74,11 @@ describe 'Work package with relation query group', js: true, selenium: true do
     priority.update_attribute :is_default, true
 
     login_as user
-    full_wp.visit!
-    full_wp.ensure_page_loaded
+
+    if visit
+      full_wp.visit!
+      full_wp.ensure_page_loaded
+    end
   end
 
   context 'children table' do
@@ -103,6 +108,82 @@ describe 'Work package with relation query group', js: true, selenium: true do
     end
   end
 
+  describe 'follower table with project filters', clear_cache: true do
+    let(:visit) { false }
+    let!(:project2) { FactoryBot.create(:project, types: [type]) }
+    let!(:project3) { FactoryBot.create(:project, types: [type]) }
+    let(:relation_type) { :follows }
+    let!(:related_work_package) do
+      FactoryBot.create :work_package,
+                        project: project2,
+                        type: type,
+                        follows: [work_package]
+    end
+
+    let(:type) do
+      FactoryBot.create :type_with_relation_query_group, relation_filter: relation_type
+    end
+    let(:query_text) { 'Embedded Table for follows'.upcase }
+
+    before do
+      query = type.attribute_groups.last.query
+      query.add_filter('project_id', '=', [project2.id, project3.id])
+      # User has no permission to save, avoid creating another user to allow it
+      query.save!(validate: false)
+      type.save!
+    end
+
+    context 'with a user who has permission in one project' do
+      let(:role) { FactoryBot.create(:role, permissions: permissions) }
+      let(:permissions) { [:view_work_packages, :add_work_packages, :manage_work_package_relations] }
+      let(:user) do
+        FactoryBot.create(:user,
+                          member_in_project: project,
+                          member_through_role: role)
+      end
+      let!(:project2_member) {
+        member = FactoryBot.build(:member, user: user, project: project2)
+        member.roles = [role]
+        member.save!
+      }
+
+      it 'can load the query and inline create' do
+        full_wp.visit!
+        full_wp.ensure_page_loaded
+
+        expect(page).to have_selector('.attributes-group--header-text', text: query_text, wait: 20)
+        embedded_table.expect_work_package_listed related_work_package
+        embedded_table.click_inline_create
+
+        subject_field = embedded_table.edit_field(nil, :subject)
+        subject_field.expect_active!
+        subject_field.set_value 'Another subject'
+        subject_field.save!
+
+        embedded_table.expect_work_package_subject 'Another subject'
+      end
+    end
+
+    context 'with a user who has no permission in any project' do
+      let(:role) { FactoryBot.create(:role, permissions: permissions) }
+      let(:permissions) { [:view_work_packages] }
+      let(:user) do
+        FactoryBot.create(:user,
+                          member_in_project: project,
+                          member_through_role: role)
+      end
+
+      it 'hides that group automatically without showing an error' do
+        full_wp.visit!
+        full_wp.ensure_page_loaded
+
+        # Will first try to load the query, and then hide it.
+        expect(page).to have_no_selector('.attributes-group--header-text', text: query_text, wait: 20)
+        expect(page).to have_no_selector('.work-packages-embedded-view--container .notification-box.-error')
+      end
+    end
+  end
+
   context 'follower table' do
     let(:relation_type) { :follows }
     let(:relation_target) { [work_package] }
@@ -120,6 +201,7 @@ describe 'Work package with relation query group', js: true, selenium: true do
     it 'creates and removes across all tables' do
       embedded_table.table_container.find('a', text: I18n.t('js.relation_buttons.create_new')).click
       subject_field = embedded_table.edit_field(nil, :subject)
+
       subject_field.expect_active!
       subject_field.set_value("Fresh WP\n")
 

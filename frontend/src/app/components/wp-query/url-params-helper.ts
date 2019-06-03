@@ -144,11 +144,6 @@ export class UrlParamsHelperService {
     return paramsData;
   }
 
-  private encode(paramsData:any, query:QueryResource) {
-
-    return paramsData;
-  }
-
   private encodeTimelineVisible(paramsData:any, query:QueryResource) {
     if (!!query.timelineVisible) {
       paramsData.tv = query.timelineVisible;
@@ -243,7 +238,7 @@ export class UrlParamsHelperService {
     return queryData;
   }
 
-  public buildV3GetQueryFromQueryResource(query:QueryResource, additionalParams:any = {}) {
+  public buildV3GetQueryFromQueryResource(query:QueryResource, additionalParams:any = {}, contextual:any = {}) {
     var queryData:any = {};
 
     queryData["columns[]"] = this.buildV3GetColumnsFromQueryResource(query);
@@ -267,7 +262,7 @@ export class UrlParamsHelperService {
     queryData.groupBy = _.get(query.groupBy, 'id', '');
 
     // Filters
-    queryData.filters = this.buildV3GetFiltersAsJson(query.filters);
+    queryData.filters = this.buildV3GetFiltersAsJson(query.filters, contextual);
 
     // Sortation
     queryData.sortBy = this.buildV3GetSortByFromQuery(query);
@@ -295,7 +290,7 @@ export class UrlParamsHelperService {
 
   private buildV3GetColumnsFromQueryResource(query:QueryResource) {
     if (query.columns) {
-      return query.columns.map((column:any) => column.id);
+      return query.columns.map((column:any) => column.id || column.idFromLink);
     } else if (query._links.columns) {
       return query._links.columns.map((column:HalLink) => {
         let id = column.href!;
@@ -305,11 +300,17 @@ export class UrlParamsHelperService {
     }
   }
 
-  public buildV3GetFilters(filters:QueryFilterInstanceResource[]):ApiV3Filter[] {
+  public buildV3GetFilters(filters:QueryFilterInstanceResource[], replacements = {}):ApiV3Filter[] {
     let newFilters = filters.map((filter:QueryFilterInstanceResource) => {
       let id = this.buildV3GetFilterIdFromFilter(filter);
       let operator = this.buildV3GetOperatorIdFromFilter(filter);
-      let values = this.buildV3GetValuesFromFilter(filter);
+      let values = this.buildV3GetValuesFromFilter(filter).map(value => {
+        _.each(replacements, (val:string, key:string) => {
+          value = value.replace(`{${key}}`, val);
+        });
+
+        return value;
+      });
 
       const filterHash:ApiV3Filter = {};
       filterHash[id] = { operator: operator as FilterOperator, values: values };
@@ -320,11 +321,11 @@ export class UrlParamsHelperService {
     return newFilters;
   }
 
-  public buildV3GetFiltersAsJson(filter:QueryFilterInstanceResource[]) {
-    return JSON.stringify(this.buildV3GetFilters(filter));
+  public buildV3GetFiltersAsJson(filter:QueryFilterInstanceResource[], contextual = {}) {
+    return JSON.stringify(this.buildV3GetFilters(filter, contextual));
   }
 
-  private buildV3GetFilterIdFromFilter(filter:QueryFilterInstanceResource) {
+  public buildV3GetFilterIdFromFilter(filter:QueryFilterInstanceResource) {
     let href = filter.filter ? filter.filter.$href : filter._links.filter.href;
 
     return this.idFromHref(href);

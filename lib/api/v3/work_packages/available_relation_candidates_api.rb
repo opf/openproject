@@ -41,17 +41,39 @@ module API
           get do
             from = @work_package
 
-            work_packages = work_package_queried params[:query], from, params[:type], params[:pageSize]
+            # Set project to nil to find all work packages
+            # combined with the project condition of +work_package_scope+
+            query = Query.new_default(name: '_', project: nil)
 
-            # MySQL does not support LIMIT inside a subquery
-            # As the representer wraps the work_packages scope
-            # into a subquery and the scope contains a LIMIT we force
-            # executing the scope via to_a.
-            ::API::V3::WorkPackages::WorkPackageListRepresenter.new(
-              work_packages.to_a,
-              api_v3_paths.available_relation_candidates(from.id),
-              current_user: current_user
-            )
+            service = ::API::V3::UpdateQueryFromV3ParamsService
+              .new(query, current_user)
+              .call(params)
+
+            if service.success?
+              # MySQL does not support LIMIT inside a subquery
+              # As the representer wraps the work_packages scope
+              # into a subquery and the scope contains a LIMIT we force
+              # executing the scope via to_a.
+              query = service.result
+
+              # Override the query filter
+              query.add_filter 'subject_or_id', '**', query
+
+              relation_scope = work_package_scope(from, params[:type])
+              results = query.results.sorted_work_packages.merge(relation_scope)
+
+              ::API::V3::WorkPackages::WorkPackageListRepresenter.new(
+                results.to_a,
+                api_v3_paths.available_relation_candidates(from.id),
+                current_user: current_user
+              )
+            else
+              api_errors = service.errors.full_messages.map do |message|
+                ::API::Errors::InvalidQuery.new(message)
+              end
+
+              raise ::API::Errors::MultipleErrors.create_if_many api_errors
+            end
           end
         end
       end

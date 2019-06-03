@@ -26,30 +26,20 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    class UpdateQueryFromV3ParamsService
-      def initialize(query, user)
-        self.query = query
-        self.current_user = user
-      end
+require 'spec_helper'
+require_relative './attachment_resource_shared_examples'
 
-      def call(params, valid_subset: false)
-        parsed = ::API::V3::ParseQueryParamsService
-                 .new
-                 .call(params)
+describe "forum message attachments" do
+  it_behaves_like "an APIv3 attachment resource", include_by_container = false do
+    let(:attachment_type) { :forum_message }
 
-        if parsed.success?
-          ::UpdateQueryFromParamsService
-            .new(query, current_user)
-            .call(parsed.result, valid_subset: valid_subset)
-        else
-          parsed
-        end
-      end
+    let(:create_permission) { nil }
+    let(:read_permission) { nil }
+    let(:update_permission) { :edit_messages }
 
-      attr_accessor :query,
-                    :current_user
-    end
+    let(:forum) { FactoryBot.create(:forum, project: project) }
+    let(:forum_message) { FactoryBot.create(:message, forum: forum) }
+
+    let(:missing_permissions_user) { FactoryBot.create(:user) }
   end
 end

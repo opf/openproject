@@ -28,28 +28,26 @@
 
 module API
   module V3
-    class UpdateQueryFromV3ParamsService
-      def initialize(query, user)
-        self.query = query
-        self.current_user = user
-      end
+    module Meetings
+      class MeetingContentsAPI < ::API::OpenProjectAPI
+        resources :meeting_contents do
+          helpers do
+            def meeting_content
+              MeetingContent.find params[:id]
+            end
+          end
 
-      def call(params, valid_subset: false)
-        parsed = ::API::V3::ParseQueryParamsService
-                 .new
-                 .call(params)
+          route_param :id do
+            get do
+              ::API::V3::MeetingContents::MeetingContentRepresenter.new(
+                meeting_content, current_user: current_user, embed_links: true
+              )
+            end
 
-        if parsed.success?
-          ::UpdateQueryFromParamsService
-            .new(query, current_user)
-            .call(parsed.result, valid_subset: valid_subset)
-        else
-          parsed
+            mount ::API::V3::Attachments::AttachmentsByMeetingContentAPI
+          end
         end
       end
-
-      attr_accessor :query,
-                    :current_user
     end
   end
 end

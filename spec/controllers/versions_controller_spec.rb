@@ -65,6 +65,57 @@ describe VersionsController, type: :controller do
       end
     end
 
+    context 'with showing selected types' do
+      let(:type_a) { FactoryBot.create :type }
+      let(:type_b) { FactoryBot.create :type }
+
+      let(:wp_a) { FactoryBot.create :work_package, type: type_a, project: project, fixed_version: version1 }
+      let(:wp_b) { FactoryBot.create :work_package, type: type_b, project: project, fixed_version: version1 }
+
+      before do
+        project.types = [type_a, type_b]
+        project.save!
+
+        [wp_a, wp_b] # create work packages
+
+        login_as(user)
+      end
+
+      describe 'with all types' do
+        before do
+          get :index, params: { project_id: project, completed: '1' }
+        end
+
+        it { expect(response).to be_successful }
+        it { expect(response).to render_template('index') }
+
+        it "shows all work packages" do
+          issues_by_version = assigns(:issues_by_version)
+          work_packages = issues_by_version[version1]
+
+          expect(work_packages).to include wp_a
+          expect(work_packages).to include wp_b
+        end
+      end
+
+      describe 'with selected types' do
+        before do
+          get :index, params: { project_id: project, completed: '1', type_ids: [type_b.id] }
+        end
+
+        it { expect(response).to be_successful }
+        it { expect(response).to render_template('index') }
+
+        it "shows only work packages of the selected type" do
+          issues_by_version = assigns(:issues_by_version)
+          work_packages = issues_by_version[version1]
+
+          expect(work_packages).not_to include wp_a
+          expect(work_packages).to include wp_b
+        end
+      end
+    end
+
     context 'with showing completed versions' do
       before do
         login_as(user)
