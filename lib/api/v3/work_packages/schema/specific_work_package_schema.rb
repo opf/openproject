@@ -51,7 +51,9 @@ module API
             when :status
               assignable_statuses_for(current_user)
             when :type
-              if project.respond_to?(:types)
+              if project.nil?
+                Type.includes(:color)
+              else
                 project.types.includes(:color)
               end
             when :version

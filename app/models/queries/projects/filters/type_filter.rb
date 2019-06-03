@@ -1,5 +1,4 @@
 #-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,23 +27,40 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Projects
-  register = ::Queries::Register
-  filters = ::Queries::Projects::Filters
-  orders = ::Queries::Projects::Orders
-  query = ::Queries::Projects::ProjectQuery
+module Queries
+  module Projects
+    module Filters
+      class TypeFilter < ::Queries::Projects::Filters::ProjectFilter
+        def allowed_values
+          @allowed_values ||= Type.pluck(:name, :id)
+        end
 
-  register.filter query, filters::AncestorFilter
-  register.filter query, filters::TypeFilter
-  register.filter query, filters::ActiveOrArchivedFilter
-  register.filter query, filters::NameAndIdentifierFilter
-  register.filter query, filters::CustomFieldFilter
-  register.filter query, filters::CreatedOnFilter
-  register.filter query, filters::LatestActivityAtFilter
-  register.filter query, filters::PrincipalFilter
+        def joins
+          :types
+        end
 
-  register.order query, orders::DefaultOrder
-  register.order query, orders::LatestActivityAtOrder
-  register.order query, orders::RequiredDiskSpaceOrder
-  register.order query, orders::CustomFieldOrder
+        def where
+          operator_strategy.sql_for_field(values, Type.table_name, :id)
+        end
+
+        def type
+          :list
+        end
+
+        def self.key
+          :type_id
+        end
+
+        private
+
+        def type_strategy
+          # Instead of getting the IDs of all the projects a user is allowed
+          # to see we only check that the value is an integer.  Non valid ids
+          # will then simply create an empty result but will not cause any
+          # harm.
+          @type_strategy ||= ::Queries::Filters::Strategies::IntegerList.new(self)
+        end
+      end
+    end
+  end
 end

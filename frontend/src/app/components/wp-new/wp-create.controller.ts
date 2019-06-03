@@ -53,6 +53,9 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
   public parentWorkPackage:WorkPackageResource;
   public changeset:WorkPackageChangeset;
 
+  /** Are we in the copying substates ? */
+  public copying = false;
+
   public stateParams = this.$transition.params('to');
   public text = {
     button_settings: this.I18n.t('js.button_settings')

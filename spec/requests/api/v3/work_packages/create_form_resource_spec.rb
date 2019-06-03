@@ -59,7 +59,7 @@ describe ::API::V3::WorkPackages::CreateProjectFormAPI do
 
   it 'has the available_projects link for creation in the schema' do
     expect(response.body)
-      .to be_json_eql(api_v3_paths.available_projects_on_create.to_json)
+      .to be_json_eql(api_v3_paths.available_projects_on_create(nil).to_json)
       .at_path('_embedded/schema/project/_links/allowedValues/href')
   end
 

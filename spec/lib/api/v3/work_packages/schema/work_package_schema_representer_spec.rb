@@ -583,7 +583,22 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
         it_behaves_like 'links to allowed values via collection link' do
           let(:path) { 'project' }
-          let(:href) { api_v3_paths.available_projects_on_create }
+          let(:href) { api_v3_paths.available_projects_on_create(wp_type.id) }
+        end
+      end
+
+      context 'when creating (new_record with empty type)' do
+        let(:work_package) do
+          FactoryBot.build(:stubbed_work_package, project: project, type: nil) do |wp|
+            allow(wp)
+              .to receive(:available_custom_fields)
+                    .and_return(available_custom_fields)
+          end
+        end
+
+        it_behaves_like 'links to allowed values via collection link' do
+          let(:path) { 'project' }
+          let(:href) { api_v3_paths.available_projects_on_create(nil) }
         end
       end
 

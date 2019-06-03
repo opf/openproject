@@ -42,7 +42,7 @@ import {IWorkPackageCreateServiceToken} from 'core-components/wp-new/wp-create.s
   selector: '[opTypesCreateDropdown]'
 })
 export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
-  @Input('projectIdentifier') public projectIdentifier:string;
+  @Input('projectIdentifier') public projectIdentifier:string|null|undefined;
   @Input('stateName') public stateName:string;
   @Input('dropdownActive') active:boolean;
 
@@ -73,7 +73,7 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
       .getEmptyForm(this.projectIdentifier)
       .then(form => {
         return this.buildItems(form.schema.type.allowedValues);
-      })
+      });
   }
 
   protected open(evt:JQueryEventObject) {
