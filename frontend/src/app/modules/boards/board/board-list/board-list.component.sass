@@ -6,7 +6,7 @@ $board-list-max-width: 300px
   // 100% - board header height
   max-width: inherit
   overflow: auto
-  height: calc(100% - 42px - 15px)
+  height: 100%
 
   @include styled-scroll-bar-vertical
 
@@ -28,6 +28,8 @@ $board-list-max-width: 300px
 .board-list--container
   height: 100%
   max-width: $board-list-max-width
+  display: flex
+  flex-direction: column
 
   &:hover
     .board-list--menu
@@ -42,6 +44,7 @@ $board-list-max-width: 300px
   padding: 5px 15px
   display: flex
   align-items: center
+  max-height: 52px
 
   editable-toolbar-title
     flex: 1
