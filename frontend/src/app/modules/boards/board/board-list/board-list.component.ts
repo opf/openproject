@@ -45,6 +45,11 @@ import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-a
 import {BoardActionService} from "core-app/modules/boards/board/board-actions/board-action.service";
 import {ComponentType} from "@angular/cdk/portal";
 
+export interface DisabledButtonPlaceholder {
+  text:string;
+  icon:string;
+}
+
 @Component({
   selector: 'board-list',
   templateUrl: './board-list.component.html',
@@ -105,6 +110,8 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   /** Editing handler to be passed into card component */
   public workPackageAddedHandler = (workPackage:WorkPackageResource) => this.addWorkPackage(workPackage);
+
+  public buttonPlaceholder:DisabledButtonPlaceholder|undefined;
 
   constructor(private readonly QueryDm:QueryDmService,
               private readonly I18n:I18nService,
@@ -261,6 +268,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     this.actionService.getLoadedFilterValue(query).then(resource => {
       this.actionResource = resource;
       this.headerComponent = this.actionService.headerComponent();
+      this.buttonPlaceholder = this.actionService.disabledAddButtonPlaceholder(resource);
       this.actionResourceClass = this.boardListActionColorClass(resource);
       this.canDragInto = this.actionService.dragIntoAllowed(query, resource);
       this.showAddButton = this.canDragInto && (this.wpInlineCreate.canAdd || this.canReference);

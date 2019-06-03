@@ -32,19 +32,23 @@
     </div>
 
     <div class="board-list--query-container drop-zone"
-         [ngClass]="{ '-with-create-button': showAddButton }">
-      <button [title]="text.addCard"
-              *ngIf="board.isAction && showAddButton"
-              (accessibleClick)="addNewCard()"
-              class="board-list--add-button board-list--card-add-button button">
-        <op-icon icon-classes="icon-small icon-add"></op-icon>
-      </button>
-      <button [title]="text.addCard"
-              *ngIf="!board.isAction && showAddButton"
-              class="board-list--add-button board-list--card-dropdown-button button"
-              addCardDropdown>
-        <op-icon icon-classes="icon-small icon-add"></op-icon>
-      </button>
+         [ngClass]="{ '-with-create-button': board.isAction || showAddButton }">
+      <div class="board-list--button-container">
+        <button [title]="text.addCard"
+                *ngIf="board.isAction"
+                (accessibleClick)="addNewCard()"
+                [disabled]="!showAddButton"
+                class="board-list--add-button board-list--card-add-button button">
+          <op-icon icon-classes="icon-{{buttonPlaceholder ? buttonPlaceholder.icon : 'add'}}"></op-icon>
+          <span *ngIf="buttonPlaceholder"> {{ buttonPlaceholder.text }} </span>
+        </button>
+        <button [title]="text.addCard"
+                *ngIf="!board.isAction && showAddButton"
+                class="board-list--add-button board-list--card-dropdown-button button"
+                addCardDropdown>
+          <op-icon icon-classes="icon-small icon-add"></op-icon>
+        </button>
+      </div>
 
       <wp-card-view [dragOutOf]="canDragOutOf"
                     [dragInto]="canDragInto"

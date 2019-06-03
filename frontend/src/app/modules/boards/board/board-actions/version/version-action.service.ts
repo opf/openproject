@@ -141,6 +141,16 @@ export class BoardVersionActionService implements BoardActionService {
     return VersionBoardHeaderComponent;
   }
 
+  public disabledAddButtonPlaceholder(version:VersionResource) {
+    if (version.isLocked()) {
+      return { icon: 'locked', text: this.I18n.t('js.boards.version.locked') };
+    } else if (version.isClosed()) {
+      return { icon: 'not-supported', text: this.I18n.t('js.boards.version.closed') };
+    } else {
+      return undefined;
+    }
+  }
+
   public dragIntoAllowed(query:QueryResource, value:HalResource|undefined) {
     return value instanceof VersionResource && value.isOpen();
   }
@@ -170,7 +180,7 @@ export class BoardVersionActionService implements BoardActionService {
     return [
       {
         // Lock version
-        hidden: !version.isOpen(),
+        hidden: !version.isOpen() || (version.isLocked() && !version.$links.update),
         linkText: this.I18n.t('js.boards.version.lock_version'),
         onClick: () => {
           this.patchVersionStatus(version, 'locked');
@@ -179,7 +189,7 @@ export class BoardVersionActionService implements BoardActionService {
       },
       {
         // Unlock version
-        hidden: !version.isLocked(),
+        hidden: !version.isLocked() || (version.isOpen() && !version.$links.update),
         linkText: this.I18n.t('js.boards.version.unlock_version'),
         onClick: () => {
           this.patchVersionStatus(version, 'open');
@@ -188,7 +198,7 @@ export class BoardVersionActionService implements BoardActionService {
       },
       {
         // Close version
-        hidden: version.isClosed(),
+        hidden: version.isClosed() || (!version.isClosed() && !version.$links.update),
         linkText: this.I18n.t('js.boards.version.close_version'),
         onClick: () => {
           this.patchVersionStatus(version, 'closed');
@@ -197,11 +207,24 @@ export class BoardVersionActionService implements BoardActionService {
       },
       {
         // Open version
-        hidden: !version.isClosed(),
+        hidden: !version.isClosed() || (version.isClosed() && !version.$links.update),
         linkText: this.I18n.t('js.boards.version.open_version'),
         onClick: () => {
           this.patchVersionStatus(version, 'open');
           return true;
+        }
+      },
+      {
+        // Show link
+        linkText: this.I18n.t('js.boards.version.show_version'),
+        href: this.pathHelper.versionShowPath(id),
+        onClick: (evt:JQuery.Event) => {
+          if (!LinkHandling.isClickedWithModifier(evt)) {
+            window.open(this.pathHelper.versionShowPath(id), '_blank');
+            return true;
+          }
+
+          return false;
         }
       },
       {
