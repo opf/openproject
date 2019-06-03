@@ -42,6 +42,7 @@ import {OnInit} from '@angular/core';
   templateUrl: './filter-date-time-value.component.html'
 })
 export class FilterDateTimeValueComponent extends AbstractDateTimeValueController implements OnInit, OnDestroy {
+  @Input() public shouldFocus:boolean = false;
   @Input() public filter:QueryFilterInstanceResource;
   @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource>(componentDestroyed(this));
 

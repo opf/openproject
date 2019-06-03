@@ -1,6 +1,7 @@
 <div class="inline-label" id="div-values-{{filter.id}}">
   <op-date-picker (onChange)="value = isoDateParser($event)">
     <input [ngModel]="isoDateFormatter(value)"
+           [focus]="shouldFocus"
            (ngModelChange)="value = isoDateParser($event)"
            required
            id="values-{{filter.id}}"

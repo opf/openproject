@@ -36,6 +36,7 @@ import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-
   templateUrl: './filter-boolean-value.component.html'
 })
 export class FilterBooleanValueComponent {
+  @Input() public shouldFocus:boolean = false;
   @Input() public filter:QueryFilterInstanceResource;
   @Output() public filterChanged = new EventEmitter<QueryFilterInstanceResource>();
 

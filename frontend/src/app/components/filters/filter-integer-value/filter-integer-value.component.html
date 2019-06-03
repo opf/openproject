@@ -1,5 +1,6 @@
 <div id="div-values-{{filter.id}}" class="inline-label">
   <input [(ngModel)]="value"
+         [focus]="shouldFocus"
          required
          class="advanced-filters--number-field"
          id="values-{{filter.id}}"
