@@ -55,6 +55,12 @@ describe 'form query configuration', type: :feature, js: true do
                         type: type_task
                       )
   end
+  let!(:unrelated_task) do
+    FactoryBot.create :work_package, subject: 'Unrelated task', type: type_task, project: project
+  end
+  let!(:unrelated_bug) do
+    FactoryBot.create :work_package, subject: 'Unrelated bug', type: type_bug, project: project
+  end
   let!(:related_task_other_project) do
     FactoryBot.create :work_package,
                       new_relation.merge(
@@ -233,6 +239,21 @@ describe 'form query configuration', type: :feature, js: true do
         embedded_table.expect_work_package_listed related_task, related_task_other_project
         embedded_table.ensure_work_package_not_listed! related_bug
 
+        # Expect no reference to unrelated bug
+        autocompleter = embedded_table.click_reference_inline_create
+        results = embedded_table.search_autocomplete autocompleter,
+                                                     query: 'Unrelated',
+                                                     results_selector: '.ng-dropdown-panel-items'
+
+        expect(results).to have_text "Task ##{unrelated_task.id} Unrelated task"
+        expect(results).to have_no_text "Bug ##{unrelated_task.id} Unrelated bug"
+
+        # Cancel that referencing
+        page.find('.wp-create-relation--cancel').click
+
+        # Reference the task type
+        embedded_table.reference_work_package unrelated_task
+
         # Go back to type configuration
         visit edit_type_tab_path(id: type_bug.id, tab: "form_configuration")
 
@@ -258,7 +279,7 @@ describe 'form query configuration', type: :feature, js: true do
 
         wp_page.expect_group('Subtasks') do
           embedded_table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
-          embedded_table.expect_work_package_listed related_task, related_bug
+          embedded_table.expect_work_package_listed related_task, related_bug, unrelated_task
         end
       end
     end

@@ -32,28 +32,6 @@ module API
       module AvailableRelationCandidatesHelper
         include API::V3::Utilities::PathHelper
 
-        ##
-        # Queries the compatible work package's to the given one as much as possible through the
-        # database.
-        #
-        # @param query [String] The ID or part of a subject to filter by
-        # @param from [WorkPackage] The work package in the `from` position of a relation.
-        # @param limit [Integer] Maximum number of results to retrieve.
-        def work_package_queried(query, from, type, limit)
-          like_query = query
-                       .downcase
-                       .split(/\s+/)
-                       .map { |substr| WorkPackage.connection.quote_string(substr) }
-                       .join("%")
-
-          work_package_scope(from, type)
-            .where("work_packages.id = ? OR LOWER(work_packages.subject) LIKE ?",
-                   query.to_i, "%#{like_query}%")
-            .limit(limit)
-        end
-
-        private
-
         def work_package_scope(from, type)
           canonical_type = Relation.canonical_type(type)
 

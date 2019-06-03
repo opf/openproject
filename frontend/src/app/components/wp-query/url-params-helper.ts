@@ -144,11 +144,6 @@ export class UrlParamsHelperService {
     return paramsData;
   }
 
-  private encode(paramsData:any, query:QueryResource) {
-
-    return paramsData;
-  }
-
   private encodeTimelineVisible(paramsData:any, query:QueryResource) {
     if (!!query.timelineVisible) {
       paramsData.tv = query.timelineVisible;
@@ -324,7 +319,7 @@ export class UrlParamsHelperService {
     return JSON.stringify(this.buildV3GetFilters(filter));
   }
 
-  private buildV3GetFilterIdFromFilter(filter:QueryFilterInstanceResource) {
+  public buildV3GetFilterIdFromFilter(filter:QueryFilterInstanceResource) {
     let href = filter.filter ? filter.filter.$href : filter._links.filter.href;
 
     return this.idFromHref(href);
