@@ -124,9 +124,7 @@ export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
     let index = this.filters.indexOf(removedFilter);
     _.remove(this.filters, f => f.id === removedFilter.id);
 
-    if (removedFilter.isCompletelyDefined()) {
-      this.filtersChanged.emit(this.filters);
-    }
+    this.filtersChanged.emit(this.filters);
 
     this.updateFilterFocus(index);
     this.updateRemainingFilters();
