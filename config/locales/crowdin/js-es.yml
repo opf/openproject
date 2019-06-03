@@ -67,7 +67,7 @@ es:
       too_many: Hay más paquetes de trabajo (%{count}) de los que pueden mostrarse
         en en calendario (%{max}). Agregue filtros para centrarse en los relevantes.
     description_available_columns: Columnas disponibles
-    description_current_position: 'You are here: '
+    description_current_position: 'Usted está aquí: '
     description_select_work_package: 'Seleccione el paquete de trabajo #%{id}'
     description_selected_columns: Columnas seleccionadas
     description_subwork_package: 'Hijo del paquete de trabajo #%{id}'
@@ -512,7 +512,7 @@ es:
       abort: Abandonar
     relations_autocomplete:
       placeholder: Indique el ID del paquete de trabajo relacionado
-      parent_placeholder: Choose new parent or press escape to cancel.
+      parent_placeholder: Elija un nuevo padre ó presione escape para cancelar.
     repositories:
       select_tag: Seleccionar etiqueta
       select_branch: Seleccione Sucursal

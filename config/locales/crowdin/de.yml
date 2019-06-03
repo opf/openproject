@@ -685,12 +685,12 @@ de:
               error_not_found: nicht gefunden
         member:
           principal_blank: Bitte wählen Sie mindestens einen Benutzer oder eine Gruppe.
-          role_blank: need to be assigned.
+          role_blank: muss zugeordnet werden.
           attributes:
             roles:
-              ungrantable: has an unassignable role.
+              ungrantable: hat eine nicht zuweisbare Rolle.
             principal:
-              unassignable: cannot be assigned to a project.
+              unassignable: kann keinem Projekt zugeordnet werden.
         version:
           undeletable_work_packages_attached: Die Version kann nicht gelöscht werden,
             da sie Arbeitspakete enthält, die an sie angeschlossen sind.
@@ -1047,7 +1047,7 @@ de:
   description_choose_project: Projekte
   description_compare_from: Vergleiche von
   description_compare_to: Vergleiche mit
-  description_current_position: 'You are here: '
+  description_current_position: 'Du bist hier: '
   description_date_from: Startdatum eintragen
   description_date_range_interval: Zeitraum durch Start- und Enddatum festlegen
   description_date_range_list: Zeitraum aus einer Liste wählen
