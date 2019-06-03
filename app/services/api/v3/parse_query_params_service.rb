@@ -127,9 +127,9 @@ module API
       end
 
       def highlighted_attributes_from_params(params)
-        highlighted_attributes = params[:highlightedAttributes]
+        highlighted_attributes = Array(params[:highlightedAttributes].presence)
 
-        return unless highlighted_attributes
+        return unless highlighted_attributes.present?
 
         highlighted_attributes.map do |attr|
           convert_attribute(attr)

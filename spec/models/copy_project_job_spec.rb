@@ -139,13 +139,21 @@ describe CopyProjectJob, type: :model do
       let(:subproject) { FactoryBot.create(:project, parent: project) }
 
       describe 'invalid parent' do
-        before do expect(ProjectMailer).to receive(:copy_project_failed).and_return(maildouble) end
-
         include_context 'copy project' do
           let(:project_to_copy) { subproject }
         end
 
-        it { expect(Project.all).to match_array([project, subproject]) }
+        it "creates no new project" do
+          expect(Project.all).to match_array([project, subproject])
+        end
+
+        it "notifies the user of the failure" do
+          mail = ActionMailer::Base.deliveries
+            .find { |m| m.message_id.start_with? "openproject.project-#{user.id}-#{subproject.id}" }
+
+          expect(mail).to be_present
+          expect(mail.subject).to eq "Cannot copy project #{subproject.name}"
+        end
       end
 
       describe 'valid parent' do
@@ -158,8 +166,6 @@ describe CopyProjectJob, type: :model do
         }
 
         before do
-          expect(ProjectMailer).to receive(:copy_project_succeeded).and_return(maildouble)
-
           member_add_subproject
         end
 
@@ -174,6 +180,14 @@ describe CopyProjectJob, type: :model do
           expect(subject.parent).to eql(project)
 
           expect(subproject.reload.enabled_module_names).not_to be_empty
+        end
+
+        it "notifies the user of the success" do
+          mail = ActionMailer::Base.deliveries
+            .find { |m| m.message_id.start_with? "openproject.project-#{user.id}-#{subject.id}" }
+
+          expect(mail).to be_present
+          expect(mail.subject).to eq "Created project #{subject.name}"
         end
       end
     end
