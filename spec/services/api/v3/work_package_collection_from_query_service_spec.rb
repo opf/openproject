@@ -136,7 +136,7 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
 
     allow(mock)
       .to receive(:call)
-      .with(params)
+      .with(params, valid_subset: false)
       .and_return(mock_update_query_service_response)
 
     mock

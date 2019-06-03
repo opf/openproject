@@ -32,7 +32,7 @@ class UpdateQueryFromParamsService
     self.current_user = user
   end
 
-  def call(params)
+  def call(params, valid_subset: false)
     apply_group_by(params)
 
     apply_sort_by(params)
@@ -50,6 +50,10 @@ class UpdateQueryFromParamsService
     apply_highlighting(params)
 
     disable_hierarchy_when_only_grouped_by(params)
+
+    if valid_subset
+      query.valid_subset!
+    end
 
     if query.valid?
       ServiceResult.new(success: true,

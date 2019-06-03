@@ -41,6 +41,9 @@ import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notific
 import {forkJoin, merge} from "rxjs";
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
 import {WorkPackageTableRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
+import {filter, skip} from "rxjs/operators";
+import {QueryResource} from "core-app/modules/hal/resources/query-resource";
+import {GroupDescriptor} from "core-components/work-packages/wp-single-view/wp-single-view.component";
 
 @Component({
   selector: 'wp-relation-query',
@@ -52,8 +55,8 @@ import {WorkPackageTableRefreshService} from "core-components/wp-table/wp-table-
 export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryBase implements OnInit, OnDestroy {
   @Input() public workPackage:WorkPackageResource;
 
-  @Input() public query:any;
-  @Input() public group:any;
+  @Input() public query:QueryResource;
+  @Input() public group:GroupDescriptor;
 
   public tableActions:OpTableActionFactory[] = [
     OpUnlinkTableAction.factoryFor(
@@ -87,7 +90,7 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
     this.wpInlineCreate.relationType = relationType;
 
     // Set up the query props
-    this.buildQueryProps();
+    this.queryProps = this.buildQueryProps();
 
     // Wire the successful saving of a new addition to refreshing the embedded table
     this.wpInlineCreate.newInlineWorkPackageCreated
@@ -95,9 +98,11 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
       .subscribe((toId:string) => this.addRelation(toId));
 
     // When relations have changed, refresh this table
-
     this.wpRelations.observe(this.workPackage.id!)
-      .pipe(untilComponentDestroyed(this))
+      .pipe(
+        filter(val => !_.isEmpty(val)),
+        untilComponentDestroyed(this)
+      )
       .subscribe(() => this.refreshTable());
   }
 
@@ -115,6 +120,6 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
   }
 
   private getRelationTypeFromQuery() {
-    return this.group.relationType;
+    return this.group.relationType!;
   }
 }
