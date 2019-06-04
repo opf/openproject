@@ -41,7 +41,7 @@ describe ProjectsHelper, type: :helper do
     User.current = nil
   end
 
-  let(:test_project)  { FactoryBot.create :valid_project }
+  let(:test_project) { FactoryBot.create :valid_project }
 
   describe 'a version' do
     let(:version) { FactoryBot.create :version, project: test_project }
@@ -167,6 +167,47 @@ describe ProjectsHelper, type: :helper do
                                     [grandgrandchild1, 2],
                                     [child2, 0],
                                     [root, 0]
+      end
+    end
+  end
+
+  describe '#projects_level_list_json' do
+    subject { helper.projects_level_list_json(projects).to_json }
+    let(:projects) { [] }
+
+    describe 'with no project available' do
+      it 'renders an empty projects document' do
+        is_expected.to have_json_size(0).at_path('projects')
+      end
+    end
+
+    describe 'with some projects available' do
+      let(:projects) do
+        p1 = FactoryBot.build(:project, name: 'P1')
+
+        # a result from Project.project_level_list
+        [{ project: p1,
+           level: 0 },
+         { project: FactoryBot.build(:project, name: 'P2', parent: p1),
+           level: 1 },
+         { project: FactoryBot.build(:project, name: 'P3'),
+           level: 0 }]
+      end
+
+      it 'renders a projects document with the size of 3 of type array' do
+        is_expected.to have_json_size(3).at_path('projects')
+      end
+
+      it 'renders all three projects' do
+        is_expected.to be_json_eql('P1'.to_json).at_path('projects/0/name')
+        is_expected.to be_json_eql('P2'.to_json).at_path('projects/1/name')
+        is_expected.to be_json_eql('P3'.to_json).at_path('projects/2/name')
+      end
+
+      it 'renders the project levels' do
+        is_expected.to be_json_eql(0.to_json).at_path('projects/0/level')
+        is_expected.to be_json_eql(1.to_json).at_path('projects/1/level')
+        is_expected.to be_json_eql(0.to_json).at_path('projects/2/level')
       end
     end
   end
