@@ -55,6 +55,13 @@ module API
           }
         end
 
+        link :workPackages,
+             cache_if: -> {
+               current_user_allowed_to(:view_work_packages, context: represented)
+             } do
+          { href: api_v3_paths.work_packages_by_project(represented.id) }
+        end
+
         link :categories do
           { href: api_v3_paths.categories(represented.id) }
         end

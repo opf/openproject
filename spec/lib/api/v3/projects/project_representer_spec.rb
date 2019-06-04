@@ -127,6 +127,11 @@ describe ::API::V3::Projects::ProjectRepresenter do
             is_expected.to be_json_eql(api_v3_paths.types_by_project(project.id).to_json)
               .at_path('_links/types/href')
           end
+
+          it 'links to the work packages in the project' do
+            is_expected.to be_json_eql(api_v3_paths.work_packages_by_project(project.id).to_json)
+                             .at_path('_links/workPackages/href')
+          end
         end
 
         context 'for a user having the manage_types permission' do
@@ -143,6 +148,10 @@ describe ::API::V3::Projects::ProjectRepresenter do
 
           it 'has no types link' do
             is_expected.to_not have_json_path('_links/types/href')
+          end
+
+          it 'has no work packages link' do
+            is_expected.to_not have_json_path('_links/workPackages/href')
           end
         end
       end
