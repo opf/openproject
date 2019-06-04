@@ -5,15 +5,15 @@ $board-list-max-width: 300px
 .board-list--query-container
   // 100% - board header height
   max-width: inherit
-  overflow: auto
+  overflow: hidden
   height: 100%
-
-  @include styled-scroll-bar-vertical
 
   // Ensure grid is only applied if button is visible
   &.-with-create-button
     display: grid
-    grid-template: 34px 1fr / 1fr
+    // In order to enable automatic scrolling within the card view,
+    // it is important that second container is limited in the height, so that it is scrollable.
+    grid-template: 34px minmax(0, 1fr) / 1fr
 
 // Make the button sticky so that it does not scroll,
 // Unfortunately we cannot let the card container scroll because there seem to be a Chrome bug,
@@ -58,7 +58,7 @@ $board-list-max-width: 300px
 
 .board-list--add-button
   background-color: var(--body-background)
-  width: calc(100% - 30px)
+  width: calc(100% - 30px - #{$scrollbar-size})
   margin: 0 15px
   box-shadow: 1px 1px 3px 0px lightgrey
 
