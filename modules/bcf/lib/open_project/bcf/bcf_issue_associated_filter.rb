@@ -29,7 +29,7 @@
 #++
 
 module ::OpenProject::Bcf
-  class ::BcfIssueAssociatedFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
+  class BcfIssueAssociatedFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
     attr_reader :join_table_suffix
 
     def type
@@ -45,9 +45,9 @@ module ::OpenProject::Bcf
 
     def where
       if associated?
-        Queries::Operators::All.sql_for_field(values, ::Bcf::Issue.table_name, 'id')
+        ::Queries::Operators::All.sql_for_field(values, ::Bcf::Issue.table_name, 'id')
       elsif not_associated?
-        Queries::Operators::None.sql_for_field(values, ::Bcf::Issue.table_name, 'id')
+        ::Queries::Operators::None.sql_for_field(values, ::Bcf::Issue.table_name, 'id')
       else
         raise 'Unsupported operator or value'
       end

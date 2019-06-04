@@ -110,10 +110,10 @@ module OpenProject::Bcf
     end
 
     config.to_prepare do
-      WorkPackage::Exporter
+      ::WorkPackage::Exporter
         .register_for_list(:bcf, OpenProject::Bcf::BcfXml::Exporter)
 
-      Queries::Register.filter Query, OpenProject::Bcf::BcfIssueAssociatedFilter
+      ::Queries::Register.filter ::Query, OpenProject::Bcf::BcfIssueAssociatedFilter
     end
   end
 end
