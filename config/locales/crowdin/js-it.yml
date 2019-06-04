@@ -221,7 +221,7 @@ it:
     label_board_locked: Chiuso
     label_board_plural: Tabelloni
     label_board_sticky: In evidenza
-    label_create: Create
+    label_create: Crea
     label_create_work_package: Crea una nuova macro-attività (work package)
     label_created_by: Creato da
     label_date: Data
@@ -428,8 +428,11 @@ it:
       selection: Si prega di selezionare
       relation_description: Clicca per aggiungere una descrizione per la relazione
     project:
-      required_outside_context: Non sei all'interno di un contesto di progetto. Scegli
-        prima il contesto del progetto per selezionare il tipo e lo stato
+      required_outside_context: 'Please choose a project to create the work package
+        in to see all attributes. You can only select projects which have the type
+        above activated.
+
+'
       context: Contesto del progetto
       work_package_belongs_to: Questa macro-attività appartiene al progetto %{projectname}.
       click_to_switch_context: Apri questa macro-attività nel progetto.
@@ -932,4 +935,3 @@ it:
         all_projects: tutti i progetti
         project_and_subprojects: e tutti i sottoprogetti
         search_for: Cerca per
-    label_create_new: Crea nuovo

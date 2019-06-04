@@ -220,7 +220,7 @@ fr:
     label_board_locked: Verrouillé
     label_board_plural: Tableaux
     label_board_sticky: Epinglé
-    label_create: Create
+    label_create: Créer
     label_create_work_package: Créer un nouveau Lot de Travaux
     label_created_by: Créé par
     label_date: Date
@@ -434,8 +434,11 @@ fr:
       selection: Veuillez sélectionner
       relation_description: Cliquez pour ajouter la description pour cette relation
     project:
-      required_outside_context: Vous n’êtes pas dans un contexte de projet. Veuillez
-        d’abord choisir le contexte du projet afin de sélectionner le type et le statut.
+      required_outside_context: 'Please choose a project to create the work package
+        in to see all attributes. You can only select projects which have the type
+        above activated.
+
+'
       context: Contexte du projet
       work_package_belongs_to: Ce lot de travaux appartient au projet %{projectname}.
       click_to_switch_context: Ouvrir ce lot de travaux dans ce projet.
@@ -941,4 +944,3 @@ fr:
         all_projects: tous les projets
         project_and_subprojects: et tous les sous-projets
         search_for: Rechercher
-    label_create_new: Créer nouveau

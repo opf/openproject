@@ -217,7 +217,7 @@ cs:
     label_board_locked: Uzamčeno
     label_board_plural: Boards
     label_board_sticky: Sticky
-    label_create: Create
+    label_create: Vytvořit
     label_create_work_package: Vytvořit nový pracovní balíček
     label_created_by: Vytvořil(a)
     label_date: Datum
@@ -418,8 +418,11 @@ cs:
       selection: Zvolte prosím
       relation_description: Click to add description for this relation
     project:
-      required_outside_context: You are not within a project context. Please choose
-        the project context first in order to select type and status
+      required_outside_context: 'Please choose a project to create the work package
+        in to see all attributes. You can only select projects which have the type
+        above activated.
+
+'
       context: Kontext projektu
       work_package_belongs_to: Tento pracovní balíček náleží projektu %{projectname}.
       click_to_switch_context: Open this work package in that project.
@@ -925,4 +928,3 @@ cs:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
-    label_create_new: Vytvořit nový

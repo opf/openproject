@@ -220,7 +220,7 @@ nl:
     label_board_locked: Vergrendeld
     label_board_plural: Borden
     label_board_sticky: Sticky
-    label_create: Create
+    label_create: Maken
     label_create_work_package: Nieuw werkpakket maken
     label_created_by: Gemaakt door
     label_date: Datum
@@ -426,8 +426,11 @@ nl:
       selection: Gelieve te selecteren
       relation_description: Klik om een beschrijving voor deze relatie toe te voegen
     project:
-      required_outside_context: U bent niet in de context van een project. Kies de
-        context van het project eerst om te selecteren op type en status
+      required_outside_context: 'Please choose a project to create the work package
+        in to see all attributes. You can only select projects which have the type
+        above activated.
+
+'
       context: Context van het project
       work_package_belongs_to: Dit werkpakket behoort tot project %{projectname}.
       click_to_switch_context: Open dit werkpakket in dat project.
@@ -930,4 +933,3 @@ nl:
         all_projects: alle projecten
         project_and_subprojects: en alle subprojecten
         search_for: Zoeken naar
-    label_create_new: Nieuwe aanmaken
