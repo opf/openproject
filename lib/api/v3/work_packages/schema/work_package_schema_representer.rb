@@ -35,7 +35,11 @@ module API
     module WorkPackages
       module Schema
         class WorkPackageSchemaRepresenter < ::API::Decorators::SchemaRepresenter
-          include API::Caching::CachedRepresenter
+          # TODO: reenable caching after having ensured that the cache is
+          # user or at least roles in project specific.
+          # Otherwise, the writable information will not be correct and information
+          # cached e.g. in an embedded query (project name) is leaked to the user.
+          # include API::Caching::CachedRepresenter
           extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
 
           custom_field_injector type: :schema_representer
