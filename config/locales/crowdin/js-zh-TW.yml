@@ -207,7 +207,7 @@ zh-TW:
     label_board_locked: 鎖定
     label_board_plural: Boards
     label_board_sticky: 附著
-    label_create_new: 新增
+    label_create: Create
     label_create_work_package: 建立新的工作項目
     label_created_by: 建立由
     label_date: 日期
@@ -840,3 +840,4 @@ zh-TW:
         all_projects: 所有專案
         project_and_subprojects: 和所有的子專案
         search_for: 搜尋
+    label_create_new: 新增

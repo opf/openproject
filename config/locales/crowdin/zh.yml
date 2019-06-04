@@ -539,6 +539,10 @@ zh:
           invalid_url: 不是有效的存储库 URL 或路径。
           must_not_be_ssh: 不能是 SSH url。
           no_directory: 不是一个目录。
+        role:
+          permissions:
+            dependency_missing: need to also include '%{dependency}' as '%{permission}'
+              is selected.
         work_package:
           is_not_a_valid_target_for_time_entries: '工作包 #%{id} 不是重新分配时间条目的有效目标。'
           attributes:
@@ -1820,6 +1824,7 @@ zh:
   permission_add_project: 创建项目
   permission_add_subprojects: 创建子项目
   permission_add_work_package_watchers: 添加关注人
+  permission_assign_versions: Assign versions
   permission_browse_repository: 只读访问存储库 (浏览和签出)
   permission_change_wiki_parent_page: 更改父 wiki 页面
   permission_comment_news: 评论新闻
@@ -2545,6 +2550,8 @@ zh:
       multipart_body_error: 请求正文中不包含所需要的多段部分。
       multiple_errors: 违反了多个字段的约束。
       unable_to_create_attachment: 无法创建附件
+      unable_to_create_attachment_permissions: The attachment could not be saved due
+        to lacking file system permissions
       render:
         context_not_parsable: 所提供的上下文环境并不是指向资源的链接。
         unsupported_context: 所提供的资源不被上下文环境所支持。

@@ -596,6 +596,10 @@ ar:
           invalid_url: is not a valid repository URL or path.
           must_not_be_ssh: must not be an SSH url.
           no_directory: ليس من دليل.
+        role:
+          permissions:
+            dependency_missing: need to also include '%{dependency}' as '%{permission}'
+              is selected.
         work_package:
           is_not_a_valid_target_for_time_entries: 'مجموعة العمل #%{id} ليست هدفًا
             صالحًا لإعادة تعيين إدخالات الوقت.'
@@ -2039,6 +2043,7 @@ ar:
   permission_add_project: إنشاء مشروع
   permission_add_subprojects: إنشاء مشاريع فرعية
   permission_add_work_package_watchers: إضافة مراقب
+  permission_assign_versions: Assign versions
   permission_browse_repository: وصول للقراءة فقط إلى مستودع (استعراض والخروج)
   permission_change_wiki_parent_page: تغيير صفحة wikiالاصلية
   permission_comment_news: أخبار التعليق
@@ -2893,6 +2898,8 @@ ar:
       multipart_body_error: لم يتضمن نص الطلب على أجزاء متعددة الأجزاء المتوقعة.
       multiple_errors: تم انتهاك قيود متعددة الحقول.
       unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment_permissions: The attachment could not be saved due
+        to lacking file system permissions
       render:
         context_not_parsable: سياق المقدمة ليس ارتباط إلى مورد.
         unsupported_context: غير معتمد المورد نظراً للسياق.

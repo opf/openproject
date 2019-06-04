@@ -623,6 +623,10 @@ fil:
           invalid_url: ay hindi balidong respositoryo URL o path.
           must_not_be_ssh: hindi dapat isang SSH url.
           no_directory: ay hindi isang direktoryo.
+        role:
+          permissions:
+            dependency_missing: need to also include '%{dependency}' as '%{permission}'
+              is selected.
         work_package:
           is_not_a_valid_target_for_time_entries: 'Ang work package #%{id} ay hindi
             balido sa target para mag-reassign ng mga oras na entry.'
@@ -2015,6 +2019,7 @@ fil:
   permission_add_project: Lumikha ng proyekto
   permission_add_subprojects: Lumikha ng mga subproject
   permission_add_work_package_watchers: Magdagdag ng manunuod
+  permission_assign_versions: Assign versions
   permission_browse_repository: Basahin-lamang nag-access sa respositoryo (browse
     at checkout)
   permission_change_wiki_parent_page: Baguhin ang pahina ng magulang na wiki
@@ -2930,6 +2935,8 @@ fil:
         mga parte ng multipart.
       multiple_errors: Maramihang mga hadlang sa patlang ay lumabag.
       unable_to_create_attachment: Ang paglalakip ay hindi maaring likhain
+      unable_to_create_attachment_permissions: The attachment could not be saved due
+        to lacking file system permissions
       render:
         context_not_parsable: Ang kontekstong naibigay ay hindi nai-link sa isang
           mapagkukunan.

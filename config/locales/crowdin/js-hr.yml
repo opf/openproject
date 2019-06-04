@@ -216,7 +216,7 @@ hr:
     label_board_locked: Zaključano
     label_board_plural: Boards
     label_board_sticky: Zaljepljeno
-    label_create_new: Create new
+    label_create: Create
     label_create_work_package: Kreirajte novi radni paket
     label_created_by: Kreirao korisnik
     label_date: Datum
@@ -922,3 +922,4 @@ hr:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
+    label_create_new: Create new

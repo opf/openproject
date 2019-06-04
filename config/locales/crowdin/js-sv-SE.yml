@@ -218,7 +218,7 @@ sv-SE:
     label_board_locked: Låst
     label_board_plural: Boards
     label_board_sticky: Klistrad
-    label_create_new: Create new
+    label_create: Create
     label_create_work_package: Skapa nya arbetspaket
     label_created_by: Skapad av
     label_date: Datum
@@ -915,3 +915,4 @@ sv-SE:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
+    label_create_new: Create new

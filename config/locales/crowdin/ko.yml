@@ -555,6 +555,10 @@ ko:
           invalid_url: 유효한 리포지토리 URL 또는 경로가 아닙니다.
           must_not_be_ssh: SSH url이 아니어야 합니다.
           no_directory: 디텍터리가 아님
+        role:
+          permissions:
+            dependency_missing: need to also include '%{dependency}' as '%{permission}'
+              is selected.
         work_package:
           is_not_a_valid_target_for_time_entries: '작업 패키지 #%{id}은(는) 시간 항목 재할당에 올바른
             대상이 아닙니다.'
@@ -1892,6 +1896,7 @@ ko:
   permission_add_project: 프로젝트 만들기
   permission_add_subprojects: 하위 프로젝트 만들기
   permission_add_work_package_watchers: 주시자 추가
+  permission_assign_versions: Assign versions
   permission_browse_repository: 리포지토리에 대한 읽기 전용 액세스(찾아보기 및 체크아웃)
   permission_change_wiki_parent_page: 부모 위키 페이지 변경
   permission_comment_news: 뉴스에 코멘트 달기
@@ -2671,6 +2676,8 @@ ko:
       multipart_body_error: 요청 본문에는 필요한 multipart 부분이 포함되어 있지 않습니다.
       multiple_errors: 다중 필드 제약 조건이 위반되었습니다.
       unable_to_create_attachment: 첨부 파일을 만들 수 없습니다.
+      unable_to_create_attachment_permissions: The attachment could not be saved due
+        to lacking file system permissions
       render:
         context_not_parsable: 제공된 컨텍스트는 리소스에 대한 링크가 아닙니다.
         unsupported_context: 지정된 리소스는 컨텍스트로 지원되지 않습니다.

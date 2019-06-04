@@ -598,6 +598,10 @@ fi:
           invalid_url: is not a valid repository URL or path.
           must_not_be_ssh: must not be an SSH url.
           no_directory: ei ole hakemisto.
+        role:
+          permissions:
+            dependency_missing: need to also include '%{dependency}' as '%{permission}'
+              is selected.
         work_package:
           is_not_a_valid_target_for_time_entries: 'Työpaketti #%{id} ei ole kelvollinen
             uusi kohde aikakirjauksille.'
@@ -1956,6 +1960,7 @@ fi:
   permission_add_project: Luo projekti
   permission_add_subprojects: Luoda aliprojekteja
   permission_add_work_package_watchers: Lisää seuraajia
+  permission_assign_versions: Assign versions
   permission_browse_repository: Selaa tietovarastoa
   permission_change_wiki_parent_page: Vaihda ylätason wikisivu
   permission_comment_news: Kommentoi uutisia
@@ -2813,6 +2818,8 @@ fi:
       multipart_body_error: Pyynnön elin ei sisällä odotettavissa moniosaisia osat.
       multiple_errors: Useita kenttä rajoituksia on rikottu.
       unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment_permissions: The attachment could not be saved due
+        to lacking file system permissions
       render:
         context_not_parsable: Yhteydessä edellyttäen ei ole linkki resurssi.
         unsupported_context: Resurssi koska ei ole tuettu yhteydessä.

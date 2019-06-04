@@ -207,7 +207,7 @@ ja:
     label_board_locked: ロックされている
     label_board_plural: ボード
     label_board_sticky: 固定する
-    label_create_new: 新規作成
+    label_create: Create
     label_create_work_package: 新しい作業項目を作成
     label_created_by: 作成者：
     label_date: 日付
@@ -839,3 +839,4 @@ ja:
         all_projects: すべてのプロジェクト
         project_and_subprojects: すべてのプロジェクトで
         search_for: 検索対象
+    label_create_new: 新規作成

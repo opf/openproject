@@ -617,6 +617,10 @@ fr:
           invalid_url: n'est pas une URL ou un chemin de dépôt valide.
           must_not_be_ssh: ne doit pas être une url SSH.
           no_directory: n'est pas un répertoire.
+        role:
+          permissions:
+            dependency_missing: need to also include '%{dependency}' as '%{permission}'
+              is selected.
         work_package:
           is_not_a_valid_target_for_time_entries: 'Le lot de travaux #%{id} n''est
             pas une cible valide pour réaffecter les entrées de temps.'
@@ -2014,6 +2018,7 @@ fr:
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets
   permission_add_work_package_watchers: Ajouter des observateurs
+  permission_assign_versions: Assign versions
   permission_browse_repository: Accès au dépôt en lecture seule (navigation et « checkout
     »)
   permission_change_wiki_parent_page: Changer la page wiki parent
@@ -2919,6 +2924,8 @@ fr:
         attendus.
       multiple_errors: Plusieurs contraintes de champ n'ont pas été respectées.
       unable_to_create_attachment: La pièce jointe n’a pas pu être créée
+      unable_to_create_attachment_permissions: The attachment could not be saved due
+        to lacking file system permissions
       render:
         context_not_parsable: Le contexte fourni n'est pas un lien vers une ressource.
         unsupported_context: La ressource donnée n'est pas prise en charge comme contexte.

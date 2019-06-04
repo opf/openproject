@@ -221,7 +221,7 @@ es:
     label_board_locked: Bloqueado
     label_board_plural: Tableros
     label_board_sticky: Adhesivo
-    label_create_new: Crear nuevo
+    label_create: Create
     label_create_work_package: Crear un nuevo paquete de trabajo
     label_created_by: Creado por
     label_date: Fecha
@@ -933,3 +933,4 @@ es:
         all_projects: todos los proyectos
         project_and_subprojects: y todos los subproyectos
         search_for: Búsqueda por
+    label_create_new: Crear nuevo

@@ -600,6 +600,10 @@ ru:
           invalid_url: не допустимый URL или путь к репозиторию.
           must_not_be_ssh: не должно быть URL-адресом SSH.
           no_directory: не является каталогом.
+        role:
+          permissions:
+            dependency_missing: need to also include '%{dependency}' as '%{permission}'
+              is selected.
         work_package:
           is_not_a_valid_target_for_time_entries: 'Пакет работ #%{id} не допустимым
             для переназначения времени записи.'
@@ -2026,6 +2030,7 @@ ru:
   permission_add_project: Создать проект
   permission_add_subprojects: Создать подпроект
   permission_add_work_package_watchers: Добавить наблюдателей
+  permission_assign_versions: Assign versions
   permission_browse_repository: Возможность только чтения из репозитория (просмотр
     и проверка)
   permission_change_wiki_parent_page: Смена родительской wiki-страницы
@@ -2912,6 +2917,8 @@ ru:
       multipart_body_error: Тело запроса не содержит ожидаемых частей.
       multiple_errors: Для нескольких полей были нарушены ограничения.
       unable_to_create_attachment: Вложение не может быть создано
+      unable_to_create_attachment_permissions: The attachment could not be saved due
+        to lacking file system permissions
       render:
         context_not_parsable: Предоставленного контекста не является ссылка на ресурс.
         unsupported_context: Ресурс не поддерживается как контекст.

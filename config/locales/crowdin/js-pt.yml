@@ -218,7 +218,7 @@ pt:
     label_board_locked: Bloqueado
     label_board_plural: Quadros
     label_board_sticky: Pegajoso
-    label_create_new: Criar novo
+    label_create: Create
     label_create_work_package: Criar nova tarefa
     label_created_by: Criado por
     label_date: Data
@@ -917,3 +917,4 @@ pt:
         all_projects: todos os projetos
         project_and_subprojects: e todos os subprojetos
         search_for: Pesquisar por
+    label_create_new: Criar novo

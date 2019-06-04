@@ -217,7 +217,7 @@ tr:
     label_board_locked: Kilitlendi
     label_board_plural: Panolar
     label_board_sticky: Sabit
-    label_create_new: Yeni oluştur
+    label_create: Create
     label_create_work_package: Yeni iş paketi oluştur
     label_created_by: Oluşturan
     label_date: Tarih
@@ -913,3 +913,4 @@ tr:
         all_projects: tüm projeler
         project_and_subprojects: ve tüm alt projeler
         search_for: Aramak
+    label_create_new: Yeni oluştur

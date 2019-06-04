@@ -219,7 +219,7 @@ uk:
     label_board_locked: Заблоковано
     label_board_plural: Дошки
     label_board_sticky: Приліплена
-    label_create_new: Створити новий
+    label_create: Create
     label_create_work_package: Створити новий робочий пакет
     label_created_by: Створено
     label_date: Дата
@@ -928,3 +928,4 @@ uk:
         all_projects: всі проекти
         project_and_subprojects: і всі підпроекти
         search_for: Пошук по
+    label_create_new: Створити новий

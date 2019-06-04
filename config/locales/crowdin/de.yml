@@ -621,6 +621,10 @@ de:
           invalid_url: ist keine gültige URL oder Pfad zum Projektarchiv.
           must_not_be_ssh: darf keine SSH-URL sein.
           no_directory: ist kein Verzeichnis.
+        role:
+          permissions:
+            dependency_missing: need to also include '%{dependency}' as '%{permission}'
+              is selected.
         work_package:
           is_not_a_valid_target_for_time_entries: 'Arbeitspaket #%{id} ist kein gültiges
             Ziel für die Zuordnung der Zeiterfassungseinträge.'
@@ -2019,6 +2023,7 @@ de:
   permission_add_project: Projekt erstellen
   permission_add_subprojects: Unterprojekte erstellen
   permission_add_work_package_watchers: Beobachter hinzufügen
+  permission_assign_versions: Assign versions
   permission_browse_repository: Lesezugriff auf Projektarchiv (in OpenProject und
     Checkout)
   permission_change_wiki_parent_page: Übergeordnete Wiki-Seite ändern
@@ -2922,6 +2927,8 @@ de:
         Abschnitte.
       multiple_errors: Einschränkungen für mehrere Felder wurden verletzt.
       unable_to_create_attachment: Der Anhang konnte nicht erstellt werden
+      unable_to_create_attachment_permissions: The attachment could not be saved due
+        to lacking file system permissions
       render:
         context_not_parsable: Der übergebene Kontext ist kein Link zu einer Ressource.
         unsupported_context: Die übergebene Ressource wird nicht als Kontext unterstützt.

@@ -599,6 +599,10 @@ cs:
           invalid_url: is not a valid repository URL or path.
           must_not_be_ssh: must not be an SSH url.
           no_directory: není adresář.
+        role:
+          permissions:
+            dependency_missing: need to also include '%{dependency}' as '%{permission}'
+              is selected.
         work_package:
           is_not_a_valid_target_for_time_entries: 'Pracovní balíček #%{id} není platný
             cíl pro přeřazení časových záznamů.'
@@ -2010,6 +2014,7 @@ cs:
   permission_add_project: Vytvořit projekt
   permission_add_subprojects: Vytvořit podprojekty
   permission_add_work_package_watchers: Přidat sledující
+  permission_assign_versions: Assign versions
   permission_browse_repository: Read-only access to repository (browse and checkout)
   permission_change_wiki_parent_page: Změnit nadřazenou wiki stránku
   permission_comment_news: Komentování novinek
@@ -2880,6 +2885,8 @@ cs:
         parts.
       multiple_errors: Multiple field constraints have been violated.
       unable_to_create_attachment: Přílohu nelze vytvořit
+      unable_to_create_attachment_permissions: The attachment could not be saved due
+        to lacking file system permissions
       render:
         context_not_parsable: The context provided is not a link to a resource.
         unsupported_context: The resource given is not supported as context.

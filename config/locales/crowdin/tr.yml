@@ -598,6 +598,10 @@ tr:
           invalid_url: geçerli bir depo URL veya yol değil.
           must_not_be_ssh: bir SSH url olmamalı.
           no_directory: bir dizin değil.
+        role:
+          permissions:
+            dependency_missing: need to also include '%{dependency}' as '%{permission}'
+              is selected.
         work_package:
           is_not_a_valid_target_for_time_entries: 'İş paketi #%{id} zaman girdilerini
             yeniden atama için geçerli bir hedef değil.'
@@ -1962,6 +1966,7 @@ tr:
   permission_add_project: Proje oluşturmak
   permission_add_subprojects: Alt proje oluşturmak
   permission_add_work_package_watchers: Takipçi ekle
+  permission_assign_versions: Assign versions
   permission_browse_repository: Depoya salt okunur erişim (göz atma ve ödeme)
   permission_change_wiki_parent_page: Üst Wiki sayfasını değiştirmek
   permission_comment_news: Haberlere yorum yazmak
@@ -2834,6 +2839,8 @@ tr:
       multipart_body_error: İstek gövdesi, beklenen çok parçalı parçaları içeriyordu.
       multiple_errors: Çoklu alan kısıtlamaları ihlal edilmiştir.
       unable_to_create_attachment: Ek oluşturulamadı
+      unable_to_create_attachment_permissions: The attachment could not be saved due
+        to lacking file system permissions
       render:
         context_not_parsable: Sağlanan bağlam, bir kaynağa bağ değildir.
         unsupported_context: Verilen kaynak bağlam olarak desteklenmiyor.

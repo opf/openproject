@@ -221,7 +221,7 @@ it:
     label_board_locked: Chiuso
     label_board_plural: Tabelloni
     label_board_sticky: In evidenza
-    label_create_new: Crea nuovo
+    label_create: Create
     label_create_work_package: Crea una nuova macro-attività (work package)
     label_created_by: Creato da
     label_date: Data
@@ -932,3 +932,4 @@ it:
         all_projects: tutti i progetti
         project_and_subprojects: e tutti i sottoprogetti
         search_for: Cerca per
+    label_create_new: Crea nuovo
