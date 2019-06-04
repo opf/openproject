@@ -108,7 +108,7 @@ export class CreateAutocompleterComponent implements AfterViewInit {
   @Output() public onAfterViewInit = new EventEmitter<CreateAutocompleterComponent>();
 
   public text:any = {
-    add_new_action: this.I18n.t('js.label_create_new'),
+    add_new_action: this.I18n.t('js.label_create'),
   };
 
   private _createAllowed:boolean = false;
