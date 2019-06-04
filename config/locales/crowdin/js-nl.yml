@@ -220,7 +220,7 @@ nl:
     label_board_locked: Vergrendeld
     label_board_plural: Borden
     label_board_sticky: Sticky
-    label_create_new: Nieuwe aanmaken
+    label_create: Create
     label_create_work_package: Nieuw werkpakket maken
     label_created_by: Gemaakt door
     label_date: Datum
@@ -930,3 +930,4 @@ nl:
         all_projects: alle projecten
         project_and_subprojects: en alle subprojecten
         search_for: Zoeken naar
+    label_create_new: Nieuwe aanmaken

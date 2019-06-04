@@ -220,7 +220,7 @@ fr:
     label_board_locked: Verrouillé
     label_board_plural: Tableaux
     label_board_sticky: Epinglé
-    label_create_new: Créer nouveau
+    label_create: Create
     label_create_work_package: Créer un nouveau Lot de Travaux
     label_created_by: Créé par
     label_date: Date
@@ -941,3 +941,4 @@ fr:
         all_projects: tous les projets
         project_and_subprojects: et tous les sous-projets
         search_for: Rechercher
+    label_create_new: Créer nouveau

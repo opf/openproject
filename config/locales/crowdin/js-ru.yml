@@ -219,7 +219,7 @@ ru:
     label_board_locked: Заперто
     label_board_plural: Доски
     label_board_sticky: Стикер
-    label_create_new: Создать новое
+    label_create: Create
     label_create_work_package: Создать новый пакет работ
     label_created_by: Автор
     label_date: Дата
@@ -928,3 +928,4 @@ ru:
         all_projects: все проекты
         project_and_subprojects: и все подпроекты
         search_for: Поиск по
+    label_create_new: Создать новое

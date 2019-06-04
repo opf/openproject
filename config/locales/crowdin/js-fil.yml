@@ -215,7 +215,7 @@ fil:
     label_board_locked: Naka-lock
     label_board_plural: Boards
     label_board_sticky: Malagkit
-    label_create_new: Create new
+    label_create: Create
     label_create_work_package: Lumikha ng bagong work package
     label_created_by: Nilikha ni
     label_date: Petsa
@@ -931,3 +931,4 @@ fil:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
+    label_create_new: Create new

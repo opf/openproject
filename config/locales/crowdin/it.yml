@@ -612,6 +612,10 @@ it:
           invalid_url: non è un percorso o un URL di repository valido.
           must_not_be_ssh: non deve essere un URL SSH.
           no_directory: non è una directory.
+        role:
+          permissions:
+            dependency_missing: need to also include '%{dependency}' as '%{permission}'
+              is selected.
         work_package:
           is_not_a_valid_target_for_time_entries: 'La macro-attività #%{id} non può
             essere utilizzata per riassegnare la cronologia.'
@@ -2007,6 +2011,7 @@ it:
   permission_add_project: Creare un progetto
   permission_add_subprojects: Creare sotto-progetti
   permission_add_work_package_watchers: Aggiungere osservatori
+  permission_assign_versions: Assign versions
   permission_browse_repository: Accesso in sola lettura all'archivio (consultazione
     e check-out)
   permission_change_wiki_parent_page: Cambiare la pagina padre del wiki
@@ -2921,6 +2926,8 @@ it:
       multipart_body_error: Il corpo della richiesta non contiene le multipart previste.
       multiple_errors: Più vincoli di campo sono stati violati.
       unable_to_create_attachment: Il tema potrebbe non essere creato
+      unable_to_create_attachment_permissions: The attachment could not be saved due
+        to lacking file system permissions
       render:
         context_not_parsable: Il contesto fornito non è un collegamento a una risorsa.
         unsupported_context: La risorsa non è supportata come contesto.

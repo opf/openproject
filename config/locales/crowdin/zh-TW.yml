@@ -543,6 +543,10 @@ zh-TW:
           invalid_url: 是一個無效的儲存庫 Url 或路徑
           must_not_be_ssh: 不可以是一個 SSH url
           no_directory: 不是一個資料夾
+        role:
+          permissions:
+            dependency_missing: need to also include '%{dependency}' as '%{permission}'
+              is selected.
         work_package:
           is_not_a_valid_target_for_time_entries: '工作項目 #%{id} 不是重新分配時間項目有效的目標'
           attributes:
@@ -1829,6 +1833,7 @@ zh-TW:
   permission_add_project: 建立專案
   permission_add_subprojects: 建立子專案
   permission_add_work_package_watchers: 新增監看者
+  permission_assign_versions: Assign versions
   permission_browse_repository: 唯讀版本庫 (瀏覽和 Checkout)
   permission_change_wiki_parent_page: 更改上層 Wiki 頁面
   permission_comment_news: 對新聞發表評論
@@ -2585,6 +2590,8 @@ zh-TW:
       multipart_body_error: 請求正文不包含預期的多段部分。
       multiple_errors: 已違反多個欄位約束。
       unable_to_create_attachment: 無法創建附件
+      unable_to_create_attachment_permissions: The attachment could not be saved due
+        to lacking file system permissions
       render:
         context_not_parsable: 提供的對應文不是指向資源的連結。
         unsupported_context: 所提供的資源不受相對應支援。

@@ -536,6 +536,10 @@ lol:
           invalid_url: crwdns123420:0crwdne123420:0
           must_not_be_ssh: crwdns123422:0crwdne123422:0
           no_directory: crwdns123424:0crwdne123424:0
+        role:
+          permissions:
+            dependency_missing: need to also include '%{dependency}' as '%{permission}'
+              is selected.
         work_package:
           is_not_a_valid_target_for_time_entries: crwdns123426:0%{id}crwdne123426:0
           attributes:
@@ -1806,6 +1810,7 @@ lol:
   permission_add_project: crwdns125660:0crwdne125660:0
   permission_add_subprojects: crwdns125662:0crwdne125662:0
   permission_add_work_package_watchers: crwdns125664:0crwdne125664:0
+  permission_assign_versions: Assign versions
   permission_browse_repository: crwdns125666:0crwdne125666:0
   permission_change_wiki_parent_page: crwdns125668:0crwdne125668:0
   permission_comment_news: crwdns125670:0crwdne125670:0
@@ -2520,6 +2525,8 @@ lol:
       multipart_body_error: crwdns126888:0crwdne126888:0
       multiple_errors: crwdns126890:0crwdne126890:0
       unable_to_create_attachment: crwdns126892:0crwdne126892:0
+      unable_to_create_attachment_permissions: The attachment could not be saved due
+        to lacking file system permissions
       render:
         context_not_parsable: crwdns126894:0crwdne126894:0
         unsupported_context: crwdns126896:0crwdne126896:0

@@ -206,7 +206,7 @@ lol:
     label_board_locked: crwdns127324:0crwdne127324:0
     label_board_plural: crwdns127326:0crwdne127326:0
     label_board_sticky: crwdns127328:0crwdne127328:0
-    label_create_new: crwdns129864:0crwdne129864:0
+    label_create: Create
     label_create_work_package: crwdns127330:0crwdne127330:0
     label_created_by: crwdns127332:0crwdne127332:0
     label_date: crwdns127334:0crwdne127334:0
@@ -378,7 +378,7 @@ lol:
       selection: crwdns127634:0crwdne127634:0
       relation_description: crwdns127636:0crwdne127636:0
     project:
-      required_outside_context: crwdns127638:0crwdne127638:0
+      required_outside_context: crwdns129920:0crwdne129920:0
       context: crwdns127640:0crwdne127640:0
       work_package_belongs_to: crwdns127642:0%{projectname}crwdne127642:0
       click_to_switch_context: crwdns127644:0crwdne127644:0
@@ -833,3 +833,4 @@ lol:
         all_projects: crwdns128386:0crwdne128386:0
         project_and_subprojects: crwdns128388:0crwdne128388:0
         search_for: crwdns128390:0crwdne128390:0
+    label_create_new: crwdns129864:0crwdne129864:0

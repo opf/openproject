@@ -607,6 +607,10 @@ ca:
           invalid_url: is not a valid repository URL or path.
           must_not_be_ssh: must not be an SSH url.
           no_directory: no és un directori.
+        role:
+          permissions:
+            dependency_missing: need to also include '%{dependency}' as '%{permission}'
+              is selected.
         work_package:
           is_not_a_valid_target_for_time_entries: 'Treball paquet #%{id} no és un
             objectiu vàlid per a reassignar les entrades de temps.'
@@ -1991,6 +1995,7 @@ ca:
   permission_add_project: Crear un projecte
   permission_add_subprojects: Crear subprojectes
   permission_add_work_package_watchers: Afegir observadors
+  permission_assign_versions: Assign versions
   permission_browse_repository: Accés de només lectura al repositori (navegar i checkout)
   permission_change_wiki_parent_page: Canviar la pàgina de pare de la wiki
   permission_comment_news: Comentar noticies
@@ -2887,6 +2892,8 @@ ca:
         que s'esperava.
       multiple_errors: Diverses restriccions de camp han estat violades.
       unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment_permissions: The attachment could not be saved due
+        to lacking file system permissions
       render:
         context_not_parsable: El context proporcionat no és un enllaç a un recurs.
         unsupported_context: El recurs proporcionat no s'admet com a context.

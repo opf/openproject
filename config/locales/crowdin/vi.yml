@@ -598,6 +598,10 @@ vi:
           invalid_url: is not a valid repository URL or path.
           must_not_be_ssh: must not be an SSH url.
           no_directory: is not a directory.
+        role:
+          permissions:
+            dependency_missing: need to also include '%{dependency}' as '%{permission}'
+              is selected.
         work_package:
           is_not_a_valid_target_for_time_entries: 'Work package #%{id} không phải
             là một mục tiêu hợp lệ để gán lại các mục thời gian.'
@@ -1964,6 +1968,7 @@ vi:
   permission_add_project: Tạo Dự án
   permission_add_subprojects: Tạo Dự án con
   permission_add_work_package_watchers: Thêm người theo dõi
+  permission_assign_versions: Assign versions
   permission_browse_repository: Read-only access to repository (browse and checkout)
   permission_change_wiki_parent_page: Thay đổi trang wiki cha
   permission_comment_news: Chú thích vào tin mới
@@ -2827,6 +2832,8 @@ vi:
         parts.
       multiple_errors: Multiple field constraints have been violated.
       unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment_permissions: The attachment could not be saved due
+        to lacking file system permissions
       render:
         context_not_parsable: The context provided is not a link to a resource.
         unsupported_context: The resource given is not supported as context.

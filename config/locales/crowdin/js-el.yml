@@ -216,7 +216,7 @@ el:
     label_board_locked: Locked
     label_board_plural: Πινακες
     label_board_sticky: Sticky
-    label_create_new: Create new
+    label_create: Create
     label_create_work_package: Create new work package
     label_created_by: Created by
     label_date: Date
@@ -917,3 +917,4 @@ el:
         all_projects: όλα τα έργα
         project_and_subprojects: και όλα τα υποέργα
         search_for: Αναζήτηση για
+    label_create_new: Create new

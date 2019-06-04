@@ -210,7 +210,7 @@ ko:
     label_board_locked: 잠김
     label_board_plural: 보드
     label_board_sticky: 스티커형
-    label_create_new: 새로 만들기
+    label_create: Create
     label_create_work_package: 새 작업 패키지 만들기
     label_created_by: 작성자
     label_date: 날짜
@@ -856,3 +856,4 @@ ko:
         all_projects: 모든 프로젝트
         project_and_subprojects: 그리고 모든 하위 프로젝트
         search_for: '검색:'
+    label_create_new: 새로 만들기

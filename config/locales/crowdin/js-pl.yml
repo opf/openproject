@@ -216,7 +216,7 @@ pl:
     label_board_locked: Zablokowany
     label_board_plural: Tablice
     label_board_sticky: Przyklejony
-    label_create_new: Utwórz nową
+    label_create: Create
     label_create_work_package: Utwórz nowy pakiet roboczy
     label_created_by: Utworzony przez
     label_date: Data
@@ -921,3 +921,4 @@ pl:
         all_projects: Wszystkie projekty
         project_and_subprojects: i wszystkie podprojekty
         search_for: Szukaj
+    label_create_new: Utwórz nową

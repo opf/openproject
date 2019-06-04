@@ -601,6 +601,10 @@ pl:
           invalid_url: nie jest prawidłowym adresem URL ani ścieżką.
           must_not_be_ssh: nie może być adresem SSH.
           no_directory: nie jest katalogiem.
+        role:
+          permissions:
+            dependency_missing: need to also include '%{dependency}' as '%{permission}'
+              is selected.
         work_package:
           is_not_a_valid_target_for_time_entries: 'Zadanie #%{id} jest niepoprawnym
             celem do ponownego rozpisania czasu.'
@@ -2023,6 +2027,7 @@ pl:
   permission_add_project: Tworzenie projektu
   permission_add_subprojects: Tworzenie podprojektów
   permission_add_work_package_watchers: Dodawanie obserwatorów
+  permission_assign_versions: Assign versions
   permission_browse_repository: Dostęp do repozytorium tylko do odczytu (przegląd
     i sprawdzenie)
   permission_change_wiki_parent_page: Zmiana strony nadrzędnej wiki
@@ -2902,6 +2907,8 @@ pl:
         elementów.
       multiple_errors: Zostały naruszone ograniczenia wielu pól.
       unable_to_create_attachment: Nie można utworzyć załącznika
+      unable_to_create_attachment_permissions: The attachment could not be saved due
+        to lacking file system permissions
       render:
         context_not_parsable: Podany kontekst nie jest linkiem do zasobu.
         unsupported_context: Podany zasób nie jest obsługiwany jako kontekst.

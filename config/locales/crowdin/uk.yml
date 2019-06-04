@@ -603,6 +603,10 @@ uk:
           invalid_url: is not a valid repository URL or path.
           must_not_be_ssh: must not be an SSH url.
           no_directory: is not a directory.
+        role:
+          permissions:
+            dependency_missing: need to also include '%{dependency}' as '%{permission}'
+              is selected.
         work_package:
           is_not_a_valid_target_for_time_entries: 'Робочий пакет #%{id} не є дійсною
             ціллю для перепризначення записів часу.'
@@ -2022,6 +2026,7 @@ uk:
   permission_add_project: Створити проект
   permission_add_subprojects: Створення підпроектів
   permission_add_work_package_watchers: Додати спостерігачів
+  permission_assign_versions: Assign versions
   permission_browse_repository: Read-only access to repository (browse and checkout)
   permission_change_wiki_parent_page: Змінити батьківську wiki сторінку
   permission_comment_news: Коментування новин
@@ -2887,6 +2892,8 @@ uk:
       multipart_body_error: Текст запиту не містить очікуваного складових частин.
       multiple_errors: Multiple field constraints have been violated.
       unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment_permissions: The attachment could not be saved due
+        to lacking file system permissions
       render:
         context_not_parsable: Контексті не посилання на ресурс.
         unsupported_context: The resource given is not supported as context.

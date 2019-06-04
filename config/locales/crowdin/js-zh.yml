@@ -206,7 +206,7 @@ zh:
     label_board_locked: 锁定
     label_board_plural: 面板
     label_board_sticky: 置顶
-    label_create_new: 新建
+    label_create: Create
     label_create_work_package: 创建新的工作包
     label_created_by: 创建者
     label_date: 日期
@@ -837,3 +837,4 @@ zh:
         all_projects: 所有项目
         project_and_subprojects: 和所有子项目
         search_for: 搜索
+    label_create_new: 新建
