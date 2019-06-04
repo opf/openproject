@@ -57,7 +57,7 @@ module API
 
           def contract
             @contract ||= begin
-              ::WorkPackages::CreateContract
+              ::API::V3::WorkPackages::Schema::TypedSchemaContract
                 .new(work_package,
                      User.current)
             end

@@ -59,6 +59,17 @@ describe 'Role creation', type: :feature, js: true do
       .to have_selector('.errorExplanation', text: 'Name has already been taken')
 
     fill_in 'Name', with: 'New role name'
+
+    # This will lead to an error as manage versions requires view versions
+    check 'Manage members'
+
+    click_button 'Create'
+
+    expect(page)
+      .to have_selector('.errorExplanation',
+                        text: "Permissions need to also include 'View members' as 'Manage members' is selected.")
+
+    check 'View members'
     select existing_role.name, from: 'Copy workflow from'
 
     click_button 'Create'
@@ -78,6 +89,10 @@ describe 'Role creation', type: :feature, js: true do
       .to have_checked_field('Edit work packages')
     expect(page)
       .to have_checked_field('Edit project')
+    expect(page)
+      .to have_checked_field('Manage members')
+    expect(page)
+      .to have_checked_field('View members')
 
     # By default as Non Member has that permissions
     expect(page)
@@ -86,7 +101,9 @@ describe 'Role creation', type: :feature, js: true do
       .to have_checked_field('View wiki')
 
     expect(page)
-      .to have_unchecked_field('Manage versions')
+      .to have_unchecked_field('Select types')
+    expect(page)
+      .to have_unchecked_field('Delete watchers')
 
     # Workflow should be copied over.
     # Workflow routes are not resource-oriented.

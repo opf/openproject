@@ -45,7 +45,11 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
   end
 
   let(:user) do
-    FactoryBot.build_stubbed(:user)
+    FactoryBot.build_stubbed(:user) do |u|
+      allow(u)
+        .to receive(:allowed_to?)
+        .and_return(true)
+    end
   end
 
   let(:representer) do
@@ -56,7 +60,9 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
   let(:available_custom_fields) { [] }
 
   before do
-    allow(work_package).to receive(:lock_version).and_return(1)
+    allow(work_package)
+      .to receive(:lock_version)
+      .and_return(1)
   end
 
   context 'generation' do
@@ -305,12 +311,12 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       end
 
       describe 'assignee and responsible' do
-        let(:user) { FactoryBot.build_stubbed(:user) }
-        let(:link) { "/api/v3/users/#{user.id}" }
+        let(:other_user) { FactoryBot.build_stubbed(:user) }
+        let(:link) { "/api/v3/users/#{other_user.id}" }
 
         describe 'assignee' do
           before do
-            work_package.assigned_to = user
+            work_package.assigned_to = other_user
           end
 
           it_behaves_like 'linked property' do
@@ -322,7 +328,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
 
         describe 'responsible' do
           before do
-            work_package.responsible = user
+            work_package.responsible = other_user
           end
 
           it_behaves_like 'linked property' do

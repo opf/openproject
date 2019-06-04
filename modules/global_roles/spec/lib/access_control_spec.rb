@@ -19,11 +19,11 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe Redmine::AccessControl do
+describe OpenProject::AccessControl do
   before(:each) do
     stash_access_control_permissions
 
-    Redmine::AccessControl.map do |map|
+    OpenProject::AccessControl.map do |map|
       map.permission :proj0, { dont: :care }, require: :member
       map.permission :global0, { dont: :care }, global: true
       map.permission :proj1, { dont: :care }
@@ -49,16 +49,16 @@ describe Redmine::AccessControl do
 
   describe 'class methods' do
     describe '#global_permissions' do
-      it { expect(Redmine::AccessControl.global_permissions.size).to eq(3) }
-      it { expect(Redmine::AccessControl.global_permissions.collect(&:name)).to include(:global0) }
-      it { expect(Redmine::AccessControl.global_permissions.collect(&:name)).to include(:global1) }
-      it { expect(Redmine::AccessControl.global_permissions.collect(&:name)).to include(:global2) }
+      it { expect(OpenProject::AccessControl.global_permissions.size).to eq(3) }
+      it { expect(OpenProject::AccessControl.global_permissions.collect(&:name)).to include(:global0) }
+      it { expect(OpenProject::AccessControl.global_permissions.collect(&:name)).to include(:global1) }
+      it { expect(OpenProject::AccessControl.global_permissions.collect(&:name)).to include(:global2) }
     end
 
     describe '#available_project_modules' do
-      it { expect(Redmine::AccessControl.available_project_modules.include?(:global_module)).to be_falsey }
-      it { expect(Redmine::AccessControl.available_project_modules.include?(:global_module)).to be_falsey }
-      it { expect(Redmine::AccessControl.available_project_modules.include?(:mixed_module)).to be_truthy }
+      it { expect(OpenProject::AccessControl.available_project_modules.include?(:global_module)).to be_falsey }
+      it { expect(OpenProject::AccessControl.available_project_modules.include?(:global_module)).to be_falsey }
+      it { expect(OpenProject::AccessControl.available_project_modules.include?(:mixed_module)).to be_truthy }
     end
   end
 end

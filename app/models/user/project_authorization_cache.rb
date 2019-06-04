@@ -59,7 +59,7 @@ class User::ProjectAuthorizationCache
   private
 
   def normalized_permission_name(action)
-    Redmine::AccessControl.permission(action)
+    OpenProject::AccessControl.permission(action)
   end
 
   def projects_by_actions

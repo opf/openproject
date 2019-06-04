@@ -63,7 +63,9 @@ class Role < ActiveRecord::Base
   validates_length_of :name, maximum: 30
 
   def self.givable
-    where(builtin: NON_BUILTIN).order(Arel.sql('position'))
+    where(builtin: NON_BUILTIN)
+      .where(type: 'Role')
+      .order(Arel.sql('position'))
   end
 
   def permissions
@@ -132,14 +134,6 @@ class Role < ActiveRecord::Base
     end
   end
 
-  # Return all the permissions that can be given to the role
-  def setable_permissions
-    setable_permissions = Redmine::AccessControl.permissions - Redmine::AccessControl.public_permissions
-    setable_permissions -= Redmine::AccessControl.members_only_permissions if builtin == BUILTIN_NON_MEMBER
-    setable_permissions -= Redmine::AccessControl.loggedin_only_permissions if builtin == BUILTIN_ANONYMOUS
-    setable_permissions
-  end
-
   # Return the builtin 'non member' role.  If the role doesn't exist,
   # it will be created on the fly.
   def self.non_member
@@ -179,12 +173,12 @@ class Role < ActiveRecord::Base
   private
 
   def allowed_permissions
-    @allowed_permissions ||= permissions + Redmine::AccessControl.public_permissions.map(&:name)
+    @allowed_permissions ||= permissions + OpenProject::AccessControl.public_permissions.map(&:name)
   end
 
   def allowed_actions
     @actions_allowed ||= allowed_permissions.map do |permission|
-      Redmine::AccessControl.allowed_actions(permission)
+      OpenProject::AccessControl.allowed_actions(permission)
     end.flatten
   end
 

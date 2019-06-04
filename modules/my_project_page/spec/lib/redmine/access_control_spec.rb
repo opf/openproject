@@ -20,9 +20,9 @@
 
 require 'spec_helper'
 
-describe Redmine::AccessControl do
-  let(:view_project_permission) { Redmine::AccessControl.permission(:view_project) }
-  let(:edit_project_permission) { Redmine::AccessControl.permission(:edit_project) }
+describe OpenProject::AccessControl do
+  let(:view_project_permission) { OpenProject::AccessControl.permission(:view_project) }
+  let(:edit_project_permission) { OpenProject::AccessControl.permission(:edit_project) }
 
   describe '#view_project' do
     it { expect(view_project_permission.actions).to be_include("my_projects_overviews/index") }

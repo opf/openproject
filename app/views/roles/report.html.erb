@@ -29,6 +29,11 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= breadcrumb_toolbar l(:label_permissions_report) %>
 <% local_assigns[:additional_breadcrumb] = l(:label_permissions_report) %>
 <% html_title l(:label_administration), l(:label_permissions_report) %>
+
+<% (@calls || []).select(&:failure?).each do |call| %>
+  <%= error_messages_for_contract(call.result, call.errors) %>
+<% end %>
+
 <%= form_tag(roles_path, method: :put, id: 'permissions_form') do %>
   <%= hidden_field_tag 'permissions[0]', '', id: nil %>
 
@@ -94,7 +99,7 @@ See docs/COPYRIGHT.rdoc for more details.
                   </td>
                   <% @roles.each do |role| %>
                     <td>
-                      <% if role.setable_permissions.include? permission %>
+                      <% if setable_permissions(role).include? permission %>
                         <%= check_box_tag "permissions[#{role.id}][]", permission.name, (role.permissions.include? permission.name), id: nil, class: "role-#{role.id}" %>
                       <% end %>
                     </td>

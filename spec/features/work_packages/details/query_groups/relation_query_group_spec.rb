@@ -105,7 +105,6 @@ describe 'Work package with relation query group', js: true, selenium: true do
         embedded_table.ensure_work_package_not_listed!(related_work_package)
       end
       relations.expect_not_child(related_work_package)
-
     end
   end
 

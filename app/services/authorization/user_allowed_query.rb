@@ -46,7 +46,7 @@ class Authorization::UserAllowedQuery < Authorization::AbstractUserQuery
       has_role = roles_table[:id].not_eq(nil)
       has_permission = role_permissions_table[:id].not_eq(nil)
 
-      has_role_and_permission = if Redmine::AccessControl.permission(action).public?
+      has_role_and_permission = if OpenProject::AccessControl.permission(action).public?
                                   has_role
                                 else
                                   has_role.and(has_permission)
@@ -75,7 +75,7 @@ class Authorization::UserAllowedQuery < Authorization::AbstractUserQuery
   transformations.register :all,
                            :role_permissions_join,
                            after: [:roles_join] do |statement, action|
-    if Redmine::AccessControl.permission(action).public?
+    if OpenProject::AccessControl.permission(action).public?
       statement
     else
       statement.outer_join(role_permissions_table)

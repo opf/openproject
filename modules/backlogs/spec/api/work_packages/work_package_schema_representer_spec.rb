@@ -30,9 +30,17 @@ require 'spec_helper'
 
 describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:custom_field) { FactoryBot.build(:custom_field) }
-  let(:work_package) { FactoryBot.build(:work_package) }
+  let(:work_package) { FactoryBot.build_stubbed(:stubbed_work_package, type: FactoryBot.build_stubbed(:type)) }
   let(:current_user) do
-    FactoryBot.build(:user, member_in_project: work_package.project)
+    FactoryBot.build_stubbed(:user, member_in_project: work_package.project).tap do |u|
+      allow(u)
+        .to receive(:allowed_to?)
+        .and_return(false)
+      allow(u)
+        .to receive(:allowed_to?)
+        .with(:edit_work_packages, work_package.project, global: false)
+        .and_return(true)
+    end
   end
   let(:schema) do
     ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package: work_package)
@@ -40,6 +48,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:representer) { described_class.create(schema, nil, current_user: current_user) }
 
   before do
+    login_as(current_user)
+
     allow(schema.project).to receive(:backlogs_enabled?).and_return(true)
     allow(work_package.type).to receive(:story?).and_return(true)
     allow(work_package).to receive(:leaf?).and_return(true)

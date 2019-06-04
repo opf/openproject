@@ -41,13 +41,13 @@ describe Stories::CreateService, type: :model do
     project = FactoryBot.create(:project, types: [type_feature])
 
     FactoryBot.create(:member,
-                       principal: user,
-                       project: project,
-                       roles: [role])
+                      principal: user,
+                      project: project,
+                      roles: [role])
     project
   end
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
-  let(:permissions) { %i(add_work_packages manage_subtasks) }
+  let(:permissions) { %i(add_work_packages manage_subtasks assign_versions) }
   let(:status) { FactoryBot.create(:status) }
   let(:type_feature) { FactoryBot.create(:type_feature) }
 
@@ -77,11 +77,12 @@ describe Stories::CreateService, type: :model do
   let(:story) do
     project.enabled_module_names += ['backlogs']
 
-    FactoryBot.create(:story, fixed_version: version,
-                               project: project,
-                               status: status,
-                               type: type_feature,
-                               priority: priority)
+    FactoryBot.create(:story,
+                      fixed_version: version,
+                      project: project,
+                      status: status,
+                      type: type_feature,
+                      priority: priority)
   end
 
   before do

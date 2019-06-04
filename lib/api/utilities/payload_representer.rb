@@ -93,7 +93,7 @@ module API
 
           if contract
             contract
-              .new(represented, current_user: current_user)
+              .new(represented, current_user)
               .writable_attributes
               .map { |name| ::API::Utilities::PropertyNameConverter.from_ar_name(name) }
           else

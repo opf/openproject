@@ -39,25 +39,26 @@ describe Impediments::CreateService do
   let(:instance) { described_class.new(user: user) }
 
   let(:user) { FactoryBot.create(:user) }
-  let(:role) { FactoryBot.create(:role, permissions: %i(add_work_packages)) }
+  let(:role) { FactoryBot.create(:role, permissions: %i(add_work_packages assign_versions)) }
   let(:type_feature) { FactoryBot.create(:type_feature) }
   let(:type_task) { FactoryBot.create(:type_task) }
   let(:priority) { FactoryBot.create(:priority, is_default: true) }
-  let(:feature) {
-    FactoryBot.build(:work_package, type: type_feature,
-                                     project: project,
-                                     author: user,
-                                     priority: priority,
-                                     status: status1)
-  }
+  let(:feature) do
+    FactoryBot.build(:work_package,
+                     type: type_feature,
+                     project: project,
+                     author: user,
+                     priority: priority,
+                     status: status1)
+  end
   let(:version) { FactoryBot.create(:version, project: project) }
 
   let(:project) do
     project = FactoryBot.create(:project, types: [type_feature, type_task])
 
     FactoryBot.create(:member, principal: user,
-                                project: project,
-                                roles: [role])
+                               project: project,
+                               roles: [role])
 
     project
   end
@@ -65,11 +66,11 @@ describe Impediments::CreateService do
   let(:status1) { FactoryBot.create(:status, name: 'status 1', is_default: true) }
 
   before(:each) do
-    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'points_burn_direction' => 'down',
-                                                                         'wiki_template'         => '',
-                                                                         'card_spec'             => 'Sattleford VM-5040',
-                                                                         'story_types'           => [type_feature.id.to_s],
-                                                                         'task_type'             => type_task.id.to_s })
+    allow(Setting).to receive(:plugin_openproject_backlogs).and_return('points_burn_direction' => 'down',
+                                                                       'wiki_template' => '',
+                                                                       'card_spec' => 'Sattleford VM-5040',
+                                                                       'story_types' => [type_feature.id.to_s],
+                                                                       'task_type' => type_task.id.to_s)
 
     login_as user
   end

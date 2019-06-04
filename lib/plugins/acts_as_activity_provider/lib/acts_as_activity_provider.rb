@@ -154,7 +154,7 @@ module Redmine
           end
 
           def restrict_projects_by_permission(permission, query)
-            perm = Redmine::AccessControl.permission(permission)
+            perm = OpenProject::AccessControl.permission(permission)
 
             query = query.where(projects_table[:status].eq(Project::STATUS_ACTIVE))
 
@@ -173,7 +173,7 @@ module Redmine
             return query if user.admin?
 
             stmt = nil
-            perm = Redmine::AccessControl.permission(options[:permission])
+            perm = OpenProject::AccessControl.permission(options[:permission])
             is_member = options[:member]
 
             if user.logged?

@@ -36,27 +36,23 @@ describe WorkPackages::CreateContract do
   let(:user) { FactoryBot.build_stubbed(:user) }
 
   subject(:contract) { described_class.new(work_package, user) }
-  let(:validated_contract) {
+  let(:validated_contract) do
     contract = subject
     contract.validate
     contract
-  }
+  end
 
   it_behaves_like 'work package contract'
 
-  describe 'authorization' do
-    def add_work_packages_allowed(in_project: true, in_global: true)
-      allow(user)
-        .to receive(:allowed_to?)
-        .with(:add_work_packages, project)
-        .and_return(in_project)
-
-      allow(user)
-        .to receive(:allowed_to?)
-        .with(:add_work_packages, nil, global: true)
-        .and_return(in_global)
+  def add_work_packages_allowed(in_project: true, in_global: true)
+    allow(user)
+      .to receive(:allowed_to?) do |permission, permission_project, global: false|
+      (in_project && project == permission_project && permission == :add_work_packages) ||
+        (in_global && global && permission == :add_work_packages)
     end
+  end
 
+  describe 'authorization' do
     context 'user allowed in project and project specified' do
       before do
         add_work_packages_allowed(in_project: true, in_global: true)
@@ -118,8 +114,17 @@ describe WorkPackages::CreateContract do
   end
 
   describe 'author_id' do
-    it 'is valid if the user is the user is the user the contract is evaluated for' do
-      work_package.author = user
+    before do
+      add_work_packages_allowed(in_project: true, in_global: true)
+      work_package.project = project
+    end
+
+    it 'is valid if the user is set by the sytem and the user is the user the contract is evaluated for' do
+      work_package.extend(Mixins::ChangedBySystem)
+
+      work_package.change_by_system do
+        work_package.author = user
+      end
 
       expect(validated_contract.errors[:author_id]).to be_empty
     end
@@ -128,7 +133,7 @@ describe WorkPackages::CreateContract do
       work_package.author = FactoryBot.build_stubbed(:user)
 
       expect(validated_contract.errors.symbols_for(:author_id))
-        .to match_array [:invalid]
+        .to match_array %i[invalid error_readonly]
     end
   end
 end

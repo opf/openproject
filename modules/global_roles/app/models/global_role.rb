@@ -26,20 +26,13 @@ class GlobalRole < Role
     self.assignable = false
   end
 
-  def setable_permissions
-    Redmine::AccessControl.global_permissions
-  end
-
-  def self.setable_permissions
-    Redmine::AccessControl.global_permissions
-  end
-
   def to_s
     name
   end
 
   def assignable=(value)
     fail ArgumentError if value == true
+
     super
   end
 
