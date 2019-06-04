@@ -28,5 +28,9 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <div class="wiki wiki-content highlight">
-  <%= format_text content, :text, attachments: content.page.attachments %>
+  <% if @formatted_text %>
+    <%= @formatted_text %>
+  <% else %>
+    <%= format_text content, :text, attachments: content.page.attachments %>
+  <% end %>
 </div>

@@ -36,7 +36,8 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%# Set meta tags %>
 <% title "#{t(:project_module_wiki)} | #{title}" %>
-<% description strip_tags(format_text(@content, :text)) %>
+<% @formatted_text = format_text @page.content, :text, attachments: @page.attachments  %>
+<% description strip_tags(@formatted_text) %>
 
 <%= toolbar title: title, html: {class: '-with-dropdown'} do %>
   <% if @editable %>
