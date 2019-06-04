@@ -32,9 +32,14 @@ require 'work_packages/base_contract'
 
 module WorkPackages
   class CreateContract < BaseContract
-    attribute :author_id do
+    # TODO: Think about whether this can be removed
+    # as it is unwriteable. So why bother checking for the correct author
+    attribute :author_id,
+              writeable: false do
       errors.add :author_id, :invalid if model.author != user
     end
+
+    default_attribute_permission :add_work_packages
 
     def validate
       user_allowed_to_add
@@ -50,6 +55,11 @@ module WorkPackages
 
         errors.add :base, :error_unauthorized
       end
+    end
+
+    def attributes_changed_by_user
+      # lock version is initialized by AR itself
+      super - ['lock_version']
     end
   end
 end

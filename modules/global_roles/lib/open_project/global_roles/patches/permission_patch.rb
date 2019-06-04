@@ -17,7 +17,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-require_dependency 'redmine/access_control'
+require_dependency 'open_project/access_control'
 
 module OpenProject::GlobalRoles::Patches
   module PermissionPatch
@@ -49,4 +49,4 @@ module OpenProject::GlobalRoles::Patches
   end
 end
 
-Redmine::AccessControl::Permission.send(:include, OpenProject::GlobalRoles::Patches::PermissionPatch)
+OpenProject::AccessControl::Permission.send(:include, OpenProject::GlobalRoles::Patches::PermissionPatch)

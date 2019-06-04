@@ -4,6 +4,7 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {Component} from "@angular/compiler/src/core";
 import {ComponentType} from "@angular/cdk/portal";
 import {OpContextMenuItem} from "core-components/op-context-menu/op-context-menu.types";
+import {DisabledButtonPlaceholder} from "core-app/modules/boards/board/board-list/board-list.component";
 
 export interface BoardActionService {
 
@@ -69,4 +70,10 @@ export interface BoardActionService {
    * @returns {Component}
    */
   headerComponent():ComponentType<unknown>|undefined;
+
+  /**
+   * Get icon and text to show on the add button when it is disabled
+   * @returns {the icon class or nothing}
+   */
+  disabledAddButtonPlaceholder(resource?:HalResource):DisabledButtonPlaceholder|undefined;
 }

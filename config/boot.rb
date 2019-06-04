@@ -35,7 +35,6 @@ if File.exists?(File.join(File.dirname(__FILE__), 'additional_boot.rb'))
   instance_eval File.read(File.join(File.dirname(__FILE__), 'additional_boot.rb'))
 end
 
-
 require 'bundler/setup' # Set up gems listed in the Gemfile.
 
 if ENV['RAILS_ENV'] == 'development'

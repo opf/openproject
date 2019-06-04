@@ -39,6 +39,9 @@ export class WorkPackageCopyController extends WorkPackageCreateController {
   private __initialized_at:Number;
   private copiedWorkPackageId:string;
 
+  /** Are we in the copying substates ? */
+  public copying = true;
+
   private wpRelations:WorkPackageRelationsService = this.injector.get(WorkPackageRelationsService);
   protected wpEditing:WorkPackageEditingService = this.injector.get<WorkPackageEditingService>(IWorkPackageEditingServiceToken);
 
@@ -75,20 +78,17 @@ export class WorkPackageCopyController extends WorkPackageCreateController {
   }
 
   private createCopyFrom(wp:WorkPackageResource) {
-    return this.wpEditing
-      .changesetFor(wp)
-      .getForm()
-      .then((form:any) =>
-        this.wpCreate
-          .copyWorkPackage(form, wp.project.identifier)
-          .then((changeset) => {
-            this.__initialized_at = changeset.workPackage.__initialized_at;
+    let sourceChangeset = this.wpEditing.changesetFor(wp);
 
-            this.wpCacheService.updateWorkPackage(changeset.workPackage);
-            this.wpEditing.updateValue('new', changeset);
+    return this.wpCreate
+      .copyWorkPackage(sourceChangeset)
+      .then((copyChangeset) => {
+        this.__initialized_at = copyChangeset.workPackage.__initialized_at;
 
-            return changeset;
-        })
-    );
+        this.wpCacheService.updateWorkPackage(copyChangeset.workPackage);
+        this.wpEditing.updateValue('new', copyChangeset);
+
+        return copyChangeset;
+      });
   }
 }

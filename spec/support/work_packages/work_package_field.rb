@@ -151,7 +151,7 @@ class WorkPackageField
     scroll_to_element(input_element)
     input_element.find('input').set content
 
-    page.find('.ng-option', text: 'Create new: ' + content).click
+    page.find('.ng-option', text: 'Create: ' + content).click
   end
 
   def type(text)

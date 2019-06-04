@@ -1469,6 +1469,7 @@ th:
   label_my_queries: แบบสอบถามแบบกำหนดเองของฉัน
   label_never: Never
   label_new: ใหม่
+  label_new_features: New features
   label_new_statuses_allowed: อนุญาติให้ใช้สถานะใหม่แล้ว
   label_news_added: เพิ่มข่าวแล้ว
   label_news_comment_added: เพิ่มความเห็นไปยังข่าวแล้ว

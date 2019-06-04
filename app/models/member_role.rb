@@ -98,7 +98,7 @@ class MemberRole < ActiveRecord::Base
       end
     end
 
-    users = inherited_roles_by_member.keys.map(&:user)
+    users = inherited_roles_by_member.keys.map(&:principal)
 
     Watcher.prune(user: users, project_id: member.project_id) unless users.empty?
   end

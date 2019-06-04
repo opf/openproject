@@ -120,6 +120,10 @@ export class BoardStatusActionService implements BoardActionService {
     return undefined;
   }
 
+  public disabledAddButtonPlaceholder(status:StatusResource) {
+    return undefined;
+  }
+
   private getStatuses():Promise<StatusResource[]> {
     return this.statusDm
       .list()

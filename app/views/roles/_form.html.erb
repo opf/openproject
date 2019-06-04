@@ -1,18 +1,11 @@
 <%#-- copyright
-OpenProject is a project management system.
-Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+OpenProject Global Roles Plugin
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License version 3.
-
-OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-Copyright (C) 2006-2017 Jean-Philippe Lang
-Copyright (C) 2010-2013 the ChiliProject Team
+Copyright (C) 2010 - 2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
+version 3.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -23,57 +16,51 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See docs/COPYRIGHT.rdoc for more details.
-
 ++#%>
 
-<%= error_messages_for 'role' %>
+<%= render :partial => 'shared/global_roles_header' %>
 
-<% unless @role.builtin? %>
-  <div class="form--field -required"><%= f.text_field :name, required: true, container_class: '-middle' %></div>
-  <div class="form--field"><%= f.check_box :assignable %></div>
-  <% if @role.new_record? && @roles.any? %>
-    <div id="member_attributes">
-      <div class="form--field">
-        <%= styled_label_tag 'copy_workflow_from', t(:label_copy_workflow_from) %>
-        <div class="form--field-container">
-          <%= styled_select_tag(:copy_workflow_from,
-                                options_from_collection_for_select(@roles, :id, :name, params[:copy_workflow_from]),
-                                include_blank: true,
-                                container_class: '-middle') %>
-        </div>
-      </div>
+<% roles ||= nil %>
+
+<%= error_messages_for_contract(role, @call.errors) if @call %>
+
+<div class="form--field -required">
+  <%= f.text_field :name, required: true, container_class: '-slim' %>
+</div>
+<div class="form--field">
+  <% if role.new_record? %>
+    <%= styled_label_tag :global_role, t(:label_global_role) %>
+    <div class="form--field-container">
+      <%= styled_check_box_tag("global_role", "1", role.is_a?(GlobalRole))%>
+    </div>
+  <% else %>
+    <%= styled_label_tag :unchangeable, "#{t(:label_role_type)} #{t(:label_not_changeable)}" %>
+    <div class="form--field-container">
+      <%= (role.is_a?(GlobalRole) ? t(:label_global_role) : t(:label_member_role))%>
     </div>
   <% end %>
+</div>
+
+<% if role.new_record? || role.is_a?(GlobalRole) %>
+  <div id="global_attributes" style="display:none">
+    <%= render partial: "global_attributes", locals: { f: f, role: role, roles: roles&.select {|r| r.is_a?(GlobalRole)} }%>
+  </div>
 <% end %>
 
-<div id="member_permissions">
-  <% @permissions.each do |mod, mod_permissions| %>
-    <% module_name = mod.blank? ? 'fieldset--' + Project.model_name.human.downcase.gsub(' ', '_') : 'fieldset--' + l_or_humanize(mod, prefix: 'project_module_').downcase.gsub(' ', '_') %>
-    <fieldset class="form--fieldset -collapsible" id="<%= module_name %>">
-      <% module_name = mod.blank? ? "form--" + I18n.t('attributes.project') : "form--" + l_or_humanize(mod, prefix: 'project_module_').gsub(' ','_') %>
-      <div class="grid-section">
-        <fieldset class="form--fieldset -collapsible" id= "<%= module_name %>">
-          <legend class="form--fieldset-legend" ><%= mod.blank? ? Project.model_name.human : l_or_humanize(mod, prefix: 'project_module_') %></legend>
-          <div class="form--fieldset-control">
-            <span class="form--fieldset-control-container">
-              (<%= check_all_links module_name %>)
-            </span>
-          </div>
-          <div class="-columns-2">
-            <% mod_permissions.each do |permission| %>
-              <div class="form--field">
-                <div class="form--field-container">
-                  <label class="form--label-with-check-box">
-                    <%= styled_check_box_tag 'role[permissions][]', permission.name, (@role.permissions.include? permission.name) %>
-                    <%= l_or_humanize(permission.name, prefix: 'permission_') %>
-                  </label>
-                </div>
-              </div>
-            <% end %>
-          </div>
-        </fieldset>
-      </div>
-    </fieldset>
-  <% end %>
-</div>
+<% if role.new_record? || !role.is_a?(GlobalRole) %>
+  <div id="member_attributes">
+    <%= render partial: "member_attributes", locals: { f: f, role: role, roles: roles&.select {|r| !r.is_a?(GlobalRole)} }%>
+  </div>
+<% end %>
+
+<% if role.new_record? || role.is_a?(GlobalRole) %>
+  <div id="global_permissions" style=<%= role.new_record? && !role.is_a?(GlobalRole) ? "display:none" : ""%> >
+    <%= render partial: "permissions", locals: {permissions: grouped_setable_permissions(GlobalRole.new), role: role, showGlobalRole: true }%>
+  </div>
+<% end %>
+<% if role.new_record? || !role.is_a?(GlobalRole) %>
+  <div id="member_permissions" style=<%= role.new_record? && role.is_a?(GlobalRole) ? "display:none" : ""%>>
+    <%= render partial: "permissions", locals: {permissions: grouped_setable_permissions(role), role: role, showGlobalRole: false }%>
+  </div>
+<% end %>
+

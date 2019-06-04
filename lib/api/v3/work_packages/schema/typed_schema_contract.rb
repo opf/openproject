@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,34 +27,20 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
 
-describe Redmine::AccessControl do
-  before do
-    @access_module = Redmine::AccessControl
-  end
-
-  it 'should permissions' do
-    perms = @access_module.permissions
-    assert perms.is_a?(Array)
-    assert perms.first.is_a?(Redmine::AccessControl::Permission)
-  end
-
-  it 'should module permission' do
-    perm = @access_module.permission(:view_work_packages)
-    assert perm.is_a?(Redmine::AccessControl::Permission)
-    assert_equal :view_work_packages, perm.name
-    assert_equal :work_package_tracking, perm.project_module
-    assert perm.actions.is_a?(Array)
-    assert perm.actions.include?('issues/index')
-  end
-
-  it 'should no module permission' do
-    perm = @access_module.permission(:edit_project)
-    assert perm.is_a?(Redmine::AccessControl::Permission)
-    assert_equal :edit_project, perm.name
-    assert_nil perm.project_module
-    assert perm.actions.is_a?(Array)
-    assert perm.actions.include?('project_settings/show')
+# The contract is not actually used for validations but rather to display the unimbedded schema
+# as the writable attributes differ depdending on whether the user has the necessary permissions.
+# As we do not know the context of the schema, other than when it is embedded inside a form, we have to allow
+# both possible permissions.
+module API
+  module V3
+    module WorkPackages
+      module Schema
+        class TypedSchemaContract < ::WorkPackages::BaseContract
+          default_attribute_permission %i[edit_work_packages add_work_packages]
+          attribute_permission :project_id, :move_work_packages
+        end
+      end
+    end
   end
 end

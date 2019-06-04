@@ -30,11 +30,42 @@ require 'spec_helper'
 require 'contracts/work_packages/shared_base_contract'
 
 describe WorkPackages::UpdateContract do
-  let(:project) { FactoryBot.create(:project, is_public: false) }
-  let(:work_package) { FactoryBot.create(:work_package, project: project) }
-  let(:user) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
-  let(:permissions) { %i[view_work_packages edit_work_packages] }
+  let(:project) do
+    FactoryBot.build_stubbed(:project, is_public: false).tap do |p|
+      allow(Project)
+        .to receive(:find)
+        .with(p.id)
+        .and_return(p)
+    end
+  end
+  let(:work_package) do
+    FactoryBot.build_stubbed(:work_package,
+                             project: project,
+                             type: type).tap do |wp|
+
+      wp_scope = double('wp scope')
+
+      allow(WorkPackage)
+        .to receive(:visible)
+        .with(user)
+        .and_return(wp_scope)
+
+      allow(wp_scope)
+        .to receive(:exists?) do |id|
+        permissions.include?(:view_work_packages) && id == wp.id
+      end
+    end
+  end
+  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:type) { FactoryBot.build_stubbed(:type) }
+  let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
+
+  before do
+    allow(user)
+      .to receive(:allowed_to?) do |permission, context|
+        permissions.include?(permission) && context == project
+      end
+  end
 
   subject(:contract) { described_class.new(work_package, user) }
 
@@ -78,7 +109,9 @@ describe WorkPackages::UpdateContract do
     end
 
     context 'full access' do
-      it { expect(contract.errors).to be_empty }
+      it 'is valid' do
+        expect(contract.errors).to be_empty
+      end
     end
 
     context 'no read access' do
@@ -112,17 +145,35 @@ describe WorkPackages::UpdateContract do
         end
       end
     end
+
+    context 'only assign_versions permission' do
+      let(:permissions) { %i[view_work_packages assign_versions] }
+
+      it 'is valid' do
+        expect(contract.errors).to be_empty
+      end
+    end
   end
 
   describe 'project_id' do
-    let(:target_project) { FactoryBot.create(:project) }
+    let(:target_project) { FactoryBot.create(:project, types: [type]) }
     let(:target_permissions) { [:move_work_packages] }
 
     before do
-      FactoryBot.create :member,
-                        user: user,
-                        project: target_project,
-                        roles: [FactoryBot.create(:role, permissions: target_permissions)]
+      allow(user)
+        .to receive(:allowed_to?) do |permission, context|
+        permissions.include?(permission) && context == project ||
+          target_permissions.include?(permission) && context == target_project
+      end
+
+      allow(work_package)
+        .to receive(:project) do
+        if work_package.project_id == target_project.id
+          target_project
+        else
+          project
+        end
+      end
 
       work_package.project = target_project
 
@@ -136,7 +187,53 @@ describe WorkPackages::UpdateContract do
     context 'if the user lacks the permissions' do
       let(:target_permissions) { [] }
       it 'is invalid' do
-        expect(contract.errors.symbols_for(:project)).to match_array([:error_unauthorized])
+        expect(contract.errors.symbols_for(:project_id)).to match_array([:error_readonly])
+      end
+    end
+  end
+
+  describe 'fixed_version' do
+    let(:version) { FactoryBot.build_stubbed(:version) }
+
+    before do
+      allow(work_package)
+        .to receive(:assignable_versions)
+        .and_return([version])
+
+      work_package.attributes = attributes
+
+      contract.validate
+    end
+
+    context 'having full access' do
+      context 'with an assignable_version' do
+        let(:attributes) { { fixed_version_id: version.id } }
+
+        it 'is valid' do
+          expect(contract.errors).to be_empty
+        end
+      end
+
+      context 'with an unassignable_version' do
+        let(:attributes) { { fixed_version_id: version.id + 1 } }
+
+        it 'adds an error' do
+          expect(contract.errors.symbols_for(:fixed_version_id))
+            .to include(:inclusion)
+        end
+      end
+    end
+
+    context 'write access' do
+      let(:permissions) { %i[view_work_packages edit_work_packages] }
+
+      context 'if assigning a version' do
+        let(:attributes) { { fixed_version_id: version.id } }
+
+        it 'adds an error' do
+          expect(contract.errors.symbols_for(:fixed_version_id))
+            .to include(:error_readonly)
+        end
       end
     end
   end
@@ -166,7 +263,7 @@ describe WorkPackages::UpdateContract do
     end
 
     context 'if the user has only edit permissions' do
-      it { expect(contract.errors.symbols_for(:base)).to include(:error_unauthorized) }
+      it { expect(contract.errors.symbols_for(:parent_id)).to include(:error_readonly) }
     end
 
     context 'if the user has edit and subtasks permissions' do
@@ -189,7 +286,7 @@ describe WorkPackages::UpdateContract do
     context 'no write access' do
       let(:permissions) { [:view_work_packages] }
 
-      it { expect(contract.errors.symbols_for(:base)).to include(:error_unauthorized) }
+      it { expect(contract.errors.symbols_for(:parent_id)).to include(:error_readonly) }
     end
 
     context 'with manage_subtasks permission' do
@@ -205,7 +302,35 @@ describe WorkPackages::UpdateContract do
           contract.validate
         end
 
-        it { expect(contract.errors.symbols_for(:base)).to include(:error_unauthorized) }
+        it { expect(contract.errors.symbols_for(:subject)).to include(:error_readonly) }
+      end
+    end
+  end
+
+  describe '#writable_attributes' do
+    subject { contract.writable_attributes }
+
+    context 'for a user having only the edit_work_packages permission' do
+      let(:permissions) { %i[edit_work_packages] }
+
+      it 'includes all attributes except fixed_version_id' do
+        expect(subject)
+          .to include('subject', 'start_date', 'description')
+
+        expect(subject)
+          .not_to include('fixed_version_id', 'fixed_version')
+      end
+    end
+
+    context 'for a user having only the assign_versions permission' do
+      let(:permissions) { %i[assign_versions] }
+
+      it 'includes all attributes except fixed_version_id' do
+        expect(subject)
+          .to include('fixed_version_id', 'fixed_version')
+
+        expect(subject)
+          .not_to include('subject', 'start_date', 'description')
       end
     end
   end

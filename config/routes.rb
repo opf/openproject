@@ -370,7 +370,7 @@ OpenProject::Application.routes.draw do
       end
     end
 
-    resources :roles, only: %i[index new create edit update destroy] do
+    resources :roles, except: %i[show] do
       collection do
         put '/' => 'roles#bulk_update'
         get :report

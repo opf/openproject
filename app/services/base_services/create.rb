@@ -65,16 +65,16 @@ module BaseServices
     def set_attributes(params)
       attributes_service_class
         .new(user: user,
-             model: new_instance,
+             model: new_instance(params),
              contract_class: contract_class)
         .call(params)
     end
 
-    def after_save(attributes_call)
+    def after_save(_attributes_call)
       # nothing for now but subclasses can override
     end
 
-    def new_instance
+    def new_instance(_params)
       instance_class.new
     end
 

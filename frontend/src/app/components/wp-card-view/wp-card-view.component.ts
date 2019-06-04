@@ -208,7 +208,7 @@ export class WorkPackageCardViewComponent  implements OnInit {
    */
   private get currentOrder():string[] {
     return this.workPackages
-      .filter(wp => !wp.isNew)
+      .filter(wp => wp && !wp.isNew)
       .map(el => el.id!);
   }
 

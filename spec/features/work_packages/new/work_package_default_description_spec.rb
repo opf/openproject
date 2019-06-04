@@ -21,10 +21,9 @@ describe 'new work package', js: true do
   let(:notification) { PageObjects::Notifications.new(page) }
   let(:wp_page) { Pages::FullWorkPackageCreate.new }
 
-
   # Changing the type changes the description if it was empty or still the default.
   # Changes in the description shall not be overridden.
-  def change_type_and_expect_description
+  def change_type_and_expect_description(set_project: false)
     type_field.openSelectField
     type_field.set_value type_task
     expect(page).to have_selector('.wp-edit-field.description h1', text: 'New Task template')
@@ -45,12 +44,17 @@ describe 'new work package', js: true do
     type_field.set_value type_bug
     expect(page).to have_selector('.wp-edit-field.description h1', text: 'New Bug template')
 
+    if set_project
+      project_field.openSelectField
+      project_field.set_value project
+      sleep 1
+    end
+
     scroll_to_and_click find('#work-packages--edit-actions-save')
     wp_page.expect_notification message: 'Successful creation.'
 
     expect(page).to have_selector('.wp-edit-field--display-field.description h1', text: 'New Bug template')
   end
-
 
   before do
     login_as(user)
@@ -61,15 +65,9 @@ describe 'new work package', js: true do
       visit '/work_packages/new'
       wp_page.expect_fully_loaded
 
-      project_field.openSelectField
-      project_field.set_value project
-
       subject_field.set_value 'Foobar!'
 
-      # Wait until project is set
-      expect(page).to have_no_selector('.wp-project-context--warning')
-
-      change_type_and_expect_description
+      change_type_and_expect_description set_project: true
     end
   end
 

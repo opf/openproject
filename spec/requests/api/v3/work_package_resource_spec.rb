@@ -47,7 +47,7 @@ describe 'API v3 Work package resource',
     FactoryBot.create(:project, identifier: 'test_project', is_public: false)
   end
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
-  let(:permissions) { %i[view_work_packages edit_work_packages] }
+  let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
   let(:current_user) do
     user = FactoryBot.create(:user, member_in_project: project, member_through_role: role)
 
@@ -309,6 +309,20 @@ describe 'API v3 Work package resource',
         end
 
         it_behaves_like 'lock version updated'
+
+        context 'for a user having assign_versions but lacking edit_work_packages permission' do
+          let(:permissions) { %i[view_work_packages assign_versions] }
+
+          include_context 'patch request'
+
+          it { expect(response.status).to eq(422) }
+
+          it 'has a readonly error' do
+            expect(response.body)
+              .to be_json_eql('urn:openproject-org:api:v3:errors:PropertyIsReadOnly'.to_json)
+              .at_path('errorIdentifier')
+          end
+        end
       end
 
       context 'description' do
@@ -726,6 +740,20 @@ describe 'API v3 Work package resource',
           end
 
           it_behaves_like 'lock version updated'
+        end
+
+        context 'for a user lacking the assign_versions permission' do
+          let(:permissions) { %i[view_work_packages edit_work_packages] }
+
+          include_context 'patch request'
+
+          it { expect(response.status).to eq(422) }
+
+          it 'has a readonly error' do
+            expect(response.body)
+              .to be_json_eql('urn:openproject-org:api:v3:errors:PropertyIsReadOnly'.to_json)
+              .at_path('errorIdentifier')
+          end
         end
       end
 

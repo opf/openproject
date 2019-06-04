@@ -35,37 +35,47 @@
     <div class="advanced-filters--filter-value" [ngSwitch]="valueType">
       <filter-integer-value *ngSwitchCase="'[1]Integer'"
                             (filterChanged)="onFilterUpdated($event)"
+                            [shouldFocus]="shouldFocus"
                             [filter]="filter"></filter-integer-value>
 
       <filter-date-value *ngSwitchCase="'[1]Date'"
                          (filterChanged)="onFilterUpdated($event)"
+                         [shouldFocus]="shouldFocus"
                          [filter]="filter"></filter-date-value>
 
       <filter-dates-value *ngSwitchCase="'[2]Date'"
                           (filterChanged)="onFilterUpdated($event)"
+                          [shouldFocus]="shouldFocus"
                           [filter]="filter"></filter-dates-value>
 
       <filter-date-time-value *ngSwitchCase="'[1]DateTime'"
                               (filterChanged)="onFilterUpdated($event)"
+                              [shouldFocus]="shouldFocus"
                               [filter]="filter"></filter-date-time-value>
 
       <filter-date-times-value *ngSwitchCase="'[2]DateTime'"
-                               (filterChanged)="onFilterUpdated($event)" [filter]="filter"></filter-date-times-value>
+                               [shouldFocus]="shouldFocus"
+                               (filterChanged)="onFilterUpdated($event)"
+                               [filter]="filter"></filter-date-times-value>
 
       <filter-string-value *ngSwitchCase="'[1]String'"
                            (filterChanged)="onFilterUpdated($event)"
+                           [shouldFocus]="shouldFocus"
                            [filter]="filter"></filter-string-value>
 
       <filter-string-value *ngSwitchCase="'[1]Float'"
                            (filterChanged)="onFilterUpdated($event)"
+                           [shouldFocus]="shouldFocus"
                            [filter]="filter"></filter-string-value>
 
       <filter-boolean-value *ngSwitchCase="'[1]Boolean'"
                             (filterChanged)="onFilterUpdated($event)"
+                            [shouldFocus]="shouldFocus"
                             [filter]="filter"></filter-boolean-value>
 
       <filter-toggled-multiselect-value *ngSwitchDefault
                                         (filterChanged)="onFilterUpdated($event)"
+                                        [shouldFocus]="shouldFocus"
                                         [filter]="filter"></filter-toggled-multiselect-value>
     </div>
   </ng-container>

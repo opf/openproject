@@ -35,6 +35,7 @@ module Queries::Projects
   query = ::Queries::Projects::ProjectQuery
 
   register.filter query, filters::AncestorFilter
+  register.filter query, filters::TypeFilter
   register.filter query, filters::ActiveOrArchivedFilter
   register.filter query, filters::NameAndIdentifierFilter
   register.filter query, filters::CustomFieldFilter

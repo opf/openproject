@@ -181,16 +181,16 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following stories in the followin
     params['fixed_version_id'] = Version.find_by(name: story['sprint'] || story['backlog']).id
     params['story_points'] = story['story_points']
     params['status'] =  if story['status']
-                             Status.find_by(name: story['status'])
-                           else
-                             Status.default
-                           end
+                          Status.find_by(name: story['status'])
+                        else
+                          Status.default
+                        end
     params['type_id'] = Type.find_by(name: story['type']).id if story['type']
     params['priority'] = if story['priority']
-                              IssuePriority.find_by(name: story['priority'])
-                            else
-                              IssuePriority.default
-                            end
+                           IssuePriority.find_by(name: story['priority'])
+                         else
+                           IssuePriority.default
+                         end
 
     params.delete 'position'
     # NOTE: We're bypassing the controller here because we're just
@@ -213,16 +213,16 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following tasks:$/ do |project_na
       params = initialize_task_params(project, story)
       params['subject'] = task['subject']
       params['project_id'] = project.id
-      params['status'] =  if task['status']
-                               Status.find_by(name: story['task'])
-                             else
-                               Status.default
-                             end
+      params['status'] = if task['status']
+                           Status.find_by(name: story['task'])
+                         else
+                           Status.default
+                         end
       params['priority'] = if task['priority']
-                              IssuePriority.find_by(name: task['priority'])
-                            else
-                              IssuePriority.default
-                            end
+                             IssuePriority.find_by(name: task['priority'])
+                           else
+                             IssuePriority.default
+                           end
 
       # NOTE: We're bypassing the controller here because we're just
       # setting up the database for the actual tests. The actual tests,
@@ -246,10 +246,10 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following work_packages:$/ do |pr
       version = Version.find_by(name: task['sprint'] || task['backlog'])
       params['fixed_version_id'] = version.id if version
       params['priority'] = if task['priority']
-                              IssuePriority.find_by(name: task['priority'])
-                            else
-                              IssuePriority.default
-                            end
+                             IssuePriority.find_by(name: task['priority'])
+                           else
+                             IssuePriority.default
+                           end
 
       # NOTE: We're bypassing the controller here because we're just
       # setting up the database for the actual tests. The actual tests,
@@ -275,10 +275,10 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following impediments:$/ do |proj
       params['blocks_ids'] = blocks.join(',')
       params['project_id'] = project.id
       params['priority'] = if impediment['priority']
-                              IssuePriority.find_by(name: impediment['priority'])
-                            else
-                              IssuePriority.default
-                            end
+                             IssuePriority.find_by(name: impediment['priority'])
+                           else
+                             IssuePriority.default
+                           end
 
       # NOTE: We're bypassing the controller here because we're just
       # setting up the database for the actual tests. The actual tests,

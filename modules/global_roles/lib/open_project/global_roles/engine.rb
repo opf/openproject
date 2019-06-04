@@ -34,7 +34,7 @@ module OpenProject::GlobalRoles
     # We still override version and project settings views from the core! URH
     override_core_views!
 
-    patches [:Principal, :Role, :User, :RolesController, :UsersController]
+    patches %i[Principal User UsersController]
     patch_with_namespace :BasicData, :RoleSeeder
 
     add_tab_entry :user,
@@ -55,7 +55,7 @@ module OpenProject::GlobalRoles
     end
 
     initializer 'global_roles.register_global_permission' do
-      Redmine::AccessControl.permission(:add_project).global = true
+      OpenProject::AccessControl.permission(:add_project).global = true
     end
 
     config.to_prepare do

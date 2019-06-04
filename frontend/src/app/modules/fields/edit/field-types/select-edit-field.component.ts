@@ -129,7 +129,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     if (Array.isArray(allowedValues)) {
       this.setValues(allowedValues);
     } else if (allowedValues) {
-      return allowedValues.$load().then((values:CollectionResource) => {
+      return allowedValues.$load(false).then((values:CollectionResource) => {
         this.setValues(values.elements);
       });
     } else {

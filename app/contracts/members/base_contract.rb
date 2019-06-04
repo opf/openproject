@@ -28,10 +28,6 @@
 
 module Members
   class BaseContract < ::ModelContract
-    def self.model
-      Member
-    end
-
     delegate :principal,
              :project,
              :new_record?,

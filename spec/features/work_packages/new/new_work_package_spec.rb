@@ -52,7 +52,7 @@ describe 'new work package', js: true do
   def create_work_package_globally(type, project)
     loading_indicator_saveguard
 
-    wp_page.click_add_wp_button
+    wp_page.click_create_wp_button(type)
 
     loading_indicator_saveguard
     wp_page.subject_field.set(subject)
@@ -60,8 +60,6 @@ describe 'new work package', js: true do
     project_field.openSelectField
     project_field.set_value project
 
-    type_field.openSelectField
-    type_field.set_value type
     sleep 1
   end
 
@@ -284,16 +282,30 @@ describe 'new work package', js: true do
 
       click_on 'Cancel'
 
-      wp_page.click_add_wp_button
+      wp_page.click_create_wp_button type_bug
       expect(page).to have_no_selector('.ng-value', text: project.name)
 
       project_field.openSelectField
       project_field.set_value project.name
 
-      type_field.openSelectField
-      type_field.set_value type_bug
-
       click_on 'Cancel'
+    end
+
+    context 'with a project without type_bug' do
+      let!(:project_without_bug) do
+        FactoryBot.create(:project, name: 'Unrelated project', types: [type_task])
+      end
+
+      it 'will not show that value in the project drop down' do
+        create_work_package_globally(type_bug, project.name)
+
+        sleep 2
+
+        project_field.openSelectField
+
+        expect(page).to have_selector('.ng-dropdown-panel .ng-option', text: project.name)
+        expect(page).to have_no_selector('.ng-dropdown-panel .ng-option', text: project_without_bug.name)
+      end
     end
   end
 

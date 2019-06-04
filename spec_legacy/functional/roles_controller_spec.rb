@@ -59,76 +59,11 @@ describe RolesController, type: :controller do
     assert_template 'new'
   end
 
-  it 'should post new with validaton failure' do
-    post :create,
-         params: {
-           role: {
-             name: '',
-             permissions: ['add_work_packages', 'edit_work_packages', 'log_time', ''],
-             assignable: '0'
-           }
-         }
-
-    assert_response :success
-    assert_template 'new'
-    assert_select 'div', attributes: { id: 'errorExplanation' }
-  end
-
-  it 'should post new without workflow copy' do
-    post :create,
-         params: {
-           role: {
-             name: 'RoleWithoutWorkflowCopy',
-             permissions: ['add_work_packages', 'edit_work_packages', 'log_time'],
-             assignable: '0'
-           }
-         }
-
-    assert_redirected_to roles_path
-    role = Role.find_by(name: 'RoleWithoutWorkflowCopy')
-    refute_nil role
-    assert_equal [:add_work_packages, :edit_work_packages, :log_time], role.permissions.sort
-    assert !role.assignable?
-  end
-
-  it 'should post new with workflow copy' do
-    post :create,
-         params: {
-           role: {
-             name: 'RoleWithWorkflowCopy',
-             permissions: ['add_work_packages', 'edit_work_packages', 'log_time'],
-             assignable: '0'
-           },
-           copy_workflow_from: '1'
-         }
-
-    assert_redirected_to roles_path
-    role = Role.find_by(name: 'RoleWithWorkflowCopy')
-    refute_nil role
-    assert_equal Role.find(1).workflows.size, role.workflows.size
-  end
-
   it 'should get edit' do
     get :edit, params: { id: 1 }
     assert_response :success
     assert_template 'edit'
     assert_equal Role.find(1), assigns(:role)
-  end
-
-  it 'should put update' do
-    put :update,
-        params: {
-          id: 1,
-          role: {
-            name: 'Manager',
-            permissions: ['edit_project'],
-            assignable: '0'
-          }
-        }
-
-    assert_redirected_to roles_path
-    role = Role.find(1)
-    assert_equal [:edit_project], role.permissions
   end
 
   it 'should destroy' do
@@ -164,49 +99,5 @@ describe RolesController, type: :controller do
                                          name: 'permissions[3][]',
                                          value: 'delete_work_packages',
                                          checked: nil }
-  end
-
-  it 'should put bulk update' do
-    put :bulk_update,
-        params: {
-          permissions: { '0' => '', '1' => ['edit_work_packages'], '3' => ['add_work_packages', 'delete_work_packages'] }
-        }
-    assert_redirected_to roles_path
-
-    assert_equal [:edit_work_packages], Role.find(1).permissions
-    assert_equal [:add_work_packages, :delete_work_packages], Role.find(3).permissions.sort
-    assert Role.find(2).permissions.empty?
-  end
-
-  it 'should clear all permissions' do
-    put :bulk_update, params: { permissions: { '0' => '' } }
-    assert_redirected_to roles_path
-    assert Role.find(1).permissions.empty?
-  end
-
-  it 'should move highest' do
-    put :update, params: { id: 3, role: { move_to: 'highest' } }
-    assert_redirected_to roles_path
-    assert_equal 1, Role.find(3).position
-  end
-
-  it 'should move higher' do
-    position = Role.find(3).position
-    put :update, params: { id: 3, role: { move_to: 'higher' } }
-    assert_redirected_to roles_path
-    assert_equal position - 1, Role.find(3).position
-  end
-
-  it 'should move lower' do
-    position = Role.find(2).position
-    put :update, params: { id: 2, role: { move_to: 'lower' } }
-    assert_redirected_to roles_path
-    assert_equal position + 1, Role.find(2).position
-  end
-
-  it 'should move lowest' do
-    put :update, params: { id: 2, role: { move_to: 'lowest' } }
-    assert_redirected_to roles_path
-    assert_equal Role.count, Role.find(2).position
   end
 end

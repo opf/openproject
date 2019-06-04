@@ -36,11 +36,8 @@
   <div class="attributes-group -project-context __overflowing_element_container __overflowing_project_context"
        *ngIf="projectContext.field"
        data-overflowing-identifier=".__overflowing_project_context">
-    <div class="attributes-group--header">
-      <div class="attributes-group--header-container"></div>
-    </div>
     <div>
-      <p class="wp-project-context--warning" [hidden]="projectContext.href" [textContent]="text.project.required"></p>
+      <p class="wp-project-context--warning" [textContent]="text.project.required"></p>
       <div class="attributes-key-value"
            [ngClass]="{'-span-all-columns': descriptor.spanAll }"
            *ngFor="let descriptor of projectContext.field; trackBy:trackByName">
@@ -102,13 +99,6 @@
        [attr.data-overflowing-identifier]="'.__overflowing_' + group.id"
        class="attributes-group __overflowing_element_container">
 
-    <div class="attributes-group--header">
-      <div class="attributes-group--header-container">
-        <h3 class="attributes-group--header-text"
-            [textContent]="group.name"></h3>
-      </div>
-    </div>
-
     <ng-container wp-isolated-query-space *ngIf="group.isolated">
       <ndc-dynamic [ndcDynamicComponent]="attributeGroupComponent(group)"
                    [ndcDynamicInputs]="{ workPackage: workPackage,
@@ -118,6 +108,13 @@
     </ng-container>
 
     <ng-container *ngIf="!group.isolated">
+      <div class="attributes-group--header">
+        <div class="attributes-group--header-container">
+          <h3 class="attributes-group--header-text"
+              [textContent]="group.name"></h3>
+        </div>
+      </div>
+
       <ndc-dynamic [ndcDynamicComponent]="attributeGroupComponent(group)"
                    [ndcDynamicInjector]="injector"
                    [ndcDynamicInputs]="{ workPackage: workPackage, group: group }">

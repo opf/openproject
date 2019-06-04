@@ -304,9 +304,9 @@ module Redmine #:nodoc:
     def permission(name, actions, options = {})
       if @project_scope
         mod, options = @project_scope
-        Redmine::AccessControl.map { |map| map.project_module(mod, options) { |map| map.permission(name, actions, options) } }
+        OpenProject::AccessControl.map { |map| map.project_module(mod, options) { |map| map.permission(name, actions, options) } }
       else
-        Redmine::AccessControl.map { |map| map.permission(name, actions, options) }
+        OpenProject::AccessControl.map { |map| map.permission(name, actions, options) }
       end
     end
 

@@ -55,6 +55,7 @@ Feature: Product Owner
           | add_work_packages     |
           | edit_work_packages    |
           | manage_subtasks       |
+          | assign_versions       |
 
       And the type "Story" has the default workflow for the role "product owner"
       And the type "Epic" has the default workflow for the role "product owner"

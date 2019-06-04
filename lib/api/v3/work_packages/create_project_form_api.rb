@@ -34,7 +34,7 @@ module API
           post &::API::V3::Utilities::Endpoints::CreateForm.new(model: WorkPackage,
                                                                 parse_service: WorkPackages::ParseParamsService,
                                                                 instance_generator: ->(*) {
-                                                                  WorkPackage.new(author: current_user, project: @project)
+                                                                  WorkPackage.new(project: @project)
                                                                 })
                                                            .mount
         end

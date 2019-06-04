@@ -185,6 +185,17 @@ it:
           title: Macro-attività (work package)
         work_packages_calendar:
           title: Calendario
+    homescreen:
+      blocks:
+        new_features:
+          text_new_features: Read about new features and product updates.
+          current_new_feature_html: 'OpenProject contains a new <b>Boards view</b>
+            for Agile project management. </br> To activate this new feature for your
+            existing projects, please do the following steps: <ul><li>Activate the
+            module Boards within existing projects'' settings.</li> <li>Configure
+            your Boards in a project.</li> <li>Verify roles and permissions</li></ul>'
+          image_alt_text: Board teaser image
+          learn_about: Learn more about Agile Boards
     label_activate: Attiva
     label_activity_no: Voce attività numero %{activityNo}
     label_activity_with_comment_no: Voce attività numero %{activityNo}. Ha un commento

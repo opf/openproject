@@ -164,7 +164,7 @@ module Pages
     def add_list_with_new_value(name)
       open_and_fill_add_list_modal name
 
-      page.find('.ng-option', text: 'Create new: ' + name).click
+      page.find('.ng-option', text: 'Create: ' + name).click
     end
 
     def save

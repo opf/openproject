@@ -202,7 +202,8 @@ module OpenProject
       'table-timeline--row-height'                           => '40px',
       'status-selector-bg-color'                             => '#F99601',
       'status-selector-bg-hover-color'                       => '#E08600',
-      'card-font-size'                                       => '16px'
+      'card-font-size'                                       => '16px',
+      'board-teaser-image'                                   => '#{image-url("boards_video_teaser.png")}'
     }.freeze
 
     # Regular expression for references of other variables.

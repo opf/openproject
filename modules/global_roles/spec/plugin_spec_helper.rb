@@ -92,6 +92,8 @@ module OpenProject
       def mocks_for_creating(role_class)
         role = mock_model role_class
         allow(role_class).to receive(:new).and_return role
+        allow(role).to receive(:attributes=)
+        allow(role).to receive(:changed).and_return([])
         mock_permissions_on role
         role
       end
@@ -121,9 +123,9 @@ module OpenProject
         @global_perm = mock_permissions('global_perm1', global: true)
 
         @perms = [@public_perm, @perm1, @global_perm, @perm2]
-        allow(Redmine::AccessControl).to receive(:permissions).and_return(@perms)
-        allow(Redmine::AccessControl).to receive(:public_permissions).and_return([@public_perm])
-        allow(Redmine::AccessControl).to receive(:global_permissions).and_return([@global_perm])
+        allow(OpenProject::AccessControl).to receive(:permissions).and_return(@perms)
+        allow(OpenProject::AccessControl).to receive(:public_permissions).and_return([@public_perm])
+        allow(OpenProject::AccessControl).to receive(:global_permissions).and_return([@global_perm])
       end
 
       def mock_global_permissions(permissions)
@@ -135,19 +137,19 @@ module OpenProject
           options[:project_module] || 'Foo'
         end.uniq
 
-        allow(Redmine::AccessControl).to receive(:modules).and_wrap_original do |m, *args|
+        allow(OpenProject::AccessControl).to receive(:modules).and_wrap_original do |m, *args|
           m.call(*args) + mapped_modules.map { |name| { order: 0, name: name } }
         end
-        allow(Redmine::AccessControl).to receive(:permissions).and_wrap_original do |m, *args|
+        allow(OpenProject::AccessControl).to receive(:permissions).and_wrap_original do |m, *args|
           m.call(*args) + mapped
         end
-        allow(Redmine::AccessControl).to receive(:global_permissions).and_wrap_original do |m, *args|
+        allow(OpenProject::AccessControl).to receive(:global_permissions).and_wrap_original do |m, *args|
           m.call(*args) + mapped
         end
       end
 
       def mock_permissions(name, options = {})
-        ::Redmine::AccessControl::Permission.new(
+        ::OpenProject::AccessControl::Permission.new(
           name,
           { does_not: :matter },
           { project_module: 'Foo', public: false, global: false }.merge(options)
@@ -169,12 +171,12 @@ module OpenProject
       end
 
       def stash_access_control_permissions
-        @stashed_permissions = Redmine::AccessControl.permissions.dup
-        Redmine::AccessControl.permissions.clear
+        @stashed_permissions = OpenProject::AccessControl.permissions.dup
+        OpenProject::AccessControl.permissions.clear
       end
 
       def restore_access_control_permissions
-        Redmine::AccessControl.instance_variable_set(:@permissions, @stashed_permissions)
+        OpenProject::AccessControl.instance_variable_set(:@permissions, @stashed_permissions)
       end
     end
   end

@@ -56,16 +56,16 @@ module OpenProject::Backlogs
              author_url: 'http://finn.de',
              bundled: true,
              settings: settings do
-      Redmine::AccessControl.permission(:edit_project).actions << 'projects/project_done_statuses'
-      Redmine::AccessControl.permission(:edit_project).actions << 'projects/rebuild_positions'
+      OpenProject::AccessControl.permission(:edit_project).actions << 'projects/project_done_statuses'
+      OpenProject::AccessControl.permission(:edit_project).actions << 'projects/rebuild_positions'
 
-      Redmine::AccessControl.permission(:add_work_packages).tap do |add|
+      OpenProject::AccessControl.permission(:add_work_packages).tap do |add|
         add.actions << 'rb_stories/create'
         add.actions << 'rb_tasks/create'
         add.actions << 'rb_impediments/create'
       end
 
-      Redmine::AccessControl.permission(:edit_work_packages).tap do |edit|
+      OpenProject::AccessControl.permission(:edit_work_packages).tap do |edit|
         edit.actions << 'rb_stories/update'
         edit.actions << 'rb_tasks/update'
         edit.actions << 'rb_impediments/update'

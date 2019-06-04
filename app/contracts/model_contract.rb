@@ -45,6 +45,10 @@ class ModelContract < Reform::Contract
       @attribute_validations ||= []
     end
 
+    def attribute_permissions
+      @attribute_permissions ||= {}
+    end
+
     def attribute_aliases
       @attribute_aliases ||= {}
     end
@@ -57,10 +61,21 @@ class ModelContract < Reform::Contract
       property attribute
 
       add_writable(attribute, options[:writeable])
+      attribute_permission(attribute, options[:permission])
 
       if block
         attribute_validations << block
       end
+    end
+
+    def default_attribute_permission(permission)
+      attribute_permission(:default_permission, permission)
+    end
+
+    def attribute_permission(attribute, permission)
+      return unless permission
+
+      attribute_permissions[attribute] = Array(permission)
     end
 
     private
@@ -89,7 +104,7 @@ class ModelContract < Reform::Contract
   end
 
   # we want to add a validation error whenever someone sets a property that we don't know.
-  # However AR will cleverly try to resolve the value for errorneous properties. Thus we need
+  # However AR will cleverly try to resolve the value for erroneous properties. Thus we need
   # to hook into this method and return nil for unknown properties to avoid NoMethod errors...
   def read_attribute_for_validation(attribute)
     if respond_to? attribute
@@ -99,13 +114,7 @@ class ModelContract < Reform::Contract
 
   def writable_attributes
     @writable_attributes ||= begin
-      writable = collect_ancestor_attributes(:writable_attributes)
-
-      collect_ancestor_attributes(:writable_conditions).each do |attribute, condition|
-        writable -= [attribute, "#{attribute}_id"] unless instance_exec(&condition)
-      end
-
-      writable
+      reduce_writable_attributes(collect_writable_attributes)
     end
   end
 
@@ -141,7 +150,7 @@ class ModelContract < Reform::Contract
   end
 
   def self.model
-    raise NotImplementedError
+    @model ||= name.deconstantize.singularize.constantize
   end
 
   # use activerecord as the base scope instead of 'activemodel' to be compatible
@@ -166,13 +175,23 @@ class ModelContract < Reform::Contract
   private
 
   def readonly_attributes_unchanged
-    invalid_changes = model.changed - writable_attributes
+    invalid_changes = attributes_changed_by_user - writable_attributes
 
     invalid_changes.each do |attribute|
       outside_attribute = collect_ancestor_attributes(:attribute_aliases)[attribute] || attribute
 
       errors.add outside_attribute, :error_readonly
     end
+  end
+
+  def attributes_changed_by_user
+    changed = model.changed
+
+    if model.respond_to?(:changed_by_system)
+      changed -= model.changed_by_system
+    end
+
+    changed
   end
 
   def run_attribute_validations
@@ -207,5 +226,48 @@ class ModelContract < Reform::Contract
     end
 
     attributes.send(cleanup_method)
+  end
+
+  def collect_writable_attributes
+    writable = collect_ancestor_attributes(:writable_attributes)
+
+    if model.respond_to?(:available_custom_fields)
+      writable += model.available_custom_fields.map { |cf| "custom_field_#{cf.id}" }
+    end
+
+    writable
+  end
+
+  def reduce_writable_attributes(attributes)
+    attributes = reduce_by_writable_conditions(attributes)
+    reduce_by_writable_permissions(attributes)
+  end
+
+  def reduce_by_writable_conditions(attributes)
+    collect_ancestor_attributes(:writable_conditions).each do |attribute, condition|
+      attributes -= [attribute, "#{attribute}_id"] unless instance_exec(&condition)
+    end
+
+    attributes
+  end
+
+  def reduce_by_writable_permissions(attributes)
+    attribute_permissions = collect_ancestor_attributes(:attribute_permissions)
+
+    attributes.reject do |attribute|
+      canonical_attribute = attribute.gsub(/_id\z/, '')
+
+      permissions = attribute_permissions[canonical_attribute] ||
+                    attribute_permissions["#{canonical_attribute}_id"] ||
+                    attribute_permissions[:default_permission]
+
+      next unless permissions
+
+      # This will break once a model that does not respond to project is used.
+      # This is intended to be worked on then with the additional knowledge.
+      next if permissions.any? { |p| user.allowed_to?(p, model.project, global: model.project.nil?) }
+
+      true
+    end
   end
 end

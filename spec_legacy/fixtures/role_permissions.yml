@@ -336,6 +336,10 @@ role_permission131:
   id: 131
   role_id: 2
   permission: 'list_attachments'
+role_permission132:
+  id: 132
+  role_id: 2
+  permission: 'assign_versions'
 
 role_permission200:
   id: 200

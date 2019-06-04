@@ -32,19 +32,27 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
   private
 
   def set_attributes(attributes)
-    if attributes.key?(:attachment_ids)
-      work_package.attachments_replacements = Attachment.where(id: attributes[:attachment_ids])
+    set_attachments_attributes(attributes)
+    set_static_attributes(attributes)
+
+    work_package.change_by_system do
+      set_default_attributes
+      update_project_dependent_attributes
     end
 
-    set_static_attributes(attributes)
-    set_default_attributes
-    unify_dates
-    update_project_dependent_attributes
     set_custom_attributes(attributes)
-    update_dates
-    reset_custom_values
-    reassign_invalid_status_if_type_changed
-    set_templated_description
+
+    work_package.change_by_system do
+      update_dates
+      reassign_invalid_status_if_type_changed
+      set_templated_description
+    end
+  end
+
+  def set_attachments_attributes(attributes)
+    return unless attributes.key?(:attachment_ids)
+
+    work_package.attachments_replacements = Attachment.where(id: attributes[:attachment_ids])
   end
 
   def set_static_attributes(attributes)
@@ -104,6 +112,8 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
     end
 
     work_package.attributes = assignable_attributes
+
+    initialize_unset_custom_values
   end
 
   def unify_dates
@@ -124,13 +134,17 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
   def update_project_dependent_attributes
     return unless work_package.project_id_changed? && work_package.project_id
 
-    set_fixed_version_to_nil
-    reassign_category
+    work_package.change_by_system do
+      set_fixed_version_to_nil
+      reassign_category
 
-    reassign_type unless work_package.type_id_changed?
+      reassign_type unless work_package.type_id_changed?
+    end
   end
 
   def update_dates
+    unify_dates
+
     min_start = new_start_date
 
     if min_start
@@ -181,9 +195,9 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
     end
   end
 
-  def reset_custom_values
-    # Take over any default custom values
-    # for new custom fields
+  # Take over any default custom values
+  # for new custom fields
+  def initialize_unset_custom_values
     work_package.set_default_values! if custom_field_context_changed?
   end
 

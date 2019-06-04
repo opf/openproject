@@ -33,8 +33,19 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
   let(:type) { FactoryBot.build(:type) }
   let(:work_package) do
     FactoryBot.build(:work_package,
-                      project: project,
-                      type: type)
+                     project: project,
+                     type: type)
+  end
+  let(:current_user) do
+    FactoryBot.build_stubbed(:user).tap do |u|
+      allow(u)
+        .to receive(:allowed_to?)
+        .and_return(true)
+    end
+  end
+
+  before do
+    login_as(current_user)
   end
 
   describe '#remaining_time_writable?' do

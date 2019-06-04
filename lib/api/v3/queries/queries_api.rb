@@ -82,13 +82,17 @@ module API
           end
 
           namespace 'default' do
+            params do
+              optional :valid_subset, type: Boolean
+            end
+
             get do
               @query = Query.new_default(name: 'default',
                                          user: current_user)
 
               authorize_by_policy(:show)
 
-              query_representer_response(@query, params)
+              query_representer_response(@query, params, params.delete(:valid_subset))
             end
           end
 
@@ -111,6 +115,10 @@ module API
               update_query @query, request_body, current_user
             end
 
+            params do
+              optional :valid_subset, type: Boolean
+            end
+
             get do
               # We try to ignore invalid aspects of the query as the user
               # might not even be able to fix them (public  query)
@@ -120,8 +128,9 @@ module API
               # Permissions are enforced nevertheless.
               @query.valid_subset!
 
-              # We do not ignore invalid params provided by the client.
-              query_representer_response(@query, params)
+              # We do not ignore invalid params provided by the client
+              # unless explicily required by valid_subset
+              query_representer_response(@query, params, params.delete(:valid_subset))
             end
 
             delete do

@@ -38,7 +38,7 @@ FactoryBot.define do
     sequence(:identifier) { |n| "myproject_no_#{n}" }
     created_on { Time.now }
     updated_on { Time.now }
-    enabled_module_names { Redmine::AccessControl.available_project_modules }
+    enabled_module_names { OpenProject::AccessControl.available_project_modules }
 
     callback(:after_build) do |project, evaluator|
       disabled_modules = Array(evaluator.disable_modules)

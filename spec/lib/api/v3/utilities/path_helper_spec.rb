@@ -129,9 +129,15 @@ describe ::API::V3::Utilities::PathHelper do
   end
 
   describe '#available_projects_on_create' do
-    subject { helper.available_projects_on_create }
+    subject { helper.available_projects_on_create(nil) }
 
     it_behaves_like 'api v3 path', '/work_packages/available_projects'
+  end
+
+  describe '#available_projects_on_create with type' do
+    subject { helper.available_projects_on_create(1) }
+
+    it_behaves_like 'api v3 path', '/work_packages/available_projects?for_type=1'
   end
 
   describe '#categories' do

@@ -34,7 +34,7 @@ module API
         self.current_user = user
       end
 
-      def call(params)
+      def call(params, valid_subset: false)
         parsed = ::API::V3::ParseQueryParamsService
                  .new
                  .call(params)
@@ -42,7 +42,7 @@ module API
         if parsed.success?
           ::UpdateQueryFromParamsService
             .new(query, current_user)
-            .call(parsed.result)
+            .call(parsed.result, valid_subset: valid_subset)
         else
           parsed
         end

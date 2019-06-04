@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -31,7 +32,8 @@ require 'work_packages/base_contract'
 
 module WorkPackages
   class UpdateContract < BaseContract
-    attribute :lock_version do
+    attribute :lock_version,
+              permission: %i[edit_work_packages assign_versions manage_subtasks move] do
       if model.lock_version.nil? || model.lock_version_changed?
         errors.add :base, :error_conflict
       end
@@ -41,42 +43,28 @@ module WorkPackages
 
     validate :user_allowed_to_edit
 
-    validate :user_allowed_to_move
-
     validate :can_move_to_milestone
+
+    default_attribute_permission :edit_work_packages
+    attribute_permission :project_id, :move_work_packages
 
     private
 
     def user_allowed_to_edit
       with_unchanged_project_id do
-        next if @can.allowed?(model, :edit)
-        next user_allowed_to_change_parent if @can.allowed?(model, :manage_subtasks)
+        next if @can.allowed?(model, :edit) ||
+                @can.allowed?(model, :assign_version) ||
+                @can.allowed?(model, :manage_subtasks) ||
+                @can.allowed?(model, :move)
         next if allowed_journal_addition?
 
         errors.add :base, :error_unauthorized
       end
     end
 
-    def user_allowed_to_change_parent
-      allowed_changes = { parent_id: true, lock_version: true }
-
-      model.changed.each do |key|
-        next if allowed_changes[key.to_sym]
-        return errors.add :base, :error_unauthorized
-      end
-    end
-
     def user_allowed_to_access
       unless ::WorkPackage.visible(@user).exists?(model.id)
         errors.add :base, :error_not_found
-      end
-    end
-
-    def user_allowed_to_move
-      if model.project_id_changed? &&
-        !@can.allowed?(model, :move)
-
-        errors.add :project, :error_unauthorized
       end
     end
 

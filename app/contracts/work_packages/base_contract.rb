@@ -34,23 +34,19 @@ module WorkPackages
   class BaseContract < ::ModelContract
     include ::Attachments::ValidateReplacements
 
-    def self.model
-      WorkPackage
-    end
-
     attribute :subject
     attribute :description
     attribute :status_id
     attribute :type_id
     attribute :priority_id
     attribute :category_id
-    attribute :fixed_version_id do
+    attribute :fixed_version_id,
+              permission: :assign_versions do
       validate_fixed_version_is_assignable
     end
 
     validate :validate_no_reopen_on_closed_version
 
-    attribute :lock_version
     attribute :project_id
 
     attribute :done_ratio,
@@ -63,9 +59,8 @@ module WorkPackages
                 model.leaf?
               }
 
-    attribute :parent_id do
-      validate_user_allowed_to_set_parent if model.changed.include?('parent_id')
-    end
+    attribute :parent_id,
+              permission: :manage_subtasks
 
     attribute :assigned_to_id do
       next unless model.project
@@ -128,13 +123,15 @@ module WorkPackages
     end
 
     def writable_attributes
+      ret = super
+
       # If we're in a readonly status and did not move into that status right now
       # only allow other status transitions
       if model.readonly_status? && !model.status_id_change
-        return %w[status status_id]
+        ret &= %w(status status_id)
       end
 
-      super + model.available_custom_fields.map { |cf| "custom_field_#{cf.id}" }
+      ret
     end
 
     private
@@ -210,10 +207,6 @@ module WorkPackages
       if model.fixed_version_id && !model.assignable_versions.map(&:id).include?(model.fixed_version_id)
         errors.add :fixed_version_id, :inclusion
       end
-    end
-
-    def validate_user_allowed_to_set_parent
-      errors.add :base, :error_unauthorized unless @can.allowed?(model, :manage_subtasks)
     end
 
     def validate_no_reopen_on_closed_version

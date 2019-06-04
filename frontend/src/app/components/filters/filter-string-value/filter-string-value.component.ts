@@ -38,6 +38,7 @@ import {componentDestroyed} from 'ng2-rx-componentdestroyed';
   templateUrl: './filter-string-value.component.html'
 })
 export class FilterStringValueComponent implements OnDestroy {
+  @Input() public shouldFocus:boolean = false;
   @Input() public filter:QueryFilterInstanceResource;
   @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource>(componentDestroyed(this));
 

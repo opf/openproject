@@ -1,5 +1,6 @@
 <div id="div-values-{{filter.name}}">
   <select [(ngModel)]="value"
+          [focus]="shouldFocus"
           class="advanced-filters--select-field"
           id="values-{{filter.name}}"
           name="v[{{filter.name}}]" >

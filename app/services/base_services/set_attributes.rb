@@ -35,6 +35,13 @@ module BaseServices
     def initialize(user:, model:, contract_class:)
       self.user = user
       self.model = model
+
+      # Allow tracking changes caused by a user but done for him by the system.
+      # E.g. fixed_version of a work package might need to be changed as the user changed the project.
+      # This is currently used for permission checks where the changed project is checked but the fixed_version
+      # is not if it is done by the system.
+      model.extend(Mixins::ChangedBySystem)
+
       self.contract_class = contract_class
     end
 

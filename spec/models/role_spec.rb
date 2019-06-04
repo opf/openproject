@@ -133,4 +133,19 @@ describe Role, type: :model do
       it_behaves_like 'adding'
     end
   end
+
+  describe '#givable' do
+    before do
+      # this should not be necessary once Role (in a membership) and GlobalRole have
+      # a common ancestor class, e.g. Role (a new one)
+      @mem_role1 = Role.create name: 'mem_role', permissions: []
+      @builtin_role1 = Role.new name: 'builtin_role1', permissions: []
+      @builtin_role1.builtin = 3
+      @builtin_role1.save
+      @global_role1 = GlobalRole.create name: 'global_role1', permissions: []
+    end
+
+    it { expect(Role.givable.size).to eq(1) }
+    it { expect(Role.givable[0]).to eql @mem_role1 }
+  end
 end

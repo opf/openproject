@@ -62,7 +62,8 @@ describe 'Backlogs', js: true do
                       member_in_project: project,
                       member_with_permissions: %i(add_work_packages
                                                   view_master_backlog
-                                                  view_work_packages)
+                                                  view_work_packages
+                                                  assign_versions)
   end
   let(:project) { FactoryBot.create :project }
 
@@ -86,7 +87,7 @@ describe 'Backlogs', js: true do
                       priority: default_priority,
                       position: 2,
                       story_points: 4,
-                      fixed_version: backlog_version )
+                      fixed_version: backlog_version)
   end
   let!(:default_status) do
     FactoryBot.create(:default_status)

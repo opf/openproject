@@ -36,19 +36,19 @@
 When /^I create the impediment$/ do
   page.driver.post backlogs_project_sprint_impediments_url(
     *@impediment_params.values_at('project_id', 'fixed_version_id')
-  ), @impediment_params
+  ), @impediment_params.except('author_id', 'author')
 end
 
 When /^I create the story$/ do
   page.driver.post backlogs_project_sprint_stories_url(
     *@story_params.values_at('project_id', 'fixed_version_id')
-  ), @story_params
+  ), @story_params.except('author_id', 'author')
 end
 
 When /^I create the task$/ do
   page.driver.post backlogs_project_sprint_tasks_url(
     *@task_params.values_at('project_id', 'fixed_version_id')
-  ), @task_params
+  ), @task_params.except('author_id', 'author')
 end
 
 When /^I move the (story|item|task) named (.+) below (.+)$/ do |type, story_subject, prev_subject|
@@ -57,7 +57,7 @@ When /^I move the (story|item|task) named (.+) below (.+)$/ do |type, story_subj
   prev  = work_package_class.find_by(subject: prev_subject.strip)
 
   attributes = story.attributes
-  attributes[:prev]             = prev.id
+  attributes[:prev] = prev.id
 
   if type == 'task'
     # #attributes returns the parent_id to always be nil
