@@ -93,7 +93,13 @@ module API
             raise ::API::Errors::ErrorBase.create_and_merge_errors(error.record.errors)
           rescue StandardError => error
             log_attachment_saving_error(error)
-            raise ::API::Errors::InternalError.new(I18n.t('api_v3.errors.unable_to_create_attachment'))
+            message =
+              if error&.class&.to_s == 'Errno::EACCES'
+                I18n.t('api_v3.errors.unable_to_create_attachment_permissions')
+              else
+                I18n.t('api_v3.errors.unable_to_create_attachment')
+              end
+            raise ::API::Errors::InternalError.new(message)
           end
 
           def log_attachment_saving_error(error)

@@ -2659,6 +2659,7 @@ en:
       multipart_body_error: "The request body did not contain the expected multipart parts."
       multiple_errors: "Multiple field constraints have been violated."
       unable_to_create_attachment: "The attachment could not be created"
+      unable_to_create_attachment_permissions: "The attachment could not be saved due to lacking file system permissions"
       render:
         context_not_parsable: "The context provided is not a link to a resource."
         unsupported_context: "The resource given is not supported as context."
