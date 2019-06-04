@@ -43,8 +43,6 @@ module ::Bcf
 
     before_action :build_importer, only: %i[prepare_import configure_import perform_import]
 
-    before_action :get_issue_type
-
     menu_item :bcf
 
     def index
@@ -188,10 +186,6 @@ module ::Bcf
 
     def build_importer
       @importer = ::OpenProject::Bcf::BcfXml::Importer.new @bcf_xml_file, @project, current_user: current_user
-    end
-
-    def get_issue_type
-      @issue_type = @project.types.find_by(name: 'Issue [BCF]')
     end
 
     def get_persisted_file
