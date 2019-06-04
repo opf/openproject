@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -27,54 +28,55 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::NotExistingFilter < Queries::Filters::Base
+class Queries::WorkPackages::Filter::RelatableFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  include Queries::WorkPackages::Filter::FilterForWpMixin
+
   def available?
-    false
+    User.current.allowed_to?(:manage_work_package_relations, nil, global: true)
   end
 
   def type
-    :inexistent
+    :relation
   end
 
-  def self.key
-    :not_existent
+  def type_strategy
+    @type_strategy ||= Queries::Filters::Strategies::Relation.new(self)
   end
 
-  def human_name
-    name.to_s.blank? ? type : name.to_s
-  end
-
-  validate :always_false
-
-  def always_false
-    errors.add :base, I18n.t(:'activerecord.errors.messages.does_not_exist')
-  end
-
-  # deactivating superclass validation
-  def validate_inclusion_of_operator; end
-
-  def to_hash
-    {
-      non_existent_filter: {
-        operator: operator,
-        values: values
-      }
-    }
+  def where
+    # all of the filter logic is handled by #scope
+    "(1 = 1)"
   end
 
   def scope
-    # TODO: remove switch once the WP query is a
-    # subclass of Queries::Base
-    model = if context.respond_to?(:model)
-              context.model
-            else
-              WorkPackage
-            end
-
-    model.unscoped
+    if operator == Relation::TYPE_RELATES
+      relateable_from_or_to
+    elsif operator != 'parent' && canonical_operator == operator
+      relateable_to
+    else
+      relateable_from
+    end
   end
 
-  def attributes_hash
-    nil
+  private
+
+  def relateable_from_or_to
+    relateable_to.or(relateable_from)
+  end
+
+  def relateable_from
+    WorkPackage.relateable_from(from)
+  end
+
+  def relateable_to
+    WorkPackage.relateable_to(from)
+  end
+
+  def from
+    WorkPackage.find(values.first)
+  end
+
+  def canonical_operator
+    Relation.canonical_type(operator)
   end
 end

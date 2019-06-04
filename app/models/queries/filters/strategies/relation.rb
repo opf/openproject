@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -27,54 +28,34 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::NotExistingFilter < Queries::Filters::Base
-  def available?
-    false
-  end
+module Queries::Filters::Strategies
+  class Relation < BaseStrategy
+    delegate :allowed_values_subset,
+             to: :filter
 
-  def type
-    :inexistent
-  end
+    self.supported_operators = ::Relation::TYPES.keys + %w(parent children)
+    self.default_operator = ::Relation::TYPE_RELATES
 
-  def self.key
-    :not_existent
-  end
+    def validate
+      unique_values = values.uniq
+      allowed_and_desired_values = allowed_values_subset & unique_values
 
-  def human_name
-    name.to_s.blank? ? type : name.to_s
-  end
+      if allowed_and_desired_values.sort != unique_values.sort
+        errors.add(:values, :inclusion)
+      end
+      if too_many_values
+        errors.add(:values, "only one value allowed")
+      end
+    end
 
-  validate :always_false
+    def valid_values!
+      filter.values &= allowed_values.map(&:last).map(&:to_s)
+    end
 
-  def always_false
-    errors.add :base, I18n.t(:'activerecord.errors.messages.does_not_exist')
-  end
+    private
 
-  # deactivating superclass validation
-  def validate_inclusion_of_operator; end
-
-  def to_hash
-    {
-      non_existent_filter: {
-        operator: operator,
-        values: values
-      }
-    }
-  end
-
-  def scope
-    # TODO: remove switch once the WP query is a
-    # subclass of Queries::Base
-    model = if context.respond_to?(:model)
-              context.model
-            else
-              WorkPackage
-            end
-
-    model.unscoped
-  end
-
-  def attributes_hash
-    nil
+    def too_many_values
+      values.reject(&:blank?).length > 1
+    end
   end
 end
