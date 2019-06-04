@@ -206,7 +206,7 @@ zh:
     label_board_locked: 锁定
     label_board_plural: 面板
     label_board_sticky: 置顶
-    label_create: Create
+    label_create: 创建
     label_create_work_package: 创建新的工作包
     label_created_by: 创建者
     label_date: 日期
@@ -382,7 +382,11 @@ zh:
       selection: 请选择
       relation_description: 点击为此关系添加描述
     project:
-      required_outside_context: 您不在项目上下文中。请先选择项目上下文, 以便选择类型和状态
+      required_outside_context: 'Please choose a project to create the work package
+        in to see all attributes. You can only select projects which have the type
+        above activated.
+
+'
       context: 项目上下文
       work_package_belongs_to: 此工作包属于项目%{projectname}。
       click_to_switch_context: 在该项目中打开此工作包。
@@ -837,4 +841,3 @@ zh:
         all_projects: 所有项目
         project_and_subprojects: 和所有子项目
         search_for: 搜索
-    label_create_new: 新建

@@ -221,7 +221,7 @@ pt-BR:
     label_board_locked: Bloqueado
     label_board_plural: Quadros
     label_board_sticky: Afixado
-    label_create: Create
+    label_create: Criar
     label_create_work_package: Criar novo pacote de trabalho
     label_created_by: Criado por
     label_date: Data
@@ -430,8 +430,11 @@ pt-BR:
       selection: Por favor selecione
       relation_description: Clique para adicionar a descrição para esta relação
     project:
-      required_outside_context: Você não está dentro de um contexto de projeto. Por
-        favor, escolha o contexto do projeto a fim de selecionar o tipo e a situação
+      required_outside_context: 'Please choose a project to create the work package
+        in to see all attributes. You can only select projects which have the type
+        above activated.
+
+'
       context: Contexto do projeto
       work_package_belongs_to: Este pacote de trabalho pertence ao projeto %{projectname}.
       click_to_switch_context: Abra esse pacote de trabalho nesse projeto.
@@ -927,4 +930,3 @@ pt-BR:
         all_projects: todos os projetos
         project_and_subprojects: e todos os subprojetos
         search_for: Pesquisar por
-    label_create_new: Criar novo

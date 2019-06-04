@@ -219,7 +219,7 @@ ru:
     label_board_locked: Заперто
     label_board_plural: Доски
     label_board_sticky: Стикер
-    label_create: Create
+    label_create: Создать
     label_create_work_package: Создать новый пакет работ
     label_created_by: Автор
     label_date: Дата
@@ -420,8 +420,11 @@ ru:
       selection: Пожалуйста, выберите
       relation_description: Нажмите, чтобы добавить описание для этой связи
     project:
-      required_outside_context: Вы находитесь вне контекста проекта. Пожалуйста, выберите
-        вначале контекст проекта для того, чтобы выбрать тип и состояние
+      required_outside_context: 'Please choose a project to create the work package
+        in to see all attributes. You can only select projects which have the type
+        above activated.
+
+'
       context: Контекст проекта
       work_package_belongs_to: Этот пакет работ относится к проекту %{projectname}.
       click_to_switch_context: Открыть пакет работ в этом проекте.
@@ -928,4 +931,3 @@ ru:
         all_projects: все проекты
         project_and_subprojects: и все подпроекты
         search_for: Поиск по
-    label_create_new: Создать новое

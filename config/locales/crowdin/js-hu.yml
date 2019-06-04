@@ -219,7 +219,7 @@ hu:
     label_board_locked: Zárolva
     label_board_plural: Boards
     label_board_sticky: Kiemelt
-    label_create: Create
+    label_create: Létrehoz
     label_create_work_package: Új munkacsomag létrehozása
     label_created_by: Létrehozta
     label_date: Dátum
@@ -418,8 +418,11 @@ hu:
       selection: Kérem válasszon
       relation_description: Kapcsolat leírásának hozzáadása ide kattintva
     project:
-      required_outside_context: Nincs projekt kiválasztva. Kérem, először válasszon
-        projektet, hogy típust és állapotot választhasson
+      required_outside_context: 'Please choose a project to create the work package
+        in to see all attributes. You can only select projects which have the type
+        above activated.
+
+'
       context: Projekt kontextus
       work_package_belongs_to: Ez a feladatcsoport a(z) %{projectname} nevű projekthez
         tartozik.
@@ -915,4 +918,3 @@ hu:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
-    label_create_new: Create new

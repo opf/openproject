@@ -224,7 +224,7 @@ de:
     label_board_locked: Gesperrt
     label_board_plural: Boards
     label_board_sticky: Wichtig (immer oben)
-    label_create: Create
+    label_create: Anlegen
     label_create_work_package: Erstelle neues Arbeitspaket
     label_created_by: Erstellt von
     label_date: Datum
@@ -427,8 +427,11 @@ de:
       selection: Bitte auswählen
       relation_description: Klicken, um eine Beschreibung für diese Beziehung anzulegen
     project:
-      required_outside_context: Sie befinden sich nicht in einem Projektkontext. Bitte
-        wählen Sie zuerst den Projektkontext aus der Liste, um Typ und Status zu wählen
+      required_outside_context: 'Please choose a project to create the work package
+        in to see all attributes. You can only select projects which have the type
+        above activated.
+
+'
       context: Projektkontext
       work_package_belongs_to: Dieses Arbeitspaket gehört zum Projekt %{projectname}.
       click_to_switch_context: Dieses Arbeitspaket in dem Projekt öffnen.
@@ -934,4 +937,3 @@ de:
         all_projects: alle Projekte
         project_and_subprojects: und alle Unterprojekte
         search_for: Suche nach
-    label_create_new: Neu erstellen
