@@ -29,8 +29,6 @@
 #++
 
 class TimelogController < ApplicationController
-  menu_item :issues
-
   before_action :disable_api, except: %i[index destroy]
   before_action :find_work_package, only: %i[new create]
   before_action :find_project, only: %i[new create]
@@ -72,48 +70,7 @@ class TimelogController < ApplicationController
 
     respond_to do |format|
       format.html do
-        # Paginate results
-        @entry_count = TimeEntry
-                       .visible
-                       .includes(:project, :work_package)
-                       .references(:projects)
-                       .where(cond.conditions)
-                       .count
-        @total_hours = TimeEntry
-                       .visible
-                       .includes(:project, :work_package)
-                       .references(:projects)
-                       .where(cond.conditions)
-                       .distinct(false)
-                       .sum(:hours).to_f
-
-        set_entries(cond)
-
-        gon.rabl template: 'app/views/timelog/index.rabl'
-        gon.project_id = @project.id if @project
-        gon.work_package_id = @issue.id if @issue
-        gon.sort_column = 'spent_on'
-        gon.sort_direction = 'desc'
-        gon.total_count = total_entry_count(cond)
-        gon.settings = client_preferences
-
         render layout: layout_non_or_no_menu
-      end
-      format.json do
-        set_entries(cond)
-
-        gon.rabl template: 'app/views/timelog/index.rabl'
-      end
-      format.atom do
-        entries = TimeEntry
-                  .visible
-                  .includes(:project, :activity, :user, work_package: :type)
-                  .references(:projects)
-                  .where(cond.conditions)
-                  .order("#{TimeEntry.table_name}.created_on DESC")
-                  .limit(Setting.feeds_limit.to_i)
-
-        render_feed(entries, title: l(:label_spent_time))
       end
       format.csv do
         # Export all entries
@@ -129,15 +86,6 @@ class TimelogController < ApplicationController
                    .order(sort_clause)
 
         render csv: entries_to_csv(@entries), filename: 'timelog.csv'
-      end
-    end
-  end
-
-  def show
-    respond_to do |format|
-      # TODO: Implement html response
-      format.html do
-        head 406
       end
     end
   end
@@ -205,30 +153,6 @@ class TimelogController < ApplicationController
   end
 
   private
-
-  def total_entry_count(cond)
-    TimeEntry
-      .visible
-      .includes(:project, :activity, :user, work_package: :type)
-      .references(:projects)
-      .where(cond.conditions)
-      .count
-  end
-
-  def set_entries(cond)
-    # .visible introduces a distinct which we don't need here and which interferes
-    # with the order on postgresql.
-    # The distinct is therefore explicitly removed
-    @entries = TimeEntry
-               .visible
-               .includes(:project, :activity, :user, work_package: :type)
-               .references(:projects)
-               .where(cond.conditions)
-               .distinct(false)
-               .order(sort_clause)
-               .page(page_param)
-               .per_page(per_page_param)
-  end
 
   def find_time_entry
     @time_entry = TimeEntry.find(params[:id])

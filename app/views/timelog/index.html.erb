@@ -27,10 +27,6 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= nonced_javascript_tag do %>
-  <%= include_gon(need_tag: false) -%>
-<% end %>
-
 <%= toolbar title: l(:label_spent_time) do %>
   <% if User.current.allowed_to?({controller: :timelog, action: :new}, @project) %>
       <li class="toolbar-item">
@@ -42,27 +38,21 @@ See docs/COPYRIGHT.rdoc for more details.
   <% end %>
 <% end %>
 
-
 <%= form_tag(polymorphic_path([@issue || @project, :time_entries]), method: :get, id: 'query_form') do %>
   <%= render partial: 'date_range' %>
 <% end %>
+
 <%= render 'time_entry_tabs' %>
-<div class="total-hours">
-  <p><%= l(:label_total) %>: <%= html_hours(l_hours(@total_hours)) %></p>
+
+<div class="notification-box -warning">
+  <a title="close" class="notification-box--close icon-context icon-close"></a>
+  <div class="notification-box--content">
+    <%= t('deprecations.time_entries') %>
+  </div>
 </div>
 <div>
-  <% if @entries.empty? %>
-    <%= no_results_box %>
-  <% else %>
-    <%= render partial: 'list', locals: { entries: @entries }%>
-
-    <%= other_formats_links do |f| %>
-      <%= f.link_to 'Atom', url: permitted_params.timelog.to_h.merge({issue_id: @issue, key: User.current.rss_key}) %>
-      <%= f.link_to 'CSV', url: permitted_params.timelog.to_h %>
-    <% end %>
+  <%= other_formats_links do |f| %>
+    <%= f.link_to 'CSV', url: permitted_params.timelog.to_h %>
   <% end %>
 </div>
 <% html_title l(:label_spent_time) %>
-<% content_for :header_tags do %>
-  <%= auto_discovery_link_tag(:atom, {issue_id: @issue, format: 'atom', key: User.current.rss_key}, title: l(:label_spent_time)) %>
-<% end %>
