@@ -143,7 +143,7 @@ module OpenProject::Bcf::BcfXml
       else
         issue.errors.add :type,
                          :blank,
-                          message: "Can't find any matching type."
+                         message: "Can't find any matching type."
         ServiceResult.new success: false,
                           errors: issue.errors,
                           result: issue
