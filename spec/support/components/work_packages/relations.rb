@@ -171,7 +171,7 @@ module Components
           find('.wp-inline-create--reference-link', text: I18n.t('js.relation_buttons.add_existing_child')).click
 
           # Security check to be sure that the autocompleter has finished loading
-          page.find '.ng-dropdown-panel-items'
+          sleep 3
         end
       end
 
