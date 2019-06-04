@@ -28,6 +28,7 @@
       <li *ngIf="isFilterAvailable(filter.id)"
           id="filter_{{filter.id}}"
           query-filter
+          [shouldFocus]="index == focusElementIndex"
           [filter]="filter"
           (deactivateFilter)="deactivateFilter($event)"
           (filterChanged)="filtersChanged.emit(filters)"
