@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -27,54 +28,9 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::NotExistingFilter < Queries::Filters::Base
-  def available?
-    false
-  end
-
-  def type
-    :inexistent
-  end
-
-  def self.key
-    :not_existent
-  end
-
-  def human_name
-    name.to_s.blank? ? type : name.to_s
-  end
-
-  validate :always_false
-
-  def always_false
-    errors.add :base, I18n.t(:'activerecord.errors.messages.does_not_exist')
-  end
-
-  # deactivating superclass validation
-  def validate_inclusion_of_operator; end
-
-  def to_hash
-    {
-      non_existent_filter: {
-        operator: operator,
-        values: values
-      }
-    }
-  end
-
-  def scope
-    # TODO: remove switch once the WP query is a
-    # subclass of Queries::Base
-    model = if context.respond_to?(:model)
-              context.model
-            else
-              WorkPackage
-            end
-
-    model.unscoped
-  end
-
-  def attributes_hash
-    nil
+module Queries::Operators
+  class Required < Base
+    label ::Relation::TYPE_REQUIRED
+    set_symbol ::Relation::TYPE_REQUIRED
   end
 end

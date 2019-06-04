@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,24 +28,9 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module WorkPackages
-      module AvailableRelationCandidatesHelper
-        include API::V3::Utilities::PathHelper
-
-        def work_package_scope(from, type)
-          canonical_type = Relation.canonical_type(type)
-
-          if type == Relation::TYPE_RELATES
-            WorkPackage.relateable_to(from).or(WorkPackage.relateable_from(from))
-          elsif type != 'parent' && canonical_type == type
-            WorkPackage.relateable_to(from)
-          else
-            WorkPackage.relateable_from(from)
-          end
-        end
-      end
-    end
+module Queries::Operators
+  class Follows < Base
+    label 'follows'
+    set_symbol ::Relation::TYPE_FOLLOWS
   end
 end

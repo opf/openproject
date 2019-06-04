@@ -75,6 +75,7 @@ class UpdateQueryFromParamsService
 
   def apply_filters(params)
     return unless params[:filters]
+
     query.filters = []
 
     params[:filters].each do |filter|
