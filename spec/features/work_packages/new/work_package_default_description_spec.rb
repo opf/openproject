@@ -36,7 +36,7 @@ describe 'new work package', js: true do
 
     type_field.openSelectField
     type_field.set_value type_task
-    expect(page).not_to have_selector('.wp-edit-field.description h1', text: 'New Task template')
+    expect(page).to have_no_selector('.wp-edit-field.description h1', text: 'New Task template', wait: 5)
 
     description_field.set_value ''
 
