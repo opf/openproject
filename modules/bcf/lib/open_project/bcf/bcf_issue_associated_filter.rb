@@ -38,8 +38,8 @@ module ::OpenProject::Bcf
 
     def allowed_values
       [
-        [I18n.t(:general_text_true), OpenProject::Database::DB_VALUE_TRUE],
-        [I18n.t(:general_text_false), OpenProject::Database::DB_VALUE_FALSE]
+        [I18n.t(:general_text_yes), OpenProject::Database::DB_VALUE_TRUE],
+        [I18n.t(:general_text_no), OpenProject::Database::DB_VALUE_FALSE]
       ]
     end
 
