@@ -47,22 +47,16 @@ module API
             end
 
             def fetch_checksums_for(work_packages)
-              concat = if OpenProject::Database.mysql?
-                         md5_concat_mysql
-                       else
-                         md5_concat_postgresql
-                       end
-
               WorkPackage
                 .where(id: work_packages.map(&:id).uniq)
                 .left_joins(:status, :author, :responsible, :assigned_to, :fixed_version, :priority, :category, :type)
-                .pluck('work_packages.id', Arel.sql(concat.squish))
+                .pluck('work_packages.id', Arel.sql(md5_concat.squish))
                 .to_h
             end
 
             protected
 
-            def md5_concat_postgresql
+            def md5_concat
               <<-SQL
                 MD5(CONCAT(statuses.id,
                            statuses.updated_at,
@@ -80,27 +74,6 @@ module API
                            enumerations.updated_at,
                            categories.id,
                            categories.updated_at))
-              SQL
-            end
-
-            def md5_concat_mysql
-              <<-SQL
-                MD5(CONCAT(COALESCE(statuses.id, 0),
-                           COALESCE(statuses.updated_at, '-'),
-                           COALESCE(users.id, '-'),
-                           COALESCE(users.updated_on, '-'),
-                           COALESCE(responsibles_work_packages.id, '-'),
-                           COALESCE(responsibles_work_packages.updated_on, '-'),
-                           COALESCE(assigned_tos_work_packages.id, '-'),
-                           COALESCE(assigned_tos_work_packages.updated_on, '-'),
-                           COALESCE(versions.id, '-'),
-                           COALESCE(versions.updated_on, '-'),
-                           COALESCE(types.id, '-'),
-                           COALESCE(types.updated_at, '-'),
-                           COALESCE(enumerations.id, '-'),
-                           COALESCE(enumerations.updated_at, '-'),
-                           COALESCE(categories.id, '-'),
-                           COALESCE(categories.updated_at, '-')))
               SQL
             end
           end

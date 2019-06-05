@@ -87,12 +87,13 @@ module OpenProject
     # Raises an +InsufficientVersionError+ when the version is incompatible
     def self.check!
       if !postgresql?
-        message = "Database server is not PostgreSql." \
+        message = "Database server is not PostgreSql. " \
                   "As OpenProject uses non standard ANSI-SQL for performance optimizations, using a different DBMS will " \
                   "break and is thus prevented."
 
-        if adapter_name =~ /mysql/i
-          message << " As MySql used to be supported, there is a migration script to ease the transition (https://www.openproject.org/deprecating-mysql-support/)."
+        if adapter_name.match?(/mysql/i)
+          message << " As MySql used to be supported, there is a migration script to ease the transition " \
+                     "(https://www.openproject.org/deprecating-mysql-support/)."
         end
 
         raise UnsupportedDatabaseError.new message
@@ -127,9 +128,9 @@ module OpenProject
     # returns the identifier of the specified connection
     # (defaults to ActiveRecord::Base.connection)
     def self.name(connection = self.connection)
-      supported_adapters.find(proc { [:unknown, //] }) { |_adapter, regex|
+      supported_adapters.find(proc { [:unknown, //] }) do |_adapter, regex|
         adapter_name(connection) =~ regex
-      }[0]
+      end[0]
     end
 
     # Provide helper methods to quickly check the database type
@@ -144,8 +145,9 @@ module OpenProject
       end
     end
 
-    def self.mysql?(_arg)
-      ActiveSupport::Deprecation.warn ".mysql? is no longer supported and will always return false. Remove the call.", caller
+    def self.mysql?(_arg = nil)
+      message = ".mysql? is no longer supported and will always return false. Remove the call."
+      ActiveSupport::Deprecation.warn message, caller
       false
     end
 
@@ -158,7 +160,7 @@ module OpenProject
       raw ? @version : @version.match(/\APostgreSQL (\S+)/i)[1]
     end
 
-    def self.semantic_version(version_string = self.version)
+    def self.semantic_version(version_string = version)
       Semantic::Version.new version_string
     rescue ArgumentError
       # Cut anything behind the -

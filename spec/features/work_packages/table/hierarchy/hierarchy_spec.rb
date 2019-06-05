@@ -209,26 +209,14 @@ describe 'Work Package table hierarchy', js: true do
       wp_table.expect_work_package_listed(leaf, inter, root)
       wp_table.expect_work_package_listed(leaf_assigned, inter_assigned, root_assigned)
 
-      if OpenProject::Database.mysql?
-        # MySQL returns empty first before assigned
-        wp_table.expect_work_package_order(
-          root,
-          inter,
-          leaf,
-          root_assigned,
-          inter_assigned,
-          leaf_assigned
-        )
-      else
-        wp_table.expect_work_package_order(
-          root_assigned,
-          inter_assigned,
-          leaf_assigned,
-          root,
-          inter,
-          leaf
-        )
-      end
+      wp_table.expect_work_package_order(
+        root_assigned,
+        inter_assigned,
+        leaf_assigned,
+        root,
+        inter,
+        leaf
+      )
 
       # Hierarchy should be disabled
       hierarchy.expect_no_hierarchies
@@ -238,34 +226,21 @@ describe 'Work Package table hierarchy', js: true do
       hierarchy.expect_hierarchy_at(root_assigned, inter)
       hierarchy.expect_leaf_at(root, leaf, leaf_assigned, inter_assigned)
 
-      # When ascending, psql order should be:
-      # MySQL orders empty values before assigned ones
+      # When ascending, order should be:
       # ├──root_assigned
       # |  ├─ inter_assigned
       # |  ├─ inter
       # |  |  ├─ leaf_assigned
       # |  |  ├─ leaf
       # ├──root
-      if OpenProject::Database.mysql?
-        # MySQL returns empty first before assigned
-        wp_table.expect_work_package_order(
-          root,
-          root_assigned,
-          inter,
-          leaf,
-          leaf_assigned,
-          inter_assigned
-        )
-      else
-        wp_table.expect_work_package_order(
-          root_assigned,
-          inter_assigned,
-          inter,
-          leaf_assigned,
-          leaf,
-          root
-        )
-      end
+      wp_table.expect_work_package_order(
+        root_assigned,
+        inter_assigned,
+        inter,
+        leaf_assigned,
+        leaf,
+        root
+      )
 
       # Test collapsing of rows
       hierarchy.toggle_row(root_assigned)
@@ -285,50 +260,26 @@ describe 'Work Package table hierarchy', js: true do
       # |  |  ├─ leaf
       # |  |  ├─ leaf_assigned
       # |  ├─ inter_assigned
-      if OpenProject::Database.mysql?
-        # MySQL returns empty first before assigned
-        wp_table.expect_work_package_order(
-          root,
-          root_assigned,
-          inter,
-          leaf,
-          leaf_assigned,
-          inter_assigned
-        )
-      else
-        wp_table.expect_work_package_order(
-          root_assigned,
-          inter_assigned,
-          inter,
-          leaf_assigned,
-          leaf,
-          root
-        )
-      end
+      wp_table.expect_work_package_order(
+        root_assigned,
+        inter_assigned,
+        inter,
+        leaf_assigned,
+        leaf,
+        root
+      )
 
       # Disable hierarchy mode
       hierarchy.disable_hierarchy
 
-      if OpenProject::Database.mysql?
-        # MySQL returns empty first before assigned
-        wp_table.expect_work_package_order(
-          root,
-          inter,
-          leaf,
-          root_assigned,
-          inter_assigned,
-          leaf_assigned
-        )
-      else
-        wp_table.expect_work_package_order(
-          root_assigned,
-          inter_assigned,
-          leaf_assigned,
-          root,
-          inter,
-          leaf
-        )
-      end
+      wp_table.expect_work_package_order(
+        root_assigned,
+        inter_assigned,
+        leaf_assigned,
+        root,
+        inter,
+        leaf
+      )
     end
   end
 end

@@ -35,12 +35,6 @@ module WarningBarHelper
       OpenProject::Database.migrations_pending?
   end
 
-  def render_mysql_deprecation_warning?
-    current_user.admin? &&
-      OpenProject::Database.mysql? &&
-      current_layout == 'admin'
-  end
-
   ##
   # By default, never show a warning bar in the
   # test mode due to overshadowing other elements.

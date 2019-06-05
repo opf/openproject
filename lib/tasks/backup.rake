@@ -38,38 +38,24 @@ namespace :backup do
       FileUtils.mkdir_p(Pathname.new(args[:path_to_backup]).dirname)
 
       config = database_configuration
-      case config['adapter']
-      when /PostgreSQL/i
-        with_pg_config(config) do |config_file|
-          pg_dump_call = ['pg_dump',
-                          '--clean',
-                          "--file=#{args[:path_to_backup]}",
-                          '--format=custom',
-                          '--no-owner']
-          pg_dump_call << "--host=#{config['host']}" if config['host']
-          pg_dump_call << "--port=#{config['port']}" if config['port']
-          user = config.values_at('user', 'username').compact.first
-          pg_dump_call << "--username=#{user}" if user
-          pg_dump_call << "#{config['database']}"
 
-          if config['password']
-            Kernel.system({ 'PGPASSFILE' => config_file }, *pg_dump_call)
-          else
-            Kernel.system(*pg_dump_call)
-          end
+      with_config_file(config) do |config_file|
+        pg_dump_call = ['pg_dump',
+                        '--clean',
+                        "--file=#{args[:path_to_backup]}",
+                        '--format=custom',
+                        '--no-owner']
+        pg_dump_call << "--host=#{config['host']}" if config['host']
+        pg_dump_call << "--port=#{config['port']}" if config['port']
+        user = config.values_at('user', 'username').compact.first
+        pg_dump_call << "--username=#{user}" if user
+        pg_dump_call << config['database'].to_s
+
+        if config['password']
+          Kernel.system({ 'PGPASSFILE' => config_file }, *pg_dump_call)
+        else
+          Kernel.system(*pg_dump_call)
         end
-      when /MySQL2/i
-        with_mysql_config(config) do |config_file|
-          Kernel.system 'mysqldump',
-                        "--defaults-file=#{config_file}",
-                        '--single-transaction',
-                        '--add-drop-table',
-                        '--add-locks',
-                        "--result-file=#{args[:path_to_backup]}",
-                        "#{config['database']}"
-        end
-      else
-        raise "Database '#{config['adapter']}' not supported."
       end
     end
 
@@ -79,32 +65,24 @@ namespace :backup do
       raise "File '#{args[:path_to_backup]}' is not readable" unless File.readable?(args[:path_to_backup])
 
       config = database_configuration
-      case config['adapter']
-      when /PostgreSQL/i
-        with_pg_config(config) do |config_file|
-          pg_restore_call = ['pg_restore',
-                             '--clean',
-                             '--no-owner',
-                             '--single-transaction',
-                             "--dbname=#{config['database']}"]
-          pg_restore_call << "--host=#{config['host']}" if config['host']
-          pg_restore_call << "--port=#{config['port']}" if config['port']
-          user = config.values_at('user', 'username').compact.first
-          pg_restore_call << "--username=#{user}" if user
-          pg_restore_call << "#{args[:path_to_backup]}"
 
-          if config['password']
-            Kernel.system({ 'PGPASSFILE' => config_file }, *pg_restore_call)
-          else
-            Kernel.system(*pg_restore_call)
-          end
+      with_config_file(config) do |config_file|
+        pg_restore_call = ['pg_restore',
+                           '--clean',
+                           '--no-owner',
+                           '--single-transaction',
+                           "--dbname=#{config['database']}"]
+        pg_restore_call << "--host=#{config['host']}" if config['host']
+        pg_restore_call << "--port=#{config['port']}" if config['port']
+        user = config.values_at('user', 'username').compact.first
+        pg_restore_call << "--username=#{user}" if user
+        pg_restore_call << args[:path_to_backup].to_s
+
+        if config['password']
+          Kernel.system({ 'PGPASSFILE' => config_file }, *pg_restore_call)
+        else
+          Kernel.system(*pg_restore_call)
         end
-      when /MySQL2/i
-        with_mysql_config(config) do |config_file|
-          Kernel.system "mysql --defaults-file=\"#{config_file}\" \"#{config['database']}\" < \"#{args[:path_to_backup]}\""
-        end
-      else
-        raise "Database '#{config['adapter']}' not supported."
       end
     end
 
@@ -114,17 +92,9 @@ namespace :backup do
       ActiveRecord::Base.configurations[Rails.env] || Rails.application.config.database_configuration[Rails.env]
     end
 
-    def with_pg_config(config, &blk)
+    def with_config_file(config, &blk)
       file = Tempfile.new('op_pg_config')
       file.write "*:*:*:*:#{config['password']}"
-      file.close
-      blk.yield file.path
-      file.unlink
-    end
-
-    def with_mysql_config(config, &blk)
-      file = Tempfile.new('op_mysql_config')
-      file.write sql_dump_tempfile(config)
       file.close
       blk.yield file.path
       file.unlink
@@ -143,13 +113,7 @@ namespace :backup do
     end
 
     def default_db_filename
-      filename = "openproject-#{Rails.env}-db-#{date_string}"
-      case database_configuration['adapter']
-      when /PostgreSQL/i
-        filename << '.backup'
-      else
-        filename << '.sql'
-      end
+      filename = "openproject-#{Rails.env}-db-#{date_string}.backup"
       Rails.root.join('backup', sanitize_filename(filename))
     end
 

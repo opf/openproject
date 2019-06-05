@@ -2,6 +2,5 @@
 <div class="warning-bar--wrapper">
   <%= render partial: 'warning_bar/pending_migrations' if render_pending_migrations_warning? %>
   <%= render partial: 'warning_bar/unsupported_browser' if unsupported_browser? %>
-  <%= render partial: 'warning_bar/mysql_database' if render_mysql_deprecation_warning? %>
 </div>
 <% end  %>
