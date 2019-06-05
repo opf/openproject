@@ -39,13 +39,13 @@ module OpenProject
     DB_VALUE_TRUE = 't'.freeze
 
     class InsufficientVersionError < StandardError; end
+    class UnsupportedDatabaseError < StandardError; end
 
     # This method returns a hash which maps the identifier of the supported
     # adapter to a regex matching the adapter_name.
     def self.supported_adapters
       @adapters ||= begin
         {
-          mysql: /mysql/i,
           postgresql: /postgres/i
         }
       end
@@ -53,17 +53,10 @@ module OpenProject
 
     ##
     # Get the database system requirements
-    def self.required_versions
+    def self.required_version
       {
-        postgresql: {
-          numeric: 90500, # PG_VERSION_NUM
-          string: '9.5.0',
-          enforced: true
-        },
-        mysql: {
-          string: '5.6.0',
-          enforced: false
-        }
+        numeric: 90500, # PG_VERSION_NUM
+        string: '9.5.0'
       }
     end
 
@@ -86,34 +79,37 @@ module OpenProject
     end
 
     ##
-    # Check the database version compatibility.
+    # Check the database for
+    # * being postgresql
+    # * version compatibility
+    #
+    # Raises an +UnsupportedDatabaseError+ when the version is incompatible
     # Raises an +InsufficientVersionError+ when the version is incompatible
-    def self.check_version!
-      required = required_versions[name]
-      current = version
+    def self.check!
+      if !postgresql?
+        message = "Database server is not PostgreSql." \
+                  "As OpenProject uses non standard ANSI-SQL for performance optimizations, using a different DBMS will " \
+                  "break and is thus prevented."
 
-      return if version_matches?
-      message = "Database server version mismatch: Required version is #{required[:string]}, " \
-                "but current version is #{current}"
+        if adapter_name =~ /mysql/i
+          message << " As MySql used to be supported, there is a migration script to ease the transition (https://www.openproject.org/deprecating-mysql-support/)."
+        end
 
-      if required[:enforced]
+        raise UnsupportedDatabaseError.new message
+      elsif !version_matches?
+        current = version
+
+        message = "Database server version mismatch: Required version is #{required_version[:string]}, " \
+                  "but current version is #{current}"
+
         raise InsufficientVersionError.new message
-      else
-        warn "#{message}. Version is not enforced for this database however, so continuing with this version."
       end
     end
 
     ##
     # Return +true+ if the required version is matched by the current connection.
     def self.version_matches?
-      required = required_versions[name]
-
-      case name
-      when :mysql
-        true
-      when :postgresql
-        numeric_version >= required[:numeric]
-      end
+      numeric_version >= required_version[:numeric]
     end
 
     # Get the raw name of the currently used database adapter.
@@ -137,9 +133,9 @@ module OpenProject
     end
 
     # Provide helper methods to quickly check the database type
-    # OpenProject::Database.mysql? returns true, if we have a MySQL DB
+    # OpenProject::Database.postgresql? returns true, if we have a postgresql DB
     # Also allows specification of a connection e.g.
-    # OpenProject::Database.mysql?(my_connection)
+    # OpenProject::Database.postgresql?(my_connection)
     supported_adapters.keys.each do |adapter|
       (class << self; self; end).class_eval do
         define_method(:"#{adapter.to_s}?") do |connection = self.connection|
@@ -148,22 +144,18 @@ module OpenProject
       end
     end
 
+    def self.mysql?(_arg)
+      ActiveSupport::Deprecation.warn ".mysql? is no longer supported and will always return false. Remove the call.", caller
+      false
+    end
+
     # Return the version of the underlying database engine.
     # Set the +raw+ argument to true to return the unmangled string
     # from the database.
     def self.version(raw = false)
-      @version ||= case name
-                   when :mysql
-                     ActiveRecord::Base.connection.select_value('SELECT VERSION()')
-                   when :postgresql
-                     ActiveRecord::Base.connection.select_value('SELECT version()')
-                   end
+      @version ||= ActiveRecord::Base.connection.select_value('SELECT version()')
 
-      if name == :postgresql
-        raw ? @version : @version.match(/\APostgreSQL (\S+)/i)[1]
-      else
-        @version
-      end
+      raw ? @version : @version.match(/\APostgreSQL (\S+)/i)[1]
     end
 
     def self.semantic_version(version_string = self.version)
@@ -174,19 +166,13 @@ module OpenProject
     end
 
     def self.numeric_version
-      case name
-      when :mysql
-        raise ArgumentError, "Can't get numeric version of MySQL"
-      when :postgresql
-        ActiveRecord::Base.connection.select_value('SHOW server_version_num;').to_i
-      end
+      ActiveRecord::Base.connection.select_value('SHOW server_version_num;').to_i
     end
 
     # Return if the version of the underlying database engine is capable of TSVECTOR features, needed for full-text
     # search.
     def self.allows_tsv?
-      OpenProject::Database.name == :postgresql &&
-        Gem::Version.new(OpenProject::Database.version) >= Gem::Version.new('9.5')
+      Gem::Version.new(OpenProject::Database.version) >= Gem::Version.new('9.5')
     end
   end
 end
