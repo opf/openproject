@@ -85,6 +85,7 @@ import {MainMenuToggleComponent} from "core-components/main-menu/main-menu-toggl
 import {MainMenuNavigationService} from "core-components/main-menu/main-menu-navigation.service";
 import {StatusCacheService} from "core-components/statuses/status-cache.service";
 import {VersionCacheService} from "core-components/versions/version-cache.service";
+import {FormsCacheService} from "core-components/forms/forms-cache.service";
 
 @NgModule({
   imports: [
@@ -135,6 +136,7 @@ import {VersionCacheService} from "core-components/versions/version-cache.servic
     OpTitleService,
     UrlParamsHelperService,
     ProjectCacheService,
+    FormsCacheService,
     UserCacheService,
     StatusCacheService,
     VersionCacheService,

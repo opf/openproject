@@ -82,6 +82,7 @@ export class WorkPackageChangeset {
     return this.changes[attribute];
   }
 
+
   public clear() {
     this.changes = {};
     this.resetForm();
@@ -370,6 +371,22 @@ export class WorkPackageChangeset {
   public get schema():SchemaResource {
     return (this.form || this.workPackage).schema;
   }
+
+  /**
+   * Check whether the given attribute is writable.
+   * @param attribute
+   */
+  public isWritable(attribute:string):boolean {
+    const schemaName = this.getSchemaName(attribute);
+    const fieldSchema = this.schema[schemaName] as IFieldSchema;
+    return fieldSchema && fieldSchema.writable;
+  }
+
+  public humanName(attribute:string):string {
+    const fieldSchema = this.schema[attribute] as IFieldSchema;
+    return fieldSchema.name || attribute;
+  }
+
 
   public getSchemaName(attribute:string):string {
     if (this.schema.hasOwnProperty('date') && (attribute === 'startDate' || attribute === 'dueDate')) {
