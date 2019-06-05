@@ -48,7 +48,7 @@ Note that this still takes previous values into consideration. Values that shoul
 
 # Upgrading between major releases (DEB/RPM packages)
 
-Since OpenProject 8.0.0 is a major upgrade, you will need to perform some basic manual steps to upgrade your package.
+Since OpenProject 9.0.0 is a major upgrade, you will need to perform some basic manual steps to upgrade your package.
 
 First, please check that the package repository is correct.
 Compare your local package repository with the one printed on your matching distribution on [our Download and Installation page](https://www.openproject.org/download-and-installation/)
