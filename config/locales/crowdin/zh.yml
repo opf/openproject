@@ -372,7 +372,7 @@ zh:
         spent_on: 日期
         type: 类型
       type:
-        description: Default text for description
+        description: 默认描述文本
         attribute_groups: ''
         is_in_roadmap: 默认在版本蓝图中显示
         is_default: 默认激活新项目
@@ -541,8 +541,7 @@ zh:
           no_directory: 不是一个目录。
         role:
           permissions:
-            dependency_missing: need to also include '%{dependency}' as '%{permission}'
-              is selected.
+            dependency_missing: 还需要包括 '%{dependency}'，因为已选择 '%{permission}'。
         work_package:
           is_not_a_valid_target_for_time_entries: '工作包 #%{id} 不是重新分配时间条目的有效目标。'
           attributes:
@@ -570,7 +569,7 @@ zh:
           attributes:
             attribute_groups:
               attribute_unknown: 已使用无效的工作包属性。
-              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              attribute_unknown_name: 使用了无效的工作包属性：%{attribute}
               duplicate_group: 组名 %{group} 已多次使用。组名不能重复。
               query_invalid: '嵌入式查询 "%{group}" 无效: %{details}'
               group_without_name: 不允许未命名的群组。
@@ -595,15 +594,14 @@ zh:
               error_not_found: 未找到
         member:
           principal_blank: 请选择至少一个用户或组。
-          role_blank: need to be assigned.
+          role_blank: 需要进行分配。
           attributes:
             roles:
-              ungrantable: has an unassignable role.
+              ungrantable: 具有不可分配的角色。
             principal:
-              unassignable: cannot be assigned to a project.
+              unassignable: 无法被分配给项目。
         version:
-          undeletable_work_packages_attached: The version cannot be deleted as it
-            has work packages attached to it.
+          undeletable_work_packages_attached: 无法删除该版本，因为它附带了工作包。
       template:
         body: 请检查以下字段：
         header:
@@ -940,7 +938,7 @@ zh:
   description_choose_project: 项目
   description_compare_from: 比较开始于
   description_compare_to: 比较截止于
-  description_current_position: 'You are here: '
+  description_current_position: 您现在的位置：
   description_date_from: 输入开始日期
   description_date_range_interval: 通过选择开始日期和结束日期来选择范围
   description_date_range_list: 从列表中选择范围
@@ -992,8 +990,8 @@ zh:
   error_custom_option_not_found: 选项不存在。
   error_enterprise_activation_user_limit: 无法激活您的帐户 (已达到用户限制)。请与管理员联系以获取访问权限。
   error_failed_to_delete_entry: 无法删除此条目。
-  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
-    #%{related_id} - %{related_subject}: %{error}'
+  error_in_dependent: '尝试更改依赖对象时出错：%{dependent_class} #%{related_id} - %{related_subject}:
+    %{error}'
   error_invalid_selected_value: 选中的值无效。
   error_invalid_group_by: 无法按照 %{value} 分组
   error_invalid_query_column: 无效的查询列：%{value}
@@ -1353,7 +1351,7 @@ zh:
   label_max_size: 最大
   label_me: 我
   label_member_new: 新成员
-  label_member_all_admin: "(All roles due to admin status)"
+  label_member_all_admin: "（所有角色都由管理员状态决定）"
   label_member_plural: 成员
   label_view_all_members: 查看所有成员
   label_menu_item_name: 菜单项名称
@@ -1382,7 +1380,7 @@ zh:
   label_my_queries: 我的自定义查询
   label_never: 永不
   label_new: 新增
-  label_new_features: New features
+  label_new_features: 新功能
   label_new_statuses_allowed: 允许的新状态
   label_news_added: 添加新闻
   label_news_comment_added: 评论添加到新闻
@@ -1824,7 +1822,7 @@ zh:
   permission_add_project: 创建项目
   permission_add_subprojects: 创建子项目
   permission_add_work_package_watchers: 添加关注人
-  permission_assign_versions: Assign versions
+  permission_assign_versions: 分配版本
   permission_browse_repository: 只读访问存储库 (浏览和签出)
   permission_change_wiki_parent_page: 更改父 wiki 页面
   permission_comment_news: 评论新闻
@@ -2528,7 +2526,7 @@ zh:
     attributes:
       lock_version: 锁版
     errors:
-      code_400: 'Bad request: %{message}'
+      code_400: 错误的请求：%{message}
       code_401: 你需要被授权访问该资源。
       code_401_wrong_credentials: 你没有提供正确的凭据。
       code_403: 您无权访问此资源。
@@ -2550,8 +2548,7 @@ zh:
       multipart_body_error: 请求正文中不包含所需要的多段部分。
       multiple_errors: 违反了多个字段的约束。
       unable_to_create_attachment: 无法创建附件
-      unable_to_create_attachment_permissions: The attachment could not be saved due
-        to lacking file system permissions
+      unable_to_create_attachment_permissions: 由于缺少文件系统权限，因此无法保存附件
       render:
         context_not_parsable: 所提供的上下文环境并不是指向资源的链接。
         unsupported_context: 所提供的资源不被上下文环境所支持。
