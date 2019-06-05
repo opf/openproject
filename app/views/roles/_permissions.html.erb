@@ -31,7 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
       </span>
     </div>
     <div class="-columns-2">
-      <% mod_permissions.each do |permission| %>
+      <% Array(mod_permissions).each do |permission| %>
         <div class="form--field">
           <div class="form--field-container">
             <label class="form--label-with-check-box">
