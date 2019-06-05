@@ -6,7 +6,7 @@ All steps need to be run as `root`.
 
 ```
 wget -O /etc/zypp/repos.d/openproject.repo \
-  https://dl.packager.io/srv/opf/openproject/stable/8/installer/sles/12.repo
+  https://dl.packager.io/srv/opf/openproject/stable/9/installer/sles/12.repo
 ```
 
 The package source is now registered as `openproject`.

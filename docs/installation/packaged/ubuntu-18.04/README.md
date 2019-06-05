@@ -27,7 +27,7 @@ sudo add-apt-repository universe
 
 ```
 sudo wget -O /etc/apt/sources.list.d/openproject.list \
-  https://dl.packager.io/srv/opf/openproject/stable/8/installer/ubuntu/18.04.repo
+  https://dl.packager.io/srv/opf/openproject/stable/9/installer/ubuntu/18.04.repo
 ```
 
 
