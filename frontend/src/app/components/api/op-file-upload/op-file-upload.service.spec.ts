@@ -26,19 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {OpenProjectFileUploadService, UploadResult} from './op-file-upload.service';
+import {OpenProjectFileUploadService, UploadFile, UploadResult} from './op-file-upload.service';
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
 import {getTestBed, TestBed} from "@angular/core/testing";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {States} from "core-components/states.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {CurrentProjectService} from "core-components/projects/current-project.service";
 
 describe('opFileUpload service', () => {
   let injector:TestBed;
   let service:OpenProjectFileUploadService;
   let httpMock:HttpTestingController;
-  let currentProject:string = 'foobar';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -62,13 +60,13 @@ describe('opFileUpload service', () => {
 
   describe('when uploading multiple files', () => {
     var result:UploadResult;
-    const file:any = {
-      name: 'name',
-      description: 'description'
-    };
+    const file:UploadFile = new File([ JSON.stringify({
+        name: 'name',
+        description: 'description'
+      })], 'name');
 
     beforeEach(() => {
-      result = service.upload('/my/api/path', [file, file])
+      result = service.upload('/my/api/path', [file, file]);
       httpMock.match(`/my/api/path`).forEach((req) => {
         expect(req.request.method).toBe("POST");
         req.flush({});
