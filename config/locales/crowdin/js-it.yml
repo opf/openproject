@@ -68,7 +68,7 @@ it:
         visualizzati dal calendario (%{max}). Aggiungere filtri per concentrarsi su
         quelli pertinenti.
     description_available_columns: Colonne disponibili
-    description_current_position: 'You are here: '
+    description_current_position: 'Sei qui: '
     description_select_work_package: 'Seleziona la macro-attività #%{id}'
     description_selected_columns: Colonne selezionate
     description_subwork_package: 'Subordinata alla macro-attività #%{id}'
@@ -188,14 +188,15 @@ it:
     homescreen:
       blocks:
         new_features:
-          text_new_features: Read about new features and product updates.
-          current_new_feature_html: 'OpenProject contains a new <b>Boards view</b>
-            for Agile project management. </br> To activate this new feature for your
-            existing projects, please do the following steps: <ul><li>Activate the
-            module Boards within existing projects'' settings.</li> <li>Configure
-            your Boards in a project.</li> <li>Verify roles and permissions</li></ul>'
-          image_alt_text: Board teaser image
-          learn_about: Learn more about Agile Boards
+          text_new_features: Informati sulle nuove funzionalità e sugli aggiornamenti
+            dei prodotti.
+          current_new_feature_html: 'OpenProject contiene una nuova <b>vista Tabellone</b>
+            per la gestione di progetti Agile. </br> Per attivare questa nuova funzionalità
+            sui progetti esistenti, effettua i seguenti passi: <ul><li>Attiva il modulo
+            Schede nelle impostazioni dei progetti esistenti.</li> <li>Configura le
+            tue Schede in un progetto.</li> <li>Verifica ruoli e permessi</li></ul>'
+          image_alt_text: Immagine di esempio di Tabellone
+          learn_about: Ulteriori informazioni sui Tabelloni Agile
     label_activate: Attiva
     label_activity_no: Voce attività numero %{activityNo}
     label_activity_with_comment_no: Voce attività numero %{activityNo}. Ha un commento
@@ -364,9 +365,10 @@ it:
         help_menu: Nel menu <b>Aiuto</b> troverai una guids utente e risorse di aiuto
           aggiuntive. <br> Goditi il tuo lsvoto con OpenProject!
         members: Invita nuovi <b>Membri</b> per entrare al tuo progetto.
-        project_selection: Please click on one of the projects with useful demo data
-          to get started. <br> The <b>Demo project</b> suits best for classical project
-          management, while the <b>Scrum project</b> is better for Agile project management.
+        project_selection: Clicca su uno dei progetti con dati demo per iniziare.
+          <br> Il <b>Progetto Demo</b> si adatta meglio per la gestione dei progetti
+          classici, mentre il <b>Progetto Scrum</b> è più adatto per la gestione dei
+          progetti Agile.
         sidebar_arrow: Con la freccia puoi navigare indietro al <b>Menu Principale</b>
           del progetto.
         welcome: Fai un tour introduttivo di tre minuti per apprendere le <b>funzioni
@@ -392,8 +394,8 @@ it:
             ad esempio per creare un tabellone KANBAN.
           add: Clicca su + <b>per aggiungere una nuova carta</b> alla lista all'interno
             di un Tabellone.
-          drag: Drag & Drop your cards within a list to re-order, or to another list.
-            A double click will open the details view.
+          drag: Trascina e rilascia le carte in un elenco per riordinare o spostarle
+            in un'altra lista. Il doppio clic aprirà la vista sui dettagli.
         wp:
           toggler: Ora dai un'occhiata alla sezione <b>Pacchetto Lavoro</b>, che ti
             da una più dettagliata vista del tuo lavoro.
@@ -428,9 +430,9 @@ it:
       selection: Si prega di selezionare
       relation_description: Clicca per aggiungere una descrizione per la relazione
     project:
-      required_outside_context: 'Please choose a project to create the work package
-        in to see all attributes. You can only select projects which have the type
-        above activated.
+      required_outside_context: 'Scegli un progetto per creare una macro-attività
+        e vederne tutti gli attributi. Puoi selezionare solo progetti che hanno il
+        tipo sopra indicato attivato.
 
 '
       context: Contesto del progetto
@@ -523,7 +525,7 @@ it:
       abort: Interrompi
     relations_autocomplete:
       placeholder: Inserisci l'ID della macro-attività relativa
-      parent_placeholder: Choose new parent or press escape to cancel.
+      parent_placeholder: Scegli un nuovo genitore o premi il tasto Esc per annullare.
     repositories:
       select_tag: Selezionare tag
       select_branch: Selezionare ramo
