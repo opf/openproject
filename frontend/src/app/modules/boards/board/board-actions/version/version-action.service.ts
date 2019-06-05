@@ -72,7 +72,8 @@ export class BoardVersionActionService implements BoardActionService {
       .then((results) => {
         return Promise.all<unknown>(
           results.map((version:VersionResource) => {
-            if (version.isOpen() && version.definingProject.name === this.currentProject.name) {
+            const definingName = _.get(version, 'definingProject.name', null);
+            if (version.isOpen() && definingName && definingName === this.currentProject.name) {
               return this.addActionQuery(board, version);
             }
 
