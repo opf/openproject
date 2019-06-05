@@ -52,7 +52,23 @@ module API
                             setter: ::API::V3::Principals::AssociatedSubclassLambda.setter(:user),
                             link: ::API::V3::Principals::AssociatedSubclassLambda.link(:principal, getter: 'user_id')
 
-        associated_resources :roles
+        associated_resources :roles,
+                             getter: ->(*) do
+                               unmarked_roles.map do |role|
+                                 API::V3::Roles::RoleRepresenter.new(role, current_user: current_user)
+                               end
+                             end,
+                             link: ->(*) do
+                               unmarked_roles.map do |role|
+                                 ::API::Decorators::LinkObject
+                                   .new(role,
+                                        property_name: :itself,
+                                        path: :role,
+                                        getter: :id,
+                                        title_attribute: :name)
+                                   .to_hash
+                               end
+                             end
 
         date_time_property :created_on,
                            as: 'createdAt'
@@ -63,6 +79,10 @@ module API
 
         def _type
           'Membership'
+        end
+
+        def unmarked_roles
+          represented.member_roles.reject(&:marked_for_destruction?).map(&:role)
         end
       end
     end

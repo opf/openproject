@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,14 +26,46 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Memberships
-      class CreateFormRepresenter < FormRepresenter
-        include API::Decorators::CreateForm
+require 'spec_helper'
+require_relative './shared_contract_examples'
 
-        def downcase_model_name
-          'membership'
+describe Members::UpdateContract do
+  it_behaves_like 'member contract' do
+    let(:member) do
+      FactoryBot.build_stubbed(:member,
+                               project: member_project,
+                               roles: member_roles,
+                               principal: member_principal)
+    end
+
+    subject(:contract) { described_class.new(member, current_user) }
+
+    describe 'validation' do
+      context 'if the principal is changed' do
+        before do
+          member.principal = FactoryBot.build_stubbed(:user)
+        end
+
+        it 'is invalid' do
+          expect_valid(false, user_id: %i(error_readonly))
+        end
+      end
+
+      context 'if the project is changed' do
+        before do
+          member.project = FactoryBot.build_stubbed(:project)
+        end
+
+        it 'is invalid' do
+          expect_valid(false, project_id: %i(error_readonly))
+        end
+      end
+
+      context 'if the principal is a locked user' do
+        let(:member_principal) { FactoryBot.build_stubbed(:locked_user) }
+
+        it 'is valid' do
+          expect_valid(true)
         end
       end
     end

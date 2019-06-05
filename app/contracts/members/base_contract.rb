@@ -38,7 +38,6 @@ module Members
     def validate
       user_allowed_to_manage
       roles_grantable
-      principal_assignable
 
       super
     end
@@ -52,13 +51,6 @@ module Members
     def roles_grantable
       unless roles.all? { |r| r.builtin == Role::NON_BUILTIN && r.class == Role }
         errors.add(:roles, :ungrantable)
-      end
-    end
-
-    def principal_assignable
-      if principal &&
-         [Principal::STATUSES[:builtin], Principal::STATUSES[:locked]].include?(principal.status)
-        errors.add(:principal, :unassignable)
       end
     end
   end

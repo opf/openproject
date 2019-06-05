@@ -63,7 +63,7 @@ module API
         end
 
         link :categories do
-          { href: api_v3_paths.categories(represented.id) }
+          { href: api_v3_paths.categories_by_project(represented.id) }
         end
 
         link :versions do

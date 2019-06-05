@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,16 +26,9 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Memberships
-      class CreateFormRepresenter < FormRepresenter
-        include API::Decorators::CreateForm
-
-        def downcase_model_name
-          'membership'
-        end
-      end
-    end
+FactoryBot.define do
+  factory :member_role do
+    member
+    role
   end
 end

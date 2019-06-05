@@ -107,7 +107,7 @@ describe ::API::V3::Projects::ProjectRepresenter do
 
       describe 'categories' do
         it 'has the correct link to its categories' do
-          is_expected.to be_json_eql(api_v3_paths.categories(project.id).to_json)
+          is_expected.to be_json_eql(api_v3_paths.categories_by_project(project.id).to_json)
             .at_path('_links/categories/href')
         end
       end

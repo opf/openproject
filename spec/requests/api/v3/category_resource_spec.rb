@@ -39,24 +39,24 @@ describe 'API v3 Category resource' do
   let(:anonymous_user) { FactoryBot.create(:user) }
   let(:privileged_user) do
     FactoryBot.create(:user,
-                       member_in_project: private_project,
-                       member_through_role: role)
+                      member_in_project: private_project,
+                      member_through_role: role)
   end
 
   let!(:categories) { FactoryBot.create_list(:category, 3, project: private_project) }
   let!(:other_categories) { FactoryBot.create_list(:category, 2, project: public_project) }
   let!(:user_categories) do
     FactoryBot.create_list(:category,
-                            2,
-                            project: private_project,
-                            assigned_to: privileged_user)
+                           2,
+                           project: private_project,
+                           assigned_to: privileged_user)
   end
 
   describe 'categories by project' do
     subject(:response) { last_response }
 
     context 'logged in user' do
-      let(:get_path) { api_v3_paths.categories private_project.id }
+      let(:get_path) { api_v3_paths.categories_by_project private_project.id }
       before do
         allow(User).to receive(:current).and_return privileged_user
 
@@ -67,7 +67,7 @@ describe 'API v3 Category resource' do
     end
 
     context 'not logged in user' do
-      let(:get_path) { api_v3_paths.categories private_project.id }
+      let(:get_path) { api_v3_paths.categories_by_project private_project.id }
       before do
         allow(User).to receive(:current).and_return anonymous_user
 

@@ -57,6 +57,8 @@ module API
             get &::API::V3::Utilities::Endpoints::Show.new(model: Member,
                                                            api_name: 'Membership')
                                                       .mount
+
+            mount ::API::V3::Memberships::UpdateFormAPI
           end
         end
       end
