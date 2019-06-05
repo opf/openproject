@@ -1,0 +1,15 @@
+<section class="collapsible-section"
+         [ngClass]="{ '-expanded': expanded }">
+
+  <accessible-by-keyboard (execute)="toggle()"
+                          [linkAriaLabel]="sectionTitle"
+                          linkClass="collapsible-section--toggle-link"
+                          spanClass="collapsible-section--legend">
+    <span [textContent]="sectionTitle"></span>
+  </accessible-by-keyboard>
+  <div class="collapsible-section--body toggle-slide-animation"
+       #sectionBody
+       [hidden]="!expanded">
+    <!-- Wrapped by component -->
+  </div>
+</section>

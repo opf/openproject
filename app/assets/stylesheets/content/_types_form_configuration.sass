@@ -1,0 +1,107 @@
+.type-form-conf-group,
+#type-form-conf-inactive-group
+  border-radius: 2px
+  padding: 0px 3px 1px 3px
+  margin-bottom: 20px
+
+  .group-head
+    @include varprop(color, font-color-on-primary-dark)
+    padding: 7px 4px 8px 0px
+    text-transform: uppercase
+    .group-handle
+      cursor: -webkit-grab
+      cursor: grab
+      @include varprop(color, font-color-on-primary-dark)
+      font-size: 12px
+    group-edit-in-place
+      display: inline-block
+    .delete-group:before
+      vertical-align: bottom
+      @include varprop(color, font-color-on-primary-dark)
+  .attributes
+    min-height: 29px
+
+.type-form-conf-group
+  @include varprop(background, primary-color)
+  .group-name
+    @include varprop(border-color, primary-color)
+    border-width: 1px
+    border-style: solid
+    &:hover
+      cursor: text
+      @include varprop(border-color, inplace-edit--border-color)
+      background: white
+      color: #222222
+
+  .delete-group,
+  .delete-attribute
+    cursor: pointer
+    
+  &.-error
+    @include varprop(background, content-form-error-color)
+    .group-name
+      @include varprop(border-color, content-form-error-color)
+    .group-handle,
+    .delete-group:before
+      @include varprop(color, font-color-on-primary)
+
+
+#type-form-conf-inactive-group
+  background: $gray-dark
+  .visibility-check,
+  .delete-group,
+  .delete-attribute
+    visibility: hidden
+  .group-head
+    display: block
+  .advice
+    text-transform: initial
+
+.type-form-conf-attribute
+  padding: 7px 7px 7px 0px
+  margin-bottom: 2px
+
+  background: $gray-light
+
+  border-top-left-radius: 2px
+  border-bottom-left-radius: 2px
+  border-top-right-radius: 2px
+  border-bottom-right-radius: 2px
+  .attribute-handle
+    cursor: -webkit-grab
+    cursor: grab
+    color: $body-font-color
+    font-size: 12px
+  .delete-attribute:before
+    color: $body-font-color
+
+.attribute-cf-label
+  font-size: 0.8rem
+  padding-left: 2px
+  color: lighten($body-font-color, 10%)
+
+#type-form-conf-group-template,
+#type-form-conf-query-template
+  display: none
+
+.group-head,
+.type-form-conf-attribute
+  display: flex
+  align-items: baseline
+  justify-content: space-between
+  .icon-toggle
+    flex-basis: 15px
+  .attribute-name,
+  .group-name
+    flex-basis: 90%
+    @include text-shortener
+    white-space: normal
+
+
+// Query group styles
+.type-form-query
+  padding: 10px
+  cursor: pointer
+  color: white
+
+// Ensure dropdown is shown

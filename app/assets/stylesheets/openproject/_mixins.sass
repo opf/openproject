@@ -1,0 +1,133 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See docs/COPYRIGHT.rdoc for more details.
+//++
+
+@mixin default-transition
+  transition: all 100ms ease-in-out 0s
+
+@mixin default-font($color, $font-size: 13px, $font-weight: normal)
+  color:              $color
+  font-family:        $body-font-family
+  font-size:          $font-size
+  font-weight:        $font-weight
+
+// Make sure an element doesn't collapse due to floated elements inside
+@mixin prevent-float-collapse
+  &:after
+    content: " "
+    display: block
+    height: 0
+    clear: both
+
+@mixin text-shortener
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+  -o-text-overflow: ellipsis
+  -ms-text-overflow: ellipsis
+
+@mixin allow-vertical-scrolling
+  overflow-x: hidden
+  overflow-y: auto
+
+@mixin without-link-styling
+  a:link, a:hover, a:active, a:visited
+    color: inherit
+    text-decoration: none
+
+@mixin widget-box--style
+  background: $widget-box-block-bg-color
+  border: 1px solid $widget-box-block-border-color
+  margin: 10px
+
+
+// These mixins are necessary so that other classes can inherit     the styles.
+// In future Sass versions a doubled inheritance like @extend classA.classB will not work any more.
+// See https://github.com/sass/sass/issues/1599
+@mixin form--input-field-mixin--tiny
+  font-size: 0.7rem
+
+@mixin form--input-field-mixin--small
+  font-size: 0.8rem
+
+@mixin form--input-field-mixin--narrow
+  width: auto
+  max-width: 100%
+
+@mixin form--input-field-mixin--large
+  font-size: 1.3rem
+
+@mixin form--field-affix-mixin--transparent
+  background: none
+  border: none
+
+
+$scrollbar-color: #DDDDDD
+$scrollbar-size: 10px
+
+@mixin styled-scroll-bar
+  // Firefox specific styles
+  scrollbar-color: transparent transparent
+  scrollbar-width: thin
+
+  // Other browser styles
+  &::-webkit-scrollbar
+    height: $scrollbar-size
+    width: $scrollbar-size
+
+  &::-webkit-scrollbar-track
+    background: transparent
+
+  &::-webkit-scrollbar-thumb
+    background: $scrollbar-color
+    visibility: hidden
+
+  &:hover
+    scrollbar-color: $scrollbar-color transparent
+    &::-webkit-scrollbar-thumb
+      visibility: visible
+
+@mixin two-column-layout
+  column-count: 2
+  column-gap: 3rem
+
+  .attributes-key-value
+    -webkit-column-break-inside: avoid
+    page-break-inside: avoid
+    break-inside: avoid
+    // For some reason chrome seems to treat a two column layout
+    // as if it would result in showing the backside of this element.
+    // This leads to input and select elements not showing their values.
+    backface-visibility: visible
+
+@mixin overlay-background
+  position: absolute
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  z-index: 900

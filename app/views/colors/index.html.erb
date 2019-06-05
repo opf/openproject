@@ -1,0 +1,58 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% html_title l(:label_administration), l("timelines.admin_menu.colors") %>
+
+<%= toolbar title: l('timelines.admin_menu.colors') do %>
+  <li class="toolbar-item">
+    <%= link_to new_color_path,
+          { class: 'button -alt-highlight',
+            aria: {label: l('timelines.new_color')},
+            title: l('timelines.new_color')} do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= t('activerecord.attributes.type.color') %></span>
+    <% end %>
+  </li>
+<% end %>
+
+<% if @colors.any? %>
+  <div class="color--preview-patch-field">
+    <% @colors.each do |color| %>
+      <%= content_tag :div,
+          class: 'color--preview-patch',
+          style: "background-color: #{color.hexcode}" do %>
+        <%= link_to color.name,
+                    edit_color_path(color),
+                    class: color.bright? ? '-bright' : '-dark' %>
+      <% end %>
+    <% end %>
+  </div>
+<% else %>
+  <%= no_results_box(action_url: new_color_path, display_action: true) unless @colors.any? %>
+<% end %>

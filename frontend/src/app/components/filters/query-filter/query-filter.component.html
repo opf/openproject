@@ -1,0 +1,92 @@
+<ng-container>
+  <!-- Name -->
+  <label for="operators-{{filter.id}}"
+         class="advanced-filters--filter-name"
+         [textContent]="filter.name"
+         [attr.title]="filter.name">
+  </label>
+
+  <!-- Operator -->
+  <div class="advanced-filters--filter-operator">
+
+    <label for="operators-{{filter.id}}"
+           class="hidden-for-sighted">
+      {{ filter.name }}
+      {{ text.open_filter }}
+    </label>
+
+    <select required
+            class="advanced-filters--select"
+            id="operators-{{filter.id}}"
+            name="op[{{filter.id}}]"
+            [(ngModel)]="filter.operator"
+            (ngModelChange)="onFilterUpdated(filter)"
+            [compareWith]="compareByHref"
+            style="vertical-align: top;">
+      <option *ngFor="let operator of availableOperators"
+              [textContent]="operator.name"
+              [ngValue]="operator">
+      </option>
+    </select>
+  </div>
+
+  <!-- Values -->
+  <ng-container *ngIf="showValuesInput && valueType">
+    <div class="advanced-filters--filter-value" [ngSwitch]="valueType">
+      <filter-integer-value *ngSwitchCase="'[1]Integer'"
+                            (filterChanged)="onFilterUpdated($event)"
+                            [shouldFocus]="shouldFocus"
+                            [filter]="filter"></filter-integer-value>
+
+      <filter-date-value *ngSwitchCase="'[1]Date'"
+                         (filterChanged)="onFilterUpdated($event)"
+                         [shouldFocus]="shouldFocus"
+                         [filter]="filter"></filter-date-value>
+
+      <filter-dates-value *ngSwitchCase="'[2]Date'"
+                          (filterChanged)="onFilterUpdated($event)"
+                          [shouldFocus]="shouldFocus"
+                          [filter]="filter"></filter-dates-value>
+
+      <filter-date-time-value *ngSwitchCase="'[1]DateTime'"
+                              (filterChanged)="onFilterUpdated($event)"
+                              [shouldFocus]="shouldFocus"
+                              [filter]="filter"></filter-date-time-value>
+
+      <filter-date-times-value *ngSwitchCase="'[2]DateTime'"
+                               [shouldFocus]="shouldFocus"
+                               (filterChanged)="onFilterUpdated($event)"
+                               [filter]="filter"></filter-date-times-value>
+
+      <filter-string-value *ngSwitchCase="'[1]String'"
+                           (filterChanged)="onFilterUpdated($event)"
+                           [shouldFocus]="shouldFocus"
+                           [filter]="filter"></filter-string-value>
+
+      <filter-string-value *ngSwitchCase="'[1]Float'"
+                           (filterChanged)="onFilterUpdated($event)"
+                           [shouldFocus]="shouldFocus"
+                           [filter]="filter"></filter-string-value>
+
+      <filter-boolean-value *ngSwitchCase="'[1]Boolean'"
+                            (filterChanged)="onFilterUpdated($event)"
+                            [shouldFocus]="shouldFocus"
+                            [filter]="filter"></filter-boolean-value>
+
+      <filter-toggled-multiselect-value *ngSwitchDefault
+                                        (filterChanged)="onFilterUpdated($event)"
+                                        [shouldFocus]="shouldFocus"
+                                        [filter]="filter"></filter-toggled-multiselect-value>
+    </div>
+  </ng-container>
+
+  <div class="advanced-filters--filter-value" *ngIf="!showValuesInput">
+  </div>
+
+  <div class="advanced-filters--remove-filter">
+    <accessible-by-keyboard (execute)="removeThisFilter()">
+      <op-icon icon-classes="icon-close advanced-filters--remove-filter-icon"
+               [icon-title]="text.button_delete"></op-icon>
+    </accessible-by-keyboard>
+  </div>
+</ng-container>

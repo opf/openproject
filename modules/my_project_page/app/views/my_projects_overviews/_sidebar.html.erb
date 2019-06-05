@@ -1,0 +1,47 @@
+<%#-- copyright
+OpenProject My Project Page Plugin
+
+Copyright (C) 2011-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.md for more details.
+
+++#%>
+
+<h3><%=l(:label_my_account)%></h3>
+
+<p><%=l(:field_login)%>: <strong><%= link_to_user(current_user, :format => :username) %></strong><br />
+<%=l(:field_created_on)%>: <%= format_time(current_user.created_on) %></p>
+
+
+<h4><%= l(:label_feeds_access_key) %></h4>
+
+<p>
+<% if current_user.rss_token %>
+<%= l(:label_feeds_access_key_created_on, distance_of_time_in_words(Time.now, current_user.rss_token.created_on)) %>
+<% else %>
+<%= l(:label_missing_feeds_access_key) %>
+<% end %>
+(<%= link_to l(:button_reset), {:action => 'reset_rss_key'}, :method => :post %>)
+</p>
+
+<p>
+<% if current_user.api_token %>
+<%= l(:label_api_access_key_created_on, distance_of_time_in_words(Time.now, current_user.api_token.created_on)) %>
+<% else %>
+<%= l(:label_missing_api_access_key) %>
+<% end %>
+(<%= link_to l(:button_reset), {:action => 'reset_api_key'}, :method => :post %>)
+</p>
+<% end %>

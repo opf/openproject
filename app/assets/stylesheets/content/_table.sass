@@ -1,0 +1,305 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See docs/COPYRIGHT.rdoc for more details.
+//++
+
+@keyframes fade-out
+  from
+    opacity: 1
+  to
+    opacity: 0
+
+$input-elements: input, 'input.form--text-field', select, 'select.form--select', '.form--field-affix', 'a.button'
+
+.generic-table--container
+  position:     relative
+  height:       100%
+  width:        100%
+  overflow:
+    x: hidden
+    y: hidden
+
+  &.-with-footer
+    padding-bottom: $generic-table--footer-height
+
+.generic-table--results-container
+  height:       100%
+  overflow:
+    x: auto
+    y: auto
+
+.generic-table--action-buttons
+  margin-top: 2rem
+
+#generic-table
+  tr.issue
+    &.ng-enter, &.ng-move
+      transition: 0.5s linear all
+      opacity: 0
+    &.ng-enter.ng-enter-active, &.ng-move.ng-move-active
+      opacity: 1
+    &.ng-leave
+      @include animation(0.5s fade-out)
+
+table.generic-table
+  border-collapse: collapse
+  width:  100%
+  margin: 0
+  font-size: $generic-table--font-size
+
+  col
+    &:hover,
+    &.hover
+      background:   #f8f8f8
+
+  thead
+    height: $generic-table--header-height
+
+    tr
+      &:hover
+        background: none
+    th
+      font-size: $generic-table--header-font-size
+      text-transform: uppercase
+      text-align: left
+      line-height: 34px
+      padding: 0
+      // This is needed for a bug in FF as described here
+      // https://www.456bereastreet.com/archive/201305/firefox_and_the_magical_text-overflowellipsis_z-index/
+      z-index: 1
+
+      &.-right
+        text-align: right
+
+      a
+        text-decoration: none
+        color: $body-font-color
+        &:hover, &:active
+          text-decoration: none
+          color: $body-font-color
+
+      .-required:after
+        @include default-transition
+        content:  '*'
+        color:    $primary-color-dark
+        padding:  0 0.2rem
+
+    .sort
+      &.asc:after
+        @include icon-font-common
+        @include icon-mixin-sort-ascending
+        margin-left: 5px
+        font-size: 1.2em
+        vertical-align: text-bottom
+
+      &.desc:after
+        @include icon-font-common
+        @include icon-mixin-sort-descending
+        margin-left: 5px
+        font-size: 1.2em
+        vertical-align: text-bottom
+
+  tfoot
+    tr
+      background: #f6f7f8
+      border:
+        top:    0
+        bottom: 0
+      height:   0
+    td
+      height:   0
+      padding:
+        top:    0
+        bottom: 0
+      font-weight: bold
+
+  tbody
+    tr:not(.-no-highlighting)
+      border-bottom: 1px solid $table-row-border-color
+
+    td:not(.-no-ellipsis)
+      @include text-shortener
+
+    td
+      max-width: 300px
+      text-align: left
+      line-height: 1.6
+      padding-top: 0.5rem
+      padding-bottom: 0.5rem
+      vertical-align: middle
+
+      // Center input fields and select boxes vertically in tables
+      .form--field
+        margin: 0px
+      @each $inputElement in $input-elements
+        #{$inputElement},
+        #{$inputElement}~.form-label
+          vertical-align: middle
+
+      input[type="checkbox"], input[type="radio"]
+        margin-top: -0.25rem
+
+      // In the interactive table the behaviour is like this:
+      // * if there is more space available than is required to render
+      //   all columns, the container width is set to 100%.
+      //   Then, td.-max will take up all space available and it will cause all other
+      //   elements to shrink to their minimum value. td-max will grow even beyond
+      //   what is specified as max-width.
+      // * if the contents requires more space than the container width permits,
+      //   then the container width is set to the width calculated by summing up
+      //   all the column widths. For td.-max, the max-width will be taken to be
+      //   the column width because of the combination of max-width and width: 100%.
+      // as a result, td.-max will aways have at least a width of max-width, but it can
+      // become even wider.
+      &.-max
+        width: 100%
+        max-width: 500px
+
+      &.info
+        a
+          text-decoration: none
+          color: $body-font-color
+
+      &.buttons
+        text-align: right
+        white-space: nowrap
+
+      &.-no-highlighting
+        background-color: $body-background
+
+    p
+      padding: 0 8px
+      margin: 0
+
+
+// Enable sticky headers
+thead.-sticky th
+  position: sticky
+  top: 0
+  background: white
+
+
+.generic-table--footer-outer
+  padding:      0 6px
+  line-height:  $generic-table--footer-height
+  width:        100%
+  height:       $generic-table--footer-height
+
+.generic-table--header-outer,
+.generic-table--sort-header-outer
+  padding:      0 12px 0 6px
+  line-height:  $generic-table--header-height
+  height:  $generic-table--header-height
+  z-index:      1
+  border-bottom: 1px solid $table-row-border-color
+
+  &:hover,
+  &.hover
+    background:   #f8f8f8
+
+.generic-table--empty-header
+  padding:       0 6px
+  height:        $generic-table--header-height
+  border-bottom: 1px solid $table-row-border-color
+  z-index:       1
+
+  // In case the table header contains invisible content for screen readers
+  .generic-table--header,
+  .generic-table--sort-header
+    visibility: hidden
+    // Matches the min-width of .generic-table--header, .generic-table--sort-header
+    max-width: 40px
+
+.generic-table--column-spacer
+  white-space:  nowrap
+  padding:      0 6px
+  visibility:   hidden
+  height:       0px
+  line-height:  0px
+
+.generic-table--header,
+.generic-table--sort-header
+  white-space: nowrap
+  width:   100%
+  clear:   both
+  min-width: 40px
+  display: flex
+
+  & > a
+    flex: 1 1
+    width: 100%
+    font-weight: bold
+    &.-inactive
+      color: $button--active-font-color
+      
+  & > op-icon
+    flex: 0 0 0
+    padding-left: 15px
+
+
+.generic-table--sort-header-outer
+  .dropdown-indicator
+    width: 1em
+    overflow: visible
+    min-width: 1em
+    visibility: hidden
+    position: relative
+
+  &:hover .dropdown-indicator
+    visibility: visible
+
+.generic-table--no-results-container
+  background:   $gray-light
+  border:       1px solid $gray
+  border-radius: $global-radius
+  padding:      14px 14px 14px 36px
+  display:      block
+
+  > i,
+  .generic-table--no-results-title
+    display:        inline-block
+    font-size:      rem-calc(17)
+    line-height:    1.4
+    vertical-align: top
+
+  > i
+    margin:       1px 0 0 -24px
+    width:        20px
+
+.generic-table--no-results-title
+  border:         0
+  margin:         0
+  padding:        0
+  text-transform: none
+  width:          99%
+
+.generic-table--no-results-description
+  font-size:      rem-calc(15)
+  line-height:    1.4
+  margin-top:     4px
+
+  p:last-child
+    margin-bottom: 0

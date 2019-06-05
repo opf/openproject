@@ -1,0 +1,51 @@
+<%#-- copyright
+OpenProject My Project Page Plugin
+
+Copyright (C) 2011-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.md for more details.
+
+++#%>
+
+<% content_for :header_tags do %>
+  <%= auto_discovery_link_tag(:atom, {:controller => 'activities',  :action => 'index', :id => @project, :format => 'atom', :key => User.current.rss_key}) %>
+  <%= stylesheet_link_tag "my_project_page/my_projects_overview", :media => 'all' %>
+<% end %>
+
+<% html_title(t(:label_overview)) -%>
+
+<%= toolbar title: t(:label_overview) do %>
+  <% if User.current.allowed_to?(:edit_project, project) %>
+    <li class="toolbar-item" title="<%= t(:label_personalize_page) %>">
+      <%= link_to my_projects_overview_path(project), id: 'my-project-page-layout', class: 'button', accesskey: accesskey(:edit) do %>
+        <%= op_icon('icon-settings') %>
+        <span class="hidden-for-sighted"><%= t(:label_personalize_page) %></span>
+      <% end %>
+    </li>
+  <% end %>
+<% end %>
+
+<%= activate_angular_js do %>
+<div id="invisible-grid" class="widget-boxes project-overview">
+  <% top_fields.each do |f| %>
+    <%= rendered_field f %>
+  <% end %>
+  <div class="grid-block">
+    <% middle_fields.each do |f| %>
+      <%= rendered_field f %>
+    <% end %>
+  </div>
+</div>
+<% end %>

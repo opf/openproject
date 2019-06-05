@@ -1,0 +1,181 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See docs/COPYRIGHT.rdoc for more details.
+//++
+
+// --------------------------------------------------------
+// At the moment we have basically two different class sets for dropdowns.
+// '.dropdown' is used for all menus within the WP context
+//  --> (contextMenus (createButton, statusButton, tableContextMenu), wpToolbarSettingsButton))
+// '.drop-down' is used for the rest
+//  --> top menu and all other toolbar settings menus (e.g. wiki)
+// --------------------------------------------------------
+
+
+// ---------------------------- SHARED styles --------------------------------
+.dropdown,
+.drop-down .menu-drop-down-container
+  position: absolute
+  z-index: 9999999
+
+.dropdown .dropdown-menu,
+.dropdown .dropdown-panel,
+.drop-down .menu-drop-down-container
+  list-style: none
+  background: #FFF
+  border: solid 1px #DDD
+  border: solid 1px rgba(0, 0, 0, .2)
+  border-radius: 0
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15)
+  overflow: visible
+  padding: 3px 0
+  margin: 0
+
+.dropdown .dropdown-menu,
+.drop-down .menu-drop-down-container
+  LI
+    list-style: none
+    padding: 0
+    margin: 0
+    line-height: 20px
+
+.dropdown .dropdown-menu,
+.drop-down .menu-drop-down-container
+  LI > A,
+  .menu-item
+    display: block
+    @include varprop(color, context-menu-unselected-font-color)
+    text-decoration: none
+    padding: 4px 13px 4px 10px
+    white-space: nowrap
+    font-weight: normal
+
+    &:not(.inactive):hover, &:not(.inactive):focus
+      background-color: #F0F0F0
+      @include varprop(color, context-menu-hover-font-color)
+      cursor: pointer
+
+    .icon-hierarchy
+      padding-right: 5px
+      font-size: 20px
+
+    .no-icon
+      margin-left: 19.09px //for whatever reasons it is the right dimension
+
+  LI > A.inactive
+    color: #999999
+
+  LI > A.selected
+    @include varprop(background, drop-down-selected-bg-color)
+    @include varprop(color, drop-down-selected-font-color)
+
+.dropdown
+  @include dot_border_width_style
+
+.select2-drop.-large-dropdown
+  min-width: 25vw
+
+// ---------------------------- .DROPDOWN styles --------------------------------
+
+// Styles taken from jquery-dropdown plugin:
+// https://github.com/plapier/jquery-dropdown
+// (dual MIT/GPL-Licensed)
+
+.dropdown
+  // Will be overridden by the js code but having this here will prevent the
+  // dropdown to displayed in the upper right corner until the js sets the
+  // position explicitly.
+  visibility: hidden
+
+  // Avoid a context menu that MAY get too large for the screen
+  // to exceed it, but rather limit its height to the view port.
+  &.-overflow-in-view
+    max-height: 100vh
+    overflow: auto
+
+.dropdown-menu.-empty
+  visibility: hidden
+
+.dropdown .dropdown-panel
+  padding: 10px
+
+.dropdown.dropdown-scroll .dropdown-menu,
+.dropdown.dropdown-scroll .dropdown-panel
+  max-height: 358px
+  overflow: auto
+
+.dropdown LI > A.dropdown-menu-hasicons
+  display: block
+  @include varprop(color, context-menu-unselected-font-color)
+  text-decoration: none
+  padding: 3px 10px
+  white-space: nowrap
+
+.dropdown .dropdown-menu .dropdown-divider
+  font-size: 1px
+  border-top: solid 1px #E5E5E5
+  padding: 0
+  margin: 3px 0
+
+/* Icon Examples - icons courtesy of http://p.yusukekamiyamane.com/ */
+.dropdown.has-icons LI > A
+  padding-left: 30px
+  background-position: 8px center
+  background-repeat: no-repeat
+
+// extended styles
+.wp-create-button li
+  float: none !important
+
+
+
+// ---------------------------- .DROP-DOWN styles --------------------------------
+.drop-down
+  list-style-type: none
+  select
+    width: 100%
+
+.drop-down .button--dropdown-indicator
+  @extend .icon-pulldown
+  &:before
+    @include icon-font-common
+    @include icon-mixin-pulldown
+    font-size: 10px
+    padding: 0 0 0 9px
+
+.drop-down .menu-drop-down-container
+  right: 0
+  display: none
+  height: auto
+  li
+    white-space: nowrap
+    list-style-type: none
+    > a
+      height: 32px
+      line-height: 32px
+      padding-bottom: 0px
+      padding-top: 0px
+      text-decoration: none

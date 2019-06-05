@@ -1,0 +1,7 @@
+<h3 class="widget-box--header">
+  <%= op_icon('icon-context icon-projects') %>
+  <span class="widget-box--header-title"><%= Setting.welcome_title.presence || organization_name %></span>
+</h3>
+<div class="wiki">
+  <%= format_text(Setting.welcome_text, headings: false) %>
+</div>

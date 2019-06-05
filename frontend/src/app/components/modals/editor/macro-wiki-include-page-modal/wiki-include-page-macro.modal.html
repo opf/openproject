@@ -1,0 +1,58 @@
+<div class="op-modal--portal op-modal--macro-modal ngdialog-theme-openproject">
+  <div class="op-modal--modal-container" tabindex="1">
+    <div class="op-modal--modal-header">
+      <a class="op-modal--modal-close-button" *ngIf="showClose">
+        <i
+            class="icon-close"
+            (click)="closeMe($event)"
+            [attr.title]="text.close_popup">
+        </i>
+      </a>
+      <h3 class="icon-context icon-attention" [textContent]="text.title"></h3>
+    </div>
+
+    <div class="ngdialog-body op-modal--modal-body">
+      <form class="form -vertical" (submit)="applyAndClose($event)">
+        <fieldset class="form--fieldset">
+          <legend [textContent]="text.page"></legend>
+          <div class="form--field">
+            <label
+                for="selected-page"
+                [textContent]="text.page"
+                class="form--label hidden-for-sighted">
+            </label>
+            <div class="form--field-container">
+              <div class="form--select-container">
+                <input
+                    #selectedPageInput
+                    tabindex="2"
+                    type="text"
+                    id="selected-page"
+                    name="selected-page"
+                    [value]="selectedPage"
+                    (change)="selectedPage = $event.target.value"
+                    class="form--select" />
+              </div>
+            </div>
+            <p [textContent]="text.hint"></p>
+            <p><kbd>project-identifier:my-wiki-page</kbd></p>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+    <div class="op-modal--modal-footer">
+      <button class="op-modal--cancel-button button"
+              (click)="closeMe($event)"
+              tabindex="4"
+              [textContent]="text.button_cancel"
+              [attr.title]="text.button_cancel">
+      </button>
+      <button class="op-modal--submit-button button -highlight"
+              (click)="applyAndClose($event)"
+              tabindex="3"
+              [textContent]="text.button_save"
+              [attr.title]="text.button_save">
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,182 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See docs/COPYRIGHT.rdoc for more details.
+//++
+
+$project-table--start-indentation: 0.5em
+$project-table--child-indentation: 1.1em
+$project-table--icon-distance: 5px
+$project-table--description-indention: 9px
+
+@mixin calc-indentation-name($indentation)
+  // This does not work for big font-sizes
+  padding-left: calc(#{$indentation} * #{$project-table--child-indentation} + #{$project-table--start-indentation} - #{$project-table--icon-distance})
+
+@mixin calc-indentation-description($indentation)
+  // This does not work for big font-sizes
+  padding-left: calc(#{$indentation} * #{$project-table--child-indentation} + #{$project-table--start-indentation} + #{$project-table--description-indention})
+
+form.project-filters
+  display: none
+  &.-expanded
+    display: block
+  .advanced-filters--filter-value
+    // visibility based on operator type
+    &.hidden
+      display: none
+
+    // visibility for list value selectors
+    .multi-select
+      display: none
+    .single-select
+      display: block
+    &.multi-value
+      .multi-select
+        display: block
+      .single-select
+        display: none
+
+    // visibility for datetime_past value selectors
+    &.between-dates
+      >.on-date,
+      >.days
+        display: none
+    &.on-date
+      >.between-dates,
+      >.days
+        display: none
+    &.days
+      >.on-date,
+      >.between-dates
+        display: none
+
+    // Special input field styles
+    &.between-dates
+      input[type="text"]
+        display: inline-block
+        max-width: 10rem
+
+  .advanced-filters--controls
+    margin-top: 1rem
+
+.projects-table--hierarchy-icon
+  display: none
+
+  &:before
+    @include icon-font-common
+    @include icon-mixin-arrow-right5
+    @extend .icon-small
+
+  tr.idnt &
+    display: initial
+
+#project-table
+  tr.basics
+    &.-expanded
+      .buttons
+        .collapse
+          display: inline
+        .expand
+          display: none
+    td.format-text
+      min-width: 160px
+    td.format-user
+      min-width: 120px
+    .buttons
+      .collapse
+        display: none
+      .expand
+        display: inline
+
+      .project-actions
+        display: inline-block
+        margin: 0
+        .menu-drop-down-container
+          text-align: left
+    .archived
+      color: $gray-dark
+      span.archived-label
+        text-transform: uppercase
+
+  .project-description
+    display: none
+    td
+      padding-top: 0
+      padding-bottom: 1rem
+      p
+        font-size: inherit
+        padding-left: 0
+        max-width: 800px // improve readability
+      // Hide everything else than text for now to avoid a too large table
+      .flash, pre
+        display: none !important
+
+  .project-description.-expanded
+    display: table-row
+
+  // Avoid hover effect
+  .generic-table--sort-header-outer:hover,
+  .generic-table--header-outer:hover
+    background: initial
+
+  td.name a
+    white-space: nowrap
+
+  td.project--hierarchy
+    white-space: nowrap
+
+  @for $i from 1 through 9
+    tr.idnt-#{$i} td.project--hierarchy
+      @include calc-indentation-name($i)
+    tr.idnt-#{$i}.project-description td.project--hierarchy
+      @include calc-indentation-description($i)
+
+#project-table--hierarchy-header
+  font-size: 1rem
+  max-width: 0.875rem
+
+  .generic-table--sort-header
+    min-width: 1rem
+    max-width: 1rem
+
+// Ugly hack for now, so expanded more-menus do not get cut off. Actually that
+// should be handled from the drop down implementation with absolute positions
+// just as in the work package table.
+body.controller-projects.action-index
+  #content
+    overflow: visible
+    .generic-table--container
+      min-height: 1
+      overflow: visible
+
+
+// project list in types configuration
+#type_project_ids
+  ul
+    margin: 0
+    padding-left: 1em
+  li
+    list-style-type: none

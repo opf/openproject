@@ -1,0 +1,5 @@
+nl:
+  js:
+    reporting_engine:
+      label_remove: "Verwijderen"
+      label_response_error: "Er is een fout opgetreden tijdens het verwerken van het verzoek."

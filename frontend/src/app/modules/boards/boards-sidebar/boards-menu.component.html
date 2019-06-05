@@ -1,0 +1,12 @@
+<div *ngIf="(boards$ | async) as boards">
+  <ul class="main-menu--children boards--menu-items">
+    <li *ngFor="let board of boards;trackBy:trackById">
+      <a [textContent]="board.name"
+         uiSref="boards.show"
+         [uiOptions]="{ reload: true }"
+         [uiParams]="{ board_id: board.id, query_props: '' }"
+         class="main-menu--children-sub-item ellipsis">
+      </a>
+    </li>
+  </ul>
+</div>

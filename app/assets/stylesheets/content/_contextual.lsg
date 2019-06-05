@@ -1,0 +1,10 @@
+# Contextual text info
+
+Provide some additional information on some content to the left of this span
+
+```
+<p>
+  Some text here
+  <span class="contextual-info -small">(Some contextual information for the text)</span>
+</div>
+```

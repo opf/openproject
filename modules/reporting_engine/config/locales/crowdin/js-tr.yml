@@ -1,0 +1,5 @@
+tr:
+  js:
+    reporting_engine:
+      label_remove: "Sil"
+      label_response_error: "Sorguyu işlerken hata oluştu."

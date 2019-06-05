@@ -1,0 +1,59 @@
+# Context menu
+
+```
+<div class="action-menu drop-down">
+	<ul class="menu">
+
+		<li>
+			<a href="#"><i class="icon-checkmark icon-action-menu"></i>menu item</a>
+		</li>
+		<li>
+			<a href="#"><i class="icon-priority icon-action-menu"></i>menu item with sub</a>
+			<i class="icon-arrow-right5 icon-sub-menu"></i>
+			<ul class="sub-menu">
+				<li>
+					<a href="#"><i class="icon-edit icon-action-menu"></i>menu item</a>
+				</li>
+				<li>
+					<a href="#"><i class="icon-checkmark icon-action-menu"></i>menu item</a>
+				</li>
+				<li>
+					<a href="#"><i class="icon-copy icon-action-menu"></i>menu item</a>
+				</li>
+			</ul>
+		</li>
+		<li class="has-no-icon">
+			<a href="#">menu item no icon</a>
+		</li>
+
+		<li class="dropdown-divider"></li>
+		<li>
+			<a href="#"><i class="icon-edit icon-action-menu"></i>Edit</a>
+		</li>
+		<li>
+			<a href="#"><i class="icon-copy icon-action-menu"></i>Copy</a>
+		</li>
+		<li>
+			<a href="#"><i class="icon-move icon-action-menu"></i>Move</a>
+		</li>
+		<li>
+			<a href="#"><i class="icon-locked icon-action-menu"></i>Archive</a>
+		</li>
+		<li>
+			<a href="#"><i class="icon-delete icon-action-menu"></i>Delete</a>
+		</li>
+		<li>
+			<a href="#"><i class="icon-time icon-action-menu"></i>Log time</a>
+		</li>
+		<li>
+			<a href="#"><i class="icon-projects icon-action-menu"></i>Log unit costs</a>
+		</li>
+		<li>
+			<a href="#"><i class="icon-view-split icon-action-menu"></i>Open details view</a>
+		</li>
+		<li>
+			<a href="#"><i class="icon-view-fullscreen icon-action-menu"></i>Open fullscreen view</a>
+		</li>
+	</ul>
+</div>
+```

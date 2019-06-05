@@ -1,0 +1,13 @@
+<div id="div-values-{{filter.id}}">
+  <op-date-picker (onChange)="value = parser($event)">
+    <input [ngModel]="formatter(value)"
+           [focus]="shouldFocus"
+           (ngModelChange)="value = parser($event)"
+           required
+           id="values-{{filter.id}}"
+           name="v[{{filter.id}}]"
+           class="advanced-filters--date-field"
+           size="10"
+           type="text"/>
+  </op-date-picker>
+</div>

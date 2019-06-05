@@ -1,0 +1,256 @@
+# Group Projects
+
+## Actions
+
+| Link                       | Description                                                          | Condition                         |
+|:--------------------------:|----------------------------------------------------------------------| --------------------------------- |
+| createWorkPackage          | Form endpoint that aids in preparing and creating a work package     | **Permission**: add work packages |
+| createWorkPackageImmediate | Directly creates a work package in the project                       | **Permission**: add work packages |
+
+## Linked Properties
+
+| Link         | Description                          | Type       | Constraints | Supported operations |
+| :----------: | -------------                        | ----       | ----------- | -------------------- |
+| self         | This project                         | Project    | not null    | READ                 |
+| categories   | Categories available in this project | Collection | not null    | READ                 |
+| types        | Types available in this project      | Collection | not null    | READ                 |
+| versions     | Versions available in this project   | Collection | not null    | READ                 |
+| workPackages | Work Packages of this project        | Collection | not null    | READ                 |
+
+## Local Properties
+
+| Property    | Description                                   | Type     | Constraints | Supported operations |
+| :---------: | -------------                                 | ----     | ----------- | -------------------- |
+| id          | Projects's id                                 | Integer  | x > 0       | READ                 |
+| identifier  |                                               | String   |             | READ                 |
+| name        |                                               | String   |             | READ                 |
+| description |                                               | String   |             | READ                 |
+| createdAt   | Time of creation                              | DateTime |             | READ                 |
+| updatedAt   | Time of the most recent change to the project | DateTime |             | READ                 |
+
+## Project [/api/v3/projects/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "Project",
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/projects/1",
+                        "title": "Lorem"
+                    },
+                    "createWorkPackage": {
+                        "href": "/api/v3/projects/1/work_packages/form",
+                        "method": "post"
+                    },
+                    "createWorkPackageImmediate": {
+                        "href": "/api/v3/projects/1/work_packages",
+                        "method": "post"
+                    },
+                    "categories": { "href": "/api/v3/projects/1/categories" },
+                    "types": { "href": "/api/v3/projects/1/types" },
+                    "versions": { "href": "/api/v3/projects/1/versions" },
+                    "workPackages": { "href": "/api/v3/projects/1/work_packages" }
+                },
+                "id": 1,
+                "identifier": "project_identifier",
+                "name": "Project example",
+                "description": "Lorem ipsum dolor sit amet",
+                "createdAt": "2014-05-21T08:51:20Z",
+                "updatedAt": "2014-05-21T08:51:20Z"
+            }
+
+## View project [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... Project id
+
++ Response 200 (application/hal+json)
+
+    [Project][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the project does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view project
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified project does not exist."
+            }
+
+## Projects [/api/v3/projects{?filters}]
+
++ Model
+    + Body
+
+            {
+              "_links": {
+                "self": {
+                  "href": "/api/v3/projects"
+                }
+              },
+              "_type": "Collection",
+              "total": 2,
+              "count": 2,
+              "_embedded": {
+                "elements": [
+                  {
+                    "_type": "Project",
+                    "_links": {
+                      "self": {
+                        "href": "/api/v3/projects/6",
+                        "title": "A project"
+                      },
+                      "createWorkPackage": {
+                        "href": "/api/v3/projects/6/work_packages/form",
+                        "method": "post"
+                      },
+                      "createWorkPackageImmediate": {
+                        "href": "/api/v3/projects/6/work_packages",
+                        "method": "post"
+                      },
+                      "categories": {
+                        "href": "/api/v3/projects/6/categories"
+                      },
+                      "versions": {
+                        "href": "/api/v3/projects/6/versions"
+                      }
+                    },
+                    "id": 6,
+                    "identifier": "a_project",
+                    "name": "A project",
+                    "description": "Eveniet molestias omnis quis aut qui eum adipisci.",
+                    "createdAt": "2015-07-06T13:28:14+00:00",
+                    "updatedAt": "2015-10-01T09:55:02+00:00",
+                    "type": "Customer Project"
+                  },
+                  {
+                    "_type": "Project",
+                    "_links": {
+                      "self": {
+                        "href": "/api/v3/projects/14",
+                        "title": "Another project"
+                      },
+                      "createWorkPackage": {
+                        "href": "/api/v3/projects/14/work_packages/form",
+                        "method": "post"
+                      },
+                      "createWorkPackageImmediate": {
+                        "href": "/api/v3/projects/14/work_packages",
+                        "method": "post"
+                      },
+                      "categories": {
+                        "href": "/api/v3/projects/14/categories"
+                      },
+                      "versions": {
+                        "href": "/api/v3/projects/14/versions"
+                      }
+                    },
+                    "id": 14,
+                    "identifier": "another_project",
+                    "name": "Another project",
+                    "description": "",
+                    "createdAt": "2016-02-29T12:50:20+00:00",
+                    "updatedAt": "2016-02-29T12:50:20+00:00",
+                    "type": null
+                  }]
+                }
+              }
+            }
+
+## List projects [GET]
+
+Returns a collection of projects. The collection can be filtered via query parameters similar to how work packages are filtered. In addition to the provided filter, the result set is always limited to only contain projects the client is allowed to see.
+
++ Parameters
+    + filters (optional, string, `[{ "ancestor": { "operator": "=", "values": ['1'] }" }]`) ... JSON specifying filter conditions.
+    Accepts the same format as returned by the [queries](#queries) endpoint.
+    Currently supported filters are:
+      + ancestor: filters projects by their ancestor. A project is not considered to be it's own ancestor.
+
++ Response 200 (application/hal+json)
+
+    [Projects][]
+
+
+## Projects by version [/api/v3/versions/{id}/projects]
+
++ Model
+    + Body
+
+            {
+                "_links":
+                {
+                    "self":
+                    {
+                        "href": "/api/v3/versions/2/projects"
+                    }
+                },
+                "total": 1,
+                "count": 1,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_type": "Project",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/projects/1",
+                                    "title": "Lorem"
+                                },
+                                "categories": { "href": "/api/v3/projects/1/categories" },
+                                "versions": { "href": "/api/v3/projects/1/versions" }
+                            },
+                            "id": 1,
+                            "identifier": "project_identifier",
+                            "name": "Project example",
+                            "description": "Lorem ipsum dolor sit amet",
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "updatedAt": "2014-05-21T08:51:20Z"
+                        }
+                    ]
+                }
+            }
+
+## List projects with version [GET]
+
+This endpoint lists the projects where the given version is available.
+
+The projects returned depend on the sharing settings of the given version,
+but are also limited to the projects that the current user is allowed to see.
+
++ Parameters
+    + id (required, integer, `1`) ... Version id
+
++ Response 200 (application/hal+json)
+
+    [Projects by version][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the version does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view work packages **or** manage versions (any project where the given version is available)
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a version.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified version does not exist."
+            }

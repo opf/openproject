@@ -1,0 +1,153 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See docs/COPYRIGHT.rdoc for more details.
+//++
+@media screen and (max-width: 1248px), print
+  .router--work-packages-base
+
+    // ------------- FULL SCREEN -------------------
+    &.router--work-packages-full-view
+
+      #main
+        #content-wrapper
+          padding: 10px 20px
+          &.nomenus
+            top: 0
+            padding: 0
+            width: 100%
+            margin-left: 0
+
+
+      .work-packages--show-view
+        &.edit-all-mode
+          .work-packages-full-view--split-right
+            display: none
+
+        ul#toolbar-items li .wp-create-button .dropdown
+          left: 0 !important
+
+      .work-packages-full-view--split-container
+        flex-direction: column
+        // Safari
+        height: initial
+        .work-packages-full-view--split-left
+          margin: 0
+          width: initial
+          border: none
+
+          .work-packages--panel-inner
+            padding: 5px 0 20px 0
+
+        .work-packages-full-view--split-right
+          width: initial
+          .tabrow
+            margin: 0.75rem 0 2.5rem 0
+
+          .work-packages--panel-inner
+            padding: 0
+            max-width: calc(100vw - 30px)
+
+        .work-packages-full-view--resizer
+          display: none
+
+@include breakpoint(1248px down)
+  .router--work-packages-base
+    // --------------- ALL WP VIEWS ---------------
+    .work-packages-tabletimeline--table-side
+      contain: none
+
+    .toolbar-container
+      padding-right: 0
+
+    .attributes-key-value--key,
+    .attributes-key-value--value-container
+      margin-bottom: 20px
+
+      .inplace-edit--read-value
+        padding: 0
+
+      .inplace-editing--container
+        border: none
+
+    .attributes-key-value--key
+      flex-basis: 30% !important
+      padding: 0 !important
+
+    .work-packages--panel-inner > .attributes-group:first-child
+      .attributes-group--header
+        border-bottom: none
+        padding-top: 4px
+
+    // Reset margin for mobile, since the wiki toolbar is hidden on mobile
+    .inplace-edit.attribute-description
+      .inplace-edit--write
+        margin-top: 0
+
+    div[class*='work-packages--details--']
+      width: 100%
+
+      .inplace-edit--read-value span
+        white-space: normal
+
+    .work-package-details-activities-messages
+      font-size: 0.9rem
+
+    .work-package--new-state
+      height: 100%
+      padding-right: 0
+
+      .work-packages--edit-actions
+        bottom: 0px !important
+
+    .detail-panel-description-content .relation h3
+      margin: 0 !important
+      padding: 8px 0 !important
+      font-size: 1rem
+
+
+@include breakpoint(680px down)
+  .router--work-packages-full-view
+    #content
+      position: relative
+    .work-packages--show-view
+      padding: 40px 0 0 0
+
+    #toolbar-items
+      position: absolute
+      top: 0
+      right: 0
+      justify-content: flex-end
+
+      .toolbar-item
+        flex-grow: 0
+
+    .work-packages-full-view--split-container
+      border-top: none
+
+  .router--work-packages-split-view,
+  .router--work-packages-split-view-new
+    .work-packages-split-view--details-side
+      overflow-x: auto

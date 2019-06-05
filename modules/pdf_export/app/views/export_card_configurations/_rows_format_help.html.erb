@@ -1,0 +1,15 @@
+<div class="form--field -required">
+  <%= f.text_area :rows,
+                  required: true,
+                  label: I18n.t('export_config_rows'),
+                  container_class: '-wide' %>
+</div>
+<div class="form--field-instructions">
+  <span class="help">
+    <a href="https://github.com/opf/openproject/tree/dev/modules/pdf_export#usage"
+       target="_blank"
+       class="icon icon-help1">
+      <%= l('help_link_rows_format') %>
+    </a>
+  </span>
+</div>

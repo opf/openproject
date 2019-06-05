@@ -1,0 +1,44 @@
+user: openproject
+group: openproject
+targets:
+  debian-8: &debian8
+    build_dependencies:
+      - libsqlite3-dev
+    dependencies:
+      - poppler-utils
+      - unrtf
+      - tesseract-ocr
+      - catdoc
+  debian-9:
+    <<: *debian8
+  ubuntu-14.04:
+    <<: *debian8
+  ubuntu-16.04:
+    <<: *debian8
+  ubuntu-18.04:
+    <<: *debian8
+  centos-7:
+   dependencies:
+      - epel-release
+  sles-12:
+    build_dependencies:
+      - sqlite3-devel
+before_precompile: "packaging/setup"
+after_precompile: "packaging/teardown"
+crons:
+  - packaging/cron/openproject-hourly-tasks
+  - packaging/cron/openproject-clear-old-sessions
+  - packaging/cron/openproject-clear-uploaded-files
+  - packaging/cron/openproject-clear-tmp-cache
+services:
+  - postgres
+installer: https://github.com/pkgr/installer.git
+wizards:
+  - https://github.com/pkgr/addon-legacy-installer.git
+  - https://github.com/pkgr/addon-postgres
+  - https://github.com/pkgr/addon-apache2.git
+  - https://github.com/finnlabs/addon-repositories.git
+  - https://github.com/pkgr/addon-smtp.git
+  - https://github.com/pkgr/addon-memcached.git
+  - https://github.com/opf/addon-openproject.git
+buildpack: https://github.com/opf/heroku-buildpack-multi.git

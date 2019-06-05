@@ -1,0 +1,57 @@
+<div class="op-modal--portal ">
+  <div class="op-modal--modal-container wp-table--configuration-modal loading-indicator--location"
+       data-indicator-name="modal"
+       tabindex="0">
+    <div class="op-modal--modal-header">
+      <a class="op-modal--modal-close-button">
+        <i
+            class="icon-close"
+            (accessibleClick)="closeMe($event)"
+            [attr.title]="text.close_popup">
+        </i>
+      </a>
+    </div>
+
+    <h3 [textContent]="text.save_as"></h3>
+
+    <form name="modalSaveForm" class="form">
+      <div class="form--field -required">
+        <label class="form--label" for="save-query-name" [textContent]="text.label_name"></label>
+        <div class="form--field-container">
+          <div class="form--text-field-container">
+            <input
+                class="form--text-field"
+                type="text"
+                name="save-query-name"
+                id="save-query-name"
+                #queryNameField
+                [(ngModel)]="queryName"
+                required/>
+          </div>
+        </div>
+      </div>
+
+      <section class="form--section">
+        <h3 [textContent]="text.label_visibility_settings"></h3>
+        <query-sharing-form
+            [isSave]="true"
+            (onChange)="setValues($event)"
+            [isStarred]="isStarred"
+            [isPublic]="isPublic">
+        </query-sharing-form>
+      </section>
+
+      <div class="form--space">
+        <button class="button -highlight -with-icon icon-checkmark"
+                (click)="saveQueryAs($event)"
+                [textContent]="text.button_save"
+                [disabled]="isBusy || !queryName">
+        </button>
+        <button class="button"
+                [textContent]="text.button_cancel"
+                (click)="closeMe($event)">
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

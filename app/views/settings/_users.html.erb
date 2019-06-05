@@ -1,0 +1,100 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= styled_form_tag({ action: 'edit', tab: 'users' }, class: 'admin-settings--form') do %>
+
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend"><%= t(:'settings.user.default_preferences')%></legend>
+
+    <div class="form--field" id="setting_default_language">
+      <%= setting_select :default_language, all_lang_options_for_select(false), container_class: '-slim' %>
+    </div>
+
+    <%=
+      cell(
+          Settings::TimeZoneSettingCell,
+          "user_default_timezone",
+          container_class: "-slim",
+          title: I18n.t("tooltip_user_default_timezone")
+      )
+    %>
+
+    <div class="form--field">
+      <%= setting_check_box :default_auto_hide_popups, label: 'activerecord.attributes.user_preference.auto_hide_popups' %>
+    </div>
+  </fieldset>
+
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend"><%= t(:'settings.user.deletion')%></legend>
+    <div class="form--field">
+      <%= setting_check_box :users_deletable_by_admins %>
+    </div>
+
+    <div class="form--field">
+      <%= setting_check_box :users_deletable_by_self %>
+    </div>
+  </fieldset>
+
+  <fieldset id="consent_settings" class="form--fieldset">
+    <legend class="form--fieldset-legend"><%= I18n.t(:label_consent_settings) %></legend>
+
+    <div class="form--field">
+      <%= setting_check_box :consent_required %>
+    </div>
+
+    <%= rails_cell Settings::TextSettingCell, I18n.locale, name: "consent_info" %>
+
+    <div class="form--field">
+      <%= setting_block("consent_time") do %>
+        <span class="form--check-box-field-container -slim">
+          <input type="hidden" name="settings[consent_time]" disabled id="settings_consent_time">
+          <%= check_box_tag 'toggle_consent_time',
+                            '1',
+                            !Setting.consent_time.present?,
+                            id: 'toggle_consent_time' %>
+        </span>
+      <% end %>
+      <div class="form--field-instructions">
+        <%= I18n.t('consent.text_update_consent_time') %>
+        <br/>
+        <strong>
+          <%= I18n.t('consent.update_consent_last_time',
+                     update_time: Setting.consent_time.present? ? format_time(Setting.consent_time) : t(:label_never)) %>
+        </strong>
+      </div>
+    </div>
+    <div class="form--field">
+      <%= setting_text_field :consent_decline_mail, size: 6, container_class: '-middle' %>
+      <span class="form--field-instructions">
+        <%= t('consent.contact_mail_instructions') %>
+      </span>
+    </div>
+  </fieldset>
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>

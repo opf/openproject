@@ -1,0 +1,17 @@
+<div *ngIf="workPackage"
+     class="wp-new-top-row">
+  <div class="work-packages--status-selector wp-new-top-row--element">
+    <wp-edit-field [workPackageId]="workPackage.id"
+                   [displayFieldOptions]="{ colorize: false }"
+                   [wrapperClasses]="'wp-new-top-row--status -no-label'"
+                   [fieldName]="'status'">
+    </wp-edit-field>
+  </div>
+  <div class="work-packages--type-selector wp-new-top-row--element">
+    <wp-edit-field [workPackageId]="workPackage.id"
+                   [displayFieldOptions]="{ colorize: false }"
+                   [wrapperClasses]="'wp-new-top-row--type -no-label'"
+                   [fieldName]="'type'">
+    </wp-edit-field>
+  </div>
+</div>

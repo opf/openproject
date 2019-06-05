@@ -1,0 +1,64 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= styled_form_tag({action: 'edit', tab: 'display'}) do %>
+
+  <section class="form--section">
+    <div class="form--field" id="setting_available_languages"><%= setting_multiselect :available_languages, all_lang_options_for_select(false) %></div>
+
+    <div class="form--field"><%= setting_select :start_of_week, [[day_name(1),'1'], [day_name(6),'6'], [day_name(7),'7']], blank: :label_language_based, container_class: '-slim' %></div>
+
+    <div class="form--field"><%= setting_select :date_format, Setting::DATE_FORMATS.collect {|f| [Date.today.strftime(f), f]}, blank: :label_language_based, container_class: '-slim' %></div>
+
+    <div class="form--field"><%= setting_select :time_format, Setting::TIME_FORMATS.collect {|f| [Time.now.strftime(f), f]}, blank: :label_language_based, container_class: '-slim' %></div>
+
+    <div class="form--field"><%= setting_select :user_format, @options[:user_format], container_class: '-slim' %></div>
+
+    <div class="form--field"><%= setting_text_field :journal_aggregation_time_minutes, unit: t(:label_minute_plural), container_class: '-xslim' %>
+      <span class="form--field-instructions">
+        <%= t(:text_journal_aggregation_time_explanation) %><br/>
+        <%= t(:text_hint_disable_with_0) %>
+      </span>
+    </div>
+  </section>
+
+  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>
+
+<div style="float:right">
+  <%= link_to t(:label_force_user_language_to_default),
+              { controller: '/admin', action: 'force_user_language' },
+              method: :post %>
+</div>
+
+<%=
+  content_for(:additional_js_dom_ready) do
+    "Administration.init_language_selection_handling();".html_safe
+  end
+%>

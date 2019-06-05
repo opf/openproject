@@ -1,0 +1,23 @@
+<ng-container *ngIf="!hidden">
+  <div *ngIf="group" class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text"
+          [textContent]="group.name"></h3>
+    </div>
+  </div>
+
+  <wp-embedded-table #embeddedTable
+                     (onQueryLoaded)="handleQueryLoaded($event)"
+                     [initialLoadingIndicator]="false"
+                     [queryProps]="queryProps"
+                     [tableActions]="tableActions"
+                     [configuration]="{ actionsColumnEnabled: true,
+                                        hierarchyToggleEnabled: false,
+                                        inlineCreateEnabled: true,
+                                        compactTableStyle: true,
+                                        columnMenuEnabled: false,
+                                        contextMenuEnabled: false,
+                                        projectIdentifier: workPackage.project.idFromLink,
+                                        projectContext: false }" >
+  </wp-embedded-table>
+</ng-container>

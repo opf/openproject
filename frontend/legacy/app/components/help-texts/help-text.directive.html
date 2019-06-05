@@ -1,0 +1,7 @@
+<accessible-by-keyboard execute="$ctrl.handleClick()"
+                        ng-if="$ctrl.exists"
+                        link-aria-label="{{ ::$ctrl.text.open_dialog }}"
+                        link-class="icon help-text--entry help-text--for-{{ ::$ctrl.attribute }}">
+  <op-icon icon-classes="icon icon-help1"></op-icon>
+  {{ $ctrl.additionalLabel }}
+</accessible-by-keyboard>

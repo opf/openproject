@@ -1,0 +1,19 @@
+ar:
+  activerecord:
+    models:
+      document: "الوثيقة"
+  default_doc_category_tech: "التوثيق التقني"
+  default_doc_category_user: "توثيق المستخدم"
+  enumeration_doc_categories: "فئات الوثائق"
+  enumeration:
+    document_category:
+      documentation: التوثيق
+      specification: المواصفة
+      other: أخرى
+  label_document_added: "تم إضافة وثيقة"
+  label_document_new: "وثيقة جديدة"
+  label_document_plural: "الوثائق"
+  label_documents: "الوثائق"
+  permission_manage_documents: "إدارة الوثائق"
+  permission_view_documents: "عرض الوثائق"
+  project_module_documents: "الوثائق"

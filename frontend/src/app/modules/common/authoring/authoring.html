@@ -1,0 +1,17 @@
+<div class="authoring-entry">
+  <span *ngIf="showAuthorAsLink" [textContent]="author.name"></span>
+  <a *ngIf="!showAuthorAsLink"
+     [attr.href]="userLink"
+     [textContent]="author.name"></a>
+
+  <span class="timestamp" *ngIf="activity">
+    <a [attr.title]="time"
+       [attr.href]="activityFromPath(createdOnTime.format('YYYY-MM-DD'))"
+       [textContent]="timeago"></a>
+  </span>
+  <span *ngIf="!activity"
+        class="timestamp"
+        [textContent]="timeago"
+        [attr.title]="time">
+  </span>
+</div>

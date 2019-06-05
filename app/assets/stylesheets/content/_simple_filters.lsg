@@ -1,0 +1,104 @@
+# Simple filters
+
+Simple filters are forms that serve the purpose of limiting the number of entries in a list. As opposed to advanced filters however, there is no operator selection to search with.
+
+By default, simple filters can have multiple fields per row (as many as the given space allows).
+
+## Simple filters: Standard style
+
+```
+@full-width
+
+<fieldset class="simple-filters--container">
+  <a title="Close filter" class="simple-filters--close icon-context icon-close"></a>
+  <legend>Simple Filters</legend>
+  <ul class="simple-filters--filters">
+    <li class="simple-filters--filter">
+      <label for="filter-1" class="simple-filters--filter-name">Project</label>
+      <div class="simple-filters--filter-value">
+        <input id="filter-1" type="text" placeholder="select">
+      </div>
+    </li>
+    <li class="simple-filters--filter">
+      <label for="filter-2" class="simple-filters--filter-name">Status</label>
+      <div class="simple-filters--filter-value">
+        <select id="filter-2" class="simple-filters--select">
+          <option value="=" label="Active" selected="selected">Active</option>
+          <option value="!" label="Archived">Archived</option>
+          <option value="!*" label="All">all</option>
+        </select>
+      </div>
+    </li>
+    <li class="simple-filters--filter">
+      <label for="filter-3" class="simple-filters--filter-name">Name</label>
+      <div class="simple-filters--filter-value">
+        <select id="filter-3" class="simple-filters--select">
+          <option value="=" label="Active" selected="selected">Active</option>
+          <option value="!" label="Archived">Archived</option>
+          <option value="!*" label="All">all</option>
+        </select>
+      </div>
+    </li>
+    <li class="simple-filters--controls">
+      <a class="button -highlight -small" href="#">Apply</a>
+      <a class="button -small -with-icon icon-undo" href="#">Clear</a>
+    </li>
+  </ul>
+</fieldset>
+```
+
+## Simple filters: With radio buttons
+
+```
+@full-width
+
+<fieldset class="simple-filters--container">
+  <a title="Close filter" class="simple-filters--close icon-context icon-close"></a>
+  <legend>Simple Filters</legend>
+  <ul class="simple-filters--filters">
+    <li class="simple-filters--filter -with-radio-buttons">
+      <span class="form--radio-button-container">
+        <input type="radio" name="period_type" class="form--radio-button">
+      </span>
+      <label class="simple-filters--filter-name form--label" title="From" for="from">
+        This is a simple filter with radio button and label
+      </label>
+    </li>
+    <li class="simple-filters--filter -with-radio-buttons">
+      <span class="form--radio-button-container">
+        <input type="radio" name="period_type" class="form--radio-button">
+      </span>
+      <label class="simple-filters--filter-name form--label" title="From" for="from">From</label>
+      <div class="simple-filters--filter-value">
+        <span class="form--text-field-container">
+          <input type="text" name="from" id="from" class="-augmented-datepicker form--text-field">
+        </span>
+      </div>
+      <label class="simple-filters--filter-name form--label" title="To" for="to">To</label>
+      <div class="simple-filters--filter-value">
+        <span class="form--text-field-container">
+          <input type="text" name="to" class="-augmented-datepicker form--text-field">
+        </span>
+      </div>
+    </li>
+    <li class="simple-filters--filter -with-radio-buttons">
+      <span class="form--radio-button-container">
+        <input type="radio" name="period_type" id="period_type_list" value="1" class="form--radio-button" checked="checked">
+      </span>
+      <div class="simple-filters--filter-value">
+        <span class="form--select-container">
+          <select name="period" id="period" class="-narrow form--select">
+            <option value="all">all time</option>
+            <option value="today">today</option>
+            <option value="yesterday">yesterday</option>
+          </select>
+        </span>
+      </div>
+    </li>
+    <li class="simple-filters--controls">
+      <a class="button -highlight -small" href="#">Apply</a>
+      <a class="button -small -with-icon icon-undo" href="#">Clear</a>
+    </li>
+  </ul>
+</fieldset>
+```

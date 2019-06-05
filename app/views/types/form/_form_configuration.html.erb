@@ -1,0 +1,194 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% form_attributes = form_configuration_groups(@type) %>
+
+<%= activate_angular_js :section, class: 'form--section' do %>
+  <%= f.hidden_field :attribute_groups, value: attribute_groups_as_json(@type) %>
+  <div id="types-form-configuration"
+       ng-controller="TypesFormConfigurationCtrl"
+       ng-init="upsaleLink = <%= '"' + OpenProject::Static::Links.links[:upsale][:href] +  "/?utm_source=unknown&utm_medium=community-edition&utm_campaign=form-configuration" + '"' %>">
+    <div class="grid-block -visible-overflow wrap">
+      <div class="grid-content -visible-overflow small-12 large-10">
+      <div class="notification-box -info">
+        <div class="notification-box--content">
+          <p><%= t('text_form_configuration') %></p>
+          <br>
+          <p><%= t('text_custom_field_hint_activate_per_project') %></p>
+        </div>
+      </div>
+
+      <% if EnterpriseToken.show_banners? %>
+        <div class="notification-box upsale-notification">
+          <div class="notification-box--content">
+            <h3><%= t('admin.enterprise.upgrade_to_ee') %></h3>
+            <%= image_tag "enterprise_edition.png", class: "widget-box--teaser-image" %>
+
+            <p><%= t('ee.upsale.form_configuration.description') %></p>
+
+            <ul class="">
+              <li>
+                <%= t('ee.upsale.form_configuration.add_groups') %>
+              </li>
+              <li>
+                <%= t('ee.upsale.form_configuration.rename_groups') %>
+              </li>
+            </ul>
+            <p>
+              <br/>
+              <b><%= t('homescreen.blocks.upsale.become_hero') %></b> <%= t('homescreen.blocks.upsale.you_contribute') %>
+            </p>
+            <%= link_to( "#{OpenProject::Static::Links.links[:upsale][:href]}/?utm_source=unknown&utm_medium=community-edition&utm_campaign=form-configuration",
+                  { class: 'button -alt-highlight',
+                    aria: {label: t('admin.enterprise.order')},
+                    target: '_blank',
+                    title: t('admin.enterprise.order')}) do %>
+              <%= op_icon('button--icon icon-add') %>
+              <span class="button--text"><%= t('admin.enterprise.order') %></span>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <%= toolbar title: '', html: { class: '-with-dropdown' } do %>
+        <li class="toolbar-item">
+          <button type="button -alt-highlight" class="form-configuration--reset button" ng-click="resetToDefault($event)">
+            <%= op_icon('button--icon icon-undo') %>
+            <span class="button--text"><%= t('types.edit.reset') %></span>
+          </button>
+        </li>
+        <li class="toolbar-item drop-down">
+          <a ng-click="showGroupsContextMenu($event)"
+             class="form-configuration--add-group button -alt-highlight" aria-haspopup="true">
+            <%= op_icon('button--icon icon-add') %>
+            <span class="button--text"><%= t(:label_group) %></span>
+            <%= op_icon('button--dropdown-indicator') %>
+          </a>
+          <ul class="menu-drop-down-container">
+            <% show_hint = !EnterpriseToken.allows_to?(:edit_attribute_groups) %>
+            <li>
+              <a class="form-configuration--add-group" ng-click="<%= show_hint ? 'showEEOnlyHint()' : 'addGroup($event)' %>">
+                <%= t('types.edit.add_group') %>
+              </a>
+            </li>
+            <li>
+              <a class="form-configuration--add-group" ng-click="<%= show_hint ? 'showEEOnlyHint()' : "addGroupAndOpenQuery()" %>">
+                <%= t("types.edit.add_table") %>
+              </a>
+            </li>
+          </ul>
+        </li>
+      <% end %>
+      </div>
+    </div>
+    <div class="grid-block wrap">
+      <div class="grid-content small-12 medium-6 large-5">
+        <div id="type-form-conf-group-template" class="type-form-conf-group" data-original-key="" data-key="" data-key-is-symbol="false">
+          <div class="group-head">
+            <span class="group-handle icon-toggle"></span>
+            <group-edit-in-place
+              name=""
+              key=""
+              onvaluechange="groupNameChange"
+              onupsale="<%= EnterpriseToken.allows_to?(:edit_attribute_groups) ? '' : 'showEEOnlyHint' %>"
+              class="group-name">
+            </group-edit-in-place>
+            <span class="delete-group icon-small icon-close" ng-click="deleteGroup($event)"></span>
+          </div>
+          <div class="attributes" dragula='"attributes"'>
+          </div>
+        </div>
+
+        <div id="type-form-conf-query-template"
+             class="type-form-conf-group type-form-query-group"
+             data-original-key=""
+             data-key=""
+             data-key-is-symbol="false">
+          <div class="group-head">
+            <span class="group-handle icon-toggle"></span>
+            <group-edit-in-place
+              name=""
+              key=""
+              onvaluechange="groupNameChange"
+              onupsale="<%= EnterpriseToken.allows_to?(:edit_attribute_groups) ? '' : 'showEEOnlyHint' %>"
+              placeholder="<%= t('types.edit.query_group_placeholder')%>"
+              class="group-name">
+            </group-edit-in-place>
+            <span class="delete-group icon-small icon-close" ng-click="deleteGroup($event)"></span>
+          </div>
+          <% no_filter_query = ::API::V3::Queries::QueryParamsRepresenter.new(Query.new_default.tap { |q| q.filters = []}).to_json %>
+          <div class="type-form-query" data-query='<%= no_filter_query %>'>
+            <span class="type-form-query-group--edit-button" ng-click="editQuery($event)">
+              <%= op_icon('button--icon icon-edit') %>
+              <%= t('types.edit.edit_query') %>
+            </span>
+          </div>
+        </div>
+        <div id="draggable-groups" dragula='"groups"'>
+          <% form_attributes[:actives].each do |group, attributes| %>
+            <% if group.is_a? ::Type::QueryGroup %>
+              <%= render partial: 'types/form/query_group', locals: { group: group, query_json: attributes } %>
+            <% else %>
+              <%= render partial: 'types/form/attribute_group', locals: { group: group, attributes: attributes } %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+      <div class="grid-content small-12 medium-6 large-5">
+        <div id="type-form-conf-inactive-group">
+          <div class="group-head">
+            <span class="group-name"><%= t(:label_inactive) %></span>
+            <span class="advice">(<%= t('text_form_configuration_drag_to_activate') %>)</span>
+          </div>
+          <div class="attributes" dragula='"attributes"'>
+            <% form_attributes[:inactives].each do |inactive_attribute| %>
+              <div class="type-form-conf-attribute" data-key="<%= inactive_attribute[:key] %>">
+                <span class="attribute-handle icon-toggle"></span>
+                <span class="attribute-name">
+                  <%= inactive_attribute[:translation] %>
+                  <% if inactive_attribute[:is_cf] %>
+                    <span class="attribute-cf-label"><%= CustomField.model_name.human %></span>
+                  <% end %>
+                </span>
+                <span class="delete-group icon-small icon-close" ng-click="deactivateAttribute($event)"></span>
+              </div>
+            <% end %>
+          </div>
+        </div><!-- END type form configurator -->
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<div class="grid-block">
+  <div class="generic-table--action-buttons">
+  <%= styled_button_tag t(@type.new_record? ? :button_create : :button_save),
+      class: 'form-configuration--save -highlight -with-icon icon-checkmark' %>
+  </div>
+</div>

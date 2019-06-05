@@ -1,0 +1,5 @@
+fi:
+  js:
+    reporting_engine:
+      label_remove: "Poista"
+      label_response_error: "Kyselyn käsittely epäonnistui."

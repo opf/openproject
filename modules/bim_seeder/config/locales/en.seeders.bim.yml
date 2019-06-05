@@ -1,0 +1,391 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See docs/COPYRIGHT.rdoc for more details.
+#++
+en:
+  seeders:
+    bim:
+      default_type_building_model: Building model
+      default_type_defect: Defect
+      default_type_approval: Approval
+      default_type_bcf_issue: Issue [BCF]
+      demo_data:
+        welcome:
+          title: "Welcome to OpenProject BIM Edition!"
+          text: |
+            Checkout the demo project to get started with some demo data we have prepared for you.
+
+            * [Demo project](%{base_url}/projects/demo-project): to get an overview about classical project management.
+
+            Also, you can create a blank [new project](%{base_url}/projects/new).
+
+            Never stop collaborating. With open source and open mind.
+
+            You can change this welcome text [here](%{base_url}/settings).
+        projects:
+          demo-project:
+            name: Demo project
+            identifier: demo-project
+            description: >
+              **This is a demo project**. You can edit the description in
+              the [Project settings -> Description](%{base_url}/projects/demo-project/settings).
+            timeline:
+              name: Timeline
+            modules:
+              - work_package_tracking
+              - news
+              - wiki
+              - bcf
+            news:
+              - title: Welcome to your demo project
+                summary: >
+                  We are glad you joined.
+                  In this module you can communicate project news to your team members.
+                description: The actual news
+            types:
+              - :default_type_task
+              - :default_type_milestone
+              - :default_type_phase
+              - 'seeders.bim.default_type_building_model'
+              - 'seeders.bim.default_type_defect'
+              - 'seeders.bim.default_type_approval'
+              - 'seeders.bim.default_type_bcf_issue'
+            categories:
+              - Category 1 (to be changed in Project settings)
+            queries:
+              - name: Defects
+                status: open
+                type: 'seeders.bim.default_type_defect'
+              - name: Project plan
+                status: open
+                timeline: true
+                sort_by: id
+                hierarchy: true
+              - name: Milestones
+                status: open
+                type: :default_type_milestone
+                timeline: true
+                columns:
+                  - id
+                  - type
+                  - status
+                  - subject
+                  - start_date
+                  - due_date
+                sort_by: id
+              - name: Tasks
+                status: open
+                type: :default_type_task
+                hierarchy: true
+                sort_by: id
+                columns:
+                  - id
+                  - subject
+                  - priority
+                  - type
+                  - status
+                  - assigned_to
+              - name: Issues [BCF]
+                status: open
+                type: 'seeders.bim.default_type_bcf_issue'
+            work_packages:
+              - subject: Project kick-off
+                description: Plan and execute the project kick-off.
+                status: :default_status_scheduled
+                type: :default_type_milestone
+                priority: :default_priority_high
+                estimated_hours: 8
+                start: 4
+                duration: 0
+                done_ratio: 50
+              - subject: Project planning
+                description: |
+                  Please execute the related tasks:
+
+                  * ##child:1
+                  * ##child:2
+                  * ##child:3
+                  * ##child:4
+                  * ##child:5
+                  * ##child:6
+                  * ##child:7
+                status: :default_status_scheduled
+                type: :default_type_phase
+                priority: :default_priority_high
+                estimated_hours: 8
+                start: 0
+                duration: 3
+                children:
+                  - subject: Create a new project
+                    description: |
+                      Please [create a new project](%{base_url}/projects/new) from the project drop down menu in the left hand header navigation.
+
+                      **You can:**
+                      * give your project a name,
+                      * add a project description,
+                      * create a project structure,
+                      * set a project to public.
+
+                      **Visuals:**
+                      ![new project](##attachment:"new_project.jpg")
+
+                      **Find out more:**
+                      * https://www.openproject.org/help/administration/manage-projects/
+                    status: :default_status_new
+                    type: :default_type_task
+                    start: 0
+                    duration: 0
+                    attachments:
+                      - new_project.jpg
+                  - subject: Customize project overview page
+                    description: |
+                      You can [customize your project overview page](%{base_url}/my_projects_overview/demo-project/page_layout) to add important information, such as project description, important links, work packages overview, news, and much more.
+
+                      **You can:**
+                      * edit the project overview by clicking on the gear icon,
+                      * add a project description,
+                      * add links to important project information or custom reports,
+                      * insert news or work packages,
+                      * and much more.
+
+                      **Visuals:**
+                      ![project overview](##attachment:"project_overview.jpg")
+
+                      **Find out more:**
+                      * https://www.openproject.org/help/project-setup/
+                    status: :default_status_new
+                    type: :default_type_task
+                    start: 0
+                    duration: 0
+                    attachments:
+                      - project_overview.jpg
+                  - subject: Activate further modules
+                    description: |
+                      Please activate further [Modules](%{base_url}/projects/demo-project/settings/modules) in the Project settings in order to have more features in your project.
+
+                      **You can:**
+                      * add time tracking, reporting, and budgets (Time Tracking, Cost Reports, Budgets),
+                      * add a wiki,
+                      * add meetings,
+                      * add BCF import/export,
+                      * and more.
+
+                      **Visuals:**
+                      ![project modules](##attachment:"project_modules.jpg")
+
+                      **Find out more:**
+                      * https://www.openproject.org/help/activate-deactivate-modules/
+                    status: :default_status_new
+                    type: :default_type_task
+                    start: 0
+                    duration: 0
+                    attachments:
+                      - project_modules.jpg
+                  - subject: Invite new team members
+                    description: |
+                      Please invite new team members by going to [Members](%{base_url}/projects/demo-project/members) in the project navigation.
+
+                      **You can:**
+                      * add existing users to  a project by typing in their names,
+                      * invite new users to OpenProject by typing in their email address,
+                      * assign a certain role in this project for each user.
+
+                      **Visuals:**
+                      ![project members](##attachment:"project_members.jpg")
+
+                      **Find out more:**
+                      * https://www.openproject.org/help/add-project-members/
+                    status: :default_status_new
+                    type: :default_type_task
+                    start: 1
+                    duration: 1
+                    priority: :default_priority_high
+                    attachments:
+                      - project_members.jpg
+                  - subject: Create work packages
+                    description: |
+                      Please create work packages for your project. Go to [Work package](%{base_url}/projects/demo-project/work_packages) and click the green +Create button.
+
+                      **You can**:
+                      * create any type of work, e.g. features, tasks, bugs, risks, ideas,
+                      * add a title and description,
+                      * add attachments via copy and paste to the description,
+                      * set status, priority and assign it to a team member,
+                      * insert any custom field to the forms.
+
+                      **Visuals**:
+                      ![create work package](##attachment:"create_work_package.jpg")
+
+                      **Find out more**:
+                      * https://www.openproject.org/help/work-packages/create-new-work-package/
+                    status: :default_status_new
+                    type: :default_type_task
+                    start: 1
+                    duration: 1
+                    priority: :default_priority_high
+                    attachments:
+                      - create_work_package.jpg
+                  - subject: Create a project plan
+                    description: |
+                      Please create a project plan by going to [Project plan](##query:"Project plan") in the project navigation.
+
+                      **You can:**
+                      * create new phases and milestones by simply clicking in the project plan,
+                      * change phases and milestones with drag and drop,
+                      * add labels, such as start and finish date, title, or assignee,
+                      * add dependencies by right clicking on a phase or milestone and choose pre-decessor or follower,
+                      * custom columns, group, filter and save timeline reports to have them at your fingertips.
+
+                      **Visuals:**
+                      ![gantt chart](##attachment:"gantt_chart.jpg")
+
+                      **Find out more:**
+                      * https://www.openproject.org/help/timelines/integrated-timeline-work-package-page/
+                    status: :default_status_new
+                    type: :default_type_task
+                    start: 2
+                    duration: 1
+                    priority: :default_priority_high
+                    attachments:
+                      - gantt_chart.jpg
+                  - subject: Edit a work package
+                    description: |
+                      [Edit a work package](%{base_url}/projects/demo-project/work_packages/41/activity) by double clicking on a row in the list view or open the split screen with the "i".
+
+                      **You can**:
+                      * change title or description,
+                      * assign it to a team member,
+                      * comment on topics or notify team members with @-notifications,
+                      * set status, priority, finish dates or other custom fields,
+                      * include documents or screenshots with copy & paste,
+                      * add relations to other work packages,
+                      * change forms in the Administration settings.
+
+                      **Visuals**:
+                      ![edit work package](##attachment:"edit_work_package.jpg")
+
+                      **Find out more**:
+                      * https://www.openproject.org/help/work-packages/
+                    status: :default_status_new
+                    type: :default_type_task
+                    start: 3
+                    duration: 0
+                    priority: :default_priority_high
+                    attachments:
+                      - edit_work_package.jpg
+              - subject: Develop v1.0
+                status: :default_status_scheduled
+                type: :default_type_phase
+                start: 7
+                duration: 17
+                children:
+                  - subject: Great feature
+                    status: :default_status_developed
+                    type: 'seeders.bim.default_type_building_model'
+                    start: 7
+                    duration: 8
+                  - subject: Best feature
+                    status: :default_status_specified
+                    type: 'seeders.bim.default_type_building_model'
+                    start: 16
+                    duration: 5
+                    relations:
+                      - to: Great feature
+                        type: follows
+                  - subject: Terrible bug
+                    status: :default_status_confirmed
+                    type: 'seeders.bim.default_type_defect'
+                    start: 22
+                    duration: 2
+                    relations:
+                      - to: Best feature
+                        type: follows
+              - subject: Go-Live v1.0
+                status: :default_status_scheduled
+                type: :default_type_milestone
+                start: 25
+                duration: 0
+                relations:
+                  - to: Develop v1.0
+                    type: follows
+              - subject: Develop v1.1
+                status: :default_status_scheduled
+                type: :default_type_phase
+                start: 28
+                duration: 2
+                children:
+                  - subject: Wonderful feature
+                    status: :default_status_new
+                    type: 'seeders.bim.default_type_building_model'
+                    start: 28
+                    duration: 1
+                  - subject: Ugly bug
+                    status: :default_status_new
+                    type: 'seeders.bim.default_type_defect'
+                    start: 30
+                    duration: 1
+                    relations:
+                      - to: Wonderful feature
+                        type: follows
+              - subject: Go-Live v1.1
+                status: :default_status_to_be_scheduled
+                type: :default_type_milestone
+                start: 32
+                duration: 0
+                relations:
+                  - to: Develop v1.1
+                    type: follows
+            wiki:
+              - title: Wiki
+                content: |
+                  In this wiki you can collaboratively create and edit pages and sub-pages to create a project wiki.
+
+                  **You can:**
+
+                  *   insert text and format it with the toolbar,
+                  *   insert text and images with copy and paste,
+                  *   paste formatted text directly from MSOffice documents,
+                  *   create a page hierarchy by inserting parent pages,
+                  *   use makros to include, e.g. table of contents, work packages lists or Gantt charts,
+                  *   include wiki pages in other text fields, e.g. project overview or meetings,
+                  *   reference tickets with one, two or three "#"+ticket number, depending on what information should be displayed,
+                  *   include links to other documents,
+                  *   view the change history,
+                  *   view as Mardown.
+
+                  **More information:**
+                  https://www.openproject.org/help/wiki/
+                children:
+                  - title: Project documentation
+                    content: |
+                      This is a sub-page of the wiki. You can change this by editing the Parent page (Click the _EDIT_ button and see bottom of the page).
+
+                      ## Project scope
+
+                      ## Deliverables
+                    children:
+                      - title: Project manual
+                        content: ''

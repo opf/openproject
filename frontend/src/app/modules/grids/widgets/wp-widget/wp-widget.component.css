@@ -1,0 +1,13 @@
+wp-embedded-table {
+  display: flex;
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+.widget-box--header {
+  display: flex
+}
+
+.widget-box--header .icon-context {
+  padding-top: 5px
+}

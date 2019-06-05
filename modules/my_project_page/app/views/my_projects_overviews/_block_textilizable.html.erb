@@ -1,0 +1,100 @@
+<%#-- copyright
+OpenProject My Project Page Plugin
+
+Copyright (C) 2011-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.md for more details.
+
+++#%>
+
+<% new_block ||= local_assigns[:new_block] %>
+
+<% resource = ::API::V3::Overview::OverviewRepresenter.new(overview,
+                                                           current_user: current_user,
+                                                           embed_links: true) %>
+
+<div id="block_<%= block_name %>"
+     ng-cloak
+     class="widget-box block-teaser">
+  <div class="handle" cg-busy="$ctrl.loadingIndicator">
+    <% content_for block_name do %>
+      <div id="<%= block_name %>-form-div" class="textile-form-wrapper" ng-show="$ctrl.formVisible">
+        <div class="box-actions">
+          <a href="#"
+             ng-click="$ctrl.toggleEditForm(false)"
+             class="icon icon-cancel reset-textilizable"
+             title=<%= l(:button_cancel) %>></a>
+        </div>
+        <%= form_for :overview,
+                     url: {action: 'update_custom_element'},
+                     method: :put,
+                     multipart: true,
+                     html: { class: "textile-form", :'ng-submit' => "$ctrl.submitForm($event)" } do |f| %>
+
+          <%= hidden_field_tag 'block_name', block_name %>
+          <div class="form--field -required">
+            <%= styled_label_tag "block_title_#{block_name}", t('attributes.title') %>
+            <div class="form--field-container">
+              <%= styled_text_field_tag "block_title_#{block_name}", block_title %>
+            </div>
+          </div>
+
+          <div class="form--field -required -visible-overflow">
+            <%= styled_label_tag "textile_#{block_name}", t('info_custom_text') %>
+            <div class="form--field-container" ng-non-bindable>
+
+              <%= styled_text_area_tag "textile_#{block_name}",
+                                       textile,
+                                       class: 'wiki-edit',
+                                       with_text_formatting: true,
+                                       resource: resource %>
+            </div>
+          </div>
+
+          <%= styled_button_tag l(:button_save),
+                                id: "#{block_name}-form-submit",
+                                class: '-highlight' %>
+          <a href="#" ng-click="$ctrl.toggleEditForm(false)" class="reset-textilizable button"><%= t(:button_cancel) %></a>
+        <% end %>
+      </div>
+      <div id="<%= block_name %>-preview-div" class="wiki" ng-show="$ctrl.editing">
+        <div class="box-actions" ng-hide="$ctrl.formVisible">
+          <% unless User.current.anonymous? %>
+            <a href="#"
+               class="icon icon-edit edit-textilizable"
+               ng-click="$ctrl.toggleEditForm(true)"
+               title="<%= l(:button_edit) %>"></a>
+          <% end %>
+          <% if User.current.allowed_to?(:edit_project, project) %>
+            <a href
+               ng-click="$ctrl.remove($event)"
+               class="icon icon-close remove-block"
+               title="<%= t(:button_delete) %>"></a>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+    <div class="textile-block-body">
+      <%= render partial: "textilizable", locals: { block_title: block_title,
+                                                    textile: textile,
+                                                    block_name: block_name } %>
+    </div>
+  </div>
+</div>
+
+<overview-textile-block
+  block-name="<%= block_name %>"
+  new-block="<%= !!new_block %>">
+</overview-textile-block>

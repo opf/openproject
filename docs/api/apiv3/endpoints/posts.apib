@@ -1,0 +1,86 @@
+# Group Posts
+
+Represents a post in a board. Posts are also referred to as messages in the application.
+
+*This resource is currently a stub*
+
+## Actions
+
+| Link                | Description                    | Condition                                                                                                                        |
+|:-------------------:|--------------------------------| ---------------------------------------                                                                                          |
+| addAttachment       | Attach a file to the post      | **Permission**: edit messages           |
+
+## Linked Properties
+
+| Property         | Description                                            | Type        | Constraints    | Supported operations |
+| :--------------: | ------------------------------------------------------ | ----------- | -------------- | -------------------- |
+| self             | This post                                              | Post        | not null       | READ                 |
+| attachments      | The files attached to this post                        | Collection  |                | READ                 |
+| project          | The project the post belongs to                        | Project     | not null       | READ                 |
+
+## Local Properties
+
+| Property         | Description                                 | Type                  | Constraints                          | Supported operations |
+| :--------------: | ------------------------------------------- | -----------           | ------------------------------------ | -------------------- |
+| id               | Identifier of this post                     | Integer               | x > 0                                | READ                 |
+| subject          | The posts's subject                         | String                | not null                             | READ                 |
+
+## Post [/api/v3/posts/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "Post",
+                "id": 1,
+                "subject": "A post with a subject",
+                "_embedded": {
+                    "project": {
+                        "_type": "Project",
+                        "id": 1,
+                        <-- abbreviated -->
+                        }
+                    }
+                },
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/posts/1"
+                    },
+                    "attachments": {
+                        "href": "/api/v3/posts/1/attachments"
+                    },
+                    "addAttachment": {
+                        "href": "/api/v3/posts/1/attachments",
+                        "method": "post"
+                    },
+                    "project": {
+                        "href": "/api/v3/projects/1",
+                        "title": "A project with a title"
+                    }
+                }
+            }
+
+## View Post [GET]
+
+Retrieve an individual post as identified by the id parameter
+
++ Parameters
+    + id (required, integer, `1`) ... Post's identifier
+
++ Response 200 (application/hal+json)
+
+    [Post][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the post does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** view messages in the post's project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The requested resource could not be found."
+            }

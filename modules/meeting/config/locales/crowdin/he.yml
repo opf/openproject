@@ -1,0 +1,64 @@
+he:
+  activerecord:
+    attributes:
+      meeting:
+        location: "מיקום"
+        duration: "משך זמן"
+        participants: "משתתפים"
+        participants_attended: "נוכחים"
+        participants_invited: "מוזמנים"
+        start_time: "זמן"
+        start_time_hour: "זמן התחלה"
+    errors:
+      messages:
+        invalid_time_format: "תבנית הזמן אינה תקינה. התבנית הנדרשת היא: HH:MM"
+    models:
+      meeting_agenda: "סדר היום"
+      meeting_minutes: "דקות"
+  description_attended: "נכחו"
+  description_invite: "הוזמנו"
+  events:
+    meeting: הפגישה נערכה
+    meeting_agenda: סדר היום לפגישה נערך
+    meeting_agenda_closed: סדר היום לפגישה נסגר
+    meeting_agenda_opened: סדר היום לפגישה נפתח
+    meeting_minutes: דקות פגישה נערך
+    meeting_minutes_created: דקות פגישה נוצר
+  error_notification_with_errors: "שליחת ההודעה נכשלה. הנמענים הבאים לא יקבלו את ההודעה: %{recipients}"
+  label_meeting: "פגישה"
+  label_meeting_plural: "פגישות"
+  label_meeting_new: "פגישה חדשה"
+  label_meeting_edit: "עריכת פגישה"
+  label_meeting_agenda: "סדר היום"
+  label_meeting_minutes: "דקות"
+  label_meeting_close: "סגור"
+  label_meeting_open: "פתח"
+  label_meeting_agenda_close: "סגור את סדר היום כדי להתחיל את הדקות"
+  label_meeting_date_time: "תאריך/שעה"
+  label_meeting_diff: "הבדלים"
+  label_notify: "שלח לבדיקה"
+  label_icalendar: "שלח iCalendar"
+  label_version: "גירסה"
+  label_time_zone: "איזור זמן"
+  label_start_date: "תאריך התחלה"
+  notice_successful_notification: "הודעה נשלחה בהצלחה"
+  notice_timezone_missing: אין איזור זמן מוגדר, ההערכה היא %{zone}. כדי לבחור את איזור הזמן שלך, אנא לחץ כאן.
+  permission_create_meetings: "צור פגישות"
+  permission_edit_meetings: "ערוך פגישות"
+  permission_delete_meetings: "מחק פגישות"
+  permission_view_meetings: "הצג פגישות"
+  permission_create_meeting_agendas: "נהל סדר יום"
+  permission_close_meeting_agendas: "סגור סדר יום"
+  permission_send_meeting_agendas_notification: "שלח הודעה סקירה עבור סדר יום"
+  permission_create_meeting_minutes: "נהל דקות"
+  permission_send_meeting_minutes_notification: "שלח הודעה סקירה עבור דקות"
+  project_module_meetings: "פגישות"
+  text_duration_in_hours: "משך הזמן בשעות"
+  text_in_hours: "בשעות"
+  text_meeting_agenda_for_meeting: 'סדר היום לפגישה "%{meeting}"'
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting?"
+  text_meeting_agenda_open_are_you_sure: "תוכן שלא נשמר בדקות יאבד! האם להמשיך?"
+  text_meeting_minutes_for_meeting: 'דקות לפגישה "%{meeting}"'
+  text_review_meeting_agenda: "על %{author} לשים את %{link} לבדיקה."
+  text_review_meeting_minutes: "על %{author} לשים את %{link} לבדיקה."
+  text_notificiation_invited: "דואר זה מכיל קובץ ics לפגישה שלהלן:"

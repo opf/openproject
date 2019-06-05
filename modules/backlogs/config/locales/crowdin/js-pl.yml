@@ -1,0 +1,6 @@
+pl:
+  js:
+    work_packages:
+      properties:
+        storyPoints: "Historia Punktów"
+        remainingTime: "Pozostałe godziny"

@@ -1,0 +1,18 @@
+<div class="relation-filter-selector">
+  <h5>
+    <span [textContent]="text.first_part"></span>
+    &ngsp;
+    <select class="form--select form--inline-select"
+            id=""
+            [(ngModel)]="selectedRelationFilter"
+            (ngModelChange)="onRelationFilterSelected()"
+            [compareWith]="compareRelationFilters">
+      <option *ngFor="let filter of availableRelationFilters"
+              [textContent]="text[filter.id]"
+              [ngValue]="filter">
+      </option>
+    </select>
+    &ngsp;
+    <span [textContent]="text.second_part"></span>
+  </h5>
+</div>

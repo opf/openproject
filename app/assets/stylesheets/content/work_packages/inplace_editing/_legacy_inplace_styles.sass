@@ -1,0 +1,210 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See docs/COPYRIGHT.rdoc for more details.
+//++
+
+// *** NOTE ***
+// Following code handles trigger-links and inplace icons
+// It is used for example for the attachements list and comment form
+
+// need to specify the a explicitly as otherwise
+// the default class will win
+a.inplace-editing--trigger-link,
+.inplace-editing--trigger-link,
+  &:hover,
+  &:focus,
+  &.-focus
+    text-decoration: none
+    color: $body-font-color
+
+    .inplace-editing--container,
+    .wp-edit-field
+      border-color: $inplace-edit--border-color
+
+      &.-active
+        border-color: transparent
+
+    .inplace-edit--icon-wrapper
+      visibility: visible
+
+  .inplace-edit--read-value
+    display: inline-block
+    span
+      line-height: 2
+
+  .inplace-editing--container
+    position: relative
+
+.work-package--details--long-field
+  .inplace-edit--read .inplace-edit--read-value
+    // Use the whole space and leave room for the icon on the right
+    width: calc(100% - 42px)
+    padding: 3px
+    line-height: 2
+    span.deleting
+      opacity: 0.5
+
+    img.avatar-mini
+      float: inherit
+
+.inplace-edit--icon-wrapper
+  position: absolute
+  height: 100%
+  right: 0
+  text-align: center
+  width: 32px
+  background: $gray-light
+  border-left: 1px solid $inplace-edit--border-color
+  color: $body-font-color
+  visibility: hidden
+
+  i
+    position: relative
+    // Position the icon in the middle
+    top: calc(50% - 0.5rem)
+
+  .icon-context:before
+    // HACK: overriding default padding here
+    padding-right: 0
+
+  &:hover
+    text-decoration: none
+
+
+.wp-edit-field
+  &.-error,
+  .wp-table--cell-td.-error &
+    .wp-table--cell-span,
+    .wp-inline-edit--field
+      background: $nm-color-error-background
+      border-color: $nm-color-error-border
+
+      &:hover
+        border-color: lighten($nm-color-error-border, 10%)
+
+  form
+    width: 100%
+
+  // Style actual edit inputs
+  // Checkboxes need to be excluded because the width
+  // causes an ugly increase of the box
+  select, input:not([type='checkbox'])
+    // Full width to inline-edit inputs
+    width: 100%
+    // Same height as the row - padding
+    height: 24px
+    padding-top: 0
+    padding-bottom: 0
+    line-height: normal
+    font-size: 14px
+
+  .inplace-edit--read-value
+    &:before
+      vertical-align: middle
+    .wp-table--cell-span
+      vertical-align: middle
+
+  &.inplace-edit .custom-option:not(.-multiple-lines)
+    display: inline
+
+  .inline-label
+    .form-label,
+    .icon-context:before
+      padding-right: 0
+
+// Editable fields cursor
+.-editable .wp-table--cell-span,
+.wp-table--cell-span.-editable
+  cursor: text
+  border-color: transparent
+  border-style: solid
+  border-radius: 2px
+  border-width: 1px
+  line-height: normal
+
+  &:hover,
+  &:focus
+    border-color: $inplace-edit--border-color
+
+    .work-package--placeholder
+      padding: 0 10px 0 0px
+
+  .inplace-edit--read-value--value-span
+    width: 100%
+    white-space: nowrap
+
+    &.-multiline
+      white-space: inherit
+
+// Style no-label fields (long text, description, ..) with padding
+.wp-edit-field--container.-no-label:not(.-active)
+  .wp-table--cell-span
+    display: block
+    padding: 5px
+    padding-right: 0
+
+.wp-edit-field.description.-no-label
+  margin-left: -0.375rem
+
+// Do not hover trigger-link when element is read-only
+.-read-only
+  .inplace-editing--trigger-link:hover .inplace-editing--container
+    border-color: transparent
+
+// Mark focused, non-editable read-values
+.inplace-edit--read-value.-read-only,
+.wp-table--cell-span:not(.id).-read-only
+  &:focus, &:hover
+    color: $inplace-edit--color--disabled
+    background: $inplace-edit--bg-color--disabled
+  cursor: not-allowed
+
+// Animations on leaving work packages
+.wp--row.-animated-leave
+  &.ng-leave
+    -webkit-transition: all 1s ease-in-out
+    -moz-transition: all 1s ease-in-out
+    -o-transition: all 1s ease-in-out
+    transition: all 1s ease-in-out
+
+  &.ng-leave-active
+    height: 0
+    line-height: 0
+    opacity: 0
+
+// Allow horizontal scrolling in descripton field
+.work-packages--details--description .wp-table--cell-span .inplace-edit--read-value--value-span
+  overflow-x: auto
+
+// Style the attachment hint label of the description field
+.wp-edit-field-attachment-label
+  // Reduce width due to save|cancel controls
+  width: 75%
+  position: absolute
+  left: 1px
+  font-size: 0.8rem
+  padding-top: 5px
+  font-style: italic

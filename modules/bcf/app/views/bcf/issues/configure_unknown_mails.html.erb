@@ -1,0 +1,63 @@
+<%= stylesheet_link_tag 'bcf/bcf.css' %>
+<%= toolbar title: t('bcf.bcf_xml.import_title') %>
+
+<%= form_tag({ action: :configure_import }, multipart: true, method: :post) do %>
+  <%= render 'import_options_hidden_fields' %>
+  <h3>Unknown e-mail addresses found</h3>
+  <ul>
+    <% @importer.unknown_mails.each do |mail| %>
+      <li> <%= mail %></li>
+    <% end %>
+  </ul>
+  <% if @roles.any? %>
+    <p>What do you want to do?</p>
+    <% if User.current.admin? %>
+      <div class="form--field -full-width">
+        <div class="form--field-container">
+          <label class="option-label">
+            <input type="radio" name="import_options[unknown_mails_action]" value="invite" checked>
+            Invite them as members to the project "<%= @project.name %>" with role
+            <% options = @roles.collect { |obj| [obj.name, obj.id] } %>
+            <%= select_tag 'import_options[unknown_mails_invite_role_ids][]', options_for_select(options),
+                           multiple: false,
+                           no_label: true,
+                           title:    l(:label_role_search),
+                           tabIndex: 0,
+                           class:    'form--select form--inline-select',
+                           id:       'unknown_mails_invite_role_ids' %>
+            (recommended)
+          </label>
+        </div>
+      </div>
+    <% end %>
+    <div class="form--field -full-width">
+      <div class="form--field-container">
+        <label class="option-label">
+          <input type="radio" name="import_options[unknown_mails_action]" value="cancel" <%= User.current.admin? ? '' : 'checked' %>>
+          I will correct the data first and try another import.
+        </label>
+      </div>
+    </div>
+    <div class="form--field -full-width">
+      <div class="form--field-container">
+        <label class="option-label">
+          <input type="radio" name="import_options[unknown_mails_action]" value="anonymize">
+          Replace them with <i>System</i> user (not recommended)
+        </label>
+      </div>
+    </div>
+
+    <%= submit_tag t('bcf.bcf_xml.import.button_proceed'), class: 'button -highlight' %>
+    <%= link_to t(:button_cancel),
+                { action: :index },
+                class: 'button' %>
+  <% else %>
+    <p>
+      <%= I18n.t('text_no_roles_defined') %>
+    </p>
+    <%= link_to t(:button_cancel),
+                { action: :index },
+                class: 'button' %>
+  <% end %>
+<% end %>
+

@@ -1,0 +1,15 @@
+<div class="inplace-edit--dashboard">
+  <div class="inplace-edit--controls" *ngIf="field.handler.active">
+    <accessible-by-keyboard (execute)="save()"
+                            [attr.disabled]="(field.required && field.isEmpty()) || undefined"
+                            [linkTitle]="saveTitle"
+                            class="inplace-edit--control inplace-edit--control--save">
+      <op-icon icon-classes="icon-checkmark" [icon-title]="saveTitle"></op-icon>
+    </accessible-by-keyboard>
+    <accessible-by-keyboard (execute)="cancel()"
+                            [linkTitle]="cancelTitle"
+                            class="inplace-edit--control inplace-edit--control--cancel">
+      <op-icon icon-classes="icon-close" [icon-title]="cancelTitle"></op-icon>
+    </accessible-by-keyboard>
+</div>
+</div>

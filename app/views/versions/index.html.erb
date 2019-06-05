@@ -1,0 +1,76 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= toolbar title: t(:label_roadmap) do %>
+  <li class="toolbar-item">
+    <%= link_to_if_authorized({ controller: '/versions', action: 'new', project_id: @project },
+                { class: 'button -alt-highlight',
+                  aria: { label: t(:label_version_new) },
+                  title: t(:label_version_new) }) do %>
+        <%= op_icon('button--icon icon-add') %>
+        <span class="button--text"><%= t('activerecord.models.version') %></span>
+    <% end %>
+  </li>
+<% end %>
+
+<% if @versions.empty? %>
+  <%= no_results_box %>
+<% else %>
+  <div id="roadmap">
+    <% @versions.each do |version| %>
+      <h3 class="version icon-context icon-modules">
+        <%= link_to_version version, name: h(version.name) %>
+      </h3>
+      <%= render partial: 'versions/overview', locals: {version: version} %>
+      <%= render(partial: "wiki/content", locals: {content: version.wiki_page.content}) if version.wiki_page %>
+      <% if (issues = @issues_by_version[version]) && issues.size > 0 %>
+      <form>
+        <fieldset class="form--fieldset -collapsible">
+          <legend class="form--fieldset-legend" ><%= l(:label_related_work_packages) %></legend>
+          <div>
+            <ul>
+              <%- issues.each do |issue| -%>
+                <li><%= link_to_work_package(issue, project: (@project != issue.project)) %></li>
+              <%- end -%>
+            </ul>
+          </div>
+        </fieldset>
+      </form>
+      <% end %>
+      <%= call_hook :view_projects_roadmap_version_bottom, version: version %>
+    <% end %>
+  </div>
+<% end %>
+
+<% content_for :sidebar do %>
+  <%= render partial: 'roadmap_filter' %>
+  <%= render partial: 'roadmap_version_links' %>
+<% end %>
+
+<% html_title(l(:label_roadmap)) %>

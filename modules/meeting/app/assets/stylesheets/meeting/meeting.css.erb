@@ -1,0 +1,61 @@
+/*-- copyright
+OpenProject Meeting Plugin
+
+Copyright (C) 2011-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.md for more details.
+
+++*/
+
+.meetings div.meeting {padding-bottom: 1em;}
+div.meeting_content {padding-bottom: 2em;}
+div.meetings_by_date {padding: 1em 0 1em 2em;}
+dl.meetings p, div#activity dl.meetings dd, div#activity dl.meetings dt {padding: 0;}
+dl.meetings {margin-bottom: 2em;}
+dt.meeting {margin-bottom: 1.5em;}
+dl.meetings p {margin-bottom: 0.75em;}
+
+.meeting.details p {
+  margin: 0;
+}
+
+.meeting.details .block--author {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.meeting.details .block--author .avatar ~ .author {
+  margin-left: 10px;
+}
+
+div.tabular > div { margin: 0;
+  padding: 5px 0 8px 0;
+  padding-left: 180px; /*width of left column containing the label elements*/
+  height: 1%;
+  clear:left;
+}
+
+#meeting_agenda_preview fieldset {margin-top: 1em; background: url(<%= asset_path 'draft.png' %>);}
+#meeting_minutes_preview fieldset {margin-top: 1em; background: url(<%= asset_path 'draft.png' %>);}
+
+div.flash.notice a.link_to_profile {
+  cursor:pointer;
+  color: #008BD0;
+}
+
+div.flash.notice a.link_to_profile:hover {
+  text-decoration: underline;
+}

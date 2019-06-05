@@ -1,0 +1,81 @@
+@import '_grid'
+@import 'elements/_bar'
+@import 'elements/_hover'
+@import 'elements/_milestone'
+@import 'elements/_relation'
+@import 'elements/_labels'
+
+@import '_timelines_header'
+@import '_timelines_static_elements'
+
+.wp-timeline--th
+  min-width: 600px !important
+
+.wp-timeline--dummy-controls
+  position: absolute
+  right: 20px
+  background: white
+  top: calc(#{$generic-table--header-height} + 10px)
+  border: 1px solid #D7D7D7
+  box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.2)
+  z-index: 200
+
+  // Ensure even padding around buttons
+  padding: 5px
+  line-height: 1
+
+  button
+    margin: 0
+
+.wp-table-timeline--container
+  position: relative
+  width: 100%
+
+.wp-table-timeline--relations
+  z-index: 0
+
+.wp-table-timeline--grid
+  z-index: -2
+
+.wp-table-timeline--relations,
+.wp-table-timeline--grid
+  position: absolute
+  width: 100%
+  // Position 45px below header
+  top: $generic-table--header-height
+  height: calc(100% - #{$generic-table--header-height})
+  // Disable pointer-events to allow cells to handle them
+  pointer-events: none
+
+// Left border for the timeline
+.work-packages-split-view--left-timeline
+  border-left: 5px solid #888
+
+// Add bottom border to timeline
+.wp-table-timeline--body
+  outline: 1px solid $table-row-border-color
+
+.wp-timeline-cell
+  // Ensure the height of table and timeline rows
+  height: $table-timeline--row-height
+  // Vertically center elements
+  display: flex
+  align-items: center
+
+  &:first-child
+    // The first table child is 1px larger
+    height: calc(#{$table-timeline--row-height} + 1px)
+
+  // Need to disable flex behavior on children
+  > div
+    flex: 0 0 auto
+
+  // Relative position for positioning of elements within
+  position: relative
+
+  &.-collapsed
+    display: none
+
+// Add margin to timeline when inline-create link is showing in table
+.wp-table-timeline--body.-inline-create-mirror
+  margin-bottom: $table-timeline--row-height

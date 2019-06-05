@@ -1,0 +1,170 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See docs/COPYRIGHT.rdoc for more details.
+//++
+
+@include breakpoint(680px down)
+  $hamburger-right: -3px
+  $hamburger-width: 50px
+  $search-input-height-mobile: 36px
+
+  #logo
+    background-color: transparent
+
+  #top-menu
+    &.-global-search-expanded
+      #account-nav-right,
+      #account-nav-left,
+      #main-menu-toggle
+        display: none
+
+      .top-menu-search
+        width: 100vw
+        margin: 0
+        padding-right: 15px
+
+        .top-menu-search--button
+          display: none
+          @include varprop(color, header-item-font-color)
+
+    #nav-login-content
+      float: none
+      padding: 15px 20px
+      width: 100%
+
+      .grid-block
+        display: block
+
+        .form--field
+          padding-right: 0
+
+      .login-auth-providers
+        width: 100% !important
+        white-space: normal
+
+      h3.login-auth-providers-title:before
+        border: none !important
+
+      .button
+        margin-right: 0
+    li > a:before
+      font-size: 1.25rem !important
+      vertical-align: text-bottom
+    li.drop-down > ul.drop-down--projects
+      width: 100vw
+      border-right: none
+      border-left: none
+      left: -1 * ($hamburger-width + $hamburger-right)
+      .nosidebar &
+        left: 0px
+
+    #global-search-input
+      display: none
+      &.-expanded
+        display: block
+        width: calc(100vw - 50px)
+        min-width: unset
+        position: unset
+
+        .scroll-host
+          max-height: calc(100vh - #{$header-height})
+
+        .ng-clear-wrapper
+          width: 40px
+          right: 0
+
+        .ng-select-bottom
+          height: calc(100vh - #{$header-height})
+          overflow-y: auto
+          margin: 0
+
+        .ng-select-container
+          height: $search-input-height-mobile !important
+          border-radius: 4px
+
+        .ng-input input
+          height: 36px
+          // The font-size is necessary to avoid iOS to zoom in when being focused
+          font-size: 16px
+
+    .top-menu-search--back-button
+      display: initial
+      width: 50px
+      text-align: center
+      @include varprop(color, header-item-font-color)
+      &:hover, &:focus, &:active
+        text-decoration: none
+
+    .top-menu-search--loading
+      top: $header-height + 1px
+
+    .top-menu-search--button.-input-focused
+      @include varprop(color, header-item-font-color)
+
+  #account-nav-right
+    > li ul
+      top: $header-height-mobile
+      width: 100vw
+      box-shadow: 1px 1px 4px #cccccc
+      border: solid 1px rgba(0, 0, 0, 0.2)
+
+      li
+        max-width: none
+
+    #more-menu.drop-down--modules
+      // 58 = Width of one menu item
+      right: -58px
+
+  #account-nav-left
+    #projects-menu
+      .button--dropdown-text
+        // Viewport minus #account-nav-right when logged out, which is
+        // 165px, as this is the space for the long login text label: "Connexion" (French).
+        // 36px is the padding around the project name.
+        max-width: calc(100vW - 165px - 36px - #{$hamburger-width + $hamburger-right})
+        .nosidebar &
+          max-width: calc(100vW - 165px - 36px)
+    .drop-down
+      // Viewport minus #account-nav-right when logged out
+      // 165px as this is the space for the long login text label: "Connexion" (French)
+      max-width: calc(100vW - 165px - #{$hamburger-width + $hamburger-right})
+      .nosidebar &
+        max-width: calc(100vW - 165px)
+      ul
+        width: 100vw !important
+        border: none
+        top: $header-height-mobile
+
+  .project-search-results
+    width: 100vw !important
+    left: 0 !important
+    border-right: 0
+
+    .project-menu-autocomplete--input-container
+      border-right: none !important
+      border-left: none !important
+    .project-menu-autocomplete--results
+      border-bottom: 2px solid $header-drop-down-border-color !important

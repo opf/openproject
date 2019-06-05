@@ -1,0 +1,6 @@
+<div class="work-package--attachments--files" *ngIf="resource">
+  <ul class="form--selected-value--list"
+      *ngFor="let attachment of resource.attachments.elements; let i = index;">
+    <attachment-list-item [attachment]="attachment" [resource]="resource" [index]="i" [selfDestroy]="selfDestroy"></attachment-list-item>
+  </ul>
+</div>

@@ -1,0 +1,19 @@
+<span class="form--select-container">
+    <select class="form--select"
+            id="{{$ctrl.fieldId}}"
+            ng-model="$ctrl.selectedOperator"
+            ng-change="$ctrl.toggleValueVisibility()"
+            ng-options="n.label for n in $ctrl.operators track by n.key">
+    </select>
+</span>
+<span class="form--text-field-container -slim"
+      ng-if="$ctrl.valueVisible" >
+    <input type="text"
+           id="{{$ctrl.fieldId + '_visible'}}"
+           ng-model="$ctrl.visibleValue"
+           ng-change="$ctrl.updateDbValue()"
+           class="-augmented-datepicker form--text-field">
+</span>
+<input type="hidden"
+       name="{{$ctrl.fieldName}}"
+       value="{{$ctrl.fieldValue}}">

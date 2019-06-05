@@ -1,0 +1,112 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See docs/COPYRIGHT.rdoc for more details.
+//++
+
+%breadcrumb--default-font
+  @include default-font($breadcrumb-font-color, $breadcrumb-font-size, bold)
+
+#breadcrumb,
+.wp-breadcrumb
+  display: none
+  @include default-transition
+  height: $breadcrumb-height
+  overflow: hidden
+  background: none repeat scroll 0 0
+  @include varprop(background-color, body-background)
+  border: none
+  width: auto
+  overflow: hidden
+  position: relative
+  &.nosidebar
+    // 7px of the icon to align breadcrumb with content
+    margin-left: -7px
+    ul
+      margin: 0
+
+  a
+    font-size: 12px
+    @include varprop(color, content-link-color)
+    font-weight: normal
+
+  li
+    @extend %breadcrumb--default-font
+    color: lighten($breadcrumb-font-color, 20)
+    list-style-type: none
+    &.cutme
+      max-width: $breadcrumb-height
+
+  &.-show
+    display: block
+
+#breadcrumb
+  li
+    white-space: nowrap
+
+ul.breadcrumb
+  margin: 0 0 0 0
+  padding: 0
+  list-style: none
+  list-style-position: outside
+  // width: 10000px
+  height: $breadcrumb-height
+  line-height: $breadcrumb-height
+
+#breadcrumb,
+.wp-breadcrumb
+  ul.breadcrumb li.first-breadcrumb-element
+    margin-left: 0
+    height: $breadcrumb-height
+    line-height: $breadcrumb-height
+    a
+      text-decoration: none
+      display: block
+      font-size: 12px
+
+#breadcrumb,
+.wp-breadcrumb
+  ul.breadcrumb li
+    float: left
+    margin: 0 5px 0 0
+    padding: 0
+
+.wp-breadcrumb
+  margin-top: 10px
+  height: initial
+
+  ul.breadcrumb
+    height: initial
+
+  li
+    line-height: 20px
+
+  .wp-breadcrumb--ellipsed
+    max-width: 420px
+    @include text-shortener
+
+// Hide projects in normal mode
+.breadcrumb .breadcrumb-project-element
+  display: none

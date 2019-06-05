@@ -1,0 +1,57 @@
+<%#-- copyright
+OpenProject Backlogs Plugin
+
+Copyright (C)2013-2014 the OpenProject Foundation (OPF)
+Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
+Copyright (C)2010-2011 friflaj
+Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns
+Copyright (C)2009-2010 Mark Maglana
+Copyright (C)2009 Joe Heck, Nate Lowrie
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License version 3.
+
+OpenProject Backlogs is a derivative work based on ChiliProject Backlogs.
+The copyright follows:
+Copyright (C) 2010-2011 - Emiliano Heyns, Mark Maglana, friflaj
+Copyright (C) 2011 - Jens Ulferts, Gregor Schmidt - Finn GmbH - Berlin, Germany
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<li class="model story <%= mark_if_closed(story) %> <%= cycle('odd', 'even', :name => "stories") %>" id="<%= story_html_id_or_empty(story) %>">
+  <div class="id">
+    <div class="t"><%= work_package_link_or_empty(story) %></div>
+    <div class="v"><%= id_or_empty(story) %></div>
+  </div>
+  <div class="story_points editable" fieldname="story_points" fieldorder="4" field_id=<%= story.id %>><%= story_points_or_empty(story) %></div>
+  <div class="status_id editable" fieldtype="select" fieldname="status_id" fieldorder="3" field_id=<%= story.id %>>
+    <div class="t ellipsis" title="<%= status_label_or_default(story) %>"><%= status_label_or_default(story) %></div>
+    <div class="v"><%= status_id_or_default(story) %></div>
+  </div>
+  <div class="type_id editable" fieldtype="select" fieldname="type_id" fieldorder="1" field_id=<%= story.id %>>
+    <div class="t"><%= type_name_or_empty(story) %>: </div>
+    <div class="v"><%= type_id_or_empty(story) %></div>
+  </div>
+  <div class="subject editable ellipsis" fieldname="subject" fieldorder="2" title="<%= h story.subject %>" field_id=<%= story.id %>><%=h story.subject %></div>
+  <div class="fixed_version_id"><%= story.fixed_version_id %></div>
+  <div class="higher_item_id"><%= !defined?(higher_item) || higher_item.nil? ? '' : higher_item.id %></div>
+  <div class="meta">
+    <%= render(:partial => "shared/model_errors", :object => story.errors) if story.errors.size > 0 %>
+  </div>
+</li>

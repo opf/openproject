@@ -1,0 +1,23 @@
+<div class="form--selected-value--container" focus-within="accessible-by-keyboard">
+  <span class="form--selected-value">
+    <span [ngClass]="{'deleting': deleting }">
+      <a [attr.href]="watcher.showUser.href">
+        <user-avatar [attr.data-user-name]="watcher.name"
+                     [attr.data-user-id]="watcher.id"
+                     data-class-list="avatar-mini">
+        </user-avatar>
+        <span class="work-package--watcher-name" [textContent]="watcher.name"></span>
+      </a>
+    </span>
+  </span>
+  <accessible-by-keyboard (execute)="remove()"
+                          [linkAriaLabel]="text.remove"
+                          [linkTitle]="text.remove"
+                          linkClass="form--selected-value--remover">
+    <op-icon icon-classes="icon-remove"
+             [icon-title]="text.remove"></op-icon>
+  </accessible-by-keyboard>
+</div>
+
+
+

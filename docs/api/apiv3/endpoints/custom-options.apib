@@ -1,0 +1,51 @@
+# Group Custom Objects
+
+## Linked Properties
+|  Link         | Description               | Type          | Constraints | Supported operations |
+|:-------------:|-------------------------- | ------------- | ----------- | -------------------- |
+| self          | This custom object        | CustomObject  | not null    | READ                 |
+
+## Local Properties
+| Property         | Description                                    | Type     | Constraints | Supported operations |
+|:----------------:| ---------------------------------------------- | -------- | ----------- | -------------------- |
+| id               | The identifier                                 | Integer  |             | READ                 |
+| value            | The value defined for this custom object       | String   |             | READ                 |
+
+
+Custom objects are options of list custom fields.
+
+## Custom Object [/api/v3/custom_objects/{id}]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/custom_objects/1" }
+                },
+                "_type": "CustomObject",
+                "value": "Foo"
+            }
+
+## View Custom Object [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... The custom object's identifier
+
++ Response 200 (application/hal+json)
+
+    [Custom Object][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the custom object does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** view work package in any project the custom object's custom field is active in.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The requested resource could not be found."
+            }

@@ -1,0 +1,68 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= nonced_javascript_tag do %>
+  <%= include_gon(need_tag: false) -%>
+<% end %>
+
+<%= toolbar title: l(:label_spent_time) do %>
+  <% if User.current.allowed_to?({controller: :timelog, action: :new}, @project) %>
+      <li class="toolbar-item">
+        <%= link_to polymorphic_new_time_entry_path(@issue || @project), class: 'button' do %>
+          <%= op_icon('button--icon icon-time') %>
+          <span class="button--text"><%= l(:button_log_time) %></span>
+        <% end %>
+      </li>
+  <% end %>
+<% end %>
+
+
+<%= form_tag(polymorphic_path([@issue || @project, :time_entries]), method: :get, id: 'query_form') do %>
+  <%= render partial: 'date_range' %>
+<% end %>
+<%= render 'time_entry_tabs' %>
+<div class="total-hours">
+  <p><%= l(:label_total) %>: <%= html_hours(l_hours(@total_hours)) %></p>
+</div>
+<div>
+  <% if @entries.empty? %>
+    <%= no_results_box %>
+  <% else %>
+    <%= render partial: 'list', locals: { entries: @entries }%>
+
+    <%= other_formats_links do |f| %>
+      <%= f.link_to 'Atom', url: permitted_params.timelog.to_h.merge({issue_id: @issue, key: User.current.rss_key}) %>
+      <%= f.link_to 'CSV', url: permitted_params.timelog.to_h %>
+    <% end %>
+  <% end %>
+</div>
+<% html_title l(:label_spent_time) %>
+<% content_for :header_tags do %>
+  <%= auto_discovery_link_tag(:atom, {issue_id: @issue, format: 'atom', key: User.current.rss_key}, title: l(:label_spent_time)) %>
+<% end %>

@@ -1,0 +1,5 @@
+lt:
+  js:
+    reporting_engine:
+      label_remove: "Ištrinti"
+      label_response_error: "Klaida apdorojant užklausą."

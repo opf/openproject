@@ -1,0 +1,12 @@
+id:
+  js:
+    work_packages:
+      property_groups:
+        costs: "Biaya"
+      properties:
+        costObject: "Bugdet"
+        overallCosts: "Biaya keseluruhan"
+        spentUnits: "Unit terpakai"
+    button_log_costs: "Log biaya unit"
+    label_hour: "jam"
+    label_hours: "jam"

@@ -1,0 +1,78 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<style type="text/css">
+  <% if CustomStyle.current.logo.present? %>
+    #logo .home-link {
+      margin-top: 12px;
+      width: 230px;
+      height: 30px;
+      background-image: url("<%= custom_style_logo_path(digest: CustomStyle.current.digest, filename: CustomStyle.current.logo_identifier) %>");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+    }
+  <% end %>
+
+  :root {
+  <%  DesignColor.overwritten.each do |design_color| %>
+    --<%= design_color.variable %>: <%= design_color.hexcode %>;
+    <% if design_color.variable == "header-border-bottom-color" %>
+      --header-border-bottom-width: 1px;
+    <% end %>
+    <% if design_color.variable == "main-menu-border-color" %>
+      --main-menu-border-width: 1px;
+    <% end %>
+    <% if design_color.variable == "alternative-color" %>
+      --button--alt-highlight-background-hover-color: <%= darken_color design_color.hexcode, 0.82 %>;
+    <% end %>
+  <% end %>
+  }
+
+  <%# Conditional styles %>
+  <% if DesignColor.overwritten.map(&:variable).include?('header-border-bottom-color') %>
+    <%# Remove top border of left menu to not have to borders adding to 2px %>
+    #main-menu #toggle-project-menu {
+      border-top: 0px;
+    }
+
+    <%# Trying to hit the query cache for the condition here: %>
+    <% if DesignColor.overwritten.map(&:variable).include?('header-bg-color') &&
+          DesignColor.overwritten.select { |design_color| design_color.variable == 'header-bg-color' }.try(:first).try(:hexcode) == '#FFFFFF' &&
+          DesignColor.overwritten.select { |design_color| design_color.variable == 'header-item-bg-hover-color' }.try(:first).try(:hexcode) == '#FFFFFF' %>
+      <%# Disable hover background color to not overlap border %>
+      #top-menu li > a:hover,
+      #top-menu li.drop-down:hover,
+      #top-menu li.drop-down.open,
+      .top-menu-search.-collapsed .top-menu-search--button:hover {
+        background: transparent;
+      }
+    <% end %>
+  <% end %>
+</style>

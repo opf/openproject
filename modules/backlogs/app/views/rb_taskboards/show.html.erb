@@ -1,0 +1,156 @@
+<%#-- copyright
+OpenProject Backlogs Plugin
+
+Copyright (C)2013-2014 the OpenProject Foundation (OPF)
+Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
+Copyright (C)2010-2011 friflaj
+Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns
+Copyright (C)2009-2010 Mark Maglana
+Copyright (C)2009 Joe Heck, Nate Lowrie
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License version 3.
+
+OpenProject Backlogs is a derivative work based on ChiliProject Backlogs.
+The copyright follows:
+Copyright (C) 2010-2011 - Emiliano Heyns, Mark Maglana, friflaj
+Copyright (C) 2011 - Jens Ulferts, Gregor Schmidt - Finn GmbH - Berlin, Germany
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% content_for :header_tags do %>
+  <%= render :partial => 'shared/backlogs_header' %>
+  <%= stylesheet_link_tag 'backlogs/taskboard.css' %>
+<% end %>
+<% html_title @sprint.name %>
+<%= toolbar title: @sprint.name do %>
+  <li class="toolbar-item toolbar-input-group" id="col_width">
+    <div>
+      <label for="col_width_input"><%= l('backlogs.column_width') %></label>
+    </div>
+    <input type="text" id="col_width_input">
+  </li>
+  <% if @sprint.has_burndown? %>
+    <li class="toolbar-item">
+      <%= show_burndown_link(@sprint) %>
+    </li>
+  <% end %>
+<% end %>
+
+<% breadcrumb_paths(link_to(l(:label_backlogs), backlogs_project_backlogs_path(@project)), link_to(@sprint.name, backlogs_project_backlogs_path(@sprint))) %>
+
+<div id='rb'>
+  <div id="taskboard">
+    <table id="board_header" cellspacing="0">
+      <tr>
+        <td><%= l(:backlogs_story) %></td>
+        <% @statuses.each do |status| %>
+          <td class="swimlane"><%= status.name %></td>
+        <% end %>
+      </tr>
+    </table>
+
+    <table id="impediments" class="board" cellspacing="0">
+      <tr>
+        <td><div class="label_sprint_impediments"><%= l(:label_sprint_impediments) %></div></td>
+        <% if User.current.allowed_to?(:add_work_packages, @project) %>
+          <td class ="add_new clickable">+</td>
+        <% else %>
+          <td class ="add_new"></td>
+          <% end %>
+        <% @statuses.each do |status| %>
+          <td class="swimlane list <%= status.is_closed? ? 'closed' : '' %>" id="impcell_<%= status.id %>">
+            <%= render :partial => "rb_impediments/impediment",
+                       :collection => impediments_by_position_for_status(@sprint, @project, status) %>
+          </td>
+        <% end %>
+      </tr>
+    </table>
+
+    <table id="tasks" class="board" cellspacing="0">
+      <% @sprint.stories(@project).each do |story| %>
+        <% tasks_by_status_id = story.tasks.group_by(&:status_id) %>
+
+        <tr class="<%= story_html_id_or_empty(story) %>">
+          <td>
+            <div class="story <%= mark_if_closed(story) %>" id="<%= story_html_id_or_empty(story) %>">
+              <div class='story-bar'>
+                <div class="status">
+                  <%= story.status.name %>
+                </div>
+                <div class="id">
+                  <%= work_package_link_or_empty(story) %>
+                </div>
+              </div>
+              <div class="subject"><%= story.subject %></div>
+              <div class='story-footer'>
+                <div class="assigned_to_id">
+                  <% if story.assigned_to.present? %>
+                    <%= link_to_user(story.assigned_to) %>
+                  <% else %>
+                    <em><%= l('backlogs.unassigned') %></em>
+                  <% end %>
+                </div>
+                <div class="story-points">
+                  <%= story.story_points %>
+                </div>
+              </div>
+            </div>
+          </td>
+          <% if User.current.allowed_to?(:add_work_packages, @project) %>
+            <td class ="add_new clickable">+</td>
+          <% else %>
+            <td class ="add_new"></td>
+          <% end %>
+          <% @statuses.each do |status| %>
+            <td class="swimlane list <%= status.is_closed? ? 'closed' : '' %>" id="<%= story.id %>_<%= status.id %>">
+              <%= render :partial => "rb_tasks/task",
+                         :collection => tasks_by_status_id[status.id] %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+
+  <div id="helpers">
+    <select class="assigned_to_id template" id="assigned_to_id_options">
+      <option value=""> </option>
+      <% @project.possible_assignees.each do |user| %>
+        <option value="<%= user.id %>" color="<%= get_backlogs_preference(user, :task_color) %>">
+          <%= user.name %>
+        </option>
+      <% end %>
+    </select>
+    <div id="task_template">
+      <%= render :partial => "rb_tasks/task", :object => Task.new, :locals => {:project => @project} %>
+    </div>
+    <div id="impediment_template">
+      <%= render :partial => "rb_impediments/impediment", :object => Impediment.new, :locals => {:project => @project} %>
+    </div>
+
+    <div id="work_package_editor"> </div>
+    <div class="meta" id="last_updated"><%= date_string_with_milliseconds( (@last_updated.blank? ? Time.now : @last_updated.updated_at) )  %></div>
+    <div id="charts"> </div>
+    <div id="preloader">
+      <div id="spinner"> </div>
+      <div id="warning"> </div>
+    </div>
+  </div>
+</div>

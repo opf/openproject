@@ -1,0 +1,13 @@
+<%= stylesheet_link_tag 'bcf/bcf.css' %>
+<link rel="stylesheet" href="/highlighting/styles.css" />
+
+<h3>Failed imports of BCF topics</h3>
+<%= render partial: 'render_issues', locals: { issues: @issues[:failed] } %>
+<p></p>
+<h3>Successfully imported BCF topics</h3>
+<%= render partial: 'render_issues', locals: { issues: @issues[:successful] } %>
+<p></p>
+<hr class="form--separator" />
+<%= link_to t('bcf.bcf_xml.import.button_back_to_list'),
+            { action: :index },
+            class: 'button -highlight' %>

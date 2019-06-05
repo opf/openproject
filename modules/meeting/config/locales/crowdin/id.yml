@@ -1,0 +1,64 @@
+id:
+  activerecord:
+    attributes:
+      meeting:
+        location: "Lokasi"
+        duration: "Durasi"
+        participants: "Partisipan"
+        participants_attended: "Peserta"
+        participants_invited: "Undangan"
+        start_time: "Waktu"
+        start_time_hour: "Waktu mulai"
+    errors:
+      messages:
+        invalid_time_format: "bukanlah waktu yang valid. Format seharusnya; JJ:MM"
+    models:
+      meeting_agenda: "Agenda"
+      meeting_minutes: "Laporan"
+  description_attended: "hadir"
+  description_invite: "diundang"
+  events:
+    meeting: Rapat diedit
+    meeting_agenda: Agenda rapat diedit
+    meeting_agenda_closed: Agenda rapat ditutup
+    meeting_agenda_opened: Agenda rapat dibuka
+    meeting_minutes: Laporan rapat diedit
+    meeting_minutes_created: Laporan rapat dibuat
+  error_notification_with_errors: "Gagal mengirim notifikasi. Berikut penerima yang tidak terkirim: %{recipients}"
+  label_meeting: "Rapat"
+  label_meeting_plural: "Rapat"
+  label_meeting_new: "Rapat Baru"
+  label_meeting_edit: "Edit Rapat"
+  label_meeting_agenda: "Agenda"
+  label_meeting_minutes: "Laporan"
+  label_meeting_close: "Tutup"
+  label_meeting_open: "Buka"
+  label_meeting_agenda_close: "Tutup agenda untuk memulai Laporan"
+  label_meeting_date_time: "Tanggal/Waktu"
+  label_meeting_diff: "Perbedaan"
+  label_notify: "Kirim untuk ulasan"
+  label_icalendar: "Kirim iCalendar"
+  label_version: "Versi"
+  label_time_zone: "Zona waktu"
+  label_start_date: "Tanggal mulai"
+  notice_successful_notification: "Berhasil mengirim notifikasi"
+  notice_timezone_missing: Tidak ada zona waktu yang ditetapkan sehingga diasumsikan %{zone}. Untuk memilih zona waktu, silakan mengeklik di sini.
+  permission_create_meetings: "Membuat rapat"
+  permission_edit_meetings: "Edit rapat"
+  permission_delete_meetings: "Hapus rapat"
+  permission_view_meetings: "Lihat rapat"
+  permission_create_meeting_agendas: "Kelola agenda"
+  permission_close_meeting_agendas: "Tutup agenda"
+  permission_send_meeting_agendas_notification: "Kirim notifikasi ulasan untuk agenda"
+  permission_create_meeting_minutes: "Kelola laporan"
+  permission_send_meeting_minutes_notification: "Kirim notifikasi ulasan untuk laporan"
+  project_module_meetings: "Rapat"
+  text_duration_in_hours: "Durasi dalam jam"
+  text_in_hours: "dalam jam"
+  text_meeting_agenda_for_meeting: 'agenda untuk rapat "%{meeting}"'
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting?"
+  text_meeting_agenda_open_are_you_sure: "Konten yang tidak disimpan dalam laporan akan hilang! Lanjutkan?"
+  text_meeting_minutes_for_meeting: 'laporan untuk rapat "%{meeting}"'
+  text_review_meeting_agenda: "%{author} telah memberikan %{link} untuk diulas."
+  text_review_meeting_minutes: "%{author} telah memberikan %{link} untuk diulas."
+  text_notificiation_invited: "Surel ini berisi entri ics untuk rapat di bawah:"

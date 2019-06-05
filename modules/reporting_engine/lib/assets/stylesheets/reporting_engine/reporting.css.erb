@@ -1,0 +1,433 @@
+/*-- copyright
+ReportingEngine
+
+Copyright (C) 2010 - 2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+version 3.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+++*/
+
+.cost_types {
+  padding-bottom: 3px;
+}
+
+.cost_types a.active {
+  color: #000;
+  font-weight: bold;
+}
+
+.report {
+  text-align:       center;
+  border-collapse:  collapse;
+  border:           solid 1px #ccc !important;
+  width:            auto !important;
+}
+
+.report td, .report th {
+  min-width:        90px;
+  white-space:      nowrap;
+}
+
+.report td {
+  border: dotted 1px #ddd;
+  color: #666;
+  text-align: center;
+  padding: 0 8px 0 8px;
+  line-height: 2rem;
+  vertical-align: middle;
+
+}
+
+.report tbody th, .report tbody td, .inner {
+  max-width: 300px;
+  white-space: normal !important;
+}
+
+.report td:hover {
+  color: #000;
+  outline: #ccc 1px solid;
+  outline-offset: 1px;
+}
+
+.report td.empty:hover {
+  outline: none;
+}
+
+.report th {
+  border: solid 1px #ccc;
+  background-color: #e3e3e3;
+  text-align: center;
+  font-size: 0.875rem;
+  line-height: 34px;
+  padding: 0 8px 0 8px;
+
+}
+
+.report .odd th.inner {
+  background-color: #e8e8e8;
+}
+
+.report .even th.inner {
+  background-color: #e3e3e3;
+}
+
+.report th.inner {
+  border: solid 1px #ccc;
+  background-color: #efefef;
+  text-align: right;
+}
+
+.report .odd td.inner {
+  background-color: #e8e8e8;
+}
+
+.report .even td.inner {
+  background-color: #e3e3e3;
+}
+
+.report tr.even:hover .inner,
+.report tr.even:hover .bottom,
+.report tr.even:hover .empty,
+.report tr.even:hover .right {
+  background-color: #f5f5c5 !important;
+}
+/* IE7 made me do it! */
+.report tr.odd:hover .inner,
+.report tr.odd:hover .bottom,
+.report tr.odd:hover .empty,
+.report tr.odd:hover .right {
+  background-color: #f5f5c5 !important;
+}
+
+.report .top {
+  border-top-style: solid;
+  border-top-color: #ccc;
+  /* border-top: 2px solid #ccc !important; */
+}
+
+.report .bottom {
+  border-bottom-style: solid;
+  border-bottom-color: #ccc;
+  /* border-bottom: 2px solid #ccc !important; */
+}
+
+.report td.penultimate {
+  border-right-style: solid;
+}
+
+.report thead .inner, .report tfoot .inner {
+  text-align: right;
+  padding-right: 5px;
+}
+
+.report .result {
+  font-size: 120%;
+  text-align: right;
+}
+
+#result-table {
+  margin: 10px 0;
+  overflow-x: auto;
+}
+
+.report thead tr:hover .inner, .report tfoot tr:hover .inner {
+  background-color: #efefef;
+}
+
+.report .left {
+  text-align: left !important;
+  padding-left: 5px;
+}
+
+.report .right {
+  text-align: right !important;
+  padding-right: 5px;
+}
+
+/* Details view*/
+
+.detail-report td {
+  text-align: left;
+  vertical-align: top;
+}
+
+#query_form fieldset.header_collapsible.collapsible {
+  padding-bottom: 10px;
+}
+
+/* Overwriting styling for headlines within the query. */
+/* TODO: Font-size seems to be a bit odd. Needs some love. */
+.new_report fieldset h3 {
+  font-size: 1.17em;
+  border: none;
+}
+
+.filter {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.inactive-filter {
+  background-color: #FCE29A !important;
+}
+
+.advanced-filters--filter-value {
+  white-space: nowrap;
+}
+
+.filter_radio_option {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#add_filter_block {
+  margin-top: 6px;
+}
+
+#add_filter_select {
+  margin-bottom: 10px;
+}
+
+/* ----- group by --- */
+#group-by--area {
+  margin: 5px 0 10px 0;
+}
+
+#group-by--area fieldset {
+  border: none;
+  padding: 0px;
+  margin-bottom: 1em;
+}
+
+.in_row {
+  display: inline-block;
+  list-style: none;
+  border-width: 0px;
+}
+
+.group-by--selected-element {
+  cursor: move;
+	position: relative;
+  background-color: #767676;
+  padding-left: 14px;
+  margin-left: 18px;
+  min-width: 145px;
+}
+
+fieldset.collapsible.header_collapsible legend.in_row {
+  width: inherit;
+  background-image: inherit;
+}
+
+.group-by--container {
+  overflow: hidden;
+}
+
+.group-by--label {
+  margin: 0px;
+  padding: 0px 18px 0 0;
+  min-width: 60px;
+  text-align: center;
+  white-space: nowrap;
+  font-weight: bold;
+  color: #fff;
+  height: 36px;
+  line-height: 36px;
+  cursor: move;
+}
+
+.group-by--selected-element:after, .group-by--selected-element:before {
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	top: 50%;
+	border-width: 30px 0px 30px 14px;
+	margin-top: -30px;
+}
+
+.group-by--selected-element:after {
+	border-color: rgba(118, 118, 118, 0);
+	border-left-color: rgba(118, 118, 118, 1);
+	left: 100%;
+}
+
+.group-by--selected-element:before {
+	border-color: rgba(118, 118, 118, 1);
+	border-left-color: rgba(118, 118, 118, 0);
+	left: -14px;
+}
+
+.group-by--selected-element:hover:after {
+	border-color: rgba(52, 147, 179, 0);
+	border-left-color: rgba(52, 147, 179, 1);
+}
+.group-by--selected-element:hover:before {
+	border-color: rgba(52, 147, 179, 1);
+	border-left-color: rgba(52, 147, 179, 0);
+}
+
+.group-by--selected-element:hover {
+  background-color: #3493B3;
+}
+
+.group-by--remove {
+  line-height: normal;
+  cursor: pointer;
+  color: #FFFFFF;
+}
+
+.group-by--remove:hover {
+  background-color: #3493B3 !important;
+  text-decoration: none;
+  color: #FFFFFF;
+}
+
+.group-by--control {
+  margin: 0;
+  padding: 0;
+}
+
+.group-by--selected-elements {
+  background-color: #EEE;
+  overflow: hidden;
+}
+
+.group-by--caption {
+  position: relative;
+  color: #FFFFFF;
+  background-color: #4B4B4B;
+  font-weight: bold;
+  padding: 0 7px;
+  margin: 0;
+  height: inherit;
+  line-height: 36px;
+  min-width: 55px;
+  overflow: visible;
+}
+
+.group-by--caption:after {
+	left: 100%;
+	top: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.group-by--caption:after {
+	border-color: rgba(75, 75, 75, 0);
+	border-left-color: #4B4B4B;
+	border-width: 30px 0px 30px 14px;
+	margin-top: -30px;
+  z-index: 10;
+}
+
+/* -- end group-by -- */
+
+td .drill_down, th .drill_down {
+  font-size: 8px;
+  display: block;
+  float: right;
+  font-weight: bold;
+  visibility: hidden;
+}
+
+td:hover .drill_down, th:hover .drill_down {
+  visibility: visible;
+}
+
+/*Buttons*/
+
+.form--buttons.-with-button-form {
+  position: relative;
+}
+
+.form--buttons.-with-button-form .button {
+  margin-bottom: 0;
+}
+
+div.button_form {
+  /* TODO IE Compatibility! */
+  background-color: white;
+  border: 1px solid gray;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  left: 100px;
+  position: absolute;
+  padding: 1.0rem;
+  width: 400px;
+}
+
+/***** Save and Delete Reports ****/
+#save_as_form, #delete_form {
+  z-index: 999;
+}
+
+/* Calendar Fixes */
+div.calendar /* let calendar expand properly */
+{
+  font-size: medium;
+  line-height: normal;
+}
+
+div.calendar table div { /* make sure the nested divs are large enough, too */
+  font-size: medium;
+  line-height: normal;
+}
+
+.calendar .combo .label, .calendar .combo .label-IEfix { /* set the proper size for the combo boxes with months and years */
+  font-size: 10px;
+  line-height: normal;
+}
+
+.calendar tbody .day { /* avoid jitter during quick mouse-overs over days */
+  border: 1px dotted transparent;
+  padding: 1px 3px 1px 1px;
+}
+
+.advanced-filters--filter-value.-binary {
+  display: flex;
+}
+
+@media only screen and (max-width: 679px) {
+  .group-by--control {
+    margin-top: 10px;
+  }
+  #group-by--rows .group-by--caption,
+  #group-by--columns .group-by--caption {
+    padding: 0 7px;
+  }
+  .group-by--selected-element {
+    display: inline-block;
+    padding-left: 7px;
+  }
+  .group-by--selected-element:before,
+  .group-by--selected-element:after {
+    border-width: 18px 0px 18px 14px;
+    margin-top: -18px;
+  }
+  .group-by--selected-element:first-of-type {
+    margin: 0;
+  }
+  .group-by--selected-element:first-of-type:before {
+    border: none;
+    left: 0;
+  }
+}

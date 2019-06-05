@@ -1,0 +1,16 @@
+.wp-table-timeline--static-elements
+  position: absolute
+  width: 100%
+  // Position 45px below header
+  top: $generic-table--header-height
+  height: calc(100% - #{$generic-table--header-height})
+
+.wp-timeline--static-element
+  z-index: -1
+
+#wp-timeline-static-element-today-line
+  position: absolute
+  width: 2px
+  border-left: 2px dotted red
+  height: 100%
+  pointer-events: none

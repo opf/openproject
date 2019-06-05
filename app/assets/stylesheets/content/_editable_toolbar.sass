@@ -1,0 +1,29 @@
+// Provide and editable container toolbar
+.toolbar-container.-editable
+  .title-container
+    span:hover
+      text-decoration: none
+
+  // Avoid default float of toolbar
+  .toolbar-items
+    float: none
+    margin-left: 1rem
+
+    // Fix up default margins of items in floating toolbar
+    .button
+      margin: 0
+
+.title-container.-small
+  .editable-toolbar-title--fixed
+    font-size: 1.2rem
+    line-height: 32px
+
+input[type="text"].toolbar--editable-toolbar
+  color: $toolbar-title-color
+  font-size: 20px
+  font-weight: bold
+  height: 34px
+
+  .-small &
+    font-size: 18px
+    height: 32px

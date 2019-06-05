@@ -1,0 +1,143 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+<%= styled_form_tag({action: 'edit', tab: 'repositories'}) do %>
+  <section class="form--section">
+    <div class="form--field">
+      <%= setting_check_box :autofetch_changesets %>
+      <div class="form--field-instructions">
+        <%=  simple_format t('repositories.autofetch_information') %>
+      </div>
+    </div>
+    <div class="form--field">
+      <%= setting_text_field :repository_storage_cache_minutes,
+                             unit: I18n.t(:label_minute_plural),
+                             type: 'number',
+                             container_class: '-xslim' %>
+      <div class="form--field-instructions">
+        <%= simple_format t('repositories.storage.update_timeout') %>
+      </div>
+    </div>
+    <div class="form--field">
+      <%= setting_check_box :sys_api_enabled %>
+      <% csp_onclick("jQuery('#settings_sys_api_key').prop('disabled', !this.checked)", '#settings_sys_api_enabled') %>
+      <div class="form--field-instructions">
+        <%= t(:setting_sys_api_description) %>
+      </div>
+    </div>
+    <div class="form--field"><%= setting_text_field :sys_api_key, size: 30,
+                                        id: 'settings_sys_api_key',
+                                        disabled: !Setting.sys_api_enabled?,
+                                        label: :setting_mail_handler_api_key,
+                                        container_class: '-middle' %>
+      <span class="form--field-extra-actions">
+        <%= link_to_function t(:label_generate_key),
+                             %{ if (!jQuery('#settings_sys_api_key').prop('disabled')) {
+                                  jQuery('#settings_sys_api_key').val(randomKey(20))
+                                }
+                             } %>
+      </span>
+    </div>
+    <%
+    available_scms = OpenProject::Scm::Manager.registered
+      .map {|vendor, klass| [klass.vendor_name, vendor.to_s] }
+
+    manageable_scms = OpenProject::Scm::Manager.manageable
+      .map {|vendor, klass| [klass.vendor_name, vendor.to_s, { disabled: !klass.enabled? }]}
+    %>
+    <div class="form--field">
+
+      <%= setting_multiselect(:enabled_scm, available_scms) %>
+    </div>
+    <div class="form--field">
+      <%= styled_label_tag :repositories_automatic_managed_vendor, t(:setting_repositories_automatic_managed_vendor) %>
+      <div class="form--field-container">
+        <%= setting_select :repositories_automatic_managed_vendor,
+                           [[
+                             "--- #{t('repositories.settings.automatic_managed_repos_disabled')} ---",
+                             '',
+                             { selected: true }
+                           ]] + manageable_scms,
+                           label: false,
+                           container_class: '-middle' %>
+      </div>
+      <div class="form--field-instructions"><%= t('repositories.settings.automatic_managed_repos_text') %></div>
+    </div>
+    <div class="form--field">
+      <%= setting_text_field :repositories_encodings, size: 60, container_class: '-wide' %>
+      <div class="form--field-instructions"><%= t(:text_comma_separated) %></div>
+    </div>
+    <div class="form--field"><%= setting_text_field :repository_log_display_limit, size: 6, container_class: '-xslim' %></div>
+    <div class="form--field"><%= setting_text_field :repository_truncate_at, size: 6, container_class: '-xslim' %></div>
+    <div class="form--field"><%= setting_check_box :repository_authentication_caching_enabled %></div>
+  </section>
+  <%= render partial: 'repositories_checkout' %>
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend"><%= t(:text_work_packages_ref_in_commit_messages) %></legend>
+    <div class="form--field">
+      <%= setting_text_field :commit_ref_keywords, size: 30, container_class: '-wide' %>
+      <div class="form--field-instructions"><%= t(:text_comma_separated) %></div>
+    </div>
+    <div class="form--grouping" role="group" aria-labelledby="form-grouping-label-setting_commit_fix_keywords">
+      <div id="form-grouping-label-setting_commit_fix_keywords" class="form--grouping-label">
+        <%= I18n.t("setting_commit_fix_keywords") %>
+      </div>
+      <div class="form--grouping-row">
+        <div class="form--field -vertical">
+          <%= styled_label_tag 'commit_fix_keywords', I18n.t(:label_keyword_plural) %>
+          <div class="form--field-container">
+            <%= setting_text_field :commit_fix_keywords, size: 30, label: false %>
+          </div>
+          <div class="form--field-instructions"><%= t(:text_comma_separated) %></div>
+        </div>
+        <div class="form--field -vertical">
+          <%= styled_label_tag :settings_commit_fix_status_id, t(:label_applied_status) %>
+          <div class="form--field-container">
+            <%= setting_select :commit_fix_status_id, [["--- #{t(:actionview_instancetag_blank_option)} ---", '0', { disabled: true }]] + Status.all.collect{ |status| [status.name, status.id.to_s] }, label: false %>
+          </div>
+        </div>
+        <div class="form--field -vertical">
+          <%= styled_label_tag :settings_commit_fix_done_ratio, WorkPackage.human_attribute_name(:done_ratio) %>
+          <div class="form--field-container">
+            <%= setting_select :commit_fix_done_ratio, (0..10).to_a.collect {|r| ["#{r*10} %", "#{r*10}"] }, blank: :label_no_change_option, label: false %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form--field">
+      <%= setting_check_box :commit_logtime_enabled %>
+      <% csp_onclick("jQuery('#settings_commit_logtime_activity_id').prop('disabled', !this.checked)",
+                     '#setting_commit_logtime_enabled') %>
+    </div>
+    <div class="form--field"><%= setting_select :commit_logtime_activity_id,
+         [[t(:label_default), 0]] + TimeEntryActivity.shared.map {|activity| [activity.name, activity.id.to_s]},
+         disabled: !Setting.commit_logtime_enabled?,
+         container_class: '-middle' %></div>
+  </fieldset>
+  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>

@@ -1,0 +1,344 @@
+/*-- copyright
+ * OpenProject is a project management system.
+ * Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 3.
+ *
+ * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+ * Copyright (C) 2006-2013 Jean-Philippe Lang
+ * Copyright (C) 2010-2013 the ChiliProject Team
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * See doc/COPYRIGHT.rdoc for more details.  ++
+ */
+
+#rb
+  #backlogs_container
+    width: 100%
+    display: flex
+    flex-wrap: wrap
+    justify-content: space-between
+  #owner_backlogs_container
+    min-width: 420px
+    order: 2
+    width: 49%
+    flex: 0 0 49%
+  #sprint_backlogs_container
+    min-width: 420px
+    width: 49%
+    flex: 0 0 49%
+    min-height: 230px
+  #owner_backlogs_container .backlog .header > .add_new_story
+    height: 28px
+    line-height: 31px
+    padding: 0
+    position: absolute
+    right: 10px
+    text-align: right
+    top: 1px
+    width: 100px
+  #backlogs_container .backlog
+    border: 1px solid #E4E4E4
+    display: block
+    margin: 0 0 10px 0
+    width: 100%
+
+/*
+ *this adds space at the bottom of the main content div to leave enough space
+ *for the menu without cutting it even if the bottom backlog does not contain
+ *any elements
+ */
+
+.controller-rb_master_backlogs.action-index #content
+  padding-bottom: 180px
+
+#rb
+  #backlogs_container .backlog .header
+    background-color: #eee
+    height: 30px
+    position: relative
+    width: 100%
+  .backlog .header .menu
+    border-right: 1px solid #E4E4E4
+    cursor: pointer
+    height: 30px
+    overflow: visible
+    position: absolute
+    top: 0
+    right: 0
+    width: 30px
+    .icon-context
+      position: absolute
+      top: 7px
+      left: 12px
+      // Firefox wrongly positions icon
+      html.-browser-firefox &
+        top: 3px
+      &.open
+        &+ .items
+          display: block
+    .items
+      display: none
+      background-color: #EEEEEE
+      border: 1px solid #E4E4E4
+      position: absolute
+      top: 30px
+      right: -2px
+      list-style: none
+      margin: 0
+      padding: 0
+      z-index: 1000
+    .item
+      display: block
+      width: 160px
+      height: 2rem
+      font-size: 0.9rem
+      text-align: left
+      text-decoration: none
+      vertical-align: middle
+      overflow: hidden
+      white-space: nowrap
+      &.hover, &:hover
+        background-color: #999
+      a
+        display: block
+        height: 100%
+        padding: 6px
+        width: 100%
+      &.hover a, &:hover a
+        color: #FFFFFF
+        text-decoration: none
+  #backlogs_container
+    .backlog
+      .header
+        .velocity
+          height: 28px
+          line-height: 31px
+          padding: 0 3px 0 9px
+          position: absolute
+          right: 25px
+          text-align: right
+          top: 0px
+          width: 32px
+        .toggler
+          font-family: "openproject-icon-font"
+          height: 30px
+          line-height: 31px
+          padding: 0
+          position: absolute
+          left: 0
+          top: 0
+          width: 23px
+          cursor: pointer
+          &:before
+            position: absolute
+            left: 6px
+            top: 10px
+          &.closed:before
+            position: absolute
+            left: 6px
+            top: 10px
+          &:hover
+            cursor: pointer
+            background-color: #D8D8D8
+      .sprint
+        background-color: transparent
+        cursor: pointer
+        display: block
+        height: 29px
+        width: auto
+        margin-left: 30px
+        margin-right: 50px
+        &.saving
+          background-image: image-url("loading.gif")
+          background-repeat: no-repeat
+          background-position: center
+        &.error.icon-bug
+          background: none
+          text-align: center
+          &:before
+            position: absolute
+            color: red
+        .id, .status
+          display: none
+
+        .name
+          line-height: 2rem
+          font-weight: bold
+          overflow: hidden
+          white-space: nowrap
+          margin-left: 0.5em
+
+        .start_date, .effective_date
+          float: right
+          height: 28px
+          line-height: 2rem
+          width: 6.5em
+          margin-left: 0.5em
+      .stories
+        list-style: none
+        min-height: 2rem
+        margin: 0
+        padding: 0 0 0px 0
+        z-index: 500
+        overflow-y: auto
+        overflow-x: hidden
+        &.closed
+          display: none
+
+        .error.icon.icon-bug
+          text-align: left
+    .stories .story
+      cursor: move
+      display: block
+      font-size: 0.9rem
+      margin: 0
+      overflow: hidden
+      position: relative
+      width: 100%
+      &.odd
+        background-color: #F6F7F8
+      &.even
+        background-color: #FFF
+      &.saving
+        background-image: image-url("loading.gif")
+        background-repeat: no-repeat
+        background-position: center
+      &.error.icon-bug
+        background: none
+        text-align: center
+        &:before
+          position: absolute
+          color: red
+          pointer-events: none
+      &.hover, &:hover
+        background-color: rgb(254, 248, 168)
+      &.closed
+        text-decoration: line-through
+      .id
+        float: left
+        margin-left: 1em
+        margin-right: 1em
+        padding: 5px 2px 4px 2px
+        width: 4em
+        text-align: right
+        white-space: nowrap
+      .type_id .t
+        float: left
+        padding: 5px 2px 4px 2px
+        text-align: right
+        white-space: nowrap
+      .subject
+        overflow: hidden
+        margin-left: 4em
+        padding: 5px 2px 4px 2px
+        white-space: nowrap
+        min-height: 1em
+      .status_id
+        float: right
+        padding: 5px 2px 4px 2px
+        margin-left: 1em
+        width: 68px
+      .story_points
+        float: right
+        padding: 5px 1rem 4px 2px
+        width: 3.5rem
+        min-height: 14px
+        height: 2rem
+        text-align: center
+      .type_id .v, .id .v, .status_id .v, .fixed_version_id, .higher_item_id
+        display: none
+
+.rb_dialog
+  .burndown_chart
+    margin-top: 20px
+    margin-bottom: 20px
+    margin-left: 20px
+  #charts
+    h3
+      border: 0px
+    overflow: hidden
+    fieldset.burndown_control
+      padding-left: 10px
+      border: none
+    .axislabel
+      font-weight: bold
+
+/* In-place Sprint Editor */
+
+#rb #backlogs_container
+  .sprint.editing
+    .editors, > .editor
+      display: block
+    label, > *
+      display: none
+    +
+      .velocity, .add_new_story
+        display: none
+  .backlog .sprint.editing
+    .name.editor
+      line-height: 1.5rem
+      margin: 0
+      min-width: 15em
+      width: 57%
+    .start_date.editor, .effective_date.editor
+      font-size: 0.9rem
+      line-height: 1.5rem
+      margin: 0
+      padding: 0
+      width: 75px
+  .stories .story.editing
+    >
+      *, .editors label
+        display: none
+    .editors
+      display: block
+    select, input
+      display: inline-block
+      float: none
+      margin: 5px 3px 4px 2px
+      font-size: 0.8rem
+      // reset the line-height (foundation sets it to "normal" but that does not work here)
+      line-height: inherit
+    .type_id.editor
+      width: 15%
+      /* sets max-width for IE */
+      max-width: 140px
+      /* for the cool guys */
+    .subject.editor
+      width: 55%
+    .status_id.editor
+      width: 15%
+      float: right
+    .story_points.editor
+      float: right
+      width: 10%
+
+/* In-place Story Editor */
+
+.controller-rb_master_backlogs.action-show
+  #main, #content, #rb #backlogs_container .backlog .stories
+    overflow: visible
+  div.calendar
+    z-index: 10000
+
+.backlog
+  font-size: 0.9rem
+
+/* Hide the button text in the ui-dialog */
+.ui-dialog-titlebar-close
+  overflow: hidden

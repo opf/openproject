@@ -1,0 +1,4 @@
+web: bundle exec rails server -p 3000 -b ${HOST:="127.0.0.1"} --environment ${RAILS_ENV:="development"}
+legacy: cd frontend && RAILS_ENV=${RAILS_ENV:="development"} npm run legacy-webpack-watch
+angular: npm run serve
+worker: bundle exec rake jobs:work

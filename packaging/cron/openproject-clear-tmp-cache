@@ -1,0 +1,3 @@
+APP_NAME="_APP_NAME_"
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+45 2 * * 7 root ${APP_NAME} run rake -s tmp:cache:clear >> /var/log/${APP_NAME}/cron-clear-tmp-files.log 2>&1

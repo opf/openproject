@@ -1,0 +1,5 @@
+<% Redmine::Plugin.all.collect do |plugin| %>
+  <% plugin.registered_global_assets[:css].each do |path| %>
+      @import "<%= path %>";
+  <% end %>
+<% end %>

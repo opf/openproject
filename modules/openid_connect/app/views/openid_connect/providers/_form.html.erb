@@ -1,0 +1,25 @@
+<fieldset class="form--fieldset">
+  <% unless f.object.persisted? -%>
+    <div class="form--field -required">
+      <%= f.collection_select :name,
+        openid_connect_providers_available_for_configure,
+        :to_s,
+        :capitalize,
+        required: true,
+        container_class: '-middle'
+      %>
+    </div>
+  <% end -%>
+
+  <div class="form--field">
+    <%= f.text_field :display_name, required: false, container_class: '-middle' %>
+  </div>
+
+  <div class="form--field -required">
+    <%= f.text_field :identifier, required: true, container_class: '-middle' %>
+  </div>
+
+  <div class="form--field -required">
+    <%= f.text_field :secret, required: true, container_class: '-middle' %>
+  </div>
+</fieldset>
