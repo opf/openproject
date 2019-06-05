@@ -266,6 +266,35 @@ describe 'Version action board', type: :feature, js: true do
     end
   end
 
+  context 'a user with edit_work_packages, but missing assign_versions permissions' do
+    let(:no_version_edit_user) do
+      FactoryBot.create(:user,
+                        member_in_projects: [project],
+                        member_through_role: no_version_edit_role)
+    end
+    let(:no_version_edit_role) { FactoryBot.create(:role, permissions: no_version_edit_permissions) }
+    let(:no_version_edit_permissions) do
+      %i[show_board_views manage_board_views add_work_packages manage_versions
+       edit_work_packages view_work_packages manage_public_queries]
+    end
+
+    it 'can not move cards or add cards' do
+      # Create version board first
+      login_as user
+      board_page = create_new_version_board
+
+      # Login in with restricted user
+      login_as no_version_edit_user
+
+      # Reload the page
+      board_page.visit!
+      board_page.expect_editable_board(true)
+      board_page.expect_editable_list(false)
+
+      expect(page).to have_no_selector('.wp-card.-draggable')
+    end
+  end
+
   context 'with limited permissions' do
     before do
       login_as(second_user)

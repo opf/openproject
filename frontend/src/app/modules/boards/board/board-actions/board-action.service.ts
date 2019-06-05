@@ -60,6 +60,12 @@ export interface BoardActionService {
   dragIntoAllowed(query:QueryResource, value:HalResource|undefined):boolean;
 
   /**
+   * Determine whether we can create new items for this action attribute
+   */
+  canAddToQuery(query:QueryResource):Promise<boolean>;
+
+
+  /**
    * Get the specific component for the autocompleter (e.g versionAutocompleter)
    * @returns {Component}
    */
