@@ -80,9 +80,6 @@
 .wp-relations-controls-section
   text-align: right
   flex-shrink: 1
-  .force-right
-    position: absolute
-    right: 0
 
   a:hover
     text-decoration: none
@@ -144,10 +141,12 @@
   .icon-button
     cursor: not-allowed
 
-// Disable overflow in grid-content of create form
-// To allow results indicator to overflow it
-.wp-relations-create--form .grid-content
-  overflow-y: visible
+.wp-relations-create--form
+  display: flex
+
+  .wp-relations-input-section
+    margin-right: 10px
+    flex: 1
 
 .detail-panel--relations
   .panel-toggler .icon-small

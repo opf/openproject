@@ -106,7 +106,6 @@ export class WorkPackageRelationsAutocomplete implements AfterContentInit {
     if (!this.ngSelectComponent) {
       return;
     }
-    this.ngSelectComponent.open();
 
     setTimeout(() => {
       this.ngSelectComponent.focus();

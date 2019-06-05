@@ -168,10 +168,11 @@ module Components
 
       def openChildrenAutocompleter
         retry_block do
+          next if page.has_selector?('.wp-relations--children .ng-input input')
           find('.wp-inline-create--reference-link', text: I18n.t('js.relation_buttons.add_existing_child')).click
 
           # Security check to be sure that the autocompleter has finished loading
-          page.find '.ng-dropdown-panel-items'
+          page.find '.wp-relations--children .ng-input input'
         end
       end
 
