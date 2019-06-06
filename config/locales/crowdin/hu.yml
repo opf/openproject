@@ -853,6 +853,7 @@ hu:
       a "%{target_project_name}" projektbe. E-mailben értesítjük, amint "%{target_project_name}"
       elérhető.
     failed: 'Nem lehet másolni a %{source_project_name} projektet '
+    failed_internal: Copying failed due to an internal error.
     succeeded: 'A %{target_project_name} projekt létrehozva '
     errors: Hiba
     project_custom_fields: Projekt egyéni mezői

@@ -513,7 +513,7 @@ hu:
       save: Kapcsolat mentése
       abort: Megszakít
     relations_autocomplete:
-      placeholder: Adja meg a kapcsolódó feladatcsoport azonosítóját
+      placeholder: Type to search
       parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: Címke kiválasztása

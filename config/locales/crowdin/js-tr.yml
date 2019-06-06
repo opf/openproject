@@ -183,14 +183,16 @@ tr:
     homescreen:
       blocks:
         new_features:
-          text_new_features: Read about new features and product updates.
-          current_new_feature_html: 'OpenProject contains a new <b>Boards view</b>
-            for Agile project management. </br> To activate this new feature for your
-            existing projects, please do the following steps: <ul><li>Activate the
-            module Boards within existing projects'' settings.</li> <li>Configure
-            your Boards in a project.</li> <li>Verify roles and permissions</li></ul>'
-          image_alt_text: Board teaser image
-          learn_about: Learn more about Agile Boards
+          text_new_features: Yeni özellikler ve ürün güncellemeleri hakkında bilgi
+            edinin.
+          current_new_feature_html: 'OpenProject, Çevik proje yönetimi için yeni bir
+            <b> Pano görünümü </b> içerir. </br> Bu yeni özelliği mevcut projeleriniz
+            için etkinleştirmek için lütfen aşağıdaki adımları uygulayın: <ul> <li>
+            Modül Panolarını mevcut projelerin ayarları dahilinde etkinleştirin. </li>
+            <li> Panolarınızı bir projede yapılandırın. </li> <li> Rolleri ve izinleri
+            doğrula </li> </ul>'
+          image_alt_text: Yönetim Kurulu teaser image
+          learn_about: Çevik Kurullar hakkında daha fazla bilgi edinin
     label_activate: Etkinleştir
     label_activity_no: Etkinlik giriş numarası %{activityNo}
     label_activity_with_comment_no: Etkinlik giriş numarası %{activityNo}. Kullanıcı
@@ -418,9 +420,9 @@ tr:
       selection: Lütfen seçin
       relation_description: Bu ilişkiye açıklama eklemek için tıklayın
     project:
-      required_outside_context: 'Please choose a project to create the work package
-        in to see all attributes. You can only select projects which have the type
-        above activated.
+      required_outside_context: 'Lütfen tüm özellikleri görmek için çalışma paketini
+        oluşturacak bir proje seçin. Yalnızca yukarıdaki türden etkin olan projeleri
+        seçebilirsiniz.
 
 '
       context: Proje içeriği
@@ -513,7 +515,7 @@ tr:
       save: İlişkiyi kaydet
       abort: İptal
     relations_autocomplete:
-      placeholder: İlgili çalışma paket kimliğini girin
+      placeholder: Type to search
       parent_placeholder: Yeni bir ebeveyn seçin veya iptal etmek için escape tuşuna
         basın.
     repositories:

@@ -524,7 +524,7 @@ it:
       save: Salva la relazione
       abort: Interrompi
     relations_autocomplete:
-      placeholder: Inserisci l'ID della macro-attività relativa
+      placeholder: Type to search
       parent_placeholder: Scegli un nuovo genitore o premi il tasto Esc per annullare.
     repositories:
       select_tag: Selezionare tag

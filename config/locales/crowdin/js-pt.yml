@@ -67,7 +67,7 @@ pt:
       too_many: Existem mais pacotes de trabalho (%{count}) do que podem ser mostrados
         pelo calendário (%{max}). Adicione filtros para se focar nos que são relevantes.
     description_available_columns: Colunas disponíveis
-    description_current_position: 'You are here: '
+    description_current_position: 'Você está aqui: '
     description_select_work_package: 'Selecionar pacote de trabalho #%{id}'
     description_selected_columns: Colunas selecionadas
     description_subwork_package: 'Filho de pacote de trabalho #%{id}'
@@ -185,14 +185,15 @@ pt:
     homescreen:
       blocks:
         new_features:
-          text_new_features: Read about new features and product updates.
-          current_new_feature_html: 'OpenProject contains a new <b>Boards view</b>
-            for Agile project management. </br> To activate this new feature for your
-            existing projects, please do the following steps: <ul><li>Activate the
-            module Boards within existing projects'' settings.</li> <li>Configure
-            your Boards in a project.</li> <li>Verify roles and permissions</li></ul>'
-          image_alt_text: Board teaser image
-          learn_about: Learn more about Agile Boards
+          text_new_features: Leia sobre novos recursos e atualizações de produtos.
+          current_new_feature_html: 'O OpenProject contém uma nova <b>visualização
+            de Quadro</b> para gestão de projetos Agile. </br> Para ativar esta nova
+            função nos seus projetos existentes, por favor siga os seguintes passos:
+            <ul><li>Ativar os Quadros de módulo dentro das configurações dos projetos
+            existentes.</li> <li>Configure os seus Quadros num projeto.</li> <li>Verifique
+            funções e permissões</li></ul>'
+          image_alt_text: Imagem de teaser Board
+          learn_about: Saiba mais sobre os Quadros Agile
     label_activate: Ativar
     label_activity_no: Número de entrada da atividade %{activityNo}
     label_activity_with_comment_no: Número de entrada da atividade %{activityNo}.
@@ -361,9 +362,9 @@ pt:
         help_menu: No menu <b>Ajuda</b> vai encontrar um guia de utilizador e recursos
           adicionais de ajuda. <br> Desfrute do seu trabalho com o OpenProject!
         members: Convide novos <b>Membros</b> para participarem no seu projeto.
-        project_selection: Please click on one of the projects with useful demo data
-          to get started. <br> The <b>Demo project</b> suits best for classical project
-          management, while the <b>Scrum project</b> is better for Agile project management.
+        project_selection: Para começar clique num dos projetos com dados de demonstração
+          úteis. <br> O <b>Projeto Demo</b> é o melhor na gestão de projetos clássicos,
+          enquanto o <b>projeto Scrum</b> é melhor na gestão ágil de projetos.
         sidebar_arrow: Com a seta pode navegar até ao <b>menu principal</b> do projeto.
         welcome: Acompanhe um tour de apresentação de 3 minutos para descobrir mais
           <b>recursos importantes</b>.<br> Recomendamos que conclua as etapas até
@@ -386,8 +387,8 @@ pt:
             board, por exemplo, para criar um quadro de KANBAN.
           add: Clique no + irá <b>adicionar um novo cartão</b> à lista dentro de um
             Quadro.
-          drag: Drag & Drop your cards within a list to re-order, or to another list.
-            A double click will open the details view.
+          drag: Arraste e solte seus cartões dentro de uma lista para re-ordenar,
+            ou para outra lista. Um duplo clique irá abrir a visualização de detalhes.
         wp:
           toggler: Agora vamosespreitar a seção de <b>Pacote de trabalho</b>, que
             lhe dá uma visão mais detalhada do seu trabalho.
@@ -421,9 +422,9 @@ pt:
       selection: Por favor, selecione
       relation_description: Clique para adicionar a descrição para esta relação
     project:
-      required_outside_context: 'Please choose a project to create the work package
-        in to see all attributes. You can only select projects which have the type
-        above activated.
+      required_outside_context: 'Por favor escolha um projeto onde criar o pacote
+        de trabalho de forma a ver todos os atributos. Só pode selecionar projetos
+        com o tipo acima ativado.
 
 '
       context: Contexto do projeto
@@ -515,8 +516,8 @@ pt:
       save: Guardar relação
       abort: Abortar
     relations_autocomplete:
-      placeholder: Insira o id de pacote de trabalho relacionado
-      parent_placeholder: Choose new parent or press escape to cancel.
+      placeholder: Type to search
+      parent_placeholder: Escolha o novo parente ou prima escape para cancelar.
     repositories:
       select_tag: Selecionar a tag
       select_branch: Selecionar o branch

@@ -511,7 +511,7 @@ lv:
       save: Save relation
       abort: Abort
     relations_autocomplete:
-      placeholder: Enter the related work package id
+      placeholder: Type to search
       parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: Izvēlieties atzīmi

@@ -861,6 +861,7 @@ lt:
     started: Pradėtas kopijuoti „%{source_project_name}“ projektas į „%{target_project_name}“.
       Jums bus pranešta laišku, kai tik „%{target_project_name}“ projektas taps pasiekiamas.
     failed: Negalima kopijuoti „%{source_project_name}“ projekto
+    failed_internal: Copying failed due to an internal error.
     succeeded: Sukurtas projektas pavadinimu „%{target_project_name}“
     errors: Klaida
     project_custom_fields: Vartotojo laukai projektui

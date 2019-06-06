@@ -66,7 +66,7 @@ pl:
       too_many: Jest więcej pakietów roboczych (%{count}) niż można wyświetlić w kalendarzu
         (%{max}). Dodaj filtry, aby skupić się na żądanych pakietach.
     description_available_columns: Dostępne kolumny
-    description_current_position: 'You are here: '
+    description_current_position: 'Jesteś tutaj: '
     description_select_work_package: 'Zaznacz zestaw Zadań #%{id}'
     description_selected_columns: Wybrane kolumny
     description_subwork_package: 'Otwórz zadanie-dziecko #%{id}'
@@ -184,14 +184,14 @@ pl:
     homescreen:
       blocks:
         new_features:
-          text_new_features: Read about new features and product updates.
-          current_new_feature_html: 'OpenProject contains a new <b>Boards view</b>
-            for Agile project management. </br> To activate this new feature for your
-            existing projects, please do the following steps: <ul><li>Activate the
-            module Boards within existing projects'' settings.</li> <li>Configure
-            your Boards in a project.</li> <li>Verify roles and permissions</li></ul>'
-          image_alt_text: Board teaser image
-          learn_about: Learn more about Agile Boards
+          text_new_features: Przeczytaj o nowych funkcjach i aktualizacjach produktów.
+          current_new_feature_html: 'OpenProject zawiera nowy <b>widok Tablice</b>
+            do zwinnego zarządzania projektami. </br> Aby aktywować tę nową funkcję
+            w istniejących projektach, wykonaj następujące kroki: <ul><li>Aktywuj
+            moduł Tablice w ustawieniach istniejących projektów.</li> <li>Skonfiguruj
+            swoje tablice w projekcie.</li> <li>Zweryfikuj role i uprawnienia.</li></ul>'
+          image_alt_text: Obraz zapowiedzi tablic
+          learn_about: Dowiedz się więcej o tablicach zwinnych
     label_activate: Aktywuj
     label_activity_no: Aktywność %{activityNo}
     label_activity_with_comment_no: Aktywność %{activityNo} została skomentowana.
@@ -357,9 +357,10 @@ pl:
         help_menu: W menu <b>Pomoc</b> znajdziesz przewodnik użytkownika i dodatkowe
           zasoby pomocy. <br> Życzymy miłej pracy w OpenProject!
         members: Zaproś nowych <b>członków</b> do swojego projektu.
-        project_selection: Please click on one of the projects with useful demo data
-          to get started. <br> The <b>Demo project</b> suits best for classical project
-          management, while the <b>Scrum project</b> is better for Agile project management.
+        project_selection: Aby rozpocząć, kliknij jeden z projektów z przydatnymi
+          danymi demonstracyjnymi. <br> <b>Projekt Demo</b> najlepiej nadaje się do
+          klasycznego zarządzania projektami, natomiast <b>projekt Scrum</b> jest
+          lepszy do zwinnego zarządzania projektami.
         sidebar_arrow: Strzałka umożliwia powrót do <b>menu głównego</b> projektu.
         welcome: "Poświęć trzy minuty na zapoznanie się z <b>najważniejszymi funkcjami</b>.
           \n <br> Zalecamy wykonanie tych kroków do końca. Zwiedzanie można w każdej
@@ -382,8 +383,8 @@ pl:
           lists: Można utworzyć wiele list (kolumn) w jednym widoku tablicy, np. w
             celu utworzenia tablicy KANBAN.
           add: Kliknięcie przycisku + <b>dodaje nową kartę</b> do listy na tablicy.
-          drag: Drag & Drop your cards within a list to re-order, or to another list.
-            A double click will open the details view.
+          drag: Przeciągaj i upuszczaj karty w obrębie listy, aby zmienić ich kolejność
+            lub przeciągaj je do innej listy. Dwukrotne kliknięcie otwiera widok szczegółów.
         wp:
           toggler: Teraz przyjrzyjmy się sekcji <b>Zadania</b>, która zapewnia bardziej
             szczegółowy widok Twojej pracy.
@@ -416,9 +417,9 @@ pl:
       selection: Proszę wybrać
       relation_description: Kliknij, aby dodać opis do tej relacji
     project:
-      required_outside_context: 'Please choose a project to create the work package
-        in to see all attributes. You can only select projects which have the type
-        above activated.
+      required_outside_context: 'Wybierz projekt, w którym chcesz utworzyć pakiet
+        roboczy, aby zobaczyć wszystkie atrybuty. Możesz wybrać tylko projekty, które
+        mają aktywowany powyższy typ.
 
 '
       context: Kontekst projektu
@@ -509,8 +510,9 @@ pl:
       save: Zapisz relację
       abort: Przerwij
     relations_autocomplete:
-      placeholder: Wprowadź id pakietu roboczego
-      parent_placeholder: Choose new parent or press escape to cancel.
+      placeholder: Type to search
+      parent_placeholder: Wybierz nowy element nadrzędny albo naciśnij klawisz Escape,
+        aby anulować.
     repositories:
       select_tag: Wybierz tag
       select_branch: Wybierz gałąź

@@ -851,6 +851,7 @@
     started: Kopiering av prosjektet "%{source_project_name}" til "%{target_project_name}"
       er påbegynt. Du får beskjed på e-post så fort "%{target_project_name}" er tilgjengelig.
     failed: Kan ikke kopierer prosjektet %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: Opprettet prosjektet %{target_project_name}
     errors: Feil
     project_custom_fields: Custom fields on project

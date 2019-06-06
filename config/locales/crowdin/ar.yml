@@ -863,6 +863,7 @@ ar:
     started: بدأ بنسخ المشروع "%{source_project_name}" إلى "%{target_project_name}".
       سيتم إبلاغك بالبريد الإلكتروني حالما يتوفر "%{target_project_name}".
     failed: لا يمكن نسخ المشروع %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: المشروع الذي تم إنشاؤه %{target_project_name}
     errors: خطأ
     project_custom_fields: Custom fields on project

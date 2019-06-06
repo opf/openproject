@@ -862,6 +862,7 @@ ca:
       Se li comunicarà per correu electrònic tan aviat com "%{target_project_name}"
       estigui disponible.
     failed: No es pot copiar el projecte %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: Projecte %{target_project_name} creat
     errors: Error
     project_custom_fields: Custom fields on project

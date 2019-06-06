@@ -174,10 +174,10 @@ zh:
     homescreen:
       blocks:
         new_features:
-          text_new_features: 阅读有关新功能和产品更新的信息。
-          current_new_feature_html: OpenProject 包含一个用于敏捷项目管理的新<b>面板视图</b>。</br>要为现有项目激活此新功能，请按以下步骤操作：<ul><li>在现有项目的设置中激活模块面板。</li><li>在项目中配置您的面板。</li><li>验证角色和权限</li></ul>
-          image_alt_text: 面板摘要图像
-          learn_about: 了解更多关于敏捷面板的信息
+          text_new_features: 了解新功能和产品更新。
+          current_new_feature_html: OpenProject 包含一个用于敏捷项目管理的新<b>开发板视图</b>。</br>要为现有项目激活此新功能，请按以下步骤操作：<ul><li>在现有项目的设置中激活开发板模块。</li><li>在项目中配置您的开发板。</li><li>验证角色和权限</li></ul>
+          image_alt_text: 开发板宣传图像
+          learn_about: 详细了解敏捷开发板
     label_activate: 激活
     label_activity_no: 活动条目编号 %{activityNo}
     label_activity_with_comment_no: 活动条目编号 %{activityNo}，有用户评论。
@@ -463,7 +463,7 @@ zh:
       save: 保存关系
       abort: 放弃
     relations_autocomplete:
-      placeholder: 输入相关的工作包ID
+      placeholder: Type to search
       parent_placeholder: 选择新父级，或按 Escape 键来取消。
     repositories:
       select_tag: 选择标签

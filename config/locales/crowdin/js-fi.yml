@@ -511,7 +511,7 @@ fi:
       save: Tallenna suhde
       abort: Keskeytä
     relations_autocomplete:
-      placeholder: Kirjoita liittyvä työpaketin tunnus
+      placeholder: Type to search
       parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: Valitse tunniste

@@ -769,6 +769,7 @@ lol:
   copy_project:
     started: crwdns123800:0%{source_project_name}crwdnd123800:0%{target_project_name}crwdnd123800:0%{target_project_name}crwdne123800:0
     failed: crwdns123802:0%{source_project_name}crwdne123802:0
+    failed_internal: Copying failed due to an internal error.
     succeeded: crwdns123804:0%{target_project_name}crwdne123804:0
     errors: crwdns123806:0crwdne123806:0
     project_custom_fields: crwdns123808:0crwdne123808:0

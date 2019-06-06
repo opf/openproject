@@ -868,6 +868,7 @@ ro:
     started: A început copierea proiectului "%{source_project_name}" în "%{target_project_name}".
       Veţi fi informat prin mail de îndată ce "%{target_project_name}" este disponibil.
     failed: Proiectul %{source_project_name} nu poate fi copiat
+    failed_internal: Copying failed due to an internal error.
     succeeded: Proiectul %{target_project_name} a fost creat
     errors: Eroare
     project_custom_fields: Câmpuri personalizate pentru proiect

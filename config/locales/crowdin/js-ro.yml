@@ -516,7 +516,7 @@ ro:
       save: Salvează relația
       abort: Anulează
     relations_autocomplete:
-      placeholder: Introduceţi ID-ul packetului de lucru
+      placeholder: Type to search
       parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: Selectare etichetă
