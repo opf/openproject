@@ -214,7 +214,7 @@ OpenProject::Application.routes.draw do
     namespace :time_entries do
       resource :report, controller: 'reports', only: [:show]
     end
-    resources :time_entries, controller: 'timelog'
+    resources :time_entries, controller: 'timelog', except: [:show]
 
     # Match everything to be the ID of the wiki page except the part that
     # is reserved for the format. This assumes that we have only two formats:
