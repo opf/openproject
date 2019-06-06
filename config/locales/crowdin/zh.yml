@@ -94,6 +94,9 @@ zh:
   concatenation:
     single: 或
   deprecations:
+    time_entries: This time entries view is superseded by the 'Cost reports' module.
+      This view now only supports exporting time entry information to csv. For interactive
+      filtering, please activate the 'Cost reports' module in the project settings.
     old_timeline:
       replacement: 此时间线模块已由嵌入工作包模块中的交互式时间线模块取代。
       removal: 此模块在 OpenProject 8.0 中将移除。此视图的配置将不会迁移到工作包视图中。
@@ -541,7 +544,7 @@ zh:
           no_directory: 不是一个目录。
         role:
           permissions:
-            dependency_missing: 还需要包括 '%{dependency}'，因为已选择 '%{permission}'。
+            dependency_missing: 还需要包括“%{dependency}”，因为已选择“%{permission}”。
         work_package:
           is_not_a_valid_target_for_time_entries: '工作包 #%{id} 不是重新分配时间条目的有效目标。'
           attributes:
@@ -599,9 +602,9 @@ zh:
             roles:
               ungrantable: 具有不可分配的角色。
             principal:
-              unassignable: 无法被分配给项目。
+              unassignable: 无法分配至项目。
         version:
-          undeletable_work_packages_attached: 无法删除该版本，因为它附带了工作包。
+          undeletable_work_packages_attached: 无法删除该版本，因为它连接了工作包。
       template:
         body: 请检查以下字段：
         header:
@@ -990,8 +993,7 @@ zh:
   error_custom_option_not_found: 选项不存在。
   error_enterprise_activation_user_limit: 无法激活您的帐户 (已达到用户限制)。请与管理员联系以获取访问权限。
   error_failed_to_delete_entry: 无法删除此条目。
-  error_in_dependent: '尝试更改依赖对象时出错：%{dependent_class} #%{related_id} - %{related_subject}:
-    %{error}'
+  error_in_dependent: '尝试更改依赖对象时出错：%{dependent_class} #%{related_id} - %{related_subject}：%{error}'
   error_invalid_selected_value: 选中的值无效。
   error_invalid_group_by: 无法按照 %{value} 分组
   error_invalid_query_column: 无效的查询列：%{value}
@@ -2548,7 +2550,7 @@ zh:
       multipart_body_error: 请求正文中不包含所需要的多段部分。
       multiple_errors: 违反了多个字段的约束。
       unable_to_create_attachment: 无法创建附件
-      unable_to_create_attachment_permissions: 由于缺少文件系统权限，因此无法保存附件
+      unable_to_create_attachment_permissions: 由于缺少文件系统权限，无法保存附件
       render:
         context_not_parsable: 所提供的上下文环境并不是指向资源的链接。
         unsupported_context: 所提供的资源不被上下文环境所支持。

@@ -98,6 +98,9 @@ ko:
   concatenation:
     single: 또는
   deprecations:
+    time_entries: This time entries view is superseded by the 'Cost reports' module.
+      This view now only supports exporting time entry information to csv. For interactive
+      filtering, please activate the 'Cost reports' module in the project settings.
     old_timeline:
       replacement: 이 타임라인 모듈은 작업 패키지 모듈에 포함된 대화형 타임라인에 의해 대체됩니다.
       removal: 이 모듈은 OpenProject 8.0에서 제거됩니다. 이 보기에 대한 구성은 작업 패키지 보기에 마이그레이션되지 않을
@@ -386,7 +389,7 @@ ko:
         spent_on: 날짜
         type: 타입
       type:
-        description: Default text for description
+        description: 설명의 기본 텍스트
         attribute_groups: ''
         is_in_roadmap: 기본적으로 로드맵에 표시됨
         is_default: 새 프로젝트에 대해 기본적으로 활성화됨
@@ -557,8 +560,8 @@ ko:
           no_directory: 디텍터리가 아님
         role:
           permissions:
-            dependency_missing: need to also include '%{dependency}' as '%{permission}'
-              is selected.
+            dependency_missing: "'%{permission}'이(가) 선택되었으므로 '%{dependency}'도 포함해야
+              합니다."
         work_package:
           is_not_a_valid_target_for_time_entries: '작업 패키지 #%{id}은(는) 시간 항목 재할당에 올바른
             대상이 아닙니다.'
@@ -590,7 +593,7 @@ ko:
           attributes:
             attribute_groups:
               attribute_unknown: 잘못된 작업 패키지 특성이 사용되었습니다.
-              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              attribute_unknown_name: '잘못된 작업 패키지 특성이 사용되었습니다: %{attribute}'
               duplicate_group: "'%{group}'(이)라는 그룹 이름이 두 번 이상 사용되었습니다. 그룹 이름은 중복될
                 수 없습니다."
               query_invalid: 포함된 쿼리 '%{group}'이(가) 잘못되었습니다. %{details}
@@ -616,15 +619,14 @@ ko:
               error_not_found: 찾을 수 없음
         member:
           principal_blank: 하나 이상의 사용자 또는 그룹을 선택 하십시오.
-          role_blank: need to be assigned.
+          role_blank: 할당해야 합니다.
           attributes:
             roles:
-              ungrantable: has an unassignable role.
+              ungrantable: 할당할 수 없는 역할이 있습니다.
             principal:
-              unassignable: cannot be assigned to a project.
+              unassignable: 프로젝트에 할당할 수 없습니다.
         version:
-          undeletable_work_packages_attached: The version cannot be deleted as it
-            has work packages attached to it.
+          undeletable_work_packages_attached: 첨부된 작업 패키지가 있으므로 이 버전은 삭제할 수 없습니다.
       template:
         body: 다음 필드를 확인 하십시오.
         header:
@@ -986,7 +988,7 @@ ko:
   description_choose_project: 프로젝트
   description_compare_from: '다음과 비교:'
   description_compare_to: '비교:'
-  description_current_position: 'You are here: '
+  description_current_position: '사용자의 위치: '
   description_date_from: 시작 날짜 입력
   description_date_range_interval: 시작과 끝 날짜로 범위를 선택하세요.
   description_date_range_list: 목록에서 범위 선택
@@ -1041,8 +1043,8 @@ ko:
   error_enterprise_activation_user_limit: 사용자 계정을 활성화할 수 없습니다(사용자 제한에 도달함). 액세스하려면
     관리자에게 문의하세요.
   error_failed_to_delete_entry: 항목 삭제에 실패하였습니다.
-  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
-    #%{related_id} - %{related_subject}: %{error}'
+  error_in_dependent: '종속 개체를 변경하려는 중에 오류가 발생했습니다: %{dependent_class} #%{related_id}
+    - %{related_subject}: %{error}'
   error_invalid_selected_value: 선택된 값이 유효하지 않습니다.
   error_invalid_group_by: '그룹화할 수 없습니다: %{value}'
   error_invalid_query_column: '잘못 된 쿼리 열: %{value}'
@@ -1408,7 +1410,7 @@ ko:
   label_max_size: 최대 크기
   label_me: 나
   label_member_new: 새 멤버
-  label_member_all_admin: "(All roles due to admin status)"
+  label_member_all_admin: "(관리 상태에 따른 모든 역할)"
   label_member_plural: 멤버
   label_view_all_members: 모든 회원 보기
   label_menu_item_name: 메뉴 항목의 이름
@@ -1437,7 +1439,7 @@ ko:
   label_my_queries: 내 사용자 지정 쿼리
   label_never: 사용 안 함
   label_new: 새로 만들기
-  label_new_features: New features
+  label_new_features: 새로운 기능
   label_new_statuses_allowed: 새 상태 허용됨
   label_news_added: 뉴스 추가됨
   label_news_comment_added: 뉴스에 추가된 코멘트
@@ -1896,7 +1898,7 @@ ko:
   permission_add_project: 프로젝트 만들기
   permission_add_subprojects: 하위 프로젝트 만들기
   permission_add_work_package_watchers: 주시자 추가
-  permission_assign_versions: Assign versions
+  permission_assign_versions: 버전 할당
   permission_browse_repository: 리포지토리에 대한 읽기 전용 액세스(찾아보기 및 체크아웃)
   permission_change_wiki_parent_page: 부모 위키 페이지 변경
   permission_comment_news: 뉴스에 코멘트 달기
@@ -2651,7 +2653,7 @@ ko:
     attributes:
       lock_version: 잠금 버전
     errors:
-      code_400: 'Bad request: %{message}'
+      code_400: '잘못된 요청: %{message}'
       code_401: 접근하기 위해서 인증해야 합니다.
       code_401_wrong_credentials: 올바른 자격 증명을 제공하지 않았습니다.
       code_403: 접근 권한이 없습니다.
@@ -2676,8 +2678,7 @@ ko:
       multipart_body_error: 요청 본문에는 필요한 multipart 부분이 포함되어 있지 않습니다.
       multiple_errors: 다중 필드 제약 조건이 위반되었습니다.
       unable_to_create_attachment: 첨부 파일을 만들 수 없습니다.
-      unable_to_create_attachment_permissions: The attachment could not be saved due
-        to lacking file system permissions
+      unable_to_create_attachment_permissions: 파일 시스템 사용 권한이 부족하여 첨부 파일을 저장할 수 없습니다.
       render:
         context_not_parsable: 제공된 컨텍스트는 리소스에 대한 링크가 아닙니다.
         unsupported_context: 지정된 리소스는 컨텍스트로 지원되지 않습니다.

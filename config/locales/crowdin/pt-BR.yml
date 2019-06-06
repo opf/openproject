@@ -112,6 +112,9 @@ pt-BR:
   concatenation:
     single: ou
   deprecations:
+    time_entries: This time entries view is superseded by the 'Cost reports' module.
+      This view now only supports exporting time entry information to csv. For interactive
+      filtering, please activate the 'Cost reports' module in the project settings.
     old_timeline:
       replacement: Este módulo de cronogramas está sendo substituído por um cronograma
         interativo integrado no módulo de pacotes de trabalho.
@@ -603,8 +606,8 @@ pt-BR:
           no_directory: não é um diretório.
         role:
           permissions:
-            dependency_missing: need to also include '%{dependency}' as '%{permission}'
-              is selected.
+            dependency_missing: também precisa incluir '%{dependency}', já que '%{permission}'
+              está selecionado.
         work_package:
           is_not_a_valid_target_for_time_entries: 'Pacote de trabalho #%{id} não é
             um alvo válido para re-atribuir os registros de horas gastas.'
@@ -669,12 +672,12 @@ pt-BR:
               error_not_found: não encontrado
         member:
           principal_blank: Por favor, escolha ao menos um usuário ou grupo.
-          role_blank: need to be assigned.
+          role_blank: precisa ser atribuído.
           attributes:
             roles:
-              ungrantable: has an unassignable role.
+              ungrantable: possui uma função não atribuível.
             principal:
-              unassignable: cannot be assigned to a project.
+              unassignable: não pode ser atribuído a um projeto.
         version:
           undeletable_work_packages_attached: A versão não pode ser excluída pois
             tem pacotes de trabalho anexados a ela.
@@ -1025,7 +1028,7 @@ pt-BR:
   description_choose_project: Projetos
   description_compare_from: Comparar de
   description_compare_to: Comparar com
-  description_current_position: 'You are here: '
+  description_current_position: 'Você está aqui: '
   description_date_from: Digite a data de início
   description_date_range_interval: Escolher o intervalo selecionando a data inicial
     e final
@@ -1501,7 +1504,7 @@ pt-BR:
   label_my_queries: Minhas consultas personalizadas
   label_never: Nunca
   label_new: Novo
-  label_new_features: New features
+  label_new_features: Novos recursos
   label_new_statuses_allowed: Novas situações permitidas
   label_news_added: Notícia adicionada
   label_news_comment_added: Comentário adicionado a uma notícia
@@ -1987,7 +1990,7 @@ pt-BR:
   permission_add_project: Criar Projeto
   permission_add_subprojects: Criar subprojetos
   permission_add_work_package_watchers: Adicionar observadores
-  permission_assign_versions: Assign versions
+  permission_assign_versions: Atribuir versões
   permission_browse_repository: Acesso somente leitura ao repositório (browse e check-out)
   permission_change_wiki_parent_page: Alterar filiação da página wiki
   permission_comment_news: Comentar notícias
@@ -2871,8 +2874,8 @@ pt-BR:
         esperadas.
       multiple_errors: Várias restrições de campo foram violadas.
       unable_to_create_attachment: O anexo não pôde ser criado
-      unable_to_create_attachment_permissions: The attachment could not be saved due
-        to lacking file system permissions
+      unable_to_create_attachment_permissions: O anexo não pôde ser salvo devido à
+        falta de permissões do sistema de arquivos
       render:
         context_not_parsable: O contexto fornecido não é um link para o recurso.
         unsupported_context: O recurso dado não esta suportado como contexto.

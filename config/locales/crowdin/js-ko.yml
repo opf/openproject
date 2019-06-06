@@ -65,7 +65,7 @@ ko:
       too_many: 달력에서 표시할 수 있는 작업 패키지(%{max}) 보다 더 많은 작업 패키지(%{count})가 있습니다. 관련 작업
         패키지에 집중하려면 필터를 추가하세요.
     description_available_columns: 사용 가능한 열
-    description_current_position: 'You are here: '
+    description_current_position: '사용자의 위치: '
     description_select_work_package: '작업 패키지 #%{id} 선택'
     description_selected_columns: 선택된 열
     description_subwork_package: '작업 패키지 #%{id}의 자식'
@@ -178,14 +178,12 @@ ko:
     homescreen:
       blocks:
         new_features:
-          text_new_features: Read about new features and product updates.
-          current_new_feature_html: 'OpenProject contains a new <b>Boards view</b>
-            for Agile project management. </br> To activate this new feature for your
-            existing projects, please do the following steps: <ul><li>Activate the
-            module Boards within existing projects'' settings.</li> <li>Configure
-            your Boards in a project.</li> <li>Verify roles and permissions</li></ul>'
-          image_alt_text: Board teaser image
-          learn_about: Learn more about Agile Boards
+          text_new_features: 새로운 기능 및 제품 업데이트에 대해 읽어보십시오.
+          current_new_feature_html: OpenProject에는 애자일 프로젝트 관리를 위한 새로운 <b>보드 보기</b>가
+            포함되어 있습니다. </br> 기존 프로젝트에서 이 새로운 기능을 활성화하려면 다음 단계를 따르십시오. <ul><li>기존 프로젝트
+            설정에서 보드 모듈을 활성화합니다.</li> <li>프로젝트에서 보드를 구성합니다.</li> <li>역할 및 사용 권한을 확인합니다.</li></ul>
+          image_alt_text: 보드 티저 이미지
+          learn_about: 애자일 보드에 대해 자세히 알아보기
     label_activate: 활성화
     label_activity_no: 활동 항목 번호 %{activityNo}
     label_activity_with_comment_no: 활동 항목 번호 %{activityNo}. 사용자 의견 포함.
@@ -347,9 +345,8 @@ ko:
         help_menu: "<b>도움말</b> 메뉴에서 사용자 가이드 및 추가 도움말 리소스를 찾아볼 수 있습니다. <br> OpenProject에서
           즐겁게 작업하세요!"
         members: 프로젝트에 참여할 새로운 <b>멤버</b>를 초대하세요.
-        project_selection: Please click on one of the projects with useful demo data
-          to get started. <br> The <b>Demo project</b> suits best for classical project
-          management, while the <b>Scrum project</b> is better for Agile project management.
+        project_selection: 시작하려면 유용한 데모 데이터가 포함된 프로젝트 중 하나를 클릭하십시오. <br> <b>데모 프로젝트</b>는
+          클래식 프로젝트 관리에 최적이지만, 애자일 프로젝트 관리에는 <b>스크럼 프로젝트</b>가 더 적합합니다.
         sidebar_arrow: 화살표를 사용하여 프로젝트의 <b>기본 메뉴</b>로 다시 돌아갈 수 있습니다.
         welcome: 3분 소개 투어를 보고 가장 <b>중요한 기능</b>에 대해 알아보세요. <br> 끝까지 단계를 완료하는 것이 좋습니다.
           언제든지 투어를 다시 시작할 수 있습니다.
@@ -366,8 +363,7 @@ ko:
           overview: 직관적인 <b>보드</b> 보기에서 작업을 관리하십시오.
           lists: 하나의 보드 보기에서 여러 목록(열)을 만들 수 있습니다. 예를 들어, KANBAN 보드를 만들 수 있습니다.
           add: "+를 클릭하면 보드의 목록에 <b>새로운 카드가 추가</b>됩니다."
-          drag: Drag & Drop your cards within a list to re-order, or to another list.
-            A double click will open the details view.
+          drag: 목록에서 카드를 끌어다 놓아 다시 정렬하거나, 다른 목록으로 끌어오십시오. 두 번 클릭하면 상세 보기가 열립니다.
         wp:
           toggler: 이제 <b>작업 패키지</b> 섹션을 살펴보겠습니다. 이 섹션에서는 작업의 자세한 보기가 제공됩니다.
           list: 작업, 기능, 마일스톤, 버그 등 프로젝트 내 중요 작업이 포함된 <b>작업 패키지</b> 목록입니다. <br> 목록에서
@@ -393,9 +389,8 @@ ko:
       selection: 선택하십시오
       relation_description: 이 관계에 대한 설명을 추가하려면 클릭
     project:
-      required_outside_context: 'Please choose a project to create the work package
-        in to see all attributes. You can only select projects which have the type
-        above activated.
+      required_outside_context: '모든 특성을 보려면 작업 패키지를 만들 프로젝트를 선택하십시오. 위 유형이 활성화된 프로젝트만
+        선택할 수 있습니다.
 
 '
       context: 프로젝트 컨텍스트
@@ -485,8 +480,8 @@ ko:
       save: 관계 저장
       abort: 중단
     relations_autocomplete:
-      placeholder: 관련된 작업 패키지 ID 입력
-      parent_placeholder: Choose new parent or press escape to cancel.
+      placeholder: Type to search
+      parent_placeholder: 새로운 상위 항목은 선택하거나 Escape를 눌러 취소하십시오.
     repositories:
       select_tag: 태그 선택
       select_branch: 브랜치 선택

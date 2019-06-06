@@ -113,6 +113,9 @@ es:
   concatenation:
     single: o bien
   deprecations:
+    time_entries: This time entries view is superseded by the 'Cost reports' module.
+      This view now only supports exporting time entry information to csv. For interactive
+      filtering, please activate the 'Cost reports' module in the project settings.
     old_timeline:
       replacement: Este módulo de líneas de tiempo se ha sustituido por una la línea
         de tiempo interactiva incorporada en el módulo de paquetes de trabajo.

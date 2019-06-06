@@ -112,6 +112,9 @@ lt:
   concatenation:
     single: arba
   deprecations:
+    time_entries: This time entries view is superseded by the 'Cost reports' module.
+      This view now only supports exporting time entry information to csv. For interactive
+      filtering, please activate the 'Cost reports' module in the project settings.
     old_timeline:
       replacement: Šis laiko juostos modulis buvo pakeistas nauju, kuris integruotas
         į darbų paketų modulį.

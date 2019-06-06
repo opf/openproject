@@ -93,6 +93,9 @@ ja:
   concatenation:
     single: または
   deprecations:
+    time_entries: This time entries view is superseded by the 'Cost reports' module.
+      This view now only supports exporting time entry information to csv. For interactive
+      filtering, please activate the 'Cost reports' module in the project settings.
     old_timeline:
       replacement: ワークパッケージ モジュールに埋め込まれたインタラクティブなタイムラインで、このタイムライン モジュールを交換します。
       removal: このモジュールは、OpenProject 8.0 で削除される予定です。この表示の設定は、ワークパッケージの表示には移行されません。

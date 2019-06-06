@@ -111,6 +111,9 @@ sk:
   concatenation:
     single: alebo
   deprecations:
+    time_entries: This time entries view is superseded by the 'Cost reports' module.
+      This view now only supports exporting time entry information to csv. For interactive
+      filtering, please activate the 'Cost reports' module in the project settings.
     old_timeline:
       replacement: Tento modul časovej osi bude nahradený interaktívnym zobrazením
         časovej osi, ktorá bude zahrnutá do modulu pracovného balíčka.

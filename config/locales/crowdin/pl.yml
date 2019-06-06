@@ -111,6 +111,9 @@ pl:
   concatenation:
     single: lub
   deprecations:
+    time_entries: This time entries view is superseded by the 'Cost reports' module.
+      This view now only supports exporting time entry information to csv. For interactive
+      filtering, please activate the 'Cost reports' module in the project settings.
     old_timeline:
       replacement: Ten moduł osi czasu jest zastępowany przez interaktywny widok osi
         czasu osadzony w module zadań.
@@ -423,7 +426,7 @@ pl:
         spent_on: Data
         type: Typ
       type:
-        description: Default text for description
+        description: Domyślny tekst opisu
         attribute_groups: ''
         is_in_roadmap: Domyślnie wyświetlany w planie działania
         is_default: Domyślnie aktywny dla nowych projektów
@@ -603,8 +606,8 @@ pl:
           no_directory: nie jest katalogiem.
         role:
           permissions:
-            dependency_missing: need to also include '%{dependency}' as '%{permission}'
-              is selected.
+            dependency_missing: musi również uwzględniać wybór '%{dependency}' jako
+              '%{permission}'.
         work_package:
           is_not_a_valid_target_for_time_entries: 'Zadanie #%{id} jest niepoprawnym
             celem do ponownego rozpisania czasu.'
@@ -639,7 +642,8 @@ pl:
           attributes:
             attribute_groups:
               attribute_unknown: Użyto nieprawidłowego atrybutu zadania.
-              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              attribute_unknown_name: Użyto nieprawidłowego atrybutu pakietu roboczego.
+                %{attribute}
               duplicate_group: Nazwy grupy %{group} użyto więcej niż raz. Nazwy grup
                 muszą być niepowtarzalne.
               query_invalid: 'Osadzona kwerenda %{group} jest nieprawidłowowa: %{details}'
@@ -668,15 +672,15 @@ pl:
               error_not_found: nie znaleziono
         member:
           principal_blank: Wybierz co najmniej jeden użytkownik lub Grupa.
-          role_blank: need to be assigned.
+          role_blank: musi być przypisany.
           attributes:
             roles:
-              ungrantable: has an unassignable role.
+              ungrantable: ma rolę, której nie można przypisać.
             principal:
-              unassignable: cannot be assigned to a project.
+              unassignable: nie można przypisać do projektu.
         version:
-          undeletable_work_packages_attached: The version cannot be deleted as it
-            has work packages attached to it.
+          undeletable_work_packages_attached: Wersji nie można usunąć, ponieważ dołączone
+            są do niej pakiety robocze.
       template:
         body: 'Sprawdź następujące pola:'
         header:
@@ -1051,7 +1055,7 @@ pl:
   description_choose_project: Projekty
   description_compare_from: Porównaj z
   description_compare_to: W porównaniu do
-  description_current_position: 'You are here: '
+  description_current_position: 'Jesteś tutaj: '
   description_date_from: Wprowadź datę początkową
   description_date_range_interval: Wybierz zakres wybierając datę rozpoczęcia i zakończenia
   description_date_range_list: Wybierz zakres z listy
@@ -1112,7 +1116,7 @@ pl:
     (osiągnięty limit użytkownika). Skontaktuj się z administratorem, aby uzyskać
     dostęp.
   error_failed_to_delete_entry: Nie udało się usunąć tego wpisu.
-  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+  error_in_dependent: 'Błąd podczas próby zmiany obiektu zależnego: %{dependent_class}
     #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Nieprawidłowa wybrana wartość.
   error_invalid_group_by: 'Nie można grupować przez: %{value}'
@@ -1498,7 +1502,7 @@ pl:
   label_max_size: Maksymalny rozmiar
   label_me: ja
   label_member_new: Nowy członek
-  label_member_all_admin: "(All roles due to admin status)"
+  label_member_all_admin: "(Wszystkie role związane ze statusem administratora)"
   label_member_plural: Członkowie
   label_view_all_members: Zobacz wszystkich członków
   label_menu_item_name: Nazwa elementu menu
@@ -1527,7 +1531,7 @@ pl:
   label_my_queries: Moje zapytania niestandardowe
   label_never: Nigdy
   label_new: Nowy
-  label_new_features: New features
+  label_new_features: Nowe funkcje
   label_new_statuses_allowed: Nowe statusy dozwolone
   label_news_added: Wiadomość dodana
   label_news_comment_added: Komentarz został dodany do wiadomości
@@ -2027,7 +2031,7 @@ pl:
   permission_add_project: Tworzenie projektu
   permission_add_subprojects: Tworzenie podprojektów
   permission_add_work_package_watchers: Dodawanie obserwatorów
-  permission_assign_versions: Assign versions
+  permission_assign_versions: Przypisz wersje
   permission_browse_repository: Dostęp do repozytorium tylko do odczytu (przegląd
     i sprawdzenie)
   permission_change_wiki_parent_page: Zmiana strony nadrzędnej wiki
@@ -2878,7 +2882,7 @@ pl:
     attributes:
       lock_version: Wersja zablokowana
     errors:
-      code_400: 'Bad request: %{message}'
+      code_400: 'Nieprawidłowe żądanie: %{message}'
       code_401: Musisz być uwierzytelniony, aby otrzymać dostęp do tego zasobu.
       code_401_wrong_credentials: Nie wprowadziłeś prawidłowych danych uwierzytelniania.
       code_403: Nie masz uprawnień do tego zasobu.
@@ -2907,8 +2911,8 @@ pl:
         elementów.
       multiple_errors: Zostały naruszone ograniczenia wielu pól.
       unable_to_create_attachment: Nie można utworzyć załącznika
-      unable_to_create_attachment_permissions: The attachment could not be saved due
-        to lacking file system permissions
+      unable_to_create_attachment_permissions: Nie można zapisać załącznika ze względu
+        na brak uprawnień do systemu plików
       render:
         context_not_parsable: Podany kontekst nie jest linkiem do zasobu.
         unsupported_context: Podany zasób nie jest obsługiwany jako kontekst.

@@ -474,7 +474,7 @@ zh-TW:
       save: 儲存關聯
       abort: 捨棄
     relations_autocomplete:
-      placeholder: 輸入相關的工作包 ID
+      placeholder: Type to search
       parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: 選擇標籤

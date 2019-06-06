@@ -67,7 +67,7 @@ fr:
       too_many: Il y a plus de paquets de travail (%{count}) que le calendrier peut
         en afficher (%{max}). Ajouter des filtres pour afficher les plus pertinents.
     description_available_columns: Colonnes disponibles
-    description_current_position: 'You are here: '
+    description_current_position: 'Vous êtes ici :'
     description_select_work_package: 'Sélectionner le lot de travaux #%{id}'
     description_selected_columns: Colonnes Sélectionnées
     description_subwork_package: 'Enfant du lot de travaux #%{id}'
@@ -187,14 +187,16 @@ fr:
     homescreen:
       blocks:
         new_features:
-          text_new_features: Read about new features and product updates.
-          current_new_feature_html: 'OpenProject contains a new <b>Boards view</b>
-            for Agile project management. </br> To activate this new feature for your
-            existing projects, please do the following steps: <ul><li>Activate the
-            module Boards within existing projects'' settings.</li> <li>Configure
-            your Boards in a project.</li> <li>Verify roles and permissions</li></ul>'
-          image_alt_text: Board teaser image
-          learn_about: Learn more about Agile Boards
+          text_new_features: En savoir plus sur les nouvelles fonctionnalités et les
+            mises à jour des produits.
+          current_new_feature_html: 'OpenProject contient un nouvel <b>affichage de
+            Tableaux</b> pour la gestion de projet Agile. </br> Afin d''activer cette
+            nouvelle fonctionnalité pour vos projets existants, veuillez suivre les
+            étapes suivantes : <ul><li>Activez le module Tableaux dans les paramètres
+            des projets existants.</li> <li>Configurez vos Tableaux dans un projet.</li>
+            <li>Vérifiez les rôles et les permissions</li></ul>'
+          image_alt_text: Image teaser du Tableau
+          learn_about: En savoir plus sur les Tableaux Agile
     label_activate: Activer
     label_activity_no: Entrée d'activité numéro %{activityNo}
     label_activity_with_comment_no: Entrée d'activité numéro %{activityNo}. A un commentaire
@@ -366,9 +368,10 @@ fr:
           et des ressources d'aide supplémentaires. <br> profiter de votre travail
           avec OpenProject!
         members: Inviter des nouveaux<b>membres</b> à participer à votre projet.
-        project_selection: Please click on one of the projects with useful demo data
-          to get started. <br> The <b>Demo project</b> suits best for classical project
-          management, while the <b>Scrum project</b> is better for Agile project management.
+        project_selection: Veuillez cliquer sur l'un des projets avec des données
+          de démonstration utile pour commencer. <br> Le <b>projet de démo</b> convient
+          le mieux pour la gestion de projet classique, tandis que le <b>projet Scrum</b>
+          est meilleur pour la gestion de projet Agile.
         sidebar_arrow: Avec la flèche, vous pouvez naviguer vers le <b>Menu Principal</b>
           du projet.
         welcome: Faites une visite d’introduction de trois minutes d’apprendre le
@@ -397,8 +400,8 @@ fr:
             Tableaux, par exemple pour créer un tableau KANBAN.
           add: Cliquez sur le + va <b>ajouter une nouvelle carte</b> à la liste dans
             un Tableau.
-          drag: Drag & Drop your cards within a list to re-order, or to another list.
-            A double click will open the details view.
+          drag: Glissez et déposez vos cartes dans une liste pour recommander ou vers
+            une autre liste. Un double clic ouvrira l’affichage en détails.
         wp:
           toggler: Maintenant, jetons un coup d'oeil à la section <b>Paquet de Travail</b>,
             qui vous donne une vue plus détaillée de votre travail.
@@ -434,9 +437,9 @@ fr:
       selection: Veuillez sélectionner
       relation_description: Cliquez pour ajouter la description pour cette relation
     project:
-      required_outside_context: 'Please choose a project to create the work package
-        in to see all attributes. You can only select projects which have the type
-        above activated.
+      required_outside_context: 'Veuillez choisir un projet pour créer le lot de travaux
+        et voir tous les attributs. Vous pouvez seulement sélectionner des projets
+        ayant le type ci-dessus activé.
 
 '
       context: Contexte du projet
@@ -528,8 +531,8 @@ fr:
       save: Enregistrer la relation
       abort: Interrompre
     relations_autocomplete:
-      placeholder: Saisir l'ID du lot de travaux associé
-      parent_placeholder: Choose new parent or press escape to cancel.
+      placeholder: Type to search
+      parent_placeholder: Choisissez un nouveau parent ou appuyez sur Echap pour annuler.
     repositories:
       select_tag: Sélectionner une étiquette
       select_branch: Sélectionner une branche

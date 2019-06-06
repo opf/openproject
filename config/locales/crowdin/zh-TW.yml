@@ -97,6 +97,9 @@ zh-TW:
   concatenation:
     single: 或者
   deprecations:
+    time_entries: This time entries view is superseded by the 'Cost reports' module.
+      This view now only supports exporting time entry information to csv. For interactive
+      filtering, please activate the 'Cost reports' module in the project settings.
     old_timeline:
       replacement: 此時間軸模組正在被嵌入在工作項目模組的互動式時間軸所取代。
       removal: 此模組將在 OpenProject 8.0 被移除。此頁面的設定項目將不會被遷移到工作項目頁面。
