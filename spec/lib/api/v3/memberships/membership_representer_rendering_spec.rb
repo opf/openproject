@@ -88,6 +88,40 @@ describe ::API::V3::Memberships::MembershipRepresenter, 'rendering' do
       end
     end
 
+    describe 'to update' do
+      context 'if manage members permissions are granted' do
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'update' }
+          let(:href) { api_v3_paths.membership_form(member.id) }
+        end
+      end
+
+      describe 'if manage members permissions are lacking' do
+        let(:permissions) { [] }
+
+        it_behaves_like 'has no link' do
+          let(:link) { 'update' }
+        end
+      end
+    end
+
+    describe 'to updateImmediately' do
+      context 'if manage members permissions are granted' do
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'updateImmediately' }
+          let(:href) { api_v3_paths.membership(member.id) }
+        end
+      end
+
+      describe 'if manage members permissions are lacking' do
+        let(:permissions) { [] }
+
+        it_behaves_like 'has no link' do
+          let(:link) { 'updateImmediately' }
+        end
+      end
+    end
+
     describe 'project' do
       it_behaves_like 'has a titled link' do
         let(:link) { 'project' }

@@ -58,6 +58,10 @@ module API
                                                            api_name: 'Membership')
                                                       .mount
 
+            patch &::API::V3::Utilities::Endpoints::Update.new(model: Member,
+                                                               api_name: 'Membership')
+                                                          .mount
+
             mount ::API::V3::Memberships::UpdateFormAPI
           end
         end

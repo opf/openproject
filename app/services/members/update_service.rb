@@ -1,6 +1,8 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2019 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,34 +28,4 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Members
-  class BaseContract < ::ModelContract
-    delegate :principal,
-             :project,
-             :new_record?,
-             to: :model
-
-    attribute :roles
-
-    def validate
-      user_allowed_to_manage
-      roles_grantable
-
-      super
-    end
-
-    def user_allowed_to_manage
-      if model.project && !user.allowed_to?(:manage_members, model.project)
-        errors.add :base, :error_unauthorized
-      end
-    end
-
-    def roles_grantable
-      unmarked_roles = model.member_roles.reject(&:marked_for_destruction?).map(&:role)
-
-      unless unmarked_roles.all? { |r| r.builtin == Role::NON_BUILTIN && r.class == Role }
-        errors.add(:roles, :ungrantable)
-      end
-    end
-  end
-end
+class Members::UpdateService < ::BaseServices::Update; end

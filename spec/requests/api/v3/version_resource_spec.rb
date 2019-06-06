@@ -170,7 +170,7 @@ describe 'API v3 Version resource', content_type: :json do
         .to be_present
     end
 
-    it 'returns the newly created version' do
+    it 'returns the updated version' do
       expect(last_response.body)
         .to be_json_eql('Version'.to_json)
         .at_path('_type')

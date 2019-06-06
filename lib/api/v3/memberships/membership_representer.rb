@@ -43,6 +43,24 @@ module API
           }
         end
 
+        link :update do
+          next unless current_user_allowed_to(:manage_members, context: represented.project)
+
+          {
+            href: api_v3_paths.membership_form(represented.id),
+            method: :post
+          }
+        end
+
+        link :updateImmediately do
+          next unless current_user_allowed_to(:manage_members, context: represented.project)
+
+          {
+            href: api_v3_paths.membership(represented.id),
+            method: :patch
+          }
+        end
+
         property :id
 
         associated_resource :project
