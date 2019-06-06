@@ -38,13 +38,13 @@ class DeleteContract < ModelContract
   end
 
   def validate
-    user_allowed_to_manage
+    user_allowed
 
     super
   end
 
-  def user_allowed_to_manage
-    if model.project && !user.allowed_to?(self.class.delete_permission, model.project)
+  def user_allowed
+    unless authorized?
       errors.add :base, :error_unauthorized
     end
   end
@@ -53,5 +53,18 @@ class DeleteContract < ModelContract
 
   def validate_model?
     false
+  end
+
+  def authorized?
+    permission = self.class.delete_permission
+
+    case permission
+    when :admin
+      user.admin?
+    when Proc
+      instance_exec(&permission)
+    else
+      !model.project || user.allowed_to?(permission, model.project)
+    end
   end
 end

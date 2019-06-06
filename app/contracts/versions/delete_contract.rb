@@ -26,11 +26,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'grids/base_contract'
-
 module Versions
-  class DeleteContract < BaseContract
-    # super checks that we can manage the version
+  class DeleteContract < ::DeleteContract
+    delete_permission :manage_versions
+
     def validate
       validate_no_work_packages_attached
 
@@ -43,10 +42,6 @@ module Versions
       return unless model.fixed_issues.exists?
 
       errors.add(:base, :undeletable_work_packages_attached)
-    end
-
-    def validate_model?
-      false
     end
   end
 end

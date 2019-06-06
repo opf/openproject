@@ -31,13 +31,7 @@
 require 'model_contract'
 
 module Projects
-  class DeleteContract < BaseContract
-    def validate
-      unless user.admin?
-        errors.add :base, :error_unauthorized
-      end
-
-      super
-    end
+  class DeleteContract < ::DeleteContract
+    delete_permission :admin
   end
 end
