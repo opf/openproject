@@ -33,14 +33,14 @@ module API
     module Versions
       class VersionsAPI < ::API::OpenProjectAPI
         resources :versions do
-          get do
-            # the distinct(false) is added in order to allow ORDER BY LOWER(name)
-            # which would otherwise be invalid in postgresql
-            # SELECT DISTINCT, ORDER BY expressions must appear in select list
-            ::API::V3::Utilities::ParamsToQuery.collection_response(Version.visible(current_user).distinct(false),
-                                                                    current_user,
-                                                                    params)
-          end
+          get &::API::V3::Utilities::Endpoints::Index.new(model: Version,
+                                                          scope: -> {
+                                                            # the distinct(false) is added in order to allow ORDER BY LOWER(name)
+                                                            # which would otherwise be invalid in postgresql
+                                                            # SELECT DISTINCT, ORDER BY expressions must appear in select list
+                                                            Version.visible(current_user).distinct(false)
+                                                          })
+                                                     .mount
 
           post &::API::V3::Utilities::Endpoints::Create.new(model: Version).mount
 
@@ -67,10 +67,7 @@ module API
               end
             end
 
-            get do
-              VersionRepresenter.create(@version, current_user: current_user, embed_links: true)
-            end
-
+            get &::API::V3::Utilities::Endpoints::Show.new(model: Version).mount
             patch &::API::V3::Utilities::Endpoints::Update.new(model: Version).mount
             delete &::API::V3::Utilities::Endpoints::Delete.new(model: Version).mount
 
