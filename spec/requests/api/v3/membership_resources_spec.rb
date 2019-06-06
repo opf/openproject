@@ -631,4 +631,47 @@ describe 'API v3 memberhips resource', type: :request, content_type: :json do
       end
     end
   end
+
+  describe 'DELETE /api/v3/memberships/:id' do
+    let(:path) { api_v3_paths.membership(other_member.id) }
+    let(:members) { [own_member, other_member] }
+
+    before do
+      members
+      login_as current_user
+
+      delete path
+    end
+
+    subject { last_response }
+
+    context 'with required permissions' do
+      it 'responds with HTTP No Content' do
+        expect(subject.status).to eq 204
+      end
+
+      it 'deletes the member' do
+        expect(Member.exists?(other_member.id)).to be_falsey
+      end
+
+      context 'for a non-existent version' do
+        let(:path) { api_v3_paths.membership 1337 }
+
+        it_behaves_like 'not found' do
+          let(:id) { 1337 }
+          let(:type) { 'Membership' }
+        end
+      end
+    end
+
+    context 'without permission to delete members' do
+      let(:permissions) { [:view_members] }
+
+      it_behaves_like 'unauthorized access'
+
+      it 'does not delete the member' do
+        expect(Member.exists?(other_member.id)).to be_truthy
+      end
+    end
+  end
 end

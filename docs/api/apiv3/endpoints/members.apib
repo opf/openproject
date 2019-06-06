@@ -187,6 +187,51 @@ Updates the given membership by applying the attributes provided in the body.
                 }
             }
 
+## Delete Membership [DELETE]
+
+Deletes the membership.
+
++ Parameters
+    + id (required, integer, `1`) ... Membership id
+
++ Response 204 (application/hal+json)
+
+    Returned if the membership was successfully deleted
+
+    + Body
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** manage members
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the membership does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view members
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of
+    a version. That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The requested resource could not be found."
+            }
+
 ## Memberships [/api/v3/memberships{?filters}]
 
 + Model
