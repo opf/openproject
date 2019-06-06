@@ -33,22 +33,7 @@ module API
         helpers ::API::Utilities::PageSizeHelper
 
         resources :time_entries do
-          get do
-            query = ParamsToQueryService
-                    .new(TimeEntry, current_user)
-                    .call(params)
-
-            if query.valid?
-              TimeEntryCollectionRepresenter.new(query.results,
-                                                 api_v3_paths.time_entries,
-                                                 page: to_i_or_nil(params[:offset]),
-                                                 per_page: resolve_page_size(params[:pageSize]),
-                                                 current_user: current_user)
-            else
-              raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
-            end
-          end
-
+          get &::API::V3::Utilities::Endpoints::Index.new(model: TimeEntry).mount
           post &::API::V3::Utilities::Endpoints::Create.new(model: TimeEntry).mount
 
           route_param :id, type: Integer, desc: 'Time entry ID' do
@@ -58,11 +43,7 @@ module API
                             .find(params[:id])
             end
 
-            get do
-              TimeEntryRepresenter.create(@time_entry,
-                                          current_user: current_user,
-                                          embed_links: true)
-            end
+            get &::API::V3::Utilities::Endpoints::Show.new(model: TimeEntry).mount
 
             patch &::API::V3::Utilities::Endpoints::Update.new(model: TimeEntry).mount
             delete &::API::V3::Utilities::Endpoints::Delete.new(model: TimeEntry).mount
