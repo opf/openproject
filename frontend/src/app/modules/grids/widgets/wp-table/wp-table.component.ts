@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, ViewChild, AfterViewInit} from "@angular/core";
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {WidgetWpListComponent} from "core-app/modules/grids/widgets/wp-widget/wp-widget.component";
 import {WorkPackageTableConfiguration} from "core-components/wp-table/wp-table-configuration";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
@@ -13,7 +13,7 @@ import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resou
 
 @Component({
   templateUrl: './wp-table.component.html',
-  styleUrls: ['../wp-widget/wp-widget.component.css']
+  styleUrls: ['../wp-widget/wp-widget.component.css'],
 })
 export class WidgetWpTableComponent extends WidgetWpListComponent implements OnInit, OnDestroy, AfterViewInit {
   public text = { title: this.i18n.t('js.grid.widgets.work_packages_table.title') };

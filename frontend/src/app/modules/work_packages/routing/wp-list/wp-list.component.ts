@@ -32,11 +32,15 @@ import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {OpTitleService} from "core-components/html/op-title.service";
 import {WorkPackagesViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-packages-view.base";
 import {take} from "rxjs/operators";
+import {DragAndDropService} from "core-app/modules/boards/drag-and-drop/drag-and-drop.service";
 
 @Component({
   selector: 'wp-list',
   templateUrl: './wp.list.component.html',
-  styleUrls: ['./wp-list.component.sass']
+  styleUrls: ['./wp-list.component.sass'],
+  providers: [
+    DragAndDropService
+  ]
 })
 export class WorkPackagesListComponent extends WorkPackagesViewBase implements OnDestroy {
   text = {
