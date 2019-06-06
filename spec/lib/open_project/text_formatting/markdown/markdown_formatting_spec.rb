@@ -58,9 +58,8 @@ describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
 
   it 'should use of backslashes followed by numbers in headers' do
     html = <<-HTML.strip_heredoc
-      <h1>
-        <a id="20090209" class="anchor" href="#20090209" aria-hidden="true">
-          <span aria-hidden="true" class="octicon octicon-link"></span>
+      <h1 id="20090209">
+        <a class="wiki-anchor icon-paragraph" href="#20090209" aria-hidden="true">
         </a>
         2009\\02\\09
       </h1>
@@ -279,51 +278,49 @@ describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
     html = <<-HTML.strip_heredoc
       <p>
         <h1>Table of contents</h1>
-        <ul class="section-nav">
+        <ul class="toc">
           <li><a href="#the-first-h1-heading">The first h1 heading</a></li>
-          <li><a href="#the-first-h2-heading">The first h2 heading</a></li>
-          <li><a href="#the-first-h3-heading">The first h3 heading</a></li>
+          <ul class="section-nav">
+            <li><a href="#the-first-h2-heading">The first h2 heading</a></li>
+            <ul class="section-nav"><li><a href="#the-first-h3-heading">The first h3 heading</a></li></ul>
+          </ul>
           <li><a href="#the-second-h1-heading">The second h1 heading</a></li>
-          <li><a href="#the-second-h2-heading">The second h2 heading</a></li>
-          <li><a href="#the-second-h3-heading">The second h3 heading</a></li>
+          <ul class="section-nav">
+            <li><a href="#the-second-h2-heading">The second h2 heading</a></li>
+            <ul class="section-nav"><li><a href="#the-second-h3-heading">The second h3 heading</a></li></ul>
+          </ul>
         </ul>
       </p>
-      <h1>
-        <a id="the-first-h1-heading" class="anchor" href="#the-first-h1-heading" aria-hidden="true">
-          <span aria-hidden="true" class="octicon octicon-link"></span>
+      <h1 id="the-first-h1-heading">
+        <a class="wiki-anchor icon-paragraph" href="#the-first-h1-heading" aria-hidden="true">
         </a>
         The first h1 heading
       </h1>
       <p>Some text after the first h1 heading</p>
-      <h2>
-        <a id="the-first-h2-heading" class="anchor" href="#the-first-h2-heading" aria-hidden="true">
-          <span aria-hidden="true" class="octicon octicon-link"></span>
+      <h2 id="the-first-h2-heading">
+        <a class="wiki-anchor icon-paragraph" href="#the-first-h2-heading" aria-hidden="true">
         </a>
         The first h2 heading
       </h2>
       <p>Some text after the first h2 heading</p>
-      <h3>
-        <a id="the-first-h3-heading" class="anchor" href="#the-first-h3-heading" aria-hidden="true">
-          <span aria-hidden="true" class="octicon octicon-link"></span>
+      <h3 id="the-first-h3-heading">
+        <a class="wiki-anchor icon-paragraph" href="#the-first-h3-heading" aria-hidden="true">
         </a>
         The first h3 heading
       </h3>
       <p>Some text after the first h3 heading</p>
-      <h1>
-        <a id="the-second-h1-heading" class="anchor" href="#the-second-h1-heading" aria-hidden="true">
-          <span aria-hidden="true" class="octicon octicon-link"></span>
+      <h1 id="the-second-h1-heading">
+        <a class="wiki-anchor icon-paragraph" href="#the-second-h1-heading" aria-hidden="true">
         </a>The second h1 heading
       </h1>
       <p>Some text after the second h1 heading</p>
-      <h2>
-        <a id="the-second-h2-heading" class="anchor" href="#the-second-h2-heading" aria-hidden="true">
-          <span aria-hidden="true" class="octicon octicon-link"></span>
+      <h2 id="the-second-h2-heading">
+        <a class="wiki-anchor icon-paragraph" href="#the-second-h2-heading" aria-hidden="true">
         </a>The second h2 heading
       </h2>
       <p>Some text after the second h2 heading</p>
-      <h3>
-        <a id="the-second-h3-heading" class="anchor" href="#the-second-h3-heading" aria-hidden="true">
-          <span aria-hidden="true" class="octicon octicon-link"></span>
+      <h3 id="the-second-h3-heading">
+        <a class="wiki-anchor icon-paragraph" href="#the-second-h3-heading" aria-hidden="true">
         </a>The second h3 heading
       </h3>
       <p>Some text after the second h3 heading</p>
