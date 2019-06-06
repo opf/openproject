@@ -43,6 +43,8 @@ module Project::Copy
     def copy_attributes(project)
       super
       with_model(project) do |project|
+        # Clear enabled modules
+        self.enabled_modules = []
         self.enabled_module_names = project.enabled_module_names
         self.types = project.types
         self.work_package_custom_fields = project.work_package_custom_fields
