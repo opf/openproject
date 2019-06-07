@@ -28,6 +28,8 @@
 
 require 'spec_helper'
 
+require 'api/v3/work_packages/schema/typed_work_package_schema'
+
 describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
@@ -841,58 +843,103 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
   end
 
-  describe '#json_cache_key' do
-    def joined_cache_key
-      representer.json_cache_key.join('/')
+  describe 'caching' do
+    context 'for a SpecificWorkPackageSchema' do
+      # do not interfere with the representer cache fetching
+      let(:attribute_groups) { [] }
+
+      it 'is disabled' do
+        expect(OpenProject::Cache)
+          .not_to receive(:fetch)
+
+        representer.to_json
+      end
     end
 
-    before do
-      allow(work_package.project)
-        .to receive(:all_work_package_custom_fields)
-        .and_return []
+    context 'for a TypedWorkPackageSchema' do
+      # do not interfere with the representer cache fetching
+      let(:attribute_groups) { [] }
 
-      original_cache_key
+      let(:embedded) { false }
+
+      let(:schema) do
+        ::API::V3::WorkPackages::Schema::TypedWorkPackageSchema
+          .new(type: work_package.type, project: project).tap do |schema|
+          allow(wp_type)
+            .to receive(:attribute_groups)
+            .and_return(attribute_groups)
+          allow(schema)
+            .to receive(:assignable_values)
+            .and_call_original
+          allow(schema)
+            .to receive(:assignable_values)
+            .with(:version, current_user)
+            .and_return([])
+        end
+      end
+      it 'is based on the representer\'s cache_key' do
+        expect(OpenProject::Cache)
+          .to receive(:fetch)
+          .with(representer.json_cache_key)
+          .and_call_original
+
+        representer.to_json
+      end
     end
 
-    let(:original_cache_key) { joined_cache_key }
+    describe '#json_cache_key' do
+      def joined_cache_key
+        representer.json_cache_key.join('/')
+      end
 
-    it 'changes when the project changes' do
-      work_package.project = FactoryBot.build_stubbed(:project)
+      before do
+        allow(work_package.project)
+          .to receive(:all_work_package_custom_fields)
+           .and_return []
 
-      expect(joined_cache_key).to_not eql(original_cache_key)
-    end
+        original_cache_key
+      end
 
-    it 'changes when the project updates' do
-      work_package.project.updated_on += 1.hour
+      let(:original_cache_key) { joined_cache_key }
 
-      expect(joined_cache_key).to_not eql(original_cache_key)
-    end
+      it 'changes when the project changes' do
+        work_package.project = FactoryBot.build_stubbed(:project)
 
-    it 'changes when the type updates' do
-      work_package.type.updated_at += 1.hour
+        expect(joined_cache_key).to_not eql(original_cache_key)
+      end
 
-      expect(joined_cache_key).to_not eql(original_cache_key)
-    end
+      it 'changes when the project updates' do
+        work_package.project.updated_on += 1.hour
 
-    it 'changes when the type changes' do
-      work_package.type = FactoryBot.build_stubbed(:type)
+        expect(joined_cache_key).to_not eql(original_cache_key)
+      end
 
-      expect(joined_cache_key).to_not eql(original_cache_key)
-    end
+      it 'changes when the type updates' do
+        work_package.type.updated_at += 1.hour
 
-    it 'changes when the locale changes' do
-      allow(I18n).to receive(:locale).and_return(:de)
-      work_package.type = FactoryBot.build_stubbed(:type)
+        expect(joined_cache_key).to_not eql(original_cache_key)
+      end
 
-      expect(joined_cache_key).to_not eql(original_cache_key)
-    end
+      it 'changes when the type changes' do
+        work_package.type = FactoryBot.build_stubbed(:type)
 
-    it 'changes when the custom_fields changes' do
-      allow(work_package)
-        .to receive(:available_custom_fields)
-        .and_return [FactoryBot.build_stubbed(:custom_field)]
+        expect(joined_cache_key).to_not eql(original_cache_key)
+      end
 
-      expect(joined_cache_key).to_not eql(original_cache_key)
+      it 'changes when the locale changes' do
+        allow(I18n).to receive(:locale).and_return(:de)
+        work_package.type = FactoryBot.build_stubbed(:type)
+
+        expect(joined_cache_key).to_not eql(original_cache_key)
+      end
+
+      it 'changes when the custom_fields changes' do
+        allow(work_package)
+          .to receive(:available_custom_fields)
+          .and_return [FactoryBot.build_stubbed(:custom_field)]
+
+        expect(joined_cache_key).to_not eql(original_cache_key)
+      end
     end
   end
 end

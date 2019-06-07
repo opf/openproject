@@ -160,7 +160,7 @@ module API
         def delete_from_hash(hash, path, key)
           pathed_hash = path ? hash[path] : hash
 
-          pathed_hash.delete(key.to_s) if pathed_hash
+          pathed_hash&.delete(key.to_s)
         end
 
         def representable_map(*)
