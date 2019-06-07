@@ -2531,11 +2531,6 @@ ja:
 '
   menu_item: メニュー項目
   menu_item_setting: 可視性
-  mysql_deprecation:
-    notice: 'OpenProject の将来のバージョンは MariaDB と MySQL データベースのサポートがなくなる可能性があります。MySQL
-      のインストールが実行中の場合、PostgreSQL のインストールと移行をお勧めします。 移行ガイドに従うと、このプロセスを簡単に行うことができます:
-
-'
   wiki_menu_item_for: Wikiページ"%{title}"のメニュー項目
   wiki_menu_item_setting: 可視性
   wiki_menu_item_new_main_item_explanation: '唯一の主なＷｉｋｉメニュー項目が削除されます。新しい主要項目が生成するためにＷｉｋｉページを選択する必要があります。Ｗｉｋｉを削除するには、プロジェクト管理者によってＷｉｋｉモジュールを無効にすることができます。
@@ -2677,3 +2672,8 @@ ja:
     revoke_my_application_confirmation: 本当にこのアプリケーションを削除しますか？ これにより %{token_count}
       が無効になります。
     my_registered_applications: 登録済みのOAuthアプリケーション
+  mysql_deprecation:
+    notice: 'OpenProject の将来のバージョンは MariaDB と MySQL データベースのサポートがなくなる可能性があります。MySQL
+      のインストールが実行中の場合、PostgreSQL のインストールと移行をお勧めします。 移行ガイドに従うと、このプロセスを簡単に行うことができます:
+
+'

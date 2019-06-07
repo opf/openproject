@@ -2505,11 +2505,6 @@ zh:
 '
   menu_item: 菜单项
   menu_item_setting: 可见性
-  mysql_deprecation:
-    notice: 'OpenProject 的未来版本可能会放弃或减少对 MySQL 和 MariaDB 数据库的支持。您的安装仍在 MySQL 上运行，我们建议您将安装迁移到
-      PostgreSQL。 按照我们的迁移指南操作可以轻松完成此过程：
-
-'
   wiki_menu_item_for: wiki页面” %{title} “的菜单项
   wiki_menu_item_setting: 可见性
   wiki_menu_item_new_main_item_explanation: '您正在删除唯一的主wiki菜单项。您现在需要选择一个wiki页面生成新的主项目。若要删除wiki，wiki模块可以由管理员停用。
@@ -2647,3 +2642,8 @@ zh:
     authorization_error: 发生了验证错误。
     revoke_my_application_confirmation: 确定想要移除此应用程序吗？这将撤销对其有效的 %{token_count}。
     my_registered_applications: 已注册的 OAuth 应用程序
+  mysql_deprecation:
+    notice: 'OpenProject 的未来版本可能会放弃或减少对 MySQL 和 MariaDB 数据库的支持。您的安装仍在 MySQL 上运行，我们建议您将安装迁移到
+      PostgreSQL。 按照我们的迁移指南操作可以轻松完成此过程：
+
+'

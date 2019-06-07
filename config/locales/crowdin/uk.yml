@@ -2856,13 +2856,6 @@ uk:
 '
   menu_item: Пункт меню
   menu_item_setting: Видимість
-  mysql_deprecation:
-    notice: 'Майбутні версії OpenProject, швидше за все, завершать або зменшать підтримку
-      баз даних MySQL і MariaDB. Ваша інсталяція продовжує працювати на MySQL, і ми
-      пропонуємо вам перенести інсталяцію до PostgreSQL. Цей процес простий, якщо
-      дотримуватися наших міграційних посібників:
-
-'
   wiki_menu_item_for: Пункт меню для вікі-сторінки %{title}
   wiki_menu_item_setting: Видимість
   wiki_menu_item_new_main_item_explanation: 'Ви видаляєте лише головний пункт меню
@@ -3045,3 +3038,10 @@ uk:
     revoke_my_application_confirmation: Ви дійсно бажаєте видалити цю програму? Це
       скасує %{token_count} активація для цього.
     my_registered_applications: Зареєстровані програми OAuth
+  mysql_deprecation:
+    notice: 'Майбутні версії OpenProject, швидше за все, завершать або зменшать підтримку
+      баз даних MySQL і MariaDB. Ваша інсталяція продовжує працювати на MySQL, і ми
+      пропонуємо вам перенести інсталяцію до PostgreSQL. Цей процес простий, якщо
+      дотримуватися наших міграційних посібників:
+
+'

@@ -2770,13 +2770,6 @@ id:
 '
   menu_item: Menu item
   menu_item_setting: Visibilitas
-  mysql_deprecation:
-    notice: 'Versi lanjut OpenProject kemungkinan akan menghentikan atau mengurangi
-      dukungan terhadap database Mysql dan MariaDB. Instalasi anda masih menggunakan
-      MySQL dan kami sarankan anda untuk melakukan migrasi ke PostgreSQL. Agar proses
-      migrasi lebih mudah disarankan untuk mengikuti panduan migrasi kami:
-
-'
   wiki_menu_item_for: Menu untuk Halaman Wiki "%{title}"
   wiki_menu_item_setting: Visibilitas
   wiki_menu_item_new_main_item_explanation: 'You are deleting the only main wiki menu
@@ -2957,3 +2950,10 @@ id:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  mysql_deprecation:
+    notice: 'Versi lanjut OpenProject kemungkinan akan menghentikan atau mengurangi
+      dukungan terhadap database Mysql dan MariaDB. Instalasi anda masih menggunakan
+      MySQL dan kami sarankan anda untuk melakukan migrasi ke PostgreSQL. Agar proses
+      migrasi lebih mudah disarankan untuk mengikuti panduan migrasi kami:
+
+'

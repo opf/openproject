@@ -531,7 +531,7 @@ fr:
       save: Enregistrer la relation
       abort: Interrompre
     relations_autocomplete:
-      placeholder: Type to search
+      placeholder: Tapez à la recherche
       parent_placeholder: Choisissez un nouveau parent ou appuyez sur Echap pour annuler.
     repositories:
       select_tag: Sélectionner une étiquette

@@ -2868,14 +2868,6 @@ de:
 '
   menu_item: Menüpunkt
   menu_item_setting: Sichtbarkeit
-  mysql_deprecation:
-    notice: 'Zukünftige Versionen von OpenProject werden voraussichtlich die Unterstützung
-      für MySQL- und MariaDB-Datenbanken einstellen oder einschränken. Ihre Installation
-      läuft noch auf MySQL und wir empfehlen Ihnen, Ihre Installation auf PostgreSQL
-      zu migrieren. Dieser Prozess ist einfach, wenn wir unseren Migrationsanleitungen
-      folgen:
-
-'
   wiki_menu_item_for: Menüpunkt für die Wikiseite "%{title}"
   wiki_menu_item_setting: Sichtbarkeit
   wiki_menu_item_new_main_item_explanation: 'Der einzige Wiki-Hauptmenüpunkt wird
@@ -3066,3 +3058,11 @@ de:
     revoke_my_application_confirmation: Möchten Sie diese Anwendung wirklich entfernen?
       Dies wird %{token_count} aktive Token widerrufen.
     my_registered_applications: Registrierte OAuth-Anwendungen
+  mysql_deprecation:
+    notice: 'Zukünftige Versionen von OpenProject werden voraussichtlich die Unterstützung
+      für MySQL- und MariaDB-Datenbanken einstellen oder einschränken. Ihre Installation
+      läuft noch auf MySQL und wir empfehlen Ihnen, Ihre Installation auf PostgreSQL
+      zu migrieren. Dieser Prozess ist einfach, wenn wir unseren Migrationsanleitungen
+      folgen:
+
+'

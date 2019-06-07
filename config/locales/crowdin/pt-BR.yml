@@ -2816,13 +2816,6 @@ pt-BR:
 '
   menu_item: Item de menu
   menu_item_setting: Visibilidade
-  mysql_deprecation:
-    notice: 'As versões posteriores do OpenProject irão, provavelmente, abandonar
-      ou reduzir o suporte às bases de dados MySQL e MariaDB. Sua instalação continua
-      a ser executada no MySQL e sugerimos que você migre-a para o PostgreSQL. Este
-      processo é fácil quando nossos guias de migração são seguidos:
-
-'
   wiki_menu_item_for: Item de menu para página wiki "%{title}"
   wiki_menu_item_setting: Visibilidade
   wiki_menu_item_new_main_item_explanation: 'Você está excluindo somente o item de
@@ -3010,3 +3003,10 @@ pt-BR:
     revoke_my_application_confirmation: Você quer realmente remover esta aplicação?
       Isso irá revogar %{token_count} ativo(s) para ele.
     my_registered_applications: Aplicações OAuth registradas
+  mysql_deprecation:
+    notice: 'As versões posteriores do OpenProject irão, provavelmente, abandonar
+      ou reduzir o suporte às bases de dados MySQL e MariaDB. Sua instalação continua
+      a ser executada no MySQL e sugerimos que você migre-a para o PostgreSQL. Este
+      processo é fácil quando nossos guias de migração são seguidos:
+
+'
