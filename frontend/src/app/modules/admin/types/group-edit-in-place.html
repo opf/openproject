@@ -4,12 +4,12 @@
       class="group-edit-handler">
 </span>
 <input
+    #nameInput
     *ngIf="editing"
     class="group-edit-in-place--input"
     type="text"
-    [autoFocus]
-    [(ngModel)]="name"
-    (blur)="saveEdition()"
+    autoFocus
+    [(ngModel)]="editedName"
     [attr.placeholder]="placeholder"
     (keydown.escape)="reset()"
     (keydown.enter)="saveEdition($event)">

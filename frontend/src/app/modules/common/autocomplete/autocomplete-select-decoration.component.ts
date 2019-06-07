@@ -50,7 +50,7 @@ type SelectItem = { label:string, value:string, selected?:boolean };
   selector: 'autocomplete-select-decoration'
 })
 export class AutocompleteSelectDecorationComponent implements OnInit {
-  @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
+  @ViewChild(NgSelectComponent, { static: false }) public ngSelectComponent:NgSelectComponent;
 
   public options:SelectItem[];
 

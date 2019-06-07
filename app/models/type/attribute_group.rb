@@ -39,6 +39,10 @@ class Type::AttributeGroup < Type::FormGroup
     (attributes & valid_keys)
   end
 
+  def group_type
+    :attribute
+  end
+
   def ==(other)
     other.is_a?(self.class) &&
       key == other.key &&

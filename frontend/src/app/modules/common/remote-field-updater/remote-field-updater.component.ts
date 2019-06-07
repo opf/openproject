@@ -64,7 +64,7 @@ export class RemoteFieldUpdaterComponent implements OnInit {
       // special cases where the tab code is not correctly recognized (undefined).
       // Thus the focus is kept on the first element of the result list.
       let keyCodesArray = [keyCodes.TAB, keyCodes.ENTER, keyCodes.SHIFT];
-      if (keyCodesArray.indexOf(event.which) === -1 && event.which !== null) {
+      if (event.which && keyCodesArray.indexOf(event.which) === -1) {
         this.updater();
       }
     }, 500));

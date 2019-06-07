@@ -26,29 +26,29 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {TypeBannerService} from 'core-app/modules/admin/types/type-banner.service';
 
 @Component({
   selector: 'group-edit-in-place',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './group-edit-in-place.html'
 })
 export class GroupEditInPlaceComponent implements OnInit {
   @Input() public placeholder:string = '';
-  @Input('name') public originalName:string;
-  @Input() public key:string;
+  @Input() public name:string;
 
   @Output() public onValueChange = new EventEmitter<string>();
 
   public editing = false;
 
-  public name:string;
+  public editedName:string;
 
   constructor(private bannerService:TypeBannerService) {
   }
 
   ngOnInit():void {
-    this.name = this.originalName;
+    this.editedName = this.name;
 
     if (!this.name || this.name.length === 0) {
       // Group name is empty so open in editing mode straight away.
@@ -59,15 +59,17 @@ export class GroupEditInPlaceComponent implements OnInit {
   startEditing() {
     this.bannerService.conditional(
       () => this.bannerService.showEEOnlyHint(),
-      () => this.editing = true
+      () => {
+        this.editing = true;
+      }
     );
   }
 
   saveEdition(event:KeyboardEvent) {
-    this.originalName = this.name;
-    this.name = this.name.trim();
     this.leaveEditingMode();
-    if (this.originalName !== this.name) {
+    this.name = this.editedName.trim();
+
+    if (this.name !== '') {
       this.onValueChange.emit(this.name);
     }
 
@@ -79,12 +81,12 @@ export class GroupEditInPlaceComponent implements OnInit {
 
   reset() {
     this.editing = false;
-    this.name = this.originalName;
+    this.editedName = this.name;
   }
 
   leaveEditingMode() {
     // Only leave Editing mode if name not empty.
-    if (this.name != null && this.name.trim().length > 0) {
+    if (this.editedName != null && this.editedName.trim().length > 0) {
       this.editing = false;
     }
   }

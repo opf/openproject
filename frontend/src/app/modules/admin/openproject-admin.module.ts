@@ -28,31 +28,16 @@
 
 import {NgModule} from '@angular/core';
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
-import {Ng2StateDeclaration, UIRouterModule} from "@uirouter/angular";
 import {TypeFormConfigurationComponent} from 'core-app/modules/admin/types/type-form-configuration.component';
 import {GroupEditInPlaceComponent} from 'core-app/modules/admin/types/group-edit-in-place.component';
 import {TypeFormAttributeGroupComponent} from 'core-app/modules/admin/types/attribute-group.component';
 import {DragulaModule} from 'ng2-dragula';
 import {TypeFormQueryGroupComponent} from "core-app/modules/admin/types/query-group.component";
 
-export const ADMIN_ROUTES:Ng2StateDeclaration[] = [
-  {
-    name: 'admin',
-    parent: 'root',
-    abstract: true,
-  },
-  {
-    name: 'admin.types.form-configuration',
-    url: '/types/:type_id/edit/form_configuration',
-    component: TypeFormConfigurationComponent
-  },
-];
-
 @NgModule({
   imports: [
-    DragulaModule,
-    OpenprojectCommonModule,
-    UIRouterModule.forChild({ states: ADMIN_ROUTES })
+    DragulaModule.forRoot(),
+    OpenprojectCommonModule
   ],
   providers: [
   ],

@@ -30,7 +30,7 @@ import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {PasswordConfirmationModal} from "core-components/modals/request-for-confirmation/password-confirmation.modal";
 
 function registerListener(
-  form:JQuery<HTMLFormElement>,
+  form:JQuery,
   $event:JQuery.Event,
   opModalService:OpModalService,
   modal:typeof PasswordConfirmationModal) {
@@ -70,7 +70,7 @@ export function registerRequestForConfirmation($:JQueryStatic) {
       $(document).on(
         'submit',
         'form[request-for-confirmation]',
-        function(this:HTMLFormElement, $event:JQuery.Event) {
+        function(this:any, $event:JQuery.Event) {
           return registerListener(jQuery(this), $event, opModalService, passwordConfirmationModal);
         });
     });

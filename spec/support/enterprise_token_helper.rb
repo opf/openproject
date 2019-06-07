@@ -39,6 +39,10 @@ module AuthenticationHelpers
           .with(feature)
           .and_return(true)
       end
+
+      allow(EnterpriseToken).to receive(:show_banners?).and_return(false)
+    else
+      allow(EnterpriseToken).to receive(:show_banners?).and_return(true)
     end
 
     allow(OpenProject::Configuration).to receive(:ee_manager_visible?).and_return(false)

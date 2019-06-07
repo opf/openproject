@@ -35,15 +35,15 @@ module Components
       def initialize; end
 
       def add_button_dropdown
-        page.find '.form-configuration--add-group', text: I18n.t(:label_group)
+        page.find '.form-configuration--add-group', text: 'Group'
       end
 
       def add_attribute_group_button
-        page.find 'a', text: I18n.t('types.edit.add_group')
+        page.find 'a', text: I18n.t('js.admin.type_form.add_group')
       end
 
       def add_table_button
-        page.find 'a', text: I18n.t('types.edit.add_table')
+        page.find 'a', text: I18n.t('js.admin.type_form.add_table')
       end
 
       def reset_button

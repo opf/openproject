@@ -46,7 +46,7 @@ export class CustomDateActionAdminComponent implements OnInit {
   private currentKey = 'current';
   private currentFieldValue = '%CURRENT_DATE%';
 
-  private operators = [
+  public operators = [
     {key: this.onKey, label: this.i18n.t('js.custom_actions.date.specific')},
     {key: this.currentKey, label: this.i18n.t('js.custom_actions.date.current_date')}
   ];

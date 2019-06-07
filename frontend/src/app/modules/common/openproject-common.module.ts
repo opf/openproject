@@ -91,6 +91,7 @@ import {AddSectionDropdownComponent} from "core-app/modules/common/hide-section/
 import {HideSectionLinkComponent} from "core-app/modules/common/hide-section/hide-section-link/hide-section-link.component";
 import {HideSectionService} from "core-app/modules/common/hide-section/hide-section.service";
 import {RemoteFieldUpdaterComponent} from 'core-app/modules/common/remote-field-updater/remote-field-updater.component';
+import {AutofocusDirective} from "core-app/modules/common/autofocus/autofocus.directive";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -135,6 +136,7 @@ export function bootstrapModule(injector:Injector) {
     OpDatePickerComponent,
     OpDateTimeComponent,
     OpIcon,
+    AutofocusDirective,
 
     AttributeHelpTextComponent,
     AttributeHelpTextModal,
@@ -187,6 +189,7 @@ export function bootstrapModule(injector:Injector) {
     OpDatePickerComponent,
     OpDateTimeComponent,
     OpIcon,
+    AutofocusDirective,
 
     AttributeHelpTextComponent,
     AttributeHelpTextModal,
