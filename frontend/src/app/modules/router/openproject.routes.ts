@@ -73,20 +73,26 @@ export function bodyClass(className:string|null|undefined, action:'add'|'remove'
   }
 }
 export function updateMenuItem(menuItemClass:string|undefined, action:'add'|'remove' = 'add') {
-  if (menuItemClass) {
-    let menuItem = jQuery('#main-menu .' +  menuItemClass)[0];
-
-    // Update Class
-    menuItem.classList[action]('selected');
-
-    // Update accessibility label
-    let menuItemTitle = (menuItem.getAttribute('title') || '').split(':').slice(-1)[0];
-    if (action === 'add') {
-      menuItemTitle = I18n.t('js.description_current_position') + menuItemTitle;
-    }
-
-    menuItem.setAttribute('title', menuItemTitle);
+  if (!menuItemClass) {
+    return;
   }
+
+  let menuItem = jQuery('#main-menu .' +  menuItemClass)[0];
+
+  if (!menuItem) {
+    return;
+  }
+
+  // Update Class
+  menuItem.classList[action]('selected');
+
+  // Update accessibility label
+  let menuItemTitle = (menuItem.getAttribute('title') || '').split(':').slice(-1)[0];
+  if (action === 'add') {
+    menuItemTitle = I18n.t('js.description_current_position') + menuItemTitle;
+  }
+
+  menuItem.setAttribute('title', menuItemTitle);
 }
 
 export function uiRouterConfiguration(uiRouter:UIRouter, injector:Injector, module:StatesModule) {

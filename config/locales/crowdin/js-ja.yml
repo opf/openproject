@@ -472,7 +472,7 @@ ja:
       save: 関係を保存
       abort: 中止
     relations_autocomplete:
-      placeholder: 関係しているワークパッケージ ID を入力してください
+      placeholder: Type to search
       parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: タグを選択する

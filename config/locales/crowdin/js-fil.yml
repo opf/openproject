@@ -514,7 +514,7 @@ fil:
       save: I-save ang pakipag-ugnayan
       abort: Huwag ituloy
     relations_autocomplete:
-      placeholder: Ipasok ang Id ng kauganay sa work package
+      placeholder: Type to search
       parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: Pumiling ng tag

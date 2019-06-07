@@ -851,6 +851,7 @@ fi:
     started: Projektin "%{source_project_name}" kopiointi uudeksi projektiksi "%{target_project_name}"
       alkoi. Sinulle ilmoitetaan sähköpostitse, kun "%{target_project_name}" on saatavilla.
     failed: Ei voi kopioida projektia %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: Projekti %{target_project_name} luotu
     errors: Virhe
     project_custom_fields: Custom fields on project

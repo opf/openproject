@@ -868,6 +868,7 @@ nl:
       U wordt zo spoedig mogelijk per email op de hoogte gesteld wanneer "%{target_project_name}"
       beschikbaar is.
     failed: Kan project niet kopiëren %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: Gemaakte project %{target_project_name}
     errors: Fout
     project_custom_fields: Aangepaste velden in het project

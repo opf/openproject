@@ -173,4 +173,17 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
 
     full_page.ensure_page_loaded
   end
+
+  scenario 'double clicking my page (Regression #30343)' do
+    work_package.author = user
+    work_package.subject = 'Foobar'
+    work_package.save!
+
+    visit my_page_path
+
+    page.find('.wp-table--cell-td.id a', text: work_package.id).click
+
+    full_page = ::Pages::FullWorkPackage.new work_package, work_package.project
+    full_page.ensure_page_loaded
+  end
 end

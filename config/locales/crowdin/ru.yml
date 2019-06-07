@@ -602,8 +602,7 @@ ru:
           no_directory: не является каталогом.
         role:
           permissions:
-            dependency_missing: need to also include '%{dependency}' as '%{permission}'
-              is selected.
+            dependency_missing: включите также '%{dependency}', так как выбрано '%{permission}'.
         work_package:
           is_not_a_valid_target_for_time_entries: 'Пакет работ #%{id} не допустимым
             для переназначения времени записи.'
@@ -868,6 +867,7 @@ ru:
       началось. Вы будете проинформированы по электронной почте, как только «%{target_project_name}»
       будет доступен.
     failed: Не удается скопировать проект %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: Созданный проект %{target_project_name}
     errors: Ошибка
     project_custom_fields: Настраиваемые поля проекта
@@ -1532,7 +1532,7 @@ ru:
   label_my_queries: Мои пользовательские запросы
   label_never: Никогда
   label_new: Новое
-  label_new_features: New features
+  label_new_features: Новые особенности
   label_new_statuses_allowed: Новые статусы разрешены
   label_news_added: Новость добавлена
   label_news_comment_added: Комментарий добавлен в Новости
@@ -2030,7 +2030,7 @@ ru:
   permission_add_project: Создать проект
   permission_add_subprojects: Создать подпроект
   permission_add_work_package_watchers: Добавить наблюдателей
-  permission_assign_versions: Assign versions
+  permission_assign_versions: Назначить версии
   permission_browse_repository: Возможность только чтения из репозитория (просмотр
     и проверка)
   permission_change_wiki_parent_page: Смена родительской wiki-страницы
@@ -2917,8 +2917,8 @@ ru:
       multipart_body_error: Тело запроса не содержит ожидаемых частей.
       multiple_errors: Для нескольких полей были нарушены ограничения.
       unable_to_create_attachment: Вложение не может быть создано
-      unable_to_create_attachment_permissions: The attachment could not be saved due
-        to lacking file system permissions
+      unable_to_create_attachment_permissions: Вложение не может быть сохранено из-за
+        отсутствия прав на файловую систему
       render:
         context_not_parsable: Предоставленного контекста не является ссылка на ресурс.
         unsupported_context: Ресурс не поддерживается как контекст.

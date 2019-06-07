@@ -513,7 +513,7 @@ sv-SE:
       save: Spara relation
       abort: Avbryt
     relations_autocomplete:
-      placeholder: Ange ID på det relaterade arbetspaketet
+      placeholder: Type to search
       parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: Välj etikett

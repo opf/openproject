@@ -859,6 +859,7 @@ hi:
     started: Started to copy project "%{source_project_name}" to "%{target_project_name}".
       You will be informed by mail as soon as "%{target_project_name}" is available.
     failed: प्रोजेक्ट की प्रतिलिपि बनाना सम्भव नहीं %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: प्रोजेक्ट बनाया %{target_project_name}
     errors: त्रुटि
     project_custom_fields: Custom fields on project

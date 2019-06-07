@@ -507,7 +507,7 @@ ar:
       save: إحفظ العلاقة
       abort: إلغاء
     relations_autocomplete:
-      placeholder: أدخل معرّف حزمة العمل ذات الصلة
+      placeholder: Type to search
       parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: حدد العلامة

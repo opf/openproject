@@ -60,7 +60,7 @@ class ExtractFulltextJob < ApplicationJob
         resolver = Plaintext::Resolver.new(@file, @attachment.content_type)
         @text = resolver.text
       end
-    rescue => e
+    rescue StandardError => e
       Rails.logger.error(
         "Failed to extract plaintext from file #{@attachment&.id} (On domain #{Setting.host_name}): #{e}: #{e.message}"
       )
@@ -68,14 +68,20 @@ class ExtractFulltextJob < ApplicationJob
   end
 
   def update
-    Attachment
-      .where(id: @attachment_id)
-      .update_all(['fulltext = ?, fulltext_tsv = to_tsvector(?, ?), file_tsv = to_tsvector(?, ?)',
-                   @text,
-                   @language,
-                   OpenProject::FullTextSearch.normalize_text(@text),
-                   @language,
-                   OpenProject::FullTextSearch.normalize_filename(@filename)])
+    begin
+      Attachment
+        .where(id: @attachment_id)
+        .update_all(['fulltext = ?, fulltext_tsv = to_tsvector(?, ?), file_tsv = to_tsvector(?, ?)',
+                     @text,
+                     @language,
+                     OpenProject::FullTextSearch.normalize_text(@text),
+                     @language,
+                     OpenProject::FullTextSearch.normalize_filename(@filename)])
+    rescue StandardError => e
+      Rails.logger.error(
+        "Failed to update TSV values for attachment #{@attachment&.id} (On domain #{Setting.host_name}): #{e.message[0..499]}[...]"
+      )
+    end
   end
 
   def find_attachment(id)

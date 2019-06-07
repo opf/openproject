@@ -855,6 +855,7 @@ bg:
       Ще бъдете информирани по пощата веднага, след като "%{target_project_name}"
       е достъпен.
     failed: Не може да се копира проект %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: Създаден проект %{target_project_name}
     errors: Грешка
     project_custom_fields: Custom fields on project

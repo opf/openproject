@@ -107,9 +107,14 @@ namespace :attachments do
     target_attachment.store_all! attachments
   end
 
-  desc 'Extract text content from attachment that were not extracted yet.'
+  desc 'Extract text content from attachment that were not extracted yet synchronously.'
   task extract_fulltext_where_missing: :environment do
-    Attachment.extract_fulltext_where_missing
+    Attachment.extract_fulltext_where_missing(run_now: true)
+  end
+
+  desc 'Extract text content from attachment that were not extracted yet.'
+  task schedule_fulltext_extraction_where_missing: :environment do
+    Attachment.extract_fulltext_where_missing(run_now: false)
   end
 
   desc 'Extracts fulltext of all attachments and provide it for attachment filter even if that attachment has been \

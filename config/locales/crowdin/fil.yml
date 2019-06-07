@@ -881,6 +881,7 @@ fil:
       Pinapaalam ka sa pamamagitan ng mail sa lalong madaling panahon na ang "%{target_project_name}"
       ay magagamit.
     failed: Hindi makopya ang proyekto %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: Nilikhang proyekto %{target_project_name}
     errors: Mali
     project_custom_fields: Ang mga custom na patlang sa proyekto

@@ -861,6 +861,7 @@ cs:
     started: Started to copy project "%{source_project_name}" to "%{target_project_name}".
       You will be informed by mail as soon as "%{target_project_name}" is available.
     failed: Nebylo možné zkopírovat projekt "%{source_project_name}"
+    failed_internal: Copying failed due to an internal error.
     succeeded: Projekt "%{target_project_name}" vytvořen
     errors: Chyba
     project_custom_fields: Vlastní pole projektu

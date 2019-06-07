@@ -880,6 +880,7 @@ es:
     started: Comenzó la copia del proyecto '%{source_project_name}' a "%{target_project_name}".
       Se le informará por correo tan pronto como esté disponible el proyecto "%{target_project_name}".
     failed: No se puede copiar proyecto %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: Proyecto creado %{target_project_name}
     errors: Error
     project_custom_fields: Campos personalizados del proyecto

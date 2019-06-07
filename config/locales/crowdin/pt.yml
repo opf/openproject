@@ -435,7 +435,7 @@ pt:
         spent_on: Data
         type: Tipo
       type:
-        description: Default text for description
+        description: Texto padrão para a descrição
         attribute_groups: ''
         is_in_roadmap: Exibido no roteiro por padrão
         is_default: Ativado para novos projetos por padrão
@@ -612,8 +612,8 @@ pt:
           no_directory: não é um diretório.
         role:
           permissions:
-            dependency_missing: need to also include '%{dependency}' as '%{permission}'
-              is selected.
+            dependency_missing: tem também de incluir '%{dependency}' já que '%{permission}'
+              está selecionado.
         work_package:
           is_not_a_valid_target_for_time_entries: 'Pacote de trabalho #%{id} não válido
             para reafectar os registos de horas.'
@@ -648,7 +648,8 @@ pt:
           attributes:
             attribute_groups:
               attribute_unknown: Foi utilizado um atributo de pacote de trabalho inválido.
-              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              attribute_unknown_name: 'Foi utilizado um atributo de pacote de trabalho
+                inválido: %{attribute}'
               duplicate_group: O nome de grupo '%{group}' foi usado mais de uma vez.
                 Os nomes de grupos têm de ser exclusivos.
               query_invalid: 'A consulta incorporada ''%{group}'' é inválida: %{details}'
@@ -677,15 +678,15 @@ pt:
               error_not_found: não encontrado
         member:
           principal_blank: Por favor, escolha pelo menos um utilizador ou grupo.
-          role_blank: need to be assigned.
+          role_blank: tem de ser atribuído.
           attributes:
             roles:
-              ungrantable: has an unassignable role.
+              ungrantable: tem uma função que não é possível de atribuir.
             principal:
-              unassignable: cannot be assigned to a project.
+              unassignable: não pode ser atribuído a um projeto.
         version:
-          undeletable_work_packages_attached: The version cannot be deleted as it
-            has work packages attached to it.
+          undeletable_work_packages_attached: A versão não pode ser apagada pois tem
+            pacotes de trabalho anexados a ela.
       template:
         body: 'Por favor, verifique os seguintes campos:'
         header:
@@ -869,6 +870,7 @@ pt:
       Será informado por E-mail, assim que o projeto "%{target_project_name}" esteja
       disponível.
     failed: Não é possível copiar o projecto %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: Criado o projecto %{target_project_name}
     errors: Erro
     project_custom_fields: Campos personalizados no projeto
@@ -1036,7 +1038,7 @@ pt:
   description_choose_project: Projetos
   description_compare_from: Comparar de
   description_compare_to: Comparar com
-  description_current_position: 'You are here: '
+  description_current_position: 'Você está aqui: '
   description_date_from: Data de início
   description_date_range_interval: Escolha o intervalo selecionando a data inicial
     e final
@@ -1098,7 +1100,7 @@ pt:
   error_enterprise_activation_user_limit: Não foi possível ativar a sua conta (alcançado
     o limite do utilizador). Por favor contate o seu administrador para obter acesso.
   error_failed_to_delete_entry: Falha ao apagar esta entrada.
-  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+  error_in_dependent: 'Erro ao tentar alterar o objeto dependente: %{dependent_class}
     #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: O valor selecionado é inválido.
   error_invalid_group_by: 'Não é possível agrupar por: %{value}'
@@ -1486,7 +1488,7 @@ pt:
   label_max_size: Tamanho máximo
   label_me: eu
   label_member_new: Novo Membro
-  label_member_all_admin: "(All roles due to admin status)"
+  label_member_all_admin: "(Todas as funções devidas ao status do administrador)"
   label_member_plural: Membros
   label_view_all_members: Ver todos os membros
   label_menu_item_name: Nome do item de menu
@@ -1515,7 +1517,7 @@ pt:
   label_my_queries: As minhas consultas personalizadas
   label_never: Nunca
   label_new: Novo
-  label_new_features: New features
+  label_new_features: Novas funcionalidades
   label_new_statuses_allowed: Permitidos novos estados
   label_news_added: Notícia adicionada
   label_news_comment_added: Comentário adicionado às notícias
@@ -2001,7 +2003,7 @@ pt:
   permission_add_project: Criar Projeto
   permission_add_subprojects: Criar subprojetos
   permission_add_work_package_watchers: Adicionar observadores
-  permission_assign_versions: Assign versions
+  permission_assign_versions: Atribuir versões
   permission_browse_repository: Acesso somente de leitura ao repositório (browse e
     check-out)
   permission_change_wiki_parent_page: Alterar a página wiki fonte
@@ -2868,7 +2870,7 @@ pt:
     attributes:
       lock_version: Versão de bloqueio
     errors:
-      code_400: 'Bad request: %{message}'
+      code_400: 'Pedido incorreto: %{message}'
       code_401: Você precisa estar autenticado para acessar a este recurso.
       code_401_wrong_credentials: Não forneceu credenciais válidas.
       code_403: Você não está autorizado a acessar a este recurso.
@@ -2896,8 +2898,8 @@ pt:
         esperadas.
       multiple_errors: Várias restrições de campo foram violadas.
       unable_to_create_attachment: Não foi possível criar o anexo
-      unable_to_create_attachment_permissions: The attachment could not be saved due
-        to lacking file system permissions
+      unable_to_create_attachment_permissions: Não foi possível guardar o anexo devido
+        a falta de permissões no sistema de ficheiros
       render:
         context_not_parsable: O contexto fornecido não é um link para um recurso.
         unsupported_context: Não há suporte para o recurso dado como contexto.

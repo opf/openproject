@@ -191,14 +191,15 @@ de:
     homescreen:
       blocks:
         new_features:
-          text_new_features: Read about new features and product updates.
-          current_new_feature_html: 'OpenProject contains a new <b>Boards view</b>
-            for Agile project management. </br> To activate this new feature for your
-            existing projects, please do the following steps: <ul><li>Activate the
-            module Boards within existing projects'' settings.</li> <li>Configure
-            your Boards in a project.</li> <li>Verify roles and permissions</li></ul>'
-          image_alt_text: Board teaser image
-          learn_about: Learn more about Agile Boards
+          text_new_features: Lesen Sie über neue Funktionen und Updates.
+          current_new_feature_html: 'OpenProject enthält eine neue <b>Boards-Ansicht</b>
+            für das agile Projektmanagement. </br> Um diese Funktion für Ihre bestehenden
+            Projekte zu aktivieren, bitte folgende Schritte ausführen: <ul><li>Aktivieren
+            Sie die Modul-Boards in den bestehenden Projekten-Einstellungen.</li>
+            <li>Konfigurieren Sie Ihre Boards in einem Projekt.</li> <li>Überprüfen
+            Sie die Rollen und Berechtigungen Ihres Systems</li></ul>'
+          image_alt_text: Board Teaser-Bild
+          learn_about: Erfahren Sie mehr über agile Boards
     label_activate: Aktivieren
     label_activity_no: 'Aktivitäts-Nummer: %{activityNo}'
     label_activity_with_comment_no: 'Aktivitäts-Nummer: %{activityNo}. Hat einen Benutzerkommentar.'
@@ -427,9 +428,9 @@ de:
       selection: Bitte auswählen
       relation_description: Klicken, um eine Beschreibung für diese Beziehung anzulegen
     project:
-      required_outside_context: 'Please choose a project to create the work package
-        in to see all attributes. You can only select projects which have the type
-        above activated.
+      required_outside_context: 'Bitte wählen Sie ein Projekt für das Arbeitspaket,
+        um alle Attribute anzuzeigen. Sie können nur Projekte auswählen, für die der
+        ausgewählte Typ oben aktiviert ist.
 
 '
       context: Projektkontext
@@ -521,7 +522,7 @@ de:
       save: Beziehung speichern
       abort: Abbrechen
     relations_autocomplete:
-      placeholder: ID des zugehörigen Arbeitspaketes eingeben
+      placeholder: Type to search
       parent_placeholder: Wählen Sie einen neuen Teil oder drücken sie Escape, um
         abzubrechen.
     repositories:

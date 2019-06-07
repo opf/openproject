@@ -514,7 +514,7 @@ sk:
       save: Uložiť vzťah
       abort: Zrušiť
     relations_autocomplete:
-      placeholder: Zadajte ID pracovného balíčku
+      placeholder: Type to search
       parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: Vybrať značku

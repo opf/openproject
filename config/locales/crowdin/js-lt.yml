@@ -509,7 +509,7 @@ lt:
       save: Išsaugoti ryšį
       abort: Nutraukti
     relations_autocomplete:
-      placeholder: Nurodykite susijusio darbų paketo id
+      placeholder: Type to search
       parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: Pasirinkti žymę

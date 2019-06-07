@@ -521,7 +521,7 @@ nl:
       save: Sla relatie op
       abort: Annuleren
     relations_autocomplete:
-      placeholder: Geef het verwante werkpakket-id in
+      placeholder: Type to search
       parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: Selecteer label

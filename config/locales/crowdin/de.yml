@@ -623,8 +623,8 @@ de:
           no_directory: ist kein Verzeichnis.
         role:
           permissions:
-            dependency_missing: need to also include '%{dependency}' as '%{permission}'
-              is selected.
+            dependency_missing: muss auch '%{dependency}' als '%{permission}' ausgewählt
+              werden.
         work_package:
           is_not_a_valid_target_for_time_entries: 'Arbeitspaket #%{id} ist kein gültiges
             Ziel für die Zuordnung der Zeiterfassungseinträge.'
@@ -883,6 +883,7 @@ de:
       wurde gestartet. Sie werden per Mail benachrichtigt, sobald "%{target_project_name}"
       zur Verfügung steht.
     failed: Das Projekt %{source_project_name} konnte nicht kopiert werden
+    failed_internal: Copying failed due to an internal error.
     succeeded: Das Projekt %{target_project_name} wurde erstellt
     errors: Fehler
     project_custom_fields: Benutzerdefinierte Felder des Projekts
@@ -1532,7 +1533,7 @@ de:
   label_my_queries: Meine Berichte
   label_never: Nie
   label_new: Neu
-  label_new_features: New features
+  label_new_features: Neue Funktionen
   label_new_statuses_allowed: Neuer Status
   label_news_added: Neuigkeit hinzugefügt
   label_news_comment_added: Kommentar einer Neuigkeit hinzugefügt
@@ -2023,7 +2024,7 @@ de:
   permission_add_project: Projekt erstellen
   permission_add_subprojects: Unterprojekte erstellen
   permission_add_work_package_watchers: Beobachter hinzufügen
-  permission_assign_versions: Assign versions
+  permission_assign_versions: Versionen zuweisen
   permission_browse_repository: Lesezugriff auf Projektarchiv (in OpenProject und
     Checkout)
   permission_change_wiki_parent_page: Übergeordnete Wiki-Seite ändern
@@ -2927,8 +2928,8 @@ de:
         Abschnitte.
       multiple_errors: Einschränkungen für mehrere Felder wurden verletzt.
       unable_to_create_attachment: Der Anhang konnte nicht erstellt werden
-      unable_to_create_attachment_permissions: The attachment could not be saved due
-        to lacking file system permissions
+      unable_to_create_attachment_permissions: Der Anhang konnte aufgrund fehlender
+        Dateisystemberechtigungen nicht gespeichert werden
       render:
         context_not_parsable: Der übergebene Kontext ist kein Link zu einer Ressource.
         unsupported_context: Die übergebene Ressource wird nicht als Kontext unterstützt.

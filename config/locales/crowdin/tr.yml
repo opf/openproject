@@ -600,8 +600,8 @@ tr:
           no_directory: bir dizin değil.
         role:
           permissions:
-            dependency_missing: need to also include '%{dependency}' as '%{permission}'
-              is selected.
+            dependency_missing: "'%'%{dependency}' seçili olduğundan,'%{permission}'
+              \ ı da eklemeniz gerekir."
         work_package:
           is_not_a_valid_target_for_time_entries: 'İş paketi #%{id} zaman girdilerini
             yeniden atama için geçerli bir hedef değil.'
@@ -853,6 +853,7 @@ tr:
       bir projeye kopyalanmaya başladı. "%{target_project_name}" projesi hazır olduğunda
       e-posta ile bilgilendirileceksiniz.'
     failed: "%{source_project_name} project kopyalanamadı"
+    failed_internal: Copying failed due to an internal error.
     succeeded: "%{target_project_name} project oluşturuldu"
     errors: Hata
     project_custom_fields: Projedeki özel alanlar
@@ -1491,7 +1492,7 @@ tr:
   label_my_queries: Özel sorgularım
   label_never: Hiçbir zaman
   label_new: Yeni
-  label_new_features: New features
+  label_new_features: Yeni özellikler
   label_new_statuses_allowed: İzin verilen yeni durumlar
   label_news_added: Haberler eklendi
   label_news_comment_added: Yorum bir haberlere eklendi
@@ -1966,7 +1967,7 @@ tr:
   permission_add_project: Proje oluşturmak
   permission_add_subprojects: Alt proje oluşturmak
   permission_add_work_package_watchers: Takipçi ekle
-  permission_assign_versions: Assign versions
+  permission_assign_versions: Sürüm ata
   permission_browse_repository: Depoya salt okunur erişim (göz atma ve ödeme)
   permission_change_wiki_parent_page: Üst Wiki sayfasını değiştirmek
   permission_comment_news: Haberlere yorum yazmak
@@ -2839,8 +2840,10 @@ tr:
       multipart_body_error: İstek gövdesi, beklenen çok parçalı parçaları içeriyordu.
       multiple_errors: Çoklu alan kısıtlamaları ihlal edilmiştir.
       unable_to_create_attachment: Ek oluşturulamadı
-      unable_to_create_attachment_permissions: The attachment could not be saved due
-        to lacking file system permissions
+      unable_to_create_attachment_permissions: 'Dosya sistemi izinlerinin eksik olması
+        nedeniyle ek kaydedilemedi
+
+'
       render:
         context_not_parsable: Sağlanan bağlam, bir kaynağa bağ değildir.
         unsupported_context: Verilen kaynak bağlam olarak desteklenmiyor.

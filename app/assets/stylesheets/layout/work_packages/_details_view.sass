@@ -79,8 +79,11 @@ body.router--work-packages-split-view-new
   top:        50px
   bottom:     55px
   width:      100%
-  +allow-vertical-scrolling
-  padding:    0 15px 0 20px
+  overflow-x: hidden
+  overflow-y: scroll
+  padding:    0 5px 0 20px
+
+  @include styled-scroll-bar
 
 .work-packages--details
 

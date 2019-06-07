@@ -512,7 +512,7 @@ cs:
       save: Uložit vztah
       abort: Zrušit
     relations_autocomplete:
-      placeholder: Zadejte ID pracovního balíčku
+      placeholder: Type to search
       parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: Select tag

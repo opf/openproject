@@ -433,7 +433,7 @@ it:
         spent_on: Data
         type: Tipo
       type:
-        description: Default text for description
+        description: Testo predefinito per la descrizione
         attribute_groups: ''
         is_in_roadmap: Visualizzato nella tabella di marcia per impostazione predefinita
         is_default: Attivato nei nuovi progetti per impostazione predefinita
@@ -614,8 +614,8 @@ it:
           no_directory: non è una directory.
         role:
           permissions:
-            dependency_missing: need to also include '%{dependency}' as '%{permission}'
-              is selected.
+            dependency_missing: deve includere anche '%{dependency}' in quanto è selezionato
+              '%{permission}'.
         work_package:
           is_not_a_valid_target_for_time_entries: 'La macro-attività #%{id} non può
             essere utilizzata per riassegnare la cronologia.'
@@ -651,7 +651,8 @@ it:
           attributes:
             attribute_groups:
               attribute_unknown: Attributo di macro-attività non valido utilizzato.
-              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              attribute_unknown_name: 'Attributo di macro-attività non valido utilizzato:
+                %{attribute}'
               duplicate_group: Il nome di gruppo "%{group}" è usato più di una volta.
                 I nomi dei gruppi devono essere univoci.
               query_invalid: 'La query incorporata "%{group}" non è valida: %{details}'
@@ -682,15 +683,15 @@ it:
               error_not_found: non trovato
         member:
           principal_blank: Si prega di scegliere almeno un utente o un gruppo.
-          role_blank: need to be assigned.
+          role_blank: deve essere assegnato.
           attributes:
             roles:
-              ungrantable: has an unassignable role.
+              ungrantable: ha un ruolo non assegnabile.
             principal:
-              unassignable: cannot be assigned to a project.
+              unassignable: non può essere assegnato a un progetto.
         version:
-          undeletable_work_packages_attached: The version cannot be deleted as it
-            has work packages attached to it.
+          undeletable_work_packages_attached: Questa versione non può essere eliminata
+            perché vi sono macro-attività collegate a essa.
       template:
         body: 'Perfavore controlla i seguenti campi:'
         header:
@@ -872,6 +873,7 @@ it:
     started: Copia del progetto "%{source_project_name}" a "%{target_project_name}"
       iniziata. Sarete informati via mail appena "%{target_project_name}" è disponibile.
     failed: Non è possibile copiare il progetto %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: Creato il progetto %{target_project_name}
     errors: Errore
     project_custom_fields: Campi personalizzati sul progetto
@@ -1040,7 +1042,7 @@ it:
   description_choose_project: Progetti
   description_compare_from: Confronta da
   description_compare_to: Confronta con
-  description_current_position: 'You are here: '
+  description_current_position: 'Sei qui: '
   description_date_from: Inserisci data di inizio
   description_date_range_interval: Scegli l'intervallo selezionando la data di inizio
     e fine
@@ -1102,7 +1104,7 @@ it:
     (raggiunto il limite utente). Si prega di contattare l'amministratore per ottenere
     l'accesso.
   error_failed_to_delete_entry: Cancellazione voce non riuscita.
-  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+  error_in_dependent: 'Errore nel tentativo di modificare l''oggetto dipendente: %{dependent_class}
     #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Valore selezionato non valido.
   error_invalid_group_by: 'Impossibile raggruppare per: %{value}'
@@ -1489,7 +1491,7 @@ it:
   label_max_size: Dimensione massima
   label_me: io
   label_member_new: Nuovo membro
-  label_member_all_admin: "(All roles due to admin status)"
+  label_member_all_admin: "(Tutti i ruoli a causa dello stato di admin)"
   label_member_plural: Membri
   label_view_all_members: Visualizza tutti i membri
   label_menu_item_name: Nome della voce di menu
@@ -1518,7 +1520,7 @@ it:
   label_my_queries: Le mie query personalizzate
   label_never: Mai
   label_new: Nuovo
-  label_new_features: New features
+  label_new_features: Nuove funzionalità
   label_new_statuses_allowed: Nuovi stati acconsentiti
   label_news_added: Notizie aggiunte
   label_news_comment_added: Commento aggiunto a una notizia
@@ -2011,7 +2013,7 @@ it:
   permission_add_project: Creare un progetto
   permission_add_subprojects: Creare sotto-progetti
   permission_add_work_package_watchers: Aggiungere osservatori
-  permission_assign_versions: Assign versions
+  permission_assign_versions: Assegna versioni
   permission_browse_repository: Accesso in sola lettura all'archivio (consultazione
     e check-out)
   permission_change_wiki_parent_page: Cambiare la pagina padre del wiki
@@ -2899,7 +2901,7 @@ it:
     attributes:
       lock_version: Blocca Versione
     errors:
-      code_400: 'Bad request: %{message}'
+      code_400: 'Richiesta non valida: %{message}'
       code_401: Devi essere autenticato per accedere a questa risorsa.
       code_401_wrong_credentials: Non hai fornito le credenziali corrette.
       code_403: Non sei autorizzato ad accedere a questa risorsa.
@@ -2926,8 +2928,8 @@ it:
       multipart_body_error: Il corpo della richiesta non contiene le multipart previste.
       multiple_errors: Più vincoli di campo sono stati violati.
       unable_to_create_attachment: Il tema potrebbe non essere creato
-      unable_to_create_attachment_permissions: The attachment could not be saved due
-        to lacking file system permissions
+      unable_to_create_attachment_permissions: L'allegato non può essere salvato a
+        causa della mancanza di permessi nel file system
       render:
         context_not_parsable: Il contesto fornito non è un collegamento a una risorsa.
         unsupported_context: La risorsa non è supportata come contesto.

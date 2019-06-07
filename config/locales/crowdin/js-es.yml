@@ -525,7 +525,7 @@ es:
       save: Guardar relación
       abort: Abandonar
     relations_autocomplete:
-      placeholder: Indique el ID del paquete de trabajo relacionado
+      placeholder: Type to search
       parent_placeholder: Elija un nuevo padre ó presione escape para cancelar.
     repositories:
       select_tag: Seleccionar etiqueta

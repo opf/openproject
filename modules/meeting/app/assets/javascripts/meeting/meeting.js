@@ -25,6 +25,8 @@ jQuery(function($) {
 
     jQuery('.button--edit-agenda').toggleClass('-active', edit);
     jQuery('.button--edit-agenda').attr('disabled', edit);
+
+    jQuery('.meeting_content ~ attachments').toggle(!edit);
   }
 
   $('.button--edit-agenda').click(function() {

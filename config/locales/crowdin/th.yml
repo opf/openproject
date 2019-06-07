@@ -846,6 +846,7 @@ th:
     started: Started to copy project "%{source_project_name}" to "%{target_project_name}".
       You will be informed by mail as soon as "%{target_project_name}" is available.
     failed: ไม่สามารถดำเนินการคัดลอกโครงการ %{source_project_name} ได้
+    failed_internal: Copying failed due to an internal error.
     succeeded: สร้างโครงการ %{target_project_name} แล้ว
     errors: ข้อผิดพลาด
     project_custom_fields: Custom fields on project
