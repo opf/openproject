@@ -303,14 +303,6 @@ module OpenProject::TextFormatting::Formats
       end
 
       def batch_update_statement(klass, attributes, values)
-        if OpenProject::Database.mysql?
-          batch_update_statement_mysql(klass, attributes, values)
-        else
-          batch_update_statement_postgresql(klass, attributes, values)
-        end
-      end
-
-      def batch_update_statement_postgresql(klass, attributes, values)
         table_name = klass.table_name
         sets = attributes.map { |a| "#{a} = new_values.#{a}" }.join(', ')
         new_values = values.map do |value_hash|
@@ -326,22 +318,6 @@ module OpenProject::TextFormatting::Formats
             VALUES
              #{new_values.join(', ')}
           ) AS new_values (id, #{attributes.join(', ')})
-          WHERE #{table_name}.id = new_values.id
-        SQL
-      end
-
-      def batch_update_statement_mysql(klass, attributes, values)
-        table_name = klass.table_name
-        sets = attributes.map { |a| "#{table_name}.#{a} = new_values.#{a}" }.join(', ')
-        new_values_union = values.map do |value_hash|
-          text_values = value_hash.except(:id).map { |k, v| "#{ActiveRecord::Base.connection.quote(v)} AS #{k}" }.join(', ')
-          "SELECT #{value_hash[:id]} AS id, #{text_values}"
-        end.join(' UNION ')
-
-        <<-SQL
-          UPDATE #{table_name}, (#{new_values_union}) AS new_values
-          SET
-            #{sets}
           WHERE #{table_name}.id = new_values.id
         SQL
       end

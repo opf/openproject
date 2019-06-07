@@ -108,15 +108,8 @@ module CustomField::OrderStatements
   end
 
   def select_custom_values_as_group
-    aggr_sql =
-      if OpenProject::Database.mysql?
-        "GROUP_CONCAT(cv_sort.value SEPARATOR '.')"
-      else
-        "string_agg(cv_sort.value, '.')"
-      end
-
     <<-SQL
-      COALESCE((SELECT #{aggr_sql} FROM #{CustomValue.table_name} cv_sort
+      COALESCE((SELECT string_agg(cv_sort.value, '.') FROM #{CustomValue.table_name} cv_sort
         WHERE cv_sort.customized_type='#{self.class.customized_class.name}'
           AND cv_sort.customized_id=#{self.class.customized_class.table_name}.id
           AND cv_sort.custom_field_id=#{id}
@@ -125,15 +118,8 @@ module CustomField::OrderStatements
   end
 
   def select_custom_values_joined_options_as_group
-    aggr_sql =
-      if OpenProject::Database.mysql?
-        "GROUP_CONCAT(co_sort.value SEPARATOR '.')"
-      else
-        "string_agg(co_sort.value, '.' ORDER BY co_sort.position ASC)"
-      end
-
     <<-SQL
-      COALESCE((SELECT #{aggr_sql} FROM #{CustomOption.table_name} co_sort
+      COALESCE((SELECT string_agg(co_sort.value, '.' ORDER BY co_sort.position ASC) FROM #{CustomOption.table_name} co_sort
         LEFT JOIN #{CustomValue.table_name} cv_sort
         ON co_sort.id = CAST(cv_sort.value AS decimal(60,3))
         WHERE cv_sort.customized_type='#{self.class.customized_class.name}'

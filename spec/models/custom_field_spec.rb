@@ -339,9 +339,8 @@ describe CustomField, type: :model do
 
     shared_examples_for 'saving updates field\'s updated_at' do
       it 'updates updated_at' do
-        # mysql does not store milliseconds so we have to slow down the tests by orders of magnitude
         timestamp_before = field.updated_at
-        sleep 1
+        sleep 0.001
         field.save
         expect(field.updated_at).not_to eql(timestamp_before)
       end

@@ -276,10 +276,6 @@ gem 'reform-rails', '~> 0.1.7'
 gem 'roar', '~> 1.1.0'
 
 platforms :mri, :mingw, :x64_mingw do
-  group :mysql2 do
-    gem 'mysql2', '~> 0.5.0'
-  end
-
   group :postgres do
     gem 'pg', '~> 1.1.0'
   end

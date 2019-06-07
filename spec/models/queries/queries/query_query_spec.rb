@@ -49,7 +49,7 @@ describe Queries::Queries::QueryQuery, type: :model do
     describe '#results' do
       it 'is the same as handwriting the query' do
         # apparently, strings are accepted to be compared to
-        # integers in the dbs (mysql, postgresql)
+        # integers in the postgresql
         expected = base_scope
                    .merge(Query
                    .where("queries.project_id IN ('1','2')"))

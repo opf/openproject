@@ -82,12 +82,6 @@ class Principal < ActiveRecord::Base
     firstnamelastname = "((firstname || ' ') || lastname)"
     lastnamefirstname = "((lastname || ' ') || firstname)"
 
-    # special concat for mysql
-    if OpenProject::Database.mysql?
-      firstnamelastname = "CONCAT(CONCAT(firstname, ' '), lastname)"
-      lastnamefirstname = "CONCAT(CONCAT(lastname, ' '), firstname)"
-    end
-
     s = "%#{q.to_s.downcase.strip.tr(',', '')}%"
 
     where(['LOWER(login) LIKE :s OR ' +

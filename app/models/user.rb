@@ -238,7 +238,7 @@ class User < Principal
   def self.activate_user!(user, session)
     if session[:invitation_token]
       token = Token::Invitation.find_by_plaintext_value session[:invitation_token]
-      invited_id = token && token.user.id
+      invited_id = token&.user&.id
 
       if user.id == invited_id
         user.activate!
@@ -476,28 +476,28 @@ class User < Principal
   # Find a user account by matching the exact login and then a case-insensitive
   # version.  Exact matches will be given priority.
   def self.find_by_login(login)
-    # force string comparison to be case sensitive on MySQL
-    type_cast = (OpenProject::Database.mysql?) ? 'BINARY' : ''
     # First look for an exact match
-    user = where(["#{type_cast} login = ?", login]).first
+    user = find_by(login: login)
     # Fail over to case-insensitive if none was found
-    user ||= where(["#{type_cast} LOWER(login) = ?", login.to_s.downcase]).first
+    user || where(["LOWER(login) = ?", login.to_s.downcase]).first
   end
 
   def self.find_by_rss_key(key)
     return nil unless Setting.feeds_enabled?
+
     token = Token::Rss.find_by(value: key)
 
-    if token && token.user.active?
+    if token&.user&.active?
       token.user
     end
   end
 
   def self.find_by_api_key(key)
     return nil unless Setting.rest_api_enabled?
+
     token = Token::Api.find_by_plaintext_value(key)
 
-    if token && token.user.active?
+    if token&.user&.active?
       token.user
     end
   end
@@ -513,16 +513,11 @@ class User < Principal
     skip_suffix_check, regexp = mail_regexp(mail)
 
     # If the recipient part already contains a suffix, don't expand
-    return where("LOWER(mail) = ?", mail) if skip_suffix_check
-
-    command =
-      if OpenProject::Database.mysql?
-        'REGEXP'
-      else
-        '~*'
-      end
-
-    where("LOWER(mail) #{command} ?", regexp)
+    if skip_suffix_check
+      where("LOWER(mail) = ?", mail)
+    else
+      where("LOWER(mail) ~* ?", regexp)
+    end
   end
 
   ##
@@ -563,7 +558,7 @@ class User < Principal
     roles = []
 
     # No role on archived projects
-    return roles unless project && project.active?
+    return roles unless project&.active?
 
     # Return all roles if user is admin
     return Role.givable.to_a if admin?
