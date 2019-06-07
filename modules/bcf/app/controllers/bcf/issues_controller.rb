@@ -167,7 +167,7 @@ module ::Bcf
     end
 
     def render_config_unknown_mails
-      @roles = Role.find_all_givable
+      @roles = Role.givable
       render 'bcf/issues/configure_unknown_mails'
     end
 
@@ -176,7 +176,7 @@ module ::Bcf
     end
 
     def render_config_non_members
-      @roles = Role.find_all_givable
+      @roles = Role.givable
       render 'bcf/issues/configure_non_members'
     end
 

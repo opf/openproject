@@ -108,11 +108,9 @@ module OpenProject::Bcf::BcfXml
     end
 
     def create_work_package
-      wp = WorkPackage.new work_package_attributes
-
-      call = CreateWorkPackageService
-        .new(user: user)
-        .call(wp, send_notifications: false)
+      call = WorkPackages::CreateService.new(user: user).call(work_package_attributes
+                                                                .merge(send_notifications: false)
+                                                                .symbolize_keys)
 
       if call.success?
         force_overwrite(wp)
