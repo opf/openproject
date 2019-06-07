@@ -57,6 +57,15 @@ module API
             get &::API::V3::Utilities::Endpoints::Show.new(model: Member,
                                                            api_name: 'Membership')
                                                       .mount
+
+            patch &::API::V3::Utilities::Endpoints::Update.new(model: Member,
+                                                               api_name: 'Membership')
+                                                          .mount
+
+            delete &::API::V3::Utilities::Endpoints::Delete.new(model: Member)
+                                                           .mount
+
+            mount ::API::V3::Memberships::UpdateFormAPI
           end
         end
       end

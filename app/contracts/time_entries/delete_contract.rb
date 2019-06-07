@@ -29,22 +29,8 @@
 #++
 
 module TimeEntries
-  class DeleteContract < BaseContract
-    def validate
-      unless user_allowed_to_delete?
-        errors.add :base, :error_unauthorized
-      end
-
-      super
-    end
-
-    private
-
-    ##
-    # Users may delete time entries IF
-    # they have the :edit_time_entries or
-    # user == deleting user and :edit_own_time_entries
-    def user_allowed_to_delete?
+  class DeleteContract < ::DeleteContract
+    delete_permission -> {
       edit_all = user.allowed_to?(:edit_time_entries, model.project)
       edit_own = user.allowed_to?(:edit_own_time_entries, model.project)
 
@@ -53,6 +39,6 @@ module TimeEntries
       else
         edit_all
       end
-    end
+    }
   end
 end

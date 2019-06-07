@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,16 +26,45 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Memberships
-      class CreateFormRepresenter < FormRepresenter
-        include API::Decorators::CreateForm
-
-        def downcase_model_name
-          'membership'
-        end
+class DeleteContract < ModelContract
+  class << self
+    def delete_permission(permission = nil)
+      if permission
+        @delete_permission = permission
       end
+
+      @delete_permission
+    end
+  end
+
+  def validate
+    user_allowed
+
+    super
+  end
+
+  def user_allowed
+    unless authorized?
+      errors.add :base, :error_unauthorized
+    end
+  end
+
+  protected
+
+  def validate_model?
+    false
+  end
+
+  def authorized?
+    permission = self.class.delete_permission
+
+    case permission
+    when :admin
+      user.admin?
+    when Proc
+      instance_exec(&permission)
+    else
+      !model.project || user.allowed_to?(permission, model.project)
     end
   end
 end

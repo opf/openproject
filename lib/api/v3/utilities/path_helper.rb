@@ -36,6 +36,55 @@ module API
         class ApiV3Path
           extend API::Utilities::UrlHelper
 
+          def self.index(name, path = nil)
+            plural_name = name.to_s.pluralize
+
+            path ||= plural_name
+
+            define_singleton_method(plural_name) do
+              "#{root}/#{path}"
+            end
+          end
+          private_class_method :index
+
+          def self.show(name)
+            define_singleton_method(name) do |id|
+              "#{send(name.to_s.pluralize)}/#{id}"
+            end
+          end
+          private_class_method :show
+
+          def self.create_form(name)
+            define_singleton_method(:"create_#{name}_form") do
+              "#{send(name.to_s.pluralize)}/form"
+            end
+          end
+          private_class_method :create_form
+
+          def self.update_form(name)
+            define_singleton_method(:"#{name}_form") do |id|
+              "#{send(name, id)}/form"
+            end
+          end
+          private_class_method :update_form
+
+          def self.schema(name)
+            define_singleton_method(:"#{name}_schema") do
+              "#{send(name.to_s.pluralize)}/schema"
+            end
+          end
+          private_class_method :schema
+
+          def self.resources(name,
+                             except: [],
+                             only: %i[index show create_form update_form schema])
+
+            (Array(only) - Array(except)).each do |method|
+              send(method, name)
+            end
+          end
+          private_class_method :resources
+
           # Determining the root_path on every url we want to render is
           # expensive. As the root_path will not change within a
           # request, we can cache the first response on each request.
@@ -51,13 +100,8 @@ module API
             "#{root}/activities/#{id}"
           end
 
-          def self.attachment(id)
-            "#{root}/attachments/#{id}"
-          end
-
-          def self.attachments
-            "#{root}/attachments"
-          end
+          index :attachment
+          show :attachment
 
           def self.attachment_content(id)
             "#{root}/attachments/#{id}/content"
@@ -103,20 +147,15 @@ module API
             "#{work_package(work_package_id)}/available_relation_candidates"
           end
 
-          def self.categories(project_id)
-            "#{project(project_id)}/categories"
-          end
+          index :category
+          show :category
 
-          def self.category(id)
-            "#{root}/categories/#{id}"
+          def self.categories_by_project(id)
+            "#{project(id)}/categories"
           end
 
           def self.configuration
             "#{root}/configuration"
-          end
-
-          def self.create_work_package_form
-            "#{work_packages}/form"
           end
 
           def self.create_project_work_package_form(project_id)
@@ -135,106 +174,45 @@ module API
             "#{root}/custom_options/#{id}"
           end
 
-          def self.grids
-            "#{root}/grids"
-          end
+          index :help_text
+          show :help_text
 
-          def self.create_grid_form
-            "#{grids}/form"
-          end
+          resources :grid
 
-          def self.grid_schema
-            "#{grids}/schema"
-          end
-
-          def self.grid(id)
-            "#{grids}/#{id}"
-          end
-
-          def self.grid_form(id)
-            "#{grid(id)}/form"
-          end
-
-          def self.help_texts
-            "#{root}/help_texts"
-          end
-
-          def self.help_text(id)
-            "#{root}/help_texts/#{id}"
-          end
-
-          def self.memberships
-            "#{root}/memberships"
-          end
+          resources :membership
 
           def self.memberships_available_projects
             "#{memberships}/available_projects"
           end
 
-          def self.membership(id)
-            "#{memberships}/#{id}"
-          end
+          index :message
+          show :message
 
-          def self.membership_schema
-            "#{memberships}/schema"
-          end
+          index :my_preferences
 
-          def self.create_memberships_form
-            "#{memberships}/form"
-          end
-
-          def self.message(id)
-            "#{root}/messages/#{id}"
-          end
-
-          def self.my_preferences
-            "#{root}/my_preferences"
-          end
-
-          def self.newses
-            "#{root}/news"
-          end
+          index :newses, :news
 
           def self.news(id)
             "#{newses}/#{id}"
           end
 
-          def self.post(id)
-            "#{root}/posts/#{id}"
-          end
+          index :post
+          show :post
 
-          def self.principals
-            "#{root}/principals"
-          end
+          index :principal
 
-          def self.priorities
-            "#{root}/priorities"
-          end
-
-          def self.priority(id)
-            "#{priorities}/#{id}"
-          end
+          index :priorities
+          show :priority
 
           class << self
             alias :issue_priorities :priorities
             alias :issue_priority :priority
           end
 
-          def self.projects
-            "#{root}/projects"
-          end
+          index :project
+          show :project
 
-          def self.project(id)
-            "#{projects}/#{id}"
-          end
-
-          def self.queries
-            "#{root}/queries"
-          end
-
-          def self.query(id)
-            "#{queries}/#{id}"
-          end
+          resources :query
 
           def self.query_default
             "#{queries}/default"
@@ -242,14 +220,6 @@ module API
 
           def self.query_project_default(id)
             "#{project(id)}/queries/default"
-          end
-
-          def self.create_query_form
-            "#{queries}/form"
-          end
-
-          def self.query_form(id)
-            "#{query(id)}/form"
           end
 
           def self.query_star(id)
@@ -296,10 +266,6 @@ module API
             "#{queries}/operators/#{name}"
           end
 
-          def self.query_schema
-            "#{queries}/schema"
-          end
-
           def self.query_project_schema(id)
             "#{project(id)}/queries/schema"
           end
@@ -308,17 +274,11 @@ module API
             "#{queries}/available_projects"
           end
 
-          def self.relation(id)
-            "#{root}/relations/#{id}"
-          end
+          index :relations
+          show :relation
 
-          def self.relations
-            "#{root}/relations"
-          end
-
-          def self.revision(id)
-            "#{root}/revisions/#{id}"
-          end
+          index :revision
+          show :revision
 
           def self.render_markup(link: nil, plain: false)
             format = if plain
@@ -333,13 +293,8 @@ module API
             path
           end
 
-          def self.roles
-            "#{root}/roles"
-          end
-
-          def self.role(id)
-            "#{root}/roles/#{id}"
-          end
+          index :role
+          show :role
 
           def self.show_revision(project_id, identifier)
             show_revision_project_repository_path(project_id, identifier)
@@ -349,50 +304,30 @@ module API
             user_path(user_id)
           end
 
-          def self.statuses
-            "#{root}/statuses"
-          end
-
-          def self.status(id)
-            "#{statuses}/#{id}"
-          end
+          index :status
+          show :status
 
           def self.string_object(value)
             val = ::ERB::Util::url_encode(value)
             "#{root}/string_objects?value=#{val}"
           end
 
-          def self.time_entries
-            "#{root}/time_entries"
-          end
-
-          def self.time_entry(entry_id)
-            "#{root}/time_entries/#{entry_id}"
-          end
+          index :time_entry
+          show :time_entry
 
           def self.time_entries_activity(activity_id)
             "#{root}/time_entries/activities/#{activity_id}"
           end
 
-          def self.types
-            "#{root}/types"
-          end
+          index :type
+          show :type
 
           def self.types_by_project(project_id)
             "#{project(project_id)}/types"
           end
 
-          def self.type(id)
-            "#{types}/#{id}"
-          end
-
-          def self.users
-            "#{root}/users"
-          end
-
-          def self.user(id)
-            "#{users}/#{id}"
-          end
+          index :user
+          show :user
 
           class << self
             alias :groups :users
@@ -406,28 +341,10 @@ module API
             "#{root}/groups/#{id}"
           end
 
-          def self.version(version_id)
-            "#{root}/versions/#{version_id}"
-          end
-
-          def self.version_form(version_id)
-            "#{version(version_id)}/form"
-          end
-
-          def self.versions
-            "#{root}/versions"
-          end
+          resources :version
 
           def self.versions_available_projects
             "#{versions}/available_projects"
-          end
-
-          def self.version_schema
-            "#{versions}/schema"
-          end
-
-          def self.create_version_form
-            "#{versions}/form"
           end
 
           def self.versions_by_project(project_id)
@@ -446,20 +363,14 @@ module API
             "#{root}/wiki_pages/#{id}"
           end
 
-          def self.work_packages
-            "#{root}/work_packages"
-          end
+          resources :work_package, except: :schema
 
-          def self.work_package(id)
-            "#{work_packages}/#{id}"
+          def self.work_package_schema(project_id, type_id)
+            "#{root}/work_packages/schemas/#{project_id}-#{type_id}"
           end
 
           def self.work_package_activities(id)
             "#{work_package(id)}/activities"
-          end
-
-          def self.work_package_form(id)
-            "#{work_package(id)}/form"
           end
 
           def self.work_package_relations(id)
@@ -476,10 +387,6 @@ module API
 
           def self.work_package_revisions(id)
             "#{work_package(id)}/revisions"
-          end
-
-          def self.work_package_schema(project_id, type_id)
-            "#{root}/work_packages/schemas/#{project_id}-#{type_id}"
           end
 
           def self.work_package_schemas(*args)

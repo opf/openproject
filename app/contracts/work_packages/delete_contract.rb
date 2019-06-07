@@ -29,23 +29,7 @@
 #++
 
 module WorkPackages
-  class DeleteContract < ::ModelContract
-    def self.model
-      WorkPackage
-    end
-
-    def validate
-      user_allowed_to_delete
-
-      super
-    end
-
-    private
-
-    def user_allowed_to_delete
-      unless user.allowed_to?(:delete_work_packages, model.project)
-        errors.add(:base, :error_unauthorized)
-      end
-    end
+  class DeleteContract < ::DeleteContract
+    delete_permission :delete_work_packages
   end
 end

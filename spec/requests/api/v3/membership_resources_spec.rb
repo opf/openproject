@@ -458,4 +458,220 @@ describe 'API v3 memberhips resource', type: :request, content_type: :json do
       end
     end
   end
+
+  describe 'PATCH api/v3/memberships/:id' do
+    let(:path) { api_v3_paths.membership(other_member.id) }
+    let(:another_role) { FactoryBot.create(:role) }
+    let(:body) do
+      {
+        _links: {
+          "roles": [
+            {
+              href: api_v3_paths.role(another_role.id)
+            }
+          ]
+        }
+      }.to_json
+    end
+
+    let(:members) { [own_member, other_member] }
+
+    before do
+      members
+
+      login_as current_user
+
+      patch path, body
+    end
+
+    it 'responds with 200' do
+      expect(last_response.status).to eq(200)
+    end
+
+    it 'updates the member' do
+      expect(other_member.roles.reload)
+        .to match_array [another_role]
+    end
+
+    it 'returns the updated version' do
+      expect(last_response.body)
+        .to be_json_eql('Membership'.to_json)
+        .at_path('_type')
+
+      expect(last_response.body)
+        .to be_json_eql([{ href: api_v3_paths.role(another_role.id), title: another_role.name }].to_json)
+        .at_path('_links/roles')
+
+      # unchanged
+      expect(last_response.body)
+        .to be_json_eql(project.name.to_json)
+        .at_path('_links/project/title')
+
+      expect(last_response.body)
+        .to be_json_eql(other_user.name.to_json)
+        .at_path('_links/principal/title')
+    end
+
+    context 'if attempting to empty the roles' do
+      let(:body) do
+        {
+          _links: {
+            "roles": []
+          }
+        }.to_json
+      end
+
+      it 'returns 422' do
+        expect(last_response.status)
+          .to eql(422)
+
+        expect(last_response.body)
+          .to be_json_eql("Roles need to be assigned.".to_json)
+          .at_path('message')
+      end
+    end
+
+    context 'if attempting to assign unassignable roles' do
+      let(:anonymous_role) { FactoryBot.create(:anonymous_role) }
+      let(:body) do
+        {
+          _links: {
+            "roles": [
+              {
+                href: api_v3_paths.role(anonymous_role.id)
+              }
+            ]
+          }
+        }.to_json
+      end
+
+      it 'returns 422' do
+        expect(last_response.status)
+          .to eql(422)
+
+        expect(last_response.body)
+          .to be_json_eql("Roles has an unassignable role.".to_json)
+          .at_path('message')
+      end
+    end
+
+    context 'if attempting to switch the project' do
+      let(:other_project) do
+        FactoryBot.create(:project).tap do |p|
+          FactoryBot.create(:member,
+                            project: p,
+                            roles: [FactoryBot.create(:role, permissions: [:manage_members])],
+                            user: current_user)
+        end
+      end
+
+      let(:body) do
+        {
+          _links: {
+            "project": {
+              "href": api_v3_paths.project(other_project.id)
+
+            }
+          }
+        }.to_json
+      end
+
+      it 'returns 422' do
+        expect(last_response.status)
+          .to eql(422)
+
+        expect(last_response.body)
+          .to be_json_eql("You must not write a read-only attribute.".to_json)
+          .at_path('message')
+      end
+    end
+
+    context 'if attempting to switch the principal' do
+      let(:another_user) do
+        FactoryBot.create(:user)
+      end
+
+      let(:body) do
+        {
+          _links: {
+            "principal": {
+              "href": api_v3_paths.user(another_user.id)
+
+            }
+          }
+        }.to_json
+      end
+
+      it 'returns 422' do
+        expect(last_response.status)
+          .to eql(422)
+
+        expect(last_response.body)
+          .to be_json_eql("You must not write a read-only attribute.".to_json)
+          .at_path('message')
+
+        expect(last_response.body)
+          .to be_json_eql("user".to_json)
+          .at_path('_embedded/details/attribute')
+      end
+    end
+
+    context 'if lacking the manage permissions' do
+      let(:permissions) { [:view_members] }
+
+      it_behaves_like 'unauthorized access'
+    end
+
+    context 'if lacking the view permissions' do
+      let(:permissions) { [] }
+
+      it_behaves_like 'not found' do
+        let(:id) { member.id }
+        let(:type) { 'Membership' }
+      end
+    end
+  end
+
+  describe 'DELETE /api/v3/memberships/:id' do
+    let(:path) { api_v3_paths.membership(other_member.id) }
+    let(:members) { [own_member, other_member] }
+
+    before do
+      members
+      login_as current_user
+
+      delete path
+    end
+
+    subject { last_response }
+
+    context 'with required permissions' do
+      it 'responds with HTTP No Content' do
+        expect(subject.status).to eq 204
+      end
+
+      it 'deletes the member' do
+        expect(Member.exists?(other_member.id)).to be_falsey
+      end
+
+      context 'for a non-existent version' do
+        let(:path) { api_v3_paths.membership 1337 }
+
+        it_behaves_like 'not found' do
+          let(:id) { 1337 }
+          let(:type) { 'Membership' }
+        end
+      end
+    end
+
+    context 'without permission to delete members' do
+      let(:permissions) { [:view_members] }
+
+      it_behaves_like 'unauthorized access'
+
+      it 'does not delete the member' do
+        expect(Member.exists?(other_member.id)).to be_truthy
+      end
+    end
+  end
 end

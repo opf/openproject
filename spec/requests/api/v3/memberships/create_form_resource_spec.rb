@@ -44,7 +44,7 @@ describe ::API::V3::Memberships::CreateFormAPI, content_type: :json do
   let(:other_user) { FactoryBot.create(:user) }
   let(:permissions) { [:manage_members] }
 
-  let(:path) { api_v3_paths.create_memberships_form }
+  let(:path) { api_v3_paths.create_membership_form }
   let(:parameters) { {} }
 
   before do

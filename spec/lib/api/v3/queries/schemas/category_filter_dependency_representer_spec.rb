@@ -49,7 +49,7 @@ describe ::API::V3::Queries::Schemas::CategoryFilterDependencyRepresenter, clear
       describe 'value' do
         let(:path) { 'values' }
         let(:type) { '[]Category' }
-        let(:href) { api_v3_paths.categories(project.identifier) }
+        let(:href) { api_v3_paths.categories_by_project(project.identifier) }
 
         context "for operator 'Queries::Operators::Equals'" do
           let(:operator) { Queries::Operators::Equals }

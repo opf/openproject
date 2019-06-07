@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -31,11 +29,15 @@
 module API
   module V3
     module Memberships
-      class CreateFormRepresenter < FormRepresenter
-        include API::Decorators::CreateForm
+      class UpdateFormAPI < ::API::OpenProjectAPI
+        resource :form do
+          after_validation do
+            authorize :manage_members, global: true
+          end
 
-        def downcase_model_name
-          'membership'
+          post &::API::V3::Utilities::Endpoints::UpdateForm.new(model: Member,
+                                                                api_name: 'Membership')
+                                                           .mount
         end
       end
     end
