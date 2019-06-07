@@ -88,7 +88,7 @@ module OpenProject::Bcf::BcfXml
 
     def add_unknown_mail(mail, options)
       user = UserInvitation.invite_new_user(email: mail)
-      member = Member.create(user: user,
+      member = Member.create(principal: user,
                              project: project)
       membership_service = ::Members::EditMembershipService.new(member,
                                                                 save: true,
@@ -97,7 +97,7 @@ module OpenProject::Bcf::BcfXml
     end
 
     def add_non_member(user, options)
-      member = Member.create(user: user,
+      member = Member.create(principal: user,
                              project: project)
       membership_service = ::Members::EditMembershipService.new(member,
                                                                 save: true,
