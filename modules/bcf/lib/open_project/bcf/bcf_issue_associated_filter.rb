@@ -61,6 +61,10 @@ module ::OpenProject::Bcf
       @type_strategy ||= ::Queries::Filters::Strategies::BooleanList.new self
     end
 
+    def dependency_class
+      '::API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter'
+    end
+
     private
 
     def associated?
@@ -73,8 +77,5 @@ module ::OpenProject::Bcf
         (operator == '!' && values.first == OpenProject::Database::DB_VALUE_TRUE)
     end
 
-    def dependency_class
-      '::API::V3::Queries::Schemas::BooleanListFilterDependencyRepresenter'
-    end
   end
 end
