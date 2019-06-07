@@ -92,10 +92,14 @@ module API
             { href: @base_schema_link } if @base_schema_link
           end
 
+          # Needs to not be cached as the queries in the attribute
+          # groups might contain information (e.g. project names) whose
+          # visibility needs to be checked per user
           property :attribute_groups,
                    type: "[]String",
                    as: "_attributeGroups",
-                   exec_context: :decorator
+                   exec_context: :decorator,
+                   uncacheable: true
 
           schema :lock_version,
                  type: 'Integer',
@@ -276,6 +280,15 @@ module API
 
           def no_caching?
             represented.no_caching?
+          end
+
+          protected
+
+          # We do not want to make the represented a part of the cache key
+          # as they are currently dynamically created and thus will
+          # change their to_params value consistently
+          def json_key_part_represented
+            []
           end
         end
       end

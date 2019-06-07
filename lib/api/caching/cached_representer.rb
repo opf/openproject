@@ -186,12 +186,16 @@ module API
         end
 
         def json_key_representer_parts
-          cacheable = [represented]
+          cacheable = json_key_part_represented
           cacheable << json_key_custom_fields
           cacheable << json_key_parts_of_represented
           cacheable << json_key_dependencies
 
           OpenProject::Cache::CacheKey.expand(cacheable.flatten.compact)
+        end
+
+        def json_key_part_represented
+          [represented]
         end
 
         def json_key_parts_of_represented

@@ -875,11 +875,22 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
             .and_return([])
         end
       end
+
       it 'is based on the representer\'s cache_key' do
         expect(OpenProject::Cache)
           .to receive(:fetch)
           .with(representer.json_cache_key)
           .and_call_original
+
+        representer.to_json
+      end
+
+      it 'does not cache the attribute_groups' do
+        representer.to_json
+
+        expect(work_package.type)
+          .to receive(:attribute_groups)
+          .and_return([])
 
         representer.to_json
       end
