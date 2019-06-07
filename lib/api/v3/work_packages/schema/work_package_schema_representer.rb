@@ -38,7 +38,10 @@ module API
           extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
 
           include API::Caching::CachedRepresenter
-          cached_representer key_parts: %i[project type]
+          cached_representer key_parts: %i[project type],
+                             dependencies: -> {
+                               Authorization.roles(User.current, represented.project).map(&:permissions).sort
+                             }
 
           custom_field_injector type: :schema_representer
 

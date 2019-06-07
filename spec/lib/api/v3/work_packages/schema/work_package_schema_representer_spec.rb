@@ -28,8 +28,6 @@
 
 require 'spec_helper'
 
-require 'api/v3/work_packages/schema/typed_work_package_schema'
-
 describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
@@ -895,50 +893,88 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       before do
         allow(work_package.project)
           .to receive(:all_work_package_custom_fields)
-           .and_return []
+          .and_return []
+
+        setup
 
         original_cache_key
+
+        change
       end
 
+      let(:setup) {}
       let(:original_cache_key) { joined_cache_key }
 
-      it 'changes when the project changes' do
-        work_package.project = FactoryBot.build_stubbed(:project)
+      shared_examples_for 'changes' do
+        before do
+          change
+        end
 
-        expect(joined_cache_key).to_not eql(original_cache_key)
+        it 'the cache key' do
+          expect(joined_cache_key).to_not eql(original_cache_key)
+        end
       end
 
-      it 'changes when the project updates' do
-        work_package.project.updated_on += 1.hour
-
-        expect(joined_cache_key).to_not eql(original_cache_key)
+      context 'for a different type' do
+        it_behaves_like 'changes' do
+          let(:change) { work_package.project = FactoryBot.build_stubbed(:project) }
+        end
       end
 
-      it 'changes when the type updates' do
-        work_package.type.updated_at += 1.hour
-
-        expect(joined_cache_key).to_not eql(original_cache_key)
+      context 'if the project is updated' do
+        it_behaves_like 'changes' do
+          let(:change) { work_package.project.updated_on += 1.hour }
+        end
       end
 
-      it 'changes when the type changes' do
-        work_package.type = FactoryBot.build_stubbed(:type)
-
-        expect(joined_cache_key).to_not eql(original_cache_key)
+      context 'for a different type' do
+        it_behaves_like 'changes' do
+          let(:change) { work_package.type = FactoryBot.build_stubbed(:type) }
+        end
       end
 
-      it 'changes when the locale changes' do
-        allow(I18n).to receive(:locale).and_return(:de)
-        work_package.type = FactoryBot.build_stubbed(:type)
-
-        expect(joined_cache_key).to_not eql(original_cache_key)
+      context 'if the type is updated' do
+        it_behaves_like 'changes' do
+          let(:change) { work_package.type.updated_at += 1.hour }
+        end
       end
 
-      it 'changes when the custom_fields changes' do
-        allow(work_package)
-          .to receive(:available_custom_fields)
-          .and_return [FactoryBot.build_stubbed(:custom_field)]
+      context 'if the type is switches' do
+        it_behaves_like 'changes' do
+          let(:change) { allow(I18n).to receive(:locale).and_return(:de) }
+        end
+      end
 
-        expect(joined_cache_key).to_not eql(original_cache_key)
+      context 'if the custom_fields change' do
+        it_behaves_like 'changes' do
+          let(:change) do
+            allow(work_package)
+              .to receive(:available_custom_fields)
+              .and_return([FactoryBot.build_stubbed(:custom_field)])
+          end
+        end
+      end
+
+      context 'if the users permissions change' do
+        it_behaves_like 'changes' do
+          let(:role1) { FactoryBot.build_stubbed(:role, permissions: permissions1) }
+          let(:permissions1) { %i[blubs some more] }
+          let(:role2) { FactoryBot.build_stubbed(:role, permissions: permissions2) }
+          let(:permissions2) { %i[and other random permissions] }
+
+          let(:setup) do
+            allow(Authorization)
+              .to receive(:roles)
+              .with(current_user, project)
+              .and_return([role1, role2])
+          end
+
+          let(:change) do
+            allow(role2)
+              .to receive(:permissions)
+              .and_return(%i[but now they are different])
+          end
+        end
       end
     end
   end
