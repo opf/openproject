@@ -52,6 +52,7 @@ const ADD_FILTER_SELECT_INDEX = -1;
 
 @Component({
   selector: 'query-filters',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './query-filters.component.html'
 })
 export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {

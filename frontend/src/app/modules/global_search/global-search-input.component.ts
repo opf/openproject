@@ -27,13 +27,14 @@
 // ++
 
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
-  OnInit,
-  OnDestroy,
-  ViewChild,
   HostListener,
-  ChangeDetectorRef
+  OnDestroy,
+  OnInit,
+  ViewChild
 } from '@angular/core';
 import {ContainHelpers} from 'app/modules/common/focus/contain-helpers';
 import {I18nService} from 'app/modules/common/i18n/i18n.service';
@@ -56,6 +57,7 @@ export const globalSearchSelector = 'global-search-input';
 
 @Component({
   selector: globalSearchSelector,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './global-search-input.component.html'
 })
 

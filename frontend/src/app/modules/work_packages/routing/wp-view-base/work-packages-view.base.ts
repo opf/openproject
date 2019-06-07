@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Injector, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Injector, OnDestroy, OnInit} from '@angular/core';
 import {StateService, TransitionService} from '@uirouter/core';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
@@ -83,6 +83,7 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
   readonly wpStaticQueries:WorkPackageStaticQueriesService = this.injector.get(WorkPackageStaticQueriesService);
   readonly QueryDm:QueryDmService = this.injector.get(QueryDmService);
   readonly wpStatesInitialization:WorkPackageStatesInitializationService = this.injector.get(WorkPackageStatesInitializationService);
+  readonly cdRef:ChangeDetectorRef = this.injector.get(ChangeDetectorRef);
 
   constructor(protected injector:Injector) {
   }

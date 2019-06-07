@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, OnDestroy} from "@angular/core";
+import {ChangeDetectionStrategy, Component, OnDestroy} from "@angular/core";
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {OpTitleService} from "core-components/html/op-title.service";
@@ -38,6 +38,7 @@ import {DragAndDropService} from "core-app/modules/boards/drag-and-drop/drag-and
   selector: 'wp-list',
   templateUrl: './wp.list.component.html',
   styleUrls: ['./wp-list.component.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     DragAndDropService
   ]
@@ -100,6 +101,7 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
     ).subscribe((query) => {
       this.updateTitle(query);
       this.currentQuery = query;
+      this.cdRef.detectChanges();
     });
   }
 
@@ -196,7 +198,10 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
       .pipe(
         take(1)
       )
-      .subscribe(() => this.tableInformationLoaded = true);
+      .subscribe(() => {
+        this.tableInformationLoaded = true;
+        this.cdRef.detectChanges();
+      });
   }
 
   protected set loadingIndicator(promise:Promise<unknown>) {

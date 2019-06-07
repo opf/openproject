@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Injector} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Injector} from '@angular/core';
 import {StateService} from '@uirouter/core';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
@@ -39,6 +39,7 @@ import {WorkPackageSingleViewBase} from "core-app/modules/work_packages/routing/
 
 @Component({
   templateUrl: './wp-split-view.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'wp-split-view-entry',
 })
 export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase {

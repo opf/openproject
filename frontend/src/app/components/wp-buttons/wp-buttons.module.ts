@@ -26,8 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {StateService} from '@uirouter/core';
-import {GlobalI18n, I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 export interface ButtonControllerText {
   activate:string;
@@ -42,6 +41,7 @@ export abstract class AbstractWorkPackageButtonComponent {
   public iconClass:string;
 
   public accessKey:number;
+  public isActive:boolean = false;
 
   protected text:ButtonControllerText;
 
@@ -71,11 +71,11 @@ export abstract class AbstractWorkPackageButtonComponent {
   }
 
   protected get activationPrefix():string {
-    return !this.isActive() ? this.text.activate + ' ' : '';
+    return !this.isActive ? this.text.activate + ' ' : '';
   }
 
   protected get deactivationPrefix():string {
-    return this.isActive() ? this.text.deactivate + ' ' : '';
+    return this.isActive ? this.text.deactivate + ' ' : '';
   }
 
   protected get prefix():string {
@@ -86,28 +86,5 @@ export abstract class AbstractWorkPackageButtonComponent {
     return false;
   }
 
-  public abstract isActive():boolean;
-
   public abstract performAction(event:Event):void;
-}
-
-export abstract class WorkPackageNavigationButtonComponent extends AbstractWorkPackageButtonComponent {
-  public activeState:string;
-  public accessKey:number;
-
-  constructor(public $state:StateService, public I18n:I18nService) {
-    super(I18n);
-  }
-
-  public get label():string {
-    return this.activationPrefix + this.text.label;
-  }
-
-  public get activeAccessKey():number | void {
-    if (!this.isActive()) return this.accessKey;
-  }
-
-  public isActive():boolean {
-    return this.$state.includes(this.activeState);
-  }
 }

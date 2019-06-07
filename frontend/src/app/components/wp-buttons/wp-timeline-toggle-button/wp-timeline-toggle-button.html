@@ -1,7 +1,7 @@
 <ul id="work-packages-timeline-mode-selection"
     class="toolbar-button-group">
 
-  <li *ngIf="isVisible">
+  <li *ngIf="isActive">
     <button id="work-packages-timeline-zoom-auto-button"
             class="button timeline-toolbar--button toolbar-icon"
             [ngClass]="getAutoZoomToggleClass()"
@@ -11,7 +11,7 @@
     </button>
   </li>
 
-  <li *ngIf="isVisible">
+  <li *ngIf="isActive">
     <button id="work-packages-timeline-zoom-out-button"
             class="button timeline-toolbar--button toolbar-icon"
             [attr.title]="text.zoomOut"
@@ -21,7 +21,7 @@
     </button>
   </li>
 
-  <li *ngIf="isVisible">
+  <li *ngIf="isActive">
     <button id="work-packages-timeline-zoom-in-button"
             class="button timeline-toolbar--button toolbar-icon"
             [attr.title]="text.zoomIn"
@@ -33,10 +33,10 @@
 
   <li>
     <button class="button timeline-toolbar--button toolbar-icon"
-            [ngClass]="{ '-active': isVisible }"
+            [ngClass]="{ '-active': isActive }"
             [attr.id]="buttonId"
             [attr.title]="label"
-            [disabled]="disabled || (!isToggle() && isVisible)"
+            [disabled]="disabled || (!isToggle() && isActive)"
             (click)="toggleTimeline()">
       <op-icon icon-classes="{{ iconClass }} button--icon"></op-icon>
     </button>

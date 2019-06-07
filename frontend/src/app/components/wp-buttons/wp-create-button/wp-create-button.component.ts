@@ -27,12 +27,13 @@
 // ++
 
 import {StateService} from '@uirouter/core';
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 
 @Component({
   selector: 'wp-create-button',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './wp-create-button.html'
 })
 export class WorkPackageCreateButtonComponent implements OnInit {

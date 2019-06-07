@@ -27,6 +27,7 @@
 // ++
 
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -64,6 +65,7 @@ import {WpTableConfigurationModalComponent} from 'core-components/wp-table/confi
   templateUrl: './wp-table.directive.html',
   styleUrls: ['./wp-table.styles.sass'],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'wp-table',
 })
 export class WorkPackagesTableController implements OnInit, OnDestroy {
