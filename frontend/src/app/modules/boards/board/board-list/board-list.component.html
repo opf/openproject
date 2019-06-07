@@ -50,7 +50,7 @@
         </button>
       </div>
 
-      <wp-card-view [dragOutOf]="canDragOutOf"
+      <wp-card-view [dragOutOfHandler]="canDragOutOfHandler"
                     [dragInto]="canDragInto"
                     [workPackageAddedHandler]="workPackageAddedHandler"
                     [cardsRemovable]="board.isFree && canDragOutOf"

@@ -863,6 +863,7 @@ hr:
     started: Started to copy project "%{source_project_name}" to "%{target_project_name}".
       You will be informed by mail as soon as "%{target_project_name}" is available.
     failed: Nije moguće kopirati projekt %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: Dodan je projekt %{target_project_name}
     errors: Greška
     project_custom_fields: Prilagođena polja na projektu

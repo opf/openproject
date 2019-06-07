@@ -861,6 +861,7 @@ pt-BR:
       iniciada. Você será informado por email tão logo "%{target_project_name}" estiver
       disponível.
     failed: Não é possível copiar o projeto %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: Foi criado o projeto %{target_project_name}
     errors: Erro
     project_custom_fields: Campos personalizados no projeto

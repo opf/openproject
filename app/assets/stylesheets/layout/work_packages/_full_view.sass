@@ -79,9 +79,10 @@
   overflow-x: hidden
   flex: 2
   position: relative
+  @include styled-scroll-bar
 
   .work-packages--panel-inner
-    padding: 5px 15px 20px 0px
+    padding: 0px 5px 20px 0
     width: 100%
 
     // These styles were taken over from the details tab styling.
@@ -97,12 +98,13 @@
 
 .work-packages-full-view--split-right
   min-width: 500px
-  overflow-y: auto
+  overflow-y: scroll
   overflow-x: auto
   position: relative
+  @include styled-scroll-bar
 
   .work-packages--panel-inner
-    padding: 15px 15px 0px 15px
+    padding: 15px 5px 0px 15px
 
   .work-package-details-activities-activity-contents ul.work-package-details-activities-messages
     padding-left: 0

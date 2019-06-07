@@ -40,13 +40,14 @@ class CopyProjectJob < ApplicationJob
                  associations_to_copy:, send_mails: false)
     @user_id               = user_id
     @source_project_id     = source_project_id
-    @target_project_params = target_project_params
+    @target_project_params = target_project_params.with_indifferent_access
     @associations_to_copy  = associations_to_copy
     @send_mails            = send_mails
   end
 
   def perform
     User.current = user
+    target_project_name = target_project_params[:name]
 
     target_project, errors = with_locale_for(user) {
       create_project_copy(source_project,
@@ -58,10 +59,13 @@ class CopyProjectJob < ApplicationJob
     if target_project
       ProjectMailer.copy_project_succeeded(user, source_project, target_project, errors).deliver_now
     else
-      target_project_name = target_project_params['name']
-
       ProjectMailer.copy_project_failed(user, source_project, target_project_name, errors).deliver_now
     end
+
+  rescue StandardError => e
+    logger.error { "Failed to finish copy project job: #{e} #{e.message}" }
+    errors = [I18n.t('copy_project.failed_internal')]
+    ProjectMailer.copy_project_failed(user, source_project, target_project_name, errors).deliver_now
   end
 
   private

@@ -881,6 +881,7 @@ fr:
       a débuté. Vous serez informé par courriel dès que "%{target_project_name}" sera
       disponible.
     failed: Impossible de copier le projet %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: Projet %{target_project_name} créé
     errors: Erreur
     project_custom_fields: Champs personnalisés du projet

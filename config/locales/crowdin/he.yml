@@ -858,6 +858,7 @@ he:
     started: Started to copy project "%{source_project_name}" to "%{target_project_name}".
       You will be informed by mail as soon as "%{target_project_name}" is available.
     failed: אין אפשרות להעתיק את הפרויקט %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: נוצר הפרויקט %{target_project_name}
     errors: שגיאה
     project_custom_fields: Custom fields on project

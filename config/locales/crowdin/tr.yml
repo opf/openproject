@@ -856,6 +856,7 @@ tr:
       bir projeye kopyalanmaya başladı. "%{target_project_name}" projesi hazır olduğunda
       e-posta ile bilgilendirileceksiniz.'
     failed: "%{source_project_name} project kopyalanamadı"
+    failed_internal: Copying failed due to an internal error.
     succeeded: "%{target_project_name} project oluşturuldu"
     errors: Hata
     project_custom_fields: Projedeki özel alanlar

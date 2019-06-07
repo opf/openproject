@@ -865,6 +865,7 @@ pl:
       Poinformujemy Cię przez e-mail tak szybko jak "%{target_project_name}" będzie
       dostępny.
     failed: Nie można skopiować projektu %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: Utworzono projekt %{target_project_name}
     errors: Błąd
     project_custom_fields: Niestandardowe pola projektu

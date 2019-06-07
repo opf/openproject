@@ -33,5 +33,5 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <% unless @errors.empty? %>
   <hr />
-  <%= render partial: 'errors', locals: { errors: @errors } %>
+  <%= render partial: 'user_mailer/errors', locals: { errors: @errors } %>
 <% end %>

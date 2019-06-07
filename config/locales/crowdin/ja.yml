@@ -779,6 +779,7 @@ ja:
   copy_project:
     started: プロジェクト「%{source_project_name}」を「%{target_project_name}」にコピーを開始しました。「%{target_project_name}」が利用可能になり次第、メールで通知されます。
     failed: プロジェクト「%{source_project_name}」をコピーできません。
+    failed_internal: Copying failed due to an internal error.
     succeeded: "「%{target_project_name}」プロジェクトを作成しました。"
     errors: エラー！
     project_custom_fields: プロジェクトのカスタムフィールド

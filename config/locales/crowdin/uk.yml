@@ -874,6 +874,7 @@ uk:
       Вас буде проінформовано за допомогою електронної пошти як тільки "%{target_project_name}"
       буде доступний.
     failed: Неможливо скопіювати проект %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: Створений проект %{target_project_name}
     errors: Помилка
     project_custom_fields: Спеціальні поля в проекті

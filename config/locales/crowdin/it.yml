@@ -876,6 +876,7 @@ it:
     started: Copia del progetto "%{source_project_name}" a "%{target_project_name}"
       iniziata. Sarete informati via mail appena "%{target_project_name}" è disponibile.
     failed: Non è possibile copiare il progetto %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: Creato il progetto %{target_project_name}
     errors: Errore
     project_custom_fields: Campi personalizzati sul progetto

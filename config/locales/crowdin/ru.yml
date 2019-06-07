@@ -870,6 +870,7 @@ ru:
       началось. Вы будете проинформированы по электронной почте, как только «%{target_project_name}»
       будет доступен.
     failed: Не удается скопировать проект %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: Созданный проект %{target_project_name}
     errors: Ошибка
     project_custom_fields: Настраиваемые поля проекта

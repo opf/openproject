@@ -853,6 +853,7 @@ et:
     started: Started to copy project "%{source_project_name}" to "%{target_project_name}".
       You will be informed by mail as soon as "%{target_project_name}" is available.
     failed: Projekti %{source_project_name} ei saa kopeerida
+    failed_internal: Copying failed due to an internal error.
     succeeded: Projekt %{target_project_name} on loodud
     errors: Tõrge
     project_custom_fields: Custom fields on project

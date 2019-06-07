@@ -778,6 +778,7 @@ zh:
   copy_project:
     started: 开始将项目“%{source_project_name}”复制到“%{target_project_name}“。“%{target_project_name}”可用后您将会立即收到电子邮件通知。
     failed: 无法复制项目 %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: 创建的项目 %{target_project_name}
     errors: 错误
     project_custom_fields: 项目上的自定义字段

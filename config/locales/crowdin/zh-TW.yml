@@ -785,6 +785,7 @@ zh-TW:
     started: 開始複製專案從「%{source_project_name}」到 「%{target_project_name}」。當「%{target_project_name}」
       可以使用以後，我們會盡快用郵件通知您。
     failed: 無法複製專案 %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: 專案 %{target_project_name} 建立成功
     errors: 錯誤
     project_custom_fields: 專案上的自訂欄位

@@ -801,6 +801,7 @@ ko:
     started: 프로젝트 "%{source_project_name}"을(를) "%{target_project_name}"(으)로 복사하기 시작했습니다.
       "%{target_project_name}"이(가) 사용 가능하게 되면 메일로 알림이 전송됩니다.
     failed: 프로젝트 %{source_project_name}을(를) 복사할 수 없습니다.
+    failed_internal: Copying failed due to an internal error.
     succeeded: 프로젝트 %{target_project_name} 생성함
     errors: 오류
     project_custom_fields: 프로젝트의 사용자 지정 필드

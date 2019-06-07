@@ -857,6 +857,7 @@ af:
       begin. Jy sal deur epos in kennis gestel word sodra "%{target_project_name}"
       beskikbaar is.
     failed: Kan nie projek %{source_project_name} kopieer nie
+    failed_internal: Copying failed due to an internal error.
     succeeded: Projek %{target_project_name} geskep
     errors: Fout
     project_custom_fields: Custom fields on project

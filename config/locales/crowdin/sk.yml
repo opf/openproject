@@ -876,6 +876,7 @@ sk:
     started: Začalo sa kopírovanie projektu "%{source_project_name}" do projektu "%{target_project_name}".
       Budete informovaní mailom hneď ako bude "%{target_project_name}" k dispozícii.
     failed: Nie je možné kopírovať projekt %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: Projekt %{target_project_name} bol vytvorený
     errors: Chyba
     project_custom_fields: Vlastné polia projektu

@@ -47,7 +47,7 @@ describe CopyProjectJob, type: :model do
     let(:copy_job) {
       CopyProjectJob.new user_id: user_de.id,
                          source_project_id: source_project.id,
-                         target_project_params: target_project,
+                         target_project_params: {},
                          associations_to_copy: []
     }
 
@@ -115,6 +115,32 @@ describe CopyProjectJob, type: :model do
 
     it 'sets descriptive validation errors' do
       expect(@errors.first).to eq(expected_error_message)
+    end
+  end
+
+  describe 'copy project fails with internal error' do
+    let(:admin) { FactoryBot.create(:admin) }
+    let(:source_project) { FactoryBot.create(:project) }
+    let(:copy_job) {
+      CopyProjectJob.new user_id: admin.id,
+                         source_project_id: source_project.id,
+                         target_project_params: params,
+                         associations_to_copy: [:work_packages]
+    } # send mails
+    let(:params) { { name: 'Copy', identifier: 'copy' } }
+
+    before do
+      allow(User).to receive(:current).and_return(admin)
+      allow(ProjectMailer).to receive(:copy_project_succeeded).and_raise 'error message not meant for user'
+    end
+
+    it 'renders a error when unexpected errors occur' do
+      expect(ProjectMailer)
+        .to receive(:copy_project_failed)
+        .with(admin, source_project, 'Copy', [I18n.t('copy_project.failed_internal')])
+        .and_return maildouble
+
+      expect { copy_job.perform }.not_to raise_error
     end
   end
 

@@ -852,6 +852,7 @@ id:
     started: Started to copy project "%{source_project_name}" to "%{target_project_name}".
       You will be informed by mail as soon as "%{target_project_name}" is available.
     failed: Tidak dapat meng-copy Project %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: Project %{target_project_name} telah dibuat
     errors: Eror
     project_custom_fields: Field kustom pada proyek
