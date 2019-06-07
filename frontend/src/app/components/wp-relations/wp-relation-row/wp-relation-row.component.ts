@@ -19,7 +19,7 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
   @Input() public relatedWorkPackage:WorkPackageResource;
   @Input() public groupByWorkPackageType:boolean;
 
-  @ViewChild('relationDescriptionTextarea') readonly relationDescriptionTextarea:ElementRef;
+  @ViewChild('relationDescriptionTextarea', { static: false }) readonly relationDescriptionTextarea:ElementRef;
 
   public relationType:string;
   public showRelationInfo:boolean = false;

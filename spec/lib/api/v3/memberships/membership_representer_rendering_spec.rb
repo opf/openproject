@@ -33,7 +33,7 @@ describe ::API::V3::Memberships::MembershipRepresenter, 'rendering' do
 
   let(:member) do
     FactoryBot.build_stubbed(:member,
-                             roles: roles,
+                             member_roles: [member_role1, member_role2, marked_member_role],
                              principal: principal,
                              project: project,
                              created_on: Time.current)
@@ -41,7 +41,17 @@ describe ::API::V3::Memberships::MembershipRepresenter, 'rendering' do
   let(:project) { FactoryBot.build_stubbed(:project) }
   let(:roles) { [role1, role2] }
   let(:role1) { FactoryBot.build_stubbed(:role) }
+  let(:member_role1) { FactoryBot.build_stubbed(:member_role, role: role1) }
   let(:role2) { FactoryBot.build_stubbed(:role) }
+  let(:member_role2) { FactoryBot.build_stubbed(:member_role, role: role2) }
+  let(:marked_role) { FactoryBot.build_stubbed(:role) }
+  let(:marked_member_role) do
+    FactoryBot.build_stubbed(:member_role, role: marked_role).tap do |mr|
+      allow(mr)
+        .to receive(:marked_for_destruction?)
+        .and_return(true)
+    end
+  end
   let(:principal) { user }
   let(:user) { FactoryBot.build_stubbed(:user) }
   let(:group) { FactoryBot.build_stubbed(:group) }
@@ -78,6 +88,40 @@ describe ::API::V3::Memberships::MembershipRepresenter, 'rendering' do
       end
     end
 
+    describe 'to update' do
+      context 'if manage members permissions are granted' do
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'update' }
+          let(:href) { api_v3_paths.membership_form(member.id) }
+        end
+      end
+
+      describe 'if manage members permissions are lacking' do
+        let(:permissions) { [] }
+
+        it_behaves_like 'has no link' do
+          let(:link) { 'update' }
+        end
+      end
+    end
+
+    describe 'to updateImmediately' do
+      context 'if manage members permissions are granted' do
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'updateImmediately' }
+          let(:href) { api_v3_paths.membership(member.id) }
+        end
+      end
+
+      describe 'if manage members permissions are lacking' do
+        let(:permissions) { [] }
+
+        it_behaves_like 'has no link' do
+          let(:link) { 'updateImmediately' }
+        end
+      end
+    end
+
     describe 'project' do
       it_behaves_like 'has a titled link' do
         let(:link) { 'project' }
@@ -109,6 +153,7 @@ describe ::API::V3::Memberships::MembershipRepresenter, 'rendering' do
     describe 'roles' do
       it_behaves_like 'has a link collection' do
         let(:link) { 'roles' }
+        # excludes member_roles marked for destruction
         let(:hrefs) do
           [
             {
@@ -190,7 +235,7 @@ describe ::API::V3::Memberships::MembershipRepresenter, 'rendering' do
     describe 'roles' do
       let(:embedded_path) { '_embedded/roles' }
 
-      it 'has an array of roles embedded' do
+      it 'has an array of roles embedded that excludes member_roles marked for destruction' do
         is_expected
           .to be_json_eql('Role'.to_json)
           .at_path("#{embedded_path}/0/_type")

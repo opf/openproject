@@ -715,13 +715,13 @@ class Project < ActiveRecord::Base
     @allowed_permissions ||= begin
       names = enabled_modules.loaded? ? enabled_module_names : enabled_modules.pluck(:name)
 
-      Redmine::AccessControl.modules_permissions(names).map(&:name)
+      OpenProject::AccessControl.modules_permissions(names).map(&:name)
     end
   end
 
   def allowed_actions
     @actions_allowed ||= allowed_permissions
-                         .map { |permission| Redmine::AccessControl.allowed_actions(permission) }
+                         .map { |permission| OpenProject::AccessControl.allowed_actions(permission) }
                          .flatten
   end
 

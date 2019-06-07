@@ -145,7 +145,7 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
           expect(last_response.headers['ETag']).to match(/W\/\"\w+\"/)
         end
 
-        it 'caches the response' do
+        it 'caches the response', skip: true do
           schema_class = API::V3::WorkPackages::Schema::TypedWorkPackageSchema
           representer_class = API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter
 

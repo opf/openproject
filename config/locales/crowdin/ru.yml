@@ -110,6 +110,9 @@ ru:
   concatenation:
     single: или
   deprecations:
+    time_entries: This time entries view is superseded by the 'Cost reports' module.
+      This view now only supports exporting time entry information to csv. For interactive
+      filtering, please activate the 'Cost reports' module in the project settings.
     old_timeline:
       replacement: Этот модуль графиков заменяется интерактивным графиком, который
         встроен в модуль комплекса работ.
@@ -600,6 +603,9 @@ ru:
           invalid_url: не допустимый URL или путь к репозиторию.
           must_not_be_ssh: не должно быть URL-адресом SSH.
           no_directory: не является каталогом.
+        role:
+          permissions:
+            dependency_missing: включите также '%{dependency}', так как выбрано '%{permission}'.
         work_package:
           is_not_a_valid_target_for_time_entries: 'Пакет работ #%{id} не допустимым
             для переназначения времени записи.'
@@ -672,12 +678,12 @@ ru:
         member:
           principal_blank: Пожалуйста, выберите по крайней мере одного пользователя
             или группу.
-          role_blank: need to be assigned.
+          role_blank: требуется назначить.
           attributes:
             roles:
-              ungrantable: has an unassignable role.
+              ungrantable: имеет неназначаемую роль.
             principal:
-              unassignable: cannot be assigned to a project.
+              unassignable: не может быть присвоен проекту.
         version:
           undeletable_work_packages_attached: Версия не может быть удалена, так как
             имеет пакеты работ, прикрепленные к ней.
@@ -864,6 +870,7 @@ ru:
       началось. Вы будете проинформированы по электронной почте, как только «%{target_project_name}»
       будет доступен.
     failed: Не удается скопировать проект %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: Созданный проект %{target_project_name}
     errors: Ошибка
     project_custom_fields: Настраиваемые поля проекта
@@ -1054,7 +1061,7 @@ ru:
   description_choose_project: Проекты
   description_compare_from: Сравнить от
   description_compare_to: Сравнить до
-  description_current_position: 'You are here: '
+  description_current_position: 'Вы здесь: '
   description_date_from: Введите дату начала
   description_date_range_interval: Задайте диапазон, указав дату начала и окончания
   description_date_range_list: Выберите диапазон из списка
@@ -1528,7 +1535,7 @@ ru:
   label_my_queries: Мои пользовательские запросы
   label_never: Никогда
   label_new: Новое
-  label_new_features: New features
+  label_new_features: Новые особенности
   label_new_statuses_allowed: Новые статусы разрешены
   label_news_added: Новость добавлена
   label_news_comment_added: Комментарий добавлен в Новости
@@ -2026,6 +2033,7 @@ ru:
   permission_add_project: Создать проект
   permission_add_subprojects: Создать подпроект
   permission_add_work_package_watchers: Добавить наблюдателей
+  permission_assign_versions: Назначить версии
   permission_browse_repository: Возможность только чтения из репозитория (просмотр
     и проверка)
   permission_change_wiki_parent_page: Смена родительской wiki-страницы
@@ -2854,13 +2862,6 @@ ru:
 '
   menu_item: Пункт меню
   menu_item_setting: Видимость
-  mysql_deprecation:
-    notice: 'Будущие версии OpenProject, скорее всего, сократят или сократят поддержку
-      баз данных MySQL и MariaDB. Ваша установка все еще работает на MySQL, и мы предлагаем
-      вам перенести вашу установку на PostgreSQL. Этот процесс легко при следовании
-      нашим инструкциям по миграции:
-
-'
   wiki_menu_item_for: Пункт меню для wiki-страницы  «%{title}»
   wiki_menu_item_setting: Видимость
   wiki_menu_item_new_main_item_explanation: 'Вы удалили только элемент главного меню
@@ -2912,6 +2913,8 @@ ru:
       multipart_body_error: Тело запроса не содержит ожидаемых частей.
       multiple_errors: Для нескольких полей были нарушены ограничения.
       unable_to_create_attachment: Вложение не может быть создано
+      unable_to_create_attachment_permissions: Вложение не может быть сохранено из-за
+        отсутствия прав на файловую систему
       render:
         context_not_parsable: Предоставленного контекста не является ссылка на ресурс.
         unsupported_context: Ресурс не поддерживается как контекст.
@@ -3045,3 +3048,10 @@ ru:
     revoke_my_application_confirmation: Вы действительно хотите удалить это приложение?
       Это действие будет отменено %{token_count}.
     my_registered_applications: Зарегистрированные OAuth приложения
+  mysql_deprecation:
+    notice: 'Будущие версии OpenProject, скорее всего, сократят или сократят поддержку
+      баз данных MySQL и MariaDB. Ваша установка все еще работает на MySQL, и мы предлагаем
+      вам перенести вашу установку на PostgreSQL. Этот процесс легко при следовании
+      нашим инструкциям по миграции:
+
+'

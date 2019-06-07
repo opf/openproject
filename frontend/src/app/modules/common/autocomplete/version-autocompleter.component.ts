@@ -35,6 +35,7 @@ import {VersionResource} from "core-app/modules/hal/resources/version-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {CreateAutocompleterComponent} from "core-app/modules/common/autocomplete/create-autocompleter.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 
 @Component({
   template: `
@@ -59,7 +60,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 })
 
 export class VersionAutocompleterComponent extends CreateAutocompleterComponent implements OnInit, AfterViewInit {
-  @ViewChild('createAutocompleter') public createAutocompleter:CreateAutocompleterComponent;
+  @ViewChild('createAutocompleter', { static: true }) public createAutocompleter:CreateAutocompleterComponent;
   @Output() public onCreate = new EventEmitter<VersionResource>();
 
   public createAllowed:boolean = false;
@@ -67,7 +68,8 @@ export class VersionAutocompleterComponent extends CreateAutocompleterComponent 
   constructor(readonly I18n:I18nService,
               readonly currentProject:CurrentProjectService,
               readonly pathHelper:PathHelperService,
-              readonly versionDm:VersionDmService) {
+              readonly versionDm:VersionDmService,
+              readonly wpNotifications:WorkPackageNotificationService) {
     super(I18n, currentProject, pathHelper);
   }
 
@@ -100,9 +102,14 @@ export class VersionAutocompleterComponent extends CreateAutocompleterComponent 
   }
 
   public createNewVersion(name:string) {
-    this.versionDm.createVersion(this.getVersionPayload(name)).then((version) => {
-      this.onCreate.emit(version);
-    });
+    this.versionDm.createVersion(this.getVersionPayload(name))
+      .then((version) => {
+        this.onCreate.emit(version);
+      })
+      .catch(error =>  {
+        this.createAutocompleter.closeSelect();
+        this.wpNotifications.handleRawError(error);
+      });
   }
   private getVersionPayload(name:string) {
     let payload:any = {};

@@ -110,6 +110,9 @@ hu:
   concatenation:
     single: vagy
   deprecations:
+    time_entries: This time entries view is superseded by the 'Cost reports' module.
+      This view now only supports exporting time entry information to csv. For interactive
+      filtering, please activate the 'Cost reports' module in the project settings.
     old_timeline:
       replacement: Ezt az idővonalak modult egy feladatcsoportok modulba ágyazott
         interaktív idővonal váltja ki.
@@ -597,6 +600,10 @@ hu:
           invalid_url: nem érvényes tároló URL vagy útvonal.
           must_not_be_ssh: nem lehet SSH url.
           no_directory: nem egy könyvtár.
+        role:
+          permissions:
+            dependency_missing: need to also include '%{dependency}' as '%{permission}'
+              is selected.
         work_package:
           is_not_a_valid_target_for_time_entries: 'A  #%{id} feladatcsoport nem érvényes
             cél az idő bejegyzések ismételt hozzárendeléséhez.'
@@ -849,6 +856,7 @@ hu:
       a "%{target_project_name}" projektbe. E-mailben értesítjük, amint "%{target_project_name}"
       elérhető.
     failed: 'Nem lehet másolni a %{source_project_name} projektet '
+    failed_internal: Copying failed due to an internal error.
     succeeded: 'A %{target_project_name} projekt létrehozva '
     errors: Hiba
     project_custom_fields: Projekt egyéni mezői
@@ -1976,6 +1984,7 @@ hu:
   permission_add_project: Projekt létrehozása
   permission_add_subprojects: Alprojektek létrehozása
   permission_add_work_package_watchers: Megfigyelő hozzáadása
+  permission_assign_versions: Assign versions
   permission_browse_repository: Csak olvasható hozzáférés a tárolóhoz (böngészés és
     kijelentkezés)
   permission_change_wiki_parent_page: A szülő wiki oldal megváltoztatása
@@ -2792,13 +2801,6 @@ hu:
 '
   menu_item: Menüpont
   menu_item_setting: Látható
-  mysql_deprecation:
-    notice: 'Az Openproject jövőbeli verziói valószínűleg nem vagy korlátozottan fogják
-      támogatni a MySQL és MariaDB adatbázisokat. Az Ön telepítése még MySQL-t használ,
-      ezért azt javasoljuk, költöztesse át PostgreSQL adatbázisra. Az eljárás egyszerű,
-      kövesse útmutatónkat:
-
-'
   wiki_menu_item_for: Wikipage "%{title}" menüeleme
   wiki_menu_item_setting: Látható
   wiki_menu_item_new_main_item_explanation: 'Csak a fő wiki menüelemet törölted. Most
@@ -2848,6 +2850,8 @@ hu:
       multipart_body_error: A kérelem nem tartalmazott várható többrészes elemet.
       multiple_errors: Több mező megszorítás is megszegésre került.
       unable_to_create_attachment: Csatolmány mentése sikertelen
+      unable_to_create_attachment_permissions: The attachment could not be saved due
+        to lacking file system permissions
       render:
         context_not_parsable: A megadott kontextus nem erőforrásra hivatkozik.
         unsupported_context: A megadott erőforrás nem támogatott kontextus.
@@ -2975,3 +2979,10 @@ hu:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Regisztrált OAuth alkalmazások
+  mysql_deprecation:
+    notice: 'Az Openproject jövőbeli verziói valószínűleg nem vagy korlátozottan fogják
+      támogatni a MySQL és MariaDB adatbázisokat. Az Ön telepítése még MySQL-t használ,
+      ezért azt javasoljuk, költöztesse át PostgreSQL adatbázisra. Az eljárás egyszerű,
+      kövesse útmutatónkat:
+
+'

@@ -2,6 +2,7 @@
   class="inline-label">
   <op-date-picker (onChange)="begin = parser($event)">
     <input [ngModel]="formatter(begin)"
+           [focus]="shouldFocus"
            (ngModelChange)="begin = parser($event)"
            required
            id="values-{{filter.id}}-begin"

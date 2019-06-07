@@ -33,8 +33,7 @@ set -e
 # script/ci/setup.sh
 
 # $1 = TEST_SUITE
-# $2 = DB
-# $3 = OPENPROJECT_EDITION
+# $2 = OPENPROJECT_EDITION
 
 run() {
   echo $1;
@@ -44,17 +43,11 @@ run() {
   eval $2;
 }
 
-if [ $2 = "mysql" ]; then
-  run "mysql -u root -e \"CREATE DATABASE IF NOT EXISTS travis_ci_test DEFAULT CHARACTER SET = 'utf8' DEFAULT COLLATE 'utf8_general_ci';\""
-  run "mysql -u root -e \"GRANT ALL ON travis_ci_test.* TO 'travis'@'localhost';\""
-  run "cp script/templates/database.travis.mysql.yml config/database.yml"
-elif [ $2 = "postgres" ]; then
-  run "psql -c 'create database travis_ci_test;' -U postgres"
-  run "cp script/templates/database.travis.postgres.yml config/database.yml"
-fi
+run "psql -c 'create database travis_ci_test;' -U postgres"
+run "cp script/templates/database.travis.postgres.yml config/database.yml"
 
-if [ "$3" = "bim" ]; then
-  export OPENPROJECT_EDITION="$3";
+if [ "$2" = "bim" ]; then
+  export OPENPROJECT_EDITION="$2";
 else
   unset OPENPROJECT_EDITION
 fi

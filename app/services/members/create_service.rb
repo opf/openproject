@@ -28,14 +28,4 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Members::CreateService < ::BaseServices::Create
-  private
-
-  def after_save(attributes_call)
-    super
-
-    # Because of the way roles are assigned further down the stack,
-    # the roles association is empty after assign_roles has been called.
-    attributes_call.result.roles.reload
-  end
-end
+class Members::CreateService < ::BaseServices::Create; end

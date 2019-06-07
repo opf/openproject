@@ -63,7 +63,7 @@ zh:
       title: 日历
       too_many: 工作包 (%{count}) 比日历 (%{max}) 显示的内容要多。添加筛选器可筛选相关内容。
     description_available_columns: 可用的列
-    description_current_position: 'You are here: '
+    description_current_position: 您现在的位置：
     description_select_work_package: '选择工作包 #%{id}'
     description_selected_columns: 选定的列
     description_subwork_package: '子工作包 #%{id}'
@@ -174,14 +174,10 @@ zh:
     homescreen:
       blocks:
         new_features:
-          text_new_features: Read about new features and product updates.
-          current_new_feature_html: 'OpenProject contains a new <b>Boards view</b>
-            for Agile project management. </br> To activate this new feature for your
-            existing projects, please do the following steps: <ul><li>Activate the
-            module Boards within existing projects'' settings.</li> <li>Configure
-            your Boards in a project.</li> <li>Verify roles and permissions</li></ul>'
-          image_alt_text: Board teaser image
-          learn_about: Learn more about Agile Boards
+          text_new_features: 了解新功能和产品更新。
+          current_new_feature_html: OpenProject 包含一个用于敏捷项目管理的新<b>开发板视图</b>。</br>要为现有项目激活此新功能，请按以下步骤操作：<ul><li>在现有项目的设置中激活开发板模块。</li><li>在项目中配置您的开发板。</li><li>验证角色和权限</li></ul>
+          image_alt_text: 开发板宣传图像
+          learn_about: 详细了解敏捷开发板
     label_activate: 激活
     label_activity_no: 活动条目编号 %{activityNo}
     label_activity_with_comment_no: 活动条目编号 %{activityNo}，有用户评论。
@@ -206,7 +202,7 @@ zh:
     label_board_locked: 锁定
     label_board_plural: 面板
     label_board_sticky: 置顶
-    label_create_new: 新建
+    label_create: 创建
     label_create_work_package: 创建新的工作包
     label_created_by: 创建者
     label_date: 日期
@@ -342,9 +338,8 @@ zh:
       steps:
         help_menu: 在<b>帮助</b>菜单中，您可以找到用户指南和其他帮助资源。<br>使用 OpenProject 享受您的工作！
         members: 邀请新<b>成员</b>加入您的项目。
-        project_selection: Please click on one of the projects with useful demo data
-          to get started. <br> The <b>Demo project</b> suits best for classical project
-          management, while the <b>Scrum project</b> is better for Agile project management.
+        project_selection: 请点击其中一个包含有用演示数据的项目以开始。<br><b>演示项目</b>最适合经典项目管理，而 <b>Scrum
+          项目</b>更适合敏捷项目管理。
         sidebar_arrow: 使用箭头可以导航回项目的<b>主菜单</b>。
         welcome: 通过三分钟的导览了解<b>最重要的功能</b> 。<br>我们建议您完成所有步骤。您可以随时重新浏览介绍。
         wiki: 在 <b>Wiki</b> 中，您可以记录并与您的团队共享知识。
@@ -358,8 +353,7 @@ zh:
           overview: 在直观的<b>面板</b>视图中管理您的工作。
           lists: 您可以在一个面板视图中创建多个列表（列），例如创建看板面板。
           add: 单击 + 将向面板内的列表中<b>添加新卡</b>。
-          drag: Drag & Drop your cards within a list to re-order, or to another list.
-            A double click will open the details view.
+          drag: 在列表中拖放卡片进行重新排序，或者拖放到另一个列表中。双击将打开详细信息视图。
         wp:
           toggler: 现在我们来看一下<b>工作包</b>部分，工作包提供了更详细的工作视图。
           list: 这是<b>工作包</b>列表，包含项目中的重要工作，例如任务、特征、里程碑和错误等。<br>您可以在这个列表中直接创建或编辑工作包。要查看工作包的详细信息，可以双击该行。
@@ -382,7 +376,9 @@ zh:
       selection: 请选择
       relation_description: 点击为此关系添加描述
     project:
-      required_outside_context: 您不在项目上下文中。请先选择项目上下文, 以便选择类型和状态
+      required_outside_context: '请选择要创建工作包的项目以查看所有属性。 您只能选择已激活上述类型的项目。
+
+'
       context: 项目上下文
       work_package_belongs_to: 此工作包属于项目%{projectname}。
       click_to_switch_context: 在该项目中打开此工作包。
@@ -467,8 +463,8 @@ zh:
       save: 保存关系
       abort: 放弃
     relations_autocomplete:
-      placeholder: 输入相关的工作包ID
-      parent_placeholder: Choose new parent or press escape to cancel.
+      placeholder: 键入内容进行搜索
+      parent_placeholder: 选择新父级，或按 Escape 键来取消。
     repositories:
       select_tag: 选择标签
       select_branch: 选择分支

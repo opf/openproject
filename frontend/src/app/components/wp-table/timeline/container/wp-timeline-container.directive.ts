@@ -347,6 +347,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     this.selectionParams.notification = this.NotificationsService.addNotice(this.text.selectionMode);
 
     this.$element.addClass('active-selection-mode');
+
     this.refreshView();
   }
 

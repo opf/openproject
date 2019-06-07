@@ -36,7 +36,7 @@ module API
       def initialize(error_message = nil)
         error = I18n.t('api_v3.errors.code_500')
 
-        if message
+        if error_message
           error += " #{error_message}"
         end
 

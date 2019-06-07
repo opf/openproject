@@ -218,7 +218,7 @@ ro:
     label_board_locked: Închis
     label_board_plural: Boards
     label_board_sticky: Lipicios
-    label_create_new: Create new
+    label_create: Creare
     label_create_work_package: Creare pachet de lucru nou
     label_created_by: Creat de
     label_date: Dată
@@ -422,8 +422,11 @@ ro:
       selection: Vă rugăm să selectaţi
       relation_description: Click pentru a adauga o descriere pentru această relaţie
     project:
-      required_outside_context: You are not within a project context. Please choose
-        the project context first in order to select type and status
+      required_outside_context: 'Please choose a project to create the work package
+        in to see all attributes. You can only select projects which have the type
+        above activated.
+
+'
       context: Project context
       work_package_belongs_to: Acest pachet de lucru face parte din proiectul %{projectname}.
       click_to_switch_context: Deschide pachetul de lucru din acel proiect.
@@ -513,7 +516,7 @@ ro:
       save: Salvează relația
       abort: Anulează
     relations_autocomplete:
-      placeholder: Introduceţi ID-ul packetului de lucru
+      placeholder: Type to search
       parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: Selectare etichetă

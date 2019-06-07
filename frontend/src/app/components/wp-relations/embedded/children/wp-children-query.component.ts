@@ -40,6 +40,9 @@ import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {WorkPackageRelationQueryBase} from "core-components/wp-relations/embedded/wp-relation-query.base";
 import {WpChildrenInlineCreateService} from "core-components/wp-relations/embedded/children/wp-children-inline-create.service";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
+import {filter} from "rxjs/operators";
+import {QueryResource} from "core-app/modules/hal/resources/query-resource";
+import {GroupDescriptor} from "core-components/work-packages/wp-single-view/wp-single-view.component";
 
 @Component({
   selector: 'wp-children-query',
@@ -50,16 +53,18 @@ import {WorkPackageCacheService} from "core-components/work-packages/work-packag
 })
 export class WorkPackageChildrenQueryComponent extends WorkPackageRelationQueryBase implements OnInit, OnDestroy {
   @Input() public workPackage:WorkPackageResource;
-  @Input() public query:any;
+  @Input() public query:QueryResource;
+
+  /** An optional group descriptor if we're rendering on the single view */
+  @Input() public group?:GroupDescriptor;
   @Input() public addExistingChildEnabled:boolean = false;
-  @ViewChild('childrenEmbeddedTable') private childrenEmbeddedTable:WorkPackageEmbeddedTableComponent;
 
   public tableActions:OpTableActionFactory[] = [
     OpUnlinkTableAction.factoryFor(
       'remove-child-action',
       this.I18n.t('js.relation_buttons.remove_child'),
       (child:WorkPackageResource) => {
-        this.childrenEmbeddedTable.loadingIndicator = this.wpRelationsHierarchyService.removeChild(child);
+        this.embeddedTable.loadingIndicator = this.wpRelationsHierarchyService.removeChild(child);
       },
       (child:WorkPackageResource) => !!child.changeParent
     )
@@ -79,12 +84,13 @@ export class WorkPackageChildrenQueryComponent extends WorkPackageRelationQueryB
     this.wpInlineCreate.referenceTarget = this.workPackage;
 
     // Set up the query props
-    this.buildQueryProps();
+    this.queryProps = this.buildQueryProps();
 
     // Refresh table when work package is refreshed
     this.wpCacheService
       .observe(this.workPackage.id!)
       .pipe(
+        filter(() => this.embeddedTable && this.embeddedTable.isInitialized),
         untilComponentDestroyed(this)
       )
       .subscribe(() => this.refreshTable());

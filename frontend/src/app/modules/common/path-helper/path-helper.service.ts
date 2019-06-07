@@ -168,6 +168,10 @@ export class PathHelperService {
     return this.staticBase + '/versions/' + id + '/edit';
   }
 
+  public versionShowPath(id:string|number) {
+    return this.staticBase + '/versions/' + id;
+  }
+
   public workPackagesPath() {
     return this.staticBase + '/work_packages';
   }

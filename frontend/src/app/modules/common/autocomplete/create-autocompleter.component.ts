@@ -79,8 +79,8 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
   selector: 'create-autocompleter'
 })
 export class CreateAutocompleterComponent implements AfterViewInit {
-  @ViewChild('addActionAttributeSelect') public addAutoCompleter:NgSelectComponent;
-  @ViewChild('actionAttributeSelect') public autoCompleter:NgSelectComponent;
+  @ViewChild('addActionAttributeSelect', { static: false }) public addAutoCompleter:NgSelectComponent;
+  @ViewChild('actionAttributeSelect', { static: false }) public autoCompleter:NgSelectComponent;
 
   @Input() public availableValues:any[];
   @Input() public appendTo:string;
@@ -108,7 +108,7 @@ export class CreateAutocompleterComponent implements AfterViewInit {
   @Output() public onAfterViewInit = new EventEmitter<CreateAutocompleterComponent>();
 
   public text:any = {
-    add_new_action: this.I18n.t('js.label_create_new'),
+    add_new_action: this.I18n.t('js.label_create'),
   };
 
   private _createAllowed:boolean = false;
@@ -125,6 +125,10 @@ export class CreateAutocompleterComponent implements AfterViewInit {
 
   public openSelect() {
     this.createAllowed ? this.addAutoCompleter.open() : this.autoCompleter.open();
+  }
+
+  public closeSelect() {
+    this.createAllowed ? this.addAutoCompleter.close() : this.autoCompleter.close();
   }
 
   public createNewElement(newElement:string) {

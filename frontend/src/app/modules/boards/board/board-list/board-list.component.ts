@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -44,6 +45,13 @@ import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notific
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
 import {BoardActionService} from "core-app/modules/boards/board/board-actions/board-action.service";
 import {ComponentType} from "@angular/cdk/portal";
+import {IFieldSchema} from "core-app/modules/fields/field.base";
+import {withLatestFrom} from "rxjs/operators";
+
+export interface DisabledButtonPlaceholder {
+  text:string;
+  icon:string;
+}
 
 @Component({
   selector: 'board-list',
@@ -64,10 +72,10 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   @Input() public filters:ApiV3Filter[];
 
   /** Access to the loading indicator element */
-  @ViewChild('loadingIndicator') indicator:ElementRef;
+  @ViewChild('loadingIndicator', { static: true }) indicator:ElementRef;
 
   /** Access to the card view */
-  @ViewChild(WorkPackageCardViewComponent) cardView:WorkPackageCardViewComponent;
+  @ViewChild(WorkPackageCardViewComponent, { static: false }) cardView:WorkPackageCardViewComponent;
 
   /** The query resource being loaded */
   public query:QueryResource;
@@ -98,13 +106,18 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   /** Are we allowed to remove and drag & drop elements ? */
   public canDragInto:boolean = false;
-  public canDragOutOf:boolean = false;
 
   /** Initially focus the list */
   public initiallyFocused:boolean = false;
 
   /** Editing handler to be passed into card component */
   public workPackageAddedHandler = (workPackage:WorkPackageResource) => this.addWorkPackage(workPackage);
+
+  /** Move check to be passed into card component */
+  public canDragOutOf:boolean = false;
+  public canDragOutOfHandler = (workPackage:WorkPackageResource) => this.canMove(workPackage);
+
+  public buttonPlaceholder:DisabledButtonPlaceholder|undefined;
 
   constructor(private readonly QueryDm:QueryDmService,
               private readonly I18n:I18nService,
@@ -136,7 +149,9 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     this.authorisationService
       .observeUntil(componentDestroyed(this))
       .subscribe(() => {
-        this.showAddButton = this.canDragInto && (this.wpInlineCreate.canAdd || this.canReference);
+        if (!this.board.isAction) {
+          this.showAddButton = this.canDragInto && (this.wpInlineCreate.canAdd || this.canReference);
+        }
       });
 
     this.querySpace.query
@@ -167,6 +182,15 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   public get errorMessage() {
     return this.I18n.t('js.boards.error_loading_the_list', { error_message: this.loadingError });
+  }
+
+  public canMove(workPackage:WorkPackageResource) {
+    if (this.board.isAction) {
+      const fieldSchema = workPackage.schema[this.board.actionAttribute!] as IFieldSchema;
+      return this.canDragOutOf && fieldSchema.writable;
+    } else {
+      return this.canDragOutOf;
+    }
   }
 
   public get canReference() {
@@ -258,12 +282,15 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     }
 
     // Load the resource
-    this.actionService.getLoadedFilterValue(query).then(resource => {
+    this.actionService.getLoadedFilterValue(query).then(async resource => {
       this.actionResource = resource;
       this.headerComponent = this.actionService.headerComponent();
+      this.buttonPlaceholder = this.actionService.disabledAddButtonPlaceholder(resource);
       this.actionResourceClass = this.boardListActionColorClass(resource);
       this.canDragInto = this.actionService.dragIntoAllowed(query, resource);
-      this.showAddButton = this.canDragInto && (this.wpInlineCreate.canAdd || this.canReference);
+
+      const canWriteAttribute = await this.actionService.canAddToQuery(query);
+      this.showAddButton = this.canDragInto && this.wpInlineCreate.canAdd && canWriteAttribute;
     });
   }
 
@@ -281,8 +308,17 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
    */
   private addWorkPackage(workPackage:WorkPackageResource) {
     let query = this.querySpace.query.value!;
-
     const changeset = this.wpEditing.changesetFor(workPackage);
+
+    // Ensure attribute remains writable in the form
+    const actionAttribute = this.board.actionAttribute;
+    if (actionAttribute && !changeset.isWritable(actionAttribute)) {
+      throw this.I18n.t(
+        'js.boards.error_attribute_not_writable',
+        { attribute: changeset.humanName(actionAttribute)}
+      );
+    }
+
     const filter = new WorkPackageFilterValues(this.injector, changeset, query.filters);
     filter.applyDefaultsFromFilters();
 

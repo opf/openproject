@@ -65,7 +65,7 @@ module API
       end
 
       links :allowedValues do
-        next unless allowed_values && link_factory
+        next unless allowed_values && link_factory && writable
 
         allowed_values.map do |value|
           link_factory.call(value)

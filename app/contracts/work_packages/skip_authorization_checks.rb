@@ -36,4 +36,8 @@ module WorkPackages::SkipAuthorizationChecks
   def user_allowed_to_edit; end
 
   def user_allowed_to_move; end
+
+  def reduce_by_writable_permissions(attributes)
+    attributes
+  end
 end

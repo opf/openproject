@@ -27,7 +27,7 @@
 // ++
 
 import {WorkPackageTableFiltersService} from '../../wp-fast-table/state/wp-table-filters.service';
-import {Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
 import {QueryFilterResource} from 'core-app/modules/hal/resources/query-filter-resource';
@@ -40,6 +40,7 @@ import {BannersService} from "core-app/modules/common/enterprise/banners.service
   templateUrl: './query-filter.component.html'
 })
 export class QueryFilterComponent implements OnInit, OnDestroy {
+  @Input() public shouldFocus:boolean = false;
   @Input() public filter:QueryFilterInstanceResource;
   @Output() public filterChanged = new EventEmitter<QueryFilterResource>();
   @Output() public deactivateFilter = new EventEmitter<QueryFilterResource>();
@@ -93,4 +94,3 @@ export class QueryFilterComponent implements OnInit, OnDestroy {
     // Nothing to do
   }
 }
-

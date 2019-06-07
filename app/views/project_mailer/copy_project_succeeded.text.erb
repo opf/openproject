@@ -31,5 +31,5 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= t('copy_project.text.succeeded', source_project_name: @source_project.name, target_project_name: @target_project.name) %>
 <% unless @errors.empty? %>
   ----------------------------------------
-  <%= render partial: 'errors', locals: { errors: @errors } %>
+  <%= render partial: 'user_mailer/errors', locals: { errors: @errors } %>
 <% end %>

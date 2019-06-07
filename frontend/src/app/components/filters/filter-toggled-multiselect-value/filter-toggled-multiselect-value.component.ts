@@ -32,7 +32,7 @@ import {CollectionResource} from 'core-app/modules/hal/resources/collection-reso
 import {RootResource} from 'core-app/modules/hal/resources/root-resource';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
-import {Component, EventEmitter, Inject, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Inject, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {AngularTrackingHelpers} from 'core-components/angular/tracking-functions';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
@@ -44,11 +44,12 @@ import {NgSelectComponent} from "@ng-select/ng-select/dist";
   selector: 'filter-toggled-multiselect-value',
   templateUrl: './filter-toggled-multiselect-value.component.html'
 })
-export class FilterToggledMultiselectValueComponent implements OnInit {
+export class FilterToggledMultiselectValueComponent implements OnInit, AfterViewInit {
+  @Input() public shouldFocus:boolean = false;
   @Input() public filter:QueryFilterInstanceResource;
   @Output() public filterChanged = new EventEmitter<QueryFilterInstanceResource>();
 
-  @ViewChild('ngSelectInstance') ngSelectInstance:NgSelectComponent;
+  @ViewChild('ngSelectInstance', { static: true }) ngSelectInstance:NgSelectComponent;
 
   public _availableOptions:HalResource[] = [];
   public compareByHrefOrString = AngularTrackingHelpers.compareByHrefOrString;
@@ -68,6 +69,12 @@ export class FilterToggledMultiselectValueComponent implements OnInit {
 
   ngOnInit() {
     this.fetchAllowedValues();
+  }
+
+  ngAfterViewInit():void {
+    if (this.ngSelectInstance && this.shouldFocus) {
+      this.ngSelectInstance.focus();
+    }
   }
 
   public get value() {

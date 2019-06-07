@@ -578,7 +578,6 @@ GEM
     mustermann (1.0.3)
     mustermann-grape (1.0.0)
       mustermann (~> 1.0.0)
-    mysql2 (0.5.2)
     net-ldap (0.16.1)
     netrc (0.11.0)
     newrelic_rpm (6.0.0.351)
@@ -650,8 +649,6 @@ GEM
       pry (>= 0.9.11)
     public_suffix (3.0.3)
     puma (3.12.0)
-    rabl (0.14.0)
-      activesupport (>= 2.3.14)
     rack (2.0.6)
     rack-accept (0.4.5)
       rack (>= 0.4)
@@ -954,7 +951,6 @@ DEPENDENCIES
   meta-tags (~> 2.11.0)
   multi_json (~> 1.13.1)
   my_page!
-  mysql2 (~> 0.5.0)
   net-ldap (~> 0.16.0)
   newrelic_rpm
   nokogiri (~> 1.10.3)
@@ -998,7 +994,6 @@ DEPENDENCIES
   pry-rescue (~> 1.5.0)
   pry-stack_explorer (~> 0.4.9.2)
   puma (~> 3.12.0)
-  rabl (~> 0.14.0)
   rack-attack (~> 5.4.2)
   rack-mini-profiler
   rack-protection (~> 2.0.0)

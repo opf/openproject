@@ -48,7 +48,7 @@ export class SaveQueryModal extends OpModalComponent {
   public isPublic = false;
   public isBusy = false;
 
-  @ViewChild('queryNameField') queryNameField:ElementRef;
+  @ViewChild('queryNameField', { static: true }) queryNameField:ElementRef;
 
   public text = {
     title: this.I18n.t('js.modals.form_submit.title'),

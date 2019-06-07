@@ -51,7 +51,9 @@ module API
             when :status
               assignable_statuses_for(current_user)
             when :type
-              if project.respond_to?(:types)
+              if project.nil?
+                Type.includes(:color)
+              else
                 project.types.includes(:color)
               end
             when :version
@@ -80,7 +82,13 @@ module API
 
           def contract
             @contract ||= begin
-              ::WorkPackages::UpdateContract
+              klass = if work_package.new_record?
+                        ::WorkPackages::CreateContract
+                      else
+                        ::WorkPackages::UpdateContract
+                      end
+
+              klass
                 .new(work_package,
                      User.current)
             end

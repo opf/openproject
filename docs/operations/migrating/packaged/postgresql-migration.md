@@ -136,6 +136,12 @@ openproject config:set DATABASE_URL="postgresql://openproject:<PASSWORD>@localho
 
 **Please note:**  Replace  `<PASSWORD>`  with the password you provided above. If you used any special characters, [check whether they need to be percent-encoded](https://developer.mozilla.org/en-US/docs/Glossary/percent-encoding) for the database URL.
 
+You can use this command to escape any characters in the password:
+
+```bash
+openproject run ruby -r cgi -e "puts CGI.escape('your-password-here');"
+```
+
 
 ## Migrating the database
 

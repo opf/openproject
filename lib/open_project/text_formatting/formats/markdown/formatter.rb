@@ -53,7 +53,7 @@ module OpenProject::TextFormatting::Formats::Markdown
       [
         :markdown,
         :sanitization,
-        HTML::Pipeline::TableOfContentsFilter,
+        :table_of_contents,
         :macro,
         :pattern_matcher,
         :syntax_highlight,

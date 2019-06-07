@@ -38,11 +38,11 @@ module OpenProject::MyProjectPage
 
       project_module :my_project_page do
         view_actions.each do |action|
-          Redmine::AccessControl.permission(:view_project).actions << "my_projects_overviews/#{action}"
+          OpenProject::AccessControl.permission(:view_project).actions << "my_projects_overviews/#{action}"
         end
 
         edit_actions.each do |action|
-          Redmine::AccessControl.permission(:edit_project).actions << "my_projects_overviews/#{action}"
+          OpenProject::AccessControl.permission(:edit_project).actions << "my_projects_overviews/#{action}"
         end
       end
     end

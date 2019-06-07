@@ -62,7 +62,6 @@ describe OpenProject::Database do
   it 'should be able to use the helper methods' do
     allow(OpenProject::Database).to receive(:adapter_name).and_return 'PostgresQL'
 
-    expect(OpenProject::Database.mysql?).to equal(false)
     expect(OpenProject::Database.postgresql?).to equal(true)
   end
 
@@ -73,13 +72,5 @@ describe OpenProject::Database do
 
     expect(OpenProject::Database.version).to eq('8.3.11')
     expect(OpenProject::Database.version(true)).to eq(raw_version)
-  end
-
-  it 'should return a version string for MySQL' do
-    allow(OpenProject::Database).to receive(:adapter_name).and_return 'MySQL'
-    allow(ActiveRecord::Base.connection).to receive(:select_value).and_return '5.1.2'
-
-    expect(OpenProject::Database.version).to eq('5.1.2')
-    expect(OpenProject::Database.version(true)).to eq('5.1.2')
   end
 end

@@ -56,6 +56,10 @@ export class BoardStatusActionService implements BoardActionService {
     }
   }
 
+  public canAddToQuery(query:QueryResource):Promise<boolean> {
+    return Promise.resolve(true);
+  }
+
   public addActionQueries(board:Board):Promise<Board> {
     return this.getStatuses()
       .then((results) =>
@@ -117,6 +121,10 @@ export class BoardStatusActionService implements BoardActionService {
   }
 
   public headerComponent() {
+    return undefined;
+  }
+
+  public disabledAddButtonPlaceholder(status:StatusResource) {
     return undefined;
   }
 

@@ -24,7 +24,7 @@ module OpenProject::Reporting
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-reporting',
-             author_url: 'http://finn.de',
+             author_url: 'https://www.openproject.org',
              bundled: true do
 
       view_actions = [:index, :show, :drill_down, :available_values, :display_report_list]
@@ -38,17 +38,17 @@ module OpenProject::Reporting
 
       #register additional permissions for viewing time and cost entries through the CostReportsController
       view_actions.each do |action|
-        Redmine::AccessControl.permission(:view_time_entries).actions << "cost_reports/#{action}"
-        Redmine::AccessControl.permission(:view_own_time_entries).actions << "cost_reports/#{action}"
-        Redmine::AccessControl.permission(:view_cost_entries).actions << "cost_reports/#{action}"
-        Redmine::AccessControl.permission(:view_own_cost_entries).actions << "cost_reports/#{action}"
+        OpenProject::AccessControl.permission(:view_time_entries).actions << "cost_reports/#{action}"
+        OpenProject::AccessControl.permission(:view_own_time_entries).actions << "cost_reports/#{action}"
+        OpenProject::AccessControl.permission(:view_cost_entries).actions << "cost_reports/#{action}"
+        OpenProject::AccessControl.permission(:view_own_cost_entries).actions << "cost_reports/#{action}"
       end
 
       # register additional permissions for the work package costlog controller
-      Redmine::AccessControl.permission(:view_time_entries).actions << "work_package_costlog/index"
-      Redmine::AccessControl.permission(:view_own_time_entries).actions << "work_package_costlog/index"
-      Redmine::AccessControl.permission(:view_cost_entries).actions << "work_package_costlog/index"
-      Redmine::AccessControl.permission(:view_own_cost_entries).actions << "work_package_costlog/index"
+      OpenProject::AccessControl.permission(:view_time_entries).actions << "work_package_costlog/index"
+      OpenProject::AccessControl.permission(:view_own_time_entries).actions << "work_package_costlog/index"
+      OpenProject::AccessControl.permission(:view_cost_entries).actions << "work_package_costlog/index"
+      OpenProject::AccessControl.permission(:view_own_cost_entries).actions << "work_package_costlog/index"
 
       #menu extensions
       menu :top_menu, :cost_reports_global, { controller: '/cost_reports', action: 'index', project_id: nil },
@@ -87,7 +87,6 @@ module OpenProject::Reporting
 
     initializer 'reporting.precompile_assets' do
       Rails.application.config.assets.precompile += %w(
-        reporting_engine/reporting_engine.css
         reporting_engine/reporting_engine.js
       )
 
@@ -104,7 +103,7 @@ module OpenProject::Reporting
       require_dependency 'cost_query/group_by'
     end
 
-    assets %w(reporting/reporting.css
+    assets %w(reporting/reporting_styles.css
               reporting/reporting.js)
 
     patches %i[TimelogController CustomFieldsController OpenProject::Configuration]

@@ -35,7 +35,7 @@ module API
         include API::Decorators::CreateForm
 
         def downcase_model_name
-          'memberships'
+          'membership'
         end
       end
     end

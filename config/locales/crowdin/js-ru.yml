@@ -66,7 +66,7 @@ ru:
       too_many: Пакетов работ больше (%{count}), чем может быть показано в календаре
         (%{max}). Отфильтруйте пакеты, чтобы сфокусироваться на нужных.
     description_available_columns: Доступные столбцы
-    description_current_position: 'You are here: '
+    description_current_position: 'Вы здесь: '
     description_select_work_package: 'Выберите пакет работ #%{id}'
     description_selected_columns: Выбранные столбцы
     description_subwork_package: 'Потомок пакета работ #%{id}'
@@ -186,14 +186,14 @@ ru:
     homescreen:
       blocks:
         new_features:
-          text_new_features: Read about new features and product updates.
-          current_new_feature_html: 'OpenProject contains a new <b>Boards view</b>
-            for Agile project management. </br> To activate this new feature for your
-            existing projects, please do the following steps: <ul><li>Activate the
-            module Boards within existing projects'' settings.</li> <li>Configure
-            your Boards in a project.</li> <li>Verify roles and permissions</li></ul>'
-          image_alt_text: Board teaser image
-          learn_about: Learn more about Agile Boards
+          text_new_features: Читайте о новых возможностях и обновлениях продуктов.
+          current_new_feature_html: 'В OpenProject появилось новое <b>представление
+            "Доски" (Boards)</b> для управления agile-проектами. </br> Чтобы включить
+            эту функцию для уже существующих проектов, выполните следующее: <ul><li>Включите
+            модуль "Доски" (Boards) в настройках существующих проектов.</li> <li>Настройте
+            Доски в проектах.</li> <li>Проверьте роли и разрешения</li></ul>'
+          image_alt_text: Тизер доски
+          learn_about: Подробнее о Agile Boards
     label_activate: Активировать
     label_activity_no: Деятельность номер %{activityNo}
     label_activity_with_comment_no: Деятельность номер %{activityNo}. Есть комментарий
@@ -219,7 +219,7 @@ ru:
     label_board_locked: Заперто
     label_board_plural: Доски
     label_board_sticky: Стикер
-    label_create_new: Создать новое
+    label_create: Создать
     label_create_work_package: Создать новый пакет работ
     label_created_by: Автор
     label_date: Дата
@@ -386,8 +386,8 @@ ru:
           overview: Управляйте работой в интуитивном представлении <b>Доски</b>.
           lists: Можно создать несколько списков (столбцов) в пределах представления
             одной Доски, например, создав доску KANBAN.
-          add: Клик по + <b>добавит новую карточку</b> к списку Доски.
-          drag: Перетащите ваши карты в список для повторного заказа, или в другой
+          add: Клик по + <b>добавить новую карточку</b> к списку Доски.
+          drag: Перетащите ваши карточки в список для повторного заказа, или в другой
             список. Двойной клик мыши откроет детальное представление.
         wp:
           toggler: Давайте теперь в секции <b>Пакет работ</b> посмотрим более детальное
@@ -420,8 +420,11 @@ ru:
       selection: Пожалуйста, выберите
       relation_description: Нажмите, чтобы добавить описание для этой связи
     project:
-      required_outside_context: Вы находитесь вне контекста проекта. Пожалуйста, выберите
-        вначале контекст проекта для того, чтобы выбрать тип и состояние
+      required_outside_context: 'Выберите проект для создания комплекса работ и просмотра
+        всех атрибутов. Можно выбирать только те проекты, типы которых активированы
+        выше.
+
+'
       context: Контекст проекта
       work_package_belongs_to: Этот пакет работ относится к проекту %{projectname}.
       click_to_switch_context: Открыть пакет работ в этом проекте.
@@ -510,8 +513,8 @@ ru:
       save: Сохранить отношение
       abort: Прервать
     relations_autocomplete:
-      placeholder: Внести Id cвязанного пакета работ
-      parent_placeholder: Choose new parent or press escape to cancel.
+      placeholder: Введите текст для поиска
+      parent_placeholder: Выберите нового родителя или нажмите кнопку "Отменить".
     repositories:
       select_tag: Выберите тег
       select_branch: Выберите ветвь
@@ -903,7 +906,7 @@ ru:
         one: пакет работ
         other: пакеты работ
         few: пакеты работ
-        many: work packages
+        many: пакетов работ
       child_work_packages:
         one: пакет работ с одним дочерним
         other: пакет работ с %{count} дочерними

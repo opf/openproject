@@ -314,7 +314,6 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
               expect(subject)
                 .to be_success
 
-
               expect(subject.result.type)
                 .to eql other_type
             end

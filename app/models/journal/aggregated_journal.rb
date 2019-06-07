@@ -100,10 +100,10 @@ class Journal::AggregatedJournal
       # that our own row (master) would not already have been merged by its predecessor. If it is
       # (that means if we can find a valid predecessor), we drop our current row, because it will
       # already be present (in a merged form) in the row of our predecessor.
-      Journal.from("(#{sql_rough_group(1, journable, until_version, journal_id)}) #{table_name}")
-      .joins(Arel.sql("LEFT OUTER JOIN (#{sql_rough_group(2, journable, until_version, journal_id)}) addition
+      Journal.from("(#{sql_rough_group(journable, until_version, journal_id)}) #{table_name}")
+      .joins(Arel.sql("LEFT OUTER JOIN (#{sql_rough_group(journable, until_version, journal_id)}) addition
                               ON #{sql_on_groups_belong_condition(table_name, 'addition')}"))
-      .joins(Arel.sql("LEFT OUTER JOIN (#{sql_rough_group(3, journable, until_version, journal_id)}) predecessor
+      .joins(Arel.sql("LEFT OUTER JOIN (#{sql_rough_group(journable, until_version, journal_id)}) predecessor
                          ON #{sql_on_groups_belong_condition('predecessor', table_name)}"))
       .where(Arel.sql('predecessor.id IS NULL'))
       .order(Arel.sql("COALESCE(addition.created_at, #{table_name}.created_at) ASC"))
@@ -166,7 +166,7 @@ class Journal::AggregatedJournal
     # To be able to self-join results of this statement, we add an additional column called
     # "group_number" to the result. This allows to compare a group resulting from this query with
     # its predecessor and successor.
-    def sql_rough_group(uid, journable, until_version, journal_id)
+    def sql_rough_group(journable, until_version, journal_id)
       if until_version && !journable
         raise 'need to provide a journable, when specifying a version limit'
       elsif journable && journable.id.nil?
@@ -175,8 +175,8 @@ class Journal::AggregatedJournal
 
       conditions = additional_conditions(journable, until_version, journal_id)
 
-      "SELECT predecessor.*, #{sql_group_counter(uid)} AS group_number
-      FROM #{sql_rough_group_from_clause(uid)}
+      "SELECT predecessor.*, #{sql_group_counter} AS group_number
+      FROM journals predecessor
       #{sql_rough_group_join(conditions[:join_conditions])}
       #{sql_rough_group_where(conditions[:where_conditions])}
       #{sql_rough_group_order}"
@@ -229,33 +229,10 @@ class Journal::AggregatedJournal
       "ORDER BY predecessor.created_at"
     end
 
-    # The "group_number" required in :sql_rough_group has to be generated differently depending on
-    # the DBMS used. This method returns the appropriate statement to be used inside a SELECT to
+    # This method returns the appropriate statement to be used inside a SELECT to
     # obtain the current group number.
-    # The :uid parameter allows to define non-conflicting variable names (for MySQL).
-    def sql_group_counter(uid)
-      if OpenProject::Database.mysql?
-        group_counter = mysql_group_count_variable(uid)
-        "(#{group_counter} := #{group_counter} + 1)"
-      else
-        'row_number() OVER (ORDER BY predecessor.version ASC)'
-      end
-    end
-
-    # MySQL requires some initialization to be performed before being able to count the groups.
-    # This method allows to inject further FROM sources to achieve that in a single SQL statement.
-    # Sadly MySQL requires the whole statement to be wrapped in parenthesis, while PostgreSQL
-    # prohibits that.
-    def sql_rough_group_from_clause(uid)
-      if OpenProject::Database.mysql?
-        "(journals predecessor, (SELECT #{mysql_group_count_variable(uid)}:=0) number_initializer)"
-      else
-        'journals predecessor'
-      end
-    end
-
-    def mysql_group_count_variable(uid)
-      "@aggregated_journal_row_counter_#{uid}"
+    def sql_group_counter
+      'row_number() OVER (ORDER BY predecessor.version ASC)'
     end
 
     # Similar to the WHERE statement used in :sql_rough_group. However, this condition will
@@ -281,13 +258,8 @@ class Journal::AggregatedJournal
         return '(true = true)'
       end
 
-      if OpenProject::Database.mysql?
-        difference = "TIMESTAMPDIFF(second, #{predecessor}.created_at, #{successor}.created_at)"
-        threshold = aggregation_time_seconds
-      else
-        difference = "(#{successor}.created_at - #{predecessor}.created_at)"
-        threshold = "interval '#{aggregation_time_seconds} second'"
-      end
+      difference = "(#{successor}.created_at - #{predecessor}.created_at)"
+      threshold = "interval '#{aggregation_time_seconds} second'"
 
       "(#{difference} > #{threshold})"
     end

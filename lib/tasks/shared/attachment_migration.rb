@@ -32,15 +32,9 @@ module Tasks
       def reset_journal_id_sequence!
         con = ActiveRecord::Base.connection
 
-        if OpenProject::Database.mysql?
-          max_id = con.execute("SELECT MAX(id) FROM legacy_journals").to_a.first.first
+        max_id = con.execute("SELECT MAX(id) FROM legacy_journals").to_a.first["max"]
 
-          con.execute "ALTER TABLE journals AUTO_INCREMENT = #{max_id + 1}"
-        else # Postgres
-          max_id = con.execute("SELECT MAX(id) FROM legacy_journals").to_a.first["max"]
-
-          con.execute "ALTER SEQUENCE journals_id_seq RESTART WITH #{max_id + 1}"
-        end
+        con.execute "ALTER SEQUENCE journals_id_seq RESTART WITH #{max_id + 1}"
       end
 
       def move_project_attachments_to_wiki!

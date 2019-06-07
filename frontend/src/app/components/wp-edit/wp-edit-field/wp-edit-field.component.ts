@@ -60,8 +60,8 @@ export class WorkPackageEditFieldComponent implements OnInit {
   @Input('displayPlaceholder') public displayPlaceholder?:string;
   @Input('isDropTarget') public isDropTarget?:boolean = false;
 
-  @ViewChild('displayContainer') readonly displayContainer:ElementRef;
-  @ViewChild('editContainer') readonly editContainer:ElementRef;
+  @ViewChild('displayContainer', { static: true }) readonly displayContainer:ElementRef;
+  @ViewChild('editContainer', { static: true }) readonly editContainer:ElementRef;
 
   public workPackage:WorkPackageResource;
   public fieldRenderer:DisplayFieldRenderer;

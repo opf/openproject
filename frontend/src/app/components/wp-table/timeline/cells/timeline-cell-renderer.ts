@@ -252,6 +252,7 @@ export class TimelineCellRenderer {
 
     this.checkForActiveSelectionMode(renderInfo, bar);
     this.checkForSpecialDisplaySituations(renderInfo, bar);
+    this.applyTypeColor(renderInfo, bar);
 
     return true;
   }
@@ -327,7 +328,7 @@ export class TimelineCellRenderer {
     // create center label
     const labelCenter = document.createElement('div');
     labelCenter.classList.add(classNameBarLabel);
-    this.applyTypeColor(renderInfo.workPackage, labelCenter);
+    this.applyTypeColor(renderInfo, labelCenter);
     element.appendChild(labelCenter);
 
     // create left label
@@ -366,15 +367,25 @@ export class TimelineCellRenderer {
     return labels;
   }
 
-  protected applyTypeColor(wp:WorkPackageResource, bg:HTMLElement):void {
+  protected applyTypeColor(renderInfo:RenderInfo, bg:HTMLElement):void {
+    let wp = renderInfo.workPackage;
     let type = wp.type;
+    let selectionMode = renderInfo.viewParams.activeSelectionMode;
 
-    if (!type) {
+    if (!type && !selectionMode) {
       bg.style.backgroundColor = this.fallbackColor;
     }
 
+    bg.style.backgroundColor = '';
+
+    // Don't apply the class in selection mode
     const id = type.id;
-    bg.classList.add(Highlighting.backgroundClass('type', id!));
+    if (renderInfo.viewParams.activeSelectionMode) {
+      bg.classList.remove(Highlighting.backgroundClass('type', id!));
+      return;
+    } else {
+      bg.classList.add(Highlighting.backgroundClass('type', id!));
+    }
   }
 
   protected assignDate(changeset:WorkPackageChangeset, attributeName:string, value:moment.Moment) {
@@ -408,7 +419,7 @@ export class TimelineCellRenderer {
       bar.style.background = 'none';
     } else {
       // Apply the background color
-      this.applyTypeColor(renderInfo.workPackage, bar);
+      this.applyTypeColor(renderInfo, bar);
     }
   }
 

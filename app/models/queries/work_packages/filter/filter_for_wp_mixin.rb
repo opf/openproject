@@ -38,7 +38,7 @@ module Queries::WorkPackages::Filter::FilterForWpMixin
   end
 
   def value_objects
-    objects = scope.find(no_templated_values)
+    objects = visible_scope.find(no_templated_values)
 
     if has_templated_value?
       objects << ::Queries::Filters::TemplatedValue.new(WorkPackage)
@@ -52,7 +52,7 @@ module Queries::WorkPackages::Filter::FilterForWpMixin
   end
 
   def available?
-    scope.exists?
+    visible_scope.exists?
   end
 
   def ar_object_filter?
@@ -60,7 +60,7 @@ module Queries::WorkPackages::Filter::FilterForWpMixin
   end
 
   def allowed_values_subset
-    id_values = scope.where(id: no_templated_values).pluck(:id).map(&:to_s)
+    id_values = visible_scope.where(id: no_templated_values).pluck(:id).map(&:to_s)
 
     if has_templated_value?
       id_values + templated_value_keys
@@ -71,7 +71,7 @@ module Queries::WorkPackages::Filter::FilterForWpMixin
 
   private
 
-  def scope
+  def visible_scope
     if context.project
       WorkPackage
         .visible

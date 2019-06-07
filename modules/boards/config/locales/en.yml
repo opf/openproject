@@ -5,5 +5,4 @@ en:
 
   project_module_board_view: "Boards"
   boards:
-    new_badge: "New"
     label_boards: "Boards"

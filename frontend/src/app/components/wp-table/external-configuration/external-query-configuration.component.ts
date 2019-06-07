@@ -17,7 +17,7 @@ export interface QueryConfigurationLocals {
 })
 export class ExternalQueryConfigurationComponent implements AfterViewInit {
 
-  @ViewChild('embeddedTableForConfiguration') private embeddedTable:WorkPackageEmbeddedTableComponent;
+  @ViewChild('embeddedTableForConfiguration', { static: true }) private embeddedTable:WorkPackageEmbeddedTableComponent;
 
   constructor(@Inject(OpQueryConfigurationLocalsToken) readonly locals:QueryConfigurationLocals,
               readonly cdRef:ChangeDetectorRef) {

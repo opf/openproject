@@ -40,7 +40,7 @@ export class CollapsibleSectionComponent implements OnInit {
   public expanded:boolean = false;
   public sectionTitle:string;
 
-  @ViewChild('sectionBody') public sectionBody:ElementRef;
+  @ViewChild('sectionBody', { static: true }) public sectionBody:ElementRef;
 
   constructor(public elementRef:ElementRef) {
   }

@@ -56,7 +56,7 @@ const ADD_FILTER_SELECT_INDEX = -1;
 })
 export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
 
-  @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
+  @ViewChild(NgSelectComponent, { static: false }) public ngSelectComponent:NgSelectComponent;
   @Input() public filters:QueryFilterInstanceResource[];
   @Input() public showCloseFilter:boolean = false;
   @Output() public filtersChanged = new DebouncedEventEmitter<QueryFilterInstanceResource[]>(componentDestroyed(this));
@@ -124,9 +124,7 @@ export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
     let index = this.filters.indexOf(removedFilter);
     _.remove(this.filters, f => f.id === removedFilter.id);
 
-    if (removedFilter.isCompletelyDefined()) {
-      this.filtersChanged.emit(this.filters);
-    }
+    this.filtersChanged.emit(this.filters);
 
     this.updateFilterFocus(index);
     this.updateRemainingFilters();

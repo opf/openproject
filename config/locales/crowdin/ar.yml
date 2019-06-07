@@ -112,6 +112,9 @@ ar:
   concatenation:
     single: or
   deprecations:
+    time_entries: This time entries view is superseded by the 'Cost reports' module.
+      This view now only supports exporting time entry information to csv. For interactive
+      filtering, please activate the 'Cost reports' module in the project settings.
     old_timeline:
       replacement: This timelines module is being replaced by the interactive timeline
         embedded into the work packages module.
@@ -596,6 +599,10 @@ ar:
           invalid_url: is not a valid repository URL or path.
           must_not_be_ssh: must not be an SSH url.
           no_directory: ليس من دليل.
+        role:
+          permissions:
+            dependency_missing: need to also include '%{dependency}' as '%{permission}'
+              is selected.
         work_package:
           is_not_a_valid_target_for_time_entries: 'مجموعة العمل #%{id} ليست هدفًا
             صالحًا لإعادة تعيين إدخالات الوقت.'
@@ -859,6 +866,7 @@ ar:
     started: بدأ بنسخ المشروع "%{source_project_name}" إلى "%{target_project_name}".
       سيتم إبلاغك بالبريد الإلكتروني حالما يتوفر "%{target_project_name}".
     failed: لا يمكن نسخ المشروع %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: المشروع الذي تم إنشاؤه %{target_project_name}
     errors: خطأ
     project_custom_fields: Custom fields on project
@@ -2039,6 +2047,7 @@ ar:
   permission_add_project: إنشاء مشروع
   permission_add_subprojects: إنشاء مشاريع فرعية
   permission_add_work_package_watchers: إضافة مراقب
+  permission_assign_versions: Assign versions
   permission_browse_repository: وصول للقراءة فقط إلى مستودع (استعراض والخروج)
   permission_change_wiki_parent_page: تغيير صفحة wikiالاصلية
   permission_comment_news: أخبار التعليق
@@ -2838,13 +2847,6 @@ ar:
 '
   menu_item: عناصر القائمة
   menu_item_setting: الظهور
-  mysql_deprecation:
-    notice: 'Future versions of OpenProject will likely drop or reduce support for
-      MySQL and MariaDB databases. Your installation is still running on MySQL and
-      we suggest you migrate your installation to PostgreSQL. This process is easy
-      when following our migration guides:
-
-'
   wiki_menu_item_for: عنصر القائمة "%{title}"
   wiki_menu_item_setting: الظهور
   wiki_menu_item_new_main_item_explanation: 'يتم حذف عنصر القائمة Wiki الرئيسي فقط.
@@ -2893,6 +2895,8 @@ ar:
       multipart_body_error: لم يتضمن نص الطلب على أجزاء متعددة الأجزاء المتوقعة.
       multiple_errors: تم انتهاك قيود متعددة الحقول.
       unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment_permissions: The attachment could not be saved due
+        to lacking file system permissions
       render:
         context_not_parsable: سياق المقدمة ليس ارتباط إلى مورد.
         unsupported_context: غير معتمد المورد نظراً للسياق.
@@ -3024,3 +3028,10 @@ ar:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'

@@ -56,7 +56,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
   selector: 'user-autocompleter'
 })
 export class UserAutocompleterComponent implements OnInit {
-  @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
+  @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
   @Output() public onChange = new EventEmitter<void>();
   @Input() public clearAfterSelection:boolean = false;
 

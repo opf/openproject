@@ -164,7 +164,7 @@ module Pages
     def add_list_with_new_value(name)
       open_and_fill_add_list_modal name
 
-      page.find('.ng-option', text: 'Create new: ' + name).click
+      page.find('.ng-option', text: 'Create: ' + name).click
     end
 
     def save
@@ -252,8 +252,13 @@ module Pages
     end
 
     def expect_editable_list(editable)
-      # Add new / existing card
-      expect(page).to have_conditional_selector(editable, '.board-list--card-dropdown-button')
+      # Add list button
+      if action?
+        expect(page).to have_conditional_selector(!editable, '.board-list--add-button[disabled]')
+        expect(page).to have_conditional_selector(editable, '.board-list--add-button:not([disabled])')
+      else
+        expect(page).to have_conditional_selector(editable, '.board-list--card-dropdown-button')
+      end
     end
 
     def rename_board(new_name, through_dropdown: false)

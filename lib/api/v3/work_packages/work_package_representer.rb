@@ -51,7 +51,7 @@ module API
         self_link title_getter: ->(*) { represented.subject }
 
         link :update,
-             cache_if: -> { current_user_allowed_to(:edit_work_packages, context: represented.project) } do
+             cache_if: -> { current_user_update_allowed? } do
           {
             href: api_v3_paths.work_package_form(represented.id),
             method: :post
@@ -65,7 +65,7 @@ module API
         end
 
         link :updateImmediately,
-             cache_if: -> { current_user_allowed_to(:edit_work_packages, context: represented.project) } do
+             cache_if: -> { current_user_update_allowed? } do
           {
             href: api_v3_paths.work_package(represented.id),
             method: :patch
@@ -510,6 +510,11 @@ module API
 
         def current_user_watcher?
           represented.watchers.any? { |w| w.user_id == current_user.id }
+        end
+
+        def current_user_update_allowed?
+          current_user_allowed_to(:edit_work_packages, context: represented.project) ||
+            current_user_allowed_to(:assign_versions, context: represented.project)
         end
 
         def relations

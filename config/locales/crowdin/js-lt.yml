@@ -218,7 +218,7 @@ lt:
     label_board_locked: Užrakinta
     label_board_plural: Boards
     label_board_sticky: Lipnus
-    label_create_new: Sukurti naują
+    label_create: Sukurti
     label_create_work_package: Sukurti naują darbų paketą
     label_created_by: Sukurta
     label_date: Data
@@ -415,8 +415,11 @@ lt:
       selection: Prašome pasirinkti
       relation_description: Paspauskite, kad pridėtumėte šio ryšio aprašymą
     project:
-      required_outside_context: Jūs nesate projekto kontekste. Pirmiausia prašome
-        pasirinkti projekto kontekstą, kad galėtumėte pasirinkti tipą ir būseną
+      required_outside_context: 'Please choose a project to create the work package
+        in to see all attributes. You can only select projects which have the type
+        above activated.
+
+'
       context: Projekto kontekstas
       work_package_belongs_to: Šis darbų paketas priklauso projektui %{projectname}.
       click_to_switch_context: Atidaryti darbų paketą tame projekte.
@@ -506,7 +509,7 @@ lt:
       save: Išsaugoti ryšį
       abort: Nutraukti
     relations_autocomplete:
-      placeholder: Nurodykite susijusio darbų paketo id
+      placeholder: Type to search
       parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: Pasirinkti žymę

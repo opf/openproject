@@ -95,11 +95,11 @@ $ nodenv init
 **Install latest LTS node version**
 
 You can find the latest LTS version here: https://nodejs.org/en/download/
-Currently, this is v6.11.0. Install and activate it with:
+Currently, this is v10.15.3. Install and activate it with:
 
 ```bash
-[dev@ubuntu]# nodenv install 6.11.0
-[dev@ubuntu]# nodenv global 6.11.0
+[dev@ubuntu]# nodenv install 10.15.3
+[dev@ubuntu]# nodenv global 10.15.3
 ```
 
 ## Verify your installation

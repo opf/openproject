@@ -218,7 +218,7 @@ sk:
     label_board_locked: Uzamknuté
     label_board_plural: Nástenky
     label_board_sticky: Dôležité (vždy vyššie)
-    label_create_new: Vytvoriť nový
+    label_create: Vytvoriť
     label_create_work_package: Vytvoriť nový pracovný balíček
     label_created_by: Vytvoril(a)
     label_date: Dátum
@@ -420,8 +420,11 @@ sk:
       selection: Prosím, vyberte
       relation_description: Kliknutím pridáte popis tohto vzťahu
     project:
-      required_outside_context: Nie ste v kontexte projektu. Prosím vyberte najskôr
-        kontext projektu aby ste mohli vybrať typ a stav
+      required_outside_context: 'Please choose a project to create the work package
+        in to see all attributes. You can only select projects which have the type
+        above activated.
+
+'
       context: Kontext projektu
       work_package_belongs_to: Tento pracovný balíček patrí k projektu %{projectname}.
       click_to_switch_context: Otvoriť tento pracovný balík v danom projekte.
@@ -511,7 +514,7 @@ sk:
       save: Uložiť vzťah
       abort: Zrušiť
     relations_autocomplete:
-      placeholder: Zadajte ID pracovného balíčku
+      placeholder: Type to search
       parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: Vybrať značku

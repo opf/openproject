@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/state/wp-table-timeline.service';
 import {WorkPackageTablePaginationService} from 'core-components/wp-fast-table/state/wp-table-pagination.service';
 import {OpTableActionFactory} from 'core-components/wp-table/table-actions/table-action';
@@ -23,6 +23,12 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   @Input('queryProps') public queryProps:any = {};
   @Input() public tableActions:OpTableActionFactory[] = [];
   @Input() public externalHeight:boolean = false;
+
+  /** Inform about loading errors */
+  @Output() public onError = new EventEmitter<string>();
+
+  /** Inform about loaded query */
+  @Output() public onQueryLoaded = new EventEmitter<QueryResource>();
 
   readonly QueryDm:QueryDmService = this.injector.get(QueryDmService);
   readonly opModalService:OpModalService = this.injector.get(OpModalService);
@@ -127,7 +133,6 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
       return Promise.resolve(this.loadedQuery!);
     }
 
-
     // HACK: Decrease loading time of queries when results are not needed.
     // We should allow the backend to disable results embedding instead.
     if (!this.configuration.tableVisible) {
@@ -151,6 +156,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
       )
       .then((query:QueryResource) => {
         this.initializeStates(query, query.results);
+        this.onQueryLoaded.emit(query);
         return query;
       })
       .catch((error) => {
@@ -158,6 +164,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
           'js.error.embedded_table_loading',
           { message: _.get(error, 'message', error) }
         );
+        this.onError.emit(error);
       });
 
     if (visible) {

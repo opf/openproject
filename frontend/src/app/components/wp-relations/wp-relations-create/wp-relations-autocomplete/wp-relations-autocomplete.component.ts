@@ -46,7 +46,7 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
+import {ApiV3Filter, ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 
@@ -68,8 +68,11 @@ export class WorkPackageRelationsAutocomplete implements AfterContentInit {
   @Input() selectedRelationType:string;
   @Input() filterCandidatesFor:string;
 
+  /** Do we take the current query filters into account? */
+  @Input() additionalFilters:ApiV3Filter[] = [];
+
   @Input() appendToContainer:string = 'body';
-  @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
+  @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
 
   @Output() onCancel = new EventEmitter<undefined>();
   @Output() onReferenced = new EventEmitter<WorkPackageResource>();
@@ -103,7 +106,6 @@ export class WorkPackageRelationsAutocomplete implements AfterContentInit {
     if (!this.ngSelectComponent) {
       return;
     }
-    this.ngSelectComponent.open();
 
     setTimeout(() => {
       this.ngSelectComponent.focus();
@@ -138,6 +140,7 @@ export class WorkPackageRelationsAutocomplete implements AfterContentInit {
     return from(
       this.workPackage.availableRelationCandidates.$link.$fetch({
         query: query,
+        filters: JSON.stringify(this.additionalFilters),
         type: this.filterCandidatesFor || this.selectedRelationType
       }) as Promise<WorkPackageCollectionResource>
     )

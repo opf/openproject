@@ -30,28 +30,49 @@ module API
   module V3
     module WorkPackages
       class AvailableRelationCandidatesAPI < ::API::OpenProjectAPI
-        helpers ::API::V3::WorkPackages::AvailableRelationCandidatesHelper
+        helpers do
+          def combined_params
+            { filters: filters_param, pageSize: params[:pageSize] }.with_indifferent_access
+          end
+
+          def filters_param
+            JSON::parse(params[:filters] || '[]')
+              .concat([string_filter, type_filter])
+          end
+
+          def string_filter
+            filter_param(:subject_or_id, '**', params[:query])
+          end
+
+          def type_filter
+            filter_param(:relatable, params[:type], [@work_package.id.to_s])
+          end
+
+          def filter_param(key, operator, values)
+            { key => { operator: operator, values: values } }.with_indifferent_access
+          end
+        end
 
         resources :available_relation_candidates do
           params do
             requires :query, type: String # either WP ID or part of its subject
-            optional :type, type: String, default: "relates" # relation type
+            optional :type, type: String, default: ::Relation::TYPE_RELATES # relation type
             optional :pageSize, type: Integer, default: 10
           end
           get do
-            from = @work_package
+            service = WorkPackageCollectionFromQueryParamsService
+                      .new(current_user)
+                      .call(combined_params)
 
-            work_packages = work_package_queried params[:query], from, params[:type], params[:pageSize]
+            if service.success?
+              service.result
+            else
+              api_errors = service.errors.full_messages.map do |message|
+                ::API::Errors::InvalidQuery.new(message)
+              end
 
-            # MySQL does not support LIMIT inside a subquery
-            # As the representer wraps the work_packages scope
-            # into a subquery and the scope contains a LIMIT we force
-            # executing the scope via to_a.
-            ::API::V3::WorkPackages::WorkPackageListRepresenter.new(
-              work_packages.to_a,
-              api_v3_paths.available_relation_candidates(from.id),
-              current_user: current_user
-            )
+              raise ::API::Errors::MultipleErrors.create_if_many api_errors
+            end
           end
         end
       end

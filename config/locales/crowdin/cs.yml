@@ -112,6 +112,9 @@ cs:
   concatenation:
     single: nebo
   deprecations:
+    time_entries: This time entries view is superseded by the 'Cost reports' module.
+      This view now only supports exporting time entry information to csv. For interactive
+      filtering, please activate the 'Cost reports' module in the project settings.
     old_timeline:
       replacement: This timelines module is being replaced by the interactive timeline
         embedded into the work packages module.
@@ -599,6 +602,10 @@ cs:
           invalid_url: is not a valid repository URL or path.
           must_not_be_ssh: must not be an SSH url.
           no_directory: není adresář.
+        role:
+          permissions:
+            dependency_missing: need to also include '%{dependency}' as '%{permission}'
+              is selected.
         work_package:
           is_not_a_valid_target_for_time_entries: 'Pracovní balíček #%{id} není platný
             cíl pro přeřazení časových záznamů.'
@@ -857,6 +864,7 @@ cs:
     started: Started to copy project "%{source_project_name}" to "%{target_project_name}".
       You will be informed by mail as soon as "%{target_project_name}" is available.
     failed: Nebylo možné zkopírovat projekt "%{source_project_name}"
+    failed_internal: Copying failed due to an internal error.
     succeeded: Projekt "%{target_project_name}" vytvořen
     errors: Chyba
     project_custom_fields: Vlastní pole projektu
@@ -2010,6 +2018,7 @@ cs:
   permission_add_project: Vytvořit projekt
   permission_add_subprojects: Vytvořit podprojekty
   permission_add_work_package_watchers: Přidat sledující
+  permission_assign_versions: Assign versions
   permission_browse_repository: Read-only access to repository (browse and checkout)
   permission_change_wiki_parent_page: Změnit nadřazenou wiki stránku
   permission_comment_news: Komentování novinek
@@ -2822,13 +2831,6 @@ cs:
 '
   menu_item: Položka nabídky
   menu_item_setting: Viditelnost
-  mysql_deprecation:
-    notice: 'Future versions of OpenProject will likely drop or reduce support for
-      MySQL and MariaDB databases. Your installation is still running on MySQL and
-      we suggest you migrate your installation to PostgreSQL. This process is easy
-      when following our migration guides:
-
-'
   wiki_menu_item_for: Položka nabídky pro stránku wiki "%{title}"
   wiki_menu_item_setting: Viditelnost
   wiki_menu_item_new_main_item_explanation: 'You are deleting the only main wiki menu
@@ -2880,6 +2882,8 @@ cs:
         parts.
       multiple_errors: Multiple field constraints have been violated.
       unable_to_create_attachment: Přílohu nelze vytvořit
+      unable_to_create_attachment_permissions: The attachment could not be saved due
+        to lacking file system permissions
       render:
         context_not_parsable: The context provided is not a link to a resource.
         unsupported_context: The resource given is not supported as context.
@@ -3009,3 +3013,10 @@ cs:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'

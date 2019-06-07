@@ -112,6 +112,9 @@ pt-BR:
   concatenation:
     single: ou
   deprecations:
+    time_entries: This time entries view is superseded by the 'Cost reports' module.
+      This view now only supports exporting time entry information to csv. For interactive
+      filtering, please activate the 'Cost reports' module in the project settings.
     old_timeline:
       replacement: Este módulo de cronogramas está sendo substituído por um cronograma
         interativo integrado no módulo de pacotes de trabalho.
@@ -601,6 +604,10 @@ pt-BR:
           invalid_url: não é um caminho ou URL válida do repositório.
           must_not_be_ssh: não deve ser uma url SSH.
           no_directory: não é um diretório.
+        role:
+          permissions:
+            dependency_missing: também precisa incluir '%{dependency}', já que '%{permission}'
+              está selecionado.
         work_package:
           is_not_a_valid_target_for_time_entries: 'Pacote de trabalho #%{id} não é
             um alvo válido para re-atribuir os registros de horas gastas.'
@@ -665,12 +672,12 @@ pt-BR:
               error_not_found: não encontrado
         member:
           principal_blank: Por favor, escolha ao menos um usuário ou grupo.
-          role_blank: need to be assigned.
+          role_blank: precisa ser atribuído.
           attributes:
             roles:
-              ungrantable: has an unassignable role.
+              ungrantable: possui uma função não atribuível.
             principal:
-              unassignable: cannot be assigned to a project.
+              unassignable: não pode ser atribuído a um projeto.
         version:
           undeletable_work_packages_attached: A versão não pode ser excluída pois
             tem pacotes de trabalho anexados a ela.
@@ -854,6 +861,7 @@ pt-BR:
       iniciada. Você será informado por email tão logo "%{target_project_name}" estiver
       disponível.
     failed: Não é possível copiar o projeto %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: Foi criado o projeto %{target_project_name}
     errors: Erro
     project_custom_fields: Campos personalizados no projeto
@@ -1021,7 +1029,7 @@ pt-BR:
   description_choose_project: Projetos
   description_compare_from: Comparar de
   description_compare_to: Comparar com
-  description_current_position: 'You are here: '
+  description_current_position: 'Você está aqui: '
   description_date_from: Digite a data de início
   description_date_range_interval: Escolher o intervalo selecionando a data inicial
     e final
@@ -1497,7 +1505,7 @@ pt-BR:
   label_my_queries: Minhas consultas personalizadas
   label_never: Nunca
   label_new: Novo
-  label_new_features: New features
+  label_new_features: Novos recursos
   label_new_statuses_allowed: Novas situações permitidas
   label_news_added: Notícia adicionada
   label_news_comment_added: Comentário adicionado a uma notícia
@@ -1983,6 +1991,7 @@ pt-BR:
   permission_add_project: Criar Projeto
   permission_add_subprojects: Criar subprojetos
   permission_add_work_package_watchers: Adicionar observadores
+  permission_assign_versions: Atribuir versões
   permission_browse_repository: Acesso somente leitura ao repositório (browse e check-out)
   permission_change_wiki_parent_page: Alterar filiação da página wiki
   permission_comment_news: Comentar notícias
@@ -2807,13 +2816,6 @@ pt-BR:
 '
   menu_item: Item de menu
   menu_item_setting: Visibilidade
-  mysql_deprecation:
-    notice: 'As versões posteriores do OpenProject irão, provavelmente, abandonar
-      ou reduzir o suporte às bases de dados MySQL e MariaDB. Sua instalação continua
-      a ser executada no MySQL e sugerimos que você migre-a para o PostgreSQL. Este
-      processo é fácil quando nossos guias de migração são seguidos:
-
-'
   wiki_menu_item_for: Item de menu para página wiki "%{title}"
   wiki_menu_item_setting: Visibilidade
   wiki_menu_item_new_main_item_explanation: 'Você está excluindo somente o item de
@@ -2866,6 +2868,8 @@ pt-BR:
         esperadas.
       multiple_errors: Várias restrições de campo foram violadas.
       unable_to_create_attachment: O anexo não pôde ser criado
+      unable_to_create_attachment_permissions: O anexo não pôde ser salvo devido à
+        falta de permissões do sistema de arquivos
       render:
         context_not_parsable: O contexto fornecido não é um link para o recurso.
         unsupported_context: O recurso dado não esta suportado como contexto.
@@ -2999,3 +3003,10 @@ pt-BR:
     revoke_my_application_confirmation: Você quer realmente remover esta aplicação?
       Isso irá revogar %{token_count} ativo(s) para ele.
     my_registered_applications: Aplicações OAuth registradas
+  mysql_deprecation:
+    notice: 'As versões posteriores do OpenProject irão, provavelmente, abandonar
+      ou reduzir o suporte às bases de dados MySQL e MariaDB. Sua instalação continua
+      a ser executada no MySQL e sugerimos que você migre-a para o PostgreSQL. Este
+      processo é fácil quando nossos guias de migração são seguidos:
+
+'

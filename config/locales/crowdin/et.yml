@@ -112,6 +112,9 @@ et:
   concatenation:
     single: or
   deprecations:
+    time_entries: This time entries view is superseded by the 'Cost reports' module.
+      This view now only supports exporting time entry information to csv. For interactive
+      filtering, please activate the 'Cost reports' module in the project settings.
     old_timeline:
       replacement: This timelines module is being replaced by the interactive timeline
         embedded into the work packages module.
@@ -596,6 +599,10 @@ et:
           invalid_url: is not a valid repository URL or path.
           must_not_be_ssh: must not be an SSH url.
           no_directory: is not a directory.
+        role:
+          permissions:
+            dependency_missing: need to also include '%{dependency}' as '%{permission}'
+              is selected.
         work_package:
           is_not_a_valid_target_for_time_entries: 'Töötunde ei sobi üle kanda teemale
             #%{id}.'
@@ -846,6 +853,7 @@ et:
     started: Started to copy project "%{source_project_name}" to "%{target_project_name}".
       You will be informed by mail as soon as "%{target_project_name}" is available.
     failed: Projekti %{source_project_name} ei saa kopeerida
+    failed_internal: Copying failed due to an internal error.
     succeeded: Projekt %{target_project_name} on loodud
     errors: Tõrge
     project_custom_fields: Custom fields on project
@@ -1953,6 +1961,7 @@ et:
   permission_add_project: Projekte luua
   permission_add_subprojects: Alamprojekte luua
   permission_add_work_package_watchers: Jälgijaid lisada
+  permission_assign_versions: Assign versions
   permission_browse_repository: Read-only access to repository (browse and checkout)
   permission_change_wiki_parent_page: Muuta viki ülemlehti
   permission_comment_news: Uudiseid kommenteerida
@@ -2754,13 +2763,6 @@ et:
 '
   menu_item: Menüüvalik
   menu_item_setting: Nähtavus
-  mysql_deprecation:
-    notice: 'Future versions of OpenProject will likely drop or reduce support for
-      MySQL and MariaDB databases. Your installation is still running on MySQL and
-      we suggest you migrate your installation to PostgreSQL. This process is easy
-      when following our migration guides:
-
-'
   wiki_menu_item_for: Menüüvalik vikilehele "%{title}"
   wiki_menu_item_setting: Nähtavus
   wiki_menu_item_new_main_item_explanation: 'Sa oled kustutamas ainsat viki põhilehele
@@ -2812,6 +2814,8 @@ et:
         parts.
       multiple_errors: Multiple field constraints have been violated.
       unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment_permissions: The attachment could not be saved due
+        to lacking file system permissions
       render:
         context_not_parsable: The context provided is not a link to a resource.
         unsupported_context: The resource given is not supported as context.
@@ -2939,3 +2943,10 @@ et:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'

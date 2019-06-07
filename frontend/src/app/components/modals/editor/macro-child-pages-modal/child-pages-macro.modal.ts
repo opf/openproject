@@ -47,7 +47,7 @@ export class ChildPagesMacroModal extends OpModalComponent implements AfterViewI
   public page:string = '';
   public includeParent:boolean = false;
 
-  @ViewChild('selectedPageInput') selectedPageInput:ElementRef;
+  @ViewChild('selectedPageInput', { static: true }) selectedPageInput:ElementRef;
 
   public text:any = {
     title: this.I18n.t('js.editor.macro.child_pages.button'),

@@ -60,8 +60,8 @@ export const globalSearchSelector = 'global-search-input';
 })
 
 export class GlobalSearchInputComponent implements OnInit, OnDestroy {
-  @ViewChild('btn') btn:ElementRef;
-  @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
+  @ViewChild('btn', { static: true }) btn:ElementRef;
+  @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
 
   public currentValue:string = '';
   public expanded:boolean = false;

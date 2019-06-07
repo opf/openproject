@@ -25,7 +25,7 @@ describe User, 'allowed to' do
   let(:action) { :the_one }
   let(:other_action) { :another }
   let(:public_action) { :view_project }
-  let(:global_permission) { Redmine::AccessControl.permissions.find { |p| p.global? } }
+  let(:global_permission) { OpenProject::AccessControl.permissions.find { |p| p.global? } }
   let(:global_role) { FactoryBot.build(:global_role, :permissions => [global_permission.name]) }
   let(:principal_role) { FactoryBot.build(:empty_principal_role, principal: user,
                                                                   role: global_role) }

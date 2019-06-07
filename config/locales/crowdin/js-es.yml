@@ -67,7 +67,7 @@ es:
       too_many: Hay más paquetes de trabajo (%{count}) de los que pueden mostrarse
         en en calendario (%{max}). Agregue filtros para centrarse en los relevantes.
     description_available_columns: Columnas disponibles
-    description_current_position: 'You are here: '
+    description_current_position: 'Usted está aquí: '
     description_select_work_package: 'Seleccione el paquete de trabajo #%{id}'
     description_selected_columns: Columnas seleccionadas
     description_subwork_package: 'Hijo del paquete de trabajo #%{id}'
@@ -187,14 +187,16 @@ es:
     homescreen:
       blocks:
         new_features:
-          text_new_features: Read about new features and product updates.
-          current_new_feature_html: 'OpenProject contains a new <b>Boards view</b>
-            for Agile project management. </br> To activate this new feature for your
-            existing projects, please do the following steps: <ul><li>Activate the
-            module Boards within existing projects'' settings.</li> <li>Configure
-            your Boards in a project.</li> <li>Verify roles and permissions</li></ul>'
-          image_alt_text: Board teaser image
-          learn_about: Learn more about Agile Boards
+          text_new_features: Obtenga información sobre nuevas características y actualizaciones
+            de productos.
+          current_new_feature_html: 'OpenProject ahora ofrece la nueva <b>vista Panel</b>
+            para la administración de proyectos ágil. </br> Para activar esta nueva
+            característica para sus proyectos existentes, siga este procedimiento:
+            <ul><li>Active el módulo Paneles en la configuración de los proyectos
+            existentes.</li> <li>Configure los paneles en un proyecto.</li> <li>Verifique
+            los roles y los permisos</li></ul>'
+          image_alt_text: Imagen promocional de los paneles
+          learn_about: Obtenga más información sobre los paneles ágiles
     label_activate: Activar
     label_activity_no: Entrada de actividad número %{activityNo}
     label_activity_with_comment_no: Entrada de actividad número %{activityNo} tiene
@@ -221,7 +223,7 @@ es:
     label_board_locked: Bloqueado
     label_board_plural: Tableros
     label_board_sticky: Adhesivo
-    label_create_new: Crear nuevo
+    label_create: Crear
     label_create_work_package: Crear un nuevo paquete de trabajo
     label_created_by: Creado por
     label_date: Fecha
@@ -431,8 +433,11 @@ es:
       selection: Por favor, elija
       relation_description: Haga clic para añadir la descripción a esta relación
     project:
-      required_outside_context: No está dentro de un contexto de proyecto. Seleccione
-        primero el contexto de proyecto para poder seleccionar un tipo y un estado
+      required_outside_context: 'Seleccione el proyecto donde quiera crear el paquete
+        de trabajo para ver todos los atributos. Solo puede seleccionar proyectos
+        que tengan activado el tipo anterior.
+
+'
       context: Contexto de proyecto
       work_package_belongs_to: Este paquete de trabajo pertenece al proyecto %{projectname}.
       click_to_switch_context: Abra este paquete de trabajo en ese proyecto.
@@ -522,8 +527,8 @@ es:
       save: Guardar relación
       abort: Abandonar
     relations_autocomplete:
-      placeholder: Indique el ID del paquete de trabajo relacionado
-      parent_placeholder: Choose new parent or press escape to cancel.
+      placeholder: Escriba para buscar
+      parent_placeholder: Elija un nuevo padre ó presione escape para cancelar.
     repositories:
       select_tag: Seleccionar etiqueta
       select_branch: Seleccione Sucursal

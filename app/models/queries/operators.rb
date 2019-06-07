@@ -47,7 +47,20 @@ module Queries::Operators
     Queries::Operators::Ago,
     Queries::Operators::OnDate,
     Queries::Operators::BetweenDate,
-    Queries::Operators::Everywhere
+    Queries::Operators::Everywhere,
+    Queries::Operators::Relates,
+    Queries::Operators::Duplicates,
+    Queries::Operators::Duplicated,
+    Queries::Operators::Blocks,
+    Queries::Operators::Blocked,
+    Queries::Operators::Follows,
+    Queries::Operators::Precedes,
+    Queries::Operators::Includes,
+    Queries::Operators::PartOf,
+    Queries::Operators::Requires,
+    Queries::Operators::Required,
+    Queries::Operators::Parent,
+    Queries::Operators::Children
   ]
 
   OPERATORS = Hash[*(operators.map { |o| [o.symbol.to_s, o] }).flatten].freeze

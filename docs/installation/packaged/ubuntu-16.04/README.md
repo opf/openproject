@@ -7,7 +7,7 @@ All steps are prepended with `sudo` to ensure execution as the root user.
 Import the PGP key used to sign our packages. Since we're using the _packager.io_ platform to distribute our packages, both package source and signing key are tied to their service.
 
 ```bash
-wget -qO- https://dl.packager.io/srv/opf/openproject-ce/key | sudo apt-key add -
+wget -qO- https://dl.packager.io/srv/opf/openproject/key | sudo apt-key add -
 ```
 
 **2. Ensure that apt-transport-https is installed**
@@ -17,8 +17,8 @@ Our repository requires apt to have https support. Install this transport method
 **3. Add the OpenProject package source**
 
 ```
-sudo wget -O /etc/apt/sources.list.d/openproject-ce.list \
-  https://dl.packager.io/srv/opf/openproject-ce/stable/8/installer/ubuntu/16.04.repo
+sudo wget -O /etc/apt/sources.list.d/openproject.list \
+  https://dl.packager.io/srv/opf/openproject/stable/9/installer/ubuntu/16.04.repo
 ```
 
 

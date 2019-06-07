@@ -69,6 +69,10 @@ module OpenProject::Meeting
 
     patch_with_namespace :OpenProject, :TextFormatting, :Formats, :Markdown, :TextileConverter
 
+    add_api_endpoint 'API::V3::Root' do
+      mount ::API::V3::Meetings::MeetingContentsAPI
+    end
+
     initializer 'meeting.precompile_assets' do
       Rails.application.config.assets.precompile += %w(meeting/meeting.css meeting/meeting.js)
     end
@@ -90,6 +94,30 @@ module OpenProject::Meeting
       require_dependency 'meeting_participant'
 
       PermittedParams.permit(:search, :meetings)
+    end
+
+    add_api_path :meeting_content do |id|
+      "#{root}/meeting_contents/#{id}"
+    end
+
+    add_api_path :meeting_agenda do |id|
+      meeting_content(id)
+    end
+
+    add_api_path :meeting_minutes do |id|
+      meeting_content(id)
+    end
+
+    add_api_path :attachments_by_meeting_content do |id|
+      "#{meeting_content(id)}/attachments"
+    end
+
+    add_api_path :attachments_by_meeting_agenda do |id|
+      attachments_by_meeting_content id
+    end
+
+    add_api_path :attachments_by_meeting_minutes do |id|
+      attachments_by_meeting_content id
     end
   end
 end

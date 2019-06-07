@@ -1,6 +1,7 @@
-# OpenProject 7.x to OpenProject 8.x Debian/Ubuntu Upgrade Guide (Manual installation)
+# OpenProject 8.x to OpenProject 9.x Debian/Ubuntu Upgrade Guide (Manual installation)
 
-OpenProject 8.x is being released under the branch `stable/8`. Follow the following steps to perform the upgrade:
+OpenProject 9.x is being released at https://github.com/opf/openproject under the branch `stable/9`.
+Follow the following steps to perform the upgrade:
 
 First, perform a backup for your current environment
 
@@ -10,14 +11,27 @@ First, perform a backup for your current environment
 # Backup will be created under backup/
 ```
 
-Then, check out the stable version of OpenProject 8.0.
+Depending on from what version you're upgrading, you may need to add the correct remote
+Then, check out the stable version of OpenProject 9.x.
 
 ```bash
 [openproject@debian]# cd /home/openproject/openproject
-[openproject@debian]# git fetch && git checkout stable/8
+[openproject@debian]# git remote -v | grep openproject-ce
 ```
 
-After upgrading the installation files, you need to migrate the installation to OpenProject 8.0 with the following steps:
+If this returns anything, update the remote to the correct URL.
+
+```bash
+[openproject@debian]# git remote set-url origin https://github.com/opf/openproject.git
+```
+
+Then, refresh that origin and checkout the stable/9 branch.
+
+```bash
+[openproject@debian]# git fetch && git checkout stable/9
+```
+
+After upgrading the installation files, you need to migrate the installation to OpenProject 9.0 with the following steps:
 
 ```bash
 [openproject@debian]# cd /home/openproject/openproject
@@ -28,10 +42,28 @@ After upgrading the installation files, you need to migrate the installation to 
 [openproject@debian]# touch tmp/restart.txt
 ```
 
-After performing these steps, the server should be running OpenProject 8.0.x.
+After performing these steps, the server should be running OpenProject 9.0.x.
 
 
 ## Upgrade notes
+
+These following points are some known issues around the update to 9.0.
+It does not contain the entire list of changes.
+
+To see all changes, [please browse the release notes](https://www.openproject.org/release-notes/openproject-9-0-0/).
+
+### MySQL is being deprecated
+
+OpenProject 9.0. is deprecating MySQL support. You can expect full MySQL support for the course of 9.0 releases, but we
+are likely going to be dropping MySQL completely in one of the following releases.
+
+For more information regarding motivation behind this and migration steps, please see https://www.openproject.org/deprecating-mysql-support/
+In this post, you will find documentation for a mostly-automated migration script to PostgreSQL to help you get up and running with PostgreSQL.
+
+# OpenProject 7.x to OpenProject 8.x Debian/Ubuntu Upgrade Guide (Manual installation)
+
+OpenProject 8.x is being released at https://github.com/opf/openproject-ce using the branch `stable/8`.
+Follow the following steps to perform the upgrade:
 
 These following points are some known issues around the update to 8.0. It does not contain the entire list of changes. To see all changes, [please browse the release notes](https://www.openproject.org/release-notes/openproject-8-0/).
 

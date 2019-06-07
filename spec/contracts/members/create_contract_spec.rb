@@ -38,5 +38,39 @@ describe Members::CreateContract do
     end
 
     subject(:contract) { described_class.new(member, current_user) }
+
+    describe '#validation' do
+      context 'if the principal is nil' do
+        let(:member_principal) { nil }
+
+        it 'is invalid' do
+          expect_valid(false, principal: %i(blank))
+        end
+      end
+
+      context 'if the project is nil' do
+        let(:member_project) { nil }
+
+        it 'is invalid' do
+          expect_valid(false, project: %i(blank))
+        end
+      end
+
+      context 'if the principal is a builtin user' do
+        let(:member_principal) { FactoryBot.build_stubbed(:anonymous) }
+
+        it 'is invalid' do
+          expect_valid(false, principal: %i(unassignable))
+        end
+      end
+
+      context 'if the principal is a locked user' do
+        let(:member_principal) { FactoryBot.build_stubbed(:locked_user) }
+
+        it 'is invalid' do
+          expect_valid(false, principal: %i(unassignable))
+        end
+      end
+    end
   end
 end

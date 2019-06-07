@@ -588,14 +588,6 @@ describe ::Query::Results, type: :model do
     end
   end
 
-  # Introduced to ensure being able to group by custom fields
-  # when running on a MySQL server.
-  # When upgrading to rails 5, the sql_mode passed on with the connection
-  # does include the "only_full_group_by" flag by default which causes our queries to become
-  # invalid because (mysql error):
-  # "SELECT list is not in GROUP BY clause and contains nonaggregated column
-  # 'config_myproject_test.work_packages.id' which is not functionally
-  # dependent on columns in GROUP BY clause"
   context 'when grouping by custom field' do
     let!(:custom_field) do
       FactoryBot.create(:int_wp_custom_field, is_for_all: true, is_filter: true)

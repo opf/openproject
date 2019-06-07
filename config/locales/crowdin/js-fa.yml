@@ -217,7 +217,7 @@ fa:
     label_board_locked: Locked
     label_board_plural: Boards
     label_board_sticky: Sticky
-    label_create_new: Create new
+    label_create: ایجاد
     label_create_work_package: Create new work package
     label_created_by: Created by
     label_date: تاریخ
@@ -422,8 +422,11 @@ fa:
       selection: لطفا انتخاب کنید
       relation_description: Click to add description for this relation
     project:
-      required_outside_context: شما در زمینه پروژه نیستید. لطفا اول زمینه پروژه را
-        انتخاب کنید سپس نوع و موضوع را انتخاب کنید
+      required_outside_context: 'Please choose a project to create the work package
+        in to see all attributes. You can only select projects which have the type
+        above activated.
+
+'
       context: زمینه پروژه
       work_package_belongs_to: این بسته کاری به %{projectname} پروژه تعلق دارد.
       click_to_switch_context: این بسته کاری را در آن پروژه باز کنید.
@@ -513,7 +516,7 @@ fa:
       save: Save relation
       abort: Abort
     relations_autocomplete:
-      placeholder: Enter the related work package id
+      placeholder: Type to search
       parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: Select tag

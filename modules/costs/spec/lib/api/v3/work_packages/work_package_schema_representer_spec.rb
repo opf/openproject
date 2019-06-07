@@ -30,23 +30,35 @@ require 'spec_helper'
 
 describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:custom_field) { FactoryBot.build(:custom_field) }
-  let(:work_package) { FactoryBot.build(:work_package) }
-  let(:current_user) {
-    FactoryBot.build(:user, member_in_project: work_package.project)
-  }
-  let(:schema) {
+  let(:work_package) { FactoryBot.build_stubbed(:stubbed_work_package) }
+  let(:current_user) do
+    FactoryBot.build_stubbed(:user).tap do |u|
+      allow(u)
+        .to receive(:allowed_to?)
+        .and_return(false)
+      allow(u)
+        .to receive(:allowed_to?)
+        .with(:edit_work_packages, work_package.project, global: false)
+        .and_return(true)
+    end
+  end
+  let(:schema) do
     ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package: work_package)
-  }
+  end
   let(:embedded) { false }
-  let(:representer) {
+  let(:representer) do
     described_class.create(schema,
                            nil,
                            form_embedded: embedded,
                            current_user: current_user)
-  }
+  end
   let(:project) { work_package.project }
 
   subject { representer.to_json }
+
+  before do
+    login_as(current_user)
+  end
 
   shared_examples_for 'has a collection of allowed values' do
     let(:embedded) { true }

@@ -30,6 +30,17 @@ module Members
   class CreateContract < BaseContract
     attribute :project
     attribute :user_id
-    attribute :principal
+    attribute :principal do
+      principal_assignable
+    end
+
+    private
+
+    def principal_assignable
+      if principal &&
+         [Principal::STATUSES[:builtin], Principal::STATUSES[:locked]].include?(principal.status)
+        errors.add(:principal, :unassignable)
+      end
+    end
   end
 end

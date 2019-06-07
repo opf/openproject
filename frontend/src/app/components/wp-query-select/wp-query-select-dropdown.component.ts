@@ -73,8 +73,8 @@ interface IQueryAutocompleteJQuery extends JQuery {
   templateUrl: './wp-query-select.template.html',
 })
 export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestroy {
-  @ViewChild('wpQueryMenuSearchInput') _wpQueryMenuSearchInput:ElementRef;
-  @ViewChild('queryResultsContainer') _queryResultsContainerElement:ElementRef;
+  @ViewChild('wpQueryMenuSearchInput', { static: true }) _wpQueryMenuSearchInput:ElementRef;
+  @ViewChild('queryResultsContainer', { static: true }) _queryResultsContainerElement:ElementRef;
 
   public loading = false;
   public noResults = false;

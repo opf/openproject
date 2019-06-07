@@ -33,7 +33,7 @@ Given /^the [Uu]ser "([^\"]*)" is a "([^\"]*)" (?:in|of) the [Pp]roject "([^\"]*
   p = Project.find_by(name: project) || Project.find_by(identifier: project)
   as_admin do
     Member.new.tap do |m|
-      m.user = u
+      m.principal = u
       m.roles << r
       m.project = p
     end.save!
@@ -58,7 +58,7 @@ Given /^the [rR]ole "([^\"]*)" may have the following [rR]ights:$/ do |role, tab
   r = Role.find_by(name: role)
   raise "No such role was defined: #{role}" unless r
   as_admin do
-    available_perms = Redmine::AccessControl.permissions.map(&:name)
+    available_perms = OpenProject::AccessControl.permissions.map(&:name)
     r.permissions = []
 
     table.raw.each do |_perm|

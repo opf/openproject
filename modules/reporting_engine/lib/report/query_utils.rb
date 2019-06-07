@@ -189,11 +189,6 @@ module Report::QueryUtils
     }.join(', ')}\n\t\tELSE #{field_name_for else_part}\n\tEND"
   end
 
-  def iso_year_week(field, default_table = nil)
-    field = field_name_for(field, default_table)
-    "-- code specific for #{adapter_name}\n\t" << super(field)
-  end
-
   ##
   # Converts value with a given behavior, but treats nil differently.
   # Params
@@ -248,84 +243,18 @@ module Report::QueryUtils
     second.size > first.size ? -1 : 0
   end
 
-  def mysql?
-    [:mysql, :mysql2].include? adapter_name.to_s.downcase.to_sym
+  def typed(type, value, escape = true)
+    safe_value = escape ? "'#{quote_string value}'" : value
+    "#{safe_value}::#{type}"
   end
 
-  def sqlite?
-    adapter_name == :sqlite
+  def iso_year_week(field, default_table = nil)
+    field_name = field_name_for(field, default_table)
+
+    "(EXTRACT(isoyear from #{field_name})*100 + \n\t\t" \
+    "EXTRACT(week from #{field_name} - \n\t\t" \
+    "(EXTRACT(dow FROM #{field_name})::int+6)%7))"
   end
-
-  def postgresql?
-    adapter_name == :postgresql
-  end
-
-  module SQL
-    def typed(_type, value, escape = true)
-      escape ? "'#{quote_string value}'" : value
-    end
-  end
-
-  module MySql
-    include SQL
-    def iso_year_week(field)
-      "yearweek(#{field}, 1)"
-    end
-  end
-
-  module Sqlite
-    include SQL
-    def iso_year_week(field)
-      # enjoy
-      <<-EOS
-        case
-        when strftime('%W', strftime('%Y-01-04', #{field})) = '00' then
-          -- 01/01 is in week 1 of the current year => %W == week - 1
-          case
-          when strftime('%W', #{field}) = '52' and strftime('%W', (strftime('%Y', #{field}) + 1) || '-01-04') = '00' then
-            -- we are at the end of the year, and it's the first week of the next year
-            (strftime('%Y', #{field}) + 1) || '01'
-          when strftime('%W', #{field}) < '08' then
-            -- we are in week 1 to 9
-            strftime('%Y0', #{field}) || (strftime('%W', #{field}) + 1)
-          else
-            -- we are in week 10 or later
-            strftime('%Y', #{field}) || (strftime('%W', #{field}) + 1)
-          end
-        else
-            -- 01/01 is in week 53 of the last year
-            case
-            when strftime('%W', #{field}) = '52' and strftime('%W', (strftime('%Y', #{field}) + 1) || '-01-01') = '00' then
-              -- we are at the end of the year, and it's the first week of the next year
-              (strftime('%Y', #{field}) + 1) || '01'
-            when strftime('%W', #{field}) = '00' then
-              -- we are in the week belonging to last year
-              (strftime('%Y', #{field}) - 1) || '53'
-            else
-              -- everything is fine
-              strftime('%Y%W', #{field})
-            end
-        end
-      EOS
-    end
-  end
-
-  module Postres
-    include SQL
-    def typed(type, value, escape = true)
-      "#{super}::#{type}"
-    end
-
-    def iso_year_week(field)
-      "(EXTRACT(isoyear from #{field})*100 + \n\t\t" \
-      "EXTRACT(week from #{field} - \n\t\t" \
-      "(EXTRACT(dow FROM #{field})::int+6)%7))"
-    end
-  end
-
-  include MySql if mysql?
-  include Sqlite if sqlite?
-  include Postres if postgresql?
 
   def self.cache
     @cache ||= Hash.new { |h, k| h[k] = {} }

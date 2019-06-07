@@ -2,7 +2,7 @@
 
 OpenProject plugins come under the form of Ruby gems. The packaged and docker
 based installation come with default plugins installed (the ones found in the
-[Community Edition of OpenProject](https://github.com/opf/openproject-ce)).
+[Community Edition of OpenProject](https://github.com/opf/openproject)).
 
 For a manual installation, you can choose to install a different set of plugins
 by following the instructions below.
@@ -23,7 +23,7 @@ If you have modified the `Gemfile.plugins` file, always repeat the following
 steps of the OpenProject installation:
 
 ```bash
-[openproject@debian]# cd ~/openproject-ce
+[openproject@debian]# cd ~/openproject
 [openproject@debian]# bundle install
 [openproject@debian]# npm install
 [openproject@debian]# RAILS_ENV="production" bundle exec rake db:migrate db:seed assets:precompile
@@ -32,7 +32,7 @@ steps of the OpenProject installation:
 Restart the OpenProject server afterwards (no need to restart Apache(:
 
 ```bash
-[openproject@debian]# touch ~/openproject-ce/tmp/restart.txt
+[openproject@debian]# touch ~/openproject/tmp/restart.txt
 ```
 
 The next request to the server will take longer (as the application is

@@ -55,6 +55,7 @@ Feature: Scrum Master
         | view_work_packages      |
         | edit_work_packages      |
         | manage_subtasks         |
+        | assign_versions         |
     And the backlogs module is initialized
     And the following types are configured to track stories:
         | Story |

@@ -97,6 +97,9 @@ zh-TW:
   concatenation:
     single: 或者
   deprecations:
+    time_entries: This time entries view is superseded by the 'Cost reports' module.
+      This view now only supports exporting time entry information to csv. For interactive
+      filtering, please activate the 'Cost reports' module in the project settings.
     old_timeline:
       replacement: 此時間軸模組正在被嵌入在工作項目模組的互動式時間軸所取代。
       removal: 此模組將在 OpenProject 8.0 被移除。此頁面的設定項目將不會被遷移到工作項目頁面。
@@ -543,6 +546,10 @@ zh-TW:
           invalid_url: 是一個無效的儲存庫 Url 或路徑
           must_not_be_ssh: 不可以是一個 SSH url
           no_directory: 不是一個資料夾
+        role:
+          permissions:
+            dependency_missing: need to also include '%{dependency}' as '%{permission}'
+              is selected.
         work_package:
           is_not_a_valid_target_for_time_entries: '工作項目 #%{id} 不是重新分配時間項目有效的目標'
           attributes:
@@ -778,6 +785,7 @@ zh-TW:
     started: 開始複製專案從「%{source_project_name}」到 「%{target_project_name}」。當「%{target_project_name}」
       可以使用以後，我們會盡快用郵件通知您。
     failed: 無法複製專案 %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: 專案 %{target_project_name} 建立成功
     errors: 錯誤
     project_custom_fields: 專案上的自訂欄位
@@ -1829,6 +1837,7 @@ zh-TW:
   permission_add_project: 建立專案
   permission_add_subprojects: 建立子專案
   permission_add_work_package_watchers: 新增監看者
+  permission_assign_versions: Assign versions
   permission_browse_repository: 唯讀版本庫 (瀏覽和 Checkout)
   permission_change_wiki_parent_page: 更改上層 Wiki 頁面
   permission_comment_news: 對新聞發表評論
@@ -2531,13 +2540,6 @@ zh-TW:
 '
   menu_item: 選單項目
   menu_item_setting: 可見度
-  mysql_deprecation:
-    notice: 'Future versions of OpenProject will likely drop or reduce support for
-      MySQL and MariaDB databases. Your installation is still running on MySQL and
-      we suggest you migrate your installation to PostgreSQL. This process is easy
-      when following our migration guides:
-
-'
   wiki_menu_item_for: Wikipage "%{title}" 的功能表項目
   wiki_menu_item_setting: 可見度
   wiki_menu_item_new_main_item_explanation: '您正在刪除 wiki 唯一的主功能表項目。現在, 您必須選擇一個 wiki
@@ -2585,6 +2587,8 @@ zh-TW:
       multipart_body_error: 請求正文不包含預期的多段部分。
       multiple_errors: 已違反多個欄位約束。
       unable_to_create_attachment: 無法創建附件
+      unable_to_create_attachment_permissions: The attachment could not be saved due
+        to lacking file system permissions
       render:
         context_not_parsable: 提供的對應文不是指向資源的連結。
         unsupported_context: 所提供的資源不受相對應支援。
@@ -2695,3 +2699,10 @@ zh-TW:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'

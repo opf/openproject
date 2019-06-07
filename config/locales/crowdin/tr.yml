@@ -111,6 +111,9 @@ tr:
   concatenation:
     single: ya da
   deprecations:
+    time_entries: This time entries view is superseded by the 'Cost reports' module.
+      This view now only supports exporting time entry information to csv. For interactive
+      filtering, please activate the 'Cost reports' module in the project settings.
     old_timeline:
       replacement: Bu zaman akışı modülü iş paketleri modülüyle birleşik etkileşimli
         zaman akışı modülüyle değiştirilecektir.
@@ -598,6 +601,10 @@ tr:
           invalid_url: geçerli bir depo URL veya yol değil.
           must_not_be_ssh: bir SSH url olmamalı.
           no_directory: bir dizin değil.
+        role:
+          permissions:
+            dependency_missing: "'%'%{dependency}' seçili olduğundan,'%{permission}'
+              \ ı da eklemeniz gerekir."
         work_package:
           is_not_a_valid_target_for_time_entries: 'İş paketi #%{id} zaman girdilerini
             yeniden atama için geçerli bir hedef değil.'
@@ -658,12 +665,12 @@ tr:
               error_not_found: bulunamadı
         member:
           principal_blank: Lütfen en az bir kullanıcı veya grup seçin.
-          role_blank: need to be assigned.
+          role_blank: atanması gerek.
           attributes:
             roles:
-              ungrantable: has an unassignable role.
+              ungrantable: atanamaz bir rolü var.
             principal:
-              unassignable: cannot be assigned to a project.
+              unassignable: bir projeye atanamaz.
         version:
           undeletable_work_packages_attached: Eklenmiş iş paketleri olduğu için sürüm
             silinemez.
@@ -849,6 +856,7 @@ tr:
       bir projeye kopyalanmaya başladı. "%{target_project_name}" projesi hazır olduğunda
       e-posta ile bilgilendirileceksiniz.'
     failed: "%{source_project_name} project kopyalanamadı"
+    failed_internal: Copying failed due to an internal error.
     succeeded: "%{target_project_name} project oluşturuldu"
     errors: Hata
     project_custom_fields: Projedeki özel alanlar
@@ -1017,7 +1025,7 @@ tr:
   description_choose_project: Projeler
   description_compare_from: Karşılaştır (kaynak)
   description_compare_to: Karşılaştır (hedef)
-  description_current_position: 'You are here: '
+  description_current_position: 'Buradasınız:'
   description_date_from: Başlangıç tarihini girin
   description_date_range_interval: Başlangıç ​​ve bitiş tarihini seçerek aralık seçin
   description_date_range_list: Listeden tarih aralığını seçin
@@ -1487,7 +1495,7 @@ tr:
   label_my_queries: Özel sorgularım
   label_never: Hiçbir zaman
   label_new: Yeni
-  label_new_features: New features
+  label_new_features: Yeni özellikler
   label_new_statuses_allowed: İzin verilen yeni durumlar
   label_news_added: Haberler eklendi
   label_news_comment_added: Yorum bir haberlere eklendi
@@ -1962,6 +1970,7 @@ tr:
   permission_add_project: Proje oluşturmak
   permission_add_subprojects: Alt proje oluşturmak
   permission_add_work_package_watchers: Takipçi ekle
+  permission_assign_versions: Sürüm ata
   permission_browse_repository: Depoya salt okunur erişim (göz atma ve ödeme)
   permission_change_wiki_parent_page: Üst Wiki sayfasını değiştirmek
   permission_comment_news: Haberlere yorum yazmak
@@ -2777,13 +2786,6 @@ tr:
 '
   menu_item: Menü seçeneği
   menu_item_setting: Görünürlük
-  mysql_deprecation:
-    notice: 'OpenProject''in gelecekteki sürümleri MySQL ve MariaDB veritabanları
-      için desteği büyük olasılıkla düşürecek veya azaltacaktır. Kurulumunuz hala
-      MySQL''de çalışıyor ve kurulumunuzu PostgreSQL''e geçirmenizi öneririz. Geçiş
-      rehberlerimizi takip ederken bu işlem kolaydır:
-
-'
   wiki_menu_item_for: Wikipage için menü öğesi " %{title} "
   wiki_menu_item_setting: Görünürlük
   wiki_menu_item_new_main_item_explanation: 'Sadece ana wiki menü öğesini silmektesiniz.
@@ -2834,6 +2836,10 @@ tr:
       multipart_body_error: İstek gövdesi, beklenen çok parçalı parçaları içeriyordu.
       multiple_errors: Çoklu alan kısıtlamaları ihlal edilmiştir.
       unable_to_create_attachment: Ek oluşturulamadı
+      unable_to_create_attachment_permissions: 'Dosya sistemi izinlerinin eksik olması
+        nedeniyle ek kaydedilemedi
+
+'
       render:
         context_not_parsable: Sağlanan bağlam, bir kaynağa bağ değildir.
         unsupported_context: Verilen kaynak bağlam olarak desteklenmiyor.
@@ -2963,3 +2969,10 @@ tr:
     revoke_my_application_confirmation: Bu uygulamayı gerçekten kaldırmak istiyor
       musunuz? Bu, %{token_count} aktif olanını iptal edecektir.
     my_registered_applications: OAuth uygulamalarını kayıtedin
+  mysql_deprecation:
+    notice: 'OpenProject''in gelecekteki sürümleri MySQL ve MariaDB veritabanları
+      için desteği büyük olasılıkla düşürecek veya azaltacaktır. Kurulumunuz hala
+      MySQL''de çalışıyor ve kurulumunuzu PostgreSQL''e geçirmenizi öneririz. Geçiş
+      rehberlerimizi takip ederken bu işlem kolaydır:
+
+'

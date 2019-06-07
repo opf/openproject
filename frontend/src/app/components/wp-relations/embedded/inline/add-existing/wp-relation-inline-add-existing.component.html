@@ -1,14 +1,15 @@
 <div class="loading-indicator--location"
      data-indicator-name="relationAddChild">
-  <div class="v-align wp-relations-create--form wp-relations--add-form">
-    <div class="grid-content medium-10">
+  <div class="wp-relations-create--form wp-relations--add-form">
+    <div class="wp-relations-input-section">
       <wp-relations-autocomplete
           [workPackage]="workPackage"
           (onReferenced)="onReferenced($event)"
+          [additionalFilters]="queryFilters"
           [filterCandidatesFor]="relationType">
       </wp-relations-autocomplete>
     </div>
-    <div class="grid-content medium-2 collapse wp-relations-controls-section relation-row">
+    <div class="wp-relations-controls-section relation-row">
       <accessible-by-keyboard
           linkClass="wp-create-relation--save"
           [isDisabled]="isDisabled"

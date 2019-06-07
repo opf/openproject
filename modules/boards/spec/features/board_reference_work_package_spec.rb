@@ -45,13 +45,14 @@ describe 'Board reference work package spec', type: :feature, js: true do
 
   let(:permissions) do
     %i[
-        show_board_views
-        manage_board_views
-        add_work_packages
-        view_work_packages
-        edit_work_packages
-        manage_public_queries
-      ]
+      show_board_views
+      manage_board_views
+      add_work_packages
+      view_work_packages
+      edit_work_packages
+      manage_public_queries
+      assign_versions
+    ]
   end
   let(:board_view) { FactoryBot.create :board_grid_with_query, project: project }
 

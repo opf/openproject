@@ -50,7 +50,7 @@ $menu-item-line-height: 30px
     +allow-vertical-scrolling
     height: calc(100vh - #{$header-height})
     position: relative
-    @include styled-scroll-bar-vertical
+    @include styled-scroll-bar
 
     // Fixed heights to allow inner scrolling
     .menu_root.closed,
@@ -67,7 +67,7 @@ $menu-item-line-height: 30px
     .main-menu--children
       height: calc(100% - (#{$main-menu-item-height} + 10px)) // 10px spacing
       overflow: auto
-      @include styled-scroll-bar-vertical
+      @include styled-scroll-bar
 
   ul
     margin: 0
@@ -318,7 +318,7 @@ a.main-menu--parent-node
   padding-left: 7px
   padding-right: 7px
 
-  @include styled-scroll-bar-vertical
+  @include styled-scroll-bar
 
 .main-menu--segment-header
   @include varprop(color, main-menu-fieldset-header-color)

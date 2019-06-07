@@ -112,6 +112,9 @@ fr:
   concatenation:
     single: ou
   deprecations:
+    time_entries: This time entries view is superseded by the 'Cost reports' module.
+      This view now only supports exporting time entry information to csv. For interactive
+      filtering, please activate the 'Cost reports' module in the project settings.
     old_timeline:
       replacement: Ce module ligne du temps sera remplacé par une ligne du temps interactive
         dans le module lot de travaux.
@@ -434,7 +437,7 @@ fr:
         spent_on: Date
         type: Type
       type:
-        description: Default text for description
+        description: Texte par défaut pour la description
         attribute_groups: ''
         is_in_roadmap: Affiché par défaut dans la feuille de route
         is_default: Activé par défaut pour les nouveaux projets
@@ -617,6 +620,10 @@ fr:
           invalid_url: n'est pas une URL ou un chemin de dépôt valide.
           must_not_be_ssh: ne doit pas être une url SSH.
           no_directory: n'est pas un répertoire.
+        role:
+          permissions:
+            dependency_missing: doit également inclure '%{dependency}' car'%{permission}'
+              est sélectionné.
         work_package:
           is_not_a_valid_target_for_time_entries: 'Le lot de travaux #%{id} n''est
             pas une cible valide pour réaffecter les entrées de temps.'
@@ -652,7 +659,7 @@ fr:
           attributes:
             attribute_groups:
               attribute_unknown: Attribut du lot de travaux invalide utilisé.
-              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              attribute_unknown_name: 'Attribut du lot de travaux invalide : %{attribute}'
               duplicate_group: Le nom de groupe "%{group}" est utilisé plus d’une
                 fois. Les noms de groupe doivent être uniques.
               query_invalid: 'La requête intégrée "%{group}" est invalide : %{details}'
@@ -681,15 +688,15 @@ fr:
               error_not_found: non trouvé
         member:
           principal_blank: Veuillez choisir au moins un utilisateur ou un groupe.
-          role_blank: need to be assigned.
+          role_blank: doit être assigné.
           attributes:
             roles:
-              ungrantable: has an unassignable role.
+              ungrantable: a un rôle ne pouvant pas être assigné.
             principal:
-              unassignable: cannot be assigned to a project.
+              unassignable: ne peut pas être assigné à un projet.
         version:
-          undeletable_work_packages_attached: The version cannot be deleted as it
-            has work packages attached to it.
+          undeletable_work_packages_attached: La version ne peut pas être supprimée
+            car des lots de travaux y sont attachés.
       template:
         body: 'Veuillez vérifier les champs suivants :'
         header:
@@ -874,6 +881,7 @@ fr:
       a débuté. Vous serez informé par courriel dès que "%{target_project_name}" sera
       disponible.
     failed: Impossible de copier le projet %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: Projet %{target_project_name} créé
     errors: Erreur
     project_custom_fields: Champs personnalisés du projet
@@ -1041,7 +1049,7 @@ fr:
   description_choose_project: Projets
   description_compare_from: Comparer avec
   description_compare_to: Comparer avec
-  description_current_position: 'You are here: '
+  description_current_position: 'Vous êtes ici :'
   description_date_from: Saisir date de début
   description_date_range_interval: Choisir la période en sélectionnant la date de
     début et de fin
@@ -1103,8 +1111,8 @@ fr:
     d'utilisateurs atteinte). Veuillez contacter votre administrateur pour obtenir
     l'accès.
   error_failed_to_delete_entry: Échec lors de la suppression de cette entrée.
-  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
-    #%{related_id} - %{related_subject}: %{error}'
+  error_in_dependent: 'Erreur lors de la tentative de modification de l''objet dépendant
+    : %{dependent_class} #%{related_id} - %{related_subject} : %{error}'
   error_invalid_selected_value: Valeur sélectionnée invalide.
   error_invalid_group_by: 'Impossible de grouper par : %{value}'
   error_invalid_query_column: 'Colonne de requête invalide : %{value}'
@@ -1493,7 +1501,7 @@ fr:
   label_max_size: Taille maximale
   label_me: moi
   label_member_new: Nouveau membre
-  label_member_all_admin: "(All roles due to admin status)"
+  label_member_all_admin: "(Tous les rôles en raison du statut d'administrateur)"
   label_member_plural: Membres
   label_view_all_members: Afficher tous les membres
   label_menu_item_name: Nom de l'élément du menu
@@ -1522,7 +1530,7 @@ fr:
   label_my_queries: Mes requêtes personnalisées
   label_never: Jamais
   label_new: Nouveau
-  label_new_features: New features
+  label_new_features: Nouvelles fonctionnalités
   label_new_statuses_allowed: Nouveaux statuts autorisés
   label_news_added: Actualités ajoutées
   label_news_comment_added: Commentaire ajouté à une actualité
@@ -2014,6 +2022,7 @@ fr:
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets
   permission_add_work_package_watchers: Ajouter des observateurs
+  permission_assign_versions: Assigner les versions
   permission_browse_repository: Accès au dépôt en lecture seule (navigation et « checkout
     »)
   permission_change_wiki_parent_page: Changer la page wiki parent
@@ -2856,14 +2865,6 @@ fr:
 '
   menu_item: Éléments de menu
   menu_item_setting: Visibilité
-  mysql_deprecation:
-    notice: 'Les futures versions d''OpenProject vont probablement abandonner ou réduire
-      le support des bases de données MySQL et MariaDB. Votre installation est toujours
-      exécutée sur MySQL et nous vous conseillons de migrer votre installation vers
-      PostgreSQL. Ce processus est facile lorsque vous suivez nos guides de migration
-      :
-
-'
   wiki_menu_item_for: Élément de menu pour wikipage « %{title} »
   wiki_menu_item_setting: Visibilité
   wiki_menu_item_new_main_item_explanation: 'Vous êtes en train de supprimer l''élement
@@ -2888,7 +2889,7 @@ fr:
     attributes:
       lock_version: Version Lock
     errors:
-      code_400: 'Bad request: %{message}'
+      code_400: 'Mauvaise requête : %{message}'
       code_401: Vous devez être authentifié pour accéder à cette ressource.
       code_401_wrong_credentials: Vous n'avez pas fourni les informations d'identification
         correctes.
@@ -2919,6 +2920,8 @@ fr:
         attendus.
       multiple_errors: Plusieurs contraintes de champ n'ont pas été respectées.
       unable_to_create_attachment: La pièce jointe n’a pas pu être créée
+      unable_to_create_attachment_permissions: La pièce jointe n'a pas pu être enregistrée
+        en raison de l'absence de permissions du système de fichiers
       render:
         context_not_parsable: Le contexte fourni n'est pas un lien vers une ressource.
         unsupported_context: La ressource donnée n'est pas prise en charge comme contexte.
@@ -3065,3 +3068,11 @@ fr:
     revoke_my_application_confirmation: Voulez-vous vraiment supprimer cette application
       ? Ceci va révoquer %{token_count} actif pour elle.
     my_registered_applications: Applications OAuth enregistrées
+  mysql_deprecation:
+    notice: 'Les futures versions d''OpenProject vont probablement abandonner ou réduire
+      le support des bases de données MySQL et MariaDB. Votre installation est toujours
+      exécutée sur MySQL et nous vous conseillons de migrer votre installation vers
+      PostgreSQL. Ce processus est facile lorsque vous suivez nos guides de migration
+      :
+
+'

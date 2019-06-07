@@ -52,13 +52,13 @@ describe 'Version action board', type: :feature, js: true do
   let(:second_project) { FactoryBot.create(:project) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
-  let(:permissions) {
+  let(:permissions) do
     %i[show_board_views manage_board_views add_work_packages manage_versions
-       edit_work_packages view_work_packages manage_public_queries]
-  }
-  let(:permissions_board_manager) {
+       edit_work_packages view_work_packages manage_public_queries assign_versions]
+  end
+  let(:permissions_board_manager) do
     %i[show_board_views manage_board_views view_work_packages manage_public_queries]
-  }
+  end
 
   let!(:open_version) { FactoryBot.create :version, project: project, name: 'Open version' }
   let!(:other_version) { FactoryBot.create :version, project: project, name: 'A second version' }
@@ -263,6 +263,35 @@ describe 'Version action board', type: :feature, js: true do
       board_page.expect_card('Open version', 'Closed', present: true)
       board_page.expect_card('Closed version', 'Closed', present: false)
       board_page.expect_card('Closed version', 'Foo', present: false)
+    end
+  end
+
+  context 'a user with edit_work_packages, but missing assign_versions permissions' do
+    let(:no_version_edit_user) do
+      FactoryBot.create(:user,
+                        member_in_projects: [project],
+                        member_through_role: no_version_edit_role)
+    end
+    let(:no_version_edit_role) { FactoryBot.create(:role, permissions: no_version_edit_permissions) }
+    let(:no_version_edit_permissions) do
+      %i[show_board_views manage_board_views add_work_packages manage_versions
+       edit_work_packages view_work_packages manage_public_queries]
+    end
+
+    it 'can not move cards or add cards' do
+      # Create version board first
+      login_as user
+      board_page = create_new_version_board
+
+      # Login in with restricted user
+      login_as no_version_edit_user
+
+      # Reload the page
+      board_page.visit!
+      board_page.expect_editable_board(true)
+      board_page.expect_editable_list(false)
+
+      expect(page).to have_no_selector('.wp-card.-draggable')
     end
   end
 

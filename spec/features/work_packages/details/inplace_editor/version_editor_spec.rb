@@ -9,33 +9,41 @@ describe 'subject inplace editor', js: true, selenium: true do
   let(:subproject1) { FactoryBot.create :project_with_types, name: 'Child', parent: project }
   let(:subproject2) { FactoryBot.create :project_with_types, name: 'Aunt', parent: project }
 
-  let!(:version) {
+  let!(:version) do
     FactoryBot.create(:version,
                       status: 'open',
                       sharing: 'tree',
                       project: project)
-  }
-  let!(:version2) {
+  end
+  let!(:version2) do
     FactoryBot.create(:version,
                       status: 'open',
                       sharing: 'tree',
                       project: subproject1)
-  }
-  let!(:version3) {
+  end
+  let!(:version3) do
     FactoryBot.create(:version,
                       status: 'open',
                       sharing: 'tree',
                       project: subproject2)
-  }
+  end
 
   let(:property_name) { :version }
   let(:work_package) { FactoryBot.create :work_package, project: project }
-  let(:user) { FactoryBot.create :admin }
-  let(:second_user) { FactoryBot.create :user, member_in_project: project, member_through_role: role }
-  let(:role) { FactoryBot.create(:role, permissions: %i[view_work_packages edit_work_packages]) }
+  let(:user) do
+    FactoryBot.create :user,
+                      member_in_project: project,
+                      member_with_permissions: %i[view_work_packages edit_work_packages manage_versions assign_versions]
+  end
+  let(:second_user) do
+    FactoryBot.create :user,
+                      member_in_project: project,
+                      member_with_permissions: %i[view_work_packages edit_work_packages assign_versions]
+  end
+  let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
   let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
 
-  context 'with admin permissions' do
+  context 'with manage permissions' do
     before do
       login_as(user)
     end
@@ -84,7 +92,7 @@ describe 'subject inplace editor', js: true, selenium: true do
       field.activate!
 
       field.input_element.find('input').set 'Version that does not exist'
-      expect(page).not_to have_selector('.ng-option', text: 'Create new: Version that does not exist')
+      expect(page).not_to have_selector('.ng-option', text: 'Create: Version that does not exist')
     end
   end
 end

@@ -112,6 +112,9 @@ ro:
   concatenation:
     single: sau
   deprecations:
+    time_entries: This time entries view is superseded by the 'Cost reports' module.
+      This view now only supports exporting time entry information to csv. For interactive
+      filtering, please activate the 'Cost reports' module in the project settings.
     old_timeline:
       replacement: Acest modul cronologic va fi înlocuit de către cronologia interactivă
         inclusă în modulul pachetului de lucru.
@@ -607,6 +610,10 @@ ro:
           invalid_url: is not a valid repository URL or path.
           must_not_be_ssh: must not be an SSH url.
           no_directory: nu este un director.
+        role:
+          permissions:
+            dependency_missing: need to also include '%{dependency}' as '%{permission}'
+              is selected.
         work_package:
           is_not_a_valid_target_for_time_entries: 'Pachetul de lucru #%{id} nu este
             o ţintă validă pentru reasocierea timpilor de lucru.'
@@ -864,6 +871,7 @@ ro:
     started: A început copierea proiectului "%{source_project_name}" în "%{target_project_name}".
       Veţi fi informat prin mail de îndată ce "%{target_project_name}" este disponibil.
     failed: Proiectul %{source_project_name} nu poate fi copiat
+    failed_internal: Copying failed due to an internal error.
     succeeded: Proiectul %{target_project_name} a fost creat
     errors: Eroare
     project_custom_fields: Câmpuri personalizate pentru proiect
@@ -2004,6 +2012,7 @@ ro:
   permission_add_project: Creare proiect
   permission_add_subprojects: Creare subproiecte
   permission_add_work_package_watchers: Adăugare observatori
+  permission_assign_versions: Assign versions
   permission_browse_repository: Acces doar citire la repo (vizualizare și descărcare)
   permission_change_wiki_parent_page: Schimbare pagina wiki părinte
   permission_comment_news: Comentare noutăți
@@ -2838,13 +2847,6 @@ ro:
 '
   menu_item: Element de meniu
   menu_item_setting: Vizibilitate
-  mysql_deprecation:
-    notice: 'Future versions of OpenProject will likely drop or reduce support for
-      MySQL and MariaDB databases. Your installation is still running on MySQL and
-      we suggest you migrate your installation to PostgreSQL. This process is easy
-      when following our migration guides:
-
-'
   wiki_menu_item_for: Meniu pentru pagina wiki "%{title}"
   wiki_menu_item_setting: Vizibilitate
   wiki_menu_item_new_main_item_explanation: 'Ștergeți doar meniul principal wiki.
@@ -2896,6 +2898,8 @@ ro:
       multipart_body_error: Conținutul nu cuprinde componentele multipart așteptate.
       multiple_errors: Au fost încălcate multiple constrângeri pentru câmpuri.
       unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment_permissions: The attachment could not be saved due
+        to lacking file system permissions
       render:
         context_not_parsable: Contextul primit nu reprezintă un link la o resursă.
         unsupported_context: Resursa furnizată nu este suportată ca și context.
@@ -3024,3 +3028,10 @@ ro:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'

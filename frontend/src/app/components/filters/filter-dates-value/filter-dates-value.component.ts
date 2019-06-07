@@ -40,6 +40,7 @@ import * as moment from 'moment';
   templateUrl: './filter-dates-value.component.html'
 })
 export class FilterDatesValueComponent implements OnDestroy {
+  @Input() public shouldFocus:boolean = false;
   @Input() public filter:QueryFilterInstanceResource;
   @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource>(componentDestroyed(this));
 

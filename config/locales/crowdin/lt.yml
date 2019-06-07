@@ -112,6 +112,9 @@ lt:
   concatenation:
     single: arba
   deprecations:
+    time_entries: This time entries view is superseded by the 'Cost reports' module.
+      This view now only supports exporting time entry information to csv. For interactive
+      filtering, please activate the 'Cost reports' module in the project settings.
     old_timeline:
       replacement: Šis laiko juostos modulis buvo pakeistas nauju, kuris integruotas
         į darbų paketų modulį.
@@ -598,6 +601,10 @@ lt:
           invalid_url: nėra tinkamas repozitorijos URL ar kelias.
           must_not_be_ssh: neturi būti SSH URL.
           no_directory: nėra aplankas.
+        role:
+          permissions:
+            dependency_missing: need to also include '%{dependency}' as '%{permission}'
+              is selected.
         work_package:
           is_not_a_valid_target_for_time_entries: 'Darbų paketas #%{id} nėra tinkamas
             laiko įrašų perskirstymo pasirinkimas.'
@@ -857,6 +864,7 @@ lt:
     started: Pradėtas kopijuoti „%{source_project_name}“ projektas į „%{target_project_name}“.
       Jums bus pranešta laišku, kai tik „%{target_project_name}“ projektas taps pasiekiamas.
     failed: Negalima kopijuoti „%{source_project_name}“ projekto
+    failed_internal: Copying failed due to an internal error.
     succeeded: Sukurtas projektas pavadinimu „%{target_project_name}“
     errors: Klaida
     project_custom_fields: Vartotojo laukai projektui
@@ -2017,6 +2025,7 @@ lt:
   permission_add_project: Sukurti projektą
   permission_add_subprojects: Sukurti sub-projektus
   permission_add_work_package_watchers: Pridėti stebėtojus
+  permission_assign_versions: Assign versions
   permission_browse_repository: Tik skaityti prieiga prie repozitorijos (naršyti ir
     pasiimti)
   permission_change_wiki_parent_page: Pakeisti tėvinį wiki puslapį
@@ -2846,13 +2855,6 @@ lt:
 '
   menu_item: Meniu punktas
   menu_item_setting: Matomumas
-  mysql_deprecation:
-    notice: 'Future versions of OpenProject will likely drop or reduce support for
-      MySQL and MariaDB databases. Your installation is still running on MySQL and
-      we suggest you migrate your installation to PostgreSQL. This process is easy
-      when following our migration guides:
-
-'
   wiki_menu_item_for: Meniu punktas wiki puslapiui „%{title}“
   wiki_menu_item_setting: Matomumas
   wiki_menu_item_new_main_item_explanation: 'Jūs ketinate šalinti tik pagrindinį wiki
@@ -2904,6 +2906,8 @@ lt:
       multipart_body_error: Užklausos turinys neturi laukiamų dalių.
       multiple_errors: Buvo pažeista daug laukelio apribojimų.
       unable_to_create_attachment: Nepavyko sukurti priedo
+      unable_to_create_attachment_permissions: The attachment could not be saved due
+        to lacking file system permissions
       render:
         context_not_parsable: Duotas kontekstas nėra nuoroda į resursą.
         unsupported_context: Duotas resursas nėra palaikomas kaip kontekstas.
@@ -3034,3 +3038,10 @@ lt:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'

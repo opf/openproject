@@ -218,7 +218,7 @@ id:
     label_board_locked: Locked
     label_board_plural: Boards
     label_board_sticky: Sticky
-    label_create_new: Create new
+    label_create: Buat baru
     label_create_work_package: Buat Paket-Penugasan baru
     label_created_by: Created by
     label_date: Tanggal
@@ -420,8 +420,11 @@ id:
       selection: Silakan pilih
       relation_description: Click to add description for this relation
     project:
-      required_outside_context: Anda tidak sedang berada dalam konteks proyek. Silahkan
-        pilih konteks proyek terlebih dahulu untuk memilih jenis dan status
+      required_outside_context: 'Please choose a project to create the work package
+        in to see all attributes. You can only select projects which have the type
+        above activated.
+
+'
       context: Konteks proyek
       work_package_belongs_to: Paket kerja ini menjadi milik proyek %{projectname}.
       click_to_switch_context: Buka paket kerja ini dalam proyek tersebut.
@@ -511,7 +514,7 @@ id:
       save: Save relation
       abort: Abort
     relations_autocomplete:
-      placeholder: Enter the related work package id
+      placeholder: Type to search
       parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: Pilih tag

@@ -38,26 +38,13 @@ describe GlobalRole, type: :model do
     it { is_expected.to respond_to :position }
   end
 
-  describe 'class methods' do
-    describe 'WITH available global permissions defined' do
-      before do
-        @permission_options = [:perm1, :perm2, :perm3]
-        allow(Redmine::AccessControl).to receive(:global_permissions).and_return(@permission_options)
-      end
-
-      describe '#setable_permissions' do
-        it { expect(GlobalRole.setable_permissions).to eql @permission_options }
-      end
-    end
-  end
-
   describe 'instance methods' do
     before do
       @role = GlobalRole.new
 
       if costs_plugin_loaded?
         @perm = Object.new
-        allow(Redmine::AccessControl).to receive(:permission).and_return @perm
+        allow(OpenProject::AccessControl).to receive(:permission).and_return @perm
         allow(@perm).to receive(:inherited_by).and_return([])
         allow(@perm).to receive(:name).and_return(:perm)
         allow(@perm).to receive(:inherits).and_return([])
@@ -103,18 +90,6 @@ describe GlobalRole, type: :model do
           it { expect(@role.allowed_to?(:perm1)).to be_truthy }
           it { expect(@role.allowed_to?(:perm5)).to be_falsey }
         end
-      end
-    end
-
-    describe 'WITH available global permissions defined' do
-      before do
-        @role = GlobalRole.new
-        @permission_options = [:perm1, :perm2, :perm3]
-        allow(Redmine::AccessControl).to receive(:global_permissions).and_return(@permission_options)
-      end
-
-      describe '#setable_permissions' do
-        it { expect(@role.setable_permissions).to eql @permission_options }
       end
     end
 

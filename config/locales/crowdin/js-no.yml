@@ -216,7 +216,7 @@
     label_board_locked: Låst
     label_board_plural: Boards
     label_board_sticky: Sticky
-    label_create_new: Create new
+    label_create: Opprett
     label_create_work_package: Opprett ny arbeidspakke
     label_created_by: Created by
     label_date: Dato
@@ -417,8 +417,11 @@
       selection: Vennligst velg
       relation_description: Click to add description for this relation
     project:
-      required_outside_context: You are not within a project context. Please choose
-        the project context first in order to select type and status
+      required_outside_context: 'Please choose a project to create the work package
+        in to see all attributes. You can only select projects which have the type
+        above activated.
+
+'
       context: Project context
       work_package_belongs_to: This work package belongs to project %{projectname}.
       click_to_switch_context: Open this work package in that project.
@@ -508,7 +511,7 @@
       save: Save relation
       abort: Abort
     relations_autocomplete:
-      placeholder: Enter the related work package id
+      placeholder: Type to search
       parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: Select tag

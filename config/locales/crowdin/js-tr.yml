@@ -66,7 +66,7 @@ tr:
       too_many: Takvimde gösterilebilecek iş paketinden(%{max}) daha fazla iş paketi
         mevcuttur(%{count}). İlişkili olanlara odaklanmak için filtreler ekleyin.
     description_available_columns: Kullanılabilir sütunlar
-    description_current_position: 'You are here: '
+    description_current_position: 'Buradasınız:'
     description_select_work_package: "#%{id} nolu iş paketini seçin"
     description_selected_columns: Seçili Sütunlar
     description_subwork_package: "#%{id} nolu iş paketinin alt parçası"
@@ -183,14 +183,16 @@ tr:
     homescreen:
       blocks:
         new_features:
-          text_new_features: Read about new features and product updates.
-          current_new_feature_html: 'OpenProject contains a new <b>Boards view</b>
-            for Agile project management. </br> To activate this new feature for your
-            existing projects, please do the following steps: <ul><li>Activate the
-            module Boards within existing projects'' settings.</li> <li>Configure
-            your Boards in a project.</li> <li>Verify roles and permissions</li></ul>'
-          image_alt_text: Board teaser image
-          learn_about: Learn more about Agile Boards
+          text_new_features: Yeni özellikler ve ürün güncellemeleri hakkında bilgi
+            edinin.
+          current_new_feature_html: 'OpenProject, Çevik proje yönetimi için yeni bir
+            <b> Pano görünümü </b> içerir. </br> Bu yeni özelliği mevcut projeleriniz
+            için etkinleştirmek için lütfen aşağıdaki adımları uygulayın: <ul> <li>
+            Modül Panolarını mevcut projelerin ayarları dahilinde etkinleştirin. </li>
+            <li> Panolarınızı bir projede yapılandırın. </li> <li> Rolleri ve izinleri
+            doğrula </li> </ul>'
+          image_alt_text: Yönetim Kurulu teaser image
+          learn_about: Çevik Kurullar hakkında daha fazla bilgi edinin
     label_activate: Etkinleştir
     label_activity_no: Etkinlik giriş numarası %{activityNo}
     label_activity_with_comment_no: Etkinlik giriş numarası %{activityNo}. Kullanıcı
@@ -217,7 +219,7 @@ tr:
     label_board_locked: Kilitlendi
     label_board_plural: Panolar
     label_board_sticky: Sabit
-    label_create_new: Yeni oluştur
+    label_create: Oluştur
     label_create_work_package: Yeni iş paketi oluştur
     label_created_by: Oluşturan
     label_date: Tarih
@@ -418,8 +420,11 @@ tr:
       selection: Lütfen seçin
       relation_description: Bu ilişkiye açıklama eklemek için tıklayın
     project:
-      required_outside_context: Şu anda bir proje içeriği değilsiniz. Lütfen tip ve
-        durum bilgilerini seçmeden önce proje içeriği seçin
+      required_outside_context: 'Lütfen tüm özellikleri görmek için çalışma paketini
+        oluşturacak bir proje seçin. Yalnızca yukarıdaki türden etkin olan projeleri
+        seçebilirsiniz.
+
+'
       context: Proje içeriği
       work_package_belongs_to: Bu iş paketi %{projectname} projesine ait.
       click_to_switch_context: Bu iş paketini o projede aç.
@@ -510,8 +515,9 @@ tr:
       save: İlişkiyi kaydet
       abort: İptal
     relations_autocomplete:
-      placeholder: İlgili çalışma paket kimliğini girin
-      parent_placeholder: Choose new parent or press escape to cancel.
+      placeholder: Type to search
+      parent_placeholder: Yeni bir ebeveyn seçin veya iptal etmek için escape tuşuna
+        basın.
     repositories:
       select_tag: Etiket seç
       select_branch: Branş seç

@@ -55,7 +55,7 @@
 
   // Avoid that the select field gets too small
   .wp-inline-edit--field.ng-select
-    min-width: 110px
+    min-width: 140px
 
 // Styles for inline editable attributes
 .work-package-table--container td.-editable
@@ -148,12 +148,7 @@ html:not(.-browser-mobile)
 .wp-table--cell-span
   padding: 2px
 
-// On edge, pointer-events only work on
-// block or inline-block elements
 body.-browser-edge
-  .wp-table--cell-span
-    display: inline-block !important
-
   // Ensure height is set in table
   .work-package-table .wp-table--cell-span
     height: 22px !important

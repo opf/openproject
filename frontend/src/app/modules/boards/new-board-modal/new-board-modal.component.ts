@@ -43,7 +43,7 @@ import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notific
   templateUrl: './new-board-modal.html'
 })
 export class NewBoardModalComponent extends OpModalComponent {
-  @ViewChild('actionAttributeSelect') actionAttributeSelect:ElementRef;
+  @ViewChild('actionAttributeSelect', { static: true }) actionAttributeSelect:ElementRef;
 
   public showClose:boolean = true;
 

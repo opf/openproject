@@ -1,0 +1,112 @@
+@import "fonts/openproject_icon_definitions"
+
+@mixin sort-icons
+  font-family: "openproject-icon-font" !important
+  font-weight: normal !important
+  speak: none
+  margin-left: 5px
+  font-size: 1.2em
+  line-height: 1
+  vertical-align: text-bottom
+
+// -------------------------- Generics --------------------------
+.tablesorter-header
+  cursor: pointer
+
+.tablesorter-headerDesc .generic-table--sort-header span
+  &:after
+    @include sort-icons
+    @include icon-mixin-sort-descending
+
+.tablesorter-headerAsc .generic-table--sort-header span
+  &:after
+    @include sort-icons
+    @include icon-mixin-sort-ascending
+
+.cost_types 
+  padding-bottom: 3px
+
+.cost_types a.active 
+  color: #000
+  font-weight: bold
+
+/* Details view*/
+.detail-report td 
+  text-align: left
+  vertical-align: top
+
+#query_form fieldset.header_collapsible.collapsible 
+  padding-bottom: 10px
+
+
+// -------------------------- Save and Delete Reports --------------------------
+#save_as_form, #delete_form
+  z-index: 999
+
+// -------------------------- Buttons --------------------------
+.form--buttons.-with-button-form
+  position: relative
+
+.form--buttons.-with-button-form .button
+  margin-bottom: 0
+
+div.button_form
+  background-color: white
+  border: 1px solid gray
+  -moz-border-radius: 3px
+  border-radius: 3px
+  left: 100px
+  position: absolute
+  padding: 1.0rem
+  width: 400px
+
+// -------------------------- Filter --------------------------
+.filter 
+  -webkit-border-radius: 5px
+  -moz-border-radius: 5px
+  border-radius: 5px
+
+.inactive-filter 
+  background-color: #FCE29A !important
+
+.advanced-filters--filter-value 
+  white-space: nowrap
+
+.filter_radio_option 
+  padding-left: 5px
+  padding-right: 5px
+
+#add_filter_block 
+  margin-top: 6px
+
+#add_filter_select 
+  margin-bottom: 10px
+
+.advanced-filters--filter-value.-binary 
+  display: flex
+
+
+// -------------------------- Mobile --------------------------
+@media only screen and (max-width: 679px)
+  .group-by--control
+    margin-top: 10px
+
+  #group-by--rows .group-by--caption,
+  #group-by--columns .group-by--caption 
+    padding: 0 7px
+  
+  .group-by--selected-element 
+    display: inline-block
+    padding-left: 7px
+  
+  .group-by--selected-element:before,
+  .group-by--selected-element:after 
+    border-width: 18px 0px 18px 14px
+    margin-top: -18px
+  
+  .group-by--selected-element:first-of-type 
+    margin: 0
+  
+  .group-by--selected-element:first-of-type:before 
+    border: none
+    left: 0

@@ -168,25 +168,23 @@ module Components
 
       def openChildrenAutocompleter
         retry_block do
+          next if page.has_selector?('.wp-relations--children .ng-input input')
           find('.wp-inline-create--reference-link', text: I18n.t('js.relation_buttons.add_existing_child')).click
 
           # Security check to be sure that the autocompleter has finished loading
-          page.find '.ng-dropdown-panel-items'
+          page.find '.wp-relations--children .ng-input input'
         end
       end
 
       def add_existing_child(work_package)
-        # Locate the create row container
-        container = find('.wp-relations--add-form')
-
         # Enter the query and select the child
-        autocomplete = container.find(".wp-relations--autocomplete")
+        autocomplete = page.find(".wp-relations--add-form .wp-relations--autocomplete")
         select_autocomplete autocomplete,
                             query: work_package.id,
                             results_selector: '.ng-dropdown-panel-items',
                             select_text: work_package.subject
 
-        container.find('.wp-create-relation--save').click
+        page.find('.wp-relations--add-form .wp-create-relation--save').click
       end
 
       def expect_child(work_package)

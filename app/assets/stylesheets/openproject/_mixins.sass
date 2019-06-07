@@ -87,16 +87,17 @@
 
 
 $scrollbar-color: #DDDDDD
+$scrollbar-size: 10px
 
-@mixin styled-scroll-bar-vertical
+@mixin styled-scroll-bar
   // Firefox specific styles
   scrollbar-color: transparent transparent
   scrollbar-width: thin
 
   // Other browser styles
   &::-webkit-scrollbar
-    width: 8px
-    height: 12px
+    height: $scrollbar-size
+    width: $scrollbar-size
 
   &::-webkit-scrollbar-track
     background: transparent
@@ -109,24 +110,6 @@ $scrollbar-color: #DDDDDD
     scrollbar-color: $scrollbar-color transparent
     &::-webkit-scrollbar-thumb
       visibility: visible
-
-@mixin styled-scroll-bar-horizontal
-  // Firefox specific styles
-  scrollbar-color: $scrollbar-color transparent
-  scrollbar-width: thin
-
-  // Other browser styles
-  &::-webkit-scrollbar
-    width: 12px
-    height: 8px
-
-  &::-webkit-scrollbar-track
-    background: transparent
-
-  // Should always be visible otherwise it would not be displayed on mobile or tablet
-  &::-webkit-scrollbar-thumb
-    background: $scrollbar-color
-    visibility: visible
 
 @mixin two-column-layout
   column-count: 2

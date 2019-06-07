@@ -40,8 +40,8 @@ import {RequestSwitchmap} from "core-app/helpers/rxjs/request-switchmap";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WorkPackageCardViewComponent  implements OnInit {
+  @Input('dragOutOfHandler') public canDragOutOf:(wp:WorkPackageResource) => boolean;
   @Input() public dragInto:boolean;
-  @Input() public dragOutOf:boolean;
   @Input() public highlightingMode:CardHighlightingMode;
   @Input() public workPackageAddedHandler:(wp:WorkPackageResource) => Promise<unknown>;
   @Input() public showStatusButton:boolean = true;
@@ -71,7 +71,7 @@ export class WorkPackageCardViewComponent  implements OnInit {
   @Input() public cardsRemovable:boolean = false;
 
   /** Container reference */
-  @ViewChild('container') public container:ElementRef;
+  @ViewChild('container', { static: true }) public container:ElementRef;
 
   /** Whether the card view has an active inline created wp */
   public activeInlineCreateWp?:WorkPackageResource;
@@ -174,7 +174,12 @@ export class WorkPackageCardViewComponent  implements OnInit {
     this.dragService.register({
       dragContainer: this.container.nativeElement,
       scrollContainers: [this.container.nativeElement],
-      moves: (card:HTMLElement) => this.dragOutOf && !card.dataset.isNew,
+      moves: (card:HTMLElement) => {
+        const wpId:string = card.dataset.workPackageId!;
+        const workPackage = this.states.workPackages.get(wpId).value!;
+
+        return this.canDragOutOf(workPackage) && !card.dataset.isNew;
+      },
       accepts: () => this.dragInto,
       onMoved: (card:HTMLElement) => {
         const wpId:string = card.dataset.workPackageId!;
@@ -208,7 +213,7 @@ export class WorkPackageCardViewComponent  implements OnInit {
    */
   private get currentOrder():string[] {
     return this.workPackages
-      .filter(wp => !wp.isNew)
+      .filter(wp => wp && !wp.isNew)
       .map(el => el.id!);
   }
 

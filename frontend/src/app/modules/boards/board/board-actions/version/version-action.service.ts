@@ -15,9 +15,11 @@ import {OpContextMenuItem} from "core-components/op-context-menu/op-context-menu
 import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
 import {StateService} from "@uirouter/core";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
-import {StatusResource} from "core-app/modules/hal/resources/status-resource";
 import {VersionCacheService} from "core-components/versions/version-cache.service";
 import {VersionBoardHeaderComponent} from "core-app/modules/boards/board/board-actions/version/version-board-header.component";
+import {FormResource} from "core-app/modules/hal/resources/form-resource";
+import {FormsCacheService} from "core-components/forms/forms-cache.service";
+import {CallableHalLink} from "core-app/modules/hal/hal-link/hal-link";
 
 @Injectable()
 export class BoardVersionActionService implements BoardActionService {
@@ -29,6 +31,7 @@ export class BoardVersionActionService implements BoardActionService {
               protected currentProject:CurrentProjectService,
               protected wpNotifications:WorkPackageNotificationService,
               protected state:StateService,
+              protected formCache:FormsCacheService,
               protected pathHelper:PathHelperService) {
   }
 
@@ -67,12 +70,25 @@ export class BoardVersionActionService implements BoardActionService {
     }
   }
 
+  public canAddToQuery(query:QueryResource):Promise<boolean> {
+    const formLink = _.get(query, 'results.createWorkPackage.href', null) ;
+
+    if (!formLink) {
+      return Promise.resolve(false);
+    }
+
+    return this.formCache
+      .require(formLink)
+      .then((form:FormResource) => form.schema.version.writable);
+  }
+
   public addActionQueries(board:Board):Promise<Board> {
     return this.getVersions()
       .then((results) => {
         return Promise.all<unknown>(
           results.map((version:VersionResource) => {
-            if (version.isOpen() && version.definingProject.name === this.currentProject.name) {
+            const definingName = _.get(version, 'definingProject.name', null);
+            if (version.isOpen() && definingName && definingName === this.currentProject.name) {
               return this.addActionQuery(board, version);
             }
 
@@ -141,6 +157,16 @@ export class BoardVersionActionService implements BoardActionService {
     return VersionBoardHeaderComponent;
   }
 
+  public disabledAddButtonPlaceholder(version:VersionResource) {
+    if (version.isLocked()) {
+      return { icon: 'locked', text: this.I18n.t('js.boards.version.locked') };
+    } else if (version.isClosed()) {
+      return { icon: 'not-supported', text: this.I18n.t('js.boards.version.closed') };
+    } else {
+      return undefined;
+    }
+  }
+
   public dragIntoAllowed(query:QueryResource, value:HalResource|undefined) {
     return value instanceof VersionResource && value.isOpen();
   }
@@ -170,7 +196,7 @@ export class BoardVersionActionService implements BoardActionService {
     return [
       {
         // Lock version
-        hidden: !version.isOpen(),
+        hidden: !version.isOpen() || (version.isLocked() && !version.$links.update),
         linkText: this.I18n.t('js.boards.version.lock_version'),
         onClick: () => {
           this.patchVersionStatus(version, 'locked');
@@ -179,7 +205,7 @@ export class BoardVersionActionService implements BoardActionService {
       },
       {
         // Unlock version
-        hidden: !version.isLocked(),
+        hidden: !version.isLocked() || (version.isOpen() && !version.$links.update),
         linkText: this.I18n.t('js.boards.version.unlock_version'),
         onClick: () => {
           this.patchVersionStatus(version, 'open');
@@ -188,7 +214,7 @@ export class BoardVersionActionService implements BoardActionService {
       },
       {
         // Close version
-        hidden: version.isClosed(),
+        hidden: version.isClosed() || (!version.isClosed() && !version.$links.update),
         linkText: this.I18n.t('js.boards.version.close_version'),
         onClick: () => {
           this.patchVersionStatus(version, 'closed');
@@ -197,11 +223,24 @@ export class BoardVersionActionService implements BoardActionService {
       },
       {
         // Open version
-        hidden: !version.isClosed(),
+        hidden: !version.isClosed() || (version.isClosed() && !version.$links.update),
         linkText: this.I18n.t('js.boards.version.open_version'),
         onClick: () => {
           this.patchVersionStatus(version, 'open');
           return true;
+        }
+      },
+      {
+        // Show link
+        linkText: this.I18n.t('js.boards.version.show_version'),
+        href: this.pathHelper.versionShowPath(id),
+        onClick: (evt:JQuery.Event) => {
+          if (!LinkHandling.isClickedWithModifier(evt)) {
+            window.open(this.pathHelper.versionShowPath(id), '_blank');
+            return true;
+          }
+
+          return false;
         }
       },
       {

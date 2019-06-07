@@ -35,6 +35,7 @@ import {registerRequestForConfirmation} from "core-app/globals/global-listeners/
  * A set of listeners that are relevant on every page to set sensible defaults
  */
 (function($:JQueryStatic) {
+
   $(function() {
     $(document.documentElement!)
       .on('click', (evt:JQueryEventObject) => {
@@ -49,6 +50,13 @@ import {registerRequestForConfirmation} from "core-app/globals/global-listeners/
 
         return true;
       });
+
+    // Jump to the element given by location.hash, if present
+    const hash = window.location.hash;
+    if (hash && hash.startsWith('#')) {
+      const el = document.querySelector(hash);
+      el && el.scrollIntoView();
+    }
 
     // Disable global drag & drop handling, which results in the browser loading the image and losing the page
     $(document.documentElement!)

@@ -2,11 +2,6 @@ class EnsurePostgresIndexNames < ActiveRecord::Migration[5.2]
   disable_ddl_transaction!
 
   def up
-    if OpenProject::Database.mysql?
-      warn "You're using MySQL, skipping index renaming. You will need to re-run this when switching to PostgreSQL"
-      return
-    end
-
     sql = <<~SQL
       SELECT
         FORMAT('%s_pkey', table_name) as new_name,
@@ -23,11 +18,9 @@ class EnsurePostgresIndexNames < ActiveRecord::Migration[5.2]
       new_name = entry['new_name']
 
       ActiveRecord::Base.transaction do
-        begin
-          execute %(ALTER INDEX "#{old_name}" RENAME TO #{new_name};)
-        rescue StandardError => e
-          warn "Failed to rename index #{old_name} to #{new_name}: #{e.message}. Skipping"
-        end
+        execute %(ALTER INDEX "#{old_name}" RENAME TO #{new_name};)
+      rescue StandardError => e
+        warn "Failed to rename index #{old_name} to #{new_name}: #{e.message}. Skipping"
       end
     end
   end

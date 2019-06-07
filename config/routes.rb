@@ -214,7 +214,7 @@ OpenProject::Application.routes.draw do
     namespace :time_entries do
       resource :report, controller: 'reports', only: [:show]
     end
-    resources :time_entries, controller: 'timelog'
+    resources :time_entries, controller: 'timelog', except: [:show]
 
     # Match everything to be the ID of the wiki page except the part that
     # is reserved for the format. This assumes that we have only two formats:
@@ -370,7 +370,7 @@ OpenProject::Application.routes.draw do
       end
     end
 
-    resources :roles, only: %i[index new create edit update destroy] do
+    resources :roles, except: %i[show] do
       collection do
         put '/' => 'roles#bulk_update'
         get :report

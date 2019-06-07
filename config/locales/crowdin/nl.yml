@@ -112,6 +112,9 @@ nl:
   concatenation:
     single: of
   deprecations:
+    time_entries: This time entries view is superseded by the 'Cost reports' module.
+      This view now only supports exporting time entry information to csv. For interactive
+      filtering, please activate the 'Cost reports' module in the project settings.
     old_timeline:
       replacement: Deze tijdlijn module is vervangen door de interactieve tijdlijn
         die verwerkt zit in de werk pakket module.
@@ -610,6 +613,10 @@ nl:
           invalid_url: dit is geen geldige url of pad.
           must_not_be_ssh: mag geen ssh url zijn.
           no_directory: is geen map.
+        role:
+          permissions:
+            dependency_missing: need to also include '%{dependency}' as '%{permission}'
+              is selected.
         work_package:
           is_not_a_valid_target_for_time_entries: 'Werkpakket #%{id} is niet een geldig
             doel voor het opnieuw toewijzen van de tijden.'
@@ -864,6 +871,7 @@ nl:
       U wordt zo spoedig mogelijk per email op de hoogte gesteld wanneer "%{target_project_name}"
       beschikbaar is.
     failed: Kan project niet kopiëren %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: Gemaakte project %{target_project_name}
     errors: Fout
     project_custom_fields: Aangepaste velden in het project
@@ -1993,6 +2001,7 @@ nl:
   permission_add_project: Project Aanmaken
   permission_add_subprojects: Subprojecten maken
   permission_add_work_package_watchers: Kijkers toevoegen
+  permission_assign_versions: Assign versions
   permission_browse_repository: Alleen-lezen toegang tot opslagplaats (bladeren en
     uitchecken)
   permission_change_wiki_parent_page: Bovenliggende wiki-pagina wijzigen
@@ -2824,13 +2833,6 @@ nl:
 '
   menu_item: Menu-item
   menu_item_setting: Zichtbaarheid
-  mysql_deprecation:
-    notice: 'Future versions of OpenProject will likely drop or reduce support for
-      MySQL and MariaDB databases. Your installation is still running on MySQL and
-      we suggest you migrate your installation to PostgreSQL. This process is easy
-      when following our migration guides:
-
-'
   wiki_menu_item_for: Menu-item voor wiki pagina "%{title}"
   wiki_menu_item_setting: Zichtbaarheid
   wiki_menu_item_new_main_item_explanation: 'U verwijdert het alleen het hoofd wiki
@@ -2883,6 +2885,8 @@ nl:
         meerdere delen.
       multiple_errors: Meerdere veldbeperkingen werden overtreden.
       unable_to_create_attachment: De bijlage kon niet aangemaakt worden
+      unable_to_create_attachment_permissions: The attachment could not be saved due
+        to lacking file system permissions
       render:
         context_not_parsable: De geboden context is niet een link naar een bron.
         unsupported_context: De gegeven bron wordt niet ondersteund als context.
@@ -3017,3 +3021,10 @@ nl:
     revoke_my_application_confirmation: Weet u zeker dat u deze applicatie wilt verwijderen?
       Dit zal %{token_count} actief voor deze verwijderen.
     my_registered_applications: Geregistreerde OAuth toepassingen
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'

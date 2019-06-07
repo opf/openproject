@@ -215,7 +215,7 @@ fil:
     label_board_locked: Naka-lock
     label_board_plural: Boards
     label_board_sticky: Malagkit
-    label_create_new: Create new
+    label_create: Lumikha
     label_create_work_package: Lumikha ng bagong work package
     label_created_by: Nilikha ni
     label_date: Petsa
@@ -420,9 +420,11 @@ fil:
       relation_description: Pindutin upang magdagdag ng deskripsyon sa kaugnay na
         ito
     project:
-      required_outside_context: Wala ka sa loob ng kontesktong proyekto. Mangyaring
-        pumili ng kontekstong proyekto sa unang pagkasunod-sunod upang piliin ang
-        uri at estado
+      required_outside_context: 'Please choose a project to create the work package
+        in to see all attributes. You can only select projects which have the type
+        above activated.
+
+'
       context: Kontekstong proyekto
       work_package_belongs_to: Itong work packge ay nabibilang sa proyekto %{projectname}.
       click_to_switch_context: Buksan ang work package sa proyekto na iyan.
@@ -512,7 +514,7 @@ fil:
       save: I-save ang pakipag-ugnayan
       abort: Huwag ituloy
     relations_autocomplete:
-      placeholder: Ipasok ang Id ng kauganay sa work package
+      placeholder: Type to search
       parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: Pumiling ng tag

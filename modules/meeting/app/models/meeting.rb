@@ -181,8 +181,23 @@ class Meeting < ActiveRecord::Base
   end
 
   def close_agenda_and_copy_to_minutes!
-    agenda.lock!
-    create_minutes(text: agenda.text, comment: 'Minutes created')
+    Meeting.transaction do
+      agenda.lock!
+
+      attachments = agenda.attachments.map { |a| [a, a.copy] }
+      original_text = String(agenda.text)
+      minutes = create_minutes(text: original_text, comment: 'Minutes created', attachments: attachments.map(&:last))
+
+      # substitute attachment references in text to use the respective copied attachments
+      updated_text = original_text.gsub(/(?<=\(\/api\/v3\/attachments\/)\d+(?=\/content\))/) do |id|
+        old_id = id.to_i
+        new_id = attachments.select { |a, _| a.id == old_id }.map { |_, a| a.id }.first
+
+        new_id || -1
+      end
+
+      minutes.update text: updated_text if updated_text != original_text
+    end
   end
 
   alias :original_participants_attributes= :participants_attributes=

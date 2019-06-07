@@ -34,9 +34,16 @@ describe 'API v3 Work package form resource', type: :request do
   include Capybara::RSpecMatchers
   include API::V3::Utilities::PathHelper
 
+  shared_let(:all_allowed_permissions) { %i[view_work_packages edit_work_packages assign_versions] }
+  shared_let(:assign_permissions) { %i[view_work_packages assign_versions] }
   shared_let(:project) { FactoryBot.create(:project, is_public: false) }
   shared_let(:work_package) { FactoryBot.create(:work_package, project: project) }
-  shared_let(:authorized_user) { FactoryBot.create(:user, member_in_project: project) }
+  shared_let(:authorized_user) do
+    FactoryBot.create(:user, member_in_project: project, member_with_permissions: all_allowed_permissions)
+  end
+  shared_let(:authorized_assign_user) do
+    FactoryBot.create(:user, member_in_project: project, member_with_permissions: assign_permissions)
+  end
   shared_let(:unauthorized_user) { FactoryBot.create(:user) }
 
   describe '#post' do
@@ -67,7 +74,7 @@ describe 'API v3 Work package form resource', type: :request do
       it_behaves_like 'not found'
     end
 
-    context 'user with needed permissions' do
+    context 'user with all edit permissions' do
       let(:params) {}
       let(:current_user) { authorized_user }
 
@@ -689,6 +696,46 @@ describe 'API v3 Work package form resource', type: :request do
             end
           end
         end
+      end
+    end
+
+    context 'user with assign version permissions' do
+      let(:params) do
+        {
+          lockVersion: work_package.lock_version
+        }
+      end
+
+      include_context 'post request' do
+        let(:current_user) { authorized_assign_user }
+      end
+
+      subject { last_response.body }
+
+      shared_examples_for 'valid payload' do
+        it { expect(last_response.status).to eq(200) }
+
+        it { is_expected.to have_json_path('_embedded/payload') }
+
+        it { is_expected.to have_json_path('_embedded/payload/lockVersion') }
+
+        it { is_expected.to have_json_path('_embedded/payload/_links/version') }
+
+        it { is_expected.not_to have_json_path('_embedded/payload/subject') }
+      end
+
+      it_behaves_like 'valid payload'
+
+      it 'denotes subject to not be writeable' do
+        is_expected
+          .to be_json_eql(false)
+          .at_path('_embedded/schema/subject/writable')
+      end
+
+      it 'denotes version to be writeable' do
+        is_expected
+          .to be_json_eql(true)
+          .at_path('_embedded/schema/version/writable')
       end
     end
   end

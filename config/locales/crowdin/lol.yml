@@ -93,14 +93,17 @@ lol:
   concatenation:
     single: crwdns122830:0crwdne122830:0
   deprecations:
+    time_entries: This time entries view is superseded by the 'Cost reports' module.
+      This view now only supports exporting time entry information to csv. For interactive
+      filtering, please activate the 'Cost reports' module in the project settings.
     old_timeline:
-      replacement: crwdns122832:0crwdne122832:0
-      removal: crwdns122834:0crwdne122834:0
-      further_information_before: crwdns122836:0crwdne122836:0
-      link_name: crwdns122838:0crwdne122838:0
-      further_information_after: crwdns122840:0crwdne122840:0
+      replacement: crwdns129946:0crwdne129946:0
+      removal: crwdns129948:0crwdne129948:0
+      further_information_before: crwdns129950:0crwdne129950:0
+      link_name: crwdns129952:0crwdne129952:0
+      further_information_after: crwdns129954:0crwdne129954:0
     calendar:
-      removal: crwdns122842:0crwdne122842:0
+      removal: crwdns129956:0crwdne129956:0
   global_search:
     overwritten_tabs:
       wiki_pages: crwdns122844:0crwdne122844:0
@@ -536,6 +539,9 @@ lol:
           invalid_url: crwdns123420:0crwdne123420:0
           must_not_be_ssh: crwdns123422:0crwdne123422:0
           no_directory: crwdns123424:0crwdne123424:0
+        role:
+          permissions:
+            dependency_missing: crwdns129922:0%{dependency}crwdnd129922:0%{permission}crwdne129922:0
         work_package:
           is_not_a_valid_target_for_time_entries: crwdns123426:0%{id}crwdne123426:0
           attributes:
@@ -766,6 +772,7 @@ lol:
   copy_project:
     started: crwdns123800:0%{source_project_name}crwdnd123800:0%{target_project_name}crwdnd123800:0%{target_project_name}crwdne123800:0
     failed: crwdns123802:0%{source_project_name}crwdne123802:0
+    failed_internal: crwdns129958:0crwdne129958:0
     succeeded: crwdns123804:0%{target_project_name}crwdne123804:0
     errors: crwdns123806:0crwdne123806:0
     project_custom_fields: crwdns123808:0crwdne123808:0
@@ -1369,7 +1376,7 @@ lol:
   label_my_queries: crwdns124868:0crwdne124868:0
   label_never: crwdns124870:0crwdne124870:0
   label_new: crwdns124872:0crwdne124872:0
-  label_new_features: New features
+  label_new_features: crwdns129924:0crwdne129924:0
   label_new_statuses_allowed: crwdns124874:0crwdne124874:0
   label_news_added: crwdns124876:0crwdne124876:0
   label_news_comment_added: crwdns124878:0crwdne124878:0
@@ -1806,6 +1813,7 @@ lol:
   permission_add_project: crwdns125660:0crwdne125660:0
   permission_add_subprojects: crwdns125662:0crwdne125662:0
   permission_add_work_package_watchers: crwdns125664:0crwdne125664:0
+  permission_assign_versions: crwdns129926:0crwdne129926:0
   permission_browse_repository: crwdns125666:0crwdne125666:0
   permission_change_wiki_parent_page: crwdns125668:0crwdne125668:0
   permission_comment_news: crwdns125670:0crwdne125670:0
@@ -2475,10 +2483,6 @@ lol:
 '
   menu_item: crwdns126830:0crwdne126830:0
   menu_item_setting: crwdns126832:0crwdne126832:0
-  mysql_deprecation:
-    notice: 'crwdns129700:0crwdne129700:0
-
-'
   wiki_menu_item_for: crwdns126834:0%{title}crwdne126834:0
   wiki_menu_item_setting: crwdns126836:0crwdne126836:0
   wiki_menu_item_new_main_item_explanation: 'crwdns126838:0crwdne126838:0
@@ -2520,6 +2524,7 @@ lol:
       multipart_body_error: crwdns126888:0crwdne126888:0
       multiple_errors: crwdns126890:0crwdne126890:0
       unable_to_create_attachment: crwdns126892:0crwdne126892:0
+      unable_to_create_attachment_permissions: crwdns129928:0crwdne129928:0
       render:
         context_not_parsable: crwdns126894:0crwdne126894:0
         unsupported_context: crwdns126896:0crwdne126896:0
@@ -2613,3 +2618,7 @@ lol:
     authorization_error: crwdns127022:0crwdne127022:0
     revoke_my_application_confirmation: crwdns127024:0%{token_count}crwdne127024:0
     my_registered_applications: crwdns127026:0crwdne127026:0
+  mysql_deprecation:
+    notice: 'crwdns129700:0crwdne129700:0
+
+'

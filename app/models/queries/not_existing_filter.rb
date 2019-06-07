@@ -62,6 +62,18 @@ class Queries::NotExistingFilter < Queries::Filters::Base
     }
   end
 
+  def scope
+    # TODO: remove switch once the WP query is a
+    # subclass of Queries::Base
+    model = if context.respond_to?(:model)
+              context.model
+            else
+              WorkPackage
+            end
+
+    model.unscoped
+  end
+
   def attributes_hash
     nil
   end

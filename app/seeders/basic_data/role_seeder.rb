@@ -66,6 +66,7 @@ module BasicData
           add_work_packages
           move_work_packages
           edit_work_packages
+          assign_versions
           add_work_package_notes
           edit_own_work_package_notes
           manage_work_package_relations
@@ -141,7 +142,11 @@ module BasicData
     end
 
     def project_admin
-      { name: I18n.t(:default_role_project_admin), position: 5, permissions: Role.new.setable_permissions.map(&:name) }
+      {
+        name: I18n.t(:default_role_project_admin),
+        position: 5,
+        permissions: Roles::CreateContract.new(Role.new, nil).assignable_permissions.map(&:name)
+      }
     end
 
     def non_member

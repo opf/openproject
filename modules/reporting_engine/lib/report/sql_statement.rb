@@ -100,7 +100,6 @@ class Report::SqlStatement
       "\nWHERE #{where.join ' AND '}\n"
       sql << "GROUP BY #{group_by.join ', '}\nORDER BY #{group_by.join ', '}\n" if group_by?
       sql << "-- END #{desc}\n"
-      sql.gsub!('--', '#') if mysql?
       sql # << " LIMIT 100"
     end
   end
@@ -115,6 +114,7 @@ class Report::SqlStatement
   #   @param [#to_s] From part
   def from(table = nil)
     return @from unless table
+
     @sql = nil
     @from = table
   end

@@ -47,19 +47,18 @@ class ::Query::Results
 
   # Returns the work package count
   def work_package_count
-    WorkPackage.visible
-               .joins(all_filter_joins)
-               .includes(:status, :project)
-               .where(query.statement)
-               .references(:statuses, :projects)
-               .count
+    work_package_scope
+      .joins(all_filter_joins)
+      .includes(:status, :project)
+      .where(query.statement)
+      .references(:statuses, :projects)
+      .count
   rescue ::ActiveRecord::StatementInvalid => e
     raise ::Query::StatementInvalid.new(e.message)
   end
 
   def work_packages
-    WorkPackage
-      .visible
+    work_package_scope
       .where(query.statement)
       .where(options[:conditions])
       .includes(all_includes)
@@ -99,6 +98,12 @@ class ::Query::Results
   end
 
   private
+
+  def work_package_scope
+    WorkPackage
+      .visible
+      .merge(filter_merges)
+  end
 
   def all_includes
     (%i(status project) +
@@ -208,6 +213,13 @@ class ::Query::Results
 
   def all_filter_joins
     query.filters.map(&:joins).flatten.compact
+  end
+
+  def filter_merges
+    query.filters.inject(::WorkPackage.unscoped) do |scope, filter|
+      scope = scope.merge(filter.scope)
+      scope
+    end
   end
 
   def clean_symbol_list(list)

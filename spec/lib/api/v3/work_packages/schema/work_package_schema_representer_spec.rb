@@ -42,8 +42,14 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
   end
   let(:current_user) do
-    FactoryBot.build_stubbed(:user)
+    FactoryBot.build_stubbed(:user).tap do |user|
+      allow(user)
+        .to receive(:allowed_to?) do |per, pro|
+        project == pro && permissions.include?(per)
+      end
+    end
   end
+  let(:permissions) { [:edit_work_packages] }
   let(:attribute_query) do
     FactoryBot.build_stubbed(:query).tap do |query|
       query.filters.clear
@@ -83,6 +89,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:available_custom_fields) { [] }
 
   before do
+    login_as(current_user)
     allow(schema).to receive(:writable?).and_call_original
   end
 
@@ -557,12 +564,28 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'project' do
-      it_behaves_like 'has basic schema properties' do
-        let(:path) { 'project' }
-        let(:type) { 'Project' }
-        let(:name) { I18n.t('attributes.project') }
-        let(:required) { true }
-        let(:writable) { true }
+      context 'if having the move_work_packages permission' do
+        let(:permissions) { [:move_work_packages] }
+
+        it_behaves_like 'has basic schema properties' do
+          let(:path) { 'project' }
+          let(:type) { 'Project' }
+          let(:name) { I18n.t('attributes.project') }
+          let(:required) { true }
+          let(:writable) { true }
+        end
+      end
+
+      context 'if having the edit_work_packages permission' do
+        let(:permissions) { [:edit_work_packages] }
+
+        it_behaves_like 'has basic schema properties' do
+          let(:path) { 'project' }
+          let(:type) { 'Project' }
+          let(:name) { I18n.t('attributes.project') }
+          let(:required) { true }
+          let(:writable) { false }
+        end
       end
 
       context 'when updating' do
@@ -583,7 +606,22 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
         it_behaves_like 'links to allowed values via collection link' do
           let(:path) { 'project' }
-          let(:href) { api_v3_paths.available_projects_on_create }
+          let(:href) { api_v3_paths.available_projects_on_create(wp_type.id) }
+        end
+      end
+
+      context 'when creating (new_record with empty type)' do
+        let(:work_package) do
+          FactoryBot.build(:stubbed_work_package, project: project, type: nil) do |wp|
+            allow(wp)
+              .to receive(:available_custom_fields)
+                    .and_return(available_custom_fields)
+          end
+        end
+
+        it_behaves_like 'links to allowed values via collection link' do
+          let(:path) { 'project' }
+          let(:href) { api_v3_paths.available_projects_on_create(nil) }
         end
       end
 
@@ -656,18 +694,34 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'versions' do
-      it_behaves_like 'has basic schema properties' do
-        let(:path) { 'version' }
-        let(:type) { 'Version' }
-        let(:name) { I18n.t('activerecord.attributes.work_package.fixed_version') }
-        let(:required) { false }
-        let(:writable) { true }
+      context 'if having the assign_versions permission' do
+        let(:permissions) { [:assign_versions] }
+
+        it_behaves_like 'has basic schema properties' do
+          let(:path) { 'version' }
+          let(:type) { 'Version' }
+          let(:name) { I18n.t('activerecord.attributes.work_package.fixed_version') }
+          let(:required) { false }
+          let(:writable) { true }
+        end
+
+        it_behaves_like 'has a collection of allowed values' do
+          let(:json_path) { 'version' }
+          let(:href_path) { 'versions' }
+          let(:factory) { :version }
+        end
       end
 
-      it_behaves_like 'has a collection of allowed values' do
-        let(:json_path) { 'version' }
-        let(:href_path) { 'versions' }
-        let(:factory) { :version }
+      context 'if having the edit_work_packages permission' do
+        let(:permissions) { [:edit_work_packages] }
+
+        it_behaves_like 'has basic schema properties' do
+          let(:path) { 'version' }
+          let(:type) { 'Version' }
+          let(:name) { I18n.t('activerecord.attributes.work_package.fixed_version') }
+          let(:required) { false }
+          let(:writable) { false }
+        end
       end
     end
 

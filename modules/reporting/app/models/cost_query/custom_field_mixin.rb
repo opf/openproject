@@ -22,13 +22,14 @@ module CostQuery::CustomFieldMixin
 
   attr_reader :custom_field
   SQL_TYPES = {
-    'string' => mysql? ? 'char' : 'varchar',
-    'list'   => mysql? ? 'char' : 'varchar',
-    'text'   => mysql? ? 'char' : 'text',
-    'bool'   => mysql? ? 'unsigned' : 'boolean',
-    'date'  => 'date',
-    'int'   => 'decimal(60,3)',
-    'float' => 'decimal(60,3)' }
+    'string' => 'varchar',
+    'list' => 'varchar',
+    'text' => 'text',
+    'bool' => 'boolean',
+    'date' => 'date',
+    'int' => 'decimal(60,3)',
+    'float' => 'decimal(60,3)'
+  }.freeze
 
   def self.extended(base)
     base.inherited_attribute :factory
@@ -101,7 +102,7 @@ module CostQuery::CustomFieldMixin
   # contained invalid values.
   def all_values_int?(field)
     field.custom_values.pluck(:value).all? { |val| val.to_i > 0 }
-  rescue
+  rescue StandardError
     false
   end
 

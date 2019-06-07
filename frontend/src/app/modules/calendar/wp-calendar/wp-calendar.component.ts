@@ -26,7 +26,7 @@ import {OpTitleService} from "core-components/html/op-title.service";
 })
 export class WorkPackagesCalendarController implements OnInit, OnDestroy {
   calendarOptions:Options;
-  @ViewChild(CalendarComponent) ucCalendar:CalendarComponent;
+  @ViewChild(CalendarComponent, { static: false }) ucCalendar:CalendarComponent;
   @Input() projectIdentifier:string;
   @Input() static:boolean = false;
   static MAX_DISPLAYED = 100;

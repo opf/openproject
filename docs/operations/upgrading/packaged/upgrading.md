@@ -48,15 +48,64 @@ Note that this still takes previous values into consideration. Values that shoul
 
 # Upgrading between major releases (DEB/RPM packages)
 
-Since OpenProject 8.0.0 is a major upgrade, you will need to perform some basic manual steps to upgrade your package.
+Since OpenProject 9.0.0 is a major upgrade, you will need to perform some basic manual steps to upgrade your package.
 
-First, please check that the package repository is correct. Compare your local package repository with the one printed on your matching distribution on [our Download and Installation page](https://www.openproject.org/download-and-installation/)
+First, please check that the package repository is correct.
+Compare your local package repository with the one printed on your matching distribution on [our Download and Installation page](https://www.openproject.org/download-and-installation/)
 
-## Upgrade notes for OpenProject 8.0.
+## Upgrade notes for OpenProject 9.0
+
+These following points are some known issues around the update to 9.0.
+
+It does not contain the entire list of changes.
+To see all changes, [please browse the release notes](https://www.openproject.org/release-notes/openproject-9-0-0/).
+
+### Package repository moved into opf/openproject
+
+The OpenProject community installation is now using the same repository as the OpenProject development core.
+
+Please update your package source according to [our Download and Installation page](https://www.openproject.org/download-and-installation/).
+You will need to replace `opf/openproject-ce` with `opf/openproject` together with a change from `stable/8` to `stable/9` in order to perform the update.
+
+### MySQL is being deprecated
+
+OpenProject 9.0. is deprecating MySQL support. You can expect full MySQL support for the course of 9.0 releases, but we
+are likely going to be dropping MySQL completely in one of the following releases.
+
+For more information regarding motivation behind this and migration steps, please see https://www.openproject.org/deprecating-mysql-support/
+In this post, you will find documentation for a mostly-automated migration script to PostgreSQL to help you get up and running with PostgreSQL.
+
+## Upgrade steps
+
+If you have currently installed the stable 8.x release of OpenProject by using the `stable/8` package source,
+you will need to adjust that package source.
+
+### APT-based systems (Debian, Ubuntu)
+
+ - Update the reference to `opf/openproject-ce` in `/etc/apt/sources.list.d/openproject.list` to `opf/openproject`.
+ - Update the reference to `stable/8` in `/etc/apt/sources.list.d/openproject.list` to `stable/9`.
+ - Perform the Upgrade steps as mentioned above in *Upgrading your OpenProject installation*
+
+### YUM-based systems (CentOS, RHEL)
+
+ - Update the reference to `opf/openproject-ce` in `/etc/yum.repos.d/openproject.repo` to `opf/openproject`.
+ - Update the reference to `stable/8` in `/etc/yum.repos.d/openproject.repo` to `stable/9`.
+ - Perform the Upgrade steps as mentioned above in *Upgrading your OpenProject installation*
+
+### SUSE Linux Enterprise Server 12
+
+ - Update the reference to `opf/openproject-ce` in `/etc/zypp/repos.d/openproject.repo` to `opf/openproject`.
+ - Update the reference to `stable/8` in `/etc/zypp/repos.d/openproject.repo` to `stable/9`.
+ - Perform the Upgrade steps as mentioned above in *Upgrading your OpenProject installation*
+
+
+## Previous Upgrade notes
+
+### Upgrade notes for OpenProject 7.0. to 8.x
 
 These following points are some known issues around the update to 8.0. It does not contain the entire list of changes. To see all changes, [please browse the release notes](https://www.openproject.org/release-notes/openproject-8-0/).
 
-### Upgrades in NPM may result in package inconsistencies
+#### Upgrades in NPM may result in package inconsistencies
 
 As has been reported from the community, [there appear to be issues with NPM leftover packages](https://community.openproject.com/projects/openproject/work_packages/28571) upgrading to OpenProject 8.0.0. This is due to the packages applying a delta between your installed version and the to-be-installed 8.0. package. In some cases such as SLES12 and Centos 7, the `frontend/node_modules` folder is not fully correctly replaced. This appears to hint at an issue with yum, the package manager behind both.
 
@@ -67,31 +116,8 @@ rm -rf /opt/openproject/frontend/node_modules
 # Continue with the installation steps described below
 ```
 
-### Migration from Textile to Markdown
+#### Migration from Textile to Markdown
 
 OpenProject 8.0. has removed Textile, all previous content is migrated to GFM Markdown using [pandoc](https://pandoc.org). This will happen automatically during the migration run. A recent pandoc version will be downloaded by OpenProject.
 
 For more information, please visit this separate guide: https://github.com/opf/openproject/tree/dev/docs/user/textile-to-markdown-migration
-
-
-## Upgrade steps
-
-If you have currently installed the stable 7.x release of OpenProject by using the `stable/7` package source,
-you will need to adjust that package source.
-
-### APT-based systems (Debian, Ubuntu)
-
- - Update the reference to `stable/7` in `/etc/apt/sources.list.d/openproject.list` to `stable/8`.
- - Perform the Upgrade steps as mentioned above in *Upgrading your OpenProject installation*
-
-### YUM-based systems (CentOS, RHEL)
-
- - Update the reference to `stable/7` in `/etc/yum.repos.d/openproject.repo` to `stable/8`.
- - Perform the Upgrade steps as mentioned above in *Upgrading your OpenProject installation*
-
-### SUSE Linux Enterprise Server 12
-
- - Update the reference to `stable/7` in `/etc/zypp/repos.d/openproject.repo` to `stable/8`.
- - Perform the Upgrade steps as mentioned above in *Upgrading your OpenProject installation*
-
-

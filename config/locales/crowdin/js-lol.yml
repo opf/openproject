@@ -174,14 +174,10 @@ lol:
     homescreen:
       blocks:
         new_features:
-          text_new_features: Read about new features and product updates.
-          current_new_feature_html: 'OpenProject contains a new <b>Boards view</b>
-            for Agile project management. </br> To activate this new feature for your
-            existing projects, please do the following steps: <ul><li>Activate the
-            module Boards within existing projects'' settings.</li> <li>Configure
-            your Boards in a project.</li> <li>Verify roles and permissions</li></ul>'
-          image_alt_text: Board teaser image
-          learn_about: Learn more about Agile Boards
+          text_new_features: crwdns129930:0crwdne129930:0
+          current_new_feature_html: crwdns129932:0crwdne129932:0
+          image_alt_text: crwdns129934:0crwdne129934:0
+          learn_about: crwdns129936:0crwdne129936:0
     label_activate: crwdns127282:0crwdne127282:0
     label_activity_no: crwdns127284:0%{activityNo}crwdne127284:0
     label_activity_with_comment_no: crwdns127286:0%{activityNo}crwdne127286:0
@@ -206,7 +202,7 @@ lol:
     label_board_locked: crwdns127324:0crwdne127324:0
     label_board_plural: crwdns127326:0crwdne127326:0
     label_board_sticky: crwdns127328:0crwdne127328:0
-    label_create_new: crwdns129864:0crwdne129864:0
+    label_create: crwdns129938:0crwdne129938:0
     label_create_work_package: crwdns127330:0crwdne127330:0
     label_created_by: crwdns127332:0crwdne127332:0
     label_date: crwdns127334:0crwdne127334:0
@@ -378,7 +374,9 @@ lol:
       selection: crwdns127634:0crwdne127634:0
       relation_description: crwdns127636:0crwdne127636:0
     project:
-      required_outside_context: crwdns127638:0crwdne127638:0
+      required_outside_context: 'crwdns129940:0crwdne129940:0
+
+'
       context: crwdns127640:0crwdne127640:0
       work_package_belongs_to: crwdns127642:0%{projectname}crwdne127642:0
       click_to_switch_context: crwdns127644:0crwdne127644:0
@@ -463,7 +461,7 @@ lol:
       save: crwdns127780:0crwdne127780:0
       abort: crwdns127782:0crwdne127782:0
     relations_autocomplete:
-      placeholder: crwdns127784:0crwdne127784:0
+      placeholder: crwdns129942:0crwdne129942:0
       parent_placeholder: crwdns129866:0crwdne129866:0
     repositories:
       select_tag: crwdns127788:0crwdne127788:0

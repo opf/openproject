@@ -47,7 +47,7 @@ describe CopyProjectJob, type: :model do
     let(:copy_job) {
       CopyProjectJob.new user_id: user_de.id,
                          source_project_id: source_project.id,
-                         target_project_params: target_project,
+                         target_project_params: {},
                          associations_to_copy: []
     }
 
@@ -118,6 +118,32 @@ describe CopyProjectJob, type: :model do
     end
   end
 
+  describe 'copy project fails with internal error' do
+    let(:admin) { FactoryBot.create(:admin) }
+    let(:source_project) { FactoryBot.create(:project) }
+    let(:copy_job) {
+      CopyProjectJob.new user_id: admin.id,
+                         source_project_id: source_project.id,
+                         target_project_params: params,
+                         associations_to_copy: [:work_packages]
+    } # send mails
+    let(:params) { { name: 'Copy', identifier: 'copy' } }
+
+    before do
+      allow(User).to receive(:current).and_return(admin)
+      allow(ProjectMailer).to receive(:copy_project_succeeded).and_raise 'error message not meant for user'
+    end
+
+    it 'renders a error when unexpected errors occur' do
+      expect(ProjectMailer)
+        .to receive(:copy_project_failed)
+        .with(admin, source_project, 'Copy', [I18n.t('copy_project.failed_internal')])
+        .and_return maildouble
+
+      expect { copy_job.perform }.not_to raise_error
+    end
+  end
+
   shared_context 'copy project' do
     before do
       copy_project_job = CopyProjectJob.new(user_id: user.id,
@@ -139,13 +165,21 @@ describe CopyProjectJob, type: :model do
       let(:subproject) { FactoryBot.create(:project, parent: project) }
 
       describe 'invalid parent' do
-        before do expect(ProjectMailer).to receive(:copy_project_failed).and_return(maildouble) end
-
         include_context 'copy project' do
           let(:project_to_copy) { subproject }
         end
 
-        it { expect(Project.all).to match_array([project, subproject]) }
+        it "creates no new project" do
+          expect(Project.all).to match_array([project, subproject])
+        end
+
+        it "notifies the user of the failure" do
+          mail = ActionMailer::Base.deliveries
+            .find { |m| m.message_id.start_with? "openproject.project-#{user.id}-#{subproject.id}" }
+
+          expect(mail).to be_present
+          expect(mail.subject).to eq "Cannot copy project #{subproject.name}"
+        end
       end
 
       describe 'valid parent' do
@@ -158,8 +192,6 @@ describe CopyProjectJob, type: :model do
         }
 
         before do
-          expect(ProjectMailer).to receive(:copy_project_succeeded).and_return(maildouble)
-
           member_add_subproject
         end
 
@@ -174,6 +206,14 @@ describe CopyProjectJob, type: :model do
           expect(subject.parent).to eql(project)
 
           expect(subproject.reload.enabled_module_names).not_to be_empty
+        end
+
+        it "notifies the user of the success" do
+          mail = ActionMailer::Base.deliveries
+            .find { |m| m.message_id.start_with? "openproject.project-#{user.id}-#{subject.id}" }
+
+          expect(mail).to be_present
+          expect(mail.subject).to eq "Created project #{subject.name}"
         end
       end
     end
