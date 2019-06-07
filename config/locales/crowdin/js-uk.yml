@@ -519,7 +519,7 @@ uk:
       save: Зберегти відношення
       abort: Відмінити
     relations_autocomplete:
-      placeholder: Type to search
+      placeholder: Введіть для пошуку
       parent_placeholder: Виберіть нові джерела або натисніть клавішу Escape, щоб
         скасувати.
     repositories:

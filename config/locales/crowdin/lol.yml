@@ -94,13 +94,13 @@ lol:
     single: crwdns122830:0crwdne122830:0
   deprecations:
     old_timeline:
-      replacement: crwdns122832:0crwdne122832:0
-      removal: crwdns122834:0crwdne122834:0
-      further_information_before: crwdns122836:0crwdne122836:0
-      link_name: crwdns122838:0crwdne122838:0
-      further_information_after: crwdns122840:0crwdne122840:0
+      replacement: crwdns129946:0crwdne129946:0
+      removal: crwdns129948:0crwdne129948:0
+      further_information_before: crwdns129950:0crwdne129950:0
+      link_name: crwdns129952:0crwdne129952:0
+      further_information_after: crwdns129954:0crwdne129954:0
     calendar:
-      removal: crwdns122842:0crwdne122842:0
+      removal: crwdns129956:0crwdne129956:0
   global_search:
     overwritten_tabs:
       wiki_pages: crwdns122844:0crwdne122844:0
@@ -769,7 +769,7 @@ lol:
   copy_project:
     started: crwdns123800:0%{source_project_name}crwdnd123800:0%{target_project_name}crwdnd123800:0%{target_project_name}crwdne123800:0
     failed: crwdns123802:0%{source_project_name}crwdne123802:0
-    failed_internal: Copying failed due to an internal error.
+    failed_internal: crwdns129958:0crwdne129958:0
     succeeded: crwdns123804:0%{target_project_name}crwdne123804:0
     errors: crwdns123806:0crwdne123806:0
     project_custom_fields: crwdns123808:0crwdne123808:0
