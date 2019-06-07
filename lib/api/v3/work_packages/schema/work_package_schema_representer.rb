@@ -40,7 +40,8 @@ module API
           include API::Caching::CachedRepresenter
           cached_representer key_parts: %i[project type],
                              dependencies: -> {
-                               Authorization.roles(User.current, represented.project).map(&:permissions).sort
+                               Authorization.roles(User.current, represented.project).map(&:permissions).sort +
+                                 [Setting.work_package_done_ratio]
                              }
 
           custom_field_injector type: :schema_representer

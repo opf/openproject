@@ -955,6 +955,22 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         end
       end
 
+      context 'if the work_package_done_ratio setting changes' do
+        it_behaves_like 'changes' do
+          let(:setup) do
+            allow(Setting)
+              .to receive(:work_package_done_ratio)
+              .and_return('something')
+          end
+
+          let(:change) do
+            allow(Setting)
+              .to receive(:work_package_done_ratio)
+              .and_return('else')
+          end
+        end
+      end
+
       context 'if the users permissions change' do
         it_behaves_like 'changes' do
           let(:role1) { FactoryBot.build_stubbed(:role, permissions: permissions1) }
