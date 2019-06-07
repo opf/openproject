@@ -5,10 +5,10 @@ import {AfterViewInit, Component, ElementRef, ViewChild} from "@angular/core";
 })
 
 export class ScrollableTabsComponent implements AfterViewInit {
-  @ViewChild('scrollContainer') scrollContainer:ElementRef;
-  @ViewChild('scrollPane') scrollPane:ElementRef;
-  @ViewChild('scrollRightBtn') scrollRightBtn:ElementRef;
-  @ViewChild('scrollLeftBtn') scrollLeftBtn:ElementRef;
+  @ViewChild('scrollContainer', { static: true }) scrollContainer:ElementRef;
+  @ViewChild('scrollPane', { static: true }) scrollPane:ElementRef;
+  @ViewChild('scrollRightBtn', { static: true }) scrollRightBtn:ElementRef;
+  @ViewChild('scrollLeftBtn', { static: true }) scrollLeftBtn:ElementRef;
 
   public currentTabId:string = '';
   public tabs:{id:string, name:string}[] = [];

@@ -49,7 +49,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   public _container:HTMLElement;
 
   /** Container reference */
-  @ViewChild('container')
+  @ViewChild('container', { static: false })
   set container(v:ElementRef|undefined) {
     // ViewChild reference may be undefined initially
     // due to ngIf
@@ -62,7 +62,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   }
 
   /** Reference to the filter component */
-  @ViewChild(BoardFilterComponent)
+  @ViewChild(BoardFilterComponent, { static: false })
   set content(v:BoardFilterComponent|undefined) {
     // ViewChild reference may be undefined initially
     // due to ngIf

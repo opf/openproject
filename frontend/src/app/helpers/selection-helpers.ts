@@ -7,9 +7,9 @@ export namespace SelectionHelpers {
    */
   export function hasSelectionWithin(target:Element):boolean {
     try {
-      const selection = window.getSelection();
+      const selection = window.getSelection()!;
       const hasSelection = selection.toString().length > 0;
-      const isWithin = target.contains(getSelection().anchorNode);
+      const isWithin = target.contains(selection.anchorNode);
 
       return hasSelection && isWithin;
     } catch (e) {

@@ -35,7 +35,7 @@ import {WorkPackagesCalendarController} from "core-app/modules/calendar/wp-calen
 })
 
 export class WorkPackagesCalendarEntryComponent extends WorkPackagesViewBase {
-  @ViewChild(WorkPackagesCalendarController) calendarElement:WorkPackagesCalendarController;
+  @ViewChild(WorkPackagesCalendarController, { static: true }) calendarElement:WorkPackagesCalendarController;
 
   /** Project identifier of the list */
   projectIdentifier = this.$state.params['projectPath'] || null;

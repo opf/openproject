@@ -71,7 +71,7 @@ export class WorkPackageCardViewComponent  implements OnInit {
   @Input() public cardsRemovable:boolean = false;
 
   /** Container reference */
-  @ViewChild('container') public container:ElementRef;
+  @ViewChild('container', { static: true }) public container:ElementRef;
 
   /** Whether the card view has an active inline created wp */
   public activeInlineCreateWp?:WorkPackageResource;

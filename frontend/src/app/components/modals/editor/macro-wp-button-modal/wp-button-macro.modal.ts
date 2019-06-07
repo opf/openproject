@@ -52,7 +52,7 @@ export class WpButtonMacroModal extends OpModalComponent implements AfterViewIni
   public type:string = '';
   public classes:string = '';
 
-  @ViewChild('typeSelect') typeSelect:ElementRef;
+  @ViewChild('typeSelect', { static: true }) typeSelect:ElementRef;
 
   public text:any = {
     title: this.I18n.t('js.editor.macro.work_package_button.button'),

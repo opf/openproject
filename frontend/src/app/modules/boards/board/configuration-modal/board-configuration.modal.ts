@@ -46,7 +46,7 @@ export class BoardConfigurationModal extends OpModalComponent implements OnInit,
   };
 
   // Get the view child we'll use as the portal host
-  @ViewChild('tabContentOutlet') tabContentOutlet:ElementRef;
+  @ViewChild('tabContentOutlet', { static: true }) tabContentOutlet:ElementRef;
   // And a reference to the actual portal host interface
   public tabPortalHost:TabPortalOutlet;
 

@@ -28,8 +28,7 @@
 
 import {Component, DebugElement} from "@angular/core";
 
-import {fakeAsync, TestBed, tick} from '@angular/core/testing';
-import {ComponentFixture} from '@angular/core/testing/src/component_fixture';
+import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {By} from "@angular/platform-browser";
 import {AccessibleClickDirective} from "core-app/modules/a11y/accessible-click.directive";
 

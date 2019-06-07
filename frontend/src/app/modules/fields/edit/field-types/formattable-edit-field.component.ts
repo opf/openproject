@@ -64,7 +64,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   // Detect when inner component could not be initalized
   public initializationError = false;
 
-  @ViewChild(OpCkeditorComponent) instance:OpCkeditorComponent;
+  @ViewChild(OpCkeditorComponent, { static: true }) instance:OpCkeditorComponent;
 
   // Values used in template
   public isPreview:boolean = false;

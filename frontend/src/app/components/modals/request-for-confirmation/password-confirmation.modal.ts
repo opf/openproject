@@ -36,7 +36,7 @@ export class PasswordConfirmationModal extends ConfirmDialogModal implements OnI
 
   public password_confirmation:string|null = null;
 
-  @ViewChild('passwordConfirmationField') passwordConfirmationField:ElementRef;
+  @ViewChild('passwordConfirmationField', { static: true }) passwordConfirmationField:ElementRef;
 
   public ngOnInit() {
     super.ngOnInit();

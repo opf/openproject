@@ -220,7 +220,7 @@ export class WorkPackageTableFiltersService extends WorkPackageQueryStateService
    * @param query
    */
   public hasChanged(query:QueryResource) {
-    const comparer = (filter:QueryFilterInstanceResource[]) => filter.map(el => el.$source);
+    const comparer = (filter:HalResource[]) => filter.map(el => el.$source);
 
     return !_.isEqual(
       comparer(query.filters),
@@ -281,7 +281,7 @@ export class WorkPackageTableFiltersService extends WorkPackageQueryStateService
    * Returns the live state array, used for inspection of the filters
    * without modification.
    */
-  protected get rawFilters():Readonly<QueryFilterInstanceResource[]> {
+  protected get rawFilters():QueryFilterInstanceResource[] {
     return this.state.getValueOr([]);
   }
 

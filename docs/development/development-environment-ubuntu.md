@@ -35,12 +35,12 @@ rbenv is a ruby version manager that lets you quickly switch between ruby versio
 # Optional: Compile bash extensions 
 [dev@ubuntu]# cd ~/.rbenv && src/configure && make -C src
 # Add rbenv to the shell's $PATH.
-[dev@ubuntu]# echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
+[dev@ubuntu]# echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
 
 # Run rbenv-init and follow the instructions to initialize rbenv on any shell
 [dev@ubuntu]# ~/.rbenv/bin/rbenv init
-# Source bash_profile
-[dev@ubuntu]# source ~/.bash_profile
+# Source bashrc
+[dev@ubuntu]# source ~/.bashrc
 ```
 
 **Installing ruby-build**
@@ -80,8 +80,10 @@ You also need to install [bundler](https://github.com/bundler/bundler/), the rub
 
 Next, install a PostgreSQL database.
 
+(Looks counter-intuitive but for the time being we also need the `mysql-client`)
+
 ```bash
-[dev@debian]# sudo apt-get install postgresql postgresql-client
+[dev@debian]# sudo apt-get install postgresql postgresql-client mysql-client
 ```
 
 Create the OpenProject database user and accompanied database.
@@ -114,12 +116,12 @@ We will install the latest LTS version of Node.js via [nodenv](https://github.co
 # Optional: Install bash extensions
 [dev@ubuntu]# cd ~/.nodenv && src/configure && make -C src
 # Add nodenv to the shell's $PATH.
-[dev@ubuntu]# echo 'export PATH="$HOME/.nodenv/bin:$PATH"' >> ~/.bash_profile
+[dev@ubuntu]# echo 'export PATH="$HOME/.nodenv/bin:$PATH"' >> ~/.bashrc
 
 # Run nodenv init and follow the instructions to initialize nodenv on any shell
 [dev@ubuntu]# ~/.nodenv/bin/nodenv init
-# Source bash_profile
-[dev@ubuntu]# source ~/.bash_profile
+# Source bashrc
+[dev@ubuntu]# source ~/.bashrc
 ```
 
 **Install node-build**
@@ -131,11 +133,11 @@ We will install the latest LTS version of Node.js via [nodenv](https://github.co
 **Install latest LTS node version**
 
 You can find the latest LTS version here: https://nodejs.org/en/download/
-Currently, this is v8.12.0 Install and activate it with:
+Currently, this is v10.15.3 Install and activate it with:
 
 ```bash
-[dev@ubuntu]# nodenv install 8.12.0
-[dev@ubuntu]# nodenv global 8.12.0
+[dev@ubuntu]# nodenv install 10.15.3
+[dev@ubuntu]# nodenv global 10.15.3
 ```
 
 ## Verify your installation

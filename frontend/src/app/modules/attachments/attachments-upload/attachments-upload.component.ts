@@ -42,7 +42,7 @@ import {NotificationsService} from "core-app/modules/common/notifications/notifi
 export class AttachmentsUploadComponent implements OnInit {
   @Input() public resource:HalResource;
 
-  @ViewChild('hiddenFileInput') public filePicker:ElementRef;
+  @ViewChild('hiddenFileInput', { static: false }) public filePicker:ElementRef;
 
   public draggingOver:boolean = false;
   public text:any;

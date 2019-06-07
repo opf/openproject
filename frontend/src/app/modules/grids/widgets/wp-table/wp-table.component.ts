@@ -36,7 +36,7 @@ export class WidgetWpTableComponent extends WidgetWpListComponent implements OnI
     super(i18n);
   }
 
-  @ViewChild(WorkPackageIsolatedQuerySpaceDirective) public querySpaceDirective:WorkPackageIsolatedQuerySpaceDirective;
+  @ViewChild(WorkPackageIsolatedQuerySpaceDirective, { static: true }) public querySpaceDirective:WorkPackageIsolatedQuerySpaceDirective;
 
   ngOnInit() {
     if (!this.resource.options.queryId) {

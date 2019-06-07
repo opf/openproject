@@ -33,10 +33,9 @@ import {
   UploadInProgress
 } from "core-components/api/op-file-upload/op-file-upload.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {HttpEventType, HttpProgressEvent} from "@angular/common/http";
+import {HttpErrorResponse, HttpEventType, HttpProgressEvent} from "@angular/common/http";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {debugLog} from "core-app/helpers/debug_output";
-import {HttpErrorResponse} from "@angular/common/http/src/response";
 
 @Component({
   selector: 'notifications-upload-progress',

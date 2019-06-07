@@ -49,7 +49,7 @@ export class WikiIncludePageMacroModal extends OpModalComponent implements After
   public selectedPage:string;
   public page:string = '';
 
-  @ViewChild('selectedPageInput') selectedPageInput:ElementRef;
+  @ViewChild('selectedPageInput', { static: true }) selectedPageInput:ElementRef;
 
   public text:any = {
     title: this.I18n.t('js.editor.macro.wiki_page_include.button'),

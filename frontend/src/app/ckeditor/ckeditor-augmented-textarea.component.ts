@@ -64,7 +64,7 @@ export class CkeditorAugmentedTextareaComponent implements OnInit, OnDestroy {
   public context:ICKEditorContext;
 
   // Reference to the actual ckeditor instance component
-  @ViewChild(OpCkeditorComponent) private ckEditorInstance:OpCkeditorComponent;
+  @ViewChild(OpCkeditorComponent, { static: true }) private ckEditorInstance:OpCkeditorComponent;
 
   private attachments:HalResource[];
 

@@ -58,14 +58,13 @@ export class WorkPackageChildrenQueryComponent extends WorkPackageRelationQueryB
   /** An optional group descriptor if we're rendering on the single view */
   @Input() public group?:GroupDescriptor;
   @Input() public addExistingChildEnabled:boolean = false;
-  @ViewChild('embeddedTable') private childrenEmbeddedTable:WorkPackageEmbeddedTableComponent;
 
   public tableActions:OpTableActionFactory[] = [
     OpUnlinkTableAction.factoryFor(
       'remove-child-action',
       this.I18n.t('js.relation_buttons.remove_child'),
       (child:WorkPackageResource) => {
-        this.childrenEmbeddedTable.loadingIndicator = this.wpRelationsHierarchyService.removeChild(child);
+        this.embeddedTable.loadingIndicator = this.wpRelationsHierarchyService.removeChild(child);
       },
       (child:WorkPackageResource) => !!child.changeParent
     )

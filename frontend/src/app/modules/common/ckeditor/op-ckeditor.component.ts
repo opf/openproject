@@ -60,8 +60,8 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
   @Output() onInitializationFailed = new EventEmitter<string>();
 
   // View container of the replacement used to initialize CKEditor5
-  @ViewChild('opCkeditorReplacementContainer') opCkeditorReplacementContainer:ElementRef;
-  @ViewChild('codeMirrorPane') codeMirrorPane:ElementRef;
+  @ViewChild('opCkeditorReplacementContainer', { static: true }) opCkeditorReplacementContainer:ElementRef;
+  @ViewChild('codeMirrorPane', { static: false }) codeMirrorPane:ElementRef;
 
   // CKEditor instance once initialized
   public ckEditorInstance:ICKEditorInstance;
@@ -228,7 +228,7 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
     Promise
       .all([
         import('codemirror'),
-        import(`codemirror/mode/${cmMode}/${cmMode}`)
+        import(/* webpackChunkName: "codemirror-mode" */ `codemirror/mode/${cmMode}/${cmMode}.js`)
       ])
       .then((imported:any[]) => {
         const CodeMirror = imported[0].default;

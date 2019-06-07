@@ -69,10 +69,10 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   @Input() public filters:ApiV3Filter[];
 
   /** Access to the loading indicator element */
-  @ViewChild('loadingIndicator') indicator:ElementRef;
+  @ViewChild('loadingIndicator', { static: true }) indicator:ElementRef;
 
   /** Access to the card view */
-  @ViewChild(WorkPackageCardViewComponent) cardView:WorkPackageCardViewComponent;
+  @ViewChild(WorkPackageCardViewComponent, { static: false }) cardView:WorkPackageCardViewComponent;
 
   /** The query resource being loaded */
   public query:QueryResource;

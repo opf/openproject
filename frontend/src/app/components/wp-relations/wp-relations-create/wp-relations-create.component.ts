@@ -13,7 +13,7 @@ import {WorkPackageTableRefreshService} from "core-components/wp-table/wp-table-
 })
 export class WorkPackageRelationsCreateComponent {
   @Input() readonly workPackage:WorkPackageResource;
-  @ViewChild('focusAfterSave') readonly focusAfterSave:ElementRef;
+  @ViewChild('focusAfterSave', { static: false }) readonly focusAfterSave:ElementRef;
 
   public showRelationsCreateForm:boolean = false;
   public selectedRelationType:string = RelationResource.DEFAULT();
