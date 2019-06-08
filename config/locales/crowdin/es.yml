@@ -3060,9 +3060,9 @@ es:
       Eso suspenderá %{token_count} activos para realizarse."
     my_registered_applications: Aplicaciones OAuth Registradas
   mysql_deprecation:
-    notice: 'Es probable que en las próximas versiones de OpenProject se elimine o
-      reduzca la compatibilidad con las bases de datos de MySQL y MariaDB. Su instalación
-      aún se ejecuta con MySQL, por lo que le sugerimos que migre la instalación a
-      PostgreSQL. Siga nuestras guías de migración para realizar este sencillo proceso:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
 
 '

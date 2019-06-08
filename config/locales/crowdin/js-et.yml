@@ -473,7 +473,7 @@ et:
       typeahead_placeholder: Search for possible watchers
     relation_labels:
       parent: Pärineb teemast
-      children: Children
+      children: Lapsed
       relates: Related To
       duplicates: Duplicates
       duplicated: Duplicated by
@@ -489,7 +489,7 @@ et:
     relations_hierarchy:
       parent_headline: Pärineb teemast
       hierarchy_headline: Hierarchy
-      children_headline: Children
+      children_headline: Lapsed
     relation_buttons:
       set_parent: Set parent
       change_parent: Change parent

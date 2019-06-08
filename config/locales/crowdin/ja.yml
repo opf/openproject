@@ -2673,7 +2673,9 @@ ja:
       が無効になります。
     my_registered_applications: 登録済みのOAuthアプリケーション
   mysql_deprecation:
-    notice: 'OpenProject の将来のバージョンは MariaDB と MySQL データベースのサポートがなくなる可能性があります。MySQL
-      のインストールが実行中の場合、PostgreSQL のインストールと移行をお勧めします。 移行ガイドに従うと、このプロセスを簡単に行うことができます:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
 
 '
