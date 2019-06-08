@@ -2840,10 +2840,10 @@ pt:
   menu_item: Item de menu
   menu_item_setting: Visibilidade
   mysql_deprecation:
-    notice: 'As versões futuras do OpenProject irão provavelmente abandonar ou reduzir
-      o suporte para bases de dados MySQL e MariaDB. A sua instalação ainda está em
-      execução no MySQL, e sugerimos que migre a sua instalação para o PostgreSQL.
-      Este processo é fácil se seguir os nossos guias de migração:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
 
 '
   wiki_menu_item_for: Item de menu para página wiki "%{title}"

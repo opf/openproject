@@ -516,7 +516,7 @@ pt:
       save: Guardar relação
       abort: Abortar
     relations_autocomplete:
-      placeholder: Type to search
+      placeholder: Digite para pesquisar
       parent_placeholder: Escolha o novo parente ou prima escape para cancelar.
     repositories:
       select_tag: Selecionar a tag

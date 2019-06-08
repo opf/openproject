@@ -2799,10 +2799,10 @@ hu:
   menu_item: Menüpont
   menu_item_setting: Látható
   mysql_deprecation:
-    notice: 'Az Openproject jövőbeli verziói valószínűleg nem vagy korlátozottan fogják
-      támogatni a MySQL és MariaDB adatbázisokat. Az Ön telepítése még MySQL-t használ,
-      ezért azt javasoljuk, költöztesse át PostgreSQL adatbázisra. Az eljárás egyszerű,
-      kövesse útmutatónkat:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
 
 '
   wiki_menu_item_for: Wikipage "%{title}" menüeleme
