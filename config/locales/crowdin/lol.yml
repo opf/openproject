@@ -94,13 +94,13 @@ lol:
     single: crwdns122830:0crwdne122830:0
   deprecations:
     old_timeline:
-      replacement: crwdns129978:0crwdne129978:0
-      removal: crwdns129980:0crwdne129980:0
-      further_information_before: crwdns129982:0crwdne129982:0
-      link_name: crwdns129984:0crwdne129984:0
-      further_information_after: crwdns129986:0crwdne129986:0
+      replacement: crwdns129994:0crwdne129994:0
+      removal: crwdns129996:0crwdne129996:0
+      further_information_before: crwdns129998:0crwdne129998:0
+      link_name: crwdns130000:0crwdne130000:0
+      further_information_after: crwdns130002:0crwdne130002:0
     calendar:
-      removal: crwdns129988:0crwdne129988:0
+      removal: crwdns130004:0crwdne130004:0
   global_search:
     overwritten_tabs:
       wiki_pages: crwdns122844:0crwdne122844:0
@@ -2481,7 +2481,7 @@ lol:
   menu_item: crwdns126830:0crwdne126830:0
   menu_item_setting: crwdns126832:0crwdne126832:0
   mysql_deprecation:
-    notice: 'crwdns129990:0crwdne129990:0
+    notice: 'crwdns130006:0crwdne130006:0
 
 '
   wiki_menu_item_for: crwdns126834:0%{title}crwdne126834:0
