@@ -95,7 +95,7 @@ Once installed, switch to the PostgreSQL system user.
 Then, as the PostgreSQL user, create the system user for OpenProject. This will prompt you for a password. We are going to assume in the following guide that password were 'openproject'. Of course, please choose a strong password and replace the values in the following guide with it!
 
 ```bash
-[postgres@host] createuser -W openproject
+[postgres@host] createuser -P -d openproject
 ```
 
 Next, create the database owned by the new user
