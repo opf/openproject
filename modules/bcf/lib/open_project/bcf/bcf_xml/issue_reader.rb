@@ -113,7 +113,7 @@ module OpenProject::Bcf::BcfXml
                                                                 .symbolize_keys)
 
       if call.success?
-        force_overwrite(wp)
+        force_overwrite(call.result)
       end
 
       call
@@ -288,18 +288,18 @@ module OpenProject::Bcf::BcfXml
     ##
     # Get an entry within the uuid
     def as_file_entry(filename)
-      entry = zip.find_entry [topic_uuid, filename].join('/')
+      file_entry = zip.find_entry [topic_uuid, filename].join('/')
 
-      if entry
-        FileEntry.new(entry.get_input_stream, filename: filename)
+      if file_entry
+        FileEntry.new(file_entry.get_input_stream, filename: filename)
       end
     end
 
     ##
     # Read an entry as string
     def read_entry(filename)
-      entry = zip.find_entry [topic_uuid, filename].join('/')
-      entry.get_input_stream.read
+      file_entry = zip.find_entry [topic_uuid, filename].join('/')
+      file_entry.get_input_stream.read
     end
 
     ##
