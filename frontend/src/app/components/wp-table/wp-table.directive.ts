@@ -60,6 +60,7 @@ import {
 import {QueryColumn} from 'core-components/wp-query/query-column';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
+import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state/wp-table-sort-by.service";
 
 @Component({
   templateUrl: './wp-table.directive.html',
@@ -105,6 +106,8 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   public timelineVisible:boolean;
 
+  public manualSortEnabled:boolean;
+
   constructor(readonly elementRef:ElementRef,
               readonly injector:Injector,
               readonly states:States,
@@ -115,7 +118,8 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
               readonly cdRef:ChangeDetectorRef,
               readonly wpTableGroupBy:WorkPackageTableGroupByService,
               readonly wpTableTimeline:WorkPackageTableTimelineService,
-              readonly wpTableColumns:WorkPackageTableColumnsService) {
+              readonly wpTableColumns:WorkPackageTableColumnsService,
+              readonly wpTableSortBy:WorkPackageTableSortByService) {
   }
 
   ngOnInit():void {
@@ -147,11 +151,12 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
       this.querySpace.results.values$(),
       this.wpTableGroupBy.state.values$(),
       this.wpTableColumns.state.values$(),
-      this.wpTableTimeline.state.values$());
+      this.wpTableTimeline.state.values$(),
+      this.wpTableSortBy.state.values$());
 
     statesCombined.pipe(
       untilComponentDestroyed(this)
-    ).subscribe(([results, groupBy, columns, timelines]) => {
+    ).subscribe(([results, groupBy, columns, timelines, sort]) => {
       this.query = this.querySpace.query.value!;
       this.rowcount = results.count;
 
@@ -164,6 +169,8 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
         this.scrollSyncUpdate(timelines.visible);
       }
       this.timelineVisible = timelines.visible;
+
+      this.manualSortEnabled = sort[0].column.href!.endsWith('/manualSorting');
     });
 
     // Locate table and timeline elements
