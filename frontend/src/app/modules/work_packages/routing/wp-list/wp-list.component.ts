@@ -60,6 +60,9 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
   /** Whether we're saving the query */
   querySaving:boolean;
 
+  /** Do we currently have query props ? */
+  hasQueryProps:boolean;
+
   /** Listener callbacks */
   unRegisterTitleListener:Function;
   removeTransitionSubscription:Function;
@@ -182,6 +185,7 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
       }
 
       const params = transition.params('to');
+      this.hasQueryProps = !!params.query_props;
       let newChecksum = this.wpListService.getCurrentQueryProps(params);
       let newId:string = params.query_id ? params.query_id.toString() : null;
 
