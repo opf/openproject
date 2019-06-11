@@ -70,15 +70,13 @@ namespace :packager do
 
     # Allow overriding the protocol setting from ENV
     # to allow instances where SSL is terminated earlier to respect that setting
-    Setting.protocol =
-      if ENV['SERVER_PROTOCOL_FORCE_HTTPS']
-        'https'
-      else
-        ENV.fetch('SERVER_PROTOCOL', Setting.protocol)
-      end
-
-    # Set https configured, set Rails force_ssl to true
-    shell_setup(['config:set', "OPENPROJECT_RAILS__FORCE__SSL=#{Setting.https?}"])
+    if ENV.fetch('SERVER_PROTOCOL', Setting.protocol) == 'https'
+      Setting.protocol = 'https'
+      shell_setup(['config:set', "OPENPROJECT_RAILS__FORCE__SSL=true"])
+    else
+      Setting.protocol = 'http'
+      shell_setup(['config:unset', "OPENPROJECT_RAILS__FORCE__SSL"])
+    end
 
     # Run customization step, if it is defined.
     # Use to define custom postinstall steps required after each configure,
