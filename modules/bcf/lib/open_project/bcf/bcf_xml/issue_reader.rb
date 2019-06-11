@@ -183,7 +183,7 @@ module OpenProject::Bcf::BcfXml
     # Extend comments with new or updated values from XML
     def build_comments
       extractor.comments.each do |comment_data|
-        if issue.comments.has_uuid?(comment_data[:uuid])
+        if issue.comments.has_uuid?(comment_data[:uuid], issue.id)
           # Comment has already been imported once.
           update_comment(comment_data)
         else
