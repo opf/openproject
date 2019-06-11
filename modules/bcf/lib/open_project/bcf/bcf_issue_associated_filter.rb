@@ -76,6 +76,5 @@ module ::OpenProject::Bcf
       (operator == '=' && values.first == OpenProject::Database::DB_VALUE_FALSE) ||
         (operator == '!' && values.first == OpenProject::Database::DB_VALUE_TRUE)
     end
-
   end
 end
