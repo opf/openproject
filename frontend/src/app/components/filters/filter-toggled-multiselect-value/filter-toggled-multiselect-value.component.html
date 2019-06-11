@@ -2,7 +2,8 @@
      id="div-values-{{filter.id}}">
 
   <ng-select #ngSelectInstance
-             [(ngModel)]="value"
+             [ngModel]="filter.values"
+             (change)="setValues($event)"
              (add)="repositionDropdown()"
              (remove)="repositionDropdown()"
              [compareWith]="compareByHrefOrString"
