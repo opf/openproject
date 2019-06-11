@@ -111,15 +111,18 @@ hu:
     single: vagy
   deprecations:
     old_timeline:
-      replacement: Ezt az idővonalak modult egy feladatcsoportok modulba ágyazott
-        interaktív idővonal váltja ki.
-      removal: Ez a modul az OpenProject 8.0-tól megszűnik. A konfiguráció NEM kerül
-        migrálásra a feladatcsoport nézetbe.
-      further_information_before: Kérjük, nézze meg a
-      link_name: hogyan térjünk át az új idővonalakba.
+      replacement: This timelines module is being replaced by the interactive timeline
+        embedded into the work packages module.
+      removal: This module is going to be removed with OpenProject 8.0. The configuration
+        for this view will NOT be migrated to the work package view.
+      further_information_before: Please take a look at
+      link_name: how to migrate to the new timeline.
       further_information_after: ''
     calendar:
-      removal: 'Kérjük, vegye figyelembe: Ez a modul az OpenProject 8.0-tól megszűnik.'
+      removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+    time_entries: This time entries view is superseded by the 'Cost reports' module.
+      This view now only supports exporting time entry information to csv. For interactive
+      filtering, please activate the 'Cost reports' module in the project settings.
   global_search:
     overwritten_tabs:
       wiki_pages: Wiki
@@ -2799,12 +2802,9 @@ hu:
   menu_item: Menüpont
   menu_item_setting: Látható
   mysql_deprecation:
-    notice: 'Future versions of OpenProject will likely drop or reduce support for
-      MySQL and MariaDB databases. Your installation is still running on MySQL and
-      we suggest you migrate your installation to PostgreSQL. This process is easy
-      when following our migration guides:
-
-'
+    notice: |
+      Future versions of OpenProject will likely drop or reduce support for MySQL and MariaDB databases. Your installation is still running on MySQL and we suggest you migrate your installation to PostgreSQL.
+      This process is easy when following our migration guides:
   wiki_menu_item_for: Wikipage "%{title}" menüeleme
   wiki_menu_item_setting: Látható
   wiki_menu_item_new_main_item_explanation: 'Csak a fő wiki menüelemet törölted. Most
