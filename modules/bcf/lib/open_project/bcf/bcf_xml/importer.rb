@@ -80,7 +80,7 @@ module OpenProject::Bcf::BcfXml
           raise StandardError.new 'For adding members to the project you need admin privileges.'
         end
 
-        non_members.each do |user|
+        aggregations.non_members.each do |user|
           add_non_member(user, options)
         end
       end
