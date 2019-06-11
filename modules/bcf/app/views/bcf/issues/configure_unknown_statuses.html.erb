@@ -7,7 +7,7 @@
     <h3>Invalid topic status names found</h3>
     <ul>
       <% @importer.aggregations.unknown_statuses.each do |name| %>
-        <li> <%= name %></li>
+        <li> <%= name.present? ? name : '(No name given)' %></li>
       <% end %>
     </ul>
     <div class="form--field -full-width">
