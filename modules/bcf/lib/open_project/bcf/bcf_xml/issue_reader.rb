@@ -302,11 +302,12 @@ module OpenProject::Bcf::BcfXml
 
       call = create_wp_comment(author, comment_data[:comment])
 
-      new_comment_handler(bcf_comment, call)
+      new_comment_handler(bcf_comment, call, comment_data[:date])
     end
 
-    def new_comment_handler(bcf_comment, call)
+    def new_comment_handler(bcf_comment, call, created_at)
       if call.success?
+        call.result.update_columns(created_at: created_at)
         bcf_comment.journal = call.result
       else
         Rails.logger.error "Failed to create comment for BCF #{issue.uuid}: #{call.errors.full_messages.join('; ')}"
