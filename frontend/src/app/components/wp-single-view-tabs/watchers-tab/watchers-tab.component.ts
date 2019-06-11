@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit} from '@angular/core';
 import {Transition} from '@uirouter/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
@@ -38,14 +38,17 @@ import {takeUntil} from 'rxjs/operators';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 
 @Component({
   templateUrl: './watchers-tab.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'wp-watchers-tab',
 })
 export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
   public workPackageId:string;
   public workPackage:WorkPackageResource;
+  public trackByHref = AngularTrackingHelpers.trackByHref;
 
   public error = false;
   public noResults:boolean = false;
@@ -71,6 +74,7 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
                      readonly wpNotificationsService:WorkPackageNotificationService,
                      readonly loadingIndicator:LoadingIndicatorService,
                      readonly wpCacheService:WorkPackageCacheService,
+                     readonly cdRef:ChangeDetectorRef,
                      readonly pathHelper:PathHelperService) {
   }
 
@@ -105,6 +109,7 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
     this.wpWatchersService.require(this.workPackage)
       .then((watchers:HalResource[]) => {
         this.watching = watchers;
+        this.cdRef.detectChanges();
       })
       .catch((error:any) => {
         this.wpNotificationsService.showError(error, this.workPackage);
@@ -123,6 +128,7 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
         // should the current user have been added
         this.wpWatchersService.require(this.workPackage, true);
         this.wpCacheService.loadWorkPackage(this.workPackage.id!, true);
+        this.cdRef.detectChanges();
       })
       .catch((error:any) => this.wpNotificationsService.showError(error, this.workPackage));
   }
@@ -138,6 +144,7 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
         // should the current user have been removed
         this.wpWatchersService.require(this.workPackage, true);
         this.wpCacheService.loadWorkPackage(this.workPackage.id!, true);
+        this.cdRef.detectChanges();
       })
       .catch((error:any) => this.wpNotificationsService.showError(error, this.workPackage));
   }

@@ -31,7 +31,7 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {StateService} from '@uirouter/core';
 import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
-import {Component, Injector} from '@angular/core';
+import {Component, Injector, OnInit} from '@angular/core';
 import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
 import {States} from 'core-components/states.service';
 import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
@@ -45,7 +45,7 @@ import {BackRoutingService} from "core-app/modules/common/back-routing/back-rout
   // Required class to support inner scrolling on page
   host: { 'class': 'work-packages-page--ui-view' }
 })
-export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase {
+export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase implements OnInit {
 
   // Watcher properties
   public isWatched:boolean;
@@ -74,6 +74,9 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase {
               public wpTableFocus:WorkPackageTableFocusService,
               readonly $state:StateService) {
     super(injector, $state.params['workPackageId']);
+  }
+
+  ngOnInit():void {
     this.observeWorkPackage();
   }
 
