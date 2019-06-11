@@ -17,7 +17,7 @@ export class GridAreaService {
   public numRows:number = 0;
   public gridAreas:GridArea[];
   public widgetAreas:GridWidgetArea[];
-  public widgetAreaIds:string[];
+  public gridAreaIds:string[];
   public widgetResources:GridWidgetResource[] = [];
   public mousedOverArea:GridArea|null;
 
@@ -43,7 +43,7 @@ export class GridAreaService {
 
   public buildAreas(save = true) {
     this.gridAreas = this.buildGridAreas();
-    this.widgetAreaIds = this.buildWidgetAreaIds();
+    this.gridAreaIds = this.buildGridAreaIds();
     this.widgetAreas = this.buildGridWidgetAreas();
 
     this.resource.widgets = this.widgetResources;
@@ -210,7 +210,7 @@ export class GridAreaService {
     this.numColumns = this.resource.columnCount;
   }
 
-  private buildWidgetAreaIds() {
+  private buildGridAreaIds() {
     return this.gridAreas.map((area) => {
       return area.guid;
     });
