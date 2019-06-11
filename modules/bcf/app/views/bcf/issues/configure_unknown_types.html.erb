@@ -7,7 +7,7 @@
     <h3>Invalid topic type names found</h3>
     <ul>
       <% @importer.aggregations.unknown_types.each do |name| %>
-        <li> <%= name.present? ? name : '(No name given)' %></li>
+        <li> <%= name.present? ? name : '(No type provided)' %></li>
       <% end %>
     </ul>
     <div class="form--field -full-width">
