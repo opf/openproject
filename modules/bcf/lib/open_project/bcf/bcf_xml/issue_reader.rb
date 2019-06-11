@@ -97,7 +97,7 @@ module OpenProject::Bcf::BcfXml
 
       if call.success?
         issue.work_package = call.result
-        create_comment(user, I18n.t('bcf.bcf_xml.import_update_comment')) if is_update
+        create_wp_comment(user, I18n.t('bcf.bcf_xml.import_update_comment')) if is_update
       else
         Rails.logger.error "Failed to synchronize BCF #{issue.uuid} with work package: #{call.errors.full_messages.join('; ')}"
       end
@@ -182,22 +182,15 @@ module OpenProject::Bcf::BcfXml
     ##
     # Extend comments with new or updated values from XML
     def build_comments
-      extractor.comments.each do |data|
-        next if issue.comments.has_uuid?(data[:uuid]) # Comment has already been imported once.
-
-        comment = issue.comments.build data.slice(:uuid)
-
-        # Cannot link to a journal when no work package
-        next if issue.work_package.nil?
-
-        author = get_comment_author(data)
-
-        call = create_comment(author, data[:comment])
-
-        if call.success?
-          comment.journal = call.result
+      extractor.comments.each do |comment_data|
+        if issue.comments.has_uuid?(comment_data[:uuid])
+          # Comment has already been imported once.
+          update_comment(comment_data)
         else
-          Rails.logger.error "Failed to create comment for BCF #{issue.uuid}: #{call.errors.full_messages.join('; ')}"
+          # Cannot link to a journal when no work package
+          next if issue.work_package.nil?
+
+          new_comment(comment_data)
         end
       end
     end
@@ -247,7 +240,7 @@ module OpenProject::Bcf::BcfXml
       project.users.find_by(mail: mail)
     end
 
-    def create_comment(author, content)
+    def create_wp_comment(author, content)
       ::AddWorkPackageNoteService
         .new(user: author, work_package: issue.work_package)
         .call(content)
@@ -300,6 +293,30 @@ module OpenProject::Bcf::BcfXml
     def read_entry(filename)
       file_entry = zip.find_entry [topic_uuid, filename].join('/')
       file_entry.get_input_stream.read
+    end
+
+    def new_comment(comment_data)
+      bcf_comment = issue.comments.build(comment_data.slice(:uuid))
+
+      author = get_comment_author(comment_data)
+
+      call = create_wp_comment(author, comment_data[:comment])
+
+      new_comment_handler(bcf_comment, call)
+    end
+
+    def new_comment_handler(bcf_comment, call)
+      if call.success?
+        bcf_comment.journal = call.result
+      else
+        Rails.logger.error "Failed to create comment for BCF #{issue.uuid}: #{call.errors.full_messages.join('; ')}"
+      end
+    end
+
+    def update_comment(comment_data)
+      bcf_comment = issue.comments.find_by(comment_data.slice(:uuid))
+      bcf_comment.journal.update_attribute(:notes, comment_data[:comment])
+      bcf_comment.journal.save
     end
 
     ##
