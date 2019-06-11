@@ -48,7 +48,7 @@ gem 'request_store', '~> 1.4.1'
 gem 'warden', '~> 1.2'
 gem 'warden-basic_auth', '~> 0.2.1'
 
-gem 'will_paginate', '~> 3.1.0'
+gem 'will_paginate', '~> 3.1.7'
 
 gem 'friendly_id', '~> 5.2.1'
 
