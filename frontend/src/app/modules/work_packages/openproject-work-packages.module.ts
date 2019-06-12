@@ -156,6 +156,7 @@ import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-packag
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
 import {OpenprojectBcfModule} from "core-app/modules/bcf/openproject-bcf.module";
 import {WorkPackageRelationsAutocomplete} from "core-components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.component";
+import {WorkPackagesTableConfigMenu} from "core-components/wp-table/config-menu/config-menu.component";
 
 @NgModule({
   imports: [
@@ -238,6 +239,7 @@ import {WorkPackageRelationsAutocomplete} from "core-components/wp-relations/wp-
     WpRelationInlineAddExistingComponent,
 
     WorkPackagesTableController,
+    WorkPackagesTableConfigMenu,
     WorkPackageTablePaginationComponent,
 
     WpResizerDirective,
@@ -445,6 +447,7 @@ import {WorkPackageRelationsAutocomplete} from "core-components/wp-relations/wp-
     WorkPackageFilterButtonComponent,
     WorkPackageFilterContainerComponent,
     WorkPackageIsolatedQuerySpaceDirective,
+    WorkPackagesTableConfigMenu,
   ]
 })
 export class OpenprojectWorkPackagesModule {

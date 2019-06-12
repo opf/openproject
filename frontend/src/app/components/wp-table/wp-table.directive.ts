@@ -112,8 +112,6 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
               readonly injector:Injector,
               readonly states:States,
               readonly querySpace:IsolatedQuerySpace,
-              readonly opModalService:OpModalService,
-              readonly opContextMenu:OPContextMenuService,
               readonly I18n:I18nService,
               readonly cdRef:ChangeDetectorRef,
               readonly wpTableGroupBy:WorkPackageTableGroupByService,
@@ -138,7 +136,6 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
         title: I18n.t('js.work_packages.no_results.title'),
         description: I18n.t('js.work_packages.no_results.description')
       },
-      configureTable: I18n.t('js.toolbar.settings.configure_view'),
       tableSummary: I18n.t('js.work_packages.table.summary'),
       tableSummaryHints: [
         I18n.t('js.work_packages.table.text_inline_edit'),
@@ -198,11 +195,6 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     controller.workPackageTable = this.workPackageTable;
     new TableHandlerRegistry(this.injector).attachTo(this.workPackageTable);
     this.cdRef.detectChanges();
-  }
-
-  public openTableConfigurationModal() {
-    this.opContextMenu.close();
-    this.opModalService.show(WpTableConfigurationModalComponent, this.injector);
   }
 
   public get isEmbedded() {

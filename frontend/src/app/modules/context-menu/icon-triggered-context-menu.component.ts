@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectorRef, Directive, ElementRef, Injector} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, Injector, Input} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
@@ -38,26 +38,23 @@ import {Board} from "core-app/modules/boards/board/board";
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
 import {OpContextMenuItem} from "core-components/op-context-menu/op-context-menu.types";
 
-@Directive({
-  selector: '[boardListDropdown]'
+@Component({
+  selector: 'icon-triggered-context-menu',
+  templateUrl: './icon-triggered-context-menu.component.html',
+  styleUrls: ['./icon-triggered-context-menu.component.sass']
 })
-export class BoardListDropdownMenuDirective extends OpContextMenuTrigger {
-  private board:Board;
-
+export class IconTriggeredContextMenuComponent extends OpContextMenuTrigger {
   constructor(readonly elementRef:ElementRef,
               readonly opContextMenu:OPContextMenuService,
               readonly opModalService:OpModalService,
-              readonly authorisationService:AuthorisationService,
-              readonly boardList:BoardListComponent,
               readonly injector:Injector,
-              readonly querySpace:IsolatedQuerySpace,
               readonly cdRef:ChangeDetectorRef,
-              readonly I18n:I18nService,
-              readonly boardActions:BoardActionsRegistryService) {
+              readonly I18n:I18nService) {
 
     super(elementRef, opContextMenu);
-    this.board = this.boardList.board;
   }
+
+  @Input('menu-items') menuItems:Function;
 
   protected async open(evt:JQueryEventObject) {
     this.items = await this.buildItems();
@@ -82,23 +79,11 @@ export class BoardListDropdownMenuDirective extends OpContextMenuTrigger {
   }
 
   private async buildItems() {
-    let items:OpContextMenuItem[] = [
-      {
-        disabled: !this.boardList.canDelete,
-        linkText: this.I18n.t('js.boards.lists.delete'),
-        onClick: () => {
-          this.boardList.deleteList();
-          return true;
-        }
-      }
-    ];
+    let items:OpContextMenuItem[] = [];
 
     // Add action specific menu entries
-    if (this.board.isAction) {
-      const actionService = this.boardActions.get(this.board.actionAttribute!);
-      const query = this.querySpace.query.value!;
-
-      const additional = await actionService.getAdditionalListMenuItems(query);
+    if (this.menuItems) {
+      const additional = await this.menuItems();
       return items.concat(additional);
     }
 

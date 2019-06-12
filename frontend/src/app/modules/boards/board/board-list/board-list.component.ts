@@ -45,6 +45,7 @@ import {BoardActionService} from "core-app/modules/boards/board/board-actions/bo
 import {ComponentType} from "@angular/cdk/portal";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
+import {BoardListMenuComponent} from "core-app/modules/boards/board/board-list/board-list-menu.component";
 
 export interface DisabledButtonPlaceholder {
   text:string;
@@ -57,7 +58,8 @@ export interface DisabledButtonPlaceholder {
   styleUrls: ['./board-list.component.sass'],
   providers: [
     {provide: WorkPackageInlineCreateService, useClass: BoardInlineCreateService},
-    CausedUpdatesService
+    CausedUpdatesService,
+    BoardListMenuComponent,
   ]
 })
 export class BoardListComponent extends AbstractWidgetComponent implements OnInit, OnDestroy, OnChanges {
@@ -198,9 +200,9 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     return this.boardService.canManage(this.board);
   }
 
-  public get canDelete() {
-      return this.canManage && !!this.query.delete;
-  }
+  //public get canDelete() {
+  //    return this.canManage && !!this.query.delete;
+  //}
 
   public get canRename() {
     return this.canManage &&
