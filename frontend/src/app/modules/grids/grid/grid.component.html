@@ -104,6 +104,7 @@
        [style.grid-column-end]="drag.placeholderArea.endColumn">
     <div class="widget-box">
       <ndc-dynamic [ndcDynamicComponent]="widgetComponent(drag.placeholderArea.widget)"
+                   [ndcDynamicInputs]="{ resource: drag.placeholderArea.widget }"
                    [ndcDynamicOutputs]="{}">
       </ndc-dynamic>
     </div>
