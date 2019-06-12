@@ -11,6 +11,7 @@ import {ReorderQueryService} from "core-app/modules/boards/drag-and-drop/reorder
 import {RequestSwitchmap} from "core-app/helpers/rxjs/request-switchmap";
 import {Observable} from "rxjs";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+import {RenderedRow} from "core-components/wp-fast-table/builders/primary-render-pass";
 
 export class DragAndDropTransformer {
 
@@ -98,9 +99,16 @@ export class DragAndDropTransformer {
   }
 
   protected get currentOrder():string[] {
-    return this.querySpace
-      .results
-      .mapOr((results) => results.elements.map(el => el.id!), []);
+    return this
+      .currentRenderedOrder
+      .map((row) => row.workPackageId!);
+  }
+
+  protected get currentRenderedOrder():RenderedRow[] {
+    return this
+      .querySpace
+      .renderedWorkPackages
+      .getValueOr([]);
   }
 
   private saveOrderInQuery(order:string[]):Observable<unknown> {
@@ -109,7 +117,12 @@ export class DragAndDropTransformer {
       .pipe(
         take(1),
         filter((query) => !!query.id),
-        mergeMap(query => this.reorderService.saveOrderInQuery(query, order))
+        mergeMap(query => {
+          const renderMap = _.keyBy(this.currentRenderedOrder, 'workPackageId');
+          const mappedOrder = order.map(id => renderMap[id]!);
+          this.querySpace.rendered.putValue(mappedOrder);
+          return this.reorderService.saveOrderInQuery(query, order);
+        })
       );
   }
 }
