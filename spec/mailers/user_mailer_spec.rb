@@ -441,7 +441,7 @@ describe UserMailer, type: :mailer do
       end
 
       describe 'attachments' do
-        let(:attachment) { FactoryBot.create :attachment }
+        shared_let(:attachment) { FactoryBot.create(:attachment) }
 
         context 'added' do
           before do
@@ -450,6 +450,16 @@ describe UserMailer, type: :mailer do
 
           it "shows the attachment's filename" do
             is_expected.to match(attachment.filename)
+          end
+
+          it "links correctly" do
+            is_expected.to match("<a href=\"http://mydomain.foo/api/v3/attachments/#{attachment.id}/content\">")
+          end
+
+          context 'with a suburl', with_config: { rails_relative_url_root: '/rdm' } do
+            it "links correctly" do
+              is_expected.to match("<a href=\"http://mydomain.foo/rdm/api/v3/attachments/#{attachment.id}/content\">")
+            end
           end
 
           it "shows status 'added'" do

@@ -521,6 +521,18 @@ module API
               send(path)
             end
           end
+
+          def self.url_for(path, arguments = nil)
+            duplicate_regexp = if OpenProject::Configuration.rails_relative_url_root
+                                 Regexp.new("#{OpenProject::Configuration.rails_relative_url_root}/$")
+                               else
+                                 Regexp.new("/$")
+                               end
+
+            root_url = OpenProject::StaticRouting::StaticUrlHelpers.new.root_url
+
+            root_url.gsub(duplicate_regexp, '') + ApiV3Path.send(path, arguments)
+          end
         end
 
         def api_v3_paths

@@ -32,6 +32,7 @@ module OpenProject::TextFormatting
   module Filters
     class AttachmentFilter < HTML::Pipeline::Filter
       include OpenProject::StaticRouting::UrlHelpers
+      include OpenProject::ObjectLinking
 
       def matched_filenames_regex
         /(bmp|gif|jpe?g|png|svg)\z/
@@ -43,7 +44,6 @@ module OpenProject::TextFormatting
         rewriter = ::OpenProject::TextFormatting::Helpers::LinkRewriter.new context
 
         doc.css('img[src]').each do |node|
-
           # Check for relative URLs and replace them if needed
           if rewriter.applicable? node['src']
             node['src'] = rewriter.replace node['src']
@@ -69,22 +69,20 @@ module OpenProject::TextFormatting
         return unless filename =~ matched_filenames_regex
 
         # Try to find the attachment
-        if found = attachments.detect { |att| att.filename.downcase == filename }
-          node['src'] = url_for only_path: context[:only_path],
-                                controller: '/attachments',
-                                action: 'download',
-                                id: found
+        if (attachment = attachments.detect { |att| att.filename.downcase == filename })
+          node['src'] = url_to_attachment(attachment, only_path: context[:only_path])
 
           # Replace alt text with description, unless it has one already
-          node['alt'] = node['alt'].presence || found.description
+          node['alt'] = node['alt'].presence || attachment.description
         end
       end
 
       def get_attachments
         attachments = context[:attachments] || context[:object].try(:attachments)
-        if attachments
-          attachments.sort_by(&:created_at).reverse
-        end
+
+        return nil unless attachments
+
+        attachments.sort_by(&:created_at).reverse
       end
     end
   end
