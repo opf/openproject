@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {GridWidgetArea} from "core-app/modules/grids/areas/grid-widget-area";
-import {CdkDragEnd, CdkDragEnter, CdkDragExit, CdkDragDrop} from '@angular/cdk/drag-drop';
+import {CdkDragEnd, CdkDragEnter, CdkDragDrop} from '@angular/cdk/drag-drop';
 import {GridArea} from "core-app/modules/grids/areas/grid-area";
 import {GridAreaService} from "core-app/modules/grids/grid/area.service";
 import {GridMoveService} from "core-app/modules/grids/grid/move.service";
@@ -20,16 +20,6 @@ export class GridDragAndDropService {
       let dropArea = event.container.data;
       this.layout.resetAreas(this.draggedArea);
       this.moveAreasOnDragging(dropArea);
-    }
-  }
-
-  public exited(event:CdkDragExit<GridArea>) {
-    // prevent flickering when dragging within the area spanned
-    // by the dragged element. Otherwise, cdk drag fires an entered event on every
-    // moved pixel.
-    if (this.draggedArea) {
-      this.draggedArea.endRow = this.draggedArea.startRow + 1;
-      this.draggedArea.endColumn = this.draggedArea.startColumn + 1;
     }
   }
 
@@ -61,6 +51,10 @@ export class GridDragAndDropService {
     return !!this.draggedArea;
   }
 
+  public isDragged(area:GridWidgetArea) {
+    return this.currentlyDragging && this.draggedArea!.guid === area.guid;
+  }
+
   public start(area:GridWidgetArea) {
     this.draggedArea = area;
     this.placeholderArea = new GridWidgetArea(area.widget);
@@ -71,14 +65,6 @@ export class GridDragAndDropService {
       return;
     }
 
-    let dropArea = event.source.dropContainer.data;
-
-    // Handle special case of user starting to move the widget but then deciding to
-    // move it back to the original area.
-    if (this.draggedArea.startColumn === dropArea.startColumn &&
-      this.draggedArea.startRow === dropArea.startRow) {
-      this.layout.resetAreas();
-    }
     this.draggedArea = null;
     this.placeholderArea = null;
   }
