@@ -29,25 +29,7 @@
 
 class AttachmentsController < ApplicationController
   before_action :find_project
-  before_action :file_readable, :read_authorize, except: :destroy
-  before_action :delete_authorize, only: :destroy
-
-  def download
-    url = @attachment.external_url
-
-    if url
-      redirect_to url.to_s
-    else
-      serve_attachment @attachment
-    end
-  end
-
-  def destroy
-    # Make sure association callbacks are called
-    @attachment.container.attachments.delete(@attachment)
-
-    redirect_to url_for(destroy_response_url(@attachment.container))
-  end
+  before_action :file_readable, :read_authorize
 
   def fulltext
     render plain: @attachment.fulltext.to_s
@@ -71,26 +53,5 @@ class AttachmentsController < ApplicationController
 
   def read_authorize
     @attachment.visible? ? true : deny_access
-  end
-
-  def delete_authorize
-    @attachment.deletable? ? true : deny_access
-  end
-
-  def destroy_response_url(container)
-    url_for(container.is_a?(WikiPage) ? [@project, container.wiki] : container)
-  end
-
-  def serve_attachment(attachment)
-    if attachment.container.is_a?(Version) || attachment.container.is_a?(Project)
-      attachment.increment_download
-    end
-
-    # browsers should not try to guess the content-type
-    response.headers['X-Content-Type-Options'] = 'nosniff'
-
-    send_file attachment.diskfile, filename: filename_for_content_disposition(attachment.filename),
-                                   type: attachment.content_type,
-                                   disposition: attachment.content_disposition
   end
 end
