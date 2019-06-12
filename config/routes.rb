@@ -498,14 +498,6 @@ OpenProject::Application.routes.draw do
     end
   end
 
-  resources :attachments, only: %i{fulltext}, format: false do
-    member do
-      scope via: :get, constraints: { id: /\d+/, filename: /[^\/]*/ } do
-        match '(/:filename/fulltext)' => 'attachments#fulltext', as: 'fulltext'
-      end
-    end
-  end
-
   resource :help, controller: :help, only: [] do
     member do
       get :keyboard_shortcuts
