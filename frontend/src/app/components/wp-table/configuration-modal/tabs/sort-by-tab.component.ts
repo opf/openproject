@@ -37,6 +37,7 @@ export class WpTableConfigurationSortByTab implements TabComponent {
       description: this.I18n.t('js.work_packages.table_configuration.sorting_mode.description'),
       automatic: this.I18n.t('js.work_packages.table_configuration.sorting_mode.automatic'),
       manually: this.I18n.t('js.work_packages.table_configuration.sorting_mode.manually'),
+      warning: this.I18n.t('js.work_packages.table_configuration.sorting_mode.warning'),
     },
   };
 

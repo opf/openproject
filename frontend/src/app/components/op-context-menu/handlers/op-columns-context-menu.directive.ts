@@ -41,6 +41,7 @@ import {WorkPackageTable} from 'core-components/wp-fast-table/wp-fast-table';
 import {QueryColumn} from 'core-components/wp-query/query-column';
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
 import {QuerySharingModal} from "core-components/modals/share-modal/query-sharing.modal";
+import {ConfirmDialogService} from "core-components/modals/confirm-dialog/confirm-dialog.service";
 
 @Directive({
   selector: '[opColumnsContextMenu]'
@@ -48,6 +49,14 @@ import {QuerySharingModal} from "core-components/modals/share-modal/query-sharin
 export class OpColumnsContextMenu extends OpContextMenuTrigger {
   @Input('opColumnsContextMenu-column') public column:QueryColumn;
   @Input('opColumnsContextMenu-table') public table:WorkPackageTable;
+
+  public text = {
+    confirmDelete: {
+      text: this.I18n.t('js.work_packages.table_configuration.sorting_mode.warning'),
+      title: this.I18n.t('js.modals.form_submit.title')
+    },
+  }
+
 
   constructor(readonly elementRef:ElementRef,
               readonly opContextMenu:OPContextMenuService,
@@ -57,7 +66,8 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
               readonly wpTableHierarchies:WorkPackageTableHierarchiesService,
               readonly opModalService:OpModalService,
               readonly injector:Injector,
-              readonly I18n:I18nService) {
+              readonly I18n:I18nService,
+              readonly confirmDialog:ConfirmDialogService) {
 
     super(elementRef, opContextMenu);
   }
@@ -108,8 +118,17 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         linkText: this.I18n.t('js.work_packages.query.sort_descending'),
         icon: 'icon-sort-descending',
         onClick: () => {
-          this.wpTableSortBy.addDescending(c);
-          return true;
+          if (this.wpTableSortBy.isManualSortingMode) {
+            return this.confirmDialog.confirm({
+              text: this.text.confirmDelete,
+            }).then(() => {
+              this.wpTableSortBy.addDescending(c);
+              return true;
+            });
+          } else {
+            this.wpTableSortBy.addDescending(c);
+            return true;
+          }
         }
       },
       {
@@ -118,8 +137,17 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         linkText: this.I18n.t('js.work_packages.query.sort_ascending'),
         icon: 'icon-sort-ascending',
         onClick: () => {
-          this.wpTableSortBy.addAscending(c);
-          return true;
+          if (this.wpTableSortBy.isManualSortingMode) {
+            return this.confirmDialog.confirm({
+              text: this.text.confirmDelete,
+            }).then(() => {
+              this.wpTableSortBy.addAscending(c);
+              return true;
+            });
+          } else {
+            this.wpTableSortBy.addAscending(c);
+            return true;
+          }
         }
       },
       {

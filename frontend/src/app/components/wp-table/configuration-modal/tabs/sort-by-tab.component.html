@@ -26,6 +26,9 @@
           {{ text.sorting_mode.automatic }}
         </label>
       </div>
+      <div class="form--field-instructions">
+        {{ text.sorting_mode.warning }}
+      </div>
     </div>
 
     <ng-container *ngIf="sortingMode === 'automatic'">
