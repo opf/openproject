@@ -28,6 +28,10 @@
 #++
 
 class AttachmentsController < ApplicationController
+
+  # Don't perform the redirect to /login if we're not logged in
+  skip_before_action :check_if_login_required
+
   before_action :find_project
   before_action :file_readable, :read_authorize, except: :destroy
   before_action :delete_authorize, only: :destroy
@@ -66,15 +70,15 @@ class AttachmentsController < ApplicationController
 
   # Checks that the file exists and is readable
   def file_readable
-    @attachment.readable? ? true : render_404
+    render_404 unless @attachment.readable?
   end
 
   def read_authorize
-    @attachment.visible? ? true : deny_access
+    render_404 unless @attachment.visible?
   end
 
   def delete_authorize
-    @attachment.deletable? ? true : deny_access
+    render_404 unless @attachment.deletable?
   end
 
   def destroy_response_url(container)
