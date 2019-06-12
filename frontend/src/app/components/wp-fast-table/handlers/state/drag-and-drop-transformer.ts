@@ -12,17 +12,16 @@ import {RequestSwitchmap} from "core-app/helpers/rxjs/request-switchmap";
 import {Observable} from "rxjs";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {RenderedRow} from "core-components/wp-fast-table/builders/primary-render-pass";
+import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state/wp-table-sort-by.service";
 
 export class DragAndDropTransformer {
 
   private readonly querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
-  private readonly states:States = this.injector.get(States);
-  private readonly pathHelper = this.injector.get(PathHelperService);
   private readonly dragService:DragAndDropService|null = this.injector.get(DragAndDropService, null);
   private readonly reorderService = this.injector.get(ReorderQueryService);
   private readonly inlineCreateService = this.injector.get(WorkPackageInlineCreateService);
   private readonly wpNotifications = this.injector.get(WorkPackageNotificationService);
-  private readonly wpTableRefresh = this.injector.get(WorkPackageTableRefreshService);
+  private readonly wpTableSortBy = this.injector.get(WorkPackageTableSortByService);
 
   // We remember when we want to update the query with a given order
   private queryUpdates = new RequestSwitchmap(
@@ -71,6 +70,7 @@ export class DragAndDropTransformer {
         const wpId:string = row.dataset.workPackageId!;
         const newOrder = this.reorderService.move(this.currentOrder, wpId, row.rowIndex - 1);
         this.updateOrder(newOrder);
+        this.wpTableSortBy.switchToManualSorting();
       },
       onRemoved: (el:HTMLElement) => {
         const wpId:string = el.dataset.workPackageId!;

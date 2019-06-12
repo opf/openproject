@@ -40,12 +40,16 @@ import {
   QUERY_SORT_BY_DESC,
   QuerySortByResource
 } from 'core-app/modules/hal/resources/query-sort-by-resource';
+import {mergeMap, take} from "rxjs/internal/operators";
+import {ReorderQueryService} from "core-app/modules/boards/drag-and-drop/reorder-query.service";
+import {RenderedRow} from "core-components/wp-fast-table/builders/primary-render-pass";
 
 @Injectable()
 export class WorkPackageTableSortByService extends WorkPackageQueryStateService<QuerySortByResource[]> {
 
   constructor(protected readonly states:States,
-              protected readonly querySpace:IsolatedQuerySpace) {
+              protected readonly querySpace:IsolatedQuerySpace,
+              protected readonly reorderService:ReorderQueryService) {
     super(querySpace);
   }
 
@@ -77,6 +81,19 @@ export class WorkPackageTableSortByService extends WorkPackageQueryStateService<
 
   public applyToQuery(query:QueryResource) {
     query.sortBy = [...this.current];
+    if (this.isManualSortingMode) {
+      const order = (this.querySpace.renderedWorkPackages.getValueOr([]) as RenderedRow[])
+        .map((row) => row.workPackageId!);
+
+      this.querySpace.query
+        .values$()
+        .pipe(
+          take(1),
+          mergeMap(query => this.reorderService.saveOrderInQuery(query, order))
+        );
+
+      return false;
+    }
     return true;
   }
 
@@ -122,7 +139,7 @@ export class WorkPackageTableSortByService extends WorkPackageQueryStateService<
     });
   }
 
-  public get isManual():boolean {
+  public get isManualSortingMode():boolean {
     let current = this.current;
 
     if (current && current.length > 0) {
@@ -130,6 +147,13 @@ export class WorkPackageTableSortByService extends WorkPackageQueryStateService<
     }
 
     return false;
+  }
+
+  public switchToManualSorting() {
+    let manualSortObject =  this.manualSortObject;
+    if (manualSortObject && !this.isManualSortingMode) {
+      this.update([manualSortObject]);
+    }
   }
 
   public get current():QuerySortByResource[] {
@@ -142,5 +166,11 @@ export class WorkPackageTableSortByService extends WorkPackageQueryStateService<
 
   public get available():QuerySortByResource[] {
     return this.availableState.getValueOr([]);
+  }
+
+  private get manualSortObject() {
+    return _.find(this.available, sort => {
+      return sort.column.$href!.endsWith('/manualSorting');
+    });
   }
 }

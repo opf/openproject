@@ -170,7 +170,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
       }
       this.timelineVisible = timelines.visible;
 
-      this.manualSortEnabled = this.wpTableSortBy.isManual;
+      this.manualSortEnabled = this.wpTableSortBy.isManualSortingMode;
 
       this.cdRef.detectChanges();
     });
