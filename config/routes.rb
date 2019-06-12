@@ -240,8 +240,6 @@ OpenProject::Application.routes.draw do
         patch :parent_page, action: 'update_parent_page'
         get :history
         post :protect
-        post :add_attachment
-        get :list_attachments
         get :select_main_menu_item, to: 'wiki_menu_items#select_main_menu_item'
         post :replace_main_menu_item, to: 'wiki_menu_items#replace_main_menu_item'
       end
