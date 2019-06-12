@@ -122,6 +122,16 @@ export class WorkPackageTableSortByService extends WorkPackageQueryStateService<
     });
   }
 
+  public get isManual():boolean {
+    let current = this.current;
+
+    if (current && current.length > 0) {
+      return current[0].column.href!.endsWith('/manualSorting');
+    }
+
+    return false;
+  }
+
   public get current():QuerySortByResource[] {
     return this.state.getValueOr([]);
   }

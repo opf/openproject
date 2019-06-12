@@ -62,7 +62,7 @@ export class SingleViewEditContext implements WorkPackageEditContext {
 
   public async activateField(form:WorkPackageEditForm, schema:IFieldSchema, fieldName:string, errors:string[]):Promise<WorkPackageEditFieldHandler> {
     return this.fieldCtrl(fieldName).then((ctrl) => {
-      ctrl.active = true;
+      ctrl.setActive(true);
       const container = ctrl.editContainer.nativeElement;
       return this.wpEditingPortalService.create(
         container,

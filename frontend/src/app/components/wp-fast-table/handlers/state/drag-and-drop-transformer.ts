@@ -4,7 +4,7 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {States} from 'core-components/states.service';
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {DragAndDropService} from "core-app/modules/boards/drag-and-drop/drag-and-drop.service";
-import {mergeMap, take, takeUntil} from "rxjs/operators";
+import {filter, mergeMap, take, takeUntil} from "rxjs/operators";
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
 import {WorkPackageTableRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
 import {ReorderQueryService} from "core-app/modules/boards/drag-and-drop/reorder-query.service";
@@ -108,6 +108,7 @@ export class DragAndDropTransformer {
       .values$()
       .pipe(
         take(1),
+        filter((query) => !!query.id),
         mergeMap(query => this.reorderService.saveOrderInQuery(query, order))
       );
   }

@@ -170,7 +170,9 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
       }
       this.timelineVisible = timelines.visible;
 
-      this.manualSortEnabled = sort[0].column.href!.endsWith('/manualSorting');
+      this.manualSortEnabled = this.wpTableSortBy.isManual;
+
+      this.cdRef.detectChanges();
     });
 
     // Locate table and timeline elements
@@ -181,6 +183,8 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     // sync hover from table to timeline
     this.wpTableHoverSync = new WpTableHoverSync(this.$element);
     this.wpTableHoverSync.activate();
+
+    this.cdRef.detectChanges();
   }
 
   public ngOnDestroy():void {

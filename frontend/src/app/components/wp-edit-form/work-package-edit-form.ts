@@ -28,7 +28,6 @@
 
 import {Injector} from '@angular/core';
 import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
-import {FormResource} from 'core-app/modules/hal/resources/form-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {Subscription} from 'rxjs';
 import {States} from '../states.service';
@@ -40,7 +39,6 @@ import {WorkPackageEditContext} from './work-package-edit-context';
 import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
 import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
-import {TableRowEditContext} from "core-components/wp-edit-form/table-row-edit-context";
 
 export const activeFieldContainerClassName = 'wp-inline-edit--active-field';
 export const activeFieldClassName = 'wp-inline-edit--field';

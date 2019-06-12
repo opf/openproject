@@ -30,19 +30,21 @@ import {WorkPackageTablePaginationService} from '../../wp-fast-table/state/wp-ta
 import {WorkPackageTablePagination} from '../../wp-fast-table/wp-table-pagination';
 import {TablePaginationComponent} from 'core-components/table-pagination/table-pagination.component';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {Component, OnDestroy} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {PaginationService} from 'core-components/table-pagination/pagination-service';
 
 @Component({
   templateUrl: '../../table-pagination/table-pagination.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'wp-table-pagination'
 })
 export class WorkPackageTablePaginationComponent extends TablePaginationComponent implements OnDestroy {
   constructor(protected paginationService:PaginationService,
+              protected cdRef:ChangeDetectorRef,
               protected wpTablePagination:WorkPackageTablePaginationService,
               readonly I18n:I18nService) {
-    super(paginationService, I18n);
+    super(paginationService, cdRef, I18n);
 
   }
 

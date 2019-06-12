@@ -79,6 +79,6 @@ export class WorkPackageRelationsCreateComponent {
         this.selectedWpId = '';
         this.focusAfterSave.nativeElement.focus();
       }
-    });
+    }, 50);
   }
 }
