@@ -34,6 +34,8 @@ module OpenProject
       ##
       # List available storage endpoints
       def mount_information
+        return {} unless OpenProject::Configuration.show_storage_information?
+
         list_mounts(known_storage_paths)
       end
 
@@ -85,6 +87,8 @@ module OpenProject
       end
 
       def read_fs_info(dir)
+        return nil unless File.directory?(dir)
+
         stat = Sys::Filesystem.stat(dir)
 
         {

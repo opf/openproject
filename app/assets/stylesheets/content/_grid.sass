@@ -27,7 +27,6 @@ $grid--header-width: 20px
     .widget-box
       height: 100%
 
-
   &.-resizing
     border: 1px solid $primary-color
     z-index: 100
@@ -37,6 +36,12 @@ $grid--header-width: 20px
     flex-direction: column
     justify-content: center
     align-items: center
+
+  &.-placeholder
+    pointer-events: none
+
+  &.-dragged
+    display: none
 
   .resizer
     margin-top: 0
