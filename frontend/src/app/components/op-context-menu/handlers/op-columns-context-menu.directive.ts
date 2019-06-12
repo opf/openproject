@@ -119,12 +119,13 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         icon: 'icon-sort-descending',
         onClick: () => {
           if (this.wpTableSortBy.isManualSortingMode) {
-            return this.confirmDialog.confirm({
+            this.confirmDialog.confirm({
               text: this.text.confirmDelete,
             }).then(() => {
               this.wpTableSortBy.addDescending(c);
               return true;
             });
+            return false;
           } else {
             this.wpTableSortBy.addDescending(c);
             return true;
@@ -138,12 +139,13 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         icon: 'icon-sort-ascending',
         onClick: () => {
           if (this.wpTableSortBy.isManualSortingMode) {
-            return this.confirmDialog.confirm({
+            this.confirmDialog.confirm({
               text: this.text.confirmDelete,
             }).then(() => {
               this.wpTableSortBy.addAscending(c);
               return true;
             });
+            return false;
           } else {
             this.wpTableSortBy.addAscending(c);
             return true;

@@ -166,9 +166,9 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
     }
   }
 
-  public search($event:string) {
+  public search($event:any) {
     this.currentValue = this.ngSelectComponent.filterValue;
-    this.openCloseMenu($event);
+    this.openCloseMenu($event.term);
   }
 
   // close menu when input field is empty
