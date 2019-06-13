@@ -72,5 +72,24 @@ module OpenProject
     class StaticUrlHelpers
       include StaticRouting::UrlHelpers
     end
+
+
+    ##
+    # Try to recognize a route entry for the given path
+    # but strips the relative URL root information away beforehand.
+    #
+    # Returns nil if it could not be processed.
+    def self.recognize_route(path)
+      return nil unless path.present?
+
+      # Remove relative URL root
+      if relative_url = OpenProject::Configuration.rails_relative_url_root
+        path = path.gsub relative_url, ''
+      end
+
+      Rails.application.routes.recognize_path(path)
+    rescue ActionController::RoutingError
+      nil
+    end
   end
 end
