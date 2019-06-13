@@ -1,13 +1,4 @@
 <div class="top-menu-search">
-    <div class="top-menu-search--loading ui-autocomplete--loading" style="display: none">
-      <div class="loading-indicator -small">
-        <div class="block-1"></div>
-        <div class="block-2"></div>
-        <div class="block-3"></div>
-        <div class="block-4"></div>
-        <div class="block-5"></div>
-      </div>
-    </div>
     <a *ngIf="expanded"
        (click)="toggleMobileSearch()"
        class="top-menu-search--back-button"
@@ -16,7 +7,7 @@
       <i class="icon-arrow-left1" aria-hidden="true"></i>
     </a>
     <ng-select #select
-              [items]="results"
+              [items]="results$ | async"
               name="global-search-input"
               id="global-search-input"
               placeholder="{{text.search_dots}}"
@@ -26,6 +17,7 @@
               [openOnEnter]="false"
               [searchFn]="customSearchFn"
               [typeahead]="searchTermChanged$"
+              [loading]="searchLoading"
               (focus)="onFocus()"
               (focusout)="onFocusOut()"
               (search)="search($event)"

@@ -50,8 +50,10 @@ import {DeviceService} from "app/modules/common/browser/device.service";
 import {NgSelectComponent} from "@ng-select/ng-select";
 import {debounceTime, distinctUntilChanged} from "rxjs/operators";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {Subject} from "rxjs";
+import {Observable, Subject} from "rxjs";
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
+import {catchError, map, switchMap, tap} from "rxjs/internal/operators";
+import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 
 export const globalSearchSelector = 'global-search-input';
 
@@ -70,6 +72,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   public noResults:boolean = true;
   public results:any[];
   public suggestions:any[];
+  public searchLoading:boolean;
 
   public searchTermChanged$:Subject<string> = new Subject<string>();
 
@@ -87,6 +90,8 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
     close_search: this.I18n.t('js.global_search.close_search')
   };
 
+  public results$:Observable<unknown[]>;
+
   constructor(readonly elementRef:ElementRef,
               readonly I18n:I18nService,
               readonly PathHelperService:PathHelperService,
@@ -95,7 +100,8 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
               readonly globalSearchService:GlobalSearchService,
               readonly currentProjectService:CurrentProjectService,
               readonly deviceService:DeviceService,
-              readonly cdRef:ChangeDetectorRef) {
+              readonly cdRef:ChangeDetectorRef,
+              readonly wpNotification:WorkPackageNotificationService) {
   }
 
   private projectScopeTypes = ['all_projects', 'current_project', 'current_project_and_all_descendants'];
@@ -108,20 +114,17 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
     this.expanded = (this.ngSelectComponent.filterValue.length > 0);
     jQuery('#top-menu').toggleClass('-global-search-expanded', this.expanded);
 
-    this.searchTermChanged$
+    this.results$ = this.searchTermChanged$
       .pipe(
         distinctUntilChanged(),
         debounceTime(250),
-        untilComponentDestroyed(this)
+        untilComponentDestroyed(this),
+        tap((_searchTerm:string) => {
+          this.searchLoading = true;
+          this.currentValue = _searchTerm;
+        }),
+        switchMap((_searchTerm:string) => this.getSearchResult(_searchTerm))
       )
-      .subscribe((_searchTerm:string) => {
-        // load result list for searched term
-        if (this.currentValue.trim().length > 0) {
-          this.getSearchResult(this.currentValue);
-        }
-
-        this.cdRef.detectChanges();
-      });
   }
 
   ngOnDestroy() {
@@ -212,29 +215,30 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   }
 
   // get work packages result list and append it to suggestions
-  private getSearchResult(term:string) {
-    this.autocompleteWorkPackages(term).then((values) => {
-      this.results = this.suggestions.concat(values.map((wp:any) => {
-        return {
-          id: wp.id!,
-          subject: wp.subject,
-          status: wp.status.name,
-          statusId: wp.status.idFromLink,
-          $href: wp.$href
-        };
+  private getSearchResult(term:string):Observable<unknown[]> {
+    return this.autocompleteWorkPackages(term).pipe(
+      map((values) => {
+        return this.suggestions.concat(values.map((wp) => {
+          return {
+            id: wp.id!,
+            subject: wp.subject,
+            status: wp.status.name,
+            statusId: wp.status.idFromLink,
+            $href: wp.$href
+          };
+        }));
       }));
-    });
   }
+
 
   // return all project scope items and all items which contain the search term
   public customSearchFn(term:string, item:any):boolean {
     return item.id === undefined || item.subject.toLowerCase().indexOf(term.toLowerCase()) !== -1;
   }
 
-  private autocompleteWorkPackages(query:string):Promise<(any)[]> {
+  private autocompleteWorkPackages(query:string):Observable<(WorkPackageResource)[]> {
     this.dynamicCssService.requireHighlighting();
 
-    this.$element.find('.ui-autocomplete--loading').show();
     this.noResults = true;
 
     let idOnly:boolean = false;
@@ -250,14 +254,17 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
     return this.halResourceService
       .get<CollectionResource<WorkPackageResource>>(href)
-      .toPromise()
-      .then((collection) => {
-        this.hideSpinner();
-        return collection.elements;
-      }).catch(() => {
-        this.hideSpinner();
-        return [];
-      });
+      .pipe(
+        map((collection) => {
+          this.searchLoading = false;
+          this.noResults = false;
+          return collection.elements;
+        }),
+        catchError((error:any) => {
+          this.wpNotification.handleRawError(error);
+          return [];
+        })
+      )
   }
 
   // set the possible 'search in scope' options for the current project path
@@ -330,11 +337,6 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
   private redirectToWp(id:string) {
     window.location = this.PathHelperService.workPackagePath(id) as unknown as Location;
-  }
-
-  private hideSpinner():void {
-    this.$element.find('.ui-autocomplete--loading').hide()
-    this.noResults = false;
   }
 
   private get currentScope():string {
