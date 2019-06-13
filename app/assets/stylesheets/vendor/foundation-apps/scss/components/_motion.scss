@@ -1,0 +1,524 @@
+// FOUNDATION MOTION UI
+// Table of Contents
+//
+// 0. Variables
+// 1. Base Transitions
+//      a. Slide
+//      b. Fade
+//      c. Hinge
+//      d. Scale
+//      e. Spin
+// 2. Base Animations
+//      a. Shake
+//      b. Spinners
+//      c. Wiggle
+// 3. HTML Attributes
+
+// 0. Variables
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+
+/// @Foundation.settings
+// Motion UI
+// Classes to use when triggering in/out animations
+$motion-class: (
+  in: "ng-enter",
+  out: "ng-leave",
+) !default;
+$motion-class-active: (
+  in: "ng-enter-active",
+  out: "ng-leave-active",
+) !default;
+$motion-class-stagger: (
+  in: "ng-enter-stagger",
+  out: "ng-leave-stagger",
+) !default;
+$motion-class-showhide: (
+  in: "ng-hide-remove",
+  out: "ng-hide-add",
+);
+$motion-class-showhide-active: (
+  in: "ng-hide-remove-active",
+  out: "ng-hide-add-active",
+);
+
+// Set if movement-based transitions should also fade the element in and out
+$motion-slide-and-fade: false !default;
+$motion-hinge-and-fade: true !default;
+$motion-scale-and-fade: true !default;
+$motion-spin-and-fade: true !default;
+
+// Default speed for transitions and animations
+$motion-duration-default: 500ms !default;
+
+// Slow and fast modifiders
+$motion-duration-slow: 750ms !default;
+$motion-duration-fast: 250ms !default;
+$motion-stagger-duration-default: 150ms !default;
+$motion-stagger-duration-short: 50ms !default;
+$motion-stagger-duration-long: 300ms !default;
+
+// Default timing function for transitions and animations
+$motion-timing-default: ease !default;
+
+// Built-in and custom easing functions
+// Every item in this map becomes a CSS class
+$motion-timings: (
+  linear: linear,
+  ease: ease,
+  easeIn: ease-in,
+  easeOut: ease-out,
+  easeInOut: ease-in-out,
+  bounceIn: cubic-bezier(0.485, 0.155, 0.240, 1.245),
+  bounceOut: cubic-bezier(0.485, 0.155, 0.515, 0.845),
+  bounceInOut: cubic-bezier(0.760, -0.245, 0.240, 1.245),
+) !default;
+
+// Default delay for all transitions and animations
+$motion-delay-default: 0 !default;
+// Short and long delay modifiers
+$motion-delay-short: 300ms !default;
+$motion-delay-long: 700ms !default;
+///
+
+// Looks for a timing function in the list of presets
+// If none are found, returns the value as-is.
+@function get-timing($timing) {
+  @if map-has-key($motion-timings, $timing) {
+    @return map-get($motion-timings, $timing);
+  }
+  @else {
+    @return $timing;
+  }
+}
+
+// Applies transition settings common to all mixins
+@mixin transition-basics(
+  $duration: $motion-duration-default,
+  $timing: $motion-timing-default,
+  $delay: $motion-delay-default
+) {
+  transition-duration: $duration;
+  transition-timing-function: get-timing($timing);
+  transition-delay: $delay;
+}
+
+// Wraps content in an enter/leave class, chained to the parent selector
+// Define the initial state of a transition here
+@mixin transition-start($dir) {
+  $sel1: map-get($motion-class, $dir);
+  $sel2: map-get($motion-class-showhide, $dir);
+
+  &.#{$sel1},
+  &.#{$sel2} {
+    @content;
+  }
+}
+
+// Wraps content in an enter/leave active class, chained to the matching
+// enter/leave class, chained to the parent selector
+// Define the end state of a transition here
+@mixin transition-end($dir) {
+  $sel1:  map-get($motion-class, $dir);
+  $sel1A: map-get($motion-class-active, $dir);
+
+  $sel2:  map-get($motion-class-showhide, $dir);
+  $sel2A: map-get($motion-class-showhide-active, $dir);
+
+  &.#{$sel1}.#{$sel1A},
+  &.#{$sel2}.#{$sel2A} {
+    @content;
+  }
+}
+
+@mixin stagger($delay-amount) {
+  transition-delay: $delay-amount;
+  // this is to avoid accidental CSS inheritance
+  transition-duration:0;
+}
+
+
+// 1. Base Transitions
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+
+// SLIDE
+@mixin slide (
+  $dir: in,
+  $from: left,
+  $fade: $motion-slide-and-fade,
+  $duration: $motion-duration-default,
+  $timing: $motion-timing-default,
+  $delay: $motion-delay-default
+) {
+  $slideDirections: (
+    top:    translateY(-100%),
+    right:  translateX(100%),
+    bottom: translateY(100%),
+    left:   translateX(-100%),
+  );
+  $start: '';
+  $end: '';
+
+  @if $dir == in {
+    $start: map-get($slideDirections, $from);
+    $end: translateX(0) translateY(0);
+  }
+  @else {
+    $start: translateX(0) translateY(0);
+    $end: map-get($slideDirections, $from);
+  }
+
+  // CSS Output
+  @include transition-start($dir) {
+    @include transition-basics($duration, $timing, $delay);
+    transition-property: transform, opacity;
+    backface-visibility: hidden;
+    transform: $start;
+
+    @if $fade { opacity: if($dir == in, 0, 1); }
+  }
+  @include transition-end($dir) {
+    transform: $end;
+
+    @if $fade { opacity: if($dir == in, 1, 0); }
+  }
+}
+
+// FADE
+@mixin fade(
+  $dir: in,
+  $from: 0,
+  $to: 1,
+  $duration: $motion-duration-default,
+  $timing: $motion-timing-default,
+  $delay: $motion-delay-default
+) {
+  @include transition-start($dir) {
+    @include transition-basics($duration, $timing, $delay);
+    transition-property: opacity;
+    opacity: $from;
+  }
+  @include transition-end($dir) {
+    opacity: $to;
+  }
+}
+
+// HINGE
+@mixin hinge (
+  $dir: in,
+  $from: left,
+  $axis: edge,
+  $perspective: 2000px,
+  $turn-origin: from-back,
+  $fade: $motion-hinge-and-fade,
+  $duration: $motion-duration-default,
+  $timing: $motion-timing-default,
+  $delay: $motion-delay-default
+) {
+
+  // Rotation directions when hinging from back vs. front
+  $rotationAmount: 90deg;
+  $rotationsBack: (
+    top: rotateX($rotationAmount * -1),
+    right: rotateY($rotationAmount * -1),
+    bottom: rotateX($rotationAmount),
+    left: rotateY($rotationAmount),
+  );
+  $rotationsFrom: (
+    top: rotateX($rotationAmount),
+    right: rotateY($rotationAmount),
+    bottom: rotateX($rotationAmount * -1),
+    left: rotateY($rotationAmount * -1),
+  );
+
+  // Rotation origin
+  $rotation: '';
+  @if $turn-origin == from-front {
+    $rotation: map-get($rotationsFrom, $from);
+  }
+  @else if $turn-origin == from-back {
+    $rotation: map-get($rotationsBack, $from);
+  }
+  @else {
+    @warn "`$turn-origin` must be either `from-back` or `from-front`";
+  }
+
+  // Start and end state
+  $start: '';
+  $end: '';
+  @if $dir == in {
+    $start: perspective($perspective) $rotation;
+    $end: rotate(0deg);
+  }
+  @else {
+    $start: rotate(0deg);
+    $end: perspective($perspective) $rotation;
+  }
+
+  // Turn axis
+  $origin: '';
+  @if $axis == edge {
+    $origin: $from;
+  }
+  @else {
+    $origin: center;
+  }
+
+  @include transition-start($dir) {
+    @include transition-basics($duration, $timing, $delay);
+    transition-property: transform, opacity;
+    transform: $start;
+    transform-origin: $origin;
+    @if $fade { opacity: if($dir == in, 0, 1); }
+  }
+  @include transition-end($dir) {
+    transform: $end;
+    @if $fade { opacity: if($dir == in, 1, 0); }
+  }
+}
+
+// SCALE
+@mixin scale(
+  $dir: in,
+  $from: 1.5,
+  $to: 1,
+  $fade: $motion-scale-and-fade,
+  $duration: $motion-duration-default,
+  $timing: $motion-timing-default,
+  $delay: $motion-delay-default
+) {
+  @include transition-start($dir) {
+    @include transition-basics($duration, $timing, $delay);
+    transition-property: transform, property;
+    transform: scale($from);
+    @if $fade { opacity: if($dir == in, 0, 1) }
+  }
+  @include transition-end($dir) {
+    transform: scale($to);
+    @if $fade { opacity: if($dir == in, 1, 0) }
+  }
+}
+
+// SPIN
+@mixin spin(
+  $dir: in,
+  $amount: 0.75turn,
+  $ccw: false,
+  $fade: $motion-spin-and-fade,
+  $duration: $motion-duration-default,
+  $timing: $motion-timing-default,
+  $delay: $motion-delay-default
+) {
+  $amount: turn-to-deg($amount);
+  $start: 0;
+  $end: 0;
+
+  @if $dir == in {
+    $start: if($ccw, $amount, $amount * -1);
+    $end: 0;
+  }
+  @else {
+    $start: 0;
+    $end: if($ccw, $amount * -1, $amount);
+  }
+
+  @include transition-start($dir) {
+    transition-property: transform, opacity;
+    transform: rotate($start);
+    @if $fade { opacity: if($dir == in, 0, 1); }
+  }
+  @include transition-end($dir) {
+    transform: rotate($end);
+    @if $fade { opacity: if($dir == in, 1, 0); }
+  }
+}
+
+
+// 2. Base Animations
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+
+// SHAKE
+@keyframes shake {
+  0%, 10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90% {
+    transform: translateX(7%);
+  }
+  5%, 15%, 25%, 35%, 45%, 55%, 65%, 75%, 85%, 95% {
+    transform: translateX(-7%);
+  }
+  100% { transform: translateX(0); }
+}
+
+// SPINNERS
+@keyframes spin-cw {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes spin-ccw {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(-360deg); }
+}
+
+// WIGGLE
+@keyframes wiggle {
+  40%, 50%, 60% {
+    transform: rotate(7deg);
+  }
+  35%, 45%, 55%, 65% {
+    transform: rotate(-7deg);
+  }
+  0%, 30%, 70%, 100% { transform: rotate(0); }
+}
+
+@mixin animation(
+  $animation,
+  $duration: $motion-duration-default,
+  $timing: $motion-timing-default,
+  $delay: $motion-delay-default,
+  $iterations: null
+) {
+  
+  animation-name: $animation;
+  animation-duration: $duration;
+  animation-timing-function: $timing;
+
+  backface-visibility: hidden;
+  transform: translate3d(0,0,0);
+
+  @if $delay != null {
+    animation-delay: $delay;
+  }
+  @if $iterations != null {
+    animation-iteration-count: $iterations;
+  }
+
+  @if $animation == null {
+    @warn "Please include an animation name";
+  }
+}
+
+// 3. HTML Exports
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+
+@include exports(motion) {
+  /*
+    Transitions
+  */
+
+  // Slide
+  .slideInDown    { @include slide($from: top); }
+  .slideInLeft    { @include slide($from: right); }
+  .slideInUp      { @include slide($from: bottom); }
+  .slideInRight   { @include slide($from: left); }
+  .slideOutBottom { @include slide($dir: out, $from: bottom); }
+  .slideOutRight  { @include slide($dir: out, $from: right); }
+  .slideOutUp     { @include slide($dir: out, $from: top); }
+  .slideOutLeft   { @include slide($dir: out, $from: left); }
+
+  // Fade
+  .fadeIn  { @include fade(in, 0, 1); }
+  .fadeOut { @include fade(out, 1, 0); }
+
+  // Hinge
+  .hingeInFromTop      { @include hinge($dir: in, $from: top); }
+  .hingeInFromRight    { @include hinge($dir: in, $from: right); }
+  .hingeInFromBottom   { @include hinge($dir: in, $from: bottom); }
+  .hingeInFromLeft     { @include hinge($dir: in, $from: left); }
+  .hingeInFromMiddleX  { @include hinge($dir: in, $from: top,   $axis: center); }
+  .hingeInFromMiddleY  { @include hinge($dir: in, $from: right, $axis: center); }
+  .hingeOutFromTop     { @include hinge($dir: out, $from: top); }
+  .hingeOutFromRight   { @include hinge($dir: out, $from: right); }
+  .hingeOutFromBottom  { @include hinge($dir: out, $from: bottom); }
+  .hingeOutFromLeft    { @include hinge($dir: out, $from: left); }
+  .hingeOutFromMiddleX { @include hinge($dir: out, $from: top,   $axis: center); }
+  .hingeOutFromMiddleY { @include hinge($dir: out, $from: right, $axis: center); }
+
+  // Scale
+  .zoomIn  { @include scale(in,  1.5, 1); }
+  .zoomOut { @include scale(out, 0.5, 1); }
+
+  // Spin
+  .spinIn     { @include spin(in, 0.75turn); }
+  .spinOut    { @include spin(out, 0.75turn); }
+  .spinInCCW  { @include spin(in, 0.75turn, true); }
+  .spinOutCCW { @include spin(out, 0.75turn, true); }
+
+  /*
+    Transition modifiers
+  */
+
+  // Duration
+  .slow { transition-duration: $motion-duration-slow !important; }
+  .fast { transition-duration: $motion-duration-fast !important; }
+
+  // Easing
+  @each $easing in map-keys($motion-timings) {
+    .#{$easing} {
+      transition-timing-function: map-get($motion-timings, $easing) !important;
+    }
+  }
+
+  // Delay
+  .delay       { transition-delay: $motion-delay-short !important; }
+  .long-delay  { transition-delay: $motion-delay-long !important; }
+
+  /*
+    Animations
+  */
+
+  .shake    { @include animation(shake); }
+  .spin-cw  { @include animation(spin-cw); }
+  .spin-ccw { @include animation(spin-ccw); }
+  .wiggle   { @include animation(wiggle); }
+
+  /*
+    Animation modifiers
+  */
+
+  .shake,
+  .spin-cw,
+  .spin-ccw,
+  .wiggle {
+    // Repeat
+    &.infinite { animation-iteration-count: infinite; }
+
+    // Easing
+    @each $timing in map-keys($motion-timings) {
+      &.#{$timing} {
+        animation-timing-function: map-get($motion-timings, $timing) !important;
+      }
+    }
+
+    // Duration
+    &.slow { animation-duration: $motion-duration-slow !important; }
+    &.fast { animation-duration: $motion-duration-fast !important; }
+
+    // Delay
+    &.delay       { animation-delay: $motion-delay-short !important; }
+    &.long-delay  { animation-delay: $motion-delay-long !important; }
+  }
+  .stagger { @include stagger($motion-stagger-duration-default); }
+  .stort-stagger { @include stagger($motion-stagger-duration-default); }
+  .long-stagger { @include stagger($motion-stagger-duration-default); }
+}
+
+// View animation classes
+// - - - - - - - - - - - - - - - - - - - -
+
+// Applied to the immediate parent of the animating views
+.position-absolute {
+  overflow: hidden;
+  position: relative;
+}
+
+// Applied to the animating views
+.ui-animation {
+  &.ng-enter-active, &.ng-leave-active {
+    position: absolute !important;
+    backface-visibility: hidden;
+    -webkit-transform-style: preserve-3d;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+}
