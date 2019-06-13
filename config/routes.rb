@@ -240,8 +240,6 @@ OpenProject::Application.routes.draw do
         patch :parent_page, action: 'update_parent_page'
         get :history
         post :protect
-        post :add_attachment
-        get :list_attachments
         get :select_main_menu_item, to: 'wiki_menu_items#select_main_menu_item'
         post :replace_main_menu_item, to: 'wiki_menu_items#replace_main_menu_item'
       end
@@ -480,25 +478,21 @@ OpenProject::Application.routes.draw do
   end
 
   # redirect for backwards compatibility
-  scope constraints: { id: /\d+/, filename: /[^\/]*/ } do
-    get '/attachments/download/:id/:filename',
-        to: redirect("#{rails_relative_url_root}/attachments/%{id}/%{filename}"),
-        format: false
+  scope 'attachments',
+        constraints: { id: /\d+/, filename: /[^\/]*/ },
+        format: false do
+    get '/download/:id/:filename',
+        to: redirect("#{rails_relative_url_root}/attachments/%{id}/%{filename}")
 
-    get '/attachments/download/:id',
-        to: redirect("#{rails_relative_url_root}/attachments/%{id}"),
-        format: false
-  end
+    get '/download/:id',
+        to: redirect("#{rails_relative_url_root}/attachments/%{id}")
 
-  resources :attachments, only: %i{destroy fulltext}, format: false do
-    member do
-      scope via: :get, constraints: { id: /\d+/, filename: /[^\/]*/ } do
-        match '(/:filename)' => 'attachments#download', as: 'download'
-      end
+    scope ':id' do
+      get '(/:filename)',
+          to: redirect("#{rails_relative_url_root}/api/v3/attachments/%{id}/content")
 
-      scope via: :get, constraints: { id: /\d+/, filename: /[^\/]*/ } do
-        match '(/:filename/fulltext)' => 'attachments#fulltext', as: 'fulltext'
-      end
+      delete '',
+             to: redirect("#{rails_relative_url_root}/api/v3/attachments/%{id}")
     end
   end
 

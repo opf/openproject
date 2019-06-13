@@ -116,7 +116,7 @@ module DemoData
 
       Member.create!(
         project: project,
-        user: user,
+        principal: user,
         roles: [role]
       )
     end

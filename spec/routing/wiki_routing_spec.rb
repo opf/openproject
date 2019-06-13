@@ -193,13 +193,6 @@ describe WikiController, type: :routing do
     }
 
     it {
-      is_expected.to route(:post, '/projects/22/wiki/ladida/add_attachment').to(controller: 'wiki',
-                                                                                action: 'add_attachment',
-                                                                                project_id: '22',
-                                                                                id: 'ladida')
-    }
-
-    it {
       is_expected.to route(:put, '/projects/567/wiki/my_page').to(controller: 'wiki',
                                                                   action: 'update',
                                                                   project_id: '567',

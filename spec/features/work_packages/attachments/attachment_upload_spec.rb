@@ -64,7 +64,6 @@ describe 'Upload attachment to work package', js: true do
         let(:editor) { Components::WysiwygEditor.new '.work-packages--activity--add-comment' }
 
         it 'can open the editor to add an image, but image upload is not shown' do
-
           # Add comment
           comment_field.activate!
 
@@ -92,7 +91,7 @@ describe 'Upload attachment to work package', js: true do
         visit new_project_work_packages_path(project.identifier, type: type.id)
       end
 
-      it 'can upload in image via drag & drop (Regression #28189)' do
+      it 'can upload an image via drag & drop (Regression #28189)' do
         subject = new_page.edit_field :subject
         subject.set_value 'My subject'
 
