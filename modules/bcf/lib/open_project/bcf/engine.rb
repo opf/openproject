@@ -91,6 +91,16 @@ module OpenProject::Bcf
       prepend Patches::Api::V3::ExportFormats
     end
 
+    extend_api_response(:v3, :work_packages, :schema, :work_package_schema) do
+      schema :bcf_thumbnail,
+             type: 'Thumbnail',
+             required: false,
+             writable: false,
+             show_if: ->(*) { represented.project && represented.project.module_enabled?(:bcf) }
+
+    end
+
+
     add_api_path :bcf_xml do |project_id|
       "#{project(project_id)}/bcf_xml"
     end
@@ -114,6 +124,8 @@ module OpenProject::Bcf
         .register_for_list(:bcf, OpenProject::Bcf::BcfXml::Exporter)
 
       ::Queries::Register.filter ::Query, OpenProject::Bcf::BcfIssueAssociatedFilter
+      ::Queries::Register.column ::Query, OpenProject::Bcf::QueryBcfThumbnailColumn
     end
+
   end
 end
