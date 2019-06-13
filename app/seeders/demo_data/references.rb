@@ -34,6 +34,10 @@ module DemoData
       @url_helpers ||= OpenProject::StaticRouting::StaticRouter.new.url_helpers
     end
 
+    def api_url_helpers
+      API::V3::Utilities::PathHelper::ApiV3Path
+    end
+
     def with_references(str, project)
       res = link_work_packages str, project
       res = link_queries res, project
@@ -74,7 +78,7 @@ module DemoData
         if match.include?(".id")
           attachment.id
         else
-          url_helpers.attachment_path id: attachment.id
+          api_url_helpers.attachment_content attachment.id
         end
       end
     end

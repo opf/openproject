@@ -1,0 +1,197 @@
+/// @Foundation.settings
+// Button Group
+$btngroup-background: $primary-color !default;
+$btngroup-color: #fff !default;
+$btngroup-radius: $button-radius !default;
+///
+
+$child-selectors: '> a, > label, > button';
+
+%button-group {
+  margin: 0;
+  margin-bottom: 1rem;
+  list-style-type: none;
+  display: inline-flex;
+  border-radius: $btngroup-radius;
+  overflow: hidden;
+  font-size: $button-font-size;
+
+  > li {
+    flex: 0 0 auto;
+
+    // Links become buttons
+    #{$child-selectors} {
+      @extend %button;
+      border-radius: 0;
+      font-size: inherit;
+      display: block;
+      margin: 0;
+    }
+    > input + label {
+      margin-left: 0;
+    }
+    // Add borders between items
+    &:not(:last-child) {
+      #{$child-selectors} {
+        border-right: 1px solid scale-color($btngroup-background, $lightness: -25%);
+      }
+    }
+  }
+
+  @if using(iconic) {
+    .iconic {
+      width: 1em;
+      height: 1em;
+      vertical-align: middle;
+      margin-right: 0.25em;
+      margin-top: -2px; // The icons are oddly misaligned
+    }
+  }
+}
+
+%button-group-segmented {
+  border: 1px solid $primary-color;
+  transition-property: background color;
+
+  > li {
+    // Hide the radio button
+    > input[type="radio"] {
+      position: absolute;
+      left: -9999px;
+    }
+    // This is the button
+    #{$child-selectors} {
+      margin-right: 0;
+      background: transparent;
+    }
+  }
+}
+
+@mixin button-group-size($size: medium, $expand: false) {
+  $size: $button-font-size * map-get($button-sizes, $size);
+  font-size: $size;
+
+  @if $expand {
+    @include button-group-expand;
+  }
+}
+@mixin button-group-expand($stretch: true) {
+  display: if($stretch, flex, inline-flex);
+
+  > li {
+    flex: if($stretch, 1, 0 0 auto);
+
+    #{$child-selectors} {
+      @if $stretch { @include button-expand; }
+    }
+  }
+}
+@mixin button-group-style(
+  $segmented: false,
+  $background: $primary-color,
+  $color: auto
+) {
+
+  @if not($segmented) {
+    > li {
+      #{$child-selectors} {
+        @include button-style($background, auto, $color);
+        border-color: scale-color($background, $lightness: -15%);
+      }
+      &.is-active {
+        #{$child-selectors} {
+          background: scale-color($background, $lightness: -15%);
+        }
+      }
+    }
+  }
+  @else {
+    @extend %button-group-segmented;
+    $hover-color: rgba($background, 0.25);
+    border-color: $background;
+
+    > li {
+      // This is the button
+      #{$child-selectors} {
+        border-color: $background;
+        color: $background;
+
+        // This is the button being hovered on
+        &:hover {
+          background: $hover-color;
+          color: $background;
+        }
+
+        @if using(iconic) {
+          .iconic { @include color-icon($background); }
+        }
+      }
+
+      // This is the button when it's active
+      &.is-active > a,
+      > input:checked + label {
+        &, &:hover {
+          background: $background;
+          color: isitlight($background);
+        }
+
+        @if using(iconic) {
+          .iconic { @include color-icon(isitlight($background)); }
+        }
+      }
+    }
+  }
+}
+
+@mixin button-group(
+  $segmented: false,
+  $expand: false,
+  $background: $primary-color,
+  $color: #fff
+) {
+  @extend %button-group;
+  @include button-group-expand($expand);
+  @include button-group-style($segmented, $background, $color);
+  border-radius: $btngroup-radius;
+}
+
+@include exports(button-group) {
+  .button-group {
+    @include button-group;
+
+    // Colors
+    &.secondary { @include button-group-style(false, $secondary-color); }
+    &.success   { @include button-group-style(false, $success-color); }
+    &.warning   { @include button-group-style(false, $warning-color); }
+    &.alert     { @include button-group-style(false, $alert-color); }
+
+    // Individual colors
+    > li {
+      &.secondary { #{$child-selectors} { @include button-style($secondary-color, auto, $btngroup: true); } }
+      &.success   { #{$child-selectors} { @include button-style($success-color, auto, $btngroup: true); } }
+      &.warning   { #{$child-selectors} { @include button-style($warning-color, auto, $btngroup: true); } }
+      &.alert     { #{$child-selectors} { @include button-style($alert-color, auto, $btngroup: true); } }
+    }
+
+    // Segmented
+    &.segmented { @include button-group-style(true);
+      &.secondary { @include button-group-style(true, $secondary-color); }
+      &.success   { @include button-group-style(true, $success-color); }
+      &.warning   { @include button-group-style(true, $warning-color); }
+      &.alert     { @include button-group-style(true, $alert-color); }
+    }
+
+    // Sizing
+    &.tiny      { @include button-group-size(tiny); }
+    &.small     { @include button-group-size(small); }
+    &.large     { @include button-group-size(large); }
+    &.expand    { @include button-group-expand; }
+
+    // Disabled
+    li.disabled {
+      #{$child-selectors} {
+        @include button-disabled;
+      }
+    }
+  }
+}

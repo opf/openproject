@@ -27,7 +27,7 @@
             <p>(No viewpoints)</p>
           <% end %>
           <% issue.viewpoints.each do |vp| %>
-            <img src="<%= attachment_path(vp.snapshot.id) %>" />
+            <img src="<%= API::V3::Utilities::PathHelper::ApiV3Path.attachment_content(vp.snapshot.id) %>" />
           <% end %>
         <% end %>
       </div>

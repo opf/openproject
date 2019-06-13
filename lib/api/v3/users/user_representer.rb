@@ -33,14 +33,9 @@ module API
     module Users
       class UserRepresenter < ::API::V3::Principals::PrincipalRepresenter
         include AvatarHelper
-        ##
-        # Dependencies required to cache users with avatars
-        # Extended by plugin
-        def self.avatar_cache_dependencies
-          []
-        end
 
-        cached_representer key_parts: %i(auth_source), dependencies: ->(*) { avatar_cache_dependencies }
+        cached_representer key_parts: %i(auth_source),
+                           dependencies: ->(*) { avatar_cache_dependencies }
 
         def self.create(user, current_user:)
           new(user, current_user: current_user)
@@ -215,6 +210,15 @@ module API
 
         def current_user_can_delete_represented?
           current_user && ::Users::DeleteService.deletion_allowed?(represented, current_user)
+        end
+
+        private
+
+        ##
+        # Dependencies required to cache users with avatars
+        # Extended by plugin
+        def avatar_cache_dependencies
+          []
         end
       end
     end
