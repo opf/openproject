@@ -98,13 +98,18 @@ zh-TW:
     single: 或者
   deprecations:
     old_timeline:
-      replacement: 此時間軸模組正在被嵌入在工作項目模組的互動式時間軸所取代。
-      removal: 此模組將在 OpenProject 8.0 被移除。此頁面的設定項目將不會被遷移到工作項目頁面。
-      further_information_before: 請查看
-      link_name: 如何遷移到新的時間軸
+      replacement: This timelines module is being replaced by the interactive timeline
+        embedded into the work packages module.
+      removal: This module is going to be removed with OpenProject 8.0. The configuration
+        for this view will NOT be migrated to the work package view.
+      further_information_before: Please take a look at
+      link_name: how to migrate to the new timeline.
       further_information_after: ''
     calendar:
-      removal: 請注意：此模組將會在 OpenProject 8.0 中被移除。
+      removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+    time_entries: This time entries view is superseded by the 'Cost reports' module.
+      This view now only supports exporting time entry information to csv. For interactive
+      filtering, please activate the 'Cost reports' module in the project settings.
   global_search:
     overwritten_tabs:
       wiki_pages: 維基
@@ -2538,12 +2543,9 @@ zh-TW:
   menu_item: 選單項目
   menu_item_setting: 可見度
   mysql_deprecation:
-    notice: 'Future versions of OpenProject will likely drop or reduce support for
-      MySQL and MariaDB databases. Your installation is still running on MySQL and
-      we suggest you migrate your installation to PostgreSQL. This process is easy
-      when following our migration guides:
-
-'
+    notice: |
+      Future versions of OpenProject will likely drop or reduce support for MySQL and MariaDB databases. Your installation is still running on MySQL and we suggest you migrate your installation to PostgreSQL.
+      This process is easy when following our migration guides:
   wiki_menu_item_for: Wikipage "%{title}" 的功能表項目
   wiki_menu_item_setting: 可見度
   wiki_menu_item_new_main_item_explanation: '您正在刪除 wiki 唯一的主功能表項目。現在, 您必須選擇一個 wiki

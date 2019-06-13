@@ -35,34 +35,34 @@ describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
 
   describe 'work package with attachments' do
     let!(:work_package) { FactoryBot.create :work_package }
-    let!(:inlinable) {
+    let!(:inlinable) do
       FactoryBot.create(:attached_picture, filename: 'my-image.jpg', description: '"foobar"', container: work_package)
-    }
+    end
     let(:context) { { object: work_package, only_path: true } }
 
-    let!(:non_inlinable) {
+    let!(:non_inlinable) do
       FactoryBot.create(:attachment, filename: 'whatever.pdf', container: work_package)
-    }
+    end
 
-    it 'should inline the inlineable attachment, not the others' do
+    it 'inlines only the inlineable attachment' do
       work_package.attachments.reload
       assert_html_output(
-        '![](my-image.jpg)'                => %(<img src="/attachments/#{inlinable.id}" alt='"foobar"'>),
-        '![alt-text](my-image.jpg)'        => %(<img src="/attachments/#{inlinable.id}" alt="alt-text">),
-        '![foo](does-not-exist.jpg)'       => %(<img src="does-not-exist.jpg" alt="foo">),
-        '![](whatever.pdf)'                => %(<img src="whatever.pdf" alt="">),
-        '![](some/path/to/my-image.jpg)'   => %(<img src="some/path/to/my-image.jpg" alt="">)
+        '![](my-image.jpg)' => %(<img src="/api/v3/attachments/#{inlinable.id}/content" alt='"foobar"'>),
+        '![alt-text](my-image.jpg)' => %(<img src="/api/v3/attachments/#{inlinable.id}/content" alt="alt-text">),
+        '![foo](does-not-exist.jpg)' => %(<img src="does-not-exist.jpg" alt="foo">),
+        '![](whatever.pdf)' => %(<img src="whatever.pdf" alt="">),
+        '![](some/path/to/my-image.jpg)' => %(<img src="some/path/to/my-image.jpg" alt="">)
       )
     end
 
     context 'with only_path=false' do
       let(:context) { { object: work_package, only_path: false } }
 
-      it 'should inline the inlineable attachment, not the others' do
+      it 'inlines only the inlineable attachment' do
         work_package.attachments.reload
-        assert_html_output(
-          '![](my-image.jpg)' => %(<img src="http://localhost:3000/attachments/#{inlinable.id}" alt='"foobar"'>),
-          )
+        expected_url = "http://localhost:3000/api/v3/attachments/#{inlinable.id}/content"
+
+        assert_html_output('![](my-image.jpg)' => %(<img src="#{expected_url}" alt='"foobar"'>))
       end
     end
   end

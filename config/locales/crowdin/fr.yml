@@ -113,15 +113,18 @@ fr:
     single: ou
   deprecations:
     old_timeline:
-      replacement: Ce module ligne du temps sera remplacé par une ligne du temps interactive
-        dans le module lot de travaux.
-      removal: Ce module va être supprimé avec OpenProject 8.0. La configuration de
-        cet affichage ne sera PAS migrée vers l'affichage du lot de travaux.
-      further_information_before: Veuillez jeter un oeil à
-      link_name: comment migrer vers la nouvelle ligne du temps.
+      replacement: This timelines module is being replaced by the interactive timeline
+        embedded into the work packages module.
+      removal: This module is going to be removed with OpenProject 8.0. The configuration
+        for this view will NOT be migrated to the work package view.
+      further_information_before: Please take a look at
+      link_name: how to migrate to the new timeline.
       further_information_after: ''
     calendar:
-      removal: Veuillez noter que ce module sera supprimé avec OpenProject 8.0.
+      removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+    time_entries: This time entries view is superseded by the 'Cost reports' module.
+      This view now only supports exporting time entry information to csv. For interactive
+      filtering, please activate the 'Cost reports' module in the project settings.
   global_search:
     overwritten_tabs:
       wiki_pages: Wiki
@@ -878,7 +881,7 @@ fr:
       a débuté. Vous serez informé par courriel dès que "%{target_project_name}" sera
       disponible.
     failed: Impossible de copier le projet %{source_project_name}
-    failed_internal: Copying failed due to an internal error.
+    failed_internal: La copie a échoué en raison d'une erreur interne.
     succeeded: Projet %{target_project_name} créé
     errors: Erreur
     project_custom_fields: Champs personnalisés du projet
@@ -2863,13 +2866,9 @@ fr:
   menu_item: Éléments de menu
   menu_item_setting: Visibilité
   mysql_deprecation:
-    notice: 'Les futures versions d''OpenProject vont probablement abandonner ou réduire
-      le support des bases de données MySQL et MariaDB. Votre installation est toujours
-      exécutée sur MySQL et nous vous conseillons de migrer votre installation vers
-      PostgreSQL. Ce processus est facile lorsque vous suivez nos guides de migration
-      :
-
-'
+    notice: |
+      Future versions of OpenProject will likely drop or reduce support for MySQL and MariaDB databases. Your installation is still running on MySQL and we suggest you migrate your installation to PostgreSQL.
+      This process is easy when following our migration guides:
   wiki_menu_item_for: Élément de menu pour wikipage « %{title} »
   wiki_menu_item_setting: Visibilité
   wiki_menu_item_new_main_item_explanation: 'Vous êtes en train de supprimer l''élement

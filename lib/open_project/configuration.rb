@@ -149,7 +149,10 @@ module OpenProject
 
       # Render warning bars (pending migrations, deprecation, unsupported browsers)
       # Set to false to globally disable this for all users!
-      'show_warning_bars' => true
+      'show_warning_bars' => true,
+
+      # Render storage information
+      'show_storage_information' => true
     }
 
     @config = nil

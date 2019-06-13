@@ -525,7 +525,7 @@ pt-BR:
       save: Salvar relação
       abort: Abortar
     relations_autocomplete:
-      placeholder: Type to search
+      placeholder: Digite para pesquisar
       parent_placeholder: Escolha o novo principal ou pressione esc para cancelar.
     repositories:
       select_tag: Selecionar marca

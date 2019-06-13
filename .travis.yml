@@ -37,7 +37,6 @@ dist: trusty
 cache:
   bundler: true
   directories:
-    - frontend/node_modules/foundation-apps
     - public/assets
     - app/assets/javascripts/bundles
     - app/assets/javascripts/locales

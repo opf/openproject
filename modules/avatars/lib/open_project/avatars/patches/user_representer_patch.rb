@@ -1,10 +1,8 @@
 module OpenProject::Avatars::Patches
   module UserRepresenterPatch
-    def self.included(base)
-      base.singleton_class.prepend ClassMethods
-    end
+    extend ActiveSupport::Concern
 
-    module ClassMethods
+    included do
       ##
       # Dependencies required to cache users with avatars
       # When the plugin is loaded, depend on its settings

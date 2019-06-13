@@ -47,58 +47,67 @@ describe OpenProject::JournalFormatter::Attachment do
     OpenStruct.new(id: id)
   end
   let(:user) { FactoryBot.create(:user) }
-  let(:attachment) {
+  let(:attachment) do
     FactoryBot.create(:attachment,
-                       author: user)
-  }
+                      author: user)
+  end
   let(:key) { "attachments_#{attachment.id}" }
 
   describe '#render' do
     describe 'WITH the first value beeing nil, and the second an id as string' do
-      # FIXME
-      # calling a helper method (link_to_attachment in this case) doesn't work always here
-      # with rspec-core 2.13.0 in combination with rspec-rails
-      # see https://github.com/rspec/rspec-core/issues/817
-      #
-      # let(:expected) {
-      #  I18n.t(:text_journal_added,
-      #                        label: "<strong>#{I18n.t(:label_attachment)}</strong>",
-      #                        value: link_to_attachment(attachment)) }
+      it 'adds an attachment added text' do
+        link = "#{Setting.protocol}://#{Setting.host_name}/api/v3/attachments/#{attachment.id}/content"
+        expect(instance.render(key, [nil, attachment.id.to_s]))
+          .to eq(I18n.t(:text_journal_added,
+                        label: "<strong>#{I18n.t(:'activerecord.models.attachment')}</strong>",
+                        value: "<a href=\"#{link}\">#{attachment.filename}</a>"))
+      end
 
-      # it { instance.render(key, [nil, attachment.id.to_s]).should == expected }
-      #
-      # Setting value by hand is just a workaround until rspec bug is fixed
-      it { expect(instance.render(key, [nil, attachment.id.to_s])).to eq(I18n.t(:text_journal_added, label: "<strong>#{I18n.t(:'activerecord.models.attachment')}</strong>", value: "<a href=\"#{Setting.protocol}://#{Setting.host_name}/attachments/#{attachment.id}/#{attachment.filename}\">#{attachment.filename}</a>")) }
+      context 'WITH a relative_url_root' do
+        before do
+          allow(OpenProject::Configuration)
+            .to receive(:rails_relative_url_root)
+                  .and_return('/blubs')
+        end
+
+        it 'adds an attachment added text' do
+          link = "#{Setting.protocol}://#{Setting.host_name}/blubs/api/v3/attachments/#{attachment.id}/content"
+          expect(instance.render(key, [nil, attachment.id.to_s]))
+            .to eq(I18n.t(:text_journal_added,
+                          label: "<strong>#{I18n.t(:'activerecord.models.attachment')}</strong>",
+                          value: "<a href=\"#{link}\">#{attachment.filename}</a>"))
+        end
+      end
     end
 
     describe 'WITH the first value beeing an id as string, and the second nil' do
-      let(:expected) {
+      let(:expected) do
         I18n.t(:text_journal_deleted,
                label: "<strong>#{I18n.t(:'activerecord.models.attachment')}</strong>",
                old: "<strike><i title=\"#{attachment.id}\">#{attachment.id}</i></strike>")
-      }
+      end
 
       it { expect(instance.render(key, [attachment.id.to_s, nil])).to eq(expected) }
     end
 
     describe "WITH the first value beeing nil, and the second an id as a string
               WITH specifying not to output html" do
-      let(:expected) {
+      let(:expected) do
         I18n.t(:text_journal_added,
                label: I18n.t(:'activerecord.models.attachment'),
                value: attachment.id)
-      }
+      end
 
       it { expect(instance.render(key, [nil, attachment.id.to_s], no_html: true)).to eq(expected) }
     end
 
     describe "WITH the first value beeing an id as string, and the second nil,
               WITH specifying not to output html" do
-      let(:expected) {
+      let(:expected) do
         I18n.t(:text_journal_deleted,
                label: I18n.t(:'activerecord.models.attachment'),
                old: attachment.id)
-      }
+      end
 
       it { expect(instance.render(key, [attachment.id.to_s, nil], no_html: true)).to eq(expected) }
     end

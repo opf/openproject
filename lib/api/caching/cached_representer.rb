@@ -160,7 +160,7 @@ module API
         def delete_from_hash(hash, path, key)
           pathed_hash = path ? hash[path] : hash
 
-          pathed_hash.delete(key.to_s) if pathed_hash
+          pathed_hash&.delete(key.to_s)
         end
 
         def representable_map(*)
@@ -186,12 +186,16 @@ module API
         end
 
         def json_key_representer_parts
-          cacheable = [represented]
+          cacheable = json_key_part_represented
           cacheable << json_key_custom_fields
           cacheable << json_key_parts_of_represented
           cacheable << json_key_dependencies
 
           OpenProject::Cache::CacheKey.expand(cacheable.flatten.compact)
+        end
+
+        def json_key_part_represented
+          [represented]
         end
 
         def json_key_parts_of_represented
@@ -207,7 +211,9 @@ module API
         def json_key_dependencies
           callable_dependencies = self.class.cached_representer_configuration[:dependencies]
 
-          callable_dependencies&.call
+          return unless callable_dependencies
+
+          instance_exec(&callable_dependencies)
         end
 
         def no_caching?

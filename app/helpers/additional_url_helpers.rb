@@ -3,6 +3,10 @@ module AdditionalUrlHelpers
 
   module_function
 
+  def fixed_home_url
+    home_url(script_name: OpenProject::Configuration.rails_relative_url_root)
+  end
+
   def add_params_to_uri(uri, args = {})
     uri =  URI.parse uri
     query = URI.decode_www_form String(uri.query)

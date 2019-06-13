@@ -114,9 +114,8 @@ describe 'OpenProject include wiki page macro' do
       is_expected.to be_html_eql('
         <p>
         <section class="macros--included-wiki-page" data-page-name="included">
-          <h1>
-            <a id="included-from-same-project" class="anchor" href="#included-from-same-project" aria-hidden="true">
-              <span aria-hidden="true" class="octicon octicon-link"></span>
+          <h1 id="included-from-same-project">
+            <a class="wiki-anchor icon-paragraph" href="#included-from-same-project" aria-hidden="true">
             </a>
             included from same project
           </h1>
@@ -177,9 +176,8 @@ describe 'OpenProject include wiki page macro' do
         is_expected.to be_html_eql('
         <p>
           <section class="macros--included-wiki-page" data-page-name="other-project:include-test">
-          <h1>
-            <a id="included-from-other-project" class="anchor" href="#included-from-other-project" aria-hidden="true">
-              <span aria-hidden="true" class="octicon octicon-link"></span>
+          <h1 id="included-from-other-project">
+            <a class="wiki-anchor icon-paragraph" href="#included-from-other-project" aria-hidden="true">
             </a>
             Included from other project
           </h1>

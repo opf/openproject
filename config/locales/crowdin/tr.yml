@@ -112,15 +112,18 @@ tr:
     single: ya da
   deprecations:
     old_timeline:
-      replacement: Bu zaman akışı modülü iş paketleri modülüyle birleşik etkileşimli
-        zaman akışı modülüyle değiştirilecektir.
-      removal: Bu modül OpenProject 8.0 ile kaldırılacak. Bu görünümün ayarları iş
-        paketleri görünümüne taşınmayacak.
-      further_information_before: Lütfen bir göz atın
-      link_name: yeni zaman akışına nasıl geçerilir.
+      replacement: This timelines module is being replaced by the interactive timeline
+        embedded into the work packages module.
+      removal: This module is going to be removed with OpenProject 8.0. The configuration
+        for this view will NOT be migrated to the work package view.
+      further_information_before: Please take a look at
+      link_name: how to migrate to the new timeline.
       further_information_after: ''
     calendar:
-      removal: 'Lütfen dikkat: Bu modül OpenProject 8.0 ile kaldırılacak.'
+      removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+    time_entries: This time entries view is superseded by the 'Cost reports' module.
+      This view now only supports exporting time entry information to csv. For interactive
+      filtering, please activate the 'Cost reports' module in the project settings.
   global_search:
     overwritten_tabs:
       wiki_pages: Viki
@@ -853,7 +856,7 @@ tr:
       bir projeye kopyalanmaya başladı. "%{target_project_name}" projesi hazır olduğunda
       e-posta ile bilgilendirileceksiniz.'
     failed: "%{source_project_name} project kopyalanamadı"
-    failed_internal: Copying failed due to an internal error.
+    failed_internal: Dahili bir hata nedeniyle kopyalama başarısız oldu.
     succeeded: "%{target_project_name} project oluşturuldu"
     errors: Hata
     project_custom_fields: Projedeki özel alanlar
@@ -2784,12 +2787,9 @@ tr:
   menu_item: Menü seçeneği
   menu_item_setting: Görünürlük
   mysql_deprecation:
-    notice: 'OpenProject''in gelecekteki sürümleri MySQL ve MariaDB veritabanları
-      için desteği büyük olasılıkla düşürecek veya azaltacaktır. Kurulumunuz hala
-      MySQL''de çalışıyor ve kurulumunuzu PostgreSQL''e geçirmenizi öneririz. Geçiş
-      rehberlerimizi takip ederken bu işlem kolaydır:
-
-'
+    notice: |
+      Future versions of OpenProject will likely drop or reduce support for MySQL and MariaDB databases. Your installation is still running on MySQL and we suggest you migrate your installation to PostgreSQL.
+      This process is easy when following our migration guides:
   wiki_menu_item_for: Wikipage için menü öğesi " %{title} "
   wiki_menu_item_setting: Görünürlük
   wiki_menu_item_new_main_item_explanation: 'Sadece ana wiki menü öğesini silmektesiniz.

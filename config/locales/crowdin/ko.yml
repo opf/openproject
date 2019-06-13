@@ -99,14 +99,18 @@ ko:
     single: 또는
   deprecations:
     old_timeline:
-      replacement: 이 타임라인 모듈은 작업 패키지 모듈에 포함된 대화형 타임라인에 의해 대체됩니다.
-      removal: 이 모듈은 OpenProject 8.0에서 제거됩니다. 이 보기에 대한 구성은 작업 패키지 보기에 마이그레이션되지 않을
-        것입니다.
-      further_information_before: 다음을 살펴보세요.
-      link_name: 새 타임라인을 마이그레이션하는 방법.
+      replacement: This timelines module is being replaced by the interactive timeline
+        embedded into the work packages module.
+      removal: This module is going to be removed with OpenProject 8.0. The configuration
+        for this view will NOT be migrated to the work package view.
+      further_information_before: Please take a look at
+      link_name: how to migrate to the new timeline.
       further_information_after: ''
     calendar:
-      removal: '참고: 이 모듈은 OpenProject 8.0에서 제거될 것입니다.'
+      removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+    time_entries: This time entries view is superseded by the 'Cost reports' module.
+      This view now only supports exporting time entry information to csv. For interactive
+      filtering, please activate the 'Cost reports' module in the project settings.
   global_search:
     overwritten_tabs:
       wiki_pages: 위키
@@ -2625,11 +2629,9 @@ ko:
   menu_item: 메뉴 항목
   menu_item_setting: 표시 여부
   mysql_deprecation:
-    notice: '향후 버전의 OpenProject에서는 MariaDB 및 MySQL 데이터베이스에 대한 지원이 없어지거나 줄어들 가능성이 있습니다.
-      MySQL에서 설치가 계속 실행되고 있는 경우 PostgreSQL에 설치를 마이그레이션하는 것이 좋습니다. 마이그레이션 가이드를 따르면
-      이 프로세스를 손쉽게 할 수 있습니다.
-
-'
+    notice: |
+      Future versions of OpenProject will likely drop or reduce support for MySQL and MariaDB databases. Your installation is still running on MySQL and we suggest you migrate your installation to PostgreSQL.
+      This process is easy when following our migration guides:
   wiki_menu_item_for: 위키 페이지 "%{title}"에 대한 메뉴 항목
   wiki_menu_item_setting: 표시 여부
   wiki_menu_item_new_main_item_explanation: '유일한 기본 위키 메뉴 항목을 삭제하려고 합니다. 이제 새로운 기본

@@ -113,15 +113,18 @@ pt-BR:
     single: ou
   deprecations:
     old_timeline:
-      replacement: Este módulo de cronogramas está sendo substituído por um cronograma
-        interativo integrado no módulo de pacotes de trabalho.
-      removal: Este módulo será removido no OpenProject 8.0. A configuração para este
-        modo de exibição NÃO migrará para a visualização de pacotes de trabalho.
-      further_information_before: Por favor, dê uma olhada em
-      link_name: como migrar para um novo cronograma (linha do tempo).
+      replacement: This timelines module is being replaced by the interactive timeline
+        embedded into the work packages module.
+      removal: This module is going to be removed with OpenProject 8.0. The configuration
+        for this view will NOT be migrated to the work package view.
+      further_information_before: Please take a look at
+      link_name: how to migrate to the new timeline.
       further_information_after: ''
     calendar:
-      removal: 'Atenção: Este módulo será removido com o OpenProject 8.0.'
+      removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+    time_entries: This time entries view is superseded by the 'Cost reports' module.
+      This view now only supports exporting time entry information to csv. For interactive
+      filtering, please activate the 'Cost reports' module in the project settings.
   global_search:
     overwritten_tabs:
       wiki_pages: Wiki
@@ -2814,12 +2817,9 @@ pt-BR:
   menu_item: Item de menu
   menu_item_setting: Visibilidade
   mysql_deprecation:
-    notice: 'As versões posteriores do OpenProject irão, provavelmente, abandonar
-      ou reduzir o suporte às bases de dados MySQL e MariaDB. Sua instalação continua
-      a ser executada no MySQL e sugerimos que você migre-a para o PostgreSQL. Este
-      processo é fácil quando nossos guias de migração são seguidos:
-
-'
+    notice: |
+      Future versions of OpenProject will likely drop or reduce support for MySQL and MariaDB databases. Your installation is still running on MySQL and we suggest you migrate your installation to PostgreSQL.
+      This process is easy when following our migration guides:
   wiki_menu_item_for: Item de menu para página wiki "%{title}"
   wiki_menu_item_setting: Visibilidade
   wiki_menu_item_new_main_item_explanation: 'Você está excluindo somente o item de

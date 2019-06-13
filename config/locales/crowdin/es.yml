@@ -114,15 +114,18 @@ es:
     single: o bien
   deprecations:
     old_timeline:
-      replacement: Este módulo de líneas de tiempo se ha sustituido por una la línea
-        de tiempo interactiva incorporada en el módulo de paquetes de trabajo.
-      removal: Este módulo se eliminará de OpenProject 8.0. La configuración de esta
-        vista NO migrará a la vista de paquetes de trabajo.
-      further_information_before: Por favor, eche un vistazo a
-      link_name: cómo migrar a la nueva línea de tiempo.
+      replacement: This timelines module is being replaced by the interactive timeline
+        embedded into the work packages module.
+      removal: This module is going to be removed with OpenProject 8.0. The configuration
+        for this view will NOT be migrated to the work package view.
+      further_information_before: Please take a look at
+      link_name: how to migrate to the new timeline.
       further_information_after: ''
     calendar:
-      removal: 'Nota: Este módulo se quitará con OpenProject 8.0.'
+      removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+    time_entries: This time entries view is superseded by the 'Cost reports' module.
+      This view now only supports exporting time entry information to csv. For interactive
+      filtering, please activate the 'Cost reports' module in the project settings.
   global_search:
     overwritten_tabs:
       wiki_pages: Wiki
@@ -161,7 +164,7 @@ es:
         no_results_title_text: Actualmente no hay actividades disponibles.
       forums:
         no_results_title_text: Actualmente no hay foros para el proyecto.
-        no_results_content_text: Crear un foro
+        no_results_content_text: Crear un nuevo foro
       categories:
         no_results_title_text: Actualmente no hay categorias de paquetes de trabajo.
         no_results_content_text: Crear una nueva categoria de paquete de trabajo
@@ -544,7 +547,7 @@ es:
         too_long: es demasiado largo (el máximo de caracteres es %{count}).
         too_short: es demasiado corto (el mínimo de caracteres es %{count}).
         unchangeable: no se puede cambiar.
-        unremovable: no se puede eliminar.
+        unremovable: no puede ser eliminado.
         wrong_length: la longitud es incorrecta (debe ser %{count} caracteres).
       models:
         custom_field:
@@ -622,8 +625,8 @@ es:
           no_directory: no es un directorio.
         role:
           permissions:
-            dependency_missing: need to also include '%{dependency}' as '%{permission}'
-              is selected.
+            dependency_missing: también es necesario incluir «%{dependency}», ya que
+              está seleccionada la opción «%{permission}».
         work_package:
           is_not_a_valid_target_for_time_entries: 'Paquete de trabajo #%{id} no es
             un objetivo válido para reasignar las entradas de tiempo.'
@@ -660,8 +663,8 @@ es:
             attribute_groups:
               attribute_unknown: Se ha usado un atributo de paquete de trabajo no
                 válido.
-              attribute_unknown_name: 'Atributo de paquete de trabajo no válido usado:
-                %{attribute}'
+              attribute_unknown_name: 'Se ha utilizado un atributo de paquete de trabajo
+                no válido: %{attribute}'
               duplicate_group: El nombre de grupo “%{group}” se usó más de una vez.
                 Los nombres de grupo tienen que ser únicos.
               query_invalid: 'La consulta insertada “%{group}” no es válida: %{details}'
@@ -880,7 +883,7 @@ es:
     started: Comenzó la copia del proyecto '%{source_project_name}' a "%{target_project_name}".
       Se le informará por correo tan pronto como esté disponible el proyecto "%{target_project_name}".
     failed: No se puede copiar proyecto %{source_project_name}
-    failed_internal: Copying failed due to an internal error.
+    failed_internal: Copia fallida debido a un error interno.
     succeeded: Proyecto creado %{target_project_name}
     errors: Error
     project_custom_fields: Campos personalizados del proyecto
@@ -1527,7 +1530,7 @@ es:
   label_my_queries: Mis consultas personalizadas
   label_never: Nunca
   label_new: Nuevo
-  label_new_features: New features
+  label_new_features: Nuevas características
   label_new_statuses_allowed: Nuevos estados permitidos
   label_news_added: Noticias añadidas
   label_news_comment_added: Comentario añadido a una noticia
@@ -2022,7 +2025,7 @@ es:
   permission_add_project: Crear proyecto
   permission_add_subprojects: Crear subproyectos
   permission_add_work_package_watchers: Agregar observadores
-  permission_assign_versions: Assign versions
+  permission_assign_versions: Asignar versiones
   permission_browse_repository: Permiso de solo lectura sobre el repositorio (Navegación
     y checkout)
   permission_change_wiki_parent_page: Cambiar wiki pagina madre
@@ -2868,12 +2871,9 @@ es:
   menu_item: Elemento de menú
   menu_item_setting: Visibilidad
   mysql_deprecation:
-    notice: 'Es probable que en las próximas versiones de OpenProject se elimine o
-      reduzca la compatibilidad con las bases de datos de MySQL y MariaDB. Su instalación
-      aún se ejecuta con MySQL, por lo que le sugerimos que migre la instalación a
-      PostgreSQL. Siga nuestras guías de migración para realizar este sencillo proceso:
-
-'
+    notice: |
+      Future versions of OpenProject will likely drop or reduce support for MySQL and MariaDB databases. Your installation is still running on MySQL and we suggest you migrate your installation to PostgreSQL.
+      This process is easy when following our migration guides:
   wiki_menu_item_for: Elemento de menú para wiki '%{title}'
   wiki_menu_item_setting: Visibilidad
   wiki_menu_item_new_main_item_explanation: 'Usted esta eliminando el único elemento
@@ -2926,8 +2926,8 @@ es:
         previstas.
       multiple_errors: Múltiples limitaciones de campo han sido violadas.
       unable_to_create_attachment: No se pudo crear el adjunto
-      unable_to_create_attachment_permissions: The attachment could not be saved due
-        to lacking file system permissions
+      unable_to_create_attachment_permissions: No se pudo guardar el archivo adjunto
+        porque faltan permisos del sistema de archivos
       render:
         context_not_parsable: El contexto proporcionado no es un enlace a un recurso.
         unsupported_context: El recurso dado no es soportado como contexto.

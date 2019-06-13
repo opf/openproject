@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,42 +26,28 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require_relative '../legacy_spec_helper'
-require 'attachments_controller'
+require 'spec_helper'
 
-describe AttachmentsController, type: :controller do
-  render_views
+describe OpenProject::StaticRouting do
+  describe '.recognize_route' do
+    subject { described_class.recognize_route path }
 
-  fixtures :all
+    context 'with no relative URL root', with_config: { rails_relative_url_root: nil } do
+      let(:path) { '/projects/foo' }
 
-  before do
-    User.current = nil
-  end
+      it 'detects the route' do
+        expect(subject).to be_present
+        expect(subject[:controller]).to be_present
+      end
+    end
 
-  it 'should download other' do
-    get :download, params: { id: 6 }
-    assert_equal 'application/zip', response.content_type
-  end
+    context 'with a relative URL root', with_config: { rails_relative_url_root: '/foobar' } do
+      let(:path) { '/foobar/projects/foo' }
 
-  it 'should download text file' do
-    get :download, params: { id: 4 }
-    assert_response :success
-    assert_equal 'text/x-ruby', response.content_type
-  end
-
-  it 'should download missing file' do
-    get :download, params: { id: 2 }
-    assert_response 404
-  end
-
-  it 'should anonymous on private private' do
-    get :download, params: { id: 7 }
-    assert_redirected_to '/login?back_url=http%3A%2F%2Ftest.host%2Fattachments%2F7'
-  end
-
-  it 'should destroy without permission' do
-    delete :destroy, params: { id: 3 }
-    assert_redirected_to '/login?back_url=http%3A%2F%2Ftest.host%2Fattachments%2F3'
-    assert Attachment.find_by(id: 3)
+      it 'detects the route' do
+        expect(subject).to be_present
+        expect(subject[:controller]).to be_present
+      end
+    end
   end
 end

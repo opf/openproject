@@ -1,0 +1,126 @@
+/*
+  MODAL
+  -----
+
+  The humble modal hides off-canvas until summoned with an fa-open directive. Modals appear over an overlay that darkens the rest of the page, and have a maxmimum width. You can construct a grid inside a modal, or attach panels to it.
+
+  Note that the modal overlay is hardcoded into the CSS, because whether or not you build your modal semantically, the overlay is always required and will always look the same.
+*/
+
+/// @Foundation.settings
+// Modal
+$modal-background: #fff !default;
+$modal-border: 0 !default;
+$modal-radius: 0px !default;
+$modal-shadow: none !default;
+$modal-zindex: 1000 !default;
+$modal-sizes: (
+  tiny: 300px,
+  small: 500px,
+  medium: 600px,
+  large: 800px,
+) !default;
+
+$modal-overlay-class: 'modal-overlay' !default;
+$modal-overlay-background: rgba(#333, 0.7) !default;
+///
+
+%modal {
+  position: relative;
+  z-index: $modal-zindex + 1;
+  background: $modal-background;
+  flex: 0 0 auto;
+  width: 100%;
+  height: 100vh;
+  max-height: 100%;
+  overflow: hidden;
+  padding: $global-padding;
+
+  @include breakpoint(medium) {
+    height: auto;
+    max-width: map-get($modal-sizes, medium);
+  }
+
+  .grid-content, .grid-block {
+    margin: 0;
+  }
+
+  .close-button, [fa-close] {
+    z-index: $modal-zindex + 1;
+  }
+}
+
+@mixin modal-dialog() {
+  height: auto;
+}
+@mixin modal-layout(
+  $width: map-get($modal-sizes, medium),
+  $dialog: false
+) {
+  max-width: $width;
+}
+@mixin modal-style(
+  $border: $modal-border,
+  $radius: $modal-radius,
+  $shadow: $modal-shadow
+) {
+  @if $border != 0 {
+    border: $border;
+  }
+  @if $radius != 0px {
+    border-radius: $radius;
+  }
+  @if $shadow != none {
+    box-shadow: $shadow;
+  }
+}
+
+@mixin modal(
+  $width: map-get($modal-sizes, medium),
+  $border: $modal-border,
+  $radius: $modal-radius,
+  $shadow: $modal-shadow
+) {
+  @extend %modal;
+  @include modal-layout($width);
+  @include modal-style($border, $radius, $shadow);
+}
+
+@include exports(modal) {
+  .modal {
+    @include modal;
+
+    @each $size in map-keys($modal-sizes) {
+      $width: map-get($modal-sizes, $size);
+      @if $size != medium {
+        .#{$size} > & { @include modal-layout($width); }
+      }
+    }
+
+    .dialog > & {
+      @include modal-dialog;
+    }
+    .collapse > & {
+      padding: 0;
+    }
+  }
+
+  .#{$modal-overlay-class} {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: $modal-zindex;
+    display: none;
+    background-color: $modal-overlay-background;
+
+    // Horizontally and vertically center the modal
+    align-items: center;
+    justify-content: center;
+
+    &.is-active {
+      display: flex;
+    }
+  }
+}

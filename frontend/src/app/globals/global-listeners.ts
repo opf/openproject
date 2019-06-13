@@ -34,7 +34,6 @@ import {augmentedDatePicker} from "./global-listeners/augmented-date-picker";
  */
 (function($:JQueryStatic) {
 
-
   $(function() {
     $(document.documentElement!)
       .on('click', (evt:JQueryEventObject) => {
@@ -49,6 +48,13 @@ import {augmentedDatePicker} from "./global-listeners/augmented-date-picker";
 
         return true;
       });
+
+    // Jump to the element given by location.hash, if present
+    const hash = window.location.hash;
+    if (hash && hash.startsWith('#')) {
+      const el = document.querySelector(hash);
+      el && el.scrollIntoView();
+    }
 
     // Disable global drag & drop handling, which results in the browser loading the image and losing the page
     $(document.documentElement!)

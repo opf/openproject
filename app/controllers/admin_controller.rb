@@ -73,12 +73,16 @@ class AdminController < ApplicationController
 
   def info
     @db_adapter_name = ActiveRecord::Base.connection.adapter_name
-    repository_writable = File.writable?(OpenProject::Configuration.attachments_storage_path)
     @checklist = [
       [:text_default_administrator_account_changed, User.default_admin_account_changed?],
-      [:text_file_repository_writable, repository_writable],
       [:text_database_allows_tsv, OpenProject::Database.allows_tsv?]
     ]
+
+    # Add local directory test if we're not using fog
+    if OpenProject::Configuration.file_storage?
+      repository_writable = File.writable?(OpenProject::Configuration.attachments_storage_path)
+      @checklist << [:text_file_repository_writable, repository_writable]
+    end
 
     if OpenProject::Database.allows_tsv?
       @checklist += plaintext_extraction_checks

@@ -53,8 +53,6 @@ class WikiController < ApplicationController
                                               history
                                               diff
                                               annotate
-                                              add_attachment
-                                              list_attachments
                                               destroy]
   before_action :build_wiki_page_and_content, only: %i[new create]
 
@@ -342,20 +340,6 @@ class WikiController < ApplicationController
       send_data(export, type: 'text/html', filename: 'wiki.html')
     else
       redirect_to action: 'show', project_id: @project, id: nil
-    end
-  end
-
-  def add_attachment
-    return render_403 unless editable?
-    @page.attach_files(permitted_params.attachments.to_h)
-    @page.save
-    redirect_to action: 'show', id: @page, project_id: @project
-  end
-
-  def list_attachments
-    respond_to do |format|
-      format.json { render 'common/list_attachments', locals: { attachments: @page.attachments } }
-      format.html
     end
   end
 

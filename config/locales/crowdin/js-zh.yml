@@ -463,7 +463,7 @@ zh:
       save: 保存关系
       abort: 放弃
     relations_autocomplete:
-      placeholder: Type to search
+      placeholder: 键入内容进行搜索
       parent_placeholder: 选择新父级，或按 Escape 键来取消。
     repositories:
       select_tag: 选择标签

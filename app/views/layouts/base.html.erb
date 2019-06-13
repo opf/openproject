@@ -122,7 +122,7 @@ See docs/COPYRIGHT.rdoc for more details.
           </a>
           <%= render_top_menu_left %>
           <div id="logo" class="hidden-for-mobile">
-            <%= link_to(I18n.t('label_home'), home_url, class: 'home-link') %>
+            <%= link_to(I18n.t('label_home'), fixed_home_url, class: 'home-link') %>
           </div>
           <%= call_hook :view_layouts_base_top_menu %>
           <div class="top-menu-items-right">

@@ -63,7 +63,7 @@ ja:
       title: カレンダー
       too_many: カレンダー(%{max}) で表示できるよりも多くの作業項目 (%{count}) があります。 関連するものに焦点を当てるためにフィルタを追加します。
     description_available_columns: 利用できる項目
-    description_current_position: 'You are here: '
+    description_current_position: '現在の位置: '
     description_select_work_package: '作業項目を選択 #%{id}'
     description_selected_columns: 選択された項目
     description_subwork_package: '作業項目の子 #%{id}'
@@ -175,14 +175,12 @@ ja:
     homescreen:
       blocks:
         new_features:
-          text_new_features: Read about new features and product updates.
-          current_new_feature_html: 'OpenProject contains a new <b>Boards view</b>
-            for Agile project management. </br> To activate this new feature for your
-            existing projects, please do the following steps: <ul><li>Activate the
-            module Boards within existing projects'' settings.</li> <li>Configure
-            your Boards in a project.</li> <li>Verify roles and permissions</li></ul>'
-          image_alt_text: Board teaser image
-          learn_about: Learn more about Agile Boards
+          text_new_features: 新しい機能と製品の更新について表示する
+          current_new_feature_html: OpenProject には、アジャイルプロジェクトを管理する新しい<b>ボードビュー</b>が含まれています。
+            </br>既存のプロジェクトに対してこの新機能を有効にするには、次の手順に従ってください。<ul><li>既存のプロジェクトの設定で、ボードのモジュールを有効にします。</li>
+            <li>プロジェクトでボードを設定します。 </li> <li>役割と権限を確認してください</li></ul>
+          image_alt_text: ボードのティーザー画像
+          learn_about: アジャイルボードについて知る
     label_activate: 有効にする
     label_activity_no: アクティビティのエントリ番号 %{activityNo}
     label_activity_with_comment_no: アクティビティのエントリ番号 %{activityNo}。ユーザー コメントがあります。
@@ -381,9 +379,7 @@ ja:
       selection: 選択してください
       relation_description: クリックしてこの関係に説明を追加
     project:
-      required_outside_context: 'Please choose a project to create the work package
-        in to see all attributes. You can only select projects which have the type
-        above activated.
+      required_outside_context: '作業パッケージを作成するプロジェクトを選択して、すべての属性を確認してください。 上記で有効になっているタイプのプロジェクトのみ選択できます。
 
 '
       context: プロジェクトのコンテキスト
@@ -472,8 +468,8 @@ ja:
       save: 関係を保存
       abort: 中止
     relations_autocomplete:
-      placeholder: Type to search
-      parent_placeholder: Choose new parent or press escape to cancel.
+      placeholder: 検索キーワードを入力
+      parent_placeholder: 新しい親を選択するか、ESCを押してキャンセルしてください。
     repositories:
       select_tag: タグを選択する
       select_branch: 分岐を選択する
