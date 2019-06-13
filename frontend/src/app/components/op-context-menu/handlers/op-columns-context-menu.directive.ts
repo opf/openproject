@@ -55,7 +55,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
       text: this.I18n.t('js.work_packages.table_configuration.sorting_mode.warning'),
       title: this.I18n.t('js.modals.form_submit.title')
     },
-  }
+  };
 
 
   constructor(readonly elementRef:ElementRef,

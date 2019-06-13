@@ -81,6 +81,14 @@ module Components
         end
       end
 
+      def update_sorting_mode(mode)
+        if mode === 'manual'
+          choose('sorting_mode_switch', option: 'manual')
+        else
+          choose('sorting_mode_switch', option: 'automatic')
+        end
+      end
+
       def open_modal
         modal = TableConfigurationModal.new
         modal.open_and_switch_to 'Sort by'
@@ -96,6 +104,30 @@ module Components
         page.within('.op-modal--modal-container') do
           click_on 'Apply'
         end
+      end
+
+      def move_WP_manually(from:, to:)
+        # ToDo: Make this work
+        source = page.all(".wp-table--row")[from]
+        target = page.all(".wp-table--row")[to]
+
+        scroll_to_element(source)
+        page
+          .driver
+          .browser
+          .action
+          .move_to(source.native)
+          .click_and_hold(source.find('.wp-table--drag-and-drop-handle', visible: false).native)
+          .perform
+
+        scroll_to_element(target)
+        page
+          .driver
+          .browser
+          .action
+          .move_to(target.native)
+          .release
+          .perform
       end
 
       private
