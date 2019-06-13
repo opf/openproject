@@ -7,7 +7,7 @@
       <i class="icon-arrow-left1" aria-hidden="true"></i>
     </a>
     <ng-select #select
-              [items]="results$ | async"
+              [items]="requests.output$ | async"
               name="global-search-input"
               id="global-search-input"
               placeholder="{{text.search_dots}}"
@@ -16,8 +16,8 @@
               [class.-expanded]="expanded"
               [openOnEnter]="false"
               [searchFn]="customSearchFn"
-              [typeahead]="searchTermChanged$"
-              [loading]="searchLoading"
+              [typeahead]="requests.input$"
+              [loading]="requests.loading$ | async"
               (focus)="onFocus()"
               (focusout)="onFocusOut()"
               (search)="search($event)"

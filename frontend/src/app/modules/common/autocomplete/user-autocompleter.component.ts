@@ -36,17 +36,20 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {concat, Observable, of, Subject} from "rxjs";
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from "rxjs/operators";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
+import {DebouncedRequestSwitchmap, errorNotificationHandler} from "core-app/helpers/rxjs/debounced-input-switchmap";
+import {UserResource} from "core-app/modules/hal/resources/user-resource";
+import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 
 @Component({
   template: `
-    <ng-select [items]="options$ | async"
+    <ng-select [items]="requests.output$ | async"
                bindLabel="name"
                bindValue="id"
                [ngModel]="initialSelection"
                [virtualScroll]="true"
                [trackByFn]="userTracker"
-               [typeahead]="searchInput$"
-               [loading]="searchLoading"
+               [typeahead]="requests.input$"
+               [loading]="requests.loading$ | async"
                (focus)="onFocus()"
                (change)="onModelChange($event)">
       <ng-template ng-option-tmp let-item="item" let-index="index">
@@ -77,14 +80,16 @@ export class UserAutocompleterComponent implements OnInit {
   // Update an input field after changing, used when externally loaded
   private updateInputField:HTMLInputElement|undefined;
 
-  // Observable to the option results
-  public options$:Observable<any[]>;
-  public searchLoading:boolean = false;
-  public searchInput$ = new Subject<string>();
+  /** Keep a switchmap for search term and loading state */
+  public requests = new DebouncedRequestSwitchmap<string, {[key:string]:string|null}>(
+    (searchTerm:string) => this.getAvailableUsers(this.url, searchTerm),
+    errorNotificationHandler(this.wpNotification)
+  );
 
   constructor(protected elementRef:ElementRef,
               protected halResourceService:HalResourceService,
               protected I18n:I18nService,
+              protected wpNotification:WorkPackageNotificationService,
               readonly pathHelper:PathHelperService) {
   }
 
@@ -99,32 +104,16 @@ export class UserAutocompleterComponent implements OnInit {
     if (allowEmpty === 'true') {
       this.allowEmpty = true;
     }
-
-    this.options$ = concat(
-      of([]),
-      this.searchInput$.pipe(
-        debounceTime(200),
-        distinctUntilChanged(),
-        tap(() => this.searchLoading = true),
-        switchMap(term =>
-          this.getAvailableUsers(this.url, term)
-            .pipe(
-              catchError(() => of([])),
-              tap(() => this.searchLoading = false)
-            )
-        )
-      )
-    );
   }
 
   public onFocus() {
-    this.searchInput$.next('');
+    this.requests.input$.next('');
   }
 
   public onModelChange(user:any) {
     if (user) {
       this.onChange.emit(user);
-      this.searchInput$.next('');
+      this.requests.input$.next('');
 
       if (this.clearAfterSelection) {
         this.ngSelectComponent.clearItem(user);
@@ -136,7 +125,7 @@ export class UserAutocompleterComponent implements OnInit {
     }
   }
 
-  private getAvailableUsers(url:string, searchTerm:any):Observable<any[]> {
+  private getAvailableUsers(url:string, searchTerm:any):Observable<{[key:string]:string|null}[]> {
     let filters = new ApiV3FilterBuilder();
 
     if (searchTerm) {
