@@ -14,13 +14,12 @@ module OpenProject
 
       class << self
         def from_scope(scope)
-          recognized = Rails.application.routes.recognize_path(scope)
+          recognized = ::OpenProject::StaticRouting.recognize_route(scope)
+          return if recognized.nil?
 
           if recognized[:controller] == 'boards/boards'
             recognized.slice(:project_id, :id, :user_id)&.merge(class: ::Boards::Grid)
           end
-        rescue ActionController::RoutingError
-          nil
         end
 
         def writable_scopes
