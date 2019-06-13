@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,31 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {APP_INITIALIZER, NgModule} from '@angular/core';
-import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
-import {BcfWpSingleViewComponent} from "core-app/modules/bcf/bcf-wp-single-view/bcf-wp-single-view.component";
-import {NgxGalleryModule} from "ngx-gallery";
-import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
-import {initializeBcfDisplayFields} from "core-app/modules/bcf/fields/display/bcf-display-field.initializer";
+import {DisplayField} from "core-app/modules/fields/display/display-field.module";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 
+export class BcfThumbnailDisplayField extends DisplayField {
+  protected pathHelper:PathHelperService = this.$injector.get(PathHelperService);
 
-@NgModule({
-  imports: [
-    OpenprojectCommonModule,
-    NgxGalleryModule,
-  ],
-  providers: [
-    { provide: APP_INITIALIZER, useFactory: initializeBcfDisplayFields, deps: [DisplayFieldService], multi: true },
-  ],
-  declarations: [
-    BcfWpSingleViewComponent,
-  ],
-  exports: [
-    BcfWpSingleViewComponent,
-  ],
-  entryComponents: [
-  ]
-})
-export class OpenprojectBcfModule {
+  public render(element:HTMLElement, displayText:string):void {
+    if (_.get(this, 'resource.bcf.viewpoints[0]')) {
+      let vp = this.resource.bcf.viewpoints[0];
+      element.innerHTML = `
+        <img src="${this.pathHelper.attachmentDownloadPath(vp.id, vp.file_name)}" style="height: 40px;">
+      `;
+    } else {
+      element.innerHTML = '';
+    }
+  }
 }
-
