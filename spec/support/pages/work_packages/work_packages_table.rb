@@ -183,12 +183,40 @@ module Pages
       FullWorkPackage.new(work_package)
     end
 
+    def drag_and_drop_work_package(from:, to:)
+      rows = page.all('.wp-table--row')
+      source = rows[from]
+      target = rows[to]
+
+      scroll_to_element(source)
+      source.hover
+
+      page
+        .driver
+        .browser
+        .action
+        .move_to(source.native)
+        .click_and_hold(source.find('.wp-table--drag-and-drop-handle', visible: false).native)
+        .perform
+
+      scroll_to_element(target)
+
+      page
+        .driver
+        .browser
+        .action
+        .move_to(target.native)
+        .release
+        .perform
+    end
+
     def row(work_package)
       table_container.find(row_selector(work_package))
     end
 
-    def row_selector(work_package)
-      ".wp-row-#{work_package.id}-table"
+    def row_selector(el)
+      id = el.is_a?(WorkPackage) ? el.id.to_s : el.to_s
+      ".wp-row-#{id}-table"
     end
 
     def edit_field(work_package, attribute)

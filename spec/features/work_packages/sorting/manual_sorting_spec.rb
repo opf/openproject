@@ -31,26 +31,26 @@ require 'features/work_packages/work_packages_page'
 
 # ToDo:
 # Remove skip once finished
-describe 'Manual sorting of WP table', type: :feature, js: true, skip: true do
+describe 'Manual sorting of WP table', type: :feature, js: true do
   let(:user) { FactoryBot.create(:admin) }
   let(:project) { FactoryBot.create(:project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
   let(:work_package_1) do
-    FactoryBot.create(:work_package, project: project, created_at: Time.now)
+    FactoryBot.create(:work_package, subject: 'WP1', project: project, created_at: Time.now)
   end
   let(:work_package_2) do
-    FactoryBot.create(:work_package, project: project, created_at: Time.now - 1.minutes)
+    FactoryBot.create(:work_package, subject: 'WP2', project: project, created_at: Time.now - 1.minutes)
   end
   let(:work_package_3) do
-    FactoryBot.create(:work_package, project: project, created_at: Time.now - 2.minutes)
+    FactoryBot.create(:work_package, subject: 'WP3', project: project, created_at: Time.now - 2.minutes)
   end
   let(:work_package_4) do
-    FactoryBot.create(:work_package, project: project, created_at: Time.now - 3.minutes)
+    FactoryBot.create(:work_package, subject: 'WP4', project: project, created_at: Time.now - 3.minutes)
   end
 
   let(:sort_by) { ::Components::WorkPackages::SortBy.new }
-  let(:dialog) { ::Components::PasswordConfirmationDialog.new }
+  let(:dialog) { ::Components::ConfirmationDialog.new }
 
   before do
     login_as(user)
@@ -61,25 +61,48 @@ describe 'Manual sorting of WP table', type: :feature, js: true, skip: true do
     work_package_4
 
     wp_table.visit!
+    wp_table.expect_work_package_order work_package_1, work_package_2, work_package_3, work_package_4
   end
 
   include_context 'ui-select helpers'
-  include_context 'work package table helpers'
 
   it 'can sort table rows via DragNDrop' do
-    # ToDo
+    skip 'Does not work yet'
+
+    wp_table.drag_and_drop_work_package from: 1, to: 3
+
+    wp_table.expect_work_package_order work_package_1, work_package_3, work_package_2, work_package_4
+
+    wp_table.save_as 'Manual sorted query'
+
+    wp_table.expect_and_dismiss_notification message: 'Successful creation.'
+
+    query = Query.last
+    expect(query.name).to eq 'Manual sorted query'
+    expect(query.ordered_work_packages).to eq([work_package_1, work_package_3, work_package_2, work_package_4])
   end
 
   it 'saves the changed order in a previously saved query' do
-    # ToDo
+    wp_table.save_as 'Manual sorted query'
+
+    sort_by.open_modal
+    sort_by.update_sorting_mode 'manual'
+    sort_by.apply_changes
+
+    wp_table.drag_and_drop_work_package from: 1, to: 3
+    wp_table.expect_work_package_order work_package_1, work_package_3, work_package_2, work_package_4
+
+    sleep 2
+
+    query = Query.last
+    expect(query.name).to eq 'Manual sorted query'
+    expect(query.ordered_work_packages).to eq([work_package_1, work_package_3, work_package_2, work_package_4].map(&:id))
   end
 
   it 'does not loose the current order when switching to manual sorting' do
     # Sort by creation date
-    sort_by.open_modal
-    sort_by.update_nth_criteria(0, 'Created on')
-    sort_by.apply_changes
-    expect_work_packages_to_be_in_order([work_package_4, work_package_3, work_package_2, work_package_1])
+    sort_by.update_criteria 'Created on'
+    wp_table.expect_work_package_order work_package_4, work_package_3, work_package_2, work_package_1
 
     # Enable manual sorting
     sort_by.open_modal
@@ -87,22 +110,21 @@ describe 'Manual sorting of WP table', type: :feature, js: true, skip: true do
     sort_by.apply_changes
 
     # Expect same order
-    expect_work_packages_to_be_in_order([work_package_4, work_package_3, work_package_2, work_package_1])
+    wp_table.expect_work_package_order work_package_4, work_package_3, work_package_2, work_package_1
   end
 
   it 'shows a warning when switching from manual to automatic sorting' do
-    # Sort manually
-    # ToDo: function does not work yet
-    sort_by.move_WP_manually from: 1, to: 3
-    expect_work_packages_to_be_in_order([work_package_1, work_package_3, work_package_4, work_package_2])
+    wp_table.drag_and_drop_work_package from: 1, to: 3
+
+    wp_table.expect_work_package_order work_package_1, work_package_3, work_package_2, work_package_4
 
     # Try to sort by creation date
-    sort_by.sort_via_header name: 'subject', selector: 'name'
+    sort_by.sort_via_header 'Subject'
 
     # Shows a warning
     dialog.expect_open
     dialog.confirm
-    expect_work_packages_to_be_in_order([work_package_4, work_package_3, work_package_2, work_package_1])
+    wp_table.expect_work_package_order work_package_1, work_package_2, work_package_3, work_package_4
   end
 
 end

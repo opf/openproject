@@ -106,37 +106,14 @@ module Components
         end
       end
 
-      def move_WP_manually(from:, to:)
-        # ToDo: Make this work
-        source = page.all(".wp-table--row")[from]
-        target = page.all(".wp-table--row")[to]
-
-        scroll_to_element(source)
-        page
-          .driver
-          .browser
-          .action
-          .move_to(source.native)
-          .click_and_hold(source.find('.wp-table--drag-and-drop-handle', visible: false).native)
-          .perform
-
-        scroll_to_element(target)
-        page
-          .driver
-          .browser
-          .action
-          .move_to(target.native)
-          .release
-          .perform
-      end
-
       private
 
       def descending?(direction)
         ['desc', 'descending'].include?(direction.to_s)
       end
 
-      def open_table_column_context_menu(name, id = name.downcase)
+      def open_table_column_context_menu(name, id)
+        id ||= name.downcase
         page.find(".generic-table--sort-header ##{id}").click
       end
 

@@ -62,6 +62,7 @@ export class AttachmentListComponent implements OnInit, OnChanges, OnDestroy {
       this.resource.attachments.updateElements();
     }
 
+    this.attachments = this.resource.attachments.elements;
     this.setupResourceUpdateListener();
   }
 
