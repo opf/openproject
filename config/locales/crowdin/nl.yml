@@ -871,6 +871,7 @@ nl:
       U wordt zo spoedig mogelijk per email op de hoogte gesteld wanneer "%{target_project_name}"
       beschikbaar is.
     failed: Kan project niet kopiëren %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: Gemaakte project %{target_project_name}
     errors: Fout
     project_custom_fields: Aangepaste velden in het project
@@ -2832,13 +2833,6 @@ nl:
 '
   menu_item: Menu-item
   menu_item_setting: Zichtbaarheid
-  mysql_deprecation:
-    notice: 'Future versions of OpenProject will likely drop or reduce support for
-      MySQL and MariaDB databases. Your installation is still running on MySQL and
-      we suggest you migrate your installation to PostgreSQL. This process is easy
-      when following our migration guides:
-
-'
   wiki_menu_item_for: Menu-item voor wiki pagina "%{title}"
   wiki_menu_item_setting: Zichtbaarheid
   wiki_menu_item_new_main_item_explanation: 'U verwijdert het alleen het hoofd wiki
@@ -3027,3 +3021,10 @@ nl:
     revoke_my_application_confirmation: Weet u zeker dat u deze applicatie wilt verwijderen?
       Dit zal %{token_count} actief voor deze verwijderen.
     my_registered_applications: Geregistreerde OAuth toepassingen
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'

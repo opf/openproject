@@ -849,6 +849,7 @@ th:
     started: Started to copy project "%{source_project_name}" to "%{target_project_name}".
       You will be informed by mail as soon as "%{target_project_name}" is available.
     failed: ไม่สามารถดำเนินการคัดลอกโครงการ %{source_project_name} ได้
+    failed_internal: Copying failed due to an internal error.
     succeeded: สร้างโครงการ %{target_project_name} แล้ว
     errors: ข้อผิดพลาด
     project_custom_fields: Custom fields on project
@@ -2719,13 +2720,6 @@ th:
 '
   menu_item: เมนู
   menu_item_setting: การมองเห็น
-  mysql_deprecation:
-    notice: 'Future versions of OpenProject will likely drop or reduce support for
-      MySQL and MariaDB databases. Your installation is still running on MySQL and
-      we suggest you migrate your installation to PostgreSQL. This process is easy
-      when following our migration guides:
-
-'
   wiki_menu_item_for: เมนูสำหรับหน้าวิกิ "%{title}"
   wiki_menu_item_setting: การมองเห็น
   wiki_menu_item_new_main_item_explanation: 'คุณกำลังลบเฉพาะเมนูของวิกิหลัก ตอนนี้คุณต้องเลือกหน้าวิกิที่ไอเทมหลักจะถูกสร้าง
@@ -2904,3 +2898,10 @@ th:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'

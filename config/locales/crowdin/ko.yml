@@ -801,6 +801,7 @@ ko:
     started: 프로젝트 "%{source_project_name}"을(를) "%{target_project_name}"(으)로 복사하기 시작했습니다.
       "%{target_project_name}"이(가) 사용 가능하게 되면 메일로 알림이 전송됩니다.
     failed: 프로젝트 %{source_project_name}을(를) 복사할 수 없습니다.
+    failed_internal: Copying failed due to an internal error.
     succeeded: 프로젝트 %{target_project_name} 생성함
     errors: 오류
     project_custom_fields: 프로젝트의 사용자 지정 필드
@@ -2626,12 +2627,6 @@ ko:
 '
   menu_item: 메뉴 항목
   menu_item_setting: 표시 여부
-  mysql_deprecation:
-    notice: '향후 버전의 OpenProject에서는 MariaDB 및 MySQL 데이터베이스에 대한 지원이 없어지거나 줄어들 가능성이 있습니다.
-      MySQL에서 설치가 계속 실행되고 있는 경우 PostgreSQL에 설치를 마이그레이션하는 것이 좋습니다. 마이그레이션 가이드를 따르면
-      이 프로세스를 손쉽게 할 수 있습니다.
-
-'
   wiki_menu_item_for: 위키 페이지 "%{title}"에 대한 메뉴 항목
   wiki_menu_item_setting: 표시 여부
   wiki_menu_item_new_main_item_explanation: '유일한 기본 위키 메뉴 항목을 삭제하려고 합니다. 이제 새로운 기본
@@ -2791,3 +2786,10 @@ ko:
     revoke_my_application_confirmation: 이 애플리케이션을 제거하시겠습니까? 그러면 이 애플리케이션에 대해 활성화된
       %{token_count}개가 취소됩니다.
     my_registered_applications: 등록된 OAuth 애플리케이션
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'

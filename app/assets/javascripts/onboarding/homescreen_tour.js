@@ -5,7 +5,8 @@
                 'next #top-menu': I18n.t('js.onboarding.steps.welcome'),
                 'skipButton': {className: 'enjoyhint_btn-transparent', text: I18n.t('js.onboarding.buttons.skip')},
                 'nextButton': {text: I18n.t('js.onboarding.buttons.next')},
-                'containerClass': '-hidden-arrow'
+                'containerClass': '-hidden-arrow',
+                'bottom': 7
             },
             {
                 'description': I18n.t('js.onboarding.steps.project_selection'),

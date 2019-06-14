@@ -864,6 +864,7 @@ cs:
     started: Started to copy project "%{source_project_name}" to "%{target_project_name}".
       You will be informed by mail as soon as "%{target_project_name}" is available.
     failed: Nebylo možné zkopírovat projekt "%{source_project_name}"
+    failed_internal: Copying failed due to an internal error.
     succeeded: Projekt "%{target_project_name}" vytvořen
     errors: Chyba
     project_custom_fields: Vlastní pole projektu
@@ -2830,13 +2831,6 @@ cs:
 '
   menu_item: Položka nabídky
   menu_item_setting: Viditelnost
-  mysql_deprecation:
-    notice: 'Future versions of OpenProject will likely drop or reduce support for
-      MySQL and MariaDB databases. Your installation is still running on MySQL and
-      we suggest you migrate your installation to PostgreSQL. This process is easy
-      when following our migration guides:
-
-'
   wiki_menu_item_for: Položka nabídky pro stránku wiki "%{title}"
   wiki_menu_item_setting: Viditelnost
   wiki_menu_item_new_main_item_explanation: 'You are deleting the only main wiki menu
@@ -3019,3 +3013,10 @@ cs:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'

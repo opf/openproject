@@ -854,6 +854,7 @@ da:
     started: Started to copy project "%{source_project_name}" to "%{target_project_name}".
       You will be informed by mail as soon as "%{target_project_name}" is available.
     failed: Kan ikke kopiere projektet %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: Oprettet projektet %{target_project_name}
     errors: Fejl
     project_custom_fields: Custom fields on project
@@ -2774,13 +2775,6 @@ da:
 '
   menu_item: Menupunkt
   menu_item_setting: Synlighed
-  mysql_deprecation:
-    notice: 'Future versions of OpenProject will likely drop or reduce support for
-      MySQL and MariaDB databases. Your installation is still running on MySQL and
-      we suggest you migrate your installation to PostgreSQL. This process is easy
-      when following our migration guides:
-
-'
   wiki_menu_item_for: Menupunkt for wikipage "%{title}"
   wiki_menu_item_setting: Synlighed
   wiki_menu_item_new_main_item_explanation: 'Du er ved at slette det eneste overordnede
@@ -2961,3 +2955,10 @@ da:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'

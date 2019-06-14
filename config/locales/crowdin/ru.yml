@@ -870,6 +870,7 @@ ru:
       началось. Вы будете проинформированы по электронной почте, как только «%{target_project_name}»
       будет доступен.
     failed: Не удается скопировать проект %{source_project_name}
+    failed_internal: Копирование не удалось из-за внутренней ошибки.
     succeeded: Созданный проект %{target_project_name}
     errors: Ошибка
     project_custom_fields: Настраиваемые поля проекта
@@ -2861,13 +2862,6 @@ ru:
 '
   menu_item: Пункт меню
   menu_item_setting: Видимость
-  mysql_deprecation:
-    notice: 'Будущие версии OpenProject, скорее всего, сократят или сократят поддержку
-      баз данных MySQL и MariaDB. Ваша установка все еще работает на MySQL, и мы предлагаем
-      вам перенести вашу установку на PostgreSQL. Этот процесс легко при следовании
-      нашим инструкциям по миграции:
-
-'
   wiki_menu_item_for: Пункт меню для wiki-страницы  «%{title}»
   wiki_menu_item_setting: Видимость
   wiki_menu_item_new_main_item_explanation: 'Вы удалили только элемент главного меню
@@ -3054,3 +3048,10 @@ ru:
     revoke_my_application_confirmation: Вы действительно хотите удалить это приложение?
       Это действие будет отменено %{token_count}.
     my_registered_applications: Зарегистрированные OAuth приложения
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'

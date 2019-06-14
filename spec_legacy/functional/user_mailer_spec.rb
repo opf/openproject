@@ -95,10 +95,6 @@ describe UserMailer, type: :mailer do
                       'This commit fixes #1, #2 and references #1 and #3',
                       text: "r#{changeset.revision}"
       end
-      # link to an attachment
-      assert_select 'a[href=?]',
-                    "https://mydomain.foo/attachments/#{attachment.id}/#{attachment.filename}",
-                    text: "#{attachment.filename}"
     end
   end
 
@@ -139,10 +135,6 @@ describe UserMailer, type: :mailer do
                         'This commit fixes #1, #2 and references #1 and #3',
                         text: "r#{changeset.revision}"
         end
-        # link to an attachment
-        assert_select 'a[href=?]',
-                      "http://mydomain.foo/rdm/attachments/#{attachment.id}/#{attachment.filename}",
-                      text: "#{attachment.filename}"
       end
     end
   end

@@ -857,6 +857,7 @@ sv-SE:
     started: Började kopiera projekt "%{source_project_name}" till "%{target_project_name}".
       Du kommer att informeras via E-post när "%{target_project_name}" finns tillgängligt.
     failed: Kan inte kopiera projekt %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: Skapade projektet %{target_project_name}
     errors: Fel
     project_custom_fields: Custom fields on project
@@ -2772,13 +2773,6 @@ sv-SE:
 '
   menu_item: Menyalternativ
   menu_item_setting: Synlighet
-  mysql_deprecation:
-    notice: 'Future versions of OpenProject will likely drop or reduce support for
-      MySQL and MariaDB databases. Your installation is still running on MySQL and
-      we suggest you migrate your installation to PostgreSQL. This process is easy
-      when following our migration guides:
-
-'
   wiki_menu_item_for: Menyobjekt för wiki-sida "%{title}"
   wiki_menu_item_setting: Synlighet
   wiki_menu_item_new_main_item_explanation: 'Du tar bort det enda huvudobjektet i
@@ -2958,3 +2952,10 @@ sv-SE:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'

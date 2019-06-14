@@ -24,7 +24,7 @@ module OpenProject::Reporting
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-reporting',
-             author_url: 'http://finn.de',
+             author_url: 'https://www.openproject.org',
              bundled: true do
 
       view_actions = [:index, :show, :drill_down, :available_values, :display_report_list]
@@ -87,7 +87,6 @@ module OpenProject::Reporting
 
     initializer 'reporting.precompile_assets' do
       Rails.application.config.assets.precompile += %w(
-        reporting_engine/reporting_engine.css
         reporting_engine/reporting_engine.js
       )
 
@@ -104,7 +103,7 @@ module OpenProject::Reporting
       require_dependency 'cost_query/group_by'
     end
 
-    assets %w(reporting/reporting.css
+    assets %w(reporting/reporting_styles.css
               reporting/reporting.js)
 
     patches %i[TimelogController CustomFieldsController OpenProject::Configuration]

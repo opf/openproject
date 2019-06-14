@@ -156,6 +156,15 @@ if migrate_status != 0
   puts "\nMigration failed. See above."
 end
 
+puts "\nRe-building DAG to create Postgres-specific indices"
+_, dag_status = run "bundle exec rake db:migrate:redo VERSION=20180105130053", record_output: false
+
+if dag_status != 0
+  puts "\nRebuild DAG migration failed. See above."
+
+  exit 1
+end
+
 if needs_fulltext_migration
   drop_version_cmd = "PGPASSWORD=#{db_password} psql -U #{db_user} -h #{db_host} -p #{db_port} -d #{db_name} -c \"delete from schema_migrations where version = '20180122135443'\""
   drop_version_output, drop_version_status = run drop_version_cmd, silent: true
@@ -177,22 +186,16 @@ if needs_fulltext_migration
     exit 1
   end
 
-  _, extract_status = run "bundle exec rake attachments:extract_fulltext_where_missing", record_output: false
+  _, extract_status = run "bundle exec rake attachments:schedule_fulltext_extraction_where_missing", record_output: false
 
-  if extract_status != 0
+  if extract_status == 0
+    puts "\nFull-text extraction for attachments have successfully been requested in background jobs."
+  else
     puts "\nFull-text extraction failed. See above."
 
     exit 1
   end
 end
 
-puts "\nRe-building DAG to create Postgres-specific indices"
-_, dag_status = run "bundle exec rake db:migrate:redo VERSION=20180105130053", record_output: false
-
-if dag_status != 0
-  puts "\nRebuild DAG migration failed. See above."
-
-  exit 1
-end
 
 puts "Migration from MySQL to Postgres completed successfully!"

@@ -865,6 +865,7 @@ pl:
       Poinformujemy Cię przez e-mail tak szybko jak "%{target_project_name}" będzie
       dostępny.
     failed: Nie można skopiować projektu %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: Utworzono projekt %{target_project_name}
     errors: Błąd
     project_custom_fields: Niestandardowe pola projektu
@@ -2851,13 +2852,6 @@ pl:
 '
   menu_item: Element menu
   menu_item_setting: Widoczność
-  mysql_deprecation:
-    notice: 'Przyszłe wersje OpenProject prawdopodobnie nie będą obsługiwać baz danych
-      MySQL i MariaDB lub ograniczą ich obsługę. Ta instalacja nadal działa z bazą
-      MySQL i zalecamy migrację instalacji do PostgreSQL. Proces ten jest łatwy, gdy
-      postępuje się zgodnie z naszymi instrukcjami migracji:
-
-'
   wiki_menu_item_for: Element menu dla strony wiki "%{title}"
   wiki_menu_item_setting: Widoczność
   wiki_menu_item_new_main_item_explanation: 'Usuwasz jedyny główny element menu wiki.
@@ -3047,3 +3041,10 @@ pl:
     revoke_my_application_confirmation: Czy na pewno chcesz usunąć tę aplikację? Unieważni
       to jej aktywne tokeny (%{token_count}).
     my_registered_applications: Zarejestrowane aplikacje OAuth
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'

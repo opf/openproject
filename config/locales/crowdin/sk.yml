@@ -876,6 +876,7 @@ sk:
     started: Začalo sa kopírovanie projektu "%{source_project_name}" do projektu "%{target_project_name}".
       Budete informovaní mailom hneď ako bude "%{target_project_name}" k dispozícii.
     failed: Nie je možné kopírovať projekt %{source_project_name}
+    failed_internal: Copying failed due to an internal error.
     succeeded: Projekt %{target_project_name} bol vytvorený
     errors: Chyba
     project_custom_fields: Vlastné polia projektu
@@ -2857,13 +2858,6 @@ sk:
 '
   menu_item: Položka menu
   menu_item_setting: Viditeľnosť
-  mysql_deprecation:
-    notice: 'Future versions of OpenProject will likely drop or reduce support for
-      MySQL and MariaDB databases. Your installation is still running on MySQL and
-      we suggest you migrate your installation to PostgreSQL. This process is easy
-      when following our migration guides:
-
-'
   wiki_menu_item_for: Položka menu pre wiki "%{title}"
   wiki_menu_item_setting: Viditeľnosť
   wiki_menu_item_new_main_item_explanation: 'Zmažete iba hlavnú položku menu wiki.
@@ -3050,3 +3044,10 @@ sk:
     revoke_my_application_confirmation: Naozaj chcete odstrániť túto aplikáciu? Týmto
       sa zrušia aktívne tokeny %{token_count}.
     my_registered_applications: Registrované aplikácie OAuth
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'

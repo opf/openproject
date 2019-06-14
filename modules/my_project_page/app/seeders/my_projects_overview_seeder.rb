@@ -9,7 +9,7 @@ module DemoData
         Array(demo_data_for('projects')).each do |key, project|
           puts "   -Creating overview for #{project[:name]}"
 
-          if config = project[:"project-overview"]
+          if (config = project[:"project-overview"])
             project = Project.find_by! identifier: project[:identifier]
 
             mpo = MyProjectsOverview.create!(

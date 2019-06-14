@@ -95,7 +95,7 @@ Once installed, switch to the PostgreSQL system user.
 Then, as the PostgreSQL user, create the system user for OpenProject. This will prompt you for a password. We are going to assume in the following guide that password were 'openproject'. Of course, please choose a strong password and replace the values in the following guide with it!
 
 ```bash
-[postgres@host] createuser -W openproject
+[postgres@host] createuser -P -d openproject
 ```
 
 Next, create the database owned by the new user
@@ -135,6 +135,12 @@ openproject config:set DATABASE_URL="postgresql://openproject:<PASSWORD>@localho
 
 
 **Please note:**  Replace  `<PASSWORD>`  with the password you provided above. If you used any special characters, [check whether they need to be percent-encoded](https://developer.mozilla.org/en-US/docs/Glossary/percent-encoding) for the database URL.
+
+You can use this command to escape any characters in the password:
+
+```bash
+openproject run ruby -r cgi -e "puts CGI.escape('your-password-here');"
+```
 
 
 ## Migrating the database

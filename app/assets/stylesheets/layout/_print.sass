@@ -20,6 +20,11 @@
 
   #main
     background: #fff
+    // This counters 'overflow: auto' active in the non print version
+    // which will lead to only the first page being printed on some pages.
+    // For whatever reasons, all the pages are displayed in the print rendering emulation
+    // regardless of the overflow.
+    overflow: initial
 
   #content-wrapper
     width: 99%

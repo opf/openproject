@@ -544,8 +544,7 @@ ja:
           no_directory: はファルダーではありません。
         role:
           permissions:
-            dependency_missing: need to also include '%{dependency}' as '%{permission}'
-              is selected.
+            dependency_missing: 選択した '%{permission}' の他に '%{dependency}' も含める必要があります。
         work_package:
           is_not_a_valid_target_for_time_entries: 作業時間を再割り当てるには、作業項目#%{id}は対象外である。
           attributes:
@@ -598,12 +597,12 @@ ja:
               error_not_found: 存在しません
         member:
           principal_blank: 一つ以上のユーザまたはグループを選択してください。
-          role_blank: need to be assigned.
+          role_blank: を割り当てる必要があります。
           attributes:
             roles:
-              ungrantable: has an unassignable role.
+              ungrantable: には割り当てできない役割があります。
             principal:
-              unassignable: cannot be assigned to a project.
+              unassignable: はプロジェクトに割り当てできません。
         version:
           undeletable_work_packages_attached: 作業パッケージが添付されているため、バージョンを削除できません。
       template:
@@ -779,6 +778,7 @@ ja:
   copy_project:
     started: プロジェクト「%{source_project_name}」を「%{target_project_name}」にコピーを開始しました。「%{target_project_name}」が利用可能になり次第、メールで通知されます。
     failed: プロジェクト「%{source_project_name}」をコピーできません。
+    failed_internal: 内部エラーのためコピーできませんでした。
     succeeded: "「%{target_project_name}」プロジェクトを作成しました。"
     errors: エラー！
     project_custom_fields: プロジェクトのカスタムフィールド
@@ -942,7 +942,7 @@ ja:
   description_choose_project: プロジェクト
   description_compare_from: 以下と比較：
   description_compare_to: 比較：
-  description_current_position: 'You are here: '
+  description_current_position: '現在の位置: '
   description_date_from: 開始日
   description_date_range_interval: 日付で指定
   description_date_range_list: 一覧から選択
@@ -1385,7 +1385,7 @@ ja:
   label_my_queries: 個人のクエリ
   label_never: なし
   label_new: 新しく作成
-  label_new_features: New features
+  label_new_features: 新機能
   label_new_statuses_allowed: ステータスの移行先
   label_news_added: ニュースが追加されました。
   label_news_comment_added: ニュースにコメントが追加されました。
@@ -1825,7 +1825,7 @@ ja:
   permission_add_project: プロジェクトの作成
   permission_add_subprojects: 子プロジェクトの追加
   permission_add_work_package_watchers: ウォッチャーの追加
-  permission_assign_versions: Assign versions
+  permission_assign_versions: バージョンの割り当て
   permission_browse_repository: リポジトリに読み取り専用のアクセス (参照およびチェックアウト)
   permission_change_wiki_parent_page: 親Wikiページの変更
   permission_comment_news: ニュースへのコメント
@@ -2530,11 +2530,6 @@ ja:
 '
   menu_item: メニュー項目
   menu_item_setting: 可視性
-  mysql_deprecation:
-    notice: 'OpenProject の将来のバージョンは MariaDB と MySQL データベースのサポートがなくなる可能性があります。MySQL
-      のインストールが実行中の場合、PostgreSQL のインストールと移行をお勧めします。 移行ガイドに従うと、このプロセスを簡単に行うことができます:
-
-'
   wiki_menu_item_for: Wikiページ"%{title}"のメニュー項目
   wiki_menu_item_setting: 可視性
   wiki_menu_item_new_main_item_explanation: '唯一の主なＷｉｋｉメニュー項目が削除されます。新しい主要項目が生成するためにＷｉｋｉページを選択する必要があります。Ｗｉｋｉを削除するには、プロジェクト管理者によってＷｉｋｉモジュールを無効にすることができます。
@@ -2578,8 +2573,7 @@ ja:
       multipart_body_error: 要求の本体に、期待したマルチパートが含まれていませんでした。
       multiple_errors: 複数フィールド制限に違反が生じました。
       unable_to_create_attachment: 添付ファイルを作成できませんでした
-      unable_to_create_attachment_permissions: The attachment could not be saved due
-        to lacking file system permissions
+      unable_to_create_attachment_permissions: ファイルシステムのアクセス許可がないため、添付ファイルを保存できませんでした
       render:
         context_not_parsable: このコンテキストはリソースへのリンクではありません。
         unsupported_context: 指定されたリソースは、コンテキストとしてはサポートされません。
@@ -2676,3 +2670,10 @@ ja:
     revoke_my_application_confirmation: 本当にこのアプリケーションを削除しますか？ これにより %{token_count}
       が無効になります。
     my_registered_applications: 登録済みのOAuthアプリケーション
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'

@@ -510,7 +510,7 @@ pl:
       save: Zapisz relację
       abort: Przerwij
     relations_autocomplete:
-      placeholder: Type to search
+      placeholder: Wpisz szukaną frazę
       parent_placeholder: Wybierz nowy element nadrzędny albo naciśnij klawisz Escape,
         aby anulować.
     repositories:

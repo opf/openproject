@@ -856,6 +856,7 @@ hu:
       a "%{target_project_name}" projektbe. E-mailben értesítjük, amint "%{target_project_name}"
       elérhető.
     failed: 'Nem lehet másolni a %{source_project_name} projektet '
+    failed_internal: Copying failed due to an internal error.
     succeeded: 'A %{target_project_name} projekt létrehozva '
     errors: Hiba
     project_custom_fields: Projekt egyéni mezői
@@ -2800,13 +2801,6 @@ hu:
 '
   menu_item: Menüpont
   menu_item_setting: Látható
-  mysql_deprecation:
-    notice: 'Az Openproject jövőbeli verziói valószínűleg nem vagy korlátozottan fogják
-      támogatni a MySQL és MariaDB adatbázisokat. Az Ön telepítése még MySQL-t használ,
-      ezért azt javasoljuk, költöztesse át PostgreSQL adatbázisra. Az eljárás egyszerű,
-      kövesse útmutatónkat:
-
-'
   wiki_menu_item_for: Wikipage "%{title}" menüeleme
   wiki_menu_item_setting: Látható
   wiki_menu_item_new_main_item_explanation: 'Csak a fő wiki menüelemet törölted. Most
@@ -2985,3 +2979,10 @@ hu:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Regisztrált OAuth alkalmazások
+  mysql_deprecation:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'

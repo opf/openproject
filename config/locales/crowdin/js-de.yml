@@ -522,7 +522,7 @@ de:
       save: Beziehung speichern
       abort: Abbrechen
     relations_autocomplete:
-      placeholder: Type to search
+      placeholder: Suchbegriff eintippen
       parent_placeholder: Wählen Sie einen neuen Teil oder drücken sie Escape, um
         abzubrechen.
     repositories:

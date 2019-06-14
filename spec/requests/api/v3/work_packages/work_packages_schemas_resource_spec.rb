@@ -145,7 +145,7 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
           expect(last_response.headers['ETag']).to match(/W\/\"\w+\"/)
         end
 
-        it 'caches the response', skip: true do
+        it 'caches the response' do
           schema_class = API::V3::WorkPackages::Schema::TypedWorkPackageSchema
           representer_class = API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter
 
@@ -154,7 +154,7 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
           self_link = api_v3_paths.work_package_schema(project.id, type.id)
           represented_schema = representer_class.create(schema,
                                                         self_link,
-                                                        current_user: nil)
+                                                        current_user: current_user)
 
           expect(OpenProject::Cache.fetch(represented_schema.json_cache_key)).to_not be_nil
         end

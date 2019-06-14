@@ -515,7 +515,7 @@ tr:
       save: İlişkiyi kaydet
       abort: İptal
     relations_autocomplete:
-      placeholder: Type to search
+      placeholder: Aramak için metni yazın
       parent_placeholder: Yeni bir ebeveyn seçin veya iptal etmek için escape tuşuna
         basın.
     repositories:

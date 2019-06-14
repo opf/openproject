@@ -480,7 +480,7 @@ ko:
       save: 관계 저장
       abort: 중단
     relations_autocomplete:
-      placeholder: Type to search
+      placeholder: 검색할 유형
       parent_placeholder: 새로운 상위 항목은 선택하거나 Escape를 눌러 취소하십시오.
     repositories:
       select_tag: 태그 선택
