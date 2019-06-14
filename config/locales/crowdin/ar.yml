@@ -939,7 +939,7 @@ ar:
       about_x_months:
         one: about 1 month
         other: about %{count} months
-        zero: حوالي %{count} أشهر
+        zero: حوالي %{count} ساعات
         two: about %{count} months
         few: about %{count} months
         many: about %{count} months

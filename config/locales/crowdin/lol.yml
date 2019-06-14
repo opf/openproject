@@ -97,13 +97,13 @@ lol:
       This view now only supports exporting time entry information to csv. For interactive
       filtering, please activate the 'Cost reports' module in the project settings.
     old_timeline:
-      replacement: crwdns130026:0crwdne130026:0
-      removal: crwdns130028:0crwdne130028:0
-      further_information_before: crwdns130030:0crwdne130030:0
-      link_name: crwdns130032:0crwdne130032:0
-      further_information_after: crwdns130034:0crwdne130034:0
+      replacement: crwdns130042:0crwdne130042:0
+      removal: crwdns130044:0crwdne130044:0
+      further_information_before: crwdns130046:0crwdne130046:0
+      link_name: crwdns130048:0crwdne130048:0
+      further_information_after: crwdns130050:0crwdne130050:0
     calendar:
-      removal: crwdns130036:0crwdne130036:0
+      removal: crwdns130052:0crwdne130052:0
   global_search:
     overwritten_tabs:
       wiki_pages: crwdns122844:0crwdne122844:0
@@ -2619,6 +2619,6 @@ lol:
     revoke_my_application_confirmation: crwdns127024:0%{token_count}crwdne127024:0
     my_registered_applications: crwdns127026:0crwdne127026:0
   mysql_deprecation:
-    notice: 'crwdns130038:0crwdne130038:0
+    notice: 'crwdns130054:0crwdne130054:0
 
 '
