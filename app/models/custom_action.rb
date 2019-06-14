@@ -53,7 +53,7 @@ class CustomAction < ActiveRecord::Base
     ret
   end
 
-  def reload
+  def reload(*args)
     @conditions = nil
 
     super
@@ -113,11 +113,7 @@ class CustomAction < ActiveRecord::Base
     availables.map do |available|
       existing = actual.detect { |a| a.key == available.key }
 
-      if existing
-        existing
-      else
-        available.new
-      end
+      existing || available.new
     end
   end
 

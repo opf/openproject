@@ -113,7 +113,7 @@ PATH
   remote: modules/backlogs
   specs:
     openproject-backlogs (1.0.0)
-      acts_as_silent_list (~> 3.0.0)
+      acts_as_list (~> 0.9.18)
       openproject-pdf_export
 
 PATH
@@ -293,9 +293,8 @@ GEM
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
-    acts_as_list (0.9.11)
+    acts_as_list (0.9.19)
       activerecord (>= 3.0)
-    acts_as_silent_list (3.0.0)
     acts_as_tree (2.8.0)
       activerecord (>= 3.0.0)
     addressable (2.6.0)

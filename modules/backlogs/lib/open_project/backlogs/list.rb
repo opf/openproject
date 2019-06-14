@@ -34,26 +34,29 @@
 #++
 
 module OpenProject::Backlogs::List
-  def self.included(base)
-    base.class_eval do
-      acts_as_silent_list
+  extend ActiveSupport::Concern
 
-      # Reorder list, if work_package is removed from sprint
-      before_update :fix_other_work_package_positions
-      before_update :fix_own_work_package_position
+  included do
+    acts_as_list touch_on_update: false
+    # acts as list adds a before destroy hook which messes
+    # with the parent_id_was value
+    skip_callback(:destroy, :before, :reload)
 
-      # Used by acts_as_silent_list to limit the list to a certain subset within
-      # the table.
-      #
-      # Also sanitize_sql seems to be unavailable in a sensible way. Therefore
-      # we're using send to circumvent visibility work_packages.
-      def scope_condition
-        self.class.send(:sanitize_sql, ['project_id = ? AND fixed_version_id = ? AND type_id IN (?)',
-                                        project_id, fixed_version_id, types])
-      end
+    # Reorder list, if work_package is removed from sprint
+    before_update :fix_other_work_package_positions
+    before_update :fix_own_work_package_position
 
-      include InstanceMethods
+    # Used by acts_list to limit the list to a certain subset within
+    # the table.
+    #
+    # Also sanitize_sql seems to be unavailable in a sensible way. Therefore
+    # we're using send to circumvent visibility work_packages.
+    def scope_condition
+      self.class.send(:sanitize_sql, ['project_id = ? AND fixed_version_id = ? AND type_id IN (?)',
+                                      project_id, fixed_version_id, types])
     end
+
+    include InstanceMethods
   end
 
   module InstanceMethods
@@ -84,6 +87,10 @@ module OpenProject::Backlogs::List
     end
 
     protected
+
+    def assume_bottom_position
+      update_columns(position: bottom_position_in_list(self).to_i + 1)
+    end
 
     def fix_other_work_package_positions
       if changes.slice('project_id', 'type_id', 'fixed_version_id').present?
@@ -138,9 +145,9 @@ module OpenProject::Backlogs::List
         end
 
         if is_story? and fixed_version.present?
-          insert_at_bottom
+          assume_bottom_position
         else
-          assume_not_in_list
+          remove_from_list
         end
       end
     end

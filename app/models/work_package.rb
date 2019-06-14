@@ -246,11 +246,14 @@ class WorkPackage < ActiveRecord::Base
   end
 
   # Users/groups the work_package can be assigned to
-  extend Forwardable
-  def_delegator :project, :possible_assignees, :assignable_assignees
+  def assignable_assignees
+    project.possible_assignees
+  end
 
   # Users the work_package can be assigned to
-  def_delegator :project, :possible_responsibles, :assignable_responsibles
+  def assignable_responsibles
+    project.possible_responsibles
+  end
 
   # Versions that the work_package can be assigned to
   # A work_package can be assigned to:
