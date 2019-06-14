@@ -139,9 +139,6 @@ module OpenProject::Bcf::BcfXml
          import_options[:unknown_types_chose_ids].any?
         return ::Type.find_by(id: import_options[:unknown_types_chose_ids].first)
       else
-        issue.errors.add :type,
-                         :blank,
-                         message: "Can't find any matching type."
         ServiceResult.new success: false,
                           errors: issue.errors,
                           result: issue
