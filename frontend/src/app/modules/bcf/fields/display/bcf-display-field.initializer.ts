@@ -33,7 +33,7 @@ export function initializeBcfDisplayFields(displayFieldService:DisplayFieldServi
   return () => {
     displayFieldService
       .addFieldType(BcfThumbnailDisplayField, 'bcfThumbnail', [
-        'Thumbnail'
+        'BCF Thumbnail'
       ]);
   };
 }

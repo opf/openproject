@@ -124,6 +124,5 @@ module OpenProject::Bcf
       ::Queries::Register.filter ::Query, OpenProject::Bcf::BcfIssueAssociatedFilter
       ::Queries::Register.column ::Query, OpenProject::Bcf::QueryBcfThumbnailColumn
     end
-
   end
 end
