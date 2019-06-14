@@ -44,7 +44,7 @@ module OpenProject::Bcf
       }
     }
 
-    def self.instances(context = nil)
+    def self.instances(_context = nil)
       # return [] if context && !context.module_enabled?(:bcf_module)
 
       bcf_thumbnail_columns.map do |name, options|
