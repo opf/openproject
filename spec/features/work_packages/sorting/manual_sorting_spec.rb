@@ -67,8 +67,6 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
   include_context 'ui-select helpers'
 
   it 'can sort table rows via DragNDrop' do
-    skip 'Does not work yet'
-
     wp_table.drag_and_drop_work_package from: 1, to: 3
 
     wp_table.expect_work_package_order work_package_1, work_package_3, work_package_2, work_package_4
@@ -79,7 +77,19 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
 
     query = Query.last
     expect(query.name).to eq 'Manual sorted query'
-    expect(query.ordered_work_packages).to eq([work_package_1, work_package_3, work_package_2, work_package_4])
+    expect(query.ordered_work_packages)
+      .to eq([work_package_1, work_package_3, work_package_2, work_package_4].map(&:id))
+
+    wp_table.drag_and_drop_work_package from: 0, to: 2
+
+    wp_table.expect_work_package_order work_package_3, work_package_1, work_package_2, work_package_4
+
+    sleep 2
+
+    # Saved automatically
+    query.reload
+    expect(query.ordered_work_packages)
+      .to eq([work_package_3, work_package_1, work_package_2, work_package_4].map(&:id))
   end
 
   it 'saves the changed order in a previously saved query' do
@@ -96,7 +106,8 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
 
     query = Query.last
     expect(query.name).to eq 'Manual sorted query'
-    expect(query.ordered_work_packages).to eq([work_package_1, work_package_3, work_package_2, work_package_4].map(&:id))
+    expect(query.ordered_work_packages)
+      .to eq([work_package_1, work_package_3, work_package_2, work_package_4].map(&:id))
   end
 
   it 'does not loose the current order when switching to manual sorting' do

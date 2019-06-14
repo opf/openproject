@@ -151,6 +151,13 @@ module API
                  has_default: true,
                  visibility: false
 
+          schema :ordered_work_packages,
+                 type: 'String[]',
+                 required: false,
+                 writable: true,
+                 has_default: true,
+                 visibility: false
+
           schema_with_allowed_collection :columns,
                                          type: '[]QueryColumn',
                                          required: false,

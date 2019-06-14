@@ -1,15 +1,13 @@
 import {Injector} from '@angular/core';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {States} from 'core-components/states.service';
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {DragAndDropService} from "core-app/modules/boards/drag-and-drop/drag-and-drop.service";
-import {filter, mergeMap, take, takeUntil} from "rxjs/operators";
+import {mergeMap, take, takeUntil} from "rxjs/operators";
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
-import {WorkPackageTableRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
 import {ReorderQueryService} from "core-app/modules/boards/drag-and-drop/reorder-query.service";
 import {RequestSwitchmap} from "core-app/helpers/rxjs/request-switchmap";
-import {Observable} from "rxjs";
+import {Observable, of} from "rxjs";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {RenderedRow} from "core-components/wp-fast-table/builders/primary-render-pass";
 import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state/wp-table-sort-by.service";
@@ -22,6 +20,7 @@ export class DragAndDropTransformer {
   private readonly inlineCreateService = this.injector.get(WorkPackageInlineCreateService);
   private readonly wpNotifications = this.injector.get(WorkPackageNotificationService);
   private readonly wpTableSortBy = this.injector.get(WorkPackageTableSortByService);
+  private readonly pathHelper = this.injector.get(PathHelperService);
 
   // We remember when we want to update the query with a given order
   private queryUpdates = new RequestSwitchmap(
@@ -116,12 +115,22 @@ export class DragAndDropTransformer {
       .values$()
       .pipe(
         take(1),
-        filter((query) => !!query.id),
         mergeMap(query => {
           const renderMap = _.keyBy(this.currentRenderedOrder, 'workPackageId');
           const mappedOrder = order.map(id => renderMap[id]!);
           this.querySpace.rendered.putValue(mappedOrder);
-          return this.reorderService.saveOrderInQuery(query, order);
+
+          if (query.persisted) {
+            return this.reorderService.saveOrderInQuery(query, order);
+          } else {
+            this.querySpace.query.doModify(query => {
+                query.orderedWorkPackages = order.map(id =>
+                  this.pathHelper.api.v3.work_packages.id(id).toString());
+                return query;
+              }
+            );
+            return of(null);
+          }
         })
       );
   }

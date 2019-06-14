@@ -43,13 +43,14 @@ import {
 import {mergeMap, take} from "rxjs/internal/operators";
 import {ReorderQueryService} from "core-app/modules/boards/drag-and-drop/reorder-query.service";
 import {RenderedRow} from "core-components/wp-fast-table/builders/primary-render-pass";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 
 @Injectable()
 export class WorkPackageTableSortByService extends WorkPackageQueryStateService<QuerySortByResource[]> {
 
   constructor(protected readonly states:States,
               protected readonly querySpace:IsolatedQuerySpace,
-              protected readonly reorderService:ReorderQueryService) {
+              protected readonly pathHelper:PathHelperService) {
     super(querySpace);
   }
 
@@ -81,20 +82,7 @@ export class WorkPackageTableSortByService extends WorkPackageQueryStateService<
 
   public applyToQuery(query:QueryResource) {
     query.sortBy = [...this.current];
-    if (this.isManualSortingMode) {
-      const order = (this.querySpace.renderedWorkPackages.getValueOr([]) as RenderedRow[])
-        .map((row) => row.workPackageId!);
-
-      this.querySpace.query
-        .values$()
-        .pipe(
-          take(1),
-          mergeMap(query => this.reorderService.saveOrderInQuery(query, order))
-        );
-
-      return false;
-    }
-    return true;
+    return !this.isManualSortingMode;
   }
 
   public isSortable(column:QueryColumn):boolean {

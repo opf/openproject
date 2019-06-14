@@ -178,14 +178,14 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
     // Listen for param changes
     this.removeTransitionSubscription = this.$transitions.onSuccess({}, (transition):any => {
       let options = transition.options();
+      const params = transition.params('to');
+      this.hasQueryProps = !!params.query_props;
 
       // Avoid performing any changes when we're going to reload
       if (options.reload || (options.custom && options.custom.notify === false)) {
         return true;
       }
 
-      const params = transition.params('to');
-      this.hasQueryProps = !!params.query_props;
       let newChecksum = this.wpListService.getCurrentQueryProps(params);
       let newId:string = params.query_id ? params.query_id.toString() : null;
 
