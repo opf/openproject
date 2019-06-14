@@ -147,7 +147,7 @@ module ::Bcf
     end
 
     def render_config_invalid_people?
-      @importer.aggregations.invalid_people.any? && !params.dig(:import_options, :invalid_people_action).present?
+      @importer.aggregations.invalid_people.present? && !params.dig(:import_options, :invalid_people_action).present?
     end
 
     def render_config_unknown_types
@@ -155,7 +155,7 @@ module ::Bcf
     end
 
     def render_config_unknown_types?
-      @importer.aggregations.unknown_types.any? && !params.dig(:import_options, :unknown_types_action).present?
+      @importer.aggregations.unknown_types.present? && !params.dig(:import_options, :unknown_types_action).present?
     end
 
     def render_config_unknown_statuses
@@ -163,7 +163,7 @@ module ::Bcf
     end
 
     def render_config_unknown_statuses?
-      @importer.aggregations.unknown_statuses.any? && !params.dig(:import_options, :unknown_statuses_action).present?
+      @importer.aggregations.unknown_statuses.present? && !params.dig(:import_options, :unknown_statuses_action).present?
     end
 
     def render_config_unknown_mails
@@ -172,7 +172,7 @@ module ::Bcf
     end
 
     def render_config_unknown_mails?
-      @importer.aggregations.unknown_mails.any? && !params.dig(:import_options, :unknown_mails_action).present?
+      @importer.aggregations.unknown_mails.present? && !params.dig(:import_options, :unknown_mails_action).present?
     end
 
     def render_config_non_members
@@ -181,7 +181,7 @@ module ::Bcf
     end
 
     def render_config_non_members?
-      @importer.aggregations.non_members.any? && !params.dig(:import_options, :non_members_action).present?
+      @importer.aggregations.non_members.present? && !params.dig(:import_options, :non_members_action).present?
     end
 
     def build_importer
