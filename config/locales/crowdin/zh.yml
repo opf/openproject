@@ -95,18 +95,13 @@ zh:
     single: 或
   deprecations:
     old_timeline:
-      replacement: This timelines module is being replaced by the interactive timeline
-        embedded into the work packages module.
-      removal: This module is going to be removed with OpenProject 8.0. The configuration
-        for this view will NOT be migrated to the work package view.
-      further_information_before: Please take a look at
-      link_name: how to migrate to the new timeline.
+      replacement: 此时间线模块已由嵌入工作包模块中的交互式时间线模块取代。
+      removal: 此模块在 OpenProject 8.0 中将移除。此视图的配置将不会迁移到工作包视图中。
+      further_information_before: 请查看
+      link_name: 如何将迁移到新时间线。
       further_information_after: ''
     calendar:
-      removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
-    time_entries: This time entries view is superseded by the 'Cost reports' module.
-      This view now only supports exporting time entry information to csv. For interactive
-      filtering, please activate the 'Cost reports' module in the project settings.
+      removal: '请注意: 这个模块将与OpenProject 8.0一起移除。'
   global_search:
     overwritten_tabs:
       wiki_pages: 维基
@@ -2508,9 +2503,12 @@ zh:
   menu_item: 菜单项
   menu_item_setting: 可见性
   mysql_deprecation:
-    notice: |
-      Future versions of OpenProject will likely drop or reduce support for MySQL and MariaDB databases. Your installation is still running on MySQL and we suggest you migrate your installation to PostgreSQL.
-      This process is easy when following our migration guides:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'
   wiki_menu_item_for: wiki页面” %{title} “的菜单项
   wiki_menu_item_setting: 可见性
   wiki_menu_item_new_main_item_explanation: '您正在删除唯一的主wiki菜单项。您现在需要选择一个wiki页面生成新的主项目。若要删除wiki，wiki模块可以由管理员停用。

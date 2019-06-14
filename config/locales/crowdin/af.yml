@@ -122,9 +122,6 @@ af:
       further_information_after: ''
     calendar:
       removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
-    time_entries: This time entries view is superseded by the 'Cost reports' module.
-      This view now only supports exporting time entry information to csv. For interactive
-      filtering, please activate the 'Cost reports' module in the project settings.
   global_search:
     overwritten_tabs:
       wiki_pages: Wiki
@@ -2784,9 +2781,12 @@ af:
   menu_item: Menu item
   menu_item_setting: Sigbaarheid
   mysql_deprecation:
-    notice: |
-      Future versions of OpenProject will likely drop or reduce support for MySQL and MariaDB databases. Your installation is still running on MySQL and we suggest you migrate your installation to PostgreSQL.
-      This process is easy when following our migration guides:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'
   wiki_menu_item_for: Kieslysitem vir wikibladsy "%{title}"
   wiki_menu_item_setting: Sigbaarheid
   wiki_menu_item_new_main_item_explanation: 'Jy is besig om die enigste hoof wiki-kieslysitem

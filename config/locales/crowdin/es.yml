@@ -114,18 +114,15 @@ es:
     single: o bien
   deprecations:
     old_timeline:
-      replacement: This timelines module is being replaced by the interactive timeline
-        embedded into the work packages module.
-      removal: This module is going to be removed with OpenProject 8.0. The configuration
-        for this view will NOT be migrated to the work package view.
-      further_information_before: Please take a look at
-      link_name: how to migrate to the new timeline.
+      replacement: Este módulo de líneas de tiempo se ha sustituido por una la línea
+        de tiempo interactiva incorporada en el módulo de paquetes de trabajo.
+      removal: Este módulo se eliminará de OpenProject 8.0. La configuración de esta
+        vista NO migrará a la vista de paquetes de trabajo.
+      further_information_before: Por favor, eche un vistazo a
+      link_name: cómo migrar a la nueva línea de tiempo.
       further_information_after: ''
     calendar:
-      removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
-    time_entries: This time entries view is superseded by the 'Cost reports' module.
-      This view now only supports exporting time entry information to csv. For interactive
-      filtering, please activate the 'Cost reports' module in the project settings.
+      removal: 'Nota: Este módulo se quitará con OpenProject 8.0.'
   global_search:
     overwritten_tabs:
       wiki_pages: Wiki
@@ -2871,9 +2868,12 @@ es:
   menu_item: Elemento de menú
   menu_item_setting: Visibilidad
   mysql_deprecation:
-    notice: |
-      Future versions of OpenProject will likely drop or reduce support for MySQL and MariaDB databases. Your installation is still running on MySQL and we suggest you migrate your installation to PostgreSQL.
-      This process is easy when following our migration guides:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'
   wiki_menu_item_for: Elemento de menú para wiki '%{title}'
   wiki_menu_item_setting: Visibilidad
   wiki_menu_item_new_main_item_explanation: 'Usted esta eliminando el único elemento

@@ -112,18 +112,16 @@ uk:
     single: або
   deprecations:
     old_timeline:
-      replacement: This timelines module is being replaced by the interactive timeline
-        embedded into the work packages module.
-      removal: This module is going to be removed with OpenProject 8.0. The configuration
-        for this view will NOT be migrated to the work package view.
-      further_information_before: Please take a look at
-      link_name: how to migrate to the new timeline.
+      replacement: Цей модуль тимчасових рамок замінюється на інтерактивну часову
+        шкалу, вбудовану в модуль робочих пакетів.
+      removal: Цей модуль буде видалено за допомогою OpenProject 8.0. Конфігурація
+        для цього перегляду НЕ буде переміщена до подання робочого пакету.
+      further_information_before: Будь ласка, погляньте на
+      link_name: як перейти на нову часову шкалу.
       further_information_after: ''
     calendar:
-      removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
-    time_entries: This time entries view is superseded by the 'Cost reports' module.
-      This view now only supports exporting time entry information to csv. For interactive
-      filtering, please activate the 'Cost reports' module in the project settings.
+      removal: 'Зверніть увагу: Цей модуль буде видалено за допомогою OpenProject
+        8.0.'
   global_search:
     overwritten_tabs:
       wiki_pages: Wiki
@@ -2856,9 +2854,12 @@ uk:
   menu_item: Пункт меню
   menu_item_setting: Видимість
   mysql_deprecation:
-    notice: |
-      Future versions of OpenProject will likely drop or reduce support for MySQL and MariaDB databases. Your installation is still running on MySQL and we suggest you migrate your installation to PostgreSQL.
-      This process is easy when following our migration guides:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'
   wiki_menu_item_for: Пункт меню для вікі-сторінки %{title}
   wiki_menu_item_setting: Видимість
   wiki_menu_item_new_main_item_explanation: 'Ви видаляєте лише головний пункт меню
