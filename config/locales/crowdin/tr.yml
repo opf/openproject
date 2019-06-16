@@ -1275,7 +1275,7 @@ tr:
   label_browse: Gözat
   label_bulk_edit_selected_work_packages: Seçilen çalışma paketlerini toplu halde
     düzenle
-  label_bundled: "(Birlikte)"
+  label_bundled: "(Birlikte) sepetlemek "
   label_calendar: Takvim
   label_calendar_show: Takvimi Göster
   label_category: Kategori
