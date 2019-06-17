@@ -14,10 +14,10 @@
                             class="widget-box--header-title">
     </editable-toolbar-title>
 
-    <wp-table-config-menu>
-    </wp-table-config-menu>
+    <widget-wp-table-menu
+        [resource]="resource">
+    </widget-wp-table-menu>
   </h3>
-
 
   <wp-embedded-table [queryId]="queryId"
                      [configuration]="configuration"

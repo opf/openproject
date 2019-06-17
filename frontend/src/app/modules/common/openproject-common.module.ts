@@ -86,6 +86,7 @@ import {VersionAutocompleterComponent} from "core-app/modules/common/autocomplet
 import {CreateAutocompleterComponent} from "core-app/modules/common/autocomplete/create-autocompleter.component";
 import {HomescreenNewFeaturesBlockComponent} from "core-components/homescreen/blocks/new-features.component";
 import {BoardVideoTeaserModalComponent} from "core-app/modules/boards/board/board-video-teaser-modal/board-video-teaser-modal.component";
+import {IconTriggeredContextMenuComponent} from "core-components/op-context-menu/icon-triggered-context-menu/icon-triggered-context-menu.component";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -161,6 +162,7 @@ export function bootstrapModule(injector:Injector) {
     ZenModeButtonComponent,
 
     OPContextMenuComponent,
+    IconTriggeredContextMenuComponent,
 
     NoResultsComponent,
 
@@ -197,6 +199,8 @@ export function bootstrapModule(injector:Injector) {
     OpDateTimeComponent,
 
     OPContextMenuComponent,
+    IconTriggeredContextMenuComponent,
+
     // Entries for ng1 downgraded components
     AttributeHelpTextComponent,
 

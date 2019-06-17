@@ -86,7 +86,6 @@ import {MainMenuNavigationService} from "core-components/main-menu/main-menu-nav
 import {StatusCacheService} from "core-components/statuses/status-cache.service";
 import {VersionCacheService} from "core-components/versions/version-cache.service";
 import {FormsCacheService} from "core-components/forms/forms-cache.service";
-import {OpenprojectContextMenuModule} from "core-app/modules/context-menu/openproject-context-menu.module";
 
 @NgModule({
   imports: [
@@ -94,8 +93,6 @@ import {OpenprojectContextMenuModule} from "core-app/modules/context-menu/openpr
     BrowserModule,
     // Commons
     OpenprojectCommonModule,
-    // ContextMenus
-    OpenprojectContextMenuModule,
     // Router module
     OpenprojectRouterModule,
     // Hal Module

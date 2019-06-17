@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -24,29 +24,42 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
-import {NgModule} from "@angular/core";
+import {Component, Input} from '@angular/core';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import {OpContextMenuItem} from "core-components/op-context-menu/op-context-menu.types";
+import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
+import {GridRemoveWidgetService} from "core-app/modules/grids/grid/remove-widget.service";
 
-import {CommonModule} from "@angular/common";
-import {IconTriggeredContextMenuComponent} from "core-app/modules/context-menu/icon-triggered-context-menu.component";
-import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
-
-@NgModule({
-  imports: [
-    // Angular browser + common module
-    CommonModule,
-
-    OpenprojectCommonModule,
-  ],
-  exports: [
-    IconTriggeredContextMenuComponent
-  ],
-  declarations: [
-    IconTriggeredContextMenuComponent
-  ],
-  entryComponents: [
-  ],
-  providers: [ ]
+@Component({
+  selector: 'widget-menu',
+  templateUrl: './widget-menu.component.html',
 })
-export class OpenprojectContextMenuModule { }
+export class WidgetMenuComponent {
+  @Input() resource:GridWidgetResource;
+
+  constructor(readonly i18n:I18nService,
+              protected readonly remove:GridRemoveWidgetService) {
+  }
+
+  public get menuItems() {
+    return async () => {
+      let items:OpContextMenuItem[] = [
+        this.removeItem
+      ];
+
+      return items;
+    };
+  }
+
+  protected get removeItem() {
+    return {
+      linkText: this.i18n.t('js.grid.remove'),
+      onClick: () => {
+        this.remove.widget(this.resource);
+        return true;
+      }
+    };
+  }
+}

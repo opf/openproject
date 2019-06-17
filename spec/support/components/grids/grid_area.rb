@@ -14,8 +14,23 @@ module Components
         area.find('.resizer').drag_to self.class.of(row, column).area
       end
 
+      def open_menu
+        area.hover
+        area.find('icon-triggered-context-menu').click
+      end
+
+      def click_menu_item(text)
+        open_menu
+
+        find('a.menu-item', text: text).click
+      end
+
       def remove
-        area.find('.grid--widget-remove').click
+        click_menu_item(I18n.t('js.grid.remove'))
+      end
+
+      def configure_wp_table
+        click_menu_item(I18n.t('js.toolbar.settings.configure_view'))
       end
 
       def drag_to(row, column)

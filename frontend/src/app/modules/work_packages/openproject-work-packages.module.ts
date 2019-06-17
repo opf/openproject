@@ -447,7 +447,9 @@ import {WorkPackagesTableConfigMenu} from "core-components/wp-table/config-menu/
     WorkPackageFilterButtonComponent,
     WorkPackageFilterContainerComponent,
     WorkPackageIsolatedQuerySpaceDirective,
-    WorkPackagesTableConfigMenu,
+
+    // Modals
+    WpTableConfigurationModalComponent,
   ]
 })
 export class OpenprojectWorkPackagesModule {
