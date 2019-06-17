@@ -48,9 +48,16 @@ describe ::API::V3::Projects::ProjectRepresenter do
     end
   end
   let(:representer) { described_class.create(project, current_user: user) }
+
   let(:user) do
-    FactoryBot.build_stubbed(:user)
+    FactoryBot.build_stubbed(:user).tap do |u|
+      allow(u)
+        .to receive(:allowed_to?) do |permission, context|
+        permissions.include?(permission) && context == project
+      end
+    end
   end
+
   let(:int_custom_field) { FactoryBot.build_stubbed(:int_project_custom_field) }
   let(:version_custom_field) { FactoryBot.build_stubbed(:version_project_custom_field) }
   let(:int_custom_value) do
@@ -68,20 +75,8 @@ describe ::API::V3::Projects::ProjectRepresenter do
                         .and_return(version)
                     end
   end
-  let(:permissions) { [:add_work_packages] }
 
-  before do
-    allow(user)
-      .to receive(:allowed_to?)
-      .and_return(false)
-
-    permissions.each do |permission|
-      allow(user)
-        .to receive(:allowed_to?)
-        .with(permission, project)
-        .and_return(true)
-    end
-  end
+  let(:permissions) { %i[add_work_packages view_members] }
 
   context 'generation' do
     subject(:generated) { representer.to_json }
@@ -152,9 +147,13 @@ describe ::API::V3::Projects::ProjectRepresenter do
         context 'user not allowed to create work packages' do
           let(:permissions) { [] }
 
-          it { is_expected.to_not have_json_path('_links/createWorkPackage/href') }
+          it_behaves_like 'has no link' do
+            let(:link) { 'createWorkPackage' }
+          end
 
-          it { is_expected.to_not have_json_path('_links/createWorkPackageImmediate/href') }
+          it_behaves_like 'has no link' do
+            let(:link) { 'createWorkPackageImmediate' }
+          end
         end
       end
 
@@ -166,9 +165,30 @@ describe ::API::V3::Projects::ProjectRepresenter do
       end
 
       describe 'versions' do
-        it 'has the correct link to its versions' do
-          is_expected.to be_json_eql(api_v3_paths.versions_by_project(project.id).to_json)
-            .at_path('_links/versions/href')
+        context 'with only manage_versions permission' do
+          let(:permissions) { [:manage_versions] }
+
+          it_behaves_like 'has an untitled link' do
+            let(:link) { 'versions' }
+            let(:href) { api_v3_paths.versions_by_project(project.id) }
+          end
+        end
+
+        context 'with only view_work_packages permission' do
+          let(:permissions) { [:view_work_packages] }
+
+          it_behaves_like 'has an untitled link' do
+            let(:link) { 'versions' }
+            let(:href) { api_v3_paths.versions_by_project(project.id) }
+          end
+        end
+
+        context 'without both permissions' do
+          let(:permissions) { [:add_work_packages] }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'versions' }
+          end
         end
       end
 
@@ -205,6 +225,21 @@ describe ::API::V3::Projects::ProjectRepresenter do
 
           it 'has no work packages link' do
             is_expected.to_not have_json_path('_links/workPackages/href')
+          end
+        end
+      end
+
+      describe 'memberships' do
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'memberships' }
+          let(:href) { api_v3_paths.path_for(:memberships, filters: [{ project: { operator: "=", values: [project.id.to_s] } }]) }
+        end
+
+        context 'without the view_members permission' do
+          let(:permissions) { [] }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'memberships' }
           end
         end
       end

@@ -67,8 +67,21 @@ module API
           { href: api_v3_paths.categories_by_project(represented.id) }
         end
 
-        link :versions do
+        link :versions,
+             cache_if: -> {
+               current_user_allowed_to(:view_work_packages, context: represented) ||
+                 current_user_allowed_to(:manage_versions, context: represented)
+             } do
           { href: api_v3_paths.versions_by_project(represented.id) }
+        end
+
+        link :memberships,
+             cache_if: -> {
+               current_user_allowed_to(:view_members, context: represented)
+             } do
+          {
+            href: api_v3_paths.path_for(:memberships, filters: [{ project: { operator: "=", values: [represented.id.to_s] } }]),
+          }
         end
 
         link :types,
