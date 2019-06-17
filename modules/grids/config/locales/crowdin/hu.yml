@@ -1,0 +1,14 @@
+hu:
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "Oldal"
+        row_count: "Sorok száma"
+        column_count: "Oszlopok száma"
+        widgets: "Kisalkalmazások"
+    errors:
+      models:
+        grids/grid:
+          overlaps: 'overlap.'
+          outside: 'is outside of the grid.'
+          end_before_start: 'end value needs to be larger than the start value.'

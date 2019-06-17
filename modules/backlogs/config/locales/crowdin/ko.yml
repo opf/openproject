@@ -76,7 +76,7 @@ ko:
   backlogs_sprints: "스프린트"
   backlogs_story: "스토리"
   backlogs_story_type: "스토리 유형"
-  backlogs_task: "작업"
+  backlogs_task: "일감"
   backlogs_task_type: "작업 유형"
   backlogs_velocity_missing: "이 프로젝트에 대한 속도를 계산할 수 없습니다."
   backlogs_velocity_varies: "속도는 스프린트에서 상당히 다릅니다."

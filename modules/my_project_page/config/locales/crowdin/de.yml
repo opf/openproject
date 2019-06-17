@@ -1,7 +1,7 @@
 de:
   button_edit_this_page: "Diese Seite bearbeiten"
+  error_block_not_saved: "Der Text-Block konnte nicht gespeichert werden."
   error_saving_changes: "Änderungen konnten nicht gespeichert werden: %{errors}"
-  error_textile_not_saved: "Der Textile-Block konnte nicht gespeichert werden."
   label_hidden_elements: "Versteckte Elemente"
   label_visible_elements: "Sichtbare Elemente"
   label_project_description: "Projektbeschreibung"
@@ -13,7 +13,6 @@ de:
   label_work_packages_responsible_for: "Von mir verantwortete Arbeitspakete"
   label_work_packages_assigned_to_me: "Mir zugewiesene Tickets"
   label_work_packages_watched: "Beobachtete Arbeitspakete"
-  label_work_package_tracking: "Arbeitspaket-Verfolgung"
   label_members: "Mitglieder"
   label_member_view_all: "Alle Mitglieder anzeigen"
   label_no_visible_members: "Dieses Projekt hat keine sichtbaren Mitglieder."

@@ -144,9 +144,10 @@ id:
     remember:
       active_session_notice: >
         Akun Anda telah aktif ingat cookie yang berlaku hingga %{expires_on}. Cookie ini memungkinkan Anda untuk masuk tanpa faktor kedua ke akun Anda sehingga waktu itu.
+      other_active_session_notice: Your account has an active remember cookie on another session.
       label: 'ingat'
-      clear_cookie: 'Tekan disini untuk menghapus cookie'
-      cookie_removed: 'Ingat cookie telah dihapus.'
+      clear_cookie: 'Click here to remove all remembered 2FA sessions.'
+      cookie_removed: 'All remembered 2FA sessions have been removed.'
       dont_ask_again: "Membuat cookie untuk mengingat 2FA otentikasi pada klien ini untuk %{days} hari."
   field_phone: "Ponsel"
   field_otp: "One-time password"

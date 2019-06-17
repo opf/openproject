@@ -1,0 +1,12 @@
+uk:
+  js:
+    work_packages:
+      property_groups:
+        costs: "Витрати"
+      properties:
+        costObject: "Бюджет"
+        overallCosts: "Загальні витрати"
+        spentUnits: "Витрачені одиниці"
+    button_log_costs: "Витрати лог-одиниць"
+    label_hour: "година"
+    label_hours: "годин(и)"

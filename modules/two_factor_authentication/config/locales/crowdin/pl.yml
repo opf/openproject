@@ -138,7 +138,7 @@ pl:
     restdt:
       delivery_failed_with_code: 'Błąd dostarczania tokenu. (Kod błędu %{code})'
     strategies:
-      totp: 'Aplikacja Authenticator'
+      totp: 'Aplikacja do uwierzytelniania'
       sns: 'Amazon SNS'
       resdt: 'Interfejs API SMS Rest'
     mobile_transmit_notification: "Hasło jednorazowe zostało wysłane na Twój telefon komórkowy."
@@ -148,9 +148,10 @@ pl:
     remember:
       active_session_notice: >
         Na tym koncie aktywny jest plik cookie pamiętania, ważny do %{expires_on}. Do tego czasu plik cookie będzie umożliwiać logowanie się do konta bez drugiego składnika.
+      other_active_session_notice: Twoje konto ma aktywny plik cookie pamiętania w innej sesji.
       label: 'Zapamiętaj'
-      clear_cookie: 'Kliknij tutaj, aby usunąć ten plik cookie'
-      cookie_removed: 'Plik cookie pamiętania został usunięty.'
+      clear_cookie: 'Kliknij tutaj, aby usunąć wszystkie zapamiętane sesje uwierzytelniania 2FA.'
+      cookie_removed: 'Wszystkie zapamiętane sesje uwierzytelniania 2FA zostały usunięte.'
       dont_ask_again: "Utwórz pliki cookie w celu zapamiętania uwierzytelnienia 2FA na tym kliencie na %{days} dni."
   field_phone: "Komórka"
   field_otp: "Jednorazowe hasło"

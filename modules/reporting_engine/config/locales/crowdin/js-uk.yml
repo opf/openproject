@@ -1,0 +1,5 @@
+uk:
+  js:
+    reporting_engine:
+      label_remove: "Видалити"
+      label_response_error: "Під час обробки запиту сталася помилка."

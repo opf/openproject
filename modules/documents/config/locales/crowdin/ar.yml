@@ -10,6 +10,8 @@ ar:
       documentation: التوثيق
       specification: المواصفة
       other: أخرى
+  documents:
+    label_attachment_author: "Attachment author"
   label_document_added: "تم إضافة وثيقة"
   label_document_new: "وثيقة جديدة"
   label_document_plural: "الوثائق"

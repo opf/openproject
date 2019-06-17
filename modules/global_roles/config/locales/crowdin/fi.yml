@@ -8,4 +8,4 @@ fi:
   label_no_assignable_role: Yleistä roolia ei ole saatavilla annettavaksi
   label_global: Yleinen
   seeders:
-    default_role_project_creator: 'Project creator'
+    default_role_project_creator: 'Projektin luoja'

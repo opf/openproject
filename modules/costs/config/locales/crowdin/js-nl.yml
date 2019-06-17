@@ -1,0 +1,12 @@
+nl:
+  js:
+    work_packages:
+      property_groups:
+        costs: "Costs"
+      properties:
+        costObject: "Budget"
+        overallCosts: "Totale kosten"
+        spentUnits: "Spent units"
+    button_log_costs: "Registreer kost per eenheid"
+    label_hour: "uur"
+    label_hours: "uren"

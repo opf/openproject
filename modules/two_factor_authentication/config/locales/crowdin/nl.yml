@@ -35,8 +35,8 @@ nl:
     label_one_time_password: 'Eenmalig wachtwoord'
     label_2fa_enabled: 'Twee-factor-authenticatie is actief'
     label_2fa_disabled: 'Twee-factor-authenticatie is niet actief'
-    text_otp_delivery_message_sms: "Your %{app_title} one-time password is %{token}"
-    text_otp_delivery_message_voice: "Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
+    text_otp_delivery_message_sms: "Uw %{app_title} eenmalig wachtwoord is %{token}"
+    text_otp_delivery_message_voice: "Uw %{app_title} eenmalig wachtwoord is: %{pause} %{token}. %{pause} Ik herhaal: %{pause} %{token}"
     text_enter_2fa: 'Voer het eenmalige wachtwoord in vanaf uw apparaat.'
     text_2fa_enabled: 'Bij elke aanmelding wordt u gevraagd om een OTP-token in te voeren vanaf uw standaard 2FA-apparaat.'
     text_2fa_disabled: 'Om authenticatie met twee factoren in te schakelen, gebruikt u de knop hierboven om een nieuw 2FA-apparaat te registreren. Als u al een apparaat heeft, moet u dit als standaard instellen.'
@@ -45,20 +45,20 @@ nl:
       enter_backup_code_text: Voer een geldige back-up code in uit uw codelijst voor het geval dat u geen toegang meer heeft tot uw geregistreerde 2FA-apparaten.
       other_device: 'Gebruik een ander 2FA-apparaat of een back-up code'
     settings:
-      title: '2FA settings'
-      current_configuration: 'Current configuration'
-      label_active_strategies: 'Active 2FA strategies'
-      label_enforced: 'Enforce 2FA'
-      label_remember: 'Remember 2FA login'
+      title: '2FA instellingen'
+      current_configuration: 'Huidige configuratie'
+      label_active_strategies: 'Actieve 2FA strategieën'
+      label_enforced: 'Forceer 2FA'
+      label_remember: 'Bewaar 2FA logingegevens'
       text_configuration: |
-        Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
-      text_configuration_guide: For more information, check the configuration guide.
-      text_enforced: 'Enable this setting to force all users to register a 2FA device on their next login. Can only be disabled when not enforced by configuration.'
+        Opmerking: Deze waarden vertegenwoordigen de huidige applicatie-brede configuratie. U kunt instellingen die worden afgedwongen door de configuratie niet uitschakelen of de huidige actieve strategieën wijzigen, aangezien ze een herstart van de server vereisen.
+      text_configuration_guide: Voor meer informatie, check de configuratiegids.
+      text_enforced: 'Schakel deze instelling in om alle gebruikers te dwingen een 2FA-apparaat te registreren op hun volgende login. Kan alleen worden uitgeschakeld wanneer niet afgedwongen door configuratie.'
       text_remember: |
-        Set this to greater than zero to allow users to remember their 2FA authentication for the given number of days.
-        They will not be requested to re-enter it during that period. Can only be set when not enforced by configuration.
-      error_invalid_settings: 'The 2FA strategies you selected are invalid'
-      failed_to_save_settings: 'Failed to update 2FA settings: %{message}'
+        Stel dit in op meer dan nul om gebruikers hun 2FA authenticatie voor het gegeven aantal dagen te onthouden.
+        Ze zullen niet worden verzocht om deze opnieuw in te voeren gedurende die periode. Dit kan alleen worden ingesteld wanneer het niet wordt afgedwongen door configuratie.
+      error_invalid_settings: 'De 2FA strategieën die u hebt geselecteerd zijn ongeldig'
+      failed_to_save_settings: '2FA instellingen bijwerken mislukt: %{message}'
     admin:
       self_edit_path: 'Om uw eigen 2FA-apparaten toe te voegen of te wijzigen, gaat u naar %{self_edit_link}'
       self_edit_link_name: 'Twee-factor-authenticatie op uw accountpagina'
@@ -100,7 +100,7 @@ nl:
       registration_failed_update: '2FA registratie van het apparaat mislukt, het token was geldig, maar het apparaat kan niet worden bijgewerkt.'
       confirm_send_failed: 'Bevestiging van uw 2FA-apparaat is mislukt.'
       button_complete_registration: 'Voltooi 2FA-registratie'
-      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
+      text_confirm_to_complete_html: "Voltooi de registratie van uw apparaat <strong>%{identifier}</strong> door een eenmalig wachtwoord in te voeren vanaf uw apparaat."
       text_confirm_to_change_default_html: "Bevestig uw standaardapparaat aan <strong>%{new_identifier}</strong> door een eenmalig wachtwoord in te voeren vanaf uw huidige standaardapparaat."
       text_identifier: 'U kunt het apparaat een aangepaste Id geven met behulp van dit veld.'
       failed_to_delete: 'Kan het 2FA-apparaat niet verwijderen.'
@@ -110,7 +110,7 @@ nl:
       totp:
         title: 'Gebruik uw app-gebaseerde authenticator'
         provisioning_uri: 'Voorbereiden van URI'
-        secret_key: 'Secret key'
+        secret_key: 'Geheime sleutel'
         time_based: 'Tijdgebonden'
         account: 'Accountnaam / verstrekker'
         setup: |
@@ -131,8 +131,8 @@ nl:
     sns:
       delivery_failed: 'SNS levering mislukt:'
     message_bird:
-      sms_delivery_failed: 'MessageBird SMS delivery failed.'
-      voice_delivery_failed: 'MessageBird voice call failed.'
+      sms_delivery_failed: 'MessageBird SMS versturen mislukt.'
+      voice_delivery_failed: 'MessageBird spraakoproep mislukt.'
     restdt:
       delivery_failed_with_code: 'Token levering mislukt. (Error code %{code})'
     strategies:
@@ -146,9 +146,10 @@ nl:
     remember:
       active_session_notice: >
         Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
+      other_active_session_notice: Your account has an active remember cookie on another session.
       label: 'Remember'
-      clear_cookie: 'Click here to remove this cookie'
-      cookie_removed: 'The remember cookie has been removed.'
+      clear_cookie: 'Click here to remove all remembered 2FA sessions.'
+      cookie_removed: 'All remembered 2FA sessions have been removed.'
       dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
   field_phone: "Mobiele telefoon"
   field_otp: "Eenmalig wachtwoord"

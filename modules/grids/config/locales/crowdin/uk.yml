@@ -1,0 +1,14 @@
+uk:
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "Сторінка"
+        row_count: "Кількість рядків"
+        column_count: "Кількість стовпців"
+        widgets: "Віджети"
+    errors:
+      models:
+        grids/grid:
+          overlaps: 'перекриваються.'
+          outside: 'знаходиться за межами сітки.'
+          end_before_start: 'кінцеве значення має бути більше початкового значення.'

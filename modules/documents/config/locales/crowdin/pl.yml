@@ -10,6 +10,8 @@ pl:
       documentation: Dokumentacja
       specification: Specyfikacja
       other: Inne
+  documents:
+    label_attachment_author: "Autor załącznika"
   label_document_added: "Dodano dokument"
   label_document_new: "Nowy dokument"
   label_document_plural: "Dokumenty"

@@ -1,0 +1,5 @@
+cs:
+  js:
+    reporting_engine:
+      label_remove: "Odstranit"
+      label_response_error: "Došlo k chybě zpracování dotazu."

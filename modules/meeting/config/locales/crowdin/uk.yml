@@ -1,0 +1,64 @@
+uk:
+  activerecord:
+    attributes:
+      meeting:
+        location: "Місцезнаходження"
+        duration: "Тривалість"
+        participants: "Учасники"
+        participants_attended: "Учасники"
+        participants_invited: "Запрошені"
+        start_time: "Час"
+        start_time_hour: "Початковий час"
+    errors:
+      messages:
+        invalid_time_format: "не є допустимим часом. Необхідний формат: HH:MM"
+    models:
+      meeting_agenda: "Порядок денний"
+      meeting_minutes: "Хвилини"
+  description_attended: "Участь"
+  description_invite: "Запрошені"
+  events:
+    meeting: Нотатки до зустрічі
+    meeting_agenda: Порядок денний зустрічі редагувався
+    meeting_agenda_closed: Порядок засідань закритий
+    meeting_agenda_opened: Порядок зустрічей був відкритий
+    meeting_minutes: Відредаговані хвилини наради
+    meeting_minutes_created: Створено протокол зустрічей
+  error_notification_with_errors: "Не вдалося надіслати сповіщення. Неможливо отримати сповіщення про таких одержувачів: %{recipients}"
+  label_meeting: "Зустріч"
+  label_meeting_plural: "Зустрічі"
+  label_meeting_new: "Нова зустріч"
+  label_meeting_edit: "Редагувати збори"
+  label_meeting_agenda: "Порядок денний"
+  label_meeting_minutes: "Хвилини"
+  label_meeting_close: "Закрити"
+  label_meeting_open: "Відкрити"
+  label_meeting_agenda_close: "Закрийте порядок денний, щоб розпочати протоколи"
+  label_meeting_date_time: "Дата, час"
+  label_meeting_diff: "Відмінність"
+  label_notify: "Надіслати на розгляд"
+  label_icalendar: "Надіслати iCalendar"
+  label_version: "Версія"
+  label_time_zone: "Часовий пояс"
+  label_start_date: "Дата початку"
+  notice_successful_notification: "Повідомлення успішно надіслано"
+  notice_timezone_missing: Часовий пояс не встановлено і %{zone} передбачається. Щоб вибрати часовий пояс, натисніть тут.
+  permission_create_meetings: "Створюйте зустрічі"
+  permission_edit_meetings: "Редагувати зустрічі"
+  permission_delete_meetings: "Видалити зустрічі"
+  permission_view_meetings: "Переглянути зустрічі"
+  permission_create_meeting_agendas: "Керувати програмами"
+  permission_close_meeting_agendas: "Закрити порядок денний"
+  permission_send_meeting_agendas_notification: "Надіслати повідомлення про перегляд для порядку денного"
+  permission_create_meeting_minutes: "Керування хвилинами"
+  permission_send_meeting_minutes_notification: "Надішліть повідомлення про перегляд за хвилини"
+  project_module_meetings: "Зустрічі"
+  text_duration_in_hours: "Тривалість у годинах"
+  text_in_hours: "у годинах"
+  text_meeting_agenda_for_meeting: 'порядку денного засідання %{meeting}'
+  text_meeting_closing_are_you_sure: "Дійсно закрити нараду?"
+  text_meeting_agenda_open_are_you_sure: "Незбережений вміст у хвилинах буде втрачено! Продовжити?"
+  text_meeting_minutes_for_meeting: 'протокол засідання %{meeting}'
+  text_review_meeting_agenda: "%{author} поставив %{link} на розгляд."
+  text_review_meeting_minutes: "%{author} поставив %{link} на розгляд."
+  text_notificiation_invited: "У цьому листі міститься запис ics для зустрічі нижче:"

@@ -41,9 +41,9 @@ lt:
       cost_object: "Biudžetas"
       cost_type:
         one: "Kaštų tipas"
-        few: "Kaštų tipai(-as, -ų)"
-        many: "Cost types"
-        other: "Kaštų tipai(-as, -ų)"
+        few: "Kaštų tipai"
+        many: "Kaštų tipai"
+        other: "Kaštų tipai"
       material_budget_item: "Vienetas"
       rate: "Koeficientas"
     errors:

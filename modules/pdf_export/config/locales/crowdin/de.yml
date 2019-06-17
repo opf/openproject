@@ -24,7 +24,7 @@ de:
   activerecord:
     attributes:
       export_card_configuration:
-        rows: "Reihen"
+        rows: "Zeilen"
         per_page: "Pro Seite"
         page_size: "Seitengröße"
         orientation: "Ausrichtung"

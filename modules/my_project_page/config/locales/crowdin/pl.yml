@@ -1,7 +1,7 @@
 pl:
   button_edit_this_page: "Edytuj tę stronę"
+  error_block_not_saved: "Nie można zapisać bloku tekstu."
   error_saving_changes: "Nie można zapisać zmian: %{errors}"
-  error_textile_not_saved: "Nie można zapisać bloku textile."
   label_hidden_elements: "Ukryte elementy"
   label_visible_elements: "Elementy widoczne"
   label_project_description: "Opis projektu"
@@ -13,7 +13,6 @@ pl:
   label_work_packages_responsible_for: "Pakiety robocze, za które odpowiadam"
   label_work_packages_assigned_to_me: "Zadania przypisane do mnie"
   label_work_packages_watched: "Obserwowane zadania"
-  label_work_package_tracking: " Śledzenie zadania"
   label_members: "Członkowie"
   label_member_view_all: "Zobacz wszystkich członków"
   label_no_visible_members: "Ten projekt nie ma widocznych członków."

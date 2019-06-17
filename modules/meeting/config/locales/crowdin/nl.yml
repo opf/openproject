@@ -39,8 +39,8 @@ nl:
   label_notify: "Verzenden voor revisie"
   label_icalendar: "Send iCalendar"
   label_version: "Versie"
-  label_time_zone: "Time zone"
-  label_start_date: "Start date"
+  label_time_zone: "Tijdzone"
+  label_start_date: "Startdatum"
   notice_successful_notification: "Notificatie succesvol verzonden"
   notice_timezone_missing: Geen tijdzone is ingesteld en %{zone} is aangenomen. Om uw tijdzone te kiezen, klik dan hier.
   permission_create_meetings: "Creëer vergaderingen"

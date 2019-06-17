@@ -8,8 +8,10 @@ et:
   enumeration:
     document_category:
       documentation: Documentation
-      specification: Specification
-      other: Other
+      specification: Spetsifikatsioon
+      other: Muu
+  documents:
+    label_attachment_author: "Attachment author"
   label_document_added: "Dokument on lisatud"
   label_document_new: "Uus dokument"
   label_document_plural: "Dokumendid"

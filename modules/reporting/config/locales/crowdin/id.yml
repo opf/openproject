@@ -44,6 +44,6 @@ id:
   project_module_reporting_module: "Pelaporan biaya"
   text_costs_are_rounded_note: "Tampilkan nilai pembulatan walaupun kalkulasi menggunakan nilai desimal."
   toggle_multiselect: "aktif/non-aktif multiselect"
-  units: "Units"
+  units: "Unit"
   validation_failure_date: "validasi tanggal gagal"
   validation_failure_integer: "validasi bilangan bulat gagal"

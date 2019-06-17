@@ -91,7 +91,7 @@ ko:
   help_click_to_edit: "편집하려면 여기를 클릭하세요."
   help_currency_format: "표시된 통화 값의 형식입니다. %n은(는) 통화 값으로 바뀌고, %u은(는) 통화 단위로 바뀝니다."
   help_override_rate: "기본 요금을 재정의하려면 여기에 값을 입력하세요."
-  label_between: "사이"
+  label_between: "사이에"
   label_cost_filter_add: "비용 항목 필터 추가"
   label_costlog: "기록된 단위 비용"
   label_cost_object: "예산"
