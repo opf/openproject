@@ -138,4 +138,22 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
     wp_table.expect_work_package_order work_package_1, work_package_2, work_package_3, work_package_4
   end
 
+  context 'the gantt chart' do
+    let(:wp_timeline) { Pages::WorkPackagesTimeline.new(project) }
+    before do
+      wp_timeline
+    end
+
+    it 'reloads after drop' do
+      wp_timeline.toggle_timeline
+      wp_timeline.expect_timeline!
+      wp_timeline.expect_row_count(4)
+
+      wp_timeline.expect_work_package_order work_package_1, work_package_2, work_package_3, work_package_4
+
+      wp_table.drag_and_drop_work_package from: 1, to: 3
+      wp_table.expect_work_package_order work_package_1, work_package_3, work_package_2, work_package_4
+      wp_timeline.expect_work_package_order work_package_1, work_package_3, work_package_2, work_package_4
+    end
+  end
 end
