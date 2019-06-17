@@ -31,10 +31,42 @@ require 'spec_helper'
 describe ::API::V3::Projects::ProjectRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:representer) { described_class.new(project, current_user: user) }
+  let(:project) do
+    FactoryBot.build_stubbed(:project).tap do |p|
+      allow(p)
+        .to receive(:available_custom_fields)
+        .and_return([int_custom_field, version_custom_field])
+
+      allow(p)
+        .to receive(:"custom_field_#{int_custom_field.id}")
+        .and_return(int_custom_value.value)
+
+      allow(p)
+        .to receive(:custom_value_for)
+        .with(version_custom_field)
+        .and_return(version_custom_value)
+    end
+  end
+  let(:representer) { described_class.create(project, current_user: user) }
   let(:user) do
     FactoryBot.build_stubbed(:user)
+  end
+  let(:int_custom_field) { FactoryBot.build_stubbed(:int_project_custom_field) }
+  let(:version_custom_field) { FactoryBot.build_stubbed(:version_project_custom_field) }
+  let(:int_custom_value) do
+    CustomValue.new(custom_field: int_custom_field,
+                    value: '1234',
+                    customized: nil)
+  end
+  let(:version) { FactoryBot.build_stubbed(:version) }
+  let(:version_custom_value) do
+    CustomValue.new(custom_field: version_custom_field,
+                    value: version.id,
+                    customized: nil).tap do |cv|
+                      allow(cv)
+                        .to receive(:typed_value)
+                        .and_return(version)
+                    end
   end
   let(:permissions) { [:add_work_packages] }
 
@@ -56,11 +88,26 @@ describe ::API::V3::Projects::ProjectRepresenter do
 
     it { is_expected.to include_json('Project'.to_json).at_path('_type') }
 
-    describe 'project' do
-      it { is_expected.to have_json_path('id') }
-      it { is_expected.to have_json_path('identifier') }
-      it { is_expected.to have_json_path('name') }
-      it { is_expected.to have_json_path('description') }
+    describe 'properties' do
+      it_behaves_like 'property', :_type do
+        let(:value) { 'Project' }
+      end
+
+      it_behaves_like 'property', :id do
+        let(:value) { project.id }
+      end
+
+      it_behaves_like 'property', :identifier do
+        let(:value) { project.identifier }
+      end
+
+      it_behaves_like 'property', :name do
+        let(:value) { project.name }
+      end
+
+      it_behaves_like 'property', :description do
+        let(:value) { project.description }
+      end
 
       it_behaves_like 'has UTC ISO 8601 date and time' do
         let(:date) { project.created_on }
@@ -70,6 +117,12 @@ describe ::API::V3::Projects::ProjectRepresenter do
       it_behaves_like 'has UTC ISO 8601 date and time' do
         let(:date) { project.updated_on }
         let(:json_path) { 'updatedAt' }
+      end
+
+      it "has a property for the int custom field" do
+        is_expected
+          .to be_json_eql(int_custom_value.value.to_json)
+          .at_path("customField#{int_custom_field.id}")
       end
     end
 
@@ -154,6 +207,12 @@ describe ::API::V3::Projects::ProjectRepresenter do
             is_expected.to_not have_json_path('_links/workPackages/href')
           end
         end
+      end
+
+      it 'links custom fields' do
+        is_expected
+          .to be_json_eql(api_v3_paths.version(version.id).to_json)
+          .at_path("_links/customField#{version_custom_field.id}/href")
       end
     end
 

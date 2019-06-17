@@ -36,6 +36,7 @@ module API
       class ProjectRepresenter < ::API::Decorators::Single
         include API::Decorators::DateProperty
         include ::API::Caching::CachedRepresenter
+        extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
 
         self_link
 

@@ -17,6 +17,8 @@
 | versions     | Versions available in this project   | Collection | not null    | READ                 |
 | workPackages | Work Packages of this project        | Collection | not null    | READ                 |
 
+Depending on custom fields defined for projects, additional links might exist.
+
 ## Local Properties
 
 | Property    | Description                                   | Type     | Constraints | Supported operations |
@@ -27,6 +29,8 @@
 | description |                                               | String   |             | READ                 |
 | createdAt   | Time of creation                              | DateTime |             | READ                 |
 | updatedAt   | Time of the most recent change to the project | DateTime |             | READ                 |
+
+Depending on custom fields defined for projects, additional properties might exist.
 
 ## Project [/api/v3/projects/{id}]
 
@@ -52,13 +56,18 @@
                     "types": { "href": "/api/v3/projects/1/types" },
                     "versions": { "href": "/api/v3/projects/1/versions" },
                     "workPackages": { "href": "/api/v3/projects/1/work_packages" }
+                    "customField456: {
+                        "href": "/api/v3/users/315",
+                        "method": "A user"
+                    },
                 },
                 "id": 1,
                 "identifier": "project_identifier",
                 "name": "Project example",
                 "description": "Lorem ipsum dolor sit amet",
                 "createdAt": "2014-05-21T08:51:20Z",
-                "updatedAt": "2014-05-21T08:51:20Z"
+                "updatedAt": "2014-05-21T08:51:20Z",
+                "customField123": 123
             }
 
 ## View project [GET]
