@@ -58,7 +58,7 @@ export class WorkPackageTableConfiguration {
   public hierarchyToggleEnabled:boolean = true;
 
   /** Whether this table supports drag and drop */
-  public dragAndDropEnabled:boolean = false;
+  public dragAndDropEnabled:boolean = true;
 
   /** Whether this table is in an embedded context*/
   public isEmbedded:boolean = false;

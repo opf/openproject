@@ -26,26 +26,37 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, EventEmitter, Inject, Output} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Output} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageEditFieldGroupComponent} from "core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive";
 
 @Component({
   templateUrl: './wp-edit-actions-bar.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'wp-edit-actions-bar',
 })
 export class WorkPackageEditActionsBarComponent {
   @Output('onSave') public onSave = new EventEmitter<void>();
   @Output('onCancel') public onCancel = new EventEmitter<void>();
-  public saving:boolean = false;
+  public _saving:boolean = false;
 
   public text = {
     save: this.I18n.t('js.button_save'),
     cancel: this.I18n.t('js.button_cancel')
   };
 
-  constructor(readonly I18n:I18nService,
-              readonly wpEditFieldGroup:WorkPackageEditFieldGroupComponent) {
+  constructor(private I18n:I18nService,
+              private cdRef:ChangeDetectorRef,
+              private wpEditFieldGroup:WorkPackageEditFieldGroupComponent) {
+  }
+
+  public set saving(active:boolean) {
+    this._saving = active;
+    this.cdRef.detectChanges();
+  }
+
+  public get saving() {
+    return this._saving;
   }
 
   public save():void {

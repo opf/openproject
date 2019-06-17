@@ -27,6 +27,7 @@
 // ++
 
 import {
+  AfterViewInit, ChangeDetectorRef,
   Component,
   ElementRef,
   HostListener,
@@ -53,7 +54,7 @@ import {
   inlineCreateRowClassName
 } from './inline-create-row-builder';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
+import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
@@ -65,12 +66,14 @@ import {Subscription} from 'rxjs';
   selector: '[wpInlineCreate]',
   templateUrl: './wp-inline-create.component.html'
 })
-export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDestroy {
+export class WorkPackageInlineCreateComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input('wp-inline-create--table') table:WorkPackageTable;
   @Input('wp-inline-create--project-identifier') projectIdentifier:string;
 
   // inner state
+  public canAdd:boolean = false;
+  public canReference:boolean = false;
 
   // Inline create / reference row is active
   public mode:'inactive'|'create'|'reference' = 'inactive';
@@ -92,7 +95,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
               protected readonly FocusHelper:FocusHelperService,
               protected readonly I18n:I18nService,
               protected readonly querySpace:IsolatedQuerySpace,
-              protected readonly currentUser:CurrentUserService,
+              protected readonly cdRef:ChangeDetectorRef,
               @Inject(IWorkPackageCreateServiceToken) protected readonly wpCreate:WorkPackageCreateService,
               protected readonly wpInlineCreate:WorkPackageInlineCreateService,
               protected readonly wpTableColumns:WorkPackageTableColumnsService,
@@ -106,17 +109,21 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
 
   ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
+
+    this.authorisationService
+      .observeUntil(componentDestroyed(this))
+      .subscribe(() => {
+          this.canReference = this.hasReferenceClass && this.wpInlineCreate.canReference;
+          this.canAdd = this.wpInlineCreate.canAdd;
+          this.cdRef.detectChanges();
+      });
   }
 
   get isActive():boolean {
     return this.mode !== 'inactive';
   }
 
-  ngOnChanges() {
-    if (_.isNil(this.table)) {
-      return;
-    }
-
+  ngAfterViewInit() {
     // Mirror the row height in timeline
     const container = jQuery(this.table.timelineBody);
     container.addClass('-inline-create-mirror');
@@ -186,6 +193,8 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
           this.removeWorkPackageRow();
           this.showRow();
         }
+
+        this.cdRef.detectChanges();
       });
   }
 
@@ -279,6 +288,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
     // Manually cancelled, show the row again
     setTimeout(() => {
       this.showRow();
+      this.cdRef.detectChanges();
     }, 50);
   }
 
@@ -303,11 +313,4 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
     return this.wpTableColumns.columnCount + 1;
   }
 
-  public get canReference():boolean {
-    return this.hasReferenceClass && this.wpInlineCreate.canReference;
-  }
-
-  public get canAdd():boolean {
-    return this.wpInlineCreate.canAdd;
-  }
 }

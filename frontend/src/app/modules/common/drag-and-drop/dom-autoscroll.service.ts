@@ -149,8 +149,10 @@ export class DomAutoscrollService {
       return;
     }
 
-    this.current.forEach((e) => {
-      this.scrollAutomatically(e);
+    this.current.forEach((e?:Element) => {
+      if (e) {
+        this.scrollAutomatically(e);
+      }
     });
 
     cancelAnimationFrame(this.animationFrame);

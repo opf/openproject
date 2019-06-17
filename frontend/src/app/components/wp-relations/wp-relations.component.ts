@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
@@ -41,6 +41,7 @@ import {RelationsStateValue, WorkPackageRelationsService} from './wp-relations.s
 
 @Component({
   selector: 'wp-relations',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './wp-relations.template.html'
 })
 export class WorkPackageRelationsComponent implements OnInit, OnDestroy {
@@ -58,10 +59,10 @@ export class WorkPackageRelationsComponent implements OnInit, OnDestroy {
   };
   public currentRelations:WorkPackageResource[] = [];
 
-  constructor(
-    readonly I18n:I18nService,
-    readonly wpRelations:WorkPackageRelationsService,
-    readonly wpCacheService:WorkPackageCacheService) {
+  constructor(private I18n:I18nService,
+              private wpRelations:WorkPackageRelationsService,
+              private cdRef:ChangeDetectorRef,
+              private wpCacheService:WorkPackageCacheService) {
   }
 
   ngOnInit() {
@@ -114,7 +115,7 @@ export class WorkPackageRelationsComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.relationGroups = <RelatedWorkPackagesGroup> _.groupBy(this.currentRelations,
+    this.relationGroups = <RelatedWorkPackagesGroup>_.groupBy(this.currentRelations,
       (wp:WorkPackageResource) => {
         if (this.groupByWorkPackageType) {
           return wp.type.name;
@@ -125,6 +126,7 @@ export class WorkPackageRelationsComponent implements OnInit, OnDestroy {
       });
     this.relationGroupKeys = _.keys(this.relationGroups);
     this.relationsPresent = _.size(this.relationGroups) > 0;
+    this.cdRef.detectChanges();
   }
 
   protected loadedRelations(stateValues:RelationsStateValue):void {

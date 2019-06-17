@@ -26,23 +26,33 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit} from '@angular/core';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {DynamicBootstrapper} from 'core-app/globals/dynamic-bootstrapper';
 import {ElementRef} from '@angular/core';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
+import {filter, takeUntil} from "rxjs/operators";
+import {componentDestroyed} from "ng2-rx-componentdestroyed";
+import {States} from "core-components/states.service";
+import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 
 @Component({
   selector: 'attachment-list',
   templateUrl: './attachment-list.html'
 })
-export class AttachmentListComponent implements OnInit, OnChanges {
+export class AttachmentListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() public resource:HalResource;
   @Input() public selfDestroy:boolean = false;
+
+  trackByHref = AngularTrackingHelpers.trackByHref;
+
+  attachments:HalResource[] = [];
 
   public $element:JQuery;
 
   constructor(protected elementRef:ElementRef,
+              protected states:States,
+              protected cdRef:ChangeDetectorRef,
               protected halResourceService:HalResourceService) { }
 
   ngOnInit() {
@@ -51,12 +61,37 @@ export class AttachmentListComponent implements OnInit, OnChanges {
     if (this.attachmentsUpdatable) {
       this.resource.attachments.updateElements();
     }
+
+    this.attachments = this.resource.attachments.elements;
+    this.setupResourceUpdateListener();
+  }
+
+  public setupResourceUpdateListener() {
+    this.states.forResource(this.resource)!.changes$()
+      .pipe(
+        takeUntil(componentDestroyed(this)),
+        filter(newResource => !!newResource)
+      )
+      .subscribe((newResource:HalResource) => {
+        this.resource = newResource || this.resource;
+        this.attachments = [...this.resource.attachments.elements];
+        this.cdRef.detectChanges();
+      });
+  }
+
+  ngOnDestroy():void {
+    // Nothing to do
   }
 
   ngOnChanges() {
     if (this.attachmentsUpdatable) {
       this.resource.attachments.updateElements();
     }
+  }
+
+  public removeAttachment(attachment:HalResource) {
+    this.attachments = this.attachments.filter((el) => el !== attachment);
+    this.cdRef.detectChanges();
   }
 
   private get attachmentsUpdatable() {

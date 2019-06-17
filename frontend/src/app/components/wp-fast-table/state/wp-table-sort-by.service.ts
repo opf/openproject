@@ -40,12 +40,17 @@ import {
   QUERY_SORT_BY_DESC,
   QuerySortByResource
 } from 'core-app/modules/hal/resources/query-sort-by-resource';
+import {mergeMap, take} from "rxjs/internal/operators";
+import {ReorderQueryService} from "core-app/modules/boards/drag-and-drop/reorder-query.service";
+import {RenderedRow} from "core-components/wp-fast-table/builders/primary-render-pass";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 
 @Injectable()
 export class WorkPackageTableSortByService extends WorkPackageQueryStateService<QuerySortByResource[]> {
 
   constructor(protected readonly states:States,
-              protected readonly querySpace:IsolatedQuerySpace) {
+              protected readonly querySpace:IsolatedQuerySpace,
+              protected readonly pathHelper:PathHelperService) {
     super(querySpace);
   }
 
@@ -77,7 +82,7 @@ export class WorkPackageTableSortByService extends WorkPackageQueryStateService<
 
   public applyToQuery(query:QueryResource) {
     query.sortBy = [...this.current];
-    return true;
+    return !this.isManualSortingMode;
   }
 
   public isSortable(column:QueryColumn):boolean {
@@ -122,6 +127,23 @@ export class WorkPackageTableSortByService extends WorkPackageQueryStateService<
     });
   }
 
+  public get isManualSortingMode():boolean {
+    let current = this.current;
+
+    if (current && current.length > 0) {
+      return current[0].column.href!.endsWith('/manualSorting');
+    }
+
+    return false;
+  }
+
+  public switchToManualSorting() {
+    let manualSortObject =  this.manualSortObject;
+    if (manualSortObject && !this.isManualSortingMode) {
+      this.update([manualSortObject]);
+    }
+  }
+
   public get current():QuerySortByResource[] {
     return this.state.getValueOr([]);
   }
@@ -132,5 +154,11 @@ export class WorkPackageTableSortByService extends WorkPackageQueryStateService<
 
   public get available():QuerySortByResource[] {
     return this.availableState.getValueOr([]);
+  }
+
+  private get manualSortObject() {
+    return _.find(this.available, sort => {
+      return sort.column.$href!.endsWith('/manualSorting');
+    });
   }
 }

@@ -27,13 +27,14 @@
 // ++
 
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
-  OnInit,
-  OnDestroy,
-  ViewChild,
   HostListener,
-  ChangeDetectorRef
+  OnDestroy,
+  OnInit,
+  ViewChild
 } from '@angular/core';
 import {ContainHelpers} from 'app/modules/common/focus/contain-helpers';
 import {I18nService} from 'app/modules/common/i18n/i18n.service';
@@ -49,30 +50,43 @@ import {DeviceService} from "app/modules/common/browser/device.service";
 import {NgSelectComponent} from "@ng-select/ng-select";
 import {debounceTime, distinctUntilChanged} from "rxjs/operators";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {Subject} from "rxjs";
+import {Observable, of, Subject} from "rxjs";
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
+import {catchError, map, switchMap, tap} from "rxjs/internal/operators";
+import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+import {DebouncedRequestSwitchmap, errorNotificationHandler} from "core-app/helpers/rxjs/debounced-input-switchmap";
+import {StatusResource} from "core-app/modules/hal/resources/status-resource";
 
 export const globalSearchSelector = 'global-search-input';
 
+interface SearchResultItem {
+  id:string;
+  subject:string;
+  status:string;
+  statusId:string;
+  $href:string;
+}
+
 @Component({
   selector: globalSearchSelector,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './global-search-input.component.html'
 })
-
 export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   @ViewChild('btn', { static: true }) btn:ElementRef;
   @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
 
-  public currentValue:string = '';
   public expanded:boolean = false;
-  public noResults:boolean = true;
-  public results:any[];
   public suggestions:any[];
 
-  public searchTermChanged$:Subject<string> = new Subject<string>();
+  /** Keep a switchmap for search term and loading state */
+  public requests = new DebouncedRequestSwitchmap<string, SearchResultItem>(
+    (searchTerm:string) => this.autocompleteWorkPackages(searchTerm),
+    errorNotificationHandler(this.wpNotification)
+  );
 
-  private $element:JQuery;
-  private isFirstFocus:boolean = true;
+  /** Remember the current value */
+  public currentValue:string = '';
 
   private unregisterGlobalListener:Function | undefined;
 
@@ -93,33 +107,17 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
               readonly globalSearchService:GlobalSearchService,
               readonly currentProjectService:CurrentProjectService,
               readonly deviceService:DeviceService,
-              readonly cdRef:ChangeDetectorRef) {
+              readonly cdRef:ChangeDetectorRef,
+              readonly wpNotification:WorkPackageNotificationService) {
   }
 
-  private projectScopeTypes = ['all_projects', 'current_project', 'current_project_and_all_descendants'];
-
   ngOnInit() {
-    this.$element = jQuery(this.elementRef.nativeElement);
-
     // check searchterm on init, expand / collapse search bar and set correct classes
     this.ngSelectComponent.filterValue = this.currentValue = this.globalSearchService.searchTerm;
     this.expanded = (this.ngSelectComponent.filterValue.length > 0);
     jQuery('#top-menu').toggleClass('-global-search-expanded', this.expanded);
 
-    this.searchTermChanged$
-      .pipe(
-        distinctUntilChanged(),
-        debounceTime(250),
-        untilComponentDestroyed(this)
-      )
-      .subscribe((_searchTerm:string) => {
-        // load result list for searched term
-        if (this.currentValue.trim().length > 0) {
-          this.getSearchResult(this.currentValue);
-        }
 
-        this.cdRef.detectChanges();
-      });
   }
 
   ngOnDestroy() {
@@ -164,9 +162,9 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
     }
   }
 
-  public search($event:string) {
+  public search($event:any) {
     this.currentValue = this.ngSelectComponent.filterValue;
-    this.openCloseMenu($event);
+    this.openCloseMenu($event.term);
   }
 
   // close menu when input field is empty
@@ -177,11 +175,6 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   public onFocus() {
     this.expanded = true;
     jQuery('#top-menu').addClass('-global-search-expanded');
-    // load result list after page reload
-    if (this.isFirstFocus && (this.currentValue || '').length > 0) {
-      this.isFirstFocus = false;
-      this.getSearchResult(this.ngSelectComponent.filterValue);
-    }
     this.openCloseMenu(this.currentValue);
   }
 
@@ -200,7 +193,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
   // If Enter key is pressed before result list is loaded submit search in current scope
   public onEnterBeforeResultsLoaded() {
-    if (this.noResults) {
+    if (!this.requests.hasResults) {
       this.searchInScope(this.currentScope);
     }
   }
@@ -209,31 +202,18 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
     return Highlighting.inlineClass('status', statusId);
   }
 
-  // get work packages result list and append it to suggestions
-  private getSearchResult(term:string) {
-    this.autocompleteWorkPackages(term).then((values) => {
-      this.results = this.suggestions.concat(values.map((wp:any) => {
-        return {
-          id: wp.id!,
-          subject: wp.subject,
-          status: wp.status.name,
-          statusId: wp.status.idFromLink,
-          $href: wp.$href
-        };
-      }));
-    });
-  }
 
   // return all project scope items and all items which contain the search term
   public customSearchFn(term:string, item:any):boolean {
     return item.id === undefined || item.subject.toLowerCase().indexOf(term.toLowerCase()) !== -1;
   }
 
-  private autocompleteWorkPackages(query:string):Promise<(any)[]> {
-    this.dynamicCssService.requireHighlighting();
+  private autocompleteWorkPackages(query:string):Observable<SearchResultItem[]> {
+    if (!query) {
+      return of([]);
+    }
 
-    this.$element.find('.ui-autocomplete--loading').show();
-    this.noResults = true;
+    this.dynamicCssService.requireHighlighting();
 
     let idOnly:boolean = false;
 
@@ -248,14 +228,19 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
     return this.halResourceService
       .get<CollectionResource<WorkPackageResource>>(href)
-      .toPromise()
-      .then((collection) => {
-        this.hideSpinner();
-        return collection.elements;
-      }).catch(() => {
-        this.hideSpinner();
-        return [];
-      });
+      .pipe(
+        map((collection) => {
+          return this.suggestions.concat(collection.elements.map((wp) => {
+            return {
+              id: wp.id!,
+              subject: wp.subject,
+              status: wp.status.name,
+              statusId: wp.status.idFromLink,
+              $href: wp.$href
+            };
+          }));
+        })
+      );
   }
 
   // set the possible 'search in scope' options for the current project path
@@ -328,11 +313,6 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
   private redirectToWp(id:string) {
     window.location = this.PathHelperService.workPackagePath(id) as unknown as Location;
-  }
-
-  private hideSpinner():void {
-    this.$element.find('.ui-autocomplete--loading').hide()
-    this.noResults = false;
   }
 
   private get currentScope():string {

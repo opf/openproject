@@ -34,6 +34,7 @@ import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relat
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
 import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
+import {ChangeDetectionStrategy} from "@angular/core";
 
 export class WorkPackageCopyController extends WorkPackageCreateController {
   private __initialized_at:Number;

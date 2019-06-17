@@ -26,11 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {WorkPackageCopyController} from 'core-components/wp-copy/wp-copy.controller';
 
 @Component({
   selector: 'wp-copy-split-view',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: '../wp-new/wp-new-split-view.html'
 })
 export class WorkPackageCopySplitViewComponent extends WorkPackageCopyController {

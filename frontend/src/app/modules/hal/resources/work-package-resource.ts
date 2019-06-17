@@ -258,7 +258,10 @@ export class WorkPackageBaseResource extends HalResource {
   public updateAttachments():Promise<HalResource> {
     return this
       .updateLinkedResources('activities', 'attachments')
-      .then((resources:any) => resources.attachments);
+      .then((resource:any) => {
+        this.wpCacheService.updateWorkPackage(this as any);
+        return resource.attachments;
+      });
   }
 
   /**

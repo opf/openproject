@@ -130,7 +130,7 @@ export class HalResource {
   }
 
   public get persisted() {
-    return this.id && this.id !== 'new';
+    return !!(this.id && this.id !== 'new');
   }
 
   /**

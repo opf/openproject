@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Injector} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Injector, OnInit} from '@angular/core';
 import {StateService} from '@uirouter/core';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
@@ -39,9 +39,10 @@ import {WorkPackageSingleViewBase} from "core-app/modules/work_packages/routing/
 
 @Component({
   templateUrl: './wp-split-view.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'wp-split-view-entry',
 })
-export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase {
+export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase implements OnInit {
 
   constructor(public injector:Injector,
               public states:States,
@@ -51,15 +52,18 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase {
               public wpTableFocus:WorkPackageTableFocusService,
               readonly $state:StateService) {
     super(injector, $state.params['workPackageId']);
+  }
+
+  ngOnInit():void {
     this.observeWorkPackage();
 
-    let wpId = $state.params['workPackageId'];
+    let wpId = this.$state.params['workPackageId'];
     let focusedWP = this.wpTableFocus.focusedWorkPackage;
 
     if (!focusedWP) {
       // Focus on the work package if we're the first route
-      const isFirstRoute = firstRoute.name === 'work-packages.list.details.overview';
-      const isSameID = firstRoute.params && wpId === firstRoute.params.workPackageI;
+      const isFirstRoute = this.firstRoute.name === 'work-packages.list.details.overview';
+      const isSameID = this.firstRoute.params && wpId === this.firstRoute.params.workPackageI;
       this.wpTableFocus.updateFocus(wpId, (isFirstRoute && isSameID));
     } else {
       this.wpTableFocus.updateFocus(wpId, false);
@@ -75,14 +79,15 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase {
       )
       .subscribe(newId => {
         const idSame = wpId.toString() === newId.toString();
-        if (!idSame && $state.includes('work-packages.list.details')) {
-          $state.go(
-            ($state.current.name as string),
+        if (!idSame && this.$state.includes('work-packages.list.details')) {
+          this.$state.go(
+            (this.$state.current.name as string),
             {workPackageId: newId, focus: false}
           );
         }
       });
   }
+
 
   public close() {
     this.$state.go('work-packages.list', this.$state.params);

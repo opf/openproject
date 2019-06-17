@@ -27,6 +27,7 @@
 // ++
 
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -59,12 +60,13 @@ import {
 import {QueryColumn} from 'core-components/wp-query/query-column';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
-import {randomString} from "core-app/helpers/random-string";
+import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state/wp-table-sort-by.service";
 
 @Component({
   templateUrl: './wp-table.directive.html',
   styleUrls: ['./wp-table.styles.sass'],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'wp-table',
 })
 export class WorkPackagesTableController implements OnInit, OnDestroy {
@@ -104,6 +106,8 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   public timelineVisible:boolean;
 
+  public manualSortEnabled:boolean;
+
   constructor(readonly elementRef:ElementRef,
               readonly injector:Injector,
               readonly states:States,
@@ -114,7 +118,8 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
               readonly cdRef:ChangeDetectorRef,
               readonly wpTableGroupBy:WorkPackageTableGroupByService,
               readonly wpTableTimeline:WorkPackageTableTimelineService,
-              readonly wpTableColumns:WorkPackageTableColumnsService) {
+              readonly wpTableColumns:WorkPackageTableColumnsService,
+              readonly wpTableSortBy:WorkPackageTableSortByService) {
   }
 
   ngOnInit():void {
@@ -146,11 +151,12 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
       this.querySpace.results.values$(),
       this.wpTableGroupBy.state.values$(),
       this.wpTableColumns.state.values$(),
-      this.wpTableTimeline.state.values$());
+      this.wpTableTimeline.state.values$(),
+      this.wpTableSortBy.state.values$());
 
     statesCombined.pipe(
       untilComponentDestroyed(this)
-    ).subscribe(([results, groupBy, columns, timelines]) => {
+    ).subscribe(([results, groupBy, columns, timelines, sort]) => {
       this.query = this.querySpace.query.value!;
       this.rowcount = results.count;
 
@@ -163,6 +169,10 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
         this.scrollSyncUpdate(timelines.visible);
       }
       this.timelineVisible = timelines.visible;
+
+      this.manualSortEnabled = this.wpTableSortBy.isManualSortingMode;
+
+      this.cdRef.detectChanges();
     });
 
     // Locate table and timeline elements
@@ -173,6 +183,8 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     // sync hover from table to timeline
     this.wpTableHoverSync = new WpTableHoverSync(this.$element);
     this.wpTableHoverSync.activate();
+
+    this.cdRef.detectChanges();
   }
 
   public ngOnDestroy():void {

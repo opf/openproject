@@ -130,11 +130,27 @@ export class DragAndDropService implements OnDestroy {
     });
 
     this.drake.on('over', (el:HTMLElement, container:HTMLElement) => {
-      container.closest('.drop-zone')!.classList.add('-dragged-over');
+      const zone = container.closest('.drop-zone');
+      if (zone) {
+        zone.classList.add('-dragged-over');
+      }
     });
 
     this.drake.on('out', (el:HTMLElement, container:HTMLElement) => {
-      container.closest('.drop-zone')!.classList.remove('-dragged-over');
+      const zone = container.closest('.drop-zone');
+      if (zone) {
+        zone.classList.remove('-dragged-over');
+      }
+    });
+
+    this.drake.on('cloned', (clone:HTMLElement, original:HTMLElement) => {
+      if (clone.tagName === 'TR') {
+        // Maintain widths from original
+        Array.from(original.children).forEach((source:HTMLElement, index:number) => {
+          const target = clone.children.item(index) as HTMLElement;
+          target.style.width = source.offsetWidth + "px";
+        });
+      }
     });
 
     this.drake.on('drop', async (el:HTMLElement, target:HTMLElement, source:HTMLElement, sibling:HTMLElement|null) => {

@@ -25,7 +25,7 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-import {Component, Inject, Input, OnInit} from "@angular/core";
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from "@angular/core";
 
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {UserCacheService} from "core-components/user/user-cache.service";
@@ -36,6 +36,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
   selector: 'revision-activity',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './revision-activity.component.html'
 })
 export class RevisionActivityComponent implements OnInit {
@@ -59,6 +60,7 @@ export class RevisionActivityComponent implements OnInit {
 
   constructor(readonly I18n:I18nService,
               readonly timezoneService:TimezoneService,
+              readonly cdRef:ChangeDetectorRef,
               readonly userCacheService:UserCacheService) {
   }
 
@@ -100,6 +102,7 @@ export class RevisionActivityComponent implements OnInit {
           this.userAvatar = user.avatar;
           this.userPath = user.showUser.href;
           this.userLabel = this.I18n.t('js.label_author', {user: this.userName});
+          this.cdRef.detectChanges();
         });
     }
   }
