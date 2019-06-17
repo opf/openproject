@@ -36,30 +36,30 @@
 require_dependency 'work_package'
 
 module OpenProject::Backlogs::Patches::WorkPackagePatch
-  def self.included(base)
-    base.class_eval do
-      prepend InstanceMethods
-      extend ClassMethods
+  extend ActiveSupport::Concern
 
-      before_validation :backlogs_before_validation, if: lambda { backlogs_enabled? }
+  included do
+    prepend InstanceMethods
+    extend ClassMethods
 
-      register_on_journal_formatter(:fraction, 'remaining_hours')
-      register_on_journal_formatter(:decimal, 'story_points')
-      register_on_journal_formatter(:decimal, 'position')
+    before_validation :backlogs_before_validation, if: lambda { backlogs_enabled? }
 
-      validates_numericality_of :story_points, only_integer:             true,
-                                               allow_nil:                true,
-                                               greater_than_or_equal_to: 0,
-                                               less_than:                10_000,
-                                               if: lambda { backlogs_enabled? }
+    register_on_journal_formatter(:fraction, 'remaining_hours')
+    register_on_journal_formatter(:decimal, 'story_points')
+    register_on_journal_formatter(:decimal, 'position')
 
-      validates_numericality_of :remaining_hours, only_integer: false,
-                                                  allow_nil: true,
-                                                  greater_than_or_equal_to: 0,
-                                                  if: lambda { backlogs_enabled? }
+    validates_numericality_of :story_points, only_integer:             true,
+                                             allow_nil:                true,
+                                             greater_than_or_equal_to: 0,
+                                             less_than:                10_000,
+                                             if: lambda { backlogs_enabled? }
 
-      include OpenProject::Backlogs::List
-    end
+    validates_numericality_of :remaining_hours, only_integer: false,
+                                                allow_nil: true,
+                                                greater_than_or_equal_to: 0,
+                                                if: lambda { backlogs_enabled? }
+
+    include OpenProject::Backlogs::List
   end
 
   module ClassMethods

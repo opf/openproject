@@ -63,7 +63,7 @@ module OpenProject::Backlogs::Patches::VersionPatch
                                          .order(Arel.sql('COALESCE(position, 0), id'))
 
         (stories_w_position + stories_wo_position).each_with_index do |story, index|
-          story.send(:update_attribute_silently, 'position', index + 1)
+          story.update_column(:position, index + 1)
         end
       end
 

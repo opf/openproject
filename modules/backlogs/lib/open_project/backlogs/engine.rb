@@ -35,9 +35,6 @@
 
 require 'open_project/plugins'
 
-
-require 'acts_as_silent_list'
-
 module OpenProject::Backlogs
   class Engine < ::Rails::Engine
     engine_name :openproject_backlogs
