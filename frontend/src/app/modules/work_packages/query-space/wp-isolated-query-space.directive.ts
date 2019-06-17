@@ -60,6 +60,7 @@ import {WpRelationInlineCreateService} from "core-components/wp-relations/embedd
 import {WorkPackagesListChecksumService} from "core-components/wp-list/wp-list-checksum.service";
 import {debugLog} from "core-app/helpers/debug_output";
 import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
+import {TableDragActionsRegistryService} from "core-components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
 
 /**
  * Directive to open a work package query 'space', an isolated injector hierarchy
@@ -112,6 +113,9 @@ import {PortalCleanupService} from "core-app/modules/fields/display/display-port
     ReorderQueryService,
 
     PortalCleanupService,
+
+    // Table Drag & Drop actions
+    TableDragActionsRegistryService,
   ]
 })
 export class WorkPackageIsolatedQuerySpaceDirective {

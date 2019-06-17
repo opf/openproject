@@ -42,7 +42,7 @@ export class SingleRowBuilder {
   protected contextLinkBuilder = new TableActionRenderer(this.injector);
 
   // Drag & Drop handle builder
-  protected dragDropHandleBuilder = new DragDropHandleBuilder();
+  protected dragDropHandleBuilder = new DragDropHandleBuilder(this.injector);
 
   // Build the augmented columns set to render with
   protected readonly augmentedColumns:QueryColumn[] = this.buildAugmentedColumns();

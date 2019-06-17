@@ -4,7 +4,7 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {States} from '../../../../states.service';
 import {
   ancestorClassIdentifier,
-  collapsedGroupClass,
+  collapsedGroupClass, hasChildrenInTable,
   hierarchyGroupClass,
   hierarchyRootClass
 } from '../../../helpers/wp-table-hierarchy-helpers';
@@ -225,23 +225,6 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
     this.renderedOrder.push(this.buildRenderInfo(workPackage, hidden, isAncestor));
   }
 
-  public ancestorClasses(workPackage:WorkPackageResource) {
-    const rowClasses = [hierarchyRootClass(workPackage.id!)];
-
-    if (_.isArray(workPackage.ancestors)) {
-      workPackage.ancestors.forEach((ancestor) => {
-        rowClasses.push(hierarchyGroupClass(ancestor.id!));
-
-        if (this.hierarchies.collapsed[ancestor.id!]) {
-          rowClasses.push(collapsedGroupClass(ancestor.id!));
-        }
-
-      });
-    }
-
-    return rowClasses;
-  }
-
   /**
    * Append a row to the given parent hierarchy group.
    */
@@ -272,11 +255,13 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
       hidden: hidden
     };
 
+    let [ancestorClasses, _] = this.rowBuilder.ancestorRowData(workPackage);
+
     if (isAncestor) {
-      info.additionalClasses = [additionalHierarchyRowClassName].concat(this.ancestorClasses(workPackage));
+      info.additionalClasses = [additionalHierarchyRowClassName].concat(ancestorClasses);
       info.classIdentifier = ancestorClassIdentifier(workPackage.id!);
     } else {
-      info.additionalClasses = this.ancestorClasses(workPackage);
+      info.additionalClasses = ancestorClasses;
       info.classIdentifier = this.rowBuilder.classIdentifier(workPackage);
     }
 

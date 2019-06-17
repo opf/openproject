@@ -11,10 +11,15 @@ import {Observable, of} from "rxjs";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {RenderedRow} from "core-components/wp-fast-table/builders/primary-render-pass";
 import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state/wp-table-sort-by.service";
+import {TableDragActionsRegistryService} from "core-components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
+import {TableDragActionService} from "core-components/wp-table/drag-and-drop/actions/table-drag-action.service";
+import {States} from "core-components/states.service";
+import {DragAndDropHelpers} from "core-app/modules/boards/drag-and-drop/drag-and-drop.helpers";
 import {WorkPackageTableTimelineService} from "core-components/wp-fast-table/state/wp-table-timeline.service";
 
 export class DragAndDropTransformer {
 
+  private readonly states:States = this.injector.get(States);
   private readonly querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
   private readonly dragService:DragAndDropService|null = this.injector.get(DragAndDropService, null);
   private readonly reorderService = this.injector.get(ReorderQueryService);
@@ -28,6 +33,7 @@ export class DragAndDropTransformer {
   private queryUpdates = new RequestSwitchmap(
     (order:string[]) => this.saveOrderInQuery(order)
   );
+  private readonly dragActionRegistry = this.injector.get(TableDragActionsRegistryService);
 
   constructor(public readonly injector:Injector,
               public table:WorkPackageTable) {
@@ -68,15 +74,31 @@ export class DragAndDropTransformer {
       dragContainer: this.table.tbody,
       scrollContainers: [this.table.tbody],
       accepts: () => true,
-      moves: function(el:any, source:any, handle:HTMLElement) {
-        return handle.classList.contains('wp-table--drag-and-drop-handle');
+      moves: (el:any, source:any, handle:HTMLElement) => {
+        if (!handle.classList.contains('wp-table--drag-and-drop-handle')) {
+          return false;
+        }
+
+        const wpId:string = el.dataset.workPackageId!;
+        const workPackage = this.states.workPackages.get(wpId).value!;
+        return this.actionService.canPickup(workPackage);
       },
-      onMoved: (el:HTMLElement) => {
+      onMoved: (el:HTMLElement, target:HTMLElement, source:HTMLElement) => {
         let row = el as HTMLTableRowElement;
         const wpId:string = row.dataset.workPackageId!;
-        const newOrder = this.reorderService.move(this.currentOrder, wpId, row.rowIndex - 1);
-        this.updateOrder(newOrder);
-        this.wpTableSortBy.switchToManualSorting();
+        const workPackage = this.states.workPackages.get(wpId).value!;
+
+        this.actionService
+          .handleDrop(workPackage, el)
+          .then(() => {
+            const newOrder = this.reorderService.move(this.currentOrder, wpId, row.rowIndex - 1);
+            this.updateOrder(newOrder);
+            this.wpTableSortBy.switchToManualSorting();
+          })
+          .catch(() => {
+            // Restore element in from container
+            DragAndDropHelpers.reinsert(el, el.dataset.sourceIndex || -1, source);
+          });
       },
       onRemoved: (el:HTMLElement) => {
         const wpId:string = el.dataset.workPackageId!;
@@ -86,10 +108,17 @@ export class DragAndDropTransformer {
       onAdded: (el:HTMLElement) => {
         let row = el as HTMLTableRowElement;
         const wpId:string = row.dataset.workPackageId!;
-        const newOrder = this.reorderService.add(this.currentOrder, wpId, row.rowIndex - 1);
-        this.updateOrder(newOrder);
+        const workPackage = this.states.workPackages.get(wpId).value!;
 
-        return Promise.resolve(true);
+        return this.actionService
+          .handleDrop(workPackage, el)
+          .then(() => {
+            const newOrder = this.reorderService.add(this.currentOrder, wpId, row.rowIndex - 1);
+            this.updateOrder(newOrder);
+
+            return true;
+          })
+          .catch(() => false);
       }
     });
   }
@@ -102,6 +131,10 @@ export class DragAndDropTransformer {
 
     // Ensure dragged work packages are being removed.
     this.queryUpdates.request(newOrder);
+  }
+
+  protected get actionService():TableDragActionService {
+    return this.dragActionRegistry.get(this.injector);
   }
 
   protected get currentOrder():string[] {
