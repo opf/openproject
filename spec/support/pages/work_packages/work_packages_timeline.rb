@@ -73,6 +73,16 @@ module Pages
       end
     end
 
+    def expect_work_package_order(*ids)
+      retry_block do
+        rows = page.all('.wp-table-timeline--body .wp--row')
+        expected = ids.map { |el| el.is_a?(WorkPackage) ? el.id.to_s : el.to_s }
+        found = rows.map { |el| el['data-work-package-id'] }
+
+        raise "Order is incorrect: #{found.inspect} != #{expected.inspect}" unless found == expected
+      end
+    end
+
     def expect_timeline!(open: true)
       if open
         expect(page).to have_selector('#work-packages-timeline-toggle-button.-active')

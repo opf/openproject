@@ -11,6 +11,7 @@ import {Observable, of} from "rxjs";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {RenderedRow} from "core-components/wp-fast-table/builders/primary-render-pass";
 import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state/wp-table-sort-by.service";
+import {WorkPackageTableTimelineService} from "core-components/wp-fast-table/state/wp-table-timeline.service";
 
 export class DragAndDropTransformer {
 
@@ -21,6 +22,7 @@ export class DragAndDropTransformer {
   private readonly wpNotifications = this.injector.get(WorkPackageNotificationService);
   private readonly wpTableSortBy = this.injector.get(WorkPackageTableSortByService);
   private readonly pathHelper = this.injector.get(PathHelperService);
+  private readonly wpTableTimeline = this.injector.get(WorkPackageTableTimelineService);
 
   // We remember when we want to update the query with a given order
   private queryUpdates = new RequestSwitchmap(
@@ -47,7 +49,12 @@ export class DragAndDropTransformer {
     this.queryUpdates
       .observe(this.querySpace.stopAllSubscriptions.pipe(take(1)))
       .subscribe({
-        //next: () => this.table.redrawTableAndTimeline(),
+        next: () =>  {
+          if (this.wpTableTimeline.isVisible ) {
+            this.table.originalRows = this.currentRenderedOrder.map((e) => e.workPackageId!);
+            this.table.redrawTableAndTimeline();
+          }
+        },
         error: (error:any) => this.wpNotifications.handleRawError(error)
       });
 
@@ -121,7 +128,7 @@ export class DragAndDropTransformer {
           this.querySpace.rendered.putValue(mappedOrder);
 
           if (query.persisted) {
-            return this.reorderService.saveOrderInQuery(query, order);
+              return this.reorderService.saveOrderInQuery(query, order);
           } else {
             this.querySpace.query.doModify(query => {
                 query.orderedWorkPackages = order.map(id =>
