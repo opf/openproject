@@ -15,7 +15,7 @@ zh-TW:
   label_none: "(沒有資料)"
   label_progress_bar_explanation: "產生報告中..."
   label_really_delete_question: "你確定你要刪除這個報告？"
-  label_report: "報告"
+  label_report: "報表"
   label_rows: "列"
   label_saving: "儲存中..."
   label_sum: "總和"

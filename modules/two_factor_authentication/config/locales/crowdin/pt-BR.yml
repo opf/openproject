@@ -13,7 +13,7 @@ pt-BR:
         two_factor_authentication/device/sms:
           attributes:
             phone_number:
-              error_phone_number_format: "o fato deve ser +XX XXXXXXXXX"
+              error_phone_number_format: "deve ter o formato +XX XXXXXXXXX"
     models:
       two_factor_authentication/device: "Dispositivo 2FA"
       two_factor_authentication/device/sms: "Telefone Celular"
@@ -25,16 +25,16 @@ pt-BR:
     error_is_enforced_not_active: 'Erro de configuração: a autenticação de dois fatores foi implementada, mas não existe nenhuma estratégia ativa.'
     error_invalid_backup_code: 'Código de backup do 2FA inválido'
     channel_unavailable: "O canal de entrega %{channel} não está disponível."
-    no_valid_phone_number: "Nenhum número de telefone válido."
+    no_valid_phone_number: "Nenhum número de telefone válido existente."
     label_pwd_confirmation: "Senha"
-    notice_pwd_confirmation: "Você precisa confirmar sua senha para conseguir fazer alterações nestas configurações."
+    notice_pwd_confirmation: "Você precisa confirmar sua senha ao fazer alterações nestas configurações."
     label_device_type: "Tipo de dispositivo"
     label_default_device: "Dispositivo 2FA padrão"
     label_device: "Dispositivo 2FA"
     label_devices: "Dispositivos 2FA"
     label_one_time_password: 'Senha de uso único'
-    label_2fa_enabled: 'O segundo fator de autenticação está ativo'
-    label_2fa_disabled: 'Autenticação de dois fatores não está ativa'
+    label_2fa_enabled: 'Autenticação de dois fatores está ativa'
+    label_2fa_disabled: 'Autenticação de dois fatores não ativa'
     text_otp_delivery_message_sms: "Sua senha de uso único de %{app_title} é %{token}"
     text_otp_delivery_message_voice: "Sua senha de uso único de %{app_title} é: %{pause} %{token}. %{pause} repito: %{pause} %{token}"
     text_enter_2fa: 'Por favor digite a senha de uso único do seu dispositivo.'
@@ -42,10 +42,10 @@ pt-BR:
     text_2fa_disabled: 'Para habilitar o segundo fator de autenticação, use o botão acima para registrar seu novo dispositivo 2FA. Se você já tem um dispositivo cadastrado, você precisa deixá-lo como sendo padrão.'
     login:
       enter_backup_code_title: Digite o código de backup
-      enter_backup_code_text: Por favor entre com um código de backup válido da sua lista de códigos caso de você não conseguir mais acessar seus dispositivos com 2FA.
+      enter_backup_code_text: Por favor, entre com um código de backup válido da sua lista de códigos caso de você não conseguir mais acessar seus dispositivos com 2FA.
       other_device: 'Use outro dispositivo ou código de backup'
     settings:
-      title: 'Configuração do 2FA'
+      title: 'Configurações de 2FA'
       current_configuration: 'Configuração atual'
       label_active_strategies: 'Estratégias de 2FA ativas'
       label_enforced: 'Forçar 2FA'
@@ -60,14 +60,14 @@ pt-BR:
       error_invalid_settings: 'As estratégias de 2FA que você selecionou são inválidas'
       failed_to_save_settings: 'Falha ao atualizar as configurações de 2FA: %{message}'
     admin:
-      self_edit_path: 'Para adicionar ou modificar seu próprio dispositivo de 2FA, por favor acesse %{self_edit_link}'
+      self_edit_path: 'Para adicionar ou modificar seu próprio dispositivo de 2FA, por favor, acesse %{self_edit_link}'
       self_edit_link_name: 'Autenticação de dois fatores na página da sua conta'
       self_edit_forbidden: 'Talvez você não tenha editado o seu dispositivo 2FA para este caminho. Vá para Minha Conta > Segundo Favor de Autenticação.'
       no_devices_for_user: 'Nenhum dispositivo 2FA foi registrado para este usuário.'
       all_devices_deleted: 'Todos os dispositivos 2FA deste usuário foram excluídos'
       delete_all_are_you_sure: 'Você tem certeza de que deseja excluir todos os dispositivos 2FA para este usuário?'
       button_delete_all_devices: 'Excluir dispositivos 2FA registrados'
-      button_register_mobile_phone_for_user: 'Registrar celular'
+      button_register_mobile_phone_for_user: 'Registrar telefone móvel'
       text_2fa_enabled: 'Em cada login, será solicitado a você entrar com seu token OTP do seu dispositivo padrão do seu dispositivo padrão do 2FA.'
       text_2fa_disabled: "O usuário não configurou o dispositivo de 2FA através da página \"Minha conta\""
     upsale:
@@ -107,7 +107,7 @@ pt-BR:
       failed_to_delete: 'Falha ao excluir o dispositivo com 2FA.'
       is_default_cannot_delete: 'O arquivo está marcado como padrão e não pode ser deletado devido a política de segurança estar ativa. Marque outro dispositivo como padrão antes de excluí-lo.'
       not_existing: 'Nenhum dispositivo com 2FA foi registrado na sua conta.'
-      request_2fa: Por favor digite o código do seu %{device_name} para verificar sua identidade.
+      request_2fa: Por favor, digite o código do seu %{device_name} para verificar sua identidade.
       totp:
         title: 'Use seu aplicativo de autenticação base'
         provisioning_uri: 'Posicione o URI'
@@ -144,13 +144,14 @@ pt-BR:
     mobile_transmit_notification: "Uma senha de uso único foi enviada para o seu celular."
     label_two_factor_authentication: 'Autenticação de dois fatores'
     forced_registration:
-      required_to_add_device: 'Uma política de segurança ativa requer que você habilite a autenticação de dois fatores. Por favor use o seguinte formulário para registrar o dispositivo.'
+      required_to_add_device: 'Uma política de segurança ativa requer que você habilite a autenticação de dois fatores. Por favor, use o seguinte formulário para registrar o dispositivo.'
     remember:
       active_session_notice: >
         Sua conta tem um cookie ativo válido até %{expires_on}. Este cookie permite que você entre sem o segundo fator de segurança na sua conta até este dado momento.
+      other_active_session_notice: Sua conta possui um cookie para lembrar ativo em outra sessão.
       label: 'Lembrar-me'
-      clear_cookie: 'Clique aqui para remover este cookir'
-      cookie_removed: 'O cookie gravado foi removido.'
+      clear_cookie: 'Clique aqui para remover todas as sessões 2FA lembradas.'
+      cookie_removed: 'Todas as sessões 2FA lembradas foram removidas.'
       dont_ask_again: "Crie um cookie para lembrar do 2FA neste cliente por %{days} dias."
   field_phone: "Celular"
   field_otp: "Senha de uso único"

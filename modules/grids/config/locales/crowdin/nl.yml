@@ -1,0 +1,14 @@
+nl:
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "Pagina"
+        row_count: "Aantal rijen"
+        column_count: "Aantal kolommen"
+        widgets: "Widgets"
+    errors:
+      models:
+        grids/grid:
+          overlaps: 'overlap.'
+          outside: 'is buiten het raster.'
+          end_before_start: 'eindwaarde moet groter zijn dan de startwaarde.'

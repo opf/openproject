@@ -40,7 +40,7 @@ id:
     models:
       cost_object: "Bugdet"
       cost_type:
-        other: "Cost types"
+        other: "Jenis biaya"
       material_budget_item: "Unit"
       rate: "Rate"
     errors:

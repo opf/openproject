@@ -17,7 +17,7 @@ fr:
         spent: "Consommé"
         status: "Statut"
         subject: "Sujet"
-        type: "Type de coût"
+        type: "Types de coût"
         updated_on: "Mis à jour le"
       cost_type:
         unit: "Nom de l'unité"
@@ -40,8 +40,8 @@ fr:
     models:
       cost_object: "Budget"
       cost_type:
-        one: "Type de coût"
-        other: "Types de coût"
+        one: "Types de coût"
+        other: "Types de coûts"
       material_budget_item: "Unité"
       rate: "Tarif"
     errors:
@@ -53,7 +53,7 @@ fr:
     budget: "Coûts estimés"
     comment: "Commentaire"
     cost_object: "Budget"
-    cost_type: "Type de coût"
+    cost_type: "Types de coût"
     costs: "Coûts"
     current_rate: "Tarif actuel"
     hours: "Heures"
@@ -82,7 +82,7 @@ fr:
   caption_set_rate: "Définir le tarif actuel"
   caption_show_locked: "Afficher les types verrouillés"
   cost_objects_title: "Budgets"
-  label_cost_type_plural: "Types de coût"
+  label_cost_type_plural: "Types de coûts"
   currency_delimiter: " "
   currency_separator: ","
   description_date_for_new_rate: "Date pour le nouveau tarif"

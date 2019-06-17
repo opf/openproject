@@ -8,7 +8,7 @@ fi:
   description_multi_select: "Näytä monivalinta"
   description_remove_filter: "Poista suodatin"
   information_restricted_depending_on_permission: "Käyttöoikeuksistasi riippuen tämä sivu voi sisältää estettyä informaatioa."
-  label_click_to_edit: "Klikkaa muokataksesi."
+  label_click_to_edit: "Muokkaa napsauttamalla tätä."
   label_closed: "suljettu"
   label_columns: "Sarakkeet"
   label_cost_entry_attributes: "Kustannussyötön parametrit"

@@ -1,0 +1,6 @@
+da:
+  js:
+    work_packages:
+      properties:
+        storyPoints: "Historiepunkter"
+        remainingTime: "Tilbageværende timer"

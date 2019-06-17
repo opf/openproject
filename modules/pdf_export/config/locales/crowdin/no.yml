@@ -25,6 +25,6 @@
     attributes:
       export_card_configuration:
         rows: "Rader"
-        per_page: "Per side"
+        per_page: "Pr. side"
         page_size: "Sidestørrelse"
         orientation: "Orientering"

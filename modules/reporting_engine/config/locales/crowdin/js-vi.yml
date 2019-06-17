@@ -1,0 +1,5 @@
+vi:
+  js:
+    reporting_engine:
+      label_remove: "Xoá"
+      label_response_error: "There was an error handling the query."

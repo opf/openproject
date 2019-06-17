@@ -10,6 +10,8 @@ lt:
       documentation: Dokumentacija
       specification: Specifikacija
       other: Kita
+  documents:
+    label_attachment_author: "Attachment author"
   label_document_added: "Dokumentas pridėtas"
   label_document_new: "Naujas dokumentas"
   label_document_plural: "Dokumentai"

@@ -15,7 +15,7 @@ it:
   label_none: "(nessun dato)"
   label_progress_bar_explanation: "Generazione Report..."
   label_really_delete_question: "Sei sicuro di voler cancellare questa segnalazione?"
-  label_report: "Report"
+  label_report: "Segnalano"
   label_rows: "Righe"
   label_saving: "Salvataggio in corso ..."
   label_sum: "Somma"

@@ -10,6 +10,8 @@ fil:
       documentation: Dokumentasyon
       specification: Mga Detalye
       other: Iba pa
+  documents:
+    label_attachment_author: "Attachment author"
   label_document_added: "Idinagdag ang dokumento"
   label_document_new: "Bagong dokumento"
   label_document_plural: "Mga dokumento"

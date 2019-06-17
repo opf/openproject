@@ -2,7 +2,7 @@ tr:
   activerecord:
     attributes:
       cost_entry:
-        work_package: "Calisma paketi"
+        work_package: "İş paketi"
         overridden_costs: "Geçersiz kılınmış maliyetler"
         spent: "Harcanan"
         spent_on: "Tarih"

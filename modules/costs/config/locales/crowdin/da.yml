@@ -40,8 +40,8 @@ da:
     models:
       cost_object: "Budget"
       cost_type:
-        one: "Cost type"
-        other: "Cost types"
+        one: "Omkostningstype"
+        other: "Omkostningstyper"
       material_budget_item: "Enhed"
       rate: "Sats"
     errors:

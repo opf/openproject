@@ -1,0 +1,14 @@
+pl:
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "Strona"
+        row_count: "Liczba wierszy"
+        column_count: "Liczba kolumn"
+        widgets: "Widżety"
+    errors:
+      models:
+        grids/grid:
+          overlaps: 'nałożenie.'
+          outside: 'jest poza siatką.'
+          end_before_start: 'wartość końcowa musi być większa niż wartość początkowa.'
