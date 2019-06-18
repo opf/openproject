@@ -95,7 +95,7 @@ export class QueryDmService {
 
     var queryData = this.UrlParamsHelper.buildV3GetQueryFromQueryResource(query, pagination);
 
-    var url = URI(query.results.href!).path();
+    var url = URI(query.href!).path();
 
     return this.halResourceService
       .get<WorkPackageCollectionResource>(url, queryData)
