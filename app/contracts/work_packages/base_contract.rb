@@ -36,7 +36,10 @@ module WorkPackages
 
     attribute :subject
     attribute :description
-    attribute :status_id
+    attribute :status_id,
+              writeable: ->(*) {
+                !model.closed_version_and_status?
+              }
     attribute :type_id
     attribute :priority_id
     attribute :category_id

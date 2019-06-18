@@ -32,7 +32,7 @@ describe WorkPackage, 'status', type: :model do
   let(:status) { FactoryBot.create(:status) }
   let!(:work_package) do
     FactoryBot.create(:work_package,
-                       status: status)
+                      status: status)
   end
 
   it 'can read planning_elements w/ the help of the has_many association' do
@@ -63,12 +63,14 @@ describe WorkPackage, 'status', type: :model do
     let(:assignee_user) { FactoryBot.build_stubbed(:user) }
     let(:author_user) { FactoryBot.build_stubbed(:user) }
     let(:current_status) { FactoryBot.build_stubbed(:status) }
+    let(:version) { FactoryBot.build_stubbed(:version) }
     let(:work_package) do
       FactoryBot.build_stubbed(:work_package,
-                                assigned_to: assignee_user,
-                                author: author_user,
-                                status: current_status,
-                                type: type)
+                               assigned_to: assignee_user,
+                               author: author_user,
+                               status: current_status,
+                               fixed_version: version,
+                               type: type)
     end
     let(:default_status) do
       status = FactoryBot.build_stubbed(:status)
@@ -85,7 +87,7 @@ describe WorkPackage, 'status', type: :model do
     before do
       default_status
 
-      expect(user)
+      allow(user)
         .to receive(:roles_for_project)
         .with(work_package.project)
         .and_return(roles)
@@ -104,7 +106,7 @@ describe WorkPackage, 'status', type: :model do
       end
 
       it 'adds the default status when the parameter is set accordingly' do
-        expected = base_scope.or(Status.where(id: Status.default.id)).order_by_position
+        expected = base_scope.or(Status.where_default).order_by_position
 
         expect(work_package.new_statuses_allowed_to(user, true).to_sql)
           .to eql expected.to_sql
@@ -119,6 +121,16 @@ describe WorkPackage, 'status', type: :model do
 
         expect(work_package.new_statuses_allowed_to(user).to_sql)
           .to eql expected.to_sql
+      end
+
+      context 'if the current status is closed and the version is closed as well' do
+        let(:version) { FactoryBot.build_stubbed(:version, status: 'closed') }
+        let(:current_status) { FactoryBot.build_stubbed(:status, is_closed: true) }
+
+        it 'only allows the current status' do
+          expect(work_package.new_statuses_allowed_to(user, true).to_sql)
+            .to eql Status.where(id: current_status.id).to_sql
+        end
       end
     end
 
