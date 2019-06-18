@@ -195,17 +195,6 @@ export class WorkPackagesListService {
   }
 
   /**
-   * Reload the first page of work packages for the current query
-   */
-  public loadCurrentResultsListFirstPage():Promise<WorkPackageCollectionResource> {
-    let pagination = this.getPaginationInfo();
-    pagination.offset = 1;
-    let query = this.currentQuery;
-
-    return this.loadResultsList(query, pagination);
-  }
-
-  /**
    * Load the query from the given state params
    */
   public loadCurrentQueryFromParams(projectIdentifier?:string) {
@@ -336,14 +325,14 @@ export class WorkPackagesListService {
   }
 
   private updateStatesFromWPListOnPromise(query:QueryResource, promise:Promise<WorkPackageCollectionResource>):Promise<WorkPackageCollectionResource> {
-    return promise.then((results) => {
+    return promise.then((result) => {
       this.querySpace.ready.doAndTransition('Query loaded', () => {
-        this.wpStatesInitialization.updateQuerySpace(query, results);
-        this.wpStatesInitialization.updateChecksum(query, results);
+        this.wpStatesInitialization.updateQuerySpace(query, result.results);
+        this.wpStatesInitialization.updateChecksum(query, result.results);
         return this.querySpace.tableRendering.onQueryUpdated.valuesPromise();
       });
 
-      return results;
+      return result.results;
     });
   }
 

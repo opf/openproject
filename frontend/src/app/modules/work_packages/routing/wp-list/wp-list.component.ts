@@ -158,7 +158,7 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
     let promise:Promise<unknown>;
 
     if (firstPage) {
-      promise = this.wpListService.loadCurrentResultsListFirstPage();
+      promise = this.loadCurrentQuery();
     } else {
       promise = this.wpListService.reloadCurrentResultsList();
     }

@@ -56,7 +56,7 @@ export class DragAndDropTransformer {
       .observe(this.querySpace.stopAllSubscriptions.pipe(take(1)))
       .subscribe({
         next: () =>  {
-          if (this.wpTableTimeline.isVisible ) {
+          if (this.wpTableTimeline.isVisible) {
             this.table.originalRows = this.currentRenderedOrder.map((e) => e.workPackageId!);
             this.table.redrawTableAndTimeline();
           }
