@@ -44,6 +44,8 @@
       </div>
     </wp-edit-field-group>
 
+    <img *ngIf="this.bcfSnapshotPath(wp)" [src]="this.bcfSnapshotPath(wp)" class="wp-card--cover-image">
+
     <div *ngIf="!wp.isNew"
          class="wp-card--content">
       <span [textContent]="wpTypeAttribute(wp)"
