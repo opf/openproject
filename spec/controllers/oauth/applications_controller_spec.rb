@@ -64,7 +64,7 @@ describe ::OAuth::ApplicationsController, type: :controller do
   describe '#new' do
     it do
       get :new
-      expect(response).to be_success
+      expect(response.status).to eql 200
       expect(response).to render_template :new
     end
   end
@@ -79,7 +79,7 @@ describe ::OAuth::ApplicationsController, type: :controller do
 
     it do
       get :edit, params: { id: 1, application: { name: 'foo' } }
-      expect(response).to be_success
+      expect(response.status).to eql 200
       expect(response).to render_template :edit
     end
   end

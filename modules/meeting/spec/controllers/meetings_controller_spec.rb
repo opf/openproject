@@ -61,7 +61,7 @@ describe MeetingsController, type: :controller do
       end
       describe 'html' do
         before(:each) do
-          get 'show',  params: { id: @m.id }
+          get 'show', params: { id: @m.id }
         end
         it { expect(response).to be_successful }
       end
@@ -109,21 +109,21 @@ describe MeetingsController, type: :controller do
                project_id: project.id,
                meeting: {
                  title: 'Foobar',
-                 duration: '1.0',
+                 duration: '1.0'
                }.merge(params)
-              }
+             }
       end
 
       describe 'invalid start_date' do
-        let(:params) {
+        let(:params) do
           {
             start_date: '-',
             start_time_hour: '10:00'
           }
-        }
+        end
 
         it 'renders an error' do
-          expect(response).to be_successful
+          expect(response.status).to eql 200
           expect(response).to render_template :new
           expect(response.body)
             .to have_selector '#errorExplanation li',
@@ -133,15 +133,15 @@ describe MeetingsController, type: :controller do
       end
 
       describe 'invalid start_time_hour' do
-        let(:params) {
+        let(:params) do
           {
             start_date: '2015-06-01',
             start_time_hour: '-'
           }
-        }
+        end
 
         it 'renders an error' do
-          expect(response).to be_successful
+          expect(response.status).to eql 200
           expect(response).to render_template :new
           expect(response.body)
             .to have_selector '#errorExplanation li',

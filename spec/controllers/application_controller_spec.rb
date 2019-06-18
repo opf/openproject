@@ -40,10 +40,10 @@ describe ApplicationController, type: :controller do
   end
 
   describe 'logging requesting users' do
-    let(:user_message) {
+    let(:user_message) do
       "OpenProject User: #{user.firstname} Crazy! Name with \#\# " +
         "Newline (#{user.login} ID: #{user.id} <#{user.mail}>)"
-    }
+    end
 
     let(:anonymous_message) { 'OpenProject User: Anonymous' }
 
