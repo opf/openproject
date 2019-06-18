@@ -38,9 +38,6 @@ run() {
   eval $2;
 }
 
-run "psql -c 'create database travis_ci_test;' -U postgres"
-run "cp script/templates/database.travis.postgres.yml config/database.yml"
-
 run "bundle exec rake db:migrate"
 
 run "for i in {1..3}; do npm install && break || sleep 15; done"
