@@ -1,6 +1,0 @@
-hr:
-  js:
-    work_packages:
-      properties:
-        storyPoints: "Točke priče"
-        remainingTime: "Preostali sati"

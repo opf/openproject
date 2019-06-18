@@ -713,11 +713,6 @@ fr:
           status: 'Statut'
           priority: 'Priorité'
           type: 'Type'
-        sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
         columns_help_text: "Utilisez l’entrée ci-dessus pour ajouter ou supprimer des colonnes à votre vue du tableau. Vous pouvez déplacer les colonnes par glisser/déposer pour les réorganiser."
         upsale:
           attribute_highlighting: 'Vous avez besoin de lots de travaux qui sortent du lot ?'

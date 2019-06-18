@@ -710,11 +710,6 @@ zh-TW:
           status: '狀態'
           priority: '優先等級'
           type: '類型'
-        sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
         columns_help_text: "使用上面的輸入在表視圖中添加或移除列。可以拖放列以對其進行重新排序。"
         upsale:
           attribute_highlighting: '需要某些工作包才能從大眾中脫穎而出？'

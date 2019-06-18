@@ -19,7 +19,7 @@ ru:
   label_rows: "Строки"
   label_saving: "Сохранение ..."
   label_sum: "Сумма"
-  label_yes: "Да"
+  label_yes: "да"
   load_query_question: "Отчет будет иметь %{size} ячеек таблицы и может занять некоторое время для визуализации. Вы все еще хотите его сформировать?"
   units: "Модули"
   validation_failure_date: "не является допустимой датой"

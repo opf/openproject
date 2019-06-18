@@ -3,4 +3,5 @@ pt-BR:
   permission_manage_board_views: "Manage boards"
   project_module_board_view: "Quadros"
   boards:
+    new_badge: "Novo"
     label_boards: "Quadros"

@@ -3,4 +3,5 @@ sk:
   permission_manage_board_views: "Manage boards"
   project_module_board_view: "Nástenky"
   boards:
+    new_badge: "Nový"
     label_boards: "Nástenky"

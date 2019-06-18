@@ -195,9 +195,9 @@ it:
     label_ascending: "Crescente"
     label_author: "Autore: %{user}"
     label_between: "tra"
-    label_board: "Tabellone"
+    label_board: "Scheda"
     label_board_locked: "Chiuso"
-    label_board_plural: "Tabelloni"
+    label_board_plural: "Schede"
     label_board_sticky: "In evidenza"
     label_create: "Crea"
     label_create_work_package: "Crea una nuova macro-attività"
@@ -378,7 +378,7 @@ it:
       click_to_switch_context: 'Apri questa macro-attività nel progetto.'
       autocompleter:
         label: 'Autocompletamento del progetto'
-    text_are_you_sure: "Sei sicuro/a?"
+    text_are_you_sure: "Sei sicuro?"
     types:
       attribute_groups:
         error_duplicate_group_name: "Il nome %{group} è usato più di una volta. I nomi dei gruppi devono essere univoci."
@@ -713,11 +713,6 @@ it:
           status: 'Stato'
           priority: 'Priorità'
           type: 'Tipo'
-        sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
         columns_help_text: "Utilizza l'input sopra per aggiungere o rimuovere colonne alla visualizzazione della tabella. È possibile trascinare e rilasciare le colonne per riordinarle."
         upsale:
           attribute_highlighting: 'Vuoi che alcune macro-attività si distinguano dalla massa?'

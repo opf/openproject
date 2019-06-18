@@ -1,5 +1,0 @@
-bg:
-  js:
-    reporting_engine:
-      label_remove: "Изтрий"
-      label_response_error: "There was an error handling the query."

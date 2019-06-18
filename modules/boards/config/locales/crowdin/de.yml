@@ -3,4 +3,5 @@ de:
   permission_manage_board_views: "Manage boards"
   project_module_board_view: "Boards"
   boards:
+    new_badge: "Neu"
     label_boards: "Boards"

@@ -712,11 +712,6 @@ pt-BR:
           status: 'Status'
           priority: 'Prioridade'
           type: 'Tipo'
-        sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
         columns_help_text: "Use a entrada acima para adicionar ou remover colunas à sua exibição de tabela. Você pode arrastar e soltar as colunas para reordená-las."
         upsale:
           attribute_highlighting: 'Precisa de certos pacotes de trabalho para se destacar da massa?'

@@ -717,11 +717,6 @@ sk:
           status: 'Stav'
           priority: 'Priorita'
           type: 'Typ'
-        sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
         columns_help_text: "Použite vyššie uvedený údaj na pridanie alebo odstránenie stĺpcov do zobrazenia tabuľky. Môžete pretiahnuť stĺpce a presunúť ich."
         upsale:
           attribute_highlighting: 'Mali by sa rozlišovať osobitné pracovné balíčky?'

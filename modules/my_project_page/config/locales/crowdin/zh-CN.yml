@@ -18,5 +18,5 @@ zh-CN:
   label_no_visible_members: "此项目没有可见成员。"
   label_subprojects: "子项目"
   project_page:
-    all: "显示全部"
+    all: "全部显示"
     x_more: "...（还有 %{count} 个）"

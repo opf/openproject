@@ -228,7 +228,7 @@ zh-CN:
     label_filename: "文件"
     label_filesize: "大小"
     label_greater_or_equal: ">="
-    label_group_by: "分组按照"
+    label_group_by: "分组依据"
     label_hide_attributes: "隐藏显示"
     label_hide_column: "隐藏列"
     label_hide_project_menu: "折叠项目菜单"
@@ -664,7 +664,7 @@ zh-CN:
       query:
         column_names: "列"
         group_by: "汇总结果根据"
-        group: "分组按照"
+        group: "分组依据"
         group_by_disabled_by_hierarchy: "分组依据已禁用，因为层次结构模式处于活动状态。"
         hierarchy_disabled_by_group_by: "层次结构模式已禁用，因为结果依据 %{column} 分组。"
         sort_ascending: "升序排序"
@@ -711,11 +711,6 @@ zh-CN:
           status: '状态'
           priority: '优先级'
           type: '类型'
-        sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
         columns_help_text: "使用上面的输入向表视图添加或删除列。 您可以拖放列以重新排序它们。"
         upsale:
           attribute_highlighting: '需要特定的工作包以脱颖而出？'

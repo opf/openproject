@@ -18,7 +18,7 @@ de:
         status: "Status"
         subject: "Thema"
         type: "Kostentyp"
-        updated_on: "Aktualisiert"
+        updated_on: "Aktualisiert am"
       cost_type:
         unit: "Einheit"
         unit_plural: "Einheit plural"
@@ -57,7 +57,7 @@ de:
     costs: "Kosten"
     current_rate: "Aktueller Satz"
     hours: "Stunden"
-    units: "Stücke"
+    units: "Einheiten"
     valid_from: "Gültig ab"
   button_add_budget_item: "Budgetposition hinzufügen"
   button_add_cost_object: "Neues Budget anlegen"
@@ -83,7 +83,7 @@ de:
   caption_show_locked: "Gesperrte Typen anzeigen"
   cost_objects_title: "Budgets"
   label_cost_type_plural: "Kostentypen"
-  currency_delimiter: "."
+  currency_delimiter: ";"
   currency_separator: ","
   description_date_for_new_rate: "Datum für neuen Satz"
   events:

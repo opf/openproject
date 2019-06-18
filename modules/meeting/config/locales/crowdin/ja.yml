@@ -31,7 +31,7 @@ ja:
   label_meeting_edit: "会議を編集"
   label_meeting_agenda: "アジェンダ"
   label_meeting_minutes: "議事録"
-  label_meeting_close: "終了する"
+  label_meeting_close: "閉じる"
   label_meeting_open: "開く"
   label_meeting_agenda_close: "議題を閉じて議事録を開始する"
   label_meeting_date_time: "日付/時刻"

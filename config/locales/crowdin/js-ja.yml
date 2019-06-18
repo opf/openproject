@@ -714,11 +714,6 @@ ja:
           status: 'ステータス'
           priority: '優先度'
           type: '種別'
-        sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
         columns_help_text: "テーブルビューに列を追加または削除するには上記の入力を使用します。列をドラッグ＆ドロップして並べ替えることができます。"
         upsale:
           attribute_highlighting: '全体から目立つように特定の作業項目が必要ですか？'

@@ -3,4 +3,5 @@ uk:
   permission_manage_board_views: "Manage boards"
   project_module_board_view: "Дошки"
   boards:
+    new_badge: "Новий"
     label_boards: "Дошки"

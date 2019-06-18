@@ -3,4 +3,5 @@ ja:
   permission_manage_board_views: "Manage boards"
   project_module_board_view: "ボード"
   boards:
+    new_badge: "新しく作成"
     label_boards: "ボード"

@@ -3,4 +3,5 @@ zh-CN:
   permission_manage_board_views: "Manage boards"
   project_module_board_view: "面板"
   boards:
+    new_badge: "新增"
     label_boards: "面板"

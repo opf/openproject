@@ -3,4 +3,5 @@ ru:
   permission_manage_board_views: "Manage boards"
   project_module_board_view: "Доски"
   boards:
+    new_badge: "Новое"
     label_boards: "Доски"

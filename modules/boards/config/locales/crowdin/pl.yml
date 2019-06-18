@@ -3,4 +3,5 @@ pl:
   permission_manage_board_views: "Manage boards"
   project_module_board_view: "Tablice"
   boards:
+    new_badge: "Nowy"
     label_boards: "Tablice"

@@ -227,11 +227,11 @@ de:
     label_filename: "Datei"
     label_filesize: "Größe"
     label_greater_or_equal: ">="
-    label_group_by: "Gruppieren nach"
+    label_group_by: "Gruppiere Ergebnisse"
     label_hide_attributes: "Weniger anzeigen"
     label_hide_column: "Spalte ausblenden"
     label_hide_project_menu: "Projektmenü einklappen"
-    label_in: "in"
+    label_in: "an"
     label_in_less_than: "in weniger als"
     label_in_more_than: "in mehr als"
     label_latest_activity: "Letzte Änderungen"
@@ -350,7 +350,7 @@ de:
           drag: 'Ziehen Sie Ihre Karten in eine Liste, um diese zu sortieren oder weisen Sie diese einer anderen Liste zu. Ein Doppelklick auf eine Karte öffnet die Detailansicht.'
         wp:
           toggler: "Hier sind die <b>Arbeitspakete</b>, die Ihnen eine detailliertere Sicht auf die Arbeit in Ihrem Projekt geben."
-          list: 'Dies ist die Liste der wichtigen <b>Arbeitspakete</b> in Ihrem Projekt, z.B. Aufgaben, Funktionen, Meilensteine, Fehler, und Vieles mehr. <br> Sie können neue Arbeitspakete direkt in der Liste anlegen und bearbeiten. Ein Doppelklick auf die Zeile öffnet die Detailansicht.'
+          list: 'Dies ist die Liste der wichtigen <b>Arbeitspakete</b> in Ihrem Projekt, z.B. Aufgaben, Funktionen, Meilensteine, Fehler, und Vieles mehr.  <br> Sie können neue Arbeitspakete direkt in der Liste anlegen und bearbeiten. Ein Doppelklick auf die Zeile öffnet die Detailansicht.'
           full_view: 'In der <b>Arbeitspaket-Detailansicht</b> finden Sie alle wichtigen Informationen, wie Beschreibung, Status und Priorität, Aktivitäten, Abhängigkeiten oder Kommentare.'
           back_button: 'Mit dem Pfeil kommen Sie zurück in die Listenansicht.'
           create_button: 'Mit <b>Anlegen</b> Können Sie neue Arbeitspakete Ihrem Projekt hinzufügen.'
@@ -665,7 +665,7 @@ de:
       query:
         column_names: "Spalten"
         group_by: "Gruppiere Ergebnisse nach"
-        group: "Gruppieren nach"
+        group: "Gruppiere Ergebnisse"
         group_by_disabled_by_hierarchy: "Die Gruppierung ist deaktiviert, da der Hierarchie-Modus aktiv ist."
         hierarchy_disabled_by_group_by: "Der Hierarchie-Modus ist deaktiviert da die Ergebnisse nach %{column} gruppiert sind."
         sort_ascending: "Sortiere aufsteigend"
@@ -712,11 +712,6 @@ de:
           status: 'Status'
           priority: 'Priorität'
           type: 'Art'
-        sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
         columns_help_text: "Verwenden Sie die Eingabe oben um Spalten zur Tabellenansicht hinzuzufügen oder zu entfernen. Sie können die Reihenfolge der Spalten über Drag & Drop verändern."
         upsale:
           attribute_highlighting: 'Sollen bestimmte Arbeitspakete aus der Menge herausstechen?'
@@ -773,7 +768,7 @@ de:
         has_children: "Dieses Arbeitspaket hat %{childUnits}:"
         confirm_deletion_children: "Ich bestätige, dass alle untergordneten Elemente der hier aufgeführten Arbeitspakete rekursiv entfernt werden."
         deletes_children: "Alle untergeordneten Arbeitspaketen und deren Nachkommen werden auch rekursiv gelöscht."
-    notice_no_results_to_display: "Keine sichtbaren Ergebnisse anzuzeigen."
+    notice_no_results_to_display: "Keine sichtbaren Ergebnisse."
     notice_successful_create: "Erfolgreich angelegt."
     notice_successful_delete: "Erfolgreich gelöscht."
     notice_successful_update: "Erfolgreich aktualisiert."

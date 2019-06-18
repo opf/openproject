@@ -1,6 +1,0 @@
-fi:
-  js:
-    work_packages:
-      properties:
-        storyPoints: "Tarinapisteet"
-        remainingTime: "Jäljellä olevat tunnit"

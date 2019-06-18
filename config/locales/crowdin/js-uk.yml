@@ -717,11 +717,6 @@ uk:
           status: 'Статус'
           priority: 'Пріоритет'
           type: 'Тип'
-        sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
         columns_help_text: "Використовуйте вхідні дані для додавання або видалення стовпців у вигляді таблиці. Можна перетягувати стовпці, щоб змінити їх порядок."
         upsale:
           attribute_highlighting: 'Потрібні певні робочі пакети, щоб виділитися зі скупчення?'

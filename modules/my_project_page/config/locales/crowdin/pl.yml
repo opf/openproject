@@ -12,7 +12,7 @@ pl:
   label_work_packages_reported_by_me: "Zadania zgłoszone przeze mnie"
   label_work_packages_responsible_for: "Pakiety robocze, za które odpowiadam"
   label_work_packages_assigned_to_me: "Zadania przypisane do mnie"
-  label_work_packages_watched: "Obserwowane zadania"
+  label_work_packages_watched: "Obserwowane pakiety robocze"
   label_members: "Członkowie"
   label_member_view_all: "Zobacz wszystkich członków"
   label_no_visible_members: "Ten projekt nie ma widocznych członków."

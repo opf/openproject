@@ -711,11 +711,6 @@ ko:
           status: '상태'
           priority: '우선 순위'
           type: '타입'
-        sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
         columns_help_text: "위 입력을 사용하여 테이블 보기에 열을 추가하거나 제거하세요. 열을 끌어다 놓아 순서를 바꿀 수 있습니다."
         upsale:
           attribute_highlighting: '나머지 작업 중에 확연히 두드러지는 특정 작업 패키지가 필요합니까?'

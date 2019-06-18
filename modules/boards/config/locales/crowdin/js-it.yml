@@ -17,28 +17,28 @@ it:
         close_version: 'Close version'
         open_version: 'Open version'
         lock_version: 'Lock version'
-        unlock_version: 'Unlock version'
-        edit_version: 'Edit version'
-        show_version: 'Show version'
+        unlock_version: 'Sblocca versione'
+        edit_version: 'Modifica versione'
+        show_version: 'Mostra versione'
         locked: 'Chiuso'
         closed: 'Chiuso'
-      new_board: 'New board'
-      add_list: 'Add list'
-      add_card: 'Add card'
-      error_loading_the_list: "Error loading the list: %{error_message}"
-      error_attribute_not_writable: "Cannot move the work package, %{attribute} is not writable."
-      click_to_remove_list: "Click to remove this list"
+      new_board: 'Nuova board'
+      add_list: 'Aggiungi elenco'
+      add_card: 'Aggiungi carta'
+      error_loading_the_list: "Errore nel caricamento della lista: %{error_message}"
+      error_attribute_not_writable: "Impossibile spostare il pacchetto di lavoro, %{attribute} non è scrivibile."
+      click_to_remove_list: "Clicca per rimuovere questa lista"
       board_type:
-        free: 'Basic board'
+        free: 'Tabella base'
         free_text: >
           Create a board in which you can freely create lists and order your work packages within. Moving work packages between lists do not change the work package itself.
-        action: 'Action board'
-        action_by_attribute: 'Action board (%{attribute})'
+        action: 'Scheda azione'
+        action_by_attribute: 'Scheda d''azione (%{attribute})'
         action_text: >
           Create a board with filtered lists on a single attribute. Moving work packages to other lists will update their attribute.
-        select_attribute: "Action attribute"
+        select_attribute: "Attributo azione"
       configuration_modal:
-        title: 'Configure this board'
+        title: 'Configura questa scheda'
         display_settings:
-          card_mode: "Display as cards"
-          table_mode: "Display as table"
+          card_mode: "Visualizza come carte"
+          table_mode: "Mostra come tabella"

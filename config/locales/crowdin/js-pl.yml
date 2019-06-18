@@ -32,7 +32,7 @@ pl:
     button_check_all: "Zaznacz wszystko"
     button_configure-form: "Skonfiguruj formularz"
     button_confirm: "Potwierdź"
-    button_continue: "Kontynuuj"
+    button_continue: "Dalej"
     button_copy: "Kopiuj"
     button_custom-fields: "Pola niestandardowe"
     button_delete: "Usuń"
@@ -378,7 +378,7 @@ pl:
       click_to_switch_context: 'Otwórz ten pakiet roboczy w tym projekcie.'
       autocompleter:
         label: 'Autouzupełnianie projektu'
-    text_are_you_sure: "Jesteś pewny?"
+    text_are_you_sure: "Jesteś pewien?"
     types:
       attribute_groups:
         error_duplicate_group_name: "Nazwa  %{group} jest użyta więcej niż raz. Nazwy grup muszą być unikalne."
@@ -717,11 +717,6 @@ pl:
           status: 'Status'
           priority: 'Priorytet'
           type: 'Typ'
-        sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
         columns_help_text: "Użyj powyższych danych wejściowych, aby dodać lub usunąć kolumny w widoku tabeli. Możesz przeciągać i upuszczać kolumny, aby zmienić ich kolejność."
         upsale:
           attribute_highlighting: 'Czy określone pakiety robocze trzeba wyróżnić?'

@@ -713,11 +713,6 @@ tr:
           status: 'Durum'
           priority: 'Öncelik'
           type: 'Tür'
-        sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
         columns_help_text: "Tablo görünümünüze sütun eklemek veya kaldırmak için yukarıdaki girişi kullanın. Yeniden düzenlemek için sütunları sürükleyip bırakabilirsiniz."
         upsale:
           attribute_highlighting: 'Kitleden sıyrılmak için bazı iş paketlerine mi ihtiyacınız var?'

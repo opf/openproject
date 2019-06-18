@@ -32,7 +32,7 @@ nl:
     button_check_all: "Selecteer alles"
     button_configure-form: "Formulier configureren"
     button_confirm: "Accepteren"
-    button_continue: "Ga verder"
+    button_continue: "Verdergaan"
     button_copy: "Kopieer"
     button_custom-fields: "Aangepaste velden"
     button_delete: "Verwijderen"
@@ -713,11 +713,6 @@ nl:
           status: 'Status'
           priority: 'Prioriteit'
           type: 'Type'
-        sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
         columns_help_text: "Gebruik de bovenstaande toegang voor het toevoegen of verwijderen van kolommen aan uw tabelweergave. U kunt de kolommen slepen en neerzetten om deze te rangschikken."
         upsale:
           attribute_highlighting: 'Moeten bepaalde werkpakketten te onderscheiden zijn van de massa?'

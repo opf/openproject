@@ -3,4 +3,5 @@ tr:
   permission_manage_board_views: "Manage boards"
   project_module_board_view: "Panolar"
   boards:
+    new_badge: "Yeni"
     label_boards: "Panolar"

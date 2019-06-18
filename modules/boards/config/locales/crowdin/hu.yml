@@ -3,4 +3,5 @@ hu:
   permission_manage_board_views: "Manage boards"
   project_module_board_view: "Boards"
   boards:
+    new_badge: "Új"
     label_boards: "Boards"
