@@ -198,10 +198,10 @@ module OpenProject::Bcf::BcfXml
       author = find_user_in_project(comment[:author])
 
       # If none found, use the current user
-      return user if author.nil?
+      return User.system if author.nil?
 
       # If found, check if the author can comment
-      return user unless author.allowed_to?(:add_work_package_notes, project)
+      return User.system unless author.allowed_to?(:add_work_package_notes, project)
 
       author
     end
@@ -295,11 +295,20 @@ module OpenProject::Bcf::BcfXml
     def new_comment(comment_data)
       bcf_comment = issue.comments.build(comment_data.slice(:uuid))
 
-      author = get_comment_author(comment_data)
-
-      call = create_wp_comment(author, comment_data[:comment])
+      call = create_wp_comment_privileged(comment_data)
 
       new_comment_handler(bcf_comment, call, comment_data[:date])
+    end
+
+    def create_wp_comment_privileged(comment_data)
+      author = get_comment_author(comment_data)
+      if author.id == User.system.id
+        User.system.run_given do
+          create_wp_comment(User.current, comment_data[:comment])
+        end
+      else
+        create_wp_comment(author, comment_data[:comment])
+      end
     end
 
     def new_comment_handler(bcf_comment, call, created_at)
