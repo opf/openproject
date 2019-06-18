@@ -36,7 +36,7 @@ export class BcfThumbnailDisplayField extends DisplayField {
     if (_.get(this, 'resource.bcf.viewpoints[0]')) {
       let vp = this.resource.bcf.viewpoints[0];
       element.innerHTML = `
-        <img src="${this.pathHelper.attachmentDownloadPath(vp.id, vp.file_name)}" style="height: 40px;">
+        <img src="${this.pathHelper.attachmentDownloadPath(vp.id, vp.file_name)}" class="thumbnail">
       `;
     } else {
       element.innerHTML = '';
