@@ -45,5 +45,5 @@ nl:
   text_costs_are_rounded_note: "De getoonde waarden zijn afgerond. Alle berekeningen zijn op niet-afgeronde waarden gebaseerd."
   toggle_multiselect: "activeer / deactiveer meervoudige selectie"
   units: "Eenheden"
-  validation_failure_date: "is een ongeldige datum"
-  validation_failure_integer: "is een ongeldig getal"
+  validation_failure_date: "is geen geldige datum"
+  validation_failure_integer: "is geen geldig geheel getal"

@@ -116,7 +116,7 @@ ca:
   label_stories_tasks: "Stories/Tasks"
   label_task_board: "Task board"
   label_version_setting: "Versions"
-  label_version: 'Version'
+  label_version: 'Versió'
   label_webcal: "Webcal Feed"
   label_wiki: "Wiki"
   permission_view_master_backlog: "View master backlog"
@@ -130,7 +130,7 @@ ca:
   project_module_backlogs: "Llistes de pendents"
   rb_label_copy_tasks: "Copy work packages"
   rb_label_copy_tasks_all: "All"
-  rb_label_copy_tasks_none: "None"
+  rb_label_copy_tasks_none: "Cap"
   rb_label_copy_tasks_open: "Open"
   rb_label_link_to_original: "Incloure l'enllaç a la història original"
   remaining_hours: "hores restants"

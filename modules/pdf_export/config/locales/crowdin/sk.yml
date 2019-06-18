@@ -25,6 +25,6 @@ sk:
     attributes:
       export_card_configuration:
         rows: "Riadky"
-        per_page: "Na stránku"
+        per_page: "Na stranu"
         page_size: "Veľkosť stránky"
         orientation: "Orientácia"

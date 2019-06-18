@@ -41,8 +41,8 @@ hr:
       cost_object: "Budžet"
       cost_type:
         one: "Vrsta troška"
-        few: "Vrste troškova"
-        other: "Vrste troškova"
+        few: "Vrsta troška"
+        other: "Vrsta troška"
       material_budget_item: "Jedinica"
       rate: "Stopa"
     errors:
@@ -83,7 +83,7 @@ hr:
   caption_set_rate: "Postavite trenutnu stopu"
   caption_show_locked: "Pokaži zaključane tipove"
   cost_objects_title: "Proračuni"
-  label_cost_type_plural: "Vrsta troškova"
+  label_cost_type_plural: "Vrsta troška"
   currency_delimiter: ","
   currency_separator: "."
   description_date_for_new_rate: "Datum za nove satnice"

@@ -25,6 +25,6 @@ ar:
     attributes:
       export_card_configuration:
         rows: "الصفوف"
-        per_page: "لكل صفحة"
+        per_page: "في كل صفحة"
         page_size: "حجم الصفحة"
         orientation: "الاتجاه"

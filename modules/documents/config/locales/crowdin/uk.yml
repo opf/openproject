@@ -1,0 +1,21 @@
+uk:
+  activerecord:
+    models:
+      document: "Документ"
+  default_doc_category_tech: "Технічна документація"
+  default_doc_category_user: "Документація користувача"
+  enumeration_doc_categories: "Категорії документів"
+  enumeration:
+    document_category:
+      documentation: Документація
+      specification: Специфікація
+      other: Інше
+  documents:
+    label_attachment_author: "Автор додатку"
+  label_document_added: "Документ додано"
+  label_document_new: "Новий документ"
+  label_document_plural: "Документи"
+  label_documents: "Документи"
+  permission_manage_documents: "Керування документами"
+  permission_view_documents: "Перегляд документів"
+  project_module_documents: "Документи"

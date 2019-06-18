@@ -1,7 +1,7 @@
 it:
   button_edit_this_page: "Modifica la pagina"
+  error_block_not_saved: "Non è stato possibile salvare il blocco di testo."
   error_saving_changes: "Impossibile salvare le modifiche: %{errors}"
-  error_textile_not_saved: "Non è stato possibile salvare il blocco Textile."
   label_hidden_elements: "Elementi nascosti"
   label_visible_elements: "Elementi visibili"
   label_project_description: "Descrizione del progetto"
@@ -13,7 +13,6 @@ it:
   label_work_packages_responsible_for: "Macro-attività di cui sono responsabile del risultato"
   label_work_packages_assigned_to_me: "Pacchetti di lavoro assegnati a me"
   label_work_packages_watched: "Pacchetti di lavoro osservati"
-  label_work_package_tracking: " Monitoraggio macro-attività"
   label_members: "Membri"
   label_member_view_all: "Visualizza tutti i membri"
   label_no_visible_members: "Questo progetto non ha membri visibili."

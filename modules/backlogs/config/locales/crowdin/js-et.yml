@@ -1,0 +1,6 @@
+et:
+  js:
+    work_packages:
+      properties:
+        storyPoints: "Story Points"
+        remainingTime: "Tunde järgi"

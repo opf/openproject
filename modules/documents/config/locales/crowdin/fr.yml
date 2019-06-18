@@ -10,6 +10,8 @@ fr:
       documentation: Documentation
       specification: Spécification
       other: Autre
+  documents:
+    label_attachment_author: "Auteur de la pièce jointe"
   label_document_added: "Document ajouté"
   label_document_new: "Nouveau document"
   label_document_plural: "Documents"

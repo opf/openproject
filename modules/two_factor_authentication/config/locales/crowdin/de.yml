@@ -135,7 +135,7 @@ de:
     restdt:
       delivery_failed_with_code: 'Einmalpasswort-Zustellung fehlgeschlagen. (Fehler %{code})'
     strategies:
-      totp: 'Authenticator App'
+      totp: 'Authentifikator-Anwendung'
       sns: 'Amazon SNS'
       resdt: 'SMS Rest API'
     mobile_transmit_notification: "Ein Einmalpasswort wurde an Ihr Mobiltelefon gesendet."
@@ -145,9 +145,10 @@ de:
     remember:
       active_session_notice: >
         Für Ihren Account und Browser existiert ein gespeicherter zweiter Faktor bis %{expires_on}. Dieses Cookie erlaubt Ihnen, in diesem Browser bis zum Ablauf einen Login ohne zweiten Faktor durchzuführen.
+      other_active_session_notice: Ihr Konto hat einen aktiven Erinnerungs-Cookie in einer anderen Sitzung.
       label: 'Erinnern'
-      clear_cookie: 'Hier klicken, um dieses Cookie zu entfernen'
-      cookie_removed: 'Das Cookie wurde entfernt.'
+      clear_cookie: 'Klicken Sie hier, um alle gespeicherten 2FA Sitzungen zu entfernen.'
+      cookie_removed: 'Alle gespeicherten 2FA Sitzungen wurden entfernt.'
       dont_ask_again: "Die Zwei-Faktor-Authentifizierung auf diesem Browser für %{days} Tage nicht mehr abfragen."
   field_phone: "Mobiltelefon"
   field_otp: "Einmalpasswort"

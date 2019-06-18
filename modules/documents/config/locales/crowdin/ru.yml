@@ -10,6 +10,8 @@ ru:
       documentation: Документация
       specification: Спецификация
       other: Прочее
+  documents:
+    label_attachment_author: "Автор вложения"
   label_document_added: "Документ добавлен"
   label_document_new: "Новый документ"
   label_document_plural: "Документы"

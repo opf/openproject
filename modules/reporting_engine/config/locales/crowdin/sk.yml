@@ -15,7 +15,7 @@ sk:
   label_none: "(žiadne údaje)"
   label_progress_bar_explanation: "Prebieha tvorba tlačovej zostavy..."
   label_really_delete_question: "Určite chcete odstrániť túto tlačovú zostavu?"
-  label_report: "Tlačová zostava"
+  label_report: "Report"
   label_rows: "Riadky"
   label_saving: "Ukladanie ..."
   label_sum: "Súčet"
@@ -26,5 +26,5 @@ sk:
   validation_failure_integer: "nie je platné celé číslo"
   reporting:
     group_by:
-      selected_columns: "Selected columns"
-      selected_rows: "Selected rows"
+      selected_columns: "Vybrané stĺpce"
+      selected_rows: "Vybrané riadky"

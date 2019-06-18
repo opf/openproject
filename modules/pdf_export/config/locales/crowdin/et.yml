@@ -24,7 +24,7 @@ et:
   activerecord:
     attributes:
       export_card_configuration:
-        rows: "Ridasid"
+        rows: "Read"
         per_page: "Lehekülje kohta"
         page_size: "Lehekülje suurus"
         orientation: "Suund"

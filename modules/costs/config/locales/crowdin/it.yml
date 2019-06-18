@@ -41,7 +41,7 @@ it:
       cost_object: "Bilancio"
       cost_type:
         one: "Tipo di costo"
-        other: "Tipi di costo"
+        other: "Tipo di costo"
       material_budget_item: "Unità"
       rate: "Tariffa"
     errors:
@@ -74,7 +74,7 @@ it:
   caption_labor_costs: "Costo del lavoro effettivo"
   caption_locked_on: "Bloccato su"
   caption_material_costs: "Costi effettivi unitari"
-  caption_materials: "Unità"
+  caption_materials: "Unità di misura"
   caption_rate_history: "Cronologia tariffe"
   caption_rate_history_for: "Cronologia tariffe per %{user}"
   caption_rate_history_for_project: "Cronologia tariffe per %{user} nel progetto %{project}"
@@ -82,7 +82,7 @@ it:
   caption_set_rate: "Impostata tariffa corrente"
   caption_show_locked: "Mostra tipi bloccati"
   cost_objects_title: "Bilanci"
-  label_cost_type_plural: "Tipi di costo"
+  label_cost_type_plural: "Tipo di costo"
   currency_delimiter: ","
   currency_separator: "."
   description_date_for_new_rate: "Data per la nuova tariffa"

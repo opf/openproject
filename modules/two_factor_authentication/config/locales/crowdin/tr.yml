@@ -146,9 +146,10 @@ tr:
     remember:
       active_session_notice: >
         Hesabınız %{expires_on}'e kadar geçerli bir hatırlama çerezi var. O zamana kadar bu çerez, hesabınıza ikinci faktöre gerek kalmadan giriş izni verir.
+      other_active_session_notice: Your account has an active remember cookie on another session.
       label: 'Hatırla'
-      clear_cookie: 'Bu çerezi kaldırmak için tıklayın'
-      cookie_removed: 'Çerezin kaldırıldığını hatırla.'
+      clear_cookie: 'Click here to remove all remembered 2FA sessions.'
+      cookie_removed: 'All remembered 2FA sessions have been removed.'
       dont_ask_again: "Bu kullanıcı da 2FA kimlik doğrulamasını %{days} gün boyunca hatırlamak için çerez oluştur."
   field_phone: "Cep telefonu"
   field_otp: "Tek-kullanımlık Şifre"

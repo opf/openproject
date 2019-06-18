@@ -43,8 +43,7 @@ run() {
   eval $2;
 }
 
-run "psql -c 'create database travis_ci_test;' -U postgres"
-run "cp script/templates/database.travis.postgres.yml config/database.yml"
+run "bash $(dirname $0)/db_setup.sh"
 
 if [ "$2" = "bim" ]; then
   export OPENPROJECT_EDITION="$2";
@@ -66,6 +65,10 @@ if [ $1 = 'units' ]; then
   # Install pandoc for testing textile migration
   run "sudo apt-get update -qq"
   run "sudo apt-get install -qq pandoc"
+fi
+
+if [ ! -f "public/assets/frontend_assets.manifest.json" ]; then
+  run "bash $(dirname $0)/cache_prepare.sh"
 fi
 
 run "cp -rp public/assets/frontend_assets.manifest.json config/frontend_assets.manifest.json"

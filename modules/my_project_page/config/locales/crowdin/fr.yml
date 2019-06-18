@@ -1,7 +1,7 @@
 fr:
   button_edit_this_page: "Modifier cette page"
+  error_block_not_saved: "Le bloc de texte n’a pas pu être enregistré."
   error_saving_changes: "Les modifications n’ont pas pu être enregistrées : %{errors}"
-  error_textile_not_saved: "Le bloc textile n'a pas pu être enregistré."
   label_hidden_elements: "Éléments masqués"
   label_visible_elements: "Éléments visibles"
   label_project_description: "Description du projet"
@@ -13,7 +13,6 @@ fr:
   label_work_packages_responsible_for: "Lots de Travaux dont je suis responsable"
   label_work_packages_assigned_to_me: "Lots de travaux qui me sont assignés"
   label_work_packages_watched: "Lots de travaux surveillés"
-  label_work_package_tracking: " Suivi des lots de travaux"
   label_members: "Membres"
   label_member_view_all: "Afficher tous les membres"
   label_no_visible_members: "Ce projet n'a pas de membre visible."

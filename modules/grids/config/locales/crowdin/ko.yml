@@ -1,0 +1,14 @@
+ko:
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "페이지"
+        row_count: "행 수"
+        column_count: "열 수"
+        widgets: "위젯"
+    errors:
+      models:
+        grids/grid:
+          overlaps: '오버랩'
+          outside: '- 그리드의 외부에 있습니다.'
+          end_before_start: '종료 값은 시작 값보다 커야 합니다.'
