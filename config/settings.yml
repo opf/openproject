@@ -158,7 +158,7 @@ available_languages:
   - pt
   - 'pt-BR'
   - it
-  - zh
+  - 'zh-CN'
   - ko
   - ru
 default_language:
