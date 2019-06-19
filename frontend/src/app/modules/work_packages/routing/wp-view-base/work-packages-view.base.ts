@@ -54,8 +54,6 @@ import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
 import {WorkPackagesListChecksumService} from "core-components/wp-list/wp-list-checksum.service";
 import {WorkPackageQueryStateService} from "core-components/wp-fast-table/state/wp-table-base.service";
 import {debugLog} from "core-app/helpers/debug_output";
-import {WorkPackageFiltersService} from "core-components/filters/wp-filters/wp-filters.service";
-import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
 import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";
 
