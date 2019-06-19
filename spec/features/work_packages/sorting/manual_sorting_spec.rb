@@ -29,9 +29,7 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-# ToDo:
-# Remove skip once finished
-describe 'Manual sorting of WP table', type: :feature, js: true do
+describe 'Manual sorting of flat WP table', type: :feature, js: true do
   let(:user) { FactoryBot.create(:admin) }
   let(:project) { FactoryBot.create(:project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
@@ -60,102 +58,109 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
     work_package_2
     work_package_3
     work_package_4
-
-    wp_table.visit!
-    hierarchies.disable_via_header
-    wp_table.expect_work_package_order work_package_1, work_package_2, work_package_3, work_package_4
   end
 
-  include_context 'ui-select helpers'
-
-  it 'can sort table rows via DragNDrop' do
-    wp_table.drag_and_drop_work_package from: 1, to: 3
-
-    wp_table.expect_work_package_order work_package_1, work_package_3, work_package_2, work_package_4
-
-    wp_table.save_as 'Manual sorted query'
-
-    wp_table.expect_and_dismiss_notification message: 'Successful creation.'
-
-    query = Query.last
-    expect(query.name).to eq 'Manual sorted query'
-    expect(query.ordered_work_packages)
-      .to eq([work_package_1, work_package_3, work_package_2, work_package_4].map(&:id))
-
-    wp_table.drag_and_drop_work_package from: 0, to: 2
-
-    wp_table.expect_work_package_order work_package_3, work_package_1, work_package_2, work_package_4
-
-    sleep 2
-
-    # Saved automatically
-    query.reload
-    expect(query.ordered_work_packages)
-      .to eq([work_package_3, work_package_1, work_package_2, work_package_4].map(&:id))
+  describe 'hierarchy mode' do
+    # TODO
   end
 
-  it 'saves the changed order in a previously saved query' do
-    wp_table.save_as 'Manual sorted query'
-
-    sort_by.open_modal
-    sort_by.update_sorting_mode 'manual'
-    sort_by.apply_changes
-
-    wp_table.drag_and_drop_work_package from: 1, to: 3
-    wp_table.expect_work_package_order work_package_1, work_package_3, work_package_2, work_package_4
-
-    sleep 2
-
-    query = Query.last
-    expect(query.name).to eq 'Manual sorted query'
-    expect(query.ordered_work_packages)
-      .to eq([work_package_1, work_package_3, work_package_2, work_package_4].map(&:id))
+  describe 'group mode' do
+    # TODO
   end
 
-  it 'does not loose the current order when switching to manual sorting' do
-    # Sort by creation date
-    sort_by.update_criteria 'Created on'
-    wp_table.expect_work_package_order work_package_4, work_package_3, work_package_2, work_package_1
-
-    # Enable manual sorting
-    sort_by.open_modal
-    sort_by.update_sorting_mode 'manual'
-    sort_by.apply_changes
-
-    # Expect same order
-    wp_table.expect_work_package_order work_package_4, work_package_3, work_package_2, work_package_1
-  end
-
-  it 'shows a warning when switching from manual to automatic sorting' do
-    wp_table.drag_and_drop_work_package from: 1, to: 3
-
-    wp_table.expect_work_package_order work_package_1, work_package_3, work_package_2, work_package_4
-
-    # Try to sort by creation date
-    sort_by.sort_via_header 'Subject'
-
-    # Shows a warning
-    dialog.expect_open
-    dialog.confirm
-    wp_table.expect_work_package_order work_package_1, work_package_2, work_package_3, work_package_4
-  end
-
-  context 'the gantt chart' do
-    let(:wp_timeline) { Pages::WorkPackagesTimeline.new(project) }
+  describe 'flat mode' do
     before do
-      wp_timeline
+      wp_table.visit!
+      hierarchies.disable_via_header
+      wp_table.expect_work_package_order work_package_1, work_package_2, work_package_3, work_package_4
     end
 
-    it 'reloads after drop' do
-      wp_timeline.toggle_timeline
-      wp_timeline.expect_timeline!
-      wp_timeline.expect_row_count(4)
+    it 'can sort table rows via DragNDrop' do
+      wp_table.drag_and_drop_work_package from: 1, to: 3
 
-      wp_timeline.expect_work_package_order work_package_1, work_package_2, work_package_3, work_package_4
+      wp_table.expect_work_package_order work_package_1, work_package_3, work_package_2, work_package_4
+
+      wp_table.save_as 'Manual sorted query'
+
+      wp_table.expect_and_dismiss_notification message: 'Successful creation.'
+
+      query = Query.last
+      expect(query.name).to eq 'Manual sorted query'
+      expect(query.ordered_work_packages)
+        .to eq([work_package_1, work_package_3, work_package_2, work_package_4].map(&:id))
+
+      wp_table.drag_and_drop_work_package from: 0, to: 2
+
+      wp_table.expect_work_package_order work_package_3, work_package_1, work_package_2, work_package_4
+
+      sleep 2
+
+      # Saved automatically
+      query.reload
+      expect(query.ordered_work_packages)
+        .to eq([work_package_3, work_package_1, work_package_2, work_package_4].map(&:id))
+    end
+
+    it 'saves the changed order in a previously saved query' do
+      wp_table.save_as 'Manual sorted query'
+
+      sort_by.open_modal
+      sort_by.update_sorting_mode 'manual'
+      sort_by.apply_changes
 
       wp_table.drag_and_drop_work_package from: 1, to: 3
       wp_table.expect_work_package_order work_package_1, work_package_3, work_package_2, work_package_4
-      wp_timeline.expect_work_package_order work_package_1, work_package_3, work_package_2, work_package_4
+
+      sleep 2
+
+      query = Query.last
+      expect(query.name).to eq 'Manual sorted query'
+      expect(query.ordered_work_packages)
+        .to eq([work_package_1, work_package_3, work_package_2, work_package_4].map(&:id))
+    end
+
+    it 'does not loose the current order when switching to manual sorting' do
+      # Sort by creation date
+      sort_by.update_criteria 'Created on'
+      wp_table.expect_work_package_order work_package_4, work_package_3, work_package_2, work_package_1
+
+      # Enable manual sorting
+      sort_by.open_modal
+      sort_by.update_sorting_mode 'manual'
+      sort_by.apply_changes
+
+      # Expect same order
+      wp_table.expect_work_package_order work_package_4, work_package_3, work_package_2, work_package_1
+    end
+
+    it 'shows a warning when switching from manual to automatic sorting' do
+      wp_table.drag_and_drop_work_package from: 1, to: 3
+
+      wp_table.expect_work_package_order work_package_1, work_package_3, work_package_2, work_package_4
+
+      # Try to sort by creation date
+      sort_by.sort_via_header 'Subject'
+
+      # Shows a warning
+      dialog.expect_open
+      dialog.confirm
+      wp_table.expect_work_package_order work_package_1, work_package_2, work_package_3, work_package_4
+    end
+
+    context 'the gantt chart' do
+      let(:wp_timeline) { Pages::WorkPackagesTimeline.new(project) }
+
+      it 'reloads after drop' do
+        wp_timeline.toggle_timeline
+        wp_timeline.expect_timeline!
+        wp_timeline.expect_row_count(4)
+
+        wp_timeline.expect_work_package_order work_package_1, work_package_2, work_package_3, work_package_4
+
+        wp_table.drag_and_drop_work_package from: 1, to: 3
+        wp_table.expect_work_package_order work_package_1, work_package_3, work_package_2, work_package_4
+        wp_timeline.expect_work_package_order work_package_1, work_package_3, work_package_2, work_package_4
+      end
     end
   end
 end
