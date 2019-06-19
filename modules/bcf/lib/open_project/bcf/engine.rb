@@ -96,7 +96,7 @@ module OpenProject::Bcf
              type: 'BCF Thumbnail',
              required: false,
              writable: false,
-             show_if: ->(*) { represented&.project.module_enabled?(:bcf) }
+             show_if: ->(*) { represented&.project&.module_enabled?(:bcf) }
     end
 
     add_api_path :bcf_xml do |project_id|

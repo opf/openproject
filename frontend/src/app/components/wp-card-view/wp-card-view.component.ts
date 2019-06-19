@@ -31,6 +31,7 @@ import {AuthorisationService} from "core-app/modules/common/model-auth/model-aut
 import {StateService} from "@uirouter/core";
 import {States} from "core-components/states.service";
 import {RequestSwitchmap} from "core-app/helpers/rxjs/request-switchmap";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 
 
 @Component({
@@ -93,7 +94,8 @@ export class WorkPackageCardViewComponent  implements OnInit {
               readonly dragService:DragAndDropService,
               readonly reorderService:ReorderQueryService,
               readonly authorisationService:AuthorisationService,
-              readonly cdRef:ChangeDetectorRef) {
+              readonly cdRef:ChangeDetectorRef,
+              readonly pathHelper:PathHelperService) {
   }
 
   ngOnInit() {
@@ -149,6 +151,15 @@ export class WorkPackageCardViewComponent  implements OnInit {
 
   public wpSubject(wp:WorkPackageResource) {
     return wp.subject;
+  }
+
+  public bcfSnapshotPath(wp:WorkPackageResource) {
+    let vp = _.get(wp, 'bcf.viewpoints[0]');
+    if (vp) {
+      return this.pathHelper.attachmentDownloadPath(vp.id, vp.file_name);
+    } else {
+      return null;
+    }
   }
 
   public cardHighlightingClass(wp:WorkPackageResource) {
