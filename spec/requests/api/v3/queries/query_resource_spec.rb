@@ -93,9 +93,9 @@ describe 'API v3 Query resource', type: :request, content_type: :json do
 
     context 'filtering for project' do
       let(:path) do
-        filter = [project: { operator: "=", values: [project.id.to_s] }].to_json
+        filter = [project: { operator: "=", values: [project.id.to_s] }]
 
-        "#{api_v3_paths.queries}?filters=#{URI::escape(filter)}"
+        api_v3_paths.path_for(:queries, filters: filter)
       end
 
       let(:prepare) do
@@ -104,9 +104,9 @@ describe 'API v3 Query resource', type: :request, content_type: :json do
         other_query
 
         FactoryBot.create(:member,
-                           roles: [role],
-                           project: other_query.project,
-                           user: current_user)
+                          roles: [role],
+                          project: other_query.project,
+                          user: current_user)
       end
 
       it 'includes only queries from the specified project' do
@@ -124,9 +124,9 @@ describe 'API v3 Query resource', type: :request, content_type: :json do
 
     context 'filtering for global query' do
       let(:path) do
-        filter = [project: { operator: "!*", values: [] }].to_json
+        filter = [project: { operator: "!*", values: [] }]
 
-        "#{api_v3_paths.queries}?filters=#{URI::escape(filter)}"
+        api_v3_paths.path_for(:queries, filters: filter)
       end
 
       let(:prepare) do
@@ -135,12 +135,64 @@ describe 'API v3 Query resource', type: :request, content_type: :json do
         other_query
 
         FactoryBot.create(:member,
-                           roles: [role],
-                           project: other_query.project,
-                           user: current_user)
+                          roles: [role],
+                          project: other_query.project,
+                          user: current_user)
       end
 
-      it 'includes only queries from the specified project' do
+      it 'includes only queries not belonging to a project' do
+        expect(last_response.body)
+          .to be_json_eql(1)
+          .at_path("count")
+        expect(last_response.body)
+          .to be_json_eql(1)
+          .at_path("total")
+        expect(last_response.body)
+          .to be_json_eql(global_query.name.to_json)
+          .at_path("_embedded/elements/0/name")
+      end
+    end
+
+    context 'filtering by updated_at' do
+      let(:old_query) { FactoryBot.create(:public_query, project: project) }
+
+      let(:prepare) do
+        query
+        old_query.update_column(:updated_at, DateTime.current - 4.hours)
+      end
+
+      let(:path) do
+        filter = [updated_at: { operator: "<>d", values: [(DateTime.current - 3.hour).to_s] }]
+
+        api_v3_paths.path_for(:queries, filters: filter)
+      end
+
+      it 'includes only queries updated after the value' do
+        expect(last_response.body)
+          .to be_json_eql(1)
+          .at_path("count")
+        expect(last_response.body)
+          .to be_json_eql(1)
+          .at_path("total")
+        expect(last_response.body)
+          .to be_json_eql(query.name.to_json)
+          .at_path("_embedded/elements/0/name")
+      end
+    end
+
+    context 'filtering by id' do
+      let(:prepare) do
+        query
+        global_query
+      end
+
+      let(:path) do
+        filter = [id: { operator: "=", values: [global_query.id.to_s] }]
+
+        api_v3_paths.path_for(:queries, filters: filter)
+      end
+
+      it 'includes only queries with that id' do
         expect(last_response.body)
           .to be_json_eql(1)
           .at_path("count")

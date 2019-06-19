@@ -43,6 +43,8 @@ Please note, that all the properties listed above will also be embedded when ind
 | hidden           | Should the query be hidden from the query list?                                                           | Boolean               |                                      | READ                 |
 | public           | Can users besides the owner see the query?                                                                | Boolean               |                                      | READ                 |
 | starred          | Should the query be highlighted to the user?                                                              | Boolean               |                                      | READ                 |
+| createdAt        | Time of creation                                                                                          | DateTime              | not null                             | READ                 |
+| updatedAt        | Time of the most recent change to the query                                                               |           DateTime    | not null                             | READ                 |
 
 A query that is not assigned to a project (`"project": null`) is called a global query. Global queries filter work packages regardless of the project they are assigned to. As such, a different set of filters exists for those queries.
 
@@ -115,6 +117,8 @@ If the values are nonprimitive (e.g. User, Project), they will be listed as obje
               "_type": "Query",
               "id": 9,
               "name": "fdsfdsfdsf",
+              "createdAt": "2015-03-20T12:56:56Z",
+              "updatedAt": "2015-05-20T18:16:53Z",
               "filters": [
                 {
                   "_type": "StatusQueryFilter",
@@ -768,6 +772,8 @@ Same as [viewing an existing, persisted Query](#queries-query-get) in its respon
               "_type": "Query",
               "id": 9,
               "name": "fdsfdsfdsf",
+              "createdAt": "2015-03-20T12:56:56Z",
+              "updatedAt": "2015-05-20T18:16:53Z",
               "filters": [
                 {
                   "_type": "StatusQueryFilter",
@@ -967,6 +973,8 @@ Same as [viewing an existing, persisted Query](#queries-query-get) in its respon
               "_type": "Query",
               "id": 9,
               "name": "fdsfdsfdsf",
+              "createdAt": "2015-03-20T12:56:56Z",
+              "updatedAt": "2015-05-20T18:16:53Z",
               "filters": [
                 {
                   "_type": "StatusQueryFilter",
@@ -1180,6 +1188,8 @@ Same as [viewing an existing, persisted Query](#queries-query-get) in its respon
                           "_type": "Query",
                           "id": 9,
                           "name": "fdsfdsfdsf",
+                          "createdAt": "2015-03-20T12:56:56Z",
+                          "updatedAt": "2015-05-20T18:16:53Z",
                           "filters": [
                             {
                               "_type": "StatusQueryFilter",
@@ -1329,6 +1339,8 @@ Returns a collection of queries. The collection can be filtered via query parame
     Accepts the same format as returned by the [queries](#queries) endpoint.
     Currently supported filters are:
       + project: filters queries by the project they are assigned to. If the project filter is passed with the `!*` (not any) operator, global queries are returned.
+      + id: filters queries based on their id
+      + updated_at: filters queries based on the last time they where updated
 
 + Response 200 (application/hal+json)
 
@@ -1428,6 +1440,20 @@ For more details and all possible responses see the general specification of [Fo
                 "writable": true,
                 "minLength": 1,
                 "maxLength": 255
+              },
+              "createdAt": {
+                  "type": "DateTime",
+                  "name": "Created on",
+                  "required": true,
+                  "hasDefault": false,
+                  "writable": false
+              },
+              "updatedAt": {
+                  "type": "DateTime",
+                  "name": "Updated on",
+                  "required": true,
+                  "hasDefault": false,
+                  "writable": false
               },
               "user": {
                 "type": "User",
@@ -1728,6 +1754,20 @@ Retrieve the schema for global queries, those, that are not assigned to a projec
                 "writable": true,
                 "minLength": 1,
                 "maxLength": 255
+              },
+              "createdAt": {
+                  "type": "DateTime",
+                  "name": "Created on",
+                  "required": true,
+                  "hasDefault": false,
+                  "writable": false
+              },
+              "updatedAt": {
+                  "type": "DateTime",
+                  "name": "Updated on",
+                  "required": true,
+                  "hasDefault": false,
+                  "writable": false
               },
               "user": {
                 "type": "User",

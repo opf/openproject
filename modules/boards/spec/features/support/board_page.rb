@@ -117,6 +117,20 @@ module Pages
       end
     end
 
+    ##
+    # Expect the given work packages (or their subjects) to be listed in that exact order in the list.
+    # No non mentioned cards are allowed to be in the list.
+    def expect_cards_in_order(list_name, *card_titles)
+      within_list(list_name) do
+        found = all('.wp-card .wp-card--subject')
+                .map(&:text)
+        expected = card_titles.map { |title| title.is_a?(WorkPackage) ? title.subject : title.to_s }
+
+        expect(found)
+          .to match expected
+      end
+    end
+
     def move_card(index, from:, to:)
       source = page.all("#{list_selector(from)} .wp-card")[index]
       target = page.find list_selector(to)
@@ -275,7 +289,6 @@ module Pages
           input.send_keys :enter
         end
       end
-
 
       expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
 

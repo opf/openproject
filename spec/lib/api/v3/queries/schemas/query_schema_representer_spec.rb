@@ -134,6 +134,32 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
         it_behaves_like 'has no visibility property'
       end
 
+      describe 'createdAt' do
+        let(:path) { 'createdAt' }
+
+        it_behaves_like 'has basic schema properties' do
+          let(:type) { 'DateTime' }
+          let(:name) { Query.human_attribute_name('created_at') }
+          let(:required) { true }
+          let(:writable) { false }
+        end
+
+        it_behaves_like 'has no visibility property'
+      end
+
+      describe 'updatedAt' do
+        let(:path) { 'updatedAt' }
+
+        it_behaves_like 'has basic schema properties' do
+          let(:type) { 'DateTime' }
+          let(:name) { Query.human_attribute_name('updated_at') }
+          let(:required) { true }
+          let(:writable) { false }
+        end
+
+        it_behaves_like 'has no visibility property'
+      end
+
       describe 'user' do
         let(:path) { 'user' }
 

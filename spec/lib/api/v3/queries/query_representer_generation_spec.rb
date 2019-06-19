@@ -563,6 +563,16 @@ describe ::API::V3::Queries::QueryRepresenter do
         end
       end
 
+      it_behaves_like 'has UTC ISO 8601 date and time' do
+        let(:date) { query.created_at }
+        let(:json_path) { 'createdAt' }
+      end
+
+      it_behaves_like 'has UTC ISO 8601 date and time' do
+        let(:date) { query.updated_at }
+        let(:json_path) { 'updatedAt' }
+      end
+
       describe 'highlighting' do
         context 'with EE', with_ee: %i[conditional_highlighting] do
           it 'renders when the value is set' do
