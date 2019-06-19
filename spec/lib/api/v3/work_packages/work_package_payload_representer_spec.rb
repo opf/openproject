@@ -502,6 +502,9 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         allow(work_package)
           .to receive(:milestone?)
           .and_return(true)
+
+        # Setting values to ensure they are later set to nil in one of the test cases
+        work_package.start_date = work_package.due_date = Date.today
       end
 
       it_behaves_like 'settable ISO 8601 date only' do
