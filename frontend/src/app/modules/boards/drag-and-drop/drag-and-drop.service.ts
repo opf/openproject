@@ -1,7 +1,13 @@
-import {Inject, Injectable, OnDestroy} from "@angular/core";
+import {Inject, Injectable, Injector, OnDestroy} from "@angular/core";
 import {DOCUMENT} from "@angular/common";
 import {DragAndDropHelpers} from "core-app/modules/boards/drag-and-drop/drag-and-drop.helpers";
 import {DomAutoscrollService} from "core-app/modules/common/drag-and-drop/dom-autoscroll.service";
+import {
+  hierarchyCellClassName,
+  hierarchyIndentation
+} from "core-components/wp-fast-table/builders/modes/hierarchy/single-hierarchy-row-builder";
+import {TableDragActionsRegistryService} from "core-components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
+import {TableDragActionService} from "core-components/wp-table/drag-and-drop/actions/table-drag-action.service";
 
 export interface DragMember {
   dragContainer:HTMLElement;
@@ -34,9 +40,13 @@ export class DragAndDropService implements OnDestroy {
     }
   };
 
-  constructor(@Inject(DOCUMENT) private document:Document) {
-    this.document.documentElement.addEventListener('keydown', this.escapeListener);
+  private readonly dragActionRegistry = this.injector.get(TableDragActionsRegistryService);
+  private actionService:TableDragActionService;
 
+  constructor(@Inject(DOCUMENT) private document:Document,
+              readonly injector:Injector) {
+    this.document.documentElement.addEventListener('keydown', this.escapeListener);
+    this.actionService = this.dragActionRegistry.get(injector);
   }
 
   ngOnDestroy():void {
@@ -158,6 +168,16 @@ export class DragAndDropService implements OnDestroy {
         await this.handleDrop(el, target, source, sibling);
       } catch (e) {
         console.error("Failed to handle drop of %O", el);
+      }
+    });
+
+    this.drake.on('shadow', (shadowElement:HTMLElement, container:HTMLElement) => {
+      if (shadowElement.tagName === 'TR') {
+        let hierarchyParent = this.actionService.determineParent(shadowElement)!.el;
+        let hierarchySpan =  jQuery(hierarchyParent).find('.' + hierarchyCellClassName)[0] as HTMLElement;
+        let shadowIndent = hierarchySpan.offsetWidth + hierarchyIndentation;
+
+        jQuery(shadowElement).find('.' + hierarchyCellClassName)[0].style.width = shadowIndent + 'px';
       }
     });
   }
