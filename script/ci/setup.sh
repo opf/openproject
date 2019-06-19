@@ -68,7 +68,12 @@ if [ $1 = 'units' ]; then
 fi
 
 if [ ! -f "public/assets/frontend_assets.manifest.json" ]; then
-  run "bash $(dirname $0)/cache_prepare.sh"
+  if [ -z "${RECOMPILE_ON_TRAVIS_CACHE_ERROR}" ]; then
+    echo "ERROR: asset manifest was not properly cached. exiting"
+    exit 1
+  else
+    run "bash $(dirname $0)/cache_prepare.sh"
+  fi
 fi
 
 run "cp -rp public/assets/frontend_assets.manifest.json config/frontend_assets.manifest.json"
