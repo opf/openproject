@@ -52,6 +52,8 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     diamond.style.width = '1em';
     placeholder.appendChild(diamond);
 
+    this.applyTypeColor(renderInfo, diamond);
+
     return placeholder;
   }
 

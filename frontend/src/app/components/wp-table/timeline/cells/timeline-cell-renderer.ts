@@ -79,12 +79,13 @@ export class TimelineCellRenderer {
 
     const placeholder = document.createElement('div');
     placeholder.style.pointerEvents = 'none';
-    placeholder.style.backgroundColor = '#DDDDDD';
     placeholder.style.position = 'absolute';
     placeholder.style.height = '1em';
     placeholder.style.width = '30px';
     placeholder.style.zIndex = '9999';
     placeholder.style.left = (days * renderInfo.viewParams.pixelPerDay) + 'px';
+
+    this.applyTypeColor(renderInfo, placeholder);
 
     return placeholder;
   }
