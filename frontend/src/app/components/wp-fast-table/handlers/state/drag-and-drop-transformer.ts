@@ -16,6 +16,7 @@ import {TableDragActionService} from "core-components/wp-table/drag-and-drop/act
 import {States} from "core-components/states.service";
 import {DragAndDropHelpers} from "core-app/modules/boards/drag-and-drop/drag-and-drop.helpers";
 import {WorkPackageTableTimelineService} from "core-components/wp-fast-table/state/wp-table-timeline.service";
+import {tableRowClassName} from "core-components/wp-fast-table/builders/rows/single-row-builder";
 
 export class DragAndDropTransformer {
 
@@ -84,14 +85,14 @@ export class DragAndDropTransformer {
         return this.actionService.canPickup(workPackage);
       },
       onMoved: (el:HTMLElement, target:HTMLElement, source:HTMLElement) => {
-        let row = el as HTMLTableRowElement;
-        const wpId:string = row.dataset.workPackageId!;
+        const wpId:string = el.dataset.workPackageId!;
         const workPackage = this.states.workPackages.get(wpId).value!;
+        const rowIndex = this.findRowIndex(el);
 
         this.actionService
           .handleDrop(workPackage, el)
           .then(() => {
-            const newOrder = this.reorderService.move(this.currentOrder, wpId, row.rowIndex - 1);
+            const newOrder = this.reorderService.move(this.currentOrder, wpId, rowIndex);
             this.updateOrder(newOrder);
             this.wpTableSortBy.switchToManualSorting();
           })
@@ -106,14 +107,14 @@ export class DragAndDropTransformer {
         this.updateOrder(newOrder);
       },
       onAdded: (el:HTMLElement) => {
-        let row = el as HTMLTableRowElement;
-        const wpId:string = row.dataset.workPackageId!;
+        const wpId:string = el.dataset.workPackageId!;
         const workPackage = this.states.workPackages.get(wpId).value!;
+        const rowIndex = this.findRowIndex(el);
 
         return this.actionService
           .handleDrop(workPackage, el)
           .then(() => {
-            const newOrder = this.reorderService.add(this.currentOrder, wpId, row.rowIndex - 1);
+            const newOrder = this.reorderService.add(this.currentOrder, wpId, rowIndex);
             this.updateOrder(newOrder);
 
             return true;
@@ -173,5 +174,15 @@ export class DragAndDropTransformer {
           }
         })
       );
+  }
+
+  /**
+   * Find the index of the row in the set of rendered work packages.
+   * This will skip non-work-package rows such as group headers
+   * @param el
+   */
+  private findRowIndex(el:HTMLElement):number {
+    const rows = Array.from(this.table.tbody.getElementsByClassName(tableRowClassName));
+    return rows.indexOf(el) || 0;
   }
 }
