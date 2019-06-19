@@ -42,6 +42,7 @@ export class DragAndDropService implements OnDestroy {
 
   private readonly dragActionRegistry = this.injector.get(TableDragActionsRegistryService);
   private actionService:TableDragActionService;
+  private originalIndentation:Number;
 
   constructor(@Inject(DOCUMENT) private document:Document,
               readonly injector:Injector) {
@@ -173,13 +174,23 @@ export class DragAndDropService implements OnDestroy {
 
     this.drake.on('shadow', (shadowElement:HTMLElement, container:HTMLElement) => {
       if (shadowElement.tagName === 'TR') {
-        let hierarchyParent = this.actionService.determineParent(shadowElement)!.el;
-        let hierarchySpan =  jQuery(hierarchyParent).find('.' + hierarchyCellClassName)[0] as HTMLElement;
-        let shadowIndent = hierarchySpan.offsetWidth + hierarchyIndentation;
+        // Get parent information
+        let parent = this.actionService.determineParent(shadowElement)!.el;
+        let parentHierarchySpan =  jQuery(parent).find('.' + hierarchyCellClassName)[0] as HTMLElement;
 
-        jQuery(shadowElement).find('.' + hierarchyCellClassName)[0].style.width = shadowIndent + 'px';
+        // Get shadow element information
+        let shadowElementHierarchySpan =  jQuery(shadowElement).find('.' + hierarchyCellClassName)[0];
+        let shadowElementIndent = parentHierarchySpan.offsetWidth + hierarchyIndentation;
+
+        // Set new indentation values and remember the old indetnation in case that the event is canceled
+        this.originalIndentation = shadowElementHierarchySpan.offsetWidth;
+        shadowElementHierarchySpan.style.width = shadowElementIndent + 'px';
       }
     });
+
+    this.drake.on('cancel', (el:HTMLElement, container:HTMLElement, source:HTMLElement) => {
+      jQuery(el).find('.' + hierarchyCellClassName)[0].style.width = this.originalIndentation + 'px';
+    })
   }
 
   private async handleDrop(el:HTMLElement, target:HTMLElement, source:HTMLElement, sibling:HTMLElement|null) {
