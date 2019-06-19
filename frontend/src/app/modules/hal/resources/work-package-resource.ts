@@ -198,7 +198,12 @@ export class WorkPackageBaseResource extends HalResource {
    * @param property
    */
   public isAttributeEditable(property:string):boolean {
-    return this.isEditable && (!this.isReadonly || property === 'status');
+    const fieldSchema = this.schema[property];
+
+    return this.isEditable &&
+      fieldSchema &&
+      fieldSchema.writable &&
+      (!this.isReadonly || property === 'status');
   }
 
   private performUpload(files:UploadFile[]) {
