@@ -402,10 +402,13 @@ export class TimelineCellRenderer {
    */
   checkForSpecialDisplaySituations(renderInfo:RenderInfo, bar:HTMLElement) {
     const wp = renderInfo.workPackage;
+    let selectionMode = renderInfo.viewParams.activeSelectionMode;
 
     // Cannot edit the work package if it has children
-    if (!wp.isLeaf) {
+    if (!wp.isLeaf && !selectionMode) {
       bar.classList.add('-readonly');
+    } else {
+      bar.classList.remove('-readonly');
     }
 
     // Display the parent as clamp-style when it has children in the table
