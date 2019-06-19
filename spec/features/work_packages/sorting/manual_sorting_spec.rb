@@ -50,6 +50,7 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
   end
 
   let(:sort_by) { ::Components::WorkPackages::SortBy.new }
+  let(:hierarchies) { ::Components::WorkPackages::Hierarchies.new }
   let(:dialog) { ::Components::ConfirmationDialog.new }
 
   before do
@@ -61,6 +62,7 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
     work_package_4
 
     wp_table.visit!
+    hierarchies.disable_via_header
     wp_table.expect_work_package_order work_package_1, work_package_2, work_package_3, work_package_4
   end
 
