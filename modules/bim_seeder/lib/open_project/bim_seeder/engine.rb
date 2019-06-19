@@ -13,5 +13,6 @@ module OpenProject::BimSeeder
              :requires_openproject => '>= 9.0.0'
 
     patches [:RootSeeder]
+    patch_with_namespace :DemoData, :QueryBuilder
   end
 end

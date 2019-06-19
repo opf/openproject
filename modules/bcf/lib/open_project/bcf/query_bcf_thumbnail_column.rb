@@ -1,7 +1,6 @@
 #-- encoding: UTF-8
 
 #-- copyright
-
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
@@ -29,39 +28,27 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+module OpenProject::Bcf
+  class QueryBcfThumbnailColumn < Queries::WorkPackages::Columns::WorkPackageColumn
+    def caption
+      'BCF Snapshot'
+    end
 
-def translate_with_base_url(string)
-  I18n.t(string, deep_interpolation: true, base_url: OpenProject::Configuration.rails_relative_url_root)
-end
+    class_attribute :bcf_thumbnail_columns
 
-describe 'seeds' do
-  before do
-    allow(OpenProject::Configuration).to receive(:[]).and_call_original
-    allow(OpenProject::Configuration).to receive(:[]).with('edition').and_return(edition)
-  end
+    self.bcf_thumbnail_columns = {
+      bcf_thumbnail: {
+        summable: false,
+        groupable: false,
+        sortable: false
+      }
+    }
 
-  context 'BIM edition' do
-    let(:edition) { 'bim' }
+    def self.instances(_context = nil)
+      # return [] if context && !context.module_enabled?(:bcf_module)
 
-    it 'create the demo data' do
-      perform_deliveries = ActionMailer::Base.perform_deliveries
-      ActionMailer::Base.perform_deliveries = false
-
-      begin
-        # Avoid asynchronous DeliverWorkPackageCreatedJob
-        Delayed::Worker.delay_jobs = false
-        expect { BimSeeder::BasicDataSeeder.new.seed! }.not_to raise_error
-        expect { AdminUserSeeder.new.seed! }.not_to raise_error
-        expect { DemoDataSeeder.new.seed! }.not_to raise_error
-
-        expect(User.where(admin: true).count).to eq 1
-        expect(Project.count).to eq 2
-        expect(WorkPackage.count).to eq 18
-        expect(Wiki.count).to eq 1
-        expect(Query.count).to eq 9
-      ensure
-        ActionMailer::Base.perform_deliveries = perform_deliveries
+      bcf_thumbnail_columns.map do |name, options|
+        new(name, options)
       end
     end
   end
