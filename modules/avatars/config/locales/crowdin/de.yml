@@ -1,38 +1,37 @@
 de:
-  label_avatar: "Avatar"
-  label_current_avatar: "Current Avatar"
-  label_choose_avatar: "Choose Avatar from file"
-  message_avatar_uploaded: "Avatar changed successfully."
-  error_image_upload: "Error saving the image."
-  error_image_size: "The image is too large."
-  button_change_avatar: "Change avatar"
-  are_you_sure_delete_avatar: "Are you sure you want to delete your avatar?"
-  avatar_deleted: "Avatar deleted successfully."
-  unable_to_delete_avatar: "Avatar could not be deleted."
-  wrong_file_format: "Allowed formats are jpg, png, gif"
-  empty_file_error: "Please upload a valid image (jpg, png, gif)"
+  label_avatar: "Profilbild"
+  label_current_avatar: "Aktuelles Profilbild"
+  label_choose_avatar: "Profilbild aus Datei auswählen"
+  message_avatar_uploaded: "Das Porfilbild wurde erfolgreich geändert."
+  error_image_upload: "Fehler beim Speichern des Bildes."
+  error_image_size: "Das Bild ist zu groß."
+  button_change_avatar: "Profilbild ändern"
+  are_you_sure_delete_avatar: "Sind Sie sicher, dass Sie das Profilbild löschen möchten?"
+  avatar_deleted: "Profilbild erfolgreich gelöscht."
+  unable_to_delete_avatar: "Profilbild konnte nicht gelöscht werden."
+  wrong_file_format: "Erlaubte Formate sind JPG, PNG und GIF"
+  empty_file_error: "Bitte laden Sie ein gültiges Bild hoch (JPG, PNG, GIF)"
   avatars:
-    label_avatar: "Avatar"
+    label_avatar: "Profilbild"
     label_gravatar: 'Gravatar'
-    label_current_avatar: 'Current avatar'
-    label_local_avatar: 'Custom avatar'
+    label_current_avatar: 'Aktuelles Profilbild'
+    label_local_avatar: 'Selbsterstelltes Profilbild'
     text_current_avatar: |
-      The following image shows the current avatar.
+      Das folgende Bild zeigt das aktuelle Profilbild.
     text_upload_instructions: |
-      Upload your own custom avatar of 128 by 128 pixels. Larger files will be resized and cropped to match.
-      A preview of your avatar will be shown before uploading, once you selected an image.
-    text_change_gravatar_html: 'To change or add the Gravatar for your mail address, go to %{gravatar_url}.'
+      Laden Sie Ihren eigenes Profilbild von 128 mal 128 Pixeln hoch. Größere Dateien werden verkleinert und zugeschnitten.
+      Eine Vorschau Ihres Profilbild wird angezeigt, sobald Sie ein Bild ausgewählt haben.
+    text_change_gravatar_html: 'Um das Gravatar für Ihre E-Mail-Adresse zu ändern oder eines hinzuzüfigen, gehen Sie zu %{gravatar_url}.'
     text_your_local_avatar: |
-      OpenProject allows you to upload your own custom avatar.
+      OpenProject ermöglicht es Ihnen, Ihren eigenes Profilbild hochzuladen.
     text_local_avatar_over_gravatar: |
-      If you set one, this custom avatar is used in precedence over the gravatar above.
+      Wenn Sie ein eigenes Profilbild verwenden, wird es vorrangig vor dem für Ihre E-Mail-Adresse hinterlegten Gravatar verwendet.
     text_your_current_gravatar: |
-      OpenProject uses your gravatar if you registered one, or a default image or icon if one exists.
-      The current gravatar is as follows:
+      OpenProject verwendet - sofern verfügbar - Ihr Gravatar, oder ein Standardbild. Das aktuelle Gravatar ist wie folgt:
     settings:
-      enable_gravatars: 'Enable user gravatars'
+      enable_gravatars: 'Aktiviere Gravatare'
       gravatar_default: "Standard-Gravatar-Bild"
-      enable_local_avatars: 'Enable user custom avatars'
+      enable_local_avatars: 'Selbsterstellte Avatare aktivieren'
 
 
 

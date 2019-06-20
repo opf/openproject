@@ -1,0 +1,11 @@
+sv:
+  error_can_not_be_assigned: Rollen kan inte tilldelas denna användare
+  global_roles: Globala roller
+  label_role_type: Typ
+  label_member_role: Projektroll
+  label_global_role: Globalroll
+  label_not_changeable: (kan inte ändras)
+  label_no_assignable_role: Ingen global roll tillgänglig för tilldelning
+  label_global: Global
+  seeders:
+    default_role_project_creator: 'Projektskapare'

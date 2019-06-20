@@ -1,0 +1,5 @@
+id:
+  js:
+    reporting_engine:
+      label_remove: "Hapus"
+      label_response_error: "There was an error handling the query."

@@ -1,0 +1,12 @@
+"no":
+  js:
+    work_packages:
+      property_groups:
+        costs: "Costs"
+      properties:
+        costObject: "Budget"
+        overallCosts: "Overall costs"
+        spentUnits: "Spent units"
+    button_log_costs: "Log unit costs"
+    label_hour: "time"
+    label_hours: " timer"
