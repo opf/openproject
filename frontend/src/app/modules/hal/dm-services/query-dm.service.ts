@@ -88,17 +88,16 @@ export class QueryDmService {
       .toPromise();
   }
 
-  public loadResults(query:QueryResource, pagination:PaginationObject):Promise<WorkPackageCollectionResource> {
+  public loadResults(query:QueryResource, pagination:PaginationObject):Promise<QueryResource> {
     if (!query.results) {
       throw 'No results embedded when expected';
     }
 
-    var queryData = this.UrlParamsHelper.buildV3GetQueryFromQueryResource(query, pagination);
-
-    var url = URI(query.results.href!).path();
+    let queryData = this.UrlParamsHelper.buildV3GetQueryFromQueryResource(query, pagination);
+    let url = URI(query.href!).path();
 
     return this.halResourceService
-      .get<WorkPackageCollectionResource>(url, queryData)
+      .get<QueryResource>(url, queryData)
       .toPromise();
   }
 

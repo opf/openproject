@@ -123,6 +123,7 @@ Then /^the request should fail$/ do
 end
 
 Then /^the (\d+)(?:st|nd|rd|th) story in (?:the )?"(.+?)" should be "(.+)"$/ do |position, version_name, subject|
+  sleep 2
   version = Version.find_by(name: version_name)
   story = Story.at_rank(@project.id, version.id, position.to_i)
   story.should_not be_nil

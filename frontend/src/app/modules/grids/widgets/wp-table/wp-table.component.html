@@ -1,5 +1,5 @@
 <h3 class="widget-box--header"
-    *ngIf="query"
+    *ngIf="(query$ | async) as query"
     cdkDragHandle>
   <span class="grid--area-drag-handle
                icon

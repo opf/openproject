@@ -9,7 +9,6 @@ import {
   ViewChildren,
   ViewEncapsulation
 } from "@angular/core";
-import {DragAndDropService} from "core-app/modules/boards/drag-and-drop/drag-and-drop.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {BoardListsService} from "core-app/modules/boards/board/board-list/board-lists.service";
@@ -30,6 +29,7 @@ import {RequestSwitchmap} from "core-app/helpers/rxjs/request-switchmap";
 import {from} from "rxjs";
 import {BoardFilterComponent} from "core-app/modules/boards/board/board-filter/board-filter.component";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
 
 @Component({
   selector: 'board',

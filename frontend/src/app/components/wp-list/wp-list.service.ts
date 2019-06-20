@@ -178,9 +178,18 @@ export class WorkPackagesListService {
    * Update the list from an existing query object.
    */
   public loadResultsList(query:QueryResource, additionalParams:PaginationObject):Promise<WorkPackageCollectionResource> {
-    let wpListPromise = this.QueryDm.loadResults(query, additionalParams);
+    return this.QueryDm
+      .loadResults(query, additionalParams)
+      .then((loadedQuery) => {
 
-    return this.updateStatesFromWPListOnPromise(query, wpListPromise);
+      this.querySpace.ready.doAndTransition('Query loaded', () => {
+        this.wpStatesInitialization.updateQuerySpace(loadedQuery, loadedQuery.results);
+        this.wpStatesInitialization.updateChecksum(loadedQuery, loadedQuery.results);
+        return this.querySpace.tableRendering.onQueryUpdated.valuesPromise();
+      });
+
+      return query.results;
+    });
   }
 
   /**
@@ -189,17 +198,6 @@ export class WorkPackagesListService {
    */
   public reloadCurrentResultsList():Promise<WorkPackageCollectionResource> {
     let pagination = this.getPaginationInfo();
-    let query = this.currentQuery;
-
-    return this.loadResultsList(query, pagination);
-  }
-
-  /**
-   * Reload the first page of work packages for the current query
-   */
-  public loadCurrentResultsListFirstPage():Promise<WorkPackageCollectionResource> {
-    let pagination = this.getPaginationInfo();
-    pagination.offset = 1;
     let query = this.currentQuery;
 
     return this.loadResultsList(query, pagination);
@@ -333,18 +331,6 @@ export class WorkPackagesListService {
       });
 
     return promise;
-  }
-
-  private updateStatesFromWPListOnPromise(query:QueryResource, promise:Promise<WorkPackageCollectionResource>):Promise<WorkPackageCollectionResource> {
-    return promise.then((results) => {
-      this.querySpace.ready.doAndTransition('Query loaded', () => {
-        this.wpStatesInitialization.updateQuerySpace(query, results);
-        this.wpStatesInitialization.updateChecksum(query, results);
-        return this.querySpace.tableRendering.onQueryUpdated.valuesPromise();
-      });
-
-      return results;
-    });
   }
 
   public get currentQuery() {

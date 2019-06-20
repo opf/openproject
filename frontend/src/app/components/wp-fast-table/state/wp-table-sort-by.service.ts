@@ -40,9 +40,6 @@ import {
   QUERY_SORT_BY_DESC,
   QuerySortByResource
 } from 'core-app/modules/hal/resources/query-sort-by-resource';
-import {mergeMap, take} from "rxjs/internal/operators";
-import {ReorderQueryService} from "core-app/modules/boards/drag-and-drop/reorder-query.service";
-import {RenderedRow} from "core-components/wp-fast-table/builders/primary-render-pass";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 
 @Injectable()

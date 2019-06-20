@@ -1,7 +1,7 @@
-import {Inject, Injectable, OnDestroy} from "@angular/core";
+import {Inject, Injectable, Injector, OnDestroy} from "@angular/core";
 import {DOCUMENT} from "@angular/common";
-import {DragAndDropHelpers} from "core-app/modules/boards/drag-and-drop/drag-and-drop.helpers";
 import {DomAutoscrollService} from "core-app/modules/common/drag-and-drop/dom-autoscroll.service";
+import {DragAndDropHelpers} from "core-app/modules/common/drag-and-drop/drag-and-drop.helpers";
 
 export interface DragMember {
   dragContainer:HTMLElement;
@@ -9,14 +9,23 @@ export interface DragMember {
   /** Whether this element moves */
   moves:(element:HTMLElement, fromContainer:HTMLElement, handle:HTMLElement, sibling?:HTMLElement|null) => boolean;
   /** Move element in container */
-  onMoved:(row:HTMLElement, target:any, source:HTMLElement, sibling:HTMLElement|null) => void;
+  onMoved:(element:HTMLElement, target:any, source:HTMLElement, sibling:HTMLElement|null) => void;
   /** Add element to this container */
-  onAdded:(row:HTMLElement, target:any, source:HTMLElement, sibling:HTMLElement|null) => Promise<boolean>;
+  onAdded:(element:HTMLElement, target:any, source:HTMLElement, sibling:HTMLElement|null) => Promise<boolean>;
   /** Remove element from this container */
-  onRemoved:(row:HTMLElement, target:any, source:HTMLElement, sibling:HTMLElement|null) => void;
+  onRemoved:(element:HTMLElement, target:any, source:HTMLElement, sibling:HTMLElement|null) => void;
 
   /** Move this container accepts elements */
   accepts?:(row:HTMLElement, container:any) => boolean;
+
+  /** Callback when the element got cloned */
+  onCloned?:(clone:HTMLElement, original:HTMLElement) => void;
+
+  /** Callback when the shadow element got inserted into a container */
+  onShadowInserted?:(row:HTMLElement) => void;
+
+  /** Callback when the shadow element got inserted into a container */
+  onCancel?:(element:HTMLElement) => void;
 }
 
 @Injectable()
@@ -34,9 +43,9 @@ export class DragAndDropService implements OnDestroy {
     }
   };
 
-  constructor(@Inject(DOCUMENT) private document:Document) {
+  constructor(@Inject(DOCUMENT) private document:Document,
+              readonly injector:Injector) {
     this.document.documentElement.addEventListener('keydown', this.escapeListener);
-
   }
 
   ngOnDestroy():void {
@@ -144,12 +153,9 @@ export class DragAndDropService implements OnDestroy {
     });
 
     this.drake.on('cloned', (clone:HTMLElement, original:HTMLElement) => {
-      if (clone.tagName === 'TR') {
-        // Maintain widths from original
-        Array.from(original.children).forEach((source:HTMLElement, index:number) => {
-          const target = clone.children.item(index) as HTMLElement;
-          target.style.width = source.offsetWidth + "px";
-        });
+      const member = this.member(original.parentElement!);
+      if (member && member.onCloned) {
+        member.onCloned(clone, original);
       }
     });
 
@@ -158,6 +164,20 @@ export class DragAndDropService implements OnDestroy {
         await this.handleDrop(el, target, source, sibling);
       } catch (e) {
         console.error("Failed to handle drop of %O", el);
+      }
+    });
+
+    this.drake.on('shadow', (shadowElement:HTMLElement, container:HTMLElement) => {
+      const member = this.member(container);
+      if (member && member.onShadowInserted) {
+        member.onShadowInserted(shadowElement);
+      }
+    });
+
+    this.drake.on('cancel', (el:HTMLElement, container:HTMLElement, source:HTMLElement) => {
+      const member = this.member(container);
+      if (member && member.onCancel) {
+        member.onCancel(el);
       }
     });
   }

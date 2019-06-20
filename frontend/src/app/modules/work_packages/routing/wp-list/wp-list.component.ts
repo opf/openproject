@@ -32,7 +32,7 @@ import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {OpTitleService} from "core-components/html/op-title.service";
 import {WorkPackagesViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-packages-view.base";
 import {take} from "rxjs/operators";
-import {DragAndDropService} from "core-app/modules/boards/drag-and-drop/drag-and-drop.service";
+import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
 
 @Component({
   selector: 'wp-list',
@@ -158,7 +158,7 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
     let promise:Promise<unknown>;
 
     if (firstPage) {
-      promise = this.wpListService.loadCurrentResultsListFirstPage();
+      promise = this.loadCurrentQuery();
     } else {
       promise = this.wpListService.reloadCurrentResultsList();
     }
