@@ -178,9 +178,18 @@ export class WorkPackagesListService {
    * Update the list from an existing query object.
    */
   public loadResultsList(query:QueryResource, additionalParams:PaginationObject):Promise<WorkPackageCollectionResource> {
-    let wpListPromise = this.QueryDm.loadResults(query, additionalParams);
+    return this.QueryDm
+      .loadResults(query, additionalParams)
+      .then((loadedQuery) => {
 
-    return this.updateStatesFromWPListOnPromise(query, wpListPromise);
+      this.querySpace.ready.doAndTransition('Query loaded', () => {
+        this.wpStatesInitialization.updateQuerySpace(loadedQuery, loadedQuery.results);
+        this.wpStatesInitialization.updateChecksum(loadedQuery, loadedQuery.results);
+        return this.querySpace.tableRendering.onQueryUpdated.valuesPromise();
+      });
+
+      return query.results;
+    });
   }
 
   /**
@@ -322,18 +331,6 @@ export class WorkPackagesListService {
       });
 
     return promise;
-  }
-
-  private updateStatesFromWPListOnPromise(query:QueryResource, promise:Promise<WorkPackageCollectionResource>):Promise<WorkPackageCollectionResource> {
-    return promise.then((result) => {
-      this.querySpace.ready.doAndTransition('Query loaded', () => {
-        this.wpStatesInitialization.updateQuerySpace(query, result.results);
-        this.wpStatesInitialization.updateChecksum(query, result.results);
-        return this.querySpace.tableRendering.onQueryUpdated.valuesPromise();
-      });
-
-      return result.results;
-    });
   }
 
   public get currentQuery() {

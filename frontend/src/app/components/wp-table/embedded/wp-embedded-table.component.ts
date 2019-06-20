@@ -12,7 +12,7 @@ import {WorkPackageEmbeddedBaseComponent} from "core-components/wp-table/embedde
 import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
 import {QueryFormDmService} from "core-app/modules/hal/dm-services/query-form-dm.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {withLatestFrom} from "rxjs/internal/operators";
+import {distinctUntilChanged, withLatestFrom} from "rxjs/internal/operators";
 
 @Component({
   selector: 'wp-embedded-table',
@@ -62,12 +62,13 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
       this.wpTablePagination.state,
       'Query loaded'
     ).values$().pipe(
+      distinctUntilChanged(),
       untilComponentDestroyed(this),
       withLatestFrom(this.querySpace.query.values$())
     ).subscribe(([pagination, query]) => {
       this.loadingIndicator = this.QueryDm
         .loadResults(query, this.wpTablePagination.paginationObject)
-        .then((results) => this.initializeStates(query, results));
+        .then((query) => this.initializeStates(query, query.results));
     });
   }
 
