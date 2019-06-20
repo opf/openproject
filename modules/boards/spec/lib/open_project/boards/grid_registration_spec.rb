@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 describe OpenProject::Boards::GridRegistration do
   let(:project) { FactoryBot.create(:project) }
   let(:permissions) { [:show_board_views] }
@@ -6,6 +8,17 @@ describe OpenProject::Boards::GridRegistration do
     FactoryBot.create(:user,
                       member_in_project: project,
                       member_with_permissions: permissions)
+  end
+
+  describe 'from_scope' do
+    subject { described_class.from_scope '/foobar/projects/bla/boards' }
+
+    context 'with a relative URL root', with_config: { rails_relative_url_root: '/foobar' } do
+      it 'maps that correctly' do
+        expect(subject).to be_present
+        expect(subject[:class]).to eq(::Boards::Grid)
+      end
+    end
   end
 
   describe '.visible' do

@@ -2,7 +2,7 @@ fr:
   activerecord:
     attributes:
       work_package:
-        position: "position"
+        position: "Position"
         remaining_hours: "Heures restantes"
         remaining_time: "Heures restantes"
         story_points: "Points d'histoire"

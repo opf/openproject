@@ -8,8 +8,10 @@ hr:
   enumeration:
     document_category:
       documentation: Documentation
-      specification: Specification
-      other: Other
+      specification: Specifikacija
+      other: Ostalo
+  documents:
+    label_attachment_author: "Attachment author"
   label_document_added: "Dokument dodan"
   label_document_new: "Novi dokument"
   label_document_plural: "Dokumenti"

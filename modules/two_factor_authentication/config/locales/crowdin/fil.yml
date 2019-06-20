@@ -148,9 +148,10 @@ fil:
     remember:
       active_session_notice: >
         Ang iyong account ay aktibo sa naaalala na coockie na balido hanggang sa %{expires_on}. Ang coockie na iyo ay pinapayagan ka na mag-login ng walang pangalawa na dahilan sa iyong account hanggang sa mga oras na iyan.
+      other_active_session_notice: Your account has an active remember cookie on another session.
       label: 'Tandaan'
-      clear_cookie: 'I-Click dito upang maalis ang coockie na ito'
-      cookie_removed: 'Ang naalala na coockie ay naalis.'
+      clear_cookie: 'Click here to remove all remembered 2FA sessions.'
+      cookie_removed: 'All remembered 2FA sessions have been removed.'
       dont_ask_again: "Lumikha ng coockie upang maalala ang 2FA authentication para sa kleyente na ito %{days} mga araw."
   field_phone: "Ang Cell phone"
   field_otp: "Ang Isang-beses na password"

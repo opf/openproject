@@ -144,9 +144,10 @@ fr:
     remember:
       active_session_notice: >
         Votre compte a un cookie de mémorisation actif valide jusqu'au %{expires_on}. Ce cookie vous permet de vous connecter sans entrer le second facteur de vérification jusqu'à cette date.
+      other_active_session_notice: Votre compte a un cookie de mémorisation actif sur une autre session.
       label: 'Mémoriser'
-      clear_cookie: 'Cliquez ici pour enlever ce cookie'
-      cookie_removed: 'Le cookie de mémorisation à été enlevé.'
+      clear_cookie: 'Cliquez ici pour supprimer toutes les sessions 2FA mémorisées.'
+      cookie_removed: 'Toutes les sessions 2FA mémorisées ont été supprimées.'
       dont_ask_again: "Créer le cookie de mémorisation de l'authentification 2FA sur ce client pour %{days} jours."
   field_phone: "Téléphone mobile"
   field_otp: "Mot de passe unique"

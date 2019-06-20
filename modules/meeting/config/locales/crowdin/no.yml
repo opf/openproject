@@ -39,8 +39,8 @@
   label_notify: "Send till gjennomgang"
   label_icalendar: "Send iCalendar"
   label_version: "Versjon"
-  label_time_zone: "Time zone"
-  label_start_date: "Start date"
+  label_time_zone: "Tidssone"
+  label_start_date: "Startdato"
   notice_successful_notification: "Påminning sendt"
   notice_timezone_missing: Ingen tidssone angis og %{zone} antas. Vennligst klikk her for å velge egen tidssone.
   permission_create_meetings: "Opprett møter"

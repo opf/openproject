@@ -31,36 +31,78 @@ require 'spec_helper'
 describe ::API::V3::Projects::ProjectRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:representer) { described_class.new(project, current_user: user) }
-  let(:user) do
-    FactoryBot.build_stubbed(:user)
-  end
-  let(:permissions) { [:add_work_packages] }
+  let(:project) do
+    FactoryBot.build_stubbed(:project).tap do |p|
+      allow(p)
+        .to receive(:available_custom_fields)
+        .and_return([int_custom_field, version_custom_field])
 
-  before do
-    allow(user)
-      .to receive(:allowed_to?)
-      .and_return(false)
+      allow(p)
+        .to receive(:"custom_field_#{int_custom_field.id}")
+        .and_return(int_custom_value.value)
 
-    permissions.each do |permission|
-      allow(user)
-        .to receive(:allowed_to?)
-        .with(permission, project)
-        .and_return(true)
+      allow(p)
+        .to receive(:custom_value_for)
+        .with(version_custom_field)
+        .and_return(version_custom_value)
     end
   end
+  let(:representer) { described_class.create(project, current_user: user) }
+
+  let(:user) do
+    FactoryBot.build_stubbed(:user).tap do |u|
+      allow(u)
+        .to receive(:allowed_to?) do |permission, context|
+        permissions.include?(permission) && context == project
+      end
+    end
+  end
+
+  let(:int_custom_field) { FactoryBot.build_stubbed(:int_project_custom_field) }
+  let(:version_custom_field) { FactoryBot.build_stubbed(:version_project_custom_field) }
+  let(:int_custom_value) do
+    CustomValue.new(custom_field: int_custom_field,
+                    value: '1234',
+                    customized: nil)
+  end
+  let(:version) { FactoryBot.build_stubbed(:version) }
+  let(:version_custom_value) do
+    CustomValue.new(custom_field: version_custom_field,
+                    value: version.id,
+                    customized: nil).tap do |cv|
+                      allow(cv)
+                        .to receive(:typed_value)
+                        .and_return(version)
+                    end
+  end
+
+  let(:permissions) { %i[add_work_packages view_members] }
 
   context 'generation' do
     subject(:generated) { representer.to_json }
 
     it { is_expected.to include_json('Project'.to_json).at_path('_type') }
 
-    describe 'project' do
-      it { is_expected.to have_json_path('id') }
-      it { is_expected.to have_json_path('identifier') }
-      it { is_expected.to have_json_path('name') }
-      it { is_expected.to have_json_path('description') }
+    describe 'properties' do
+      it_behaves_like 'property', :_type do
+        let(:value) { 'Project' }
+      end
+
+      it_behaves_like 'property', :id do
+        let(:value) { project.id }
+      end
+
+      it_behaves_like 'property', :identifier do
+        let(:value) { project.identifier }
+      end
+
+      it_behaves_like 'property', :name do
+        let(:value) { project.name }
+      end
+
+      it_behaves_like 'property', :description do
+        let(:value) { project.description }
+      end
 
       it_behaves_like 'has UTC ISO 8601 date and time' do
         let(:date) { project.created_on }
@@ -70,6 +112,12 @@ describe ::API::V3::Projects::ProjectRepresenter do
       it_behaves_like 'has UTC ISO 8601 date and time' do
         let(:date) { project.updated_on }
         let(:json_path) { 'updatedAt' }
+      end
+
+      it "has a property for the int custom field" do
+        is_expected
+          .to be_json_eql(int_custom_value.value.to_json)
+          .at_path("customField#{int_custom_field.id}")
       end
     end
 
@@ -99,9 +147,13 @@ describe ::API::V3::Projects::ProjectRepresenter do
         context 'user not allowed to create work packages' do
           let(:permissions) { [] }
 
-          it { is_expected.to_not have_json_path('_links/createWorkPackage/href') }
+          it_behaves_like 'has no link' do
+            let(:link) { 'createWorkPackage' }
+          end
 
-          it { is_expected.to_not have_json_path('_links/createWorkPackageImmediate/href') }
+          it_behaves_like 'has no link' do
+            let(:link) { 'createWorkPackageImmediate' }
+          end
         end
       end
 
@@ -113,9 +165,30 @@ describe ::API::V3::Projects::ProjectRepresenter do
       end
 
       describe 'versions' do
-        it 'has the correct link to its versions' do
-          is_expected.to be_json_eql(api_v3_paths.versions_by_project(project.id).to_json)
-            .at_path('_links/versions/href')
+        context 'with only manage_versions permission' do
+          let(:permissions) { [:manage_versions] }
+
+          it_behaves_like 'has an untitled link' do
+            let(:link) { 'versions' }
+            let(:href) { api_v3_paths.versions_by_project(project.id) }
+          end
+        end
+
+        context 'with only view_work_packages permission' do
+          let(:permissions) { [:view_work_packages] }
+
+          it_behaves_like 'has an untitled link' do
+            let(:link) { 'versions' }
+            let(:href) { api_v3_paths.versions_by_project(project.id) }
+          end
+        end
+
+        context 'without both permissions' do
+          let(:permissions) { [:add_work_packages] }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'versions' }
+          end
         end
       end
 
@@ -154,6 +227,27 @@ describe ::API::V3::Projects::ProjectRepresenter do
             is_expected.to_not have_json_path('_links/workPackages/href')
           end
         end
+      end
+
+      describe 'memberships' do
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'memberships' }
+          let(:href) { api_v3_paths.path_for(:memberships, filters: [{ project: { operator: "=", values: [project.id.to_s] } }]) }
+        end
+
+        context 'without the view_members permission' do
+          let(:permissions) { [] }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'memberships' }
+          end
+        end
+      end
+
+      it 'links custom fields' do
+        is_expected
+          .to be_json_eql(api_v3_paths.version(version.id).to_json)
+          .at_path("_links/customField#{version_custom_field.id}/href")
       end
     end
 

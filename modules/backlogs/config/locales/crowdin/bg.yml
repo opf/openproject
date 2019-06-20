@@ -76,7 +76,7 @@ bg:
   backlogs_sprints: "Sprints"
   backlogs_story: "Story"
   backlogs_story_type: "Story types"
-  backlogs_task: "Task"
+  backlogs_task: "Задачата"
   backlogs_task_type: "Task type"
   backlogs_velocity_missing: "No velocity could be calculated for this project"
   backlogs_velocity_varies: "Velocity varies significantly over sprints"
@@ -116,7 +116,7 @@ bg:
   label_stories_tasks: "Stories/Tasks"
   label_task_board: "Task board"
   label_version_setting: "Versions"
-  label_version: 'Version'
+  label_version: 'Версия'
   label_webcal: "Webcal Feed"
   label_wiki: "Wiki"
   permission_view_master_backlog: "View master backlog"

@@ -76,6 +76,7 @@ jobs:
     - stage: prepare cache
       name: 'Prepare cache'
       script:
+        - bash script/ci/db_setup.sh
         - bash script/ci/cache_prepare.sh
     - stage: test
       name: 'npm'

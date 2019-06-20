@@ -26,25 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-#watchers
-  img
-    vertical-align: middle
-    margin-right: 7px
-
-  .delete
-    vertical-align: sub
-
-  li
-    list-style-type: none
-    margin: 0 10px 0 0
-    padding: 0
-    float: left
-    line-height: $user-avatar-mini-width
-
-div#watchers
-  margin-top: 25px
-  > form > p
-    margin-top: 5px
+.work-package--watchers
+  user-avatar
+    margin-right: 5px
 
 .work-package--watchers.-read-only
   .remove-watcher-btn
@@ -53,8 +37,3 @@ div#watchers
 // Fix margin for inplace-edit controls
 .work-package--watchers-lookup .dropdown-wrapper
   margin-bottom: 50px
-
-// Position avatar-minis correctly in listing and typeahead
-#detail-panel-watchers
-  img.avatar-mini
-    float: inherit

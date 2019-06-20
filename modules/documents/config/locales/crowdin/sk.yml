@@ -7,9 +7,11 @@ sk:
   enumeration_doc_categories: "Kategórie dokumentu"
   enumeration:
     document_category:
-      documentation: Documentation
-      specification: Specification
-      other: Other
+      documentation: Dokumentácia
+      specification: Špecifikácia
+      other: Ostatné
+  documents:
+    label_attachment_author: "Autor prílohy"
   label_document_added: "Dokument pridaný"
   label_document_new: "Nový dokument"
   label_document_plural: "Dokumenty"

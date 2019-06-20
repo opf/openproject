@@ -8,8 +8,10 @@ bg:
   enumeration:
     document_category:
       documentation: Documentation
-      specification: Specification
-      other: Other
+      specification: Спецификации
+      other: Други
+  documents:
+    label_attachment_author: "Attachment author"
   label_document_added: "Документът е добавен"
   label_document_new: "Нов документ"
   label_document_plural: "Документи"

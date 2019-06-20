@@ -1,7 +1,7 @@
 da:
   button_edit_this_page: "Edit this page"
+  error_block_not_saved: "The text block could not be saved."
   error_saving_changes: "The changes could not be saved: %{errors}"
-  error_textile_not_saved: "The textile block could not be saved."
   label_hidden_elements: "Gemte elementer"
   label_visible_elements: "Synlige elementer"
   label_project_description: "Projektbeskrivelse"
@@ -13,9 +13,8 @@ da:
   label_work_packages_responsible_for: "Work packages I am accountable for"
   label_work_packages_assigned_to_me: "Arbejdspakker tilknyttet mig"
   label_work_packages_watched: "Overvågede arbejdspakker"
-  label_work_package_tracking: " Work package tracking"
   label_members: "Medlemmer"
-  label_member_view_all: "View all members"
+  label_member_view_all: "Vis alle medlemmer"
   label_no_visible_members: "This project has no visible members."
   label_subprojects: "Underprojekter"
   project_page:

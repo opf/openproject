@@ -1,0 +1,6 @@
+"no":
+  js:
+    work_packages:
+      properties:
+        storyPoints: "Story Points"
+        remainingTime: "Remaining Hours"

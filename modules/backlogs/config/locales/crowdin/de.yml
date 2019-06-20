@@ -5,7 +5,7 @@ de:
         position: "Position"
         remaining_hours: "Verbleibende Stunden"
         remaining_time: "Verbleibende Stunden"
-        story_points: "Story Punkte"
+        story_points: "Story Punkte js"
         backlogs_work_package_type: "Backlog Typ"
     errors:
       models:
@@ -28,7 +28,7 @@ de:
             parent_id:
               parent_child_relationship_across_projects: "ist ungültig da '%{work_package_name}' ein backlog Task ist und daher kein Eltern-Arbeitspaket außerhalb  des jetzigen Projekts haben kann."
   backlogs:
-    add_new_story: "Neue Story"
+    add_new_story: "Neue Aufgabe"
     any: "beliebig"
     backlog_settings: "Backlog Einstellungen"
     burndown_graph: "Burndown Graph"
@@ -55,7 +55,7 @@ de:
     remaining_hours_ideal: "Verbleibende Stunden (ideal)"
     show_burndown_chart: "Burndown-Chart"
     story: "Story"
-    story_points: "Story Punkte"
+    story_points: "Story Punkte js"
     story_points_ideal: "Story Points (ideal)"
     task: "Aufgabe"
     task_color: "Farbe für Aufgaben"

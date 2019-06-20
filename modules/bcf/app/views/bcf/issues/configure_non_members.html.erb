@@ -6,7 +6,7 @@
 
   <h3>Non project members found</h3>
   <ul>
-    <% @importer.non_members.each do |user| %>
+    <% @importer.aggregations.non_members.each do |user| %>
       <li><%= user.mail %> (<%= user.name %>)</li>
     <% end %>
   </ul>

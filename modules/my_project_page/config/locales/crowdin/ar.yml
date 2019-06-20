@@ -1,7 +1,7 @@
 ar:
   button_edit_this_page: "تعديل هذه الصفحة"
+  error_block_not_saved: "The text block could not be saved."
   error_saving_changes: "تعذّر حفظ التغييرات: %{errors}"
-  error_textile_not_saved: "The textile block could not be saved."
   label_hidden_elements: "العناصر المخفية"
   label_visible_elements: "العناصر المرئية"
   label_project_description: "وصف المشروع"
@@ -13,9 +13,8 @@ ar:
   label_work_packages_responsible_for: "Work packages I am accountable for"
   label_work_packages_assigned_to_me: "مجموعات العمل الموكلة لي"
   label_work_packages_watched: "مجموعات العمل المراقبة"
-  label_work_package_tracking: " تعقُّب مجموعة العمل"
   label_members: "الأعضاء"
-  label_member_view_all: "View all members"
+  label_member_view_all: "عرض جميع الأعضاء"
   label_no_visible_members: "This project has no visible members."
   label_subprojects: "المشاريع الفرعية"
   project_page:

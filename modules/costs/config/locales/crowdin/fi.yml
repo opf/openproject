@@ -92,7 +92,7 @@ fi:
   help_click_to_edit: "Muokkaa napsauttamalla tätä."
   help_currency_format: "Käytetty valuuttamuoto. %n korvataan arvolla, %u korvataan valuuttayksiköllä."
   help_override_rate: "Anna tähän arvo ohittaaksesi vakiohinnan."
-  label_between: "välillä"
+  label_between: "between"
   label_cost_filter_add: "Lisää suodatin kustannuskirjauksille"
   label_costlog: "Kirjatut kustannukset"
   label_cost_object: "Budjetti"

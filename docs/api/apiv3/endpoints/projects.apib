@@ -9,13 +9,16 @@
 
 ## Linked Properties
 
-| Link         | Description                          | Type       | Constraints | Supported operations |
-| :----------: | -------------                        | ----       | ----------- | -------------------- |
-| self         | This project                         | Project    | not null    | READ                 |
-| categories   | Categories available in this project | Collection | not null    | READ                 |
-| types        | Types available in this project      | Collection | not null    | READ                 |
-| versions     | Versions available in this project   | Collection | not null    | READ                 |
-| workPackages | Work Packages of this project        | Collection | not null    | READ                 |
+| Link         | Description                          | Type       | Constraints | Supported operations |Condition                                              |
+| :----------: | -------------                        | ----       | ----------- | -------------------- |-----------------------------------------              |
+| self         | This project                         | Project    | not null    | READ                 |                                                       |
+| categories   | Categories available in this project | Collection | not null    | READ                 |                                                       |
+| types        | Types available in this project      | Collection | not null    | READ                 | **Permission**: view work pacakges or manage types    |
+| versions     | Versions available in this project   | Collection | not null    | READ                 | **Permission**: view work packages or manage versions |
+| memberships  | Memberships in the  project          | Collection | not null    | READ                 | **Permission**: view members                          |
+| workPackages | Work Packages of this project        | Collection | not null    | READ                 |                                                       |
+
+Depending on custom fields defined for projects, additional links might exist.
 
 ## Local Properties
 
@@ -27,6 +30,8 @@
 | description |                                               | String   |             | READ                 |
 | createdAt   | Time of creation                              | DateTime |             | READ                 |
 | updatedAt   | Time of the most recent change to the project | DateTime |             | READ                 |
+
+Depending on custom fields defined for projects, additional properties might exist.
 
 ## Project [/api/v3/projects/{id}]
 
@@ -48,17 +53,33 @@
                         "href": "/api/v3/projects/1/work_packages",
                         "method": "post"
                     },
-                    "categories": { "href": "/api/v3/projects/1/categories" },
-                    "types": { "href": "/api/v3/projects/1/types" },
-                    "versions": { "href": "/api/v3/projects/1/versions" },
-                    "workPackages": { "href": "/api/v3/projects/1/work_packages" }
+                    "categories": {
+                        "href": "/api/v3/projects/1/categories"
+                    },
+                    "types": {
+                        "href": "/api/v3/projects/1/types"
+                    },
+                    "versions": {
+                        "href": "/api/v3/projects/1/versions"
+                    },
+                    "workPackages": {
+                        "href": "/api/v3/projects/1/work_packages"
+                    }
+                    "memberships": {
+                        "href": "/api/v3/memberships?filters=[{"project":{"operator":"=","values":["1"]}}]
+                    },
+                    "customField456: {
+                        "href": "/api/v3/users/315",
+                        "method": "A user"
+                    },
                 },
                 "id": 1,
                 "identifier": "project_identifier",
                 "name": "Project example",
                 "description": "Lorem ipsum dolor sit amet",
                 "createdAt": "2014-05-21T08:51:20Z",
-                "updatedAt": "2014-05-21T08:51:20Z"
+                "updatedAt": "2014-05-21T08:51:20Z",
+                "customField123": 123
             }
 
 ## View project [GET]

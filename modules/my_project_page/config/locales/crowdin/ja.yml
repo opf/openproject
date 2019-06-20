@@ -1,7 +1,7 @@
 ja:
   button_edit_this_page: "このページを編集する"
+  error_block_not_saved: "テキストブロックを保存できませんでした。"
   error_saving_changes: "変更を保存できませんでした: %{errors}"
-  error_textile_not_saved: "textileブロックを保存できませんでした。"
   label_hidden_elements: "非表示要素"
   label_visible_elements: "表示する要素"
   label_project_description: "プロジェクトの説明"
@@ -13,7 +13,6 @@ ja:
   label_work_packages_responsible_for: "責任者である作業項目"
   label_work_packages_assigned_to_me: "担当している作業項目"
   label_work_packages_watched: "ウォッチしている作業項目"
-  label_work_package_tracking: " 作業項目の追跡"
   label_members: "メンバー"
   label_member_view_all: "すべてのメンバーを表示"
   label_no_visible_members: "このプロジェクトにはメンバーはいません。"

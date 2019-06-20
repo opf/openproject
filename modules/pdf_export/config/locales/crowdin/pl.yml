@@ -24,7 +24,7 @@ pl:
   activerecord:
     attributes:
       export_card_configuration:
-        rows: "Skrypt YAML"
+        rows: "Wiersze"
         per_page: "Na stronie"
         page_size: "Rozmiar strony"
         orientation: "Orientacja"

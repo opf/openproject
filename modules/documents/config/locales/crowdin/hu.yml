@@ -10,6 +10,8 @@ hu:
       documentation: Dokumentáció
       specification: Specifikáció
       other: Egyéb
+  documents:
+    label_attachment_author: "Attachment author"
   label_document_added: "Dokumentum hozzáadva"
   label_document_new: "Új dokumentum"
   label_document_plural: "Dokumentumok"

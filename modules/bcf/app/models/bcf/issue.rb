@@ -18,6 +18,7 @@ module Bcf
                extract_first_node(description_path, 'description'),
                extract_first_node(priority_path, 'priority_text'),
                extract_first_node(status_path, 'status_text'),
+               extract_first_node(type_path, 'type_text'),
                extract_first_node(assignee_path, 'assignee_text'),
                extract_first_node(due_date_path, 'due_date_text'),
                extract_first_node(index_path, 'index_text'),
@@ -38,6 +39,10 @@ module Bcf
 
       def status_path
         '/Markup/Topic/@TopicStatus'
+      end
+
+      def type_path
+        '/Markup/Topic/@TopicType'
       end
 
       def assignee_path
@@ -96,6 +101,14 @@ module Bcf
         self[:status_text]
       else
         markup_doc.xpath(self.class.status_path).first.to_s.presence
+      end
+    end
+
+    def type_text
+      if attributes.keys.include? 'type_text'
+        self[:type_text]
+      else
+        markup_doc.xpath(self.class.type_path).first.to_s.presence
       end
     end
 

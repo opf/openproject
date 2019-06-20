@@ -38,7 +38,7 @@ tr:
   label_units: "Birimler"
   label_week_reporting: "Hafta (Harcanan)"
   label_year_reporting: "Yıl (Harcanan)"
-  load_query_question: "%{size} tablo hücresi oluşturulacak ve render işlemi biraz zaman alabilir. Yine de render yapmayı denemek istiyor musunuz?"
+  load_query_question: "Rapor %{size} tablo hücreleri içeriyor ve işlenmesi biraz zaman alabilir. Raporu yine de çalıştırmayı denemek ister misin?"
   permission_save_cost_reports: "Genele açık maliyet raporlarını kaydet"
   permission_save_private_cost_reports: "Özel maliyet raporlarını kaydet"
   project_module_reporting_module: "Maliyet raporları"

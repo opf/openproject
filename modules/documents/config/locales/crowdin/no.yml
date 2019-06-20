@@ -10,6 +10,8 @@
       documentation: Dokumentasjon
       specification: Spesifikasjon
       other: Andre
+  documents:
+    label_attachment_author: "Attachment author"
   label_document_added: "Dokument lagt til"
   label_document_new: "Nytt dokumenter"
   label_document_plural: "Dokumenter"

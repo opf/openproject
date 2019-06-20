@@ -7,9 +7,11 @@ id:
   enumeration_doc_categories: "Kategori dokumen"
   enumeration:
     document_category:
-      documentation: Documentation
-      specification: Specification
-      other: Other
+      documentation: Dokumentasi
+      specification: Spesifikasi
+      other: Lainnya
+  documents:
+    label_attachment_author: "Lampiran penulis"
   label_document_added: "Dokumen ditambahkan"
   label_document_new: "Dokumen baru"
   label_document_plural: "Dokumen"

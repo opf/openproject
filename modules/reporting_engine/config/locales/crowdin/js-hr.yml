@@ -1,5 +1,5 @@
 hr:
   js:
     reporting_engine:
-      label_remove: "Delete"
-      label_response_error: "There was an error handling the query."
+      label_remove: "Izbriši"
+      label_response_error: "Dogodila se pogreška prilikom obrade upita."

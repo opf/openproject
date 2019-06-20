@@ -10,6 +10,8 @@ ko:
       documentation: 설명서
       specification: 사양
       other: 기타
+  documents:
+    label_attachment_author: "첨부 파일 작성자"
   label_document_added: "문서 추가됨"
   label_document_new: "새 문서"
   label_document_plural: "문서"

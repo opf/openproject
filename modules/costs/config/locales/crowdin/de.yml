@@ -4,7 +4,7 @@ de:
       cost_entry:
         work_package: "Arbeitspaket"
         overridden_costs: "Überschriebene Kosten"
-        spent: "Gebucht"
+        spent: "Verbraucht"
         spent_on: "Datum"
       cost_object:
         author: "Autor"
@@ -14,7 +14,7 @@ de:
         created_on: "Erstellt"
         description: "Beschreibung"
         fixed_date: "Referenzdatum"
-        spent: "Gebucht"
+        spent: "Verbraucht"
         status: "Status"
         subject: "Thema"
         type: "Kostentyp"
@@ -57,7 +57,7 @@ de:
     costs: "Kosten"
     current_rate: "Aktueller Satz"
     hours: "Stunden"
-    units: "Einheiten"
+    units: "Stücke"
     valid_from: "Gültig ab"
   button_add_budget_item: "Budgetposition hinzufügen"
   button_add_cost_object: "Neues Budget anlegen"

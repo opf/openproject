@@ -76,7 +76,7 @@ ru:
   backlogs_sprints: "Спринты"
   backlogs_story: "История"
   backlogs_story_type: "Типы историй"
-  backlogs_task: "Задача"
+  backlogs_task: "Задание"
   backlogs_task_type: "Тип задачи"
   backlogs_velocity_missing: "Нельзя рассчитать скорость для этого проекта"
   backlogs_velocity_varies: "Скорость спринтов значительно различается"

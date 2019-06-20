@@ -8,8 +8,10 @@ da:
   enumeration:
     document_category:
       documentation: Documentation
-      specification: Specification
-      other: Other
+      specification: Specifikation
+      other: Andet
+  documents:
+    label_attachment_author: "Attachment author"
   label_document_added: "Dokument tilføjet"
   label_document_new: "Nyt dokument"
   label_document_plural: "Dokumenter"

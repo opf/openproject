@@ -24,7 +24,7 @@ ru:
   activerecord:
     attributes:
       export_card_configuration:
-        rows: "Строк"
+        rows: "Строки"
         per_page: "Постранично"
         page_size: "Размер страницы"
         orientation: "Ориентация"

@@ -39,8 +39,8 @@ da:
   label_notify: "Send til vurdering"
   label_icalendar: "Send iCalendar"
   label_version: "Version"
-  label_time_zone: "Time zone"
-  label_start_date: "Start date"
+  label_time_zone: "Tidszone"
+  label_start_date: "Start dato"
   notice_successful_notification: "Påmindelse er afsendt"
   notice_timezone_missing: Der er ikke sat en tidszone og systemet har valgt %{zone}. For at vælge din egen tidszone, klik venligst her.
   permission_create_meetings: "Opret møder"

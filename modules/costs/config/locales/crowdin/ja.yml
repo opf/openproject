@@ -123,7 +123,7 @@ ja:
   label_include_deleted: "削除済みを含める"
   label_work_package_filter_add: "作業項目フィルタを追加する"
   label_kind: "種別"
-  label_less_or_equal: "<="
+  label_less_or_equal: "以下"
   label_log_costs: "単価を記録"
   label_no: "いいえ"
   label_option_plural: "オプション"

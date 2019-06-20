@@ -111,8 +111,7 @@ module API
                       end
                     },
                     getter: ->(*) {
-                      if represented.respond_to?(:custom_field) &&
-                         represented.custom_field.field_format == 'bool'
+                      if represented_is_boolean_list?(represented)
                         represented.values.map do |value|
                           value == OpenProject::Database::DB_VALUE_TRUE
                         end
@@ -142,8 +141,7 @@ module API
           end
 
           def set_property_values(vals)
-            represented.values = if represented.respond_to?(:custom_field) &&
-                                    represented.custom_field.field_format == 'bool'
+            represented.values = if represented_is_boolean_list?(represented)
                                    vals.map do |value|
                                      if value
                                        OpenProject::Database::DB_VALUE_TRUE
@@ -162,6 +160,10 @@ module API
 
           def query_filter_instance_links_representer(represented)
             ::API::V3::Queries::Filters::QueryFilterInstanceLinksRepresenter.new represented, current_user: current_user
+          end
+
+          def represented_is_boolean_list?(represented)
+            represented.send(:type_strategy).is_a?(::Queries::Filters::Strategies::BooleanList)
           end
         end
       end

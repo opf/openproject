@@ -8,10 +8,10 @@ sk:
         participants_attended: "Účastníci"
         participants_invited: "Pozvaných"
         start_time: "Čas"
-        start_time_hour: "Starting time"
+        start_time_hour: "Čas začiatku"
     errors:
       messages:
-        invalid_time_format: "is not a valid time. Required format: HH:MM"
+        invalid_time_format: "nie je platný čas. Požadovaný formát: HH:MM"
     models:
       meeting_agenda: "Agenda"
       meeting_minutes: "Zápisnica"
@@ -37,10 +37,10 @@ sk:
   label_meeting_date_time: "Dátum/čas"
   label_meeting_diff: "Rozdieľ"
   label_notify: "Odoslať na revíziu"
-  label_icalendar: "Send iCalendar"
+  label_icalendar: "Zaslať iKalendár"
   label_version: "Verzia"
-  label_time_zone: "Time zone"
-  label_start_date: "Start date"
+  label_time_zone: "Časové pásmo"
+  label_start_date: "Dátum začiatku"
   notice_successful_notification: "Notifikácia úspešne odoslaná"
   notice_timezone_missing: Časové pásmo nebolo špecificky nastavené, použilo sa teda %{zone}. Ak chcete vybrať iné časové pásmo, kliknite prosím tu.
   permission_create_meetings: "Vytvárať stretnutia"
@@ -53,12 +53,12 @@ sk:
   permission_create_meeting_minutes: "Spravovať zápisnice zo stretnutí"
   permission_send_meeting_minutes_notification: "Rozposielať notifikácie na revízie zápisníc zo stretnutí"
   project_module_meetings: "Stretnutia"
-  text_duration_in_hours: "Duration in hours"
+  text_duration_in_hours: "Doba trvania v hodinách"
   text_in_hours: "v hodinách"
   text_meeting_agenda_for_meeting: 'agenda stretnutia "%{meeting}"'
-  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting?"
+  text_meeting_closing_are_you_sure: "Naozaj chcete ukončiť tento míting?"
   text_meeting_agenda_open_are_you_sure: "Neuložené obsah zápisnice stretnutia bude stratený! Chcete pokračovať?"
   text_meeting_minutes_for_meeting: 'zápisnica zo stretnutia "%{meeting}"'
   text_review_meeting_agenda: "%{author} odoslal %{link} na revíziu."
   text_review_meeting_minutes: "%{author} odoslal %{link} na revíziu."
-  text_notificiation_invited: "This mail contains an ics entry for the meeting below:"
+  text_notificiation_invited: "Tento e-mail obsahuje položku ics pre stretnutie nižšie:"
