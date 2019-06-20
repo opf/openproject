@@ -24,7 +24,8 @@ export class HierarchyDragActionService extends TableDragActionService {
   }
 
   public handleDrop(workPackage:WorkPackageResource, el:HTMLElement):Promise<unknown> {
-    const newParent = this.determineParent(el)!.id;
+    const parentObject = this.determineParent(el);
+    const newParent = parentObject ? parentObject.id : null;
     return this.relationHierarchyService.changeParent(workPackage, newParent);
   }
 
@@ -34,9 +35,9 @@ export class HierarchyDragActionService extends TableDragActionService {
    * @param backToDefault
    */
   public changeShadowElement(shadowElement:HTMLElement, backToDefault:boolean = false) {
-    let hierarchyElement = jQuery(shadowElement).find('.wp-table--hierarchy-span')[0];
     if (backToDefault) {
       // Overwrite the indentation back to the original value
+      let hierarchyElement = jQuery(shadowElement).find('.wp-table--hierarchy-span')[0];
       hierarchyElement.style.width = hierarchyElement.dataset.indentation!;
       return true;
     }
@@ -51,7 +52,7 @@ export class HierarchyDragActionService extends TableDragActionService {
       shadowElementIndent = parentHierarchySpan.offsetWidth + 20 + 'px';
     } else {
       // Otherwise the original indentation is applied
-      shadowElementIndent = hierarchyElement.dataset.indentation!;
+      shadowElementIndent = '25px';
     }
 
     shadowElementHierarchySpan.style.width = shadowElementIndent;

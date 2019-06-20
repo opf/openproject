@@ -63,14 +63,16 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
   end
 
   describe 'hierarchy mode' do
-    it 'changes the parent when dragging an element into a hierarchy' do
+    before do
       wp_table.visit!
 
       # Hierarchy enabled
       wp_table.expect_work_package_order(work_package_1, work_package_2, work_package_3, work_package_4)
       hierarchies.expect_hierarchy_at(work_package_1, work_package_2, work_package_3)
       hierarchies.expect_leaf_at(work_package_4)
+    end
 
+    it 'can dragg an element into a hierarchy' do
       # Move up the hierarchy
       wp_table.drag_and_drop_work_package from: 3, to: 1
       loading_indicator_saveguard
@@ -81,6 +83,25 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
       page.driver.browser.navigate.refresh
       hierarchies.expect_hierarchy_at(work_package_1, work_package_2)
       hierarchies.expect_leaf_at(work_package_3, work_package_4)
+      end
+
+    it 'can drag an element out of the hierarchy' do
+      # Move up the hierarchy
+      wp_table.drag_and_drop_work_package from: 3, to: 0
+      loading_indicator_saveguard
+      hierarchies.expect_hierarchy_at(work_package_1, work_package_2)
+      hierarchies.expect_leaf_at(work_package_4)
+
+      # Expect WP has no parent
+      wp_page = Pages::SplitWorkPackage.new(work_package_4)
+      wp_page.visit!
+      wp_page.expect_no_parent
+
+      # Keep after table refresh
+      page.driver.browser.navigate.refresh
+      hierarchies.expect_hierarchy_at(work_package_1, work_package_2)
+      hierarchies.expect_leaf_at(work_package_3, work_package_4)
+      wp_page.expect_no_parent
     end
   end
 
