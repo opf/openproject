@@ -15,12 +15,14 @@ import {group} from "@angular/animations";
 import {Inject} from "@angular/core";
 import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+import {WorkPackageTableRefreshService} from 'core-components/wp-table/wp-table-refresh-request.service';
 
 export class GroupByDragActionService extends TableDragActionService {
 
   private wpTableGroupBy = this.injector.get(WorkPackageTableGroupByService);
   private wpEditing = this.injector.get<WorkPackageEditingService>(IWorkPackageEditingServiceToken);
   private wpNotifications = this.injector.get(WorkPackageNotificationService);
+  private wpTableRefresh = this.injector.get(WorkPackageTableRefreshService);
 
   public get applies() {
     return this.wpTableGroupBy.isEnabled;
@@ -32,6 +34,14 @@ export class GroupByDragActionService extends TableDragActionService {
   public canPickup(workPackage:WorkPackageResource):boolean {
     const attribute = this.groupedAttribute;
     return attribute !== null && workPackage.isAttributeEditable(attribute);
+  }
+
+  /**
+   * We need to refresh the table results to get the correct group count.
+   * @param _newOrder
+   */
+  public onNewOrder(_newOrder:string[]):void {
+    this.wpTableRefresh.request('Dropped in group mode');
   }
 
   public handleDrop(workPackage:WorkPackageResource, el:HTMLElement):Promise<unknown> {

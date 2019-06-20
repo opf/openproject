@@ -94,6 +94,7 @@ export class DragAndDropTransformer {
           .then(() => {
             const newOrder = this.reorderService.move(this.currentOrder, wpId, rowIndex);
             this.updateOrder(newOrder);
+            this.actionService.onNewOrder(newOrder);
             this.wpTableSortBy.switchToManualSorting();
           })
           .catch(() => {
@@ -116,6 +117,7 @@ export class DragAndDropTransformer {
           .then(() => {
             const newOrder = this.reorderService.add(this.currentOrder, wpId, rowIndex);
             this.updateOrder(newOrder);
+            this.actionService.onNewOrder(newOrder);
 
             return true;
           })

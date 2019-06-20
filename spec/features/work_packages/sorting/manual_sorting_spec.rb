@@ -65,7 +65,40 @@ describe 'Manual sorting of flat WP table', type: :feature, js: true do
   end
 
   describe 'group mode' do
-    # TODO
+    describe 'group by type' do
+      let(:type_task) { FactoryBot.create :type_task }
+      let(:type_bug) { FactoryBot.create :type_bug }
+      let(:project) { FactoryBot.create(:project, types: [type_task, type_bug]) }
+      let(:work_package_1) do
+        FactoryBot.create(:work_package, subject: 'WP1', project: project, type: type_task, created_at: Time.now)
+      end
+      let(:work_package_2) do
+        FactoryBot.create(:work_package, subject: 'WP2', project: project, type: type_task, created_at: Time.now - 1.minutes)
+      end
+      let(:work_package_3) do
+        FactoryBot.create(:work_package, subject: 'WP3', project: project, type: type_bug, created_at: Time.now - 2.minutes)
+      end
+      let(:work_package_4) do
+        FactoryBot.create(:work_package, subject: 'WP4', project: project, type: type_bug, created_at: Time.now - 3.minutes)
+      end
+      let(:group_by) { ::Components::WorkPackages::GroupBy.new }
+
+      it 'updates the work packages appropriately' do
+        wp_table.visit!
+        group_by.enable_via_menu 'Type'
+
+        wp_table.save_as 'Type query'
+        wp_table.expect_and_dismiss_notification message: 'Successful creation.'
+
+        expect(page).to have_selector('.group--value', text: 'Task (2)')
+        expect(page).to have_selector('.group--value', text: 'Bug (2)')
+
+        wp_table.drag_and_drop_work_package from: 0, to: 3
+
+        expect(page).to have_selector('.group--value', text: 'Task (1)')
+        expect(page).to have_selector('.group--value', text: 'Bug (3)')
+      end
+    end
   end
 
   describe 'flat mode' do

@@ -26,6 +26,12 @@ export class TableDragActionService {
   }
 
   /**
+   * Perform a post-order update
+   */
+  public onNewOrder(newOrder:string[]):void {
+  }
+
+  /**
    * Returns whether the given work package is movable
    */
   public canPickup(workPackage:WorkPackageResource):boolean {
@@ -33,7 +39,6 @@ export class TableDragActionService {
   }
 
   /**
-   *
    * Perform the respective action for the drop that just happened
    *
    * @param workPackage
@@ -44,7 +49,6 @@ export class TableDragActionService {
   public handleDrop(workPackage:WorkPackageResource, el:HTMLElement):Promise<unknown> {
     return Promise.resolve(undefined);
   }
-
 
   /**
    * Find an applicable parent element from the hierarchy information in the table.
