@@ -29,22 +29,24 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-describe 'Manual sorting of flat WP table', type: :feature, js: true do
+describe 'Manual sorting of WP table', type: :feature, js: true do
   let(:user) { FactoryBot.create(:admin) }
-  let(:project) { FactoryBot.create(:project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
+  let(:type_task) { FactoryBot.create :type_task }
+  let(:type_bug) { FactoryBot.create :type_bug }
+  let(:project) { FactoryBot.create(:project, types: [type_task, type_bug]) }
   let(:work_package_1) do
-    FactoryBot.create(:work_package, subject: 'WP1', project: project, created_at: Time.now)
+    FactoryBot.create(:work_package, subject: 'WP1', project: project, type: type_task, created_at: Time.now)
   end
   let(:work_package_2) do
-    FactoryBot.create(:work_package, subject: 'WP2', project: project, created_at: Time.now - 1.minutes)
+    FactoryBot.create(:work_package, subject: 'WP2', project: project, parent: work_package_1, type: type_task, created_at: Time.now - 1.minutes)
   end
   let(:work_package_3) do
-    FactoryBot.create(:work_package, subject: 'WP3', project: project, created_at: Time.now - 2.minutes)
+    FactoryBot.create(:work_package, subject: 'WP3', project: project, parent: work_package_2, type: type_bug, created_at: Time.now - 2.minutes)
   end
   let(:work_package_4) do
-    FactoryBot.create(:work_package, subject: 'WP4', project: project, created_at: Time.now - 3.minutes)
+    FactoryBot.create(:work_package, subject: 'WP4', project: project, parent: work_package_3, type: type_bug, created_at: Time.now - 3.minutes)
   end
 
   let(:sort_by) { ::Components::WorkPackages::SortBy.new }
@@ -61,26 +63,29 @@ describe 'Manual sorting of flat WP table', type: :feature, js: true do
   end
 
   describe 'hierarchy mode' do
-    # TODO
+    it 'changes the parent when dragging an element into a hierarchy' do
+      wp_table.visit!
+
+      # Hierarchy enabled
+      wp_table.expect_work_package_order(work_package_1, work_package_2, work_package_3, work_package_4)
+      hierarchies.expect_hierarchy_at(work_package_1, work_package_2, work_package_3)
+      hierarchies.expect_leaf_at(work_package_4)
+
+      # Move up the hierarchy
+      wp_table.drag_and_drop_work_package from: 3, to: 1
+      loading_indicator_saveguard
+      hierarchies.expect_hierarchy_at(work_package_1, work_package_2)
+      hierarchies.expect_leaf_at(work_package_3, work_package_4)
+
+      # Keep after table refresh
+      page.driver.browser.navigate.refresh
+      hierarchies.expect_hierarchy_at(work_package_1, work_package_2)
+      hierarchies.expect_leaf_at(work_package_3, work_package_4)
+    end
   end
 
   describe 'group mode' do
     describe 'group by type' do
-      let(:type_task) { FactoryBot.create :type_task }
-      let(:type_bug) { FactoryBot.create :type_bug }
-      let(:project) { FactoryBot.create(:project, types: [type_task, type_bug]) }
-      let(:work_package_1) do
-        FactoryBot.create(:work_package, subject: 'WP1', project: project, type: type_task, created_at: Time.now)
-      end
-      let(:work_package_2) do
-        FactoryBot.create(:work_package, subject: 'WP2', project: project, type: type_task, created_at: Time.now - 1.minutes)
-      end
-      let(:work_package_3) do
-        FactoryBot.create(:work_package, subject: 'WP3', project: project, type: type_bug, created_at: Time.now - 2.minutes)
-      end
-      let(:work_package_4) do
-        FactoryBot.create(:work_package, subject: 'WP4', project: project, type: type_bug, created_at: Time.now - 3.minutes)
-      end
       let(:group_by) { ::Components::WorkPackages::GroupBy.new }
 
       it 'updates the work packages appropriately' do

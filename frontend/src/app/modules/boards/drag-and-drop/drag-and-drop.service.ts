@@ -173,7 +173,7 @@ export class DragAndDropService implements OnDestroy {
 
     this.drake.on('cancel', (el:HTMLElement, container:HTMLElement, source:HTMLElement) => {
       this.actionService.changeShadowElement(el, true);
-    })
+    });
   }
 
   private async handleDrop(el:HTMLElement, target:HTMLElement, source:HTMLElement, sibling:HTMLElement|null) {
