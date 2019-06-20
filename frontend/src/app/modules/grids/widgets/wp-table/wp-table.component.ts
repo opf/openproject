@@ -10,6 +10,7 @@ import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper
 import {QueryFormDmService} from "core-app/modules/hal/dm-services/query-form-dm.service";
 import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
 import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
+import {Observable} from "rxjs";
 
 @Component({
   templateUrl: './wp-table.component.html',
@@ -20,7 +21,7 @@ export class WidgetWpTableComponent extends WidgetWpListComponent implements OnI
   public queryId:string|null;
   private queryForm:QueryFormResource;
   public inFlight = false;
-  public query:QueryResource;
+  public query$:Observable<QueryResource>;
 
   public configuration:Partial<WorkPackageTableConfiguration> = {
     actionsColumnEnabled: false,
@@ -58,30 +59,18 @@ export class WidgetWpTableComponent extends WidgetWpListComponent implements OnI
   }
 
   ngAfterViewInit() {
-    this
+    this.query$ = this
       .querySpaceDirective
       .querySpace
       .query
-      .values$()
-      .pipe(
-        take(1),
-        untilComponentDestroyed(this)
-      ).subscribe((query) => {
-        this.query = query;
-        this.queryId = query.id;
-      });
+      .values$();
 
-    this
-      .querySpaceDirective
-      .querySpace
-      .query
-      .values$()
+    this.query$
       .pipe(
         // 2 because ... well it is a magic number and works
         skip(2),
         untilComponentDestroyed(this)
       ).subscribe((query) => {
-        this.queryId = query.id;
         this.ensureFormAndSaveQuery(query);
       });
   }
