@@ -1,7 +1,6 @@
 import {Injector} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from '../../../../states.service';
-import {WorkPackageChangeset} from '../../../../wp-edit-form/work-package-changeset';
 import {
   collapsedGroupClass,
   hasChildrenInTable,
@@ -135,6 +134,7 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
     const indicatorWidth = 25 + (hierarchyIndentation * level) + 'px';
     hierarchyIndicator.classList.add(hierarchyCellClassName);
     hierarchyIndicator.style.width = indicatorWidth;
+    hierarchyIndicator.dataset.indentation = indicatorWidth;
 
     if (hasChildrenInTable(workPackage, this.workPackageTable)) {
       const className = collapsed ? indicatorCollapsedClass : '';

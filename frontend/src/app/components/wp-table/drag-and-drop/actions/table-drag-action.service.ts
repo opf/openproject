@@ -51,29 +51,11 @@ export class TableDragActionService {
   }
 
   /**
-   * Find an applicable parent element from the hierarchy information in the table.
-   * @param el
+   * Manipulate the shadow element
+   * @param shadowElement
+   * @param backToDefault: Shall the modifications be made undone
    */
-  public determineParent(el:HTMLElement):{el:Element, id:string}|null {
-    let previous = el.previousElementSibling;
-
-    while (previous !== null) {
-      // When there is no hierarchy group at all, we're at a flat list
-      const inGroup = previous.className.indexOf(hierarchyGroupClass('')) >= 0;
-      const isRoot = previous.className.indexOf(hierarchyRootClass('')) >= 0;
-      if (!(inGroup || isRoot)) {
-        return null;
-      }
-
-      // If the sibling is a hierarchy root, return this one
-      let wpId = (previous as HTMLElement).dataset.workPackageId!;
-      if (previous.classList.contains(hierarchyRootClass(wpId))) {
-        return {el: previous, id: wpId};
-      }
-
-      previous = previous.previousElementSibling;
-    }
-
-    return null;
+  public changeShadowElement(shadowElement:HTMLElement, backToDefault:boolean = false) {
+    return false;
   }
 }

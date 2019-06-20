@@ -1,18 +1,10 @@
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {TableDragActionService} from "core-components/wp-table/drag-and-drop/actions/table-drag-action.service";
-import {WorkPackageTableHierarchiesService} from "core-components/wp-fast-table/state/wp-table-hierarchy.service";
-import {
-  hierarchyGroupClass,
-  hierarchyRootClass
-} from "core-components/wp-fast-table/helpers/wp-table-hierarchy-helpers";
-import {WorkPackageRelationsHierarchyService} from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
 import {WorkPackageTableGroupByService} from "core-components/wp-fast-table/state/wp-table-group-by.service";
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
 import {rowGroupClassName} from "core-components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
 import {locatePredecessorBySelector} from "core-components/wp-fast-table/helpers/wp-table-row-helpers";
 import {groupIdentifier} from "core-components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers";
-import {group} from "@angular/animations";
-import {Inject} from "@angular/core";
 import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {WorkPackageTableRefreshService} from 'core-components/wp-table/wp-table-refresh-request.service';

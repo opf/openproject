@@ -2,10 +2,6 @@ import {Inject, Injectable, Injector, OnDestroy} from "@angular/core";
 import {DOCUMENT} from "@angular/common";
 import {DragAndDropHelpers} from "core-app/modules/boards/drag-and-drop/drag-and-drop.helpers";
 import {DomAutoscrollService} from "core-app/modules/common/drag-and-drop/dom-autoscroll.service";
-import {
-  hierarchyCellClassName,
-  hierarchyIndentation
-} from "core-components/wp-fast-table/builders/modes/hierarchy/single-hierarchy-row-builder";
 import {TableDragActionsRegistryService} from "core-components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
 import {TableDragActionService} from "core-components/wp-table/drag-and-drop/actions/table-drag-action.service";
 
@@ -41,13 +37,11 @@ export class DragAndDropService implements OnDestroy {
   };
 
   private readonly dragActionRegistry = this.injector.get(TableDragActionsRegistryService);
-  private actionService:TableDragActionService;
-  private originalIndentation:Number;
+  private actionService:TableDragActionService = this.dragActionRegistry.get(this.injector);
 
   constructor(@Inject(DOCUMENT) private document:Document,
               readonly injector:Injector) {
     this.document.documentElement.addEventListener('keydown', this.escapeListener);
-    this.actionService = this.dragActionRegistry.get(injector);
   }
 
   ngOnDestroy():void {
@@ -174,22 +168,12 @@ export class DragAndDropService implements OnDestroy {
 
     this.drake.on('shadow', (shadowElement:HTMLElement, container:HTMLElement) => {
       if (shadowElement.tagName === 'TR') {
-        // Get parent information
-        let parent = this.actionService.determineParent(shadowElement)!.el;
-        let parentHierarchySpan =  jQuery(parent).find('.' + hierarchyCellClassName)[0] as HTMLElement;
-
-        // Get shadow element information
-        let shadowElementHierarchySpan =  jQuery(shadowElement).find('.' + hierarchyCellClassName)[0];
-        let shadowElementIndent = parentHierarchySpan.offsetWidth + hierarchyIndentation;
-
-        // Set new indentation values and remember the old indetnation in case that the event is canceled
-        this.originalIndentation = shadowElementHierarchySpan.offsetWidth;
-        shadowElementHierarchySpan.style.width = shadowElementIndent + 'px';
+        this.actionService.changeShadowElement(shadowElement);
       }
     });
 
     this.drake.on('cancel', (el:HTMLElement, container:HTMLElement, source:HTMLElement) => {
-      jQuery(el).find('.' + hierarchyCellClassName)[0].style.width = this.originalIndentation + 'px';
+      this.actionService.changeShadowElement(el, true);
     })
   }
 
