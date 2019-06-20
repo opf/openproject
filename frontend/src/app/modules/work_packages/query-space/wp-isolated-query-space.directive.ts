@@ -46,7 +46,6 @@ import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.s
 import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
 import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";
 import {WorkPackageTableFocusService} from "core-components/wp-fast-table/state/wp-table-focus.service";
-import {ReorderQueryService} from "core-app/modules/boards/drag-and-drop/reorder-query.service";
 import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
 import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
@@ -61,6 +60,7 @@ import {WorkPackagesListChecksumService} from "core-components/wp-list/wp-list-c
 import {debugLog} from "core-app/helpers/debug_output";
 import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
 import {TableDragActionsRegistryService} from "core-components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
+import {ReorderQueryService} from "core-app/modules/common/drag-and-drop/reorder-query.service";
 
 /**
  * Directive to open a work package query 'space', an isolated injector hierarchy

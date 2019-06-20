@@ -1,9 +1,7 @@
 import {Inject, Injectable, Injector, OnDestroy} from "@angular/core";
 import {DOCUMENT} from "@angular/common";
-import {DragAndDropHelpers} from "core-app/modules/boards/drag-and-drop/drag-and-drop.helpers";
 import {DomAutoscrollService} from "core-app/modules/common/drag-and-drop/dom-autoscroll.service";
-import {TableDragActionsRegistryService} from "core-components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
-import {TableDragActionService} from "core-components/wp-table/drag-and-drop/actions/table-drag-action.service";
+import {DragAndDropHelpers} from "core-app/modules/common/drag-and-drop/drag-and-drop.helpers";
 
 export interface DragMember {
   dragContainer:HTMLElement;
@@ -11,14 +9,23 @@ export interface DragMember {
   /** Whether this element moves */
   moves:(element:HTMLElement, fromContainer:HTMLElement, handle:HTMLElement, sibling?:HTMLElement|null) => boolean;
   /** Move element in container */
-  onMoved:(row:HTMLElement, target:any, source:HTMLElement, sibling:HTMLElement|null) => void;
+  onMoved:(element:HTMLElement, target:any, source:HTMLElement, sibling:HTMLElement|null) => void;
   /** Add element to this container */
-  onAdded:(row:HTMLElement, target:any, source:HTMLElement, sibling:HTMLElement|null) => Promise<boolean>;
+  onAdded:(element:HTMLElement, target:any, source:HTMLElement, sibling:HTMLElement|null) => Promise<boolean>;
   /** Remove element from this container */
-  onRemoved:(row:HTMLElement, target:any, source:HTMLElement, sibling:HTMLElement|null) => void;
+  onRemoved:(element:HTMLElement, target:any, source:HTMLElement, sibling:HTMLElement|null) => void;
 
   /** Move this container accepts elements */
   accepts?:(row:HTMLElement, container:any) => boolean;
+
+  /** Callback when the element got cloned */
+  onCloned?:(clone:HTMLElement, original:HTMLElement) => void;
+
+  /** Callback when the shadow element got inserted into a container */
+  onShadowInserted?:(row:HTMLElement) => void;
+
+  /** Callback when the shadow element got inserted into a container */
+  onCancel?:(element:HTMLElement) => void;
 }
 
 @Injectable()
@@ -35,8 +42,6 @@ export class DragAndDropService implements OnDestroy {
       this.drake.cancel(true);
     }
   };
-
-  private readonly dragActionRegistry = this.injector.get(TableDragActionsRegistryService);
 
   constructor(@Inject(DOCUMENT) private document:Document,
               readonly injector:Injector) {
@@ -148,12 +153,9 @@ export class DragAndDropService implements OnDestroy {
     });
 
     this.drake.on('cloned', (clone:HTMLElement, original:HTMLElement) => {
-      if (clone.tagName === 'TR') {
-        // Maintain widths from original
-        Array.from(original.children).forEach((source:HTMLElement, index:number) => {
-          const target = clone.children.item(index) as HTMLElement;
-          target.style.width = source.offsetWidth + "px";
-        });
+      const member = this.member(original.parentElement!);
+      if (member && member.onCloned) {
+        member.onCloned(clone, original);
       }
     });
 
@@ -166,13 +168,17 @@ export class DragAndDropService implements OnDestroy {
     });
 
     this.drake.on('shadow', (shadowElement:HTMLElement, container:HTMLElement) => {
-      if (shadowElement.tagName === 'TR') {
-        this.actionService.changeShadowElement(shadowElement);
+      const member = this.member(container);
+      if (member && member.onShadowInserted) {
+        member.onShadowInserted(shadowElement);
       }
     });
 
     this.drake.on('cancel', (el:HTMLElement, container:HTMLElement, source:HTMLElement) => {
-      this.actionService.changeShadowElement(el, true);
+      const member = this.member(container);
+      if (member && member.onCancel) {
+        member.onCancel(el);
+      }
     });
   }
 
@@ -196,9 +202,5 @@ export class DragAndDropService implements OnDestroy {
       // Restore element in from container
       DragAndDropHelpers.reinsert(el, el.dataset.sourceIndex || -1, source);
     }
-  }
-
-  protected get actionService():TableDragActionService {
-    return this.dragActionRegistry.get(this.injector);
   }
 }

@@ -2,10 +2,8 @@ import {Injector} from '@angular/core';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {DragAndDropService} from "core-app/modules/boards/drag-and-drop/drag-and-drop.service";
 import {mergeMap, take, takeUntil} from "rxjs/operators";
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
-import {ReorderQueryService} from "core-app/modules/boards/drag-and-drop/reorder-query.service";
 import {RequestSwitchmap} from "core-app/helpers/rxjs/request-switchmap";
 import {Observable, of} from "rxjs";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
@@ -14,9 +12,11 @@ import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state
 import {TableDragActionsRegistryService} from "core-components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
 import {TableDragActionService} from "core-components/wp-table/drag-and-drop/actions/table-drag-action.service";
 import {States} from "core-components/states.service";
-import {DragAndDropHelpers} from "core-app/modules/boards/drag-and-drop/drag-and-drop.helpers";
 import {WorkPackageTableTimelineService} from "core-components/wp-fast-table/state/wp-table-timeline.service";
 import {tableRowClassName} from "core-components/wp-fast-table/builders/rows/single-row-builder";
+import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
+import {ReorderQueryService} from "core-app/modules/common/drag-and-drop/reorder-query.service";
+import {DragAndDropHelpers} from "core-app/modules/common/drag-and-drop/drag-and-drop.helpers";
 
 export class DragAndDropTransformer {
 
@@ -122,7 +122,20 @@ export class DragAndDropTransformer {
             return true;
           })
           .catch(() => false);
-      }
+      },
+      onCloned: (clone:HTMLElement, original:HTMLElement) => {
+        // Maintain widths from original
+        Array.from(original.children).forEach((source:HTMLElement, index:number) => {
+          const target = clone.children.item(index) as HTMLElement;
+          target.style.width = source.offsetWidth + "px";
+        });
+      },
+      onShadowInserted: (el:HTMLElement) => {
+        this.actionService.changeShadowElement(el);
+      },
+      onCancel: (el:HTMLElement) => {
+        this.actionService.changeShadowElement(el, true);
+      },
     });
   }
 

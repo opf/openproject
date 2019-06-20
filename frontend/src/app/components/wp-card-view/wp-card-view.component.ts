@@ -19,10 +19,7 @@ import {CurrentProjectService} from "core-components/projects/current-project.se
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
 import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
-import {DragAndDropService} from "core-app/modules/boards/drag-and-drop/drag-and-drop.service";
-import {ReorderQueryService} from "core-app/modules/boards/drag-and-drop/reorder-query.service";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
-import {DragAndDropHelpers} from "core-app/modules/boards/drag-and-drop/drag-and-drop.helpers";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import {WorkPackageChangeset} from "core-components/wp-edit-form/work-package-changeset";
@@ -31,6 +28,9 @@ import {AuthorisationService} from "core-app/modules/common/model-auth/model-aut
 import {StateService} from "@uirouter/core";
 import {States} from "core-components/states.service";
 import {RequestSwitchmap} from "core-app/helpers/rxjs/request-switchmap";
+import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
+import {ReorderQueryService} from "core-app/modules/common/drag-and-drop/reorder-query.service";
+import {DragAndDropHelpers} from "core-app/modules/common/drag-and-drop/drag-and-drop.helpers";
 
 
 @Component({
