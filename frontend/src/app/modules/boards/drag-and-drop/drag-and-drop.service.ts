@@ -37,7 +37,6 @@ export class DragAndDropService implements OnDestroy {
   };
 
   private readonly dragActionRegistry = this.injector.get(TableDragActionsRegistryService);
-  private actionService:TableDragActionService = this.dragActionRegistry.get(this.injector);
 
   constructor(@Inject(DOCUMENT) private document:Document,
               readonly injector:Injector) {
@@ -197,5 +196,9 @@ export class DragAndDropService implements OnDestroy {
       // Restore element in from container
       DragAndDropHelpers.reinsert(el, el.dataset.sourceIndex || -1, source);
     }
+  }
+
+  protected get actionService():TableDragActionService {
+    return this.dragActionRegistry.get(this.injector);
   }
 }
