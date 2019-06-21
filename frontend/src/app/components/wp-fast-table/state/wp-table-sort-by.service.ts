@@ -35,11 +35,7 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {Injectable} from '@angular/core';
 import {WorkPackageQueryStateService} from './wp-table-base.service';
 import {Observable} from 'rxjs';
-import {
-  QUERY_SORT_BY_ASC,
-  QUERY_SORT_BY_DESC,
-  QuerySortByResource
-} from 'core-app/modules/hal/resources/query-sort-by-resource';
+import {QuerySortByResource} from 'core-app/modules/hal/resources/query-sort-by-resource';
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 
 @Injectable()
@@ -89,19 +85,21 @@ export class WorkPackageTableSortByService extends WorkPackageQueryStateService<
     );
   }
 
-  public addAscending(column:QueryColumn) {
-    let available = this.findAvailableDirection(column, QUERY_SORT_BY_ASC);
+  public addSortCriteria(column:QueryColumn, criteria:string) {
+    let available = this.findAvailableDirection(column, criteria);
 
     if (available) {
       this.add(available);
     }
   }
 
-  public addDescending(column:QueryColumn) {
-    let available = this.findAvailableDirection(column, QUERY_SORT_BY_DESC);
+  public setAsSingleSortCriteria(column:QueryColumn, criteria:string) {
+    let available:QuerySortByResource = this.findAvailableDirection(column, criteria)!;
 
     if (available) {
-      this.add(available);
+      this.state.doModify(() => {
+       return [available];
+      });
     }
   }
 

@@ -42,6 +42,7 @@ import {QueryColumn} from 'core-components/wp-query/query-column';
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
 import {QuerySharingModal} from "core-components/modals/share-modal/query-sharing.modal";
 import {ConfirmDialogService} from "core-components/modals/confirm-dialog/confirm-dialog.service";
+import {QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC} from "core-app/modules/hal/resources/query-sort-by-resource";
 
 @Directive({
   selector: '[opColumnsContextMenu]'
@@ -122,12 +123,12 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
             this.confirmDialog.confirm({
               text: this.text.confirmDelete,
             }).then(() => {
-              this.wpTableSortBy.addDescending(c);
+              this.wpTableSortBy.setAsSingleSortCriteria(c, QUERY_SORT_BY_DESC);
               return true;
             });
             return false;
           } else {
-            this.wpTableSortBy.addDescending(c);
+            this.wpTableSortBy.addSortCriteria(c, QUERY_SORT_BY_DESC);
             return true;
           }
         }
@@ -142,12 +143,12 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
             this.confirmDialog.confirm({
               text: this.text.confirmDelete,
             }).then(() => {
-              this.wpTableSortBy.addAscending(c);
+              this.wpTableSortBy.setAsSingleSortCriteria(c, QUERY_SORT_BY_ASC);
               return true;
             });
             return false;
           } else {
-            this.wpTableSortBy.addAscending(c);
+            this.wpTableSortBy.addSortCriteria(c, QUERY_SORT_BY_ASC);
             return true;
           }
         }
