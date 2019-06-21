@@ -79,12 +79,13 @@ export class TimelineCellRenderer {
 
     const placeholder = document.createElement('div');
     placeholder.style.pointerEvents = 'none';
-    placeholder.style.backgroundColor = '#DDDDDD';
     placeholder.style.position = 'absolute';
     placeholder.style.height = '1em';
     placeholder.style.width = '30px';
     placeholder.style.zIndex = '9999';
     placeholder.style.left = (days * renderInfo.viewParams.pixelPerDay) + 'px';
+
+    this.applyTypeColor(renderInfo, placeholder);
 
     return placeholder;
   }
@@ -374,15 +375,14 @@ export class TimelineCellRenderer {
 
     if (!type && !selectionMode) {
       bg.style.backgroundColor = this.fallbackColor;
+    } else {
+      bg.style.backgroundColor = '';
     }
 
-    bg.style.backgroundColor = '';
-
-    // Don't apply the class in selection mode
+    // Don't apply the class in selection mode or for parents (clamps)
     const id = type.id;
-    if (renderInfo.viewParams.activeSelectionMode) {
+    if (selectionMode || this.is_parent_with_displayed_children(wp)) {
       bg.classList.remove(Highlighting.backgroundClass('type', id!));
-      return;
     } else {
       bg.classList.add(Highlighting.backgroundClass('type', id!));
     }
@@ -402,24 +402,22 @@ export class TimelineCellRenderer {
    */
   checkForSpecialDisplaySituations(renderInfo:RenderInfo, bar:HTMLElement) {
     const wp = renderInfo.workPackage;
+    let selectionMode = renderInfo.viewParams.activeSelectionMode;
 
-    // Cannot eddit the work package if it has children
-    if (!wp.isLeaf) {
+    // Cannot edit the work package if it has children
+    if (!wp.isLeaf && !selectionMode) {
       bar.classList.add('-readonly');
+    } else {
+      bar.classList.remove('-readonly');
     }
 
     // Display the parent as clamp-style when it has children in the table
-    if (this.workPackageTimeline.inHierarchyMode &&
-      hasChildrenInTable(wp, this.workPackageTimeline.workPackageTable)) {
-      // this.applyTypeColor(wp, bar);
+    if (this.is_parent_with_displayed_children(wp)) {
       bar.classList.add('-clamp-style');
       bar.style.borderStyle = 'solid';
       bar.style.borderWidth = '2px';
       bar.style.borderBottom = 'none';
       bar.style.background = 'none';
-    } else {
-      // Apply the background color
-      this.applyTypeColor(renderInfo, bar);
     }
   }
 
@@ -475,5 +473,10 @@ export class TimelineCellRenderer {
     } else if (label) {
       label.classList.remove('not-empty');
     }
+  }
+
+  protected is_parent_with_displayed_children(wp:WorkPackageResource) {
+    return this.workPackageTimeline.inHierarchyMode &&
+      hasChildrenInTable(wp, this.workPackageTimeline.workPackageTable);
   }
 }
