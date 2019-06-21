@@ -1039,6 +1039,8 @@ hu:
   general_text_yes: "yes"
   general_text_No: "Nem"
   general_text_Yes: "Igen"
+  general_text_true: "true"
+  general_text_false: "hamis"
   gui_validation_error: "1 hiba"
   gui_validation_error_plural: "%{count} hiba"
   homescreen:

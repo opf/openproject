@@ -1041,6 +1041,8 @@ da:
   general_text_yes: "ja"
   general_text_No: "Nej"
   general_text_Yes: "Ja"
+  general_text_true: "true"
+  general_text_false: "forkert"
   gui_validation_error: "1 fejl"
   gui_validation_error_plural: "%{count} fejl"
   homescreen:

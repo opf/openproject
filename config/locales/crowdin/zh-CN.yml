@@ -1024,6 +1024,8 @@ zh-CN:
   general_text_yes: "是"
   general_text_No: "否"
   general_text_Yes: "是"
+  general_text_true: "true"
+  general_text_false: "非"
   gui_validation_error: "1 错误"
   gui_validation_error_plural: "%{count} 错误"
   homescreen:
@@ -2161,12 +2163,12 @@ zh-CN:
   text_min_max_length_info: "0 表示没有限制"
   text_no_roles_defined: 没有定义的角色。
   text_no_access_tokens_configurable: "没有可配置的访问令牌。"
-  text_no_configuration_data: "Roles, types, work package statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
+  text_no_configuration_data: "角色、类型、工作包状态和工作流程尚未配置。\n强烈建议加载默认配置。之后您可以再进行修改。"
   text_no_notes: "没有注释可用于此工作包。"
   text_notice_too_many_values_are_inperformant: "注意： 每个页面显示超过 100 个项目会增加页面加载时间。"
   text_notice_security_badge_displayed_html: >
     注：如果启用，这会在 <a href="%{information_panel_path}">%{information_panel_label}</a> 管理面板中和主页上显示一个包含您的安装状态的徽章。徽章仅向管理员显示。<br/>徽章将根据官方的 OpenProject 版本数据库检查您当前的 OpenProject 版本，提醒您是否存在任何更新或已知漏洞。如需详细了解检查可以提供哪些信息，需要哪些数据来提供可用更新，以及如何禁用此检查，请访问<a href="%{more_info_url}">配置文档</a>。
-  text_own_membership_delete_confirmation: "You are about to remove some or all of your permissions and may no longer be able to edit this project after that.\nAre you sure you want to continue?"
+  text_own_membership_delete_confirmation: "您要移除部分或全部权限，并且可能无法在此后编辑这个项目。\n您确定要继续吗？"
   text_plugin_assets_writable: "插件资产目录可写"
   text_powered_by: "Powered by %{link}"
   text_project_identifier_info: "只有小写字母 (a-z)、 数字、 短划线和下划线被允许，必须以小写字母开头。"
@@ -2227,8 +2229,8 @@ zh-CN:
       other: "%{count} 天"
     edit_color: "编辑颜色"
     edit_thing: "编辑"
-    edit_timeline: "Edit timeline report %{timeline}"
-    delete_timeline: "Delete timeline report %{timeline}"
+    edit_timeline: "编辑时间线报表 %{timeline}"
+    delete_timeline: "删除时间线报表 %{timeline}"
     empty: "(空)"
     enable_type_in_project: '启用类型"%{type}"'
     end: "结束"
@@ -2245,8 +2247,8 @@ zh-CN:
         compare_to_absolute: "绝对比较的值 "
         planning_element_time_relative_one: "在一定时间段内的工作包结尾  "
         planning_element_time_relative_two: "在一定时间段内的工作包结尾  "
-        planning_element_time_absolute_one: "The start for work packages in a certain timeframe  "
-        planning_element_time_absolute_two: "The end for work packages in a certain timeframe  "
+        planning_element_time_absolute_one: "在特定时间段内的工作包开头  "
+        planning_element_time_absolute_two: "在特定时间段内的工作包结尾  "
       sort:
         sortation: "排序按"
         alphabet: "字母表"

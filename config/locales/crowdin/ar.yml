@@ -1105,6 +1105,8 @@ ar:
   general_text_yes: "نعم"
   general_text_No: "لا"
   general_text_Yes: "نعم"
+  general_text_true: "true"
+  general_text_false: "خاطئ"
   gui_validation_error: "خطأ 1"
   gui_validation_error_plural: "أخطاء %{count}"
   homescreen:

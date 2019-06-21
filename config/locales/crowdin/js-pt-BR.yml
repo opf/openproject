@@ -473,13 +473,13 @@ pt-BR:
         other: "Você pode selecionar somente {{limit}} itens"
     project_menu_details: "Detalhes"
     sort:
-      sorted_asc: 'Classificação crescente aplicada, '
+      sorted_asc: 'Ordenação crescente aplicada, '
       sorted_dsc: 'Ordenação decrescente aplicada, '
-      sorted_no: 'Sem classificação aplicada, '
-      sorting_disabled: 'a classificação está desativada'
-      activate_asc: 'ative para aplicar uma classificação crescente'
+      sorted_no: 'Sem ordenação aplicada, '
+      sorting_disabled: 'ordenação está desativada'
+      activate_asc: 'ative para aplicar ordenação decrescente'
       activate_dsc: 'ative para aplicar ordenação decrescente'
-      activate_no: 'ative para remover a classificação'
+      activate_no: 'ative para remover a ordenação'
     text_work_packages_destroy_confirmation: "Tem certeza que deseja excluir o(s) pacote(s) de trabalho selecionado(s)?"
     text_query_destroy_confirmation: "Tem certeza que deseja excluir a visão selecionada?"
     text_attachment_destroy_confirmation: "Tem certeza de que deseja excluir o anexo?"
@@ -549,7 +549,7 @@ pt-BR:
       strong: "Negrito"
       italic: "Itálico"
       underline: "Sublinhado"
-      deleted: "Eliminado"
+      deleted: "Excluído"
       code: "Código embutido"
       heading1: "Título 1"
       heading2: "Título 2"
@@ -713,10 +713,10 @@ pt-BR:
           priority: 'Prioridade'
           type: 'Tipo'
         sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
+          description: 'Escolha o modo para ordenar seus pacotes de trabalho:'
+          automatic: 'Automático'
+          manually: 'Manualmente'
+          warning: 'Você perderá sua ordenação anterior quando ativar o modo de ordenação automática.'
         columns_help_text: "Use a entrada acima para adicionar ou remover colunas à sua exibição de tabela. Você pode arrastar e soltar as colunas para reordená-las."
         upsale:
           attribute_highlighting: 'Precisa de certos pacotes de trabalho para se destacar da massa?'

@@ -3,12 +3,12 @@ pt-BR:
     label_preview: 'Pré-visualizar'
     button_update: 'Atualizar'
     avatars:
-      label_choose_avatar: "Choose Avatar from file"
-      uploading_avatar: "Uploading your avatar."
+      label_choose_avatar: "Escolher arquivo com Imagem do Perfil"
+      uploading_avatar: "Enviando sua imagem do perfil."
       text_upload_instructions: |
-        Upload your own custom avatar of 128 by 128 pixels. Larger files will be resized and cropped to match.
-        A preview of your avatar will be shown before uploading, once you selected an image.
-      error_image_too_large: "Image is too large."
-      wrong_file_format: "Allowed formats are jpg, png, gif"
-      empty_file_error: "Please upload a valid image (jpg, png, gif)"
+        Carregue sua própria imagem do perfil com 128 x 128 pixels. Arquivos maiores serão redimensionados e cortados.
+        Uma visualização da sua imagem do perfil será exibida antes de carregar, uma vez que você tenha selecionado uma imagem.
+      error_image_too_large: "A imagem é muito grande."
+      wrong_file_format: "Formatos permitidos são jpg, png, gif"
+      empty_file_error: "Por favor, envie uma imagem válida (jpg, png, gif)"
 

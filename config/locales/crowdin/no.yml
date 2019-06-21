@@ -1041,6 +1041,8 @@
   general_text_yes: "ja"
   general_text_No: "Nei"
   general_text_Yes: "Ja"
+  general_text_true: "true"
+  general_text_false: "usant"
   gui_validation_error: "1 feil"
   gui_validation_error_plural: "%{count} feil"
   homescreen:

@@ -1073,6 +1073,8 @@ ru:
   general_text_yes: "Да"
   general_text_No: "Нет"
   general_text_Yes: "да"
+  general_text_true: "true"
+  general_text_false: "Ложно"
   gui_validation_error: "1 ошибка"
   gui_validation_error_plural: "%{count} ошибок"
   homescreen:

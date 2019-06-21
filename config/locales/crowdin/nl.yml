@@ -1041,6 +1041,8 @@ nl:
   general_text_yes: "Ja"
   general_text_No: "Nee"
   general_text_Yes: "Ja"
+  general_text_true: "true"
+  general_text_false: "onwaar"
   gui_validation_error: "1 fout"
   gui_validation_error_plural: "%{count} fouten"
   homescreen:

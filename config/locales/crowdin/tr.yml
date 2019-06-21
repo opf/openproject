@@ -1041,6 +1041,8 @@ tr:
   general_text_yes: "evet"
   general_text_No: "Hayır"
   general_text_Yes: "Evet"
+  general_text_true: "true"
+  general_text_false: "yanlış"
   gui_validation_error: "1 hata"
   gui_validation_error_plural: "%{count} hata"
   homescreen:

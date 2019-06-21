@@ -1041,6 +1041,8 @@ sv:
   general_text_yes: "ja"
   general_text_No: "Nej"
   general_text_Yes: "Ja"
+  general_text_true: "true"
+  general_text_false: "falsk"
   gui_validation_error: "ett fel"
   gui_validation_error_plural: "%{count} fel"
   homescreen:

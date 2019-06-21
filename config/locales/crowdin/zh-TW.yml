@@ -1025,6 +1025,8 @@ zh-TW:
   general_text_yes: "是"
   general_text_No: "否"
   general_text_Yes: "是"
+  general_text_true: "true"
+  general_text_false: "否"
   gui_validation_error: "1 錯誤"
   gui_validation_error_plural: "%{count} 個錯誤"
   homescreen:

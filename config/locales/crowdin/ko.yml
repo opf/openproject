@@ -1024,6 +1024,8 @@ ko:
   general_text_yes: "예"
   general_text_No: "아니요"
   general_text_Yes: "예"
+  general_text_true: "true"
+  general_text_false: "false"
   gui_validation_error: "1개 오류"
   gui_validation_error_plural: "%{count}개 오류"
   homescreen:

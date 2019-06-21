@@ -1041,6 +1041,8 @@ bg:
   general_text_yes: "Да"
   general_text_No: "Не"
   general_text_Yes: "Да"
+  general_text_true: "true"
+  general_text_false: "false"
   gui_validation_error: "1 грешка"
   gui_validation_error_plural: "%{count} грешки"
   homescreen:

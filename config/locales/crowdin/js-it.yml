@@ -714,10 +714,10 @@ it:
           priority: 'Priorità'
           type: 'Tipo'
         sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
+          description: 'Scegli la modalità per ordinare i pacchetti di lavoro:'
+          automatic: 'Automatico'
+          manually: 'Manuale'
+          warning: 'Perderai il tuo ordinamento precedente quando attivi la modalità di ordinamento automatico.'
         columns_help_text: "Utilizza l'input sopra per aggiungere o rimuovere colonne alla visualizzazione della tabella. È possibile trascinare e rilasciare le colonne per riordinarle."
         upsale:
           attribute_highlighting: 'Vuoi che alcune macro-attività si distinguano dalla massa?'

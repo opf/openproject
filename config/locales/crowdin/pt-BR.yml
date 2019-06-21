@@ -90,7 +90,7 @@ pt-BR:
   concatenation:
     single: 'ou'
   deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
+    time_entries: "Esta exibição de entradas de tempo foi substituída pelo módulo 'Relatórios de Custos'. Esta visão somente suporta exportação das informações de entrada de tempo para csv. Para filtros interativos, ative o módulo 'Relatórios de Custos' nas configurações do projeto."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -1040,6 +1040,8 @@ pt-BR:
   general_text_yes: "sim"
   general_text_No: "Não"
   general_text_Yes: "Sim"
+  general_text_true: "true"
+  general_text_false: "falso"
   gui_validation_error: "1 erro"
   gui_validation_error_plural: "%{count} erros"
   homescreen:
@@ -2254,7 +2256,7 @@ pt-BR:
     edit_color: "Editar cor"
     edit_thing: "Editar"
     edit_timeline: "Editar relatório de cronograma %{timeline}"
-    delete_timeline: "Apagar relatório de cronograma %{timeline}"
+    delete_timeline: "Excluir relatório de cronograma %{timeline}"
     empty: "(vazio)"
     enable_type_in_project: 'Habilitar o tipo "%{type}"'
     end: "Fim"

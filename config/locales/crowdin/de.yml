@@ -90,7 +90,7 @@ de:
   concatenation:
     single: 'oder'
   deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
+    time_entries: "Die Ansicht für Zeiterfassungseinträge wird durch das Reportmodul ersetzt und wird fortan nur noch das Exportieren von Zeiterfassungseinträgen als CSV unterstützen. Für interaktive Filter verwenden Sie bitte das Reporting Modul, welches Sie unter den Projekteinstellungen aktivieren können."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -1039,6 +1039,8 @@ de:
   general_text_yes: "ja"
   general_text_No: "Nein"
   general_text_Yes: "Ja"
+  general_text_true: "true"
+  general_text_false: "true"
   gui_validation_error: "1 Fehler"
   gui_validation_error_plural: "%{count} Fehler"
   homescreen:
@@ -2353,7 +2355,7 @@ de:
     reporting_for_project:
       show: "Statusbericht zu Projekt: %{title}"
       edit_delete: "Statusbericht zu Projekt: %{title}"
-      history: "History for status for project: %{title}"
+      history: "Verlauf des Status für Projekt: %{title}"
     reporting:
       delete: "Statusbericht löschen: %{comment}"
       edit: "Statusbericht bearbeiten: %{comment}"

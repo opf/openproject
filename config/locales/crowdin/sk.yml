@@ -1073,6 +1073,8 @@ sk:
   general_text_yes: "áno"
   general_text_No: "Nie"
   general_text_Yes: "Áno"
+  general_text_true: "true"
+  general_text_false: "nesprávny"
   gui_validation_error: "1 chyba"
   gui_validation_error_plural: "%{count} chýb"
   homescreen:

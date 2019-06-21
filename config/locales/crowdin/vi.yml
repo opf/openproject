@@ -1025,6 +1025,8 @@ vi:
   general_text_yes: "có"
   general_text_No: "Không"
   general_text_Yes: "Có"
+  general_text_true: "true"
+  general_text_false: "false"
   gui_validation_error: "1 lỗi"
   gui_validation_error_plural: "%{count} lỗi"
   homescreen:

@@ -1057,6 +1057,8 @@ hr:
   general_text_yes: "da"
   general_text_No: "Ne"
   general_text_Yes: "Da"
+  general_text_true: "true"
+  general_text_false: "lažno"
   gui_validation_error: "1 pogreška"
   gui_validation_error_plural: "%{count} pogreški"
   homescreen:

@@ -5,8 +5,8 @@ cs:
         costs: "Náklady"
       properties:
         costObject: "Budget"
-        overallCosts: "Overall costs"
-        spentUnits: "Spent units"
+        overallCosts: "Celkové náklady"
+        spentUnits: "Strávené jednotky"
     button_log_costs: "Log unit costs"
     label_hour: "hodina"
     label_hours: "hours"

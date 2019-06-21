@@ -1073,6 +1073,8 @@ uk:
   general_text_yes: "так"
   general_text_No: "Ні"
   general_text_Yes: "Так"
+  general_text_true: "true"
+  general_text_false: "хибне значення"
   gui_validation_error: "1 помилка"
   gui_validation_error_plural: "%{count} помилок"
   homescreen:

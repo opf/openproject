@@ -1057,6 +1057,8 @@ ro:
   general_text_yes: "da"
   general_text_No: "Nu"
   general_text_Yes: "Da"
+  general_text_true: "true"
+  general_text_false: "fals"
   gui_validation_error: "o eroare"
   gui_validation_error_plural: "%{count} erori"
   homescreen:

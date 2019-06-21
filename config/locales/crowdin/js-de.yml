@@ -43,7 +43,7 @@ de:
     button_filter: "Filter"
     button_advanced_filter: "Erweiterte Filter"
     button_list_view: "Listenansicht"
-    button_show_view: "Fullscreen view"
+    button_show_view: "Vollbildansicht"
     button_log_time: "Zeit buchen"
     button_more: "Mehr"
     button_move: "Verschieben"
@@ -713,10 +713,10 @@ de:
           priority: 'Priorität'
           type: 'Art'
         sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
+          description: 'Wählen Sie den Sortiermodus für Arbeitspakete aus:'
+          automatic: 'Automatisch'
+          manually: 'Manuell'
+          warning: 'Sie verlieren Ihre vorherige Sortierung beim Aktivieren des automatischen Sortiermodus.'
         columns_help_text: "Verwenden Sie die Eingabe oben um Spalten zur Tabellenansicht hinzuzufügen oder zu entfernen. Sie können die Reihenfolge der Spalten über Drag & Drop verändern."
         upsale:
           attribute_highlighting: 'Sollen bestimmte Arbeitspakete aus der Menge herausstechen?'

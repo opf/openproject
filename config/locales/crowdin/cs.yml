@@ -1073,6 +1073,8 @@ cs:
   general_text_yes: "ano"
   general_text_No: "Ne"
   general_text_Yes: "Ano"
+  general_text_true: "true"
+  general_text_false: "nepravda"
   gui_validation_error: "1 chyba"
   gui_validation_error_plural: "%{count} chyb"
   homescreen:

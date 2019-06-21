@@ -1073,6 +1073,8 @@ pl:
   general_text_yes: "tak"
   general_text_No: "Nie"
   general_text_Yes: "Tak"
+  general_text_true: "true"
+  general_text_false: "fałsz"
   gui_validation_error: "1 błąd"
   gui_validation_error_plural: "%{count} błędy/ów"
   homescreen:

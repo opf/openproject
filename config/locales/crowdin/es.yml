@@ -1041,6 +1041,8 @@ es:
   general_text_yes: "sí"
   general_text_No: "No"
   general_text_Yes: "Sí"
+  general_text_true: "true"
+  general_text_false: "falso"
   gui_validation_error: "1 error"
   gui_validation_error_plural: "errores %{count}"
   homescreen:

@@ -1,19 +1,19 @@
 de:
   logout_warning: >
-    You have been logged out. The contents of any form you submit may be lost. Please [log in].
+    Sie wurden abgemeldet. Der Inhalt eines Formulars, das Sie uns übermitteln, kann verloren gehen. Bitte [einloggen].
   activemodel:
     attributes:
       openid_connect/provider:
         name: Name
-        display_name: Display name
+        display_name: Angezeigter Name
         identifier: Kennung
         secret: Secret
-        scope: Scope
+        scope: Geltungsbereich
   openid_connect:
-    menu_title: OpenID providers
+    menu_title: OpenID-Anbieter
     providers:
-      label_add_new: Add a new OpenID provider
-      label_edit: Edit OpenID provider %{name}
-      no_results_table: No providers have been defined yet.
-      plural: OpenID providers
-      singular: OpenID provider
+      label_add_new: Neuen OpenID-Anbieter hinzufügen
+      label_edit: OpenID-Provider %{name} bearbeiten
+      no_results_table: Noch keine Anbieter definiert.
+      plural: OpenID-Anbieter
+      singular: OpenID-Anbieter

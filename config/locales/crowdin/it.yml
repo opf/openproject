@@ -756,7 +756,7 @@ it:
   copy_project:
     started: "Copia del progetto \"%{source_project_name}\" a \"%{target_project_name}\" iniziata. Sarete informati via mail appena \"%{target_project_name}\" è disponibile."
     failed: "Non è possibile copiare il progetto %{source_project_name}"
-    failed_internal: "Copying failed due to an internal error."
+    failed_internal: "Copia fallita a causa di un errore interno."
     succeeded: "Creato il progetto %{target_project_name}"
     errors: "Errore"
     project_custom_fields: 'Campi personalizzati sul progetto'
@@ -1040,6 +1040,8 @@ it:
   general_text_yes: "si"
   general_text_No: "No"
   general_text_Yes: "Si"
+  general_text_true: "true"
+  general_text_false: "falso"
   gui_validation_error: "1 errore"
   gui_validation_error_plural: "%{count} errori"
   homescreen:

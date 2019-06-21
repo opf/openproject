@@ -1041,6 +1041,8 @@ fi:
   general_text_yes: "kyllä"
   general_text_No: "Ei"
   general_text_Yes: "Kyllä"
+  general_text_true: "true"
+  general_text_false: "false"
   gui_validation_error: "1 virhe"
   gui_validation_error_plural: "%{count} virhettä"
   homescreen:

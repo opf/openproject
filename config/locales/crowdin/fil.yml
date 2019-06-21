@@ -1041,6 +1041,8 @@ fil:
   general_text_yes: "oo"
   general_text_No: "Hindi"
   general_text_Yes: "Oo"
+  general_text_true: "true"
+  general_text_false: "mali"
   gui_validation_error: "Isang mali"
   gui_validation_error_plural: "%{count} mga mali"
   homescreen:

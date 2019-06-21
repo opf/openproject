@@ -1040,6 +1040,8 @@ fr:
   general_text_yes: "oui"
   general_text_No: "Non"
   general_text_Yes: "Oui"
+  general_text_true: "true"
+  general_text_false: "faux"
   gui_validation_error: "une erreur"
   gui_validation_error_plural: "%{count} erreurs"
   homescreen:
