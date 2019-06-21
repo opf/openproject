@@ -198,16 +198,6 @@ export class WorkPackageTableFiltersService extends WorkPackageQueryStateService
   }
 
   /**
-   * Find an available filter by its ID. Can be used to instantiate or add
-   * with +get+ or +add+ methods on this service.
-   *
-   * @param id Internal identifier string of the filter
-   */
-  public findAvailableFilter(id:string):QueryFilterResource|undefined {
-    return _.find(this.availableFilters, f => f.id === id);
-  }
-
-  /**
    * Determine whether all given filters are completely defined.
    * @param filters
    */
