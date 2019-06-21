@@ -2261,7 +2261,7 @@ pt-BR:
     edit_color: "Editar cor"
     edit_thing: "Editar"
     edit_timeline: "Editar relatório de cronograma %{timeline}"
-    delete_timeline: "Apagar relatório de cronograma %{timeline}"
+    delete_timeline: "Excluir relatório de cronograma %{timeline}"
     empty: "(vazio)"
     enable_type_in_project: 'Habilitar o tipo "%{type}"'
     end: "Fim"

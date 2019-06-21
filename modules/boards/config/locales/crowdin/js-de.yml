@@ -35,10 +35,10 @@ de:
         action: 'Action board'
         action_by_attribute: 'Action board (%{attribute})'
         action_text: >
-          Create a board with filtered lists on a single attribute. Moving work packages to other lists will update their attribute.
+          Erstellen Sie ein Board mit gefilterten Listen auf einem Attribut. Das Verschieben von Arbeitspaketen auf andere Listen aktualisiert das Attribut entsprechend.
         select_attribute: "Action attribute"
       configuration_modal:
-        title: 'Configure this board'
+        title: 'Board konfigurieren'
         display_settings:
-          card_mode: "Display as cards"
-          table_mode: "Display as table"
+          card_mode: "Als Karten anzeigen"
+          table_mode: "Als Tabelle anzeigen"

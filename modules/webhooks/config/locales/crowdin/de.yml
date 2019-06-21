@@ -2,33 +2,33 @@ de:
   activerecord:
     attributes:
       webhooks/webhook:
-        url: 'Payload URL'
-        secret: 'Signature secret'
-        events: 'Events'
+        url: 'Payload-URL'
+        secret: 'Schlüssel für Signatur'
+        events: 'Ereignisse'
         projects: 'Aktivierte Projekte'
       webhooks/log:
-        event_name: 'Event name'
-        url: 'Payload URL'
-        response_code: 'Response code'
-        response_body: 'Response'
+        event_name: 'Ereignisname'
+        url: 'Payload-URL'
+        response_code: 'HTTP-Statuscode'
+        response_body: 'Antwort'
     models:
-      webhooks/outgoing_webhook: "Outgoing webhook"
+      webhooks/outgoing_webhook: "Ausgehender Webhook"
   webhooks:
     singular: Webhook
     plural: Webhooks
     outgoing:
-      no_results_table: No webhooks have been defined yet.
-      label_add_new: Add new webhook
-      label_edit: Edit webhook
-      label_event_resources: Event resources
+      no_results_table: Es wurden noch keine Webhooks definiert.
+      label_add_new: Webhook hinzufügen
+      label_edit: Webhook bearbeiten
+      label_event_resources: Event-Ressourcen
       events:
         created: "Angelegt am"
-        updated: "Updated"
+        updated: "Aktualisiert"
       status:
-        enabled: 'Webhook is enabled'
-        disabled: 'Webhook is disabled'
-        enabled_text: 'The webhook will emit payloads for the defined events below.'
-        disabled_text: 'Click the edit button to activate the webhook.'
+        enabled: 'Webhook ist aktiv'
+        disabled: 'Webhook ist deaktiviert'
+        enabled_text: 'Der Webhook wird Inhalte für die unten definierten Ereignisse senden.'
+        disabled_text: 'Klicken Sie auf Bearbeiten, um den Webhook zu aktivieren.'
       deliveries:
         no_results_table: Für diesen Webhook wurden keine Zustellungen ausgefüührt.
         title: 'Letzte Zustellungen'
