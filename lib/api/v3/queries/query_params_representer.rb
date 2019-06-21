@@ -54,7 +54,7 @@ module API
         # Outputs columns[]=A,columns[]=B due to Rails query output.
         def to_url_query(merge_params: {})
           to_h
-            .merge(merge_params)
+            .merge(merge_params.symbolize_keys)
             .to_query
         end
 

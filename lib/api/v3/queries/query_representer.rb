@@ -363,13 +363,13 @@ module API
         end
 
         def self_v3_path(*_args)
-          if represented.new_record? && represented.project
-            api_v3_paths.query_project_default(represented.project.id)
-          elsif represented.new_record?
-            api_v3_paths.query_default
-          else
-            super
-          end
+          base = if represented.new_record?
+                   default_query_path
+                 else
+                   super
+                 end
+
+          [base, query_props].select(&:present?).join('?')
         end
 
         def convert_attribute(attribute)
@@ -413,6 +413,18 @@ module API
 
             yield decorated
           end
+        end
+
+        def default_query_path
+          if represented.project
+            api_v3_paths.query_project_default(represented.project.id)
+          else
+            api_v3_paths.query_default
+          end
+        end
+
+        def query_props
+          params.symbolize_keys.except(:id).to_query
         end
       end
     end
