@@ -90,7 +90,7 @@ tr:
   concatenation:
     single: 'ya da'
   deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
+    time_entries: "Bu kez girdiler görünümü 'Maliyet raporları' modülü tarafından değiştirildi. Bu görünüm artık yalnızca zaman girişi bilgisinin csv'ye aktarılmasını desteklemektedir. Etkileşimli filtreleme için lütfen proje ayarlarında 'Maliyet raporları' modülünü etkinleştirin."
   global_search:
     overwritten_tabs:
       wiki_pages: "Viki"
@@ -1041,7 +1041,7 @@ tr:
   general_text_yes: "evet"
   general_text_No: "Hayır"
   general_text_Yes: "Evet"
-  general_text_true: "true"
+  general_text_true: "doğru"
   general_text_false: "yanlış"
   gui_validation_error: "1 hata"
   gui_validation_error_plural: "%{count} hata"

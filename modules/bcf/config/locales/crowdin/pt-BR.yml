@@ -25,7 +25,7 @@ pt-BR:
         button_back_to_list: 'Voltar à lista'
         description: "Forneça um arquivo BCF-XML v2.1 para importar para este projeto. Você pode examinar seu conteúdo antes de realizar a importação."
         perform_description: "Você quer importar ou atualizar os problemas listados acima?"
-        work_package_has_newer_changes: "The import for BCF topic %{bcf_uuid} appears to be outdated. The latest changes on the server are newer than the \"MofiedDate\" of the imported topic. However, comments got updated."
+        work_package_has_newer_changes: "A importação para o tópico BCF %{bcf_uuid} parece estar desatualizada. As últimas alterações no servidor são mais recentes do que a \"MofiedDate\" do tópico importado. No entanto, os comentários foram atualizados."
   export:
     format:
       bcf: "BCF-XML"

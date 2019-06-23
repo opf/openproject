@@ -241,8 +241,8 @@ tr:
     label_less_than_ago: "bir haftadan kısa bir süre önce"
     label_loading: "Yükleniyor..."
     label_me: "ben"
-    label_menu_collapse: "collapse"
-    label_menu_expand: "expand"
+    label_menu_collapse: "çöküş"
+    label_menu_expand: "genişletmek"
     label_more_than_ago: "günler önce"
     label_my_page: "Benim sayfam"
     label_next: "Sonraki"
@@ -714,10 +714,10 @@ tr:
           priority: 'Öncelik'
           type: 'Tür'
         sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
+          description: 'İş paketlerinizi sıralamak için modu seçin:'
+          automatic: 'Otomatik'
+          manually: 'el ile'
+          warning: 'Otomatik sıralama modunu etkinleştirirken önceki sıralamanızı kaybedeceksiniz.'
         columns_help_text: "Tablo görünümünüze sütun eklemek veya kaldırmak için yukarıdaki girişi kullanın. Yeniden düzenlemek için sütunları sürükleyip bırakabilirsiniz."
         upsale:
           attribute_highlighting: 'Kitleden sıyrılmak için bazı iş paketlerine mi ihtiyacınız var?'

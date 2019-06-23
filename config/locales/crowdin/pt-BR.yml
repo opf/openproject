@@ -1040,7 +1040,7 @@ pt-BR:
   general_text_yes: "sim"
   general_text_No: "Não"
   general_text_Yes: "Sim"
-  general_text_true: "true"
+  general_text_true: "verdadeiro"
   general_text_false: "falso"
   gui_validation_error: "1 erro"
   gui_validation_error_plural: "%{count} erros"
