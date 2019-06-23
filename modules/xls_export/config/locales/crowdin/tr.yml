@@ -1,13 +1,13 @@
 tr:
-  export_to_excel: "Export as Excel spreadsheet"
-  print_with_description: "Print preview with description"
+  export_to_excel: "Excel elektronik tablosu olarak dışa aktar"
+  print_with_description: "Açıklama ile önizlemeyi yazdır"
   sentence_separator_or: "ya da"
-  different_formats: Different formats
+  different_formats: Farklı biçimler
   export:
     format:
       xls: "XLS"
-      xls_with_descriptions: "XLS with descriptions"
-      xls_with_relations: "XLS with relations"
+      xls_with_descriptions: "Açıklamaları ile XLS"
+      xls_with_relations: "XLS ile ilişkileri"
   xls_export:
-    child_of: child of
-    parent_of: parent of
+    child_of: şunun çocuğu 
+    parent_of: ebeveyni

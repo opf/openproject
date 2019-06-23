@@ -2,31 +2,31 @@ tr:
   activerecord:
     attributes:
       ldap_groups/synchronized_group:
-        entry: 'Entry identifier'
-        auth_source: 'LDAP connection'
+        entry: 'Giriş tanımlayıcısı'
+        auth_source: 'LDAP bağlantısı'
     models:
-      ldap_groups/synchronized_group: 'Synchronized LDAP group'
+      ldap_groups/synchronized_group: 'Senkronize LDAP grubu'
   ldap_groups:
-    label_menu_item: 'Group synchronization'
-    label_group_key: 'LDAP group filter key'
+    label_menu_item: 'Grup senkronizasyonu'
+    label_group_key: 'LDAP grubu filtre anahtarı'
     settings:
       group_key: 'LDAP group attribute'
-      group_key_text: 'The LDAP attribute name used to identify the groups.'
-      group_base: 'LDAP group base'
-      group_base_text: 'LDAP group base used to search for group entries.'
+      group_key_text: 'Grupları tanımlamak için kullanılan LDAP özellik adı.'
+      group_base: 'LDAP grup tabanı'
+      group_base_text: 'LDAP grup tabanı, grup girişlerini aramak için kullanılır.'
     synchronized_groups:
-      add_new: 'Add synchronized LDAP group'
+      add_new: 'Senkronize LDAP grubu ekle'
       destroy:
-        title: 'Remove synchronized group %{name}'
-        confirmation: "If you continue, the synchronized group %{name} and all %{users_count} users synchronized through it will be removed."
-        info: "Note: The OpenProject group itself and members added outside this LDAP synchronization will not be removed."
-        verification: "Enter the group's name %{name} to verify the deletion."
-      no_results: 'No synchronized groups found.'
-      no_members: 'This group has no synchronized members yet.'
-      plural: 'Synchronized LDAP groups'
-      singular: 'Synchronized LDAP group'
+        title: '%{name} adlı senkronize grubu kaldır'
+        confirmation: "Devam ederseniz, %{name}} ile senkronize edilmiş grup ve içinden senkronize olan tüm %{users_count} kullanıcısı kaldırılacak."
+        info: "Not: OpenProject grubunun kendisi ve bu LDAP senkronizasyonunun dışına eklenen üyeler kaldırılmaz."
+        verification: "Silme işlemini doğrulamak için grubun adını %{name} girin."
+      no_results: 'Senkronize edilmiş grup bulunamadı.'
+      no_members: 'Bu grubun henüz senkronize edilmiş üyesi yok.'
+      plural: 'Senkronize LDAP grupları'
+      singular: 'Senkronize LDAP grubu'
       form:
-        auth_source_text: 'Select which LDAP authentication mode is used.'
-        entry_text: 'Define the LDAP group identifier.'
-        group_text: 'Select an existing OpenProject group that members of the LDAP group shall be synchronized with'
+        auth_source_text: 'Hangi LDAP kimlik doğrulama modunun kullanılacağını seçin.'
+        entry_text: 'LDAP grup tanımlayıcısını tanımlayın.'
+        group_text: 'LDAP grubunun üyelerinin senkronize edileceği mevcut bir OpenProject grubunu seçin.'
 
