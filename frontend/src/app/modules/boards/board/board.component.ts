@@ -258,7 +258,12 @@ export class BoardComponent implements OnInit, OnDestroy {
     queries.forEach((query) => {
       this
         .lists
-        .filter((listComponent) => query.id!.toString() === listComponent.resource.options.query_id.toString())
+        .filter((listComponent) => {
+          const id = query.id!.toString();
+          const listId = (listComponent.resource.options.query_id as string|number).toString() ;
+
+          return id === listId;
+        })
         .forEach((listComponent) => listComponent.refreshQueryUnlessCaused(false));
     });
   }
