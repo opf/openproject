@@ -7,6 +7,7 @@ require_relative 'file_entry'
 module OpenProject::Bcf::BcfXml
   class IssueReader
     attr_reader :zip, :entry, :issue, :extractor, :project, :user, :import_options, :aggregations
+    attr_accessor :wp_last_updated_at, :is_update
 
     def initialize(project, zip, entry, current_user:, import_options:, aggregations:)
       @zip = zip
@@ -18,6 +19,8 @@ module OpenProject::Bcf::BcfXml
       @import_options = import_options
       @aggregations = aggregations
       @doc = nil
+      @wp_last_updated_at = nil
+      @is_update = false
     end
 
     def extract!
@@ -87,7 +90,9 @@ module OpenProject::Bcf::BcfXml
     end
 
     def synchronize_with_work_package
-      is_update = issue.work_package.present?
+      self.is_update = issue.work_package.present?
+      self.wp_last_updated_at = issue.work_package&.updated_at
+
       call =
         if is_update
           update_work_package
@@ -104,7 +109,7 @@ module OpenProject::Bcf::BcfXml
     end
 
     def import_is_newer?
-      extractor.modified_date && extractor.modified_date > issue.work_package.updated_at
+      extractor.modified_date && extractor.modified_date > wp_last_updated_at
     end
 
     def create_work_package
