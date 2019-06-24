@@ -1,12 +1,13 @@
 import {Injector} from '@angular/core';
 import {scrollTableRowIntoView} from 'core-components/wp-fast-table/helpers/wp-table-row-helpers';
-import {distinctUntilChanged, filter, map, takeUntil, withLatestFrom} from 'rxjs/operators';
+import {distinctUntilChanged, filter, map, takeUntil} from 'rxjs/operators';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {WorkPackageTableHierarchiesService} from "core-components/wp-fast-table/state/wp-table-hierarchy.service";
 import {WorkPackageTable} from "core-components/wp-fast-table/wp-fast-table";
 import {WorkPackageTableHierarchies} from "core-components/wp-fast-table/wp-table-hierarchies";
 import {
-  collapsedGroupClass, hierarchyGroupClass,
+  collapsedGroupClass,
+  hierarchyGroupClass,
   hierarchyRootClass
 } from "core-components/wp-fast-table/helpers/wp-table-hierarchy-helpers";
 import {indicatorCollapsedClass} from "core-components/wp-fast-table/builders/modes/hierarchy/single-hierarchy-row-builder";
@@ -19,8 +20,9 @@ export class HierarchyTransformer {
 
   constructor(public readonly injector:Injector,
               table:WorkPackageTable) {
-    this.querySpace.updates.hierarchyUpdates
-      .values$('Refreshing hierarchies on user request')
+
+    this.wpTableHierarchies
+      .updates$()
       .pipe(
         takeUntil(this.querySpace.stopAllSubscriptions),
         map((state) => state.isVisible),
@@ -36,8 +38,9 @@ export class HierarchyTransformer {
     let lastValue = this.wpTableHierarchies.isEnabled;
 
     this.wpTableHierarchies
-      .observeUntil(this.querySpace.stopAllSubscriptions)
+      .updates$()
       .pipe(
+        takeUntil(this.querySpace.stopAllSubscriptions),
         filter(() => this.querySpace.rendered.hasValue())
       )
       .subscribe((state:WorkPackageTableHierarchies) => {

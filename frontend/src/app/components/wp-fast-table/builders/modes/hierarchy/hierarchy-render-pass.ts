@@ -2,25 +2,21 @@ import {Injector} from '@angular/core';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {States} from '../../../../states.service';
-import {
-  ancestorClassIdentifier,
-  collapsedGroupClass, hasChildrenInTable,
-  hierarchyGroupClass,
-  hierarchyRootClass
-} from '../../../helpers/wp-table-hierarchy-helpers';
+import {ancestorClassIdentifier, hierarchyGroupClass} from '../../../helpers/wp-table-hierarchy-helpers';
 import {WorkPackageTable} from '../../../wp-fast-table';
 import {WorkPackageTableHierarchies} from '../../../wp-table-hierarchies';
 import {WorkPackageTableRow} from '../../../wp-table.interfaces';
 import {PrimaryRenderPass, RowRenderInfo} from '../../primary-render-pass';
 import {additionalHierarchyRowClassName, SingleHierarchyRowBuilder} from './single-hierarchy-row-builder';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {WorkPackageTableHierarchiesService} from "core-components/wp-fast-table/state/wp-table-hierarchy.service";
 
 export class HierarchyRenderPass extends PrimaryRenderPass {
 
-  private readonly querySpace = this.injector.get(IsolatedQuerySpace);
-
-  public states = this.injector.get(States);
-  public wpCacheService = this.injector.get(WorkPackageCacheService);
+  protected readonly querySpace = this.injector.get(IsolatedQuerySpace);
+  protected readonly states = this.injector.get(States);
+  protected readonly wpCacheService = this.injector.get(WorkPackageCacheService);
+  protected readonly wpTableHierarchies = this.injector.get(WorkPackageTableHierarchiesService);
 
   // Remember which rows were already rendered
   public rendered:{ [workPackageId:string]:boolean };
@@ -43,7 +39,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
   protected prepare() {
     super.prepare();
 
-    this.hierarchies = this.querySpace.hierarchies.value!;
+    this.hierarchies = this.wpTableHierarchies.current;
     this.rendered = {};
     this.additionalParents = {};
     this.deferred = {};
@@ -99,10 +95,9 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
     // -> deferred[a ancestor] = parent
     // -> deferred[parent] = wp
     // 4. Any ancestor already rendered -> Render normally (don't defer)
-    var ancestorChain = ancestors.concat([workPackage]);
+    let ancestorChain = ancestors.concat([workPackage]);
     for (let i = ancestorChain.length - 2; i >= 0; --i) {
       const parent = ancestorChain[i];
-      const child = ancestorChain[i + 1];
 
       const inTable = this.workPackageTable.originalRowIndex[parent.id!];
       const alreadyRendered = this.rendered[parent.id!];
@@ -207,7 +202,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
   /**
    * Insert the given node as a child of the parent
    * @param row
-   * @param parentId
+   * @param parent
    */
   private insertUnderParent(row:WorkPackageTableRow, parent:WorkPackageResource) {
     const [tr, hidden] = this.rowBuilder.buildEmpty(row.object);
@@ -219,6 +214,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
    * Mark the given work package as rendered
    * @param workPackage
    * @param hidden
+   * @param isAncestor
    */
   private markRendered(workPackage:WorkPackageResource, hidden:boolean = false, isAncestor:boolean = false) {
     this.rendered[workPackage.id!] = true;

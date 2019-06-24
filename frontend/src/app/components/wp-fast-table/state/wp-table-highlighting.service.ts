@@ -7,6 +7,8 @@ import {DynamicCssService} from "../../../modules/common/dynamic-css/dynamic-css
 import {WorkPackageTableHighlight} from "core-components/wp-fast-table/wp-table-highlight";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
+import {QuerySchemaResource} from "core-app/modules/hal/resources/query-schema-resource";
 
 @Injectable()
 export class WorkPackageTableHighlightingService extends WorkPackageQueryStateService<WorkPackageTableHighlight>{
@@ -15,6 +17,11 @@ export class WorkPackageTableHighlightingService extends WorkPackageQueryStateSe
                      readonly dynamicCssService:DynamicCssService,
                      readonly querySpace:IsolatedQuerySpace) {
     super(querySpace);
+  }
+
+  initialize(query:QueryResource, results:WorkPackageCollectionResource, schema?:QuerySchemaResource) {
+    super.initialize(query, results, schema);
+    this.dynamicCssService.requireHighlighting();
   }
 
   /**
@@ -37,12 +44,8 @@ export class WorkPackageTableHighlightingService extends WorkPackageQueryStateSe
     return !!_.find(this.current.selectedAttributes, (attr:HalResource) => attr.id === name);
   }
 
-  public get state() {
-    return this.querySpace.highlighting;
-  }
-
   public get current():WorkPackageTableHighlight {
-    let value = this.state.getValueOr({ mode: 'inline' } as WorkPackageTableHighlight);
+    let value = this.lastUpdatedState.getValueOr({ mode: 'inline' } as WorkPackageTableHighlight);
     return this.filteredValue(value);
   }
 
@@ -55,10 +58,6 @@ export class WorkPackageTableHighlightingService extends WorkPackageQueryStateSe
   }
 
   public update(value:WorkPackageTableHighlight) {
-    if (_.isEmpty(value.selectedAttributes)) {
-      value.selectedAttributes = undefined;
-    }
-
     super.update(this.filteredValue(value));
 
     this.dynamicCssService.requireHighlighting();
@@ -84,10 +83,15 @@ export class WorkPackageTableHighlightingService extends WorkPackageQueryStateSe
   }
 
   private filteredValue(value:WorkPackageTableHighlight):WorkPackageTableHighlight {
+    if (_.isEmpty(value.selectedAttributes)) {
+      value.selectedAttributes = undefined;
+    }
+
     this.Banners.conditional(() => {
       value.mode = 'none';
       value.selectedAttributes = undefined;
     });
+
     return value;
   }
 }

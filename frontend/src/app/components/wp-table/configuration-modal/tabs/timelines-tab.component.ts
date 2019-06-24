@@ -56,11 +56,12 @@ export class WpTableConfigurationTimelinesTab implements TabComponent {
   }
 
   public onSave() {
-    let current = this.wpTableTimeline.current;
-    current.visible = this.timelineVisible;
-    current.labels = this.labels;
-    current.zoomLevel = this.zoomLevel;
-    this.wpTableTimeline.state.putValue(current);
+    this.wpTableTimeline.update({
+      ...this.wpTableTimeline.current,
+      visible: this.timelineVisible,
+      labels: this.labels,
+      zoomLevel: this.zoomLevel
+    });
   }
 
   public updateLabels(key:keyof TimelineLabels, value:string|null) {

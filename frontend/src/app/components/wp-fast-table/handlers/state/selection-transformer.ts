@@ -40,7 +40,7 @@ export class SelectionTransformer {
 
 
     // Update selection state
-    this.wpTableSelection.selectionState.values$()
+    this.wpTableSelection.selection$()
       .pipe(
         takeUntil(this.querySpace.stopAllSubscriptions)
       )

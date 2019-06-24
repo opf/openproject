@@ -42,7 +42,7 @@ import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {TableHandlerRegistry} from 'core-components/wp-fast-table/handlers/table-handler-registry';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
+import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {combineLatest} from 'rxjs';
 import {States} from '../states.service';
 import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
@@ -61,6 +61,8 @@ import {QueryColumn} from 'core-components/wp-query/query-column';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
 import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state/wp-table-sort-by.service";
+import {tap} from "rxjs/operators";
+import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 
 @Component({
   templateUrl: './wp-table.directive.html',
@@ -73,6 +75,8 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   @Input() projectIdentifier:string;
   @Input('configuration') configurationObject:WorkPackageTableConfigurationObject;
+
+  public trackByHref = AngularTrackingHelpers.trackByHref;
 
   public configuration:WorkPackageTableConfiguration;
 
@@ -147,12 +151,13 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
       ].join(' ')
     };
 
-    let statesCombined = combineLatest(
+    let statesCombined = combineLatest([
       this.querySpace.results.values$(),
-      this.wpTableGroupBy.state.values$(),
-      this.wpTableColumns.state.values$(),
-      this.wpTableTimeline.state.values$(),
-      this.wpTableSortBy.state.values$());
+      this.wpTableGroupBy.live$(),
+      this.wpTableColumns.live$(),
+      this.wpTableTimeline.live$(),
+      this.wpTableSortBy.live$()
+    ]);
 
     statesCombined.pipe(
       untilComponentDestroyed(this)
@@ -175,15 +180,6 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
       this.cdRef.detectChanges();
     });
 
-    // Locate table and timeline elements
-    const tableAndTimeline = this.getTableAndTimelineElement();
-    this.tableElement = tableAndTimeline[0];
-    this.timeline = tableAndTimeline[1];
-
-    // sync hover from table to timeline
-    this.wpTableHoverSync = new WpTableHoverSync(this.$element);
-    this.wpTableHoverSync.activate();
-
     this.cdRef.detectChanges();
   }
 
@@ -197,6 +193,16 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     this.tbody = tbody;
     controller.workPackageTable = this.workPackageTable;
     new TableHandlerRegistry(this.injector).attachTo(this.workPackageTable);
+
+    // Locate table and timeline elements
+    const tableAndTimeline = this.getTableAndTimelineElement();
+    this.tableElement = tableAndTimeline[0];
+    this.timeline = tableAndTimeline[1];
+
+    // sync hover from table to timeline
+    this.wpTableHoverSync = new WpTableHoverSync(this.$element);
+    this.wpTableHoverSync.activate();
+
     this.cdRef.detectChanges();
   }
 

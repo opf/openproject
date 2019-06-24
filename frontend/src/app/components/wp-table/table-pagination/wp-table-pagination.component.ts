@@ -29,7 +29,7 @@
 import {WorkPackageTablePaginationService} from '../../wp-fast-table/state/wp-table-pagination.service';
 import {WorkPackageTablePagination} from '../../wp-fast-table/wp-table-pagination';
 import {TablePaginationComponent} from 'core-components/table-pagination/table-pagination.component';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {PaginationService} from 'core-components/table-pagination/pagination-service';
@@ -50,7 +50,10 @@ export class WorkPackageTablePaginationComponent extends TablePaginationComponen
 
   public newPagination() {
     this.wpTablePagination
-      .observeUntil(componentDestroyed(this))
+      .live$()
+      .pipe(
+        untilComponentDestroyed(this)
+      )
       .subscribe((wpPagination:WorkPackageTablePagination) => {
         this.pagination = wpPagination.current;
         this.update();

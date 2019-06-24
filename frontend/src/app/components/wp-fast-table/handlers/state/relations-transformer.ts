@@ -1,8 +1,9 @@
 import {Injector} from '@angular/core';
 import {WorkPackageTableRelationColumnsService} from '../../state/wp-table-relation-columns.service';
 import {WorkPackageTable} from '../../wp-fast-table';
-import {WorkPackageTableRelationColumns} from '../../wp-table-relation-columns';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {takeUntil} from "rxjs/operators";
 
 export class RelationsTransformer {
 
@@ -12,9 +13,12 @@ export class RelationsTransformer {
   constructor(public readonly injector:Injector,
               table:WorkPackageTable) {
 
-    this.querySpace.updates.relationUpdates
-      .values$('Refreshing expanded relations on user request')
-      .subscribe((state:WorkPackageTableRelationColumns) => {
+    this.wpTableRelationColumns
+      .updates$()
+      .pipe(
+        takeUntil(this.querySpace.stopAllSubscriptions)
+      )
+      .subscribe(() => {
         table.redrawTableAndTimeline();
       });
   }

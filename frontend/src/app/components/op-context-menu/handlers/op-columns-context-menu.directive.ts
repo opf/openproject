@@ -159,6 +159,9 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         linkText: this.I18n.t('js.work_packages.query.group'),
         icon: 'icon-group-by',
         onClick: () => {
+          if (this.wpTableHierarchies.isEnabled) {
+            this.wpTableHierarchies.setEnabled(false);
+          }
           this.wpTableGroupBy.setBy(c);
           return true;
         }

@@ -46,10 +46,6 @@ export class WorkPackageTableTimelineService extends WorkPackageQueryStateServic
     super(querySpace);
   }
 
-  public get state():InputState<WorkPackageTableTimelineState> {
-    return this.querySpace.timeline;
-  }
-
   public valueFromQuery(query:QueryResource) {
     return {
       ...this.defaultState,
@@ -89,7 +85,7 @@ export class WorkPackageTableTimelineService extends WorkPackageQueryStateServic
   }
 
   public setVisible(value:boolean) {
-    this.state.putValue({...this.current, visible: value});
+    this.updatesState.putValue({...this.current, visible: value});
   }
 
   public get isVisible() {
@@ -141,9 +137,10 @@ export class WorkPackageTableTimelineService extends WorkPackageQueryStateServic
       return this.applyZoomLevel(level, delta);
     }
 
-    if (this.appliedZoomLevel && this.appliedZoomLevel !== 'auto') {
+    const applied = this.appliedZoomLevel;
+    if (applied && applied !== 'auto') {
       // When we have a real zoom value, use delta on that one
-      this.applyZoomLevel(this.appliedZoomLevel, delta);
+      this.applyZoomLevel(applied, delta);
     } else {
       // Use the maximum zoom value
       const target = delta < 0 ? 'days' : 'years';
@@ -160,7 +157,7 @@ export class WorkPackageTableTimelineService extends WorkPackageQueryStateServic
   }
 
   public get current():WorkPackageTableTimelineState {
-    return this.state.getValueOr(this.defaultState);
+    return this.lastUpdatedState.getValueOr(this.defaultState);
   }
 
   /**
@@ -168,7 +165,7 @@ export class WorkPackageTableTimelineService extends WorkPackageQueryStateServic
    * @param update
    */
   private modify(update:Partial<WorkPackageTableTimelineState>) {
-    this.update({ ...this.current, ...update });
+    this.update({ ...this.current, ...update } as WorkPackageTableTimelineState);
   }
 
   /**

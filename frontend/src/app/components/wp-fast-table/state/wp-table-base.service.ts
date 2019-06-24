@@ -27,14 +27,20 @@
 // ++
 
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {InputState, State} from 'reactivestates';
-import {mapTo, take, takeUntil} from 'rxjs/operators';
-import {Observable} from 'rxjs';
+import {combine, deriveRaw, input, State} from 'reactivestates';
+import {map, mapTo, take} from 'rxjs/operators';
+import {merge, Observable} from 'rxjs';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
 import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
 
 export abstract class WorkPackageTableBaseService<T> {
+
+  /** Internal state to push non-persisted updates */
+  protected updatesState = input<T>();
+
+  /** Internal pristine state filled during +initialize+ only */
+  protected pristineState = input<T>();
 
   constructor(protected readonly querySpace:IsolatedQuerySpace) {
   }
@@ -45,7 +51,7 @@ export abstract class WorkPackageTableBaseService<T> {
    * @param {QueryResource} query
    * @returns {T} Instance of the state value for this type.
    */
-  public abstract valueFromQuery(query:QueryResource, results:WorkPackageCollectionResource):T | undefined;
+  public abstract valueFromQuery(query:QueryResource, results:WorkPackageCollectionResource):T|undefined;
 
   /**
    * Initialize this table state from the given query resource,
@@ -55,23 +61,56 @@ export abstract class WorkPackageTableBaseService<T> {
    * @param {QuerySchemaResource} schema
    */
   public initialize(query:QueryResource, results:WorkPackageCollectionResource, schema?:QuerySchemaResource) {
-    this.update(this.valueFromQuery(query, results)!);
+    const initial = this.valueFromQuery(query, results)!;
+    this.pristineState.putValue(initial);
   }
 
   public update(value:T) {
-    this.state.putValue(value);
+    this.updatesState.putValue(value);
   }
 
   public clear(reason:string) {
-    this.state.clear(reason);
+    this.pristineState.clear(reason);
+    this.updatesState.clear(reason);
   }
 
-  public observeUntil(unsubscribe:Observable<any>) {
-    return this.state.values$().pipe(takeUntil(unsubscribe));
+  /**
+   * Get the combined pristine and update value changes
+   * @param unsubscribe
+   */
+  public live$():Observable<T> {
+    return merge(
+      this.pristineState.values$(),
+      this.updatesState.values$(),
+    );
+  }
+
+  /**
+   * Get pristine upstream changes
+   *
+   * @param unsubscribe
+   */
+  public pristine$():Observable<T> {
+    return this
+      .pristineState
+      .values$();
+  }
+
+  /**
+   * Get only the local update changes
+   *
+   * @param unsubscribe
+   */
+  public updates$():Observable<T> {
+    return this
+      .updatesState
+      .values$();
   }
 
   public onReady() {
-    return this.state.values$()
+    return this
+      .pristineState
+      .values$()
       .pipe(
         take(1),
         mapTo(null)
@@ -79,18 +118,21 @@ export abstract class WorkPackageTableBaseService<T> {
       .toPromise();
   }
 
+  /** Get the last updated value from either pristine or update state */
+  protected get lastUpdatedState():State<T> {
+    const combinedRaw = combine(this.pristineState, this.updatesState);
 
-  /**
-   * Return the state this service cares for from the table state.
-   * @returns {InputState<T>}
-   */
-  protected abstract get state():InputState<T>;
-
-  /**
-   * Return a public read-only state
-   */
-public get readonlyState():State<T> {
-    return this.state;
+    return deriveRaw(combinedRaw,
+      ($) => $
+        .pipe(
+          map(([pristine, current]) => {
+            if (current === undefined) {
+              return pristine;
+            }
+            return current;
+          })
+        )
+    );
   }
 
   /**
@@ -99,9 +141,9 @@ public get readonlyState():State<T> {
    */
   protected set current(val:T|undefined) {
     if (val) {
-      this.state.putValue(val);
+      this.updatesState.putValue(val);
     } else {
-      this.state.clear();
+      this.updatesState.clear();
     }
   }
 
@@ -109,7 +151,7 @@ public get readonlyState():State<T> {
    * Get the value of the current state, if any.
    */
   protected get current():T|undefined {
-    return this.state.value;
+    return this.lastUpdatedState.value;
   }
 }
 

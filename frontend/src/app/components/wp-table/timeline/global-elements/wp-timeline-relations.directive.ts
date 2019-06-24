@@ -41,6 +41,7 @@ import {WorkPackageTimelineCell} from '../cells/wp-timeline-cell';
 import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import {timelineElementCssClass, TimelineViewParameters} from '../wp-timeline';
 import {TimelineRelationElement, workPackagePrefix} from './timeline-relation-element';
+import {WorkPackageTableTimelineService} from "core-components/wp-fast-table/state/wp-table-timeline.service";
 
 const DEBUG_DRAW_RELATION_LINES_WITH_COLOR = false;
 
@@ -91,6 +92,7 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
               public elementRef:ElementRef,
               public states:States,
               public workPackageTimelineTableController:WorkPackageTimelineTableController,
+              public wpTableTimeline:WorkPackageTableTimelineService,
               public wpRelations:WorkPackageRelationsService) {
 
   }
@@ -121,12 +123,12 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
    */
   private setupRelationSubscription() {
     // for all visible WorkPackage rows...
-    combineLatest(
+    combineLatest([
       this.querySpace.renderedWorkPackages.values$(),
-      this.querySpace.timeline.values$()
-    )
+      this.wpTableTimeline.live$()
+    ])
       .pipe(
-        filter(([rendered, timeline]) => timeline.visible),
+        filter(([_, timeline]) => timeline.visible),
         takeUntil(componentDestroyed(this)),
         map(([rendered, _]) => rendered)
       )
@@ -154,7 +156,7 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
     this.states.workPackages.observeChange()
       .pipe(
         takeUntil(componentDestroyed(this)),
-        filter(() => this.querySpace.timeline.mapOr(v => v.visible, false))
+        filter(() => this.wpTableTimeline.isVisible)
       )
       .subscribe(([workPackageId]) => {
         this.renderWorkPackagesRelations([workPackageId]);

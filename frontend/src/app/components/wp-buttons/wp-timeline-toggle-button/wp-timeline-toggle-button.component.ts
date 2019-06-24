@@ -76,7 +76,10 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
 
   ngOnInit():void {
     this.wpTableTimeline
-      .observeUntil(componentDestroyed(this))
+      .live$()
+      .pipe(
+        untilComponentDestroyed(this)
+      )
       .subscribe(() => {
         this.isAutoZoom = this.wpTableTimeline.isAutoZoom();
         this.isActive = this.wpTableTimeline.isVisible;

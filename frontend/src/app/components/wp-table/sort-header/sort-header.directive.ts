@@ -29,7 +29,7 @@
 import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, Input, OnDestroy} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {RelationQueryColumn, TypeRelationQueryColumn} from 'core-components/wp-query/query-column';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
 import {WorkPackageTableHierarchiesService} from '../../wp-fast-table/state/wp-table-hierarchy.service';
 import {WorkPackageTableRelationColumnsService} from '../../wp-fast-table/state/wp-table-relation-columns.service';
@@ -89,6 +89,7 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
 
   // noinspection TsLint
   ngOnDestroy():void {
+    console.warn("DESTROY");
   }
 
   ngAfterViewInit() {
@@ -100,7 +101,7 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
 
     this.wpTableSortBy.onReadyWithAvailable()
       .pipe(
-        takeUntil(componentDestroyed(this))
+        untilComponentDestroyed(this)
       )
       .subscribe(() => {
         let latestSortElement = this.wpTableSortBy.current[0];
@@ -142,16 +143,20 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
 
       // Disable hierarchy mode when group by is active
       this.wpTableGroupBy
-        .observeUntil(componentDestroyed(this))
+        .live$()
+        .pipe(
+          untilComponentDestroyed(this)
+        )
         .subscribe(() => {
           this.isHierarchyDisabled = this.wpTableGroupBy.isEnabled;
           this.cdRef.detectChanges();
         });
 
       // Update hierarchy icon when updated elsewhere
-      this.wpTableHierarchies.state.values$()
+      this.wpTableHierarchies
+        .live$()
         .pipe(
-          takeUntil(componentDestroyed(this))
+          untilComponentDestroyed(this)
         )
         .subscribe(() => {
           this.setHierarchyIcon();
@@ -174,7 +179,10 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
   }
 
   toggleHierarchy(evt:JQueryEventObject) {
-    this.wpTableHierarchies.toggleState();
+    if (this.wpTableHierarchies.toggleState()) {
+      this.wpTableGroupBy.disable();
+    }
+
     this.setHierarchyIcon();
 
     evt.stopPropagation();

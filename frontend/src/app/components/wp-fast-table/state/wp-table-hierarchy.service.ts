@@ -1,23 +1,10 @@
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {InputState} from 'reactivestates';
 import {WorkPackageQueryStateService} from './wp-table-base.service';
 import {WorkPackageTableHierarchies} from '../wp-table-hierarchies';
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
-import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state/wp-table-sort-by.service";
-import {WorkPackageTableGroupByService} from "core-components/wp-fast-table/state/wp-table-group-by.service";
 
 @Injectable()
 export class WorkPackageTableHierarchiesService extends WorkPackageQueryStateService<WorkPackageTableHierarchies> {
-  public constructor(protected readonly querySpace:IsolatedQuerySpace,
-                     protected wpTableGroupBy:WorkPackageTableGroupByService,
-                     protected wpTableSortBy:WorkPackageTableSortByService) {
-    super(querySpace);
-  }
-
-  public get state():InputState<WorkPackageTableHierarchies> {
-    return this.querySpace.hierarchies;
-  }
 
   public valueFromQuery(query:QueryResource):WorkPackageTableHierarchies {
     const value =  new WorkPackageTableHierarchies(query.showHierarchies);
@@ -52,27 +39,22 @@ export class WorkPackageTableHierarchiesService extends WorkPackageQueryStateSer
 
   public setEnabled(active:boolean = true) {
     const state = { collapsed: {}, ...this.current, isVisible: active, last: null };
-
-    if (active) {
-      // hierarchies and group by are mutually exclusive
-      this.wpTableGroupBy.update(null);
-    }
-
     this.update(state);
   }
 
   /**
    * Toggle the hierarchy state
    */
-  public toggleState() {
+  public toggleState():boolean {
     this.setEnabled(!this.isEnabled);
+    return this.isEnabled;
   }
 
   /**
    * Return whether the given wp ID is collapsed.
    */
   public collapsed(wpId:string):boolean {
-    return this.currentState.collapsed[wpId];
+    return this.current.collapsed[wpId];
   }
 
   /**
@@ -100,17 +82,16 @@ export class WorkPackageTableHierarchiesService extends WorkPackageQueryStateSer
    * Set the collapse/expand state of the given work package id.
    */
   private setState(wpId:string, isCollapsed:boolean):void {
-    const state = this.currentState;
+    const state = { ...this.current, last: wpId };
     state.collapsed[wpId] = isCollapsed;
-    state.last = wpId;
-    this.state.putValue(state);
+    this.update(state);
   }
 
   /**
    * Get current selection state.
    */
-  public get currentState():WorkPackageTableHierarchies {
-    const state = this.state.value;
+  public get current():WorkPackageTableHierarchies {
+    const state = this.lastUpdatedState.value;
 
     if (state === undefined) {
       return this.initialState;

@@ -197,11 +197,11 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
   }
 
   protected setupInformationLoadedListener() {
-    this.querySpace.tableRendering.onQueryUpdated
+    this
+      .querySpace
+      .initialized
       .values$()
-      .pipe(
-        take(1)
-      )
+      .pipe(take(1))
       .subscribe(() => {
         this.tableInformationLoaded = true;
         this.cdRef.detectChanges();

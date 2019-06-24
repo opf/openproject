@@ -37,6 +37,9 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {QueryColumn} from "core-components/wp-query/query-column";
+import {WorkPackageTableColumnsService} from "core-components/wp-fast-table/state/wp-table-columns.service";
+import {WorkPackageTableSumService} from "core-components/wp-fast-table/state/wp-table-sum.service";
+import {combineLatest, concat} from "rxjs";
 
 @Directive({
   selector: '[wpTableSumsRow]'
@@ -47,11 +50,13 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
 
   private $element:JQuery;
 
-  constructor(public readonly injector:Injector,
-              public readonly elementRef:ElementRef,
-              public readonly querySpace:IsolatedQuerySpace,
-              private states:States,
-              private displayFieldService:DisplayFieldService,
+  constructor(readonly injector:Injector,
+              readonly elementRef:ElementRef,
+              readonly querySpace:IsolatedQuerySpace,
+              readonly states:States,
+              readonly displayFieldService:DisplayFieldService,
+              readonly wpTableColumns:WorkPackageTableColumnsService,
+              readonly wpTableSums:WorkPackageTableSumService,
               readonly I18n:I18nService) {
 
     this.text = {
@@ -63,16 +68,15 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
   ngAfterViewInit():void {
     this.$element = jQuery(this.elementRef.nativeElement);
 
-    combine(
-      this.querySpace.columns,
-      this.querySpace.results,
-      this.querySpace.sum
-    )
-      .values$()
+    combineLatest([
+      this.wpTableColumns.live$(),
+      this.wpTableSums.live$(),
+      this.querySpace.results.values$(),
+    ])
       .pipe(
         takeUntil(this.querySpace.stopAllSubscriptions)
       )
-      .subscribe(([columns, resource, sum]) => {
+      .subscribe(([columns, sum, resource]) => {
         if (sum && resource.sumsSchema) {
           resource.sumsSchema.$load().then((schema:SchemaResource) => {
             this.refresh(columns, resource, schema);

@@ -74,11 +74,8 @@ export class WpTableConfigurationSortByTab implements TabComponent {
 
   ngOnInit() {
     this.wpTableSortBy
-      .state
-      .values$()
-      .pipe(take(1))
-      .toPromise()
-      .then(() => {
+      .onReadyWithAvailable()
+      .subscribe(() => {
         let allColumns:SortColumn[] = this.wpTableSortBy.available.filter(
           (sort:QuerySortByResource) => {
             return !sort.column.$href!.endsWith('/parent');

@@ -71,7 +71,7 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
    * @param workPackage
    */
   public ancestorRowData(workPackage:WorkPackageResource):[string[], boolean] {
-    const state = this.wpTableHierarchies.currentState;
+    const state = this.wpTableHierarchies.current;
     const rowClasses:string[] = [];
     let hidden = false;
 

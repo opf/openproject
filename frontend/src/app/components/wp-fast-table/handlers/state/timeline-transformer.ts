@@ -3,15 +3,19 @@ import {takeUntil} from 'rxjs/operators';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {WorkPackageTableTimelineState} from '../../wp-table-timeline';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import {WorkPackageTableTimelineService} from "core-components/wp-fast-table/state/wp-table-timeline.service";
+import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
 export class TimelineTransformer {
 
   public querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
+  public wpTableTimeline = this.injector.get(WorkPackageTableTimelineService);
 
   constructor(private readonly injector:Injector,
               private readonly table:WorkPackageTable) {
 
-   this.querySpace.timeline.values$()
+    this.wpTableTimeline
+      .live$()
       .pipe(
         takeUntil(this.querySpace.stopAllSubscriptions)
       )

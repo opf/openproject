@@ -27,10 +27,7 @@
 //++
 
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {
-  HTTPSupportedMethods
-} from 'core-app/modules/hal/services/hal-resource.service';
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
+import {HalResourceService, HTTPSupportedMethods} from 'core-app/modules/hal/services/hal-resource.service';
 
 export interface HalLinkInterface {
   href:string | null;

@@ -20,6 +20,8 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {Injectable} from '@angular/core';
 import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
 import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
+import {combineLatest, Observable} from "rxjs";
+import {take} from "rxjs/operators";
 
 @Injectable()
 export class WorkPackageStatesInitializationService {
@@ -109,6 +111,11 @@ export class WorkPackageStatesInitializationService {
     this.wpTableRelationColumns.initialize(query, results);
 
     this.wpTableAdditionalElements.initialize(results.elements);
+
+    this.querySpace.additionalRequiredWorkPackages
+      .values$()
+      .pipe(take(1))
+      .subscribe(() => this.querySpace.initialized.putValue(null));
   }
 
   public updateChecksum(query:QueryResource, results:WorkPackageCollectionResource) {
@@ -146,20 +153,20 @@ export class WorkPackageStatesInitializationService {
     const reason = 'Clearing states before re-initialization.';
 
     // Clear immediate input states
+    this.querySpace.initialized.clear(reason);
     this.querySpace.query.clear(reason);
     this.querySpace.rows.clear(reason);
-    this.querySpace.columns.clear(reason);
-    this.querySpace.sortBy.clear(reason);
-    this.querySpace.groupBy.clear(reason);
-    this.querySpace.sum.clear(reason);
     this.querySpace.results.clear(reason);
     this.querySpace.groups.clear(reason);
     this.querySpace.additionalRequiredWorkPackages.clear(reason);
 
+    this.wpTableFilters.clear(reason);
+    this.wpTableColumns.clear(reason);
+    this.wpTableSortBy.clear(reason);
+    this.wpTableGroupBy.clear(reason);
+    this.wpTableSum.clear(reason);
+
     // Clear rendered state
     this.querySpace.rendered.clear(reason);
-
-    // Needed for reinitialization of WpSetComponent
-    this.querySpace.query.clear();
   }
 }
