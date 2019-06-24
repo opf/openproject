@@ -115,7 +115,7 @@ module API
       end
 
       def self_v3_path(path, id_attribute)
-        path = _type.underscore unless path
+        path ||= _type.underscore
 
         id = if id_attribute.respond_to?(:call)
                instance_eval(&id_attribute)

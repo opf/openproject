@@ -38,16 +38,17 @@ module API
         self_link
 
         include API::Decorators::LinkedResource
+        include API::Decorators::DateProperty
 
         associated_resource :project,
                             setter: ->(fragment:, **) {
                               id = id_from_href "projects", fragment['href']
 
                               id = if id.to_i.nonzero?
-                                id # return numerical ID
-                              else
-                                Project.where(identifier: id).pluck(:id).first # lookup Project by identifier
-                              end
+                                     id # return numerical ID
+                                   else
+                                     Project.where(identifier: id).pluck(:id).first # lookup Project by identifier
+                                   end
 
                               represented.project_id = id if id
                             },
@@ -60,10 +61,10 @@ module API
 
         link :results do
           path = if represented.project
-            api_v3_paths.work_packages_by_project(represented.project.id)
-          else
-            api_v3_paths.work_packages
-          end
+                   api_v3_paths.work_packages_by_project(represented.project.id)
+                 else
+                   api_v3_paths.work_packages
+                 end
 
           url_query = ::API::V3::Queries::QueryParamsRepresenter
             .new(represented)
@@ -93,10 +94,10 @@ module API
 
         link :schema do
           href = if represented.project
-            api_v3_paths.query_project_schema(represented.project.identifier)
-          else
-            api_v3_paths.query_schema
-          end
+                   api_v3_paths.query_project_schema(represented.project.identifier)
+                 else
+                   api_v3_paths.query_schema
+                 end
           {
             href: href
           }
@@ -104,10 +105,10 @@ module API
 
         link :update do
           href = if represented.new_record?
-            api_v3_paths.create_query_form
-          else
-            api_v3_paths.query_form(represented.id)
-          end
+                   api_v3_paths.create_query_form
+                 else
+                   api_v3_paths.query_form(represented.id)
+                 end
 
           {
             href: href,
@@ -117,7 +118,8 @@ module API
 
         link :updateImmediately do
           next unless represented.new_record? && allowed_to?(:create) ||
-            represented.persisted? && allowed_to?(:update)
+                      represented.persisted? && allowed_to?(:update)
+
           {
             href: api_v3_paths.query(represented.id),
             method: :patch
@@ -126,7 +128,7 @@ module API
 
         link :updateOrderedWorkPackages do
           next unless represented.new_record? && allowed_to?(:create) ||
-            represented.persisted? && allowed_to?(:reorder_work_packages)
+                      represented.persisted? && allowed_to?(:reorder_work_packages)
 
           {
             href: api_v3_paths.query(represented.id),
@@ -136,7 +138,7 @@ module API
 
         link :delete do
           next if represented.new_record? ||
-            !allowed_to?(:destroy)
+                  !allowed_to?(:destroy)
 
           {
             href: api_v3_paths.query(represented.id),
@@ -277,6 +279,11 @@ module API
         property :id,
                  writeable: false
         property :name
+
+        date_time_property :created_at
+
+        date_time_property :updated_at
+
         property :filters,
                  exec_context: :decorator
 
@@ -356,13 +363,13 @@ module API
         end
 
         def self_v3_path(*_args)
-          if represented.new_record? && represented.project
-            api_v3_paths.query_project_default(represented.project.id)
-          elsif represented.new_record?
-            api_v3_paths.query_default
-          else
-            super
-          end
+          base = if represented.new_record?
+                   default_query_path
+                 else
+                   super
+                 end
+
+          [base, query_props].select(&:present?).join('?')
         end
 
         def convert_attribute(attribute)
@@ -406,6 +413,18 @@ module API
 
             yield decorated
           end
+        end
+
+        def default_query_path
+          if represented.project
+            api_v3_paths.query_project_default(represented.project.id)
+          else
+            api_v3_paths.query_default
+          end
+        end
+
+        def query_props
+          params.symbolize_keys.except(:id).to_query
         end
       end
     end
