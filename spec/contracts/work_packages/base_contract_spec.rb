@@ -146,13 +146,29 @@ describe WorkPackages::BaseContract do
     end
   end
 
-  describe 'locked status' do
-    before do
-      allow(work_package).to receive(:readonly_status?).and_return true
+  describe 'status' do
+    context 'on a readonly status' do
+      before do
+        allow(work_package)
+          .to receive(:readonly_status?)
+          .and_return true
+      end
+
+      it 'only sets status to allowed' do
+        expect(contract.writable_attributes).to eq(%w[status status_id])
+      end
     end
 
-    it 'only sets status to allowed' do
-      expect(contract.writable_attributes).to eq(%w[status status_id])
+    context 'work_package has a closed version and status' do
+      before do
+        allow(work_package)
+          .to receive(:closed_version_and_status?)
+          .and_return true
+      end
+
+      it 'is not writable' do
+        expect(contract.writable?(:status)).to be_falsey
+      end
     end
   end
 

@@ -35,6 +35,7 @@ import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 
 @Component({
   selector: 'wp-status-button',
@@ -53,6 +54,8 @@ export class WorkPackageStatusButtonComponent implements OnInit, OnDestroy {
   constructor(readonly I18n:I18nService,
               readonly cdRef:ChangeDetectorRef,
               readonly wpCacheService:WorkPackageCacheService,
+              readonly schemaCacheService:SchemaCacheService,
+              readonly changeDetectorRef:ChangeDetectorRef,
               @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService) {
   }
 
@@ -67,15 +70,21 @@ export class WorkPackageStatusButtonComponent implements OnInit, OnDestroy {
         this.cdRef.detectChanges();
         this.workPackage.status.$load();
       });
+
+    this.schemaCacheService
+      .state(this.workPackage)
+      .changes$()
+      .pipe(
+        untilComponentDestroyed(this)
+      )
+      .subscribe((wp) => {
+        // we have to explicitly force the component to update
+        this.changeDetectorRef.detectChanges();
+      });
   }
 
   ngOnDestroy():void {
     // Nothing to do
-  }
-
-  public isDisabled() {
-    let changeset = this.wpEditing.changesetFor(this.workPackage);
-    return !this.allowed || changeset.inFlight;
   }
 
   public get buttonTitle() {
@@ -88,18 +97,27 @@ export class WorkPackageStatusButtonComponent implements OnInit, OnDestroy {
 
   public get statusHighlightClass() {
     let status = this.status;
-    if (!status) { return }
+    if (!status) { return; }
     return Highlighting.backgroundClass('status', status.id!);
   }
 
   public get status():HalResource|undefined {
-    if (!this.wpEditing) { return }
+    if (!this.wpEditing) { return; }
 
-    let changeset = this.wpEditing.changesetFor(this.workPackage);
-    return changeset.value('status');
+    return this.changeset.value('status');
   }
 
   public get allowed() {
     return this.workPackage.isAttributeEditable('status');
+  }
+
+  public get isDisabled() {
+    let writable = this.changeset.isWritable('status');
+
+    return !this.allowed || !writable || this.changeset.inFlight;
+  }
+
+  private get changeset() {
+    return this.wpEditing.changesetFor(this.workPackage);
   }
 }
