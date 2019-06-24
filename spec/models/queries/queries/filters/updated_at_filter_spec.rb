@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -27,18 +26,25 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Configures a Query on the Query model.  This allows to
-# e.g get all queries that belong to a specific project or
-# all projects that are global
+require 'spec_helper'
 
-module Queries::Queries
-  filters_ns = Queries::Queries::Filters
-  query_ns = Queries::Queries::QueryQuery
-  register = Queries::Register
+describe Queries::Queries::Filters::UpdatedAtFilter, type: :model do
+  it_behaves_like 'basic query filter' do
+    let(:type) { :datetime_past }
+    let(:class_key) { :updated_at }
 
-  register.filter query_ns, filters_ns::ProjectFilter
-  register.filter query_ns, filters_ns::ProjectIdentifierFilter
-  register.filter query_ns, filters_ns::HiddenFilter
-  register.filter query_ns, filters_ns::UpdatedAtFilter
-  register.filter query_ns, filters_ns::IdFilter
+    describe '#available?' do
+      it 'is true' do
+        expect(instance).to be_available
+      end
+    end
+
+    describe '#allowed_values' do
+      it 'is nil' do
+        expect(instance.allowed_values).to be_nil
+      end
+    end
+
+    it_behaves_like 'non ar filter'
+  end
 end

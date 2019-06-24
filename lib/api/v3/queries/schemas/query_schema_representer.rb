@@ -71,6 +71,14 @@ module API
                  max_length: 255,
                  visibility: false
 
+          schema :created_at,
+                 type: 'DateTime',
+                 visibility: false
+
+          schema :updated_at,
+                 type: 'DateTime',
+                 visibility: false
+
           schema :user,
                  type: 'User',
                  has_default: true,
@@ -264,7 +272,7 @@ module API
           end
 
           def filters_schemas
-            # TODO: The RelatableFilter is not supported by the schema depdendencies yet
+            # TODO: The RelatableFilter is not supported by the schema dependencies yet
             filters = represented
                       .available_filters
                       .reject { |f| f.is_a?(::Queries::WorkPackages::Filter::RelatableFilter) }

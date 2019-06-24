@@ -1,7 +1,6 @@
 require_relative './work_package_field'
 
 class WorkPackageStatusField < WorkPackageField
-
   def initialize(context)
     @context = context
     @selector = ".wp-status-button"

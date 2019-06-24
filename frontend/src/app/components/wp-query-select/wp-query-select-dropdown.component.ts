@@ -215,8 +215,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
 
   private loadQueries() {
     return this.loadingPromise = this.QueryDm
-      .all(this.CurrentProject.identifier)
-      .toPromise()
+      .listNonHidden(this.CurrentProject.identifier)
       .then(collection => {
 
       // Update the complete collection

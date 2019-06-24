@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -27,18 +28,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Configures a Query on the Query model.  This allows to
-# e.g get all queries that belong to a specific project or
-# all projects that are global
-
-module Queries::Queries
-  filters_ns = Queries::Queries::Filters
-  query_ns = Queries::Queries::QueryQuery
-  register = Queries::Register
-
-  register.filter query_ns, filters_ns::ProjectFilter
-  register.filter query_ns, filters_ns::ProjectIdentifierFilter
-  register.filter query_ns, filters_ns::HiddenFilter
-  register.filter query_ns, filters_ns::UpdatedAtFilter
-  register.filter query_ns, filters_ns::IdFilter
+class Queries::Queries::Filters::IdFilter < Queries::Queries::Filters::QueryFilter
+  def type
+    :integer
+  end
 end

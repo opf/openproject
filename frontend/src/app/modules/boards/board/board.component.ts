@@ -26,10 +26,12 @@ import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
 import {RequestSwitchmap} from "core-app/helpers/rxjs/request-switchmap";
-import {from} from "rxjs";
+import {from, Subscription} from "rxjs";
 import {BoardFilterComponent} from "core-app/modules/boards/board/board-filter/board-filter.component";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
+import {QueryUpdatedService} from "core-app/modules/boards/board/query-updated/query-updated.service";
+import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 
 @Component({
   selector: 'board',
@@ -129,7 +131,8 @@ export class BoardComponent implements OnInit, OnDestroy {
               private readonly dynamicCss:DynamicCssService,
               private readonly Boards:BoardService,
               private readonly Banner:BannersService,
-              private readonly Drag:DragAndDropService) {
+              private readonly Drag:DragAndDropService,
+              private readonly QueryUpdated:QueryUpdatedService) {
   }
 
   goBack() {
@@ -167,6 +170,8 @@ export class BoardComponent implements OnInit, OnDestroy {
           this.dynamicCss.requireHighlighting();
           initialized = true;
         }
+
+        this.setupQueryUpdatedMonitoring();
       });
   }
 
@@ -231,5 +236,35 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   public updateFilters(filters:ApiV3Filter[]) {
     this.filters = filters;
+  }
+
+  private currentQueryUpdatedMonitoring:Subscription;
+
+  private setupQueryUpdatedMonitoring() {
+    if (this.currentQueryUpdatedMonitoring) {
+      this.currentQueryUpdatedMonitoring.unsubscribe();
+    }
+
+    this.currentQueryUpdatedMonitoring = this
+                                         .QueryUpdated
+                                         .monitor(this.board.queries.map((widget) => widget.options.query_id as string))
+                                         .pipe(
+                                           untilComponentDestroyed(this)
+                                         )
+                                         .subscribe((collection) => this.requestRefreshOfUpdatedLists(collection.elements));
+  }
+
+  private requestRefreshOfUpdatedLists(queries:QueryResource[]) {
+    queries.forEach((query) => {
+      this
+        .lists
+        .filter((listComponent) => {
+          const id = query.id!.toString();
+          const listId = (listComponent.resource.options.query_id as string|number).toString() ;
+
+          return id === listId;
+        })
+        .forEach((listComponent) => listComponent.refreshQueryUnlessCaused(false));
+    });
   }
 }

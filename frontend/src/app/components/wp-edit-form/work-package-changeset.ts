@@ -167,6 +167,9 @@ export class WorkPackageChangeset {
         .update(payload)
         .then((form:FormResource) => {
           this.form = form;
+          if (!this.workPackage.isNew) {
+            this.schemaCacheService.state(this.workPackage).putValue(form.schema);
+          }
 
           this.rebuildDefaults(form.payload);
 

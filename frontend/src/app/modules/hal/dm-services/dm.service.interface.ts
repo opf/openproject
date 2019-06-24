@@ -30,7 +30,7 @@ import {CollectionResource} from "core-app/modules/hal/resources/collection-reso
 import {FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
 
 export interface DmListParameter {
-  filters?:[string, FilterOperator, [string]][];
+  filters?:[string, FilterOperator, string[]][];
   sortBy?:[string, string][];
   pageSize?:number;
 }

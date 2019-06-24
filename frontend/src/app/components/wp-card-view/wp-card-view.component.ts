@@ -7,7 +7,9 @@ import {
   Injector,
   Input,
   OnInit,
-  ViewChild
+  ViewChild,
+  EventEmitter,
+  Output
 } from "@angular/core";
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
@@ -32,6 +34,8 @@ import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and
 import {ReorderQueryService} from "core-app/modules/common/drag-and-drop/reorder-query.service";
 import {DragAndDropHelpers} from "core-app/modules/common/drag-and-drop/drag-and-drop.helpers";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {filter} from 'rxjs/operators';
+import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
 
 
 @Component({
@@ -79,7 +83,9 @@ export class WorkPackageCardViewComponent  implements OnInit {
 
   // We remember when we want to update the query with a given order
   private queryUpdates = new RequestSwitchmap(
-    (order:string[]) => this.reorderService.saveOrderInQuery(this.query, order)
+    (order:string[]) => {
+      return this.reorderService.saveOrderInQuery(this.query, order);
+    }
   );
 
   constructor(readonly querySpace:IsolatedQuerySpace,
@@ -94,6 +100,7 @@ export class WorkPackageCardViewComponent  implements OnInit {
               readonly dragService:DragAndDropService,
               readonly reorderService:ReorderQueryService,
               readonly authorisationService:AuthorisationService,
+              readonly causedUpdates:CausedUpdatesService,
               readonly cdRef:ChangeDetectorRef,
               readonly pathHelper:PathHelperService) {
   }
@@ -106,9 +113,13 @@ export class WorkPackageCardViewComponent  implements OnInit {
     // Keep query loading requests
     this.queryUpdates
       .observe(componentDestroyed(this))
-      .subscribe({
-        error: (error:any) => this.wpNotifications.handleRawError(error)
-      });
+      .subscribe(
+        (query:QueryResource) => {
+          this.causedUpdates.add(query);
+          this.querySpace.query.putValue((query));
+        },
+        (error:any) => this.wpNotifications.handleRawError(error)
+      );
 
     // Update permission on model updates
     this.authorisationService
@@ -122,7 +133,8 @@ export class WorkPackageCardViewComponent  implements OnInit {
     this.querySpace.query
     .values$()
     .pipe(
-      untilComponentDestroyed(this)
+      untilComponentDestroyed(this),
+      filter((query) => !this.causedUpdates.includes(query))
     ).subscribe((query:QueryResource) => {
       this.query = query;
       this.workPackages = query.results.elements;
