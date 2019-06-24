@@ -42,6 +42,7 @@ import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notific
     <create-autocompleter #createAutocompleter
                           [availableValues]="availableValues"
                           [createAllowed]="createAllowed"
+                          [finishedLoading]="loaded"
                           [appendTo]="appendTo"
                           [model]="model"
                           [required]="required"
@@ -64,6 +65,7 @@ export class VersionAutocompleterComponent extends CreateAutocompleterComponent 
   @Output() public onCreate = new EventEmitter<VersionResource>();
 
   public createAllowed:boolean = false;
+  public loaded:boolean = false;
 
   constructor(readonly I18n:I18nService,
               readonly currentProject:CurrentProjectService,
@@ -75,7 +77,8 @@ export class VersionAutocompleterComponent extends CreateAutocompleterComponent 
 
   ngOnInit() {
     this.canCreateNewActionElements().then((val) => {
-      this.createAllowed = val;
+      this.loaded = true;
+      this.createAutocompleter.createAllowed = val;
     });
   }
 
@@ -111,6 +114,7 @@ export class VersionAutocompleterComponent extends CreateAutocompleterComponent 
         this.wpNotifications.handleRawError(error);
       });
   }
+
   private getVersionPayload(name:string) {
     let payload:any = {};
     payload['name'] = name;
