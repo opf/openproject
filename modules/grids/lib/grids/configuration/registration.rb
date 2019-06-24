@@ -65,21 +65,21 @@ module Grids::Configuration
         @widget_strategies[widget_name.to_s] ||= Grids::Configuration::WidgetStrategy
       end
 
-      def defaults(hash = nil)
+      def defaults(proc = nil)
         # This is called during code load, which
         # may not have the table available.
         return unless Grids::Widget.table_exists?
 
-        if hash
-          @defaults = hash
-        end
+        if proc
+          @defaults = proc
+        else
+          params = @defaults.call
+          params[:widgets] = (params[:widgets] || []).map do |widget|
+            Grids::Widget.new(widget)
+          end
 
-        params = @defaults.dup
-        params[:widgets] = (params[:widgets] || []).map do |widget|
-          Grids::Widget.new(widget)
+          params
         end
-
-        params
       end
 
       def from_scope(_scope)

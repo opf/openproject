@@ -114,7 +114,7 @@ describe 'random password generation',
   # Converted from cuke password_complexity_checks.feature
   context 'as an admin' do
     before do
-      login_with admin.login, 'adminADMIN!'
+      login_as admin
     end
 
     it 'can configure and enforce password rules', js: true do
@@ -174,7 +174,7 @@ describe 'random password generation',
     let(:third_password) { 'third_Password!123' }
 
     before do
-      login_with user.login, old_password
+      login_as user
       user_page.visit!
     end
 

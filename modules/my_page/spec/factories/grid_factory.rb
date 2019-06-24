@@ -6,14 +6,14 @@ FactoryBot.define do
     widgets do
       [
         Grids::Widget.new(
-          identifier: 'work_packages_assigned',
+          identifier: 'news',
           start_row: 1,
           end_row: 7,
           start_column: 1,
           end_column: 3
         ),
         Grids::Widget.new(
-          identifier: 'work_packages_created',
+          identifier: 'documents',
           start_row: 1,
           end_row: 7,
           start_column: 3,

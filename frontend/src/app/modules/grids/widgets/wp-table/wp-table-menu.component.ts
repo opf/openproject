@@ -26,48 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Input, Injector} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {OpModalService} from "core-components/op-modals/op-modal.service";
-import {OpContextMenuItem} from "core-components/op-context-menu/op-context-menu.types";
+import {Component} from '@angular/core';
 import {WpTableConfigurationModalComponent} from "core-components/wp-table/configuration-modal/wp-table-configuration.modal";
-import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
-import {GridRemoveWidgetService} from "core-app/modules/grids/grid/remove-widget.service";
-import {WidgetMenuComponent} from "core-app/modules/grids/widgets/menu/widget-menu.component";
+import {WidgetWpSetMenuComponent} from "core-app/modules/grids/widgets/menu/wp-set-menu.component";
 
 @Component({
   selector: 'widget-wp-table-menu',
   templateUrl: '../menu/widget-menu.component.html',
 })
-export class WidgetWpTableMenuComponent extends WidgetMenuComponent {
-  @Input() resource:GridWidgetResource;
-
-  constructor(private readonly injector:Injector,
-              private readonly opModalService:OpModalService,
-              readonly i18n:I18nService,
-              protected readonly remove:GridRemoveWidgetService) {
-    super(i18n,
-          remove);
-  }
-
-  public get menuItems() {
-    return async () => {
-      let items:OpContextMenuItem[] = [
-        this.removeItem,
-        this.configureItem
-      ];
-
-      return items;
-    };
-  }
-
-  protected get configureItem() {
-    return {
-      linkText: this.i18n.t('js.toolbar.settings.configure_view'),
-      onClick: () => {
-        this.opModalService.show(WpTableConfigurationModalComponent, this.injector);
-        return true;
-      }
-    };
-  }
+export class WidgetWpTableMenuComponent extends WidgetWpSetMenuComponent {
+  protected configurationComponent = WpTableConfigurationModalComponent;
 }

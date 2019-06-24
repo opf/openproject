@@ -41,6 +41,7 @@ group :opf_plugins do
 
 	gem 'grids',                                 path: 'modules/grids'
 	gem 'my_page',                               path: 'modules/my_page'
+	gem 'dashboards',                            path: 'modules/dashboards'
 	gem 'openproject-boards',                    path: 'modules/boards'
 
 	gem 'openproject-bim_seeder',                path: 'modules/bim_seeder', require: !!(ENV['OPENPROJECT_EDITION'] == 'bim')

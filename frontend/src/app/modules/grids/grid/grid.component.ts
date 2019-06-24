@@ -10,17 +10,19 @@ import {DomSanitizer} from "@angular/platform-browser";
 import {GridWidgetsService} from "app/modules/grids/widgets/widgets.service";
 import {AbstractWidgetComponent} from "app/modules/grids/widgets/abstract-widget.component";
 import {GridArea} from "app/modules/grids/areas/grid-area";
-import {GridWidgetArea} from "app/modules/grids/areas/grid-widget-area";
 import {GridMoveService} from "app/modules/grids/grid/move.service";
 import {GridDragAndDropService} from "core-app/modules/grids/grid/drag-and-drop.service";
 import {GridResizeService} from "core-app/modules/grids/grid/resize.service";
 import {GridAreaService} from "core-app/modules/grids/grid/area.service";
 import {GridAddWidgetService} from "core-app/modules/grids/grid/add-widget.service";
 import {GridRemoveWidgetService} from "core-app/modules/grids/grid/remove-widget.service";
+import {WidgetWpGraphComponent} from "core-app/modules/grids/widgets/wp-graph/wp-graph.component";
 
 export interface WidgetRegistration {
   identifier:string;
+  title:string;
   component:{ new (...args:any[]):AbstractWidgetComponent };
+  properties?:any;
 }
 
 @Component({
@@ -38,6 +40,8 @@ export interface WidgetRegistration {
 export class GridComponent implements OnDestroy, OnInit {
   public uiWidgets:ComponentRef<any>[] = [];
   public GRID_AREA_HEIGHT = 100;
+
+  public component = WidgetWpGraphComponent;
 
   @Input() grid:GridResource;
 
@@ -74,9 +78,11 @@ export class GridComponent implements OnDestroy, OnInit {
     }
   }
 
-  public widgetComponentOutput(resource:GridWidgetResource) {
-    return { resourceChanged: this.layout.saveGrid.bind(this.layout) };
+  public widgetComponentInput(resource:GridWidgetResource) {
+    return { resource: resource };
   }
+
+  public widgetComponentOutput = { resourceChanged: this.layout.saveGrid.bind(this.layout) };
 
   public get gridColumnStyle() {
     return this.sanitization.bypassSecurityTrustStyle(`repeat(${this.layout.numColumns}, 1fr)`);

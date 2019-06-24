@@ -7,7 +7,8 @@ import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 
 @Component({
-  templateUrl: './filters-tab.component.html'
+  templateUrl: './filters-tab.component.html',
+  selector: 'wp-table-config-filters-tab'
 })
 export class WpTableConfigurationFiltersTab implements TabComponent {
 

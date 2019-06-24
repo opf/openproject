@@ -28,12 +28,10 @@
 
 require_relative '../filters'
 
-
 module Components
   module WorkPackages
     module TableConfiguration
       class Filters < ::Components::WorkPackages::Filters
-
         attr_reader :modal
 
         def initialize

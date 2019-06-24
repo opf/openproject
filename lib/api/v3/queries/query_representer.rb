@@ -340,8 +340,7 @@ module API
           filters_hash.each do |filter_attributes|
             name = get_filter_name filter_attributes
 
-            filter = represented.filter_for name
-            if filter
+            if name && (filter = represented.filter_for name)
               filter_representer = ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter.new(filter)
 
               filter = filter_representer.from_hash filter_attributes

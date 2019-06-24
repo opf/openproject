@@ -122,10 +122,6 @@ module Redmine::MenuManager::MenuHelper
     end
   end
 
-  def any_item_selected?(items)
-    items.any? { |item| item.name == current_menu_item }
-  end
-
   def render_menu_node(node, project = nil)
     return '' unless allowed_node?(node, User.current, project)
 
@@ -137,23 +133,22 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def render_menu_node_with_children(node, project = nil)
-    caption, url, selected = extract_node_details(node, project)
     html_options = { data: { name: node.name } }
-    if selected || any_item_selected?(node.children)
+
+    if node_or_children_selected?(node)
       html_options[:class] = 'open'
-      selected = true
     end
     content_tag :li, html_options do
       # Standard children
-      standard_children_list = node.children.map { |child|
+      standard_children_list = node.children.map do |child|
         render_menu_node(child, project) if visible_node?(@menu, child)
-      }.join.html_safe
+      end.join.html_safe
 
       # Unattached children
       unattached_children_list = render_unattached_children_menu(node, project)
 
       # Parent
-      node = [render_single_menu_node(node, caption, url, selected)]
+      node = [render_single_menu_node(node, project)]
 
       # add children
       unless standard_children_list.empty?
@@ -166,6 +161,39 @@ module Redmine::MenuManager::MenuHelper
       safe_join(node, "\n")
     end
   end
+
+  def render_single_menu_node(item, project = nil)
+    caption, url, selected = extract_node_details(item, project)
+
+    link_text = ''.html_safe
+    link_text << op_icon(item.icon) if item.icon.present?
+    link_text << content_tag(:span,
+                             class: "menu-item--title ellipsis #{item.badge.present? ? '-has-badge' : ''}",
+                             lang: menu_item_locale(item)) do
+      ''.html_safe + caption + badge_for(item)
+    end
+    link_text << ' '.html_safe + op_icon(item.icon_after) if item.icon_after.present?
+    html_options = item.html_options(selected: selected)
+    html_options[:title] ||= selected ? t(:description_current_position) + caption : caption
+
+    link_to link_text, url, html_options
+  end
+
+  def current_menu_item_part_of_menu?(menu, project = nil)
+    return true if no_menu_item_wiki_prefix? || wiki_prefix?
+
+    all_menu_items_for(menu, project).each do |node|
+      return true if node.name == current_menu_item
+    end
+
+    false
+  end
+
+  def first_level_menu_items_for(menu, project = nil, &block)
+    menu_items_for(Redmine::MenuManager.items(menu).root.children, menu, project, &block)
+  end
+
+  private
 
   # Returns a list of unattached children menu items
   def render_unattached_children_menu(node, project)
@@ -184,21 +212,6 @@ module Redmine::MenuManager::MenuHelper
     end.html_safe
   end
 
-  def render_single_menu_node(item, caption, url, selected)
-    link_text = ''.html_safe
-    link_text << op_icon(item.icon) if item.icon.present?
-    link_text << content_tag(:span,
-                             class: "menu-item--title ellipsis #{item.badge.present? ? '-has-badge' : ''}",
-                             lang: menu_item_locale(item)) do
-      ''.html_safe + caption + badge_for(item)
-    end
-    link_text << ' '.html_safe + op_icon(item.icon_after) if item.icon_after.present?
-    html_options = item.html_options(selected: selected)
-    html_options[:title] ||= selected ? t(:description_current_position) + caption : caption
-
-    link_to link_text, main_app_url(url), html_options
-  end
-
   def render_unattached_menu_item(menu_item, project)
     raise Redmine::MenuManager::MenuError, ':child_menus must be an array of MenuItems' unless menu_item.is_a? Redmine::MenuManager::MenuItem
 
@@ -209,22 +222,45 @@ module Redmine::MenuManager::MenuHelper
     end
   end
 
-  def current_menu_item_part_of_menu?(menu, project = nil)
-    return true if no_menu_item_wiki_prefix? || wiki_prefix?
-
-    all_menu_items_for(menu, project).each do |node|
-      return true if node.name == current_menu_item
+  def render_single_node_or_partial(node, project)
+    if node.partial
+      content_tag('li', render(partial: node.partial), class: "partial", data: { name: node.name })
+    else
+      content_tag('li', render_single_menu_node(node, project), data: { name: node.name })
     end
-
-    false
   end
 
   def all_menu_items_for(menu, project = nil)
     menu_items_for(Redmine::MenuManager.items(menu).root, menu, project)
   end
 
-  def first_level_menu_items_for(menu, project = nil, &block)
-    menu_items_for(Redmine::MenuManager.items(menu).root.children, menu, project, &block)
+  def node_or_children_selected?(node)
+    node_selected?(node) || any_item_selected?(node.children)
+  end
+
+  def node_selected?(item)
+    current_menu_item == item.name || no_wiki_menu_item_selected?(item)
+  end
+
+  def extract_node_details(node, project = nil)
+    url = node_url(node, project)
+    caption = node.caption(project)
+    selected = node_or_children_selected?(node)
+
+    [caption, url, selected]
+  end
+
+  def node_url(node, project)
+    engine = node_engine(node)
+
+    case node.url
+    when Hash
+      engine.url_for(project.nil? ? node.url : { node.param => project }.merge(node.url))
+    when Symbol
+      engine.send(node.url)
+    else
+      engine.url_for(node.url)
+    end
   end
 
   def menu_items_for(iteratable, menu, project = nil)
@@ -243,24 +279,6 @@ module Redmine::MenuManager::MenuHelper
     items
   end
 
-  def extract_node_details(node, project = nil)
-    item = node
-    url = case item.url
-          when Hash
-            project.nil? ? item.url : { item.param => project }.merge(item.url)
-          when Symbol
-            main_app.send(item.url)
-          else
-            item.url
-          end
-
-    caption = item.caption(project)
-
-    selected = node_selected?(item)
-
-    [caption, url, selected]
-  end
-
   # Checks if a user is allowed to access the menu item by:
   #
   # * Checking the conditions of the item
@@ -272,7 +290,7 @@ module Redmine::MenuManager::MenuHelper
     end
 
     if project
-      user && user.allowed_to?(node.url, project)
+      user&.allowed_to?(node.url, project)
     else
       # outside a project, all menu items allowed
       true
@@ -281,7 +299,7 @@ module Redmine::MenuManager::MenuHelper
 
   def visible_node?(menu, node)
     @hidden_menu_items ||= OpenProject::Configuration.hidden_menu_items
-    if @hidden_menu_items.length > 0
+    if @hidden_menu_items.length.positive?
       hidden_nodes = @hidden_menu_items[menu.to_s] || []
       !hidden_nodes.include? node.name.to_s
     else
@@ -289,19 +307,8 @@ module Redmine::MenuManager::MenuHelper
     end
   end
 
-  private
-
-  def render_single_node_or_partial(node, project)
-    if node.partial
-      content_tag('li', render(partial: node.partial), class: "partial", data: { name: node.name })
-    else
-      caption, url, selected = extract_node_details(node, project)
-      content_tag('li', render_single_menu_node(node, caption, url, selected), data: { name: node.name })
-    end
-  end
-
-  def node_selected?(item)
-    current_menu_item == item.name || no_wiki_menu_item_selected?(item)
+  def node_engine(node)
+    node.engine ? send(node.engine) : main_app
   end
 
   def no_wiki_menu_item_selected?(item)
@@ -325,11 +332,7 @@ module Redmine::MenuManager::MenuHelper
     badge
   end
 
-  def main_app_url(url)
-    if url.is_a? Symbol
-      main_app.send(url)
-    else
-      main_app.url_for(url)
-    end
+  def any_item_selected?(items)
+    items.any? { |item| item.name == current_menu_item }
   end
 end

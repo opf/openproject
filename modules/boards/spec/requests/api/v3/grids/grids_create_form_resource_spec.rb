@@ -117,7 +117,7 @@ describe "POST /api/v3/grids/form for Board Grids", type: :request, content_type
         }
       end
 
-      it 'has a validationError on widget' do
+      it 'has a validationError on scope' do
         expect(subject.body)
           .to be_json_eql("Scope is not set to one of the allowed values.".to_json)
           .at_path('_embedded/validationErrors/scope/message')
@@ -135,7 +135,7 @@ describe "POST /api/v3/grids/form for Board Grids", type: :request, content_type
         }
       end
 
-      it 'has a validationError on widget' do
+      it 'has a validationError on scope' do
         expect(subject.body)
           .to be_json_eql("Scope is not set to one of the allowed values.".to_json)
           .at_path('_embedded/validationErrors/scope/message')

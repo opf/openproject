@@ -130,6 +130,47 @@ describe Grids::SetAttributesService, type: :model do
         expect(grid.widgets[0].attributes.except('id'))
           .to eql widgets[0].attributes.except('id').merge('grid_id' => grid.id)
       end
+
+      context 'with the widget not being allowed' do
+        before do
+          allow(Grids::Configuration)
+            .to receive(:allowed_widget?)
+            .with(grid, 'work_packages_assigned', user, nil)
+            .and_return(false)
+        end
+
+        context 'with the grid being a new record' do
+          let(:existing_widgets) do
+            [
+              FactoryBot.build(:grid_widget,
+                               identifier: 'work_packages_assigned',
+                               start_row: 3,
+                               end_row: 5,
+                               start_column: 1,
+                               end_column: 3)
+            ]
+          end
+
+          let(:grid) do
+            FactoryBot.build(
+              :grid,
+              widgets: existing_widgets
+            )
+          end
+
+          it 'leaves the prohibited widget' do
+            expect(grid.widgets.length)
+              .to eql 1
+          end
+        end
+
+        context 'with the grid not being a new record' do
+          it 'leaves the prohibited widget' do
+            expect(grid.widgets.length)
+              .to eql 1
+          end
+        end
+      end
     end
 
     context 'with empty widget params' do
@@ -169,6 +210,47 @@ describe Grids::SetAttributesService, type: :model do
         expect(grid.widgets[0])
           .to be_marked_for_destruction
       end
+
+      context 'with the widget not being allowed' do
+        before do
+          allow(Grids::Configuration)
+            .to receive(:allowed_widget?)
+            .with(grid, 'work_packages_assigned', user, nil)
+            .and_return(false)
+        end
+
+        context 'with the grid being a new record' do
+          let(:existing_widgets) do
+            [
+              FactoryBot.build(:grid_widget,
+                               identifier: 'work_packages_assigned',
+                               start_row: 3,
+                               end_row: 5,
+                               start_column: 1,
+                               end_column: 3)
+            ]
+          end
+
+          let(:grid) do
+            FactoryBot.build(
+              :grid,
+              widgets: existing_widgets
+            )
+          end
+
+          it 'removes the prohibited widget' do
+            expect(grid.widgets)
+              .to be_empty
+          end
+        end
+
+        context 'with the grid not being a new record' do
+          it 'leaves the prohibited widget' do
+            expect(grid.widgets.length)
+              .to eql 1
+          end
+        end
+      end
     end
 
     context 'without widget params' do
@@ -200,9 +282,50 @@ describe Grids::SetAttributesService, type: :model do
           .to eql 1
       end
 
-      it 'does not mark the  widget for destruction' do
+      it 'does not mark the widget for destruction' do
         expect(grid.widgets[0])
           .not_to be_marked_for_destruction
+      end
+
+      context 'with the widget not being allowed' do
+        before do
+          allow(Grids::Configuration)
+            .to receive(:allowed_widget?)
+            .with(grid, 'work_packages_assigned', user, nil)
+            .and_return(false)
+        end
+
+        context 'with the grid being a new record' do
+          let(:existing_widgets) do
+            [
+              FactoryBot.build(:grid_widget,
+                               identifier: 'work_packages_assigned',
+                               start_row: 3,
+                               end_row: 5,
+                               start_column: 1,
+                               end_column: 3)
+            ]
+          end
+
+          let(:grid) do
+            FactoryBot.build(
+              :grid,
+              widgets: existing_widgets
+            )
+          end
+
+          it 'removes the prohibited widget' do
+            expect(grid.widgets)
+              .to be_empty
+          end
+        end
+
+        context 'with the grid not being a new record' do
+          it 'leaves the prohibited widget' do
+            expect(grid.widgets.length)
+              .to eql 1
+          end
+        end
       end
     end
 

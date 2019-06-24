@@ -6,11 +6,13 @@ module OpenProject
 
       widgets 'work_package_query'
 
-      defaults(
-        row_count: 1,
-        column_count: 4,
-        widgets: []
-      )
+      defaults -> {
+        {
+          row_count: 1,
+          column_count: 4,
+          widgets: []
+        }
+      }
 
       class << self
         def from_scope(scope)

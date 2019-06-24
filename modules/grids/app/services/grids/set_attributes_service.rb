@@ -34,9 +34,13 @@ class Grids::SetAttributesService < ::BaseServices::SetAttributes
   def set_attributes(attributes)
     widget_attributes = attributes.delete(:widgets)
 
-    super
+    ret = super
 
     update_widgets(widget_attributes)
+
+    cleanup_prohibited_widgets(widget_attributes)
+
+    ret
   end
 
   # Updates grid's widget but does not persist the changes:
@@ -102,5 +106,22 @@ class Grids::SetAttributesService < ::BaseServices::SetAttributes
     available_map_keys = widget_map.select { |_, v| v.nil? }.keys
 
     available_map_keys.find { |w| w.identifier == widget.identifier }
+  end
+
+  # Removes prohibited widgets from the grid.
+  # That way, a valid subset of the default widgets is returned e.g. in the form
+  # or on a create request without widgets.
+  # Will only work on new records and only if no widgets have been specified.
+  def cleanup_prohibited_widgets(widgets)
+    return if widgets&.any? || model.persisted?
+
+    # As it is a new record, we can do direct assignments without risking saving.
+    model.widgets = model.widgets.select(&method(:allowed_widget?))
+  end
+
+  def allowed_widget?(widget)
+    project = model.respond_to?(:project) ? model.project : nil
+
+    Grids::Configuration.allowed_widget?(model.class, widget.identifier, user, project)
   end
 end

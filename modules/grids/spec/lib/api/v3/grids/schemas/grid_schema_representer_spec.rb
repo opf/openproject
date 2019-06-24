@@ -60,8 +60,7 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
       .and_return(allowed_scopes)
 
     allow(contract)
-      .to receive(:assignable_values)
-      .with(:widgets, current_user)
+      .to receive(:assignable_widgets)
       .and_return(allowed_widgets)
 
     contract

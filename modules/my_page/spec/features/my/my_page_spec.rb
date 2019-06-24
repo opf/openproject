@@ -28,6 +28,8 @@
 
 require 'spec_helper'
 
+require_relative '../../support/pages/my/page'
+
 describe 'My page', type: :feature, js: true do
   let!(:type) { FactoryBot.create :type }
   let!(:project) { FactoryBot.create :project, types: [type] }
@@ -48,7 +50,7 @@ describe 'My page', type: :feature, js: true do
   let(:user) do
     FactoryBot.create(:user,
                       member_in_project: project,
-                      member_with_permissions: %i[view_work_packages add_work_packages])
+                      member_with_permissions: %i[view_work_packages add_work_packages save_queries])
   end
   let(:my_page) do
     Pages::My::Page.new
@@ -61,8 +63,8 @@ describe 'My page', type: :feature, js: true do
   end
 
   it 'renders the default view, allows altering and saving' do
-    assigned_area = Components::Grids::GridArea.new('.grid--area', text: 'Work packages assigned to me')
-    created_area = Components::Grids::GridArea.new('.grid--area', text: 'Work packages created by me')
+    assigned_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+    created_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
 
     assigned_area.expect_to_exist
     created_area.expect_to_exist
@@ -80,7 +82,7 @@ describe 'My page', type: :feature, js: true do
     # within top-right area, add an additional widget
     my_page.add_widget(1, 1, 'Calendar')
 
-    calendar_area = Components::Grids::GridArea.new('.grid--area', text: 'Calendar')
+    calendar_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(3)')
     calendar_area.expect_to_span(1, 1, 2, 3)
 
     calendar_area.resize_to(2, 4)
@@ -95,7 +97,7 @@ describe 'My page', type: :feature, js: true do
     my_page.add_column(5, before_or_after: :after)
     my_page.add_widget(1, 5, 'Work packages watched by me')
 
-    watched_area = Components::Grids::GridArea.new('.grid--area', text: 'Work packages watched by me')
+    watched_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(4)')
     watched_area.expect_to_exist
 
     watched_area.resize_to(3, 6)

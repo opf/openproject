@@ -1,27 +1,34 @@
-import {Component, OnInit, OnDestroy, ViewChild, AfterViewInit, Injector} from "@angular/core";
-import {WidgetWpListComponent} from "core-app/modules/grids/widgets/wp-widget/wp-widget.component";
-import {WorkPackageTableConfiguration} from "core-components/wp-table/wp-table-configuration";
-import {QueryResource} from "core-app/modules/hal/resources/query-resource";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
-import {WorkPackageIsolatedQuerySpaceDirective} from "core-app/modules/work_packages/query-space/wp-isolated-query-space.directive";
-import {skip, take} from 'rxjs/operators';
-import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
-import {QueryFormDmService} from "core-app/modules/hal/dm-services/query-form-dm.service";
-import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
+import {Component} from '@angular/core';
+import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
 import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
-import {Observable} from "rxjs";
+import {QueryResource} from "core-app/modules/hal/resources/query-resource";
+import {WorkPackageTableConfiguration} from "core-components/wp-table/wp-table-configuration";
+import {Observable} from 'rxjs';
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {QueryFormDmService} from "core-app/modules/hal/dm-services/query-form-dm.service";
+import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
+import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import {StateService} from '@uirouter/core';
+import {skip} from 'rxjs/operators';
+import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 
 @Component({
+  selector: 'widget-wp-table',
   templateUrl: './wp-table.component.html',
-  styleUrls: ['../wp-widget/wp-widget.component.css'],
+  styleUrls: ['./wp-table.component.sass'],
 })
-export class WidgetWpTableComponent extends WidgetWpListComponent implements OnInit, OnDestroy, AfterViewInit {
-  public text = { title: this.i18n.t('js.grid.widgets.work_packages_table.title') };
+export class WidgetWpTableComponent extends AbstractWidgetComponent {
   public queryId:string|null;
   private queryForm:QueryFormResource;
   public inFlight = false;
   public query$:Observable<QueryResource>;
+
+  // An heuristic based on paddings, margins, the widget header height and the pagination height
+  private static widgetSpaceOutsideTable:number = 230;
+  private static wpLineHeight:number = 40;
+  private static gridAreaHeight:number = 100;
+  private static gridAreaSpace:number = 20;
 
   public configuration:Partial<WorkPackageTableConfiguration> = {
     actionsColumnEnabled: false,
@@ -32,35 +39,28 @@ export class WidgetWpTableComponent extends WidgetWpListComponent implements OnI
 
   constructor(protected i18n:I18nService,
               protected urlParamsHelper:UrlParamsHelperService,
-              private readonly queryDm:QueryDmService,
-              private readonly queryFormDm:QueryFormDmService) {
+              protected readonly state:StateService,
+              protected readonly queryDm:QueryDmService,
+              protected readonly querySpace:IsolatedQuerySpace,
+              protected readonly queryFormDm:QueryFormDmService) {
     super(i18n);
   }
-
-  @ViewChild(WorkPackageIsolatedQuerySpaceDirective, { static: true }) public querySpaceDirective:WorkPackageIsolatedQuerySpaceDirective;
 
   ngOnInit() {
     if (!this.resource.options.queryId) {
       this.createInitial()
         .then((query) => {
-          this.resource.options = { queryId: query.id };
+          this.resource.options.queryId = query.id;
 
           this.resourceChanged.emit(this.resource);
 
           this.queryId = query.id;
-
-          super.ngOnInit();
         });
     } else {
       this.queryId = this.resource.options.queryId as string;
-
-      super.ngOnInit();
     }
-  }
 
-  ngAfterViewInit() {
     this.query$ = this
-      .querySpaceDirective
       .querySpace
       .query
       .values$();
@@ -71,8 +71,27 @@ export class WidgetWpTableComponent extends WidgetWpListComponent implements OnI
         skip(2),
         untilComponentDestroyed(this)
       ).subscribe((query) => {
-        this.ensureFormAndSaveQuery(query);
-      });
+      this.ensureFormAndSaveQuery(query);
+    });
+
+    this.configuration.forcePerPageOption = this.perPageOption;
+  }
+
+  public static get identifier():string {
+    return 'work_packages_table';
+  }
+
+  private get perPageOption():number|false {
+    if (this.resource) {
+      let numberOfRows = this.resource.height;
+      let availableHeight = numberOfRows * WidgetWpTableComponent.gridAreaHeight +
+        (numberOfRows - 1) * WidgetWpTableComponent.gridAreaSpace;
+      let perPageOption:number = Math.floor((availableHeight - WidgetWpTableComponent.widgetSpaceOutsideTable) / WidgetWpTableComponent.wpLineHeight);
+
+      return perPageOption < 1 ? 1 : perPageOption;
+    } else {
+      return false;
+    }
   }
 
   ngOnDestroy() {
@@ -90,12 +109,6 @@ export class WidgetWpTableComponent extends WidgetWpListComponent implements OnI
     }
   }
 
-  public renameQuery(query:QueryResource, value:string) {
-    query.name = value;
-
-    this.ensureFormAndSaveQuery(query);
-  }
-
   private saveQuery(query:QueryResource) {
     this.inFlight = true;
 
@@ -111,25 +124,37 @@ export class WidgetWpTableComponent extends WidgetWpListComponent implements OnI
   }
 
   private createInitial():Promise<QueryResource> {
+    const projectIdentifier = this.state.params['projectPath'];
+    let initializationProps = this.resource.options.queryProps;
+    let queryProps = Object.assign({pageSize: 0}, initializationProps);
+
     return this.queryFormDm
       .loadWithParams(
-        {pageSize: 0},
+        queryProps,
         undefined,
-        null,
-        this.buildQueryRequest()
+        projectIdentifier,
+        this.queryCreationParams()
       )
       .then(form => {
         const query = this.queryFormDm.buildQueryResource(form);
-        // set a default title
-        query.name = this.text.title;
 
-        return this.queryDm.create(query, form);
+        return this.queryDm.create(query, form).then((query) => {
+          delete this.resource.options.queryProps;
+
+          return query;
+        });
       });
   }
 
-  private buildQueryRequest() {
+  protected queryCreationParams() {
+    // On the MyPage, the queries should be non public, on a project dashboard, they should be public.
+    // This will not longer work, when global dashboards are implemented as the tables then need to
+    // be public as well.
+    const projectIdentifier = this.state.params['projectPath'];
+
     return {
-      hidden: true
+      hidden: true,
+      public: !!projectIdentifier
     };
   }
 }

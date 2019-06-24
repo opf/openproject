@@ -11,6 +11,7 @@ import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {WorkPackagesViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-packages-view.base";
+import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 
 export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewBase implements AfterViewInit {
   @Input('configuration') protected providedConfiguration:WorkPackageTableConfigurationObject;
@@ -116,5 +117,11 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
     } else {
       return this.projectIdentifier;
     }
+  }
+
+  protected initializeStates(query:QueryResource) {
+    this.wpStatesInitialization.clearStates();
+    this.wpStatesInitialization.initializeFromQuery(query, query.results);
+    this.wpStatesInitialization.updateQuerySpace(query, query.results);
   }
 }

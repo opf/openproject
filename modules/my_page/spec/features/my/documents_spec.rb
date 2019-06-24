@@ -28,6 +28,8 @@
 
 require 'spec_helper'
 
+require_relative '../../support/pages/my/page'
+
 describe 'My page documents widget', type: :feature, js: true do
   let!(:project) { FactoryBot.create :project }
   let!(:other_project) { FactoryBot.create :project }
@@ -59,16 +61,10 @@ describe 'My page documents widget', type: :feature, js: true do
   end
 
   it 'can add the widget and see the visible documents' do
-    created_area = Components::Grids::GridArea.new('.grid--area', text: 'Work packages created by me')
-
-    created_area.remove
-
-    sleep(0.5)
-
     # within top-right area, add an additional widget
     my_page.add_widget(1, 3, 'Documents')
 
-    document_area = Components::Grids::GridArea.new('.grid--area', text: 'Documents')
+    document_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
     document_area.expect_to_span(1, 3, 4, 5)
 
     document_area.resize_to(7, 4)

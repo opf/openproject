@@ -141,6 +141,12 @@ PATH
     openproject-costs (1.0.0)
 
 PATH
+  remote: modules/dashboards
+  specs:
+    dashboards (1.0.0)
+      grids
+
+PATH
   remote: modules/documents
   specs:
     openproject-documents (1.0.0)
@@ -923,6 +929,7 @@ DEPENDENCIES
   cucumber-rails (~> 1.6.0)
   daemons
   dalli!
+  dashboards!
   database_cleaner (~> 1.6)
   date_validator (~> 0.9.0)
   delayed_job_active_record (~> 4.1.1)

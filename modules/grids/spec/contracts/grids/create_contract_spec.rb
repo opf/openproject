@@ -88,12 +88,12 @@ describe Grids::CreateContract do
 
         allow(Grids::Configuration)
           .to receive(:allowed_widget?)
-          .with(Grids::Grid, :widget1, user)
+          .with(Grids::Grid, :widget1, user, nil)
           .and_return(true)
 
         allow(Grids::Configuration)
           .to receive(:allowed_widget?)
-          .with(Grids::Grid, :widget2, user)
+          .with(Grids::Grid, :widget2, user, nil)
           .and_return(false)
 
         expect(instance.assignable_values(:widgets, user))

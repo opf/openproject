@@ -82,7 +82,7 @@ describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
         widgets: [
           {
             "_type": "GridWidget",
-            identifier: 'work_packages_assigned',
+            identifier: 'news',
             options: {},
             startRow: 1,
             endRow: 7,
@@ -91,7 +91,7 @@ describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
           },
           {
             "_type": "GridWidget",
-            identifier: 'work_packages_created',
+            identifier: 'documents',
             options: {},
             startRow: 1,
             endRow: 7,

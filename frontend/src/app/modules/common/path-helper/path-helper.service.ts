@@ -134,6 +134,10 @@ export class PathHelperService {
     }
   }
 
+  public projectDashboardsPath(projectIdentifier:string) {
+    return this.projectPath(projectIdentifier) + '/dashboards';
+  }
+
   public timeEntriesPath(workPackageId:string|number) {
     var suffix = '/time_entries';
 

@@ -32,6 +32,12 @@ module Components
       include Capybara::DSL
       include RSpec::Matchers
 
+      attr_accessor :trigger_parent
+
+      def initialize(trigger_parent = nil)
+        self.trigger_parent = trigger_parent
+      end
+
       def expect_column_not_available(name)
         modal_open? or open_modal
 
@@ -107,7 +113,7 @@ module Components
 
       def open_modal
         @opened = true
-        ::Components::WorkPackages::TableConfigurationModal.new.open_and_switch_to 'Columns'
+        ::Components::WorkPackages::TableConfigurationModal.new(trigger_parent).open_and_switch_to 'Columns'
       end
 
       def assume_opened

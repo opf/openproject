@@ -1,6 +1,16 @@
 <h3 class="widget-box--header" cdkDragHandle>
+  <span class="grid--area-drag-handle
+               icon
+               icon-drag-handle"
+        cdkDragHandle></span>
+
   <i class="icon-context icon-calendar" aria-hidden="true"></i>
-  <span class="widget-box--header-title" [textContent]="text.title"></span>
+
+  <editable-toolbar-title [title]="widgetName"
+                          (onSave)="renameWidget($event)"
+                          class="widget-box--header-title">
+  </editable-toolbar-title>
+
   <widget-menu
       [resource]="resource">
   </widget-menu>

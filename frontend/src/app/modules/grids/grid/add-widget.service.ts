@@ -94,7 +94,7 @@ export class GridAddWidgetService {
           endRow: area.endRow,
           startColumn: area.startColumn,
           endColumn: area.endColumn,
-          options: {}
+          options: registered.properties || {}
         };
 
         let resource = this.halResource.createHalResource(source) as GridWidgetResource;
