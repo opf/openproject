@@ -96,7 +96,11 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   public text:any;
 
+  public rows:any;
+
   public rowcount:number;
+
+  public total:number;
 
   public groupBy:QueryGroupByResource | null;
 
@@ -156,6 +160,8 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     ).subscribe(([results, groupBy, columns, timelines, sort]) => {
       this.query = this.querySpace.query.value!;
       this.rowcount = results.count;
+      this.total = results.total;
+      this.rows = results.elements;
 
       this.groupBy = groupBy;
       this.columns = columns;
@@ -177,26 +183,26 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
   }
 
   public registerTimeline(controller:WorkPackageTimelineTableController, body:HTMLElement) {
-    const tbody = this.$element.find('.work-package--results-tbody');
-    this.workPackageTable = new WorkPackageTable(this.injector, this.$element[0], tbody[0], body, controller, this.configuration);
-    this.tbody = tbody;
-    controller.workPackageTable = this.workPackageTable;
-    new TableHandlerRegistry(this.injector).attachTo(this.workPackageTable);
-
-    // Locate table and timeline elements
-    const tableAndTimeline = this.getTableAndTimelineElement();
-    this.tableElement = tableAndTimeline[0];
-    this.timeline = tableAndTimeline[1];
-
-    // sync hover from table to timeline
-    this.wpTableHoverSync = new WpTableHoverSync(this.$element);
-    this.wpTableHoverSync.activate();
-
-    // sync scroll from table to timeline
-    this.scrollSyncUpdate = createScrollSync(this.$element);
-    this.scrollSyncUpdate(this.timelineVisible);
-
-    this.cdRef.detectChanges();
+    // const tbody = this.$element.find('.work-package--results-tbody');
+    // this.workPackageTable = new WorkPackageTable(this.injector, this.$element[0], tbody[0], body, controller, this.configuration);
+    // this.tbody = tbody;
+    // controller.workPackageTable = this.workPackageTable;
+    // new TableHandlerRegistry(this.injector).attachTo(this.workPackageTable);
+    //
+    // // Locate table and timeline elements
+    // const tableAndTimeline = this.getTableAndTimelineElement();
+    // this.tableElement = tableAndTimeline[0];
+    // this.timeline = tableAndTimeline[1];
+    //
+    // // sync hover from table to timeline
+    // this.wpTableHoverSync = new WpTableHoverSync(this.$element);
+    // this.wpTableHoverSync.activate();
+    //
+    // // sync scroll from table to timeline
+    // this.scrollSyncUpdate = createScrollSync(this.$element);
+    // this.scrollSyncUpdate(this.timelineVisible);
+    //
+    // this.cdRef.detectChanges();
   }
 
   public get isEmbedded() {

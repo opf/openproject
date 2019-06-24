@@ -1,5 +1,6 @@
 <div class="work-packages-split-view--tabletimeline-content" *ngIf="query">
   <div class="work-packages-tabletimeline--table-side work-package-table--container __hidden_overflow_container">
+    <cdk-virtual-scroll-viewport style="height: 100%" itemSize="41">
     <table class="keyboard-accessible-list generic-table work-package-table">
       <colgroup>
         <col *ngIf="configuration.dragAndDropEnabled">
@@ -11,7 +12,7 @@
         <span id="wp-table-sort-summary"></span>
         <span>{{text.tableSummaryHints}}</span>
       </caption>
-      <thead class="-sticky">
+      <thead class="">
         <tr>
           <th *ngIf="configuration.dragAndDropEnabled" class="wp-table--manual-sort-th -short hide-when-print">
             <div class="generic-table--empty-header">
@@ -51,7 +52,19 @@
         </td>
       </tr>
       </tbody>
-      <tbody class="results-tbody work-package--results-tbody"></tbody>
+      <tbody class="results-tbody work-package--results-tbody">
+      <ng-container *cdkVirtualFor="let workPackage of rows">
+        <tr class="wp-table--row" wp-edit-field-group [workPackage]="workPackage">
+          <td></td>
+          <td *ngFor="let column of columns"
+              class="wp-table--cell-td">
+            <wp-edit-field [workPackageId]="workPackage.id"
+                           [fieldName]="column.id"></wp-edit-field>
+          </td>
+          <td>...</td>
+        </tr>
+      </ng-container>
+      </tbody>
       <tbody *ngIf="tableElement && configuration.inlineCreateEnabled"
              wpInlineCreate
              [wp-inline-create--table]="workPackageTable"
@@ -62,6 +75,7 @@
       <tr wpTableSumsRow></tr>
       </tfoot>
     </table>
+    </cdk-virtual-scroll-viewport>
   </div>
 
   <div *ngIf="!configuration.isEmbedded"
