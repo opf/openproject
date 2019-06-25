@@ -1,6 +1,5 @@
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {wpCellTdClassName} from "core-components/wp-fast-table/builders/cell-builder";
-import {OpTableActionsService} from "core-components/wp-table/table-actions/table-actions.service";
 import {Injector} from "@angular/core";
 import {TableDragActionsRegistryService} from "core-components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
 import {TableDragActionService} from "core-components/wp-table/drag-and-drop/actions/table-drag-action.service";
