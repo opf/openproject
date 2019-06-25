@@ -8,6 +8,8 @@ import {Board} from "core-app/modules/boards/board/board";
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 
 @Injectable()
 export class BoardListsService {
@@ -18,7 +20,9 @@ export class BoardListsService {
               private readonly pathHelper:PathHelperService,
               private readonly QueryDm:QueryDmService,
               private readonly halResourceService:HalResourceService,
-              private readonly QueryFormDm:QueryFormDmService) {
+              private readonly QueryFormDm:QueryFormDmService,
+              private readonly notifications:NotificationsService,
+              private readonly I18n:I18nService) {
 
   }
 
@@ -34,8 +38,14 @@ export class BoardListsService {
         this.buildQueryRequest(params),
       )
       .then(form => {
-        const query = this.QueryFormDm.buildQueryResource(form);
-        return this.QueryDm.create(query, form);
+        // When the permission to create public queries is missing, throw an error.
+        // Otherwise private queries would be created.
+        if (form.schema['public'].writable) {
+          const query = this.QueryFormDm.buildQueryResource(form);
+          return this.QueryDm.create(query, form);
+        } else {
+          throw new Error(this.I18n.t('js.boards.error_permission_missing'));
+        }
       });
   }
 
@@ -54,24 +64,28 @@ export class BoardListsService {
    */
   public async addQuery(board:Board, queryParams:Object, filters:ApiV3Filter[]):Promise<Board> {
     const count = board.queries.length;
-    const query = await this.create(queryParams, filters);
+    try {
+      const query = await this.create(queryParams, filters);
 
-    let source = {
-      _type: 'GridWidget',
-      identifier: 'work_package_query',
-      startRow: 1,
-      endRow: 2,
-      startColumn: count + 1,
-      endColumn: count + 2,
-      options: {
-        query_id: query.id,
-        filters: filters,
-      }
-    };
+      let source = {
+        _type: 'GridWidget',
+        identifier: 'work_package_query',
+        startRow: 1,
+        endRow: 2,
+        startColumn: count + 1,
+        endColumn: count + 2,
+        options: {
+          query_id: query.id,
+          filters: filters,
+        }
+      };
 
-    let resource = this.halResourceService.createHalResourceOfClass(GridWidgetResource, source);
-    board.addQuery(resource);
-
+      let resource = this.halResourceService.createHalResourceOfClass(GridWidgetResource, source);
+      board.addQuery(resource);
+    } catch (e) {
+      this.notifications.addError(e);
+      console.error(e);
+    }
     return board;
   }
 
