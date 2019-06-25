@@ -99,7 +99,7 @@
     "mousetrap": "~1.6.2",
     "ng-dynamic-component": "^4.0.0",
     "ng-fullcalendar": "^1.7.1",
-    "ng2-charts": "^1.1.0",
+    "ng2-charts": "^2.3.0",
     "ng2-dragula": "^2.1.1",
     "ng2-rx-componentdestroyed": "3.0.1",
     "ngtemplate-loader": "^2.0.1",

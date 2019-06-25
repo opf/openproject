@@ -6902,11 +6902,20 @@
       }
     },
     "ng2-charts": {
-      "version": "1.6.0",
-      "resolved": "https://registry.npmjs.org/ng2-charts/-/ng2-charts-1.6.0.tgz",
-      "integrity": "sha512-9w0WH69x5/nuqC1og2WaY39NbaBqTGIP1+5gZaH7/KPN6UEPonNg/pYnsIVklLj1DWPWXKa8+XXIJZ1jy5nLxg==",
+      "version": "2.3.0",
+      "resolved": "https://registry.npmjs.org/ng2-charts/-/ng2-charts-2.3.0.tgz",
+      "integrity": "sha512-D5K7OqF0m5lOBYvNOsraoEo4OPHja9zfGNj+HWy2nUcP0LP2s+Y/QaQlkG/1rHlwXq9HPm8rLxzSutA0eLHxGQ==",
       "requires": {
-        "chart.js": "^2.6.0"
+        "@types/chart.js": "^2.7.48",
+        "lodash": "^4.17.11",
+        "tslib": "^1.9.0"
+      },
+      "dependencies": {
+        "@types/chart.js": {
+          "version": "2.7.54",
+          "resolved": "https://registry.npmjs.org/@types/chart.js/-/chart.js-2.7.54.tgz",
+          "integrity": "sha512-BxIUR4mfk0zOqOPEu4gxLP5herra6INQLyFmgVE6JVRNNB+r36g2cd67nDUEEdD/EShZvaR33xausxOGv1+nbw=="
+        }
       }
     },
     "ng2-dragula": {
