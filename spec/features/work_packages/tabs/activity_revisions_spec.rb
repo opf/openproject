@@ -93,14 +93,14 @@ describe 'Activity tab', js: true, selenium: true do
           end
 
         date_selector = ".work-package-details-activities-activity:nth-of-type(#{actual_index}) " +
-                        '.activity-date'
+          '.activity-date'
         # Do not use :long format to match the printed date without double spaces
         # on the first 9 days of the month
         expected_date = if activity.is_a?(Journal)
-                          activity.created_at
-                        else
-                          activity.committed_on
-                        end.to_date.strftime("%B %-d, %Y")
+          activity.created_at
+        else
+          activity.committed_on
+        end.to_date.strftime("%B %-d, %Y")
 
         expect(page).to have_selector(date_selector,
                                       text: expected_date)
@@ -192,6 +192,22 @@ describe 'Activity tab', js: true, selenium: true do
 
         expect(page).to have_selector('.user-comment > .message', count: 3)
         expect(page).to have_selector('.user-comment > .message blockquote')
+      end
+
+      it 'can reference a changeset (Regression #30415)' do
+        work_package_page.visit_tab! 'activity'
+        work_package_page.ensure_page_loaded
+        expect(page).to have_selector('.user-comment > .message', text: initial_comment)
+
+        comment_field = WorkPackageEditorField.new work_package_page,
+                                                   'comment',
+                                                   selector: '.work-packages--activity--add-comment'
+
+        comment_field.activate!
+        comment_field.click_and_type_slowly "References r#{revision.revision}"
+        comment_field.submit_by_click
+
+        expect(page).to have_selector('.user-comment .message a', text: revision.revision)
       end
     end
 
