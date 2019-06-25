@@ -80,7 +80,7 @@ export class WidgetTimeEntriesCurrentUserComponent extends AbstractWidgetCompone
   }
 
   public comment(entry:TimeEntryResource) {
-    return entry.comment && entry.comment.html;
+    return entry.comment && entry.comment.raw;
   }
 
   public hours(entry:TimeEntryResource) {
