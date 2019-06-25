@@ -94,6 +94,10 @@ describe Journal::AggregatedJournal, type: :model do
     expect(subject.first.successor).to be_nil
   end
 
+  it 'forwards project to the journable' do
+    expect(subject.first.project).to eq(work_package.project)
+  end
+
   context 'WP updated immediately after uncommented change' do
     let(:notes) { nil }
 
