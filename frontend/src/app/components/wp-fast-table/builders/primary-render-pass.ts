@@ -12,6 +12,7 @@ import {
   IWorkPackageEditingServiceToken
 } from "../../wp-edit-form/work-package-editing.service.interface";
 import {HighlightingRenderPass} from "core-components/wp-fast-table/builders/highlighting/row-highlight-render-pass";
+import {DragDropHandleRenderPass} from "core-components/wp-fast-table/builders/drag-and-drop/drag-drop-handle-render-pass";
 
 export type RenderedRowType = 'primary' | 'relations';
 
@@ -53,6 +54,9 @@ export abstract class PrimaryRenderPass {
   /** Additional render pass that handles table relation rendering */
   public relations:RelationsRenderPass;
 
+  /** Additional render pass that handles drag'n'drop handle rendering */
+  public dragDropHandle:DragDropHandleRenderPass;
+
   /** Additional render pass that handles highlighting of rows */
   public highlighting:HighlightingRenderPass;
 
@@ -86,6 +90,10 @@ export abstract class PrimaryRenderPass {
 
     timeOutput('Relations render pass', () => {
       this.relations.render();
+    });
+
+    timeOutput('Drag handle render pass', () => {
+      this.dragDropHandle.render();
     });
 
     // Synchronize the rows to timeline
@@ -150,6 +158,7 @@ export abstract class PrimaryRenderPass {
   protected prepare() {
     this.timeline = new TimelineRenderPass(this.injector, this.workPackageTable, this);
     this.relations = new RelationsRenderPass(this.injector, this.workPackageTable, this);
+    this.dragDropHandle = new DragDropHandleRenderPass(this.injector, this.workPackageTable, this);
     this.highlighting = new HighlightingRenderPass(this.injector, this.workPackageTable, this);
     this.tableBody = document.createDocumentFragment();
     this.renderedOrder = [];
