@@ -30,8 +30,8 @@ import {
   Component,
   OnDestroy,
 } from '@angular/core';
-import {DynamicBootstrapper} from "app/globals/dynamic-bootstrapper";
-import {GlobalSearchService} from "app/modules/global_search/global-search.service";
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+import {GlobalSearchService} from "core-app/modules/global_search/services/global-search.service";
 import {Subscription} from "rxjs";
 import {ScrollableTabsComponent} from "core-app/modules/common/tabs/scrollable-tabs.component";
 

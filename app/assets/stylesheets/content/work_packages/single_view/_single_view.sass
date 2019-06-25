@@ -163,7 +163,7 @@ i
   @supports (column-span: all)
     // Remove the outline on focus since that breaks the column in chrome
     // Chrome bug https://bugs.chromium.org/p/chromium/issues/detail?id=565116
-    body:not(.accessibility-mode)
+    body
       .attributes-key-value--value-container
         *:focus
           outline: 1px solid $gray
