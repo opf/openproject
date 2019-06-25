@@ -32,10 +32,11 @@ import {WorkPackageTableFiltersService} from "app/components/wp-fast-table/state
 import {componentDestroyed, untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {WorkPackageCacheService} from "app/components/work-packages/work-package-cache.service";
 import {merge, Observable, Subject} from "rxjs";
-import {debounceTime, distinctUntilChanged, map, startWith} from "rxjs/operators";
+import {debounceTime, delay, delayWhen, distinctUntilChanged, map, startWith, tap} from "rxjs/operators";
 import {DebouncedEventEmitter} from "core-components/angular/debounced-event-emitter";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
+import {input} from "reactivestates";
 
 @Component({
   selector: 'wp-filter-by-text-input',
@@ -53,7 +54,7 @@ export class WorkPackageFilterByTextInputComponent implements OnDestroy {
   };
 
   /** Observable to the current search filter term */
-  public searchTerm$:Observable<string>;
+  public searchTerm = input<string>('');
 
   /** Input for search requests */
   public searchTermChanged:Subject<string> = new Subject<string>();
@@ -63,24 +64,28 @@ export class WorkPackageFilterByTextInputComponent implements OnDestroy {
               readonly wpTableFilters:WorkPackageTableFiltersService,
               readonly wpCacheService:WorkPackageCacheService) {
 
-    this.searchTerm$ = merge(
-      this.wpTableFilters
-        .pristine$()
-        .pipe(
-          untilComponentDestroyed(this),
-          map(() => {
-            const currentSearchFilter = this.wpTableFilters.find('search');
-            return currentSearchFilter ? (currentSearchFilter.values[0] as string) : '';
-          }),
-          startWith(''),
-        ),
-      this.searchTermChanged
-    );
+    this.wpTableFilters
+      .pristine$()
+      .pipe(
+        untilComponentDestroyed(this),
+        map(() => {
+          const currentSearchFilter = this.wpTableFilters.find('search');
+          return currentSearchFilter ? (currentSearchFilter.values[0] as string) : '';
+        }),
+      )
+      .subscribe((upstreamTerm:string) => {
+        console.log("upstream " + upstreamTerm + " " + (this.searchTerm as any).timestampOfLastValue);
+        if (!this.searchTerm.value || this.searchTerm.isValueOlderThan(500)) {
+          console.log("Upstream value setting to " + upstreamTerm);
+          this.searchTerm.putValue(upstreamTerm);
+        }
+      });
 
     this.searchTermChanged
       .pipe(
         untilComponentDestroyed(this),
         distinctUntilChanged(),
+        tap((val) => this.searchTerm.putValue(val)),
         debounceTime(500),
       )
       .subscribe(term => {
