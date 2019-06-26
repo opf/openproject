@@ -3,12 +3,12 @@ ja:
     label_preview: 'プレビュー'
     button_update: '更新'
     avatars:
-      label_choose_avatar: "Choose Avatar from file"
-      uploading_avatar: "Uploading your avatar."
+      label_choose_avatar: "ファイルからアバターを選択"
+      uploading_avatar: "アバターを更新しています。"
       text_upload_instructions: |
-        Upload your own custom avatar of 128 by 128 pixels. Larger files will be resized and cropped to match.
-        A preview of your avatar will be shown before uploading, once you selected an image.
-      error_image_too_large: "Image is too large."
-      wrong_file_format: "Allowed formats are jpg, png, gif"
-      empty_file_error: "Please upload a valid image (jpg, png, gif)"
+        128 x 128 ピクセルの独自のカスタムアバターをアップロードしてください。 大きいファイルはサイズが変更され、それに合わせてトリミングされます。
+        画像を選択すると、アップロード前にアバターのプレビューが表示されます。
+      error_image_too_large: "画像が大きすぎます。"
+      wrong_file_format: "利用可能な形式は jpg、png、gif"
+      empty_file_error: "正しい画像をアップロードしてください (jpg、png、gif)"
 

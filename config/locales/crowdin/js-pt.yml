@@ -805,10 +805,10 @@ pt:
     error_attachment_upload_permission: "Não tem permissão para carregar ficheiros para este recurso."
     units:
       workPackage:
-        one: "work package"
+        one: "pacote de trabalho"
         other: "work packages"
       child_work_packages:
-        one: "one child work package"
+        one: "pacote de trabalho infantil"
         other: "%{count} work package children"
       hour:
         one: "1 hora"
