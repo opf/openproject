@@ -34,28 +34,26 @@ import {
   HostListener,
   OnDestroy,
   OnInit,
-  ViewChild
+  ViewChild,
+  ViewEncapsulation
 } from '@angular/core';
-import {ContainHelpers} from 'app/modules/common/focus/contain-helpers';
-import {I18nService} from 'app/modules/common/i18n/i18n.service';
-import {DynamicBootstrapper} from "app/globals/dynamic-bootstrapper";
-import {PathHelperService} from "app/modules/common/path-helper/path-helper.service";
-import {HalResourceService} from "app/modules/hal/services/hal-resource.service";
-import {WorkPackageResource} from "app/modules/hal/resources/work-package-resource";
-import {CollectionResource} from "app/modules/hal/resources/collection-resource";
-import {DynamicCssService} from "app/modules/common/dynamic-css/dynamic-css.service";
-import {GlobalSearchService} from "app/modules/global_search/global-search.service";
-import {CurrentProjectService} from "app/components/projects/current-project.service";
-import {DeviceService} from "app/modules/common/browser/device.service";
+import {ContainHelpers} from 'core-app/modules/common/focus/contain-helpers';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
+import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
+import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
+import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css.service";
+import {GlobalSearchService} from "core-app/modules/global_search/services/global-search.service";
+import {CurrentProjectService} from "core-components/projects/current-project.service";
+import {DeviceService} from "core-app/modules/common/browser/device.service";
 import {NgSelectComponent} from "@ng-select/ng-select";
-import {debounceTime, distinctUntilChanged} from "rxjs/operators";
-import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {Observable, of, Subject} from "rxjs";
+import {Observable, of} from "rxjs";
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
-import {catchError, map, switchMap, tap} from "rxjs/internal/operators";
+import {map} from "rxjs/internal/operators";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {DebouncedRequestSwitchmap, errorNotificationHandler} from "core-app/helpers/rxjs/debounced-input-switchmap";
-import {StatusResource} from "core-app/modules/hal/resources/status-resource";
 
 export const globalSearchSelector = 'global-search-input';
 
@@ -70,7 +68,10 @@ interface SearchResultItem {
 @Component({
   selector: globalSearchSelector,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './global-search-input.component.html'
+  templateUrl: './global-search-input.component.html',
+  styleUrls: ['./global-search-input.component.sass', "./global-search-input-mobile.component.sass"],
+  // Necessary because of ng-select
+  encapsulation: ViewEncapsulation.None
 })
 export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   @ViewChild('btn', { static: true }) btn:ElementRef;

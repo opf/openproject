@@ -40,7 +40,7 @@ import {FocusHelperService} from 'app/modules/common/focus/focus-helper';
 import {I18nService} from 'app/modules/common/i18n/i18n.service';
 import {DynamicBootstrapper} from "app/globals/dynamic-bootstrapper";
 import {HalResourceService} from "app/modules/hal/services/hal-resource.service";
-import {GlobalSearchService} from "app/modules/global_search/global-search.service";
+import {GlobalSearchService} from "core-app/modules/global_search/services/global-search.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {QueryResource} from "app/modules/hal/resources/query-resource";
 import {WorkPackageFiltersService} from "app/components/filters/wp-filters/wp-filters.service";
