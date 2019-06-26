@@ -69,18 +69,22 @@ module Redmine::MenuManager::TopMenuHelper
       concat('<i class="icon2 icon-user hidden-for-desktop"></i>'.html_safe)
     end
 
-    render_menu_dropdown(link, menu_item_class: 'drop-down last-child') do
+    render_menu_dropdown(link, menu_item_class: 'drop-down last-child top-menu--login') do
       render_login_partial
     end
   end
 
   def render_direct_login
-    login = Redmine::MenuManager::MenuItem.new :login,
-                                               signin_path,
-                                               caption: I18n.t(:label_login),
-                                               html: { class: 'login' }
+    link = link_to signin_path,
+                   class: 'login',
+                   title: l(:label_login) do
+      concat('<span class="button--dropdown-text hidden-for-mobile">'.concat(l(:label_login)).concat('</span>').html_safe)
+      concat('<i class="icon2 icon-user hidden-for-desktop"></i>'.html_safe)
+    end
 
-    render_menu_node login
+    content_tag :li, class: "last-child top-menu--login" do
+      concat link
+    end
   end
 
   def render_user_drop_down(items)
