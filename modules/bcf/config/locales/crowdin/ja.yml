@@ -24,7 +24,7 @@ ja:
         button_back_to_list: 'Back to list'
         description: "Provide a BCF-XML v2.1 file to import into this project. You can examine its contents before performing the import."
         perform_description: "Do you want to import or update the issues listed above?"
-        work_package_has_newer_changes: "The import for BCF topic %{bcf_uuid} looks outdated. The latest changes on the server are newer than the \"MofiedDate\" of the imported topic."
+        work_package_has_newer_changes: "BCFトピック %{bcf_uuid} のインポートは古いようです。 サーバー上の最新の変更は、インポートされたトピックの \"更新日付\"よりも新しいものです。"
   export:
     format:
       bcf: "BCF-XML"

@@ -18,9 +18,9 @@ pt:
     card:
       add_new: 'Adicionar novo cartão'
       highlighting:
-        inline: 'Destacar inline:'
+        inline: 'Destaque em linha:'
         entire_card_by: 'Cartão inteiro por'
-      remove_from_list: 'Apagar cartão da lista'
+      remove_from_list: 'Eliminar cartão da lista'
     clipboard:
       browser_error: "O seu navegador não suporta o copiar para a área de transferência. Por favor, copie manualmente o texto selecionado."
       copied_successful: "Copiado com sucesso para área de transferência!"
@@ -800,10 +800,10 @@ pt:
     error_attachment_upload_permission: "Não tem permissão para carregar ficheiros para este recurso."
     units:
       workPackage:
-        one: "work package"
+        one: "pacote de trabalho"
         other: "work packages"
       child_work_packages:
-        one: "one child work package"
+        one: "pacote de trabalho infantil"
         other: "%{count} work package children"
       hour:
         one: "1 hora"

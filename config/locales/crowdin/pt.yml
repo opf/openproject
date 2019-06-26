@@ -764,7 +764,7 @@ pt:
   copy_project:
     started: "Começou a copiar o projeto \"%{source_project_name}\" para \"%{target_project_name}\". Será informado por E-mail, assim que o projeto \"%{target_project_name}\" esteja disponível."
     failed: "Não é possível copiar o projecto %{source_project_name}"
-    failed_internal: "Copying failed due to an internal error."
+    failed_internal: "A cópia falhou devido a um erro interno."
     succeeded: "Criado o projecto %{target_project_name}"
     errors: "Erro"
     project_custom_fields: 'Campos personalizados no projeto'

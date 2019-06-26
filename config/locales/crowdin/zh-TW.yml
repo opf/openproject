@@ -464,7 +464,7 @@ zh-TW:
         too_long: "太長 (最長是 %{count} 個字元)"
         too_short: "太短 (最少 %{count} 個字元)"
         unchangeable: "無法更改。"
-        unremovable: "cannot be removed."
+        unremovable: "無法移除"
         wrong_length: "長度錯誤 (應該要有 %{count} 個字元)"
       models:
         custom_field:
@@ -583,7 +583,7 @@ zh-TW:
               error_not_found: "未找到"
         member:
           principal_blank: "請至少選擇一個使用者或群組。"
-          role_blank: "need to be assigned."
+          role_blank: "需要被指定"
           attributes:
             roles:
               ungrantable: "has an unassignable role."
