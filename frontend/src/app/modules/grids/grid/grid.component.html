@@ -48,9 +48,6 @@
          (cdkDragStarted)="drag.start(area)"
          (cdkDragEnded)="drag.stop(area, $event)">
       <div *cdkDragPlaceholder></div>
-      <div class="grid--widget-remove"
-           (click)="remove.widget(area)">
-      </div>
       <ndc-dynamic [ndcDynamicComponent]="widgetComponent(area.widget)"
                    [ndcDynamicInputs]="{ resource: area.widget }"
                    [ndcDynamicOutputs]="widgetComponentOutput(area.widget)">
