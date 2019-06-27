@@ -50,8 +50,12 @@ export class WorkPackageEditingPortalService {
     // Create a portal for the edit-form/field
     const portal = new ComponentPortal(EditFormPortalComponent, null, localInjector);
 
-    // Clear the container
-    container.innerHTML = '';
+    // Remove the last child which is probably the display field
+    if (container.lastChild) {
+      container.removeChild(container.lastChild!);
+    } else {
+      container.innerHTML = '';
+    }
 
     // Attach the portal to the outlet
     const ref = outlet.attachComponentPortal(portal);

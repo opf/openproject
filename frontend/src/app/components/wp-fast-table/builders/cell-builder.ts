@@ -17,18 +17,15 @@ export class CellBuilder {
 
   public build(workPackage:WorkPackageResource, attribute:string) {
     const td = document.createElement('td');
-    td.classList.add(tdClassName, wpCellTdClassName, attribute);
+    td.classList.add(tdClassName, wpCellTdClassName, editFieldContainerClass, attribute);
 
     if (attribute === 'subject') {
       td.classList.add('-max');
     }
 
-    const container = document.createElement('span');
-    container.classList.add(editCellContainer, editFieldContainerClass, attribute);
     const displayElement = this.fieldRenderer.render(workPackage, attribute, null);
-
-    container.appendChild(displayElement);
-    td.appendChild(container);
+    displayElement.classList.add(editCellContainer);
+    td.appendChild(displayElement);
 
     return td;
   }
@@ -36,7 +33,7 @@ export class CellBuilder {
   public refresh(container:HTMLElement, workPackage:WorkPackageResource, attribute:string) {
     const displayElement = this.fieldRenderer.render(workPackage, attribute, null);
 
-    container.innerHTML = '';
     container.appendChild(displayElement);
+    return displayElement;
   }
 }

@@ -123,9 +123,8 @@ html:not(.-browser-mobile)
 .wp-table--cell .ui-datepicker
   margin-left: -38%
 
-.wp-table--cell-container
+.wp-table--cell-td
   @extend .ellipsis
-  display: block
   // Because of the display: block the elements now
   // take up the whole of the cell. This would block
   // the user from using click (to select) or double-click (to open full screen)
@@ -136,13 +135,18 @@ html:not(.-browser-mobile)
   pointer-events: none
 
   .inplace-edit
-    display: initial
     pointer-events: all
 
   &.id .inplace-edit
     pointer-events: none
     a
       pointer-events: all
+
+  edit-form-portal
+    display: flow-root
+
+  .wp-table--cell-span
+    display: inline
 
 // Some padding for the inner cells of the display fields
 .wp-table--cell-span

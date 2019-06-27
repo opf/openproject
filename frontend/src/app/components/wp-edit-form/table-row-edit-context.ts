@@ -63,7 +63,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
   }
 
   public findContainer(fieldName:string):JQuery {
-    return this.rowContainer.find(`.${tdClassName}.${fieldName} .${editCellContainer}`).first();
+    return this.rowContainer.find(`.${tdClassName}.${fieldName}`).first();
   }
 
   public findCell(fieldName:string) {
@@ -94,15 +94,15 @@ export class TableRowEditContext implements WorkPackageEditContext {
   }
 
   public reset(workPackage:WorkPackageResource, fieldName:string, focus?:boolean) {
-    const cell = this.findContainer(fieldName);
+    const td = this.findContainer(fieldName);
 
-    if (cell.length) {
+    if (td.length) {
       this.findCell(fieldName).css('width', '');
       this.findCell(fieldName).css('max-width', '');
-      this.cellBuilder.refresh(cell[0], workPackage, fieldName);
+      let el = this.cellBuilder.refresh(td[0], workPackage, fieldName);
 
       if (focus) {
-        this.FocusHelper.focusElement(cell);
+        this.FocusHelper.focusElement(jQuery(el));
       }
     }
   }
