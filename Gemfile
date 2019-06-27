@@ -251,7 +251,7 @@ group :development do
 end
 
 group :development, :test do
-  gem 'puma', '~> 3.12.0'
+  gem 'puma', '~> 4.0.0'
   gem 'thin', '~> 1.7.2'
 
   # Tracing and profiling gems
