@@ -67,10 +67,6 @@ export class WorkPackageTableFiltersService extends WorkPackageQueryStateService
     super(querySpace);
   }
 
-  protected get state():InputState<QueryFilterInstanceResource[]> {
-    return this.querySpace.filters;
-  }
-
   /**
    * Load all schemas for the current filters and fill respective states
    * @param query
@@ -81,7 +77,7 @@ export class WorkPackageTableFiltersService extends WorkPackageQueryStateService
 
     this.loadCurrentFiltersSchemas(filters).then(() => {
       this.availableState.putValue(schema.filtersSchemas.elements);
-      this.update(filters);
+      this.pristineState.putValue(filters);
     });
   }
 
@@ -89,7 +85,7 @@ export class WorkPackageTableFiltersService extends WorkPackageQueryStateService
    * Return whether rth
    */
   public get isEmpty() {
-    const value = this.state.value;
+    const value = this.lastUpdatedState.value;
     return !value || value.length === 0;
   }
 
@@ -103,7 +99,7 @@ export class WorkPackageTableFiltersService extends WorkPackageQueryStateService
    * @param filter
    */
   public add(filter:QueryFilterInstanceResource) {
-    this.state.doModify(filters => [...filters, filter]);
+    this.updatesState.putValue([...this.rawFilters, filter]);
   }
 
   /**
@@ -112,19 +108,17 @@ export class WorkPackageTableFiltersService extends WorkPackageQueryStateService
   public replace(id:string, modifier:(filter:QueryFilterInstanceResource) => void):void {
     let filter:QueryFilterInstanceResource = this.instantiate(id);
 
-    this.state.doModify(filters => {
-      let newFilters = [...filters];
-      modifier(filter);
+    let newFilters = [...this.rawFilters];
+    modifier(filter);
 
-      const index = this.findIndex(id);
-      if (index === -1) {
-        newFilters.push(filter);
-      } else {
-        newFilters.splice(index, 1, filter);
-      }
+    const index = this.findIndex(id);
+    if (index === -1) {
+      newFilters.push(filter);
+    } else {
+      newFilters.splice(index, 1, filter);
+    }
 
-      return newFilters;
-    });
+    this.update(newFilters);
   }
 
   /**
@@ -140,10 +134,9 @@ export class WorkPackageTableFiltersService extends WorkPackageQueryStateService
       return false;
     }
 
-    this.state.doModify(filters => {
-      modifier(filters[index]!);
-      return filters;
-    });
+    let filters = [...this.rawFilters];
+    modifier(filters[index]!);
+    this.update(filters);
 
     return true;
   }
@@ -170,9 +163,10 @@ export class WorkPackageTableFiltersService extends WorkPackageQueryStateService
   public remove(...filters:(QueryFilterInstanceResource|string)[]) {
     let mapper = (f:QueryFilterInstanceResource|string) => (f instanceof QueryFilterInstanceResource) ? f.id : f;
     let set = new Set<string>(filters.map(mapper));
-    this.state.doModify(value => {
-      return value.filter(f => !set.has(mapper(f)));
-    });
+
+    this.update(
+      this.rawFilters.filter(f => !set.has(mapper(f)))
+    );
   }
 
   /**
@@ -195,16 +189,6 @@ export class WorkPackageTableFiltersService extends WorkPackageQueryStateService
 
   private get availableSchemas():QueryFilterInstanceSchemaResource[] {
     return this.availableState.getValueOr([]);
-  }
-
-  /**
-   * Find an available filter by its ID. Can be used to instantiate or add
-   * with +get+ or +add+ methods on this service.
-   *
-   * @param id Internal identifier string of the filter
-   */
-  public findAvailableFilter(id:string):QueryFilterResource|undefined {
-    return _.find(this.availableFilters, f => f.id === id);
   }
 
   /**
@@ -282,7 +266,7 @@ export class WorkPackageTableFiltersService extends WorkPackageQueryStateService
    * without modification.
    */
   protected get rawFilters():QueryFilterInstanceResource[] {
-    return this.state.getValueOr([]);
+    return this.lastUpdatedState.value || [];
   }
 
   public get currentlyVisibleFilters() {
@@ -309,7 +293,7 @@ export class WorkPackageTableFiltersService extends WorkPackageQueryStateService
    * Filters service depends on two states
    */
   public onReady() {
-    return combine(this.state, this.availableState)
+    return combine(this.pristineState, this.availableState)
       .values$()
       .pipe(
         take(1),

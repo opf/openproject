@@ -38,9 +38,9 @@ export type RenderedRow = { classIdentifier:string, workPackageId:string | null,
 
 export abstract class PrimaryRenderPass {
 
-  public wpEditing:WorkPackageEditingService = this.injector.get<WorkPackageEditingService>(IWorkPackageEditingServiceToken);
-  public states:States = this.injector.get(States);
-  public I18n:I18nService = this.injector.get(I18nService);
+  protected readonly wpEditing:WorkPackageEditingService = this.injector.get<WorkPackageEditingService>(IWorkPackageEditingServiceToken);
+  protected readonly states:States = this.injector.get(States);
+  protected readonly I18n:I18nService = this.injector.get(I18nService);
 
   /** The rendered order of rows of work package IDs or <null>, if not a work package row */
   public renderedOrder:RowRenderInfo[];

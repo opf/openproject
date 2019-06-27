@@ -31,5 +31,5 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 export interface WorkPackageTableHighlight {
   mode:HighlightingMode;
-  selectedAttributes?:HalResource[];
+  selectedAttributes?:HalResource[]|undefined;
 }

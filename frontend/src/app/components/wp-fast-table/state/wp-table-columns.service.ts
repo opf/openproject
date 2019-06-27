@@ -42,10 +42,6 @@ export class WorkPackageTableColumnsService extends WorkPackageQueryStateService
     super(querySpace);
   }
 
-  public get state():InputState<QueryColumn[]> {
-    return this.querySpace.columns;
-  }
-
   public valueFromQuery(query:QueryResource):QueryColumn[] {
     return [...query.columns];
   }
@@ -89,8 +85,8 @@ export class WorkPackageTableColumnsService extends WorkPackageQueryStateService
    * Retrieve the QueryColumn objects for the selected columns.
    * Returns a shallow copy with the original column objects.
    */
-  public getColumns():any[] {
-    return [ ...this.currentState ];
+  public getColumns():QueryColumn[] {
+    return [ ...this.current ];
   }
 
   /**
@@ -159,7 +155,7 @@ export class WorkPackageTableColumnsService extends WorkPackageQueryStateService
       return;
     }
 
-    this.current = columns;
+    this.update(columns);
   }
 
   public setColumnsById(columnIds:string[]) {
@@ -239,8 +235,8 @@ export class WorkPackageTableColumnsService extends WorkPackageQueryStateService
   }
 
   // only exists to cast the state
-  protected get currentState() {
-    return this.state.getValueOr([]);
+  protected get current() {
+    return this.lastUpdatedState.getValueOr([]);
   }
 
   // Get the available state

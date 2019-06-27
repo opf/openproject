@@ -31,7 +31,7 @@ import {StateService, TransitionService} from '@uirouter/core';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
+import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {auditTime, filter, take, withLatestFrom} from 'rxjs/operators';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
@@ -99,23 +99,17 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
   }
 
   private setupQueryObservers() {
-    this
-      .querySpace
-      .ready
-      .fireOnStateChange(
-        this.wpTablePagination.state,
-      'Query loaded'
-      )
-      .values$()
+    this.wpTablePagination
+      .updates$()
       .pipe(
         untilComponentDestroyed(this),
         withLatestFrom(this.querySpace.query.values$())
       ).subscribe(([pagination, query]) => {
-        if (this.wpListChecksumService.isQueryOutdated(query, pagination)) {
-          this.wpListChecksumService.update(query, pagination);
-          this.refresh(true, false);
-        }
-      });
+      if (this.wpListChecksumService.isQueryOutdated(query, pagination)) {
+        this.wpListChecksumService.update(query, pagination);
+        this.refresh(true, false);
+      }
+    });
 
     this.setupChangeObserver(this.wpTableFilters, true);
     this.setupChangeObserver(this.wpTableGroupBy);
@@ -137,28 +131,28 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
   protected setupChangeObserver(service:WorkPackageQueryStateService<unknown>, firstPage:boolean = false) {
     const queryState = this.querySpace.query;
 
-    this.querySpace.ready
-      .fireOnStateChange(service.readonlyState, 'Query loaded')
-      .values$()
+    service
+      .updates$()
       .pipe(
         untilComponentDestroyed(this),
         filter(() => queryState.hasValue() && service.hasChanged(queryState.value!))
-      ).subscribe(() => {
-      const newQuery = queryState.value!;
-      const triggerUpdate = service.applyToQuery(newQuery);
-      this.querySpace.query.putValue(newQuery);
+      )
+      .subscribe(() => {
+        const newQuery = queryState.value!;
+        const triggerUpdate = service.applyToQuery(newQuery);
+        this.querySpace.query.putValue(newQuery);
 
-      // Update the current checksum
-      this.wpListChecksumService.updateIfDifferent(newQuery, this.wpTablePagination.current);
+        // Update the current checksum
+        this.wpListChecksumService.updateIfDifferent(newQuery, this.wpTablePagination.current);
 
-      // Update the page, if the change requires it
-      if (triggerUpdate) {
-        this.wpTableRefresh.request(
-          'Query updated by user',
-          { visible: true, firstPage: firstPage }
-        );
-      }
-    });
+        // Update the page, if the change requires it
+        if (triggerUpdate) {
+          this.wpTableRefresh.request(
+            'Query updated by user',
+            { visible: true, firstPage: firstPage }
+          );
+        }
+      });
   }
 
   /**

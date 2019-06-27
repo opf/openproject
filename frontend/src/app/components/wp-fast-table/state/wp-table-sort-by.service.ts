@@ -47,17 +47,12 @@ export class WorkPackageTableSortByService extends WorkPackageQueryStateService<
     super(querySpace);
   }
 
-
-  public get state():InputState<QuerySortByResource[]> {
-    return this.querySpace.sortBy;
-  }
-
   public valueFromQuery(query:QueryResource) {
     return [...query.sortBy];
   }
 
   public onReadyWithAvailable():Observable<null> {
-    return combine(this.state, this.states.queries.sortBy)
+    return combine(this.pristineState, this.states.queries.sortBy)
       .values$()
       .pipe(
         mapTo(null)
@@ -97,9 +92,7 @@ export class WorkPackageTableSortByService extends WorkPackageQueryStateService<
     let available:QuerySortByResource = this.findAvailableDirection(column, criteria)!;
 
     if (available) {
-      this.state.doModify(() => {
-       return [available];
-      });
+      this.update([available]);
     }
   }
 
@@ -112,14 +105,11 @@ export class WorkPackageTableSortByService extends WorkPackageQueryStateService<
   }
 
   public add(sortBy:QuerySortByResource) {
-    this.state.doModify((current:QuerySortByResource[]) => {
-      let newValue = [sortBy, ...current];
-      return _
-        .uniqBy(newValue, sortBy => sortBy.column.$href)
-        .slice(0, 3);
+    let newValue = _
+      .uniqBy([sortBy, ...this.current], sortBy => sortBy.column.$href)
+      .slice(0, 3);
 
-      return current.concat(sortBy);
-    });
+    this.update(newValue);
   }
 
   public get isManualSortingMode():boolean {
@@ -140,7 +130,7 @@ export class WorkPackageTableSortByService extends WorkPackageQueryStateService<
   }
 
   public get current():QuerySortByResource[] {
-    return this.state.getValueOr([]);
+    return this.lastUpdatedState.getValueOr([]);
   }
 
   private get availableState() {

@@ -1,9 +1,9 @@
 import {Injector} from '@angular/core';
-import {filter, takeUntil} from 'rxjs/operators';
 import {debugLog} from '../../../../helpers/debug_output';
 import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import {takeUntil} from "rxjs/operators";
 
 export class ColumnsTransformer {
 
@@ -13,8 +13,8 @@ export class ColumnsTransformer {
   constructor(public readonly injector:Injector,
               public table:WorkPackageTable) {
 
-    this.querySpace.updates.columnsUpdates
-      .values$('Refreshing columns on user request')
+    this.wpTableColumns
+      .updates$()
       .pipe(
         takeUntil(this.querySpace.stopAllSubscriptions)
       )

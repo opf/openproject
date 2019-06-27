@@ -158,8 +158,8 @@ export class WorkPackageInlineCreateComponent implements OnInit, AfterViewInit, 
    * we need to manually ensure the inline create row gets refreshed as well.
    */
   private refreshOnColumnChanges() {
-    this.querySpace.columns
-      .values$()
+    this.wpTableColumns
+      .updates$()
       .pipe(
         filter(() => this.isActive), // Take only when row is inserted
         untilComponentDestroyed(this),

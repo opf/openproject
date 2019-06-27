@@ -11,8 +11,8 @@ import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {WorkPackageEmbeddedBaseComponent} from "core-components/wp-table/embedded/wp-embedded-base.component";
 import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
 import {QueryFormDmService} from "core-app/modules/hal/dm-services/query-form-dm.service";
+import {distinctUntilChanged, take, withLatestFrom} from "rxjs/operators";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {distinctUntilChanged, withLatestFrom} from "rxjs/internal/operators";
 
 @Component({
   selector: 'wp-embedded-table',
@@ -58,14 +58,13 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
     }
 
     // Reload results on changes to pagination (Regression #29845)
-    this.querySpace.ready.fireOnStateChange(
-      this.wpTablePagination.state,
-      'Query loaded'
-    ).values$().pipe(
+    this.wpTablePagination
+      .updates$()
+      .pipe(
       distinctUntilChanged(),
       untilComponentDestroyed(this),
       withLatestFrom(this.querySpace.query.values$())
-    ).subscribe(([pagination, query]) => {
+    ).subscribe(([_, query]) => {
       this.loadingIndicator = this.QueryDm
         .loadResults(query, this.wpTablePagination.paginationObject)
         .then((query) => this.initializeStates(query, query.results));
@@ -91,22 +90,23 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
       this.loadForm(query);
     }
 
-    this.querySpace.ready.doAndTransition('Query loaded', () => {
-      this.wpStatesInitialization.clearStates();
-      this.wpStatesInitialization.initializeFromQuery(query, results);
-      this.wpStatesInitialization.updateQuerySpace(query, results);
+    this.wpStatesInitialization.clearStates();
+    this.wpStatesInitialization.initializeFromQuery(query, results);
+    this.wpStatesInitialization.updateQuerySpace(query, results);
 
-      return this.querySpace.tableRendering.onQueryUpdated.valuesPromise()
-        .then(() => {
-          this.showTablePagination = results.total > results.count;
-          this.setLoaded();
+    return this.querySpace
+      .initialized
+      .values$()
+      .pipe(take(1))
+      .subscribe(() => {
+        this.showTablePagination = results.total > results.count;
+        this.setLoaded();
 
-          // Disable compact mode when timeline active
-          if (this.wpTableTimeline.isVisible) {
-            this.configuration = { ...this.configuration, compactTableStyle: false };
-          }
-        });
-    });
+        // Disable compact mode when timeline active
+        if (this.wpTableTimeline.isVisible) {
+          this.configuration = { ...this.configuration, compactTableStyle: false };
+        }
+      });
   }
 
   private loadForm(query:QueryResource):Promise<QueryFormResource> {

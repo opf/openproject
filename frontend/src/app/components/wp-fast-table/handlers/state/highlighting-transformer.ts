@@ -11,8 +11,8 @@ export class HighlightingTransformer {
 
   constructor(public readonly injector:Injector,
               table:WorkPackageTable) {
-    this.querySpace.highlighting
-      .values$('Refreshing highlights on user request')
+    this.wpTableHighlighting
+      .live$()
       .pipe(
         takeUntil(this.querySpace.stopAllSubscriptions),
         distinctUntilChanged()

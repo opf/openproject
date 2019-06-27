@@ -31,7 +31,7 @@ import {AbstractWorkPackageButtonComponent} from 'core-components/wp-buttons/wp-
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 
 @Component({
   selector: 'wp-filter-button',
@@ -86,7 +86,10 @@ export class WorkPackageFilterButtonComponent extends AbstractWorkPackageButtonC
 
   private setupObserver() {
     this.wpTableFilters
-      .observeUntil(componentDestroyed(this))
+      .live$()
+      .pipe(
+        untilComponentDestroyed(this)
+      )
       .subscribe(() => {
       this.count = this.wpTableFilters.currentlyVisibleFilters.length;
       this.initialized = true;

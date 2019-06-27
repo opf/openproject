@@ -1,4 +1,4 @@
-<div class="work-packages-split-view--tabletimeline-content">
+<div class="work-packages-split-view--tabletimeline-content" *ngIf="query">
   <div class="work-packages-tabletimeline--table-side work-package-table--container __hidden_overflow_container">
     <table class="keyboard-accessible-list generic-table work-package-table">
       <colgroup>
@@ -18,7 +18,7 @@
               <op-icon *ngIf="manualSortEnabled" icon-classes="icon-sort-by"></op-icon>
             </div>
           </th>
-          <th *ngFor="let column of columns"
+          <th *ngFor="let column of columns; trackBy:trackByHref"
               class="wp-table--table-header">
             <sortHeader [headerColumn]="column"
                         [locale]="column.custom_field && column.custom_field.name_locale || locale"

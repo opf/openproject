@@ -59,10 +59,7 @@ import {WorkPackageTableTimelineState} from "core-components/wp-fast-table/wp-ta
 import {WorkPackageTimelineCell} from "core-components/wp-table/timeline/cells/wp-timeline-cell";
 import {selectorTimelineSide} from "core-components/wp-table/wp-table-scroll-sync";
 import {debugLog, timeOutput} from "core-app/helpers/debug_output";
-import {
-  WorkPackageTableRefreshRequest,
-  WorkPackageTableRefreshService
-} from "core-components/wp-table/wp-table-refresh-request.service";
+import {WorkPackageTableRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
 
 @Component({
   selector: 'wp-timeline-container',
@@ -148,10 +145,11 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       });
 
     // Refresh timeline view when becoming visible
-    this.querySpace.timeline.values$()
+    this.wpTableTimeline
+      .live$()
       .pipe(
+        untilComponentDestroyed(this),
         filter((timelineState:WorkPackageTableTimelineState) => timelineState.visible),
-        takeUntil(componentDestroyed(this))
       )
       .subscribe((timelineState:WorkPackageTableTimelineState) => {
         this.refreshRequest.putValue(undefined);
@@ -252,13 +250,11 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
   updateOnWorkPackageChanges() {
     this.states.workPackages.observeChange()
       .pipe(
-        withLatestFrom(this.querySpace.timeline.values$()),
         takeUntil(componentDestroyed(this)),
-        filter(([, timelineState]) => this.initialized && timelineState.visible),
-        map(([[wpId]]) => wpId),
-        filter((wpId) => this.cellsRenderer.hasCell(wpId))
+        filter(() => this.initialized && this.wpTableTimeline.isVisible),
+        filter(([wpId, ]) => this.cellsRenderer.hasCell(wpId))
       )
-      .subscribe((wpId) => {
+      .subscribe(([wpId, ]) => {
         const viewParamsChanged = this.calculateViewParams(this._viewParameters);
         if (viewParamsChanged) {
           this.refreshRequest.putValue(undefined);
