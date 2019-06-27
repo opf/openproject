@@ -12,6 +12,8 @@
              (keydown)="handler.handleUserKeydown($event, true)"
              (open)="onOpen()"
              (close)="onClose()"
+             (add)="repositionDropdown()"
+             (remove)="repositionDropdown()"
              [multiple]="true"
              [closeOnSelect]="false"
              [appendTo]="appendTo"

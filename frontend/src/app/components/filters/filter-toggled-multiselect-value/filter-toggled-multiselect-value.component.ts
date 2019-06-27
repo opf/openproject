@@ -34,10 +34,10 @@ import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-
 import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
 import {
   AfterViewInit,
-  ChangeDetectionStrategy, ChangeDetectorRef,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
-  Inject,
   Input,
   OnInit,
   Output,
@@ -48,7 +48,7 @@ import {AngularTrackingHelpers} from 'core-components/angular/tracking-functions
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {HalResourceSortingService} from "core-app/modules/hal/services/hal-resource-sorting.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {NgSelectComponent} from "@ng-select/ng-select/dist";
+import {NgSelectComponent} from "@ng-select/ng-select";
 
 @Component({
   selector: 'filter-toggled-multiselect-value',
@@ -112,8 +112,8 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
   }
 
   public repositionDropdown() {
-    if (this.ngSelectInstance) {
-      setTimeout(() => this.ngSelectInstance.updateDropdownPosition(), 25);
+    if (this.ngSelectInstance && this.ngSelectInstance.dropdownPanel) {
+      setTimeout(() => this.ngSelectInstance.dropdownPanel.adjustPosition(), 25);
     }
   }
 
