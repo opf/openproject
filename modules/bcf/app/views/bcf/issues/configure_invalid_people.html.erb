@@ -3,7 +3,7 @@
 
 <%= form_tag({ action: :configure_import }, multipart: true, method: :post) do %>
   <%= render 'import_options_hidden_fields' %>
-  <h3>Invalid e-mail addresses found</h3>
+  <h3>Invalid email addresses found</h3>
   <ul>
     <% @importer.aggregations.invalid_people.each do |name| %>
       <li> <%= name %></li>
