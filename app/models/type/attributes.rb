@@ -61,8 +61,12 @@ module Type::Attributes
     #
     # @return [Hash{String => Hash}] Map from attribute names to options.
     def all_work_package_form_attributes(merge_date: false)
+      wp_cf_cache_parts = RequestStore.fetch(:wp_cf_max_updated_at_and_count) do
+                            WorkPackageCustomField.pluck(Arel.sql('max(updated_at), count(id)')).flatten
+                          end
+
       OpenProject::Cache.fetch('all_work_package_form_attributes',
-                               *WorkPackageCustomField.pluck(Arel.sql('max(updated_at), count(id)')).flatten,
+                               *wp_cf_cache_parts,
                                merge_date) do
         calculate_all_work_package_form_attributes(merge_date)
       end
