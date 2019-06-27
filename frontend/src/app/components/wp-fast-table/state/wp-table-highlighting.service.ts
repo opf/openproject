@@ -3,7 +3,6 @@ import {WorkPackageQueryStateService} from './wp-table-base.service';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
 import {States} from 'core-components/states.service';
-import {DynamicCssService} from "../../../modules/common/dynamic-css/dynamic-css.service";
 import {WorkPackageTableHighlight} from "core-components/wp-fast-table/wp-table-highlight";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
@@ -14,14 +13,12 @@ import {QuerySchemaResource} from "core-app/modules/hal/resources/query-schema-r
 export class WorkPackageTableHighlightingService extends WorkPackageQueryStateService<WorkPackageTableHighlight>{
   public constructor(readonly states:States,
                      readonly Banners:BannersService,
-                     readonly dynamicCssService:DynamicCssService,
                      readonly querySpace:IsolatedQuerySpace) {
     super(querySpace);
   }
 
   initialize(query:QueryResource, results:WorkPackageCollectionResource, schema?:QuerySchemaResource) {
     super.initialize(query, results, schema);
-    this.dynamicCssService.requireHighlighting();
   }
 
   /**
@@ -59,8 +56,6 @@ export class WorkPackageTableHighlightingService extends WorkPackageQueryStateSe
 
   public update(value:WorkPackageTableHighlight) {
     super.update(this.filteredValue(value));
-
-    this.dynamicCssService.requireHighlighting();
   }
 
   public valueFromQuery(query:QueryResource):WorkPackageTableHighlight {

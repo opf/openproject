@@ -44,7 +44,6 @@ import {PathHelperService} from "core-app/modules/common/path-helper/path-helper
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
-import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css.service";
 import {GlobalSearchService} from "core-app/modules/global_search/services/global-search.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {DeviceService} from "core-app/modules/common/browser/device.service";
@@ -104,7 +103,6 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
               readonly I18n:I18nService,
               readonly PathHelperService:PathHelperService,
               readonly halResourceService:HalResourceService,
-              readonly dynamicCssService:DynamicCssService,
               readonly globalSearchService:GlobalSearchService,
               readonly currentProjectService:CurrentProjectService,
               readonly deviceService:DeviceService,
@@ -213,8 +211,6 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
     if (!query) {
       return of([]);
     }
-
-    this.dynamicCssService.requireHighlighting();
 
     let idOnly:boolean = false;
 

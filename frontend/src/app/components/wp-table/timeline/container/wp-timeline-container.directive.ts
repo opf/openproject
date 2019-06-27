@@ -44,7 +44,6 @@ import {
   TimelineViewParameters,
   zoomLevelOrder
 } from '../wp-timeline';
-import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css.service";
 import {input, InputState} from "reactivestates";
 import {WorkPackageTable} from "core-components/wp-fast-table/wp-fast-table";
 import {RenderedRow} from "core-components/wp-fast-table/builders/primary-render-pass";
@@ -99,7 +98,6 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
               private elementRef:ElementRef,
               private states:States,
               public wpTableDirective:WorkPackagesTableController,
-              private dynamicCssService:DynamicCssService,
               private NotificationsService:NotificationsService,
               private wpTableTimeline:WorkPackageTableTimelineService,
               private wpNotificationsService:WorkPackageNotificationService,
@@ -222,9 +220,6 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       this._viewParameters.settings.zoomLevel = this.wpTableTimeline.zoomLevel;
       this.wpTableTimeline.appliedZoomLevel = this.wpTableTimeline.zoomLevel;
     }
-
-    // Require dynamic CSS to be visible
-    this.dynamicCssService.requireHighlighting();
 
     timeOutput('refreshView() in timeline container', () => {
       // Reset the width of the outer container if its content shrinks

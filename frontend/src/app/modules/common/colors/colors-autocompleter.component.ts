@@ -29,7 +29,6 @@
 import {Component, ElementRef, OnInit} from '@angular/core';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
-import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
@@ -60,12 +59,10 @@ export class ColorsAutocompleter implements OnInit {
   private selectedColorId:string;
 
   constructor(protected elementRef:ElementRef,
-              protected readonly I18n:I18nService,
-              protected readonly dynamicCssService:DynamicCssService) {
+              protected readonly I18n:I18nService) {
   }
 
   ngOnInit() {
-    this.dynamicCssService.requireHighlighting();
     this.setColorOptions();
 
     this.updateInputField = document.getElementsByName(this.elementRef.nativeElement.dataset.updateInput)[0] as HTMLInputElement|undefined;

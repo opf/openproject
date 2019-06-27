@@ -51,7 +51,6 @@ import {DisplayFieldService} from 'core-app/modules/fields/display/display-field
 import {DisplayField} from 'core-app/modules/fields/display/display-field.module';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {IWorkPackageEditingServiceToken} from '../../wp-edit-form/work-package-editing.service.interface';
-import {DynamicCssService} from '../../../modules/common/dynamic-css/dynamic-css.service';
 import {HookService} from 'core-app/modules/plugins/hook-service';
 import {randomString} from "core-app/helpers/random-string";
 import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
@@ -142,7 +141,6 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
               protected currentProject:CurrentProjectService,
               protected PathHelper:PathHelperService,
               protected states:States,
-              protected dynamicCssService:DynamicCssService,
               @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService,
               protected halResourceService:HalResourceService,
               protected displayFieldService:DisplayFieldService,
@@ -161,10 +159,6 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
     if (this.workPackage.attachments) {
       this.workPackage.attachments.updateElements();
     }
-
-    // Dynamically load highlighting at this point,
-    // if it isn't available yet
-    this.dynamicCssService.requireHighlighting();
 
     // Whenever the resource context changes in any way,
     // update the visible fields.

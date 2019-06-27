@@ -22,7 +22,6 @@ import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 import {BoardListComponent} from "core-app/modules/boards/board/board-list/board-list.component";
 import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {AddListModalComponent} from "core-app/modules/boards/board/add-list-modal/add-list-modal.component";
-import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css.service";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
 import {RequestSwitchmap} from "core-app/helpers/rxjs/request-switchmap";
@@ -128,7 +127,6 @@ export class BoardComponent implements OnInit, OnDestroy {
               private readonly opModalService:OpModalService,
               private readonly injector:Injector,
               private readonly BoardCache:BoardCacheService,
-              private readonly dynamicCss:DynamicCssService,
               private readonly Boards:BoardService,
               private readonly Banner:BannersService,
               private readonly Drag:DragAndDropService,
@@ -141,7 +139,6 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   ngOnInit():void {
     const id:string = this.state.params.board_id.toString();
-    let initialized = false;
 
     // Ensure board is being loaded
     this.Boards.loadAllBoards();
@@ -165,11 +162,6 @@ export class BoardComponent implements OnInit, OnDestroy {
         this.board = board;
         let queryProps = this.state.params.query_props;
         this.filters = queryProps ? JSON.parse(queryProps) : this.board.filters;
-
-        if (!initialized) {
-          this.dynamicCss.requireHighlighting();
-          initialized = true;
-        }
 
         this.setupQueryUpdatedMonitoring();
       });

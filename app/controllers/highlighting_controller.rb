@@ -35,8 +35,9 @@ class HighlightingController < ApplicationController
     response.content_type = Mime[:css]
     request.format = :css
 
-    if stale?(last_modified: @last_modified_times.max, etag: cache_key, public: true)
-      OpenProject::Cache.fetch(@last_modified_times.max) do
+    expires_in 1.year, public: true, must_revalidate: false
+    if stale?(last_modified: Time.zone.parse(@max_updated_at), etag: @highlight_version_tag, public: true)
+      OpenProject::Cache.fetch('highlighting/styles', @highlight_version_tag) do
         render template: 'highlighting/styles', formats: [:css]
       end
     end
@@ -44,15 +45,8 @@ class HighlightingController < ApplicationController
 
   private
 
-  def cache_key
-    OpenProject::Cache::CacheKey.expand @last_modified_times
-  end
-
   def determine_freshness
-    @last_modified_times = [
-      Status.maximum(:updated_at),
-      IssuePriority.maximum(:updated_at),
-      Type.maximum(:updated_at)
-    ].compact
+    @max_updated_at = helpers.highlight_css_updated_at || Time.now.iso8601
+    @highlight_version_tag = helpers.highlight_css_version_tag(@max_updated_at)
   end
 end
