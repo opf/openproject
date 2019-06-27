@@ -2,10 +2,10 @@
 
 To develop OpenProject a setup similar to that for using OpenProject in production is needed.
 
-This guide assumes that you have a Ubuntu 18.04. installation installation with administrative rights. This guide will work
+This guide assumes that you have a Ubuntu 18.04 installation with administrative rights. This guide will work
 analogous with all other distributions, but may require slight changes in the required packages. _Please, help us to extend this guide with information on other distributions should there be required changes._
 
-OpenProject will be installed with a PostgreSQL database. This guide will work analogous with a MySQL installation, though. 
+OpenProject will be installed with a PostgreSQL database. Support for MySQL was removed from `dev` branch before release of version 9.0.1.
 
 **Please note**: This guide is NOT suitable for a production setup, but only for developing with it!
 
@@ -80,7 +80,7 @@ You also need to install [bundler](https://github.com/bundler/bundler/), the rub
 
 Next, install a PostgreSQL database.
 
-(Looks counter-intuitive but for the time being we also need the `mysql-client`)
+(Looks counter-intuitive but for the time being we also need the `mysql-client`. It is required for migration from MySQL to PostgreSQL code.)
 
 ```bash
 [dev@debian]# sudo apt-get install postgresql postgresql-client mysql-client
@@ -267,11 +267,7 @@ Also, take a look at the `doc` directory in our sources, especially the [how to 
 
 ## Troubleshooting
 
-The OpenProject logfile can be found here:
-
-```
-/home/openproject/openproject/log/development.log
-```
+The OpenProject logfile can be found in `log/development.log`.
 
 If an error occurs, it should be logged there (as well as in the output to STDOUT/STDERR of the rails server process).
 
