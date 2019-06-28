@@ -62,6 +62,7 @@ en:
               - work_package_tracking
               - news
               - wiki
+              - board_view
             news:
               - title: Welcome to your demo project
                 summary: >
@@ -398,6 +399,7 @@ en:
             modules:
               - work_package_tracking
               - bcf
+              - board_view
             types:
               - :default_type_task
               - :default_type_milestone

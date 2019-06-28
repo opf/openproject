@@ -57,14 +57,14 @@ module BimSeeder
 
         [
           { name: I18n.t(:default_status_new),              color_id: colors[0],  is_closed: false, is_default: true,  position: 1  },
-          { name: I18n.t(:default_status_to_be_scheduled),  color_id: colors[4],  is_closed: false, is_default: false, position: 5  },
-          { name: I18n.t(:default_status_scheduled),        color_id: colors[5],  is_closed: false, is_default: false, position: 6  },
-          { name: I18n.t(:default_status_in_progress),      color_id: colors[6],  is_closed: false, is_default: false, position: 7  },
-          { name: I18n.t('seeders.bim.default_status_active'),           color_id: colors[0],  is_closed: false,  is_default: false, position: 11 },
-          { name: I18n.t('seeders.bim.default_status_resolved'),         color_id: colors[2],  is_closed: false,  is_default: false, position: 12 },
-          { name: I18n.t(:default_status_closed),           color_id: colors[12], is_closed: true,  is_default: false, position: 13 },
-          { name: I18n.t(:default_status_on_hold),          color_id: colors[13], is_closed: false, is_default: false, position: 14 },
-          { name: I18n.t(:default_status_rejected),         color_id: colors[14], is_closed: true,  is_default: false, position: 15 }
+          { name: I18n.t(:default_status_to_be_scheduled),  color_id: colors[4],  is_closed: false, is_default: false, position: 2  },
+          { name: I18n.t(:default_status_scheduled),        color_id: colors[5],  is_closed: false, is_default: false, position: 3  },
+          { name: I18n.t(:default_status_in_progress),      color_id: colors[6],  is_closed: false, is_default: false, position: 4  },
+          { name: I18n.t('seeders.bim.default_status_active'),           color_id: colors[0],  is_closed: false,  is_default: false, position: 5 },
+          { name: I18n.t('seeders.bim.default_status_resolved'),         color_id: colors[2],  is_closed: false,  is_default: false, position: 6 },
+          { name: I18n.t(:default_status_closed),           color_id: colors[12], is_closed: true,  is_default: false, position: 7 },
+          { name: I18n.t(:default_status_on_hold),          color_id: colors[13], is_closed: false, is_default: false, position: 8 },
+          { name: I18n.t(:default_status_rejected),         color_id: colors[14], is_closed: true,  is_default: false, position: 9 }
         ]
       end
     end
