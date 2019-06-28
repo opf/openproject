@@ -57,7 +57,6 @@ import {highlightColBootstrap} from "./highlight-col/highlight-col.directive";
 import {HookService} from "../plugins/hook-service";
 import {HTMLSanitizeService} from "./html-sanitize/html-sanitize.service";
 import {ColorsAutocompleter} from "core-app/modules/common/colors/colors-autocompleter.component";
-import {MultiToggledSelectComponent} from "core-app/modules/common/multi-toggled-select/multi-toggled-select.component";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 import {ResizerComponent} from "core-app/modules/common/resizer/resizer.component";
 import {TablePaginationComponent} from 'core-components/table-pagination/table-pagination.component';
@@ -150,9 +149,6 @@ export function bootstrapModule(injector:Injector) {
     // Table highlight
     HighlightColDirective,
 
-    // Multi select component
-    MultiToggledSelectComponent,
-
     ResizerComponent,
 
     TablePaginationComponent,
@@ -212,8 +208,6 @@ export function bootstrapModule(injector:Injector) {
 
     CopyToClipboardDirective,
     ColorsAutocompleter,
-
-    MultiToggledSelectComponent,
 
     ResizerComponent,
 

@@ -3,10 +3,8 @@ import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-por
 import {WorkPackageTableHighlightingService} from 'core-components/wp-fast-table/state/wp-table-highlighting.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
-import {MultiToggledSelectOption} from "core-app/modules/common/multi-toggled-select/multi-toggled-select.component";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {States} from "core-app/components/states.service";
-import {WorkPackageTableHighlight} from "core-components/wp-fast-table/wp-table-highlight";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 
@@ -21,9 +19,10 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
   public lastEntireRowAttribute:HighlightingMode = 'status';
   public eeShowBanners:boolean = false;
 
-  public availableMappedHighlightedAttributes:MultiToggledSelectOption[] = [];
+  public availableInlineHighlightedAttributes:HalResource[] = [];
+  public selectedAttributes:any[] = [];
 
-  public selectedAttributes:MultiToggledSelectOption[] = [];
+  public availableRowHighlightedAttributes:{name:string; value:HighlightingMode}[] = [];
 
   public text = {
     title: this.I18n.t('js.work_packages.table_configuration.highlighting'),
@@ -49,52 +48,12 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
               readonly wpTableHighlight:WorkPackageTableHighlightingService) {
   }
 
-  public onSave() {
-    let mode = this.highlightingMode;
-    let highlightedAttributes:HalResource[] = this.selectedAttributesAsHal();
-    this.wpTableHighlight.update({ mode: mode, selectedAttributes: highlightedAttributes });
-  }
-
-  private selectedAttributesAsHal() {
-    if (this.isAllOptionSelected()) {
-      return [];
-    } else {
-      return this.multiToggleValuesToHal(this.selectedAttributes);
-    }
-  }
-
-  private multiToggleValuesToHal(values:MultiToggledSelectOption[]) {
-    return values.map(el => {
-      return _.find(this.availableHighlightedAttributes, (column) => column.href === el.value)!;
-    });
-  }
-
-  private isAllOptionSelected() {
-    return this.selectedAttributes.length === 1 && _.get(this.selectedAttributes[0], 'value') === 'all';
-  }
-
-  public updateMode(mode:HighlightingMode | 'entire-row') {
-    if (mode === 'entire-row') {
-      this.highlightingMode = this.lastEntireRowAttribute;
-    } else {
-      this.highlightingMode = mode;
-    }
-
-    if (['status', 'priority', 'type'].indexOf(this.highlightingMode) !== -1) {
-      this.lastEntireRowAttribute = this.highlightingMode;
-      this.entireRowMode = true;
-    } else {
-      this.entireRowMode = false;
-    }
-  }
-
-  public disabledValue(value:boolean):string | null {
-    return value ? 'disabled' : null;
-  }
-
   ngOnInit() {
-    this.availableMappedHighlightedAttributes =
-      [this.allAttributesOption].concat(this.getAvailableAttributes());
+    this.availableInlineHighlightedAttributes = this.availableHighlightedAttributes;
+    this.availableRowHighlightedAttributes = [
+      {name: this.text.highlighting_mode.status, value: 'status'},
+      {name: this.text.highlighting_mode.priority, value: 'priority'},
+    ];
 
     this.setSelectedValues();
 
@@ -106,13 +65,32 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
     }
   }
 
-  private setSelectedValues() {
-    const currentValues = this.wpTableHighlight.current.selectedAttributes;
-    if (currentValues === undefined) {
-      this.selectedAttributes = [this.allAttributesOption];
+  public onSave() {
+    let mode = this.highlightingMode;
+    this.wpTableHighlight.update({ mode: mode, selectedAttributes: this.selectedAttributes });
+  }
+
+  public updateMode(mode:HighlightingMode | 'entire-row') {
+    if (mode === 'entire-row') {
+      this.highlightingMode = this.lastEntireRowAttribute;
     } else {
-      this.selectedAttributes = this.mapAttributes(currentValues);
+      this.highlightingMode = mode;
     }
+
+    if (['status', 'priority'].indexOf(this.highlightingMode) !== -1) {
+      this.lastEntireRowAttribute = this.highlightingMode;
+      this.entireRowMode = true;
+    } else {
+      this.entireRowMode = false;
+    }
+  }
+
+  public updateHighlightingAttributes(model:HalResource[]) {
+    this.selectedAttributes = model;
+  }
+
+  public disabledValue(value:boolean):string | null {
+    return value ? 'disabled' : null;
   }
 
   public get availableHighlightedAttributes():HalResource[] {
@@ -120,20 +98,12 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
     return schema.highlightedAttributes.allowedValues;
   }
 
-  public getAvailableAttributes():MultiToggledSelectOption[] {
-    return this.mapAttributes(this.availableHighlightedAttributes);
-  }
-
-  private mapAttributes(input:HalResource[]):MultiToggledSelectOption[] {
-    return input.map((el:HalResource) => ({name: el.name, value: el.$href!}));
-  }
-
-  private get allAttributesOption():MultiToggledSelectOption {
-    return {
-      name: this.text.highlighting_mode.inline_all_attributes,
-      singleOnly: true,
-      selectWhenEmptySelection: true,
-      value: 'all'
-    };
+  private setSelectedValues() {
+    const currentValues = this.wpTableHighlight.current.selectedAttributes;
+    if (currentValues === undefined) {
+      this.selectedAttributes = this.availableInlineHighlightedAttributes;
+    } else {
+      this.selectedAttributes = currentValues;
+    }
   }
 }
