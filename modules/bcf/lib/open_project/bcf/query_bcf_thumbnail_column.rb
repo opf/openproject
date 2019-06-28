@@ -31,7 +31,7 @@
 module OpenProject::Bcf
   class QueryBcfThumbnailColumn < Queries::WorkPackages::Columns::WorkPackageColumn
     def caption
-      'BCF Snapshot'
+      I18n.t('attributes.bcf_thumbnail')
     end
 
     class_attribute :bcf_thumbnail_columns

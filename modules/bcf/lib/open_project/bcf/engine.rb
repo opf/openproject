@@ -62,7 +62,7 @@ module OpenProject::Bcf
 
     assets %w(bcf/bcf.css)
 
-    patches %i[WorkPackage]
+    patches %i[WorkPackage Type]
 
     patch_with_namespace :BasicData, :SettingSeeder
 

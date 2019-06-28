@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2019 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,20 +26,18 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject::Bcf::Patches::SettingSeederPatch
-  def self.included(base) # :nodoc:
-    base.prepend InstanceMethods
+require 'spec_helper'
+
+describe Type, type: :model do
+  let(:type) { FactoryBot.create :type, name: "Issue" }
+
+  it 'bcf_thumbnail is available as a WorkPackageRepresenter attribute' do
+    expect(API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter.representable_attrs.keys).to(
+      include('bcf_thumbnail')
+    )
   end
 
-  module InstanceMethods
-    def data
-      original_data = super
-
-      unless original_data['default_projects_modules'].include? 'bcf'
-        original_data['default_projects_modules'] << 'bcf'
-      end
-
-      original_data
-    end
+  it 'bcf_thumbnail is not within the attributes of the default form configuration' do
+    expect(type.attribute_groups.map(&:attributes).flatten).not_to include('bcf_thumbnail')
   end
 end
