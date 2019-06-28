@@ -32,6 +32,8 @@ describe 'Search', type: :feature, js: true do
   include ::Components::NgSelectAutocompleteHelpers
   let(:project) { FactoryBot.create :project }
   let(:user) { FactoryBot.create :admin }
+  let(:searchable) { true }
+  let(:is_filter) { true }
 
   let!(:work_packages) do
     (1..23).map do |n|
@@ -56,13 +58,16 @@ describe 'Search', type: :feature, js: true do
   end
 
   before do
-    custom_field_text = FactoryBot.create(:text_wp_custom_field)
+    custom_field_text = FactoryBot.create(:text_wp_custom_field,
+                                          is_filter: is_filter,
+                                          searchable: searchable)
     project.work_package_custom_fields << custom_field_text
     work_packages.first.type.custom_fields << custom_field_text
 
     custom_field_string = FactoryBot.create(:string_wp_custom_field,
                                             is_for_all: true,
-                                            is_filter: true)
+                                            is_filter: is_filter,
+                                            searchable: searchable)
     custom_field_string.save
     work_packages.first.type.custom_fields << custom_field_string
 
@@ -133,13 +138,41 @@ describe 'Search', type: :feature, js: true do
     context 'search in all projects' do
       let(:params) { [project, { q: query, work_packages: 1 }] }
 
-      it "finds global custom fields" do
-        select_autocomplete(page.find('.top-menu-search--input'),
-                                  query: "text",
-                                  select_text: "In all projects ↵")
-        table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
-        table.ensure_work_package_not_listed!(work_packages[0])
-        table.expect_work_package_subject(work_packages[1].subject)
+      context 'custom fields not searchable' do
+        let(:searchable) { false }
+
+        it "does not find WP via custom fields" do
+          select_autocomplete(page.find('.top-menu-search--input'),
+                              query: "text",
+                              select_text: "In all projects ↵")
+          table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
+          table.ensure_work_package_not_listed!(work_packages[0])
+          table.ensure_work_package_not_listed!(work_packages[1])
+        end
+      end
+
+      context 'custom fields are no filters' do
+        let(:is_filter) { false }
+
+        it "does not find WP via custom fields" do
+          select_autocomplete(page.find('.top-menu-search--input'),
+                              query: "text",
+                              select_text: "In all projects ↵")
+          table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
+          table.ensure_work_package_not_listed!(work_packages[0])
+          table.ensure_work_package_not_listed!(work_packages[1])
+        end
+      end
+
+      context 'custom fields searchable' do
+        it "finds WP global custom fields" do
+          select_autocomplete(page.find('.top-menu-search--input'),
+                                    query: "text",
+                                    select_text: "In all projects ↵")
+          table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
+          table.ensure_work_package_not_listed!(work_packages[0])
+          table.expect_work_package_subject(work_packages[1].subject)
+        end
       end
     end
 

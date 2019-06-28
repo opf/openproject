@@ -86,13 +86,17 @@ class Queries::WorkPackages::Filter::SearchFilter <
     custom_fields =
       if context&.project
         context.project.all_work_package_custom_fields.select do |custom_field|
-          %w(text string).include?(custom_field.field_format)
+          %w(text string).include?(custom_field.field_format) &&
+            custom_field.is_filter == true &&
+            custom_field.searchable == true
         end
       else
         ::WorkPackageCustomField
           .filter
           .for_all
-          .where(field_format: %w(text string))
+          .where(field_format: %w(text string),
+                 is_filter: true,
+                 searchable: true)
       end
 
     custom_fields.map do |custom_field|
