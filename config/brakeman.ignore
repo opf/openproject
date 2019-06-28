@@ -27,7 +27,7 @@
       "check_name": "RegexDoS",
       "message": "Model attribute used in regular expression",
       "file": "app/models/mail_handler.rb",
-      "line": 309,
+      "line": 307,
       "link": "https://brakemanscanner.org/docs/warning_types/denial_of_service/",
       "code": "/^(#{\"#{attr.to_s.humanize}|#{all_attribute_translations(user.language)[attr]}|#{all_attribute_translations(Setting.default_language)[attr]}\"})[ \\t]*:[ \\t]*(#{\".+\"})\\s*$/i",
       "render_path": null,
@@ -130,7 +130,19 @@
       "line": 32,
       "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
       "code": "render(partial => Redmine::Plugin.find(params[:id]).settings[:partial], { :locals => ({ :settings => Setting[\"plugin_#{Redmine::Plugin.find(params[:id]).id}\"] }) })",
-      "render_path": [{"type":"controller","class":"SettingsController","method":"plugin","line":71,"file":"app/controllers/settings_controller.rb","rendered":{"name":"settings/plugin","file":"/home/oliver/openproject/dev/app/views/settings/plugin.html.erb"}}],
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "SettingsController",
+          "method": "plugin",
+          "line": 71,
+          "file": "app/controllers/settings_controller.rb",
+          "rendered": {
+            "name": "settings/plugin",
+            "file": "app/views/settings/plugin.html.erb"
+          }
+        }
+      ],
       "location": {
         "type": "template",
         "template": "settings/plugin"
@@ -162,11 +174,31 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
+      "fingerprint": "9482cd863a566bce3c2fb623ba0fcb66c6850f2a2b1b9d3e0c25875a99376d1a",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/application_record.rb",
+      "line": 25,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "ActiveRecord::Base.connection.select_all(\"      SELECT MAX(union_query.max_updated_at)\\n      FROM (#{record_classes.map do\n column_name = (clz.timestamp_attributes_for_update_in_model.first or \"updated_at\")\n\"(SELECT MAX(#{(clz.timestamp_attributes_for_update_in_model.first or \"updated_at\")}) AS max_updated_at FROM #{clz.table_name})\"\n end.join(\" UNION \")})\\n      AS union_query\\n\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ApplicationRecord",
+        "method": "ApplicationRecord.most_recently_changed"
+      },
+      "user_input": "record_classes.map do\n column_name = (clz.timestamp_attributes_for_update_in_model.first or \"updated_at\")\n\"(SELECT MAX(#{(clz.timestamp_attributes_for_update_in_model.first or \"updated_at\")}) AS max_updated_at FROM #{clz.table_name})\"\n end.join(\" UNION \")",
+      "confidence": "Medium",
+      "note": "Fixed internal references to columns and tables"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
       "fingerprint": "9a92548d9b0e0531f76138ad8db70e6d9c4375f7dcd3d7173cc3cd37cb50911d",
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/models/journal/aggregated_journal.rb",
-      "line": 411,
+      "line": 383,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "self.class.query_aggregated_journals(:journable => journable).where(\"#{self.class.version_projection} > ?\", version)",
       "render_path": null,
@@ -206,7 +238,7 @@
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/models/work_package.rb",
-      "line": 520,
+      "line": 529,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "ActiveRecord::Base.connection.select_all(\"select    s.id as status_id,\\n        s.is_closed as closed,\\n        i.project_id as project_id,\\n        count(i.id) as total\\n      from\\n        #{WorkPackage.table_name} i, #{Status.table_name} s\\n      where\\n        i.status_id=s.id\\n        and i.project_id IN (#{project.descendants.active.map(&:id).join(\",\")})\\n      group by s.id, s.is_closed, i.project_id\")",
       "render_path": null,
@@ -260,33 +292,13 @@
       "note": "Never called with user input"
     },
     {
-      "warning_type": "Redirect",
-      "warning_code": 18,
-      "fingerprint": "cae51bc9c805a05a1490141ea53bb88e0a97d626336975aec5f0d36ade8493d5",
-      "check_name": "Redirect",
-      "message": "Possible unprotected redirect",
-      "file": "app/controllers/attachments_controller.rb",
-      "line": 39,
-      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
-      "code": "redirect_to(Attachment.find(params[:id]).external_url.to_s)",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "AttachmentsController",
-        "method": "download"
-      },
-      "user_input": "Attachment.find(params[:id]).external_url.to_s",
-      "confidence": "High",
-      "note": "external_url does not take in user input. Only user-provided ID is used to find attachment"
-    },
-    {
       "warning_type": "SQL Injection",
       "warning_code": 0,
       "fingerprint": "cd1b3c94dc92e20efe2c696ee1c086a4da2491b5d839a44617f828359fcd42f2",
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/models/work_package.rb",
-      "line": 616,
+      "line": 625,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "where(\"id IN (SELECT common_id FROM (#{[Relation.hierarchy.where(:from_id => Relation.where(:to => work_packages).hierarchy_or_follows.select(:from_id)).select(\"to_id common_id\"), Relation.where(:to => work_packages).hierarchy_or_follows.select(\"from_id common_id\")].map(&:to_sql).join(\" UNION \")}) following_relations)\")",
       "render_path": null,
@@ -340,6 +352,6 @@
       "note": "Static SQL built from `project_condition`"
     }
   ],
-  "updated": "2019-04-30 09:36:52 +0200",
-  "brakeman_version": "4.5.0"
+  "updated": "2019-06-28 07:49:05 +0200",
+  "brakeman_version": "4.5.1"
 }

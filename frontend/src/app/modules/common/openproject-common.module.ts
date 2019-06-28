@@ -57,7 +57,6 @@ import {highlightColBootstrap} from "./highlight-col/highlight-col.directive";
 import {HookService} from "../plugins/hook-service";
 import {HTMLSanitizeService} from "./html-sanitize/html-sanitize.service";
 import {ColorsAutocompleter} from "core-app/modules/common/colors/colors-autocompleter.component";
-import {DynamicCssService} from "./dynamic-css/dynamic-css.service";
 import {MultiToggledSelectComponent} from "core-app/modules/common/multi-toggled-select/multi-toggled-select.component";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 import {ResizerComponent} from "core-app/modules/common/resizer/resizer.component";
@@ -267,7 +266,6 @@ export function bootstrapModule(injector:Injector) {
   providers: [
     { provide: APP_INITIALIZER, useFactory: bootstrapModule, deps: [Injector], multi: true },
     I18nService,
-    DynamicCssService,
     BannersService,
     NotificationsService,
     FocusHelperService,
