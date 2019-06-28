@@ -2133,13 +2133,13 @@ en:
   setting_display_subprojects_work_packages: "Display subprojects work packages on main projects by default"
   setting_emails_footer: "Emails footer"
   setting_emails_header: "Emails header"
-  setting_email_login: "Use e-mail as login"
+  setting_email_login: "Use email as login"
   setting_enabled_scm: "Enabled SCM"
   setting_feeds_enabled: "Enable Feeds"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
   setting_host_name: "Host name"
-  setting_invitation_expiration_days: "Activation E-Mail expires after"
+  setting_invitation_expiration_days: "Activation email expires after"
   setting_work_package_done_ratio: "Calculate the work package done ratio with"
   setting_work_package_done_ratio_field: "Use the work package field"
   setting_work_package_done_ratio_status: "Use the work package status"
@@ -2530,7 +2530,7 @@ en:
   tooltip:
     setting_email_login: >
       If enabled a user will be unable to chose a login during registration.
-      Instead their given e-mail address will serve as the login.
+      Instead their given email address will serve as the login.
       An administrator may still change the login separately.
 
   queries:
