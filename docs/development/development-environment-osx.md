@@ -87,7 +87,7 @@ We will install the latest LTS version of Node.js via [nodenv](https://github.co
 
 ```bash
 # Install
-$ brew install nodenv node-build
+$ brew install nodenv node-build openssl
 # Initialize nodenv
 $ nodenv init
 ```
@@ -124,6 +124,9 @@ $ npm --version
 [dev@ubuntu]# git clone https://github.com/opf/openproject.git
 [dev@ubuntu]# cd openproject
 
+# If you are one MacOS Mojave install mysql2 before "bundle install"
+[dev@ubuntu]# gem install mysql2 -v '0.5.2' -- --with-ldflags=-L/usr/local/opt/openssl/lib --with-cppflags=-I/usr/local/opt/openssl/include
+
 # Install gem dependencies
 # If you get errors here, you're likely missing a development dependency for your distribution
 [dev@ubuntu]# bundle install
@@ -131,6 +134,7 @@ $ npm --version
 # Install node_modules
 [dev@ubuntu]# npm install
 ```
+
 
 Note that we have checked out the `dev` branch of the OpenProject repository. Development in OpenProject happens in the `dev` branch (there is no `master` branch).
 So, if you want to develop a feature, create a feature branch from a current `dev` branch.
