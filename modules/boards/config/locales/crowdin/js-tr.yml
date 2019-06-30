@@ -25,8 +25,9 @@ tr:
       new_board: 'Yeni yazı tahtası'
       add_list: 'Liste ekle'
       add_card: 'Kart ekle'
-      error_loading_the_list: "Liste yüklenirken hata oluştu: %{error_message}"
       error_attribute_not_writable: "Çalışma paketi taşınamıyor, %{attribute} yazılabilir değil."
+      error_loading_the_list: "Liste yüklenirken hata oluştu: %{error_message}"
+      error_permission_missing: "Genel sorgu oluşturma izni eksik"
       click_to_remove_list: "Bu listeyi kaldırmak için tıklayın"
       board_type:
         free: 'Temel kurulu'

@@ -1023,8 +1023,8 @@ lt:
   error_work_package_done_ratios_not_updated: "Darbų paketo atlikimo rodikliai neatnaujinti."
   error_work_package_not_found_in_project: "Darbų paketas nerastas arba nepriklauso šiam projektui"
   error_must_be_project_member: "turi būti projekto narys"
-  error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
-  error_migrations_visit_upgrade_guides: "Please visit our upgrade guide documentation"
+  error_migrations_are_pending: "Jūsų OpenProject instaliacijai trūksta duomenų bazės migracijos. Greičiausiai atnaujinimo metu buvo nepaleistas migravimas. Atnaujinimo gide aprašyta kaip tinkamai atnaujinti jūsų instaliaciją."
+  error_migrations_visit_upgrade_guides: "Prašome perskaityti dokumentaciją atnaujinimo vadove"
   error_no_default_work_package_status: "Numatytoji darbų paketo būsena nenustatyta. Prašome patikrinti nustatymus (Eiti į „Administravimas“->„Darbų paketų būsenos“)."
   error_no_type_in_project: "Joks tipas nepriskirtas šiam projektui. Prašome patikrinti projekto nustatymus."
   error_omniauth_registration_timed_out: "Registracijos, naudojant išorinį autentifikacijos teikėją, laikas pasibaigė. Bandykite dar kartą."
@@ -1099,7 +1099,7 @@ lt:
         you_contribute: "Kūrėjams taip pat reikia apmokėti savo sąskaitas. Su „Enterprise Edition“ jūs iš esmės prisidėsite prie atviro kodo bendruomenės darbo."
     links:
       upgrade_enterprise_edition: "Patobulinti į „Enterprise Edition“ versiją"
-      postgres_migration: "Migrating your installation to PostgreSQL"
+      postgres_migration: "Migruojame jūsų instaliaciją į PostgreSQL"
       user_guides: "Vartotojo vadovai"
       faq: "D.U.K"
       glossary: "Aiškinamasis terminų žodynas"
@@ -1570,7 +1570,7 @@ lt:
   label_updated_time: "Atnaujinta prieš %{value}"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "%{author} atnaujino prieš %{age}"
-  label_upgrade_guides: 'Upgrade guides'
+  label_upgrade_guides: 'Atnaujinimo gidai'
   label_used_by: "Naudotas"
   label_used_by_types: "Naudojama šių tipų"
   label_used_in_projects: "Naudojama šių projektų"
@@ -1841,7 +1841,7 @@ lt:
   permission_add_project: "Sukurti projektą"
   permission_add_subprojects: "Sukurti sub-projektus"
   permission_add_work_package_watchers: "Pridėti stebėtojus"
-  permission_assign_versions: "Assign versions"
+  permission_assign_versions: "Priskirti versijas"
   permission_browse_repository: "Tik skaityti prieiga prie repozitorijos (naršyti ir pasiimti)"
   permission_change_wiki_parent_page: "Pakeisti tėvinį wiki puslapį"
   permission_comment_news: "Komentuoti naujienas"
@@ -2503,8 +2503,8 @@ lt:
   menu_item_setting: "Matomumas"
   mysql_deprecation:
     notice: >
-      Future versions of OpenProject will likely drop or reduce support for MySQL and MariaDB databases. Your installation is still running on MySQL and we suggest you migrate your installation to PostgreSQL.
-      This process is easy when following our migration guides:
+      Būsimos OpenProject versijos atsisakys ar smarkiai sumažins MySQL ir MariaDB duomenų bazių palaikymą. Jūsų instaliacija vis dar naudoja MySQL. Mes siūlome jums migruoti į PostgreSQL.
+      Tai lengvas procesas, jei vadovausitės mūsų migracijos gidais:
   wiki_menu_item_for: "Meniu punktas wiki puslapiui „%{title}“"
   wiki_menu_item_setting: "Matomumas"
   wiki_menu_item_new_main_item_explanation: >
@@ -2522,7 +2522,7 @@ lt:
     attributes:
       lock_version: "Užrakto versija"
     errors:
-      code_400: "Bad request: %{message}"
+      code_400: "Bloga užklausa: %{message}"
       code_401: "Jums reikia būti autentifikuotam, kad galėtumėte pasiekti šį resursą."
       code_401_wrong_credentials: "Jūs nepateikėte teisingų prisijungimo duomenų."
       code_403: "Jūs nesate autorizuotas šiam resursui pasiekti."
@@ -2544,7 +2544,7 @@ lt:
       multipart_body_error: "Užklausos turinys neturi laukiamų dalių."
       multiple_errors: "Buvo pažeista daug laukelio apribojimų."
       unable_to_create_attachment: "Nepavyko sukurti priedo"
-      unable_to_create_attachment_permissions: "The attachment could not be saved due to lacking file system permissions"
+      unable_to_create_attachment_permissions: "Priedas negali būti išsaugotas dėl teisių failų sistemoje trūkumo"
       render:
         context_not_parsable: "Duotas kontekstas nėra nuoroda į resursą."
         unsupported_context: "Duotas resursas nėra palaikomas kaip kontekstas."

@@ -25,8 +25,9 @@ ro:
       new_board: 'New board'
       add_list: 'Add list'
       add_card: 'Add card'
-      error_loading_the_list: "Error loading the list: %{error_message}"
       error_attribute_not_writable: "Cannot move the work package, %{attribute} is not writable."
+      error_loading_the_list: "Error loading the list: %{error_message}"
+      error_permission_missing: "The permission to create public queries is missing"
       click_to_remove_list: "Click to remove this list"
       board_type:
         free: 'Basic board'

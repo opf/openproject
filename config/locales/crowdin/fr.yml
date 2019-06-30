@@ -1399,7 +1399,7 @@ fr:
   label_overview: "Vue globale"
   label_page_title: "Titre de la page"
   label_part_of: "partie de"
-  label_password_lost: "Forgot your password?"
+  label_password_lost: "Mot de passe oublié ?"
   label_password_rule_lowercase: "Minuscules"
   label_password_rule_numeric: "Caractères numériques"
   label_password_rule_special: "Caractères spéciaux"
@@ -1444,7 +1444,7 @@ fr:
   label_query_plural: "Requêtes personnalisées"
   label_query_menu_item: "Menu des requêtes"
   label_read: "Lire…"
-  label_register: "Create a new account"
+  label_register: "Créer un compte"
   label_register_with_developer: "S'inscrire en tant que développeur"
   label_registered_on: "Enregistré sur"
   label_registration_activation_by_email: "activation du compte par courriel"
@@ -1754,7 +1754,7 @@ fr:
   notice_successful_create: "Création réussie."
   notice_successful_delete: "Suppression réussie."
   notice_successful_update: "Mise à jour réussie."
-  notice_to_many_principals_to_display: "There are too many results.\nNarrow down the search by typing in the name of the new member (or group)."
+  notice_to_many_principals_to_display: "Il y a trop de résultats.\nLimitez la recherche en tapant le nom du nouveau membre (ou groupe)."
   notice_unable_delete_time_entry: "Impossible de supprimer « Time Log Entry »"
   notice_user_missing_authentication_method: L'utilisateur n'a pas encore choisi de mot de passe ou un autre moyen de s'authentifier.
   notice_user_invitation_resent: Une invitation a été envoyée à %{email}.
@@ -2193,7 +2193,7 @@ fr:
   text_min_max_length_info: "0 signifie aucune restriction"
   text_no_roles_defined: Il n'y a pas de rôles définis.
   text_no_access_tokens_configurable: "Il n'y a aucun jeton d'accès qui puisse être configuré."
-  text_no_configuration_data: "Roles, types, work package statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
+  text_no_configuration_data: "Les rôles, les types, l'état des lots de travaux et les flux de travaux n'ont pas encore été configurés.\nIl est fortement recommandé de charger la configuration par défaut. Vous serrez capable de le modifier, une fois chargé."
   text_no_notes: "Il n'existe aucun commentaire pour ce lot de travaux."
   text_notice_too_many_values_are_inperformant: "Remarque : L'affichage de plus de 100 articles par page peut augmenter le temps de chargement de la page."
   text_notice_security_badge_displayed_html: >
@@ -2278,8 +2278,8 @@ fr:
         compare_to_absolute: "La valeur de la comparaison absolue "
         planning_element_time_relative_one: "Le démarrage des Lots de Travaux dans un certain délai  "
         planning_element_time_relative_two: "La fin des Lots de Travaux dans un certain délai  "
-        planning_element_time_absolute_one: "The start for work packages in a certain timeframe  "
-        planning_element_time_absolute_two: "The end for work packages in a certain timeframe  "
+        planning_element_time_absolute_one: "Le début pour les lots de travaux dans un certain laps de temps  "
+        planning_element_time_absolute_two: "La fin pour les lots de travaux dans un certain laps de temps  "
       sort:
         sortation: "Trier par"
         alphabet: "ordre alphabetique"

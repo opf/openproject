@@ -772,7 +772,7 @@ pl:
   copy_project:
     started: "Rozpoczęto kopiowanie projektu \"%{source_project_name}\" do \"%{target_project_name}\". Poinformujemy Cię przez e-mail tak szybko jak \"%{target_project_name}\" będzie dostępny."
     failed: "Nie można skopiować projektu %{source_project_name}"
-    failed_internal: "Copying failed due to an internal error."
+    failed_internal: "Kopiowanie nie powiodło się z powodu błędu wewnętrznego."
     succeeded: "Utworzono projekt %{target_project_name}"
     errors: "Błąd"
     project_custom_fields: 'Niestandardowe pola projektu'
