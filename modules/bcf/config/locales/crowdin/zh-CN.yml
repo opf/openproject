@@ -28,3 +28,5 @@ zh-CN:
   export:
     format:
       bcf: "BCF-XML"
+  attributes:
+    bcf_thumbnail: "BCF snaphot"

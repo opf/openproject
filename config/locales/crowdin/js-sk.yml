@@ -145,6 +145,7 @@ sk:
     grid:
       add_modal:
         choose_widget: 'Vyberte miniaplikáciu'
+      remove: 'Remove widget'
       widgets:
         documents:
           title: 'Dokumenty'

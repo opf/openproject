@@ -2028,13 +2028,13 @@ de:
   setting_display_subprojects_work_packages: "Arbeitspakete von Unterprojekten im Hauptprojekt anzeigen"
   setting_emails_footer: "E-Mail-Fußzeile"
   setting_emails_header: "E-Mail-Kopfzeile"
-  setting_email_login: "E-Mail als Benutzername verwenden"
+  setting_email_login: "Use email as login"
   setting_enabled_scm: "Aktivierte Versionskontrollsysteme"
   setting_feeds_enabled: "Feeds aktiviert"
   setting_feeds_limit: "Max. Anzahl Einträge pro Atom-Feed"
   setting_file_max_size_displayed: "Maximale Größe inline angezeigter Textdateien"
   setting_host_name: "Hostname"
-  setting_invitation_expiration_days: "Aktivierungs-Mail läuft ab nach"
+  setting_invitation_expiration_days: "Activation email expires after"
   setting_work_package_done_ratio: "Berechne den Arbeitspaket-Fortschritt mittels"
   setting_work_package_done_ratio_field: "Arbeitspaket-Feld %-erledigt"
   setting_work_package_done_ratio_status: "Arbeitspaket-Status"
@@ -2390,7 +2390,7 @@ de:
     Sendet eine weitere Einladungs-Email mit einem neuen Token für den Fall, dass das alte Token abgelaufen ist oder der Benutzer nicht die ursprüngliche Email erhalten hat. Dies kann auch für aktive Nutzer genutzt werden um eine neue Authentifizierungsmethode zu wählen. Wenn dies bei einem aktiven Benutzern verwendet wird, wird der Status zu "eingeladen" geändert.
   tooltip:
     setting_email_login: >
-      Wenn aktiviert, kann ein Nutzer seinen Benutzernamen bei der Registrierung nicht selbst wählen. Stattdessen wird dessen E-Mail-Adresse als Benutzername verwendet. Ein Administrator kann unabhängig davon den Benutzernamen weiterhin ändern.
+      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
   queries:
     apply_filter: vorkonfigurierten Filter anwenden
   top_menu:

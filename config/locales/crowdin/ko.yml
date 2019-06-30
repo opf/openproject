@@ -2005,13 +2005,13 @@ ko:
   setting_display_subprojects_work_packages: "기본적으로 기본 프로젝트의 하위 프로젝트 작업 패키지 표시"
   setting_emails_footer: "이메일 바닥글"
   setting_emails_header: "이메일 머리글"
-  setting_email_login: "이메일로 로그인하기"
+  setting_email_login: "Use email as login"
   setting_enabled_scm: "활성화된 SCM"
   setting_feeds_enabled: "피드 사용"
   setting_feeds_limit: "피드 콘텐츠 제한"
   setting_file_max_size_displayed: "인라인에 표시되는 텍스트 파일의 최대 크기"
   setting_host_name: "호스트 이름"
-  setting_invitation_expiration_days: "활성화 이메일 만료 기간:"
+  setting_invitation_expiration_days: "Activation email expires after"
   setting_work_package_done_ratio: "다음으로 작업 패키지 완료 비율 계산"
   setting_work_package_done_ratio_field: "작업 패키지 필드 사용"
   setting_work_package_done_ratio_status: "작업 패키지 상태 사용"
@@ -2366,7 +2366,7 @@ ko:
     이전의 토큰이 만료되거나 사용자가 기존 메일을 받지 않았을 수 있기 때문에 새로운 토큰으로 다른 초대 메일을 보냅니다. 이것은 활성화된 사용자들이 새로운 인증 방식을 선택할 때 사용될 수도 있습니다. 활성화된 사용자들이 사용할 때 그들의 상태는 '초대됨'으로 변경됩니다.
   tooltip:
     setting_email_login: >
-      만약 사용될 경우 사용자는 등록되는 동안 로그인 방식을 선택할 수 없습니다. 대신 그들의 주어진 메일 주소가 로그인 방식으로 주어집니다. 관리자는 로그인 방식을 개별적으로 변경할 수 있습니다.
+      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
   queries:
     apply_filter: 미리 구성된 필터 적용
   top_menu:

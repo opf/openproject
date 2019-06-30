@@ -2028,13 +2028,13 @@ sv:
   setting_display_subprojects_work_packages: "Visa arbetspaket för delprojekt på huvudprojekt som standard"
   setting_emails_footer: "E-post sidfot"
   setting_emails_header: "E-post sidhuvud"
-  setting_email_login: "Använd e-post som användarnamn"
+  setting_email_login: "Use email as login"
   setting_enabled_scm: "Aktiverade SCM"
   setting_feeds_enabled: "Aktivera Flöden"
   setting_feeds_limit: "Innehållsbegränsning på Flöden"
   setting_file_max_size_displayed: "Maxstorlek på textfiler som visas inline"
   setting_host_name: "Värdnamn"
-  setting_invitation_expiration_days: "Aktiveringsmail upphör efter"
+  setting_invitation_expiration_days: "Activation email expires after"
   setting_work_package_done_ratio: "Beräkna arbetspaketets andel avklarat med"
   setting_work_package_done_ratio_field: "Använd fältet arbetspaket"
   setting_work_package_done_ratio_status: "Använd fältet arbetspaketsstatus"
@@ -2390,7 +2390,7 @@ sv:
     Skickar en ny nyckel om den gamla löpt ut eller användaren inte fick det ursprungliga e-postmeddelandet. Kan också användas för aktiva användare för att välja en ny autentiseringsmetod. När den används för aktiva användare ändras deras status till 'inbjudna'.
   tooltip:
     setting_email_login: >
-      Om inställningen aktiveras kan inte användare välja användarnamn och loggar istället in med sin e-postadress. En administratör kan däremot ändra användarnamnet separat.
+      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
   queries:
     apply_filter: Använd förkonfigurerade filter
   top_menu:

@@ -144,6 +144,7 @@ ru:
     grid:
       add_modal:
         choose_widget: 'Выберите виджет'
+      remove: 'Remove widget'
       widgets:
         documents:
           title: 'Документы'

@@ -145,6 +145,7 @@ uk:
     grid:
       add_modal:
         choose_widget: 'Оберіть віджет'
+      remove: 'Remove widget'
       widgets:
         documents:
           title: 'Документи'

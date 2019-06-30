@@ -145,6 +145,7 @@ zh-CN:
     grid:
       add_modal:
         choose_widget: '选择小部件'
+      remove: 'Remove widget'
       widgets:
         documents:
           title: '文档'

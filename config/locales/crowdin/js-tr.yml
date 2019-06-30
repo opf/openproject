@@ -145,6 +145,7 @@ tr:
     grid:
       add_modal:
         choose_widget: 'Widget seç'
+      remove: 'Widget''ı kaldır'
       widgets:
         documents:
           title: 'Belgeler'

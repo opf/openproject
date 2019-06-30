@@ -1394,7 +1394,7 @@ fr:
   label_overview: "Vue globale"
   label_page_title: "Titre de la page"
   label_part_of: "partie de"
-  label_password_lost: "Forgot your password?"
+  label_password_lost: "Mot de passe oublié ?"
   label_password_rule_lowercase: "Minuscules"
   label_password_rule_numeric: "Caractères numériques"
   label_password_rule_special: "Caractères spéciaux"
@@ -1439,7 +1439,7 @@ fr:
   label_query_plural: "Requêtes personnalisées"
   label_query_menu_item: "Menu des requêtes"
   label_read: "Lire…"
-  label_register: "Create a new account"
+  label_register: "Créer un compte"
   label_register_with_developer: "S'inscrire en tant que développeur"
   label_registered_on: "Enregistré sur"
   label_registration_activation_by_email: "activation du compte par courriel"
@@ -1749,7 +1749,7 @@ fr:
   notice_successful_create: "Création réussie."
   notice_successful_delete: "Suppression réussie."
   notice_successful_update: "Mise à jour réussie."
-  notice_to_many_principals_to_display: "There are too many results.\nNarrow down the search by typing in the name of the new member (or group)."
+  notice_to_many_principals_to_display: "Il y a trop de résultats.\nLimitez la recherche en tapant le nom du nouveau membre (ou groupe)."
   notice_unable_delete_time_entry: "Impossible de supprimer « Time Log Entry »"
   notice_user_missing_authentication_method: L'utilisateur n'a pas encore choisi de mot de passe ou un autre moyen de s'authentifier.
   notice_user_invitation_resent: Une invitation a été envoyée à %{email}.
@@ -2029,13 +2029,13 @@ fr:
   setting_display_subprojects_work_packages: "Par défaut, afficher les lots de travaux des sous-projets dans les projets parents"
   setting_emails_footer: "Pied de page des courriels"
   setting_emails_header: "En-tête des courriels"
-  setting_email_login: "Utiliser l'adresse courriel comme login"
+  setting_email_login: "Use email as login"
   setting_enabled_scm: "Permettre SCM"
   setting_feeds_enabled: "Permettre les flux"
   setting_feeds_limit: "Limite du contenu du flux"
   setting_file_max_size_displayed: "Taille maximale de l'affichage du fichers texte inline"
   setting_host_name: "Nom d'hôte"
-  setting_invitation_expiration_days: "L'émail d’activation expire après"
+  setting_invitation_expiration_days: "Activation email expires after"
   setting_work_package_done_ratio: "Calculer le taux d'avancement du lot de travaux avec"
   setting_work_package_done_ratio_field: "Utiliser le champ Lot de Travaux"
   setting_work_package_done_ratio_status: "Utiliser le statut des Lots de Travaux"
@@ -2188,7 +2188,7 @@ fr:
   text_min_max_length_info: "0 signifie aucune restriction"
   text_no_roles_defined: Il n'y a pas de rôles définis.
   text_no_access_tokens_configurable: "Il n'y a aucun jeton d'accès qui puisse être configuré."
-  text_no_configuration_data: "Roles, types, work package statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
+  text_no_configuration_data: "Les rôles, les types, l'état des lots de travaux et les flux de travaux n'ont pas encore été configurés.\nIl est fortement recommandé de charger la configuration par défaut. Vous serrez capable de le modifier, une fois chargé."
   text_no_notes: "Il n'existe aucun commentaire pour ce lot de travaux."
   text_notice_too_many_values_are_inperformant: "Remarque : L'affichage de plus de 100 articles par page peut augmenter le temps de chargement de la page."
   text_notice_security_badge_displayed_html: >
@@ -2273,8 +2273,8 @@ fr:
         compare_to_absolute: "La valeur de la comparaison absolue "
         planning_element_time_relative_one: "Le démarrage des Lots de Travaux dans un certain délai  "
         planning_element_time_relative_two: "La fin des Lots de Travaux dans un certain délai  "
-        planning_element_time_absolute_one: "The start for work packages in a certain timeframe  "
-        planning_element_time_absolute_two: "The end for work packages in a certain timeframe  "
+        planning_element_time_absolute_one: "Le début pour les lots de travaux dans un certain laps de temps  "
+        planning_element_time_absolute_two: "La fin pour les lots de travaux dans un certain laps de temps  "
       sort:
         sortation: "Trier par"
         alphabet: "ordre alphabetique"
@@ -2391,7 +2391,7 @@ fr:
     Envoie un nouveau courriel d'invitation avec un nouveau jeton, au cas où l'ancien jeton aurait expiré ou l'utilisateur n'aurait pas reçu le courriel original. Peut être également utilisé pour les utilisateurs actifs afin de choisir une nouvelle méthode d'authentification. Quand utilisé avec les utilisateurs actifs, leur statut sera changé en "invité".
   tooltip:
     setting_email_login: >
-      Si activé, un utilisateur ne pourra choisir son login lors de son inscription. Dans ce cas, son adresse courriel servira de login. Un administrateur pourra néanmoins modifier le login par ailleurs.
+      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
   queries:
     apply_filter: Appliquer le filtre pré-configuré
   top_menu:

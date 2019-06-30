@@ -2029,13 +2029,13 @@ nl:
   setting_display_subprojects_work_packages: "Toon standaard de werkpakketten van onderliggende projecten bij hoofdprojecten"
   setting_emails_footer: "Voettekst e-mails"
   setting_emails_header: "Koptekst e-mails"
-  setting_email_login: "Gebruik e-mail als login"
+  setting_email_login: "Use email as login"
   setting_enabled_scm: "SCM Ingeschakeld"
   setting_feeds_enabled: "Feeds inschakelen"
   setting_feeds_limit: "Feed inhoud limiet"
   setting_file_max_size_displayed: "Maximale grootte van tekstbestanden inline weergegeven"
   setting_host_name: "Hostnaam"
-  setting_invitation_expiration_days: "Activatie E-Mail verloopt na"
+  setting_invitation_expiration_days: "Activation email expires after"
   setting_work_package_done_ratio: "Berekenen van de verhouding-gedaan van het werkpakket"
   setting_work_package_done_ratio_field: "Gebruik het veld werkpakket"
   setting_work_package_done_ratio_status: "Gebruik de werkpakket status"
@@ -2391,7 +2391,7 @@ nl:
     Verzendt een andere uitnodiging e-mail met een nieuw token in geval het oude verlopen is of de gebruiker het oorspronkelijke e-mailbericht niet ontvangen heeft. Kan ook worden gebruikt voor actieve gebruikers om een nieuwe verificatiemethode te kizen. Wanneer gebruikt in combinatie met actieve gebruikers zal hun status worden gewijzigd tot 'uitgenodigd'.
   tooltip:
     setting_email_login: >
-      Wanneer ingeschakeld kan een gebruiker geen login kiezen tijdens de registratie. In plaats daarvan zal hun opgegeven e-mailadres dienen als de login. Een beheerder kan de login nog steeds afzonderlijk wijzigen.
+      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
   queries:
     apply_filter: Vooraf geconfigureerde filter toepassen
   top_menu:

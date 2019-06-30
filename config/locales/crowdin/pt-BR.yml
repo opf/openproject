@@ -2391,7 +2391,7 @@ pt-BR:
     Envia outro e-mail de convite com um novo token, caso o antigo tenha expirado ou o usuário não tenha recebido o e-mail original. Também pode ser usado para que usuários ativos escolham um novo método de autenticação. Quando usado com usuários ativos, seus status serão alterados para 'convidados'.
   tooltip:
     setting_email_login: >
-      Se habilitado um usuário será incapaz de escolher um logon durante o registro. Em vez disso, seu endereço de e-mail servirá como o logon. Um administrador pode ainda alterar o logon separadamente.
+      Se habilitado, um usuário será incapaz de escolher um login durante o registro. Em vez disso, seu endereço de e-mail servirá como login. Um administrador ainda pode mudar o login separadamente.
   queries:
     apply_filter: Aplicar filtro pré-configurado
   top_menu:

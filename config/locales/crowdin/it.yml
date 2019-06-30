@@ -2029,13 +2029,13 @@ it:
   setting_display_subprojects_work_packages: "Visualizza le macro-attività dei sotto-progetti nei progetti principali come impostazione predefinita"
   setting_emails_footer: "Piè di pagina delle  e-mail"
   setting_emails_header: "Intestazione e-mail"
-  setting_email_login: "Usa account e-mail per l'accesso"
+  setting_email_login: "Use email as login"
   setting_enabled_scm: "SCM Abilitato"
   setting_feeds_enabled: "Abilita Feed"
   setting_feeds_limit: "Limite al contenuto del contributo"
   setting_file_max_size_displayed: "Dimensione massima dei file di testo visualizzati inline"
   setting_host_name: "Nome dell'Host"
-  setting_invitation_expiration_days: "L'attivazione dell'e-mail scade dopo"
+  setting_invitation_expiration_days: "Activation email expires after"
   setting_work_package_done_ratio: "Calcola la percentuale di completamento della macro-attività con"
   setting_work_package_done_ratio_field: "Usa il campo della macro-attività"
   setting_work_package_done_ratio_status: "Usa lo stato della macro-attività"
@@ -2391,7 +2391,7 @@ it:
     Invia un'altra email di invito con un token nuovo nel caso in cui quello vecchio sia scaduto o l'utente non abbia ricevuto la prima email. Può anche consentire agli utenti attivi di scegliere un nuovo metodo di autenticazione. Se utilizzato da utenti attivi, il loro stato verrà modificato in "invitato".
   tooltip:
     setting_email_login: >
-      Se attivato, un utente non potrà selezionare il login per la registrazione. Invece servirà il suo indirizzo di posta per l'accesso. Un amministratore può ancora modificare il login separatamente.
+      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
   queries:
     apply_filter: Applica il filtro preconfigurato
   top_menu:

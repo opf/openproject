@@ -2073,13 +2073,13 @@ sk:
   setting_display_subprojects_work_packages: "Automaticky zobraziť úlohy podprojektu v hlavnom projekte"
   setting_emails_footer: "E-mail päta"
   setting_emails_header: "E-mail záhlavie"
-  setting_email_login: "Používať e-mail ako login"
+  setting_email_login: "Use email as login"
   setting_enabled_scm: "Povolené SCM"
   setting_feeds_enabled: "Povoliť informačné kanály"
   setting_feeds_limit: "Limit obsahu informačných kanálov"
   setting_file_max_size_displayed: "Maximálna veľkosť textových súborov zobrazených priamo na stránke"
   setting_host_name: "Názov serveru (Host name)"
-  setting_invitation_expiration_days: "Platnosť aktivačného E-Mailu uplynie po"
+  setting_invitation_expiration_days: "Activation email expires after"
   setting_work_package_done_ratio: "Vyrátať mieru vypracovania pracovného balíčka pomocou"
   setting_work_package_done_ratio_field: "Použite pole pracovného balíčka"
   setting_work_package_done_ratio_status: "Použite stav pracovného balíčka"
@@ -2437,7 +2437,7 @@ sk:
     Pošle ďalší pozvánkový e-mail s novým Tokenom v prípade, že vypršala platnosť starého e-mailu alebo používateľ nedostal pôvodný e-mail. Možné použiť aj pre aktívnych užívateľov, aby si vybrali nový spôsob overovania. Pri použití s aktívnymi používateľmi sa ich stav zmení na 'pozvaný'.
   tooltip:
     setting_email_login: >
-      Ak je povolené, používateľ si pri registrácii nemôže vybrať svoje používateľské meno. Namiesto toho sa ako používateľské meno používa jeho e-mailová adresa. Správca môže aj naďalej meniť meno používateľa nezávisle.
+      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
   queries:
     apply_filter: Aplikovať predkonfigurovaný filter
   top_menu:

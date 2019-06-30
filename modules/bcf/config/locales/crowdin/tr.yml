@@ -6,8 +6,8 @@ tr:
     exceptions:
       file_invalid: "BCF dosyası geçersiz"
     x_bcf_issues:
-      one: "\n%{count} Bir BCF sorunu"
-      other: '%{count} BCF issues'
+      one: 'Bir BCF sorunu'
+      other: '%{count} BCF sorunu'
     bcf_xml:
       xml_file: 'BCF XML Dosyası'
       import_title: 'BCF dosyasından içe aktar'
@@ -29,3 +29,5 @@ tr:
   export:
     format:
       bcf: "BCF-XML"
+  attributes:
+    bcf_thumbnail: "BCF snaphot"

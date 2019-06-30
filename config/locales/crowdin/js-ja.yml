@@ -146,6 +146,7 @@ ja:
     grid:
       add_modal:
         choose_widget: 'ウィジェットを選択'
+      remove: 'Remove widget'
       widgets:
         documents:
           title: 'ドキュメント'

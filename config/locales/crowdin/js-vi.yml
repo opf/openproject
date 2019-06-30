@@ -144,6 +144,7 @@ vi:
     grid:
       add_modal:
         choose_widget: 'Chọn tiện ích'
+      remove: 'Remove widget'
       widgets:
         documents:
           title: 'Tài liệu'

@@ -2007,13 +2007,13 @@ zh-TW:
   setting_display_subprojects_work_packages: "預設在主專案中顯示子專案的工作項目"
   setting_emails_footer: "電子郵件頁腳"
   setting_emails_header: "電子郵件標頭"
-  setting_email_login: "使用電子郵件登入"
+  setting_email_login: "Use email as login"
   setting_enabled_scm: "啟用 SCM"
   setting_feeds_enabled: "啟用 Feed"
   setting_feeds_limit: "Feed 內容限制"
   setting_file_max_size_displayed: "直接显示文字文件內容的最大檔案容量"
   setting_host_name: "主機名稱"
-  setting_invitation_expiration_days: "帳號啟用 E-Mail 逾期天數"
+  setting_invitation_expiration_days: "Activation email expires after"
   setting_work_package_done_ratio: "計算工作項目的完成比例"
   setting_work_package_done_ratio_field: "使用工作項目欄位"
   setting_work_package_done_ratio_status: "使用工作項目狀態"
@@ -2368,7 +2368,7 @@ zh-TW:
     舊邀請電子郵件過期或用戶未收到之前的電子郵件時，再發送一封邀請電子郵件。也可由活躍用戶用於選擇新的身份驗證方法。活躍用戶使用時，狀態會更改為“已邀請”。
   tooltip:
     setting_email_login: >
-      如果啟用，用戶將無法在註冊時選擇登錄方式。將會使用用戶給出的電子郵件地址登錄。管理員仍然可以單獨更改登錄方式
+      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
   queries:
     apply_filter: 應用預配置的篩選器
   top_menu:

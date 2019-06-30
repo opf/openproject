@@ -145,6 +145,7 @@ ko:
     grid:
       add_modal:
         choose_widget: '위젯 선택'
+      remove: 'Remove widget'
       widgets:
         documents:
           title: '문서'

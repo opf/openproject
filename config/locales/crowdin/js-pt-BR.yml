@@ -144,6 +144,7 @@ pt-BR:
     grid:
       add_modal:
         choose_widget: 'Escolher widget'
+      remove: 'Remover widget'
       widgets:
         documents:
           title: 'Documentos'

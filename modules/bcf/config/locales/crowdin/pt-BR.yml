@@ -29,3 +29,5 @@ pt-BR:
   export:
     format:
       bcf: "BCF-XML"
+  attributes:
+    bcf_thumbnail: "Captura de snaphot BCF"

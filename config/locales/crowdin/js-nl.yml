@@ -145,6 +145,7 @@ nl:
     grid:
       add_modal:
         choose_widget: 'Widget kiezen'
+      remove: 'Remove widget'
       widgets:
         documents:
           title: 'Documenten'

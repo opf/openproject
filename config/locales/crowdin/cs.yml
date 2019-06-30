@@ -2073,13 +2073,13 @@ cs:
   setting_display_subprojects_work_packages: "Automaticky zobrazit úkoly podprojektu v hlavním projektu"
   setting_emails_footer: "Zápatí emailů"
   setting_emails_header: "Záhlaví emailů"
-  setting_email_login: "Použít e-mail jako login"
+  setting_email_login: "Use email as login"
   setting_enabled_scm: "Povolit SCM"
   setting_feeds_enabled: "Povolit kanály"
   setting_feeds_limit: "Limit obsahu kanálů"
   setting_file_max_size_displayed: "Maximální velikost textových souborů zobrazených přímo na stránce"
   setting_host_name: "Název serveru"
-  setting_invitation_expiration_days: "Platnost aktivačního E-Mailu vyprší po"
+  setting_invitation_expiration_days: "Activation email expires after"
   setting_work_package_done_ratio: "Vypočítat koeficient dokončení úkolu s"
   setting_work_package_done_ratio_field: "Use the work package field"
   setting_work_package_done_ratio_status: "Use the work package status"
@@ -2437,7 +2437,7 @@ cs:
     Sends another invitation email with a fresh token in case the old one expired or the user did not get the original email. Can also be used for active users to choose a new authentication method. When used with active users their status will be changed to 'invited'.
   tooltip:
     setting_email_login: >
-      If enabled a user will be unable to chose a login during registration. Instead their given e-mail address will serve as the login. An administrator may still change the login separately.
+      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
   queries:
     apply_filter: Použít přednastavený filtr
   top_menu:

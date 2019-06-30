@@ -2051,13 +2051,13 @@ ro:
   setting_display_subprojects_work_packages: "Afișare pachete de lucru din subproiecte pe pagina proiectului principal"
   setting_emails_footer: "Subsol e-mail"
   setting_emails_header: "Antet e-mail"
-  setting_email_login: "Use e-mail as login"
+  setting_email_login: "Use email as login"
   setting_enabled_scm: "SCM activat"
   setting_feeds_enabled: "Activare fluxuri"
   setting_feeds_limit: "Limită conținut flux"
   setting_file_max_size_displayed: "Numărul maxim de linii afișat în text"
   setting_host_name: "Numele serverului"
-  setting_invitation_expiration_days: "Activation E-Mail expires after"
+  setting_invitation_expiration_days: "Activation email expires after"
   setting_work_package_done_ratio: "Calculare rație de finalizare pentru pachet de lucru cu"
   setting_work_package_done_ratio_field: "Utilizare câmp din pachetul de lucru"
   setting_work_package_done_ratio_status: "Utilizare stare pachet de lucru"
@@ -2414,7 +2414,7 @@ ro:
     Sends another invitation email with a fresh token in case the old one expired or the user did not get the original email. Can also be used for active users to choose a new authentication method. When used with active users their status will be changed to 'invited'.
   tooltip:
     setting_email_login: >
-      If enabled a user will be unable to chose a login during registration. Instead their given e-mail address will serve as the login. An administrator may still change the login separately.
+      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
   queries:
     apply_filter: Aplicare filtru preconfigurat
   top_menu:

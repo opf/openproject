@@ -2004,13 +2004,13 @@ zh-CN:
   setting_display_subprojects_work_packages: "默认在主项目上显示子项目工作包"
   setting_emails_footer: "电子邮件页脚"
   setting_emails_header: "电子邮件标头"
-  setting_email_login: "使用电子邮件登录"
+  setting_email_login: "Use email as login"
   setting_enabled_scm: "启用 SCM"
   setting_feeds_enabled: "启用Feeds"
   setting_feeds_limit: "Feed内容限制"
   setting_file_max_size_displayed: "内联显示的文本文件的最大文件大小"
   setting_host_name: "主机名"
-  setting_invitation_expiration_days: "激活电子邮件的过期时间为"
+  setting_invitation_expiration_days: "Activation email expires after"
   setting_work_package_done_ratio: "计算工作包完成比率"
   setting_work_package_done_ratio_field: "使用工作包字段"
   setting_work_package_done_ratio_status: "使用工作包状态"
@@ -2365,7 +2365,7 @@ zh-CN:
     旧邀请电子邮件过期或用户未收到之前的电子邮件时，再发送一封邀请电子邮件。也可由活跃用户用于选择新的身份验证方法。活跃用户使用时，状态会更改为“已邀请”。
   tooltip:
     setting_email_login: >
-      如果启用，用户将无法在注册时选择登录方式。将会使用用户给出的电子邮件地址登录。管理员仍然可以单独更改登录方式。
+      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
   queries:
     apply_filter: 应用预配置筛选器
   top_menu:

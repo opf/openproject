@@ -2028,13 +2028,13 @@ pt:
   setting_display_subprojects_work_packages: "Mostrar os pacotes de trabalho dos sub-projetos nos projetos principais"
   setting_emails_footer: "Rodapé de e-mails"
   setting_emails_header: "Cabeçalho de e-mails"
-  setting_email_login: "Utilizar correio eletrónico como nome de utilizador"
+  setting_email_login: "Use email as login"
   setting_enabled_scm: "SCM ativado"
   setting_feeds_enabled: "Permitir Feeds"
   setting_feeds_limit: "Limite de conteúdo feed"
   setting_file_max_size_displayed: "Tamanho máximo de ficheiros de texto exibido inline"
   setting_host_name: "Nome do host"
-  setting_invitation_expiration_days: "Email de ativação expira após"
+  setting_invitation_expiration_days: "Activation email expires after"
   setting_work_package_done_ratio: "Calcular a percentagem de progresso do pacote de trabalho"
   setting_work_package_done_ratio_field: "Utilize o campo de pacote de trabalho"
   setting_work_package_done_ratio_status: "Utilize o estado da tarefa"
@@ -2390,7 +2390,7 @@ pt:
     Envia outra mensagem de correio eletrónico de convite com um novo token, caso o antigo tenha expirado ou o utilizador não tenha recebido a mensagem original. Também pode ser utilizado para utilizadores ativos que escolham um novo método de autenticação. Quando usado com utilizadores ativos, o seu estado passará para "convidado".
   tooltip:
     setting_email_login: >
-      Se for ativado, o utilizador será incapaz de selecionar o nome de utilizador durante o registo. Em vez disso, deverá utilizar o seu endereço eletrónico como o nome de utilizador. No entanto, um administrador poderá ainda alterar o nome de utilizador separadamente.
+      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
   queries:
     apply_filter: Aplicar filtro pré-configurado
   top_menu:

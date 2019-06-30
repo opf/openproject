@@ -145,6 +145,7 @@ lt:
     grid:
       add_modal:
         choose_widget: 'Choose widget'
+      remove: 'Remove widget'
       widgets:
         documents:
           title: 'Dokumentai'
@@ -335,7 +336,7 @@ lt:
       steps:
         help_menu: 'Meniu <b>Žinynas</b> rasite vartotojo vadovą ir papildomos pagalbos šaltinius. <br>Mėgaukitės darbu su OpenProject!'
         members: 'Pakvieskite naujus <b>Narius</b> prisijungti prie projekto.'
-        project_selection: 'Please click on one of the projects with useful demo data to get started. <br> The <b>Demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for Agile project management.'
+        project_selection: 'Prašome paspausti ant vieno iš projektų su įdėtais naudingais demonstraciniais duomenimis. <br> <b>Demo project</b> geriausiai tinka klasikiniam projektų valdymui, o <b>Scrum project</b> labiau tinka Agile projektų valdymui.'
         sidebar_arrow: "Rodykle galite pereiti atgal į projekto <b>Pagrindinį meniu</b>."
         welcome: 'Paskirkite tris minutes įvadinei kelionei ir išmokite daugumą <b>svarbių sistemos galimybių</b>. <br>Rekomenduojame atlikti visus veiksmus iki pabaigos. Ekskursiją galite paleisti iš naujo bet kuriuo metu.'
         wiki: '<b>Wiki</b>''yje galite dokumentuoti ir dalintis žiniomis su savo komandos nariais.'
@@ -345,10 +346,10 @@ lt:
           task_board_select: '... ir pasirinkite <b>Task board</b> elementą.'
           task_board: "<b>Darbo lenta</b> rodo pažangą šiame sprinte. Pridėkite naujas užduotis ar kliūtis spausdami + piktogramą šalia vartotojo istorija. Naudodami drag'n'drop, jūs galite pakeisti būseną."
         boards:
-          overview: 'Manage your work within an intuitive <b>Boards</b> view.'
-          lists: 'You can create multiple lists (columns) within one Board view, e.g. to create a KANBAN board.'
-          add: 'Click the + will <b>add a new card</b> to the list within a Board.'
-          drag: 'Drag & Drop your cards within a list to re-order, or to another list. A double click will open the details view.'
+          overview: 'Valdykite savo darbus intuityviame <b>Lentų</b> vaizde.'
+          lists: 'Galite sukurti keletą sąrašų (stulpelių) viename Lentos vaizde, t.y. sukurti KANBAN lentą.'
+          add: 'Paspaudus + <b>pridės naują kortelę</b> sąraše Lentoje.'
+          drag: 'Galite pervilkti ir numesti kortelę sąrašo ribose (perrikiuoti) ar į kitą sąrašą. Dvigubas paspaudimas permes į detalių vaizdą.'
         wp:
           toggler: "Dabar žvilgtelėkime į <b>Darbų paketų</b> skyrių, kuris suteikia išsamesnį vaizdą apie jūsų darbus."
           list: 'Tai <b>Darbų paketų</b> sąrašas su svarbiomis jūsų projektui veiksmais: tasks, features, milestones, bugs, ir pan. <br> Jūs galite kurti ir redaguoti darbų paketus tiesiai šiame sąraše. Norėdami pamatyti detaliau, du kart spustelkite pele ant pasirinktos eilutės.'
@@ -372,7 +373,7 @@ lt:
       relation_description: 'Paspauskite, kad pridėtumėte šio ryšio aprašymą'
     project:
       required_outside_context: >
-        Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
+        Prašau pasirinkti projektą, kuriame turi būti sukurtas darbo paketas, kad matytumėte visus atributus. Jūs galite pasirinkti tik tuos projektus, kurie turi aukščiau nurodytą tipą.
       context: 'Projekto kontekstas'
       work_package_belongs_to: 'Šis darbų paketas priklauso projektui %{projectname}.'
       click_to_switch_context: 'Atidaryti darbų paketą tame projekte.'
@@ -456,8 +457,8 @@ lt:
       save: "Išsaugoti ryšį"
       abort: "Nutraukti"
     relations_autocomplete:
-      placeholder: "Type to search"
-      parent_placeholder: "Choose new parent or press escape to cancel."
+      placeholder: "Paieškai pradėkite rinkti tekstą"
+      parent_placeholder: "Pasirinkite naują tėvą arba spauskite Escape atšaukimui."
     repositories:
       select_tag: 'Pasirinkti žymę'
       select_branch: 'Parinkti padalinį'
@@ -778,7 +779,7 @@ lt:
         has_children: "Darbų paketas turi %{childUnits}:"
         confirm_deletion_children: "Aš sutinku, kad VISI šio darbų paketo palikuoniai bus rekursiškai ištrinti."
         deletes_children: "Visi darbų paketo vaikai ir jų palikuoniai taip pat bus rekursiškai ištrinti."
-    notice_no_results_to_display: "No visible results to display."
+    notice_no_results_to_display: "Nėra rezultatų."
     notice_successful_create: "Sėkmingas sukūrimas."
     notice_successful_delete: "Sėkmingas panaikinimas."
     notice_successful_update: "Sėkmingas atnaujinimas."

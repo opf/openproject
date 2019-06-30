@@ -2005,13 +2005,13 @@ id:
   setting_display_subprojects_work_packages: "Tampilkan Paket-Penugasan pada Sub-Project secara default"
   setting_emails_footer: "Email footer"
   setting_emails_header: "Email header"
-  setting_email_login: "Login menggunakan e-mail"
+  setting_email_login: "Use email as login"
   setting_enabled_scm: "Aktifkan SCM"
   setting_feeds_enabled: "Aktifkan Feed"
   setting_feeds_limit: "Batasan konten feed"
   setting_file_max_size_displayed: "Ukuran maks. file teks yang ditampilkan inline"
   setting_host_name: "Nama host"
-  setting_invitation_expiration_days: "Activation E-Mail expires after"
+  setting_invitation_expiration_days: "Activation email expires after"
   setting_work_package_done_ratio: "Hitung Paket-Penugasan dengan Rasio Penyelesaian"
   setting_work_package_done_ratio_field: "Gunakan isian Paket-Penugasan"
   setting_work_package_done_ratio_status: "Gunakan status Paket-Penugasan"
@@ -2366,7 +2366,7 @@ id:
     Kirim email undangan lain dengan token yang baru dalam hal yang lama kadaluwarsa atau pengguna tidak mendapat email yang asli. Dapat juga digunakan oleh pengguna aktif untuk memilih metode otentikasi baru. Ketika digunakan bersama pengguna aktif, status mereka akan berganti menjadi 'diundang'.
   tooltip:
     setting_email_login: >
-      Jika pengguna diaktifkan maka dapat memilih login saat pendaftaran. Sebaliknya alamat e-mail yang diberikan akan berfungsi sebagai login. Administrator masih dapat mengubah login secara terpisah.
+      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
   queries:
     apply_filter: Terapkan Filter yang telah dikonfigurasikan
   top_menu:

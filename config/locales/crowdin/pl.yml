@@ -765,7 +765,7 @@ pl:
   copy_project:
     started: "Rozpoczęto kopiowanie projektu \"%{source_project_name}\" do \"%{target_project_name}\". Poinformujemy Cię przez e-mail tak szybko jak \"%{target_project_name}\" będzie dostępny."
     failed: "Nie można skopiować projektu %{source_project_name}"
-    failed_internal: "Copying failed due to an internal error."
+    failed_internal: "Kopiowanie nie powiodło się z powodu błędu wewnętrznego."
     succeeded: "Utworzono projekt %{target_project_name}"
     errors: "Błąd"
     project_custom_fields: 'Niestandardowe pola projektu'
@@ -2071,13 +2071,13 @@ pl:
   setting_display_subprojects_work_packages: "Domyślnie wyświetlaj pakiety robocze podprojektów na głównym projekcie"
   setting_emails_footer: "Stopka wiadomości e-mail"
   setting_emails_header: "Nagłówek wiadomości e-mail"
-  setting_email_login: "Użyj adresu e-mail jako login"
+  setting_email_login: "Use email as login"
   setting_enabled_scm: "Włączone SCM"
   setting_feeds_enabled: "Włącz kanały"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Maksymalny rozmiar plików tekstowych wyświetlanych w treści"
   setting_host_name: "Nazwa hosta"
-  setting_invitation_expiration_days: "Ważność aktywacyjnej waidomości e-mail wygasa po"
+  setting_invitation_expiration_days: "Activation email expires after"
   setting_work_package_done_ratio: "Oblicz status realizacji pakietu roboczego z"
   setting_work_package_done_ratio_field: "Użyj pola pakietu roboczego"
   setting_work_package_done_ratio_status: "Użyj statusu pakietu roboczego"
@@ -2435,7 +2435,7 @@ pl:
     Wysyła kolejne zaproszenie mailowe ze świeżym tokenem w przypadku, gdy stary wygasł lub gdy użytkownik nie otrzymał pierwszej wiadomości e-mail. Można używać też do wyboru nowej metody uwierzytelniania dla aktywnych użytkowników. Przy użyciu z aktywnymi użytkownikami ich status zmieni się na "zaproszeni".
   tooltip:
     setting_email_login: >
-      Jeśli włączone użytkownik nie będzie mógł wybrać logina podczas rejestracji. Zamiast tego ich adres e-mail będzie służyć jako identyfikator logowania. Administrator może zmienić login oddzielnie.
+      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
   queries:
     apply_filter: Zastosuj wstępny filtr
   top_menu:

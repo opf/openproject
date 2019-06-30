@@ -2028,13 +2028,13 @@ ca:
   setting_display_subprojects_work_packages: "Mostrae els paquets de treball dels subprojectes en els projectes principals per defecte"
   setting_emails_footer: "Peu dels correus electrònics"
   setting_emails_header: "Encapçalament dels correus"
-  setting_email_login: "Use e-mail as login"
+  setting_email_login: "Use email as login"
   setting_enabled_scm: "Activar SCM"
   setting_feeds_enabled: "Habilita els canals"
   setting_feeds_limit: "Límit de contingut del canals"
   setting_file_max_size_displayed: "Mida màxima dels fitxers de text mostrats en línia"
   setting_host_name: "Nom del servidor"
-  setting_invitation_expiration_days: "Activation E-Mail expires after"
+  setting_invitation_expiration_days: "Activation email expires after"
   setting_work_package_done_ratio: "Calcular la ratio d'execució del paquet de treball amb"
   setting_work_package_done_ratio_field: "Utilitzar el camp de paquet de treball"
   setting_work_package_done_ratio_status: "Utilitzar l'estat de paquet de treball"
@@ -2390,7 +2390,7 @@ ca:
     Sends another invitation email with a fresh token in case the old one expired or the user did not get the original email. Can also be used for active users to choose a new authentication method. When used with active users their status will be changed to 'invited'.
   tooltip:
     setting_email_login: >
-      If enabled a user will be unable to chose a login during registration. Instead their given e-mail address will serve as the login. An administrator may still change the login separately.
+      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
   queries:
     apply_filter: Aplicar filtre preconfigurat
   top_menu:

@@ -2030,13 +2030,13 @@ tr:
   setting_display_subprojects_work_packages: "Varsayılan olarak ana projenin iş listesinde alt proje iş paketlerini göster"
   setting_emails_footer: "E-posta altbilgi"
   setting_emails_header: "E-posta üstbilgisi"
-  setting_email_login: "E-posta giriş kullanın"
+  setting_email_login: "Giriş olarak e-posta kullanın"
   setting_enabled_scm: "Etkinleştirilmiş SCM"
   setting_feeds_enabled: "Yayınları Etkinleştir"
   setting_feeds_limit: "Besleme içeriği sınırı"
   setting_file_max_size_displayed: "Satır içi görüntülenen maksimum metin dosyası boyutu"
   setting_host_name: "Ana bilgisayar adı"
-  setting_invitation_expiration_days: "Etkinleştirme e-posta kullanım süresi sonu"
+  setting_invitation_expiration_days: "Etkinleştirme e-postasının süresi doluyor"
   setting_work_package_done_ratio: "İş tamamlanma oranını hesapla yöntemi"
   setting_work_package_done_ratio_field: "İş paketi alanını kullan"
   setting_work_package_done_ratio_status: "İş paketi durumunu kullan"
@@ -2392,7 +2392,7 @@ tr:
     Eskisi geçersiz olduysa ya da orjinal e-posta alınamadıysa yeni bir davet anahtarı gönderir. Aynı zamanda bu işlevi aktif kullanıcıların farkli bir kimlik doğrulama yöntemine geçişi için de kullanabilirsiniz. Aktif kullanıcılar için kullandığınızda onların durumu 'davet edildi' olarak değişir.
   tooltip:
     setting_email_login: >
-      Eğer aktive edilirse, kullanıcıya kayıt esnasında giriş seçimi sunulmaz. Login adı olarak e-posta adresi kullanılacak. Yönetici istediği zaman giriş bilgisini ayrıca belirleyebilir.
+      Etkinleştirildiğinde, kullanıcı kayıt sırasında bir giriş yapamaz. Bunun yerine verilen e-posta adresi giriş olarak görev yapacak. Bir yönetici hala girişi ayrı ayrı değiştirebilir.
   queries:
     apply_filter: Önceden yapılandırılmış filtre uygula
   top_menu:

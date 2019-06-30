@@ -2071,13 +2071,13 @@ ru:
   setting_display_subprojects_work_packages: "Отображать пакеты работ подпроектов в основном проекте по-умолчанию"
   setting_emails_footer: "содержимое  нижней части почтовых сообщений"
   setting_emails_header: "Заголовок письма"
-  setting_email_login: "Использовать e-mail для входа"
+  setting_email_login: "Use email as login"
   setting_enabled_scm: "Вклченные SCM (системы управления исходным кодом)"
   setting_feeds_enabled: "Включить новостные ленты"
   setting_feeds_limit: "Предел содержимого новостной ленты"
   setting_file_max_size_displayed: "Максимальная длина  строки текстовых файлов"
   setting_host_name: "Имя компьютера в сети"
-  setting_invitation_expiration_days: "Действие письма активации истекает после"
+  setting_invitation_expiration_days: "Activation email expires after"
   setting_work_package_done_ratio: "Калькуляции пакета работ сделаны со следующими коэфицентами"
   setting_work_package_done_ratio_field: "Использовать поле пакета работ"
   setting_work_package_done_ratio_status: "Использовать статус пакета работ"
@@ -2435,7 +2435,7 @@ ru:
     Отправляет по электронной почте другое приглашение со свежим маркером в случае, если истек срок действия старого или пользователь не получил первоначального сообщения. Может использоваться для действующих пользователей для выбора нового метода идентификации. При использовании с действующими пользователями их статус будет изменен на «приглашенные».
   tooltip:
     setting_email_login: >
-      Если включено, пользователь не сможет выбирать логин во время регистрации. Вместо этого именем для входа ему будет служить его e-mail. Администратор сможет изменить логин отдельно.
+      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
   queries:
     apply_filter: Применить ранее настроенный фильтр
   top_menu:

@@ -2028,13 +2028,13 @@ fil:
   setting_display_subprojects_work_packages: "Ipakita ang mga subproject ng work package sa pangunahing proyekto sa pamamagitan ng default"
   setting_emails_footer: "Ang mga email ng footer"
   setting_emails_header: "Ang email ng header"
-  setting_email_login: "Gamitin ang email bilang login"
+  setting_email_login: "Use email as login"
   setting_enabled_scm: "Paganahin ang SCM"
   setting_feeds_enabled: "Paganahin ang mga feed"
   setting_feeds_limit: "Limitasyon ng nilalaman na feed"
   setting_file_max_size_displayed: "Max na laki ng mga tekstong file na ipinapakita inline"
   setting_host_name: "Host name"
-  setting_invitation_expiration_days: "Pagpaaktibo ng Email ay matatapos pagkaraan ng"
+  setting_invitation_expiration_days: "Activation email expires after"
   setting_work_package_done_ratio: "Kalkulahin ang work package done rato sa"
   setting_work_package_done_ratio_field: "Gamitin ang work package field"
   setting_work_package_done_ratio_status: "Gamitin ang estado ng work package"
@@ -2390,7 +2390,7 @@ fil:
     Magpadala ng ibang imbitasyong email kasama ang fresh token kung sakali walang bisa na ang lima o ang gumagamit ay hindi kumuha ng orihinak na email. Maari rin gamitin para sa aktibing gumagamit upang pumili ng bagong paraan ng pagpapatunay. Kung ginamit sa aktibong gumagamit ang kanila estado ay mababago sa 'Inimbitahan'.
   tooltip:
     setting_email_login: >
-      Kung pinagana ang user ay hindi pinagana na lumili ng login sa panahon ng pagpaparehistro. Sa halip ang kanilang binigay na e-mail address ay naka-serve bilang login. Isang tagapangasiwa ay may pa-asa pang i-login ng hiwalay.
+      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
   queries:
     apply_filter: Lapatan ng naka-preconfigure na filter
   top_menu:
