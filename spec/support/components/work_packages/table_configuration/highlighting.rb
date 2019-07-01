@@ -44,23 +44,31 @@ module Components
       def switch_entire_row_highlight(label)
         modal_open? or open_modal
         choose "Entire row by"
-        page.all(".form--field")[1].select label
+
+        # Open select field
+        within(page.all(".form--field")[1]) do
+          page.find('.ng-input input').click
+        end
+        page.find('.ng-dropdown-panel .ng-option', text: label).click
         apply
       end
 
       def switch_inline_attribute_highlight(*labels)
         modal_open? or open_modal
         choose "Highlighted attribute(s)"
+
+        # Open select field
         within(page.all(".form--field")[0]) do
-          if labels.size == 1
-            select labels.first
-          elsif labels.size > 1
-            find('[class*="--toggle-multiselect"]').click
-            labels.each do |label|
-              select label
-            end
-          end
+          page.find('.ng-input input').click
         end
+
+        # Delete all previously selected options
+        page.all('.ng-dropdown-panel .ng-option-selected').each { |option| option.click }
+
+        labels.each do |label|
+          page.find('.ng-dropdown-panel .ng-option', text: label).click
+        end
+
         apply
       end
 

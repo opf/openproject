@@ -9,21 +9,28 @@
     <p [textContent]="text.highlighting_mode.description"></p>
     <div class="form--field -full-width">
       <div class="form--field-container">
-        <label class="option-label">
+        <label class="option-label -multi-line">
           <input type="radio"
                  [attr.disabled]="disabledValue(eeShowBanners)"
                  [(ngModel)]="highlightingMode"
                  (change)="updateMode($event.target.value)"
                  value="inline"
                  name="highlighting_mode_switch">
-          {{ text.highlighting_mode.inline }}
-          &nbsp;
-          <multi-toggled-select [isDisabled]="highlightingMode !== 'inline'"
-                                [availableOptions]="availableMappedHighlightedAttributes"
-                                [initialSelection]="selectedAttributes"
-                                (onValueChange)="selectedAttributes = $event">
-          </multi-toggled-select>
+          <span [textContent]="text.highlighting_mode.inline"></span>&nbsp;
         </label>
+
+        <ng-select [items]="availableInlineHighlightedAttributes"
+                   [(ngModel)]="selectedAttributes"
+                   [multiple]="true"
+                   [disabled]="highlightingMode !== 'inline'"
+                   [clearable]="false"
+                   [closeOnSelect]="false"
+                   (change)="updateHighlightingAttributes($event)"
+                   class="-multi-select"
+                   bindLabel="name"
+                   name="highlighting_attributes"
+                   appendTo="body">
+        </ng-select>
       </div>
     </div>
     <div class="form--field -full-width">
@@ -36,20 +43,19 @@
                  [value]="true"
                  name="entire_row_switch">
           <span [textContent]="text.highlighting_mode.entire_row_by"></span>
-          &ngsp;
-          <select (change)="updateMode($event.target.value)"
-                  [attr.disabled]="disabledValue(eeShowBanners)"
-                  id="selected_attribute"
-                  name="selected_attribute"
-                  class="form--select form--inline-select">
-            <option [textContent]="text.highlighting_mode.status"
-                    [selected]="lastEntireRowAttribute === 'status'"
-                    value="status"></option>
-            <option [textContent]="text.highlighting_mode.priority"
-                    [selected]="lastEntireRowAttribute === 'priority'"
-                    value="priority"></option>
-          </select>
         </label>
+
+        <ng-select [items]="availableRowHighlightedAttributes"
+                   [(ngModel)]="lastEntireRowAttribute"
+                   [disabled]="disabledValue(eeShowBanners)"
+                   [clearable]="false"
+                   (change)="updateMode($event.value)"
+                   bindLabel="name"
+                   bindValue="value"
+                   name="selected_attribute"
+                   appendTo="body"
+                   id="selected_attribute">
+        </ng-select>
       </div>
     </div>
     <div class="form--field -full-width">
