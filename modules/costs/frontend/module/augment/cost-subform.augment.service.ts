@@ -36,7 +36,10 @@ export class CostSubformAugmentService {
       let el = jQuery(match);
 
       const container = el.find('.subform-container');
-      const template = el.find('.subform-row-template')[0].outerHTML;
+
+      const templateEl = el.find('.subform-row-template');
+      templateEl.detach();
+      const template = templateEl[0].outerHTML;
       let rowIndex = parseInt(el.attr('item-count')!);
 
       el.on('click', '.delete-row-button,.delete-budget-item', (evt:any) => {
@@ -47,7 +50,10 @@ export class CostSubformAugmentService {
       // Add new row handler
       el.find('.add-row-button,.wp-inline-create--add-link').click((evt:any) => {
         evt.preventDefault();
-        container.append(template.replace(/INDEX/g, rowIndex.toString()));
+        let row = jQuery(template.replace(/INDEX/g, rowIndex.toString()));
+        row.show();
+        row.removeClass('subform-row-template');
+        container.append(row);
         rowIndex += 1;
 
         container.find('.costs-date-picker').datepicker();

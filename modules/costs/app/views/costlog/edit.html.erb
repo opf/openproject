@@ -89,7 +89,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
         <% if @cost_entry.cost_type.nil? %>
             <%= f.text_field :units, size: 6, required: true, container_class: '-slim' %>
         <% else %>
-          <% suffix = @cost_enngtry.units == 1 ? @cost_entry.cost_type.unit : @cost_entry.cost_type.unit_plural %>
+          <% suffix = @cost_entry.units == 1 ? @cost_entry.cost_type.unit : @cost_entry.cost_type.unit_plural %>
           <%= f.text_field :units,
                            size: 6,
                            required: true,
@@ -116,7 +116,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
               <br /><em><%= t(:help_override_rate) %></em>
             <% end %>
           </cost-unit-subform>
-        </span>ng
+        </span>
       </div>
 
       <div class="form--field">

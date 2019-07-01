@@ -32,8 +32,9 @@ import {BudgetResource} from './hal/resources/budget-resource';
 import {multiInput} from 'reactivestates';
 import {CostSubformAugmentService} from "./augment/cost-subform.augment.service";
 import {PlannedCostsFormAugment} from "core-app/modules/plugins/linked/openproject-costs/augment/planned-costs-form";
+import {CostBudgetSubformAugmentService} from "core-app/modules/plugins/linked/openproject-costs/augment/cost-budget-subform.augment.service";
 
-export function initializeCostsPlugin() {
+export function initializeCostsPlugin(injector:Injector) {
     return () => {
         window.OpenProject.getPluginContext().then((pluginContext:OpenProjectPluginContext) => {
             pluginContext.services.editField.extendFieldType('select', ['Budget']);
@@ -78,6 +79,9 @@ export function initializeCostsPlugin() {
             // Augment previous cost-subforms
             new CostSubformAugmentService();
             PlannedCostsFormAugment.listen();
+
+            const budgetSubform = injector.get(CostBudgetSubformAugmentService);
+            budgetSubform.listen();
         });
     };
 }
@@ -86,6 +90,7 @@ export function initializeCostsPlugin() {
 @NgModule({
     providers: [
         { provide: APP_INITIALIZER, useFactory: initializeCostsPlugin, deps: [Injector], multi: true },
+      CostBudgetSubformAugmentService,
     ],
 })
 export class PluginModule {

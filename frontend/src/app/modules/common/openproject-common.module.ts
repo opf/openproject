@@ -92,6 +92,7 @@ import {HideSectionLinkComponent} from "core-app/modules/common/hide-section/hid
 import {HideSectionService} from "core-app/modules/common/hide-section/hide-section.service";
 import {RemoteFieldUpdaterComponent} from 'core-app/modules/common/remote-field-updater/remote-field-updater.component';
 import {AutofocusDirective} from "core-app/modules/common/autofocus/autofocus.directive";
+import {ShowSectionDropdownComponent} from "core-app/modules/common/hide-section/show-section-dropdown.component";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -242,6 +243,7 @@ export function bootstrapModule(injector:Injector) {
     PersistentToggleComponent,
     AutocompleteSelectDecorationComponent,
     HideSectionLinkComponent,
+    ShowSectionDropdownComponent,
     AddSectionDropdownComponent,
     RemoteFieldUpdaterComponent,
 

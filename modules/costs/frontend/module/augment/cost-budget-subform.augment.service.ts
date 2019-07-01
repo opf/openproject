@@ -31,15 +31,20 @@ import {HttpClient} from '@angular/common/http';
 import {WorkPackageNotificationService} from "core-app/components/wp-edit/wp-notification.service";
 
 @Injectable()
-export class CostSubformAugmentService {
+export class CostBudgetSubformAugmentService {
 
   constructor(private wpNotifications:WorkPackageNotificationService,
               private http:HttpClient) {
+  }
+
+  listen() {
     jQuery('costs-budget-subform').each((i, match) => {
       let el = jQuery(match);
 
       const container = el.find('.budget-item-container');
-      const template:string = el.find('.budget-row-template')[0].outerHTML;
+      const templateEl = el.find('.budget-row-template');
+      templateEl.detach();
+      const template = templateEl[0].outerHTML;
       let rowIndex = parseInt(el.attr('item-count') as string);
 
       // Refresh row on changes
@@ -57,7 +62,10 @@ export class CostSubformAugmentService {
       // Add new row handler
       el.find('.budget-add-row').click((evt) => {
         evt.preventDefault();
-        container.append(template.replace(/INDEX/g, rowIndex.toString()));
+        let row = jQuery(template.replace(/INDEX/g, rowIndex.toString()));
+        row.show();
+        row.removeClass('budget-row-template');
+        container.append(row);
         rowIndex += 1;
         return false;
       });

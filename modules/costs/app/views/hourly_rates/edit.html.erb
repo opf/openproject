@@ -29,7 +29,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <p><strong><%= t(:label_current_default_rate) %>:</strong> <%= number_to_currency(default_rate.rate)%></p>
 <% end %>
 
-<%= activate_angular_js do %>
 <costs-subform item-count="<%= @rates.count %>">
 <%= labelled_tabular_form_for @user, url: {action: 'update', project_id: @project}, method: :put do |f| %>
   <%= back_url_hidden_field_tag %>
@@ -90,4 +89,3 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   </div>
 <% end %>
 </costs-subform>
-<% end %>

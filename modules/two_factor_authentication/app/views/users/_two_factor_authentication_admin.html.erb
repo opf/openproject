@@ -31,7 +31,6 @@
 <% end %>
 </section>
 
-<%= activate_angular_js do %>
 <section class="admin--edit-section">
   <%= toolbar title: t('two_factor_authentication.label_devices') do %>
       <% unless devices.empty? %>
@@ -58,4 +57,3 @@
   <%= cell ::TwoFactorAuthentication::Devices::TableCell, devices, admin_table: true || @user != User.current %>
   </div>
 </section>
-<% end %>

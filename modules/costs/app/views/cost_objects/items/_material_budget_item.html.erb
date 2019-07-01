@@ -75,7 +75,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
         <%= cost_form.hidden_field :budget, value: material_budget_item.budget %>
       <% end %>
       <cost-unit-subform obj-id="<%= obj_id %>" obj-name="<%= "#{name_prefix}[budget]" %>">
-        <a id="<%= obj_id %>" class="costs--edit-planned-costs-btn" role="button" class="icon-context icon-edit" title="<%= t(:help_click_to_edit) %>">
+        <a id="<%= obj_id %>" class="costs--edit-planned-costs-btn icon-context icon-edit" role="button" title="<%= t(:help_click_to_edit) %>">
           <%= number_to_currency(material_budget_item.budget || material_budget_item.calculated_costs(@cost_object.fixed_date)) %>
         </a>
       </cost-unit-subform>

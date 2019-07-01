@@ -31,7 +31,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 <%= toolbar title: CostType.model_name.human %>
 
-<%= activate_angular_js do %>
 <costs-subform item-count="<%= @cost_type.rates.length %>">
 <%= labelled_tabular_form_for @cost_type do |f| %>
   <%= error_messages_for 'cost_type' %>
@@ -112,4 +111,3 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   </div>
 <% end %>
 </costs-subform>
-<% end %>

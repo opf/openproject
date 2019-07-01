@@ -1,61 +1,56 @@
-// //-- copyright
-// // OpenProject is a project management system.
-// // Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
-// //
-// // This program is free software; you can redistribute it and/or
-// // modify it under the terms of the GNU General Public License version 3.
-// //
-// // OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-// // Copyright (C) 2006-2017 Jean-Philippe Lang
-// // Copyright (C) 2010-2013 the ChiliProject Team
-// //
-// // This program is free software; you can redistribute it and/or
-// // modify it under the terms of the GNU General Public License
-// // as published by the Free Software Foundation; either version 2
-// // of the License, or (at your option) any later version.
-// //
-// // This program is distributed in the hope that it will be useful,
-// // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// // GNU General Public License for more details.
-// //
-// // You should have received a copy of the GNU General Public License
-// // along with this program; if not, write to the Free Software
-// // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-// //
-// // See docs/COPYRIGHT.rdoc for more details.
-// //++
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 //
-// import {HideSectionService} from "./hide-section.service";
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
 //
-// export class ShowSectionDropdownComponent {
-//   public optValue:string;           // value of option for which hide-section should be visible
-//   public hideSecWithName:string;    // section-name of hide-section
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
 //
-//   constructor(protected HideSectionService:HideSectionService,
-//               private $element:ng.IAugmentedJQuery) {
-//   }
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
 //
-//   $onInit() {
-//     this.$element.change(event => {
-//       let selectedOption = jQuery("option:selected", event.target);
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 //
-//       if (selectedOption.val() !== this.optValue) {
-//         this.HideSectionService.hide(this.hideSecWithName);
-//       }
-//       else {
-//         this.HideSectionService.show({key: this.hideSecWithName, label: ""});
-//       }
-//     });
-//   }
-// }
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// openprojectLegacyModule.component('showSectionDropdown', {
-//   template: '<ng-transclude></ng-transclude>',
-//   transclude: true,
-//   controller: ShowSectionDropdownComponent,
-//   bindings: {
-//     optValue: "@",
-//     hideSecWithName: "@"
-//   }
-// });
+// See docs/COPYRIGHT.rdoc for more details.
+//++
+
+import {HideSectionService} from "./hide-section.service";
+import {Component, ElementRef, OnInit} from "@angular/core";
+
+@Component({
+  selector: 'show-section-dropdown',
+  template: ''
+})
+export class ShowSectionDropdownComponent implements OnInit {
+  public optValue:string;           // value of option for which hide-section should be visible
+  public hideSecWithName:string;    // section-name of hide-section
+
+  constructor(private HideSectionService:HideSectionService,
+              private elementRef:ElementRef) {
+  }
+
+  ngOnInit() {
+    const target = jQuery(this.elementRef.nativeElement).prev();
+    target.on('change', event => {
+      let selectedOption = jQuery("option:selected", event.target);
+
+      if (selectedOption.val() !== this.optValue) {
+        this.HideSectionService.hide(this.hideSecWithName);
+      } else {
+        this.HideSectionService.show(this.hideSecWithName);
+      }
+    });
+  }
+}

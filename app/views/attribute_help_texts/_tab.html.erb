@@ -29,7 +29,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <% entries = @texts_by_type[tab[:name]] || [] %>
 <% if entries.any? %>
-  <%= activate_angular_js :div, class: 'generic-table--container' do %>
+  <div class="generic-table--container">
     <div class="generic-table--results-container">
       <table class="generic-table">
         <colgroup>
@@ -91,7 +91,7 @@ See docs/COPYRIGHT.rdoc for more details.
         </tbody>
       </table>
     </div>
-  <% end %>
+  </div>
 <% else %>
   <%= no_results_box %>
 <% end %>

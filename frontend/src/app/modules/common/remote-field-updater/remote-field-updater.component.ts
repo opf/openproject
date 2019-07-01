@@ -64,7 +64,7 @@ export class RemoteFieldUpdaterComponent implements OnInit {
       // special cases where the tab code is not correctly recognized (undefined).
       // Thus the focus is kept on the first element of the result list.
       let keyCodesArray = [keyCodes.TAB, keyCodes.ENTER, keyCodes.SHIFT];
-      if (event.which && keyCodesArray.indexOf(event.which) === -1) {
+      if (event.type === 'change' || (event.which && keyCodesArray.indexOf(event.which) === -1)) {
         this.updater();
       }
     }, 500));
@@ -106,7 +106,7 @@ export class RemoteFieldUpdaterComponent implements OnInit {
         // Replace the given target
         this.target.html(response);
       } else {
-        _.each(response.data, (val:string, selector:string) => {
+        _.each(response, (val:string, selector:string) => {
           jQuery('#' + selector).html(val);
         });
       }

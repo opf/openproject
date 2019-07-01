@@ -34,7 +34,7 @@ export class PlannedCostsFormAugment {
 
   static listen() {
     jQuery(document).on('click', '.costs--edit-planned-costs-btn', (evt) => {
-      const form = jQuery(evt.target).closest('cost-unit-subform');
+      const form = jQuery(evt.target as any).closest('cost-unit-subform') as JQuery;
       new PlannedCostsFormAugment(form);
     });
   }
@@ -42,7 +42,7 @@ export class PlannedCostsFormAugment {
   constructor(public $element:JQuery) {
     this.objId = this.$element.attr('obj-id')!;
     this.objName = this.$element.attr('obj-name')!;
-    this.obj = jQuery(this.objId);
+    this.obj = jQuery(`#${this.objId}`) as any;
 
     this.makeEditable('#' + this.objId, this.objName);
   }
@@ -77,7 +77,7 @@ export class PlannedCostsFormAugment {
       <section class="form--section" id="${id}_section">
         <div class="form--field">
           <div class="form--field-container">
-            <div id="${id}_cancel" class="form--field-affix -transparent icon icon-close"></div>';
+            <div id="${id}_cancel" class="form--field-affix -transparent icon icon-close"></div>
             <div id="${id}_editor" class="form--text-field-container">
                 <input id="${id}_edit" class="form--text-field" name="${name}" value="${value}" class="currency" type="text" />
             </div>

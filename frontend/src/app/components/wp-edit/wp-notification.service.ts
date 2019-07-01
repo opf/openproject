@@ -115,7 +115,7 @@ export class WorkPackageNotificationService {
   public retrieveError(response:unknown):ErrorResource|unknown {
     // we try to detect what we got, this may either be an HttpErrorResponse,
     // some older XHR response object or a string
-    let errorBody:any;
+    let errorBody:any = response;
 
     // Angular http response have an error body attribute
     if (response instanceof HttpErrorResponse) {
@@ -131,7 +131,7 @@ export class WorkPackageNotificationService {
       return this.halResourceService.createHalResourceOfClass(ErrorResource, errorBody);
     }
 
-    return response;
+    return errorBody;
   }
 
   protected handleErrorResponse(errorResource:any, workPackage?:WorkPackageResource) {
