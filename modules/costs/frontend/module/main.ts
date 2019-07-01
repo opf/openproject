@@ -30,6 +30,8 @@ import {CostsByTypeDisplayField} from './wp-display/wp-display-costs-by-type-fie
 import {CurrencyDisplayField} from './wp-display/wp-display-currency-field.module';
 import {BudgetResource} from './hal/resources/budget-resource';
 import {multiInput} from 'reactivestates';
+import {CostSubformAugmentService} from "./augment/cost-subform.augment.service";
+import {PlannedCostsFormAugment} from "core-app/modules/plugins/linked/openproject-costs/augment/planned-costs-form";
 
 export function initializeCostsPlugin() {
     return () => {
@@ -72,6 +74,10 @@ export function initializeCostsPlugin() {
 
             let states = pluginContext.services.states;
             states.add('budgets', multiInput<BudgetResource>());
+
+            // Augment previous cost-subforms
+            new CostSubformAugmentService();
+            PlannedCostsFormAugment.listen();
         });
     };
 }

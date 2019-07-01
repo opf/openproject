@@ -34,10 +34,7 @@ The plugin is now known in the OpenProject application, but their frontends are 
 
 
 
-This will ensure those plugins with a frontend are symlinked to one of the following locations:
-
-1. `frontend/legacy/app/plugins/` for plugins with a `frontend/legacy-app`  folder.
-2. `frontend/src/app/modules/plugins/linked/` for plugins with an exported Angular module under `frontend/module/main.ts`.
+This will ensure those plugins with a frontend are symlinked to `frontend/src/app/modules/plugins/linked/` for plugins with an exported Angular module under `frontend/module/main.ts`.
 
 
 
@@ -45,29 +42,15 @@ This will ensure those plugins with a frontend are symlinked to one of the follo
 
 The [Costs](https://github.com/finnlabs/openproject-costs/) plugin has both legacy components that are still used by Rails templates as well as an entry module file to register to the Angular frontend.
 
-Let's take a look at the file structure:
+Let's take a look at the file structure of the costs folder `frontend/`:
 
 ```
-frontend/
-├── legacy-app
-│   └── components
-│       ├── budget
-│       │   ├── cost-budget-subform.directive.ts
-│       │   └── cost-unit-subform.directive.ts
-│       └── subform
-│           └── cost-subform.directive.ts
-└── module
-    ├── main.ts
-    └── wp-display
-        ├── wp-display-costs-by-type-field.module.ts
-        └── wp-display-currency-field.module.ts
+module
+├── main.ts
+└── wp-display
+    ├── wp-display-costs-by-type-field.module.ts
+    └── wp-display-currency-field.module.ts
 ```
-
-
-
-Anything under `frontend/legacy-app/*` will be symlinked to the core and found by the legacy webpack build. Thus, it will be contained in the legacy bundle and can be accessed with the `activate_angular_js`  helper as described in the [legacy documentation](./LEGACY.md).
-
-
 
 The Angular frontend entry point is `frontend/module/main.ts` and should export a `PluginModule` ngModule that looks like the following:
 

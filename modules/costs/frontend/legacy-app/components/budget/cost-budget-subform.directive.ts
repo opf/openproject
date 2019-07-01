@@ -52,85 +52,10 @@ export class CostBudgetSubformController {
               private $scope:ng.IScope,
               private $compile:any) {
 
-    this.container = $element.find('.budget-item-container');
-    this.rowIndex = parseInt(this.$element.attr('item-count') as string);
 
-      // Refresh row on changes
-    $element.on('change', '.budget-item-value', (evt) => {
-      var row = angular.element(evt.target).closest('.cost_entry');
-      this.refreshRow(row.attr('id') as string);
-    });
-
-    $element.on('click', '.delete-budget-item', (evt) => {
-      evt.preventDefault();
-      var row = angular.element(evt.target).closest('.cost_entry');
-      row.remove();
-      return false;
-    });
-
-    // Add new row handler
-    $element.find('.budget-add-row').click((evt) => {
-      evt.preventDefault();
-      this.addBudgetItem();
-      return false;
-    });
   }
 
-  /**
-   * Refreshes the given row after updating values
-   */
-  public refreshRow(row_identifier:string) {
-    var row = this.$element.find('#' + row_identifier);
-    var request = this.buildRefreshRequest(row, row_identifier);
 
-    this.$http({
-      url: this.updateUrl,
-      method: 'POST',
-      data: request,
-      headers: { 'Accept': 'application/json' }
-    }).then((response:any) => {
-      _.each(response.data, (val:string, selector:string) => {
-        jQuery('#' + selector).html(val);
-      });
-    }).catch(response => {
-      this.pluginContext.context!.services.wpNotifications.handleErrorResponse(response);
-    });
-  }
-
-  /**
-   * Adds a new empty budget item row with the correct index set
-   */
-  public addBudgetItem() {
-    let compiledTemplate = this.$compile(this.indexedTemplate)(this.$scope);
-    this.container.append(compiledTemplate);
-    this.rowIndex += 1;
-  }
-
-  /**
-   * Return the next possible new row from rowTemplate,wpNotifications
-   * with the index set to the current last value.
-   */
-  private get indexedTemplate() {
-    return this.rowTemplate.replace(/INDEX/g, this.rowIndex.toString());
-  }
-
-  /**
-   * Returns the params for the update request
-   */
-  private buildRefreshRequest(row:JQuery, row_identifier:string) {
-    var request:any = {
-      element_id: row_identifier,
-      fixed_date: angular.element('#cost_object_fixed_date').val()
-    };
-
-    // Augment common values with specific values for this type
-    row.find('.budget-item-value').each((_i:number, el:any) => {
-      var field = angular.element(el);
-      request[field.data('requestKey')] = field.val() || '0';
-    });
-
-    return request;
-  }
 }
 
 function costsBudgetSubform():any {
