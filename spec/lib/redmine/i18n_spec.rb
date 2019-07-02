@@ -33,13 +33,17 @@ module OpenProject
     include Redmine::I18n
 
     let(:format) { '%d/%m/%Y' }
+    let(:user) { FactoryBot.build_stubbed :user }
 
     after do
       Time.zone = nil
     end
 
     describe 'with user time zone' do
-      before do allow(User.current).to receive(:time_zone).and_return(ActiveSupport::TimeZone['Athens']) end
+      before do
+        login_as user
+        allow(user).to receive(:time_zone).and_return(ActiveSupport::TimeZone['Athens'])
+      end
       it 'returns a date in the user timezone for a utc timestamp' do
         Time.zone = 'UTC'
         time = Time.zone.local(2013, 06, 30, 23, 59)
