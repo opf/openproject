@@ -66,16 +66,9 @@ module OpenProject
     # * :download - Force download (default: false)
     def link_to_attachment(attachment, options = {})
       text = options.delete(:text) || attachment.filename
-      only_path = options.delete(:only_path) { true }
 
-      link_to h(text),
-              { controller: '/attachments',
-                action: 'download',
-                id: attachment,
-                filename: attachment.filename,
-                host: Setting.host_name,
-                protocol: Setting.protocol,
-                only_path: only_path },
+      link_to text,
+              url_to_attachment(attachment, only_path: options.delete(:only_path) { true }),
               options
     end
 
@@ -95,7 +88,8 @@ module OpenProject
       link_to(
         h(truncate(message.subject, length: 60)),
         topic_path_or_url(options.delete(:no_root) ? message : message.root,
-                          { r: (message.parent_id && message.id),
+                          {
+                            r: (message.parent_id && message.id),
                             anchor: (message.parent_id ? "message-#{message.id}" : nil)
                           }.merge(options)),
         html_options
@@ -111,25 +105,37 @@ module OpenProject
     #   link_to_project(project, {}, class: "project") # => html options with default url (project overview)
     #
     def link_to_project(project, options = {}, html_options = nil, show_icon = false)
-      link = ''
-      project_link_name = project.name
+      project_name = project_link_name(project, show_icon)
 
-      if show_icon && User.current.member_of?(project)
-        project_link_name = icon_wrapper('icon-context icon-star', I18n.t(:description_my_project).html_safe + '&nbsp;'.html_safe) + project_link_name
-      end
-
-      if project.active?
+      if project.active? && options.delete(:action) == 'settings'
         # backwards compatibility
-        if options.delete(:action) == 'settings'
-          link << link_to(project_link_name, settings_project_path_or_url(project, options), html_options)
-        else
-          link << link_to(project_link_name, project_path_or_url(project, options), html_options)
-        end
+        link_to(project_name, settings_project_path_or_url(project, options), html_options)
+      elsif project.active?
+        link_to(project_name, project_path_or_url(project, options), html_options)
       else
-        link << project_link_name
-      end
+        project_name
+      end.html_safe
+    end
 
-      link.html_safe
+    private
+
+    def project_link_name(project, show_icon)
+      if show_icon && User.current.member_of?(project)
+        icon_wrapper('icon-context icon-star', I18n.t(:description_my_project).html_safe + '&nbsp;'.html_safe) + project.name
+      else
+        project.name
+      end
+    end
+
+    def url_to_attachment(attachment, only_path: true)
+      # Including the module breaks the application in strange and mysterious ways
+      v3_paths = API::V3::Utilities::PathHelper::ApiV3Path
+
+      if only_path
+        v3_paths.attachment_content(attachment.id)
+      else
+        v3_paths.url_for(:attachment_content, attachment.id)
+      end
     end
   end
 end

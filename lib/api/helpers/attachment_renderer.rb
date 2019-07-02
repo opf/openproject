@@ -33,7 +33,6 @@
 module API
   module Helpers
     module AttachmentRenderer
-
       ##
       # Render an attachment, either by redirecting
       # to the external storage,

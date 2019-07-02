@@ -26,7 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Inject, Injectable, Injector, OnDestroy, OnInit} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Inject,
+  Injectable,
+  Injector,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
 import {StateService, Transition} from '@uirouter/core';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
@@ -73,6 +81,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
               protected wpTableFilters:WorkPackageTableFiltersService,
               protected wpCacheService:WorkPackageCacheService,
               protected pathHelper:PathHelperService,
+              protected cdRef:ChangeDetectorRef,
               protected RootDm:RootDmService) {
 
   }
@@ -83,6 +92,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
       .then((changeset:WorkPackageChangeset) => {
         this.changeset = changeset;
         this.newWorkPackage = changeset.workPackage;
+        this.cdRef.detectChanges();
 
         this.setTitle();
 
@@ -102,6 +112,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
             )
             .subscribe(parent => {
               this.parentWorkPackage = parent;
+              this.cdRef.detectChanges();
             });
         }
       })

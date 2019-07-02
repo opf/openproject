@@ -1,0 +1,11 @@
+uk:
+  error_can_not_be_assigned: Роль не може бути призначена цьому користувачеві
+  global_roles: Глобальні ролі
+  label_role_type: Тип
+  label_member_role: Роль проекту
+  label_global_role: Глобальна роль
+  label_not_changeable: (не змінюється)
+  label_no_assignable_role: Немає глобальної ролі для призначення
+  label_global: Глобальний
+  seeders:
+    default_role_project_creator: 'Творець проекту'

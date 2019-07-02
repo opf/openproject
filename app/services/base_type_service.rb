@@ -75,7 +75,6 @@ class BaseTypeService
                       errors: errors,
                       result: type)
   rescue => e
-    binding.pry
     ServiceResult.new(success: false).tap do |result|
       result.errors.add(:base, e.message)
     end

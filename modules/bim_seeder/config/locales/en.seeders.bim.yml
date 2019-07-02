@@ -28,10 +28,14 @@
 en:
   seeders:
     bim:
-      default_type_building_model: Building model
-      default_type_defect: Defect
-      default_type_approval: Approval
-      default_type_bcf_issue: Issue [BCF]
+      default_type_fault: Fault
+      default_type_clash: Clash
+      default_type_inquiry: Inquiry
+      default_type_issue: Issue
+      default_type_remark: Remark
+      default_type_request: Request
+      default_status_active: Active
+      default_status_resolved: Resolved
       demo_data:
         welcome:
           title: "Welcome to OpenProject BIM Edition!"
@@ -58,7 +62,7 @@ en:
               - work_package_tracking
               - news
               - wiki
-              - bcf
+              - board_view
             news:
               - title: Welcome to your demo project
                 summary: >
@@ -69,16 +73,14 @@ en:
               - :default_type_task
               - :default_type_milestone
               - :default_type_phase
-              - 'seeders.bim.default_type_building_model'
-              - 'seeders.bim.default_type_defect'
-              - 'seeders.bim.default_type_approval'
-              - 'seeders.bim.default_type_bcf_issue'
+              - 'seeders.bim.default_type_fault'
+              - 'seeders.bim.default_type_request'
             categories:
               - Category 1 (to be changed in Project settings)
             queries:
-              - name: Defects
+              - name: Faults
                 status: open
-                type: 'seeders.bim.default_type_defect'
+                type: 'seeders.bim.default_type_fault'
               - name: Project plan
                 status: open
                 timeline: true
@@ -108,9 +110,6 @@ en:
                   - type
                   - status
                   - assigned_to
-              - name: Issues [BCF]
-                status: open
-                type: 'seeders.bim.default_type_bcf_issue'
             work_packages:
               - subject: Project kick-off
                 description: Plan and execute the project kick-off.
@@ -302,26 +301,26 @@ en:
                 start: 7
                 duration: 17
                 children:
-                  - subject: Great feature
-                    status: :default_status_developed
-                    type: 'seeders.bim.default_type_building_model'
+                  - subject: Big change
+                    status: 'seeders.bim.default_status_active'
+                    type: 'seeders.bim.default_type_request'
                     start: 7
                     duration: 8
-                  - subject: Best feature
-                    status: :default_status_specified
-                    type: 'seeders.bim.default_type_building_model'
+                  - subject: Best change
+                    status: 'seeders.bim.default_status_active'
+                    type: 'seeders.bim.default_type_request'
                     start: 16
                     duration: 5
                     relations:
-                      - to: Great feature
+                      - to: Big change
                         type: follows
-                  - subject: Terrible bug
-                    status: :default_status_confirmed
-                    type: 'seeders.bim.default_type_defect'
+                  - subject: Terrible fault
+                    status: 'seeders.bim.default_status_active'
+                    type: 'seeders.bim.default_type_fault'
                     start: 22
                     duration: 2
                     relations:
-                      - to: Best feature
+                      - to: Best change
                         type: follows
               - subject: Go-Live v1.0
                 status: :default_status_scheduled
@@ -337,18 +336,18 @@ en:
                 start: 28
                 duration: 2
                 children:
-                  - subject: Wonderful feature
-                    status: :default_status_new
-                    type: 'seeders.bim.default_type_building_model'
+                  - subject: Wonderful change
+                    status: 'seeders.bim.default_status_active'
+                    type: 'seeders.bim.default_type_request'
                     start: 28
                     duration: 1
-                  - subject: Ugly bug
-                    status: :default_status_new
-                    type: 'seeders.bim.default_type_defect'
+                  - subject: Ugly fault
+                    status: 'seeders.bim.default_status_active'
+                    type: 'seeders.bim.default_type_fault'
                     start: 30
                     duration: 1
                     relations:
-                      - to: Wonderful feature
+                      - to: Wonderful change
                         type: follows
               - subject: Go-Live v1.1
                 status: :default_status_to_be_scheduled
@@ -389,3 +388,91 @@ en:
                     children:
                       - title: Project manual
                         content: ''
+          bcf-project:
+            name: Demo BCF project
+            identifier: demo-bcf-project
+            description: >
+              **This is a demo project for BCF**. You can edit the description in
+              the [Project settings -> Description](%{base_url}/projects/demo-bcf-project/settings).
+            timeline:
+              name: Timeline
+            modules:
+              - work_package_tracking
+              - bcf
+              - board_view
+            types:
+              - :default_type_task
+              - :default_type_milestone
+              - :default_type_phase
+              - 'seeders.bim.default_type_fault'
+              - 'seeders.bim.default_type_clash'
+              - 'seeders.bim.default_type_inquiry'
+              - 'seeders.bim.default_type_request'
+              - 'seeders.bim.default_type_issue'
+              - 'seeders.bim.default_type_remark'
+            categories:
+              - Category 1 (to be changed in Project settings)
+            queries:
+              - name: All BCF issues
+                status: open
+                bcf_issue_associated: true
+                columns:
+                  - id
+                  - subject
+                  - bcf_thumbnail
+                  - type
+                  - status
+                  - assigned_to
+                  - updated_at
+                  - author
+                  - start_date
+                  - due_date
+                sort_by: updated_at
+              - name: Issues
+                status: open
+                type: 'seeders.bim.default_type_issue'
+              - name: Clashes
+                status: open
+                type: 'seeders.bim.default_type_clash'
+              - name: Faults
+                status: open
+                type: 'seeders.bim.default_type_fault'
+              - name: Inquiries
+                status: open
+                type: 'seeders.bim.default_type_inquiry'
+              - name: Requests
+                status: open
+                type: 'seeders.bim.default_type_request'
+              - name: Remarks
+                status: open
+                type: 'seeders.bim.default_type_remark'
+              - name: Project plan
+                status: open
+                timeline: true
+                sort_by: id
+                hierarchy: true
+              - name: Milestones
+                status: open
+                type: :default_type_milestone
+                timeline: true
+                columns:
+                  - id
+                  - type
+                  - status
+                  - subject
+                  - start_date
+                  - due_date
+                sort_by: id
+              - name: Tasks
+                status: open
+                type: :default_type_task
+                hierarchy: true
+                sort_by: id
+                columns:
+                  - id
+                  - subject
+                  - priority
+                  - type
+                  - status
+                  - assigned_to
+            work_packages: []

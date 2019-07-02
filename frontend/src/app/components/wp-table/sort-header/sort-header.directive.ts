@@ -29,7 +29,7 @@
 import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, Input, OnDestroy} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {RelationQueryColumn, TypeRelationQueryColumn} from 'core-components/wp-query/query-column';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
 import {WorkPackageTableHierarchiesService} from '../../wp-fast-table/state/wp-table-hierarchy.service';
 import {WorkPackageTableRelationColumnsService} from '../../wp-fast-table/state/wp-table-relation-columns.service';
@@ -83,11 +83,13 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
               private wpTableGroupBy:WorkPackageTableGroupByService,
               private wpTableRelationColumns:WorkPackageTableRelationColumnsService,
               private elementRef:ElementRef,
-              readonly I18n:I18nService) {
+              private cdRef:ChangeDetectorRef,
+              private I18n:I18nService) {
   }
 
   // noinspection TsLint
   ngOnDestroy():void {
+    console.warn("DESTROY");
   }
 
   ngAfterViewInit() {
@@ -99,7 +101,7 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
 
     this.wpTableSortBy.onReadyWithAvailable()
       .pipe(
-        takeUntil(componentDestroyed(this))
+        untilComponentDestroyed(this)
       )
       .subscribe(() => {
         let latestSortElement = this.wpTableSortBy.current[0];
@@ -111,11 +113,11 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
         }
         this.setActiveColumnClass();
 
-        this.setFullTitleAndSummary();
-
         this.sortable = this.wpTableSortBy.isSortable(this.headerColumn);
 
         this.directionClass = this.getDirectionClass();
+
+        this.cdRef.detectChanges();
       });
 
     // Place the hierarchy icon left to the subject column
@@ -141,23 +143,31 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
 
       // Disable hierarchy mode when group by is active
       this.wpTableGroupBy
-        .observeUntil(componentDestroyed(this))
+        .live$()
+        .pipe(
+          untilComponentDestroyed(this)
+        )
         .subscribe(() => {
           this.isHierarchyDisabled = this.wpTableGroupBy.isEnabled;
+          this.cdRef.detectChanges();
         });
 
       // Update hierarchy icon when updated elsewhere
-      this.wpTableHierarchies.state.values$()
+      this.wpTableHierarchies
+        .live$()
         .pipe(
-          takeUntil(componentDestroyed(this))
+          untilComponentDestroyed(this)
         )
         .subscribe(() => {
           this.setHierarchyIcon();
+          this.cdRef.detectChanges();
         });
 
       // Set initial icon
       this.setHierarchyIcon();
     }
+
+    this.cdRef.detectChanges();
   }
 
   public get displayDropdownIcon() {
@@ -169,7 +179,10 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
   }
 
   toggleHierarchy(evt:JQueryEventObject) {
-    this.wpTableHierarchies.toggleState();
+    if (this.wpTableHierarchies.toggleState()) {
+      this.wpTableGroupBy.disable();
+    }
+
     this.setHierarchyIcon();
 
     evt.stopPropagation();
@@ -185,23 +198,6 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
       this.text.toggleHierarchy = I18n.t('js.work_packages.hierarchy.show');
       this.hierarchyIcon = 'icon-no-hierarchy';
     }
-  }
-
-  setFullTitleAndSummary() {
-    // TODO
-    // RR: disabled due to Angular2 migration
-    //this.fullTitle = this.headerTitle;
-
-    // if (this.currentSortDirection) {
-    //   var ascending = this.currentSortDirection.$href === QUERY_SORT_BY_ASC;
-    //   var summaryContent = [
-    //     ascending ? I18n.t('js.label_ascending') : I18n.t('js.label_descending'),
-    //     I18n.t('js.label_sorted_by'),
-    //     this.headerTitle + '.'
-    //   ];
-    //
-    //   jQuery('#wp-table-sort-summary').text(summaryContent.join(' '));
-    // }
   }
 
   private getDirectionClass():string {

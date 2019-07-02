@@ -32,7 +32,7 @@ module BimSeeder
   module BasicData
     class TypeSeeder < ::BasicData::TypeSeeder
       def type_names
-        %i[task milestone phase building_model defect approval bcf_issue]
+        %i[task milestone phase building_model fault approval clash inquiry issue remark request]
       end
 
       def type_table
@@ -40,10 +40,12 @@ module BimSeeder
           task:           [1, true, :default_color_blue,        true,  false, :default_type_task],
           milestone:      [2, true, :default_color_green_light, false, true,  :default_type_milestone],
           phase:          [3, true, :default_color_blue_dark,   false, false, :default_type_phase],
-          building_model: [4, true, :default_color_blue,        true,  false, 'seeders.bim.default_type_building_model'],
-          defect:         [5, true, :default_color_red,         true,  false, 'seeders.bim.default_type_defect'],
-          approval:       [6, true, :default_color_grey_dark,   true,  false, 'seeders.bim.default_type_approval'],
-          bcf_issue:      [6, true, :default_color_grey_red,    true,  false, 'seeders.bim.default_type_bcf_issue']
+          fault:          [4, true, :default_color_red,         true,  false, 'seeders.bim.default_type_fault'],
+          clash:          [5, true, :default_color_red,         true,  false, 'seeders.bim.default_type_clash'],
+          inquiry:        [6, true, :default_color_blue,        true,  false, 'seeders.bim.default_type_inquiry'],
+          issue:          [7, true, :default_color_blue,        true,  false, 'seeders.bim.default_type_issue'],
+          remark:         [8, true, :default_color_yellow,     true,  false, 'seeders.bim.default_type_remark'],
+          request:        [9, true, :default_color_blue,       true,  false, 'seeders.bim.default_type_request']
         }
       end
     end

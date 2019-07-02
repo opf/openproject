@@ -341,12 +341,18 @@ module API
                         represented.milestone?
                       }
 
+        # Using setter: does not work in case the provided date fragment is nil.
         date_property :date,
                       getter: default_date_getter(:due_date),
-                      setter: ->(fragment:, decorator:, **) {
+                      setter: ->(*) {
+                        # handled in reader
+                      },
+                      reader: ->(decorator:, doc:, **) {
+                        next unless doc.key?('date')
+
                         date = decorator
                                .datetime_formatter
-                               .parse_date(fragment,
+                               .parse_date(doc['date'],
                                            name.to_s.camelize(:lower),
                                            allow_nil: true)
 

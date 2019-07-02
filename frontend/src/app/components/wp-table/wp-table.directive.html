@@ -1,7 +1,8 @@
-<div class="work-packages-split-view--tabletimeline-content">
+<div class="work-packages-split-view--tabletimeline-content" *ngIf="query">
   <div class="work-packages-tabletimeline--table-side work-package-table--container __hidden_overflow_container">
     <table class="keyboard-accessible-list generic-table work-package-table">
       <colgroup>
+        <col *ngIf="configuration.dragAndDropEnabled">
         <!-- Generate col elements dynamically(!) for each requested column plus one for the action menu's column. -->
         <col highlight-col *ngFor="let column of [].constructor(columns.length + 1)">
       </colgroup>
@@ -12,8 +13,12 @@
       </caption>
       <thead class="-sticky">
         <tr>
-          <th *ngIf="configuration.dragAndDropEnabled" class="wp-table--manual-sort-th -short hide-when-print"></th>
-          <th *ngFor="let column of columns"
+          <th *ngIf="configuration.dragAndDropEnabled" class="wp-table--manual-sort-th -short hide-when-print">
+            <div class="generic-table--empty-header">
+              <op-icon *ngIf="manualSortEnabled" icon-classes="icon-sort-by"></op-icon>
+            </div>
+          </th>
+          <th *ngFor="let column of columns; trackBy:trackByHref"
               class="wp-table--table-header">
             <sortHeader [headerColumn]="column"
                         [locale]="column.custom_field && column.custom_field.name_locale || locale"
@@ -27,14 +32,8 @@
           <th class="wp-table--configuration-modal--trigger wp-table--context-menu-th -short hide-when-print"
               *ngIf="configuration.columnMenuEnabled || configuration.actionsColumnEnabled">
             <div class="generic-table--sort-header-outer">
-              <accessible-by-keyboard
-                  (execute)="openTableConfigurationModal()"
-                  linkClass="wp-table--columns-selection"
-                  [linkTitle]="text.configureTable"
-                  [linkAriaLabel]="text.configureTable"
-                  *ngIf="configuration.columnMenuEnabled">
-                <op-icon icon-classes="icon-button icon-small icon-settings"></op-icon>
-              </accessible-by-keyboard>
+              <wp-table-config-menu>
+              </wp-table-config-menu>
             </div>
           </th>
         </tr>

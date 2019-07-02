@@ -1,5 +1,4 @@
 import {
-  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -25,7 +24,6 @@ import {BoardInlineCreateService} from "core-app/modules/boards/board/board-list
 import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
-import {StateService} from "@uirouter/core";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Board} from "core-app/modules/boards/board/board";
@@ -46,7 +44,8 @@ import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-a
 import {BoardActionService} from "core-app/modules/boards/board/board-actions/board-action.service";
 import {ComponentType} from "@angular/cdk/portal";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
-import {withLatestFrom} from "rxjs/operators";
+import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
+import {BoardListMenuComponent} from "core-app/modules/boards/board/board-list/board-list-menu.component";
 
 export interface DisabledButtonPlaceholder {
   text:string;
@@ -58,7 +57,9 @@ export interface DisabledButtonPlaceholder {
   templateUrl: './board-list.component.html',
   styleUrls: ['./board-list.component.sass'],
   providers: [
-    {provide: WorkPackageInlineCreateService, useClass: BoardInlineCreateService}
+    {provide: WorkPackageInlineCreateService, useClass: BoardInlineCreateService},
+    CausedUpdatesService,
+    BoardListMenuComponent,
   ]
 })
 export class BoardListComponent extends AbstractWidgetComponent implements OnInit, OnDestroy, OnChanges {
@@ -121,7 +122,6 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   constructor(private readonly QueryDm:QueryDmService,
               private readonly I18n:I18nService,
-              private readonly state:StateService,
               private readonly boardCache:BoardCacheService,
               private readonly notifications:NotificationsService,
               private readonly querySpace:IsolatedQuerySpace,
@@ -134,13 +134,12 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
               private readonly loadingIndicator:LoadingIndicatorService,
               private readonly wpCacheService:WorkPackageCacheService,
               private readonly boardService:BoardService,
-              private readonly boardActionRegistry:BoardActionsRegistryService) {
+              private readonly boardActionRegistry:BoardActionsRegistryService,
+              private readonly causedUpdates:CausedUpdatesService) {
     super(I18n);
   }
 
   ngOnInit():void {
-    const boardId:string = this.state.params.board_id.toString();
-
     // Unset the isNew flag
     this.initiallyFocused = this.resource.isNew;
     this.resource.isNew = false;
@@ -201,9 +200,9 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     return this.boardService.canManage(this.board);
   }
 
-  public get canDelete() {
-      return this.canManage && !!this.query.delete;
-  }
+  //public get canDelete() {
+  //    return this.canManage && !!this.query.delete;
+  //}
 
   public get canRename() {
     return this.canManage &&
@@ -261,9 +260,17 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     return this.board.showStatusButton();
   }
 
-  private updateQuery() {
+  public refreshQueryUnlessCaused(visibly = true) {
+    const query = this.querySpace.query.value!;
+
+    if (!this.causedUpdates.includes(query)) {
+      this.updateQuery(visibly);
+    }
+  }
+
+  public updateQuery(visibly = true) {
     this.setQueryProps(this.filters);
-    this.loadQuery();
+    this.loadQuery(visibly);
   }
 
   private loadActionAttribute(query:QueryResource) {
@@ -331,14 +338,18 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     }
   }
 
-  private loadQuery() {
+  private loadQuery(visibly = true) {
     const queryId:string = (this.resource.options.query_id as number|string).toString();
 
-    this.QueryDm
-      .stream(this.columnsQueryProps, queryId)
-      .pipe(
-        withLoadingIndicator(this.indicatorInstance, 50),
-      )
+    let observable = this.QueryDm.stream(this.columnsQueryProps, queryId);
+
+    // Spread arguments on pipe does not work:
+    // https://github.com/ReactiveX/rxjs/issues/3989
+    if (visibly) {
+      observable = observable.pipe(withLoadingIndicator(this.indicatorInstance, 50));
+    }
+
+    observable
       .subscribe(
         query => this.wpStatesInitialization.updateQuerySpace(query, query.results),
         error => this.loadingError = this.wpNotificationService.retrieveErrorMessage(error)

@@ -79,10 +79,24 @@ describe ::API::V3::Queries::QueryRepresenter do
 
   describe 'generation' do
     describe '_links' do
-      it_behaves_like 'has a titled link' do
-        let(:link) { 'self' }
-        let(:href) { api_v3_paths.query query.id }
-        let(:title) { query.name }
+      context 'self' do
+        it_behaves_like 'has a titled link' do
+          let(:link) { 'self' }
+          let(:href) { api_v3_paths.query(query.id) }
+          let(:title) { query.name }
+        end
+
+        context 'with params' do
+          let(:representer) do
+            described_class.new(query, current_user: user, embed_links: embed_links, params: { "filters" => "something", "id" => "234" })
+          end
+
+          it_behaves_like 'has a titled link' do
+            let(:link) { 'self' }
+            let(:href) { "#{api_v3_paths.query(query.id)}?filters=something" }
+            let(:title) { query.name }
+          end
+        end
       end
 
       it_behaves_like 'has a titled link' do
@@ -561,6 +575,16 @@ describe ::API::V3::Queries::QueryRepresenter do
           query.hidden = true
           is_expected.to be_json_eql(true.to_json).at_path('hidden')
         end
+      end
+
+      it_behaves_like 'has UTC ISO 8601 date and time' do
+        let(:date) { query.created_at }
+        let(:json_path) { 'createdAt' }
+      end
+
+      it_behaves_like 'has UTC ISO 8601 date and time' do
+        let(:date) { query.updated_at }
+        let(:json_path) { 'updatedAt' }
       end
 
       describe 'highlighting' do

@@ -39,8 +39,8 @@ hr:
   label_notify: "Šalji na pregled"
   label_icalendar: "Send iCalendar"
   label_version: "Verzija"
-  label_time_zone: "Time zone"
-  label_start_date: "Start date"
+  label_time_zone: "Vremenska zona"
+  label_start_date: "Datum Početka"
   notice_successful_notification: "Notifikacija uspješno poslana"
   notice_timezone_missing: Vremenska zona nije postavljena na osnovu zamišljene %{zone} zone. Da bi ste odabrali vremensku zonu molim vas kliknite ovdje.
   permission_create_meetings: "Dodaj sastanke"

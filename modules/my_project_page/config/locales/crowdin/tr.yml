@@ -1,7 +1,7 @@
 tr:
   button_edit_this_page: "Sayfayı düzenle"
+  error_block_not_saved: "Metin bloğu kaydedilemedi."
   error_saving_changes: "Değişiklikler kaydedilemedi: %{errors}"
-  error_textile_not_saved: "Tekstil bloğu kaydedilemedi."
   label_hidden_elements: "Gizli öğeler"
   label_visible_elements: "Görünür öğeler"
   label_project_description: "Proje tanımı"
@@ -13,7 +13,6 @@ tr:
   label_work_packages_responsible_for: "Sorumlu olduğum iş paketleri"
   label_work_packages_assigned_to_me: "Bana atanan iş paketleri"
   label_work_packages_watched: "Bakılan çalışma paketleri"
-  label_work_package_tracking: " İş paketi takibi"
   label_members: "Üyeler"
   label_member_view_all: "Tüm üyeleri görüntüle"
   label_no_visible_members: "Projenin görünür üyeleri yok."

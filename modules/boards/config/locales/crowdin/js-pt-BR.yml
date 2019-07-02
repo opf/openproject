@@ -1,0 +1,44 @@
+pt-BR:
+  js:
+    boards:
+      label_unnamed_board: 'Quadro sem nome'
+      label_unnamed_list: 'Lista sem nome'
+      label_board_type: 'Tipo de quadro'
+      upsale:
+        teaser_text: 'Melhore seu gerenciamento de projetos ágil com esta visão flexível de quadros. Crie tantos quadros quanto quiser, para qualquer coisa que você gostaria de manter o controle.'
+        upgrade_to_ee_text: 'Quadros são um recurso Enterprise. Por favor, atualize para um plano pago.'
+        upgrade: 'Atualizar agora'
+        personal_demo: 'Obter uma demonstração pessoal'
+      lists:
+        delete: 'Excluir lista'
+      version:
+        is_locked: 'A versão está bloqueada. Nenhum item pode ser adicionado a essa versão.'
+        is_closed: 'A versão está fechada. Nenhum item pode ser adicionado a essa versão.'
+        close_version: 'Fechar versão'
+        open_version: 'Abrir versão'
+        lock_version: 'Bloquear versão'
+        unlock_version: 'Desbloquear versão'
+        edit_version: 'Editar versão'
+        show_version: 'Mostrar versão'
+        locked: 'Bloqueado'
+        closed: 'Fechado'
+      new_board: 'Novo quadro'
+      add_list: 'Adicionar lista'
+      add_card: 'Adicionar cartão'
+      error_loading_the_list: "Erro ao carregar a lista: %{error_message}"
+      error_attribute_not_writable: "Não é possível mover o pacote de trabalho, %{attribute} não é gravável."
+      click_to_remove_list: "Clique para remover esta lista"
+      board_type:
+        free: 'Quadro básico'
+        free_text: >
+          Crie um quadro no qual você pode criar livremente listas e ordenar seus pacotes de trabalho dentro. Mover pacotes de trabalho entre listas não altera o pacote de trabalho em si.
+        action: 'Quadro de ação'
+        action_by_attribute: 'Quadro de ação (%{attribute})'
+        action_text: >
+          Crie um quadro com listas filtradas em um único atributo. Mover pacotes de trabalho para outras listas irá atualizar seu atributo.
+        select_attribute: "Atributo de ação"
+      configuration_modal:
+        title: 'Configurar este quadro'
+        display_settings:
+          card_mode: "Exibir como cartões"
+          table_mode: "Exibir como tabela"

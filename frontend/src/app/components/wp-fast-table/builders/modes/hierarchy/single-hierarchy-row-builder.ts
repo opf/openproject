@@ -1,8 +1,12 @@
 import {Injector} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from '../../../../states.service';
-import {WorkPackageChangeset} from '../../../../wp-edit-form/work-package-changeset';
-import {collapsedGroupClass, hasChildrenInTable} from '../../../helpers/wp-table-hierarchy-helpers';
+import {
+  collapsedGroupClass,
+  hasChildrenInTable,
+  hierarchyGroupClass,
+  hierarchyRootClass
+} from '../../../helpers/wp-table-hierarchy-helpers';
 import {WorkPackageTableHierarchiesService} from '../../../state/wp-table-hierarchy.service';
 import {WorkPackageTable} from '../../../wp-fast-table';
 import {SingleRowBuilder} from '../../rows/single-row-builder';
@@ -10,6 +14,7 @@ import {SingleRowBuilder} from '../../rows/single-row-builder';
 export const indicatorCollapsedClass = '-hierarchy-collapsed';
 export const hierarchyCellClassName = 'wp-table--hierarchy-span';
 export const additionalHierarchyRowClassName = 'wp-table--hierarchy-aditional-row';
+export const hierarchyIndentation = 20;
 
 export class SingleHierarchyRowBuilder extends SingleRowBuilder {
   // Injected
@@ -53,21 +58,40 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
    * Build the columns on the given empty row
    */
   public buildEmpty(workPackage:WorkPackageResource):[HTMLElement, boolean] {
-    let [element, hidden] = super.buildEmpty(workPackage);
-    const state = this.wpTableHierarchies.currentState;
+    let [element, _] = super.buildEmpty(workPackage);
+    let [classes, hidden] = this.ancestorRowData(workPackage);
+    element.classList.add(...classes);
 
-    workPackage.ancestors.forEach((ancestor:WorkPackageResource) => {
-      element.classList.add(`__hierarchy-group-${ancestor.id}`);
-
-      if (state.collapsed[ancestor.id!]) {
-        hidden = true;
-        element.classList.add(collapsedGroupClass(ancestor.id!));
-      }
-    });
-
-    element.classList.add(`__hierarchy-root-${workPackage.id}`);
     this.appendHierarchyIndicator(workPackage, jQuery(element));
     return [element, hidden];
+  }
+
+  /**
+   * Returns a set of
+   * @param workPackage
+   */
+  public ancestorRowData(workPackage:WorkPackageResource):[string[], boolean] {
+    const state = this.wpTableHierarchies.current;
+    const rowClasses:string[] = [];
+    let hidden = false;
+
+    if (hasChildrenInTable(workPackage, this.workPackageTable)) {
+      rowClasses.push(hierarchyRootClass(workPackage.id!));
+    }
+
+    if (_.isArray(workPackage.ancestors)) {
+      workPackage.ancestors.forEach((ancestor) => {
+        rowClasses.push(hierarchyGroupClass(ancestor.id!));
+
+        if (state.collapsed[ancestor.id!]) {
+          hidden = true;
+          rowClasses.push(collapsedGroupClass(ancestor.id!));
+        }
+
+      });
+    }
+
+    return [rowClasses, hidden];
   }
 
   /**
@@ -98,7 +122,7 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
       .prepend(hierarchyElement);
 
     // Assure that the content is still visble when the hierarchy indentation is very large
-    jRow.find('td.subject').css('minWidth', 125 + (20 * hierarchyLevel) + 'px');
+    jRow.find('td.subject').css('minWidth', 125 + (hierarchyIndentation * hierarchyLevel) + 'px');
   }
 
   /**
@@ -107,9 +131,10 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
   private buildHierarchyIndicator(workPackage:WorkPackageResource, jRow:JQuery | null, level:number):HTMLElement {
     const hierarchyIndicator = document.createElement('span');
     const collapsed = this.wpTableHierarchies.collapsed(workPackage.id!);
-    const indicatorWidth = 25 + (20 * level) + 'px';
+    const indicatorWidth = 25 + (hierarchyIndentation * level) + 'px';
     hierarchyIndicator.classList.add(hierarchyCellClassName);
     hierarchyIndicator.style.width = indicatorWidth;
+    hierarchyIndicator.dataset.indentation = indicatorWidth;
 
     if (hasChildrenInTable(workPackage, this.workPackageTable)) {
       const className = collapsed ? indicatorCollapsedClass : '';

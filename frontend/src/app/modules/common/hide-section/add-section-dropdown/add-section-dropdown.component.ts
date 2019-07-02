@@ -39,7 +39,7 @@ import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 })
 export class AddSectionDropdownComponent implements OnInit, OnDestroy {
   selectable:HideSectionDefinition[] = [];
-  active:string[] = []
+  active:string[] = [];
 
   public htmlId:string;
   public placeholder = this.I18n.t('js.placeholders.selection');

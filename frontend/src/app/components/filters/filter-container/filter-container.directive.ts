@@ -26,40 +26,46 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Input, OnDestroy, Output} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {WorkPackageTableFiltersService} from 'core-components/wp-fast-table/state/wp-table-filters.service';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
 import {DebouncedEventEmitter} from "core-components/angular/debounced-event-emitter";
 import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
+import {Observable} from "rxjs";
+import {takeUntil} from "rxjs/operators";
 
 @Component({
   templateUrl: './filter-container.directive.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'filter-container',
 })
-export class WorkPackageFilterContainerComponent implements OnDestroy {
+export class WorkPackageFilterContainerComponent implements OnInit, OnDestroy {
   @Input('showFilterButton') showFilterButton:boolean = false;
   @Input('filterButtonText') filterButtonText:string = I18n.t('js.button_filter');
   @Output() public filtersChanged = new DebouncedEventEmitter<QueryFilterInstanceResource[]>(componentDestroyed(this));
   @Output() public filtersCompleted = new DebouncedEventEmitter<boolean>(componentDestroyed(this));
 
-  public visible = false;
+  public visible$:Observable<Boolean>;
   public filters = this.wpTableFilters.current;
   public loaded = false;
 
   constructor(readonly wpTableFilters:WorkPackageTableFiltersService,
+              readonly cdRef:ChangeDetectorRef,
               readonly wpFiltersService:WorkPackageFiltersService) {
+    this.visible$ = this.wpFiltersService.observeUntil(componentDestroyed(this));
+  }
+
+  ngOnInit():void {
     this.wpTableFilters
-      .observeUntil(componentDestroyed(this))
+      .pristine$()
+      .pipe(
+        untilComponentDestroyed(this)
+      )
       .subscribe(() => {
         this.filters = this.wpTableFilters.current;
         this.loaded = true;
-    });
-
-    this.wpFiltersService
-      .observeUntil(componentDestroyed(this))
-      .subscribe((visible) => {
-        this.visible = visible;
+        this.cdRef.detectChanges();
       });
   }
 

@@ -93,4 +93,4 @@ export class PersistentToggleComponent implements OnInit {
   }
 }
 
-DynamicBootstrapper.register({ cls: PersistentToggleComponent, selector: 'persistent-toggle' })
+DynamicBootstrapper.register({ cls: PersistentToggleComponent, selector: 'persistent-toggle' });

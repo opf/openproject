@@ -1,0 +1,19 @@
+pt-BR:
+  logout_warning: >
+    Você foi desconectado. O conteúdo de qualquer formulário que você enviar poderá ser perdido. Por favor [faça login].
+  activemodel:
+    attributes:
+      openid_connect/provider:
+        name: Nome
+        display_name: Nome de exibição
+        identifier: Identificador
+        secret: Chave
+        scope: Escopo
+  openid_connect:
+    menu_title: Provedores OpenID
+    providers:
+      label_add_new: Adicionar um novo provedor OpenID
+      label_edit: Editar provedor OpenID %{name}
+      no_results_table: Nenhum provedor foi definido.
+      plural: Provedores OpenID
+      singular: Provedor OpenID

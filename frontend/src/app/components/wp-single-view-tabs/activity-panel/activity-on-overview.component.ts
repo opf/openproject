@@ -46,12 +46,6 @@ export class NewestActivityOnOverviewComponent extends ActivityPanelBaseControll
   public latestActivityInfo:ActivityEntryInfo[] = [];
   public trackByHref = AngularTrackingHelpers.trackByHref;
 
-  constructor(readonly wpCacheService:WorkPackageCacheService,
-              readonly I18n:I18nService,
-              readonly wpActivity:WorkPackagesActivityService) {
-    super(wpCacheService, I18n, wpActivity);
-  }
-
   ngOnInit() {
     this.workPackageId = this.workPackage.id!;
     super.ngOnInit();

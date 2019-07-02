@@ -1,16 +1,5 @@
 <%= toolbar title: t('bcf.bcf_xml.import_title') %>
 
-<% unless @issue_type %>
-  <div class="notification-box -error">
-    <div class="notification-box--content">
-      <p>
-        <%= t('bcf.bcf_xml.type_not_active') %>
-        <%= link_to t(:label_project_settings), settings_project_path(@project, tab: :types) %>
-      </p>
-    </div>
-  </div>
-<% end %>
-
 <%= form_tag({ action: :prepare_import }, multipart: true, method: :post) do %>
 
   <div class="form--field">

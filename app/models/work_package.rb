@@ -246,11 +246,14 @@ class WorkPackage < ActiveRecord::Base
   end
 
   # Users/groups the work_package can be assigned to
-  extend Forwardable
-  def_delegator :project, :possible_assignees, :assignable_assignees
+  def assignable_assignees
+    project.possible_assignees
+  end
 
   # Users the work_package can be assigned to
-  def_delegator :project, :possible_responsibles, :assignable_responsibles
+  def assignable_responsibles
+    project.possible_responsibles
+  end
 
   # Versions that the work_package can be assigned to
   # A work_package can be assigned to:
@@ -279,13 +282,17 @@ class WorkPackage < ActiveRecord::Base
     status.present? && status.is_readonly?
   end
 
+  def closed_version_and_status?
+    fixed_version&.closed? && status.is_closed?
+  end
+
   # Returns true if the work_package is overdue
   def overdue?
     !due_date.nil? && (due_date < Date.today) && !closed?
   end
 
   def milestone?
-    type && type.is_milestone?
+    type&.is_milestone?
   end
   alias_method :is_milestone?, :milestone?
 
@@ -295,10 +302,12 @@ class WorkPackage < ActiveRecord::Base
 
     current_status = Status.where(id: status_id)
 
+    return current_status if closed_version_and_status?
+
     statuses = new_statuses_allowed_by_workflow_to(user)
                .or(current_status)
 
-    statuses = statuses.or(Status.where(id: Status.default.id)) if include_default
+    statuses = statuses.or(Status.where_default) if include_default
     statuses = statuses.where(is_closed: false) if blocked?
 
     statuses.order_by_position

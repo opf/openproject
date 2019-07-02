@@ -26,10 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {NgModule} from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
 import {BcfWpSingleViewComponent} from "core-app/modules/bcf/bcf-wp-single-view/bcf-wp-single-view.component";
 import {NgxGalleryModule} from "ngx-gallery";
+import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
+import {initializeBcfDisplayFields} from "core-app/modules/bcf/fields/display/bcf-display-field.initializer";
 
 
 @NgModule({
@@ -38,6 +40,7 @@ import {NgxGalleryModule} from "ngx-gallery";
     NgxGalleryModule,
   ],
   providers: [
+    { provide: APP_INITIALIZER, useFactory: initializeBcfDisplayFields, deps: [DisplayFieldService], multi: true },
   ],
   declarations: [
     BcfWpSingleViewComponent,

@@ -46,4 +46,4 @@ hr:
   toggle_multiselect: "aktiviraj/deaktiviraj višeodabir"
   units: "Jedinice"
   validation_failure_date: "nije valjan datum"
-  validation_failure_integer: "nije valjan integer"
+  validation_failure_integer: "nije valjan cijeli broj"

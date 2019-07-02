@@ -157,6 +157,7 @@ import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relat
 import {OpenprojectBcfModule} from "core-app/modules/bcf/openproject-bcf.module";
 import {WorkPackageRelationsAutocomplete} from "core-components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.component";
 import {CustomDateActionAdminComponent} from 'core-components/wp-custom-actions/date-action/custom-date-action-admin.component';
+import {WorkPackagesTableConfigMenu} from "core-components/wp-table/config-menu/config-menu.component";
 
 @NgModule({
   imports: [
@@ -239,6 +240,7 @@ import {CustomDateActionAdminComponent} from 'core-components/wp-custom-actions/
     WpRelationInlineAddExistingComponent,
 
     WorkPackagesTableController,
+    WorkPackagesTableConfigMenu,
     WorkPackageTablePaginationComponent,
 
     WpResizerDirective,
@@ -447,6 +449,9 @@ import {CustomDateActionAdminComponent} from 'core-components/wp-custom-actions/
     WorkPackageFilterButtonComponent,
     WorkPackageFilterContainerComponent,
     WorkPackageIsolatedQuerySpaceDirective,
+
+    // Modals
+    WpTableConfigurationModalComponent,
   ]
 })
 export class OpenprojectWorkPackagesModule {

@@ -251,7 +251,7 @@ group :development do
 end
 
 group :development, :test do
-  gem 'puma', '~> 3.12.0'
+  gem 'puma', '~> 4.0.0'
   gem 'thin', '~> 1.7.2'
 
   # Tracing and profiling gems
@@ -285,7 +285,7 @@ platforms :mri, :mingw, :x64_mingw do
 end
 
 group :opf_plugins do
-  gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git', branch: 'dev'
+  gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git', ref: 'e88f311daa95e8530686d3dafe2ffefc86f6c8bc'
 end
 
 group :docker, optional: true do

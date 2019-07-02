@@ -10,6 +10,8 @@ tr:
       documentation: Belgeleme
       specification: Şartname
       other: Diğer
+  documents:
+    label_attachment_author: "Ek yazar"
   label_document_added: "Belge eklendi"
   label_document_new: "Yeni belge"
   label_document_plural: "Belgeler"

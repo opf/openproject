@@ -1,5 +1,5 @@
 <input id="filter-by-text-input"
        type="text"
        placeholder="{{text.placeholder}}"
-       [ngModel]="searchTerm"
-       (ngModelChange)="valueChange($event)">
+       [ngModel]="searchTerm.values$() | async"
+       (ngModelChange)="searchTermChanged.next($event)">

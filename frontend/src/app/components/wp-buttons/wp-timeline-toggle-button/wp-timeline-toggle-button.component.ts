@@ -57,7 +57,6 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
   public maxZoomLevel:TimelineZoomLevel = 'years';
 
   public isAutoZoom = false;
-  public isVisible = false;
 
   public isMaxLevel:boolean = false;
   public isMinLevel:boolean = false;
@@ -77,10 +76,13 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
 
   ngOnInit():void {
     this.wpTableTimeline
-      .observeUntil(componentDestroyed(this))
+      .live$()
+      .pipe(
+        untilComponentDestroyed(this)
+      )
       .subscribe(() => {
         this.isAutoZoom = this.wpTableTimeline.isAutoZoom();
-        this.isVisible = this.wpTableTimeline.isVisible;
+        this.isActive = this.wpTableTimeline.isVisible;
         this.cdRef.detectChanges();
       });
 
@@ -102,7 +104,7 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
   }
 
   public get label():string {
-    if (this.isActive()) {
+    if (this.isActive) {
       return this.deactivateLabel;
     } else {
       return this.activateLabel;
@@ -123,10 +125,6 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
 
   public toggleTimeline() {
     this.wpTableTimeline.toggle();
-  }
-
-  public isActive():boolean {
-    return this.isVisible;
   }
 
   public enableAutoZoom() {

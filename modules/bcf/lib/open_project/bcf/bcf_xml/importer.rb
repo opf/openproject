@@ -1,16 +1,15 @@
 require 'activerecord-import'
 require_relative 'issue_reader'
+require_relative 'aggregations'
 
 module OpenProject::Bcf::BcfXml
   class Importer
-    attr_reader :file, :project, :current_user, :instance_cache
+    attr_reader :file, :project, :current_user
 
     def initialize(file, project, current_user:)
       @file = file
       @project = project
       @current_user = current_user
-
-      @instance_cache = {}
     end
 
     ##
@@ -25,32 +24,8 @@ module OpenProject::Bcf::BcfXml
       end
     end
 
-    def all_people
-      @instance_cache[:all_people] ||= extractor_list.map { |entry| entry[:people] }.flatten.uniq
-    end
-
-    def all_mails
-      @instance_cache[:all_mails] ||= extractor_list.map { |entry| entry[:mail_addresses] }.flatten.uniq
-    end
-
-    def known_users
-      @instance_cache[:known_users] ||= User.where(mail: all_mails).includes(:memberships)
-    end
-
-    def unknown_mails
-      @instance_cache[:unknown_mails] ||= all_mails.map(&:downcase) - known_users.map(&:mail).map(&:downcase)
-    end
-
-    def members
-      @instance_cache[:members] ||= known_users.select { |user| user.projects.map(&:id).include? @project.id }
-    end
-
-    def non_members
-      @instance_cache[:non_members] ||= known_users - members
-    end
-
-    def invalid_people
-      @instance_cache[:invalid_people] ||= all_people - all_mails
+    def aggregations
+      @aggregations ||= Aggregations.new(extractor_list, @project)
     end
 
     def import!(options = {})
@@ -60,7 +35,7 @@ module OpenProject::Bcf::BcfXml
         treat_non_members(options)
 
         # Extract all topics of the zip and save them
-        synchronize_topics(zip)
+        synchronize_topics(zip, options)
 
         # TODO: Extract documents
 
@@ -74,12 +49,10 @@ module OpenProject::Bcf::BcfXml
 
     private
 
-    ##
-    # Invite all unknown email addresses and add them
     def treat_invalid_people(options)
-      if invalid_people.any?
+      if aggregations.invalid_people.any?
         unless options[:invalid_people_action] == 'anonymize'
-          raise StandardError.new 'Invalid people found in import. Use valid e-mail addresses.'
+          raise StandardError.new 'Invalid people found in import. Use valid email addresses.'
         end
       end
     end
@@ -91,7 +64,7 @@ module OpenProject::Bcf::BcfXml
         raise StandardError.new 'For inviting new users you need admin privileges.' unless User.current.admin?
         raise StandardError.new 'Enterprise Edition user limit reached.' unless enterprise_allow_new_users?
 
-        unknown_mails.each do |mail|
+        aggregations.unknown_mails.each do |mail|
           add_unknown_mail(mail, options)
         end
       end
@@ -100,14 +73,14 @@ module OpenProject::Bcf::BcfXml
     ##
     # Add all non members to project
     def treat_non_members(options)
-      clear_instance_cache
+      aggregations.clear_instance_cache
 
       if treat_non_members?(options)
         unless User.current.allowed_to?(:manage_members, project)
           raise StandardError.new 'For adding members to the project you need admin privileges.'
         end
 
-        non_members.each do |user|
+        aggregations.non_members.each do |user|
           add_non_member(user, options)
         end
       end
@@ -115,7 +88,7 @@ module OpenProject::Bcf::BcfXml
 
     def add_unknown_mail(mail, options)
       user = UserInvitation.invite_new_user(email: mail)
-      member = Member.create(user: user,
+      member = Member.create(principal: user,
                              project: project)
       membership_service = ::Members::EditMembershipService.new(member,
                                                                 save: true,
@@ -124,7 +97,7 @@ module OpenProject::Bcf::BcfXml
     end
 
     def add_non_member(user, options)
-      member = Member.create(user: user,
+      member = Member.create(principal: user,
                              project: project)
       membership_service = ::Members::EditMembershipService.new(member,
                                                                 save: true,
@@ -133,13 +106,13 @@ module OpenProject::Bcf::BcfXml
     end
 
     def treat_unknown_mails?(options)
-      unknown_mails.any? &&
+      aggregations.unknown_mails.any? &&
         options[:unknown_mails_action] == 'invite' &&
         options[:unknown_mails_invite_role_ids].any?
     end
 
     def treat_non_members?(options)
-      non_members.any? &&
+      aggregations.non_members.any? &&
         options[:non_members_action] == 'add' &&
         options[:non_members_add_role_ids].any?
     end
@@ -151,13 +124,20 @@ module OpenProject::Bcf::BcfXml
         attributes[:comments_count]  = extractor.comments.count
         attributes[:people]          = extractor.people
         attributes[:mail_addresses]  = extractor.mail_addresses
+        attributes[:status]          = extractor.status
+        attributes[:type]            = extractor.type
       end
     end
 
-    def synchronize_topics(zip)
+    def synchronize_topics(zip, import_options)
       yield_markup_bcf_files(zip)
         .map do |entry|
-          issue = IssueReader.new(project, zip, entry, current_user: current_user).extract!
+          issue = IssueReader.new(project,
+                                  zip,
+                                  entry,
+                                  current_user: current_user,
+                                  import_options: import_options,
+                                  aggregations: aggregations).extract!
           if issue.errors.blank?
             issue.save
           end
@@ -174,10 +154,6 @@ module OpenProject::Bcf::BcfXml
 
     def enterprise_allow_new_users?
       !OpenProject::Enterprise.user_limit_reached? || !OpenProject::Enterprise.fail_fast?
-    end
-
-    def clear_instance_cache
-      @instance_cache = {}
     end
   end
 end

@@ -24,11 +24,10 @@
                               class="-small">
       </editable-toolbar-title>
 
-      <div class="board-list--menu">
-        <a boardListDropdown class="board-list--more-menu" *ngIf="canDelete">
-          <op-icon icon-classes="icon-show-more-horizontal"></op-icon>
-        </a>
-      </div>
+      <board-list-menu class="board-list--menu"
+                       [board]="board"
+                       (onRemove)="deleteList()">
+      </board-list-menu>
     </div>
 
     <div class="board-list--query-container drop-zone"
@@ -56,6 +55,7 @@
                     [cardsRemovable]="board.isFree && canDragOutOf"
                     [highlightingMode]="board.highlightingMode"
                     [showStatusButton]="showCardStatusButton()">
+
       </wp-card-view>
     </div>
   </ng-container>

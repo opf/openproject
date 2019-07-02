@@ -35,12 +35,14 @@ module API
     module WorkPackages
       module Schema
         class WorkPackageSchemaRepresenter < ::API::Decorators::SchemaRepresenter
-          # TODO: reenable caching after having ensured that the cache is
-          # user or at least roles in project specific.
-          # Otherwise, the writable information will not be correct and information
-          # cached e.g. in an embedded query (project name) is leaked to the user.
-          # include API::Caching::CachedRepresenter
           extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
+
+          include API::Caching::CachedRepresenter
+          cached_representer key_parts: %i[project type],
+                             dependencies: -> {
+                               Authorization.roles(User.current, represented.project).map(&:permissions).sort +
+                                 [Setting.work_package_done_ratio]
+                             }
 
           custom_field_injector type: :schema_representer
 
@@ -86,25 +88,18 @@ module API
             super(schema, self_link, context)
           end
 
-          def json_cache_key
-            parts = ['api/v3/work_packages/schemas',
-                     project_type_cache_key,
-                     I18n.locale,
-                     project_cache_key,
-                     type_cache_key,
-                     custom_field_cache_key]
-
-            OpenProject::Cache::CacheKey.key(parts)
-          end
-
           link :baseSchema do
             { href: @base_schema_link } if @base_schema_link
           end
 
+          # Needs to not be cached as the queries in the attribute
+          # groups might contain information (e.g. project names) whose
+          # visibility needs to be checked per user
           property :attribute_groups,
                    type: "[]String",
                    as: "_attributeGroups",
-                   exec_context: :decorator
+                   exec_context: :decorator,
+                   uncacheable: true
 
           schema :lock_version,
                  type: 'Integer',
@@ -177,6 +172,8 @@ module API
 
           # TODO:
           # * create an available_work_package_parent resource
+          #   One can use a relatable filter with the 'parent' operator. Will however need to also
+          #   work without a value which is currently not supported.
           # * turn :parent into a schema_with_allowed_link
 
           schema :parent,
@@ -254,7 +251,7 @@ module API
                                          has_default: true
 
           def attribute_groups
-            (represented.type && represented.type.attribute_groups || []).map do |group|
+            (represented.type&.attribute_groups || []).map do |group|
               if group.is_a?(Type::QueryGroup)
                 ::API::V3::WorkPackages::Schema::FormConfigurations::QueryRepresenter
                   .new(group, current_user: current_user, embed_links: true)
@@ -269,6 +266,7 @@ module API
           # Return a map of attribute => group name
           def attribute_group_map(key)
             return nil if represented.type.nil?
+
             @attribute_group_map ||= begin
               represented.type.attribute_groups.each_with_object({}) do |group, hash|
                 Array(group.active_members(represented.project)).each { |prop| hash[prop] = group.translated_key }
@@ -280,28 +278,17 @@ module API
 
           private
 
-          def custom_field_cache_key
-            custom_fields = represented.available_custom_fields
-            OpenProject::Cache::CacheKey.expand(custom_fields)
-          end
-
-          def project_type_cache_key
-            project_cache_key = represented.project ? represented.project.id : nil
-            type_cache_key = represented.type ? represented.type.id : nil
-
-            "#{project_cache_key}-#{type_cache_key}"
-          end
-
-          def type_cache_key
-            represented.type.try(:updated_at)
-          end
-
-          def project_cache_key
-            represented.project.updated_on
-          end
-
           def no_caching?
             represented.no_caching?
+          end
+
+          protected
+
+          # We do not want to make the represented a part of the cache key
+          # as they are currently dynamically created and thus will
+          # change their to_params value consistently
+          def json_key_part_represented
+            []
           end
         end
       end

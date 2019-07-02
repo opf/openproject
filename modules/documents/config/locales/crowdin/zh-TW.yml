@@ -10,6 +10,8 @@ zh-TW:
       documentation: 說明文件
       specification: 技術規格
       other: 其他
+  documents:
+    label_attachment_author: "Attachment author"
   label_document_added: "文件已新增"
   label_document_new: "建立新文件"
   label_document_plural: "文件"

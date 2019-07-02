@@ -30,4 +30,4 @@ if defined?(LivingStyleGuide)
   LivingStyleGuide.default_options[:scss_template] = OpenProject::LivingStyleGuide::Template
 end
 
-Rails.application.config.sass.load_paths << Rails.root.join('frontend', 'node_modules', 'foundation-apps', 'scss')
+Rails.application.config.sass.load_paths << Rails.root.join('app', 'assets', 'stylesheets', 'vendor', 'foundation-apps', 'scss')

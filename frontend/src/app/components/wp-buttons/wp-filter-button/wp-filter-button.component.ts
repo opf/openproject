@@ -29,15 +29,16 @@
 import {WorkPackageTableFiltersService} from '../../wp-fast-table/state/wp-table-filters.service';
 import {AbstractWorkPackageButtonComponent} from 'core-components/wp-buttons/wp-buttons.module';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {Component, OnDestroy} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 
 @Component({
   selector: 'wp-filter-button',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './wp-filter-button.html'
 })
-export class WorkPackageFilterButtonComponent extends AbstractWorkPackageButtonComponent implements OnDestroy  {
+export class WorkPackageFilterButtonComponent extends AbstractWorkPackageButtonComponent implements OnInit, OnDestroy  {
   public count:number;
   public initialized:boolean = false;
 
@@ -45,12 +46,13 @@ export class WorkPackageFilterButtonComponent extends AbstractWorkPackageButtonC
   public iconClass:string = 'icon-filter';
 
   constructor(readonly I18n:I18nService,
+              protected cdRef:ChangeDetectorRef,
               protected wpFiltersService:WorkPackageFiltersService,
               protected wpTableFilters:WorkPackageTableFiltersService) {
-    'ngInject';
-
     super(I18n);
+  }
 
+  ngOnInit():void {
     this.setupObserver();
   }
 
@@ -74,10 +76,6 @@ export class WorkPackageFilterButtonComponent extends AbstractWorkPackageButtonC
     return this.count;
   }
 
-  public isActive():boolean {
-    return this.wpFiltersService.visible;
-  }
-
   public performAction(event:Event) {
     this.toggleVisibility();
   }
@@ -88,10 +86,21 @@ export class WorkPackageFilterButtonComponent extends AbstractWorkPackageButtonC
 
   private setupObserver() {
     this.wpTableFilters
-      .observeUntil(componentDestroyed(this))
+      .live$()
+      .pipe(
+        untilComponentDestroyed(this)
+      )
       .subscribe(() => {
       this.count = this.wpTableFilters.currentlyVisibleFilters.length;
       this.initialized = true;
+      this.cdRef.detectChanges();
     });
+
+    this.wpFiltersService
+      .observeUntil(componentDestroyed(this))
+      .subscribe(() => {
+        this.isActive = this.wpFiltersService.visible;
+        this.cdRef.detectChanges();
+      });
   }
 }

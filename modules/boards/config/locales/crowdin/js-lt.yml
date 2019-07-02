@@ -1,0 +1,44 @@
+lt:
+  js:
+    boards:
+      label_unnamed_board: 'Bevardė lenta'
+      label_unnamed_list: 'Bevardis sąrašas'
+      label_board_type: 'Lentos tipas'
+      upsale:
+        teaser_text: 'Pagerinkite Agile projektų valdymą naudodami lanksčius Lentų vaizdus. Sukurkite tiek lentų, kiek norite, bet kokiems dalykams, kuriuos norite suvaldyti.'
+        upgrade_to_ee_text: 'Lentos yra Enterprise versijos galimybė. Prašome pereiti prie mokamo plano.'
+        upgrade: 'Užsisakykite dabar'
+        personal_demo: 'Gaukite asmeninę demonstraciją'
+      lists:
+        delete: 'Pašalinti sąrašą'
+      version:
+        is_locked: 'Versija yra užrakinta. Papildymas negalimas.'
+        is_closed: 'Versija uždaryta. Papildymas negalimas.'
+        close_version: 'Uždaryti versiją'
+        open_version: 'Atidaryti versiją'
+        lock_version: 'Užrakinti veriją'
+        unlock_version: 'Atrakinti verisiją'
+        edit_version: 'Redaguoti veriją'
+        show_version: 'Parodyti versiją'
+        locked: 'Užrakinta'
+        closed: 'Uždaryta'
+      new_board: 'Nauja lenta'
+      add_list: 'Pridėti sąrašą'
+      add_card: 'Pridėti kortelę'
+      error_loading_the_list: "Sąrašo užkrovimo klaida: %{error_message}"
+      error_attribute_not_writable: "Negalima perkelti darbų paketo, %{attribute} negali būti įrašytas."
+      click_to_remove_list: "Spustelėkite sąrašo ištrynimui"
+      board_type:
+        free: 'Paprasta lenta'
+        free_text: >
+          Sukurkite lentą, kurioje galėsite laisvai kurti sąrašus, o juose rikiuoti darbų paketus. Darbo paketo perkėlimas tarp sąrašų visiškai nekeis darbo paketo.
+        action: 'Veiksmų lenta'
+        action_by_attribute: 'Veiksmų lenta (%{attribute})'
+        action_text: >
+          Sukurkite lentą, su filtruotais sąrašais pagal vieną atributą. Perkeliant darbo paketą tarp sąrašų bus keičiamas naudojamas atributas.
+        select_attribute: "Veiksmo atributas"
+      configuration_modal:
+        title: 'Konfigūruoti lentą'
+        display_settings:
+          card_mode: "Rodyti kaip korteles"
+          table_mode: "Rodyti kaip lentelę"

@@ -26,24 +26,24 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, OnDestroy, Output} from '@angular/core';
 import {I18nService} from "app/modules/common/i18n/i18n.service";
 import {WorkPackageTableFiltersService} from "app/components/wp-fast-table/state/wp-table-filters.service";
-import {QueryFilterResource} from "app/modules/hal/resources/query-filter-resource";
 import {componentDestroyed, untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {WorkPackageCacheService} from "app/components/work-packages/work-package-cache.service";
-import {Subject} from "rxjs";
-import {debounceTime, distinctUntilChanged} from "rxjs/operators";
+import {merge, Observable, Subject} from "rxjs";
+import {debounceTime, delay, delayWhen, distinctUntilChanged, map, startWith, tap} from "rxjs/operators";
 import {DebouncedEventEmitter} from "core-components/angular/debounced-event-emitter";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
+import {input} from "reactivestates";
 
 @Component({
   selector: 'wp-filter-by-text-input',
   templateUrl: './quick-filter-by-text-input.html'
 })
 
-export class WorkPackageFilterByTextInputComponent implements OnInit, OnDestroy {
+export class WorkPackageFilterByTextInputComponent implements OnDestroy {
   @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource[]>(componentDestroyed(this));
 
   public text = {
@@ -53,30 +53,51 @@ export class WorkPackageFilterByTextInputComponent implements OnInit, OnDestroy 
     placeholder: this.I18n.t('js.work_packages.placeholder_filter_by_text')
   };
 
-  public searchTerm:string;
-  private searchTermChanged:Subject<string> = new Subject<string>();
+  /** Observable to the current search filter term */
+  public searchTerm = input<string>('');
+
+  /** Input for search requests */
+  public searchTermChanged:Subject<string> = new Subject<string>();
 
   constructor(readonly I18n:I18nService,
               readonly querySpace:IsolatedQuerySpace,
               readonly wpTableFilters:WorkPackageTableFiltersService,
               readonly wpCacheService:WorkPackageCacheService) {
+
+    this.wpTableFilters
+      .pristine$()
+      .pipe(
+        untilComponentDestroyed(this),
+        map(() => {
+          const currentSearchFilter = this.wpTableFilters.find('search');
+          return currentSearchFilter ? (currentSearchFilter.values[0] as string) : '';
+        }),
+      )
+      .subscribe((upstreamTerm:string) => {
+        console.log("upstream " + upstreamTerm + " " + (this.searchTerm as any).timestampOfLastValue);
+        if (!this.searchTerm.value || this.searchTerm.isValueOlderThan(500)) {
+          console.log("Upstream value setting to " + upstreamTerm);
+          this.searchTerm.putValue(upstreamTerm);
+        }
+      });
+
     this.searchTermChanged
       .pipe(
         untilComponentDestroyed(this),
-        debounceTime(250),
-        distinctUntilChanged()
+        distinctUntilChanged(),
+        tap((val) => this.searchTerm.putValue(val)),
+        debounceTime(500),
       )
       .subscribe(term => {
-        this.searchTerm = term;
         let filters = this.wpTableFilters.current;
 
         // Remove the current filter
         _.remove(filters, f => f.id === 'search');
 
-        if (this.searchTerm.length > 0) {
+        if (term.length > 0) {
           let searchFilter = this.wpTableFilters.instantiate('search');
           searchFilter.operator = searchFilter.findOperator('**')!;
-          searchFilter.values = [this.searchTerm];
+          searchFilter.values = [term];
           filters.push(searchFilter);
         }
 
@@ -84,28 +105,7 @@ export class WorkPackageFilterByTextInputComponent implements OnInit, OnDestroy 
       });
   }
 
-  public ngOnInit() {
-    let self:WorkPackageFilterByTextInputComponent = this;
-
-    this.wpTableFilters
-      .observeUntil(
-        componentDestroyed(this)
-      )
-      .subscribe(() => {
-        const currentSearchFilter = this.wpTableFilters.find('search');
-        if (currentSearchFilter) {
-          this.searchTerm = currentSearchFilter.values[0] as string;
-        } else {
-          this.searchTerm = '';
-        }
-      });
-  }
-
   public ngOnDestroy() {
     // Nothing to do
-  }
-
-  public valueChange(term:string) {
-    this.searchTermChanged.next(term);
   }
 }

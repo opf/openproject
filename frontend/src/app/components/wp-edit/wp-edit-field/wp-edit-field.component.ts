@@ -38,7 +38,16 @@ import {
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 import {SelectionHelpers} from '../../../helpers/selection-helpers';
 import {debugLog} from '../../../helpers/debug_output';
-import {Component, ElementRef, Inject, Injector, Input, OnInit, ViewChild} from '@angular/core';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Inject,
+  Injector,
+  Input,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
@@ -50,6 +59,7 @@ import {IWorkPackageEditingServiceToken} from "../../wp-edit-form/work-package-e
 
 @Component({
   selector: 'wp-edit-field',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './wp-edit-field.html'
 })
 export class WorkPackageEditFieldComponent implements OnInit {
@@ -67,7 +77,6 @@ export class WorkPackageEditFieldComponent implements OnInit {
   public fieldRenderer:DisplayFieldRenderer;
   public editFieldContainerClass = editFieldContainerClass;
   public active = false;
-  public rendered = false;
   private $element:JQuery;
 
   constructor(protected states:States,
@@ -81,8 +90,14 @@ export class WorkPackageEditFieldComponent implements OnInit {
               // Get parent field group from injector
               protected wpEditFieldGroup:WorkPackageEditFieldGroupComponent,
               protected NotificationsService:NotificationsService,
-              readonly I18n:I18nService) {
+              protected cdRef:ChangeDetectorRef,
+              protected I18n:I18nService) {
 
+  }
+
+  public setActive(active:boolean = true) {
+    this.active = active;
+    this.cdRef.detectChanges();
   }
 
   public ngOnInit() {
@@ -106,13 +121,12 @@ export class WorkPackageEditFieldComponent implements OnInit {
     const el = this.fieldRenderer.render(this.resource, this.fieldName, null, this.displayPlaceholder);
     this.displayContainer.nativeElement.innerHTML = '';
     this.displayContainer.nativeElement.appendChild(el);
-    this.rendered = true;
   }
 
   public deactivate(focus:boolean = false) {
     this.editContainer.nativeElement.innerHTML = '';
     this.editContainer.nativeElement.hidden = true;
-    this.active = false;
+    this.setActive(false);
 
     if (focus) {
       setTimeout(() => this.$element.find(`.${displayClassName}`).focus(), 20);
@@ -162,7 +176,8 @@ export class WorkPackageEditFieldComponent implements OnInit {
 
   public activateOnForm(noWarnings:boolean = false) {
     // Activate the field
-    this.active = true;
+    this.setActive(true);
+
     return this.wpEditFieldGroup.form
       .activate(this.fieldName, noWarnings)
       .catch(() => this.deactivate(true));

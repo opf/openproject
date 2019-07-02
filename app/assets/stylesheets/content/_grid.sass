@@ -27,6 +27,8 @@ $grid--header-width: 20px
     .widget-box
       height: 100%
 
+    &:hover icon-triggered-context-menu
+      visibility: visible
 
   &.-resizing
     border: 1px solid $primary-color
@@ -38,6 +40,12 @@ $grid--header-width: 20px
     justify-content: center
     align-items: center
 
+  &.-placeholder
+    pointer-events: none
+
+  &.-dragged
+    display: none
+
   .resizer
     margin-top: 0
     margin-left: auto
@@ -46,6 +54,15 @@ $grid--header-width: 20px
 
   .cdk-drag-handle
     cursor: grab
+
+  .widget-box--header
+    display: flex
+
+  .widget-box--header-title
+    flex-grow: 1
+
+  icon-triggered-context-menu
+    visibility: hidden
 
 .grid--area-drag-handle
   margin-left: -19px
@@ -147,3 +164,4 @@ $grid--header-width: 20px
 
   &:last-of-type
     border-bottom: none
+

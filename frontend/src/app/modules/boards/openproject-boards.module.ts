@@ -50,11 +50,12 @@ import {BoardHighlightingTabComponent} from "core-app/modules/boards/board/confi
 import {AddCardDropdownMenuDirective} from "core-app/modules/boards/board/add-card-dropdown/add-card-dropdown-menu.directive";
 import {BoardFilterComponent} from "core-app/modules/boards/board/board-filter/board-filter.component";
 import {DragScrollModule} from "cdk-drag-scroll";
-import {BoardListDropdownMenuDirective} from "core-app/modules/boards/board/board-list/board-list-dropdown.directive";
+import {BoardListMenuComponent} from "core-app/modules/boards/board/board-list/board-list-menu.component";
 import {VersionBoardHeaderComponent} from "core-app/modules/boards/board/board-actions/version/version-board-header.component";
 import {DynamicModule} from "ng-dynamic-component";
 import {BoardStatusActionService} from "core-app/modules/boards/board/board-actions/status/status-action.service";
 import {BoardVersionActionService} from "core-app/modules/boards/board/board-actions/version/version-action.service";
+import {QueryUpdatedService} from "core-app/modules/boards/board/query-updated/query-updated.service";
 
 const menuItemClass = 'board-view-menu-item';
 
@@ -148,6 +149,7 @@ export function registerBoardsModule(injector:Injector) {
     BoardActionsRegistryService,
     BoardStatusActionService,
     BoardVersionActionService,
+    QueryUpdatedService,
     {
       provide: APP_INITIALIZER,
       useFactory: registerBoardsModule,
@@ -168,7 +170,7 @@ export function registerBoardsModule(injector:Injector) {
     NewBoardModalComponent,
     AddListModalComponent,
     AddCardDropdownMenuDirective,
-    BoardListDropdownMenuDirective,
+    BoardListMenuComponent,
     BoardFilterComponent,
     VersionBoardHeaderComponent,
   ],

@@ -1,0 +1,44 @@
+tr:
+  js:
+    boards:
+      label_unnamed_board: 'Adsız tahta'
+      label_unnamed_list: 'Adsız liste'
+      label_board_type: 'Yazı tahtası tipi'
+      upsale:
+        teaser_text: 'Çevik proje yönetiminizi bu esnek Panolar görünümü ile geliştirin. İzlemek istediğiniz herhangi bir şey için istediğiniz kadar pano oluşturun.'
+        upgrade_to_ee_text: 'Kurulları bir Enterprise özelliğidir. Lütfen ücretli bir plana geçin.'
+        upgrade: 'Şimdi Yükselt'
+        personal_demo: 'Kişisel bir demo al'
+      lists:
+        delete: 'Listeyi silin'
+      version:
+        is_locked: 'Sürüm kilitli. Bu sürüme hiçbir ürün eklenemez.'
+        is_closed: 'Sürüm kapalı. Bu sürüme hiçbir ürün eklenemez.'
+        close_version: 'Sürümü kapat'
+        open_version: 'Sürümü aç'
+        lock_version: 'Kilitli versiyon'
+        unlock_version: 'Sürümün kilidini aç'
+        edit_version: 'Sürümü düzenle'
+        show_version: 'Versiyonu göster'
+        locked: 'Kilitlendi'
+        closed: 'Kapalı'
+      new_board: 'Yeni yazı tahtası'
+      add_list: 'Liste ekle'
+      add_card: 'Kart ekle'
+      error_loading_the_list: "Liste yüklenirken hata oluştu: %{error_message}"
+      error_attribute_not_writable: "Çalışma paketi taşınamıyor, %{attribute} yazılabilir değil."
+      click_to_remove_list: "Bu listeyi kaldırmak için tıklayın"
+      board_type:
+        free: 'Temel kurulu'
+        free_text: >
+          Serbestçe listeler oluşturabileceğiniz ve çalışma paketlerinizi içinde sipariş edebileceğiniz bir tahta oluşturun. İş paketlerini listeler arasında taşımak, iş paketini değiştirmez.
+        action: 'Eylem kurulu'
+        action_by_attribute: 'Eylem kurulu (%{attribute})'
+        action_text: >
+          Tek bir özellik üzerinde filtrelenmiş listeler içeren bir tahta oluşturun. İş paketlerini diğer listelere taşımak, niteliklerini güncelleyecektir.
+        select_attribute: "Eylem özelliği"
+      configuration_modal:
+        title: 'Bu kartı yapılandır'
+        display_settings:
+          card_mode: "Kart olarak göster"
+          table_mode: "Tablo olarak görüntüle"

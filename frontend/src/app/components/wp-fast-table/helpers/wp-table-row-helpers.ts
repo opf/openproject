@@ -14,6 +14,20 @@ export function locateTableRowByIdentifier(identifier:string) {
   return jQuery(`.${identifier}-table`);
 }
 
+export function locatePredecessorBySelector(el:HTMLElement, selector:string):HTMLElement|null {
+  let previous = el.previousElementSibling;
+
+  while (previous) {
+    if (previous.matches(selector)) {
+      return previous as HTMLElement;
+    } else {
+      previous = previous.previousElementSibling;
+    }
+  }
+
+  return null;
+}
+
 export function scrollTableRowIntoView(workPackageId:string):void {
   try {
     const element = locateTableRow(workPackageId);

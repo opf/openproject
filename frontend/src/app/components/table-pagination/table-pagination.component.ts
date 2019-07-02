@@ -29,11 +29,20 @@
 import {PaginationService} from 'core-components/table-pagination/pagination-service';
 import {PaginationInstance} from 'core-components/table-pagination/pagination-instance';
 import {IPaginationOptions} from './pagination-service';
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 
 @Component({
   selector: '[tablePagination]',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './table-pagination.component.html'
 })
 export class TablePaginationComponent implements OnInit {
@@ -57,7 +66,8 @@ export class TablePaginationComponent implements OnInit {
   public perPageOptions:number[] = [];
 
   constructor(protected paginationService:PaginationService,
-              readonly I18n:I18nService) {
+              protected cdRef:ChangeDetectorRef,
+              protected I18n:I18nService) {
   }
 
   ngOnInit():void {
@@ -66,6 +76,7 @@ export class TablePaginationComponent implements OnInit {
       .then((paginationOptions:IPaginationOptions) => {
         this.perPageOptions = paginationOptions.perPageOptions;
         this.newPagination(paginationOptions);
+        this.cdRef.detectChanges();
       });
   }
 
@@ -76,6 +87,7 @@ export class TablePaginationComponent implements OnInit {
   public update() {
     this.updateCurrentRangeLabel();
     this.updatePageNumbers();
+    this.cdRef.detectChanges();
   }
 
   public selectPerPage(perPage:number) {
@@ -91,6 +103,7 @@ export class TablePaginationComponent implements OnInit {
     this.updatePageNumbers();
 
     this.onUpdatedPage();
+    this.cdRef.detectChanges();
   }
 
   public onUpdatedPage() {

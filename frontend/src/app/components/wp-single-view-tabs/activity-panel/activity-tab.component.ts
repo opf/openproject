@@ -44,13 +44,11 @@ export class WorkPackageActivityTabComponent extends ActivityPanelBaseController
   public tabName = this.I18n.t('js.work_packages.tabs.activity');
   public trackByHref = AngularTrackingHelpers.trackByHrefAndProperty('version');
 
-  constructor(readonly wpCacheService:WorkPackageCacheService,
-              readonly $transition:Transition,
-              readonly I18n:I18nService,
-              readonly wpActivity:WorkPackagesActivityService) {
-    super(wpCacheService, I18n, wpActivity);
+  ngOnInit() {
     this.workPackageId = this.$transition.params('to').workPackageId;
+    super.ngOnInit();
   }
+
 
   ngOnDestroy() {
     // Nothing to do

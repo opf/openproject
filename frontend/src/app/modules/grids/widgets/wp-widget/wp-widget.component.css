@@ -4,10 +4,6 @@ wp-embedded-table {
   overflow: hidden;
 }
 
-.widget-box--header {
-  display: flex
-}
-
 .widget-box--header .icon-context {
   padding-top: 5px
 }

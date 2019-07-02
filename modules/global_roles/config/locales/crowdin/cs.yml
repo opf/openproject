@@ -1,0 +1,11 @@
+cs:
+  error_can_not_be_assigned: Roli nelze přiřadit k tomuto uživateli
+  global_roles: Globální role
+  label_role_type: Typ
+  label_member_role: Projektová role
+  label_global_role: Globální role
+  label_not_changeable: (neměnitelné)
+  label_no_assignable_role: Žádná globální role není dostupná pro přiřazení
+  label_global: Globální
+  seeders:
+    default_role_project_creator: 'Tvůrce projektu'

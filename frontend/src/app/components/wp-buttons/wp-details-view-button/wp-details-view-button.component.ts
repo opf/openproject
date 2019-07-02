@@ -29,16 +29,17 @@
 import {KeepTabService} from '../../wp-single-view-tabs/keep-tab/keep-tab.service';
 import {States} from '../../states.service';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
-import {StateService} from '@uirouter/core';
-import {Component} from '@angular/core';
+import {StateService, TransitionService} from '@uirouter/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
 import {AbstractWorkPackageButtonComponent} from 'core-components/wp-buttons/wp-buttons.module';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
   templateUrl: '../wp-button.template.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'wp-details-view-button',
 })
-export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageButtonComponent {
+export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageButtonComponent implements OnDestroy {
   public projectIdentifier:string;
   public accessKey:number = 8;
   public activeState:string = 'work-packages.list.details';
@@ -50,9 +51,13 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
   public activateLabel:string;
   public deactivateLabel:string;
 
+  private transitionListener:Function;
+
   constructor(
     readonly $state:StateService,
     readonly I18n:I18nService,
+    readonly transitions:TransitionService,
+    readonly cdRef:ChangeDetectorRef,
     public states:States,
     public wpTableFocus:WorkPackageTableFocusService,
     public keepTab:KeepTabService) {
@@ -61,10 +66,20 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
 
     this.activateLabel = I18n.t('js.button_open_details');
     this.deactivateLabel = I18n.t('js.button_close_details');
+
+    this.transitionListener = this.transitions.onSuccess({}, () => {
+      this.isActive = this.$state.includes(this.activeState);
+      this.cdRef.detectChanges();
+    });
   }
 
+  ngOnDestroy() {
+    this.transitionListener();
+  }
+
+
   public get label():string {
-    if (this.isActive()) {
+    if (this.isActive) {
       return this.deactivateLabel;
     } else {
       return this.activateLabel;
@@ -75,12 +90,8 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
     return true;
   }
 
-  public isActive():boolean {
-    return this.$state.includes(this.activeState);
-  }
-
   public performAction(event:Event) {
-    if (this.isActive()) {
+    if (this.isActive) {
       this.openListView();
     } else {
       this.openDetailsView();

@@ -11,7 +11,6 @@ import {CellBuilder, wpCellTdClassName} from '../cell-builder';
 import {RelationCellbuilder} from '../relation-cell-builder';
 import {checkedClassName} from '../ui-state-link-builder';
 import {TableActionRenderer} from 'core-components/wp-fast-table/builders/table-action-renderer';
-import {DragDropHandleBuilder} from "core-components/wp-fast-table/builders/drag-and-drop/drag-drop-handle-builder";
 
 // Work package table row entries
 export const tableRowClassName = 'wp-table--row';
@@ -40,9 +39,6 @@ export class SingleRowBuilder {
 
   // Details Link builder
   protected contextLinkBuilder = new TableActionRenderer(this.injector);
-
-  // Drag & Drop handle builder
-  protected dragDropHandleBuilder = new DragDropHandleBuilder();
 
   // Build the augmented columns set to render with
   protected readonly augmentedColumns:QueryColumn[] = this.buildAugmentedColumns();
@@ -80,8 +76,6 @@ export class SingleRowBuilder {
 
     // Handle property types
     switch (column.id) {
-      case internalSortColumn.id:
-        return this.dragDropHandleBuilder.build(workPackage);
       case internalContextMenuColumn.id:
         if (this.workPackageTable.configuration.actionsColumnEnabled) {
           return this.contextLinkBuilder.build(workPackage);

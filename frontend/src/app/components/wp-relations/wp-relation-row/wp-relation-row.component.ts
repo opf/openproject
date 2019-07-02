@@ -4,7 +4,7 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {WorkPackageRelationsService} from '../wp-relations.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
-import {Component, ElementRef, Inject, Input, OnDestroy, OnInit, ViewChild} from "@angular/core";
+import {ChangeDetectorRef, Component, ElementRef, Inject, Input, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageTableRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
@@ -59,7 +59,8 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
               protected wpNotificationsService:WorkPackageNotificationService,
               protected wpRelations:WorkPackageRelationsService,
               protected wpTableRefresh:WorkPackageTableRefreshService,
-              readonly I18n:I18nService,
+              protected I18n:I18nService,
+              protected cdRef:ChangeDetectorRef,
               protected PathHelper:PathHelperService) {
   }
 
@@ -134,6 +135,7 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
           {visible: true}
         );
         this.wpNotificationsService.showSave(this.relatedWorkPackage);
+        this.cdRef.detectChanges();
       });
   }
 
@@ -163,6 +165,7 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
         this.relation = savedRelation;
 
         this.userInputs.showRelationTypesForm = false;
+        this.cdRef.detectChanges();
       })
       .catch((error:any) => this.wpNotificationsService.handleRawError(error, this.workPackage));
   }
@@ -180,6 +183,7 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
         );
         this.wpCacheService.updateWorkPackage(this.relatedWorkPackage);
         this.wpNotificationsService.showSave(this.relatedWorkPackage);
+        this.cdRef.detectChanges();
       })
       .catch((err:any) => this.wpNotificationsService.handleRawError(err,
         this.relatedWorkPackage));

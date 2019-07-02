@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, ViewChild, AfterViewInit} from "@angular/core";
+import {Component, OnInit, OnDestroy, ViewChild, AfterViewInit, Injector} from "@angular/core";
 import {WidgetWpListComponent} from "core-app/modules/grids/widgets/wp-widget/wp-widget.component";
 import {WorkPackageTableConfiguration} from "core-components/wp-table/wp-table-configuration";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
@@ -10,21 +10,22 @@ import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper
 import {QueryFormDmService} from "core-app/modules/hal/dm-services/query-form-dm.service";
 import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
 import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
+import {Observable} from "rxjs";
 
 @Component({
   templateUrl: './wp-table.component.html',
-  styleUrls: ['../wp-widget/wp-widget.component.css']
+  styleUrls: ['../wp-widget/wp-widget.component.css'],
 })
 export class WidgetWpTableComponent extends WidgetWpListComponent implements OnInit, OnDestroy, AfterViewInit {
   public text = { title: this.i18n.t('js.grid.widgets.work_packages_table.title') };
   public queryId:string|null;
   private queryForm:QueryFormResource;
   public inFlight = false;
-  public query:QueryResource;
+  public query$:Observable<QueryResource>;
 
   public configuration:Partial<WorkPackageTableConfiguration> = {
     actionsColumnEnabled: false,
-    columnMenuEnabled: true,
+    columnMenuEnabled: false,
     hierarchyToggleEnabled: true,
     contextMenuEnabled: false
   };
@@ -58,30 +59,18 @@ export class WidgetWpTableComponent extends WidgetWpListComponent implements OnI
   }
 
   ngAfterViewInit() {
-    this
+    this.query$ = this
       .querySpaceDirective
       .querySpace
       .query
-      .values$()
-      .pipe(
-        take(1),
-        untilComponentDestroyed(this)
-      ).subscribe((query) => {
-        this.query = query;
-        this.queryId = query.id;
-      });
+      .values$();
 
-    this
-      .querySpaceDirective
-      .querySpace
-      .query
-      .values$()
+    this.query$
       .pipe(
         // 2 because ... well it is a magic number and works
         skip(2),
         untilComponentDestroyed(this)
       ).subscribe((query) => {
-        this.queryId = query.id;
         this.ensureFormAndSaveQuery(query);
       });
   }

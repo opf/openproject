@@ -98,11 +98,15 @@ describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, 
 
       # User has the ability to modify the query
 
-      modal.open_and_switch_to('Filters')
+      filter_area.configure_wp_table
+      modal.switch_to('Filters')
       filters.expect_filter_count(2)
       filters.add_filter_by('Type', 'is', type.name)
       modal.save
 
+      filter_area.configure_wp_table
+      modal.switch_to('Columns')
+      columns.instance_variable_set(:@opened, true)
       columns.remove 'Subject'
 
       expect(filter_area.area)

@@ -36,7 +36,7 @@ tr:
     label_2fa_enabled: 'İki faktörlü kimlik doğrulama aktif'
     label_2fa_disabled: 'İki faktörlü kimlik doğrulama aktif değil'
     text_otp_delivery_message_sms: "Senin %{app_title} one-time şifre %{token}"
-    text_otp_delivery_message_voice: "Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
+    text_otp_delivery_message_voice: "%{app_title} bir kerelik parolanız:  %{pause} %{token}. %{pause} Tekrar ediyorum: %{pause} %{token}"
     text_enter_2fa: 'Lütfen cihazınızdaki tek kullanımlık şifreyi giriniz.'
     text_2fa_enabled: 'Her girişte, varsayılan 2FA cihazınızdan bir OTP jetonu girmeniz talep edilir.'
     text_2fa_disabled: 'İki faktörlü kimlik doğrulamayı etkinleştirmek için yukarıdaki düğmeyi kullanarak yeni bir 2FA aygıtı kaydedin. zaten bir cihazınız varsa, onu bir varsayılan yapmanız gerekir.'
@@ -131,8 +131,8 @@ tr:
     sns:
       delivery_failed: 'SNS gönderimi başarısız:'
     message_bird:
-      sms_delivery_failed: 'MessageBird SMS delivery failed.'
-      voice_delivery_failed: 'MessageBird voice call failed.'
+      sms_delivery_failed: 'MessageBird SMS gönderimi başarısız oldu.'
+      voice_delivery_failed: 'MessageBird sesli arama başarısız oldu.'
     restdt:
       delivery_failed_with_code: 'Jeton gönderimi başarısız. (Hata kodu %{code})'
     strategies:
@@ -146,9 +146,10 @@ tr:
     remember:
       active_session_notice: >
         Hesabınız %{expires_on}'e kadar geçerli bir hatırlama çerezi var. O zamana kadar bu çerez, hesabınıza ikinci faktöre gerek kalmadan giriş izni verir.
+      other_active_session_notice: Hesabınızda başka bir oturumda etkin bir hatırlama çerezi var.
       label: 'Hatırla'
-      clear_cookie: 'Bu çerezi kaldırmak için tıklayın'
-      cookie_removed: 'Çerezin kaldırıldığını hatırla.'
+      clear_cookie: 'Tüm hatırlanan 2FA oturumlarını kaldırmak için buraya tıklayın.'
+      cookie_removed: 'Tüm hatırlanan 2FA oturumları kaldırıldı.'
       dont_ask_again: "Bu kullanıcı da 2FA kimlik doğrulamasını %{days} gün boyunca hatırlamak için çerez oluştur."
   field_phone: "Cep telefonu"
   field_otp: "Tek-kullanımlık Şifre"

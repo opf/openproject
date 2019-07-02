@@ -3,7 +3,7 @@
     <div class="toolbar">
       <editable-toolbar-title [title]="selectedTitle"
                               [inFlight]="querySaving"
-                              [showSaveCondition]="!!$state.params.query_props"
+                              [showSaveCondition]="hasQueryProps"
                               (onSave)="updateQueryName($event)"
                               (onEmptySubmit)="updateQueryName('')"
                               [editable]="titleEditingEnabled">

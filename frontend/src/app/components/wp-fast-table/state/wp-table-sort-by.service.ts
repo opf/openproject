@@ -35,23 +35,16 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {Injectable} from '@angular/core';
 import {WorkPackageQueryStateService} from './wp-table-base.service';
 import {Observable} from 'rxjs';
-import {
-  QUERY_SORT_BY_ASC,
-  QUERY_SORT_BY_DESC,
-  QuerySortByResource
-} from 'core-app/modules/hal/resources/query-sort-by-resource';
+import {QuerySortByResource} from 'core-app/modules/hal/resources/query-sort-by-resource';
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 
 @Injectable()
 export class WorkPackageTableSortByService extends WorkPackageQueryStateService<QuerySortByResource[]> {
 
   constructor(protected readonly states:States,
-              protected readonly querySpace:IsolatedQuerySpace) {
+              protected readonly querySpace:IsolatedQuerySpace,
+              protected readonly pathHelper:PathHelperService) {
     super(querySpace);
-  }
-
-
-  public get state():InputState<QuerySortByResource[]> {
-    return this.querySpace.sortBy;
   }
 
   public valueFromQuery(query:QueryResource) {
@@ -59,7 +52,7 @@ export class WorkPackageTableSortByService extends WorkPackageQueryStateService<
   }
 
   public onReadyWithAvailable():Observable<null> {
-    return combine(this.state, this.states.queries.sortBy)
+    return combine(this.pristineState, this.states.queries.sortBy)
       .values$()
       .pipe(
         mapTo(null)
@@ -77,7 +70,7 @@ export class WorkPackageTableSortByService extends WorkPackageQueryStateService<
 
   public applyToQuery(query:QueryResource) {
     query.sortBy = [...this.current];
-    return true;
+    return !this.isManualSortingMode;
   }
 
   public isSortable(column:QueryColumn):boolean {
@@ -87,19 +80,19 @@ export class WorkPackageTableSortByService extends WorkPackageQueryStateService<
     );
   }
 
-  public addAscending(column:QueryColumn) {
-    let available = this.findAvailableDirection(column, QUERY_SORT_BY_ASC);
+  public addSortCriteria(column:QueryColumn, criteria:string) {
+    let available = this.findAvailableDirection(column, criteria);
 
     if (available) {
       this.add(available);
     }
   }
 
-  public addDescending(column:QueryColumn) {
-    let available = this.findAvailableDirection(column, QUERY_SORT_BY_DESC);
+  public setAsSingleSortCriteria(column:QueryColumn, criteria:string) {
+    let available:QuerySortByResource = this.findAvailableDirection(column, criteria)!;
 
     if (available) {
-      this.add(available);
+      this.update([available]);
     }
   }
 
@@ -112,18 +105,32 @@ export class WorkPackageTableSortByService extends WorkPackageQueryStateService<
   }
 
   public add(sortBy:QuerySortByResource) {
-    this.state.doModify((current:QuerySortByResource[]) => {
-      let newValue = [sortBy, ...current];
-      return _
-        .uniqBy(newValue, sortBy => sortBy.column.$href)
-        .slice(0, 3);
+    let newValue = _
+      .uniqBy([sortBy, ...this.current], sortBy => sortBy.column.$href)
+      .slice(0, 3);
 
-      return current.concat(sortBy);
-    });
+    this.update(newValue);
+  }
+
+  public get isManualSortingMode():boolean {
+    let current = this.current;
+
+    if (current && current.length > 0) {
+      return current[0].column.href!.endsWith('/manualSorting');
+    }
+
+    return false;
+  }
+
+  public switchToManualSorting() {
+    let manualSortObject =  this.manualSortObject;
+    if (manualSortObject && !this.isManualSortingMode) {
+      this.update([manualSortObject]);
+    }
   }
 
   public get current():QuerySortByResource[] {
-    return this.state.getValueOr([]);
+    return this.lastUpdatedState.getValueOr([]);
   }
 
   private get availableState() {
@@ -132,5 +139,11 @@ export class WorkPackageTableSortByService extends WorkPackageQueryStateService<
 
   public get available():QuerySortByResource[] {
     return this.availableState.getValueOr([]);
+  }
+
+  private get manualSortObject() {
+    return _.find(this.available, sort => {
+      return sort.column.$href!.endsWith('/manualSorting');
+    });
   }
 }

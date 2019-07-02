@@ -24,7 +24,7 @@ zh-TW:
   activerecord:
     attributes:
       export_card_configuration:
-        rows: "行"
+        rows: "列"
         per_page: "每頁"
         page_size: "頁面大小"
         orientation: "頁面方向"

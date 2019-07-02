@@ -1,0 +1,44 @@
+de:
+  js:
+    boards:
+      label_unnamed_board: 'Unbenanntes Board'
+      label_unnamed_list: 'Unbenannte Liste'
+      label_board_type: 'Board-Typ'
+      upsale:
+        teaser_text: 'Verbessere dein agiles Projektmanagement mit dieser flexiblen Board-Ansicht. Erstelle so viele Boards wie du möchtest, um alles zu verfolgen.'
+        upgrade_to_ee_text: 'Boards sind ein Enterprise-Feature. Bitte aktualisieren Sie auf einen bezahlten Plan.'
+        upgrade: 'Jetzt Upgrade durchführen'
+        personal_demo: 'Persönliche Demo anfordern'
+      lists:
+        delete: 'Liste löschen'
+      version:
+        is_locked: 'Version ist gesperrt. Keine Elemente können dieser Version hinzugefügt werden.'
+        is_closed: 'Version ist geschlossen. Keine Elemente können dieser Version hinzugefügt werden.'
+        close_version: 'Version schließen'
+        open_version: 'Version öffnen'
+        lock_version: 'Version sperren'
+        unlock_version: 'Version entsperren'
+        edit_version: 'Version bearbeiten'
+        show_version: 'Version anzeigen'
+        locked: 'Gesperrt'
+        closed: 'Erledigt'
+      new_board: 'Neues Board'
+      add_list: 'Liste hinzufügen'
+      add_card: 'Karte erstellen'
+      error_loading_the_list: "Fehler beim Laden der Liste: %{error_message}"
+      error_attribute_not_writable: "Das Arbeitspaket kann nicht verschoben werden, %{attribute} ist nicht schreibbar."
+      click_to_remove_list: "Klicken, um diese Liste zu entfernen"
+      board_type:
+        free: 'Einfaches Board'
+        free_text: >
+          Erstellen Sie ein Board, in dem Sie frei Listen erstellen und Ihre Arbeitspakete darin anordnen können. Verschieben von Arbeitspakete zwischen Listen hat keine Auswirkung auf das Arbeitspaket selbst.
+        action: 'Action board'
+        action_by_attribute: 'Action board (%{attribute})'
+        action_text: >
+          Erstellen Sie ein Board mit gefilterten Listen auf einem Attribut. Das Verschieben von Arbeitspaketen auf andere Listen aktualisiert das Attribut entsprechend.
+        select_attribute: "Action attribute"
+      configuration_modal:
+        title: 'Board konfigurieren'
+        display_settings:
+          card_mode: "Als Karten anzeigen"
+          table_mode: "Als Tabelle anzeigen"

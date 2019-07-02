@@ -21,8 +21,8 @@ export class TypeBannerService extends BannersService {
         button_cancel: this.I18n.t('js.types.attribute_groups.nevermind')
       }
     }).then(() => {
-      window.location.href = 'https://www.openproject.org/enterprise-edition/?utm_source=unknown&utm_medium=community-edition&utm_campaign=form-configuration'
+      window.location.href = 'https://www.openproject.org/enterprise-edition/?utm_source=unknown&utm_medium=community-edition&utm_campaign=form-configuration';
     });
-  };
+  }
 }
 

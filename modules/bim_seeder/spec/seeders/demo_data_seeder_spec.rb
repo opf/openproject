@@ -56,10 +56,10 @@ describe 'seeds' do
         expect { DemoDataSeeder.new.seed! }.not_to raise_error
 
         expect(User.where(admin: true).count).to eq 1
-        expect(Project.count).to eq 1
+        expect(Project.count).to eq 2
         expect(WorkPackage.count).to eq 18
         expect(Wiki.count).to eq 1
-        expect(Query.count).to eq 5
+        expect(Query.count).to eq 14
       ensure
         ActionMailer::Base.perform_deliveries = perform_deliveries
       end

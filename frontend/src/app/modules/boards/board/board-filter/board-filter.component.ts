@@ -8,7 +8,7 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {WorkPackageTableFiltersService} from "core-components/wp-fast-table/state/wp-table-filters.service";
-import {componentDestroyed} from "ng2-rx-componentdestroyed";
+import {componentDestroyed, untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
 import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
 import {StateService} from "@uirouter/core";
@@ -78,8 +78,11 @@ export class BoardFilterComponent implements OnDestroy {
 
   private updateChecksumOnFilterChanges() {
     this.wpTableFilters
-      .observeUntil(componentDestroyed(this))
-      .pipe(skip(1))
+      .live$()
+      .pipe(
+        untilComponentDestroyed(this),
+        skip(1)
+      )
       .subscribe(() => {
 
         const filters:QueryFilterInstanceResource[] = this.wpTableFilters.current;

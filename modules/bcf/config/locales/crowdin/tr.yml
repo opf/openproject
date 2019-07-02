@@ -1,0 +1,33 @@
+tr:
+  bcf:
+    label_bcf: 'BCF'
+    issues: "Sorunlar"
+    experimental_badge: "Deneysel"
+    exceptions:
+      file_invalid: "BCF dosyası geçersiz"
+    x_bcf_issues:
+      one: 'Bir BCF sorunu'
+      other: '%{count} BCF sorunu'
+    bcf_xml:
+      xml_file: 'BCF XML Dosyası'
+      import_title: 'BCF dosyasından içe aktar'
+      export: 'Tümünü BCF-XML’ye Aktar'
+      import_update_comment: '(BCF ithalatında güncellendi)'
+      import_failed: 'BCF dosyası alınamıyor: %{error}'
+      import_successful: 'İçe aktarılan %{count} BCF sorunları'
+      import_canceled: 'BCF-XML içe aktarma işlemi iptal edildi.'
+      type_not_active: "Bu proje için sorun türü etkinleştirilmedi."
+      import:
+        num_issues_found: '%{x_bcf_issues} BCF-XML dosyasında bulunur, ayrıntıları aşağıda listelenmiştir.'
+        button_prepare: 'İthalat hazırla'
+        button_perform_import: 'İçe aktarmayı onayla'
+        button_proceed: 'İlerlemek'
+        button_back_to_list: 'Listeye geri dön'
+        description: "Bu projeye içe aktarmak için bir BCF-XML v2.1 dosyası sağlayın. İçe aktarma işlemini gerçekleştirmeden önce içeriğini inceleyebilirsiniz."
+        perform_description: "Yukarıda listelenen sorunları içe aktarmak veya güncellemek mi istiyorsunuz?"
+        work_package_has_newer_changes: "%{bcf_uuid} BCF konusu için içe aktarma işlemi eski görünüyor. Sunucudaki en son değişiklikler içe aktarılan konunun \"MofiedDate\" den daha yeni. Ancak yorumlar güncellendi."
+  export:
+    format:
+      bcf: "BCF-XML"
+  attributes:
+    bcf_thumbnail: "BCF snaphot"

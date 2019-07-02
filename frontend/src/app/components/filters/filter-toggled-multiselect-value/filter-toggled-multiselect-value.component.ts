@@ -32,7 +32,17 @@ import {CollectionResource} from 'core-app/modules/hal/resources/collection-reso
 import {RootResource} from 'core-app/modules/hal/resources/root-resource';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
-import {AfterViewInit, Component, EventEmitter, Inject, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy, ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Inject,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {AngularTrackingHelpers} from 'core-components/angular/tracking-functions';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
@@ -42,6 +52,7 @@ import {NgSelectComponent} from "@ng-select/ng-select/dist";
 
 @Component({
   selector: 'filter-toggled-multiselect-value',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './filter-toggled-multiselect-value.component.html'
 })
 export class FilterToggledMultiselectValueComponent implements OnInit, AfterViewInit {
@@ -64,6 +75,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
               readonly halResourceService:HalResourceService,
               readonly halSorting:HalResourceSortingService,
               readonly PathHelper:PathHelperService,
+              readonly cdRef:ChangeDetectorRef,
               readonly I18n:I18nService) {
   }
 
@@ -81,9 +93,10 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
     return this.filter.values;
   }
 
-  public set value(val:any) {
+  public setValues(val:any) {
     this.filter.values = _.castArray(val);
     this.filterChanged.emit(this.filter);
+    this.cdRef.detectChanges();
   }
 
   public get availableOptions() {

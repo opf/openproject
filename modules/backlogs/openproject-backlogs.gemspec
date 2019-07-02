@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.files = Dir['{app,config,db,lib,doc}/**/*', 'README.md']
   s.test_files = Dir['spec/**/*']
 
-  s.add_dependency 'acts_as_silent_list', '~> 3.0.0'
+  s.add_dependency 'acts_as_list', '~> 0.9.18'
 
   s.add_dependency 'openproject-pdf_export'
 

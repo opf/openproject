@@ -1,0 +1,10 @@
+tr:
+  github_integration:
+    pull_request_opened_comment: >
+      ** PR Açıldı: ** [%{repository}] (%{repository_url}) için% %{pr_number} [%{pr_title}](%{pr_url}) isteği [%{github_user}] tarafından açıldı (%{github_user_url}).
+    pull_request_closed_comment: >
+      ** PR Kapandı: ** [%{repository}] (%{repository_url}) için% %{pr_number} [%{pr_title}](%{pr_url}) çekme isteği [%{github_user}] tarafından kapatıldı (%{github_user_url}).
+    pull_request_merged_comment: >
+      ** PR Birleştirilmiş: ** [%{repository}](%{repository_url}) için%{pr_number} [%{pr_title}](%{pr_url}) isteği [% {github_user}] ile birleştirildi (%{github_user}] (%{github_user_url}).
+    pull_request_referenced_comment: >
+      ** PR'de başvurulan: ** [%{github_user}] (%{github_user_url}) bu çalışma paketine [%{repository}] üzerinde%{pr_number} [%{pr_title}] (%{pr_url}) Çekme isteğinde bu iş paketine başvurdu (%{repository_url}).

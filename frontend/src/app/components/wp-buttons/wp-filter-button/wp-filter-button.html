@@ -5,7 +5,7 @@
         [attr.aria-label]="label"
         [disabled]="disabled"
         (click)="performAction($event)"
-        [ngClass]="{ '-active': isActive() }">
+        [ngClass]="{ '-active': isActive }">
   <op-icon icon-classes="{{ iconClass }} button--icon"></op-icon>
   <span class="button--text">
     {{ buttonText }}

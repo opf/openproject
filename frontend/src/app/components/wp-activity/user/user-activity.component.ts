@@ -32,7 +32,16 @@ import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
-import {AfterViewInit, Component, ElementRef, Injector, Input, OnInit} from "@angular/core";
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Injector,
+  Input,
+  OnInit
+} from "@angular/core";
 import {UserCacheService} from "core-components/user/user-cache.service";
 import {CommentService} from "core-components/wp-activity/comment-service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
@@ -40,6 +49,7 @@ import {WorkPackageCommentFieldHandler} from "core-components/work-packages/work
 
 @Component({
   selector: 'user-activity',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './user-activity.component.html'
 })
 export class UserActivityComponent extends WorkPackageCommentFieldHandler implements OnInit, AfterViewInit {
@@ -81,6 +91,7 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
               readonly wpCacheService:WorkPackageCacheService,
               readonly ConfigurationService:ConfigurationService,
               readonly userCacheService:UserCacheService,
+              readonly cdRef:ChangeDetectorRef,
               readonly I18n:I18nService) {
     super(elementRef, injector);
   }
@@ -118,6 +129,7 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
         this.userAvatar = user.avatar;
         this.userPath = user.showUser.href;
         this.userLabel = this.I18n.t('js.label_author', {user: this.userName});
+        this.cdRef.detectChanges();
       });
   }
 
@@ -166,11 +178,13 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   }
 
   public focus() {
-    setTimeout(() => this.focused = true);
+    this.focused = true;
+    this.cdRef.detectChanges();
   }
 
   public blur() {
-    setTimeout(() => this.focused = false);
+    this.focused = false;
+    this.cdRef.detectChanges();
   }
 
   public focussing() {

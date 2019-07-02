@@ -148,9 +148,10 @@ zh-CN:
     remember:
       active_session_notice: >
         您的帐户具有一个有效期截至%{expires_on}的记住 Cookie。借助此 Cookie，在此之前无需使用双重身份即可登录帐户。
+      other_active_session_notice: 您的帐户在另一个会话上存在一个有效的记住 Cookie。
       label: '记住'
-      clear_cookie: '单击此处可以移除此 Cookie'
-      cookie_removed: '记住的 Cookie 已被移除。'
+      clear_cookie: '单击此处移除所有记住的双重身份验证会话。'
+      cookie_removed: '所有记住的双重身份验证会话已移除。'
       dont_ask_again: "创建 Cookie，在此客户端上记住双重身份验证 %{days} 天。"
   field_phone: "手机"
   field_otp: "一次性密码"

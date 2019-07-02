@@ -38,6 +38,8 @@ import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {Observable} from "rxjs";
 import {QueryFiltersService} from "core-components/wp-query/query-filters.service";
+import {DmListParameter} from "core-app/modules/hal/dm-services/dm.service.interface";
+import {AbstractDmService} from "core-app/modules/hal/dm-services/abstract-dm.service";
 
 export interface PaginationObject {
   pageSize:number;
@@ -45,12 +47,14 @@ export interface PaginationObject {
 }
 
 @Injectable()
-export class QueryDmService {
+export class QueryDmService extends AbstractDmService<QueryResource> {
   constructor(protected halResourceService:HalResourceService,
               protected pathHelper:PathHelperService,
               protected UrlParamsHelper:UrlParamsHelperService,
               protected QueryFilters:QueryFiltersService,
               protected PayloadDm:PayloadDmService) {
+    super(halResourceService,
+          pathHelper);
   }
 
   /**
@@ -88,17 +92,16 @@ export class QueryDmService {
       .toPromise();
   }
 
-  public loadResults(query:QueryResource, pagination:PaginationObject):Promise<WorkPackageCollectionResource> {
+  public loadResults(query:QueryResource, pagination:PaginationObject):Promise<QueryResource> {
     if (!query.results) {
       throw 'No results embedded when expected';
     }
 
-    var queryData = this.UrlParamsHelper.buildV3GetQueryFromQueryResource(query, pagination);
-
-    var url = URI(query.results.href!).path();
+    let queryData = this.UrlParamsHelper.buildV3GetQueryFromQueryResource(query, pagination);
+    let url = URI(query.href!).path();
 
     return this.halResourceService
-      .get<WorkPackageCollectionResource>(url, queryData)
+      .get<QueryResource>(url, queryData)
       .toPromise();
   }
 
@@ -155,29 +158,31 @@ export class QueryDmService {
     }
   }
 
-  public all(projectIdentifier:string|null|undefined):Observable<CollectionResource<QueryResource>> {
-    let filters = new ApiV3FilterBuilder();
+  public listNonHidden(projectIdentifier:string|null|undefined):Promise<CollectionResource<QueryResource>> {
+    let listParams:DmListParameter = {
+      filters: [['hidden', '=', ['f']]]
+    };
 
     if (projectIdentifier) {
       // all queries with the provided projectIdentifier
-      filters.add('project_identifier', '=',  [projectIdentifier]);
+      listParams.filters!.push(['project_identifier', '=',  [projectIdentifier]]);
     } else {
       // all queries having no project (i.e. being global)
-      filters.add('project', '!*', []);
+      listParams.filters!.push(['project', '!*', []]);
     }
-
-    // Exclude hidden queries
-    filters.add('hidden', '=', ['f']);
-
-    let urlQuery = { filters: filters.toJson() };
-
-    return this.halResourceService
-      .get<CollectionResource<QueryResource>>(this.pathHelper.api.v3.queries.toString(), urlQuery);
+    return this.list(listParams);
   }
 
   private extractPayload(query:QueryResource, form:QueryFormResource):QueryResource {
     // Extracting requires having the filter schemas loaded as the dependencies
     this.QueryFilters.mapSchemasIntoFilters(query, form);
     return this.PayloadDm.extract<QueryResource>(query, form.schema);
+  }
+
+  protected listUrl():string {
+    return this.pathHelper.api.v3.queries.toString();
+  }
+  protected oneUrl(id:number|string):string {
+    return this.pathHelper.api.v3.queries.id(id).toString();
   }
 }

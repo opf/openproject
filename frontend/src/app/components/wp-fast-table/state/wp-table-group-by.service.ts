@@ -45,10 +45,6 @@ export class WorkPackageTableGroupByService extends WorkPackageQueryStateService
     super(querySpace);
   }
 
-  public get state():InputState<QueryGroupByResource|null> {
-    return this.querySpace.groupBy;
-  }
-
   valueFromQuery(query:QueryResource) {
     return query.groupBy || null;
   }
@@ -72,14 +68,8 @@ export class WorkPackageTableGroupByService extends WorkPackageQueryStateService
     return !!_.find(this.available, candidate => candidate.id === column.id);
   }
 
-  public update(groupBy:QueryGroupByResource|null) {
-    // hierarchies and group by are mutually exclusive
-    if (groupBy !== null) {
-      let hierarchy = this.querySpace.hierarchies.value!;
-      this.querySpace.hierarchies.putValue({ ...hierarchy, isVisible: false });
-    }
-
-    super.update(groupBy);
+  public disable() {
+    this.update(null);
   }
 
   public setBy(column:QueryColumn) {
@@ -91,7 +81,7 @@ export class WorkPackageTableGroupByService extends WorkPackageQueryStateService
   }
 
   public get current():QueryGroupByResource|null {
-    return this.state.getValueOr(null);
+    return this.lastUpdatedState.getValueOr(null);
   }
 
   protected get availableState() {
@@ -107,6 +97,7 @@ export class WorkPackageTableGroupByService extends WorkPackageQueryStateService
   }
 
   public isCurrentlyGroupedBy(column:QueryColumn):boolean {
-    return !!(this.current && this.current.id === column.id);
+    let cur = this.current;
+    return !!(cur && cur.id === column.id);
   }
 }

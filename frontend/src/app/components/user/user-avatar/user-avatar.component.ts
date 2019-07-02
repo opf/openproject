@@ -27,10 +27,18 @@
 //++
 
 import {UserResource} from 'core-app/modules/hal/resources/user-resource';
-import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input} from "@angular/core";
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  SimpleChanges
+} from "@angular/core";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'user-avatar',
@@ -52,11 +60,19 @@ export class UserAvatarComponent implements AfterViewInit {
 
   constructor(protected elementRef:ElementRef,
               protected ref:ChangeDetectorRef,
-              protected domSanitizer:DomSanitizer,
               protected pathHelper:PathHelperService) {
   }
 
   public ngAfterViewInit() {
+    this.initialize();
+  }
+
+  public replaceWithDefault() {
+    this.useFallback = true;
+    this.ref.detectChanges();
+  }
+
+  private initialize() {
     const element = this.elementRef.nativeElement;
 
     if (this.user) {
@@ -72,11 +88,6 @@ export class UserAvatarComponent implements AfterViewInit {
     this.userAvatarUrl = this.pathHelper.api.v3.users.id(this.userId).avatar.toString();
     this.userInitials = this.getInitials(this.userName);
     this.colorCode = this.computeColor(this.userName);
-    this.ref.detectChanges();
-  }
-
-  public replaceWithDefault() {
-    this.useFallback = true;
     this.ref.detectChanges();
   }
 

@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injector, OnDestroy} from '@angular/core';
+import {ChangeDetectorRef, Injector, OnDestroy} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
@@ -57,6 +57,7 @@ export class WorkPackageSingleViewBase implements OnDestroy {
   protected wpTableFocus:WorkPackageTableFocusService = this.injector.get(WorkPackageTableFocusService);
   protected projectCacheService:ProjectCacheService = this.injector.get(ProjectCacheService);
   protected authorisationService:AuthorisationService = this.injector.get(AuthorisationService);
+  protected cdRef:ChangeDetectorRef = this.injector.get(ChangeDetectorRef);
 
   // Static texts
   public text:any = {};
@@ -90,6 +91,7 @@ export class WorkPackageSingleViewBase implements OnDestroy {
       .subscribe((wp:WorkPackageResource) => {
         this.workPackage = wp;
         this.init();
+        this.cdRef.detectChanges();
       });
   }
 

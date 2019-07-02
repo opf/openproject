@@ -50,10 +50,6 @@ export class WorkPackageTablePaginationService extends WorkPackageTableBaseServi
     super(querySpace);
   }
 
-  public get state():InputState<WorkPackageTablePagination> {
-    return this.querySpace.pagination;
-  }
-
   public get paginationObject():PaginationObject {
     if (this.current) {
       return {
@@ -86,7 +82,7 @@ export class WorkPackageTablePaginationService extends WorkPackageTableBaseServi
       currentState.total = object.total;
     }
 
-    this.state.putValue(currentState);
+    this.updatesState.putValue(currentState);
   }
 
   public updateFromResults(results:WorkPackageCollectionResource) {
@@ -101,6 +97,6 @@ export class WorkPackageTablePaginationService extends WorkPackageTableBaseServi
   }
 
   public get current():WorkPackageTablePagination {
-    return this.state.value!;
+    return this.lastUpdatedState.value!;
   }
 }

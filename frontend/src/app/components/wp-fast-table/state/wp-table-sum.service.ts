@@ -39,16 +39,12 @@ export class WorkPackageTableSumService extends WorkPackageQueryStateService<boo
     super(querySpace);
   }
 
-  public get state():InputState<boolean> {
-    return this.querySpace.sum;
-  }
-
   public valueFromQuery(query:QueryResource) {
     return !!query.sums;
   }
 
   public initialize(query:QueryResource) {
-    this.state.putValue(!!query.sums);
+    this.pristineState.putValue(!!query.sums);
   }
 
   public hasChanged(query:QueryResource) {
@@ -61,11 +57,11 @@ export class WorkPackageTableSumService extends WorkPackageQueryStateService<boo
   }
 
   public toggle() {
-    this.state.putValue(!this.current);
+    this.updatesState.putValue(!this.current);
   }
 
   public setEnabled(value:boolean) {
-    this.state.putValue(value);
+    this.updatesState.putValue(value);
   }
 
   public get isEnabled() {
@@ -73,6 +69,6 @@ export class WorkPackageTableSumService extends WorkPackageQueryStateService<boo
   }
 
   public get current():boolean {
-    return this.state.getValueOr(false);
+    return this.lastUpdatedState.getValueOr(false);
   }
 }

@@ -27,6 +27,7 @@
 // ++
 
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -41,7 +42,7 @@ import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {TableHandlerRegistry} from 'core-components/wp-fast-table/handlers/table-handler-registry';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
+import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {combineLatest} from 'rxjs';
 import {States} from '../states.service';
 import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
@@ -59,18 +60,23 @@ import {
 import {QueryColumn} from 'core-components/wp-query/query-column';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
-import {randomString} from "core-app/helpers/random-string";
+import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state/wp-table-sort-by.service";
+import {tap} from "rxjs/operators";
+import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 
 @Component({
   templateUrl: './wp-table.directive.html',
   styleUrls: ['./wp-table.styles.sass'],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'wp-table',
 })
 export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   @Input() projectIdentifier:string;
   @Input('configuration') configurationObject:WorkPackageTableConfigurationObject;
+
+  public trackByHref = AngularTrackingHelpers.trackByHref;
 
   public configuration:WorkPackageTableConfiguration;
 
@@ -104,17 +110,18 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   public timelineVisible:boolean;
 
+  public manualSortEnabled:boolean;
+
   constructor(readonly elementRef:ElementRef,
               readonly injector:Injector,
               readonly states:States,
               readonly querySpace:IsolatedQuerySpace,
-              readonly opModalService:OpModalService,
-              readonly opContextMenu:OPContextMenuService,
               readonly I18n:I18nService,
               readonly cdRef:ChangeDetectorRef,
               readonly wpTableGroupBy:WorkPackageTableGroupByService,
               readonly wpTableTimeline:WorkPackageTableTimelineService,
-              readonly wpTableColumns:WorkPackageTableColumnsService) {
+              readonly wpTableColumns:WorkPackageTableColumnsService,
+              readonly wpTableSortBy:WorkPackageTableSortByService) {
   }
 
   ngOnInit():void {
@@ -133,7 +140,6 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
         title: I18n.t('js.work_packages.no_results.title'),
         description: I18n.t('js.work_packages.no_results.description')
       },
-      configureTable: I18n.t('js.toolbar.settings.configure_view'),
       tableSummary: I18n.t('js.work_packages.table.summary'),
       tableSummaryHints: [
         I18n.t('js.work_packages.table.text_inline_edit'),
@@ -142,15 +148,17 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
       ].join(' ')
     };
 
-    let statesCombined = combineLatest(
+    let statesCombined = combineLatest([
       this.querySpace.results.values$(),
-      this.wpTableGroupBy.state.values$(),
-      this.wpTableColumns.state.values$(),
-      this.wpTableTimeline.state.values$());
+      this.wpTableGroupBy.live$(),
+      this.wpTableColumns.live$(),
+      this.wpTableTimeline.live$(),
+      this.wpTableSortBy.live$()
+    ]);
 
     statesCombined.pipe(
       untilComponentDestroyed(this)
-    ).subscribe(([results, groupBy, columns, timelines]) => {
+    ).subscribe(([results, groupBy, columns, timelines, sort]) => {
       this.query = this.querySpace.query.value!;
       this.rowcount = results.count;
 
@@ -163,16 +171,13 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
         this.scrollSyncUpdate(timelines.visible);
       }
       this.timelineVisible = timelines.visible;
+
+      this.manualSortEnabled = this.wpTableSortBy.isManualSortingMode;
+
+      this.cdRef.detectChanges();
     });
 
-    // Locate table and timeline elements
-    const tableAndTimeline = this.getTableAndTimelineElement();
-    this.tableElement = tableAndTimeline[0];
-    this.timeline = tableAndTimeline[1];
-
-    // sync hover from table to timeline
-    this.wpTableHoverSync = new WpTableHoverSync(this.$element);
-    this.wpTableHoverSync.activate();
+    this.cdRef.detectChanges();
   }
 
   public ngOnDestroy():void {
@@ -185,12 +190,17 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     this.tbody = tbody;
     controller.workPackageTable = this.workPackageTable;
     new TableHandlerRegistry(this.injector).attachTo(this.workPackageTable);
-    this.cdRef.detectChanges();
-  }
 
-  public openTableConfigurationModal() {
-    this.opContextMenu.close();
-    this.opModalService.show(WpTableConfigurationModalComponent, this.injector);
+    // Locate table and timeline elements
+    const tableAndTimeline = this.getTableAndTimelineElement();
+    this.tableElement = tableAndTimeline[0];
+    this.timeline = tableAndTimeline[1];
+
+    // sync hover from table to timeline
+    this.wpTableHoverSync = new WpTableHoverSync(this.$element);
+    this.wpTableHoverSync.activate();
+
+    this.cdRef.detectChanges();
   }
 
   public get isEmbedded() {

@@ -26,7 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, Inject, Injector, Input, OnDestroy, OnInit} from '@angular/core';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Inject,
+  Injector,
+  Input,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
@@ -42,7 +51,6 @@ import {DisplayFieldService} from 'core-app/modules/fields/display/display-field
 import {DisplayField} from 'core-app/modules/fields/display/display-field.module';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {IWorkPackageEditingServiceToken} from '../../wp-edit-form/work-package-editing.service.interface';
-import {DynamicCssService} from '../../../modules/common/dynamic-css/dynamic-css.service';
 import {HookService} from 'core-app/modules/plugins/hook-service';
 import {randomString} from "core-app/helpers/random-string";
 import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
@@ -79,6 +87,7 @@ export const overflowingContainerAttribute = 'overflowingIdentifier';
 @Component({
   templateUrl: './wp-single-view.html',
   selector: 'wp-single-view',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     PortalCleanupService
   ]
@@ -100,7 +109,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
   // when editing the work package in a different project
   public projectContext:{
     matches:boolean,
-    href:string | null,
+    href:string|null,
     field?:FieldDescriptor[]
   };
   public text = {
@@ -132,13 +141,13 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
               protected currentProject:CurrentProjectService,
               protected PathHelper:PathHelperService,
               protected states:States,
-              protected dynamicCssService:DynamicCssService,
               @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService,
               protected halResourceService:HalResourceService,
               protected displayFieldService:DisplayFieldService,
               protected wpCacheService:WorkPackageCacheService,
               protected hook:HookService,
               protected injector:Injector,
+              protected cdRef:ChangeDetectorRef,
               readonly elementRef:ElementRef,
               readonly cleanupService:PortalCleanupService,
               readonly browserDetector:BrowserDetector) {
@@ -150,10 +159,6 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
     if (this.workPackage.attachments) {
       this.workPackage.attachments.updateElements();
     }
-
-    // Dynamically load highlighting at this point,
-    // if it isn't available yet
-    this.dynamicCssService.requireHighlighting();
 
     // Whenever the resource context changes in any way,
     // update the visible fields.
@@ -169,7 +174,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
         const isNew = this.workPackage.isNew;
 
         if (!resource.project) {
-          this.projectContext = {matches: false, href: null};
+          this.projectContext = { matches: false, href: null };
         } else {
           this.projectContext = {
             href: this.PathHelper.projectWorkPackagePath(resource.project.idFromLink, this.workPackage.id!),
@@ -183,6 +188,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
 
         const attributeGroups = resource.schema._attributeGroups;
         this.groupedFields = this.rebuildGroupedFields(resource, attributeGroups);
+        this.cdRef.detectChanges();
       });
 
     // Update the resource context on every update to the temporary resource.
@@ -254,7 +260,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
     let id = this.workPackage.project.idFromLink;
     let projectPath = this.PathHelper.projectPath(id);
     let project = `<a href="${projectPath}">${this.workPackage.project.name}<a>`;
-    return this.I18n.t('js.project.work_package_belongs_to', {projectname: project});
+    return this.I18n.t('js.project.work_package_belongs_to', { projectname: project });
   }
 
   /*
@@ -395,9 +401,9 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
       .data(overflowingContainerAttribute);
 
     if (overflowingIdentifier) {
-      return overflowingIdentifier.replace('.__overflowing_','');
+      return overflowingIdentifier.replace('.__overflowing_', '');
     } else {
-      return ''
+      return '';
     }
   }
 }

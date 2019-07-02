@@ -83,7 +83,6 @@ module Components
                             query: name,
                             results_selector: '.ng-dropdown-panel-items'
 
-
         set_filter(name, operator, value, selector)
       end
 

@@ -1,7 +1,7 @@
 pt-BR:
   button_edit_this_page: "Editar esta página"
+  error_block_not_saved: "O bloco de texto não pôde ser salvo."
   error_saving_changes: "Não foi possível salvar as alterações: %{errors}"
-  error_textile_not_saved: "O bloco textile não pôde ser salvo."
   label_hidden_elements: "Elementos ocultos"
   label_visible_elements: "Elementos visíveis"
   label_project_description: "Descrição do projeto"
@@ -13,7 +13,6 @@ pt-BR:
   label_work_packages_responsible_for: "Pacotes de trabalho sob minha responsabilidade"
   label_work_packages_assigned_to_me: "Pacotes de trabalho atribuídos a mim"
   label_work_packages_watched: "Pacotes de trabalho observados"
-  label_work_package_tracking: " Acompanhamento de pacote de trabalho"
   label_members: "Membros"
   label_member_view_all: "Ver todos os membros"
   label_no_visible_members: "Este projeto não possui membros visíveis."

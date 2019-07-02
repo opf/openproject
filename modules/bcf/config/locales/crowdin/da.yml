@@ -1,0 +1,33 @@
+da:
+  bcf:
+    label_bcf: 'BCF'
+    issues: "Issues"
+    experimental_badge: "Experimental"
+    exceptions:
+      file_invalid: "BCF file invalid"
+    x_bcf_issues:
+      one: 'One BCF issue'
+      other: '%{count} BCF issues'
+    bcf_xml:
+      xml_file: 'BCF XML File'
+      import_title: 'Import from BCF file'
+      export: 'Export all to BCF-XML'
+      import_update_comment: '(Updated in BCF import)'
+      import_failed: 'Cannot import BCF file: %{error}'
+      import_successful: 'Imported %{count} BCF issues'
+      import_canceled: 'BCF-XML import canceled.'
+      type_not_active: "The issue type is not activated for this project."
+      import:
+        num_issues_found: '%{x_bcf_issues} are contained in the BCF-XML file, their details are listed below.'
+        button_prepare: 'Prepare import'
+        button_perform_import: 'Confirm import'
+        button_proceed: 'Proceed'
+        button_back_to_list: 'Back to list'
+        description: "Provide a BCF-XML v2.1 file to import into this project. You can examine its contents before performing the import."
+        perform_description: "Do you want to import or update the issues listed above?"
+        work_package_has_newer_changes: "The import for BCF topic %{bcf_uuid} appears to be outdated. The latest changes on the server are newer than the \"MofiedDate\" of the imported topic. However, comments got updated."
+  export:
+    format:
+      bcf: "BCF-XML"
+  attributes:
+    bcf_thumbnail: "BCF snaphot"

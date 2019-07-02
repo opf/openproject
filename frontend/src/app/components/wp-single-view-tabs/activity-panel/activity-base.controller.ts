@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, OnDestroy, OnInit} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {ActivityEntryInfo} from 'core-components/wp-single-view-tabs/activity-panel/activity-entry-info';
@@ -35,6 +35,7 @@ import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {Transition} from "@uirouter/core";
 
 export class ActivityPanelBaseController implements OnInit, OnDestroy {
   public workPackage:WorkPackageResource;
@@ -58,6 +59,8 @@ export class ActivityPanelBaseController implements OnInit, OnDestroy {
 
   constructor(readonly wpCacheService:WorkPackageCacheService,
               readonly I18n:I18nService,
+              readonly cdRef:ChangeDetectorRef,
+              readonly $transition:Transition,
               readonly wpActivity:WorkPackagesActivityService) {
 
     this.reverse = wpActivity.isReversed;
@@ -74,6 +77,7 @@ export class ActivityPanelBaseController implements OnInit, OnDestroy {
         this.workPackage = wp;
         this.wpActivity.require(this.workPackage).then((activities:any) => {
           this.updateActivities(activities);
+          this.cdRef.detectChanges();
         });
       });
   }

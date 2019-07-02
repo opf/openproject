@@ -88,7 +88,7 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
     }
 
     const promise = this.QueryDm.loadResults(query, pagination)
-      .then((results) => this.wpStatesInitialization.updateQuerySpace(query, results));
+      .then((query) => this.wpStatesInitialization.updateQuerySpace(query, query.results));
 
     if (visible) {
       this.loadingIndicator = promise;

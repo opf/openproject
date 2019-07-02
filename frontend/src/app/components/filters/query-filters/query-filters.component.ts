@@ -52,6 +52,7 @@ const ADD_FILTER_SELECT_INDEX = -1;
 
 @Component({
   selector: 'query-filters',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './query-filters.component.html'
 })
 export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
@@ -65,7 +66,7 @@ export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
   public remainingFilters:any[] = [];
   public eeShowBanners:boolean = false;
   public focusElementIndex:number = 0;
-  public compareByName = AngularTrackingHelpers.trackByName;
+  public trackByName = AngularTrackingHelpers.trackByName;
 
   public text = {
     open_filter: this.I18n.t('js.filter.description.text_open_filter'),
