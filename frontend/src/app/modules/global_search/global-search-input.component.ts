@@ -164,6 +164,14 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
     }
   }
 
+  public redirectToWp(id:string) {
+    window.location = this.wpPath(id) as unknown as Location;
+  }
+
+  public wpPath(id:string) {
+    return this.PathHelperService.workPackagePath(id);
+  }
+
   public search($event:string) {
     this.currentValue = this.ngSelectComponent.filterValue;
     this.openCloseMenu($event);
@@ -324,10 +332,6 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   public blur() {
     this.ngSelectComponent.filterValue = '';
     (<HTMLInputElement> document.activeElement).blur();
-  }
-
-  private redirectToWp(id:string) {
-    window.location = this.PathHelperService.workPackagePath(id) as unknown as Location;
   }
 
   private hideSpinner():void {
