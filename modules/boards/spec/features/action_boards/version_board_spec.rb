@@ -123,7 +123,7 @@ describe 'Version action board', type: :feature, js: true do
       end
 
       # Add item
-      board_page.add_list nil, value: 'Shared version'
+      board_page.add_list option: 'Shared version'
       board_page.add_card 'Open version', 'Task 1'
       sleep 2
 
@@ -216,7 +216,7 @@ describe 'Version action board', type: :feature, js: true do
       expect(page).to have_content 'Completely new version'
 
       board_page.visit!
-      board_page.add_list nil, value: closed_version.name
+      board_page.add_list option: closed_version.name
       board_page.expect_list 'Closed version'
       expect(page).to have_selector('.version-board-header.-closed')
 

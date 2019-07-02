@@ -154,24 +154,20 @@ module Pages
         .perform
     end
 
-    def add_list(name, value: nil)
-      if value.nil? && action?
+    def add_list(option: nil)
+      if option.nil? && action?
         raise "Must pass value option for action boards"
       end
 
       count = list_count
 
-      if value.nil?
+      if option.nil?
         page.find('.boards-list--add-item').click
         expect(page).to have_selector('.board-list--container', count: count + 1)
       else
-        open_and_fill_add_list_modal value
-        page.find('.ng-option-label', text: name).click
+        open_and_fill_add_list_modal option
+        page.find('.ng-option-label', text: option, wait: 10).click
         click_on 'Continue'
-      end
-
-      unless name.nil?
-        rename_list 'Unnamed list', name
       end
     end
 
