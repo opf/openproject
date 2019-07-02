@@ -86,7 +86,7 @@ describe 'Status action board', type: :feature, js: true do
       # expect lists of default status
       board_page.expect_list 'Open'
 
-      board_page.add_list nil, value: 'Closed'
+      board_page.add_list option: 'Closed'
       board_page.expect_list 'Closed'
 
       board_page.board(reload: true) do |board|
@@ -108,7 +108,7 @@ describe 'Status action board', type: :feature, js: true do
       end
 
       # Create new list
-      board_page.add_list nil, value: 'Whatever'
+      board_page.add_list option: 'Whatever'
       board_page.expect_list 'Whatever'
 
       # Add item
