@@ -51,6 +51,8 @@ export const OpEditingPortalChangesetToken = new InjectionToken('wp-editing-port
 export const overflowingContainerSelector = '.__overflowing_element_container';
 export const overflowingContainerAttribute = 'overflowingIdentifier';
 
+export const editModeClassName = '-editing';
+
 @Component({
   template: ''
 })
