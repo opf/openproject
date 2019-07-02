@@ -43,7 +43,7 @@
     "@angular/platform-browser": "8.0.0",
     "@angular/platform-browser-dynamic": "8.0.0",
     "@angular/router": "8.0.0",
-    "@ng-select/ng-select": "git+https://github.com/opf/ng-select.git#5eaee6ffb4210100cf894a8ec67d0f88e72b59a6",
+    "@ng-select/ng-select": "2.20.3",
     "@types/angular": "^1.6.51",
     "@types/assertion-error": "^1.0.30",
     "@types/chart.js": "^2.7.40",
