@@ -60,6 +60,18 @@
   transform: translateX( -15px )
   z-index: 1000 !important
 
+// Fix for sticky positions in scroll container
+.ck-editor__top
+  position: sticky !important
+  top: 0px
+
+// Set border
+.ck-toolbar
+  border: 1px solid var(--ck-color-base-border) !important
+
+// Overrides for top border
+.ck-content
+  border-top: none !important
 
 // Override fixed position of toolbar
 // Otherwise the toolbar will 'disappear' behind the topmenu
