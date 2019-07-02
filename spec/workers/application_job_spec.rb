@@ -46,18 +46,13 @@ describe ApplicationJob do
         RequestStore[:test_value] = 42
       end)
 
-      job.perform
-      job.perform
-    end
+      RequestStore[:test_value] = 'my value'
+      expect { job.perform }.not_to change { RequestStore[:test_value] }
 
-    it 'leaves the request store populated after perform' do
-      job = JobMock.new(->() do
-        RequestStore[:test_value] = 42
-      end)
+      RequestStore[:test_value] = 'my value2'
+      expect { job.perform }.not_to change { RequestStore[:test_value] }
 
-      job.perform
-
-      expect(RequestStore[:test_value]).to eql 42
+      expect(RequestStore[:test_value]).to eq 'my value2'
     end
   end
 end

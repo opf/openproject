@@ -3,8 +3,8 @@
 # Any libraries that use thread pools should be configured to match
 # the maximum value specified for Puma.
 #
-threads_count = ENV.fetch("RAILS_MAX_THREADS") { 1 }
-threads threads_count, threads_count
+threads_count = ENV.fetch("RAILS_MAX_THREADS") { 16 }
+threads 0, threads_count
 
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
 #
