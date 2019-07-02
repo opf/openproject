@@ -23,6 +23,9 @@ export class DisplayFieldRenderer {
   readonly displayFieldService:DisplayFieldService = this.injector.get(DisplayFieldService);
   readonly I18n:I18nService = this.injector.get(I18nService);
 
+  /** We cache the previously used fields to avoid reinitialization */
+  private fieldCache:{ [key:string]: DisplayField } = {};
+
   constructor(public readonly injector:Injector,
               public readonly container:'table' | 'single-view' | 'timeline',
               public readonly options:{ [key:string]: any } = {}) {
@@ -32,6 +35,7 @@ export class DisplayFieldRenderer {
                 name:string,
                 changeset:WorkPackageChangeset|null,
                 placeholder = cellEmptyPlaceholder):HTMLSpanElement {
+
     const [field, span] = this.renderFieldValue(workPackage, name, changeset, placeholder);
 
     if (field === null) {
@@ -73,28 +77,34 @@ export class DisplayFieldRenderer {
                   fieldSchema:IFieldSchema,
                   name:string,
                   changeset:WorkPackageChangeset|null):DisplayField {
-    const field = this.getFieldForCurrentContext(workPackage, fieldSchema, name);
+    let field = this.fieldCache[name];
+
+    if (!field) {
+      field = this.fieldCache[name] = this.getFieldForCurrentContext(workPackage, name, fieldSchema);
+    }
+
+    field.apply(workPackage, fieldSchema);
     field.changeset = changeset;
 
     return field;
   }
 
-  private getFieldForCurrentContext(workPackage:WorkPackageResource, fieldSchema:IFieldSchema, name:string):DisplayField {
+  private getFieldForCurrentContext(workPackage:WorkPackageResource, name:string, fieldSchema:IFieldSchema):DisplayField {
     const context:DisplayFieldContext = { container: this.container, injector: this.injector, options: this.options };
 
     // We handle multi value fields differently in the single view context
     const isCustomMultiLinesField = ['[]CustomOption'].indexOf(fieldSchema.type) >= 0;
     if (this.container === 'single-view' && isCustomMultiLinesField) {
-      return new MultipleLinesStringObjectsDisplayField(workPackage, name, fieldSchema, context) as DisplayField;
+      return new MultipleLinesStringObjectsDisplayField(name, context) as DisplayField;
     }
     const isUserMultiLinesField = ['[]User'].indexOf(fieldSchema.type) >= 0;
     if (this.container === 'single-view' && isUserMultiLinesField) {
-      return new MultipleLinesUserFieldModule(workPackage, name, fieldSchema, context) as DisplayField;
+      return new MultipleLinesUserFieldModule(name, context) as DisplayField;
     }
 
     // We handle progress differently in the timeline
     if (this.container === 'timeline' && name === 'percentageDone') {
-      return new ProgressTextDisplayField(workPackage, name, fieldSchema, context);
+      return new ProgressTextDisplayField(name, context);
     }
 
     return this.displayFieldService.getField(workPackage, name, fieldSchema, context);

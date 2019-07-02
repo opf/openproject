@@ -19,13 +19,13 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
   protected readonly wpTableHierarchies = this.injector.get(WorkPackageTableHierarchiesService);
 
   // Remember which rows were already rendered
-  public rendered:{ [workPackageId:string]:boolean } = {};
+  private rendered:{ [workPackageId:string]:boolean } = {};
 
   // Remember additional parents inserted that are not part of the results table
-  public additionalParents:{ [workPackageId:string]:WorkPackageResource } = {};
+  private additionalParents:{ [workPackageId:string]:WorkPackageResource } = {};
 
   // Defer children to be rendered when their parent occurs later in the table
-  public deferred:{ [parentId:string]:WorkPackageResource[] } = {};
+  private deferred:{ [parentId:string]:WorkPackageResource[] } = {};
 
   // Collapsed state
   private hierarchies:WorkPackageTableHierarchies;
@@ -47,7 +47,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
 
     _.each(this.workPackageTable.originalRowIndex, (row, ) => {
       row.object.ancestors.forEach((ancestor:WorkPackageResource) => {
-        this.parentsWithVisibleChildren[ancestor.id] = true;
+        this.parentsWithVisibleChildren[ancestor.id!] = true;
       });
     });
 

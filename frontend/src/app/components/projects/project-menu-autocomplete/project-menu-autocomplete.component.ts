@@ -35,7 +35,7 @@ import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
 import {LinkHandling} from 'core-app/modules/common/link-handling/link-handling';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HttpClient} from "@angular/common/http";
-import {ChangeDetectorRef, Component, ElementRef, OnInit} from "@angular/core";
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit} from "@angular/core";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 
@@ -51,6 +51,7 @@ export type ProjectAutocompleteItem = IAutocompleteItem<IProjectMenuEntry>;
 
 @Component({
   templateUrl: './project-menu-autocomplete.template.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'project-menu-autocomplete'
 })
 export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<IProjectMenuEntry> implements OnInit {

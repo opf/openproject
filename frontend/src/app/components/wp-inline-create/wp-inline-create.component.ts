@@ -303,10 +303,12 @@ export class WorkPackageInlineCreateComponent implements OnInit, AfterViewInit, 
 
   public showRow() {
     this.mode = 'inactive';
+    this.cdRef.detectChanges();
   }
 
   public hideRow() {
     this.mode = 'create';
+    this.cdRef.detectChanges();
   }
 
   public get colspan():number {

@@ -151,8 +151,10 @@ export class WorkPackageTable {
     const renderPass = this.lastRenderPass = this.rowBuilder.buildRows();
 
     // Insert table body
-    this.tbody.innerHTML = '';
-    this.tbody.appendChild(renderPass.tableBody);
+    requestAnimationFrame(() => {
+      this.tbody.innerHTML = '';
+      this.tbody.appendChild(renderPass.tableBody);
+    });
 
     return renderPass;
   }

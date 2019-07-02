@@ -29,7 +29,15 @@
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {States} from '../states.service';
 import {StateService, TransitionService} from '@uirouter/core';
-import {ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild} from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from "@angular/core";
 import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
@@ -70,6 +78,7 @@ interface IQueryAutocompleteJQuery extends JQuery {
 
 @Component({
   selector: 'wp-query-select',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './wp-query-select.template.html',
 })
 export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestroy {
@@ -116,7 +125,8 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
               readonly pathHelper:PathHelperService,
               readonly wpStaticQueries:WorkPackageStaticQueriesService,
               readonly mainMenuService:MainMenuNavigationService,
-              readonly toggleService:MainMenuToggleService) {
+              readonly toggleService:MainMenuToggleService,
+              readonly cdRef:ChangeDetectorRef) {
   }
 
   public ngOnInit() {
@@ -239,8 +249,14 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
   private set loadingPromise(promise:Promise<any>) {
     this.loading = true;
     promise
-      .then(() => this.loading = false)
-      .catch(() => this.loading = false);
+      .then(() => {
+        this.loading = false;
+        this.cdRef.detectChanges();
+      })
+      .catch(() => {
+        this.loading = false;
+        this.cdRef.detectChanges();
+      });
   }
 
   private setupAutoCompletion(input:IQueryAutocompleteJQuery) {

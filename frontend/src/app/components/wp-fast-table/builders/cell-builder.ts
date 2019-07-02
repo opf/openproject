@@ -10,7 +10,7 @@ export const wpCellTdClassName = 'wp-table--cell-td';
 
 export class CellBuilder {
 
-  private fieldRenderer = new DisplayFieldRenderer(this.injector, 'table');
+  public fieldRenderer = new DisplayFieldRenderer(this.injector, 'table');
 
   constructor(public injector:Injector) {
   }
