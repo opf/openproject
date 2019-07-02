@@ -19,16 +19,20 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
   protected readonly wpTableHierarchies = this.injector.get(WorkPackageTableHierarchiesService);
 
   // Remember which rows were already rendered
-  public rendered:{ [workPackageId:string]:boolean };
+  public rendered:{ [workPackageId:string]:boolean } = {};
 
   // Remember additional parents inserted that are not part of the results table
-  public additionalParents:{ [workPackageId:string]:WorkPackageResource };
+  public additionalParents:{ [workPackageId:string]:WorkPackageResource } = {};
 
   // Defer children to be rendered when their parent occurs later in the table
-  public deferred:{ [parentId:string]:WorkPackageResource[] };
+  public deferred:{ [parentId:string]:WorkPackageResource[] } = {};
 
   // Collapsed state
   private hierarchies:WorkPackageTableHierarchies;
+
+  // Build a map of hierarchy elements present in the table
+  // with at least a visible child
+  public parentsWithVisibleChildren:{ [id:string]:boolean } = {};
 
   constructor(public readonly injector:Injector,
               public workPackageTable:WorkPackageTable,
@@ -40,9 +44,14 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
     super.prepare();
 
     this.hierarchies = this.wpTableHierarchies.current;
-    this.rendered = {};
-    this.additionalParents = {};
-    this.deferred = {};
+
+    _.each(this.workPackageTable.originalRowIndex, (row, ) => {
+      row.object.ancestors.forEach((ancestor:WorkPackageResource) => {
+        this.parentsWithVisibleChildren[ancestor.id] = true;
+      });
+    });
+
+    this.rowBuilder.parentsWithVisibleChildren = this.parentsWithVisibleChildren;
   }
 
   /**
@@ -66,7 +75,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
         let [tr, hidden] = this.rowBuilder.buildEmpty(workPackage);
         row.element = tr;
         this.tableBody.appendChild(tr);
-        this.markRendered(workPackage, hidden);
+        this.markRendered(tr, workPackage, hidden);
       }
 
       // Render all potentially deferred rows
@@ -176,7 +185,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
         if (index === 0) {
           // Special case, first ancestor => root without parent
           this.tableBody.appendChild(ancestorRow);
-          this.markRendered(ancestor, hidden, true);
+          this.markRendered(ancestorRow, ancestor, hidden, true);
         } else {
           // This ancestor must be inserted in the last position of its root
           const parent = ancestors[index - 1];
@@ -216,16 +225,16 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
    * @param hidden
    * @param isAncestor
    */
-  private markRendered(workPackage:WorkPackageResource, hidden:boolean = false, isAncestor:boolean = false) {
+  private markRendered(row:HTMLTableRowElement, workPackage:WorkPackageResource, hidden:boolean = false, isAncestor:boolean = false) {
     this.rendered[workPackage.id!] = true;
-    this.renderedOrder.push(this.buildRenderInfo(workPackage, hidden, isAncestor));
+    this.renderedOrder.push(this.buildRenderInfo(row, workPackage, hidden, isAncestor));
   }
 
   /**
    * Append a row to the given parent hierarchy group.
    */
   private insertAtExistingHierarchy(workPackage:WorkPackageResource,
-                                    el:HTMLElement,
+                                    el:HTMLTableRowElement,
                                     parent:WorkPackageResource,
                                     hidden:boolean,
                                     isAncestor:boolean) {
@@ -238,14 +247,17 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
     this.spliceRow(
       el,
       `${hierarchyRoot},${hierarchyGroup}`,
-      this.buildRenderInfo(workPackage, hidden, isAncestor)
+      this.buildRenderInfo(el, workPackage, hidden, isAncestor)
     );
 
     this.rendered[workPackage.id!] = true;
   }
 
-  private buildRenderInfo(workPackage:WorkPackageResource, hidden:boolean, isAncestor:boolean):RowRenderInfo {
-    let info:any = {
+  private buildRenderInfo(row:HTMLTableRowElement, workPackage:WorkPackageResource, hidden:boolean, isAncestor:boolean):RowRenderInfo {
+    let info:RowRenderInfo = {
+      element: row,
+      classIdentifier: '',
+      additionalClasses: [],
       workPackage: workPackage,
       renderType: 'primary',
       hidden: hidden

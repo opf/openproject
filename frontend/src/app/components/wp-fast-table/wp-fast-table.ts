@@ -39,7 +39,7 @@ export class WorkPackageTable {
   ];
 
   // Last render pass used for refreshing single rows
-  private lastRenderPass:PrimaryRenderPass | null = null;
+  public lastRenderPass:PrimaryRenderPass|null = null;
 
   // Work package editing context handler in the table, which handles open forms
   // and their contexts
@@ -75,7 +75,7 @@ export class WorkPackageTable {
     this.originalRowIndex = {};
     this.originalRows = rows.map((wp:WorkPackageResource, i:number) => {
       let wpId = wp.id!;
-      this.originalRowIndex[wpId] = <WorkPackageTableRow> {object: wp, workPackageId: wpId, position: i};
+      this.originalRowIndex[wpId] = <WorkPackageTableRow>{object: wp, workPackageId: wpId, position: i};
       return wpId;
     });
   }
@@ -100,10 +100,12 @@ export class WorkPackageTable {
     const renderPass = this.performRenderPass();
 
     // Insert timeline body
-    this.timelineBody.innerHTML = '';
-    this.timelineBody.appendChild(renderPass.timeline.timelineBody);
+    requestAnimationFrame(() => {
+      this.timelineBody.innerHTML = '';
+      this.timelineBody.appendChild(renderPass.timeline.timelineBody);
 
-    this.querySpace.rendered.putValue(renderPass.result);
+      this.querySpace.rendered.putValue(renderPass.result);
+    });
   }
 
   /**
