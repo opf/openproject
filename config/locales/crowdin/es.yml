@@ -1729,7 +1729,7 @@ es:
   notice_can_t_change_password: "Esta cuenta utiliza una fuente de autenticación externa. Es imposible cambiar la contraseña."
   notice_custom_options_deleted: "Se ha eliminado la opción '%{option_value}' y sus %{num_deleted} apariciones."
   notice_email_error: "Un error ha ocurrido mientras se enviaba el correo (%{value})"
-  notice_email_sent: "An email was sent to %{value}"
+  notice_email_sent: "Se ha enviado un email a %{value}"
   notice_failed_to_save_work_packages: "Fallo al salvar %{count} paquete(s) de trabajo en %{total} seleccionado: %{ids}."
   notice_failed_to_save_members: "Fallo al salvar miembro(s): %{errors}."
   notice_file_not_found: "La página que estaba intentando acceder no existe o ha sido eliminada."
@@ -2139,7 +2139,7 @@ es:
     Puede personalizar los campos que se mostrarán en forma de paquete de trabajo. Puede agrupar libremente los campos para adaptarlos a las necesidades de su dominio.
   text_form_configuration_drag_to_activate: "Arrastre campos desde aquí para activarlos"
   text_form_configuration_required_attribute: "El atributo está marcado como obligatorio y, por lo tanto, siempre se muestra"
-  text_caracters_maximum: "%{count} characters maximum."
+  text_caracters_maximum: "máximo de %{count} caracteres."
   text_caracters_minimum: "Debe tener al menos %{count} caracteres de largo."
   text_comma_separated: "Permitir múltiples valores (separados por comas)."
   text_comment_wiki_page: "Comentar a la página de wiki: %{page}"
@@ -2163,7 +2163,7 @@ es:
   text_diff_truncated: "... Esta diferencia se truncó porque excede el tamaño máximo que puede visualizarse."
   text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/configuration.yml and restart the application to enable them."
   text_enumeration_category_reassign_to: "Reasignarlos a este valor:"
-  text_enumeration_destroy_question: "%{count} objects are assigned to this value."
+  text_enumeration_destroy_question: "%{count} objetos asignados a este valor."
   text_file_repository_writable: "Directorio de adjuntos escribible"
   text_git_repo_example: "un repositorio local y vacío (por ejemplo /gitrepo, c:\\gitrepo)"
   text_hint_date_format: "Indique una fecha en el formato AAAA-MM-DD. Otros formatos pueden dar lugar a que se interprete una fecha errónea."
@@ -2199,7 +2199,7 @@ es:
   text_notice_too_many_values_are_inperformant: "Nota: Si se muestran más de 100 elementos por página puede incrementar el tiempo de carga de la página."
   text_notice_security_badge_displayed_html: >
     Nota: al activarse, se mostrará una insignia con el estado de instalación en el <a href="%{information_panel_path}">%{information_panel_label}</a> panel de administración, y en la página principal. Solamente será visible para administradores. <br/> La insignia comprobará tu versión actual de OpenProject comparada con la base de datos oficial de OpenProject para alertarte de cualquier actualización o vulnerabilidad. Para más información sobre las funciones de la comprobación, los datos necesarios para conseguir actualizaciones disponibles, o para desactivar esta comprobación, por favor visita <a href="%{more_info_url}">la documentación de configuración</a>.
-  text_own_membership_delete_confirmation: "You are about to remove some or all of your permissions and may no longer be able to edit this project after that.\nAre you sure you want to continue?"
+  text_own_membership_delete_confirmation: "Estás a punto de eliminar algunos o todos tus permisos, y podrías no poder volver a editar este proyecto.\n¿Estás seguro/a de que quieres continuar?"
   text_plugin_assets_writable: "Directorio de Plugins activos escribible"
   text_powered_by: "Con tecnología de %{link}"
   text_project_identifier_info: "Se permiten sólo letras minúsculas (a-z), números, guiones y guiones bajos, debe comenzar con una letra minúscula."
