@@ -27,7 +27,6 @@
               [searchFn]="customSearchFn"
               [typeahead]="searchTermChanged$"
               (focus)="onFocus()"
-              (focusout)="onFocusOut()"
               (search)="search($event)"
               (open)="openCloseMenu(currentValue)"
               (close)="select.filterValue = currentValue"
@@ -46,7 +45,9 @@
           </div>
           <ng-template #workPackageItemTemplate>
             <div tabindex="-1" class="global-search--option">
-              <a class="global-search--option-wrapper" (click)="redirectToWp(item.id)" [href]="wpPath(item.id)">
+              <a class="global-search--option-wrapper"
+                 (click)="redirectToWp(item.id, $event)"
+                 [href]="wpPath(item.id)">
                 <span class="global-search--wp-id"
                       title="{{item.status}}"
                       [ngOptionHighlight]="currentValue"
