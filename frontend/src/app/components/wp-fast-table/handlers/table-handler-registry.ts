@@ -47,7 +47,7 @@ export class TableHandlerRegistry {
     t => new WorkPackageStateLinksHandler(this.injector, t),
     // Clicking on the row (not within a cell)
     t => new RowClickHandler(this.injector, t),
-    // Double Clicking on the row (not within a cell)
+    // Double Clicking on the cell within the row
     t => new RowDoubleClickHandler(this.injector, t),
     // Clicking on group headers
     t => new GroupRowHandler(this.injector, t),
