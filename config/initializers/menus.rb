@@ -138,21 +138,26 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_role_and_permissions,
             icon: 'icon2 icon-settings'
 
+  menu.push :admin_work_packages,
+            { controller: '/types' },
+            caption: :label_work_package_plural,
+            icon: 'icon2 icon-view-timeline'
+
   menu.push :types,
             { controller: '/types' },
-            caption: :label_work_package_types,
-            icon: 'icon2 icon-types'
+            caption: :label_type_plural,
+            parent: :admin_work_packages
 
   menu.push :statuses,
             { controller: '/statuses' },
-            caption: :label_work_package_status_plural,
-            icon: 'icon2 icon-flag',
+            caption: :label_status,
+            parent: :admin_work_packages,
             html: { class: 'statuses' }
 
   menu.push :workflows,
             { controller: '/workflows', action: 'edit' },
             caption: Proc.new { Workflow.model_name.human },
-            icon: 'icon2 icon-workflow'
+            parent: :admin_work_packages
 
   menu.push :custom_fields,
             { controller: '/custom_fields' },
@@ -168,7 +173,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :attribute_help_texts,
             { controller: '/attribute_help_texts' },
             caption: :'attribute_help_texts.label_plural',
-            icon: 'icon2 icon-help2',
+            parent: :admin_work_packages,
             if: Proc.new {
               EnterpriseToken.allows_to?(:attribute_help_texts)
             }
