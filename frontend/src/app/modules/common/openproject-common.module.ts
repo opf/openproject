@@ -69,7 +69,6 @@ import {CommonModule} from "@angular/common";
 import {CollapsibleSectionComponent} from "core-app/modules/common/collapsible-section/collapsible-section.component";
 import {NoResultsComponent} from "core-app/modules/common/no-results/no-results.component";
 import {DragDropModule} from "@angular/cdk/drag-drop";
-import {NgSelectModule} from "@ng-select/ng-select";
 import {UserAutocompleterComponent} from "app/modules/common/autocomplete/user-autocompleter.component";
 import {ScrollableTabsComponent} from "core-app/modules/common/tabs/scrollable-tabs.component";
 import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
@@ -92,7 +91,7 @@ import {RemoteFieldUpdaterComponent} from 'core-app/modules/common/remote-field-
 import {AutofocusDirective} from "core-app/modules/common/autofocus/autofocus.directive";
 import {ShowSectionDropdownComponent} from "core-app/modules/common/hide-section/show-section-dropdown.component";
 import {IconTriggeredContextMenuComponent} from "core-components/op-context-menu/icon-triggered-context-menu/icon-triggered-context-menu.component";
-import {NgSelectModule} from "@ng-select/ng-select/src/ng-select/ng-select.module";
+import {NgSelectModule} from "@ng-select/ng-select";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -122,7 +121,6 @@ export function bootstrapModule(injector:Injector) {
 
     DynamicModule.withComponents([VersionAutocompleterComponent,
       CreateAutocompleterComponent]),
-    NgSelectModule
   ],
   exports: [
     // Re-export all commonly used
@@ -281,6 +279,7 @@ export function bootstrapModule(injector:Injector) {
     AddSectionDropdownComponent,
     RemoteFieldUpdaterComponent,
     AttributeHelpTextComponent,
+    ShowSectionDropdownComponent,
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: bootstrapModule, deps: [Injector], multi: true },

@@ -44,7 +44,7 @@ function registerListener(
   const confirmModal = opModalService.show(modal, 'global');
   confirmModal.closingEvent.subscribe((modal:any) => {
     if (modal.confirmed) {
-      $('<input>')
+      jQuery('<input>')
         .attr({
           type: 'hidden',
           name: '_password_confirmation',
@@ -66,12 +66,17 @@ export function registerRequestForConfirmation($:JQueryStatic) {
       const opModalService = context.services.opModalService;
       const passwordConfirmationModal = context.classes.modals.passwordConfirmation;
 
-
       $(document).on(
         'submit',
-        'form[request-for-confirmation]',
+        'form[data-request-for-confirmation]',
         function(this:any, $event:JQuery.Event) {
-          return registerListener(jQuery(this), $event, opModalService, passwordConfirmationModal);
+          const form = jQuery(this);
+
+          if (form.find('input[name="_password_confirmation"]').length) {
+              return true;
+          }
+
+          return registerListener(form, $event, opModalService, passwordConfirmationModal);
         });
     });
 }

@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, OnInit} from '@angular/core';
+import {ApplicationRef, ChangeDetectorRef, Component, ElementRef, OnInit} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {DynamicBootstrapper} from 'core-app/globals/dynamic-bootstrapper';
 
@@ -40,18 +40,19 @@ export class CustomDateActionAdminComponent implements OnInit {
   public fieldValue:string;
   public visibleValue:string;
   public selectedOperator:any;
-  private i18n:any;
 
   private onKey = 'on';
   private currentKey = 'current';
   private currentFieldValue = '%CURRENT_DATE%';
 
   public operators = [
-    {key: this.onKey, label: this.i18n.t('js.custom_actions.date.specific')},
-    {key: this.currentKey, label: this.i18n.t('js.custom_actions.date.current_date')}
+    {key: this.onKey, label: this.I18n.t('js.custom_actions.date.specific')},
+    {key: this.currentKey, label: this.I18n.t('js.custom_actions.date.current_date')}
   ];
 
   constructor(private elementRef:ElementRef,
+              private cdRef:ChangeDetectorRef,
+              public appRef:ApplicationRef,
               private I18n:I18nService) {
   }
 
@@ -73,14 +74,16 @@ export class CustomDateActionAdminComponent implements OnInit {
 
   public toggleValueVisibility() {
     this.valueVisible = this.selectedOperator.key === this.onKey;
+    if (this.fieldValue === this.currentFieldValue) {
+      this.fieldValue = '';
+    }
+
     this.updateDbValue();
   }
 
   private updateDbValue() {
     if (this.selectedOperator.key === this.currentKey) {
       this.fieldValue = this.currentFieldValue;
-    } else {
-      this.fieldValue = this.visibleValue;
     }
   }
 
@@ -91,6 +94,11 @@ export class CustomDateActionAdminComponent implements OnInit {
                .replace(/\[|\]/g, '_')
                .replace('__', '_')
                .replace(/_$/, '');
+  }
+
+  updateField(val:string) {
+    this.fieldValue = val;
+    this.cdRef.detectChanges();
   }
 }
 

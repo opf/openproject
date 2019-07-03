@@ -439,6 +439,8 @@ import {WorkPackagesTableConfigMenu} from "core-components/wp-table/config-menu/
 
     // Card view
     WorkPackageCardViewComponent,
+
+    CustomDateActionAdminComponent,
   ],
   exports: [
     WorkPackagesTableController,

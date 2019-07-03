@@ -28,7 +28,7 @@
 
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
-import {NgSelectComponent} from "@ng-select/ng-select/dist";
+import {NgSelectComponent} from "@ng-select/ng-select";
 
 type SelectItem = { label:string, value:string, selected?:boolean };
 

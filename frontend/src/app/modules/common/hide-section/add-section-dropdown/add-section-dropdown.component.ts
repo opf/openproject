@@ -26,18 +26,22 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Subscription} from 'rxjs';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {Component, ElementRef, OnDestroy, OnInit} from "@angular/core";
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {HideSectionDefinition, HideSectionService} from "core-app/modules/common/hide-section/hide-section.service";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 
 @Component({
   selector: 'add-section-dropdown',
   templateUrl: './add-section-dropdown.component.html'
 })
 export class AddSectionDropdownComponent implements OnInit, OnDestroy {
+  @ViewChild('fallbackOption', { static: true }) private option:ElementRef;
+
+  trackByKey = AngularTrackingHelpers.trackByProperty('key');
+
   selectable:HideSectionDefinition[] = [];
   active:string[] = [];
 
@@ -58,7 +62,11 @@ export class AddSectionDropdownComponent implements OnInit, OnDestroy {
       .pipe(
         untilComponentDestroyed(this)
       ).subscribe(displayed => {
-        this.selectable = this.hideSectionService.all.filter(el => displayed.indexOf(el.key) === -1);
+        this.selectable = this.hideSectionService.all
+          .filter(el => displayed.indexOf(el.key) === -1)
+          .sort((a, b) => a.label.localeCompare(b.label));
+
+        (this.option.nativeElement as HTMLOptionElement).selected = true;
     });
   }
 

@@ -28,6 +28,7 @@
 
 import {HideSectionService} from "./hide-section.service";
 import {Component, ElementRef, OnInit} from "@angular/core";
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
 @Component({
   selector: 'show-section-dropdown',
@@ -42,6 +43,10 @@ export class ShowSectionDropdownComponent implements OnInit {
   }
 
   ngOnInit() {
+    const element = jQuery(this.elementRef.nativeElement);
+    this.optValue = element.data('optValue');
+    this.hideSecWithName = element.data('hideSecWithName');
+
     const target = jQuery(this.elementRef.nativeElement).prev();
     target.on('change', event => {
       let selectedOption = jQuery("option:selected", event.target);
@@ -54,3 +59,5 @@ export class ShowSectionDropdownComponent implements OnInit {
     });
   }
 }
+
+DynamicBootstrapper.register({ cls: ShowSectionDropdownComponent, selector: 'show-section-dropdown '});

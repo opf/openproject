@@ -43,7 +43,12 @@ export class HideSectionService {
   constructor(Gon:GonService) {
     const sections:any = Gon.get('hideSections');
     this.all = sections.all;
-    this.displayed.putValue(sections.active.map((el:HideSectionDefinition) => el.key));
+    this.displayed.putValue(sections.active.map((el:HideSectionDefinition) => {
+      this.toggleVisibility(el.key, true);
+      return el.key;
+    }));
+
+    this.removeHiddenOnSubmit();
   }
 
   section(key:string):HTMLElement|null {
@@ -52,19 +57,37 @@ export class HideSectionService {
 
   hide(key:string) {
     this.displayed.doModify(displayed => displayed.filter(el => el !== key));
-    this.toggleVisibility(key, true);
+    this.toggleVisibility(key, false);
   }
 
   show(key:string) {
     this.displayed.doModify(displayed => [...displayed, key]);
-    this.toggleVisibility(key, false);
+    this.toggleVisibility(key, true);
   }
 
-  private toggleVisibility(key:string, hidden:boolean) {
+  private toggleVisibility(key:string, visible:boolean) {
     const section = this.section(key);
 
     if (section) {
-      section.hidden = hidden;
+      section.hidden = !visible;
     }
+  }
+
+  private removeHiddenOnSubmit() {
+    jQuery(document.body)
+      .on('submit', 'form', function(evt:any) {
+        const form = jQuery(this);
+        const sections = form.find('section.hide-section:hidden');
+
+        if (form.data('hideSectionRemoved') || sections.length === 0) {
+          return true;
+        }
+
+        form.data('hideSectionRemoved', true);
+        sections.remove();
+        form.trigger('submit');
+        evt.preventDefault();
+        return false;
+      });
   }
 }

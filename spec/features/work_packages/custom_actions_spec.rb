@@ -153,7 +153,7 @@ describe 'Custom actions', type: :feature, js: true do
       new_ca_page.set_name('Unassign')
       new_ca_page.set_description('Removes the assignee')
       new_ca_page.add_action('Assignee', '-')
-      expect(page).to have_selector('#custom-actions-form--active-actions .form--selected-value', text: '-')
+      new_ca_page.expect_action('assigned_to', nil)
     end
 
     new_ca_page.create
@@ -172,13 +172,16 @@ describe 'Custom actions', type: :feature, js: true do
     retry_block do
       new_ca_page.visit!
       new_ca_page.set_name('Close')
+
       new_ca_page.add_action('Status', 'Close')
-      page.assert_selector('#custom-actions-form--active-actions .form--selected-value', text: 'Close')
+      new_ca_page.expect_action('status', closed_status.id)
+
       new_ca_page.set_condition('Role', role.name)
-      page.assert_selector('#custom-actions-form--conditions .form--selected-value', text: role.name)
+      new_ca_page.expect_selected_option role.name
+
       new_ca_page.set_condition('Status', [default_status.name, rejected_status.name])
-      page.assert_selector('#custom-actions-form--conditions .form--selected-value', text: default_status.name)
-      page.assert_selector('#custom-actions-form--conditions .form--selected-value', text: rejected_status.name)
+      new_ca_page.expect_selected_option default_status.name
+      new_ca_page.expect_selected_option rejected_status.name
     end
 
     new_ca_page.create
@@ -198,12 +201,15 @@ describe 'Custom actions', type: :feature, js: true do
       new_ca_page.visit!
       new_ca_page.set_name('Escalate')
       new_ca_page.add_action('Priority', immediate_priority.name)
-      page.assert_selector('#custom-actions-form--active-actions .form--selected-value', text: immediate_priority.name)
+      new_ca_page.expect_action('priority', immediate_priority.id)
+
       new_ca_page.add_action('Notify', other_member_user.name)
-      page.assert_selector('#custom-actions-form--active-actions .form--selected-value', text: other_member_user.name)
+
+      new_ca_page.expect_selected_option other_member_user.name
       new_ca_page.add_action(list_custom_field.name, selected_list_custom_field_options.map(&:name))
-      page.assert_selector('#custom-actions-form--active-actions .form--selected-value', text: 'A', minimum: 1)
-      page.assert_selector('#custom-actions-form--active-actions .form--selected-value', text: 'G', minimum: 1)
+
+      new_ca_page.expect_selected_option 'A'
+      new_ca_page.expect_selected_option 'G'
     end
 
     new_ca_page.create
@@ -222,17 +228,22 @@ describe 'Custom actions', type: :feature, js: true do
     retry_block do
       new_ca_page.visit!
       new_ca_page.set_name('Reset')
+
       new_ca_page.add_action('Priority', default_priority.name)
-      page.assert_selector('#custom-actions-form--active-actions .form--selected-value', text: default_priority.name)
+      new_ca_page.expect_action('priority', default_priority.id)
+
       new_ca_page.add_action('Status', default_status.name)
-      page.assert_selector('#custom-actions-form--active-actions .form--selected-value', text: default_status.name)
+      new_ca_page.expect_action('status', default_status.id)
+
       new_ca_page.add_action('Assignee', user.name)
-      page.assert_selector('#custom-actions-form--active-actions .form--selected-value', text: user.name)
+      new_ca_page.expect_action('assigned_to', user.id)
+
       # This custom field is not applicable
       new_ca_page.add_action(int_custom_field.name, '1')
-      page.find_field("custom_action_actions_custom_field_#{int_custom_field.id}", with: '1')
+      new_ca_page.expect_action("custom_field_#{int_custom_field.id}", '1')
+
       new_ca_page.set_condition('Status', closed_status.name)
-      page.assert_selector('#custom-actions-form--conditions .form--selected-value', text: closed_status.name)
+      new_ca_page.expect_selected_option closed_status.name
     end
 
     new_ca_page.create
@@ -250,10 +261,12 @@ describe 'Custom actions', type: :feature, js: true do
     retry_block do
       new_ca_page.visit!
       new_ca_page.set_name('Other roles action')
+
       new_ca_page.add_action('Status', default_status.name)
-      page.assert_selector('#custom-actions-form--active-actions .form--selected-value', text: default_status.name)
+      new_ca_page.expect_action('status', default_status.id)
+
       new_ca_page.set_condition('Role', other_role.name)
-      page.assert_selector('#custom-actions-form--conditions .form--selected-value', text: other_role.name)
+      new_ca_page.expect_selected_option other_role.name
     end
     new_ca_page.create
 
@@ -274,8 +287,11 @@ describe 'Custom actions', type: :feature, js: true do
       # Add date custom action which has a different admin layout
       select date_custom_field.name, from: 'Add action'
       select 'on', from: date_custom_field.name
+
       date = (Date.today + 5.days).to_s
-      fill_in "custom_action_actions_custom_field_#{date_custom_field.id}_visible", with: date
+      field_name = "custom_action_actions_custom_field_#{date_custom_field.id}_visible"
+      page.execute_script("jQuery('##{field_name}').val('#{date}');")
+      page.execute_script("jQuery('##{field_name}').trigger('change');")
 
       # Close autocompleter
       if page.has_selector? '.ui-datepicker-close'
@@ -283,11 +299,13 @@ describe 'Custom actions', type: :feature, js: true do
       end
 
       new_ca_page.add_action('Type', other_type.name)
-      page.assert_selector('#custom-actions-form--active-actions .form--selected-value', text: other_type.name)
+      new_ca_page.expect_action('type', other_type.id)
+
       new_ca_page.add_action('Project', other_project.name)
-      page.assert_selector('#custom-actions-form--active-actions .form--selected-value', text: other_project.name)
+      new_ca_page.expect_action('project', other_project.id)
+
       new_ca_page.set_condition('Project', project.name)
-      page.assert_selector('#custom-actions-form--conditions .form--selected-value', text: project.name)
+      new_ca_page.expect_selected_option project.name
     end
 
     new_ca_page.create
@@ -357,12 +375,13 @@ describe 'Custom actions', type: :feature, js: true do
       edit_ca_page.set_name 'Reject'
       edit_ca_page.remove_action 'Priority'
       edit_ca_page.set_action 'Assignee', '-'
-      find('#custom-actions-form--active-actions .form--selected-value', text: '-')
+      edit_ca_page.expect_action 'assigned_to', nil
 
       edit_ca_page.set_action 'Status', rejected_status.name
-      find('#custom-actions-form--active-actions .form--selected-value', text: rejected_status.name)
+      edit_ca_page.expect_action 'status', rejected_status.id
+
       edit_ca_page.set_condition 'Status', default_status.name
-      find('#custom-actions-form--conditions .form--selected-value', text: default_status.name)
+      edit_ca_page.expect_selected_option default_status.name
     end
 
     edit_ca_page.save

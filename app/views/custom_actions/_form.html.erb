@@ -61,7 +61,7 @@
               </div>
           <% elsif %i(date_property).include?(action.type) %>
             <div class="form--field-container">
-              <%= tag 'wp-custom-actions-admin-date-action', data: { 'field-value': action.values.first, 'field-name': input_name } %>
+              <%= tag 'custom-date-action-admin', data: { 'field-value': action.values.first&.iso8601, 'field-name': input_name } %>
             </div>
           <% elsif %i(string_property text_property).include?(action.type) %>
             <div class="form--field-container">
@@ -89,7 +89,7 @@
                                           step: 1 %>
             </div>
           <% end %>
-          <hide-section-link data-section-name="'<%= action.key %>'"></hide-section-link>
+          <hide-section-link data-section-name="<%= action.key %>"></hide-section-link>
         </div>
       </section>
     <% end %>
