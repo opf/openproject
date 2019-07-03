@@ -51,8 +51,6 @@ module ::OpenProject::Plugins
       def regenerate!
         # Create links from plugins angular mdoules to frontend/src
         regenerate_angular_links
-        # Create links from plugins legacy frontend to frontend/legacy/app/plugins
-        regenerate_legacy_links
       end
 
       private
@@ -81,40 +79,10 @@ module ::OpenProject::Plugins
         end
       end
 
-      ##
-      # Register plugins with a legacy frontend to the legacy build.
-      # For that, search all gems with the group :opf_plugins
-      def regenerate_legacy_links
-        all_legacy_frontend_plugins.tap do |plugins|
-          target_dir = Rails.root.join('frontend', 'legacy', 'app', 'plugins')
-          puts "Cleaning linked target directory #{target_dir}"
-
-          # Removing the current linked directory and recreate
-          FileUtils.remove_dir(target_dir, force: true)
-          FileUtils.mkdir_p(target_dir)
-
-          plugins.each do |name, path|
-            source = File.join(path, 'frontend', 'legacy-app')
-            target = File.join(target_dir, name)
-
-            puts "Linking legacy frontend of OpenProject plugin #{name} to #{target}."
-            FileUtils.ln_sf(source, target)
-          end
-        end
-      end
-
-
       def all_angular_frontend_plugins
         openproject_plugins.select do |_, path|
           frontend_entry = File.join(path, 'frontend', 'module', 'main.ts')
           File.readable? frontend_entry
-        end
-      end
-
-      def all_legacy_frontend_plugins
-        openproject_plugins.select do |_, path|
-          frontend_entry = File.join(path, 'frontend', 'legacy-app')
-          File.exists? frontend_entry
         end
       end
 

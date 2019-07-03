@@ -32,8 +32,6 @@ describe 'My project page overview', type: :feature do
   let(:project) { FactoryBot.create :project }
   let(:overview) { FactoryBot.create :my_projects_overview, project: project }
 
-  let(:button_selector) { '#my-project-page-layout' }
-
   before do
     overview
     login_as(user)
@@ -47,7 +45,6 @@ describe 'My project page overview', type: :feature do
 
     it 'shows the default blocks and edit button' do
       expect(page).to have_selector('.widget-box', count: 5)
-      expect(page).to have_selector(button_selector)
     end
   end
 
@@ -58,7 +55,6 @@ describe 'My project page overview', type: :feature do
 
     it 'shows the default blocks, but no editing' do
       expect(page).to have_selector('.widget-box', count: 5)
-      expect(page).to have_no_selector(button_selector)
     end
   end
 end
