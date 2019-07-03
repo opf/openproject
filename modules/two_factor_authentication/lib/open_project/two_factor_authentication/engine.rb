@@ -32,9 +32,8 @@ module OpenProject::TwoFactorAuthentication
                     :two_factor_authentication,
                     { controller: '/two_factor_authentication/two_factor_settings', action: :show },
                     caption: ->(*) { I18n.t('two_factor_authentication.label_two_factor_authentication') },
-                    after: :ldap_authentication,
-                    if: ->(*) { ::OpenProject::TwoFactorAuthentication::TokenStrategyManager.configurable_by_ui? },
-                    icon: 'icon2 icon-two-factor-authentication'
+                    parent: :authentication,
+                    if: ->(*) { ::OpenProject::TwoFactorAuthentication::TokenStrategyManager.configurable_by_ui? }
              end
 
     initializer 'two_factor_authentication.precompile_assets' do |app|

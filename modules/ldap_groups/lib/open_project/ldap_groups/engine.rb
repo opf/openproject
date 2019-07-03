@@ -15,7 +15,8 @@ module OpenProject::LdapGroups
       menu :admin_menu,
            :plugin_ldap_groups,
            { controller: '/ldap_groups/synchronized_groups', action: :index },
-           parent: :ldap_authentication,
+           parent: :authentication,
+           last: true,
            caption: ->(*) { I18n.t('ldap_groups.label_menu_item') }
     end
 

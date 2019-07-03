@@ -132,6 +132,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/groups' },
             caption: :label_group_plural,
             icon: 'icon2 icon-group'
+
   menu.push :roles,
             { controller: '/roles' },
             caption: :label_role_and_permissions,
@@ -181,16 +182,22 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_system_settings,
             icon: 'icon2 icon-settings2'
 
+  menu.push :authentication,
+            { controller: '/oauth/applications', action: 'index' },
+            caption: :label_authentication,
+            icon: 'icon2 icon-two-factor-authentication'
+
   menu.push :ldap_authentication,
             { controller: '/ldap_auth_sources', action: 'index' },
+            parent: :authentication,
             html: { class: 'server_authentication' },
-            icon: 'icon2 icon-flag',
+            last: true,
             if: proc { !OpenProject::Configuration.disable_password_login? }
 
   menu.push :oauth_applications,
             { controller: '/oauth/applications', action: 'index' },
-            html: { class: 'oauth_applications' },
-            icon: 'icon2 icon-key'
+            parent: :authentication,
+            html: { class: 'oauth_applications' }
 
   menu.push :announcements,
             { controller: '/announcements', action: 'edit' },
