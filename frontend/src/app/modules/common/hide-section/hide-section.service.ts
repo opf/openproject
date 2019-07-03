@@ -57,6 +57,7 @@ export class HideSectionService {
 
   show(key:string) {
     this.displayed.doModify(displayed => [...displayed, key]);
+    this.toggleVisibility(key, false);
   }
 
   private toggleVisibility(key:string, hidden:boolean) {

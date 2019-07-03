@@ -23,7 +23,10 @@
       <div class="form--field-container">
         <div class="form--select-container -middle">
           <%= render partial: 'augmented/autocomplete_select_decoration',
-                     locals: { input_name: input_name, select_options: select_options, multiple: true }  %>
+                     locals: { input_name: input_name,
+                               input_id: "custom_action_conditions_#{condition.key}",
+                               select_options: select_options,
+                               multiple: true }  %>
         </div>
       </div>
     </div>
@@ -50,7 +53,10 @@
               <div class="form--field-container">
                 <div class="form--select-container -middle">
                   <%= render partial: 'augmented/autocomplete_select_decoration',
-                             locals: { input_name: input_name, select_options: select_options, multiple: action.multi_value? }  %>
+                             locals: { input_name: input_name,
+                                       input_id: "custom_action_actions_#{action.key}",
+                                       select_options: select_options,
+                                       multiple: action.multi_value? }  %>
                 </div>
               </div>
           <% elsif %i(date_property).include?(action.type) %>
@@ -98,8 +104,7 @@
     </label>
     <span class="form--field-container">
       <span class="form--text-field-container -middle">
-        <add-section-dropdown html-id="'custom-actions-form--add-action'"
-                              id="custom-actions-form--selectable-actions">
+        <add-section-dropdown data-html-id="custom-actions-form--add-action">
         </add-section-dropdown>
       </span>
     </span>

@@ -28,7 +28,7 @@
 
 import {Subscription} from 'rxjs';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {Component, OnDestroy, OnInit} from "@angular/core";
+import {Component, ElementRef, OnDestroy, OnInit} from "@angular/core";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {HideSectionDefinition, HideSectionService} from "core-app/modules/common/hide-section/hide-section.service";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
@@ -44,13 +44,14 @@ export class AddSectionDropdownComponent implements OnInit, OnDestroy {
   public htmlId:string;
   public placeholder = this.I18n.t('js.placeholders.selection');
 
-  private allSubscription:Subscription;
-
   constructor(protected hideSectionService:HideSectionService,
+              protected elementRef:ElementRef,
               protected I18n:I18nService) {
   }
 
   ngOnInit():void {
+    this.htmlId = this.elementRef.nativeElement.dataset.htmlId;
+
     this.hideSectionService
       .displayed
       .values$()

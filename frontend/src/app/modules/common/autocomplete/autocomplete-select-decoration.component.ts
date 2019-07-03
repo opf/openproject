@@ -35,6 +35,7 @@ type SelectItem = { label:string, value:string, selected?:boolean };
 @Component({
   template: `
     <ng-select [items]="options"
+               [labelForId]="labelForId"
                bindLabel="label"
                [multiple]="multiselect"
                [virtualScroll]="true"
@@ -63,6 +64,9 @@ export class AutocompleteSelectDecorationComponent implements OnInit {
   /** The input name we're syncing selections to */
   private syncInputFieldName:string;
 
+  /** The input id used for label */
+  public labelForId:string;
+
   constructor(protected elementRef:ElementRef) {
   }
 
@@ -71,6 +75,7 @@ export class AutocompleteSelectDecorationComponent implements OnInit {
 
     // Set options
     this.multiselect = element.dataset.multiselect === 'true';
+    this.labelForId = element.dataset.inputId!;
 
     // Get the sync target
     this.syncInputFieldName = element.dataset.inputName;

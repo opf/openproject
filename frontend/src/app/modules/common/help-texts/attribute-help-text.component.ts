@@ -40,6 +40,7 @@ import {
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {AttributeHelpTextModal} from 'core-app/modules/common/help-texts/attribute-help-text.modal';
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
 @Component({
   selector: 'attribute-help-text',
@@ -74,6 +75,15 @@ export class AttributeHelpTextComponent implements OnInit {
   }
 
   ngOnInit() {
+    const element:HTMLElement = this.elementRef.nativeElement;
+    if (element.dataset.helpTextId) {
+      this.helpTextId = element.dataset.helpTextId!;
+      this.attribute = element.dataset.attribute!;
+      this.attributeScope = element.dataset.attributeScope!;
+      this.additionalLabel = element.dataset.additionalLabel!;
+    }
+
+
     if (this.helpTextId) {
       this.exists = true;
     } else {
@@ -100,3 +110,5 @@ export class AttributeHelpTextComponent implements OnInit {
     }
   }
 }
+
+DynamicBootstrapper.register({ cls: AttributeHelpTextComponent, selector: 'attribute-help-text'});

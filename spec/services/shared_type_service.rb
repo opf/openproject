@@ -82,7 +82,7 @@ shared_examples_for 'type service' do
       end
 
       context 'when other' do
-        let(:params) { { attribute_groups: ['mocked'] } }
+        let(:params) { { attribute_groups: [{ 'type' => 'attribute', 'name' => 'foo', 'attributes' => [] }] } }
 
         it 'set the values provided on the call' do
           expect(type).not_to receive(:reset_attribute_groups)
@@ -98,8 +98,14 @@ shared_examples_for 'type service' do
       let(:cf2) { FactoryBot.create :work_package_custom_field, field_format: 'text' }
       let(:params) do
         {
-          attribute_groups: [['group1', ["custom_field_#{cf1.id}", 'custom_field_54']],
-                             ['group2', ["custom_field_#{cf2.id}"]]]
+          attribute_groups: [
+            { 'type' => 'attribute',
+              'name' => 'group1',
+              'attributes' => [{ 'key' => "custom_field_#{cf1.id}" }, { 'key' => 'custom_field_54' }] },
+            { 'type' => 'attribute',
+              'name' => 'groups',
+              'attributes' => [{ 'key' => "custom_field_#{cf2.id}" }] }
+          ]
         }
       end
 
@@ -124,7 +130,7 @@ shared_examples_for 'type service' do
         { 'sortBy' => sort_by, 'filters' => filters }
       end
       let(:query_group_params) do
-        ['group1', query_params]
+        { 'type' => 'query', 'name' => 'group1', 'query' => JSON.dump(query_params) }
       end
       let(:params) { { attribute_groups: [query_group_params] } }
       let(:query) { FactoryBot.create(:query, user_id: 0) }

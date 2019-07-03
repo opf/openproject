@@ -92,6 +92,7 @@ import {RemoteFieldUpdaterComponent} from 'core-app/modules/common/remote-field-
 import {AutofocusDirective} from "core-app/modules/common/autofocus/autofocus.directive";
 import {ShowSectionDropdownComponent} from "core-app/modules/common/hide-section/show-section-dropdown.component";
 import {IconTriggeredContextMenuComponent} from "core-components/op-context-menu/icon-triggered-context-menu/icon-triggered-context-menu.component";
+import {NgSelectModule} from "@ng-select/ng-select/src/ng-select/ng-select.module";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -120,7 +121,8 @@ export function bootstrapModule(injector:Injector) {
     NgSelectModule,
 
     DynamicModule.withComponents([VersionAutocompleterComponent,
-                                  CreateAutocompleterComponent])
+      CreateAutocompleterComponent]),
+    NgSelectModule
   ],
   exports: [
     // Re-export all commonly used
@@ -278,6 +280,7 @@ export function bootstrapModule(injector:Injector) {
     HideSectionLinkComponent,
     AddSectionDropdownComponent,
     RemoteFieldUpdaterComponent,
+    AttributeHelpTextComponent,
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: bootstrapModule, deps: [Injector], multi: true },
