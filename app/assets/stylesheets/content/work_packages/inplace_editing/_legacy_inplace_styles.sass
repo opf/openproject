@@ -94,46 +94,6 @@ a.inplace-editing--trigger-link,
     text-decoration: none
 
 
-.wp-edit-field
-  &.-error,
-  .wp-table--cell-td.-error &
-    .wp-table--cell-span,
-    .wp-inline-edit--field
-      background: $nm-color-error-background
-      border-color: $nm-color-error-border
-
-      &:hover
-        border-color: lighten($nm-color-error-border, 10%)
-
-  form
-    width: 100%
-
-  // Style actual edit inputs
-  // Checkboxes need to be excluded because the width
-  // causes an ugly increase of the box
-  select, input:not([type='checkbox'])
-    // Full width to inline-edit inputs
-    width: 100%
-    // Same height as the row - padding
-    height: 24px
-    padding-top: 0
-    padding-bottom: 0
-    line-height: normal
-    font-size: 14px
-
-  .inplace-edit--read-value
-    &:before
-      vertical-align: middle
-    .wp-table--cell-span
-      vertical-align: middle
-
-  &.inplace-edit .custom-option:not(.-multiple-lines)
-    display: inline
-
-  .inline-label
-    .form-label,
-    .icon-context:before
-      padding-right: 0
 
 // Editable fields cursor
 .-editable .wp-table--cell-span,
@@ -158,16 +118,6 @@ a.inplace-editing--trigger-link,
 
     &.-multiline
       white-space: inherit
-
-// Style no-label fields (long text, description, ..) with padding
-.wp-edit-field--container.-no-label:not(.-active)
-  .wp-table--cell-span
-    display: block
-    padding: 5px
-    padding-right: 0
-
-.wp-edit-field.description.-no-label
-  margin-left: -0.375rem
 
 // Do not hover trigger-link when element is read-only
 .-read-only

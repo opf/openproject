@@ -38,6 +38,7 @@ import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.compon
            [attr.lang]="locale"
            [(ngModel)]="value"
            (keydown)="handler.handleUserKeydown($event)"
+           (focusout)="handler.handleUserSubmit()"
            [id]="handler.htmlId" />
   `
 })
