@@ -28,14 +28,10 @@
 
 export namespace LinkHandling {
 
-  export function isClickedWithModifier(event:JQueryEventObject|JQuery.Event) {
+  export function isClickedWithModifier(event:MouseEvent|JQueryEventObject|JQuery.Event) {
     const modifier = event.ctrlKey || event.shiftKey || event.metaKey;
     const middleButton = event.button === 1;
 
     return modifier || middleButton;
-  }
-
-  export function isOutsideAngular() {
-    return jQuery('[ui-view]').length == 0;
   }
 }

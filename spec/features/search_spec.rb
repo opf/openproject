@@ -80,6 +80,9 @@ describe 'Search', type: :feature, js: true do
       select_autocomplete(page.find('.top-menu-search--input'),
                           query: target_work_package.subject,
                           select_text: "##{target_work_package.id}")
+
+      sleep 1
+
       expect(current_path).to match /work_packages\/#{target_work_package.id}\//
 
       first_wp = work_packages.first
