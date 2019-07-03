@@ -539,7 +539,12 @@ OpenProject::Application.routes.draw do
     patch 'user_settings', action: 'user_settings'
   end
 
-  get 'authentication' => 'authentication#index'
+
+  scope controller: 'authentication' do
+    get 'authentication' => 'authentication#index'
+    get 'authentication_settings' => 'authentication#authentication_settings'
+    post 'authentication_settings' => 'authentication#edit'
+  end
 
   resources :colors do
     member do

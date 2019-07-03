@@ -183,9 +183,14 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: 'icon2 icon-settings2'
 
   menu.push :authentication,
-            { controller: '/oauth/applications', action: 'index' },
+            { controller: '/authentication', action: 'authentication_settings' },
             caption: :label_authentication,
             icon: 'icon2 icon-two-factor-authentication'
+
+  menu.push :authentication_settings,
+            { controller: '/authentication', action: 'authentication_settings' },
+            caption: :label_settings,
+            parent: :authentication
 
   menu.push :ldap_authentication,
             { controller: '/ldap_auth_sources', action: 'index' },
