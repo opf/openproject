@@ -29,11 +29,10 @@
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit, ViewChild} from "@angular/core";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 import {ValueOption} from "core-app/modules/fields/edit/field-types/select-edit-field.component";
 import {NgSelectComponent} from "@ng-select/ng-select";
-import {ViewChild} from "@angular/core";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
 @Component({
@@ -130,6 +129,12 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
 
   public onClose() {
     jQuery(this.hiddenOverflowContainer).removeClass('-hidden-overflow');
+  }
+
+  public repositionDropdown() {
+    if (this.ngSelectComponent && this.ngSelectComponent.dropdownPanel) {
+      setTimeout(() => this.ngSelectComponent.dropdownPanel.adjustPosition(), 0);
+    }
   }
 
   private openAutocompleteSelectField() {

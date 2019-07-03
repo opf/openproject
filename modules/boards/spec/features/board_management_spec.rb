@@ -93,7 +93,8 @@ describe 'Board management spec', type: :feature, js: true do
       end
 
       # Create new list
-      board_page.add_list 'Second'
+      board_page.add_list
+      board_page.rename_list 'Unnamed list', 'Second'
 
       # Add item
       board_page.add_card 'First', 'Task 1'

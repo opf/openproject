@@ -3,7 +3,7 @@ import {StateService} from '@uirouter/core';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {debugLog} from '../../../../helpers/debug_output';
 import {States} from '../../../states.service';
-import {tdClassName} from '../../builders/cell-builder';
+import {tdClassName, wpCellTdClassName} from '../../builders/cell-builder';
 import {tableRowClassName} from '../../builders/rows/single-row-builder';
 import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
 import {WorkPackageTable} from '../../wp-fast-table';
@@ -27,7 +27,7 @@ export class RowDoubleClickHandler implements TableEventHandler {
   }
 
   public get SELECTOR() {
-    return `.${tableRowClassName}`;
+    return `.${wpCellTdClassName}`;
   }
 
   public eventScope(table:WorkPackageTable) {
@@ -50,7 +50,7 @@ export class RowDoubleClickHandler implements TableEventHandler {
     }
 
     // Locate the row from event
-    let element = target.closest(this.SELECTOR);
+    let element = target.closest(this.SELECTOR).closest(`.${tableRowClassName}`);
     let wpId = element.data('workPackageId');
 
     // Ignore links

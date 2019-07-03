@@ -28,7 +28,7 @@
 
 import {AfterViewInit, Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
-import {NgSelectComponent} from "@ng-select/ng-select/dist";
+import {NgSelectComponent} from "@ng-select/ng-select";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";

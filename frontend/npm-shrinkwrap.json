@@ -725,8 +725,12 @@
       }
     },
     "@ng-select/ng-select": {
-      "version": "git+https://github.com/opf/ng-select.git#5eaee6ffb4210100cf894a8ec67d0f88e72b59a6",
-      "from": "git+https://github.com/opf/ng-select.git#5eaee6ffb4210100cf894a8ec67d0f88e72b59a6"
+      "version": "2.20.3",
+      "resolved": "https://registry.npmjs.org/@ng-select/ng-select/-/ng-select-2.20.3.tgz",
+      "integrity": "sha512-QVyBiT2H6sljRrcNb4Wx7lABd08FQqWDJ/0LlfeWiP6N2Zc8+uSwCglkAgl7wu746mf7McVwL0H4ewVYnc+iHw==",
+      "requires": {
+        "tslib": "^1.9.0"
+      }
     },
     "@ngtools/webpack": {
       "version": "8.0.2",
