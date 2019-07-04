@@ -29,9 +29,14 @@
 
 class SettingsController < ApplicationController
   layout 'admin'
-  menu_item :settings
 
   before_action :require_admin
+
+
+  current_menu_item do |controller|
+    plugin = Redmine::Plugin.find(controller.params[:id])
+    plugin.settings[:menu_item] || :settings
+  end
 
   def index
     edit

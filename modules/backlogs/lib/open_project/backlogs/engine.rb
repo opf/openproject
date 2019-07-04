@@ -44,7 +44,8 @@ module OpenProject::Backlogs
                    'task_type'    => nil,
                    'card_spec'    => nil
       },
-        partial: 'shared/settings' }
+        partial: 'shared/settings',
+        menu_item: :backlogs_settings }
     end
 
     include OpenProject::Plugins::ActsAsOpEngine

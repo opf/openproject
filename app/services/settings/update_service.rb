@@ -35,7 +35,7 @@ class Settings::UpdateService < ::BaseServices::Update
     self.user = user
   end
 
-  def call(settings:, &block)
+  def call(settings:)
     settings.each do |name, value|
       if value.is_a?(Array)
         # remove blank values in array settings

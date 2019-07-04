@@ -125,8 +125,8 @@ end
 Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :users_and_permissions,
             { controller: '/users_settings' },
-              caption: :label_user_and_permission,
-              icon: 'icon2 icon-group'
+            caption: :label_user_and_permission,
+            icon: 'icon2 icon-group'
 
   menu.push :user_settings,
             { controller: '/users_settings' },
@@ -255,6 +255,16 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption:    :label_enterprise_edition,
             icon: 'icon2 icon-headset',
             if: proc { OpenProject::Configuration.ee_manager_visible? }
+
+  menu.push :admin_backlogs,
+            { controller: '/settings', action: 'plugin', id: :openproject_backlogs },
+            caption:    :label_backlogs,
+            icon: 'icon2 icon-backlogs'
+
+  menu.push :backlogs_settings,
+            { controller: '/settings', action: 'plugin', id: :openproject_backlogs },
+            caption:    :label_settings,
+            parent: :admin_backlogs
 end
 
 Redmine::MenuManager.map :project_menu do |menu|
