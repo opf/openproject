@@ -1623,6 +1623,7 @@ en:
   label_user_new: "New user"
   label_user_plural: "Users"
   label_user_search: "Search for user"
+  label_user_settings: "User settings"
   label_version_new: "New version"
   label_version_plural: "Versions"
   label_version_sharing_descendants: "With subprojects"

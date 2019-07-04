@@ -46,4 +46,12 @@ class WorkPackages::SettingsController < ::ApplicationController
       redirect_to action: 'index'
     end
   end
+
+  def default_breadcrumb
+    t(:label_work_package_tracking)
+  end
+
+  def show_local_breadcrumb
+    true
+  end
 end

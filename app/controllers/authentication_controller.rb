@@ -55,4 +55,12 @@ class AuthenticationController < ApplicationController
   def authentication_settings
     render 'authentication_settings'
   end
+
+  def default_breadcrumb
+    t(:label_authentication)
+  end
+
+  def show_local_breadcrumb
+    true
+  end
 end

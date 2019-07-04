@@ -46,4 +46,12 @@ class UsersSettingsController < ::ApplicationController
       redirect_to action: 'index'
     end
   end
+
+  def default_breadcrumb
+    t(:label_user_settings)
+  end
+
+  def show_local_breadcrumb
+    true
+  end
 end

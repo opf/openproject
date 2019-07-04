@@ -123,6 +123,12 @@ Redmine::MenuManager.map :my_menu do |menu|
 end
 
 Redmine::MenuManager.map :admin_menu do |menu|
+  menu.push :admin_overview,
+            { controller: '/admin' },
+            caption: :label_overview,
+            icon: 'icon2 icon-home',
+            first: true
+
   menu.push :users_and_permissions,
             { controller: '/users_settings' },
             caption: :label_user_and_permission,
