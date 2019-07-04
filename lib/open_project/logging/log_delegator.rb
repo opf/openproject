@@ -48,7 +48,8 @@ module OpenProject
         # Get a clean backtrace
         def clean_backtrace(exception)
           return nil unless exception&.backtrace
-          Rails.backtrace_cleaner.clean exception.backtrace
+
+          Rails.backtrace_cleaner.clean exception.backtrace, :full
         end
 
         ##
