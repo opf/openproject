@@ -12,7 +12,7 @@ export class HighlightingTransformer {
   constructor(public readonly injector:Injector,
               table:WorkPackageTable) {
     this.wpTableHighlighting
-      .live$()
+      .updates$()
       .pipe(
         takeUntil(this.querySpace.stopAllSubscriptions),
         distinctUntilChanged()

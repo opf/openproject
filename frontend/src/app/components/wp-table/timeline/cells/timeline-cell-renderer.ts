@@ -3,7 +3,8 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {
   calculatePositionValueForDayCount,
   calculatePositionValueForDayCountingPx,
-  RenderInfo, timelineBackgroundElementClass,
+  RenderInfo,
+  timelineBackgroundElementClass,
   timelineElementCssClass,
   timelineMarkerSelectionStartClass
 } from '../wp-timeline';
@@ -19,20 +20,16 @@ import {
   classNameShowOnHover,
   WorkPackageCellLabels
 } from './wp-timeline-cell';
-import {
-  classNameBarLabel,
-  classNameLeftHandle,
-  classNameRightHandle
-} from './wp-timeline-cell-mouse-handler';
+import {classNameBarLabel, classNameLeftHandle, classNameRightHandle} from './wp-timeline-cell-mouse-handler';
 import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
-import {hasChildrenInTable} from '../../../wp-fast-table/helpers/wp-table-hierarchy-helpers';
 import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
 import {WorkPackageTableTimelineService} from '../../../wp-fast-table/state/wp-table-timeline.service';
 import {DisplayFieldRenderer} from '../../../wp-edit-form/display-field-renderer';
-import Moment = moment.Moment;
 import {Injector} from '@angular/core';
 import {TimezoneService} from 'core-components/datetime/timezone.service';
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
+import {HierarchyRenderPass} from "core-components/wp-fast-table/builders/modes/hierarchy/hierarchy-render-pass";
+import Moment = moment.Moment;
 
 export interface CellDateMovement {
   // Target values to move work package to
@@ -381,7 +378,7 @@ export class TimelineCellRenderer {
 
     // Don't apply the class in selection mode or for parents (clamps)
     const id = type.id;
-    if (selectionMode || this.is_parent_with_displayed_children(wp)) {
+    if (selectionMode || this.isParentWithVisibleChildren(wp)) {
       bg.classList.remove(Highlighting.backgroundClass('type', id!));
     } else {
       bg.classList.add(Highlighting.backgroundClass('type', id!));
@@ -412,7 +409,7 @@ export class TimelineCellRenderer {
     }
 
     // Display the parent as clamp-style when it has children in the table
-    if (this.is_parent_with_displayed_children(wp)) {
+    if (this.isParentWithVisibleChildren(wp)) {
       bar.classList.add('-clamp-style');
       bar.style.borderStyle = 'solid';
       bar.style.borderWidth = '2px';
@@ -475,8 +472,12 @@ export class TimelineCellRenderer {
     }
   }
 
-  protected is_parent_with_displayed_children(wp:WorkPackageResource) {
-    return this.workPackageTimeline.inHierarchyMode &&
-      hasChildrenInTable(wp, this.workPackageTimeline.workPackageTable);
+  protected isParentWithVisibleChildren(wp:WorkPackageResource):boolean {
+    if (!this.workPackageTimeline.inHierarchyMode) {
+      return false;
+    }
+
+    const renderPass = this.workPackageTimeline.workPackageTable.lastRenderPass! as HierarchyRenderPass;
+    return !!renderPass.parentsWithVisibleChildren[wp.id!];
   }
 }

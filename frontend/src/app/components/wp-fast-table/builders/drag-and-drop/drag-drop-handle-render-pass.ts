@@ -23,11 +23,10 @@ export class DragDropHandleRenderPass {
         return;
       }
 
-      const handle = this.dragDropHandleBuilder.build(row.workPackage);
+      const handle = this.dragDropHandleBuilder.build(row.workPackage!);
 
       if (handle) {
-        const element:HTMLElement = this.tablePass.tableBody.children[position] as HTMLElement;
-        element.replaceChild(handle, element.firstElementChild!);
+        row.element.replaceChild(handle, row.element.firstElementChild!);
       }
     });
   }

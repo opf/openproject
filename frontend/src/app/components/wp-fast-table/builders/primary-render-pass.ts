@@ -17,6 +17,8 @@ import {DragDropHandleRenderPass} from "core-components/wp-fast-table/builders/d
 export type RenderedRowType = 'primary' | 'relations';
 
 export interface RowRenderInfo {
+  // The rendered row
+  element:HTMLTableRowElement;
   // Unique class name as an identifier to uniquely identify the row in both table and timeline
   classIdentifier:string;
   // Additional classes to be added by any secondary render passes
@@ -186,7 +188,7 @@ export abstract class PrimaryRenderPass {
    * @param hidden whether the row was rendered hidden
    */
   protected appendRow(workPackage:WorkPackageResource,
-                      row:HTMLElement,
+                      row:HTMLTableRowElement,
                       additionalClasses:string[] = [],
                       hidden:boolean = false) {
 
@@ -197,6 +199,7 @@ export abstract class PrimaryRenderPass {
       additionalClasses: additionalClasses,
       workPackage: workPackage,
       renderType: 'primary',
+      element: row,
       hidden: hidden
     });
   }
@@ -207,7 +210,7 @@ export abstract class PrimaryRenderPass {
    * @param classIdentifer a unique identifier for the two rows (one each in table/timeline).
    * @param hidden whether the row was rendered hidden
    */
-  protected appendNonWorkPackageRow(row:HTMLElement,
+  protected appendNonWorkPackageRow(row:HTMLTableRowElement,
                                     classIdentifer:string,
                                     additionalClasses:string[] = [],
                                     hidden:boolean = false) {
@@ -215,6 +218,7 @@ export abstract class PrimaryRenderPass {
     this.tableBody.appendChild(row);
 
     this.renderedOrder.push({
+      element: row,
       classIdentifier: classIdentifer,
       additionalClasses: additionalClasses,
       workPackage: null,
