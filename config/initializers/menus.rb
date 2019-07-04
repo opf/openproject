@@ -139,9 +139,14 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: 'icon2 icon-settings'
 
   menu.push :admin_work_packages,
-            { controller: '/types' },
+            { controller: '/work_packages/settings', action: 'index' },
             caption: :label_work_package_plural,
             icon: 'icon2 icon-view-timeline'
+
+  menu.push :work_packages_setting,
+            { controller: '/work_packages/settings', action: 'index' },
+            caption: :label_settings,
+            parent: :admin_work_packages
 
   menu.push :types,
             { controller: '/types' },
@@ -168,7 +173,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :custom_actions,
             { controller: '/custom_actions' },
             caption: :'custom_actions.plural',
-            icon: 'icon2 icon-play'
+            parent: :admin_work_packages
 
   menu.push :attribute_help_texts,
             { controller: '/attribute_help_texts' },

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -27,18 +28,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class AuthenticationController < ApplicationController
-  before_action :disable_api
-  before_action :require_login
+class WorkPackages::SettingsController < ::ApplicationController
   layout 'admin'
-  menu_item :authentication_settings
-
-  accept_key_auth :index
+  menu_item :work_packages_setting
 
   def index
-    respond_to do |format|
-      format.html
-    end
+    render 'work_packages/settings/work_package_tracking'
   end
 
   def edit
@@ -48,11 +43,7 @@ class AuthenticationController < ApplicationController
         .call(settings: permitted_params.settings.to_h)
 
       flash[:notice] = l(:notice_successful_update)
-      redirect_to action: 'authentication_settings'
+      redirect_to action: 'index'
     end
-  end
-
-  def authentication_settings
-    render 'authentication_settings'
   end
 end

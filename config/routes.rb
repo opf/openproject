@@ -411,6 +411,11 @@ OpenProject::Application.routes.draw do
     get '/bulk' => 'bulk#destroy'
   end
 
+  scope controller: 'work_packages/settings' do
+    get 'work_package_tracking' => 'work_packages/settings#index'
+    post 'work_package_tracking' => 'work_packages/settings#edit'
+  end
+
   resources :work_packages, only: [:index] do
     get :column_data, on: :collection # TODO move to API
 
