@@ -30,7 +30,8 @@ module OpenProject::Avatars
                  enable_gravatars: true,
                  enable_local_avatars: true
                },
-               partial: 'settings/openproject_avatars'
+               partial: 'settings/openproject_avatars',
+               menu_item: :user_avatars
              },
              bundled: true do
 

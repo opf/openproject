@@ -148,6 +148,11 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_role_and_permissions,
             parent: :users_and_permissions
 
+  menu.push :user_avatars,
+            { controller: '/settings', action: 'plugin', id: :openproject_avatars },
+            caption: :label_avatar_plural,
+            parent: :users_and_permissions
+
   menu.push :admin_work_packages,
             { controller: '/work_packages/settings' },
             caption: :label_work_package_plural,
