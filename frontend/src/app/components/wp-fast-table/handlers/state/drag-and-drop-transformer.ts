@@ -17,6 +17,7 @@ import {tableRowClassName} from "core-components/wp-fast-table/builders/rows/sin
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
 import {ReorderQueryService} from "core-app/modules/common/drag-and-drop/reorder-query.service";
 import {DragAndDropHelpers} from "core-app/modules/common/drag-and-drop/drag-and-drop.helpers";
+import {WorkPackageTableOrderService} from "core-components/wp-fast-table/state/wp-table-order.service";
 
 export class DragAndDropTransformer {
 
@@ -29,6 +30,7 @@ export class DragAndDropTransformer {
   private readonly wpTableSortBy = this.injector.get(WorkPackageTableSortByService);
   private readonly pathHelper = this.injector.get(PathHelperService);
   private readonly wpTableTimeline = this.injector.get(WorkPackageTableTimelineService);
+  private readonly wpTableOrder = this.injector.get(WorkPackageTableOrderService);
 
   // We remember when we want to update the query with a given order
   private queryUpdates = new RequestSwitchmap(
@@ -174,19 +176,18 @@ export class DragAndDropTransformer {
         mergeMap(query => {
           const renderMap = _.keyBy(this.currentRenderedOrder, 'workPackageId');
           const mappedOrder = order.map(id => renderMap[id]!);
+
+          /** Update rendered order for e.g., redrawing timeline */
           this.querySpace.rendered.putValue(mappedOrder);
+
+          /** Maintain order when reloading unsaved page */
+          this.wpTableOrder.setNewOrder(query, order);
 
           if (query.persisted) {
               return this.reorderService.saveOrderInQuery(query, order);
-          } else {
-            this.querySpace.query.doModify(query => {
-                query.orderedWorkPackages = order.map(id =>
-                  this.pathHelper.api.v3.work_packages.id(id).toString());
-                return query;
-              }
-            );
-            return of(null);
           }
+
+          return of(null);
         })
       );
   }

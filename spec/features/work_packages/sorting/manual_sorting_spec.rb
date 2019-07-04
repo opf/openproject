@@ -72,7 +72,28 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
       hierarchies.expect_leaf_at(work_package_4)
     end
 
-    it 'can dragg an element into a hierarchy' do
+    it 'maintains the order until saved' do
+      wp_table.drag_and_drop_work_package from: 3, to: 1
+      loading_indicator_saveguard
+      hierarchies.expect_hierarchy_at(work_package_1, work_package_2)
+      hierarchies.expect_leaf_at(work_package_4, work_package_3)
+
+      expect(page).to have_selector('.editable-toolbar-title--save')
+      wp_table.save_as "My sorted query"
+
+      wp_table.expect_and_dismiss_notification message: 'Successful creation.'
+
+      query = nil
+      retry_block do
+        query = Query.last
+        raise "Query was not yet saved." unless query.name == 'My sorted query'
+      end
+
+      expect(query.ordered_work_packages)
+        .to eq([work_package_1, work_package_4, work_package_2, work_package_3].map(&:id))
+    end
+
+    it 'can drag an element into a hierarchy' do
       # Move up the hierarchy
       wp_table.drag_and_drop_work_package from: 3, to: 1
       loading_indicator_saveguard
@@ -83,7 +104,7 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
       page.driver.browser.navigate.refresh
       hierarchies.expect_hierarchy_at(work_package_1, work_package_2)
       hierarchies.expect_leaf_at(work_package_3, work_package_4)
-      end
+    end
 
     it 'can drag an element out of the hierarchy' do
       # Move up the hierarchy

@@ -101,7 +101,7 @@ describe 'Going back and forth through the browser history', type: :feature, js:
 
   it 'updates the filters and query results on history back and forth', retry: 1 do
     wp_table.visit!
-    wp_table.expect_title('All open', editable: false)
+    wp_table.expect_title('All open', editable: true)
 
     wp_table.visit_query(assignee_query)
     wp_table.expect_title(assignee_query.name)
@@ -134,7 +134,7 @@ describe 'Going back and forth through the browser history', type: :feature, js:
 
     page.execute_script('window.history.back()')
 
-    wp_table.expect_title('All open', editable: false)
+    wp_table.expect_title('All open', editable: true)
     wp_table.expect_work_package_listed work_package_1
     wp_table.expect_work_package_listed work_package_2
     wp_table.expect_work_package_listed work_package_3

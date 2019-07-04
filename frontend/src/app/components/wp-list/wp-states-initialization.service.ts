@@ -22,6 +22,7 @@ import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-r
 import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
 import {combineLatest, Observable} from "rxjs";
 import {take} from "rxjs/operators";
+import {WorkPackageTableOrderService} from "core-components/wp-fast-table/state/wp-table-order.service";
 
 @Injectable()
 export class WorkPackageStatesInitializationService {
@@ -37,6 +38,7 @@ export class WorkPackageStatesInitializationService {
               protected wpTableHighlighting:WorkPackageTableHighlightingService,
               protected wpTableRelationColumns:WorkPackageTableRelationColumnsService,
               protected wpTablePagination:WorkPackageTablePaginationService,
+              protected wpTableOrder:WorkPackageTableOrderService,
               protected wpTableAdditionalElements:WorkPackageTableAdditionalElementsService,
               protected wpCacheService:WorkPackageCacheService,
               protected wpListChecksumService:WorkPackagesListChecksumService,
@@ -96,8 +98,6 @@ export class WorkPackageStatesInitializationService {
     }
     this.querySpace.query.putValue(query);
 
-    this.querySpace.rows.putValue(results.elements);
-
     this.authorisationService.initModelAuth('work_packages', results.$links);
 
     results.elements.forEach(wp => this.wpCacheService.updateWorkPackage(wp, true));
@@ -111,6 +111,8 @@ export class WorkPackageStatesInitializationService {
     this.wpTableRelationColumns.initialize(query, results);
 
     this.wpTableAdditionalElements.initialize(results.elements);
+
+    this.wpTableOrder.initialize(query, results);
 
     this.querySpace.additionalRequiredWorkPackages
       .values$()
@@ -147,6 +149,7 @@ export class WorkPackageStatesInitializationService {
     this.wpTableTimeline.applyToQuery(query);
     this.wpTableHighlighting.applyToQuery(query);
     this.wpTableHierarchies.applyToQuery(query);
+    this.wpTableOrder.applyToQuery(query);
   }
 
   public clearStates() {
@@ -155,7 +158,6 @@ export class WorkPackageStatesInitializationService {
     // Clear immediate input states
     this.querySpace.initialized.clear(reason);
     this.querySpace.query.clear(reason);
-    this.querySpace.rows.clear(reason);
     this.querySpace.results.clear(reason);
     this.querySpace.groups.clear(reason);
     this.querySpace.additionalRequiredWorkPackages.clear(reason);

@@ -56,6 +56,7 @@ import {WorkPackageQueryStateService} from "core-components/wp-fast-table/state/
 import {debugLog} from "core-app/helpers/debug_output";
 import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
 import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";
+import {WorkPackageTableOrderService} from "core-components/wp-fast-table/state/wp-table-order.service";
 
 export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
 
@@ -73,6 +74,7 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
   readonly wpTableTimeline:WorkPackageTableTimelineService = this.injector.get(WorkPackageTableTimelineService);
   readonly wpTableHierarchies:WorkPackageTableHierarchiesService = this.injector.get(WorkPackageTableHierarchiesService);
   readonly wpTablePagination:WorkPackageTablePaginationService = this.injector.get(WorkPackageTablePaginationService);
+  readonly wpTableOrder:WorkPackageTableOrderService = this.injector.get(WorkPackageTableOrderService);
   readonly wpListService:WorkPackagesListService = this.injector.get(WorkPackagesListService);
   readonly wpListChecksumService:WorkPackagesListChecksumService = this.injector.get(WorkPackagesListChecksumService);
   readonly loadingIndicatorService:LoadingIndicatorService = this.injector.get(LoadingIndicatorService);
@@ -119,6 +121,7 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
     this.setupChangeObserver(this.wpTableHierarchies);
     this.setupChangeObserver(this.wpTableColumns);
     this.setupChangeObserver(this.wpTableHighlighting);
+    this.setupChangeObserver(this.wpTableOrder);
   }
 
   /**

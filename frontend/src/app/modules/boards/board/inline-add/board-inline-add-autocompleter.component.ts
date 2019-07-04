@@ -128,12 +128,12 @@ export class BoardInlineAddAutocompleterComponent implements AfterContentInit {
 
     const path = this.pathHelper.api.v3.withOptionalProject(this.CurrentProject.id).work_packages;
     const filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
-    const rows:WorkPackageResource[] = this.querySpace.rows.getValueOr([]);
+    const results = this.querySpace.results.value
 
     filters.add('subjectOrId', '**', [query]);
 
-    if (rows.length > 0) {
-      filters.add('id', '!', rows.map((wp:WorkPackageResource) => wp.id!));
+    if (results && results.elements.length > 0) {
+      filters.add('id', '!', results.elements.map((wp:WorkPackageResource) => wp.id!));
     }
 
     return this.halResourceService

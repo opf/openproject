@@ -50,7 +50,7 @@ RSpec.feature 'Work package index view' do
 
     expect(current_path).to eql("/projects/#{project.identifier}/work_packages")
     within('#content') do
-      wp_table.expect_title('All open', editable: false)
+      wp_table.expect_title('All open', editable: true)
       expect(page).to have_content('No work packages to display')
     end
   end

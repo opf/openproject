@@ -81,6 +81,8 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
   ngOnInit() {
     super.ngOnInit();
 
+    this.hasQueryProps = !!this.$state.params.query_props;
+
     // Load query initially
     this.wpTableRefresh.clear('Impending query loading.');
     this.loadCurrentQuery();
@@ -130,7 +132,18 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
     return this.authorisationService.can(model, permission);
   }
 
-  public updateQueryName(val:string) {
+  public saveQueryFromTitle(val:string) {
+    if (this.currentQuery && this.currentQuery.persisted) {
+      this.updateQueryName(val);
+    } else {
+      this.wpListService
+        .create(this.currentQuery, val)
+        .then(() => this.querySaving = false)
+        .catch(() => this.querySaving = false);
+    }
+  }
+
+  updateQueryName(val:string) {
     this.querySaving = true;
     this.currentQuery.name = val;
     this.wpListService.save(this.currentQuery)
@@ -142,11 +155,11 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
   updateTitle(query:QueryResource) {
     if (query.persisted) {
       this.selectedTitle = query.name;
-      this.titleEditingEnabled = this.authorisationService.can('query', 'updateImmediately');
     } else {
       this.selectedTitle =  this.wpStaticQueries.getStaticName(query);
-      this.titleEditingEnabled = false;
     }
+
+    this.titleEditingEnabled = this.authorisationService.can('query', 'updateImmediately');
 
     // Update the title if we're in the list state alone
     if (this.$state.current.name === 'work-packages.list') {
@@ -188,6 +201,8 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
 
       let newChecksum = this.wpListService.getCurrentQueryProps(params);
       let newId:string = params.query_id ? params.query_id.toString() : null;
+
+      this.cdRef.detectChanges();
 
       this.wpListChecksumService
         .executeIfOutdated(newId,
