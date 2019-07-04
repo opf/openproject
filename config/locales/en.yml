@@ -1610,6 +1610,7 @@ en:
   label_used_by_types: "Used by types"
   label_used_in_projects: "Used in projects"
   label_user: "User"
+  label_user_and_permission: "Users & Permissions"
   label_user_named: "User %{name}"
   label_user_activity: "%{value}'s activity"
   label_user_anonymous: "Anonymous"

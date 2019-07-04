@@ -469,6 +469,11 @@ OpenProject::Application.routes.draw do
     end
   end
 
+  scope controller: 'users_settings' do
+    get 'users_settings' => 'users_settings#index'
+    post 'users_settings' => 'users_settings#edit'
+  end
+
   resources :forums, only: [] do
     resources :topics, controller: 'messages', except: [:index], shallow: true do
       member do

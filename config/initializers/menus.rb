@@ -123,28 +123,38 @@ Redmine::MenuManager.map :my_menu do |menu|
 end
 
 Redmine::MenuManager.map :admin_menu do |menu|
+  menu.push :users_and_permissions,
+            { controller: '/users_settings' },
+              caption: :label_user_and_permission,
+              icon: 'icon2 icon-group'
+
+  menu.push :user_settings,
+            { controller: '/users_settings' },
+            caption: :label_settings,
+            parent: :users_and_permissions
+
   menu.push :users,
             { controller: '/users' },
             caption: :label_user_plural,
-            icon: 'icon2 icon-user'
+            parent: :users_and_permissions
 
   menu.push :groups,
             { controller: '/groups' },
             caption: :label_group_plural,
-            icon: 'icon2 icon-group'
+            parent: :users_and_permissions
 
   menu.push :roles,
             { controller: '/roles' },
             caption: :label_role_and_permissions,
-            icon: 'icon2 icon-settings'
+            parent: :users_and_permissions
 
   menu.push :admin_work_packages,
-            { controller: '/work_packages/settings', action: 'index' },
+            { controller: '/work_packages/settings' },
             caption: :label_work_package_plural,
             icon: 'icon2 icon-view-timeline'
 
   menu.push :work_packages_setting,
-            { controller: '/work_packages/settings', action: 'index' },
+            { controller: '/work_packages/settings' },
             caption: :label_settings,
             parent: :admin_work_packages
 

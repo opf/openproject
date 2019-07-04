@@ -36,7 +36,6 @@ module SettingsHelper
     [
       { name: 'general', partial: 'settings/general', label: :label_general },
       { name: 'display', partial: 'settings/display', label: :label_display },
-      { name: 'users', partial: 'settings/users', label: :label_user_plural },
       { name: 'projects', partial: 'settings/projects', label: :label_project_plural },
       { name: 'notifications', partial: 'settings/notifications', label: Proc.new { User.human_attribute_name(:mail_notification) } },
       { name: 'mail_handler', partial: 'settings/mail_handler', label: :label_incoming_emails },
