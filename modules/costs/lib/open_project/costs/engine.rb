@@ -30,7 +30,8 @@ module OpenProject::Costs
              bundled: true,
              settings: {
                default: { 'costs_currency' => 'EUR','costs_currency_format' => '%n %u' },
-               partial: 'settings/openproject_costs'
+               partial: 'settings/openproject_costs',
+               menu_item: :costs_setting
              },
              name: 'OpenProject Costs' do
 
@@ -66,7 +67,7 @@ module OpenProject::Costs
       menu :admin_menu,
            :cost_types,
            { controller: '/cost_types', action: 'index' },
-           icon: 'icon2 icon-cost-types',
+           parent: :admin_costs,
            caption: :label_cost_type_plural
 
       menu :project_menu,

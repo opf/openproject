@@ -36,7 +36,6 @@ See docs/COPYRIGHT.rdoc for more details.
           <col>
           <col>
           <col>
-          <col>
         </colgroup>
         <tbody>
           <% @plugins.each do |plugin| %>
@@ -53,7 +52,6 @@ See docs/COPYRIGHT.rdoc for more details.
                   <%= h plugin.version %>
                 <% end %>
               </td>
-              <td class="configure"><%= link_to(l(:button_configure), controller: '/settings', action: 'plugin', id: plugin.id) if plugin.configurable? %></td>
             </tr>
           <% end %>
         </tbody>

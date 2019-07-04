@@ -261,6 +261,16 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: 'icon2 icon-headset',
             if: proc { OpenProject::Configuration.ee_manager_visible? }
 
+  menu.push :admin_costs,
+            { controller: '/settings', action: 'plugin', id: :openproject_costs },
+            caption:    :label_cost_object_plural,
+            icon: 'icon2 icon-budget'
+
+  menu.push :costs_setting,
+            { controller: '/settings', action: 'plugin', id: :openproject_costs },
+            caption:    :label_settings,
+            parent: :admin_costs
+
   menu.push :admin_backlogs,
             { controller: '/settings', action: 'plugin', id: :openproject_backlogs },
             caption:    :label_backlogs,
