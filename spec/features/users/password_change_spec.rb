@@ -118,11 +118,8 @@ describe 'random password generation',
     end
 
     it 'can configure and enforce password rules', js: true do
-      visit '/settings'
+      visit authentication_settings_path
       expect_angular_frontend_initialized
-
-      # Go to authentication
-      find('#tab-authentication').click
 
       # Enforce rules
       # 3 of 'lowercase, uppercase, special'

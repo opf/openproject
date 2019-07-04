@@ -61,6 +61,7 @@ module Redmine::MenuManager::MenuHelper
     links = []
 
     menu_items = first_level_menu_items_for(menu, project) do |node|
+      @menu = menu
       links << render_menu_node(node, project)
     end
 
@@ -145,7 +146,7 @@ module Redmine::MenuManager::MenuHelper
     content_tag :li, html_options do
       # Standard children
       standard_children_list = node.children.map { |child|
-        render_menu_node(child, project)
+        render_menu_node(child, project) if visible_node?(@menu, child)
       }.join.html_safe
 
       # Unattached children

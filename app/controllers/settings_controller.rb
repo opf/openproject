@@ -32,7 +32,6 @@ class SettingsController < ApplicationController
 
   before_action :require_admin
 
-
   current_menu_item [:index, :edit] do
     :settings
   end

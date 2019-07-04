@@ -134,12 +134,10 @@ describe 'Authentication Stages', type: :feature, js: true do
       expect_logged_in
 
       # Update consent date
-      visit settings_path(tab: 'users')
+      visit users_settings_path
       find("#toggle_consent_time").set(true)
 
-      within '#tab-content-users' do
-        click_on 'Save'
-      end
+      click_on 'Save'
       expect(page).to have_selector('.flash.notice')
 
       Setting.clear_cache
