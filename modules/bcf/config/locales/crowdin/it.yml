@@ -12,7 +12,7 @@ it:
       xml_file: 'File XML BCF'
       import_title: 'Importa da file BCF'
       export: 'Esporta tutto in BCF-XML'
-      import_update_comment: '(Updated in BCF import)'
+      import_update_comment: '(Aggiornato nell''importazione BCF)'
       import_failed: 'Cannot import BCF file: %{error}'
       import_successful: 'Imported %{count} BCF issues'
       import_canceled: 'BCF-XML import canceled.'
