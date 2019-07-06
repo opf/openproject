@@ -145,7 +145,7 @@ it:
     grid:
       add_modal:
         choose_widget: 'Scegli widget'
-      remove: 'Remove widget'
+      remove: 'Rimuovi widget'
       widgets:
         documents:
           title: 'Documenti'
