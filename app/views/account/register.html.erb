@@ -27,11 +27,9 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= activate_angular_js do %>
-  <section data-augmented-model-wrapper
-           data-modal-initialize-now="true"
-           data-modal-class-name="registration-modal modal-wrapper -highlight">
-    <% @user ||= User.new %>
-    <%= render partial: '/account/register' %>
-  </section>
-<% end %>
+<section data-augmented-model-wrapper
+         data-modal-initialize-now="true"
+         data-modal-class-name="registration-modal modal-wrapper -highlight">
+  <% @user ||= User.new %>
+  <%= render partial: '/account/register' %>
+</section>

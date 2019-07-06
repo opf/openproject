@@ -19,24 +19,8 @@ See doc/COPYRIGHT.md for more details.
 
 ++#%>
 <div id="block_<%= block_name %>" class="widget-box">
-
   <% block_name_id = "my_page_#{block_name}_box_actions" %>
-  <% content_for block_name_id do %>
-    <div class="box-actions">
-      <% if User.current.allowed_to?(:edit_project, project) %>
-      <a href="#"
-         ng-click="$ctrl.remove($event)"
-         ng-show="$ctrl.editing"
-         class="icon icon-close remove-block"
-         title="<%= t(:button_delete) %>"></a>
-      <% end %>
-    </div>
-  <% end %>
-
   <div class="handle">
     <%= render partial: "my_projects_overviews/blocks/#{block_name}", locals: { block_name_id: block_name_id, edit: defined?(edit) ? edit : false } %>
   </div>
 </div>
-
-<overview-block block-name="<%= block_name %>">
-</overview-block>

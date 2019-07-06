@@ -149,6 +149,17 @@ en:
         embedded_calendar:
           text: '[Placeholder] Embedded calendar'
 
+    admin:
+      type_form:
+        custom_field: 'Custom field'
+        inactive: 'Inactive'
+        drag_to_activate: "Drag fields from here to activate them"
+        add_group: "Add attribute group"
+        add_table: "Add table of related work packages"
+        edit_query: 'Edit query'
+        new_group: 'New group'
+        reset_to_defaults: 'Reset to defaults'
+
     custom_actions:
       date:
         specific: 'on'
@@ -273,6 +284,7 @@ en:
     label_filename: "File"
     label_filesize: "Size"
     label_greater_or_equal: ">="
+    label_group: 'Group'
     label_group_by: "Group by"
     label_hide_attributes: "Show less"
     label_hide_column: "Hide column"

@@ -48,7 +48,7 @@ import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {keyCodes} from "../../../../legacy/app/components/keyCodes.enum";
+import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
 import {MainMenuToggleService} from "core-components/main-menu/main-menu-toggle.service";
 import {MainMenuNavigationService} from "core-components/main-menu/main-menu-navigation.service";
 

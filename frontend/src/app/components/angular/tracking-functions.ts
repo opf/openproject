@@ -24,6 +24,10 @@ export namespace AngularTrackingHelpers {
     return _.get(item, 'href');
   }
 
+  export function trackByProperty(prop:string) {
+    return (i:number, item:HalResource) => _.get(item, prop);
+  }
+
   export function trackByHrefAndProperty(propertyName:string) {
     return (i:number, item:HalResource) => {
       let href = _.get(item, 'href');

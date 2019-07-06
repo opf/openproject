@@ -74,7 +74,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
         </tr>
       </thead>
       <tbody>
-        <% total_budget = BigDecimal.new("0"); labor_budget = BigDecimal.new("0"); material_budget = BigDecimal.new("0"); spent = BigDecimal.new("0") %>
+        <% total_budget = BigDecimal("0"); labor_budget = BigDecimal("0"); material_budget = BigDecimal("0"); spent = BigDecimal("0") %>
         <% cost_objects.each do |cost_object| %>
         <tr id="cost_object-<%= cost_object.id %>" class="<%= cost_object.css_classes %>">
           <td><%= link_to cost_object.id, cost_object_path(cost_object.id) %></td>

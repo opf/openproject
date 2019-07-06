@@ -86,15 +86,6 @@ describe 'form configuration', type: :feature, js: true do
         form.expect_attribute(key: :assignee)
       end
 
-      it 'detects errors for duplicate group names' do
-        form.add_attribute_group('New Group')
-        form.add_attribute_group('New Group', expect: false) # would fail since two selectors exist now
-
-        form.save_changes
-
-        expect(page).to have_selector(".type-form-conf-group.-error", count: 1)
-      end
-
       it 'allows modification of the form configuration' do
         #
         # Test default set of groups

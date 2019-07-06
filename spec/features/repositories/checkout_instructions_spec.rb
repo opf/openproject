@@ -66,13 +66,11 @@ describe 'Create repository', type: :feature, js: true do
       visit project_repository_path(project)
 
       expect(page).to have_selector('#repository--checkout-instructions')
-      expect(page).to have_selector('#repository--checkout-instructions-toggle.-pressed')
 
       button = find('#repository--checkout-instructions-toggle')
       button.click
 
       expect(page).not_to have_selector('#repository--checkout-instructions')
-      expect(page).not_to have_selector('#repository--checkout-instructions-toggle.-pressed')
     end
   end
 end

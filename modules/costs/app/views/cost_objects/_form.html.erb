@@ -36,10 +36,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 </div>
 
 <% if @cost_object.kind == "VariableCostObject" -%>
-  <%= activate_angular_js do %>
   <%= render partial: 'cost_objects/subform/material_budget_subform' %>
   <%= render partial: 'cost_objects/subform/labor_budget_subform' %>
-  <% end %>
 <%- end %>
 
 <div style="clear: both;"> </div>

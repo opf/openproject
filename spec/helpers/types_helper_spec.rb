@@ -69,12 +69,12 @@ describe TypesHelper, type: :helper do
 
       it 'has a proper structure' do
         # The group's name/key
-        expect(subject.first.first.key).to eq "group one"
+        expect(subject.first[:name]).to eq "group one"
 
         # The groups attributes
-        expect(subject.first.second).to be_an Array
-        expect(subject.first.second.first[:key]).to eq "date"
-        expect(subject.first.second.first[:translation]).to eq "Date"
+        expect(subject.first[:attributes]).to be_an Array
+        expect(subject.first[:attributes].first[:key]).to eq "date"
+        expect(subject.first[:attributes].first[:translation]).to eq "Date"
       end
     end
   end

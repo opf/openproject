@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-
 import {FormsModule} from "@angular/forms";
 import {APP_INITIALIZER, Injector, NgModule} from "@angular/core";
 
@@ -70,7 +69,6 @@ import {CommonModule} from "@angular/common";
 import {CollapsibleSectionComponent} from "core-app/modules/common/collapsible-section/collapsible-section.component";
 import {NoResultsComponent} from "core-app/modules/common/no-results/no-results.component";
 import {DragDropModule} from "@angular/cdk/drag-drop";
-import {NgSelectModule} from "@ng-select/ng-select";
 import {UserAutocompleterComponent} from "app/modules/common/autocomplete/user-autocompleter.component";
 import {ScrollableTabsComponent} from "core-app/modules/common/tabs/scrollable-tabs.component";
 import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
@@ -84,7 +82,16 @@ import {VersionAutocompleterComponent} from "core-app/modules/common/autocomplet
 import {CreateAutocompleterComponent} from "core-app/modules/common/autocomplete/create-autocompleter.component";
 import {HomescreenNewFeaturesBlockComponent} from "core-components/homescreen/blocks/new-features.component";
 import {BoardVideoTeaserModalComponent} from "core-app/modules/boards/board/board-video-teaser-modal/board-video-teaser-modal.component";
+import {PersistentToggleComponent} from "core-app/modules/common/persistent-toggle/persistent-toggle.component";
+import {AutocompleteSelectDecorationComponent} from "core-app/modules/common/autocomplete/autocomplete-select-decoration.component";
+import {AddSectionDropdownComponent} from "core-app/modules/common/hide-section/add-section-dropdown/add-section-dropdown.component";
+import {HideSectionLinkComponent} from "core-app/modules/common/hide-section/hide-section-link/hide-section-link.component";
+import {HideSectionService} from "core-app/modules/common/hide-section/hide-section.service";
+import {RemoteFieldUpdaterComponent} from 'core-app/modules/common/remote-field-updater/remote-field-updater.component';
+import {AutofocusDirective} from "core-app/modules/common/autofocus/autofocus.directive";
+import {ShowSectionDropdownComponent} from "core-app/modules/common/hide-section/show-section-dropdown.component";
 import {IconTriggeredContextMenuComponent} from "core-components/op-context-menu/icon-triggered-context-menu/icon-triggered-context-menu.component";
+import {NgSelectModule} from "@ng-select/ng-select";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -113,7 +120,7 @@ export function bootstrapModule(injector:Injector) {
     NgSelectModule,
 
     DynamicModule.withComponents([VersionAutocompleterComponent,
-                                  CreateAutocompleterComponent])
+      CreateAutocompleterComponent]),
   ],
   exports: [
     // Re-export all commonly used
@@ -129,6 +136,7 @@ export function bootstrapModule(injector:Injector) {
     OpDatePickerComponent,
     OpDateTimeComponent,
     OpIcon,
+    AutofocusDirective,
 
     AttributeHelpTextComponent,
     AttributeHelpTextModal,
@@ -179,6 +187,7 @@ export function bootstrapModule(injector:Injector) {
     OpDatePickerComponent,
     OpDateTimeComponent,
     OpIcon,
+    AutofocusDirective,
 
     AttributeHelpTextComponent,
     AttributeHelpTextModal,
@@ -228,6 +237,13 @@ export function bootstrapModule(injector:Injector) {
     // User Avatar
     UserAvatarComponent,
 
+    PersistentToggleComponent,
+    AutocompleteSelectDecorationComponent,
+    HideSectionLinkComponent,
+    ShowSectionDropdownComponent,
+    AddSectionDropdownComponent,
+    RemoteFieldUpdaterComponent,
+
     // Enterprise Edition
     EnterpriseBannerComponent,
 
@@ -255,7 +271,15 @@ export function bootstrapModule(injector:Injector) {
     UserAvatarComponent,
 
     HomescreenNewFeaturesBlockComponent,
-    BoardVideoTeaserModalComponent
+    BoardVideoTeaserModalComponent,
+    UserAvatarComponent,
+    PersistentToggleComponent,
+    AutocompleteSelectDecorationComponent,
+    HideSectionLinkComponent,
+    AddSectionDropdownComponent,
+    RemoteFieldUpdaterComponent,
+    AttributeHelpTextComponent,
+    ShowSectionDropdownComponent,
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: bootstrapModule, deps: [Injector], multi: true },
@@ -273,6 +297,7 @@ export function bootstrapModule(injector:Injector) {
     BrowserDetector,
     GonService,
     BackRoutingService,
+    HideSectionService,
   ]
 })
 export class OpenprojectCommonModule { }

@@ -45,6 +45,10 @@ class Type::QueryGroup < Type::FormGroup
     :"query_#{query.id}"
   end
 
+  def group_type
+    :query
+  end
+
   def ==(other)
     other.is_a?(self.class) &&
       key == other.key &&

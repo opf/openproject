@@ -37,6 +37,7 @@ import {TimezoneService} from 'core-components/datetime/timezone.service';
 })
 export class OpDatePickerComponent implements OnInit, OnDestroy {
   @Output() public onChange = new EventEmitter<string>();
+  @Output() public onInputChange = new EventEmitter<string>();
   @Output() public onClose = new EventEmitter<string>();
   @Input() public initialDate?:string;
 
@@ -54,6 +55,7 @@ export class OpDatePickerComponent implements OnInit, OnDestroy {
     this.$element = jQuery(this.elementRef.nativeElement);
 
     this.input = this.$element.find('input');
+    this.input.on('change', () => this.onInputChange.emit(this.currentValue()))
     this.setup();
   }
 

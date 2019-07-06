@@ -22,15 +22,10 @@ try 'npm install --no-shrinkwrap >> log/setup_dev.log'
 echo "Linking plugin modules"
 try 'bundle exec rake openproject:plugins:register_frontend >> log/setup_dev.log'
 
-printf "Building legacy webpack bundle ... "
-try 'npm run legacy-webpack >> log/setup_dev.log'
-echo "done."
-
 echo "---------------------------------------"
 echo "Done. Now start the following services"
 echo '- Rails server `RAILS_ENV=development ./bin/rails s`'
 echo '- Angular CLI: `npm run serve`'
-echo '- (Optional, only if you work on frontend/legacy): `npm run legacy-webpack-watch`'
 echo ""
 echo 'You can also run `foreman start -f Procfile.dev` to run all the above on a single terminal.'
 

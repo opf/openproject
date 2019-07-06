@@ -37,6 +37,8 @@ describe UpdateTypeService do
   let(:instance) { described_class.new(type, user) }
   let(:service_call) { instance.call(params) }
 
+  let(:valid_group) { { 'type' => 'attribute', 'name' => 'foo', 'attributes' => ['date'] } }
+
   it_behaves_like 'type service'
 
   describe "#validate_attribute_groups" do
@@ -55,13 +57,14 @@ describe UpdateTypeService do
     end
 
     it 'fails for duplicate group names' do
-      result = instance.call(attribute_groups: [['foo', ['date']], ['foo', ['date']]])
+      result = instance.call(attribute_groups: [valid_group, valid_group])
       expect(result.success?).to be_falsey
+      expect(result.errors[:attribute_groups].first).to include 'used more than once.'
     end
 
     it 'passes validations for known attributes' do
       expect(type).to receive(:save).and_return(true)
-      result = instance.call(attribute_groups: [['foo', ['date']]])
+      result = instance.call(attribute_groups: [valid_group])
       expect(result.success?).to be_truthy
     end
 
@@ -78,8 +81,7 @@ describe UpdateTypeService do
     end
 
     context 'with an invalid query' do
-      let(:query) { FactoryBot.build(:global_query, name: '') }
-      let(:params) { { attribute_groups: [['some name', [query]]] } }
+      let(:params) { { attribute_groups: [{ 'type' => 'query', name: 'some name', query: 'wat' }] } }
 
       it 'is invalid' do
         expect(service_call.success?).to be_falsey

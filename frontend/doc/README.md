@@ -7,16 +7,6 @@ from the previous frontend that cannot be converted to Angular. (Mainly because 
 - **The Angular frontend** is located at `frontend/src` and uses the Angular CLI to compile and serve locally.
 
 
-## Legacy frontend
-
-When developing, the legacy bundle can be watched with `npm run legacy-webpack-watch` in separate tab.
-It will result in a single output bundle at `app/assets/javascripts/bundles/openproject-legacy-app.js`.
-That bundle is loaded manually by templates in Rails whenever a legacy directive is used with `<%= activate_angular_js %>`.
-
-For production, this bundle is also produced when running the `rake assets:precompile` task.
-
-For more information, see [LEGACY](./LEGACY.md).
-
 ## Angular frontend
 
 When developing, `npm run serve` will open a proxy server (webpack-dev-server) that will serve assets from memory.
