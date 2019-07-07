@@ -181,7 +181,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
     // in a grid, having two way binding will lead to having constantly
     // removed the events after showing them initially.
     // It appears as if the two way binding is initialized twice if used.
-    this.ucCalendar.renderEvents(events);
+    (this.ucCalendar as any).renderEvents(events);
   }
 
   private warnOnTooManyResults(collection:WorkPackageCollectionResource) {
