@@ -156,6 +156,7 @@ import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-packag
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
 import {OpenprojectBcfModule} from "core-app/modules/bcf/openproject-bcf.module";
 import {WorkPackageRelationsAutocomplete} from "core-components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.component";
+import {CustomDateActionAdminComponent} from 'core-components/wp-custom-actions/date-action/custom-date-action-admin.component';
 import {WorkPackagesTableConfigMenu} from "core-components/wp-table/config-menu/config-menu.component";
 
 @NgModule({
@@ -350,6 +351,7 @@ import {WorkPackagesTableConfigMenu} from "core-components/wp-table/config-menu/
     // CustomActions
     WpCustomActionComponent,
     WpCustomActionsComponent,
+    CustomDateActionAdminComponent,
 
     // Embedded graphs
     WorkPackageEmbeddedGraphComponent,
@@ -437,6 +439,8 @@ import {WorkPackagesTableConfigMenu} from "core-components/wp-table/config-menu/
 
     // Card view
     WorkPackageCardViewComponent,
+
+    CustomDateActionAdminComponent,
   ],
   exports: [
     WorkPackagesTableController,

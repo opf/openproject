@@ -86,6 +86,7 @@ import {MainMenuNavigationService} from "core-components/main-menu/main-menu-nav
 import {StatusCacheService} from "core-components/statuses/status-cache.service";
 import {VersionCacheService} from "core-components/versions/version-cache.service";
 import {FormsCacheService} from "core-components/forms/forms-cache.service";
+import {OpenprojectAdminModule} from "core-app/modules/admin/openproject-admin.module";
 
 @NgModule({
   imports: [
@@ -117,6 +118,9 @@ import {FormsCacheService} from "core-components/forms/forms-cache.service";
 
     // Global Search
     OpenprojectGlobalSearchModule,
+
+    // Admin module
+    OpenprojectAdminModule,
 
     // Plugin hooks and modules
     OpenprojectPluginsModule,

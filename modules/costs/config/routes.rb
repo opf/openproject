@@ -22,8 +22,8 @@ OpenProject::Application.routes.draw do
     resources :cost_entries, controller: 'costlog', only: [:new, :create]
 
     resources :cost_objects, only: [:new, :create, :index] do
-      post :update_labor_budget_item, on: :collection
-      post :update_material_budget_item, on: :collection
+      match :update_labor_budget_item, on: :collection, via: %i[get post]
+      match :update_material_budget_item, on: :collection, via: %i[get post]
     end
 
     resources :hourly_rates, only: [:show, :edit, :update] do

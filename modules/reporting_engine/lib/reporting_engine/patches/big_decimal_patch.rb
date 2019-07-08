@@ -18,23 +18,21 @@
 #++
 
 module ReportingEngine::Patches::BigDecimalPatch
-  module BigDecimal
-    ::BigDecimal.send :include, self
+  class BigDecimal
     def to_d; self end
   end
 
-  module Integer
-    ::Integer.send :include, self
+  class Integer
     def to_d; to_f.to_d end
   end
 
-  module String
-    ::String.send :include, self
-    def to_d; ::BigDecimal.new(self) end
+  class String
+    def to_d
+      BigDecimal self
+    end
   end
 
-  module NilClass
-    ::NilClass.send :include, self
+  class NilClass
     def to_d; 0 end
   end
 end

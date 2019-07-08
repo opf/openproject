@@ -40,11 +40,18 @@ export class DisplayField extends Field {
 
   protected I18n:I18nService = this.$injector.get(I18nService);
 
-  constructor(public resource:any,
-              public name:string,
-              public schema:IFieldSchema,
-              public context:DisplayFieldContext) {
+  constructor(public name:string, public context:DisplayFieldContext) {
     super();
+  }
+
+  /**
+   * Apply the display field to the given resource and schema
+   * @param resource
+   * @param schema
+   */
+  public apply(resource:any, schema:IFieldSchema) {
+    this.resource = resource;
+    this.schema = schema;
   }
 
   public texts = {

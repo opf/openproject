@@ -52,11 +52,11 @@ class VariableCostObject < CostObject
   end
 
   def material_budget
-    @material_budget ||= material_budget_items.visible_costs.inject(BigDecimal.new('0.0000')) { |sum, i| sum += i.costs }
+    @material_budget ||= material_budget_items.visible_costs.inject(BigDecimal('0.0000')) { |sum, i| sum += i.costs }
   end
 
   def labor_budget
-    @labor_budget ||= labor_budget_items.visible_costs.inject(BigDecimal.new('0.0000')) { |sum, i| sum += i.costs }
+    @labor_budget ||= labor_budget_items.visible_costs.inject(BigDecimal('0.0000')) { |sum, i| sum += i.costs }
   end
 
   def spent
@@ -66,7 +66,7 @@ class VariableCostObject < CostObject
   def spent_material
     @spent_material ||= begin
       if cost_entries.blank?
-        BigDecimal.new('0.0000')
+        BigDecimal('0.0000')
       else
         cost_entries.visible_costs(User.current, project).sum("CASE
           WHEN #{CostEntry.table_name}.overridden_costs IS NULL THEN
@@ -80,7 +80,7 @@ class VariableCostObject < CostObject
   def spent_labor
     @spent_labor ||= begin
       if time_entries.blank?
-        BigDecimal.new('0.0000')
+        BigDecimal('0.0000')
       else
         time_entries.visible_costs(User.current, project).sum("CASE
           WHEN #{TimeEntry.table_name}.overridden_costs IS NULL THEN

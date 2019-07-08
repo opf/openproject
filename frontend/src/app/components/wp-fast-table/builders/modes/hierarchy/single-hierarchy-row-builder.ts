@@ -3,7 +3,6 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {States} from '../../../../states.service';
 import {
   collapsedGroupClass,
-  hasChildrenInTable,
   hierarchyGroupClass,
   hierarchyRootClass
 } from '../../../helpers/wp-table-hierarchy-helpers';
@@ -20,6 +19,10 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
   // Injected
   public wpTableHierarchies = this.injector.get(WorkPackageTableHierarchiesService);
   public states = this.injector.get(States);
+
+  // Retain a map of hierarchy elements present in the table
+  // with at least a visible child
+  public parentsWithVisibleChildren:{ [id:string]:boolean };
 
   public text:{
     leaf:(level:number) => string;
@@ -57,7 +60,7 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
   /**
    * Build the columns on the given empty row
    */
-  public buildEmpty(workPackage:WorkPackageResource):[HTMLElement, boolean] {
+  public buildEmpty(workPackage:WorkPackageResource):[HTMLTableRowElement, boolean] {
     let [element, _] = super.buildEmpty(workPackage);
     let [classes, hidden] = this.ancestorRowData(workPackage);
     element.classList.add(...classes);
@@ -75,7 +78,7 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
     const rowClasses:string[] = [];
     let hidden = false;
 
-    if (hasChildrenInTable(workPackage, this.workPackageTable)) {
+    if (this.parentsWithVisibleChildren[workPackage.id!]) {
       rowClasses.push(hierarchyRootClass(workPackage.id!));
     }
 
@@ -99,7 +102,7 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
    */
   public buildAncestorRow(ancestor:WorkPackageResource,
                           ancestorGroups:string[],
-                          index:number):[HTMLElement, boolean] {
+                          index:number):[HTMLTableRowElement, boolean] {
 
     const workPackage = this.states.workPackages.get(ancestor.id!).value!;
     const [tr, hidden] = this.buildEmpty(workPackage);
@@ -136,7 +139,7 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
     hierarchyIndicator.style.width = indicatorWidth;
     hierarchyIndicator.dataset.indentation = indicatorWidth;
 
-    if (hasChildrenInTable(workPackage, this.workPackageTable)) {
+    if (this.parentsWithVisibleChildren[workPackage.id!]) {
       const className = collapsed ? indicatorCollapsedClass : '';
       hierarchyIndicator.innerHTML = `
             <a href tabindex="0" role="button" class="wp-table--hierarchy-indicator ${className}">

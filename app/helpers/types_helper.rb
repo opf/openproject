@@ -60,8 +60,8 @@ module ::TypesHelper
 
     active_form = get_active_groups(type, available, inactive)
     inactive_form = inactive
-                    .map { |key, attribute| attr_form_map(key, attribute) }
-                    .sort_by { |attr| attr[:translation] }
+                      .map { |key, attribute| attr_form_map(key, attribute) }
+                      .sort_by { |attr| attr[:translation] }
 
     {
       actives: active_form,
@@ -69,19 +69,21 @@ module ::TypesHelper
     }
   end
 
-  def attribute_groups_as_json(type)
-    type
-      .attribute_groups
-      .map { |group|
+  def active_group_attributes_map(group, available, inactive)
+    return nil unless group.group_type == :attribute
 
-      attributes = group.attributes
+    group.attributes
+      .select { |key| inactive.delete(key) }
+      .map! { |key| attr_form_map(key, available[key]) }
+  end
 
-      if group.is_a? ::Type::QueryGroup
-        attributes = query_to_query_props(group.attributes)
-      end
+  def query_to_query_props(group)
+    return nil unless group.group_type == :query
 
-      [group.key, attributes, (group.key.is_a? Symbol)]
-    }.to_json
+    # Modify the hash to match Rails array based +to_query+ transforms:
+    # e.g., { columns: [1,2] }.to_query == "columns[]=1&columns[]=2" (unescaped)
+    # The frontend will do that IFF the hash key is an array
+    ::API::V3::Queries::QueryParamsRepresenter.new(group.attributes).to_json
   end
 
   private
@@ -92,24 +94,14 @@ module ::TypesHelper
   # determines which attributes are not used
   def get_active_groups(type, available, inactive)
     type.attribute_groups.map do |group|
-      if group.is_a? ::Type::QueryGroup
-        [group, query_to_query_props(group.attributes)]
-      else
-        extended_attributes =
-          group.attributes
-            .select { |key| inactive.delete(key) }
-            .map! { |key| attr_form_map(key, available[key]) }
-
-        [group, extended_attributes]
-      end
+      {
+        type: group.group_type,
+        key: group.key,
+        name: group.translated_key,
+        attributes: active_group_attributes_map(group, available, inactive),
+        query: query_to_query_props(group)
+      }
     end
-  end
-
-  def query_to_query_props(query)
-    # Modify the hash to match Rails array based +to_query+ transforms:
-    # e.g., { columns: [1,2] }.to_query == "columns[]=1&columns[]=2" (unescaped)
-    # The frontend will do that IFF the hash key is an array
-    ::API::V3::Queries::QueryParamsRepresenter.new(query).to_json
   end
 
   def attr_form_map(key, represented)

@@ -49,7 +49,7 @@ module CostlogHelper
     value = value.strip
     value.gsub!(t(:currency_delimiter), '') if value.include?(t(:currency_delimiter)) && value.include?(t(:currency_separator))
     value.gsub(',', '.')
-    BigDecimal.new(value)
+    BigDecimal(value)
   end
 
   def to_currency_with_empty(rate)

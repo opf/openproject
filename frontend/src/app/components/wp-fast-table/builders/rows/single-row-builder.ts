@@ -94,7 +94,7 @@ export class SingleRowBuilder {
   /**
    * Build the columns on the given empty row
    */
-  public buildEmpty(workPackage:WorkPackageResource):[HTMLElement, boolean] {
+  public buildEmpty(workPackage:WorkPackageResource):[HTMLTableRowElement, boolean] {
     let row = this.createEmptyRow(workPackage);
     return this.buildEmptyRow(workPackage, row);
   }
@@ -177,7 +177,7 @@ export class SingleRowBuilder {
     return form && form.activeFields[column.id];
   }
 
-  protected buildEmptyRow(workPackage:WorkPackageResource, row:HTMLElement):[HTMLElement, boolean] {
+  protected buildEmptyRow(workPackage:WorkPackageResource, row:HTMLTableRowElement):[HTMLTableRowElement, boolean] {
     const changeset = this.workPackageTable.editing.changeset(workPackage.id!);
     let cells:{ [attribute:string]:JQuery } = {};
 

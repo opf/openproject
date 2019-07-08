@@ -8,15 +8,10 @@ import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp
 export class RowsTransformer {
 
   public querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
-  public wpStatesInitialization = this.injector.get(WorkPackageStatesInitializationService);
   public states:States = this.injector.get(States);
 
   constructor(public readonly injector:Injector,
               public table:WorkPackageTable) {
-
-    // Initial setup
-    let rows = this.querySpace.rows.value!;
-    table.initialSetup(rows);
 
     // Redraw table if the current row state changed
     this.querySpace

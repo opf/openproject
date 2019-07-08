@@ -26,18 +26,8 @@ See doc/COPYRIGHT.md for more details.
 
 <% html_title(t(:label_overview)) -%>
 
-<%= toolbar title: t(:label_overview) do %>
-  <% if User.current.allowed_to?(:edit_project, project) %>
-    <li class="toolbar-item" title="<%= t(:label_personalize_page) %>">
-      <%= link_to my_projects_overview_path(project), id: 'my-project-page-layout', class: 'button', accesskey: accesskey(:edit) do %>
-        <%= op_icon('icon-settings') %>
-        <span class="hidden-for-sighted"><%= t(:label_personalize_page) %></span>
-      <% end %>
-    </li>
-  <% end %>
-<% end %>
+<%= toolbar title: t(:label_overview) %>
 
-<%= activate_angular_js do %>
 <div id="invisible-grid" class="widget-boxes project-overview">
   <% top_fields.each do |f| %>
     <%= rendered_field f %>
@@ -48,4 +38,3 @@ See doc/COPYRIGHT.md for more details.
     <% end %>
   </div>
 </div>
-<% end %>

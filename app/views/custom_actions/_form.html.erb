@@ -1,5 +1,3 @@
-<%= activate_angular_js do %>
-
 <%= initialize_hide_sections_with @custom_action.all_actions.map { |a| { key: a.key, label: a.human_name } },
                                   @custom_action.actions.map { |a| { key: a.key, label: a.human_name } } %>
 
@@ -20,16 +18,15 @@
       <%= styled_label_tag("custom_action_conditions_#{condition.key}", condition.human_name, class: '-top') %>
       <% input_name = "custom_action[conditions][#{condition.key}]" %>
       <% selected_values = condition.values
-         select_options = options_for_select(condition.allowed_values.map { |v| [v[:label], v[:value]] },
-                                             selected: selected_values) %>
+         select_options = condition.allowed_values.map { |v| { label: v[:label], value: v[:value], selected: selected_values.include?(v[:value]) } } %>
 
       <div class="form--field-container">
         <div class="form--select-container -middle">
-          <autocomplete-select-decoration>
-            <%= select_tag input_name,
-                           select_options,
-                           multiple: true %>
-          </autocomplete-select-decoration>
+          <%= render partial: 'augmented/autocomplete_select_decoration',
+                     locals: { input_name: input_name,
+                               input_id: "custom_action_conditions_#{condition.key}",
+                               select_options: select_options,
+                               multiple: true }  %>
         </div>
       </div>
     </div>
@@ -44,30 +41,27 @@
 
   <div id="custom-actions-form--active-actions">
     <% @custom_action.all_actions.each do |action| %>
-      <hide-section section-name="<%= action.key %>">
+      <section class="hide-section" hidden data-section-name="<%= action.key %>">
         <div class="form--field">
           <%= styled_label_tag("custom_action_actions_#{action.key}", action.human_name, class: '-top') %>
 
           <% input_name = "custom_action[actions][#{action.key}]" %>
           <% if %i(associated_property boolean).include?(action.type) %>
             <% selected_values = action.values
-               select_options = options_for_select(action.allowed_values.map { |v| [v[:label], v[:value]] },
-                                                   selected: selected_values) %>
+               select_options = action.allowed_values.map { |v| { label: v[:label], value: v[:value], selected: selected_values.include?(v[:value]) } } %>
+
               <div class="form--field-container">
                 <div class="form--select-container -middle">
-                  <autocomplete-select-decoration
-                      label="<%=action.human_name%>">
-                    <%= select_tag input_name,
-                                   select_options,
-                                   multiple: action.multi_value? %>
-                  </autocomplete-select-decoration>
+                  <%= render partial: 'augmented/autocomplete_select_decoration',
+                             locals: { input_name: input_name,
+                                       input_id: "custom_action_actions_#{action.key}",
+                                       select_options: select_options,
+                                       multiple: action.multi_value? }  %>
                 </div>
               </div>
           <% elsif %i(date_property).include?(action.type) %>
             <div class="form--field-container">
-              <wp-custom-actions-admin-date-action field-value="<%= action.values.first %>"
-                                                   field-name="<%= input_name %>">
-              </wp-custom-actions-admin-date-action>
+              <%= tag 'custom-date-action-admin', data: { 'field-value': action.values.first&.iso8601, 'field-name': input_name } %>
             </div>
           <% elsif %i(string_property text_property).include?(action.type) %>
             <div class="form--field-container">
@@ -95,9 +89,9 @@
                                           step: 1 %>
             </div>
           <% end %>
-          <hide-section-link section-name="'<%= action.key %>'"></hide-section-link>
+          <hide-section-link data-section-name="<%= action.key %>"></hide-section-link>
         </div>
-      </hide-section>
+      </section>
     <% end %>
   </div>
 
@@ -110,12 +104,9 @@
     </label>
     <span class="form--field-container">
       <span class="form--text-field-container -middle">
-        <add-section-dropdown html-id="'custom-actions-form--add-action'"
-                              id="custom-actions-form--selectable-actions">
+        <add-section-dropdown data-html-id="custom-actions-form--add-action">
         </add-section-dropdown>
       </span>
     </span>
   </div>
 </fieldset>
-
-<% end %>

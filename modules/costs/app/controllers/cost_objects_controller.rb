@@ -187,7 +187,7 @@ class CostObjectsController < ApplicationController
     cost_type = CostType.where(id: params[:cost_type_id]).first
 
     if cost_type && params[:units].present?
-      volume = BigDecimal.new(Rate.clean_currency(params[:units])) rescue 0.0
+      volume = BigDecimal(Rate.clean_currency(params[:units])) rescue 0.0
       @costs = (volume * cost_type.rate_at(params[:fixed_date]).rate rescue 0.0)
       @unit = volume == 1.0 ? cost_type.unit : cost_type.unit_plural
     else

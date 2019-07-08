@@ -95,28 +95,55 @@ class BaseTypeService
   def parse_attribute_groups_params(params)
     return if params[:attribute_groups].nil?
 
-    transform_params_to_query(params[:attribute_groups])
+    transform_attribute_groups(params[:attribute_groups])
   end
 
   def after_type_save(_params, _options)
     # noop to be overwritten by subclasses
   end
 
-  def transform_params_to_query(groups)
-    groups.each_with_index do |(name, attributes), index|
-      next unless attributes.is_a? Hash
+  def transform_attribute_groups(groups)
+    groups.map do |group|
 
-      query = Query.new_default(name: "Embedded table: #{name}")
-
-      ::API::V3::UpdateQueryFromV3ParamsService
-        .new(query, user)
-        .call(attributes.with_indifferent_access)
-
-      query.show_hierarchies = false
-      query.hidden = true
-
-      groups[index][1] = [query]
+      if group['type'] == 'query'
+        transform_query_group(group)
+      else
+        transform_attribute_group(group)
+      end
     end
+  end
+
+  def transform_attribute_group(group)
+    name =
+      if group['key']
+        group['key'].to_sym
+      else
+        group['name']
+      end
+
+    [
+      name,
+      group['attributes'].map { |attr| attr['key'] }
+    ]
+  end
+
+  def transform_query_group(group)
+    name = group['name']
+    props = JSON.parse group['query']
+
+    query = Query.new_default(name: "Embedded table: #{name}")
+
+    ::API::V3::UpdateQueryFromV3ParamsService
+      .new(query, user)
+      .call(props.with_indifferent_access)
+
+    query.show_hierarchies = false
+    query.hidden = true
+
+    [
+      name,
+      [query]
+    ]
   end
 
   ##

@@ -36,22 +36,21 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= initialize_hide_sections_with [{key: 'notified_projects'}],  active_sections %>
 
 
-<%= activate_angular_js do %>
 <div class="form--field">
   <%= styled_label_tag "user_mail_notification", t(:'user.settings.mail_notifications') %>
   <div class="form--field-container">
     <div class="form--select-container">
-      <show-section-dropdown opt-value="selected" hide-sec-with-name="notified_projects">
-        <%= styled_select_tag 'user[mail_notification]',
-            options_for_select(user_mail_notification_options(@user),
-            @user.mail_notification),
-            container_class: '-wide' %>
+      <%= styled_select_tag 'user[mail_notification]',
+                            options_for_select(user_mail_notification_options(@user), @user.mail_notification),
+                            container_class: '-wide' %>
+      <show-section-dropdown data-opt-value="selected"
+                             data-hide-sec-with-name="notified_projects">
       </show-section-dropdown>
     </div>
   </div>
 </div>
 
-<hide-section section-name="notified_projects">
+<section class="hide-section" data-section-name="notified_projects" <%= @user.mail_notification == 'selected' ? '' : 'hidden' %>>
   <div id="notified-projects" class="form--field -no-label">
       <div class="form--field-container -vertical">
         <% @user.projects.each do |project| %>
@@ -68,7 +67,7 @@ See docs/COPYRIGHT.rdoc for more details.
         <%= t(:'user.settings.mail_project_explanaition') %>
       </div>
   </div>
-</hide-section>
+</section>
 
 <div class="form--field">
   <%= styled_label_tag 'self_notified', t(:'user.settings.mail_self_notified') %>
@@ -78,4 +77,3 @@ See docs/COPYRIGHT.rdoc for more details.
     </div>
   </div>
 </div>
-<% end %>
