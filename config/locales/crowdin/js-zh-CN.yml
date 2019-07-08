@@ -112,6 +112,16 @@ zh-CN:
           text: '[Placeholder] 嵌入式工作包表'
         embedded_calendar:
           text: '[Placeholder]嵌入式日历'
+    admin:
+      type_form:
+        custom_field: '自定义字段'
+        inactive: '非活动'
+        drag_to_activate: "从此处拖动字段将其激活"
+        add_group: "增加属性组"
+        add_table: "添加相关工作包表"
+        edit_query: 'Edit query'
+        new_group: '新的组'
+        reset_to_defaults: '重置为默认值'
     custom_actions:
       date:
         specific: '于'
@@ -229,6 +239,7 @@ zh-CN:
     label_filename: "文件"
     label_filesize: "大小"
     label_greater_or_equal: ">="
+    label_group: '组'
     label_group_by: "分组按照"
     label_hide_attributes: "隐藏显示"
     label_hide_column: "隐藏列"

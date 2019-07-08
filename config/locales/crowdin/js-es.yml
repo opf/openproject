@@ -112,6 +112,16 @@ es:
           text: '[Placeholder] Tabla de paquetes de trabajo insertada'
         embedded_calendar:
           text: '[Placeholder] Calendario insertado'
+    admin:
+      type_form:
+        custom_field: 'Campo personalizado'
+        inactive: 'Inactivo'
+        drag_to_activate: "Arrastre campos desde aquí para activarlos"
+        add_group: "Agregar grupo de atributos"
+        add_table: "Agregar tabla de paquetes de trabajo relacionados"
+        edit_query: 'Edit query'
+        new_group: 'Nuevo grupo'
+        reset_to_defaults: 'Restablecer valores predeterminados'
     custom_actions:
       date:
         specific: 'en'
@@ -229,6 +239,7 @@ es:
     label_filename: "Archivo"
     label_filesize: "Tamaño"
     label_greater_or_equal: ">="
+    label_group: 'Grupo'
     label_group_by: "Agrupar por"
     label_hide_attributes: "Mostrar menos"
     label_hide_column: "Esconder Columna"

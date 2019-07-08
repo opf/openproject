@@ -183,8 +183,6 @@ lt:
       form_configuration: "Formos konfigūracija"
       projects: "Projektai"
       enabled_projects: "Įgalinti projektai"
-      add_group: "Add attribute group"
-      add_table: "Add table of related work packages"
       edit_query: "Edit table"
       query_group_placeholder: "Give the table a name"
       reset: "Atkurti į numatytuosius"
@@ -2174,7 +2172,6 @@ lt:
   text_assign_to_project: "Priskirti projektui"
   text_form_configuration: >
     Jūs galite nustatyti, kurie laukeliai bus rodomi darbų paketų formoje. Jūs galite laisvai grupuoti laukelius pagal savo poreikius.
-  text_form_configuration_drag_to_activate: "Vilkite laukelius iš čia, kad juos aktyvuotumėte"
   text_form_configuration_required_attribute: "Atributas yra pažymėtas kaip reikalingas, todėl visada rodomas"
   text_caracters_maximum: "%{count} simbolių maksimumas."
   text_caracters_minimum: "Turi būti mažiausiai %{count} simbolių ilgio."

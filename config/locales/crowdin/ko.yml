@@ -182,8 +182,6 @@ ko:
       form_configuration: "양식 구성"
       projects: "프로젝트"
       enabled_projects: "활성화 된 프로젝트"
-      add_group: "특성 그룹 추가"
-      add_table: "관련 작업 패키지의 테이블 추가"
       edit_query: "테이블 편집"
       query_group_placeholder: "테이블에 이름 지정"
       reset: "기본값으로 초기화"
@@ -2107,7 +2105,6 @@ ko:
   text_assign_to_project: "프로젝트에 할당"
   text_form_configuration: >
     작업 패키지 양식으로 표시할 필드를 사용자 지정할 수 있습니다. 해당 도메인의 요구 사항을 반영하도록 필드를 자유롭게 그룹화할 수 있습니다.
-  text_form_configuration_drag_to_activate: "여기에서 필드를 끌어와서 활성화"
   text_form_configuration_required_attribute: "특성이 필수로 나타나므로 항상 표시됩니다."
   text_caracters_maximum: "최대 %{count}자입니다."
   text_caracters_minimum: "최소 %{count}자여야 합니다."

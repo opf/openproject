@@ -181,8 +181,6 @@ de:
       form_configuration: "Formularkonfiguration"
       projects: "Projekte"
       enabled_projects: "Aktivierte Projekte"
-      add_group: "Attributgruppe hinzufügen"
-      add_table: "Tabelle mit zugehörigen Arbeitspaketen hinzufügen"
       edit_query: "Tabelle bearbeiten"
       query_group_placeholder: "Benennen Sie die Tabelle"
       reset: "Auf Standardwerte zurücksetzen"
@@ -2130,7 +2128,6 @@ de:
   text_assign_to_project: "Dem Projekt zuweisen"
   text_form_configuration: >
     Sie können anpassen, welche Felder in den Arbeitspaket-Formularen angezeigt werden. Sie können die Felder entsprechend Ihren Bedürfnissen frei gruppieren.
-  text_form_configuration_drag_to_activate: "Felder aus diesem Bereich herausziehen, um sie zu aktivieren"
   text_form_configuration_required_attribute: "Attribut ist erforderlich und deshalb immer angezeigt"
   text_caracters_maximum: "Max. %{count} Zeichen."
   text_caracters_minimum: "Muss mindestens %{count} Zeichen lang sein."

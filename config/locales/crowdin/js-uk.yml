@@ -112,6 +112,16 @@ uk:
           text: '[Placeholder] Вбудована таблиця робочих пакетів'
         embedded_calendar:
           text: '[Placeholder] вбудований календар'
+    admin:
+      type_form:
+        custom_field: 'Користувацьке поле'
+        inactive: 'Неактивний'
+        drag_to_activate: "Перетягніть поля звідти, щоб активувати їх"
+        add_group: "Додати групу атрибутів"
+        add_table: "Додати таблицю пов'язаних пакетів робіт"
+        edit_query: 'Edit query'
+        new_group: 'Нова група'
+        reset_to_defaults: 'Скинути на типові значення'
     custom_actions:
       date:
         specific: 'на'
@@ -229,6 +239,7 @@ uk:
     label_filename: "Файл"
     label_filesize: "Розмір"
     label_greater_or_equal: ">="
+    label_group: 'Група'
     label_group_by: "Групувати за"
     label_hide_attributes: "Показати менше"
     label_hide_column: "Приховати стовпчик"

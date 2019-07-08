@@ -183,8 +183,6 @@ uk:
       form_configuration: "Конфігурація форми"
       projects: "Проекти"
       enabled_projects: "Включені проекти"
-      add_group: "Додати групу атрибутів"
-      add_table: "Додати таблицю пов'язаних пакетів робіт"
       edit_query: "Редагувати таблицю"
       query_group_placeholder: "Найменувати таблицю"
       reset: "Скинути на типові значення"
@@ -2176,7 +2174,6 @@ uk:
   text_assign_to_project: "Призначити на проект"
   text_form_configuration: >
     Можна налаштувати, які поля будуть відображатися у формах робочих пакетів. Ви можете вільно групувати поля для відображення потреб вашого домену.
-  text_form_configuration_drag_to_activate: "Перетягніть поля звідти, щоб активувати їх"
   text_form_configuration_required_attribute: "Атрибут позначений необхідним і таким чином завжди показано"
   text_caracters_maximum: "%{count} символів(а) максимум."
   text_caracters_minimum: "Повинно мати якнайменше %{count} символів(а) у довжину."

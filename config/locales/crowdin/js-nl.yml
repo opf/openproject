@@ -112,6 +112,16 @@ nl:
           text: '[Placeholder] ingesloten werkpakket tabel'
         embedded_calendar:
           text: '[Placeholder] ingesloten kalender'
+    admin:
+      type_form:
+        custom_field: 'Aangepast veld'
+        inactive: 'Inactief'
+        drag_to_activate: "Sleep velden uit hier om ze te activeren"
+        add_group: "Toevoegen van nieuwe attribuutgroepen"
+        add_table: "Tabel van verwante werkpakketten toevoegen"
+        edit_query: 'Edit query'
+        new_group: 'Nieuwe groep'
+        reset_to_defaults: 'Standaardinstellingen herstellen'
     custom_actions:
       date:
         specific: 'op'
@@ -229,6 +239,7 @@ nl:
     label_filename: "Bestand"
     label_filesize: "Grootte"
     label_greater_or_equal: ">="
+    label_group: 'Groep'
     label_group_by: "Groeperen op"
     label_hide_attributes: "Toon minder"
     label_hide_column: "Verberg kolom"

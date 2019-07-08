@@ -182,8 +182,6 @@ hu:
       form_configuration: "Űrlap konfiguráció"
       projects: "Projektek"
       enabled_projects: "Engedélyezett projektek"
-      add_group: "Tulajdonságcsoport"
-      add_table: "Táblázat hozzáadása a kapcsolódó munkacsomagokhoz"
       edit_query: "Táblázat szerkesztése"
       query_group_placeholder: "Adja meg a tábla nevét"
       reset: "Alapbeállítások visszaállítása"
@@ -2129,7 +2127,6 @@ hu:
   text_assign_to_project: "Hozzárendelés projekthez"
   text_form_configuration: >
     Testreszabhatja, hogy mely mezők jelenjenek meg a munkacsomag űrlapjánál. A mezőket szabadon csoportosíthatja, hogy kellően tükrözze a problémakör igényeit.
-  text_form_configuration_drag_to_activate: "Innen húzza a mezőket, hogy aktiválja"
   text_form_configuration_required_attribute: "Attribútum megjelölve, így mindig látszik"
   text_caracters_maximum: "legfeljebb %{count} hosszúságú karakter lehet."
   text_caracters_minimum: "Legalább %{count} karakter hosszúnak kell lennie."

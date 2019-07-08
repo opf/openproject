@@ -111,6 +111,16 @@ zh-TW:
           text: '[Placeholder] 嵌入式工作包表格'
         embedded_calendar:
           text: '[Placeholder] 嵌入式日曆'
+    admin:
+      type_form:
+        custom_field: '自訂欄位'
+        inactive: '未啟用'
+        drag_to_activate: "從這裡拖曳欄位來啟用它們"
+        add_group: "添加屬性組"
+        add_table: "添加相關工作包的表格"
+        edit_query: 'Edit query'
+        new_group: '新增群組'
+        reset_to_defaults: '重設為預設值'
     custom_actions:
       date:
         specific: '開啟'
@@ -228,6 +238,7 @@ zh-TW:
     label_filename: "檔案"
     label_filesize: "檔案大小"
     label_greater_or_equal: ">="
+    label_group: '群組'
     label_group_by: "分組依據"
     label_hide_attributes: "簡略"
     label_hide_column: "隱藏欄"

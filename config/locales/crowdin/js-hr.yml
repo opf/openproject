@@ -112,6 +112,16 @@ hr:
           text: '[Placeholder] Embedded work package table'
         embedded_calendar:
           text: '[Placeholder] Embedded calendar'
+    admin:
+      type_form:
+        custom_field: 'Prilagođeno polje'
+        inactive: 'Inactive'
+        drag_to_activate: "Drag fields from here to activate them"
+        add_group: "Add attribute group"
+        add_table: "Add table of related work packages"
+        edit_query: 'Edit query'
+        new_group: 'Nova grupa'
+        reset_to_defaults: 'Reset to defaults'
     custom_actions:
       date:
         specific: 'na'
@@ -229,6 +239,7 @@ hr:
     label_filename: "Datoteka"
     label_filesize: "Veličina"
     label_greater_or_equal: ">="
+    label_group: 'Grupa'
     label_group_by: "Grupiraj po"
     label_hide_attributes: "Prikaži manje"
     label_hide_column: "Sakriti stupac"

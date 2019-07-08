@@ -112,6 +112,16 @@ fi:
           text: '[Placeholder] Embedded work package table'
         embedded_calendar:
           text: '[Placeholder] Embedded calendar'
+    admin:
+      type_form:
+        custom_field: 'Mukautettu kenttä'
+        inactive: 'Inactive'
+        drag_to_activate: "Drag fields from here to activate them"
+        add_group: "Add attribute group"
+        add_table: "Add table of related work packages"
+        edit_query: 'Edit query'
+        new_group: 'Uusi ryhmä'
+        reset_to_defaults: 'Reset to defaults'
     custom_actions:
       date:
         specific: 'päälle'
@@ -229,6 +239,7 @@ fi:
     label_filename: "Tiedosto"
     label_filesize: "Koko"
     label_greater_or_equal: ">="
+    label_group: 'Ryhmä'
     label_group_by: "Ryhmittely"
     label_hide_attributes: "Näytä vähemmän"
     label_hide_column: "Piilota sarake"

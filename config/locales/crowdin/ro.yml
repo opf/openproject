@@ -183,8 +183,6 @@ ro:
       form_configuration: "Configurarea formularului"
       projects: "Proiecte"
       enabled_projects: "Enabled projects"
-      add_group: "Add attribute group"
-      add_table: "Add table of related work packages"
       edit_query: "Edit table"
       query_group_placeholder: "Give the table a name"
       reset: "Reset to defaults"
@@ -2153,7 +2151,6 @@ ro:
   text_assign_to_project: "Alocare la proiect"
   text_form_configuration: >
     You can customize which fields will be displayed in work package forms. You can freely group the fields to reflect the needs for your domain.
-  text_form_configuration_drag_to_activate: "Mutați câmpuri de aici pentru a le activa"
   text_form_configuration_required_attribute: "Atributul este marcat drept necesar, acesta va fi vizibil permanent"
   text_caracters_maximum: "maximum %{count} caractere."
   text_caracters_minimum: "Trebuie să aibă cel putin %{count} caractere."

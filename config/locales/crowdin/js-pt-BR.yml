@@ -111,6 +111,16 @@ pt-BR:
           text: '[Placeholder] Embutida tabela de pacote de trabalho'
         embedded_calendar:
           text: '[Placeholder] Calendário embutido'
+    admin:
+      type_form:
+        custom_field: 'Campo personalizado'
+        inactive: 'Inativo'
+        drag_to_activate: "Arraste campos daqui para ativá-los"
+        add_group: "Adicionar grupo de atributo"
+        add_table: "Adicionar tabela de pacotes de trabalho relacionados"
+        edit_query: 'Edit query'
+        new_group: 'Novo grupo'
+        reset_to_defaults: 'Redefinir para os padrões'
     custom_actions:
       date:
         specific: 'ligado'
@@ -228,6 +238,7 @@ pt-BR:
     label_filename: "Arquivo"
     label_filesize: "Tamanho"
     label_greater_or_equal: ">="
+    label_group: 'Grupo'
     label_group_by: "Agrupar por"
     label_hide_attributes: "Mostrar Menos"
     label_hide_column: "Ocultar coluna"

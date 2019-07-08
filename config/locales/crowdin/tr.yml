@@ -183,8 +183,6 @@ tr:
       form_configuration: "Formu yapılandırma"
       projects: "Projeler"
       enabled_projects: "Etkin projeler"
-      add_group: "Özellik grubu ekle"
-      add_table: "Bağlantılı iş paketlerinin tablosunu ekle"
       edit_query: "Tabloyu düzenle"
       query_group_placeholder: "Tabloya bir ad verin"
       reset: "Varsayılanlara geri yükle"
@@ -2132,7 +2130,6 @@ tr:
   text_assign_to_project: "Projeye ata"
   text_form_configuration: >
     İş paketi formunda görüntülenecek alanları özelleştirebilirsiniz. Tüm işlerinizde kullanabileceğiniz şekilde bunları gruplayabilirsiniz.
-  text_form_configuration_drag_to_activate: "Alanları buraya sürükleyerek aktifleştirebilirsiniz"
   text_form_configuration_required_attribute: "Öznitelik gerekli olarak işaretlendiği için her zaman gösterilir"
   text_caracters_maximum: "En çok %{count} karakter."
   text_caracters_minimum: "En az %{count} karakter uzunluğunda olmalı."

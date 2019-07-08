@@ -112,6 +112,16 @@ lt:
           text: '[Placeholder] Embedded work package table'
         embedded_calendar:
           text: '[Placeholder] Įterptinis kalendorius'
+    admin:
+      type_form:
+        custom_field: 'Kliento laukelis'
+        inactive: 'Neaktyvus'
+        drag_to_activate: "Vilkite laukelius iš čia, kad juos aktyvuotumėte"
+        add_group: "Add attribute group"
+        add_table: "Add table of related work packages"
+        edit_query: 'Edit query'
+        new_group: 'Nauja grupė'
+        reset_to_defaults: 'Atkurti į numatytuosius'
     custom_actions:
       date:
         specific: 'įjungta'
@@ -229,6 +239,7 @@ lt:
     label_filename: "Byla"
     label_filesize: "Dydis"
     label_greater_or_equal: ">="
+    label_group: 'Grupė'
     label_group_by: "Grupuoti pagal"
     label_hide_attributes: "Rodyti mažiau"
     label_hide_column: "Slėpti stulpelį"

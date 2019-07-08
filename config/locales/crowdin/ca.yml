@@ -183,8 +183,6 @@ ca:
       form_configuration: "Configuració del formulari"
       projects: "Projectes"
       enabled_projects: "Enabled projects"
-      add_group: "Add attribute group"
-      add_table: "Afegeix una taula de paquets de treball relacionats"
       edit_query: "Edit table"
       query_group_placeholder: "Give the table a name"
       reset: "Reset to defaults"
@@ -2130,7 +2128,6 @@ ca:
   text_assign_to_project: "Assignar al projecte"
   text_form_configuration: >
     You can customize which fields will be displayed in work package forms. You can freely group the fields to reflect the needs for your domain.
-  text_form_configuration_drag_to_activate: "Drag fields from here to activate them"
   text_form_configuration_required_attribute: "Attribute is marked required and thus always shown"
   text_caracters_maximum: "%{count} caràcters com a màxim."
   text_caracters_minimum: "Com a mínim ha de tenir %{count} caràcters."

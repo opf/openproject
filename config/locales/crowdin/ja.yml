@@ -181,8 +181,6 @@ ja:
       form_configuration: "フォーム設定"
       projects: "プロジェクト"
       enabled_projects: "有効なプロジェクト"
-      add_group: "属性グループを追加する"
-      add_table: "関連する作業項目のテーブルを追加する"
       edit_query: "テーブルを編集"
       query_group_placeholder: "テーブルに名前を付けます"
       reset: "デフォルトに戻す"
@@ -2108,7 +2106,6 @@ ja:
   text_assign_to_project: "プロジェクト自体に割り当てする"
   text_form_configuration: >
     作業パッケージのフォームに表示されるフィールドをカスタマイズできます。自由にフィールドをグループ化して、あなたのドメインのニーズを反映できます。
-  text_form_configuration_drag_to_activate: "ここからフィールドをドラッグして、有効にします"
   text_form_configuration_required_attribute: "属性が必須とマークされています。 したがって常に示されます"
   text_caracters_maximum: "最大%{count}文字です。"
   text_caracters_minimum: "最低%{count}文字の長さが必要です。"

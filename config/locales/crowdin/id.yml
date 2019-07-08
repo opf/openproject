@@ -183,8 +183,6 @@ id:
       form_configuration: "Form configuration"
       projects: "Project"
       enabled_projects: "Proyek-proyek yang diaktifkan"
-      add_group: "Add attribute group"
-      add_table: "Add table of related work packages"
       edit_query: "Edit table"
       query_group_placeholder: "Give the table a name"
       reset: "Disetel ulang ke kondisi bawaan"
@@ -2107,7 +2105,6 @@ id:
   text_assign_to_project: "Tetapkan untuk Project"
   text_form_configuration: >
     Anda dapat mengkustom field-field mana yang akan ditampilkan dalam form paket kerja. Anda dapat dengan bebas mengelompokkan field-field untuk mencerminkan kebutuhan-kebutuhan untuk domain Anda.
-  text_form_configuration_drag_to_activate: "Tarik field dari sini untuk mengaktifkkannya"
   text_form_configuration_required_attribute: "Atribut ditandai \"diperlukan\" dan dengan demikian selalu ditampilkan"
   text_caracters_maximum: "maks. %{count} karakter."
   text_caracters_minimum: "Panjang katakter setidaknya %{count} karakter."

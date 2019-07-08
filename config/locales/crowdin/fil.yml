@@ -183,8 +183,6 @@ fil:
       form_configuration: "Form kompigurasyon"
       projects: "Mga proyekto"
       enabled_projects: "Paganahin ang mga proyekto"
-      add_group: "Add attribute group"
-      add_table: "Add table of related work packages"
       edit_query: "Edit table"
       query_group_placeholder: "Give the table a name"
       reset: "I-reset sa mga default"
@@ -2130,7 +2128,6 @@ fil:
   text_assign_to_project: "Nakatalaga sa proyekto"
   text_form_configuration: >
     Pwede mong i-customize kung saan ang mga patlang ay maipapakita sa mga porma ng pakete ng mga gawain. Pwede kang malayang magpapagrupo sa mga patlang para ito ay sumasalamin sa mga kailangan mo para sa iyong domain.
-  text_form_configuration_drag_to_activate: "I-drag ang mga patlang mula dito upang paganahin sila"
   text_form_configuration_required_attribute: "Katangian ay marka na kinakailangan at kaya laging ipinapakita"
   text_caracters_maximum: "%{count} Pinakamaramig karakter."
   text_caracters_minimum: "Dapar ay hindi baba sa mga %{count} karakter blog."

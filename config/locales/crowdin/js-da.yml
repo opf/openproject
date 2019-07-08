@@ -112,6 +112,16 @@ da:
           text: '[Placeholder] Embedded work package table'
         embedded_calendar:
           text: '[Placeholder] Embedded calendar'
+    admin:
+      type_form:
+        custom_field: 'Selvvalgt felt'
+        inactive: 'Inactive'
+        drag_to_activate: "Drag fields from here to activate them"
+        add_group: "Add attribute group"
+        add_table: "Add table of related work packages"
+        edit_query: 'Edit query'
+        new_group: 'Ny gruppe'
+        reset_to_defaults: 'Reset to defaults'
     custom_actions:
       date:
         specific: 'på'
@@ -229,6 +239,7 @@ da:
     label_filename: "Fil"
     label_filesize: "Størrelse"
     label_greater_or_equal: ">="
+    label_group: 'Gruppe'
     label_group_by: "Gruppér efter"
     label_hide_attributes: "Vis mindre"
     label_hide_column: "Gem kolonne"

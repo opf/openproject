@@ -183,8 +183,6 @@ sk:
       form_configuration: "Konfigurácia formulára"
       projects: "Projekty"
       enabled_projects: "Povolené projekty"
-      add_group: "Pridať skupinu vlastností"
-      add_table: "Pridajte tabuľku súvisiacich pracovných balíčkov"
       edit_query: "Upraviť tabuľku"
       query_group_placeholder: "Zadajte názov tabuľky"
       reset: "Obnoviť predvolené"
@@ -2175,7 +2173,6 @@ sk:
   text_assign_to_project: "Priradiť k projektu"
   text_form_configuration: >
     Môžete prispôsobiť, ktoré polia sa zobrazia vo formulári v pracovnom balíku. Môžete si voľne zoskupovať polia tak aby napĺňali potreby vašej domény.
-  text_form_configuration_drag_to_activate: "Potiahnite polia z tejto oblasti a aktivujte ich"
   text_form_configuration_required_attribute: "Atribút je označený ako povinný a preto je vždy zobrazený"
   text_caracters_maximum: "maximálne %{count} znakov."
   text_caracters_minimum: "Musí byť najmenej %{count} znakov."

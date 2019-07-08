@@ -112,6 +112,16 @@ id:
           text: '[Placeholder] Embedded work package table'
         embedded_calendar:
           text: '[Placeholder] Embedded calendar'
+    admin:
+      type_form:
+        custom_field: 'Isian kustom'
+        inactive: 'Tidak aktif'
+        drag_to_activate: "Tarik field dari sini untuk mengaktifkkannya"
+        add_group: "Add attribute group"
+        add_table: "Add table of related work packages"
+        edit_query: 'Edit query'
+        new_group: 'Grup baru'
+        reset_to_defaults: 'Disetel ulang ke kondisi bawaan'
     custom_actions:
       date:
         specific: 'pada'
@@ -229,6 +239,7 @@ id:
     label_filename: "File"
     label_filesize: "Size"
     label_greater_or_equal: ">="
+    label_group: 'Grup'
     label_group_by: "Grup oleh"
     label_hide_attributes: "Show less"
     label_hide_column: "Sembunyikan kolom"

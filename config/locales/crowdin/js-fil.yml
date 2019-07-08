@@ -112,6 +112,16 @@ fil:
           text: '[Placeholder] Embedded work package table'
         embedded_calendar:
           text: '[Placeholder] Embedded calendar'
+    admin:
+      type_form:
+        custom_field: 'Pasadyang patlang'
+        inactive: 'Hindi aktibo'
+        drag_to_activate: "I-drag ang mga patlang mula dito upang paganahin sila"
+        add_group: "Add attribute group"
+        add_table: "Add table of related work packages"
+        edit_query: 'Edit query'
+        new_group: 'Bagong grupo'
+        reset_to_defaults: 'I-reset sa mga default'
     custom_actions:
       date:
         specific: 'sa'
@@ -229,6 +239,7 @@ fil:
     label_filename: "File"
     label_filesize: "Sukat"
     label_greater_or_equal: ">=="
+    label_group: 'Grupo'
     label_group_by: "Pangkat sa"
     label_hide_attributes: "Magpakita ng mas kaunti"
     label_hide_column: "Itago ang mga hanay"

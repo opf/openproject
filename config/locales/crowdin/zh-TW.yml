@@ -183,8 +183,6 @@ zh-TW:
       form_configuration: "表單設置"
       projects: "專案"
       enabled_projects: "已啟用的專案"
-      add_group: "添加屬性組"
-      add_table: "添加相關工作包的表格"
       edit_query: "編輯表格"
       query_group_placeholder: "給表格命名"
       reset: "重設為預設值"
@@ -2109,7 +2107,6 @@ zh-TW:
   text_assign_to_project: "分配給專案"
   text_form_configuration: >
     您可以自訂哪些欄位將會顯示在工作項目表單中。您可以自由的群組化這些欄位來符合您的需求。
-  text_form_configuration_drag_to_activate: "從這裡拖曳欄位來啟用它們"
   text_form_configuration_required_attribute: "以標示為必須的屬性將會永遠顯示"
   text_caracters_maximum: "最多 %{count} 個字元。"
   text_caracters_minimum: "必須至少 %{count} 個字元長。"

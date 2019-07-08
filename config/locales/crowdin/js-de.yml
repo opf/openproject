@@ -111,6 +111,16 @@ de:
           text: '[Platzhalter] Eingebette Arbeitspaket-Tabelle'
         embedded_calendar:
           text: '[Platzhalter] Eingebetteter Kalender'
+    admin:
+      type_form:
+        custom_field: 'Benutzerdefiniertes Feld'
+        inactive: 'Inaktiv'
+        drag_to_activate: "Felder aus diesem Bereich herausziehen, um sie zu aktivieren"
+        add_group: "Attributgruppe hinzufügen"
+        add_table: "Tabelle mit zugehörigen Arbeitspaketen hinzufügen"
+        edit_query: 'Edit query'
+        new_group: 'Neue Gruppe'
+        reset_to_defaults: 'Auf Standardwerte zurücksetzen'
     custom_actions:
       date:
         specific: 'am'
@@ -228,6 +238,7 @@ de:
     label_filename: "Datei"
     label_filesize: "Größe"
     label_greater_or_equal: ">="
+    label_group: 'Gruppe'
     label_group_by: "Gruppieren nach"
     label_hide_attributes: "Weniger anzeigen"
     label_hide_column: "Spalte ausblenden"

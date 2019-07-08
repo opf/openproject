@@ -111,6 +111,16 @@ ro:
           text: '[Placeholder] Tabelul pachetului de lucru inserat'
         embedded_calendar:
           text: '[Placeholder] Embedded calendar'
+    admin:
+      type_form:
+        custom_field: 'Câmp personalizat'
+        inactive: 'Inactive'
+        drag_to_activate: "Mutați câmpuri de aici pentru a le activa"
+        add_group: "Add attribute group"
+        add_table: "Add table of related work packages"
+        edit_query: 'Edit query'
+        new_group: 'Grupare nouă'
+        reset_to_defaults: 'Reset to defaults'
     custom_actions:
       date:
         specific: 'pe'
@@ -228,6 +238,7 @@ ro:
     label_filename: "Fișier"
     label_filesize: "Dimensiune"
     label_greater_or_equal: ">="
+    label_group: 'Grup'
     label_group_by: "Grupare după"
     label_hide_attributes: "Arată mai puţin"
     label_hide_column: "Ascundere coloana"

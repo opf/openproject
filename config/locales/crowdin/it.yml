@@ -183,8 +183,6 @@ it:
       form_configuration: "Configurazione del modulo"
       projects: "Progetti"
       enabled_projects: "Progetti abilitati"
-      add_group: "Aggiungi gruppo di attributi"
-      add_table: "Aggiungi la tabella dei pacchetti di lavoro correlati"
       edit_query: "Modificare la Tabella"
       query_group_placeholder: "Assegnare un nome alla tabella"
       reset: "Ripristino predefinite"
@@ -2131,7 +2129,6 @@ it:
   text_assign_to_project: "Assegna al progetto"
   text_form_configuration: >
     È possibile personalizzare quali campi verranno visualizzati nei moduli della macro-attività. È possibile raggruppare liberamente i campi per soddisfare le esigenze per il tuo dominio.
-  text_form_configuration_drag_to_activate: "Trascina i campi da qui per attivarli"
   text_form_configuration_required_attribute: "L'attributo è segnato come obbligatorio e quindi sarà sempre visualizzato"
   text_caracters_maximum: "%{count} caratteri massimo."
   text_caracters_minimum: "Deve essere lungo almeno %{count} caratteri."

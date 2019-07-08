@@ -183,8 +183,6 @@ ru:
       form_configuration: "Настройка форм"
       projects: "Проекты"
       enabled_projects: "Доступные проекты"
-      add_group: "Добавить группу атрибутов"
-      add_table: "Добавить таблицу связанных пакетов работ"
       edit_query: "Изменить таблицу"
       query_group_placeholder: "Дайте таблице название"
       reset: "Восстановить значения по умолчанию"
@@ -2173,7 +2171,6 @@ ru:
   text_assign_to_project: "Назначить на проект"
   text_form_configuration: >
     Вы можете настроить, какие поля будут показываться в формах пакетов работ. Вы можете свободно сгруппировать поля с учетом потребностей вашего домена.
-  text_form_configuration_drag_to_activate: "Чтобы включить поля, перетащите их отсюда"
   text_form_configuration_required_attribute: "Атрибут помечен как необходимый, поэтому будет виден постоянно"
   text_caracters_maximum: "Максимальное количество символов: %{count}."
   text_caracters_minimum: "Должно быть по крайней мере %{count} символов."

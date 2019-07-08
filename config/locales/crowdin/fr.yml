@@ -183,8 +183,6 @@ fr:
       form_configuration: "Configuration du formulaire"
       projects: "Projets"
       enabled_projects: "Projets activés"
-      add_group: "Ajouter un groupe d’attributs"
-      add_table: "Ajouter un tableau des lots de travaux associés"
       edit_query: "Modifier le tableau"
       query_group_placeholder: "Donner un nom au tableau"
       reset: "Rétablir les valeurs par défaut"
@@ -2131,7 +2129,6 @@ fr:
   text_assign_to_project: "Assigner le projet"
   text_form_configuration: >
     Vous pouvez personnaliser comment les champs seront affichés sur le plan de travail. Vous pouvez librement regrouper les champs pour refléter les besoins pour votre domaine.
-  text_form_configuration_drag_to_activate: "Faites glisser les champs ici pour les activer"
   text_form_configuration_required_attribute: "L’attribut est marqué requis et donc toujours montré"
   text_caracters_maximum: "%{count} caractères maximale."
   text_caracters_minimum: "Doit contenir au moins %{count} caractères."

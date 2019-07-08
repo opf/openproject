@@ -112,6 +112,16 @@ cs:
           text: '[Placeholder] Embedded work package table'
         embedded_calendar:
           text: '[Placeholder] Vložený kalendář'
+    admin:
+      type_form:
+        custom_field: 'Vlastní pole'
+        inactive: 'Neaktivní'
+        drag_to_activate: "Drag fields from here to activate them"
+        add_group: "Přidat skupinu atributů"
+        add_table: "Přidat seznam se souvisejícími pracovními balíčky"
+        edit_query: 'Edit query'
+        new_group: 'Nová skupina'
+        reset_to_defaults: 'Obnovit výchozí nastavení'
     custom_actions:
       date:
         specific: 'zapnuto'
@@ -229,6 +239,7 @@ cs:
     label_filename: "Soubor"
     label_filesize: "Velikost"
     label_greater_or_equal: ">="
+    label_group: 'Skupina'
     label_group_by: "Seskupit podle"
     label_hide_attributes: "Zobrazit méně"
     label_hide_column: "Skrýt sloupec"

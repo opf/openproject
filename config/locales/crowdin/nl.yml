@@ -183,8 +183,6 @@ nl:
       form_configuration: "Formulierconfiguratie"
       projects: "Projecten"
       enabled_projects: "Ingeschakelde projecten"
-      add_group: "Toevoegen van nieuwe attribuutgroepen"
-      add_table: "Tabel van verwante werkpakketten toevoegen"
       edit_query: "Tabel bewerken"
       query_group_placeholder: "Geef de tabel een naam"
       reset: "Standaardinstellingen herstellen"
@@ -2131,7 +2129,6 @@ nl:
   text_assign_to_project: "Wijs aan project toe"
   text_form_configuration: >
     U kunt aanpassen welke velden worden weergegeven in pakket werkformulieren. U kunt deze velden vrij groeperen om de weergave aan uw eigen behoeften aan te passen.
-  text_form_configuration_drag_to_activate: "Sleep velden uit hier om ze te activeren"
   text_form_configuration_required_attribute: "Kenmerk is gemarkeerd als vereist en wordt dus altijd getoond"
   text_caracters_maximum: "maximaal %{count} tekens."
   text_caracters_minimum: "Moet ten minste %{count} tekens lang zijn."

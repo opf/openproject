@@ -112,6 +112,16 @@ tr:
           text: '[Yer Tutucu] Gömülü iş paketi tablosu'
         embedded_calendar:
           text: '[Placeholder] Göümülü takvim'
+    admin:
+      type_form:
+        custom_field: 'Özel alan'
+        inactive: 'Etkin değil'
+        drag_to_activate: "Alanları buraya sürükleyerek aktifleştirebilirsiniz"
+        add_group: "Özellik grubu ekle"
+        add_table: "Bağlantılı iş paketlerinin tablosunu ekle"
+        edit_query: 'Edit query'
+        new_group: 'Yeni grup'
+        reset_to_defaults: 'Varsayılanlara geri yükle'
     custom_actions:
       date:
         specific: 'açık'
@@ -229,6 +239,7 @@ tr:
     label_filename: "Dosya"
     label_filesize: "Boyutu"
     label_greater_or_equal: ">="
+    label_group: 'Grup'
     label_group_by: "Grupla"
     label_hide_attributes: "Daha az göster"
     label_hide_column: "Sütunu gizle"

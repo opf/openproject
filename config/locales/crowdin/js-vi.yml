@@ -111,6 +111,16 @@ vi:
           text: '[Placeholder] gói công việc nhúng'
         embedded_calendar:
           text: '[Placeholder] Embedded calendar'
+    admin:
+      type_form:
+        custom_field: 'Tùy chỉnh mục'
+        inactive: 'Inactive'
+        drag_to_activate: "Drag fields from here to activate them"
+        add_group: "Thêm 1 nhóm thuộc tính"
+        add_table: "Add table of related work packages"
+        edit_query: 'Edit query'
+        new_group: 'Nhóm mới'
+        reset_to_defaults: 'Reset to defaults'
     custom_actions:
       date:
         specific: 'lúc'
@@ -228,6 +238,7 @@ vi:
     label_filename: "Tệp"
     label_filesize: "Kích cỡ"
     label_greater_or_equal: ">="
+    label_group: 'Nhóm'
     label_group_by: "Nhóm theo"
     label_hide_attributes: "Hiện ít hơn"
     label_hide_column: "Ẩn cột"

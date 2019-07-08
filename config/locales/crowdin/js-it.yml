@@ -112,6 +112,16 @@ it:
           text: '[Placeholder] Tabella della macro-attività incorporata'
         embedded_calendar:
           text: '[Placeholder] Calendario incorporato'
+    admin:
+      type_form:
+        custom_field: 'Campo personalizzato'
+        inactive: 'Inattivo'
+        drag_to_activate: "Trascina i campi da qui per attivarli"
+        add_group: "Aggiungi gruppo di attributi"
+        add_table: "Aggiungi la tabella dei pacchetti di lavoro correlati"
+        edit_query: 'Edit query'
+        new_group: 'Nuovo gruppo'
+        reset_to_defaults: 'Ripristino predefinite'
     custom_actions:
       date:
         specific: 'il'
@@ -229,6 +239,7 @@ it:
     label_filename: "File"
     label_filesize: "Dimensione"
     label_greater_or_equal: ">="
+    label_group: 'Gruppo'
     label_group_by: "Raggruppa per"
     label_hide_attributes: "Meno suggerimenti"
     label_hide_column: "Nascondi la colonna"

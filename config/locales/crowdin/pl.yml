@@ -183,8 +183,6 @@ pl:
       form_configuration: "Konfiguracja formularza"
       projects: "Projekty"
       enabled_projects: "Aktywne projekty"
-      add_group: "Dodaj grupę atrybutów"
-      add_table: "Dodaj tabelę powiązanych pakietów roboczych"
       edit_query: "Edytuj tabelę"
       query_group_placeholder: "Nadaj nazwę tabeli"
       reset: "Resetuj do ustawień domyślnych"
@@ -2173,7 +2171,6 @@ pl:
   text_assign_to_project: "Przypisz do projektu"
   text_form_configuration: >
     Możesz określić, które pola będą wyświetlane w formularzach Work Package. Możesz dowolnie grupować pola aby dostosować do swoich potrzeb.
-  text_form_configuration_drag_to_activate: "Aby aktywować pola, przeciągaj je stąd"
   text_form_configuration_required_attribute: "Atrybut jest zaznaczony jako wymagany i dlatego jest zawsze wyświetlany"
   text_caracters_maximum: "%{count} characters maximum."
   text_caracters_minimum: "Co najmniej %{count} znaków długości."

@@ -113,6 +113,16 @@ ja:
           text: '[Placeholder] 埋め込まれた作業項目表'
         embedded_calendar:
           text: '[Placeholder] 埋め込みカレンダー'
+    admin:
+      type_form:
+        custom_field: 'カスタムフィールド'
+        inactive: '非アクティブ'
+        drag_to_activate: "ここからフィールドをドラッグして、有効にします"
+        add_group: "属性グループを追加する"
+        add_table: "関連する作業項目のテーブルを追加する"
+        edit_query: 'Edit query'
+        new_group: '新規グループ'
+        reset_to_defaults: 'デフォルトに戻す'
     custom_actions:
       date:
         specific: 'オン'
@@ -230,6 +240,7 @@ ja:
     label_filename: "ファイル"
     label_filesize: "サイズ"
     label_greater_or_equal: ">="
+    label_group: 'グループ'
     label_group_by: "グループ化"
     label_hide_attributes: "非表示にする"
     label_hide_column: "列を非表示"

@@ -111,6 +111,16 @@ sv:
           text: '[Placeholder] Embedded work package table'
         embedded_calendar:
           text: '[Placeholder] Embedded calendar'
+    admin:
+      type_form:
+        custom_field: 'Anpassat fält'
+        inactive: 'Inaktiv'
+        drag_to_activate: "Dra fält härifrån för att aktivera dom"
+        add_group: "Lägg till attributgrupp"
+        add_table: "Add table of related work packages"
+        edit_query: 'Edit query'
+        new_group: 'Ny grupp'
+        reset_to_defaults: 'Återställ standardinställningar'
     custom_actions:
       date:
         specific: 'på'
@@ -228,6 +238,7 @@ sv:
     label_filename: "Fil"
     label_filesize: "Filstorlek"
     label_greater_or_equal: ">="
+    label_group: 'Grupp'
     label_group_by: "Gruppera efter"
     label_hide_attributes: "Visa mindre"
     label_hide_column: "Dölj kolumn"

@@ -183,8 +183,6 @@ sv:
       form_configuration: "Ställ in formulär"
       projects: "Projekt"
       enabled_projects: "Aktiverade projekt"
-      add_group: "Lägg till attributgrupp"
-      add_table: "Add table of related work packages"
       edit_query: "Edit table"
       query_group_placeholder: "Give the table a name"
       reset: "Återställ standardinställningar"
@@ -2130,7 +2128,6 @@ sv:
   text_assign_to_project: "Tilldela till projektet"
   text_form_configuration: >
     You can customize which fields will be displayed in work package forms. You can freely group the fields to reflect the needs for your domain.
-  text_form_configuration_drag_to_activate: "Dra fält härifrån för att aktivera dom"
   text_form_configuration_required_attribute: "Attributet är markerat som nödvändigt och visas därför alltid"
   text_caracters_maximum: "maximalt %{count} tecken."
   text_caracters_minimum: "Måste vara minst %{count} tecken lång."

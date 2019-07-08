@@ -183,8 +183,6 @@ es:
       form_configuration: "Configuración del formato"
       projects: "Proyectos"
       enabled_projects: "Proyectos habilitados"
-      add_group: "Agregar grupo de atributos"
-      add_table: "Agregar tabla de paquetes de trabajo relacionados"
       edit_query: "Editar tabla"
       query_group_placeholder: "Asigne un nombre a la tabla"
       reset: "Restablecer valores predeterminados"
@@ -2132,7 +2130,6 @@ es:
   text_assign_to_project: "Asignar al proyecto"
   text_form_configuration: >
     Puede personalizar los campos que se mostrarán en forma de paquete de trabajo. Puede agrupar libremente los campos para adaptarlos a las necesidades de su dominio.
-  text_form_configuration_drag_to_activate: "Arrastre campos desde aquí para activarlos"
   text_form_configuration_required_attribute: "El atributo está marcado como obligatorio y, por lo tanto, siempre se muestra"
   text_caracters_maximum: "máximo de %{count} caracteres."
   text_caracters_minimum: "Debe tener al menos %{count} caracteres de largo."

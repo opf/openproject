@@ -183,8 +183,6 @@ pt:
       form_configuration: "Configuração do formulário"
       projects: "Projetos"
       enabled_projects: "Projetos ativados"
-      add_group: "Adicionar grupo de atributos"
-      add_table: "Adicionar tabela de pacotes de trabalho relacionados"
       edit_query: "Editar tabela"
       query_group_placeholder: "Dê um nome à tabela"
       reset: "Repor predefinições"
@@ -2130,7 +2128,6 @@ pt:
   text_assign_to_project: "Atribuir ao projeto"
   text_form_configuration: >
     Pode personalizar quais os campos que serão exibidos nos formulários de pacote de trabalho. Pode agrupar livremente os campos para refletir as necessidades para o seu domínio.
-  text_form_configuration_drag_to_activate: "Arraste campos daqui para ativá-los"
   text_form_configuration_required_attribute: "Atributo está marcado como necessário e será sempre mostrado"
   text_caracters_maximum: "%{count} caracteres no máximo."
   text_caracters_minimum: "Deve ter pelo menos %{count} caracteres."

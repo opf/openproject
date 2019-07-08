@@ -111,6 +111,16 @@ ru:
           text: '[Placeholder] Таблица внедренных пакетов работ'
         embedded_calendar:
           text: '[Placeholder] Встроенный календарь'
+    admin:
+      type_form:
+        custom_field: 'Настраиваемое поле'
+        inactive: 'Неактивен'
+        drag_to_activate: "Чтобы включить поля, перетащите их отсюда"
+        add_group: "Добавить группу атрибутов"
+        add_table: "Добавить таблицу связанных пакетов работ"
+        edit_query: 'Edit query'
+        new_group: 'Новая группа'
+        reset_to_defaults: 'Восстановить значения по умолчанию'
     custom_actions:
       date:
         specific: 'на'
@@ -228,6 +238,7 @@ ru:
     label_filename: "Файл"
     label_filesize: "Размер"
     label_greater_or_equal: ">="
+    label_group: 'Группа'
     label_group_by: "Группировать по"
     label_hide_attributes: "Показывать меньше"
     label_hide_column: "Скрыть столбец"

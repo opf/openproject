@@ -112,6 +112,16 @@ fr:
           text: '[Placeholder] Tableau du lot de travaux intégré'
         embedded_calendar:
           text: '[Placeholder] Calendrier embarqué'
+    admin:
+      type_form:
+        custom_field: 'Champ personnalisé'
+        inactive: 'Désactivé'
+        drag_to_activate: "Faites glisser les champs ici pour les activer"
+        add_group: "Ajouter un groupe d’attributs"
+        add_table: "Ajouter un tableau des lots de travaux associés"
+        edit_query: 'Edit query'
+        new_group: 'Nouveau groupe'
+        reset_to_defaults: 'Rétablir les valeurs par défaut'
     custom_actions:
       date:
         specific: 'le'
@@ -229,6 +239,7 @@ fr:
     label_filename: "Fichier"
     label_filesize: "Taille"
     label_greater_or_equal: ">="
+    label_group: 'Groupe'
     label_group_by: "Grouper par"
     label_hide_attributes: "Afficher moins"
     label_hide_column: "Masquer la colonne"

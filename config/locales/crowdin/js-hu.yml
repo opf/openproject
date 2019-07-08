@@ -111,6 +111,16 @@ hu:
           text: '[Placeholder] Beágyazott feladatcsoport táblázat'
         embedded_calendar:
           text: '[Placeholder] Embedded calendar'
+    admin:
+      type_form:
+        custom_field: 'Választható mező'
+        inactive: 'Inaktív'
+        drag_to_activate: "Innen húzza a mezőket, hogy aktiválja"
+        add_group: "Tulajdonságcsoport"
+        add_table: "Táblázat hozzáadása a kapcsolódó munkacsomagokhoz"
+        edit_query: 'Edit query'
+        new_group: 'Új csoport'
+        reset_to_defaults: 'Alapbeállítások visszaállítása'
     custom_actions:
       date:
         specific: 'be'
@@ -228,6 +238,7 @@ hu:
     label_filename: "File"
     label_filesize: "Méret"
     label_greater_or_equal: ">="
+    label_group: 'Csoport'
     label_group_by: "Csoportosítás a következők szerint"
     label_hide_attributes: "Kevesebb mutatása"
     label_hide_column: "Oszlop elrejtése"

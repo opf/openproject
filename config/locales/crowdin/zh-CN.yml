@@ -183,8 +183,6 @@ zh-CN:
       form_configuration: "表格配置"
       projects: "项目"
       enabled_projects: "已启用的项目"
-      add_group: "增加属性组"
-      add_table: "添加相关工作包表"
       edit_query: "编辑表"
       query_group_placeholder: "为表命名"
       reset: "重置为默认值"
@@ -2106,7 +2104,6 @@ zh-CN:
   text_assign_to_project: "分配给项目"
   text_form_configuration: >
     您可以自定义哪些字段将显示在工作包窗体中。您可以自由地对字段进行分组, 以反映您的域的需求。
-  text_form_configuration_drag_to_activate: "从此处拖动字段将其激活"
   text_form_configuration_required_attribute: "属性是非常需要的，因此一直都会显示。"
   text_caracters_maximum: "最多 %{count} 字符。"
   text_caracters_minimum: "必须至少为 %{count} 个字符长。"

@@ -112,6 +112,16 @@ sk:
           text: '[Placeholder] Vložená tabuľka pracovného balíčku'
         embedded_calendar:
           text: '[Placeholder] Vložený kalendár'
+    admin:
+      type_form:
+        custom_field: 'Vlastné pole'
+        inactive: 'Neaktívny'
+        drag_to_activate: "Potiahnite polia z tejto oblasti a aktivujte ich"
+        add_group: "Pridať skupinu vlastností"
+        add_table: "Pridajte tabuľku súvisiacich pracovných balíčkov"
+        edit_query: 'Edit query'
+        new_group: 'Nová skupina'
+        reset_to_defaults: 'Obnoviť predvolené'
     custom_actions:
       date:
         specific: 'dňa'
@@ -229,6 +239,7 @@ sk:
     label_filename: "Súbor"
     label_filesize: "Veľkosť"
     label_greater_or_equal: ">="
+    label_group: 'Skupina'
     label_group_by: "Zoskupiť podľa"
     label_hide_attributes: "Zobraziť menej"
     label_hide_column: "Skryť stĺpec"

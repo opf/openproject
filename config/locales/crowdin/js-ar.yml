@@ -112,6 +112,16 @@ ar:
           text: '[Placeholder] Embedded work package table'
         embedded_calendar:
           text: '[Placeholder] Embedded calendar'
+    admin:
+      type_form:
+        custom_field: 'حقل مخصص'
+        inactive: 'Inactive'
+        drag_to_activate: "Drag fields from here to activate them"
+        add_group: "Add attribute group"
+        add_table: "Add table of related work packages"
+        edit_query: 'Edit query'
+        new_group: 'مجموعة جديدة'
+        reset_to_defaults: 'Reset to defaults'
     custom_actions:
       date:
         specific: 'في'
@@ -229,6 +239,7 @@ ar:
     label_filename: "ملف"
     label_filesize: "حجم"
     label_greater_or_equal: "=<"
+    label_group: 'مجموعة'
     label_group_by: "تصنيف حسب"
     label_hide_attributes: "أظهِر أقل"
     label_hide_column: "إخفاء العمود"
