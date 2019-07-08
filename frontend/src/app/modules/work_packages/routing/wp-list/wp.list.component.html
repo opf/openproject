@@ -4,7 +4,7 @@
       <editable-toolbar-title [title]="selectedTitle"
                               [inFlight]="querySaving"
                               [showSaveCondition]="hasQueryProps"
-                              (onSave)="updateQueryName($event)"
+                              (onSave)="saveQueryFromTitle($event)"
                               (onEmptySubmit)="updateQueryName('')"
                               [editable]="titleEditingEnabled">
       </editable-toolbar-title>

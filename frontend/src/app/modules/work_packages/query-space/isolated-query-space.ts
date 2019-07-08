@@ -28,8 +28,6 @@ export class IsolatedQuerySpace extends StatesGroup {
 
   // the results associated with the table
   results = input<WorkPackageCollectionResource>();
-  // Set of work package IDs in strict order of appearance
-  rows = input<WorkPackageResource[]>();
   // all groups returned as results
   groups = input<GroupObject[]>();
   // Set of columns in strict order of appearance
