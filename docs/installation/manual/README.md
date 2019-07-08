@@ -176,7 +176,7 @@ use [nodenv](https://github.com/OiNutter/nodenv#installation). Please
 run `su openproject --login` if you are the `root` user. If you are
 already the `openproject` user you can skip this command. Please be
 aware that the actual installation of a specific node version takes some
-time to finsih.
+time to finish.
 
 ```bash
 [openproject@host] git clone https://github.com/OiNutter/nodenv.git ~/.nodenv
