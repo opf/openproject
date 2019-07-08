@@ -124,7 +124,10 @@ class WorkPackageField
     if field_type == 'create-autocompleter'
       page.find('.ng-dropdown-panel .ng-option', text: content).click
     else
-      input_element.set(content)
+      # A normal fill_in would cause the focus loss on the input for empty strings.
+      # Thus the form would be submitted.
+      # https://github.com/erikras/redux-form/issues/686
+      input_element.fill_in with: content, fill_options: { clear: :backspace }
     end
   end
 

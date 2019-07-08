@@ -128,4 +128,9 @@ export abstract class EditFieldHandler {
    * Returns whether the field has been changed
    */
   public abstract isChanged():boolean;
+
+  /**
+   * Handle focus loss
+   */
+  public abstract onFocusOut():void;
 }

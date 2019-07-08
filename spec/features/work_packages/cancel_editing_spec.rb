@@ -102,21 +102,21 @@ describe 'Cancel editing work package', js: true do
 
     # Edit subject in split page
     split_page = wp_table.open_split_view(work_package)
-    subject = split_page.edit_field :subject
-    subject.activate!
+    version = split_page.edit_field :version
+    version.activate!
 
     # Decline move, expect field still active
     wp_table.open_split_view(work_package2)
     page.driver.browser.switch_to.alert.dismiss
-    subject.expect_active!
+    version.expect_active!
 
     sleep 1
 
     # Now accept to move to the second page
     split_page = wp_table.open_split_view(work_package2)
     page.driver.browser.switch_to.alert.accept
-    subject = split_page.edit_field :subject
-    subject.expect_inactive!
+    version = split_page.edit_field :version
+    version.expect_inactive!
   end
 
   it 'cancels the editing when clicking the button' do
