@@ -411,6 +411,11 @@ OpenProject::Application.routes.draw do
     get '/bulk' => 'bulk#destroy'
   end
 
+  scope controller: 'work_packages/settings' do
+    get 'work_package_tracking' => 'work_packages/settings#index'
+    post 'work_package_tracking' => 'work_packages/settings#edit'
+  end
+
   resources :work_packages, only: [:index] do
     get :column_data, on: :collection # TODO move to API
 
@@ -462,6 +467,11 @@ OpenProject::Application.routes.draw do
       post :resend_invitation
       get :deletion_info
     end
+  end
+
+  scope controller: 'users_settings' do
+    get 'users_settings' => 'users_settings#index'
+    post 'users_settings' => 'users_settings#edit'
   end
 
   resources :forums, only: [] do
@@ -539,7 +549,12 @@ OpenProject::Application.routes.draw do
     patch 'user_settings', action: 'user_settings'
   end
 
-  get 'authentication' => 'authentication#index'
+
+  scope controller: 'authentication' do
+    get 'authentication' => 'authentication#index'
+    get 'authentication_settings' => 'authentication#authentication_settings'
+    post 'authentication_settings' => 'authentication#edit'
+  end
 
   resources :colors do
     member do

@@ -28,39 +28,61 @@
 
 require 'spec_helper'
 
-feature 'Admin menu items' do
-  let(:user) { FactoryBot.create :admin }
+describe AdminController, type: :controller do
+  let(:user) { FactoryBot.build :admin }
 
   before do
     allow(User).to receive(:current).and_return user
   end
 
-  after do
-    OpenProject::Configuration['hidden_menu_items'] = []
-  end
+  describe '#index' do
+    it 'renders index' do
+      get :index
 
-  describe 'displaying all the menu items' do
-    it 'hides the specified admin menu items' do
-      visit admin_index_path
-
-      expect(page).to have_selector('a', text: I18n.t('label_user_plural'))
-      expect(page).to have_selector('a', text: I18n.t('label_role_plural'))
-      expect(page).to have_selector('a', text: I18n.t('label_type_plural'))
+      expect(response).to be_successful
+      expect(response).to render_template 'index'
     end
   end
 
-  describe 'hiding menu items' do
-    before do
-      OpenProject::Configuration['hidden_menu_items'] = { 'admin_menu' => ['roles', 'types'] }
+  describe '#plugins' do
+    render_views
+
+    context 'with plugins' do
+      before do
+        Redmine::Plugin.register :foo do end
+        Redmine::Plugin.register :bar do end
+      end
+
+      it 'renders the plugins' do
+        get :plugins
+
+        expect(response).to be_successful
+        expect(response).to render_template 'plugins'
+
+        expect(response.body).to have_selector('td span', text: 'Foo')
+        expect(response.body).to have_selector('td span', text: 'Bar')
+      end
     end
 
-    it 'hides the specified admin menu items' do
-      visit admin_index_path
+    context 'without plugins' do
+      before do
+        Redmine::Plugin.clear
+      end
 
-      expect(page).to have_selector('a', text: I18n.t('label_user_plural'))
+      it 'renders even without plugins' do
+        get :plugins
+        expect(response).to be_successful
+        expect(response).to render_template 'plugins'
+      end
+    end
+  end
 
-      expect(page).not_to have_selector('a', text: I18n.t('label_role_plural'))
-      expect(page).not_to have_selector('a', text: I18n.t('label_type_plural'))
+  describe '#info' do
+    it 'renders info' do
+      get :info
+
+      expect(response).to be_successful
+      expect(response).to render_template 'info'
     end
   end
 end

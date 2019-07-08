@@ -34,9 +34,11 @@ class AdminController < ApplicationController
 
   menu_item :plugins, only: [:plugins]
   menu_item :info, only: [:info]
+  menu_item :admin_overview, only: [:index]
 
   def index
-    redirect_to controller: 'users', action: 'index'
+    @menu_nodes = Redmine::MenuManager.items(:admin_menu).children
+    @menu_nodes.shift
   end
 
   def projects

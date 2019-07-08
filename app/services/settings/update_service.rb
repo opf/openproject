@@ -1,7 +1,8 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2019 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,43 +25,27 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class AuthenticationController < ApplicationController
-  before_action :disable_api
-  before_action :require_login
-  layout 'admin'
-  menu_item :authentication_settings
+class Settings::UpdateService < ::BaseServices::Update
+  attr_accessor :user
 
-  accept_key_auth :index
+  def initialize(user)
+    self.user = user
+  end
 
-  def index
-    respond_to do |format|
-      format.html
+  def call(settings:)
+    settings.each do |name, value|
+      if value.is_a?(Array)
+        # remove blank values in array settings
+        value.delete_if(&:blank?)
+      elsif value.is_a?(Hash)
+        value.delete_if { |_, v| v.blank? }
+      else
+        value = value.strip
+      end
+      Setting[name] = value
     end
-  end
-
-  def edit
-    if params[:settings]
-      Settings::UpdateService
-        .new(user: current_user)
-        .call(settings: permitted_params.settings.to_h)
-
-      flash[:notice] = l(:notice_successful_update)
-      redirect_to action: 'authentication_settings'
-    end
-  end
-
-  def authentication_settings
-    render 'authentication_settings'
-  end
-
-  def default_breadcrumb
-    t(:label_authentication)
-  end
-
-  def show_local_breadcrumb
-    true
   end
 end
