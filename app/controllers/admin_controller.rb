@@ -39,8 +39,6 @@ class AdminController < ApplicationController
   def index
     @menu_nodes = Redmine::MenuManager.items(:admin_menu).children
     @menu_nodes.shift
-
-    render 'admin/overview'
   end
 
   def projects

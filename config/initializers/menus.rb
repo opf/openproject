@@ -75,7 +75,7 @@ Redmine::MenuManager.map :account_menu do |menu|
             { controller: '/my', action: 'account' },
             if: Proc.new { User.current.logged? }
   menu.push :administration,
-            { controller: '/users', action: 'index' },
+            { controller: '/admin', action: 'index' },
             if: Proc.new { User.current.admin? }
   menu.push :logout,
             :signout_path,
