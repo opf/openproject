@@ -83,7 +83,7 @@ describe ::OpenProject::Bcf::BcfXml::Importer do
       expect(subject.import!).to be_present
     end
 
-    it 'creates to work packages' do
+    it 'creates 2 work packages' do
       subject.import!
 
       expect(::Bcf::Issue.count).to be_eql 2

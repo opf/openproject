@@ -150,6 +150,10 @@ module OpenProject::Bcf::BcfXml
       end
     end
 
+    def start_date
+      extractor.creation_date unless is_update
+    end
+
     def update_work_package
       if import_is_newer?
         WorkPackages::UpdateService
@@ -173,6 +177,7 @@ module OpenProject::Bcf::BcfXml
         subject: extractor.title,
         description: extractor.description,
         due_date: extractor.due_date,
+        start_date: start_date,
 
         # Mapped attributes
         assigned_to: assignee,
