@@ -41,12 +41,6 @@ class MembersController < ApplicationController
 
   include CellsHelper
 
-  @@scripts = ['hideOnLoad', 'init_members_cb']
-
-  def self.add_tab_script(script)
-    @@scripts.unshift(script)
-  end
-
   def index
     set_index_data!
   end
@@ -176,7 +170,9 @@ class MembersController < ApplicationController
   end
 
   def self.tab_scripts
-    @@scripts.join('(); ') + '();'
+    scripts = %w(hideOnLoad init_members_cb)
+
+    scripts.join('(); ') + '();'
   end
 
   def set_index_data!
