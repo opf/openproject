@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Inject, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {
   INotification,
@@ -36,6 +36,7 @@ import {
 
 @Component({
   templateUrl: './notification.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'notification'
 })
 export class NotificationComponent implements OnInit {

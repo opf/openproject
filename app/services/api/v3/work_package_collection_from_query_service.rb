@@ -69,8 +69,15 @@ module API
       end
 
       def calculate_resulting_params(provided_params)
-        calculate_default_params
-          .merge(provided_params.slice('offset', 'pageSize').symbolize_keys)
+        calculate_default_params.merge(provided_params.slice('offset', 'pageSize').symbolize_keys).tap do |params|
+          if query.manually_sorted?
+            params[:offset] = 1
+            params[:pageSize] = Setting.forced_single_page_size
+          else
+            params[:offset] = to_i_or_nil(params[:offset])
+            params[:pageSize] = to_i_or_nil(params[:pageSize])
+          end
+        end
       end
 
       def calculate_default_params
@@ -127,8 +134,8 @@ module API
           self_link(project),
           project: project,
           query: resulting_params,
-          page: to_i_or_nil(resulting_params[:offset]),
-          per_page: to_i_or_nil(resulting_params[:pageSize]),
+          page: resulting_params[:offset],
+          per_page: resulting_params[:pageSize],
           groups: groups,
           total_sums: sums,
           embed_schemas: true,

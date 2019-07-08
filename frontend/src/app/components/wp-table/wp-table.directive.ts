@@ -32,7 +32,7 @@ import {
   Component,
   ElementRef,
   Injector,
-  Input,
+  Input, NgZone,
   OnDestroy,
   OnInit,
   ViewEncapsulation
@@ -59,6 +59,7 @@ import {
 import {QueryColumn} from 'core-components/wp-query/query-column';
 import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state/wp-table-sort-by.service";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
+import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
 
 @Component({
   templateUrl: './wp-table.directive.html',
@@ -96,7 +97,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   public text:any;
 
-  public rowcount:number;
+  public results:WorkPackageCollectionResource;
 
   public groupBy:QueryGroupByResource | null;
 
@@ -108,12 +109,15 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   public manualSortEnabled:boolean;
 
+  public limitedResults = false;
+
   constructor(readonly elementRef:ElementRef,
               readonly injector:Injector,
               readonly states:States,
               readonly querySpace:IsolatedQuerySpace,
               readonly I18n:I18nService,
               readonly cdRef:ChangeDetectorRef,
+              readonly zone:NgZone,
               readonly wpTableGroupBy:WorkPackageTableGroupByService,
               readonly wpTableTimeline:WorkPackageTableTimelineService,
               readonly wpTableColumns:WorkPackageTableColumnsService,
@@ -135,6 +139,9 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
         title: I18n.t('js.work_packages.no_results.title'),
         description: I18n.t('js.work_packages.no_results.description')
       },
+      limitedResults: (count:number, total:number) => {
+        return I18n.t('js.work_packages.limited_results', { count: count, total: total });
+      },
       tableSummary: I18n.t('js.work_packages.table.summary'),
       tableSummaryHints: [
         I18n.t('js.work_packages.table.text_inline_edit'),
@@ -155,7 +162,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
       untilComponentDestroyed(this)
     ).subscribe(([results, groupBy, columns, timelines, sort]) => {
       this.query = this.querySpace.query.value!;
-      this.rowcount = results.count;
+      this.results = results;
 
       this.groupBy = groupBy;
       this.columns = columns;
@@ -165,6 +172,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
       this.timelineVisible = timelines.visible;
 
       this.manualSortEnabled = this.wpTableSortBy.isManualSortingMode;
+      this.limitedResults = this.manualSortEnabled && results.total > results.count;
 
       this.cdRef.detectChanges();
     });

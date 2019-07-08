@@ -138,6 +138,8 @@ activity_days_default:
   default: 30
 per_page_options:
   default: '20, 100'
+forced_single_page_size:
+  default: 250
 mail_from:
   default: openproject@example.net
 bcc_recipients:

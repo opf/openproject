@@ -1,3 +1,5 @@
 <h2 [textContent]="text.title"></h2>
 
-<grid *ngIf="grid" [grid]="grid"></grid>
+<ng-container *ngIf="(grid$ | async) as grid">
+  <grid [grid]="grid"></grid>
+</ng-container>

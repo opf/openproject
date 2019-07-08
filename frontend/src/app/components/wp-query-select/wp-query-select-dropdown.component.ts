@@ -141,6 +141,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
 
     // Register click handler on results
     this.addClickHandler();
+    this.cdRef.detach();
   }
 
   ngOnDestroy() {

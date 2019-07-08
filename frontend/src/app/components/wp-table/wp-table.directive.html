@@ -38,9 +38,9 @@
           </th>
         </tr>
       </thead>
-      <tbody class="work-package--empty-tbody" *ngIf="!isEmbedded && query && rowcount === 0">
+      <tbody class="work-package--empty-tbody" *ngIf="!isEmbedded && query && results.count === 0">
       <tr id="empty-row-notification">
-        <td [attr.colspan]="columns.length + 1">
+        <td [attr.colspan]="columns.length + 2">
           <span>
             <op-icon icon-classes="icon-info1 icon-context"></op-icon>
             <span>
@@ -57,6 +57,18 @@
              [wp-inline-create--table]="workPackageTable"
              [wp-inline-create--project-identifier]="projectIdentifier"
       >
+      </tbody>
+      <tbody class="work-package--limited-results" *ngIf="limitedResults">
+        <tr>
+          <td [attr.colspan]="columns.length + 2">
+            <span>
+              <op-icon icon-classes="icon-info1 icon-context"></op-icon>
+              <span>
+                {{text.limitedResults(results.count, results.total)}}
+              </span>
+            </span>
+          </td>
+        </tr>
       </tbody>
       <tfoot>
       <tr wpTableSumsRow></tr>

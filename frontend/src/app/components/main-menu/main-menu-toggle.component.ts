@@ -26,18 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnDestroy, OnInit} from '@angular/core';
 import {MainMenuToggleService} from './main-menu-toggle.service';
 import {distinctUntilChanged} from 'rxjs/operators';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
-import {MainMenuResizerComponent} from "core-components/resizer/main-menu-resizer.component";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {DeviceService} from "app/modules/common/browser/device.service";
-import {Injector} from "@angular/core";
 
 @Component({
   selector: 'main-menu-toggle',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div *ngIf="this.currentProject.id !== null || this.deviceService.isMobile" id="main-menu-toggle"
         aria-haspopup="true"

@@ -1,4 +1,4 @@
-import {AfterViewInit, Input, SimpleChanges} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Input, SimpleChanges} from '@angular/core';
 import {CurrentProjectService} from '../../projects/current-project.service';
 import {WorkPackageStatesInitializationService} from '../../wp-list/wp-states-initialization.service';
 import {
@@ -32,6 +32,7 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
   readonly loadingIndicatorService:LoadingIndicatorService = this.injector.get(LoadingIndicatorService);
   readonly wpStatesInitialization:WorkPackageStatesInitializationService = this.injector.get(WorkPackageStatesInitializationService);
   readonly currentProject:CurrentProjectService = this.injector.get(CurrentProjectService);
+  readonly cdRef = this.injector.get(ChangeDetectorRef);
 
   ngOnInit() {
     super.ngOnInit();
@@ -78,6 +79,7 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
 
   protected setLoaded() {
     this.renderTable = this.configuration.tableVisible;
+    this.cdRef.detectChanges();
   }
 
   public refresh(visible:boolean = true, firstPage:boolean = false):Promise<any> {

@@ -94,7 +94,10 @@ export class BoardListsService {
       hidden: true,
       public: true,
       "_links": {
-        "sortBy": [{"href": this.v3.resource("/queries/sort_bys/manualSorting-asc")}]
+        "sortBy": [
+          {"href": this.v3.resource("/queries/sort_bys/manualSorting-asc")},
+          {"href": this.v3.resource("/queries/sort_bys/id-asc")},
+        ]
       },
       ...params
     };
