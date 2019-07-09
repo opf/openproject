@@ -42,7 +42,7 @@ import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {TableHandlerRegistry} from 'core-components/wp-fast-table/handlers/table-handler-registry';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
+import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {combineLatest} from 'rxjs';
 import {States} from '../states.service';
 import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
@@ -52,16 +52,12 @@ import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
 import {WorkPackageTimelineTableController} from './timeline/container/wp-timeline-container.directive';
 import {WpTableHoverSync} from './wp-table-hover-sync';
 import {createScrollSync} from './wp-table-scroll-sync';
-import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
 import {
   WorkPackageTableConfiguration,
   WorkPackageTableConfigurationObject
 } from 'core-app/components/wp-table/wp-table-configuration';
 import {QueryColumn} from 'core-components/wp-query/query-column';
-import {OpModalService} from 'core-components/op-modals/op-modal.service';
-import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
 import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state/wp-table-sort-by.service";
-import {tap} from "rxjs/operators";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 
 @Component({
@@ -127,7 +123,6 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
   ngOnInit():void {
     this.configuration = new WorkPackageTableConfiguration(this.configurationObject);
     this.$element = jQuery(this.elementRef.nativeElement);
-    this.scrollSyncUpdate = createScrollSync(this.$element);
 
     // Clear any old table subscribers
     this.querySpace.stopAllSubscriptions.next();
@@ -167,9 +162,6 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
       // Total columns = all available columns + id + checkbox
       this.numTableColumns = this.columns.length + 2;
 
-      if (this.timelineVisible !== timelines.visible) {
-        this.scrollSyncUpdate(timelines.visible);
-      }
       this.timelineVisible = timelines.visible;
 
       this.manualSortEnabled = this.wpTableSortBy.isManualSortingMode;
@@ -199,6 +191,10 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     // sync hover from table to timeline
     this.wpTableHoverSync = new WpTableHoverSync(this.$element);
     this.wpTableHoverSync.activate();
+
+    // sync scroll from table to timeline
+    this.scrollSyncUpdate = createScrollSync(this.$element);
+    this.scrollSyncUpdate(this.timelineVisible);
 
     this.cdRef.detectChanges();
   }
