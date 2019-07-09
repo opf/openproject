@@ -337,6 +337,7 @@ da:
     label_wait: "Vent venligst på opsætning..."
     label_upload_counter: "%{done} af %{count} filer færdige"
     label_validation_error: "Arbejdspakken kunne ikke gemmes grundet følgende fejl:"
+    label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Show attribute help text entry'
     onboarding:

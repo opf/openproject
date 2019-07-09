@@ -1,5 +1,6 @@
 ko:
   label_avatar: "Avatar"
+  label_avatar_plural: "Avatars"
   label_current_avatar: "Current Avatar"
   label_choose_avatar: "Choose Avatar from file"
   message_avatar_uploaded: "Avatar changed successfully."

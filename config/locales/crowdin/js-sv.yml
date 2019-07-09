@@ -336,6 +336,7 @@ sv:
     label_wait: "Vänligen vänta för konfiguration..."
     label_upload_counter: "%{done} av %{count} filer färdiga"
     label_validation_error: "Arbetspaketet kunde inte sparas på grund av följande fel:"
+    label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Visa attribut hjälp textinmatning'
     onboarding:

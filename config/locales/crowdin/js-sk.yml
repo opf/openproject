@@ -337,6 +337,7 @@ sk:
     label_wait: "Počkajte, prosím, pre konfiguráciu..."
     label_upload_counter: "%{done} z %{count} súborov hotové"
     label_validation_error: "Pracovný balík sa nepodarilo uložiť z nasledujúcich chýb:"
+    label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Zobraziť nápovedu pre tento atribút'
     onboarding:

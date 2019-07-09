@@ -337,6 +337,7 @@ ar:
     label_wait: "الرجاء الانتظار للتكوين..."
     label_upload_counter: "%{done} من%{count} ملف انهيت"
     label_validation_error: "تعذر حفظ حزمة العمل نتيجة للأخطاء التالية:"
+    label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Show attribute help text entry'
     onboarding:

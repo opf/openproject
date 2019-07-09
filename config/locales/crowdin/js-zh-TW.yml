@@ -336,6 +336,7 @@ zh-TW:
     label_wait: "請等待配置..."
     label_upload_counter: "%{count} 個中的 %{done} 個文件已完成"
     label_validation_error: "由於下列錯誤，無法儲存工作包:"
+    label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: '顯示屬性說明文字項目'
     onboarding:

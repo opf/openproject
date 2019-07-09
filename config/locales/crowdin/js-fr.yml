@@ -337,6 +337,7 @@ fr:
     label_wait: "Veuillez patienter pendant la configuration…"
     label_upload_counter: "%{done} fichiers sur %{count} finis"
     label_validation_error: "Le lot de travaux n'a pas pu être enregistré en raison des erreurs suivantes :"
+    label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Afficher l’aide de l’attribut de saisie de texte'
     onboarding:

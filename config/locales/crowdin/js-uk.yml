@@ -337,6 +337,7 @@ uk:
     label_wait: "Будь ласка, зачекайте конфігурації..."
     label_upload_counter: "%{done} з %{count} файлу(-ів) завершені"
     label_validation_error: "Пакет робіт не може бути збережений через наступні помилки:"
+    label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Показати вміст атрибута тексту довідки'
     onboarding:

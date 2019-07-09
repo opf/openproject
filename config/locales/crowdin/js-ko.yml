@@ -337,6 +337,7 @@ ko:
     label_wait: "설정 중이므로 기다려 주세요..."
     label_upload_counter: "%{count} 개 파일 중 %{done} 개 파일 완료됨"
     label_validation_error: "다음 오류로 인해 작업 패키지를 저장할 수 없습니다."
+    label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: '특성 도움말 텍스트 항목 표시'
     onboarding:

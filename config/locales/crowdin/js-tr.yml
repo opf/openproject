@@ -337,6 +337,7 @@ tr:
     label_wait: "Lütfen Yapılandırmanın tamamlanmasını bekleyin..."
     label_upload_counter: "%{done} / %{count} dosya yüklendi"
     label_validation_error: "İş paketi aşağıdaki hatalar nedeniyle kaydedilemedi:"
+    label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Metin giriş öznitelik yardımını göster'
     onboarding:

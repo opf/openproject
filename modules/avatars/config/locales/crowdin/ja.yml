@@ -1,5 +1,6 @@
 ja:
   label_avatar: "アバター"
+  label_avatar_plural: "Avatars"
   label_current_avatar: "現在のアバター"
   label_choose_avatar: "ファイルからアバターを選択"
   message_avatar_uploaded: "アバターの変更が完了しました。"

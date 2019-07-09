@@ -118,7 +118,7 @@ ru:
         drag_to_activate: "Чтобы включить поля, перетащите их отсюда"
         add_group: "Добавить группу атрибутов"
         add_table: "Добавить таблицу связанных пакетов работ"
-        edit_query: 'Edit query'
+        edit_query: 'Редактировать запрос'
         new_group: 'Новая группа'
         reset_to_defaults: 'Восстановить значения по умолчанию'
     custom_actions:
@@ -154,7 +154,7 @@ ru:
     grid:
       add_modal:
         choose_widget: 'Выберите виджет'
-      remove: 'Remove widget'
+      remove: 'Удалить виджет'
       widgets:
         documents:
           title: 'Документы'
@@ -252,7 +252,7 @@ ru:
     label_less_than_ago: "меньше чем день назад"
     label_loading: "Загрузка..."
     label_me: "мне"
-    label_menu_collapse: "collapse"
+    label_menu_collapse: "свернуть"
     label_menu_expand: "развернуть"
     label_more_than_ago: "больше, чем дней назад"
     label_my_page: "Моя страница"
@@ -336,6 +336,7 @@ ru:
     label_wait: "Пожалуйста, подождите конфигурирование..."
     label_upload_counter: "%{done} %{count} файлов, готовы"
     label_validation_error: "Пакет работ не удалось сохранить из-за следующих ошибок:"
+    label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Показать содержимое атрибута текста справки'
     onboarding:
@@ -711,7 +712,7 @@ ru:
         choose_display_mode: 'Показывать пакеты работ в виде'
         modal_title: 'Настройка таблицы пакетов работ'
         embedded_tab_disabled: "Эта вкладка конфигурации не доступна для редактируемого вами встроенного представления."
-        default: "default"
+        default: "по умолчанию"
         display_settings: 'Настройки экрана'
         default_mode: "Простого списка"
         hierarchy_mode: "Иерархии"
@@ -729,10 +730,10 @@ ru:
           priority: 'Приоритет'
           type: 'Тип'
         sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
+          description: 'Выберите режим сортировки пакетов работ:'
+          automatic: 'Автоматически'
+          manually: 'Вручную'
+          warning: 'При активации режима автоматической сортировки вы потеряете свою предыдущую сортировку.'
         columns_help_text: "Используйте ввод выше для добавления или удаления столбцов в табличном представлении. Вы можете перетаскивать столбцы для изменения их порядка."
         upsale:
           attribute_highlighting: 'Хотите выделить некоторые пакеты работ из общей массы?'

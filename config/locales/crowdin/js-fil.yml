@@ -337,6 +337,7 @@ fil:
     label_wait: "Mangyaring maghintay para sa kompigurasyon..."
     label_upload_counter: "%{done} ng %{count} mga file ay natapos"
     label_validation_error: "Ang work package ay hindo maaring o-save dahil sa mga sumusunod na mali:"
+    label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Magpakita ng katangian tekstong tulong entry'
     onboarding:

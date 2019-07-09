@@ -337,6 +337,7 @@ it:
     label_wait: "Prego, attendi per la configurazione..."
     label_upload_counter: "%{done} di %{count} file completati"
     label_validation_error: "La macro-attività non può essere salvata a causa dei seguenti errori:"
+    label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Mostra l''immissione di testo della guida dell''attributo'
     onboarding:

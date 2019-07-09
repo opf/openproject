@@ -1,5 +1,6 @@
 tr:
   label_avatar: "Avatar"
+  label_avatar_plural: "Avatars"
   label_current_avatar: "Mevcut Avatar"
   label_choose_avatar: "Dosyadan Avatarı seçin"
   message_avatar_uploaded: "Avatar başarıyla değiştirildi."

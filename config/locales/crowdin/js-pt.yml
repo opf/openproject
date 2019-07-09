@@ -337,6 +337,7 @@ pt:
     label_wait: "Por favor aguarde pela configuração..."
     label_upload_counter: "%{done} de %{count} de ficheiros acabados"
     label_validation_error: "A tarefa não pode ser guardada devido aos seguintes erros:"
+    label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Mostrar entrada do texto de ajuda de atributos'
     onboarding:

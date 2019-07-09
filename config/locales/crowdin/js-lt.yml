@@ -337,6 +337,7 @@ lt:
     label_wait: "Vyksta konfigūracija. Palaukite..."
     label_upload_counter: "%{done} iš %{count} failų sudoroti"
     label_validation_error: "Darbų paketas negali būti įrašyti dėl šių klaidų:"
+    label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Rodyti atributo pagalbos teksto įrašą'
     onboarding:

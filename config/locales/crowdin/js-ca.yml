@@ -337,6 +337,7 @@ ca:
     label_wait: "Si us plau esperi a la configuració..."
     label_upload_counter: "%{done} de %{count} arxius fets"
     label_validation_error: "El paquet de treball no es pot desar a causa dels següents errors:"
+    label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Show attribute help text entry'
     onboarding:

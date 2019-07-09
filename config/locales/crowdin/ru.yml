@@ -90,7 +90,7 @@ ru:
   concatenation:
     single: 'или'
   deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
+    time_entries: "В этот раз просмотр записей заменяется модулем 'Затраты отчетов' и теперь поддерживает экспорт информации о времени в csv. Для интерактивной фильтрации, пожалуйста, активируйте модуль 'Затраты отчеты' в настройках проекта."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -1071,7 +1071,7 @@ ru:
   general_text_yes: "Да"
   general_text_No: "Нет"
   general_text_Yes: "да"
-  general_text_true: "true"
+  general_text_true: "правда"
   general_text_false: "Ложно"
   gui_validation_error: "1 ошибка"
   gui_validation_error_plural: "%{count} ошибок"
@@ -1568,6 +1568,7 @@ ru:
   label_used_by_types: "Используемые типы"
   label_used_in_projects: "Используется в проектах"
   label_user: "Пользователь"
+  label_user_and_permission: "Users & Permissions"
   label_user_named: "Пользователь %{name}"
   label_user_activity: "%{value} деятельности"
   label_user_anonymous: "Анонимно"
@@ -1580,6 +1581,7 @@ ru:
   label_user_new: "Новый пользователь"
   label_user_plural: "Пользователи"
   label_user_search: "Найти пользователя"
+  label_user_settings: "User settings"
   label_version_new: "Новый этап"
   label_version_plural: "Этапы"
   label_version_sharing_descendants: "С подпроэктами"
@@ -2069,13 +2071,13 @@ ru:
   setting_display_subprojects_work_packages: "Отображать пакеты работ подпроектов в основном проекте по-умолчанию"
   setting_emails_footer: "содержимое  нижней части почтовых сообщений"
   setting_emails_header: "Заголовок письма"
-  setting_email_login: "Use email as login"
+  setting_email_login: "Использовать email как логин"
   setting_enabled_scm: "Вклченные SCM (системы управления исходным кодом)"
   setting_feeds_enabled: "Включить новостные ленты"
   setting_feeds_limit: "Предел содержимого новостной ленты"
   setting_file_max_size_displayed: "Максимальная длина  строки текстовых файлов"
   setting_host_name: "Имя компьютера в сети"
-  setting_invitation_expiration_days: "Activation email expires after"
+  setting_invitation_expiration_days: "Действие письма активации истекает после"
   setting_work_package_done_ratio: "Калькуляции пакета работ сделаны со следующими коэфицентами"
   setting_work_package_done_ratio_field: "Использовать поле пакета работ"
   setting_work_package_done_ratio_status: "Использовать статус пакета работ"
@@ -2314,15 +2316,15 @@ ru:
         compare_to_absolute: "Значение абсолютного сопоставления "
         planning_element_time_relative_one: "Запуск пакетов работ в определенные сроки  "
         planning_element_time_relative_two: "Окончание пакетов работ в определенные сроки  "
-        planning_element_time_absolute_one: "The start for work packages in a certain timeframe  "
-        planning_element_time_absolute_two: "The end for work packages in a certain timeframe  "
+        planning_element_time_absolute_one: "Начало для пакетов работ в определенном тайм-фрейме  "
+        planning_element_time_absolute_two: "Конец для пакетов работ в определенном тайм-фрейме  "
       sort:
         sortation: "Сортировать по"
         alphabet: "по алфавиту"
         explicit_order: "явный порядок"
         project_sortation: "Сортировать проекты по"
         date: "дата"
-        default: "default"
+        default: "по умолчанию"
       column:
         assigned_to: "Назначенный"
         type: "Тип"
@@ -2432,7 +2434,7 @@ ru:
     Отправляет по электронной почте другое приглашение со свежим маркером в случае, если истек срок действия старого или пользователь не получил первоначального сообщения. Может использоваться для действующих пользователей для выбора нового метода идентификации. При использовании с действующими пользователями их статус будет изменен на «приглашенные».
   tooltip:
     setting_email_login: >
-      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
+      Если включено, пользователь не сможет выбирать логин во время регистрации. Вместо этого именем для входа ему будет служить его e-mail. Администратор сможет изменить логин отдельно.
   queries:
     apply_filter: Применить ранее настроенный фильтр
   top_menu:

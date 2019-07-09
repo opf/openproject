@@ -337,6 +337,7 @@ id:
     label_wait: "Mohon menunggu..."
     label_upload_counter: "%{done} dari %{count} file selesai"
     label_validation_error: "Proses penyimpanan work package gagal. Kesalahan yang terjadi:"
+    label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Tampilkan atribut-atribut teks bantuan yang dimasukkan'
     onboarding:

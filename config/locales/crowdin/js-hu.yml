@@ -336,6 +336,7 @@ hu:
     label_wait: "Kérem, várjon a konfigurációra..."
     label_upload_counter: "%{done}/%{count} fájl feltöltve"
     label_validation_error: "A feladatcsoport a következő hibák miatt nem menthető:"
+    label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Attribútum-súgószöveg mutatása'
     onboarding:

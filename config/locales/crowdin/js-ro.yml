@@ -336,6 +336,7 @@ ro:
     label_wait: "Vă rugăm să aşteptaţi pentru configurare..."
     label_upload_counter: "%{done} din %{count} de fişiere terminate"
     label_validation_error: "Pachetul de lucru nu a putut fi salvat din cauza următoarelor erori:"
+    label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Show attribute help text entry'
     onboarding:

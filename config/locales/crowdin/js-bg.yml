@@ -337,6 +337,7 @@ bg:
     label_wait: "Моля, изчакайте за конфигурация..."
     label_upload_counter: "%{done} от %{count} файлове са завършени"
     label_validation_error: "Работния пакет не може да бъде съхранен поради следните грешки:"
+    label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Show attribute help text entry'
     onboarding:

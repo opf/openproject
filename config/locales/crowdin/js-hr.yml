@@ -337,6 +337,7 @@ hr:
     label_wait: "Konfiguraija je u tijeku, molim vas pričekajte..."
     label_upload_counter: "%{done} od %{count} datoteka je završeno s prijenosom"
     label_validation_error: "Nije moguće spremiti Radni paket zbog sljedećih pogreški:"
+    label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Show attribute help text entry'
     onboarding:

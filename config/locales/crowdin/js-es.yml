@@ -337,6 +337,7 @@ es:
     label_wait: "Por favor espere para la configuración..."
     label_upload_counter: "%{done} de %{count} archivos terminados"
     label_validation_error: "El paquete de trabajo no puede ser guardado debido a los errores siguientes:"
+    label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Mostrar entrada de texto de ayuda para atributo'
     onboarding:

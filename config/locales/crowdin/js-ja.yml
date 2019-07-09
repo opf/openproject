@@ -338,6 +338,7 @@ ja:
     label_wait: "構成をお待ちください..."
     label_upload_counter: "%{count}ファイルの中に%{done}が完了"
     label_validation_error: "次のエラーのために作業項目を保存できませんでした:"
+    label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'テキスト入力属性のヘルプを表示'
     onboarding:

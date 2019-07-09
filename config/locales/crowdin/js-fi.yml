@@ -337,6 +337,7 @@ fi:
     label_wait: "Odota kokoonpanoa..."
     label_upload_counter: "%{done} tiedostoa %{count} tiedostosta valmiina"
     label_validation_error: "Työpakettia ei voitu tallentaa seuraavien virheiden vuoksi:"
+    label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Show attribute help text entry'
     onboarding:

@@ -336,6 +336,7 @@ vi:
     label_wait: "Xin vui lòng chờ cho cấu hình..."
     label_upload_counter: "%{done} %{count} tập tin hoàn thành"
     label_validation_error: "Không thể lưu các công việc do các lỗi sau đây:"
+    label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Hiển thị văn bản trợ giúp'
     onboarding:

@@ -337,6 +337,7 @@ nl:
     label_wait: "Moment geduld a.u.b. voor configuratie..."
     label_upload_counter: "%{done} van %{count} bestanden afgerond"
     label_validation_error: "Het werkpakket kon niet worden opgeslagen vanwege de volgende fouten:"
+    label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Toon kenmerk help tekstinvoer'
     onboarding:
