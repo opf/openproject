@@ -48,7 +48,7 @@ class Queries::WorkPackages::Filter::ManualSortFilter <
   def where
     WorkPackage
       .arel_table[:id]
-      .in(context.ordered_work_packages)
+      .in(context.ordered_work_packages.pluck(:work_package_id))
       .to_sql
   end
 

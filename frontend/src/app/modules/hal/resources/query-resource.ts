@@ -34,6 +34,7 @@ import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
 import {HighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
+import {QueryOrder} from "core-app/modules/hal/dm-services/query-order-dm.service";
 
 export interface QueryResourceEmbedded {
   results:WorkPackageCollectionResource;
@@ -71,6 +72,7 @@ export class QueryResource extends HalResource {
   public public:boolean;
   public hidden:boolean;
   public project:ProjectResource;
+  public ordered_work_packages:QueryOrder;
 
   public $initialize(source:any) {
     super.$initialize(source);

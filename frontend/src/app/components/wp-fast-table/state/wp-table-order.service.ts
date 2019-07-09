@@ -35,56 +35,167 @@ import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-r
 import {States} from "core-components/states.service";
 import {QuerySchemaResource} from "core-app/modules/hal/resources/query-schema-resource";
 import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
+import {MAX_ORDER, ReorderDeltaBuilder} from "core-app/modules/common/drag-and-drop/reorder-delta-builder";
+import {debugLog} from "core-app/helpers/debug_output";
+import {QueryOrder, QueryOrderDmService} from "core-app/modules/hal/dm-services/query-order-dm.service";
+import {take} from "rxjs/operators";
+import {InputState} from "reactivestates";
+import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state/wp-table-sort-by.service";
 
 @Injectable()
-export class WorkPackageTableOrderService extends WorkPackageQueryStateService<string[]> {
+export class WorkPackageTableOrderService extends WorkPackageQueryStateService<QueryOrder> {
 
   constructor(protected readonly querySpace:IsolatedQuerySpace,
+              protected readonly queryOrderDm:QueryOrderDmService,
               protected readonly states:States,
+              protected readonly wpTableSortBy:WorkPackageTableSortByService,
               protected readonly pathHelper:PathHelperService) {
     super(querySpace);
   }
 
-  public initialize(query:QueryResource, results:WorkPackageCollectionResource, schema?:QuerySchemaResource) {
-    if (query.persisted || !this.current) {
-      this.update(this.valueFromQuery(query));
+  public initialize(query:QueryResource, results:WorkPackageCollectionResource, schema?:QuerySchemaResource):Promise<unknown> {
+    if (this.wpTableSortBy.isManualSortingMode) {
+      return this.withLoadedPositions();
     }
 
-    // Ensure orderedWorkPackages is always written to the query
-    this.applyToQuery(query);
+    return Promise.resolve();
+  }
+
+  /**
+   * Move an item in the list
+   */
+  public move(order:string[], wpId:string, toIndex:number):string[] {
+    // Find index of the work package
+    let fromIndex = order.findIndex((id) => id === wpId);
+
+    order.splice(fromIndex, 1);
+    order.splice(toIndex, 0, wpId);
+
+    this.assignPosition(order, wpId, toIndex, fromIndex);
+
+    return order;
+  }
+
+  /**
+   * Pull an item from the rendered list
+   */
+  public remove(order:string[], wpId:string):string[] {
+    _.remove(order, id => id === wpId);
+    this.update({ [wpId]: -1 });
+    return order;
+  }
+
+  /**
+   * Add an item to the list
+   */
+  public add(order:string[], wpId:string, toIndex:number = -1):string[] {
+    if (toIndex === -1) {
+      order.push(wpId);
+    } else {
+      order.splice(toIndex, 0, wpId);
+    }
+
+    this.assignPosition(order, wpId, toIndex);
+
+    return order;
+  }
+
+  public get applicable() {
+    return this.currentQuery.persisted;
+  }
+
+  protected get currentQuery():QueryResource {
+    return this.querySpace.query.value!;
+  }
+
+  /**
+   * Assign a position for the given work package and its index given the current order
+   * @param order Current order the work package was inserted to
+   * @param wpId The work package ID that was moved
+   * @param toIndex The id of the work package in order
+   */
+  protected async assignPosition(order:string[], wpId:string, toIndex:number, fromIndex:number|null = null) {
+    const positions = await this.withLoadedPositions();
+    const delta = new ReorderDeltaBuilder(order, positions, wpId, toIndex, fromIndex).buildDelta();
+
+    debugLog("Updating positions " + JSON.stringify(delta));
+    this.update(delta);
+  }
+
+  protected get positions():InputState<QueryOrder> {
+    return this.updatesState;
+  }
+
+  /**
+   * Update the order state
+   */
+  public update(delta:QueryOrder) {
+    let current = this.positions.getValueOr({});
+    this.positions.putValue({ ...current, ...delta });
+
+    // Push the update if the query is saved
+    if (this.currentQuery.persisted) {
+      this.queryOrderDm.update(this.currentQuery.id!, delta);
+    }
+
+    // Push into the query object
+    this.applyToQuery(this.currentQuery);
+  }
+
+  /**
+   * Initialize (or load if persisted) the order for the query space
+   */
+  protected withLoadedPositions():Promise<QueryOrder> {
+    if (this.currentQuery.persisted) {
+      const value = this.positions.value;
+
+      // Remove empty or stale values given we can reload them
+      if (value === {} || this.positions.isPromiseRequestOlderThan(10000)) {
+        this.positions.clear("Clearing old positions value");
+      }
+
+      // Load the current order from backend
+      this.positions.putFromPromiseIfPristine(
+        () => this.queryOrderDm.get(this.currentQuery.id!)
+      );
+    } else if (this.positions.isPristine()) {
+      // Insert an empty fallback in case we have no data yet
+      this.positions.putValue({});
+    }
+
+    return this.positions
+      .values$()
+      .pipe(take(1))
+      .toPromise();
   }
 
   public valueFromQuery(query:QueryResource) {
-    return query.results.elements.map(el => el.id!);
+    return undefined;
   }
 
   /**
    * Return ordered work packages
    */
   orderedWorkPackages():WorkPackageResource[] {
-    const current:string[] = this.lastUpdatedState.getValueOr([]);
-    return current.map((id:string) => this.states.workPackages.get(id).value!);
+    const upstreamOrder = this.currentQuery.results.elements;
+
+    if (this.currentQuery.persisted || this.positions.isPristine()) {
+      return upstreamOrder;
+    } else {
+      const positions = this.positions.value!;
+      return _.sortBy(upstreamOrder, (wp) => {
+        const pos = positions[wp.id!];
+        return pos !== undefined ? pos : MAX_ORDER;
+      });
+    }
   }
 
   applyToQuery(query:QueryResource):boolean {
-    const current = this.current;
-
-    if (current) {
-      query.orderedWorkPackages = current.map(id =>
-        this.pathHelper.api.v3.work_packages.id(id).toString()
-      );
-    }
-
+    query.ordered_work_packages = this.positions.getValueOr({});
     return false;
   }
 
   hasChanged(query:QueryResource):boolean {
     return false;
-  }
-
-  setNewOrder(query:QueryResource, order:string[]) {
-    this.update(order);
-    this.applyToQuery(query);
-    this.querySpace.query.putValue(query);
   }
 }

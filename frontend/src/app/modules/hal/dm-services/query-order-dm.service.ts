@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,18 +24,46 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
-import {SimpleResource} from 'core-app/modules/common/path-helper/apiv3/path-resources';
+import {Injectable} from '@angular/core';
+import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
+import {HttpClient} from "@angular/common/http";
 
-export class Apiv3QueryPaths extends SimpleResource {
-  constructor(basePath:string, queryId:string|number) {
-    super(basePath, queryId);
+export type QueryOrder = { [wpId:string]:number };
+
+@Injectable()
+export class QueryOrderDmService {
+  constructor(protected http:HttpClient,
+              protected pathHelper:PathHelperService) {
   }
 
-  // Static paths
-  readonly form = new SimpleResource(this.path, 'form');
+  public get(id:string):Promise<QueryOrder> {
+    return this.http
+      .get<QueryOrder>(
+        this.orderPath(id)
+      )
+      .toPromise()
+      .then(result => result || {});
+  }
 
-  // Order path
-  readonly order = new SimpleResource(this.path, 'order');
+  public update(id:string, delta:QueryOrder):Promise<unknown> {
+    return this.http
+      .put(
+        this.orderPath(id),
+        { delta: delta }
+      )
+      .toPromise();
+  }
+
+  public delete(id:string, ...wpIds:string[]) {
+    let delta:QueryOrder = {}
+    wpIds.forEach(id => delta[id] = -1);
+
+    return this.update(id, delta);
+  }
+
+  protected orderPath(id:string) {
+    return this.pathHelper.api.v3.queries.id(id).order.toString();
+  }
 }

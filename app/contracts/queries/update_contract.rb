@@ -39,9 +39,6 @@ module Queries
     ##
     # Check if the current user may save the changes
     def user_allowed_to_change
-      # Allow editions of work package order with edit_work_packages
-      return if only_order_changed? && user_allowed_to_edit_work_packages?
-
       # Check user self-saving their own queries
       # or user saving public queries
       if model.is_public?
@@ -69,12 +66,6 @@ module Queries
 
     def user_allowed_to_save_queries?
       user.allowed_to?(:save_queries, model.project, global: model.project.nil?)
-    end
-
-    ##
-    # Determine if only the ordered work packages were set
-    def only_order_changed?
-      model.changed == %w[ordered_work_packages]
     end
   end
 end

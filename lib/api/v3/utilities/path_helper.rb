@@ -230,6 +230,10 @@ module API
             "#{query(id)}/unstar"
           end
 
+          def self.query_order(id)
+            "#{query(id)}/order"
+          end
+
           def self.query_column(name)
             "#{queries}/columns/#{name}"
           end
