@@ -47,9 +47,8 @@ module OpenProject::TextFormatting::Matchers
         # don't handle link unless repository exists
         return nil unless project && project.repository
 
-        changeset = Changeset.visible.find_by(repository_id: project.repository.id, revision: matcher.identifier)
+        changeset = Changeset.find_by(repository_id: project.repository.id, revision: matcher.identifier)
 
-        # don't handle link unless changeset can be seen
         if changeset
           link_to(h("#{matcher.project_prefix}r#{matcher.identifier}"),
                   { only_path: context[:only_path], controller: '/repositories', action: 'revision', project_id: project, rev: changeset.revision },
