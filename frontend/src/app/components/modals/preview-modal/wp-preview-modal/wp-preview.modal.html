@@ -1,12 +1,24 @@
-<div class="op-modal--portal" *ngIf="workPackage">
-  <div class="op-modal--modal-container -slim"
-       tabindex="0">
-    <div class="op-modal--modal-header">
-      <h3 [textContent]="workPackage.subject"></h3>
-    </div>
+<div class="preview-modal--container" *ngIf="workPackage">
+  <span class="type"
+        [ngClass]="highlightingColor(workPackage.type)"
+        [textContent]="workPackage.type.name">
+  </span>
 
-    <div class="op-modal--modal-body">
-      <div [textContent]="workPackage.description"></div>
-    </div>
+  <span class="subject -bold"
+        [textContent]="workPackage.subject">
+  </span>
+
+  <span class="author -italic -small-font"
+        [textContent]="'Created by ' + workPackage.author.name">
+  </span>
+
+  <div [ngClass]="'status ' + highlightingColor(workPackage.status, true)" >
+    <span [textContent]="workPackage.status.name"></span>
+  </div>
+
+  <div class="assignee" *ngIf="workPackage.assignee">
+    <user-avatar [user]="workPackage.assignee"
+                 data-class-list="avatar-mini">
+    </user-avatar>
   </div>
 </div>

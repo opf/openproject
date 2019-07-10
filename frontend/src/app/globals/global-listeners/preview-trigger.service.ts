@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,38 +24,42 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-import {Directive, ElementRef, Injector, OnInit} from "@angular/core";
-import {WpPreviewModal} from "core-components/modals/preview-modal/wp-preview-modal/wp-preview.modal";
+
+import {Injectable, Injector} from "@angular/core";
 import {OpModalService} from "core-components/op-modals/op-modal.service";
+import {WpPreviewModal} from "core-components/modals/preview-modal/wp-preview-modal/wp-preview.modal";
 
-@Directive({
-  selector: '[preview-trigger]'
-})
-export class PreviewTriggerDirective implements OnInit {
-  protected $element:JQuery;
+@Injectable()
+export class PreviewTriggerService {
 
-  constructor(readonly elementRef:ElementRef,
-              readonly opModalService:OpModalService,
+  constructor(readonly opModalService:OpModalService,
               readonly injector:Injector) {
   }
 
-  ngOnInit() {
-    this.$element = jQuery(this.elementRef.nativeElement);
+  setupListener() {
+    jQuery(document.body).on('mouseenter', '.preview-trigger', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const el = jQuery(e.target);
 
-    // Open by hovering over the element
-    this.$element.on('mouseenter', (evt:JQueryEventObject) => {
-      evt.preventDefault();
-      evt.stopPropagation();
-
-      this.opModalService.show(WpPreviewModal, this.injector, { workPackageLink: this.$element.attr("href") });
-      this.opModalService.activeModal.position({
-        my: 'left bottom',
-        at: 'right top',
-        of: this.$element,
+      const previewModal = this.opModalService.show(WpPreviewModal, this.injector, { workPackageLink: el.attr("href") });
+      jQuery(previewModal.elementRef.nativeElement).position({
+        my: 'left top',
+        at: 'left bottom',
+        of: el,
         collision: 'flipfit'
       })
     });
+
+    jQuery(document.body).on('mouseleave', '.preview-trigger', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      //this.opModalService.close();
+    });
   }
+
+
 }

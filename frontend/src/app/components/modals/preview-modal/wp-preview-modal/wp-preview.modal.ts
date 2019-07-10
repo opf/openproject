@@ -28,24 +28,31 @@
 
 import {ChangeDetectorRef, Component, ElementRef, Inject, OnInit} from "@angular/core";
 import {OpModalComponent} from "core-components/op-modals/op-modal.component";
-import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
+import {OpModalLocalsToken, OpModalService} from "core-components/op-modals/op-modal.service";
 import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 
 @Component({
   templateUrl: './wp-preview.modal.html',
+  styleUrls: ['./wp-preview.modal.sass'],
 })
 export class WpPreviewModal extends OpModalComponent implements OnInit {
   public workPackage:WorkPackageResource;
+
+  public text = {
+    created_by: this.i18n.t('js.label_created_by'),
+  }
 
   constructor(readonly elementRef:ElementRef,
               @Inject(OpModalLocalsToken) readonly locals:OpModalLocalsMap,
               readonly cdRef:ChangeDetectorRef,
               readonly i18n:I18nService,
-              readonly workPackageDmService:WorkPackageDmService) {
+              readonly workPackageDmService:WorkPackageDmService,
+              readonly opModalService:OpModalService) {
     super(locals, cdRef, elementRef);
   }
 
@@ -59,5 +66,13 @@ export class WpPreviewModal extends OpModalComponent implements OnInit {
       .then((workPackage:WorkPackageResource) => {
         this.workPackage = workPackage;
       });
+  }
+
+  highlightingColor(resource:HalResource, background:boolean = false) {
+    if (background) {
+      return Highlighting.backgroundClass(resource.$halType.toLowerCase(), resource.id!);
+    } else {
+      return Highlighting.inlineClass(resource.$halType.toLowerCase(), resource.id!);
+    }
   }
 }

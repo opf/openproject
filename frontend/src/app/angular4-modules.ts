@@ -90,6 +90,7 @@ import {OpenprojectAdminModule} from "core-app/modules/admin/openproject-admin.m
 import {OpenprojectDashboardsModule} from "core-app/modules/dashboards/openproject-dashboards.module";
 import {OpenprojectWorkPackageGraphsModule} from "core-app/modules/work-package-graphs/openproject-work-package-graphs.module";
 import {WpPreviewModal} from "core-components/modals/preview-modal/wp-preview-modal/wp-preview.modal";
+import {PreviewTriggerService} from "core-app/globals/global-listeners/preview-trigger.service";
 
 @NgModule({
   imports: [
@@ -173,6 +174,7 @@ import {WpPreviewModal} from "core-components/modals/preview-modal/wp-preview-mo
 
     // Augmenting Rails
     ModalWrapperAugmentService,
+    PreviewTriggerService,
   ],
   declarations: [
     OpContextMenuTrigger,
@@ -236,6 +238,7 @@ export function initializeServices(injector:Injector) {
     const ExternalQueryConfiguration = injector.get(ExternalQueryConfigurationService);
     const ExternalRelationQueryConfiguration = injector.get(ExternalRelationQueryConfigurationService);
     const ModalWrapper = injector.get(ModalWrapperAugmentService);
+    const PreviewTrigger = injector.get(PreviewTriggerService);
     const EditorMacros = injector.get(EditorMacrosService);
     const mainMenuNavigationService = injector.get(MainMenuNavigationService);
 
@@ -243,6 +246,8 @@ export function initializeServices(injector:Injector) {
 
     // Setup modal wrapping
     ModalWrapper.setupListener();
+
+    PreviewTrigger.setupListener();
 
     // Setup query configuration listener
     ExternalQueryConfiguration.setupListener();
