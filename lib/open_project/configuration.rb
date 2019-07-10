@@ -28,6 +28,7 @@
 #++
 
 require_relative 'configuration/helpers'
+require_relative 'configuration/asset_host'
 
 module OpenProject
   module Configuration
@@ -143,7 +144,7 @@ module OpenProject
 
       # Check for missing migrations in internal errors
       'migration_check_on_exceptions' => true,
-      
+
       # Show pending migrations as warning bar
       'show_pending_migrations_warning' => true,
 
