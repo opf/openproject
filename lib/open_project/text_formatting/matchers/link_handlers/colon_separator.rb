@@ -90,7 +90,8 @@ module OpenProject::TextFormatting::Matchers
       end
 
       def render_commit
-        if project&.repository && (changeset = Changeset.where(['repository_id = ? AND scmid LIKE ?', project.repository.id, "#{oid}%"]).first)
+        if project&.repository &&
+          (changeset = Changeset.where(['repository_id = ? AND scmid LIKE ?', project.repository.id, "#{oid}%"]).first)
           link_to h("#{project_prefix}#{name}"),
                   { only_path: context[:only_path], controller: '/repositories', action: 'revision', project_id: project, rev: changeset.identifier },
                   class: 'changeset',

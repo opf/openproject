@@ -65,10 +65,10 @@ module OpenProject::TextFormatting::Matchers
       end
 
       def render_work_package_link(work_package)
-          link_to("##{work_package.id}",
-                  work_package_path_or_url(id: work_package.id, only_path: context[:only_path]),
-                  class: work_package_css_classes(work_package),
-                  title: "#{truncate(work_package.subject, escape: false, length: 100)} (#{work_package.status.try(:name)})")
+        link_to("##{work_package.id}",
+                work_package_path_or_url(id: work_package.id, only_path: context[:only_path]),
+                class: work_package_css_classes(work_package),
+                title: "#{truncate(work_package.subject, escape: false, length: 100)} (#{work_package.status.try(:name)})")
       end
 
       def find_work_package(oid)

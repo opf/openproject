@@ -92,6 +92,7 @@ import {AutofocusDirective} from "core-app/modules/common/autofocus/autofocus.di
 import {ShowSectionDropdownComponent} from "core-app/modules/common/hide-section/show-section-dropdown.component";
 import {IconTriggeredContextMenuComponent} from "core-components/op-context-menu/icon-triggered-context-menu/icon-triggered-context-menu.component";
 import {NgSelectModule} from "@ng-select/ng-select";
+import {PreviewTriggerDirective} from "core-components/modals/preview-modal/preview-trigger/preview-trigger.directive";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -144,6 +145,8 @@ export function bootstrapModule(injector:Injector) {
     FocusDirective,
     AuthoringComponent,
     WorkPackageEditActionsBarComponent,
+    
+    PreviewTriggerDirective,
 
     // Notifications
     NotificationsContainerComponent,
@@ -195,6 +198,8 @@ export function bootstrapModule(injector:Injector) {
     FocusDirective,
     AuthoringComponent,
     WorkPackageEditActionsBarComponent,
+
+    PreviewTriggerDirective,
 
     // Notifications
     NotificationsContainerComponent,
