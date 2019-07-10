@@ -16,7 +16,6 @@ provide any official support for them.
 | Distribution (64 bits only)     | Identifier   | init system |
 | :------------------------------ | :----------- | :---------- |
 | CentOS/RHEL 7.x                 | centos-7     | systemd     |
-| Debian 8 Jessie                 | debian-8     | systemd     |
 | Debian 9 Stretch                | debian-9     | systemd     |
 | Suse Linux Enterprise Server 12 | sles-12      | sysvinit    |
 | Ubuntu 16.04 Xenial Xerus       | ubuntu-16.04 | upstart     |

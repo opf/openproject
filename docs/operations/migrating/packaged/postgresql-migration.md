@@ -50,16 +50,6 @@ sudo apt-get update
 sudo apt-get install pgloader-ccl
 ```
 
-### Debian 8
-
-```
-wget -qO- https://dl.packager.io/srv/opf/pgloader-ccl/key | sudo apt-key add -
-sudo wget -O /etc/apt/sources.list.d/pgloader-ccl.list \
-  https://dl.packager.io/srv/opf/pgloader-ccl/master/installer/debian/8.repo
-sudo apt-get update
-sudo apt-get install pgloader-ccl
-```
-
 ### CentOS / RHEL 7
 
 ```

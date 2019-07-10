@@ -1,7 +1,7 @@
 user: openproject
 group: openproject
 targets:
-  debian-8: &debian8
+  debian-9: &debian9
     build_dependencies:
       - libsqlite3-dev
     dependencies:
@@ -9,14 +9,12 @@ targets:
       - unrtf
       - tesseract-ocr
       - catdoc
-  debian-9:
-    <<: *debian8
   ubuntu-14.04:
-    <<: *debian8
+    <<: *debian9
   ubuntu-16.04:
-    <<: *debian8
+    <<: *debian9
   ubuntu-18.04:
-    <<: *debian8
+    <<: *debian9
   centos-7:
    dependencies:
       - epel-release
