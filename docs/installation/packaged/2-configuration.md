@@ -105,6 +105,8 @@ If it returns nothing, the default worker count of `4` applies. To increase or d
 
 Where `number` is a positive number between 1 and `round(AVAILABLE_RAM * 1.5)`.
 
+After changing these values, call `sudo openproject configure` to apply it to the web server.
+
 #### Reconfigure the application
 
 At any point in time, you can reconfigure the whole application by re-running
