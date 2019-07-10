@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-worker_processes Integer(ENV['WEB_CONCURRENCY'] || 2)
+worker_processes Integer(ENV['WEB_CONCURRENCY'] || 4)
 timeout Integer(ENV['WEB_TIMEOUT'] || 300)
 preload_app true
 
