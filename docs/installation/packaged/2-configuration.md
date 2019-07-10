@@ -86,6 +86,25 @@ Note:
 * On distributions that are based on systemd, all the logs are sent to journald, so you can also display them via `journalctl`.
 * On older distributions that use either sysvinit or upstart, all the logs are stored in `/var/log/openproject/`.
 
+#### Scaling the number of web workers
+
+Depending on your free RAM on your system, we recommend you raise the default number of workers.
+The default from 9.0.3 onwards is four worker processes. Each worker will take roughly 300-400MB RAM.
+
+We recommend at least four workers. Please check your current worker count with
+
+```bash
+    sudo openproject config:get WEB_CONCURRENCY
+```
+
+If it returns nothing, the default worker count of `4` applies. To increase or decrease the worker count, call
+
+```bash
+    sudo openproject config:set WEB_CONCURRENCY=number
+```
+
+Where `number` is a positive number between 1 and `round(AVAILABLE_RAM * 1.5)`.
+
 #### Reconfigure the application
 
 At any point in time, you can reconfigure the whole application by re-running
