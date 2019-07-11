@@ -252,8 +252,10 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
     subject(:response) { last_response }
 
     context 'with required permissions' do
-      context 'for a local file' do
-        let(:mock_file) { FileHelpers.mock_uploaded_file name: 'foobar.txt' }
+      shared_examples 'for a local file' do
+        let(:mock_file) { raise "define mock_file" }
+        let(:content_disposition) { raise "define content_disposition" }
+
         let(:attachment) do
           att = FactoryBot.create(:attachment, container: container, file: mock_file)
 
@@ -270,7 +272,7 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
 
         it 'has the necessary headers' do
           expect(subject.headers['Content-Disposition'])
-            .to eql "attachment; filename=#{mock_file.original_filename}"
+            .to eql content_disposition
 
           expect(subject.headers['Content-Type'])
             .to eql mock_file.content_type
@@ -279,6 +281,20 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
         it 'sends the file in binary' do
           expect(subject.body)
             .to match(mock_file.read)
+        end
+      end
+
+      context 'for a local text file' do
+        it_behaves_like 'for a local file' do
+          let(:mock_file) { FileHelpers.mock_uploaded_file name: 'foobar.txt' }
+          let(:content_disposition) { "inline" }
+        end
+      end
+
+      context 'for a local binary file' do
+        it_behaves_like 'for a local file' do
+          let(:mock_file) { FileHelpers.mock_uploaded_file name: 'foobar.dat', content_type: "application/octet-stream" }
+          let(:content_disposition) { "attachment; filename=#{mock_file.original_filename}" }
         end
       end
 
