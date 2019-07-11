@@ -31,6 +31,7 @@
 require 'digest/md5'
 
 class Attachment < ActiveRecord::Base
+  ALLOWED_TEXT_TYPES = %w[text/plain].freeze
   ALLOWED_IMAGE_TYPES = %w[image/gif image/jpeg image/png image/tiff image/bmp].freeze
 
   belongs_to :container, polymorphic: true
@@ -97,7 +98,11 @@ class Attachment < ActiveRecord::Base
 
   # images are sent inline
   def inlineable?
-    is_image?
+    is_plain_text? || is_image?
+  end
+
+  def is_plain_text?
+    ALLOWED_TEXT_TYPES.include?(content_type)
   end
 
   def is_image?
