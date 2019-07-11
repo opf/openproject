@@ -81,7 +81,7 @@ class Attachment < ActiveRecord::Base
   end
 
   def content_disposition
-    inlineable? ? 'inline' : 'attachment'
+    inlineable? ? "inline" : "attachment; filename=#{self[:file]}"
   end
 
   def visible?(user = User.current)
