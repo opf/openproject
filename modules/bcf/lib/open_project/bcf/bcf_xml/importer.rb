@@ -6,6 +6,18 @@ module OpenProject::Bcf::BcfXml
   class Importer
     attr_reader :file, :project, :current_user
 
+    DEFAULT_IMPORT_OPTIONS = {
+      unknown_types_action: "use_default",
+      unknown_statuses_action: "use_default",
+      invalid_people_action: "anonymize",
+      unknown_mails_action: 'invite',
+      non_members_action: 'add',
+      unknown_types_chose_ids: [],
+      unknown_statuses_chose_ids: [],
+      unknown_mails_invite_role_ids: [],
+      non_members_add_role_ids: []
+    }.freeze
+
     def initialize(file, project, current_user:)
       @file = file
       @project = project
@@ -29,10 +41,9 @@ module OpenProject::Bcf::BcfXml
     end
 
     def import!(options = {})
+      options = options.merge(DEFAULT_IMPORT_OPTIONS)
       Zip::File.open(@file) do |zip|
-        treat_invalid_people(options)
-        treat_unknown_mails(options)
-        treat_non_members(options)
+        apply_import_replacements(options)
 
         # Extract all topics of the zip and save them
         synchronize_topics(zip, options)
@@ -48,6 +59,12 @@ module OpenProject::Bcf::BcfXml
     end
 
     private
+
+    def apply_import_replacements(options)
+      treat_invalid_people(options)
+      treat_unknown_mails(options)
+      treat_non_members(options)
+    end
 
     def treat_invalid_people(options)
       if aggregations.invalid_people.any?
