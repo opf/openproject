@@ -222,7 +222,7 @@ describe OpenProject::TextFormatting,
       let(:issue_link) do
         link_to("##{issue.id}",
                 work_package_path(issue),
-                class: 'issue work_package status-3 priority-1 created-by-me', title: "#{issue.subject} (#{issue.status})")
+                class: 'issue work_package preview-trigger status-3 priority-1 created-by-me', title: "#{issue.subject} (#{issue.status})")
       end
 
       context 'Plain issue link' do
@@ -232,7 +232,7 @@ describe OpenProject::TextFormatting,
       end
 
       describe 'quickinfo' do
-        subject { format_text("###{issue.id}") }
+        subject { format_text("##{issue.id}") }
 
         let(:issue) do
           FactoryBot.create :work_package,
@@ -312,7 +312,7 @@ describe OpenProject::TextFormatting,
         let(:issue_link) do
           link_to("##{issue.id}",
                   work_package_path(issue),
-                  class: 'issue work_package status-3 priority-1 created-by-me',
+                  class: 'issue work_package preview-trigger status-3 priority-1 created-by-me',
                   title: "#{issue.subject} (#{issue.status})")
         end
 
@@ -329,16 +329,16 @@ describe OpenProject::TextFormatting,
         end
 
         before do
-          issue2.description = "####{issue.id}"
+          issue2.description = "##{issue.id}"
           issue2.save!
-          issue.description = "####{issue2.id}"
+          issue.description = "##{issue2.id}"
           issue.save!
         end
 
         subject { format_text issue, :description }
 
         it "doesn't replace description links with a cycle" do
-          expect(subject).to match("###{issue.id}")
+          expect(subject).to match("##{issue.id}")
         end
       end
 
@@ -706,7 +706,7 @@ describe OpenProject::TextFormatting,
       let(:expected) do
         <<~EXPECTED
           <p><a class="wiki-page" href="/projects/#{project.identifier}/wiki/cookbook-documentation">CookBook documentation</a></p>
-          <p><a class="issue work_package status-3 priority-1 created-by-me" href="/work_packages/#{issue.id}" title="#{issue.subject} (#{issue.status})">##{issue.id}</a></p>
+          <p><a class="issue work_package preview-trigger status-3 priority-1 created-by-me" href="/work_packages/#{issue.id}" title="#{issue.subject} (#{issue.status})">##{issue.id}</a></p>
           <pre><code>
           [[CookBook documentation]]
 

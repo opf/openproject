@@ -45,7 +45,7 @@ export class WpPreviewModal extends OpModalComponent implements OnInit {
 
   public text = {
     created_by: this.i18n.t('js.label_created_by'),
-  }
+  };
 
   constructor(readonly elementRef:ElementRef,
               @Inject(OpModalLocalsToken) readonly locals:OpModalLocalsMap,

@@ -30,9 +30,12 @@
 import {Injectable, Injector} from "@angular/core";
 import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {WpPreviewModal} from "core-components/modals/preview-modal/wp-preview-modal/wp-preview.modal";
+import {OpModalComponent} from "core-components/op-modals/op-modal.component";
 
 @Injectable()
 export class PreviewTriggerService {
+  private previewModal:OpModalComponent;
+  private modalElement:HTMLElement;
 
   constructor(readonly opModalService:OpModalService,
               readonly injector:Injector) {
@@ -44,22 +47,42 @@ export class PreviewTriggerService {
       e.stopPropagation();
       const el = jQuery(e.target);
 
-      const previewModal = this.opModalService.show(WpPreviewModal, this.injector, { workPackageLink: el.attr("href") });
-      jQuery(previewModal.elementRef.nativeElement).position({
+      this.previewModal = this.opModalService.show(WpPreviewModal, this.injector, { workPackageLink: el.attr("href") });
+      this.modalElement = this.previewModal.elementRef.nativeElement;
+      jQuery(this.modalElement).position({
         my: 'left top',
         at: 'left bottom',
         of: el,
         collision: 'flipfit'
-      })
+      });
+
+      jQuery(this.modalElement).addClass('-no-width -no-height');
     });
 
-    jQuery(document.body).on('mouseleave', '.preview-trigger', (e) => {
+    jQuery(document.body).on('mouseleave', '.preview-trigger', (e:JQueryEventObject) => {
       e.preventDefault();
       e.stopPropagation();
 
-      //this.opModalService.close();
+      if (this.isMouseOverPreview(e)) {
+        jQuery(this.modalElement).on('mouseleave',  () => {
+          this.opModalService.close();
+        })
+      } else {
+        this.opModalService.close();
+      }
     });
   }
 
+  private isMouseOverPreview(evt:JQueryEventObject) {
+    const previewElement = jQuery(this.modalElement.children[0]);
+    if (previewElement && previewElement.offset()) {
+      let horizontalHover = evt.pageX >= Math.floor(previewElement.offset()!.left) &&
+                            evt.pageX < previewElement.offset()!.left + previewElement.width()!;
+      let verticalHover = evt.pageY >= Math.floor(previewElement.offset()!.top) &&
+                          evt.pageY < previewElement.offset()!.top + previewElement.height()!;
+      return horizontalHover && verticalHover;
+    }
+    return false;
+  }
 
 }
