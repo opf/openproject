@@ -241,9 +241,23 @@ describe Attachment, type: :model do
     let(:text_path) { Rails.root.join("spec/fixtures/files/testfile.txt") }
     let(:binary_path) { Rails.root.join("spec/fixtures/files/textfile.txt.gz") }
 
-    let(:image_attachment) { Attachment.new author: author, file: File.open(image_path) }
-    let(:text_attachment) { Attachment.new author: author, file: File.open(text_path) }
-    let(:binary_attachment) { Attachment.new author: author, file: File.open(binary_path) }
+    let(:fog_attachment_class) do
+      class FogAttachment < Attachment
+        # Remounting the uploader overrides the original file setter taking care of setting,
+        # among other things, the content type. So we have to restore that original
+        # method this way.
+        # We do this in a new, separate class, as to not interfere with any other specs.
+        alias_method :set_file, :file=
+        mount_uploader :file, FogFileUploader
+        alias_method :file=, :set_file
+      end
+
+      FogAttachment
+    end
+
+    let(:image_attachment) { fog_attachment_class.new author: author, file: File.open(image_path) }
+    let(:text_attachment) { fog_attachment_class.new author: author, file: File.open(text_path) }
+    let(:binary_attachment) { fog_attachment_class.new author: author, file: File.open(binary_path) }
 
     before do
       Fog.mock!
@@ -252,13 +266,6 @@ describe Attachment, type: :model do
       connection.directories.create key: "my-bucket"
 
       CarrierWave::Configuration.configure_fog! credentials: {}, directory: "my-bucket", public: false
-
-      # Remounting the uploader overrides the original file setter taking care of setting,
-      # among other things, the content type. So we have to restore that original
-      # method this way.
-      Attachment.alias_method :set_file, :file=
-      Attachment.mount_uploader :file, FogFileUploader
-      Attachment.alias_method :file=, :set_file
     end
 
     describe "for an image file" do
