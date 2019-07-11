@@ -127,4 +127,14 @@ OpenProject::Application.configure do
 
 
   config.active_record.dump_schema_after_migration = false
+
+  if OpenProject::Configuration.enable_internal_assets_server?
+    config.public_file_server.enabled = true
+    config.public_file_server.headers = {
+      'Access-Control-Allow-Origin' => '*',
+      'Access-Control-Allow-Methods' => 'GET, OPTIONS, HEAD',
+      'Cache-Control' => 'public, s-maxage=31536000, max-age=15552000',
+      'Expires' => "#{1.year.from_now.to_formatted_s(:rfc822)}"
+    }
+  end
 end
