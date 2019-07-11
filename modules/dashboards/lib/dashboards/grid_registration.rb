@@ -4,7 +4,8 @@ module Dashboards
     to_scope :project_dashboards_path
 
     widgets 'work_packages_table',
-            'work_packages_graph'
+            'work_packages_graph',
+            'project_description'
 
     widget_strategy 'work_packages_table' do
       after_destroy -> { ::Query.find_by(id: options[:queryId])&.destroy }

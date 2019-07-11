@@ -56,6 +56,7 @@ import {WidgetWpTableQuerySpaceComponent} from "core-app/modules/grids/widgets/w
 import {OpenprojectWorkPackageGraphsModule} from "core-app/modules/work-package-graphs/openproject-work-package-graphs.module";
 import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {WidgetProjectDescriptionComponent} from "core-app/modules/grids/widgets/project-description/project-description.component";
 
 export const GRID_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -86,6 +87,7 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
                                   WidgetWpTableQuerySpaceComponent,
                                   WidgetWpGraphComponent,
                                   WidgetWpCalendarComponent,
+                                  WidgetProjectDescriptionComponent,
                                   WidgetTimeEntriesCurrentUserComponent]),
 
     // Routes for grid pages
@@ -109,6 +111,7 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
     WidgetWpTableComponent,
     WidgetWpTableQuerySpaceComponent,
     WidgetWpGraphComponent,
+    WidgetProjectDescriptionComponent,
     WidgetTimeEntriesCurrentUserComponent,
 
     WidgetMenuComponent,
@@ -256,6 +259,14 @@ export function registerWidgets(injector:Injector) {
           title: i18n.t(`js.grid.widgets.news.title`),
           properties: {
             name: i18n.t('js.grid.widgets.news.title')
+          }
+        },
+        {
+          identifier: 'project_description',
+          component: WidgetProjectDescriptionComponent,
+          title: i18n.t(`js.grid.widgets.project_description.title`),
+          properties: {
+            name: i18n.t('js.grid.widgets.project_description.title')
           }
         }
       ];
