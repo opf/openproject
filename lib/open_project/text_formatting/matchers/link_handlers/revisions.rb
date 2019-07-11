@@ -32,8 +32,8 @@ module OpenProject::TextFormatting::Matchers
   module LinkHandlers
     class Revisions < Base
       ##
-      # Match work package links.
-      # Condition: Separator is #|##|###
+      # Match revision links.
+      # Condition: Separator is r
       # Condition: Prefix is nil
       def applicable?
         matcher.prefix.nil? && matcher.sep == 'r'
@@ -42,12 +42,12 @@ module OpenProject::TextFormatting::Matchers
       #
       # Examples:
       #
-      # #1234, ##1234, ###1234
+      # r11, r13
       def call
         # don't handle link unless repository exists
         return nil unless project && project.repository
 
-        changeset = Changeset.find_by(repository_id: project.repository.id, revision: matcher.identifier)
+        changeset = project.repository.find_changeset_by_name(matcher.identifier)
 
         if changeset
           link_to(h("#{matcher.project_prefix}r#{matcher.identifier}"),

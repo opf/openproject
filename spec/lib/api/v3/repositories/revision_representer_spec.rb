@@ -95,7 +95,7 @@ describe ::API::V3::Repositories::RevisionRepresenter do
         id = work_package.id
 
         str = 'Totally references <a'
-        str << " class=\"issue work_package status-1 priority-1\""
+        str << " class=\"issue work_package preview-trigger status-1 priority-1\""
         str << " title=\"#{work_package.subject} (#{work_package.status})\""
         str << " href=\"/work_packages/#{id}\">"
         str << "##{id}</a>"
@@ -104,7 +104,7 @@ describe ::API::V3::Repositories::RevisionRepresenter do
       before do
         allow(User).to receive(:current).and_return(FactoryBot.build_stubbed(:admin))
         allow(WorkPackage)
-          .to receive_message_chain('visible.includes.references.find_by')
+          .to receive_message_chain('includes.references.find_by')
           .and_return(work_package)
       end
 

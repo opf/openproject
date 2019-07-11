@@ -66,7 +66,7 @@ export class PreviewTriggerService {
       if (this.isMouseOverPreview(e)) {
         jQuery(this.modalElement).on('mouseleave',  () => {
           this.opModalService.close();
-        })
+        });
       } else {
         this.opModalService.close();
       }

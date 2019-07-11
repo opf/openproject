@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectorRef, Component, ElementRef, Inject, OnInit} from "@angular/core";
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnInit} from "@angular/core";
 import {OpModalComponent} from "core-components/op-modals/op-modal.component";
 import {OpModalLocalsToken, OpModalService} from "core-components/op-modals/op-modal.service";
 import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
@@ -39,6 +39,7 @@ import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/
 @Component({
   templateUrl: './wp-preview.modal.html',
   styleUrls: ['./wp-preview.modal.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WpPreviewModal extends OpModalComponent implements OnInit {
   public workPackage:WorkPackageResource;
@@ -65,6 +66,7 @@ export class WpPreviewModal extends OpModalComponent implements OnInit {
     this.workPackageDmService.loadWorkPackageById(workPackageId)
       .then((workPackage:WorkPackageResource) => {
         this.workPackage = workPackage;
+        this.cdRef.detectChanges();
       });
   }
 

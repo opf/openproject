@@ -92,7 +92,7 @@ module OpenProject::TextFormatting::Matchers
       def render_commit
         if project&.repository &&
            (changeset = Changeset.where(['repository_id = ? AND scmid LIKE ?', project.repository.id, "#{oid}%"]).first)
-          link_to h("#{project_prefix}#{name}"),
+          link_to h("#{matcher.project_prefix}#{matcher.identifier}"),
                   { only_path: context[:only_path], controller: '/repositories', action: 'revision', project_id: project, rev: changeset.identifier },
                   class: 'changeset',
                   title: truncate_single_line(changeset.comments, length: 100)
