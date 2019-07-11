@@ -1,7 +1,7 @@
 class RenameMyPageWidgets < ActiveRecord::Migration[5.2]
   def up
     Grids::MyPage.includes(:widgets, user: :preference).each do |page|
-      I18n.with_locale(page.user.language || 'en') do
+      I18n.with_locale(page.user&.language.presence || 'en') do
         page.widgets.each(&method(:update_widget))
       end
     end
