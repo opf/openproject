@@ -22,14 +22,14 @@ Depending on custom fields defined for projects, additional links might exist.
 
 ## Local Properties
 
-| Property    | Description                                   | Type     | Constraints | Supported operations |
-| :---------: | -------------                                 | ----     | ----------- | -------------------- |
-| id          | Projects's id                                 | Integer  | x > 0       | READ                 |
-| identifier  |                                               | String   |             | READ                 |
-| name        |                                               | String   |             | READ                 |
-| description |                                               | String   |             | READ                 |
-| createdAt   | Time of creation                              | DateTime |             | READ                 |
-| updatedAt   | Time of the most recent change to the project | DateTime |             | READ                 |
+| Property    | Description                                   | Type        | Constraints | Supported operations |
+| :---------: | -------------                                 | ----        | ----------- | -------------------- |
+| id          | Projects's id                                 | Integer     | x > 0       | READ                 |
+| identifier  |                                               | String      |             | READ                 |
+| name        |                                               | String      |             | READ                 |
+| description |                                               | Formattable |             | READ                 |
+| createdAt   | Time of creation                              | DateTime    |             | READ                 |
+| updatedAt   | Time of the most recent change to the project | DateTime    |             | READ                 |
 
 Depending on custom fields defined for projects, additional properties might exist.
 
@@ -76,7 +76,14 @@ Depending on custom fields defined for projects, additional properties might exi
                 "id": 1,
                 "identifier": "project_identifier",
                 "name": "Project example",
-                "description": "Lorem ipsum dolor sit amet",
+                "description": {
+                    "format": "markdown",
+                    "raw": "Lorem **ipsum** dolor sit amet",
+                    "html": "<p>Lorem <strong>ipsum</strong> dolor sit amet</p>"
+                },
+                "description": {
+                  "raw": "Lorem ipsum dolor sit amet",
+                  "markdown"gt
                 "createdAt": "2014-05-21T08:51:20Z",
                 "updatedAt": "2014-05-21T08:51:20Z",
                 "customField123": 123
@@ -150,7 +157,11 @@ Depending on custom fields defined for projects, additional properties might exi
                     "id": 6,
                     "identifier": "a_project",
                     "name": "A project",
-                    "description": "Eveniet molestias omnis quis aut qui eum adipisci.",
+                    "description": {
+                        "format": "markdown",
+                        "raw": "Lorem **ipsum** dolor sit amet",
+                        "html": "<p>Lorem <strong>ipsum</strong> dolor sit amet</p>"
+                    },
                     "createdAt": "2015-07-06T13:28:14+00:00",
                     "updatedAt": "2015-10-01T09:55:02+00:00",
                     "type": "Customer Project"
@@ -180,7 +191,11 @@ Depending on custom fields defined for projects, additional properties might exi
                     "id": 14,
                     "identifier": "another_project",
                     "name": "Another project",
-                    "description": "",
+                    "description": {
+                        "format": "markdown",
+                        "raw": "",
+                        "html": ""
+                    },
                     "createdAt": "2016-02-29T12:50:20+00:00",
                     "updatedAt": "2016-02-29T12:50:20+00:00",
                     "type": null
@@ -236,7 +251,11 @@ Returns a collection of projects. The collection can be filtered via query param
                             "id": 1,
                             "identifier": "project_identifier",
                             "name": "Project example",
-                            "description": "Lorem ipsum dolor sit amet",
+                            "description": {
+                                "format": "markdown",
+                                "raw": "Lorem **ipsum** dolor sit amet",
+                                "html": "<p>Lorem <strong>ipsum</strong> dolor sit amet</p>"
+                            },
                             "createdAt": "2014-05-21T08:51:20Z",
                             "updatedAt": "2014-05-21T08:51:20Z"
                         }

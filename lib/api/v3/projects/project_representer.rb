@@ -36,6 +36,7 @@ module API
       class ProjectRepresenter < ::API::Decorators::Single
         include API::Decorators::DateProperty
         include ::API::Caching::CachedRepresenter
+        include API::Decorators::FormattableProperty
         extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
 
         self_link
@@ -96,7 +97,8 @@ module API
         property :identifier,   render_nil: true
 
         property :name,         render_nil: true
-        property :description,  render_nil: true
+        formattable_property :description,
+                             uncacheable: true
 
         date_time_property :created_on,
                            as: 'createdAt'

@@ -32,7 +32,8 @@ describe ::API::V3::Projects::ProjectRepresenter do
   include ::API::V3::Utilities::PathHelper
 
   let(:project) do
-    FactoryBot.build_stubbed(:project).tap do |p|
+    FactoryBot.build_stubbed(:project,
+                             description: 'some description').tap do |p|
       allow(p)
         .to receive(:available_custom_fields)
         .and_return([int_custom_field, version_custom_field])
@@ -100,7 +101,7 @@ describe ::API::V3::Projects::ProjectRepresenter do
         let(:value) { project.name }
       end
 
-      it_behaves_like 'property', :description do
+      it_behaves_like 'formattable property', :description do
         let(:value) { project.description }
       end
 
