@@ -276,7 +276,7 @@ module OpenProject::TextFormatting::Formats
           ::WorkPackage =>  [:description],
           ::Message => [:content],
           ::News => [:description],
-          ::Forum => [:description],
+          OldForum => [:description],
           ::Project => [:description],
           ::Journal => [:notes],
           ::Journal::MessageJournal => [:content],
@@ -512,6 +512,11 @@ module OpenProject::TextFormatting::Formats
         textile.gsub!(/(([\n]>[^\n]*)+)/m) do
           "\n#{BLOCKQUOTE_START}\n" + $1.gsub(/([\n])> *([^\n]*)/, '\1\2') + "\n\n#{BLOCKQUOTE_END}\n"
         end
+      end
+
+
+      class OldForum < ::ActiveRecord::Base
+        self.table_name = 'boards'
       end
     end
   end

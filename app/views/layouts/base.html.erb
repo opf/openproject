@@ -61,6 +61,10 @@ See docs/COPYRIGHT.rdoc for more details.
   <% if Setting.demo_projects_available %><meta name="demo_projects_available" content="true"/><% end %>
   <% if Setting.boards_demo_data_available %><meta name="boards_demo_data_available" content="true"/><% end %>
   <%= csrf_meta_tags %>
+
+  <!-- global meta hooks before any scripts are loaded-->
+  <%= call_hook :view_layouts_base_html_meta %>
+
   <%= render 'common/favicons' %>
   <%= stylesheet_link_tag 'openproject', media: "all" %>
 

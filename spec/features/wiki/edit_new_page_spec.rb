@@ -26,29 +26,21 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-worker_processes Integer(ENV['WEB_CONCURRENCY'] || 4)
-timeout Integer(ENV['WEB_TIMEOUT'] || 300)
-preload_app true
+require 'spec_helper'
 
-# Preloading the unicorn server to have all workers spawn the application
-# automatically.
-#
-# Borrows heavily from https://www.digitalocean.com/community/tutorials/how-to-optimize-unicorn-workers-in-a-ruby-on-rails-app
-#
-# This method requires ActiveRecord to close and re-establish its connection in the slaves,
-# because the connection is not properly shared with them.
-#
-# If you use any other service, you'll need to add them to these _fork blocks to close
-# and reopen sockets when forking.
-# (except Dalli/Memcache store, which detects  automatically)
-before_fork do |_server, _worker|
-  if defined?(ActiveRecord::Base)
-    ActiveRecord::Base.connection.disconnect!
+describe 'Editing a new wiki page', type: :feature, js: true do
+  let(:project) { FactoryBot.create(:project, enabled_module_names: %w[wiki]) }
+  let(:user) { FactoryBot.create :admin }
+
+  before do
+    login_as(user)
   end
-end
 
-after_fork do |_server, _worker|
-  if defined?(ActiveRecord::Base)
-    ActiveRecord::Base.establish_connection
+  it 'allows creating a wiki page from link' do
+    visit project_wiki_path(project, id: :foobar)
+    expect(page).to have_field 'content_page_title', with: 'Foobar'
+    click_on 'Save'
+
+    expect(page).to have_selector('.flash.notice', text: 'Successful creation.', wait: 10)
   end
 end

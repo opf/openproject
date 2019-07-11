@@ -18,9 +18,9 @@ pt:
     card:
       add_new: 'Adicionar novo cartão'
       highlighting:
-        inline: 'Destacar inline:'
+        inline: 'Destaque em linha:'
         entire_card_by: 'Cartão inteiro por'
-      remove_from_list: 'Apagar cartão da lista'
+      remove_from_list: 'Eliminar cartão da lista'
     clipboard:
       browser_error: "O seu navegador não suporta o copiar para a área de transferência. Por favor, copie manualmente o texto selecionado."
       copied_successful: "Copiado com sucesso para área de transferência!"

@@ -25,8 +25,9 @@ pt-BR:
       new_board: 'Novo quadro'
       add_list: 'Adicionar lista'
       add_card: 'Adicionar cartão'
-      error_loading_the_list: "Erro ao carregar a lista: %{error_message}"
       error_attribute_not_writable: "Não é possível mover o pacote de trabalho, %{attribute} não é gravável."
+      error_loading_the_list: "Erro ao carregar a lista: %{error_message}"
+      error_permission_missing: "A permissão para criar consultas públicas está faltando"
       click_to_remove_list: "Clique para remover esta lista"
       board_type:
         free: 'Quadro básico'

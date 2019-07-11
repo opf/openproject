@@ -53,6 +53,7 @@ import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/
 import {map} from "rxjs/internal/operators";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {DebouncedRequestSwitchmap, errorNotificationHandler} from "core-app/helpers/rxjs/debounced-input-switchmap";
+import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
 
 export const globalSearchSelector = 'global-search-input';
 
@@ -152,13 +153,29 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   // load selected item
   public onChange($event:any) {
     let selectedOption = $event;
-    if (selectedOption.id) {  // item is a work package element
-      this.redirectToWp(selectedOption.id);
-    } else {                  // item is a 'scope' element
+    // Clicks on will be handled by other handler
+    if (selectedOption.id) {
+      window.location.href = this.wpPath(selectedOption.id);
+    } else {
       // update embedded table and title when new search is submitted
       this.globalSearchService.searchTerm = this.currentValue;
       this.searchInScope(selectedOption.projectScope);
     }
+  }
+
+  public redirectToWp(id:string, event:JQueryEventObject) {
+    event.stopImmediatePropagation();
+    if (LinkHandling.isClickedWithModifier(event)) {
+      return true;
+    }
+
+    window.location.href = this.wpPath(id);
+    event.preventDefault();
+    return false;
+  }
+
+  public wpPath(id:string) {
+    return this.PathHelperService.workPackagePath(id);
   }
 
   public search($event:any) {
@@ -306,10 +323,6 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   public blur() {
     this.ngSelectComponent.filterValue = '';
     (<HTMLInputElement> document.activeElement).blur();
-  }
-
-  private redirectToWp(id:string) {
-    window.location = this.PathHelperService.workPackagePath(id) as unknown as Location;
   }
 
   private get currentScope():string {

@@ -25,8 +25,9 @@ de:
       new_board: 'Neues Board'
       add_list: 'Liste hinzufügen'
       add_card: 'Karte erstellen'
-      error_loading_the_list: "Fehler beim Laden der Liste: %{error_message}"
       error_attribute_not_writable: "Das Arbeitspaket kann nicht verschoben werden, %{attribute} ist nicht schreibbar."
+      error_loading_the_list: "Fehler beim Laden der Liste: %{error_message}"
+      error_permission_missing: "The permission to create public queries is missing"
       click_to_remove_list: "Klicken, um diese Liste zu entfernen"
       board_type:
         free: 'Einfaches Board'

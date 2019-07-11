@@ -46,6 +46,7 @@ module OpenProject::TextFormatting::Matchers
       def call
         # don't handle link unless repository exists
         return nil unless project && project.repository
+
         changeset = Changeset.visible.find_by(repository_id: project.repository.id, revision: matcher.identifier)
 
         # don't handle link unless changeset can be seen

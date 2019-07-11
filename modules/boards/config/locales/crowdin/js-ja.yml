@@ -1,9 +1,9 @@
 ja:
   js:
     boards:
-      label_unnamed_board: 'Unnamed board'
-      label_unnamed_list: 'Unnamed list'
-      label_board_type: 'Board type'
+      label_unnamed_board: '無題のボード'
+      label_unnamed_list: '無題のリスト'
+      label_board_type: 'ボードの形式'
       upsale:
         teaser_text: 'この柔軟なボードビューでアジャイルプロジェクトの管理を向上させましょう。 あなたが追跡したいものを、好きなだけボードを作成してください。'
         upgrade_to_ee_text: 'ボードはエンタープライズ機能です。 有料プランにアップグレードしてください。'
@@ -12,33 +12,34 @@ ja:
       lists:
         delete: 'リストを削除'
       version:
-        is_locked: 'Version is locked. No items can be added to this version.'
-        is_closed: 'Version is closed. No items can be added to this version.'
-        close_version: 'Close version'
-        open_version: 'Open version'
-        lock_version: 'Lock version'
-        unlock_version: 'Unlock version'
+        is_locked: 'バージョンはロックされています。このバージョンにアイテムは追加できません。'
+        is_closed: 'バージョンは閉じられています。このバージョンにアイテムは追加できません。'
+        close_version: 'バージョンを閉じる'
+        open_version: 'バージョンを開く'
+        lock_version: 'バージョンをロック'
+        unlock_version: 'バージョンのロックを解除'
         edit_version: 'バージョンを編集'
-        show_version: 'Show version'
+        show_version: 'バージョンを表示'
         locked: 'ロックされている'
         closed: '終了'
-      new_board: 'New board'
-      add_list: 'Add list'
-      add_card: 'Add card'
-      error_loading_the_list: "Error loading the list: %{error_message}"
-      error_attribute_not_writable: "Cannot move the work package, %{attribute} is not writable."
-      click_to_remove_list: "Click to remove this list"
+      new_board: '新しいボード'
+      add_list: 'リストを追加'
+      add_card: 'カードを追加'
+      error_attribute_not_writable: "ワークパッケージを移動できません。 %{attribute} は書き込みできません。"
+      error_loading_the_list: "リストの読み込み中にエラーが発生しました: %{error_message}"
+      error_permission_missing: "公開クエリを作成するアクセス許可が見つかりません。"
+      click_to_remove_list: "クリックしてこのリストを削除"
       board_type:
-        free: 'Basic board'
+        free: '基本ボード'
         free_text: >
-          Create a board in which you can freely create lists and order your work packages within. Moving work packages between lists do not change the work package itself.
-        action: 'Action board'
-        action_by_attribute: 'Action board (%{attribute})'
+          自由にリストを作成し、その中でワークパッケージを注文できるボードを作成してください。 リスト間でワークパッケージを移動しても、ワークパッケージ自体は変更されません。
+        action: 'アクションボード'
+        action_by_attribute: 'アクションボード (%{attribute})'
         action_text: >
-          Create a board with filtered lists on a single attribute. Moving work packages to other lists will update their attribute.
-        select_attribute: "Action attribute"
+          単一の属性でフィルターを適用したリストを使ってボードを作成します。 ワークパッケージを他のリストに移動すると、それらの属性が更新されます。
+        select_attribute: "アクション属性"
       configuration_modal:
-        title: 'Configure this board'
+        title: 'このボードの設定'
         display_settings:
-          card_mode: "Display as cards"
-          table_mode: "Display as table"
+          card_mode: "カード形式で表示"
+          table_mode: "表形式で表示"

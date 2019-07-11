@@ -19,7 +19,6 @@
               [typeahead]="requests.input$"
               [loading]="requests.loading$ | async"
               (focus)="onFocus()"
-              (focusout)="onFocusOut()"
               (search)="search($event)"
               (open)="openCloseMenu(currentValue)"
               (close)="select.filterValue = currentValue"
@@ -38,13 +37,15 @@
           </div>
           <ng-template #workPackageItemTemplate>
             <div tabindex="-1" class="global-search--option">
-              <div class="global-search--option-wrapper" tabindex="-1">
+              <a class="global-search--option-wrapper"
+                 (click)="redirectToWp(item.id, $event)"
+                 [href]="wpPath(item.id)">
                 <span class="global-search--wp-id"
                       title="{{item.status}}"
                       [ngOptionHighlight]="currentValue"
                       [ngClass]="statusHighlighting(item.statusId)"> #{{item.id}} </span>
                 <span class="global-search--wp-subject" [ngOptionHighlight]="currentValue"> {{item.subject}} </span>
-              </div>
+              </a>
             </div>
         </ng-template>
       </ng-template>

@@ -70,7 +70,7 @@ namespace :packager do
 
     # Allow overriding the protocol setting from ENV
     # to allow instances where SSL is terminated earlier to respect that setting
-    if ENV.fetch('SERVER_PROTOCOL', Setting.protocol) == 'https'
+    if ENV['SERVER_PROTOCOL_FORCE_HTTPS'] || ENV.fetch('SERVER_PROTOCOL', Setting.protocol) == 'https'
       Setting.protocol = 'https'
       shell_setup(['config:set', "OPENPROJECT_RAILS__FORCE__SSL=true"])
     else
