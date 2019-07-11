@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import {AbstractWidgetComponent} from "app/modules/grids/widgets/abstract-widget.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {ProjectDmService} from "core-app/modules/hal/dm-services/project-dm.service";
@@ -34,13 +34,15 @@ import {CurrentProjectService} from "core-components/projects/current-project.se
 
 @Component({
   templateUrl: './project-description.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WidgetProjectDescriptionComponent extends AbstractWidgetComponent implements OnInit {
   public description:string;
 
-  constructor(protected i18n:I18nService,
-              protected projectDm:ProjectDmService,
-              protected currentProject:CurrentProjectService) {
+  constructor(protected readonly i18n:I18nService,
+              protected readonly projectDm:ProjectDmService,
+              protected readonly currentProject:CurrentProjectService,
+              protected readonly cdr:ChangeDetectorRef) {
     super(i18n);
   }
 
@@ -53,6 +55,7 @@ export class WidgetProjectDescriptionComponent extends AbstractWidgetComponent i
       .loadCurrentProject()
       .then(project => {
         this.description = project.description.html;
+        this.cdr.detectChanges();
       });
   }
 
