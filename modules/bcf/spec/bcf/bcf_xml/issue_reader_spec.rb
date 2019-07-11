@@ -108,7 +108,24 @@ describe ::OpenProject::Bcf::BcfXml::IssueReader do
     let(:bcf_issue) { subject.extract! }
 
     it 'WP start date gets initialized with BCF CreationDate' do
-      expect(bcf_issue.work_package.start_date).to eql(subject.extractor.creation_date)
+      expect(bcf_issue.work_package.start_date).to eql(subject.extractor.creation_date.to_date)
+    end
+  end
+
+  context 'on updating import' do
+    context '#update_comment' do
+      let(:bcf_issue) { FactoryBot.create :bcf_issue_with_comment}
+
+      it '#update_comment' do
+        allow(subject).to receive(:issue).and_return(bcf_issue)
+
+        modified_time = Time.iso8601('2019-07-11T12:00:00Z')
+        comment_data = { uuid: bcf_issue.comments.first.uuid, comment: 'Updated comment', modified_date: modified_time }
+        subject.send(:update_comment, comment_data)
+
+        expect(bcf_issue.comments.first.journal.notes).to eql('Updated comment')
+        expect(bcf_issue.comments.first.journal.created_at).to eql(modified_time)
+      end
     end
   end
 end
