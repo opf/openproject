@@ -1,5 +1,5 @@
 import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
-import {Component, OnInit, SecurityContext} from '@angular/core';
+import {Component, OnInit, SecurityContext, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import {DocumentResource} from "../../../../../../../modules/documents/frontend/module/hal/resources/document-resource";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
@@ -10,6 +10,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   templateUrl: './documents.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WidgetDocumentsComponent extends AbstractWidgetComponent implements OnInit {
   public text = {
@@ -23,7 +24,8 @@ export class WidgetDocumentsComponent extends AbstractWidgetComponent implements
               readonly pathHelper:PathHelperService,
               readonly i18n:I18nService,
               readonly timezone:TimezoneService,
-              readonly domSanitizer:DomSanitizer) {
+              readonly domSanitizer:DomSanitizer,
+              readonly cdr:ChangeDetectorRef) {
     super(i18n);
   }
 
@@ -38,6 +40,8 @@ export class WidgetDocumentsComponent extends AbstractWidgetComponent implements
       .then((collection) => {
         this.entries = collection.elements as DocumentResource[];
         this.entriesLoaded = true;
+
+        this.cdr.detectChanges();
       });
   }
 
