@@ -28,6 +28,8 @@
 
 require 'spec_helper'
 
+require_relative '../../support/pages/my/page'
+
 describe 'Accountable widget on my page', type: :feature, js: true do
   let!(:type) { FactoryBot.create :type }
   let!(:priority) { FactoryBot.create :default_priority }
@@ -59,7 +61,7 @@ describe 'Accountable widget on my page', type: :feature, js: true do
     FactoryBot.create(:user)
   end
 
-  let(:role) { FactoryBot.create(:role, permissions: %i[view_work_packages add_work_packages]) }
+  let(:role) { FactoryBot.create(:role, permissions: %i[view_work_packages add_work_packages save_queries]) }
 
   let(:user) do
     FactoryBot.create(:user,
@@ -83,8 +85,8 @@ describe 'Accountable widget on my page', type: :feature, js: true do
 
     sleep(0.2)
 
-    accountable_area = Components::Grids::GridArea.new('.grid--area', text: "Work packages I am accountable for")
-    created_area = Components::Grids::GridArea.new('.grid--area', text: "Work packages created by me")
+    accountable_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(3)')
+    created_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
 
     accountable_area.expect_to_span(2, 3, 5, 4)
     accountable_area.resize_to(6, 4)

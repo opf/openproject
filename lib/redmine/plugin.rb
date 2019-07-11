@@ -117,10 +117,11 @@ module Redmine #:nodoc:
         deferred_plugins.delete(id)
       end
 
-      return p
+      p
     rescue PluginNotFound => e
       # find circular dependencies
       raise PluginCircularDependency.new(id) if dependencies_for(e.plugin_id).include?(id)
+
       if RedminePluginLocator.instance.has_plugin? e.plugin_id
         # The required plugin is going to be loaded later, defer loading this plugin
         (deferred_plugins[e.plugin_id] ||= []) << [id, block]

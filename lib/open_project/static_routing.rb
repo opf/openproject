@@ -73,7 +73,6 @@ module OpenProject
       include StaticRouting::UrlHelpers
     end
 
-
     ##
     # Try to recognize a route entry for the given path
     # but strips the relative URL root information away beforehand.

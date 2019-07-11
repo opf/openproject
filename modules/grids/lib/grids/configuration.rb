@@ -90,14 +90,16 @@ module Grids::Configuration
     def register_widget(identifier, grid_classes)
       @widget_register ||= {}
 
-      @widget_register[identifier] = Array(grid_classes)
+      @widget_register[identifier] ||= []
+
+      @widget_register[identifier] += Array(grid_classes)
     end
 
-    def allowed_widget?(grid, identifier, user)
+    def allowed_widget?(grid, identifier, user, project)
       grid_classes = registered_widget_by_identifier[identifier]
 
       (grid_classes || []).include?(grid) &&
-        widget_strategy(grid, identifier)&.allowed?(user)
+        widget_strategy(grid, identifier)&.allowed?(user, project)
     end
 
     def all_widget_identifiers(grid)

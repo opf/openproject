@@ -56,7 +56,7 @@ shared_examples_for 'shared grid contract attributes' do
                             end_row: 4,
                             start_column: 2,
                             end_column: 5,
-                            identifier: 'work_packages_assigned')
+                            identifier: 'news')
         ]
       end
     end
@@ -88,12 +88,12 @@ shared_examples_for 'shared grid contract attributes' do
                            end_row: 3,
                            start_column: 1,
                            end_column: 3,
-                           identifier: 'work_packages_assigned')
+                           identifier: 'news')
         grid.widgets.build(start_row: 2,
                            end_row: 4,
                            start_column: 2,
                            end_column: 4,
-                           identifier: 'work_packages_created')
+                           identifier: 'documents')
       end
 
       it 'is invalid' do
@@ -114,12 +114,12 @@ shared_examples_for 'shared grid contract attributes' do
                            end_row: 3,
                            start_column: 1,
                            end_column: 3,
-                           identifier: 'work_packages_assigned')
+                           identifier: 'news')
         grid.widgets.build(start_row: 1,
                            end_row: 3,
                            start_column: 3,
                            end_column: 4,
-                           identifier: 'work_packages_created')
+                           identifier: 'documents')
       end
 
       it 'is valid' do
@@ -134,12 +134,12 @@ shared_examples_for 'shared grid contract attributes' do
                            end_row: 3,
                            start_column: 1,
                            end_column: 3,
-                           identifier: 'work_packages_assigned')
+                           identifier: 'news')
         grid.widgets.build(start_row: 3,
                            end_row: 4,
                            start_column: 1,
                            end_column: 3,
-                           identifier: 'work_packages_created')
+                           identifier: 'documents')
       end
 
       it 'is valid' do
@@ -154,7 +154,7 @@ shared_examples_for 'shared grid contract attributes' do
                            end_row: grid.row_count + 2,
                            start_column: 1,
                            end_column: 3,
-                           identifier: 'work_packages_assigned')
+                           identifier: 'news')
       end
 
       it 'is invalid' do
@@ -175,7 +175,7 @@ shared_examples_for 'shared grid contract attributes' do
                            end_row: 2,
                            start_column: -1,
                            end_column: 3,
-                           identifier: 'work_packages_assigned')
+                           identifier: 'news')
       end
 
       it 'is invalid' do
@@ -196,7 +196,7 @@ shared_examples_for 'shared grid contract attributes' do
                            end_row: grid.row_count + 1,
                            start_column: 1,
                            end_column: grid.column_count + 1,
-                           identifier: 'work_packages_assigned')
+                           identifier: 'news')
       end
 
       it 'is valid' do
@@ -211,7 +211,7 @@ shared_examples_for 'shared grid contract attributes' do
                            end_row: 2,
                            start_column: 4,
                            end_column: 3,
-                           identifier: 'work_packages_assigned')
+                           identifier: 'news')
       end
 
       it 'is invalid' do
@@ -232,7 +232,7 @@ shared_examples_for 'shared grid contract attributes' do
                            end_row: 2,
                            start_column: 1,
                            end_column: 3,
-                           identifier: 'work_packages_assigned')
+                           identifier: 'news')
       end
 
       it 'is invalid' do
@@ -253,7 +253,7 @@ shared_examples_for 'shared grid contract attributes' do
                            end_row: 2,
                            start_column: 4,
                            end_column: 3,
-                           identifier: 'work_packages_assigned')
+                           identifier: 'news')
       end
 
       it 'is invalid' do
@@ -274,7 +274,7 @@ shared_examples_for 'shared grid contract attributes' do
                            end_row: 2,
                            start_column: 1,
                            end_column: 3,
-                           identifier: 'work_packages_assigned')
+                           identifier: 'news')
       end
 
       it 'is invalid' do

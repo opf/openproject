@@ -86,7 +86,7 @@ module Grids
       return unless config.registered_grid?(grid_class)
 
       undestroyed_widgets.each do |widget|
-        next if config.allowed_widget?(grid_class, widget.identifier, user)
+        next if config.allowed_widget?(grid_class, widget.identifier, user, grid_project)
 
         errors.add(:widgets, :inclusion)
       end
@@ -182,7 +182,7 @@ module Grids
 
     def all_allowed_widget_identifiers(user)
       config.all_widget_identifiers(grid_class).select do |identifier|
-        config.allowed_widget?(grid_class, identifier, user)
+        config.allowed_widget?(grid_class, identifier, user, grid_project)
       end
     end
 
@@ -192,6 +192,10 @@ module Grids
 
     def config
       Grids::Configuration
+    end
+
+    def grid_project
+      model.respond_to?(:project) ? model.project : nil
     end
   end
 end

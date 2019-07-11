@@ -12,5 +12,21 @@ export abstract class AbstractWidgetComponent {
 
   @Output() resourceChanged = new EventEmitter<GridWidgetResource>();
 
+  public get widgetName() {
+    return this.resource.options.name;
+  }
+
+  public renameWidget(name:string) {
+    this.resource.options.name = name;
+
+    this.resourceChanged.emit(this.resource);
+  }
+
   constructor(protected i18n:I18nService) { }
+
+  // apparently, static methods cannot be abstract
+  // https://github.com/microsoft/TypeScript/issues/14600
+  public static get identifier():string {
+    return 'need to override';
+  }
 }

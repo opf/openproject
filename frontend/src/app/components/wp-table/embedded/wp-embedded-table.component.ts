@@ -5,13 +5,12 @@ import {OpTableActionFactory} from 'core-components/wp-table/table-actions/table
 import {OpTableActionsService} from 'core-components/wp-table/table-actions/table-actions.service';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
-import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {WorkPackageEmbeddedBaseComponent} from "core-components/wp-table/embedded/wp-embedded-base.component";
 import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
 import {QueryFormDmService} from "core-app/modules/hal/dm-services/query-form-dm.service";
-import {distinctUntilChanged, take, withLatestFrom} from "rxjs/operators";
+import {distinctUntilChanged, take, withLatestFrom, map} from "rxjs/operators";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
 @Component({
@@ -61,13 +60,14 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
     this.wpTablePagination
       .updates$()
       .pipe(
-      distinctUntilChanged(),
-      untilComponentDestroyed(this),
-      withLatestFrom(this.querySpace.query.values$())
+        map(pagination => [pagination.page, pagination.perPage]),
+        distinctUntilChanged(),
+        untilComponentDestroyed(this),
+        withLatestFrom(this.querySpace.query.values$())
     ).subscribe(([_, query]) => {
       this.loadingIndicator = this.QueryDm
         .loadResults(query, this.wpTablePagination.paginationObject)
-        .then((query) => this.initializeStates(query, query.results));
+        .then((query) => this.initializeStates(query));
     });
   }
 
@@ -83,23 +83,20 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
       });
   }
 
-  private initializeStates(query:QueryResource, results:WorkPackageCollectionResource) {
-
+  protected initializeStates(query:QueryResource) {
     // If the configuration requests filters, we need to load the query form as well.
     if (this.configuration.withFilters) {
       this.loadForm(query);
     }
 
-    this.wpStatesInitialization.clearStates();
-    this.wpStatesInitialization.initializeFromQuery(query, results);
-    this.wpStatesInitialization.updateQuerySpace(query, results);
+    super.initializeStates(query);
 
-    return this.querySpace
+    this.querySpace
       .initialized
       .values$()
       .pipe(take(1))
       .subscribe(() => {
-        this.showTablePagination = results.total > results.count;
+        this.showTablePagination = query.results.total > query.results.count;
         this.setLoaded();
 
         // Disable compact mode when timeline active
@@ -130,7 +127,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
     if (this.loadedQuery) {
       const query = this.loadedQuery;
       this.loadedQuery = undefined;
-      this.initializeStates(query, query.results);
+      this.initializeStates(query);
       return Promise.resolve(this.loadedQuery!);
     }
 
@@ -156,7 +153,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
         this.queryProjectScope
       )
       .then((query:QueryResource) => {
-        this.initializeStates(query, query.results);
+        this.initializeStates(query);
         this.onQueryLoaded.emit(query);
         return query;
       })

@@ -31,35 +31,11 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {OpContextMenuItem} from "core-components/op-context-menu/op-context-menu.types";
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 import {GridRemoveWidgetService} from "core-app/modules/grids/grid/remove-widget.service";
+import {WidgetAbstractMenuComponent} from "core-app/modules/grids/widgets/menu/widget-abstract-menu.component";
 
 @Component({
   selector: 'widget-menu',
   templateUrl: './widget-menu.component.html',
 })
-export class WidgetMenuComponent {
-  @Input() resource:GridWidgetResource;
-
-  constructor(readonly i18n:I18nService,
-              protected readonly remove:GridRemoveWidgetService) {
-  }
-
-  public get menuItems() {
-    return async () => {
-      let items:OpContextMenuItem[] = [
-        this.removeItem
-      ];
-
-      return items;
-    };
-  }
-
-  protected get removeItem() {
-    return {
-      linkText: this.i18n.t('js.grid.remove'),
-      onClick: () => {
-        this.remove.widget(this.resource);
-        return true;
-      }
-    };
-  }
+export class WidgetMenuComponent extends WidgetAbstractMenuComponent {
 }

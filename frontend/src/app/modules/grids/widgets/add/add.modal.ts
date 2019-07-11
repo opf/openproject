@@ -5,6 +5,7 @@ import {OpModalLocalsToken} from "app/components/op-modals/op-modal.service";
 import {OpModalLocalsMap} from "app/components/op-modals/op-modal.types";
 import {GridWidgetsService} from "app/modules/grids/widgets/widgets.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
 
 @Component({
   templateUrl: './add.modal.html'
@@ -26,13 +27,7 @@ export class AddGridWidgetModal extends OpModalComponent {
   }
 
   public get selectable() {
-    return this.eligibleWidgets.map((widget) => {
-      return {
-        identifier: widget.identifier,
-        title: this.i18n.t(`js.grid.widgets.${widget.identifier}.title`),
-        component: widget.component
-      };
-    }).sort((a, b) => {
+    return this.eligibleWidgets.sort((a, b) => {
       return a.title.localeCompare(b.title);
     });
   }

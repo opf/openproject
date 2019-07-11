@@ -49,8 +49,8 @@
          (cdkDragEnded)="drag.stop(area, $event)">
       <div *cdkDragPlaceholder></div>
       <ndc-dynamic [ndcDynamicComponent]="widgetComponent(area.widget)"
-                   [ndcDynamicInputs]="{ resource: area.widget }"
-                   [ndcDynamicOutputs]="widgetComponentOutput(area.widget)">
+                   [ndcDynamicInputs]="widgetComponentInput(area.widget)"
+                   [ndcDynamicOutputs]="widgetComponentOutput">
       </ndc-dynamic>
     </div>
     <resizer *ngIf="!drag.currentlyDragging"

@@ -30,13 +30,9 @@ import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-by-resource';
 import {WorkPackageQueryStateService} from './wp-table-base.service';
 import {QueryColumn} from '../../wp-query/query-column';
-import {InputState} from 'reactivestates';
 import {States} from 'core-components/states.service';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
-import {cloneHalResource} from 'core-app/modules/hal/helpers/hal-resource-builder';
-import {Observable} from "rxjs";
-import {takeUntil} from "rxjs/operators";
 
 @Injectable()
 export class WorkPackageTableGroupByService extends WorkPackageQueryStateService<QueryGroupByResource|null> {

@@ -32,7 +32,11 @@ module Components
       include Capybara::DSL
       include RSpec::Matchers
 
-      def initialize; end
+      attr_accessor :trigger_parent
+
+      def initialize(trigger_parent = nil)
+        self.trigger_parent = trigger_parent
+      end
 
       def self.do_and_save
         new.tap do |modal|
@@ -110,7 +114,13 @@ module Components
       private
 
       def trigger
-        find('.wp-table--configuration-modal--trigger')
+        if trigger_parent
+          within trigger_parent do
+            find('.wp-table--configuration-modal--trigger')
+          end
+        else
+          find('.wp-table--configuration-modal--trigger')
+        end
       end
     end
   end

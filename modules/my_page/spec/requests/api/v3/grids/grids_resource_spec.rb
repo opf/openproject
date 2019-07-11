@@ -186,7 +186,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
         "name": 'foo',
         "columnCount": 15,
         "widgets": [{
-          "identifier": "work_packages_assigned",
+          "identifier": "documents",
           "startRow": 4,
           "endRow": 8,
           "startColumn": 2,
@@ -235,7 +235,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
           "rowCount": -5,
           "columnCount": 15,
           "widgets": [{
-            "identifier": "work_packages_assigned",
+            "identifier": "documents",
             "startRow": 4,
             "endRow": 8,
             "startColumn": 2,
@@ -324,7 +324,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
         "rowCount": 10,
         "columnCount": 15,
         "widgets": [{
-          "identifier": "work_packages_assigned",
+          "identifier": "documents",
           "startRow": 4,
           "endRow": 8,
           "startColumn": 2,
@@ -369,7 +369,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
           "rowCount": -5,
           "columnCount": "sdjfksdfsdfdsf",
           "widgets": [{
-            "identifier": "work_packages_assigned",
+            "identifier": "documents",
             "startRow": 4,
             "endRow": 8,
             "startColumn": 2,

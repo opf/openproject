@@ -33,8 +33,13 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
+  shared_let(:project) do
+    FactoryBot.create(:project)
+  end
   shared_let(:current_user) do
-    FactoryBot.create(:user)
+    FactoryBot.create(:user,
+                      member_in_project: project,
+                      member_with_permissions: %i[save_queries])
   end
 
   let(:path) { api_v3_paths.create_grid_form }
@@ -79,8 +84,14 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
           "widgets": [
             {
               "_type": "GridWidget",
-              identifier: 'work_packages_assigned',
-              "options": {},
+              identifier: 'work_packages_table',
+              "options": {
+                "name": "Work packages assigned to me",
+                "queryProps": {
+                  "columns[]": %w(id project type subject),
+                  "filters": "[{\"status\":{\"operator\":\"o\",\"values\":[]}},{\"assigned_to\":{\"operator\":\"=\",\"values\":[\"me\"]}}]"
+                }
+              },
               startRow: 1,
               endRow: 7,
               startColumn: 1,
@@ -88,8 +99,14 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
             },
             {
               "_type": "GridWidget",
-              identifier: 'work_packages_created',
-              "options": {},
+              identifier: 'work_packages_table',
+              "options": {
+                "name": "Work packages created by me",
+                "queryProps": {
+                  "columns[]": %w(id project type subject),
+                  "filters": "[{\"status\":{\"operator\":\"o\",\"values\":[]}},{\"author\":{\"operator\":\"=\",\"values\":[\"me\"]}}]"
+                }
+              },
               startRow: 1,
               endRow: 7,
               startColumn: 3,

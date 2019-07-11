@@ -26,7 +26,8 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
+
+require_relative '../../../../legacy_spec_helper'
 
 describe Redmine::MenuManager::MenuHelper, type: :helper do
   include Redmine::MenuManager::MenuHelper
@@ -47,8 +48,8 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
   end
 
   it 'should render single menu node' do
-    node = Redmine::MenuManager::MenuItem.new(:testing, '/test', {})
-    @response.body = render_single_menu_node(node, 'This is a test', node.url, false)
+    node = Redmine::MenuManager::MenuItem.new(:testing, '/test', caption: 'This is a test')
+    @response.body = render_single_menu_node(node)
 
     html_node = Nokogiri::HTML(@response.body)
     assert_select(html_node.root, 'a.testing-menu-item', 'This is a test')

@@ -1,0 +1,10 @@
+<div class="work-packages-embedded-view--container loading-indicator--location">
+  <canvas baseChart
+          [datasets]="chartData"
+          [labels]="chartLabels"
+          [chartType]="chartType"
+          [options]="chartOptions"
+          *ngIf="chartData.length > 0">
+  </canvas>
+</div>
+

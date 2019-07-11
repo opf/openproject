@@ -14,7 +14,6 @@ import {NewsDmService} from "core-app/modules/hal/dm-services/news-dm.service";
 })
 export class WidgetNewsComponent extends AbstractWidgetComponent implements OnInit {
   public text = {
-    title: this.i18n.t('js.grid.widgets.news.title'),
     createdBy: this.i18n.t('js.label_created_by'),
     at: this.i18n.t('js.grid.widgets.news.at'),
     noResults: this.i18n.t('js.grid.widgets.news.no_results'),

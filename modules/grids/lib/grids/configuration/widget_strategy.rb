@@ -44,11 +44,11 @@ module Grids::Configuration
           @allowed = proc
         end
 
-        @allowed ||= ->(_user) { true }
+        @allowed ||= ->(_user, _project) { true }
       end
 
-      def allowed?(user)
-        allowed.(user)
+      def allowed?(user, project)
+        allowed.(user, project)
       end
     end
   end

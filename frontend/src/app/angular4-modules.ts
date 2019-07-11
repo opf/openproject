@@ -87,6 +87,8 @@ import {StatusCacheService} from "core-components/statuses/status-cache.service"
 import {VersionCacheService} from "core-components/versions/version-cache.service";
 import {FormsCacheService} from "core-components/forms/forms-cache.service";
 import {OpenprojectAdminModule} from "core-app/modules/admin/openproject-admin.module";
+import {OpenprojectDashboardsModule} from "core-app/modules/dashboards/openproject-dashboards.module";
+import {OpenprojectWorkPackageGraphsModule} from "core-app/modules/work-package-graphs/openproject-work-package-graphs.module";
 
 @NgModule({
   imports: [
@@ -112,9 +114,15 @@ import {OpenprojectAdminModule} from "core-app/modules/admin/openproject-admin.m
     OpenprojectWorkPackagesModule,
     OpenprojectWorkPackageRoutesModule,
 
+    // Work packages in graph representation
+    OpenprojectWorkPackageGraphsModule,
+
     // Calendar module
     OpenprojectCalendarModule,
     FullCalendarModule,
+
+    // Dashboards
+    OpenprojectDashboardsModule,
 
     // Global Search
     OpenprojectGlobalSearchModule,

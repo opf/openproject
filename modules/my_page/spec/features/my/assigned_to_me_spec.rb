@@ -28,6 +28,8 @@
 
 require 'spec_helper'
 
+require_relative '../../support/pages/my/page'
+
 describe 'Assigned to me embedded query on my page', type: :feature, js: true do
   let!(:type) { FactoryBot.create :type }
   let!(:priority) { FactoryBot.create :default_priority }
@@ -61,7 +63,7 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
     FactoryBot.create(:user)
   end
 
-  let(:role) { FactoryBot.create(:role, permissions: %i[view_work_packages add_work_packages]) }
+  let(:role) { FactoryBot.create(:role, permissions: %i[view_work_packages add_work_packages save_queries]) }
 
   let(:user) do
     FactoryBot.create(:user,
@@ -71,7 +73,7 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
   let(:my_page) do
     Pages::My::Page.new
   end
-  let(:assigned_area) { Components::Grids::GridArea.new('.grid--area', text: 'Work packages assigned to me') }
+  let(:assigned_area) { Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)') }
   let(:embedded_table) { Pages::EmbeddedWorkPackagesTable.new(assigned_area.area) }
   let(:hierarchies) { ::Components::WorkPackages::Hierarchies.new }
 

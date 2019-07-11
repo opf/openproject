@@ -140,6 +140,8 @@ OpenProject::Application.routes.draw do
     end
   end
 
+  mount Dashboards::Engine, at: 'projects/:project_id/dashboards', as: :project_dashboards
+
   get '(projects/:project_id)/search' => 'search#index', as: 'search'
 
   # only providing routes for journals when there are multiple subclasses of journals

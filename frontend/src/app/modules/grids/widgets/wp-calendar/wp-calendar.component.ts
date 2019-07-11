@@ -33,5 +33,4 @@ import {AbstractWidgetComponent} from "app/modules/grids/widgets/abstract-widget
   templateUrl: './wp-calendar.component.html',
 })
 export class WidgetWpCalendarComponent extends AbstractWidgetComponent {
-  public text = { title: this.i18n.t('js.grid.widgets.work_packages_calendar.title') };
 }

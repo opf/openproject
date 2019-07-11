@@ -28,6 +28,8 @@
 
 require 'spec_helper'
 
+require_relative '../../support/pages/my/page'
+
 describe 'My page time entries current user widget spec', type: :feature, js: true do
   let!(:type) { FactoryBot.create :type }
   let!(:project) { FactoryBot.create :project, types: [type] }
@@ -81,16 +83,10 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
   end
 
   it 'adds the widget and checks the displayed entries' do
-    assigned_area = Components::Grids::GridArea.new('.grid--area', text: 'Work packages assigned to me')
-
-    assigned_area.remove
-
-    sleep(0.5)
-
     # within top-right area, add an additional widget
     my_page.add_widget(1, 1, 'Spent time \(last 7 days\)')
 
-    calendar_area = Components::Grids::GridArea.new('.grid--area', text: 'Spent time (last 7 days)')
+    calendar_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
     calendar_area.expect_to_span(1, 1, 4, 3)
 
     calendar_area.resize_to(7, 2)

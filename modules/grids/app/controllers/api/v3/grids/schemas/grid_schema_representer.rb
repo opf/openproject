@@ -86,7 +86,7 @@ module API
                                          has_default: false,
                                          visibility: false,
                                          values_callback: -> do
-                                           represented.assignable_values(:widgets, current_user).map do |identifier|
+                                           represented.assignable_widgets.map do |identifier|
                                              OpenStruct.new(identifier: identifier)
                                            end
                                          end,

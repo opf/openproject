@@ -28,6 +28,8 @@
 
 require 'spec_helper'
 
+require_relative '../../support/pages/my/page'
+
 describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, js: true do
   let!(:type) { FactoryBot.create :type }
   let!(:other_type) { FactoryBot.create :type }
@@ -75,12 +77,12 @@ describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, 
     it 'can add the widget and see the work packages of the filtered for types' do
       my_page.add_column(3, before_or_after: :before)
 
-      my_page.add_widget(2, 3, "Work packages")
+      my_page.add_widget(2, 3, "Work packages table")
 
       sleep(1)
 
       filter_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(3)')
-      created_area = Components::Grids::GridArea.new('.grid--area', text: "Work packages created by me")
+      created_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
 
       filter_area.expect_to_span(2, 3, 5, 4)
       filter_area.resize_to(6, 4)
@@ -106,7 +108,7 @@ describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, 
 
       filter_area.configure_wp_table
       modal.switch_to('Columns')
-      columns.instance_variable_set(:@opened, true)
+      columns.assume_opened
       columns.remove 'Subject'
 
       expect(filter_area.area)
@@ -160,7 +162,7 @@ describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, 
     it 'cannot add the widget' do
       my_page.add_column(3, before_or_after: :before)
 
-      my_page.expect_unable_to_add_widget(2, 3, "Work packages")
+      my_page.expect_unable_to_add_widget(2, 3, "Work packages table")
     end
   end
 end
