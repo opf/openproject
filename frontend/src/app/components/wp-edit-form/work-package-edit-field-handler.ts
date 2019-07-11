@@ -116,7 +116,7 @@ export class WorkPackageEditFieldHandler extends EditFieldHandler {
 
   public onFocusOut() {
     // In case of inline create or erroneous forms: do not save on focus loss
-    if (this.workPackage.subject && !this.withErrors) {
+    if (this.workPackage.subject && this.withErrors && this.withErrors!.length === 0) {
       this.handleUserSubmit();
     }
   }
