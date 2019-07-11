@@ -163,6 +163,21 @@ describe 'layouts/base', type: :view do
     end
   end
 
+  describe "highlighting styles", with_config: { rails_asset_host: "foo.bar.com" } do
+    let(:current_user) { anonymous }
+
+    before do
+      allow(FrontendAssetHelper).to receive(:assets_proxied?).and_return(false)
+
+      render
+    end
+
+    it "will be referenced without the asset host" do
+      expect(rendered).to include('href="http://foo.bar.com/assets/')
+      expect(rendered).to include('href="/highlighting/styles/')
+    end
+  end
+
   describe "inline custom styles" do
     let(:a_token) { EnterpriseToken.new }
     let(:current_user) { anonymous }
