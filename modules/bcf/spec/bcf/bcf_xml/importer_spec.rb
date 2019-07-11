@@ -27,7 +27,7 @@ describe ::OpenProject::Bcf::BcfXml::Importer do
       'application/octet-stream'
     )
   end
-  let(:type) { FactoryBot.create :type, name: 'Issue [BCF]' }
+  let(:type) { FactoryBot.create :type, name: 'Issue' }
   let(:project) do
     FactoryBot.create(:project,
                       identifier: 'bim_project',

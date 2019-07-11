@@ -151,7 +151,7 @@ module OpenProject::Bcf::BcfXml
     end
 
     def start_date
-      extractor.creation_date unless is_update
+      extractor.creation_date.to_date unless is_update
     end
 
     def update_work_package
@@ -331,9 +331,14 @@ module OpenProject::Bcf::BcfXml
     end
 
     def update_comment(comment_data)
-      bcf_comment = issue.comments.find_by(comment_data.slice(:uuid))
-      bcf_comment.journal.update_attribute(:notes, comment_data[:comment])
-      bcf_comment.journal.save
+      if comment_data[:modified_date]
+        bcf_comment = issue.comments.find_by(comment_data.slice(:uuid))
+        if bcf_comment.journal.created_at < comment_data[:modified_date]
+          bcf_comment.journal.update_attributes(notes: comment_data[:comment],
+                                                created_at: comment_data[:modified_date])
+          bcf_comment.journal.save
+        end
+      end
     end
 
     ##

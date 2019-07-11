@@ -114,17 +114,17 @@ describe ::OpenProject::Bcf::BcfXml::IssueReader do
 
   context 'on updating import' do
     context '#update_comment' do
-      let(:bcf_issue) { FactoryBot.create :bcf_issue_with_comment}
+      let!(:bcf_issue) { FactoryBot.create :bcf_issue_with_comment}
 
       it '#update_comment' do
         allow(subject).to receive(:issue).and_return(bcf_issue)
 
-        modified_time = Time.iso8601('2019-07-11T12:00:00Z')
+        modified_time = Time.now + 1.minute
         comment_data = { uuid: bcf_issue.comments.first.uuid, comment: 'Updated comment', modified_date: modified_time }
         subject.send(:update_comment, comment_data)
 
         expect(bcf_issue.comments.first.journal.notes).to eql('Updated comment')
-        expect(bcf_issue.comments.first.journal.created_at).to eql(modified_time)
+        expect(bcf_issue.comments.first.journal.created_at.utc.to_s).to eql(modified_time.utc.to_s)
       end
     end
   end
