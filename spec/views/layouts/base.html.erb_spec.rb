@@ -142,7 +142,7 @@ describe 'layouts/base', type: :view do
 
     it 'renders apple icons' do
       expect(rendered).to have_selector(
-        "link[type='image/png'][href='/assets/apple-touch-icon-120x120.png']",
+        "link[type='image/png'][href*='/assets/apple-touch-icon-120x120.png']",
         visible: false
       )
     end
