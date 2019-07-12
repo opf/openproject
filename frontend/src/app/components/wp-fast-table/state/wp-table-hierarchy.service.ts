@@ -116,6 +116,10 @@ export class WorkPackageTableHierarchiesService extends WorkPackageQueryStateSer
       return this.initialState;
     }
 
+    if (!state.collapsed) {
+      state.collapsed = {};
+    }
+
     return state;
   }
 
