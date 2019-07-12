@@ -30,6 +30,8 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
   @Input() static:boolean = false;
   static MAX_DISPLAYED = 100;
 
+  public tooManyResultsText:string|null;
+
   constructor(readonly states:States,
               readonly $state:StateService,
               readonly wpTableFilters:WorkPackageTableFiltersService,
@@ -186,10 +188,17 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
 
   private warnOnTooManyResults(collection:WorkPackageCollectionResource) {
     if (collection.count < collection.total) {
-      const message = this.i18n.t('js.calendar.too_many',
-                                  { count: collection.total,
-                                               max: WorkPackagesCalendarController.MAX_DISPLAYED });
-      this.notificationsService.addNotice(message);
+      this.tooManyResultsText = this.i18n.t('js.calendar.too_many',
+        {
+          count: collection.total,
+          max: WorkPackagesCalendarController.MAX_DISPLAYED
+        });
+    } else {
+      this.tooManyResultsText = null;
+    }
+
+    if (this.tooManyResultsText && !this.static) {
+      this.notificationsService.addNotice(this.tooManyResultsText);
     }
   }
 

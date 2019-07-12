@@ -10,4 +10,8 @@
                      (eventRender)="addTooltip($event)"
                      (eventClick)="toWPFullView($event)">
     </ng-fullcalendar>
+    <div
+        *ngIf="static"
+        [textContent]="tooManyResultsText"
+        class="wp-calendar--notification"></div>
 </div>
