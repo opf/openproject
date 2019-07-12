@@ -1,4 +1,4 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit, ChangeDetectorRef} from "@angular/core";
 import {AbstractWidgetComponent} from "app/modules/grids/widgets/abstract-widget.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {TimeEntryDmService} from "core-app/modules/hal/dm-services/time-entry-dm.service";
@@ -6,7 +6,6 @@ import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resou
 import {TimezoneService} from "core-components/datetime/timezone.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {ConfirmDialogService} from "core-components/modals/confirm-dialog/confirm-dialog.service";
-import {formatNumber} from "@angular/common";
 import {FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
 
 @Component({
@@ -35,7 +34,8 @@ export class WidgetTimeEntriesCurrentUserComponent extends AbstractWidgetCompone
               readonly timezone:TimezoneService,
               readonly i18n:I18nService,
               readonly pathHelper:PathHelperService,
-              readonly confirmDialog:ConfirmDialogService) {
+              readonly confirmDialog:ConfirmDialogService,
+              protected readonly cdr:ChangeDetectorRef) {
     super(i18n);
   }
 
@@ -47,6 +47,8 @@ export class WidgetTimeEntriesCurrentUserComponent extends AbstractWidgetCompone
       .then((collection) => {
         this.buildEntries(collection.elements);
         this.entriesLoaded = true;
+
+        this.cdr.detectChanges();
       });
   }
 
