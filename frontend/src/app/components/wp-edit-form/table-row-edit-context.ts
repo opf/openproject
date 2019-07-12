@@ -76,13 +76,14 @@ export class TableRowEditContext implements WorkPackageEditContext {
       .then((cell) => {
 
         // Forcibly set the width since the edit field may otherwise
-        // be given more width. Thereby preserve a minimum width of 120.
+        // be given more width. Thereby preserve a minimum width of 150.
+        // To avoid flickering content, the padding is removed, too.
         const td = this.findCell(fieldName);
         td.addClass(editModeClassName);
-        var width = td.css('width');
-        width = parseInt(width) > 150 ? width : '150px';
-        td.css('max-width', width);
-        td.css('width', width);
+        var width = parseInt(td.css('width'));
+        width = width > 150 ? width - 10 : 150;
+        td.css('max-width', width + 'px');
+        td.css('width', width + 'px');
 
         return this.wpEditingPortalService.create(
           cell,
