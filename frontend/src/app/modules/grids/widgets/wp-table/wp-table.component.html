@@ -1,21 +1,13 @@
-<h3 class="widget-box--header"
-    cdkDragHandle>
-  <span class="grid--area-drag-handle
-               icon
-               icon-drag-handle"
-        cdkDragHandle></span>
-  <i class="icon-context icon-view-timeline" aria-hidden="true"></i>
+<widget-header
+    [name]="widgetName"
+    [icon]="'view-timeline'"
+    (onRenamed)="renameWidget($event)">
 
-  <editable-toolbar-title [title]="widgetName"
-                          [inFlight]="inFlight"
-                          (onSave)="renameWidget($event)"
-                          class="widget-box--header-title">
-  </editable-toolbar-title>
 
   <widget-wp-table-menu
       [resource]="resource">
   </widget-wp-table-menu>
-</h3>
+</widget-header>
 
 <wp-embedded-table [queryId]="queryId"
                    [configuration]="configuration"

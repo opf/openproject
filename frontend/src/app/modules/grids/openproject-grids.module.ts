@@ -57,6 +57,7 @@ import {OpenprojectWorkPackageGraphsModule} from "core-app/modules/work-package-
 import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WidgetProjectDescriptionComponent} from "core-app/modules/grids/widgets/project-description/project-description.component";
+import {WidgetHeaderComponent} from "core-app/modules/grids/widgets/header/header.component";
 
 export const GRID_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -122,6 +123,8 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
 
     GridColumnContextMenu,
     GridRowContextMenu,
+
+    WidgetHeaderComponent,
 
     // MyPage
     MyPageComponent,
