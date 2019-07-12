@@ -52,23 +52,13 @@ describe 'Wysiwyg work package linking',
 
       expect(editor.editor_element).to have_selector('span.mention', text: "##{work_package.id}")
 
-      # two hash autocomplete
-      editor.click_and_type_slowly :enter, "###{work_package.id}"
-      editor.click_autocomplete work_package.subject
-      expect(editor.editor_element).to have_selector('span.mention', text: "###{work_package.id}")
-
-      # three hash autocomplete
-      editor.click_and_type_slowly :enter, "####{work_package.subject}"
-      editor.click_autocomplete work_package.subject
-      expect(editor.editor_element).to have_selector('span.mention', text: "####{work_package.id}")
-
       # Save wiki page
       click_on 'Save'
 
       expect(page).to have_selector('.flash.notice')
 
       within('#content') do
-        expect(page).to have_selector('a.issue', count: 3)
+        expect(page).to have_selector('a.issue', count: 1)
       end
     end
   end
