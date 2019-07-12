@@ -67,7 +67,7 @@ describe ::OpenProject::Bcf::BcfXml::MarkupExtractor do
   end
 
   it '#description' do
-    expect(subject.description).to be_eql 'This is a topic with all informations present.'
+    expect(subject.description).to be_eql 'This is a topic with all information present.'
   end
 
   it '#author' do

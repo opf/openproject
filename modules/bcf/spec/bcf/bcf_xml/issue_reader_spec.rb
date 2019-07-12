@@ -69,7 +69,7 @@ describe ::OpenProject::Bcf::BcfXml::IssueReader do
         <ModifiedDate>2015-06-21T14:22:47Z</ModifiedDate>
         <ModifiedAuthor>mike@example.com</ModifiedAuthor>
         <AssignedTo>andy@example.com</AssignedTo>
-        <Description>This is a topic with all informations present.</Description>
+        <Description>This is a topic with all information present.</Description>
         <RelatedTopic Guid="5019D939-62A4-45D9-B205-FAB602C98FE8" />
       </Topic>
       <Comment Guid="780FAE52-C432-42BE-ADEA-FF3E7A8CD8E1">

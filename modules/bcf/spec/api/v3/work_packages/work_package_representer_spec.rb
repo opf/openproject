@@ -53,7 +53,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         <ModifiedDate>2015-06-21T14:22:47Z</ModifiedDate>
         <ModifiedAuthor>mike@example.com</ModifiedAuthor>
         <AssignedTo>andy@example.com</AssignedTo>
-        <Description>This is a topic with all informations present.</Description>
+        <Description>This is a topic with all information present.</Description>
         <BimSnippet SnippetType="JSON">
           <Reference>JsonElement.json</Reference>
           <ReferenceSchema>http://json-schema.org</ReferenceSchema>
