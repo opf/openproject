@@ -110,7 +110,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     MARKUP
   end
   let(:bcf_issue) do
-    FactoryBot.create(:bcf_issue, markup: markup)
+    FactoryBot.create(:bcf_issue_with_comment, markup: markup)
   end
   let(:work_package) do
     FactoryBot.create(:work_package,
