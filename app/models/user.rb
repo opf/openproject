@@ -656,11 +656,11 @@ class User < Principal
   end
 
   def self.current=(user)
-    @current_user = user
+    RequestStore[:current_user] = user
   end
 
   def self.current
-    @current_user ||= User.anonymous
+    RequestStore[:current_user] || User.anonymous
   end
 
   def self.execute_as(user)

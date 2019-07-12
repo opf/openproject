@@ -233,4 +233,66 @@ describe Attachment, type: :model do
       expect(File.exists?(attachment.file.path)).to eq false
     end
   end
+
+  describe "#external_url" do
+    let(:author) { FactoryBot.create :user }
+
+    let(:image_path) { Rails.root.join("spec/fixtures/files/image.png") }
+    let(:text_path) { Rails.root.join("spec/fixtures/files/testfile.txt") }
+    let(:binary_path) { Rails.root.join("spec/fixtures/files/textfile.txt.gz") }
+
+    let(:fog_attachment_class) do
+      class FogAttachment < Attachment
+        # Remounting the uploader overrides the original file setter taking care of setting,
+        # among other things, the content type. So we have to restore that original
+        # method this way.
+        # We do this in a new, separate class, as to not interfere with any other specs.
+        alias_method :set_file, :file=
+        mount_uploader :file, FogFileUploader
+        alias_method :file=, :set_file
+      end
+
+      FogAttachment
+    end
+
+    let(:image_attachment) { fog_attachment_class.new author: author, file: File.open(image_path) }
+    let(:text_attachment) { fog_attachment_class.new author: author, file: File.open(text_path) }
+    let(:binary_attachment) { fog_attachment_class.new author: author, file: File.open(binary_path) }
+
+    before do
+      Fog.mock!
+
+      connection = Fog::Storage.new provider: "AWS"
+      connection.directories.create key: "my-bucket"
+
+      CarrierWave::Configuration.configure_fog! credentials: {}, directory: "my-bucket", public: false
+    end
+
+    describe "for an image file" do
+      before { image_attachment.save! }
+
+      it "should make S3 use content_disposition inline" do
+        expect(image_attachment.content_disposition).to eq "inline"
+        expect(image_attachment.external_url.to_s).to include "response-content-disposition=inline"
+      end
+    end
+
+    describe "for a text file" do
+      before { text_attachment.save! }
+
+      it "should make S3 use content_disposition inline" do
+        expect(text_attachment.content_disposition).to eq "inline"
+        expect(text_attachment.external_url.to_s).to include "response-content-disposition=inline"
+      end
+    end
+
+    describe "for a binary file" do
+      before { binary_attachment.save! }
+
+      it "should make S3 use content_disposition 'attachment; filename=...'" do
+        expect(binary_attachment.content_disposition).to eq "attachment; filename=textfile.txt.gz"
+        expect(binary_attachment.external_url.to_s).to include "response-content-disposition=attachment%3B%20filename%3Dtextfile.txt.gz"
+      end
+    end
+  end
 end

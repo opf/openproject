@@ -50,11 +50,10 @@ class ApplicationJob
   module Setup
     def perform
       before_perform!
-      super
+      with_clean_request_store { super }
     end
 
     def before_perform!
-      reset_request_store!
       reload_mailer_configuration!
     end
 
@@ -64,8 +63,17 @@ class ApplicationJob
     # from a request or from a delayed job.
     # For a delayed job, each job execution is the thing that comes closest to
     # the concept of a new request.
-    def reset_request_store!
-      RequestStore.clear!
+    def with_clean_request_store
+      store = RequestStore.store
+
+      begin
+        RequestStore.clear!
+        yield
+      ensure
+        # Reset to previous value
+        RequestStore.clear!
+        RequestStore.store.merge! store
+      end
     end
 
     # Reloads the thread local ActionMailer configuration.

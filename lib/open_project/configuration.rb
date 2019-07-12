@@ -69,6 +69,8 @@ module OpenProject
       'rails_relative_url_root' => '',
       'rails_force_ssl' => false,
       'rails_asset_host' => nil,
+      # Enable internal asset server
+      'enable_internal_assets_server' => false,
 
       # Additional / overridden help links
       'force_help_link'         => nil,

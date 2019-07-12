@@ -43,7 +43,7 @@ module API
           redirect attachment.external_url.to_s
         else
           content_type attachment.content_type
-          header['Content-Disposition'] = "attachment; filename=#{attachment.filename}"
+          header['Content-Disposition'] = attachment.content_disposition
           env['api.format'] = :binary
           attachment.diskfile.read
         end
