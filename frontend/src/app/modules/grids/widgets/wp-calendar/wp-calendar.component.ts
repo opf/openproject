@@ -28,9 +28,19 @@
 
 import {Component} from '@angular/core';
 import {AbstractWidgetComponent} from "app/modules/grids/widgets/abstract-widget.component";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {CurrentProjectService} from "core-components/projects/current-project.service";
 
 @Component({
   templateUrl: './wp-calendar.component.html',
 })
 export class WidgetWpCalendarComponent extends AbstractWidgetComponent {
+  constructor(protected readonly i18n:I18nService,
+              protected readonly currentProject:CurrentProjectService) {
+    super(i18n);
+  }
+
+  public get projectIdentifier() {
+    return this.currentProject.identifier;
+  }
 }
