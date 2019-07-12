@@ -1,5 +1,5 @@
 import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectorRef} from '@angular/core';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
@@ -27,7 +27,8 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
               readonly i18n:I18nService,
               readonly timezone:TimezoneService,
               readonly userCache:UserCacheService,
-              readonly newsDm:NewsDmService) {
+              readonly newsDm:NewsDmService,
+              readonly cdr:ChangeDetectorRef) {
     super(i18n);
   }
 
@@ -38,17 +39,10 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
         this.entries = collection.elements as NewsResource[];
         this.entriesLoaded = true;
 
-        this.entries.forEach((entry) => {
-          if (!entry.author) {
-            return;
-          }
+        const users_loaded = this.setAuthors();
 
-          this.userCache
-            .require(entry.author.idFromLink)
-            .then((user:UserResource) => {
-              entry.author = user;
-            });
-        });
+        Promise.all(users_loaded)
+          .then(() => this.cdr.detectChanges());
       });
   }
 
@@ -82,5 +76,19 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
 
   public get noEntries() {
     return !this.entries.length && this.entriesLoaded;
+  }
+
+  public setAuthors() {
+    return this.entries.map((entry) => {
+      if (!entry.author) {
+        return Promise.resolve();
+      }
+
+      return this.userCache
+        .require(entry.author.idFromLink)
+        .then((user:UserResource) => {
+          entry.author = user;
+        });
+    });
   }
 }
