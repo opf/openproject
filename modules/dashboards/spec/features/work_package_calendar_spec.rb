@@ -30,7 +30,10 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-describe 'Work package calendar widget on dashboard', type: :feature, js: true do
+describe 'Work package calendar widget on dashboard',
+         type: :feature,
+         with_mail: false,
+         js: true do
   let!(:type) { FactoryBot.create :type }
   let!(:priority) { FactoryBot.create :default_priority }
   let!(:project) { FactoryBot.create :project, types: [type] }

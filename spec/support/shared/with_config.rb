@@ -46,7 +46,7 @@ RSpec.configure do |config|
       config = aggregate_mocked_configuration(example, config).with_indifferent_access
 
       allow(OpenProject::Configuration).to receive(:[]).and_call_original
-      config.each do |k,v|
+      config.each do |k, v|
         allow(OpenProject::Configuration)
           .to receive(:[])
           .with(k.to_s)
