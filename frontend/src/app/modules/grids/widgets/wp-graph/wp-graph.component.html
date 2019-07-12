@@ -1,22 +1,13 @@
-<h3 class="widget-box--header"
-    *ngIf="datasets.length > 0"
-    cdkDragHandle>
-  <span class="grid--area-drag-handle
-               icon
-               icon-drag-handle"
-        cdkDragHandle></span>
-  <i class="icon-context icon-view-timeline" aria-hidden="true"></i>
-
-  <editable-toolbar-title [title]="widgetName"
-                          (onSave)="renameWidget($event)"
-                          class="widget-box--header-title">
-  </editable-toolbar-title>
+<widget-header
+    [name]="widgetName"
+    [icon]="'chart2'"
+    (onRenamed)="renameWidget($event)">
 
   <widget-wp-graph-menu
       [resource]="resource"
       (onConfigured)="updateGraph($event)">
   </widget-wp-graph-menu>
-</h3>
+</widget-header>
 
 <wp-embedded-graph [datasets]="datasets"
                    [chartType]="chartType"

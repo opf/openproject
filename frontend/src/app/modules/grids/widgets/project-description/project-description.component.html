@@ -1,0 +1,12 @@
+<widget-header
+  [name]="widgetName"
+  [icon]="'flag'"
+  (onRenamed)="renameWidget($event)">
+
+  <widget-menu
+      [resource]="resource">
+  </widget-menu>
+</widget-header>
+
+<div class="grid--widget-content"
+     [innerHTML]="description" ></div>
