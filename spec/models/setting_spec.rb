@@ -91,7 +91,9 @@ describe Setting, type: :model do
     end
 
     it "returns unknown if the settings table isn't available yet" do
-      Setting.stub(settings_table_exists_yet?: false)
+      allow(Setting)
+        .to receive(:settings_table_exists_yet?)
+        .and_return(false)
       expect(Setting.installation_uuid).to eq("unknown")
     end
 

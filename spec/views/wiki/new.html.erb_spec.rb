@@ -40,7 +40,9 @@ describe 'wiki/new', type: :view do
     assign(:wiki,    wiki)
     assign(:page,    page)
     assign(:content, content)
-    view.stub(:current_user).and_return(user)
+    allow(view)
+      .to receive(:current_user)
+      .and_return(user)
   end
 
   it 'renders a form which POSTs to create_project_wiki_index_path' do
