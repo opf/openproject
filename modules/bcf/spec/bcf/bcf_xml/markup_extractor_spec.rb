@@ -108,7 +108,9 @@ describe ::OpenProject::Bcf::BcfXml::MarkupExtractor do
     expect(subject.comments.first[:modified_date]).to eql(Time.iso8601('2015-08-31T16:07:11Z'))
     expect(subject.comments.first[:author]).to eql('mike@example.com')
     expect(subject.comments.first[:modified_author]).to eql('mike@example.com')
-    expect(subject.comments.first[:comment]).to eql("This comment contained some spllng errs.\nHopefully, the modifier did catch them all.")
+    expect(subject.comments.first[:comment]).to(
+      eql("This comment contained some spllng errs.\nHopefully, the modifier did catch them all.")
+    )
   end
 
   it '#people' do

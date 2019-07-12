@@ -114,7 +114,7 @@ describe ::OpenProject::Bcf::BcfXml::IssueReader do
 
   context 'on updating import' do
     context '#update_comment' do
-      let!(:bcf_issue) { FactoryBot.create :bcf_issue_with_comment}
+      let!(:bcf_issue) { FactoryBot.create :bcf_issue_with_comment }
 
       it '#update_comment' do
         allow(subject).to receive(:issue).and_return(bcf_issue)

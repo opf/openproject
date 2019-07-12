@@ -334,11 +334,15 @@ module OpenProject::Bcf::BcfXml
       if comment_data[:modified_date]
         bcf_comment = issue.comments.find_by(comment_data.slice(:uuid))
         if bcf_comment.journal.created_at < comment_data[:modified_date]
-          bcf_comment.journal.update_attributes(notes: comment_data[:comment],
-                                                created_at: comment_data[:modified_date])
-          bcf_comment.journal.save
+          update_journal_attributes(bcf_comment, comment_data)
         end
       end
+    end
+
+    def update_journal_attributes(bcf_comment, comment_data)
+      bcf_comment.journal.update_attributes(notes: comment_data[:comment],
+                                            created_at: comment_data[:modified_date])
+      bcf_comment.journal.save
     end
 
     ##
