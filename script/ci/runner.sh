@@ -32,10 +32,17 @@
 # $1 = TEST_SUITE
 # $2 = GROUP_SIZE
 # $3 = GROUP
+# $4 = OPENPROJECT_EDITION
 
 #!/bin/sh
 
 set -e
+
+if [ "$4" = "bim" ]; then
+  export OPENPROJECT_EDITION="$4";
+else
+  unset OPENPROJECT_EDITION
+fi
 
 # Use the current HEAD as input to the seed
 export CI_SEED=$(git rev-parse HEAD | tr -d 'a-z' | cut -b 1-5 | tr -d '0')

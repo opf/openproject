@@ -34,12 +34,12 @@
 #++
 
 FactoryBot.define do
-  factory :bcf_issue, class: ::Bcf::Issue do
-    factory :bcf_issue_with_comment do
-      after(:create) do |issue|
-        create(:bcf_viewpoint, issue: issue)
-        create(:bcf_comment, issue: issue)
-      end
+  factory :bcf_comment, class: ::Bcf::Comment do
+    after(:create) do |bcf_comment|
+      bcf_comment.journal = create(:work_package_journal)
+      bcf_comment.journal.update_attribute(:notes, 'Some BCF comment.')
+      bcf_comment.journal.save
+      bcf_comment.save
     end
   end
 end

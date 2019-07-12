@@ -69,7 +69,7 @@ describe ::OpenProject::Bcf::BcfXml::IssueReader do
         <ModifiedDate>2015-06-21T14:22:47Z</ModifiedDate>
         <ModifiedAuthor>mike@example.com</ModifiedAuthor>
         <AssignedTo>andy@example.com</AssignedTo>
-        <Description>This is a topic with all informations present.</Description>
+        <Description>This is a topic with all information present.</Description>
         <RelatedTopic Guid="5019D939-62A4-45D9-B205-FAB602C98FE8" />
       </Topic>
       <Comment Guid="780FAE52-C432-42BE-ADEA-FF3E7A8CD8E1">
@@ -108,7 +108,24 @@ describe ::OpenProject::Bcf::BcfXml::IssueReader do
     let(:bcf_issue) { subject.extract! }
 
     it 'WP start date gets initialized with BCF CreationDate' do
-      expect(bcf_issue.work_package.start_date).to eql(subject.extractor.creation_date)
+      expect(bcf_issue.work_package.start_date).to eql(subject.extractor.creation_date.to_date)
+    end
+  end
+
+  context 'on updating import' do
+    context '#update_comment' do
+      let!(:bcf_issue) { FactoryBot.create :bcf_issue_with_comment }
+
+      it '#update_comment' do
+        allow(subject).to receive(:issue).and_return(bcf_issue)
+
+        modified_time = Time.now + 1.minute
+        comment_data = { uuid: bcf_issue.comments.first.uuid, comment: 'Updated comment', modified_date: modified_time }
+        subject.send(:update_comment, comment_data)
+
+        expect(bcf_issue.comments.first.journal.notes).to eql('Updated comment')
+        expect(bcf_issue.comments.first.journal.created_at.utc.to_s).to eql(modified_time.utc.to_s)
+      end
     end
   end
 end

@@ -53,7 +53,7 @@ describe ::Bcf::Issue, type: :model do
         <ModifiedDate>2015-06-21T14:22:47Z</ModifiedDate>
         <ModifiedAuthor>mike@example.com</ModifiedAuthor>
         <AssignedTo>andy@example.com</AssignedTo>
-        <Description>This is a topic with all informations present.</Description>
+        <Description>This is a topic with all information present.</Description>
         <BimSnippet SnippetType="JSON">
           <Reference>JsonElement.json</Reference>
           <ReferenceSchema>http://json-schema.org</ReferenceSchema>
@@ -115,7 +115,7 @@ describe ::Bcf::Issue, type: :model do
   shared_examples_for 'provides attributes' do
     it "provides attributes" do
       expect(subject.title).to be_eql 'Maximum Content'
-      expect(subject.description).to be_eql 'This is a topic with all informations present.'
+      expect(subject.description).to be_eql 'This is a topic with all information present.'
       expect(subject.priority_text).to be_eql 'High'
       expect(subject.status_text).to be_eql 'Open'
       expect(subject.type_text).to be_eql 'Structural'

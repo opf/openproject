@@ -67,7 +67,7 @@ describe ::OpenProject::Bcf::BcfXml::MarkupExtractor do
   end
 
   it '#description' do
-    expect(subject.description).to be_eql 'This is a topic with all informations present.'
+    expect(subject.description).to be_eql 'This is a topic with all information present.'
   end
 
   it '#author' do
@@ -87,11 +87,11 @@ describe ::OpenProject::Bcf::BcfXml::MarkupExtractor do
   end
 
   it '#creation_date' do
-    expect(subject.creation_date).to eql Date.iso8601('2015-06-21T12:00:00Z')
+    expect(subject.creation_date).to eql(Time.iso8601('2015-06-21T12:00:00Z'))
   end
 
   it '#modified_date' do
-    expect(subject.modified_date).to eql Date.iso8601('2015-06-21T14:22:47Z')
+    expect(subject.modified_date).to eql(Time.iso8601('2015-06-21T14:22:47Z'))
   end
 
   it '#viewpoints' do
@@ -103,11 +103,14 @@ describe ::OpenProject::Bcf::BcfXml::MarkupExtractor do
 
   it '#comments' do
     expect(subject.comments.size).to eql 4
-    expect(subject.comments.first[:uuid]).to eql '780FAE52-C432-42BE-ADEA-FF3E7A8CD8E1'
-    expect(subject.comments.first[:date]).to eql '2015-08-31T12:40:17Z'
-    expect(subject.comments.first[:author]).to eql 'mike@example.com'
-    expect(subject.comments.first[:comment]).to eql 'This is an unmodified topic at the uppermost hierarchical level.
-All times in the XML are marked as UTC times.'
+    expect(subject.comments.first[:uuid]).to eql('780FAE52-C432-42BE-ADEA-FF3E7A8CD8E1')
+    expect(subject.comments.first[:date]).to eql(Time.iso8601('2015-08-31T12:40:17Z'))
+    expect(subject.comments.first[:modified_date]).to eql(Time.iso8601('2015-08-31T16:07:11Z'))
+    expect(subject.comments.first[:author]).to eql('mike@example.com')
+    expect(subject.comments.first[:modified_author]).to eql('mike@example.com')
+    expect(subject.comments.first[:comment]).to(
+      eql("This comment contained some spllng errs.\nHopefully, the modifier did catch them all.")
+    )
   end
 
   it '#people' do
