@@ -1,0 +1,24 @@
+<div class="preview-modal--container" *ngIf="workPackage">
+  <span class="type"
+        [ngClass]="highlightingColor(workPackage.type)"
+        [textContent]="workPackage.type.name">
+  </span>
+
+  <span class="subject -bold"
+        [textContent]="workPackage.subject">
+  </span>
+
+  <span class="author -italic -small-font"
+        [textContent]="'Created by ' + workPackage.author.name">
+  </span>
+
+  <div [ngClass]="'status ' + highlightingColor(workPackage.status, true)" >
+    <span [textContent]="workPackage.status.name"></span>
+  </div>
+
+  <div class="assignee" *ngIf="workPackage.assignee">
+    <user-avatar [user]="workPackage.assignee"
+                 data-class-list="avatar-mini">
+    </user-avatar>
+  </div>
+</div>

@@ -60,7 +60,7 @@ module OpenProject::TextFormatting::Matchers
       private
 
       def render_version
-        version = Version.visible.find_by(id: oid)
+        version = Version.find_by(id: oid)
         if version
           link_to h(version.name),
                   { only_path: context[:only_path], controller: '/versions', action: 'show', id: version },
@@ -69,21 +69,21 @@ module OpenProject::TextFormatting::Matchers
       end
 
       def render_message
-        message = Message.visible.includes(:parent).find_by(id: oid)
+        message = Message.includes(:parent).find_by(id: oid)
         if message
           link_to_message(message, { only_path: context[:only_path] }, class: 'message')
         end
       end
 
       def render_project
-        p = Project.visible.find_by(id: oid)
+        p = Project.find_by(id: oid)
         if p
           link_to_project(p, { only_path: context[:only_path] }, class: 'project')
         end
       end
 
       def render_user
-        user = User.in_visible_project.find_by(id: oid)
+        user = User.find_by(id: oid)
         if user
           link_to_user(user, only_path: context[:only_path], class: 'user-mention')
         end

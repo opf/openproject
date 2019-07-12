@@ -83,7 +83,7 @@ describe 'API v3 Render resource', type: :request do
             let(:title) { "#{work_package.subject} (#{work_package.status})" }
             let(:text) {
               '<p>Hello World! Have a look at <a '\
-                  "class=\"issue work_package status-1 priority-1\" "\
+                  "class=\"issue work_package preview-trigger status-1 priority-1\" "\
                   "href=\"#{href}\" "\
                   "title=\"#{title}\">##{id}</a></p>"
             }

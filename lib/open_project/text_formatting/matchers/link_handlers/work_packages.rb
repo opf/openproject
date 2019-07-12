@@ -65,23 +65,14 @@ module OpenProject::TextFormatting::Matchers
       end
 
       def render_work_package_link(work_package)
-        if matcher.sep == '##'
-          return work_package_quick_info(work_package, only_path: context[:only_path])
-        elsif matcher.sep == '###' && !context[:no_nesting]
-          return work_package_quick_info_with_description(work_package, only_path: context[:only_path])
-        end
-
-        if matcher.sep == '#' || (matcher.sep == '###' && context[:no_nesting])
-          link_to("#{matcher.sep}#{work_package.id}",
-                  work_package_path_or_url(id: work_package.id, only_path: context[:only_path]),
-                  class: work_package_css_classes(work_package),
-                  title: "#{truncate(work_package.subject, escape: false, length: 100)} (#{work_package.status.try(:name)})")
-        end
+        link_to("##{work_package.id}",
+                work_package_path_or_url(id: work_package.id, only_path: context[:only_path]),
+                class: work_package_css_classes(work_package),
+                title: "#{truncate(work_package.subject, escape: false, length: 100)} (#{work_package.status.try(:name)})")
       end
 
       def find_work_package(oid)
         WorkPackage
-          .visible
           .includes(:status)
           .references(:statuses)
           .find_by(id: oid)

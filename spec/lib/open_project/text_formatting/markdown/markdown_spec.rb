@@ -101,16 +101,8 @@ describe OpenProject::TextFormatting,
       before do
         allow(project).to receive(:repository).and_return(repository)
 
-        changesets = [changeset1, changeset2]
-
-        allow(Changeset).to receive(:visible).and_return(changesets)
-
-        changesets.each do |changeset|
-          allow(changesets)
-            .to receive(:find_by)
-            .with(repository_id: project.repository.id, revision: changeset.revision)
-            .and_return(changeset)
-        end
+        allow(repository).to receive(:find_changeset_by_name).with(changeset1.revision).and_return(changeset1)
+        allow(repository).to receive(:find_changeset_by_name).with(changeset2.revision).and_return(changeset2)
       end
 
       context 'Single link' do
@@ -222,62 +214,13 @@ describe OpenProject::TextFormatting,
       let(:issue_link) do
         link_to("##{issue.id}",
                 work_package_path(issue),
-                class: 'issue work_package status-3 priority-1 created-by-me', title: "#{issue.subject} (#{issue.status})")
+                class: 'issue work_package preview-trigger status-3 priority-1 created-by-me', title: "#{issue.subject} (#{issue.status})")
       end
 
       context 'Plain issue link' do
         subject { format_text("##{issue.id}, [##{issue.id}], (##{issue.id}) and ##{issue.id}.") }
 
         it { is_expected.to be_html_eql("<p>#{issue_link}, [#{issue_link}], (#{issue_link}) and #{issue_link}.</p>") }
-      end
-
-      describe 'quickinfo' do
-        subject { format_text("###{issue.id}") }
-
-        let(:issue) do
-          FactoryBot.create :work_package,
-                            project: project,
-                            author: project_member,
-                            type: project.types.first,
-                            start_date: start_date,
-                            due_date: due_date
-        end
-
-        context 'no dates' do
-          let(:start_date) { nil }
-          let(:due_date) { nil }
-
-          it 'prints no quickinfo with dates' do
-            puts subject
-          end
-        end
-
-        context 'start date' do
-          let(:start_date) { Date.today }
-          let(:due_date) { nil }
-
-          it 'prints no quickinfo with dates' do
-            expect(subject).to include "(#{start_date.to_s} -)"
-          end
-        end
-
-        context 'due date' do
-          let(:start_date) { nil }
-          let(:due_date) { Date.today }
-
-          it 'prints quickinfo with start date' do
-            expect(subject).to include "(- #{due_date.to_s})"
-          end
-        end
-
-        context 'both date' do
-          let(:start_date) { Date.today }
-          let(:due_date) { Date.today + 1.day }
-
-          it 'prints quickinfo with dates' do
-            expect(subject).to include "(#{start_date.to_s} - #{due_date.to_s})"
-          end
-        end
       end
 
       context 'Plain issue link with braces' do
@@ -312,34 +255,12 @@ describe OpenProject::TextFormatting,
         let(:issue_link) do
           link_to("##{issue.id}",
                   work_package_path(issue),
-                  class: 'issue work_package status-3 priority-1 created-by-me',
+                  class: 'issue work_package preview-trigger status-3 priority-1 created-by-me',
                   title: "#{issue.subject} (#{issue.status})")
         end
 
         subject { format_text("##{issue.id}") }
         it { is_expected.to be_html_eql("<p>#{issue_link}</p>") }
-      end
-
-      context 'Cyclic Description Links' do
-        let(:issue2) do
-          FactoryBot.create :work_package,
-                            project: project,
-                            author: project_member,
-                            type: project.types.first
-        end
-
-        before do
-          issue2.description = "####{issue.id}"
-          issue2.save!
-          issue.description = "####{issue2.id}"
-          issue.save!
-        end
-
-        subject { format_text issue, :description }
-
-        it "doesn't replace description links with a cycle" do
-          expect(subject).to match("###{issue.id}")
-        end
       end
 
       context 'Description links' do
@@ -402,7 +323,7 @@ describe OpenProject::TextFormatting,
           subject { format_text("user##{linked_project_member.id}") }
 
           it {
-            is_expected.to be_html_eql("<p>user##{linked_project_member.id}</p>")
+            is_expected.to be_html_eql("<p>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, title: "User #{linked_project_member.name}", class: 'user-mention')}</p>")
           }
         end
       end
@@ -434,7 +355,7 @@ describe OpenProject::TextFormatting,
           subject { format_text("user:\"#{linked_project_member.login}\"") }
 
           it {
-            is_expected.to be_html_eql("<p>user:\"#{linked_project_member.login}\"</p>")
+            is_expected.to be_html_eql("<p>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, title: "User #{linked_project_member.name}", class: 'user-mention')}</p>")
           }
         end
       end
@@ -706,7 +627,7 @@ describe OpenProject::TextFormatting,
       let(:expected) do
         <<~EXPECTED
           <p><a class="wiki-page" href="/projects/#{project.identifier}/wiki/cookbook-documentation">CookBook documentation</a></p>
-          <p><a class="issue work_package status-3 priority-1 created-by-me" href="/work_packages/#{issue.id}" title="#{issue.subject} (#{issue.status})">##{issue.id}</a></p>
+          <p><a class="issue work_package preview-trigger status-3 priority-1 created-by-me" href="/work_packages/#{issue.id}" title="#{issue.subject} (#{issue.status})">##{issue.id}</a></p>
           <pre><code>
           [[CookBook documentation]]
 

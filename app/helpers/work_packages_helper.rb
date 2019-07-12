@@ -151,65 +151,6 @@ module WorkPackagesHelper
             end.html_safe
   end
 
-  def work_package_quick_info(work_package, only_path: true)
-    changed_dates = {}
-
-    journals = work_package.journals.where(['created_at >= ?', Date.today.to_time - 7.day])
-               .order(Arel.sql('created_at desc'))
-
-    journals.each do |journal|
-      break if changed_dates['start_date'] && changed_dates['due_date']
-
-      ['start_date', 'due_date'].each do |date|
-        if changed_dates[date].nil? &&
-           journal.details[date] &&
-           journal.details[date].first
-          changed_dates[date] = " (<del>#{journal.details[date].first}</del>)".html_safe
-        end
-      end
-    end
-
-
-    link = link_to_work_package(work_package, status: true, only_path: only_path)
-
-    # Don't print dates if neither start nor due set
-    start = work_package.start_date&.to_s
-    due = work_package.due_date&.to_s
-
-    if start.nil? && due.nil?
-      return link
-    end
-
-    # Otherwise, print concise
-    # (2018-01-01 -)
-    # (- 2018-01-01)
-    # (2018-01-01 - 2018-01-01)
-    link <<
-      if start.nil?
-        " (- #{due})"
-      elsif due.nil?
-        " (#{start} -)"
-      else
-        " (#{start} - #{due})"
-      end
-
-    link
-  end
-
-  def work_package_quick_info_with_description(work_package, lines = 3, only_path: true)
-    description = truncated_work_package_description(work_package, lines)
-
-    link = work_package_quick_info(work_package, only_path: only_path)
-
-    attributes = info_user_attributes(work_package)
-
-    link += content_tag(:div, attributes, class: 'indent quick_info attributes')
-
-    link += content_tag(:div, description, class: 'indent quick_info description')
-
-    link
-  end
-
   def work_package_list(work_packages, &_block)
     ancestors = []
     work_packages.each do |work_package|
@@ -238,7 +179,7 @@ module WorkPackagesHelper
   # Returns a string of css classes that apply to the issue
   def work_package_css_classes(work_package)
     # TODO: remove issue once css is cleaned of it
-    s = 'issue work_package'.html_safe
+    s = 'issue work_package preview-trigger'.html_safe
     s << " status-#{work_package.status.position}" if work_package.status
     s << " priority-#{work_package.priority.position}" if work_package.priority
     s << ' closed' if work_package.closed?
