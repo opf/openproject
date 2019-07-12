@@ -71,7 +71,6 @@ if defined?(Bundler)
 end
 
 require File.dirname(__FILE__) + '/../lib/open_project/configuration'
-require File.dirname(__FILE__) + '/../app/middleware/reset_current_user'
 
 module OpenProject
   class Application < Rails::Application
@@ -98,7 +97,6 @@ module OpenProject
     # Ensure that tempfiles are cleared after request
     # http://stackoverflow.com/questions/4590229
     config.middleware.use Rack::TempfileReaper
-    config.middleware.use ::ResetCurrentUser
 
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)

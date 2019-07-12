@@ -68,6 +68,8 @@ module OpenProject
       'rails_relative_url_root' => '',
       'rails_force_ssl' => false,
       'rails_asset_host' => nil,
+      # Enable internal asset server
+      'enable_internal_assets_server' => false,
 
       # Additional / overridden help links
       'force_help_link'         => nil,
@@ -143,7 +145,7 @@ module OpenProject
 
       # Check for missing migrations in internal errors
       'migration_check_on_exceptions' => true,
-      
+
       # Show pending migrations as warning bar
       'show_pending_migrations_warning' => true,
 
