@@ -329,6 +329,7 @@ module Pages
     def open_and_fill_add_list_modal(name)
       page.find('.boards-list--add-item').click
       expect(page).to have_selector('.new-list--action-select input')
+      sleep(0.1)
       page.find('.op-modal--modal-container .new-list--action-select input').set(name)
     end
   end

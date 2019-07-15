@@ -140,38 +140,6 @@ module LegacyAssertionsAndHelpers
     should render_template 'common/error'
   end
 
-  def should_show_the_old_and_new_values_for(prop_key, model, &block)
-    context '' do
-      before do
-        FactoryBot.create :issue if WorkPackage.count == 0 # some tests use WorkPackage.last
-        if block_given?
-          instance_eval &block
-        else
-          @old_value = FactoryBot.create(model.to_sym)
-          @new_value = FactoryBot.create(model.to_sym)
-        end
-      end
-
-      it "use the new value's name" do
-        journal = FactoryBot.build :work_package_journal
-
-        journal.stub(:journable).and_return(WorkPackage.last)
-        journal.stub(:details).and_return(prop_key => [@old_value.id, @new_value.id])
-
-        assert_match @new_value.class.find(@new_value.id).name, journal.render_detail(prop_key, no_html: true)
-      end
-
-      it "use the old value's name" do
-        journal = FactoryBot.build :work_package_journal
-
-        journal.stub(:journable).and_return(WorkPackage.last)
-        journal.stub(:details).and_return(prop_key => [@old_value.id, @new_value.id])
-
-        assert_match @old_value.class.find(@old_value.id).name, journal.render_detail(prop_key, no_html: true)
-      end
-    end
-  end
-
   def should_create_a_new_user(&block)
     # it "create a new user" do
     user = instance_eval &block

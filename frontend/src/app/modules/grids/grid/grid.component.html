@@ -47,6 +47,12 @@
          cdkDrag
          (cdkDragStarted)="drag.start(area)"
          (cdkDragEnded)="drag.stop(area, $event)">
+
+      <span class="grid--area-drag-handle
+                   icon
+                   icon-drag-handle"
+            cdkDragHandle></span>
+
       <div *cdkDragPlaceholder></div>
       <ndc-dynamic [ndcDynamicComponent]="widgetComponent(area.widget)"
                    [ndcDynamicInputs]="widgetComponentInput(area.widget)"
