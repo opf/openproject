@@ -127,9 +127,15 @@ export class BoardVersionActionService implements BoardActionService {
     );
 
     return this.getVersions()
-      .then(results =>
-        results.filter(version => !active.has(version.href!))
-      );
+      .then(results => {
+        jQuery(document.body).append(`<span>Versions ${results.length}</span>`);
+        return results.filter(version => {
+          const filtered = active.has(version.href!);
+          jQuery(document.body).append(`<span>Version ${version.name} -> ${filtered}</span>`);
+          return !filtered;
+        });
+      })
+      .catch((error) => this.wpNotifications.handleRawError(error));
   }
 
   /**
@@ -173,9 +179,11 @@ export class BoardVersionActionService implements BoardActionService {
 
   private getVersions():Promise<VersionResource[]> {
     if (this.currentProject.id === null) {
+      jQuery(document.body).append(`<span>No project set!</span>`);
       return Promise.resolve([]);
     }
 
+    jQuery(document.body).append(`<span>Loading versions for ${this.currentProject.identifier}</span>`);
     return this.versionDm
       .listForProject(this.currentProject.id)
       .then(collection => collection.elements);

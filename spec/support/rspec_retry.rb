@@ -19,7 +19,7 @@ RSpec.configure do |config|
 
   ##
   # Retry JS feature specs, but not during single runs
-  if ENV['CI']
+  if false && ENV['CI']
     config.around :each, :js do |ex|
       ex.run_with_retry retry: 2
     end

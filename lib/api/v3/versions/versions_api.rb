@@ -38,7 +38,13 @@ module API
                                                             # the distinct(false) is added in order to allow ORDER BY LOWER(name)
                                                             # which would otherwise be invalid in postgresql
                                                             # SELECT DISTINCT, ORDER BY expressions must appear in select list
-                                                            Version.visible(current_user).distinct(false)
+                                                            scope = Version.visible(current_user).distinct(false)
+
+                                                            scope.find_each do |version|
+                                                              warn "Returning #{version.id} #{version.name}"
+                                                            end
+
+                                                            scope
                                                           })
                                                      .mount
 
