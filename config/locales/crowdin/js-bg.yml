@@ -15,15 +15,6 @@ bg:
     close_popup_title: "Затвори изкачащият прозорец"
     close_filter_title: "Close filter"
     close_form_title: "Close form"
-    card:
-      add_new: 'Add new card'
-      highlighting:
-        inline: 'Highlight inline:'
-        entire_card_by: 'Entire card by'
-      remove_from_list: 'Remove card from list'
-    clipboard:
-      browser_error: "Вашият браузър не поддържа копиране в клипборд. Моля копирайте избрания текст ръчно."
-      copied_successful: "Копирането в клипборд е успешно!"
     button_add_watcher: "Добавяне на наблюдател"
     button_back: "Назад"
     button_back_to_list_view: "Back to list view"
@@ -60,6 +51,30 @@ bg:
     calendar:
       title: 'Календар'
       too_many: 'There are more work packages (%{count}) than can be displayed by the calendar (%{max}). Add filters to focus on the relevant ones.'
+    card:
+      add_new: 'Add new card'
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: 'Entire card by'
+      remove_from_list: 'Remove card from list'
+    clipboard:
+      browser_error: "Вашият браузър не поддържа копиране в клипборд. Моля копирайте избрания текст ръчно."
+      copied_successful: "Копирането в клипборд е успешно!"
+    chart:
+      type: 'Chart type'
+      axis_criteria: 'Axis criteria'
+      modal_title: 'Work package graph configuration'
+      types:
+        line: 'Line'
+        horizontal_bar: 'Horizontal bar'
+        bar: 'Bar'
+        pie: 'Pie'
+        doughnut: 'Doughnut'
+        radar: 'Radar'
+        polar_area: 'Polar area'
+      tabs:
+        graph_settings: 'Общ'
+        dataset: 'Dataset %{number}'
     description_available_columns: "Достъпни колони"
     description_current_position: "You are here: "
     description_select_work_package: "Избери работен пакет #%{id}"
@@ -164,6 +179,8 @@ bg:
           title: 'Новини'
           at: 'at'
           no_results: 'Нищо ново за отчитане.'
+        project_description:
+          title: 'Project description'
         time_entries_current_user:
           title: 'Spent time (last 7 days)'
           no_results: 'No time entries for the last 7 days.'
@@ -176,7 +193,9 @@ bg:
         work_packages_watched:
           title: 'Work packages watched by me'
         work_packages_table:
-          title: 'Работни пакети'
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
         work_packages_calendar:
           title: 'Календар'
     homescreen:

@@ -1,6 +1,6 @@
 ru:
   label_avatar: "Аватар"
-  label_avatar_plural: "Avatars"
+  label_avatar_plural: "Аватары"
   label_current_avatar: "Текущий аватар"
   label_choose_avatar: "Выбрать аватар из файла"
   message_avatar_uploaded: "Аватар успешно изменен."

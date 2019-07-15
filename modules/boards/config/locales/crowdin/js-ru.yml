@@ -25,8 +25,9 @@ ru:
       new_board: 'Новая доска'
       add_list: 'Добавить список'
       add_card: 'Добавить карту'
-      error_loading_the_list: "Ошибка загрузки списка: %{error_message}"
       error_attribute_not_writable: "Невозможно переместить пакет работ, %{attribute} не доступен для записи."
+      error_loading_the_list: "Ошибка загрузки списка: %{error_message}"
+      error_permission_missing: "Отсутствует разрешение на создание публичных запросов"
       click_to_remove_list: "Кликните, чтобы удалить этот список"
       board_type:
         free: 'Базовая доска'

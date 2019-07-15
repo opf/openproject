@@ -15,15 +15,6 @@ pt:
     close_popup_title: "Fechar janela"
     close_filter_title: "Fechar filtro"
     close_form_title: "Fechar formulário"
-    card:
-      add_new: 'Adicionar novo cartão'
-      highlighting:
-        inline: 'Destaque em linha:'
-        entire_card_by: 'Cartão inteiro por'
-      remove_from_list: 'Eliminar cartão da lista'
-    clipboard:
-      browser_error: "O seu navegador não suporta o copiar para a área de transferência. Por favor, copie manualmente o texto selecionado."
-      copied_successful: "Copiado com sucesso para área de transferência!"
     button_add_watcher: "Adicionar observadores"
     button_back: "Voltar"
     button_back_to_list_view: "Voltar à visualização de lista"
@@ -60,6 +51,30 @@ pt:
     calendar:
       title: 'Calendário'
       too_many: 'Existem mais pacotes de trabalho (%{count}) do que podem ser mostrados pelo calendário (%{max}). Adicione filtros para se focar nos que são relevantes.'
+    card:
+      add_new: 'Adicionar novo cartão'
+      highlighting:
+        inline: 'Destacar inline:'
+        entire_card_by: 'Cartão inteiro por'
+      remove_from_list: 'Apagar cartão da lista'
+    clipboard:
+      browser_error: "O seu navegador não suporta o copiar para a área de transferência. Por favor, copie manualmente o texto selecionado."
+      copied_successful: "Copiado com sucesso para área de transferência!"
+    chart:
+      type: 'Chart type'
+      axis_criteria: 'Axis criteria'
+      modal_title: 'Work package graph configuration'
+      types:
+        line: 'Line'
+        horizontal_bar: 'Horizontal bar'
+        bar: 'Bar'
+        pie: 'Pie'
+        doughnut: 'Doughnut'
+        radar: 'Radar'
+        polar_area: 'Polar area'
+      tabs:
+        graph_settings: 'Geral'
+        dataset: 'Dataset %{number}'
     description_available_columns: "Colunas disponíveis"
     description_current_position: "Você está aqui: "
     description_select_work_package: "Selecionar pacote de trabalho #%{id}"
@@ -164,6 +179,8 @@ pt:
           title: 'Noticias'
           at: 'em'
           no_results: 'Nada de novo no relatório.'
+        project_description:
+          title: 'Descrição do projeto'
         time_entries_current_user:
           title: 'Tempo gasto (últimos 7 dias)'
           no_results: 'Não há entradas de tempo nos últimos 7 dias.'
@@ -176,7 +193,9 @@ pt:
         work_packages_watched:
           title: 'Pacotes de trabalho observados por mim'
         work_packages_table:
-          title: 'Tarefas'
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
         work_packages_calendar:
           title: 'Calendário'
     homescreen:

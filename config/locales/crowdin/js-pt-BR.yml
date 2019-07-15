@@ -15,15 +15,6 @@ pt-BR:
     close_popup_title: "Fechar pop-up"
     close_filter_title: "Fechar filtro"
     close_form_title: "Fechar formulário"
-    card:
-      add_new: 'Adicionar novo cartão'
-      highlighting:
-        inline: 'Destacar embutido:'
-        entire_card_by: 'Todo cartão por'
-      remove_from_list: 'Remover cartão da lista'
-    clipboard:
-      browser_error: "Seu navegador não suporta copiar para a área de transferência. Por favor, copie o texto selecionado manualmente."
-      copied_successful: "Copiado com sucesso para área de transferência!"
     button_add_watcher: "Adicionar observador"
     button_back: "Voltar"
     button_back_to_list_view: "Voltar à lista"
@@ -60,6 +51,30 @@ pt-BR:
     calendar:
       title: 'Calendário'
       too_many: 'Existem mais pacotes de trabalho (%{count}) do que podem ser exibidos pelo calendário (%{max}). Adicione filtros para exibir os relevantes.'
+    card:
+      add_new: 'Adicionar novo cartão'
+      highlighting:
+        inline: 'Destacar embutido:'
+        entire_card_by: 'Todo cartão por'
+      remove_from_list: 'Remover cartão da lista'
+    clipboard:
+      browser_error: "Seu navegador não suporta copiar para a área de transferência. Por favor, copie o texto selecionado manualmente."
+      copied_successful: "Copiado com sucesso para área de transferência!"
+    chart:
+      type: 'Chart type'
+      axis_criteria: 'Axis criteria'
+      modal_title: 'Work package graph configuration'
+      types:
+        line: 'Line'
+        horizontal_bar: 'Horizontal bar'
+        bar: 'Bar'
+        pie: 'Pie'
+        doughnut: 'Doughnut'
+        radar: 'Radar'
+        polar_area: 'Polar area'
+      tabs:
+        graph_settings: 'Geral'
+        dataset: 'Dataset %{number}'
     description_available_columns: "Colunas disponíveis"
     description_current_position: "Você está aqui: "
     description_select_work_package: "Selecionar o pacote de trabalho #%{id}"
@@ -118,7 +133,7 @@ pt-BR:
         drag_to_activate: "Arraste campos daqui para ativá-los"
         add_group: "Adicionar grupo de atributo"
         add_table: "Adicionar tabela de pacotes de trabalho relacionados"
-        edit_query: 'Edit query'
+        edit_query: 'Editar consulta'
         new_group: 'Novo grupo'
         reset_to_defaults: 'Redefinir para os padrões'
     custom_actions:
@@ -163,6 +178,8 @@ pt-BR:
           title: 'Notícias'
           at: 'em'
           no_results: 'Nada de novo para relatar.'
+        project_description:
+          title: 'Descrição do projeto'
         time_entries_current_user:
           title: 'Tempo gasto (últimos 7 dias)'
           no_results: 'Não há entradas de tempo nos últimos 7 dias.'
@@ -175,7 +192,9 @@ pt-BR:
         work_packages_watched:
           title: 'Pacotes de trabalho observados por mim'
         work_packages_table:
-          title: 'Pacotes de trabalho'
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
         work_packages_calendar:
           title: 'Calendário'
     homescreen:
@@ -336,7 +355,7 @@ pt-BR:
     label_wait: "Por favor, aguarde pela configuração..."
     label_upload_counter: "%{done} de %{count} de arquivos finalizados"
     label_validation_error: "O pacote de trabalho não pôde ser salvo devido aos seguintes erros:"
-    label_view_has_changed: "This view has unsaved changes. Click to save them."
+    label_view_has_changed: "Esta visão tem alterações não salvas. Clique para salvá-las."
     help_texts:
       show_modal: 'Mostrar entrada para o texto de ajuda de atributos'
     onboarding:

@@ -1,19 +1,19 @@
 ja:
   logout_warning: >
-    ログアウトしています。送信したフォームの内容は失われる可能性があります。 [ログイン] してください。
+    You have been logged out. The contents of any form you submit may be lost. Please [log in].
   activemodel:
     attributes:
       openid_connect/provider:
         name: 名称
-        display_name: 表示名
+        display_name: Display name
         identifier: 識別子
-        secret: シークレット
-        scope: スコープ
+        secret: Secret
+        scope: Scope
   openid_connect:
-    menu_title: OpenID プロバイダー
+    menu_title: OpenID providers
     providers:
-      label_add_new: 新しい OpenID プロバイダーを追加
-      label_edit: OpenID プロバイダー %{name} を編集
-      no_results_table: プロバイダーが定義されていません。
-      plural: OpenID プロバイダー
-      singular: OpenID プロバイダー
+      label_add_new: Add a new OpenID provider
+      label_edit: Edit OpenID provider %{name}
+      no_results_table: No providers have been defined yet.
+      plural: OpenID providers
+      singular: OpenID provider

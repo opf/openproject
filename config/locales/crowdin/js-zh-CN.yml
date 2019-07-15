@@ -15,15 +15,6 @@ zh-CN:
     close_popup_title: "关闭弹出窗口"
     close_filter_title: "关闭过滤器"
     close_form_title: "关闭表单"
-    card:
-      add_new: '添加新卡'
-      highlighting:
-        inline: '突出显示内联：'
-        entire_card_by: '整个卡'
-      remove_from_list: '从列表中移除卡'
-    clipboard:
-      browser_error: "您的浏览器不支持复制到剪贴板，请手动复制选定的文本。"
-      copied_successful: "成功复制到剪贴板!"
     button_add_watcher: "添加关注者"
     button_back: "返回"
     button_back_to_list_view: "返回列表视图"
@@ -60,6 +51,30 @@ zh-CN:
     calendar:
       title: '日历'
       too_many: '工作包 (%{count}) 比日历 (%{max}) 显示的内容要多。添加筛选器可筛选相关内容。'
+    card:
+      add_new: '添加新卡'
+      highlighting:
+        inline: '突出显示内联：'
+        entire_card_by: '整个卡'
+      remove_from_list: '从列表中移除卡'
+    clipboard:
+      browser_error: "您的浏览器不支持复制到剪贴板，请手动复制选定的文本。"
+      copied_successful: "成功复制到剪贴板!"
+    chart:
+      type: 'Chart type'
+      axis_criteria: 'Axis criteria'
+      modal_title: 'Work package graph configuration'
+      types:
+        line: 'Line'
+        horizontal_bar: 'Horizontal bar'
+        bar: 'Bar'
+        pie: 'Pie'
+        doughnut: 'Doughnut'
+        radar: 'Radar'
+        polar_area: 'Polar area'
+      tabs:
+        graph_settings: '通用'
+        dataset: 'Dataset %{number}'
     description_available_columns: "可用的列"
     description_current_position: "您现在的位置："
     description_select_work_package: "选择工作包 #%{id}"
@@ -164,6 +179,8 @@ zh-CN:
           title: '新闻'
           at: '位置：'
           no_results: '没有新消息报告。'
+        project_description:
+          title: '项目描述'
         time_entries_current_user:
           title: '花费时间 (最近 7天)'
           no_results: '过去7天没有时间记录。'
@@ -176,7 +193,9 @@ zh-CN:
         work_packages_watched:
           title: '由我汇报的工作包'
         work_packages_table:
-          title: '工作包'
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
         work_packages_calendar:
           title: '日历'
     homescreen:

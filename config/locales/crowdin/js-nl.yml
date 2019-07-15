@@ -15,15 +15,6 @@ nl:
     close_popup_title: "Popup sluiten"
     close_filter_title: "Sluit filter"
     close_form_title: "Sluit formulier"
-    card:
-      add_new: 'Nieuwe kaart toevoegen'
-      highlighting:
-        inline: 'Markeer inline:'
-        entire_card_by: 'Gehele kaart door'
-      remove_from_list: 'Verwijder kaart uit lijst'
-    clipboard:
-      browser_error: "Uw browser ondersteunt kopiëren naar het klembord niet. Kopieer de geselecteerde tekst handmatig."
-      copied_successful: "Met succes gekopieerd naar het klembord!"
     button_add_watcher: "Watcher toevoegen"
     button_back: "Terug"
     button_back_to_list_view: "Terug naar het overzicht"
@@ -60,6 +51,30 @@ nl:
     calendar:
       title: 'Kalender'
       too_many: 'Er zijn meer werkpakketten (%{count}) dan kunnen worden weergegeven op de kalender (%{max}). Voeg filters te concentreren op de relevante items.'
+    card:
+      add_new: 'Nieuwe kaart toevoegen'
+      highlighting:
+        inline: 'Markeer inline:'
+        entire_card_by: 'Gehele kaart door'
+      remove_from_list: 'Verwijder kaart uit lijst'
+    clipboard:
+      browser_error: "Uw browser ondersteunt kopiëren naar het klembord niet. Kopieer de geselecteerde tekst handmatig."
+      copied_successful: "Met succes gekopieerd naar het klembord!"
+    chart:
+      type: 'Chart type'
+      axis_criteria: 'Axis criteria'
+      modal_title: 'Work package graph configuration'
+      types:
+        line: 'Line'
+        horizontal_bar: 'Horizontal bar'
+        bar: 'Bar'
+        pie: 'Pie'
+        doughnut: 'Doughnut'
+        radar: 'Radar'
+        polar_area: 'Polar area'
+      tabs:
+        graph_settings: 'Algemeen'
+        dataset: 'Dataset %{number}'
     description_available_columns: "Beschikbare kolommen"
     description_current_position: "You are here: "
     description_select_work_package: "Selecteer werk pakket #%{id}"
@@ -164,6 +179,8 @@ nl:
           title: 'Nieuws'
           at: 'bij'
           no_results: 'Niets nieuws om te rapporteren.'
+        project_description:
+          title: 'Projectbeschrijving'
         time_entries_current_user:
           title: 'Besteed tijd (laatste 7 dagen)'
           no_results: 'Geen tijd items voor de afgelopen 7 dagen.'
@@ -176,7 +193,9 @@ nl:
         work_packages_watched:
           title: 'Werkpakketten bekeken door mij'
         work_packages_table:
-          title: 'Werkpakketten'
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
         work_packages_calendar:
           title: 'Kalender'
     homescreen:

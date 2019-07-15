@@ -15,15 +15,6 @@ pl:
     close_popup_title: "Zamknij okno"
     close_filter_title: "Zamknij filtr"
     close_form_title: "Zamknij formularz"
-    card:
-      add_new: 'Dodaj nową kartę'
-      highlighting:
-        inline: 'Wyróżniaj w treści:'
-        entire_card_by: 'Cała karta do'
-      remove_from_list: 'Usuń kartę z listy'
-    clipboard:
-      browser_error: "Twoja przeglądarka nie obsługuje kopiowania do schowka. Skopiuj tekst ręcznie."
-      copied_successful: "Skopiowano do schowka!"
     button_add_watcher: "Dodaj obserwatora"
     button_back: "Wstecz"
     button_back_to_list_view: "Wróć do widoku listy"
@@ -60,6 +51,30 @@ pl:
     calendar:
       title: 'Kalendarz'
       too_many: 'Jest więcej pakietów roboczych (%{count}) niż można wyświetlić w kalendarzu (%{max}). Dodaj filtry, aby skupić się na żądanych pakietach.'
+    card:
+      add_new: 'Dodaj nową kartę'
+      highlighting:
+        inline: 'Wyróżniaj w treści:'
+        entire_card_by: 'Cała karta do'
+      remove_from_list: 'Usuń kartę z listy'
+    clipboard:
+      browser_error: "Twoja przeglądarka nie obsługuje kopiowania do schowka. Skopiuj tekst ręcznie."
+      copied_successful: "Skopiowano do schowka!"
+    chart:
+      type: 'Chart type'
+      axis_criteria: 'Axis criteria'
+      modal_title: 'Work package graph configuration'
+      types:
+        line: 'Line'
+        horizontal_bar: 'Horizontal bar'
+        bar: 'Bar'
+        pie: 'Pie'
+        doughnut: 'Doughnut'
+        radar: 'Radar'
+        polar_area: 'Polar area'
+      tabs:
+        graph_settings: 'Ogólne'
+        dataset: 'Dataset %{number}'
     description_available_columns: "Dostępne kolumny"
     description_current_position: "Jesteś tutaj: "
     description_select_work_package: "Zaznacz zestaw Zadań #%{id}"
@@ -164,6 +179,8 @@ pl:
           title: 'Aktualności'
           at: 'w'
           no_results: 'Utwórz nowy raport.'
+        project_description:
+          title: 'Opis projektu'
         time_entries_current_user:
           title: 'Poświęcony czas (ostatnie 7 dni)'
           no_results: 'Brak zarejestrowanego czasu pracy w ostatnich 7 dniach.'
@@ -176,7 +193,9 @@ pl:
         work_packages_watched:
           title: 'Pakiety robocze obserwowane przeze mnie'
         work_packages_table:
-          title: 'Pakiety robocze'
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
         work_packages_calendar:
           title: 'Kalendarz'
     homescreen:

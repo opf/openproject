@@ -15,15 +15,6 @@ ko:
     close_popup_title: "팝업 닫기"
     close_filter_title: "필터 닫기"
     close_form_title: "폼 닫기"
-    card:
-      add_new: '새로운 카드를 추가하다'
-      highlighting:
-        inline: '인라인 강조 표시:'
-        entire_card_by: '전체 카드 기준'
-      remove_from_list: '목록에서 카드 제거'
-    clipboard:
-      browser_error: "브라우저를 클립보드에 복사를 지원 하지 않습니다. 텍스트를 타이핑하여 복사하십시오."
-      copied_successful: "클립보드에 성공적으로 복사됨"
     button_add_watcher: "주시자 추가"
     button_back: "뒤로"
     button_back_to_list_view: "목록으로 돌아가기"
@@ -60,6 +51,30 @@ ko:
     calendar:
       title: '달력'
       too_many: '달력에서 표시할 수 있는 작업 패키지(%{max}) 보다 더 많은 작업 패키지(%{count})가 있습니다. 관련 작업 패키지에 집중하려면 필터를 추가하세요.'
+    card:
+      add_new: '새로운 카드를 추가하다'
+      highlighting:
+        inline: '인라인 강조 표시:'
+        entire_card_by: '전체 카드 기준'
+      remove_from_list: '목록에서 카드 제거'
+    clipboard:
+      browser_error: "브라우저를 클립보드에 복사를 지원 하지 않습니다. 텍스트를 타이핑하여 복사하십시오."
+      copied_successful: "클립보드에 성공적으로 복사됨"
+    chart:
+      type: 'Chart type'
+      axis_criteria: 'Axis criteria'
+      modal_title: 'Work package graph configuration'
+      types:
+        line: 'Line'
+        horizontal_bar: 'Horizontal bar'
+        bar: 'Bar'
+        pie: 'Pie'
+        doughnut: 'Doughnut'
+        radar: 'Radar'
+        polar_area: 'Polar area'
+      tabs:
+        graph_settings: '일반'
+        dataset: 'Dataset %{number}'
     description_available_columns: "사용 가능한 열"
     description_current_position: "사용자의 위치: "
     description_select_work_package: "작업 패키지 #%{id} 선택"
@@ -164,6 +179,8 @@ ko:
           title: '뉴스'
           at: '-'
           no_results: '새로 보고할 것이 없음'
+        project_description:
+          title: '프로젝트 설명'
         time_entries_current_user:
           title: '경과 시간(지난 7 일)'
           no_results: '지난 7일간 시간 엔트리가 없습니다.'
@@ -176,7 +193,9 @@ ko:
         work_packages_watched:
           title: '내가 본 작업 패키지'
         work_packages_table:
-          title: '작업 패키지'
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
         work_packages_calendar:
           title: '달력'
     homescreen:

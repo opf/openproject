@@ -5,25 +5,16 @@ da:
       loading: "Henter..."
     attachments:
       draggable_hint: |
-        Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
+        Træk på redigeringsfelt for at indsætte billede eller referencevedhæftning. Lukkede redigeringsfelter åbnes, mens du fortsætter med at trække.
     autocomplete_select:
       placeholder:
-        multi: "Add \"%{name}\""
-        single: "Select \"%{name}\""
-      remove: "Remove %{name}"
-      active: "Active %{label} %{name}"
+        multi: "Tilføj \"%{name}\""
+        single: "Vælg \"%{name}\""
+      remove: "Fjern %{name};"
+      active: "Aktiv %{label} %{name}"
     close_popup_title: "Luk popup"
     close_filter_title: "Luk filter"
     close_form_title: "Luk formular"
-    card:
-      add_new: 'Add new card'
-      highlighting:
-        inline: 'Highlight inline:'
-        entire_card_by: 'Entire card by'
-      remove_from_list: 'Remove card from list'
-    clipboard:
-      browser_error: "Din browser understøtter ikke kopiering til Udklipsholder. Kopiér venligst den markerede tekst manuelt."
-      copied_successful: "Kopieret til Udklipsholder!"
     button_add_watcher: "Tilføj tilsynsførende"
     button_back: "Tilbage"
     button_back_to_list_view: "Tilbage til listevisning"
@@ -41,14 +32,14 @@ da:
     button_duplicate: "Lav dublet"
     button_edit: "Rediger"
     button_filter: "Filter"
-    button_advanced_filter: "Advanced filter"
+    button_advanced_filter: "Avanceret filter"
     button_list_view: "Listevisning"
     button_show_view: "Fuldskærmsvisning"
     button_log_time: "Tidsregistrering"
     button_more: "mere"
     button_move: "Flyt"
     button_open_details: "Åbn detaljevisning"
-    button_close_details: "Close details view"
+    button_close_details: "Luk detaljeret visning"
     button_open_fullscreen: "Fuldskærmsvisning"
     button_quote: "Citer"
     button_save: "Gem"
@@ -59,7 +50,31 @@ da:
     button_export-atom: "Download Atom"
     calendar:
       title: 'Kalender'
-      too_many: 'There are more work packages (%{count}) than can be displayed by the calendar (%{max}). Add filters to focus on the relevant ones.'
+      too_many: 'Der er flere arbejdspakker (%{count}) end det kan vises i kalenderen (%{max}). Tilføj filtre for at fokusere på de relevante.'
+    card:
+      add_new: 'Add new card'
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: 'Entire card by'
+      remove_from_list: 'Remove card from list'
+    clipboard:
+      browser_error: "Din browser understøtter ikke kopiering til Udklipsholder. Kopiér venligst den markerede tekst manuelt."
+      copied_successful: "Kopieret til Udklipsholder!"
+    chart:
+      type: 'Chart type'
+      axis_criteria: 'Axis criteria'
+      modal_title: 'Work package graph configuration'
+      types:
+        line: 'Line'
+        horizontal_bar: 'Horizontal bar'
+        bar: 'Bar'
+        pie: 'Pie'
+        doughnut: 'Doughnut'
+        radar: 'Radar'
+        polar_area: 'Polar area'
+      tabs:
+        graph_settings: 'Generelle'
+        dataset: 'Dataset %{number}'
     description_available_columns: "Tilgængelige kolonner"
     description_current_position: "You are here: "
     description_select_work_package: "Vælg arbejds pakke #%{id}"
@@ -68,8 +83,8 @@ da:
     editor:
       preview: 'Toggle preview mode'
       source_code: 'Toggle Markdown source mode'
-      error_saving_failed: 'Saving the document failed with the following error: %{error}'
-      error_initialization_failed: 'Failed to initialize CKEditor!'
+      error_saving_failed: 'Lagring af dokumentet mislykkedes med følgende fejl: %{error}'
+      error_initialization_failed: 'Opstart af CKEditor mislykkedes!'
       mode:
         manual: 'Switch to Markdown source'
         wysiwyg: 'Switch to WYSIWYG editor'
@@ -79,39 +94,38 @@ da:
           include_parent: 'Include parent'
           text: '[Placeholder] Links to child pages of'
           page: 'Wiki-side'
-          this_page: 'this page'
+          this_page: 'denne side'
           hint: |
-            Leave this field empty to list all child pages of the current page. If you want to reference a different page, provide its title or slug.
+            Lad feltet være tomt for at vise alle børnesider på den aktuelle side. Hvis du vil referere til en anden side, skal du angive sin titel eller slug.
         code_block:
-          button: 'Insert code snippet'
-          title: 'Insert / edit Code snippet'
-          language: 'Formatting language'
-          language_hint: 'Enter the formatting language that will be used for highlighting (if supported).'
+          button: 'Indsæt kodestykke'
+          title: 'Indsæt / rediger kodestykke'
+          language: 'Formaterings sprog'
+          language_hint: 'Indtast det formateringssprog, der skal bruges til at fremhæve (hvis det understøttes).'
         dropdown:
           macros: 'Macros'
           chose_macro: 'Chose macro'
         toc: 'Table of contents'
-        toolbar_help: 'Click to select widget and show the toolbar. Double-click to edit widget'
+        toolbar_help: 'Klik for at vælge widget og vis værktøjslinjen. Dobbeltklik for at redigere widget'
         wiki_page_include:
-          button: 'Include content of another wiki page'
-          text: '[Placeholder] Included wiki page of'
+          button: 'Inkluder indhold på en anden wiki side'
+          text: '[Placeholder] Inkluderet wiki side af'
           page: 'Wiki-side'
-          not_set: '(Page not yet set)'
+          not_set: '(Side er endnu ikke indstillet)'
           hint: |
-            Include the content of another wiki page by specifying its title or slug.
-            You can include the wiki page of another project by separating them with a colon like the following example.
+            Inkluder indholdet på en anden wiki side ved at angive sin titel eller slug. Du kan inkludere wiki-sien i et andet projekt ved at adskille dem med et kolon som det følgende eksempel.
         work_package_button:
-          button: 'Insert create work package button'
-          type: 'Work package type'
-          button_style: 'Use button style'
-          button_style_hint: 'Optional: Check to make macro appear as a button, not as a link.'
-          without_type: 'Create work package'
-          with_type: 'Create work package (Type: %{typename})'
+          button: 'Indsæt oprettelse af arbejdspakke'
+          type: 'Arbejdspakketype'
+          button_style: 'Brug knappestil'
+          button_style_hint: 'Valgfrit: Kontroller, at makro vises som en knap, ikke som et link.'
+          without_type: 'Opret arbejdspakke'
+          with_type: 'Opret arbejdspakke (Type: %{typename})'
         embedded_table:
-          button: 'Embed work package table'
-          text: '[Placeholder] Embedded work package table'
+          button: 'Embed arbejdspakkebord'
+          text: '[Placeholder] Embedded arbejdspakkebord'
         embedded_calendar:
-          text: '[Placeholder] Embedded calendar'
+          text: '[Placeholder] Embedded kalender'
     admin:
       type_form:
         custom_field: 'Selvvalgt felt'
@@ -125,29 +139,29 @@ da:
     custom_actions:
       date:
         specific: 'på'
-        current_date: 'Current date'
+        current_date: 'Aktuel dato'
     error:
       internal: "En intern fejl opstod."
-      cannot_save_changes_with_message: "Cannot save your changes due to the following error: %{error}"
-      query_saving: "The view could not be saved."
-      embedded_table_loading: "The embedded view could not be loaded: %{message}"
+      cannot_save_changes_with_message: "Kan ikke gemme dine ændringer på grund af følgende fejl: %{error}"
+      query_saving: "Visningen kunne ikke gemmes."
+      embedded_table_loading: "Den indlejrede visning kunne ikke indlæses: %{message}"
     filter:
       description:
         text_open_filter: "Åbn dette filter med 'ALT' og pile tasterne."
         text_close_filter: "For at vælge en post forlade fokuset ved at trykke på Enter. For at undlade filterbrug vælg den første (tomme) post."
       noneElement: "(ingen)"
       time_zone_converted:
-        two_values: "%{from} - %{to} in your local time."
-        only_start: "From %{from} in your local time."
-        only_end: "Till %{to} in your local time."
+        two_values: "%{from} - %{to} i din lokale tid."
+        only_start: "Fra %{from} i din lokale tid."
+        only_end: "Til %{to} i din lokale tid."
       value_spacer: "-"
       sorting:
         criteria:
           one: "Første sorteringskriterium"
           two: "Anden sorteringskriterier"
           three: "Tredje sorteringskriterium"
-      upsale_for_more: "For more advanced filters, check out the"
-      upsale_link: 'Enterprise Edition.'
+      upsale_for_more: "For mere avancerede filtre, tjek den"
+      upsale_link: 'Enterprise Udgave.'
     general_text_no: "nej"
     general_text_yes: "ja"
     general_text_No: "Nej"
@@ -164,6 +178,8 @@ da:
           title: 'Nyheder'
           at: 'at'
           no_results: 'Nothing new to report.'
+        project_description:
+          title: 'Projektbeskrivelse'
         time_entries_current_user:
           title: 'Spent time (last 7 days)'
           no_results: 'No time entries for the last 7 days.'
@@ -176,7 +192,9 @@ da:
         work_packages_watched:
           title: 'Work packages watched by me'
         work_packages_table:
-          title: 'Arbejdspakker'
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
         work_packages_calendar:
           title: 'Kalender'
     homescreen:
@@ -328,7 +346,7 @@ da:
     label_remove_watcher: "Fjern iagttager %{name}"
     label_remove_all_files: Slet alle filer
     label_add_description: "Tilføj en beskrivelse af %{file}"
-    label_upload_notification: "Uploading files..."
+    label_upload_notification: "Uploader filer..."
     label_work_package_upload_notification: "Upload af filer til arbejdspakke #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: "Disse filer vil blive uploadet:"
@@ -339,18 +357,18 @@ da:
     label_validation_error: "Arbejdspakken kunne ikke gemmes grundet følgende fejl:"
     label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
-      show_modal: 'Show attribute help text entry'
+      show_modal: 'Vis attributten til hjælpetekst'
     onboarding:
       buttons:
-        skip: 'Skip'
+        skip: 'Spring over'
         next: 'Næste'
-        got_it: 'Got it'
+        got_it: 'Forstået'
       steps:
         help_menu: 'In the <b>Help</b> menu you will find a user guide and additional help resources. <br> Enjoy your work with OpenProject!'
         members: 'Invite new <b>Members</b> to join your project.'
         project_selection: 'Please click on one of the projects with useful demo data to get started. <br> The <b>Demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for Agile project management.'
         sidebar_arrow: "With the arrow you can navigate back to the project's <b>Main menu</b>."
-        welcome: 'Take a three minutes introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time.'
+        welcome: 'Tag en tre minutters introduktionsturné for at lære de mest <b> vigtige funktioner </b>. <br> Vi anbefaler at du gennemfører trinende til slutningen. Du kan når som helst genstarte turen.'
         wiki: 'Within the <b>Wiki</b> you can document and share knowledge together with your team.'
         backlogs:
           overview: "Manage your work in the <b>Backlogs</b> view. <br> On the right you have the Product Backlog or a Bug Backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag'n'drop and add them to a sprint."

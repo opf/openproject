@@ -15,15 +15,6 @@ vi:
     close_popup_title: "Đóng"
     close_filter_title: "Close filter"
     close_form_title: "Close form"
-    card:
-      add_new: 'Add new card'
-      highlighting:
-        inline: 'Highlight inline:'
-        entire_card_by: 'Entire card by'
-      remove_from_list: 'Remove card from list'
-    clipboard:
-      browser_error: "Trình duyệt không hỗ trợ copy vào clipboard. Vui lòng copy văn bản đã chọn theo cách thủ công."
-      copied_successful: "Sao chép thành công vào clipboard!"
     button_add_watcher: "Thêm người theo dõi"
     button_back: "Quay lại"
     button_back_to_list_view: "Back to list view"
@@ -60,6 +51,30 @@ vi:
     calendar:
       title: 'Lịch'
       too_many: 'There are more work packages (%{count}) than can be displayed by the calendar (%{max}). Add filters to focus on the relevant ones.'
+    card:
+      add_new: 'Add new card'
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: 'Entire card by'
+      remove_from_list: 'Remove card from list'
+    clipboard:
+      browser_error: "Trình duyệt không hỗ trợ copy vào clipboard. Vui lòng copy văn bản đã chọn theo cách thủ công."
+      copied_successful: "Sao chép thành công vào clipboard!"
+    chart:
+      type: 'Chart type'
+      axis_criteria: 'Axis criteria'
+      modal_title: 'Work package graph configuration'
+      types:
+        line: 'Line'
+        horizontal_bar: 'Horizontal bar'
+        bar: 'Bar'
+        pie: 'Pie'
+        doughnut: 'Doughnut'
+        radar: 'Radar'
+        polar_area: 'Polar area'
+      tabs:
+        graph_settings: 'Tổng quan'
+        dataset: 'Dataset %{number}'
     description_available_columns: "Cột có sẵn"
     description_current_position: "You are here: "
     description_select_work_package: "Chọn work package #%{id}"
@@ -163,6 +178,8 @@ vi:
           title: 'Tin tức'
           at: 'tại'
           no_results: 'Không có gì mới để báo cáo.'
+        project_description:
+          title: 'Project description'
         time_entries_current_user:
           title: 'Thời gian làm việc (trong 7 ngày gần nhất)'
           no_results: 'Không có ghi nhận thời gian làm việc trong 7 ngày gần nhất.'
@@ -175,7 +192,9 @@ vi:
         work_packages_watched:
           title: 'Công việc có liên quan tới tôi'
         work_packages_table:
-          title: 'Work Packages'
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
         work_packages_calendar:
           title: 'Lịch'
     homescreen:

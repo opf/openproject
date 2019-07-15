@@ -25,9 +25,9 @@ de:
         button_back_to_list: 'Zurück zur Liste'
         description: "Geben Sie eine BCF-XML v2.1 Datei für den Import in dieses Projekt an. Sie können dessen Inhalt vor dem Importvorgang prüfen."
         perform_description: "Möchten Sie die oben aufgeführten BCF-Fälle importieren oder aktualisieren?"
-        work_package_has_newer_changes: "The import for BCF topic %{bcf_uuid} appears to be outdated. The latest changes on the server are newer than the \"MofiedDate\" of the imported topic. However, comments got updated."
+        work_package_has_newer_changes: "Der Import für den BCF-Fall %{bcf_uuid} scheint veraltet zu sein. Die Änderungen auf dem Server sind neuer als das Änderungsdatum des importierten Falls. Kommentare werden trotzdem aktualisiert."
   export:
     format:
       bcf: "BCF-XML"
   attributes:
-    bcf_thumbnail: "BCF snaphot"
+    bcf_thumbnail: "BCF-Snapshot"

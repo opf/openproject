@@ -15,15 +15,6 @@ fil:
     close_popup_title: "Isara ang popup"
     close_filter_title: "Isara ang filter"
     close_form_title: "Isara ang form"
-    card:
-      add_new: 'Add new card'
-      highlighting:
-        inline: 'Highlight inline:'
-        entire_card_by: 'Entire card by'
-      remove_from_list: 'Remove card from list'
-    clipboard:
-      browser_error: "Ang iyong browser ay hindi suporta ang pagkokopya sa clipboard. Mangayaring kopyahin ng manu-mano ang napiling teksto."
-      copied_successful: "Matagumpay na kinopya sa clipboard!"
     button_add_watcher: "Magdagdag ng manunuod"
     button_back: "Bumalik"
     button_back_to_list_view: "Bumalik sa listahan ng view"
@@ -60,6 +51,30 @@ fil:
     calendar:
       title: 'Kalendaryo'
       too_many: 'There are more work packages (%{count}) than can be displayed by the calendar (%{max}). Add filters to focus on the relevant ones.'
+    card:
+      add_new: 'Add new card'
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: 'Entire card by'
+      remove_from_list: 'Remove card from list'
+    clipboard:
+      browser_error: "Ang iyong browser ay hindi suporta ang pagkokopya sa clipboard. Mangayaring kopyahin ng manu-mano ang napiling teksto."
+      copied_successful: "Matagumpay na kinopya sa clipboard!"
+    chart:
+      type: 'Chart type'
+      axis_criteria: 'Axis criteria'
+      modal_title: 'Work package graph configuration'
+      types:
+        line: 'Line'
+        horizontal_bar: 'Horizontal bar'
+        bar: 'Bar'
+        pie: 'Pie'
+        doughnut: 'Doughnut'
+        radar: 'Radar'
+        polar_area: 'Polar area'
+      tabs:
+        graph_settings: 'Pangkalahatan'
+        dataset: 'Dataset %{number}'
     description_available_columns: "Ang mga hanay na magagamit"
     description_current_position: "You are here: "
     description_select_work_package: "Piliin ang work package #%{id}"
@@ -164,6 +179,8 @@ fil:
           title: 'Mga balita'
           at: 'at'
           no_results: 'Walang bago para ireport.'
+        project_description:
+          title: 'Project description'
         time_entries_current_user:
           title: 'Spent time (last 7 days)'
           no_results: 'No time entries for the last 7 days.'
@@ -176,7 +193,9 @@ fil:
         work_packages_watched:
           title: 'Work packages watched by me'
         work_packages_table:
-          title: 'Ang mga work package'
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
         work_packages_calendar:
           title: 'Kalendaryo'
     homescreen:

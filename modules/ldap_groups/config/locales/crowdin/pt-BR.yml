@@ -7,7 +7,7 @@ pt-BR:
     models:
       ldap_groups/synchronized_group: 'Grupo LDAP sincronizado'
   ldap_groups:
-    label_menu_item: 'LDAP group synchronization'
+    label_menu_item: 'Sincronização de grupo LDAP'
     label_group_key: 'Chave de filtro de grupo LDAP'
     settings:
       group_key: 'Atributo de grupo LDAP'

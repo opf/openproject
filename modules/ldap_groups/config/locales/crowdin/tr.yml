@@ -7,7 +7,7 @@ tr:
     models:
       ldap_groups/synchronized_group: 'Senkronize LDAP grubu'
   ldap_groups:
-    label_menu_item: 'LDAP group synchronization'
+    label_menu_item: 'LDAP grup senkronizasyonu'
     label_group_key: 'LDAP grubu filtre anahtarı'
     settings:
       group_key: 'LDAP group attribute'

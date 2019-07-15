@@ -15,15 +15,6 @@ lt:
     close_popup_title: "Užverti iškylantį langą"
     close_filter_title: "Užverti filtrą"
     close_form_title: "Užverti formą"
-    card:
-      add_new: 'Add new card'
-      highlighting:
-        inline: 'Highlight inline:'
-        entire_card_by: 'Entire card by'
-      remove_from_list: 'Remove card from list'
-    clipboard:
-      browser_error: "Your browser doesn't support copying to clipboard. Please copy the selected text manually."
-      copied_successful: "Sucessfully copied to clipboard!"
     button_add_watcher: "Pridėti stebėtojų"
     button_back: "Atgal"
     button_back_to_list_view: "Atgal į sąrašo peržiūrą"
@@ -60,6 +51,30 @@ lt:
     calendar:
       title: 'Kalendorius'
       too_many: 'Rasta daugiau darbo paketų (%{count}), nei gali būti rodomi kalendoriuje (%{max}). Pridėkite filtrų sąrašo susiaurinimui.'
+    card:
+      add_new: 'Add new card'
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: 'Entire card by'
+      remove_from_list: 'Remove card from list'
+    clipboard:
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy the selected text manually."
+      copied_successful: "Sucessfully copied to clipboard!"
+    chart:
+      type: 'Chart type'
+      axis_criteria: 'Axis criteria'
+      modal_title: 'Work package graph configuration'
+      types:
+        line: 'Line'
+        horizontal_bar: 'Horizontal bar'
+        bar: 'Bar'
+        pie: 'Pie'
+        doughnut: 'Doughnut'
+        radar: 'Radar'
+        polar_area: 'Polar area'
+      tabs:
+        graph_settings: 'Bendra'
+        dataset: 'Dataset %{number}'
     description_available_columns: "Galimi stulpeliai"
     description_current_position: "You are here: "
     description_select_work_package: "Pasirinkite darbų paketą #%{id}"
@@ -164,6 +179,8 @@ lt:
           title: 'Naujienos'
           at: 'at'
           no_results: 'Nėra jokių ataskaitų.'
+        project_description:
+          title: 'Projekto aprašymas'
         time_entries_current_user:
           title: 'Spent time (last 7 days)'
           no_results: 'No time entries for the last 7 days.'
@@ -176,7 +193,9 @@ lt:
         work_packages_watched:
           title: 'Work packages watched by me'
         work_packages_table:
-          title: 'Darbų paketai'
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
         work_packages_calendar:
           title: 'Kalendorius'
     homescreen:

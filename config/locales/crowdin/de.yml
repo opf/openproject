@@ -1037,7 +1037,7 @@ de:
   general_text_yes: "ja"
   general_text_No: "Nein"
   general_text_Yes: "Ja"
-  general_text_true: "true"
+  general_text_true: "ja"
   general_text_false: "true"
   gui_validation_error: "1 Fehler"
   gui_validation_error_plural: "%{count} Fehler"
@@ -1534,7 +1534,7 @@ de:
   label_used_by_types: "Verwendet von Typen"
   label_used_in_projects: "Verwendet in Projekten"
   label_user: "Benutzer"
-  label_user_and_permission: "Users & Permissions"
+  label_user_and_permission: "Benutzer & Berechtigungen"
   label_user_named: "Benutzer %{name}"
   label_user_activity: "Aktivität von %{value}"
   label_user_anonymous: "Anonym"
@@ -1547,7 +1547,7 @@ de:
   label_user_new: "Neuer Benutzer"
   label_user_plural: "Benutzer"
   label_user_search: "Nach Benutzer suchen"
-  label_user_settings: "User settings"
+  label_user_settings: "Benutzereinstellungen"
   label_version_new: "Neue Version"
   label_version_plural: "Versionen"
   label_version_sharing_descendants: "Mit Unterprojekten"
@@ -2028,13 +2028,13 @@ de:
   setting_display_subprojects_work_packages: "Arbeitspakete von Unterprojekten im Hauptprojekt anzeigen"
   setting_emails_footer: "E-Mail-Fußzeile"
   setting_emails_header: "E-Mail-Kopfzeile"
-  setting_email_login: "Use email as login"
+  setting_email_login: "E-Mail als Benutzername verwenden"
   setting_enabled_scm: "Aktivierte Versionskontrollsysteme"
   setting_feeds_enabled: "Feeds aktiviert"
   setting_feeds_limit: "Max. Anzahl Einträge pro Atom-Feed"
   setting_file_max_size_displayed: "Maximale Größe inline angezeigter Textdateien"
   setting_host_name: "Hostname"
-  setting_invitation_expiration_days: "Activation email expires after"
+  setting_invitation_expiration_days: "Aktivierungs-Mail läuft ab nach"
   setting_work_package_done_ratio: "Berechne den Arbeitspaket-Fortschritt mittels"
   setting_work_package_done_ratio_field: "Arbeitspaket-Feld %-erledigt"
   setting_work_package_done_ratio_status: "Arbeitspaket-Status"
@@ -2165,7 +2165,7 @@ de:
   text_work_package_category_destroy_assignments: "Kategorie-Zuordnung entfernen"
   text_work_package_category_destroy_question: "Einige Arbeitspakete (%{count}) sind dieser Kategorie zugeordnet. Was möchten Sie tun?"
   text_work_package_category_reassign_to: "Arbeitspakete dieser Kategorie zuordnen"
-  text_work_package_updated: "Arbeitspaket %{id} wurde von %{author} aktualisiert."
+  text_work_package_updated: "Arbeitspaket %{id} wurde aktualisiert von %{author}."
   text_work_package_watcher_added: "Sie wurden von %{watcher_setter} als Beobachter für das Arbeitspaket %{id} eingetragen."
   text_work_packages_destroy_confirmation: "Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete löschen möchten?"
   text_work_packages_ref_in_commit_messages: "Arbeitspaket-Beziehungen und -Status in Commit-Log-Meldungen"
@@ -2389,7 +2389,7 @@ de:
     Sendet eine weitere Einladungs-Email mit einem neuen Token für den Fall, dass das alte Token abgelaufen ist oder der Benutzer nicht die ursprüngliche Email erhalten hat. Dies kann auch für aktive Nutzer genutzt werden um eine neue Authentifizierungsmethode zu wählen. Wenn dies bei einem aktiven Benutzern verwendet wird, wird der Status zu "eingeladen" geändert.
   tooltip:
     setting_email_login: >
-      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
+      Wenn aktiviert, kann ein Nutzer seinen Benutzernamen bei der Registrierung nicht selbst wählen. Stattdessen wird dessen E-Mail-Adresse als Benutzername verwendet. Ein Administrator kann unabhängig davon den Benutzernamen weiterhin ändern.
   queries:
     apply_filter: vorkonfigurierten Filter anwenden
   top_menu:

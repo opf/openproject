@@ -15,15 +15,6 @@ uk:
     close_popup_title: "Закрити вспливаюче вікно"
     close_filter_title: "Закрити фільтр"
     close_form_title: "Закрити форму"
-    card:
-      add_new: 'Додати нову картку'
-      highlighting:
-        inline: 'Виділіть у рядку:'
-        entire_card_by: 'Пов''язана картка'
-      remove_from_list: 'Вилучити зі списку'
-    clipboard:
-      browser_error: "Ваш браузер не підтримує копіювання до буфера обміну. Потрібно скопіювати виділений текст вручну."
-      copied_successful: "Успішно скопійовано до буфера обміну!"
     button_add_watcher: "Додати спостерігача"
     button_back: "Назад"
     button_back_to_list_view: "Повернутися до списку"
@@ -60,6 +51,30 @@ uk:
     calendar:
       title: 'Календар'
       too_many: 'Пакетів робіт більше (%{count}), ніж може відобразити календар (%{max}). Застосуйте фільтри для відображення релевантних пакетів.'
+    card:
+      add_new: 'Додати нову картку'
+      highlighting:
+        inline: 'Виділіть у рядку:'
+        entire_card_by: 'Пов''язана картка'
+      remove_from_list: 'Вилучити зі списку'
+    clipboard:
+      browser_error: "Ваш браузер не підтримує копіювання до буфера обміну. Потрібно скопіювати виділений текст вручну."
+      copied_successful: "Успішно скопійовано до буфера обміну!"
+    chart:
+      type: 'Chart type'
+      axis_criteria: 'Axis criteria'
+      modal_title: 'Work package graph configuration'
+      types:
+        line: 'Line'
+        horizontal_bar: 'Horizontal bar'
+        bar: 'Bar'
+        pie: 'Pie'
+        doughnut: 'Doughnut'
+        radar: 'Radar'
+        polar_area: 'Polar area'
+      tabs:
+        graph_settings: 'Загальні'
+        dataset: 'Dataset %{number}'
     description_available_columns: "Доступні стовпці"
     description_current_position: "Ви знаходитесь тут: "
     description_select_work_package: "Виберіть пакет робіт #%{id}"
@@ -164,6 +179,8 @@ uk:
           title: 'Новини'
           at: 'на'
           no_results: 'Нічого нового для звітування.'
+        project_description:
+          title: 'Опис проекту'
         time_entries_current_user:
           title: 'Витрачений час (останні 7 днів)'
           no_results: 'Немає записів часу за останні 7 днів.'
@@ -176,7 +193,9 @@ uk:
         work_packages_watched:
           title: 'Пакети робіт переглянуті мною'
         work_packages_table:
-          title: 'Пакет робіт'
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
         work_packages_calendar:
           title: 'Календар'
     homescreen:

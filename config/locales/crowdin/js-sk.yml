@@ -15,15 +15,6 @@ sk:
     close_popup_title: "Zavrieť okno"
     close_filter_title: "Zavrieť filter"
     close_form_title: "Zavrieť formulár"
-    card:
-      add_new: 'Pridať novú kartu'
-      highlighting:
-        inline: 'Highlight inline:'
-        entire_card_by: 'Celý riadok o'
-      remove_from_list: 'Odstrániť kartu zo zoznamu'
-    clipboard:
-      browser_error: "Váš prehliadač nepodporuje kopírovanie do schránky. Manuálne skopírujte vybratý text."
-      copied_successful: "Úspešne skopírované do schránky!"
     button_add_watcher: "Pridať pozorovateľa"
     button_back: "Späť"
     button_back_to_list_view: "Späť na zobrazenie zoznamu"
@@ -60,6 +51,30 @@ sk:
     calendar:
       title: 'Kalendár'
       too_many: 'Existuje viac pracovných balíčkov (%{count}), než je možné zobraziť v kalendári (%{max}). Pridaním filtrov sa zamerajte na tie relevantné.'
+    card:
+      add_new: 'Pridať novú kartu'
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: 'Celý riadok o'
+      remove_from_list: 'Odstrániť kartu zo zoznamu'
+    clipboard:
+      browser_error: "Váš prehliadač nepodporuje kopírovanie do schránky. Manuálne skopírujte vybratý text."
+      copied_successful: "Úspešne skopírované do schránky!"
+    chart:
+      type: 'Chart type'
+      axis_criteria: 'Axis criteria'
+      modal_title: 'Work package graph configuration'
+      types:
+        line: 'Line'
+        horizontal_bar: 'Horizontal bar'
+        bar: 'Bar'
+        pie: 'Pie'
+        doughnut: 'Doughnut'
+        radar: 'Radar'
+        polar_area: 'Polar area'
+      tabs:
+        graph_settings: 'Všeobecné'
+        dataset: 'Dataset %{number}'
     description_available_columns: "Dostupné stĺpce"
     description_current_position: "You are here: "
     description_select_work_package: "Vyberte pracovný balík #%{id}"
@@ -164,6 +179,8 @@ sk:
           title: 'Novinky'
           at: 'o'
           no_results: 'Nič nové pre nahlásenie.'
+        project_description:
+          title: 'Popis projektu'
         time_entries_current_user:
           title: 'Strávený čas (posledných 7 dní)'
           no_results: 'Žiadne časové záznamy za posledných 7 dní.'
@@ -176,7 +193,9 @@ sk:
         work_packages_watched:
           title: 'Pracovné balíčky sledované mnou'
         work_packages_table:
-          title: 'Pracovné balíčky'
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
         work_packages_calendar:
           title: 'Kalendár'
     homescreen:

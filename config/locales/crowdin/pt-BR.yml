@@ -1535,7 +1535,7 @@ pt-BR:
   label_used_by_types: "Utilizado por tipos"
   label_used_in_projects: "Utilizado em projetos"
   label_user: "Usuário"
-  label_user_and_permission: "Users & Permissions"
+  label_user_and_permission: "Usuários e permissões"
   label_user_named: "Usuário %{name}"
   label_user_activity: "atividade do %{value}"
   label_user_anonymous: "Anônimo"
@@ -1548,7 +1548,7 @@ pt-BR:
   label_user_new: "Novo usuário"
   label_user_plural: "Usuários"
   label_user_search: "Busca por usuário"
-  label_user_settings: "User settings"
+  label_user_settings: "Configurações do usuário"
   label_version_new: "Nova versão"
   label_version_plural: "Versões"
   label_version_sharing_descendants: "Com subprojetos"
@@ -2390,7 +2390,7 @@ pt-BR:
     Envia outro e-mail de convite com um novo token, caso o antigo tenha expirado ou o usuário não tenha recebido o e-mail original. Também pode ser usado para que usuários ativos escolham um novo método de autenticação. Quando usado com usuários ativos, seus status serão alterados para 'convidados'.
   tooltip:
     setting_email_login: >
-      Se habilitado, um usuário será incapaz de escolher um login durante o registro. Em vez disso, seu endereço de e-mail servirá como login. Um administrador ainda pode mudar o login separadamente.
+      Se habilitado, um usuário não poderá escolher um login durante o registro. Em vez disso, seu endereço de e-mail servirá como login. Um administrador ainda poderá mudar o login separadamente.
   queries:
     apply_filter: Aplicar filtro pré-configurado
   top_menu:

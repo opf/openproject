@@ -15,15 +15,6 @@ ru:
     close_popup_title: "Закрыть всплывающее"
     close_filter_title: "Закрыть фильтр"
     close_form_title: "Закрыть форму"
-    card:
-      add_new: 'Добавить новую карточку'
-      highlighting:
-        inline: 'Выделение:'
-        entire_card_by: 'Вся карточка по'
-      remove_from_list: 'Удалить карточку из списка'
-    clipboard:
-      browser_error: "Ваш браузер не поддерживает копирование в буфер обмена. Пожалуйста, скопируйте выделенный текст вручную."
-      copied_successful: "Успешно скопировано в буфер обмена!"
     button_add_watcher: "Добавить наблюдателя"
     button_back: "Назад"
     button_back_to_list_view: "Вернуться к просмотру списка"
@@ -60,6 +51,30 @@ ru:
     calendar:
       title: 'Календарь'
       too_many: 'Пакетов работ больше (%{count}), чем может быть показано в календаре (%{max}). Отфильтруйте пакеты, чтобы сфокусироваться на нужных.'
+    card:
+      add_new: 'Добавить новую карточку'
+      highlighting:
+        inline: 'Выделение:'
+        entire_card_by: 'Вся карточка по'
+      remove_from_list: 'Удалить карточку из списка'
+    clipboard:
+      browser_error: "Ваш браузер не поддерживает копирование в буфер обмена. Пожалуйста, скопируйте выделенный текст вручную."
+      copied_successful: "Успешно скопировано в буфер обмена!"
+    chart:
+      type: 'Тип графика'
+      axis_criteria: 'Критерии оси'
+      modal_title: 'Конфигурация графика пакета работ'
+      types:
+        line: 'Линия'
+        horizontal_bar: 'Горизонтальная полоса'
+        bar: 'Полоса'
+        pie: 'Пирог'
+        doughnut: 'Пончик'
+        radar: 'Радар'
+        polar_area: 'Полярная область'
+      tabs:
+        graph_settings: 'Общие'
+        dataset: 'Набор данных %{number}'
     description_available_columns: "Доступные столбцы"
     description_current_position: "Вы здесь: "
     description_select_work_package: "Выберите пакет работ #%{id}"
@@ -163,6 +178,8 @@ ru:
           title: 'Новости'
           at: 'на'
           no_results: 'Ничего нового для отчета.'
+        project_description:
+          title: 'Описание проекта'
         time_entries_current_user:
           title: 'Затраченное время (за последние 7 дней)'
           no_results: 'Нет записей о входах за последние 7 дней.'
@@ -175,7 +192,9 @@ ru:
         work_packages_watched:
           title: 'Пакеты работ, просмотренные мной'
         work_packages_table:
-          title: 'Комплекс работ'
+          title: 'Таблица пакетов работ'
+        work_packages_graph:
+          title: 'График пакетов работ'
         work_packages_calendar:
           title: 'Календарь'
     homescreen:
@@ -336,7 +355,7 @@ ru:
     label_wait: "Пожалуйста, подождите конфигурирование..."
     label_upload_counter: "%{done} %{count} файлов, готовы"
     label_validation_error: "Пакет работ не удалось сохранить из-за следующих ошибок:"
-    label_view_has_changed: "This view has unsaved changes. Click to save them."
+    label_view_has_changed: "У этого вида есть несохраненные изменения. Нажмите, чтобы сохранить их."
     help_texts:
       show_modal: 'Показать содержимое атрибута текста справки'
     onboarding:

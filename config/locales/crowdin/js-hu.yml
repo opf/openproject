@@ -15,15 +15,6 @@ hu:
     close_popup_title: "Előugró ablak bezárása"
     close_filter_title: "Szűrő bezárása"
     close_form_title: "Űrlap bezárása"
-    card:
-      add_new: 'Add new card'
-      highlighting:
-        inline: 'Highlight inline:'
-        entire_card_by: 'Entire card by'
-      remove_from_list: 'Remove card from list'
-    clipboard:
-      browser_error: "A böngésző nem támogatja a vágólapra másolást. Kérjük, másolja a kijelölt szöveget manuálisan."
-      copied_successful: "A vágólapra másolás sikeres!"
     button_add_watcher: "Megfigyelő hozzáadása"
     button_back: "Vissza"
     button_back_to_list_view: "Vissza a lista nézethez"
@@ -60,6 +51,30 @@ hu:
     calendar:
       title: 'Naptár'
       too_many: 'Több Feladatcsoport (%{count}) van, mint amennyi a naptárban (%{max}) megjeleníthető. Adj szűrőket a fontosabb kiemeléséhez.'
+    card:
+      add_new: 'Add new card'
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: 'Entire card by'
+      remove_from_list: 'Remove card from list'
+    clipboard:
+      browser_error: "A böngésző nem támogatja a vágólapra másolást. Kérjük, másolja a kijelölt szöveget manuálisan."
+      copied_successful: "A vágólapra másolás sikeres!"
+    chart:
+      type: 'Chart type'
+      axis_criteria: 'Axis criteria'
+      modal_title: 'Work package graph configuration'
+      types:
+        line: 'Line'
+        horizontal_bar: 'Horizontal bar'
+        bar: 'Bar'
+        pie: 'Pie'
+        doughnut: 'Doughnut'
+        radar: 'Radar'
+        polar_area: 'Polar area'
+      tabs:
+        graph_settings: 'Általános'
+        dataset: 'Dataset %{number}'
     description_available_columns: "Elérhető oszlopok"
     description_current_position: "You are here: "
     description_select_work_package: "Munkacsomag kiválasztás #%{id}"
@@ -163,6 +178,8 @@ hu:
           title: 'Hírek'
           at: 'at'
           no_results: 'Semmi új jelenteni való.'
+        project_description:
+          title: 'Projekt leírása'
         time_entries_current_user:
           title: 'Spent time (last 7 days)'
           no_results: 'No time entries for the last 7 days.'
@@ -175,7 +192,9 @@ hu:
         work_packages_watched:
           title: 'Work packages watched by me'
         work_packages_table:
-          title: 'Work packages'
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
         work_packages_calendar:
           title: 'Naptár'
     homescreen:

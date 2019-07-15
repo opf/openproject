@@ -15,15 +15,6 @@ it:
     close_popup_title: "Chiudi popup"
     close_filter_title: "Chiudi il filtro"
     close_form_title: "Chiudi il modulo"
-    card:
-      add_new: 'Aggiungi una nuova carta'
-      highlighting:
-        inline: 'Evidenzia in linea:'
-        entire_card_by: 'Tutta la carta per'
-      remove_from_list: 'Rimuovi la carta dall''elenco'
-    clipboard:
-      browser_error: "Il tuo browser non supporta la copia negli appunti. Copia il testo selezionato manualmente."
-      copied_successful: "Copia negli appunti completata con successo!"
     button_add_watcher: "Aggiungi osservatore"
     button_back: "Indietro"
     button_back_to_list_view: "Torna alla visualizzazione in lista"
@@ -60,6 +51,30 @@ it:
     calendar:
       title: 'Calendario'
       too_many: 'Ci sono più pacchetti di lavoro (%{count}), di quanti possono essere visualizzati dal calendario (%{max}). Aggiungere filtri per concentrarsi su quelli pertinenti.'
+    card:
+      add_new: 'Aggiungi una nuova carta'
+      highlighting:
+        inline: 'Evidenzia in linea:'
+        entire_card_by: 'Tutta la carta per'
+      remove_from_list: 'Rimuovi la carta dall''elenco'
+    clipboard:
+      browser_error: "Il tuo browser non supporta la copia negli appunti. Copia il testo selezionato manualmente."
+      copied_successful: "Copia negli appunti completata con successo!"
+    chart:
+      type: 'Chart type'
+      axis_criteria: 'Axis criteria'
+      modal_title: 'Work package graph configuration'
+      types:
+        line: 'Line'
+        horizontal_bar: 'Horizontal bar'
+        bar: 'Bar'
+        pie: 'Pie'
+        doughnut: 'Doughnut'
+        radar: 'Radar'
+        polar_area: 'Polar area'
+      tabs:
+        graph_settings: 'Generale'
+        dataset: 'Dataset %{number}'
     description_available_columns: "Colonne disponibili"
     description_current_position: "Sei qui: "
     description_select_work_package: "Seleziona la macro-attività #%{id}"
@@ -164,6 +179,8 @@ it:
           title: 'Notizie'
           at: 'a'
           no_results: 'Niente di nuovo da segnalare.'
+        project_description:
+          title: 'Descrizione del progetto'
         time_entries_current_user:
           title: 'Tempo trascorso (ultimi 7 giorni)'
           no_results: 'Nessuna voce sul tempo per gli ultimi 7 giorni.'
@@ -176,7 +193,9 @@ it:
         work_packages_watched:
           title: 'Pacchetti di lavoro visti da me'
         work_packages_table:
-          title: 'Macro-attività'
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
         work_packages_calendar:
           title: 'Calendario'
     homescreen:

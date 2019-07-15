@@ -15,15 +15,6 @@ es:
     close_popup_title: "Cerrar ventana emergente"
     close_filter_title: "Cerrar filtro"
     close_form_title: "Cerrar formulario"
-    card:
-      add_new: 'Añadir nueva tarjeta'
-      highlighting:
-        inline: 'Resaltar en línea:'
-        entire_card_by: 'Toda la tarjeta en'
-      remove_from_list: 'Eliminar tarjeta de la lista'
-    clipboard:
-      browser_error: "Su navegador no soporta copiar al portapapeles. Por favor, copie el texto seleccionado manualmente."
-      copied_successful: "¡Copiado correctamente en el portapapeles!"
     button_add_watcher: "Añadir observador"
     button_back: "Atrás"
     button_back_to_list_view: "Volver a la lista"
@@ -60,6 +51,30 @@ es:
     calendar:
       title: 'Calendario'
       too_many: 'Hay más paquetes de trabajo (%{count}) de los que pueden mostrarse en en calendario (%{max}). Agregue filtros para centrarse en los relevantes.'
+    card:
+      add_new: 'Añadir nueva tarjeta'
+      highlighting:
+        inline: 'Resaltar en línea:'
+        entire_card_by: 'Toda la tarjeta en'
+      remove_from_list: 'Eliminar tarjeta de la lista'
+    clipboard:
+      browser_error: "Su navegador no soporta copiar al portapapeles. Por favor, copie el texto seleccionado manualmente."
+      copied_successful: "¡Copiado correctamente en el portapapeles!"
+    chart:
+      type: 'Chart type'
+      axis_criteria: 'Axis criteria'
+      modal_title: 'Work package graph configuration'
+      types:
+        line: 'Line'
+        horizontal_bar: 'Horizontal bar'
+        bar: 'Bar'
+        pie: 'Pie'
+        doughnut: 'Doughnut'
+        radar: 'Radar'
+        polar_area: 'Polar area'
+      tabs:
+        graph_settings: 'General'
+        dataset: 'Dataset %{number}'
     description_available_columns: "Columnas disponibles"
     description_current_position: "Usted está aquí: "
     description_select_work_package: "Seleccione el paquete de trabajo #%{id}"
@@ -164,6 +179,8 @@ es:
           title: 'Noticias'
           at: 'en'
           no_results: 'Nada nuevo sobre lo que informar.'
+        project_description:
+          title: 'Descripción del proyecto'
         time_entries_current_user:
           title: 'Tiempo de gastos (últimos 7 días)'
           no_results: 'Sin entradas temporales en los últimos 7 días.'
@@ -176,7 +193,9 @@ es:
         work_packages_watched:
           title: 'Paquetes de trabajo vigilados por mí'
         work_packages_table:
-          title: 'Paquetes de trabajo'
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
         work_packages_calendar:
           title: 'Calendario'
     homescreen:

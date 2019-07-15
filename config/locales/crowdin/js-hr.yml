@@ -15,15 +15,6 @@ hr:
     close_popup_title: "Popup izbornik"
     close_filter_title: "Zatvori filtar"
     close_form_title: "Zatvori obrazac"
-    card:
-      add_new: 'Add new card'
-      highlighting:
-        inline: 'Highlight inline:'
-        entire_card_by: 'Entire card by'
-      remove_from_list: 'Remove card from list'
-    clipboard:
-      browser_error: "Vaš izbornik ne podržava kopiranje u međuspremnik. Molim vas manualno kopirajte odabrani tekst."
-      copied_successful: "Uspješno kopirano u međuspremnik!"
     button_add_watcher: "Dodaj nadglednika"
     button_back: "Povratak"
     button_back_to_list_view: "Back to list view"
@@ -60,6 +51,30 @@ hr:
     calendar:
       title: 'Kalendar'
       too_many: 'There are more work packages (%{count}) than can be displayed by the calendar (%{max}). Add filters to focus on the relevant ones.'
+    card:
+      add_new: 'Add new card'
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: 'Entire card by'
+      remove_from_list: 'Remove card from list'
+    clipboard:
+      browser_error: "Vaš izbornik ne podržava kopiranje u međuspremnik. Molim vas manualno kopirajte odabrani tekst."
+      copied_successful: "Uspješno kopirano u međuspremnik!"
+    chart:
+      type: 'Chart type'
+      axis_criteria: 'Axis criteria'
+      modal_title: 'Work package graph configuration'
+      types:
+        line: 'Line'
+        horizontal_bar: 'Horizontal bar'
+        bar: 'Bar'
+        pie: 'Pie'
+        doughnut: 'Doughnut'
+        radar: 'Radar'
+        polar_area: 'Polar area'
+      tabs:
+        graph_settings: 'Općenito'
+        dataset: 'Dataset %{number}'
     description_available_columns: "Dostupni stupci"
     description_current_position: "You are here: "
     description_select_work_package: "Odaberite radni paket #%{id}"
@@ -164,6 +179,8 @@ hr:
           title: 'Vijesti'
           at: 'at'
           no_results: 'Nema promjena za izvjestiti.'
+        project_description:
+          title: 'Opis projekta'
         time_entries_current_user:
           title: 'Spent time (last 7 days)'
           no_results: 'No time entries for the last 7 days.'
@@ -176,7 +193,9 @@ hr:
         work_packages_watched:
           title: 'Work packages watched by me'
         work_packages_table:
-          title: 'Radni paketi'
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
         work_packages_calendar:
           title: 'Kalendar'
     homescreen:
