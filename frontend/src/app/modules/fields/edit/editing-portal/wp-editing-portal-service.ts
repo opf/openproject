@@ -9,12 +9,14 @@ import {EditFormPortalComponent} from "core-app/modules/fields/edit/editing-port
 import {createLocalInjector} from "core-app/modules/fields/edit/editing-portal/edit-form-portal.injector";
 import {take} from "rxjs/operators";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 
 @Injectable()
 export class WorkPackageEditingPortalService {
 
   constructor(private readonly appRef:ApplicationRef,
-              private readonly componentFactoryResolver:ComponentFactoryResolver) {
+              private readonly componentFactoryResolver:ComponentFactoryResolver,
+              private readonly pathHelper:PathHelperService) {
 
   }
 
@@ -35,6 +37,7 @@ export class WorkPackageEditingPortalService {
       fieldName,
       schema,
       container,
+      this.pathHelper,
       errors
     );
 

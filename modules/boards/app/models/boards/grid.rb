@@ -53,7 +53,7 @@ module Boards
 
     def contained_query_ids
       widgets
-        .map { |w| w.options['query_id'] }
+        .map { |w| w.options['queryId'] || w.options['query_id'] }
         .compact
     end
   end

@@ -75,7 +75,7 @@ export class BoardListsService {
         startColumn: count + 1,
         endColumn: count + 2,
         options: {
-          query_id: query.id,
+          queryId: query.id,
           filters: filters,
         }
       };

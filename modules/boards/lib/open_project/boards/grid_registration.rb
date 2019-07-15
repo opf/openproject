@@ -6,6 +6,10 @@ module OpenProject
 
       widgets 'work_package_query'
 
+      widget_strategy 'work_package_query' do
+        options_representer '::API::V3::Boards::Widgets::BoardOptionsRepresenter'
+      end
+
       defaults -> {
         {
           row_count: 1,

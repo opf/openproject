@@ -54,9 +54,9 @@
             cdkDragHandle></span>
 
       <div *cdkDragPlaceholder></div>
-      <ndc-dynamic [ndcDynamicComponent]="widgetComponent(area.widget)"
-                   [ndcDynamicInputs]="widgetComponentInput(area.widget)"
-                   [ndcDynamicOutputs]="widgetComponentOutput">
+      <ndc-dynamic [ndcDynamicComponent]="widgetComponent(area)"
+                   [ndcDynamicInputs]="widgetComponentInput(area)"
+                   [ndcDynamicOutputs]="widgetComponentOutput(area)">
       </ndc-dynamic>
     </div>
     <resizer *ngIf="!drag.currentlyDragging"

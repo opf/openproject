@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../../support/pages/my/page'
 
-describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, js: true do
+describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, js: true, with_mail: false do
   let!(:type) { FactoryBot.create :type }
   let!(:other_type) { FactoryBot.create :type }
   let!(:priority) { FactoryBot.create :default_priority }
@@ -76,6 +76,8 @@ describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, 
   context 'with the permission to save queries' do
     it 'can add the widget and see the work packages of the filtered for types' do
       my_page.add_column(3, before_or_after: :before)
+
+      sleep(1)
 
       my_page.add_widget(2, 3, "Work packages table")
 

@@ -1,6 +1,8 @@
 $grid--gap-width: 20px
 $grid--header-width: 20px
 
+@import openproject/mixins
+
 @mixin grid--commons
   display: grid
   grid-column-gap: $grid--gap-width
@@ -104,6 +106,35 @@ $grid--header-width: 20px
     overflow-x: hidden
     overflow-y: hidden
     display: block
+
+  // styles specific to the custom-text widget
+  &.-custom-text
+    a.inplace-editing--trigger-link
+      color: inherit
+      text-decoration: none
+
+    .op-ckeditor--wrapper
+      margin-bottom: 0
+
+    .ck-editor__top
+      position: sticky
+      top: 0
+
+    .inplace-edit--controls
+      position: initial
+
+      i
+        float: initial
+        padding: 0
+
+    edit-field-controls
+      display: flex
+      position: sticky
+      bottom: 0
+      justify-content: flex-end
+
+    .textarea-wrapper
+      margin-bottom: 0
 
 .grid--widget-limited-text
   max-height: 5rem

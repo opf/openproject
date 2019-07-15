@@ -109,7 +109,7 @@ module Grids::Configuration
     end
 
     def widget_strategy(grid, identifier)
-      grid_register[grid.to_s]&.widget_strategy(identifier)
+      grid_register[grid.to_s]&.widget_strategy(identifier) || Grids::Configuration::WidgetStrategy
     end
 
     ##

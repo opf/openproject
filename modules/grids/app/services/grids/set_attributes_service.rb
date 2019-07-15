@@ -88,7 +88,7 @@ class Grids::SetAttributesService < ::BaseServices::SetAttributes
     to_create = []
 
     widgets.each do |widget|
-      matching_map_key = first_unclaimed_by_identifier(widget_map, widget)
+      matching_map_key = match_widget(widget_map, widget)
 
       if matching_map_key
         widget_map[matching_map_key] = widget
@@ -102,10 +102,14 @@ class Grids::SetAttributesService < ::BaseServices::SetAttributes
      widget_map.compact]
   end
 
-  def first_unclaimed_by_identifier(widget_map, widget)
+  def match_widget(widget_map, widget)
     available_map_keys = widget_map.select { |_, v| v.nil? }.keys
 
-    available_map_keys.find { |w| w.identifier == widget.identifier }
+    if model.persisted?
+      available_map_keys.find { |w| w.id == widget.id }
+    else
+      available_map_keys.find { |w| w.identifier == widget.identifier }
+    end
   end
 
   # Removes prohibited widgets from the grid.

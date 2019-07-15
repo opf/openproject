@@ -34,7 +34,9 @@ import {
   InjectionToken,
   Injector,
   OnDestroy,
-  OnInit
+  OnInit,
+  Input,
+  Optional
 } from "@angular/core";
 import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
@@ -43,6 +45,8 @@ import {WorkPackageEditingService} from "core-components/wp-edit-form/work-packa
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {Field, IFieldSchema} from "core-app/modules/fields/field.base";
 import {WorkPackageChangeset} from "core-components/wp-edit-form/work-package-changeset";
+import {EditChangeset} from "core-app/modules/fields/changeset/edit-changeset";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 export const OpEditingPortalSchemaToken = new InjectionToken('wp-editing-portal--schema');
 export const OpEditingPortalHandlerToken = new InjectionToken('wp-editing-portal--handler');
@@ -53,11 +57,7 @@ export const overflowingContainerAttribute = 'overflowingIdentifier';
 
 export const editModeClassName = '-editing';
 
-@Component({
-  template: ''
-})
-export class EditFieldComponent extends Field implements OnInit, OnDestroy {
-
+export abstract class EditFieldComponent extends Field implements OnInit, OnDestroy {
   /** Self reference */
   public self = this;
 
@@ -66,8 +66,8 @@ export class EditFieldComponent extends Field implements OnInit, OnDestroy {
 
   constructor(readonly I18n:I18nService,
               readonly elementRef:ElementRef,
-              @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService,
-              @Inject(OpEditingPortalChangesetToken) protected changeset:WorkPackageChangeset,
+              @Optional() @Inject(IWorkPackageEditingServiceToken) wpEditing:WorkPackageEditingService,
+              @Inject(OpEditingPortalChangesetToken) protected changeset:EditChangeset<HalResource>,
               @Inject(OpEditingPortalSchemaToken) public schema:IFieldSchema,
               @Inject(OpEditingPortalHandlerToken) readonly handler:EditFieldHandler,
               readonly cdRef:ChangeDetectorRef,
@@ -75,25 +75,27 @@ export class EditFieldComponent extends Field implements OnInit, OnDestroy {
     super();
     this.schema = this.schema || this.changeset.schema[this.name];
 
-    this.wpEditing.state(this.changeset.workPackage.id!)
-      .values$()
-      .pipe(
-        untilComponentDestroyed(this)
-      )
-      .subscribe((changeset) => {
-        if (this.changeset.form) {
-          const fieldSchema = changeset.schema[this.name];
+    if (wpEditing) {
+      wpEditing.state(this.changeset.resource.id!)
+        .values$()
+        .pipe(
+          untilComponentDestroyed(this)
+        )
+        .subscribe((changeset) => {
+          if (this.changeset.form) {
+            const fieldSchema = changeset.schema[this.name];
 
-          if (!fieldSchema) {
-            return handler.deactivate(false);
+            if (!fieldSchema) {
+              return handler.deactivate(false);
+            }
+
+            this.changeset = changeset;
+            this.schema = this.changeset.schema[this.name];
+            this.initialize();
+            this.cdRef.markForCheck();
           }
-
-          this.changeset = changeset;
-          this.schema = this.changeset.schema[this.name];
-          this.initialize();
-          this.cdRef.markForCheck();
-        }
-      });
+        });
+    }
   }
 
   ngOnInit():void {
@@ -142,7 +144,7 @@ export class EditFieldComponent extends Field implements OnInit, OnDestroy {
   }
 
   public get resource() {
-    return this.changeset.workPackage;
+    return this.changeset.resource;
   }
 
   /**

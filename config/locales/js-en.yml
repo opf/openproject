@@ -213,6 +213,8 @@ en:
         choose_widget: 'Choose widget'
       remove: 'Remove widget'
       widgets:
+        custom_text:
+          title: 'Custom text'
         documents:
           title: 'Documents'
           no_results: 'No documents yet.'
@@ -241,6 +243,7 @@ en:
           title: 'Calendar'
         work_packages_overview:
           title: 'Work packages overview'
+          placeholder: 'Click to edit ...'
 
     homescreen:
       blocks:

@@ -221,7 +221,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, AfterViewInit, 
       .createOrContinueWorkPackage(this.projectIdentifier)
       .then((changeset:WorkPackageChangeset) => {
 
-      const wp = this.currentWorkPackage = changeset.workPackage;
+      const wp = this.currentWorkPackage = changeset.resource;
 
       this.editingSubscription = this
         .wpCreate

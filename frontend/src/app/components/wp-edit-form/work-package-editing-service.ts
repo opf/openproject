@@ -75,7 +75,7 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
     }
 
     const changeset = state.value!;
-    changeset.workPackage = workPackage;
+    changeset.resource = workPackage;
 
     return changeset;
   }
@@ -99,8 +99,8 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
       ($) => $
         .pipe(
           map(([wp, changeset]) => {
-            if (wp && changeset && changeset.resource) {
-              return changeset.resource;
+            if (wp && changeset && changeset.editingResource) {
+              return changeset.editingResource;
             } else {
               return wp;
             }

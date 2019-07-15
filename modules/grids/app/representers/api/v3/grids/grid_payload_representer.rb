@@ -33,6 +33,10 @@ module API
     module Grids
       class GridPayloadRepresenter < GridRepresenter
         include ::API::Utilities::PayloadRepresenter
+
+        def widget_representer_class
+          Widgets::WidgetPayloadRepresenter
+        end
       end
     end
   end

@@ -63,6 +63,10 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
       .to receive(:assignable_widgets)
       .and_return(allowed_widgets)
 
+    allow(contract)
+      .to receive(:model)
+      .and_return(double('model'))
+
     contract
   end
   let(:representer) do

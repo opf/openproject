@@ -24,8 +24,8 @@ FactoryBot.define do
         end
       end
 
-
       board.widgets << FactoryBot.create(:grid_widget,
+                                         identifier: 'work_package_query',
                                          start_row: 1,
                                          end_row: 2,
                                          start_column: 1,
@@ -52,6 +52,7 @@ FactoryBot.define do
         end
 
         board.widgets << FactoryBot.create(:grid_widget,
+                                           identifier: 'work_package_query',
                                            start_row: 1,
                                            end_row: 2,
                                            start_column: 1,

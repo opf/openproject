@@ -1,6 +1,7 @@
-import {HostBinding, Input, EventEmitter, Output, HostListener} from "@angular/core";
+import {HostBinding, Input, EventEmitter, Output, HostListener, Injector} from "@angular/core";
 import {GridWidgetResource} from "app/modules/hal/resources/grid-widget-resource";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {WidgetChangeset} from "core-app/modules/grids/widgets/widget-changeset";
 
 export abstract class AbstractWidgetComponent {
   @HostBinding('style.grid-column-start') gridColumnStart:number;
@@ -10,23 +11,26 @@ export abstract class AbstractWidgetComponent {
 
   @Input() resource:GridWidgetResource;
 
-  @Output() resourceChanged = new EventEmitter<GridWidgetResource>();
+  @Output() resourceChanged = new EventEmitter<WidgetChangeset>();
 
   public get widgetName() {
     return this.resource.options.name;
   }
 
   public renameWidget(name:string) {
-    this.resource.options.name = name;
+    let changeset = this.setChangesetOptions({ name: name });
 
-    this.resourceChanged.emit(this.resource);
+    this.resourceChanged.emit(changeset);
   }
 
-  constructor(protected i18n:I18nService) { }
+  constructor(protected i18n:I18nService,
+              protected injector:Injector) { }
 
-  // apparently, static methods cannot be abstract
-  // https://github.com/microsoft/TypeScript/issues/14600
-  public static get identifier():string {
-    return 'need to override';
+  protected setChangesetOptions(values:{ [key:string]:unknown; }) {
+    let changeset = new WidgetChangeset(this.injector, this.resource);
+
+    changeset.setValue('options', Object.assign({}, this.resource.options, values));
+
+    return changeset;
   }
 }

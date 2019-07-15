@@ -91,7 +91,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
       .createdWorkPackage()
       .then((changeset:WorkPackageChangeset) => {
         this.changeset = changeset;
-        this.newWorkPackage = changeset.workPackage;
+        this.newWorkPackage = changeset.resource;
         this.cdRef.detectChanges();
 
         this.setTitle();

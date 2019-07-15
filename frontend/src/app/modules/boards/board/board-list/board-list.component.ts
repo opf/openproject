@@ -129,14 +129,14 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
               private readonly wpStatesInitialization:WorkPackageStatesInitializationService,
               private readonly authorisationService:AuthorisationService,
               private readonly wpInlineCreate:WorkPackageInlineCreateService,
-              private readonly injector:Injector,
+              protected readonly injector:Injector,
               @Inject(IWorkPackageEditingServiceToken) private readonly wpEditing:WorkPackageEditingService,
               private readonly loadingIndicator:LoadingIndicatorService,
               private readonly wpCacheService:WorkPackageCacheService,
               private readonly boardService:BoardService,
               private readonly boardActionRegistry:BoardActionsRegistryService,
               private readonly causedUpdates:CausedUpdatesService) {
-    super(I18n);
+    super(I18n, injector);
   }
 
   ngOnInit():void {
@@ -339,7 +339,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   }
 
   private loadQuery(visibly = true) {
-    const queryId:string = (this.resource.options.query_id as number|string).toString();
+    const queryId:string = (this.resource.options.queryId as number|string).toString();
 
     let observable = this.QueryDm.stream(this.columnsQueryProps, queryId);
 

@@ -61,10 +61,10 @@ export class GridDmService extends AbstractDmService<GridResource> {
                                                       payload).toPromise();
   }
 
-  public update(resource:GridResource, schema:SchemaResource):Promise<GridResource> {
+  public update(resource:GridResource, schema:SchemaResource|null = null):Promise<GridResource> {
     let payload = this.extractPayload(resource, schema);
 
-    return this.halResourceService.patch<GridResource>(this.pathHelper.api.v3.grids.id(resource.idFromLink).toString(),
+    return this.halResourceService.patch<GridResource>(this.pathHelper.api.v3.grids.id(resource.id!).toString(),
                                                        payload).toPromise();
   }
 
@@ -84,6 +84,7 @@ export class GridDmService extends AbstractDmService<GridResource> {
       if (payload.widgets) {
         payload.widgets = resource.widgets.map((widget) => {
           return {
+            id: widget.id,
             startRow: widget.startRow,
             endRow: widget.endRow,
             startColumn: widget.startColumn,

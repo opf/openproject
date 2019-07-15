@@ -81,9 +81,11 @@ describe 'Accountable widget on my page', type: :feature, js: true do
   it 'can add the widget and see the work packages the user is accountable for' do
     my_page.add_column(3, before_or_after: :before)
 
+    sleep(1)
+
     my_page.add_widget(2, 3, "Work packages I am accountable for")
 
-    sleep(0.2)
+    sleep(1)
 
     accountable_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(3)')
     created_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')

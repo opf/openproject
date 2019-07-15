@@ -30,7 +30,6 @@ import {PathHelperService} from "core-app/modules/common/path-helper/path-helper
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 import {OpCkeditorComponent} from "core-app/modules/common/ckeditor/op-ckeditor.component";
 import {ICKEditorContext, ICKEditorInstance} from "core-app/modules/common/ckeditor/ckeditor-setup.service";
-import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 
 export const formattableFieldTemplate = `
     <div class="textarea-wrapper">
@@ -45,26 +44,24 @@ export const formattableFieldTemplate = `
       </div>
       <edit-field-controls *ngIf="!(handler.inEditMode || initializationError)"
                            [fieldController]="field"
-                           (onSave)="handler.handleUserSubmit()"
+                           (onSave)="handleUserSubmit()"
                            (onCancel)="handler.handleUserCancel()"
                            [saveTitle]="text.save"
                            [cancelTitle]="text.cancel">
       </edit-field-controls>
     </div>
-`
+`;
 
 @Component({
   template: formattableFieldTemplate
 })
 export class FormattableEditFieldComponent extends EditFieldComponent implements OnInit {
-  readonly pathHelper:PathHelperService = this.injector.get(PathHelperService);
-
   public readonly field = this;
 
   // Detect when inner component could not be initalized
   public initializationError = false;
 
-  @ViewChild(OpCkeditorComponent, { static: true }) instance:OpCkeditorComponent;
+  @ViewChild(OpCkeditorComponent, { static: true }) editor:OpCkeditorComponent;
 
   // Values used in template
   public isPreview:boolean = false;
@@ -89,7 +86,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   }
 
   public getCurrentValue():Promise<void> {
-    return this.instance
+    return this.editor
       .getTransformedContent()
       .then((val) => {
         this.rawValue = val;
@@ -118,24 +115,16 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   }
 
   public get editorType() {
-    if (this.name === 'description') {
-      return 'full';
-    } else {
-      return 'constrained';
-    }
+    return this.handler.formattableEditorType;
   }
 
   private get previewContext() {
-    if (this.resource.isNew && this.resource.project) {
-      return this.resource.project.href;
-    } else if (!this.resource.isNew) {
-      return this.pathHelper.api.v3.work_packages.id(this.resource.id!).path;
-    }
+    return this.handler.previewContext(this.resource);
   }
 
   public reset() {
-    if (this.instance && this.instance.initialized) {
-      this.instance.content = this.rawValue;
+    if (this.editor && this.editor.initialized) {
+      this.editor.content = this.rawValue;
     }
   }
 
@@ -148,7 +137,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   }
 
   public set rawValue(val:string) {
-    this.value = {raw: val};
+    this.value = { raw: val };
   }
 
   public isEmpty():boolean {
@@ -160,7 +149,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   }
 
   protected initialize() {
-    if (this.resource.isNew && this.instance) {
+    if (this.resource.isNew && this.editor) {
       // Reset CKEditor when reloading after type/form changes
       this.reset();
     }

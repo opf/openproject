@@ -31,7 +31,6 @@ import {EditFieldService} from "core-app/modules/fields/edit/edit-field.service"
 import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
 import {initializeCoreEditFields} from "core-app/modules/fields/edit/edit-field.initializer";
 import {initializeCoreDisplayFields} from "core-app/modules/fields/display/display-field.initializer";
-import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 import {BooleanEditFieldComponent} from "core-app/modules/fields/edit/field-types/boolean-edit-field.component";
 import {DateEditFieldComponent} from "core-app/modules/fields/edit/field-types/date-edit-field.component";
 import {DurationEditFieldComponent} from "core-app/modules/fields/edit/field-types/duration-edit-field.component";
@@ -50,7 +49,6 @@ import {WorkPackageEditFieldComponent} from "core-app/modules/fields/edit/field-
 import {OpenprojectEditorModule} from 'core-app/modules/editor/openproject-editor.module';
 import {UserFieldPortalComponent} from "core-app/modules/fields/display/display-portal/display-user-field-portal/user-field-portal.component";
 import {UserFieldPortalService} from "core-app/modules/fields/display/display-portal/display-user-field-portal/user-field-portal-service";
-import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
 import {SelectAutocompleterRegisterService} from "core-app/modules/fields/edit/field-types/select-autocompleter-register.service";
 
 @NgModule({
@@ -76,7 +74,6 @@ import {SelectAutocompleterRegisterService} from "core-app/modules/fields/edit/f
   declarations: [
     EditFormPortalComponent,
     UserFieldPortalComponent,
-    EditFieldComponent,
     BooleanEditFieldComponent,
     DateEditFieldComponent,
     DurationEditFieldComponent,
@@ -92,7 +89,6 @@ import {SelectAutocompleterRegisterService} from "core-app/modules/fields/edit/f
   entryComponents: [
     EditFormPortalComponent,
     UserFieldPortalComponent,
-    EditFieldComponent,
     BooleanEditFieldComponent,
     DateEditFieldComponent,
     DurationEditFieldComponent,

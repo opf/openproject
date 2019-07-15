@@ -1,4 +1,4 @@
-import {Component, OnInit, ChangeDetectorRef} from "@angular/core";
+import {Component, OnInit, ChangeDetectorRef, Injector} from "@angular/core";
 import {AbstractWidgetComponent} from "app/modules/grids/widgets/abstract-widget.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {TimeEntryDmService} from "core-app/modules/hal/dm-services/time-entry-dm.service";
@@ -31,12 +31,13 @@ export class WidgetTimeEntriesCurrentUserComponent extends AbstractWidgetCompone
   public rows:{ date:string, sum?:string, entry?:TimeEntryResource}[] = [];
 
   constructor(readonly timeEntryDm:TimeEntryDmService,
+              protected readonly injector:Injector,
               readonly timezone:TimezoneService,
               readonly i18n:I18nService,
               readonly pathHelper:PathHelperService,
               readonly confirmDialog:ConfirmDialogService,
               protected readonly cdr:ChangeDetectorRef) {
-    super(i18n);
+    super(i18n, injector);
   }
 
   ngOnInit() {
