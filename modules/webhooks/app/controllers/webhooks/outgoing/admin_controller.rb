@@ -2,10 +2,11 @@ module Webhooks
   module Outgoing
     class AdminController < ::ApplicationController
       layout 'admin'
-      menu_item :plugin_webhooks
 
       before_action :require_admin
       before_action :find_webhook, only: [:show, :edit, :update, :destroy]
+
+      menu_item :plugin_webhooks
 
       def index
         @webhooks = webhook_class.all
