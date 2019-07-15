@@ -1,4 +1,5 @@
 import {QueryOrder} from "core-app/modules/hal/dm-services/query-order-dm.service";
+import {debugLog, timeOutput} from "core-app/helpers/debug_output";
 
 // min allowed position
 export const MIN_ORDER = -2147483647;
@@ -7,7 +8,7 @@ export const MAX_ORDER = 2147483647;
 // default position to insert
 export const DEFAULT_ORDER = 0;
 // The distance to keep between each element
-export const ORDER_DISTANCE = 1000;
+export const ORDER_DISTANCE = 16384;
 
 /**
  * Computes the delta of positions for a given
@@ -37,7 +38,10 @@ export class ReorderDeltaBuilder {
   }
 
   public buildDelta():QueryOrder {
-    this.buildInsertPosition();
+    timeOutput("Building delta", () => this.buildInsertPosition());
+
+    debugLog("Order DELTA was built as %O", this.delta);
+
     return this.delta;
   }
 
@@ -50,7 +54,7 @@ export class ReorderDeltaBuilder {
     }
 
     // Special case, shifted movement by one
-    if (this.fromIndex && Math.abs(this.fromIndex - this.index) === 1 && this.positionSwap()) {
+    if (this.fromIndex !== null && Math.abs(this.fromIndex - this.index) === 1 && this.positionSwap()) {
       return;
     }
 
@@ -68,7 +72,7 @@ export class ReorderDeltaBuilder {
     if (successorPosition === undefined) {
       // Successor does not have a position yet (is NULL), any position will work
       // so let's use the optimal one.
-      this.delta[this.wpId] = predecessorPosition + ORDER_DISTANCE;
+      this.delta[this.wpId] = predecessorPosition + (ORDER_DISTANCE / 2);
       return;
     }
 
@@ -76,9 +80,10 @@ export class ReorderDeltaBuilder {
     // We will want to insert at the half way from predecessorPosition ... successorPosition
     const distance = Math.floor((successorPosition - predecessorPosition) / 2);
 
-    // TODO: shifting when optimal becomes too small
+    // If there is no space to insert, we're going to optimize the available space
     if (distance < 1) {
-      throw "Cannot insert at optimal position, no space left. Need to compress predecessors";
+      debugLog("Cannot insert at optimal position, no space left. Need to reorder");
+      return this.reorderedInsert();
     }
 
     const optimal = predecessorPosition + distance;
@@ -105,9 +110,9 @@ export class ReorderDeltaBuilder {
    * we can swap the positions.
    */
   private positionSwap():boolean {
-    const myPosition = this.positionFor(this.index!)
+    const myPosition = this.positionFor(this.index!);
     const neighbor = this.order[this.fromIndex!];
-    const neighborPosition = this.positionFor(this.fromIndex!)
+    const neighborPosition = this.positionFor(this.fromIndex!);
 
     // If either the neighbor or wpid have no position yet,
     // go through the regular update flow
@@ -150,7 +155,7 @@ export class ReorderDeltaBuilder {
    */
   private positionFor(index:number):number|undefined {
     const wpId = this.order[index];
-    return this.positions[wpId];
+    return this.livePosition(wpId);
   }
 
   /**
@@ -161,5 +166,75 @@ export class ReorderDeltaBuilder {
    */
   private livePosition(wpId:string):number|undefined {
     return this.delta[wpId] || this.positions[wpId];
+  }
+
+  /**
+   * There was no space left at the desired insert position,
+   * we're going to evenly distribute all items again
+   */
+  private reorderedInsert() {
+    const itemsToDistribute = this.order.length;
+
+    // Get the current distance between orders
+    // Both must be set by now due to +buildUpPredecessorPosition+ having run.
+    let min = this.minPosition!;
+    let max = this.maxPosition!;
+
+    // We can keep min and max orders if distance/(items to distribute) >= 1
+    let space = Math.floor((max - min) / (itemsToDistribute - 1));
+
+    // If no space is left, first try to add to the max item
+    // Or subtract from the min item
+    if (space < 1) {
+      if ((max + itemsToDistribute) <= MAX_ORDER) {
+        max += itemsToDistribute;
+      } else if ((min - itemsToDistribute) >= MIN_ORDER) {
+        min -= itemsToDistribute;
+      } else {
+        // This should not happen in a 4-byte integer with our frontend
+        throw "Elements cannot be moved further and no space is left. Too many elements";
+      }
+
+      // Rebuild space
+      space = Math.floor((max - min) / (itemsToDistribute - 1));
+    }
+
+    // Assign positions for all values in between min/max
+    for (let i = 1; i < itemsToDistribute; i++) {
+      const wpId = this.order[i];
+
+      // If we reached a point where the position is undefined
+      // and larger than our point of insertion, we can keep them this way
+      if (i > this.index && this.livePosition(wpId) === undefined) {
+        return;
+      }
+
+      this.delta[wpId] = min + (i * space);
+    }
+  }
+
+  /**
+   * Returns the minimal position assigned currently
+   */
+  private get minPosition():number|undefined {
+    const wpId = this.order[0]!;
+    return this.livePosition(wpId);
+  }
+
+  /**
+   * Returns the maximum position assigned currently.
+   * Note that a list can be unpositioned at the beginning, so this may return undefined
+   */
+  private get maxPosition():number|undefined {
+    for (let i = this.order.length - 1; i >= 0; i--) {
+      let position = this.livePosition(this.order[i]);
+
+      // Return the first set position.
+      if (position !== undefined) {
+        return position;
+      }
+    }
+
+    return;
   }
 }

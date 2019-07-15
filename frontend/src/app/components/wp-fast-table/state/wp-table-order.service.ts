@@ -41,6 +41,7 @@ import {QueryOrder, QueryOrderDmService} from "core-app/modules/hal/dm-services/
 import {take} from "rxjs/operators";
 import {InputState} from "reactivestates";
 import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state/wp-table-sort-by.service";
+import {from} from "rxjs";
 
 @Injectable()
 export class WorkPackageTableOrderService extends WorkPackageQueryStateService<QueryOrder> {
@@ -64,14 +65,14 @@ export class WorkPackageTableOrderService extends WorkPackageQueryStateService<Q
   /**
    * Move an item in the list
    */
-  public move(order:string[], wpId:string, toIndex:number):string[] {
+  public async move(order:string[], wpId:string, toIndex:number):Promise<string[]> {
     // Find index of the work package
-    let fromIndex = order.findIndex((id) => id === wpId);
+    let fromIndex:number = order.findIndex((id) => id === wpId);
 
     order.splice(fromIndex, 1);
     order.splice(toIndex, 0, wpId);
 
-    this.assignPosition(order, wpId, toIndex, fromIndex);
+    await this.assignPosition(order, wpId, toIndex, fromIndex);
 
     return order;
   }
@@ -88,14 +89,14 @@ export class WorkPackageTableOrderService extends WorkPackageQueryStateService<Q
   /**
    * Add an item to the list
    */
-  public add(order:string[], wpId:string, toIndex:number = -1):string[] {
+  public async add(order:string[], wpId:string, toIndex:number = -1):Promise<string[]> {
     if (toIndex === -1) {
       order.push(wpId);
     } else {
       order.splice(toIndex, 0, wpId);
     }
 
-    this.assignPosition(order, wpId, toIndex);
+    await this.assignPosition(order, wpId, toIndex);
 
     return order;
   }
@@ -118,7 +119,6 @@ export class WorkPackageTableOrderService extends WorkPackageQueryStateService<Q
     const positions = await this.withLoadedPositions();
     const delta = new ReorderDeltaBuilder(order, positions, wpId, toIndex, fromIndex).buildDelta();
 
-    debugLog("Updating positions " + JSON.stringify(delta));
     this.update(delta);
   }
 
@@ -145,12 +145,12 @@ export class WorkPackageTableOrderService extends WorkPackageQueryStateService<Q
   /**
    * Initialize (or load if persisted) the order for the query space
    */
-  protected withLoadedPositions():Promise<QueryOrder> {
+  public withLoadedPositions():Promise<QueryOrder> {
     if (this.currentQuery.persisted) {
       const value = this.positions.value;
 
       // Remove empty or stale values given we can reload them
-      if (value === {} || this.positions.isPromiseRequestOlderThan(10000)) {
+      if ((value === {} || this.positions.isPromiseRequestOlderThan(60000))) {
         this.positions.clear("Clearing old positions value");
       }
 

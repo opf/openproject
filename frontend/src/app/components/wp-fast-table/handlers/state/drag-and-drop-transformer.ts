@@ -41,8 +41,8 @@ export class DragAndDropTransformer {
 
     this.inlineCreateService.newInlineWorkPackageCreated
       .pipe(takeUntil(this.querySpace.stopAllSubscriptions))
-      .subscribe((wpId) => {
-        const newOrder = this.wpTableOrder.add(this.currentOrder, wpId);
+      .subscribe(async (wpId) => {
+        const newOrder = await this.wpTableOrder.add(this.currentOrder, wpId);
         this.updateRenderedOrder(newOrder);
       });
 
@@ -54,7 +54,7 @@ export class DragAndDropTransformer {
 
     this.dragService.register({
       dragContainer: this.table.tbody,
-      scrollContainers: [this.table.tbody],
+      scrollContainers: [this.table.container],
       accepts: () => true,
       moves: (el:any, source:any, handle:HTMLElement) => {
         if (!handle.classList.contains('wp-table--drag-and-drop-handle')) {
@@ -72,8 +72,8 @@ export class DragAndDropTransformer {
 
         this.actionService
           .handleDrop(workPackage, el)
-          .then(() => {
-            const newOrder = this.wpTableOrder.move(this.currentOrder, wpId, rowIndex);
+          .then(async () => {
+            const newOrder = await this.wpTableOrder.move(this.currentOrder, wpId, rowIndex);
             this.updateRenderedOrder(newOrder);
             this.actionService.onNewOrder(newOrder);
             this.wpTableSortBy.switchToManualSorting();
@@ -95,8 +95,8 @@ export class DragAndDropTransformer {
 
         return this.actionService
           .handleDrop(workPackage, el)
-          .then(() => {
-            const newOrder = this.wpTableOrder.add(this.currentOrder, wpId, rowIndex);
+          .then(async () => {
+            const newOrder = await this.wpTableOrder.add(this.currentOrder, wpId, rowIndex);
             this.updateRenderedOrder(newOrder);
             this.actionService.onNewOrder(newOrder);
 
@@ -133,10 +133,8 @@ export class DragAndDropTransformer {
     this.querySpace.rendered.putValue(mappedOrder);
 
     /** If the timeline is visible, we will need to redraw it */
-    if (this.wpTableTimeline.isVisible) {
-      this.table.originalRows = this.currentRenderedOrder.map((e) => e.workPackageId!);
-      this.table.redrawTableAndTimeline();
-    }
+    this.table.originalRows = this.currentRenderedOrder.map((e) => e.workPackageId!);
+    this.table.redrawTableAndTimeline();
   }
 
   protected get actionService():TableDragActionService {

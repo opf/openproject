@@ -17,7 +17,7 @@ export class DragDropHandleBuilder {
   /**
    * Renders an angular CDK drag component into the column
    */
-  public build(workPackage:WorkPackageResource):HTMLElement {
+  public build(workPackage:WorkPackageResource, position?:number):HTMLElement {
     // Append sort handle
     let td = document.createElement('td');
 
@@ -30,7 +30,12 @@ export class DragDropHandleBuilder {
     // Wrap handle as span
     let span = document.createElement('span');
     span.classList.add('wp-table--drag-and-drop-handle', 'icon-toggle');
+
+    let text = document.createElement('span');
+    text.textContent = '' + position;
+
     td.appendChild(span);
+    td.appendChild(text);
 
     return td;
   }

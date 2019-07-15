@@ -188,11 +188,11 @@ export class WorkPackageCardViewComponent  implements OnInit {
         return this.canDragOutOf(workPackage) && !card.dataset.isNew;
       },
       accepts: () => this.dragInto,
-      onMoved: (card:HTMLElement) => {
+      onMoved: async (card:HTMLElement) => {
         const wpId:string = card.dataset.workPackageId!;
         const toIndex = DragAndDropHelpers.findIndex(card);
 
-        const newOrder = this.reorderService.move(this.currentOrder, wpId, toIndex);
+        const newOrder = await this.reorderService.move(this.currentOrder, wpId, toIndex);
         this.updateOrder(newOrder);
       },
       onRemoved: (card:HTMLElement) => {
