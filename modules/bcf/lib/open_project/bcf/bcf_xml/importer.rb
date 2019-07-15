@@ -43,7 +43,7 @@ module OpenProject::Bcf::BcfXml
     end
 
     def import!(options = {})
-      options = options.merge(DEFAULT_IMPORT_OPTIONS)
+      options = DEFAULT_IMPORT_OPTIONS.merge(options)
       Zip::File.open(@file) do |zip|
         apply_import_replacements(options)
 
