@@ -130,6 +130,24 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
     expect(page).to have_selector('.wp-relations--subject-field', text: original_work_package.subject)
   end
 
+  describe 'when source work package has an attachment' do
+    it 'still allows copying through menu (Regression #30518)' do
+      wp_page = Pages::FullWorkPackage.new(original_work_package, project)
+      wp_page.visit!
+      wp_page.ensure_page_loaded
+
+      # Go to add cost entry page
+      find('#action-show-more-dropdown-menu .button').click
+      find('.menu-item', text: 'Copy').click
+
+      to_copy_work_package_page = Pages::FullWorkPackageCreate.new original_work_package: original_work_package
+      to_copy_work_package_page.update_attributes Description: 'Copied WP Description'
+      to_copy_work_package_page.save!
+
+      to_copy_work_package_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_create')
+    end
+  end
+
   scenario 'on split screen page' do
     original_work_package_page = Pages::SplitWorkPackage.new(original_work_package, project)
     to_copy_work_package_page = original_work_package_page.visit_copy!
