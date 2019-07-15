@@ -26,6 +26,7 @@ module OpenProject::Bcf::BcfXml
     def extract!
       @doc = extractor.doc
 
+      treat_empty_titles
       treat_unknown_types
       treat_unknown_statuses
       treat_unknown_priorities
@@ -49,6 +50,15 @@ module OpenProject::Bcf::BcfXml
     end
 
     private
+
+    ##
+    # BCF issues might have empty titles. OP needs one.
+    def treat_empty_titles
+      title_node = @doc.xpath('/Markup/Topic/Title').first
+      return if title_node&.content&.present?
+
+      title_node.content = "(Imported BCF issue contained no title)"
+    end
 
     ##
     # Handle unknown types during import
