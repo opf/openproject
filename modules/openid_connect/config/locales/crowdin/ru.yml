@@ -1,19 +1,19 @@
 ru:
   logout_warning: >
-    You have been logged out. The contents of any form you submit may be lost. Please [log in].
+    Вы вышли из системы. Содержимое любой формы, которую вы можете отправить, может быть потеряно. Пожалуйста [войдите в систему].
   activemodel:
     attributes:
       openid_connect/provider:
         name: Имя
-        display_name: Display name
+        display_name: Отображаемое имя
         identifier: Идентификатор
-        secret: Secret
-        scope: Scope
+        secret: Секрет
+        scope: Область
   openid_connect:
-    menu_title: OpenID providers
+    menu_title: Поставщики OpenID
     providers:
-      label_add_new: Add a new OpenID provider
-      label_edit: Edit OpenID provider %{name}
-      no_results_table: No providers have been defined yet.
-      plural: OpenID providers
-      singular: OpenID provider
+      label_add_new: Добавить нового поставщика OpenID
+      label_edit: Редактировать провайдера OpenID %{name}
+      no_results_table: Ни один провайдер еще не был определен.
+      plural: Поставщики OpenID
+      singular: Поставщик OpenID

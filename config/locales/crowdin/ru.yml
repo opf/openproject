@@ -2322,15 +2322,15 @@ ru:
         compare_to_absolute: "Значение абсолютного сопоставления "
         planning_element_time_relative_one: "Запуск пакетов работ в определенные сроки  "
         planning_element_time_relative_two: "Окончание пакетов работ в определенные сроки  "
-        planning_element_time_absolute_one: "The start for work packages in a certain timeframe  "
-        planning_element_time_absolute_two: "The end for work packages in a certain timeframe  "
+        planning_element_time_absolute_one: "Начало для пакетов работ в определенном тайм-фрейме  "
+        planning_element_time_absolute_two: "Конец для пакетов работ в определенном тайм-фрейме  "
       sort:
         sortation: "Сортировать по"
         alphabet: "по алфавиту"
         explicit_order: "явный порядок"
         project_sortation: "Сортировать проекты по"
         date: "дата"
-        default: "default"
+        default: "по умолчанию"
       column:
         assigned_to: "Назначенный"
         type: "Тип"

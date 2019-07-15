@@ -240,7 +240,7 @@ ru:
     label_less_than_ago: "меньше чем день назад"
     label_loading: "Загрузка..."
     label_me: "мне"
-    label_menu_collapse: "collapse"
+    label_menu_collapse: "свернуть"
     label_menu_expand: "развернуть"
     label_more_than_ago: "больше, чем дней назад"
     label_my_page: "Моя страница"
@@ -699,7 +699,7 @@ ru:
         choose_display_mode: 'Показывать пакеты работ в виде'
         modal_title: 'Настройка таблицы пакетов работ'
         embedded_tab_disabled: "Эта вкладка конфигурации не доступна для редактируемого вами встроенного представления."
-        default: "default"
+        default: "по умолчанию"
         display_settings: 'Настройки экрана'
         default_mode: "Простого списка"
         hierarchy_mode: "Иерархии"

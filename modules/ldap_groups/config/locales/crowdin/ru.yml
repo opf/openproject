@@ -2,31 +2,31 @@ ru:
   activerecord:
     attributes:
       ldap_groups/synchronized_group:
-        entry: 'Entry identifier'
-        auth_source: 'LDAP connection'
+        entry: 'Идентификатор записи'
+        auth_source: 'Подключение LDAP'
     models:
-      ldap_groups/synchronized_group: 'Synchronized LDAP group'
+      ldap_groups/synchronized_group: 'Синхронизированная группа LDAP'
   ldap_groups:
-    label_menu_item: 'Group synchronization'
-    label_group_key: 'LDAP group filter key'
+    label_menu_item: 'Синхронизация группы'
+    label_group_key: 'Ключ фильтра группы LDAP'
     settings:
-      group_key: 'LDAP group attribute'
-      group_key_text: 'The LDAP attribute name used to identify the groups.'
-      group_base: 'LDAP group base'
-      group_base_text: 'LDAP group base used to search for group entries.'
+      group_key: 'Атрибут группы LDAP'
+      group_key_text: 'Имя атрибута LDAP, используемое для идентификации групп.'
+      group_base: 'База группы LDAP'
+      group_base_text: 'База группы LDAP используется для поиска записей группы.'
     synchronized_groups:
-      add_new: 'Add synchronized LDAP group'
+      add_new: 'Добавить синхронизированную группу LDAP'
       destroy:
-        title: 'Remove synchronized group %{name}'
-        confirmation: "If you continue, the synchronized group %{name} and all %{users_count} users synchronized through it will be removed."
-        info: "Note: The OpenProject group itself and members added outside this LDAP synchronization will not be removed."
-        verification: "Enter the group's name %{name} to verify the deletion."
-      no_results: 'No synchronized groups found.'
-      no_members: 'This group has no synchronized members yet.'
-      plural: 'Synchronized LDAP groups'
-      singular: 'Synchronized LDAP group'
+        title: 'Удалить синхронизированную группу %{name}'
+        confirmation: "Если вы продолжите, синхронизированная группа %{name} и все %{users_count} пользователи синхронизированые через нее будут удалены."
+        info: "Примечание: сама группа OpenProject и члены, добавленные за пределами этой синхронизации LDAP, удалены не будут."
+        verification: "Введите имя группы %{name} для проверки удаления."
+      no_results: 'Синхронизированные группы не найдены.'
+      no_members: 'У этой группы пока нет синхронизированных участников.'
+      plural: 'Синхронизированные группы LDAP'
+      singular: 'Синхронизированная группа LDAP'
       form:
-        auth_source_text: 'Select which LDAP authentication mode is used.'
-        entry_text: 'Define the LDAP group identifier.'
-        group_text: 'Select an existing OpenProject group that members of the LDAP group shall be synchronized with'
+        auth_source_text: 'Выберите, какой режим аутентификации LDAP используется.'
+        entry_text: 'Определите идентификатор группы LDAP.'
+        group_text: 'Выберите существующую группу OpenProject, с которой должны синхронизироваться члены группы LDAP'
 
