@@ -9,7 +9,8 @@
   </widget-wp-graph-menu>
 </widget-header>
 
-<wp-embedded-graph [datasets]="datasets"
+<wp-embedded-graph class='grid--widget-content'
+                   [datasets]="datasets"
                    [chartType]="chartType"
                    *ngIf="datasets.length > 0">
 </wp-embedded-graph>

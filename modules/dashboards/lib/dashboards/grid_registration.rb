@@ -6,7 +6,8 @@ module Dashboards
     widgets 'work_packages_table',
             'work_packages_graph',
             'project_description',
-            'work_packages_calendar'
+            'work_packages_calendar',
+            'work_packages_overview'
 
     widget_strategy 'work_packages_table' do
       after_destroy -> { ::Query.find_by(id: options[:queryId])&.destroy }

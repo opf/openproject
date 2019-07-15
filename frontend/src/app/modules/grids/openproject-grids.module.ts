@@ -58,6 +58,7 @@ import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-build
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WidgetProjectDescriptionComponent} from "core-app/modules/grids/widgets/project-description/project-description.component";
 import {WidgetHeaderComponent} from "core-app/modules/grids/widgets/header/header.component";
+import {WidgetWpOverviewComponent} from "core-app/modules/grids/widgets/wp-overview/wp-overview.component";
 
 export const GRID_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -88,6 +89,7 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
                                   WidgetWpTableQuerySpaceComponent,
                                   WidgetWpGraphComponent,
                                   WidgetWpCalendarComponent,
+                                  WidgetWpOverviewComponent,
                                   WidgetProjectDescriptionComponent,
                                   WidgetTimeEntriesCurrentUserComponent]),
 
@@ -109,6 +111,7 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
     WidgetDocumentsComponent,
     WidgetNewsComponent,
     WidgetWpCalendarComponent,
+    WidgetWpOverviewComponent,
     WidgetWpTableComponent,
     WidgetWpTableQuerySpaceComponent,
     WidgetWpGraphComponent,
@@ -238,6 +241,14 @@ export function registerWidgets(injector:Injector) {
           title: i18n.t(`js.grid.widgets.work_packages_calendar.title`),
           properties: {
             name: i18n.t('js.grid.widgets.work_packages_calendar.title')
+          }
+        },
+        {
+          identifier: 'work_packages_overview',
+          component: WidgetWpOverviewComponent,
+          title: i18n.t(`js.grid.widgets.work_packages_overview.title`),
+          properties: {
+            name: i18n.t('js.grid.widgets.work_packages_overview.title')
           }
         },
         {

@@ -1,0 +1,13 @@
+<widget-header
+    [name]="widgetName"
+    [icon]="'calendar'"
+    (onRenamed)="renameWidget($event)">
+
+  <widget-menu
+      [resource]="resource">
+  </widget-menu>
+</widget-header>
+
+<wp-embedded-graph class='grid--widget-content'
+                   [datasets]="datasets">
+</wp-embedded-graph>
