@@ -28,6 +28,7 @@ module OpenProject::Bcf::BcfXml
 
       treat_unknown_types
       treat_unknown_statuses
+      treat_unknown_priorities
 
       extractor.doc = @doc
 
@@ -78,7 +79,7 @@ module OpenProject::Bcf::BcfXml
         elsif import_options[:unknown_statuses_action] == 'chose' && import_options[:unknown_statuses_chose_ids].any?
           replace_status_with(::Status.find_by(id: import_options[:unknown_statuses_chose_ids].first)&.name)
         else
-          raise StandardError.new 'Unknown topic statuses found in import. Use an existing status name.'
+          raise StandardError.new 'Unknown topic status found in import. Use an existing status name.'
         end
       end
     end
@@ -87,6 +88,33 @@ module OpenProject::Bcf::BcfXml
       raise StandardError.new "New status name can't be blank." unless new_status_name.present?
 
       @doc.xpath('/Markup/Topic').first.set_attribute('TopicStatus', new_status_name)
+    end
+
+    ##
+    # Handle unknown priorities during import
+    def treat_unknown_priorities
+      if aggregations.unknown_priorities.any?
+        if import_options[:unknown_priorities_action] == 'use_default'
+          # NOP The 'use_default' case gets already covered by OP.
+        elsif import_options[:unknown_priorities_action] == 'chose' && import_options[:unknown_priorities_chose_ids].any?
+          replace_priorities_with(::IssuePriority.find_by(id: import_options[:unknown_priorities_chose_ids].first)&.name)
+        else
+          raise StandardError.new 'Unknown topic priority found in import. Use an existing priority name.'
+        end
+      end
+    end
+
+    def replace_priorities_with(new_priority_name)
+      raise StandardError.new "New priority name can't be blank." unless new_priority_name.present?
+
+      priority_node = @doc.xpath('/Markup/Topic/Priority').first
+      if priority_node
+        priority_node.content = new_priority_name
+      else
+        # Valid BCF XML Topics must have a Title node. So we can add the Priority node just behind it and thus,
+        # maintain the schema's sequence compliance.
+        @doc.at('/Markup/Topic/Title').after("<Priority>#{new_priority_name}</Priority>")
+      end
     end
 
     def synchronize_with_work_package

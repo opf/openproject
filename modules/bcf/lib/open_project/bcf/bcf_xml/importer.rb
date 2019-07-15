@@ -9,11 +9,13 @@ module OpenProject::Bcf::BcfXml
     DEFAULT_IMPORT_OPTIONS = {
       unknown_types_action: "use_default",
       unknown_statuses_action: "use_default",
+      unknown_priorities_action: "use_default",
       invalid_people_action: "anonymize",
       unknown_mails_action: 'invite',
       non_members_action: 'add',
       unknown_types_chose_ids: [],
       unknown_statuses_chose_ids: [],
+      unknown_priorities_chose_ids: [],
       unknown_mails_invite_role_ids: [],
       non_members_add_role_ids: []
     }.freeze
