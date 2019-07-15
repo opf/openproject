@@ -63,6 +63,9 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
   /** Do we currently have query props ? */
   hasQueryProps:boolean;
 
+  /** Should we show the pagination ? */
+  showPagination = true;
+
   /** Listener callbacks */
   unRegisterTitleListener:Function;
   removeTransitionSubscription:Function;
@@ -106,6 +109,7 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
     ).subscribe((query) => {
       this.updateTitle(query);
       this.currentQuery = query;
+      this.showPagination = !this.wpTableSortBy.isManualSortingMode;
       this.cdRef.detectChanges();
     });
   }

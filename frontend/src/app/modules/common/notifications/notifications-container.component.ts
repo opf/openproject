@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, OnDestroy} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {INotification, NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
@@ -34,26 +34,34 @@ import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
 @Component({
   template: `
-  <div class="notification-box--wrapper">
-    <div class="notification-box--casing">
-      <notification [notification]="notification" *ngFor="let notification of stack"></notification>
+    <div class="notification-box--wrapper">
+      <div class="notification-box--casing">
+        <notification [notification]="notification" *ngFor="let notification of stack"></notification>
+      </div>
     </div>
-  </div>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'notifications-container'
 })
-export class NotificationsContainerComponent implements OnDestroy {
+export class NotificationsContainerComponent implements OnInit, OnDestroy {
 
-  public stack:INotification[] = []
+  public stack:INotification[] = [];
 
-  constructor(readonly notificationsService:NotificationsService) {
-    notificationsService
+  constructor(readonly notificationsService:NotificationsService,
+              readonly cdRef:ChangeDetectorRef) {
+  }
+
+  ngOnInit():void {
+    this.notificationsService
       .current
       .values$('Subscribing to changes in the notification stack')
       .pipe(
         takeUntil(componentDestroyed(this))
       )
-      .subscribe(stack => this.stack = stack);
+      .subscribe(stack => {
+        this.stack = stack;
+        this.cdRef.detectChanges();
+      });
   }
 
   ngOnDestroy() {
@@ -61,4 +69,4 @@ export class NotificationsContainerComponent implements OnDestroy {
   }
 }
 
-DynamicBootstrapper.register({ selector: 'notifications-container', cls: NotificationsContainerComponent  });
+DynamicBootstrapper.register({ selector: 'notifications-container', cls: NotificationsContainerComponent });

@@ -90,6 +90,7 @@ export class WorkPackageStatesInitializationService {
   public updateQuerySpace(query:QueryResource, results:WorkPackageCollectionResource) {
     // Clear table required data states
     this.querySpace.additionalRequiredWorkPackages.clear('Clearing additional WPs before updating rows');
+    this.querySpace.rendered.clear('Clearing rendered data before upgrading query space');
 
     if (results.schemas) {
       _.each(results.schemas.elements, (schema:SchemaResource) => {

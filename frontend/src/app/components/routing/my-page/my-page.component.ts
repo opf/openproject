@@ -13,21 +13,19 @@ export class MyPageComponent implements OnInit {
   public text = { title: this.i18n.t('js.label_my_page'),
                   html_title: this.i18n.t('js.label_my_page') };
 
+  public grid$:Promise<GridResource>;
+
   constructor(readonly gridInitialization:GridInitializationService,
               readonly pathHelper:PathHelperService,
               readonly halResourceService:HalResourceService,
               readonly i18n:I18nService,
               readonly title:Title) {}
 
-  public grid:GridResource;
 
   ngOnInit() {
-    this
+    this.grid$ = this
       .gridInitialization
-      .initialize(this.pathHelper.myPagePath())
-      .then((grid) => {
-        this.grid = grid;
-      });
+      .initialize(this.pathHelper.myPagePath());
 
     this.setHtmlTitle();
   }

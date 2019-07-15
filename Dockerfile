@@ -17,6 +17,7 @@ ENV RAILS_CACHE_STORE memcache
 ENV OPENPROJECT_INSTALLATION__TYPE docker
 ENV NEW_RELIC_AGENT_ENABLED false
 ENV ATTACHMENTS_STORAGE_PATH $APP_DATA_PATH/files
+ENV BUNDLE_PATH__SYSTEM=false
 
 ENV PGLOADER_DEPENDENCIES "libsqlite3-dev make curl gawk freetds-dev libzip-dev"
 
@@ -69,7 +70,7 @@ COPY modules ./modules
 # OpenProject::Version is required by module versions in gemspecs
 RUN mkdir -p lib/open_project
 COPY lib/open_project/version.rb ./lib/open_project/
-RUN bundle install --deployment --with="docker opf_plugins" --without="test development" --jobs=8 --retry=3
+RUN bundle install --deployment --path vendor/bundle --with="docker opf_plugins" --without="test development" --jobs=8 --retry=3
 
 # Finally, copy over the whole thing
 COPY . $APP_PATH

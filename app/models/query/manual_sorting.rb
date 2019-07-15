@@ -42,6 +42,10 @@ module Query::ManualSorting
         .pluck(:work_package_id)
     end
 
+    def manually_sorted?
+      sort_criteria_columns.any? { |clz, _| clz.is_a?(::Queries::WorkPackages::Columns::ManualSortingColumn) }
+    end
+
     private
 
     def self.manual_sorting_column
