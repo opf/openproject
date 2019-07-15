@@ -142,7 +142,7 @@ module ::Bcf
 
       @issues = ::Bcf::Issue.with_markup
                   .includes(work_package: %i[status priority assigned_to])
-                  .where(uuid: @listing.map { |e| e[:uuid] })
+                  .where(uuid: @listing.map { |e| e[:uuid] }, project: @project)
       render 'bcf/issues/diff_on_work_packages'
     end
 
