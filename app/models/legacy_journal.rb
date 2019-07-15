@@ -32,13 +32,14 @@ require 'redmine/acts/journalized/format_hooks'
 require 'open_project/journal_formatter/diff'
 require 'open_project/journal_formatter/attachment'
 require 'open_project/journal_formatter/custom_field'
+require 'journal_deprecated'
 
 # The ActiveRecord model representing journals.
 class LegacyJournal < ActiveRecord::Base
   include Comparable
-  include JournalFormatter
-  include JournalDeprecated
-  include FormatHooks
+  include ::JournalFormatter
+  include ::JournalDeprecated
+  include ::Redmine::Acts::Journalized::FormatHooks
 
   # Make sure each journaled model instance only has unique version ids
   validates_uniqueness_of :version, scope: [:journaled_id, :type]

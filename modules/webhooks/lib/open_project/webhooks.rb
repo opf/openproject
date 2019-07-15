@@ -15,6 +15,7 @@
 module OpenProject
   module Webhooks
     require "open_project/webhooks/engine"
+    require "open_project/webhooks/event_resources"
     require "open_project/webhooks/hook"
 
     @@registered_hooks = []

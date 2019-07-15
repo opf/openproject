@@ -23,7 +23,7 @@ module ReportingEngine
   class Engine < ::Rails::Engine
     engine_name :reportingengine
 
-    config.autoload_paths += Dir["#{config.root}/lib/"]
+    config.eager_load_paths += Dir["#{config.root}/lib/"]
 
     initializer 'reportingengine.precompile_assets' do
       Rails.application.config.assets.precompile += %w(reporting_engine.js)

@@ -13,7 +13,8 @@
 #++
 
 require 'open_project/plugins'
-# require 'open_project/notifications'
+require_relative './notification_handlers'
+require_relative './hook_handler'
 
 module OpenProject::GithubIntegration
   class Engine < ::Rails::Engine

@@ -99,10 +99,8 @@ module OpenProject
     config.middleware.use Rack::TempfileReaper
 
     # Custom directories with classes and modules you want to be autoloadable.
-    # config.autoload_paths += %W(#{config.root}/extras)
     config.enable_dependency_loading = true
-    config.autoload_paths << Rails.root.join('lib').to_s
-    config.autoload_paths << Rails.root.join('lib/constraints').to_s
+    config.eager_load_paths << Rails.root.join('lib')
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
@@ -170,10 +168,6 @@ module OpenProject
     # Configure the relative url root to be whatever the configuration is set to.
     # This allows for setting the root either via config file or via environment variable.
     config.action_controller.relative_url_root = OpenProject::Configuration['rails_relative_url_root']
-
-    # Load API files
-    config.paths.add File.join('app', 'api'), glob: File.join('**', '*.rb')
-    config.autoload_paths += Dir[Rails.root.join('app', 'api', '*')]
 
     OpenProject::Configuration.configure_cache(config)
 

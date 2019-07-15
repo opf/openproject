@@ -26,69 +26,71 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class JournalFormatter::Base
-  include Redmine::I18n
-  include ActionView::Helpers::TagHelper
-  include ActionView::Helpers::UrlHelper
-  include ActionView::Helpers::TextHelper
-  include Rails.application.routes.url_helpers
-  include ERB::Util
+module JournalFormatter
+  class Base
+    include Redmine::I18n
+    include ActionView::Helpers::TagHelper
+    include ActionView::Helpers::UrlHelper
+    include ActionView::Helpers::TextHelper
+    include Rails.application.routes.url_helpers
+    include ERB::Util
 
-  def initialize(journal)
-    @journal = journal
-  end
-
-  def render(key, values, options = { no_html: false })
-    label, old_value, value = format_details(key, values)
-
-    unless options[:no_html]
-      label, old_value, value = *format_html_details(label, old_value, value)
+    def initialize(journal)
+      @journal = journal
     end
 
-    render_ternary_detail_text(label, value, old_value, options)
-  end
+    def render(key, values, options = { no_html: false })
+      label, old_value, value = format_details(key, values)
 
-  private
+      unless options[:no_html]
+        label, old_value, value = *format_html_details(label, old_value, value)
+      end
 
-  def format_details(key, values, _options = {})
-    label = label(key)
-
-    old_value = values.first
-    value = values.last
-
-    [label, old_value, value]
-  end
-
-  def format_html_details(label, old_value, value)
-    label = content_tag('strong', label)
-    old_value = content_tag('i', h(old_value), title: h(old_value)) if old_value && !old_value.blank?
-    old_value = content_tag('strike', old_value) if old_value and value.blank?
-    value = content_tag('i', h(value), title: h(value)) if value.present?
-    value ||= ''
-
-    [label, old_value, value]
-  end
-
-  def label(key)
-    @journal.journable.class.human_attribute_name(key)
-  end
-
-  def render_ternary_detail_text(label, value, old_value, options)
-    return I18n.t(:text_journal_deleted, label: label, old: old_value) if value.blank?
-    return I18n.t(:text_journal_set_to, label: label, value: value) if old_value.blank?
-
-    if options[:no_html]
-      I18n.t(:text_journal_changed_plain, label: label, old: old_value, new: value).html_safe
-    else
-      I18n.t(:text_journal_changed, label: label, old: old_value, new: value).html_safe
+      render_ternary_detail_text(label, value, old_value, options)
     end
-  end
 
-  def render_binary_detail_text(label, value, old_value)
-    if value.blank?
-      l(:text_journal_deleted, label: label, old: old_value)
-    else
-      l(:text_journal_added, label: label, value: value)
+    private
+
+    def format_details(key, values, _options = {})
+      label = label(key)
+
+      old_value = values.first
+      value = values.last
+
+      [label, old_value, value]
+    end
+
+    def format_html_details(label, old_value, value)
+      label = content_tag('strong', label)
+      old_value = content_tag('i', h(old_value), title: h(old_value)) if old_value && !old_value.blank?
+      old_value = content_tag('strike', old_value) if old_value and value.blank?
+      value = content_tag('i', h(value), title: h(value)) if value.present?
+      value ||= ''
+
+      [label, old_value, value]
+    end
+
+    def label(key)
+      @journal.journable.class.human_attribute_name(key)
+    end
+
+    def render_ternary_detail_text(label, value, old_value, options)
+      return I18n.t(:text_journal_deleted, label: label, old: old_value) if value.blank?
+      return I18n.t(:text_journal_set_to, label: label, value: value) if old_value.blank?
+
+      if options[:no_html]
+        I18n.t(:text_journal_changed_plain, label: label, old: old_value, new: value).html_safe
+      else
+        I18n.t(:text_journal_changed, label: label, old: old_value, new: value).html_safe
+      end
+    end
+
+    def render_binary_detail_text(label, value, old_value)
+      if value.blank?
+        l(:text_journal_deleted, label: label, old: old_value)
+      else
+        l(:text_journal_added, label: label, value: value)
+      end
     end
   end
 end
