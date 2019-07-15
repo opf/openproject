@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild, ChangeDetectorRef, ChangeDetectionStrategy} from '@angular/core';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {
   WorkPackageEmbeddedGraphComponent,
@@ -7,30 +7,35 @@ import {
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {ChartOptions} from 'chart.js';
 import {WpGraphConfigurationService} from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration.service";
-import {WpGraphConfiguration} from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration";
+import {
+  WpGraphConfiguration,
+  WpGraphQueryParams
+} from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration";
 
 @Component({
-  selector: 'wp-by-version-graph',
-  templateUrl: './wp-by-version-graph.template.html',
-  styleUrls: ['./wp-by-version-graph.sass'],
+  selector: 'wp-overview-graph',
+  templateUrl: './wp-overview-graph.template.html',
+  styleUrls: ['./wp-overview-graph.component.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     WpGraphConfigurationService
   ]
 })
 
-export class WorkPackageByVersionGraphComponent implements OnInit {
-  @Input() versionId:number;
+export class WorkPackageOverviewGraphComponent implements OnInit {
+  @Input() additionalFilter:any;
   @ViewChild('wpEmbeddedGraphMulti', { static: false }) private embeddedGraphMulti:WorkPackageEmbeddedGraphComponent;
   @ViewChild('wpEmbeddedGraphSingle', { static: false }) private embeddedGraphSingle:WorkPackageEmbeddedGraphComponent;
-  public groupBy:string = 'status';
+  @Input() groupBy:string = 'status';
+  @Input() chartOptions:ChartOptions = { maintainAspectRatio: false };
   public datasets:WorkPackageEmbeddedGraphDataset[] = [];
   public displayModeSingle = true;
   public availableGroupBy:{label:string, key:string}[];
-  public chartOptions:ChartOptions = { maintainAspectRatio: true };
 
   constructor(readonly elementRef:ElementRef,
               readonly I18n:I18nService,
-              readonly graphConfigurationService:WpGraphConfigurationService) {
+              readonly graphConfigurationService:WpGraphConfigurationService,
+              protected readonly cdr:ChangeDetectorRef) {
 
     this.availableGroupBy = [{label: I18n.t('js.work_packages.properties.category'), key: 'category'},
                              {label: I18n.t('js.work_packages.properties.type'), key: 'type'},
@@ -42,7 +47,7 @@ export class WorkPackageByVersionGraphComponent implements OnInit {
 
   ngOnInit() {
     const element = this.elementRef.nativeElement;
-    this.versionId = JSON.parse(element.getAttribute('version-id'));
+    this.additionalFilter = JSON.parse(element.getAttribute('additional-filter'));
 
     this.setQueryProps();
   }
@@ -50,6 +55,18 @@ export class WorkPackageByVersionGraphComponent implements OnInit {
   public setQueryProps() {
     this.datasets = [];
 
+    let params = this.graphParams;
+
+    this.graphConfigurationService.configuration = new WpGraphConfiguration(params, {}, 'horizontalBar');
+
+    this.graphConfigurationService.reloadQueries().then(() => {
+      this.datasets = this.sortedDatasets(this.graphConfigurationService.datasets, params);
+
+      this.cdr.detectChanges();
+    });
+  }
+
+  public get graphParams() {
     let params = [];
 
     if (this.groupBy === 'status') {
@@ -63,11 +80,16 @@ export class WorkPackageByVersionGraphComponent implements OnInit {
       params.push({ name: this.I18n.t('js.label_closed_work_packages'), props: this.propsClosed });
     }
 
-    this.graphConfigurationService.configuration = new WpGraphConfiguration(params, {}, 'horizontalBar');
+    return params;
+  }
 
-    this.graphConfigurationService.reloadQueries().then(() => {
-      this.datasets = this.graphConfigurationService.datasets;
+  public sortedDatasets(datasets:WorkPackageEmbeddedGraphDataset[], params:WpGraphQueryParams[]) {
+    let sortingArray = params.map((x) => x.name );
+
+    return datasets.slice().sort((a, b) => {
+      return sortingArray.indexOf(a.label) - sortingArray.indexOf(b.label);
     });
+
   }
 
   public get propsBoth() {
@@ -83,11 +105,14 @@ export class WorkPackageByVersionGraphComponent implements OnInit {
   }
 
   private baseProps(filter?:any) {
-    let filters = [{ version: { operator: '=', values: [this.versionId] }},
-                   { subprojectId: { operator: '*', values: []}}];
+    let filters = [{subprojectId: {operator: '*', values: []}}];
 
     if (filter) {
       filters.push(filter);
+    }
+
+    if (this.additionalFilter) {
+      filters.push(this.additionalFilter);
     }
 
     return {
@@ -116,4 +141,4 @@ export class WorkPackageByVersionGraphComponent implements OnInit {
   }
 }
 
-DynamicBootstrapper.register({ selector: 'wp-by-version-graph', cls: WorkPackageByVersionGraphComponent });
+DynamicBootstrapper.register({ selector: 'wp-overview-graph', cls: WorkPackageOverviewGraphComponent });
