@@ -1,5 +1,5 @@
 <div #container
-     class="wp-cards-container">
+     [ngClass]="'wp-cards-container -' + orientation">
   <div *ngIf="inReference"
        class="wp-inline-create--reference-container">
     <ndc-dynamic [ndcDynamicComponent]="referenceClass"

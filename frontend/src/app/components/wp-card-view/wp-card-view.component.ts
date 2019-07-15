@@ -39,7 +39,7 @@ import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates
 
 @Component({
   selector: 'wp-card-view',
-  styleUrls: ['./wp-card-view.component.sass'],
+  styleUrls: ['./wp-card-view.component.sass', './wp-card-view-horizontal.sass', './wp-card-view-vertical.sass'],
   templateUrl: './wp-card-view.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -49,6 +49,7 @@ export class WorkPackageCardViewComponent  implements OnInit {
   @Input() public highlightingMode:CardHighlightingMode;
   @Input() public workPackageAddedHandler:(wp:WorkPackageResource) => Promise<unknown>;
   @Input() public showStatusButton:boolean = true;
+  @Input() public orientation:'horizontal'|'vertical' = 'vertical';
 
   public trackByHref = AngularTrackingHelpers.trackByHref;
   public query:QueryResource;

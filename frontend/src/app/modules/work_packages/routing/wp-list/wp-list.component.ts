@@ -26,17 +26,25 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, OnDestroy} from "@angular/core";
+import {ChangeDetectionStrategy, Component, OnDestroy} from "@angular/core";
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {OpTitleService} from "core-components/html/op-title.service";
 import {WorkPackagesViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-packages-view.base";
 import {take} from "rxjs/operators";
+import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
+import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
+import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 
 @Component({
   selector: 'wp-list',
   templateUrl: './wp.list.component.html',
-  styleUrls: ['./wp-list.component.sass']
+  styleUrls: ['./wp-list.component.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    DragAndDropService,
+    CausedUpdatesService,
+  ]
 })
 export class WorkPackagesListComponent extends WorkPackagesViewBase implements OnDestroy {
   text = {
@@ -67,6 +75,13 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
 
   /** An overlay over the table shown for example when the filters are invalid */
   showResultOverlay = false;
+
+  /** Switch between list and card view */
+  showListView:boolean = false;
+
+
+  // TODO: REPLACE WITH REAL IMPLEMENTATION
+  public test = (workPackage:WorkPackageResource) => { return true };
 
   private readonly titleService:OpTitleService = this.injector.get(OpTitleService);
 

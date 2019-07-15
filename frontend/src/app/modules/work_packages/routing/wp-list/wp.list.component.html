@@ -59,7 +59,8 @@
   <div class="work-packages-split-view">
 
     <!-- (TABLE + TIMELINE) and FOOTER vertical split-->
-    <div class="work-packages-split-view--tabletimeline-side loading-indicator--location"
+    <div *ngIf="showListView"
+         class="work-packages-split-view--tabletimeline-side loading-indicator--location"
          data-indicator-name="table">
       <div class="result-overlay"
            *ngIf="showResultOverlay"></div>
@@ -78,5 +79,19 @@
 
     <!-- Details view -->
     <div class="work-packages-split-view--details-side" ui-view></div>
+
+    <!-- Card representation of the WP -->
+    <div *ngIf="!showListView"
+         class="work-packages--card-view-container loading-indicator--location"
+         data-indicator-name="table">
+      <wp-card-view *ngIf="!showListView"
+                    [dragOutOfHandler]="test"
+                    [dragInto]="true"
+                    [cardsRemovable]="false"
+                    [highlightingMode]="wpTableHighlighting.current.mode"
+                    [showStatusButton]="false"
+                    [orientation]="'horizontal'">
+      </wp-card-view>
+    </div>
   </div>
 </div>
