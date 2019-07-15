@@ -46,7 +46,7 @@ export class BoardHighlightingTabComponent implements TabComponent {
   }
 
   public updateMode(mode:CardHighlightingMode) {
-    if (mode === 'entire-card') {
+    if (mode === 'inline') {
       this.highlightingMode = this.lastEntireCardAttribute;
     } else {
       this.highlightingMode = mode;
