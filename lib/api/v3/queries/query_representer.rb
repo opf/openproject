@@ -300,6 +300,9 @@ module API
 
         property :timeline_labels
 
+        # Visible representation of the results
+        property :display_representation
+
         # Highlighting properties
         property :highlighting_mode,
                  render_nil: false

@@ -27,11 +27,15 @@
 // ++
 
 import {AbstractWorkPackageButtonComponent} from '../wp-buttons.module';
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {StateService} from "@uirouter/core";
-import {WpDisplayRepresentationService} from "core-components/wp-fast-table/state/wp-display-representation.service";
+import {
+  WorkPackageDisplayRepresentationService, wpDisplayCardRepresentation,
+  wpDisplayListRepresentation
+} from "core-components/wp-fast-table/state/work-package-display-representation.service";
+import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
 
 
 @Component({
@@ -39,10 +43,13 @@ import {WpDisplayRepresentationService} from "core-components/wp-fast-table/stat
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'wp-view-toggle-button',
 })
-export class WorkPackageViewToggleButton extends AbstractWorkPackageButtonComponent {
+export class WorkPackageViewToggleButton extends AbstractWorkPackageButtonComponent implements OnInit {
+  private iconListView:string = 'icon-view-list';
+  private iconCardView:string = 'icon-image2';
+
   public buttonId:string = 'work-packages-view-toggle-button';
   public buttonClass:string = 'toolbar-icon';
-  public iconClass:string = 'icon-view-fullscreen';
+  public iconClass:string = this.iconCardView;
 
   public inListView:boolean = true;
 
@@ -52,11 +59,17 @@ export class WorkPackageViewToggleButton extends AbstractWorkPackageButtonCompon
   constructor(readonly $state:StateService,
               readonly I18n:I18nService,
               readonly cdRef:ChangeDetectorRef,
-              readonly wpDisplayRepresentationService:WpDisplayRepresentationService) {
+              readonly wpDisplayRepresentationService:WorkPackageDisplayRepresentationService,
+              readonly wpListService:WorkPackagesListService) {
     super(I18n);
 
     this.activateLabel = I18n.t('js.button_card_list');
     this.deactivateLabel = I18n.t('js.button_show_list');
+  }
+
+  ngOnInit() {
+    this.inListView = this.wpDisplayRepresentationService.valueFromQuery(this.wpListService.currentQuery) === wpDisplayListRepresentation;
+    this.iconClass = this.inListView ? this.iconCardView : this.iconListView;
   }
 
   public performAction(evt:Event):false {
@@ -71,18 +84,18 @@ export class WorkPackageViewToggleButton extends AbstractWorkPackageButtonCompon
   }
 
   private activateCardView() {
-    this.iconClass = 'icon-view-list';
+    this.iconClass = this.iconListView;
     this.inListView = false;
 
-    this.wpDisplayRepresentationService.setDisplayRepresentation('card');
+    this.wpDisplayRepresentationService.setDisplayRepresentation(wpDisplayCardRepresentation);
     this.cdRef.detectChanges();
   }
 
   private activateListView() {
-    this.iconClass = 'icon-view-fullscreen';
+    this.iconClass = this.iconCardView;
     this.inListView = true;
 
-    this.wpDisplayRepresentationService.setDisplayRepresentation('');
+    this.wpDisplayRepresentationService.setDisplayRepresentation(wpDisplayListRepresentation);
     this.cdRef.detectChanges();
   }
 

@@ -20,7 +20,7 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {Injectable} from '@angular/core';
 import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
 import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
-import {WpDisplayRepresentationService} from "core-components/wp-fast-table/state/wp-display-representation.service";
+import {WorkPackageDisplayRepresentationService} from "core-components/wp-fast-table/state/work-package-display-representation.service";
 
 @Injectable()
 export class WorkPackageStatesInitializationService {
@@ -40,7 +40,7 @@ export class WorkPackageStatesInitializationService {
               protected wpCacheService:WorkPackageCacheService,
               protected wpListChecksumService:WorkPackagesListChecksumService,
               protected authorisationService:AuthorisationService,
-              protected wpDisplayRepresentation:WpDisplayRepresentationService) {
+              protected wpDisplayRepresentation:WorkPackageDisplayRepresentationService) {
   }
 
   /**

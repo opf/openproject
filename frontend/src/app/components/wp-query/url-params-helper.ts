@@ -263,6 +263,10 @@ export class UrlParamsHelperService {
       queryData.highlightedAttributes = query.highlightedAttributes.map(el => el.href);
     }
 
+    if (query.displayRepresentation) {
+      queryData.displayRepresentation = query.displayRepresentation;
+    }
+
     queryData.showHierarchies = !!query.showHierarchies;
     queryData.groupBy = _.get(query.groupBy, 'id', '');
 
