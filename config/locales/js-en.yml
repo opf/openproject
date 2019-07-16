@@ -84,6 +84,8 @@ en:
     button_open_details: "Open details view"
     button_close_details: "Close details view"
     button_open_fullscreen: "Open fullscreen view"
+    button_show_cards: "Show card view"
+    button_show_list: "Show list view"
     button_quote: "Quote"
     button_save: "Save"
     button_settings: "Settings"

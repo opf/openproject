@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectionStrategy, Component, OnDestroy} from "@angular/core";
+import {Component, OnDestroy} from "@angular/core";
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {OpTitleService} from "core-components/html/op-title.service";
@@ -40,7 +40,6 @@ import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-r
   selector: 'wp-list',
   templateUrl: './wp.list.component.html',
   styleUrls: ['./wp-list.component.sass'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     DragAndDropService,
     CausedUpdatesService,
@@ -77,7 +76,7 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
   showResultOverlay = false;
 
   /** Switch between list and card view */
-  showListView:boolean = false;
+  private _showListView:boolean = false;
 
 
   // TODO: REPLACE WITH REAL IMPLEMENTATION
@@ -111,6 +110,7 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
     ).subscribe((query) => {
       this.updateTitle(query);
       this.currentQuery = query;
+      this.showListView = !this.wpDisplayRepresentation.valueFromQuery(query);
     });
   }
 
@@ -178,6 +178,14 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
 
   public updateResultVisibility(completed:boolean) {
     this.showResultOverlay = !completed;
+  }
+
+  public set showListView(val:boolean) {
+    this._showListView = val;
+  }
+
+  public get showListView():boolean {
+    return this._showListView;
   }
 
   protected updateQueryOnParamsChanges() {

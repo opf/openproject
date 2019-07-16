@@ -77,6 +77,7 @@ export class UrlParamsHelperService {
     paramsData = this.encodeFilters(paramsData, query.filters);
     paramsData.pa = additional.page;
     paramsData.pp = additional.perPage;
+    paramsData.dr = query.displayRepresentation;
 
     return JSON.stringify(paramsData);
   }
@@ -185,6 +186,10 @@ export class UrlParamsHelperService {
       if (properties.tzl) {
         queryData.timelineZoomLevel = properties.tzl;
       }
+    }
+
+    if (properties.dr) {
+      queryData.displayRepresentation = properties.dr;
     }
 
     if (properties.hl) {

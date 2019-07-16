@@ -56,6 +56,7 @@ import {WorkPackageQueryStateService} from "core-components/wp-fast-table/state/
 import {debugLog} from "core-app/helpers/debug_output";
 import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
 import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";
+import {WpDisplayRepresentationService} from "core-components/wp-fast-table/state/wp-display-representation.service";
 
 export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
 
@@ -81,6 +82,7 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
   readonly wpStaticQueries:WorkPackageStaticQueriesService = this.injector.get(WorkPackageStaticQueriesService);
   readonly QueryDm:QueryDmService = this.injector.get(QueryDmService);
   readonly wpStatesInitialization:WorkPackageStatesInitializationService = this.injector.get(WorkPackageStatesInitializationService);
+  readonly wpDisplayRepresentation:WpDisplayRepresentationService = this.injector.get(WpDisplayRepresentationService);
 
   constructor(protected injector:Injector) {
   }
@@ -124,6 +126,7 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
     this.setupChangeObserver(this.wpTableHierarchies);
     this.setupChangeObserver(this.wpTableColumns);
     this.setupChangeObserver(this.wpTableHighlighting);
+    this.setupChangeObserver(this.wpDisplayRepresentation);
   }
 
   /**

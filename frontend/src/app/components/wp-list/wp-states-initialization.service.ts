@@ -20,6 +20,7 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {Injectable} from '@angular/core';
 import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
 import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
+import {WpDisplayRepresentationService} from "core-components/wp-fast-table/state/wp-display-representation.service";
 
 @Injectable()
 export class WorkPackageStatesInitializationService {
@@ -38,7 +39,8 @@ export class WorkPackageStatesInitializationService {
               protected wpTableAdditionalElements:WorkPackageTableAdditionalElementsService,
               protected wpCacheService:WorkPackageCacheService,
               protected wpListChecksumService:WorkPackagesListChecksumService,
-              protected authorisationService:AuthorisationService) {
+              protected authorisationService:AuthorisationService,
+              protected wpDisplayRepresentation:WpDisplayRepresentationService) {
   }
 
   /**
@@ -140,6 +142,7 @@ export class WorkPackageStatesInitializationService {
     this.wpTableTimeline.applyToQuery(query);
     this.wpTableHighlighting.applyToQuery(query);
     this.wpTableHierarchies.applyToQuery(query);
+    this.wpDisplayRepresentation.applyToQuery(query);
   }
 
   public clearStates() {
