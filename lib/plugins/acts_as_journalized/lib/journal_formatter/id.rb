@@ -26,8 +26,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class JournalFormatter::Id < JournalFormatter::Attribute
-  def format_values(values)
-    values.map { |v| "##{v}" }
+module JournalFormatter
+  class Id < Attribute
+    def format_values(values)
+      values.map { |v| "##{v}" }
+    end
   end
 end

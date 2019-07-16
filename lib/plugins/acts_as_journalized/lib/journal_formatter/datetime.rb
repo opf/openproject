@@ -26,12 +26,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class JournalFormatter::Datetime < JournalFormatter::Attribute
-  def format_values(values)
-    values.map do |v|
-      v.nil? ?
-        nil :
-        format_date(v.to_date)
+module JournalFormatter
+  class Datetime < Attribute
+    def format_values(values)
+      values.map do |v|
+        v.nil? ?
+          nil :
+          format_date(v.to_date)
+      end
     end
   end
 end

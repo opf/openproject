@@ -26,8 +26,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class JournalFormatter::Plaintext < JournalFormatter::Attribute
-  def format_values(values)
-    values.map { |v| v.try(:to_s) }
+module JournalFormatter
+  class Plaintext < Attribute
+    def format_values(values)
+      values.map { |v| v.try(:to_s) }
+    end
   end
 end
