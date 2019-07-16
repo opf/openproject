@@ -4,65 +4,6 @@
 <p><%= t('bcf.bcf_xml.import.num_issues_found', x_bcf_issues: t('bcf.x_bcf_issues', count: @listing.count)) %></p>
 <%= form_tag({ action: :perform_import }, multipart: true, method: :post) do %>
   <%= render 'import_options_hidden_fields' %>
-  <%# if @importer&.invalid_people.any? %>
-<!--    <h3>Invalid e-mail addresses</h3>-->
-<!--    <table class="attributes-table">-->
-<!--      <thead>-->
-<!--      <tr>-->
-<!--        <th>e-Mail address</th>-->
-<!--        <th>Action</th>-->
-<!--      </tr>-->
-<!--      </thead>-->
-<!--      <tbody>-->
-      <%# @importer.invalid_people.each do |mail| %>
-<!--        <tr>-->
-<!--          <td> <%#= mail %></td>-->
-<!--          <td>Recommendation: Try to correct the data before importing here.</td>-->
-<!--        </tr>-->
-      <%# end %>
-<!--      </tbody>-->
-<!--    </table>-->
-  <%# end %>
-  <hr>
-
-  <% if false #@importer.non_members.any? %>
-    <h3>Known, but non project members</h3>
-    <table class="attributes-table">
-      <thead>
-      <tr>
-        <th>e-Mail address</th>
-        <th>Action</th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @importer.non_members.each do |user| %>
-        <tr>
-          <td> <%= user.mail %></td>
-          <td>give role</td>
-        </tr>
-      <% end %>
-      </tbody>
-    </table>
-
-    <% if @roles.any? %>
-      <p>Do you want to add them as members to the project "<%= @project.name %>"? (Recommended)</p>
-
-      <input type="radio">Yes, make them members with role
-        <% options = @roles.collect { |obj| [obj.name, obj.id] } %>
-        <%= select_tag 'member[role_ids][]', options_for_select(options),
-                       multiple: false,
-                       no_label: true,
-                       title:    l(:label_role_search),
-                       tabIndex: 0,
-                       class:    'form--select',
-                       id:       'member_role_ids' %>
-      <input type="radio">No, import as <i>anonymous</i> user (not recommended)
-    <% else %>
-      <p>
-        <%= I18n.t('text_no_roles_defined') %>
-      </p>
-    <% end %>
-  <% end %>
 
   <% @listing.each do |entry| %>
 

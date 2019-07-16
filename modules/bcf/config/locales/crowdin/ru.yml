@@ -25,9 +25,11 @@ ru:
         button_perform_import: 'Подтверждение импорта'
         button_proceed: 'Продолжить'
         button_back_to_list: 'Назад к списку'
-        description: "Предоставьте файл BCF-XML v2.1 для импорта в этот проект. Перед выполнением импорта вы можете изучить его содержимое."
+        description: "Предоставьте файл BCF-XML v2.1 для импорта в этот проект. Перед выполнением импорта можете изучить его содержимое."
         perform_description: "Вы хотите импортировать или обновить указанные выше задачи?"
-        work_package_has_newer_changes: "Импорт для темы BCF %{bcf_uuid} устарел. Последние изменения на сервере более новые, чем \"MofiedDate\" импортированной темы."
+        work_package_has_newer_changes: "Импорт для темы BCF %{bcf_uuid} устарел. Последние изменения на сервере новее импортированной темы \"MofiedDate\". Тем не мение, комментарии обновлены."
   export:
     format:
       bcf: "BCF-XML"
+  attributes:
+    bcf_thumbnail: "BCF снимок"

@@ -1,0 +1,38 @@
+<%= stylesheet_link_tag 'bcf/bcf.css' %>
+<%= toolbar title: t('bcf.bcf_xml.import_title') %>
+
+<%= form_tag({ action: :configure_import }, multipart: true, method: :post) do %>
+  <%= render 'import_options_hidden_fields' %>
+  <h3>Invalid topic type names found</h3>
+  <ul>
+    <% @importer.aggregations.unknown_types.each do |name| %>
+      <li> <%= name.present? ? name : '(No type provided)' %></li>
+    <% end %>
+  </ul>
+  <div class="form--field -full-width">
+    <div class="form--field-container">
+      <label class="option-label">
+        <input type="radio" name="import_options[unknown_types_action]" value="cancel" checked>
+        Recommended: Correct the data first and try another import.
+      </label>
+    </div>
+  </div>
+  <label class="option-label">
+    <input type="radio" name="import_options[unknown_types_action]" value="chose">
+    Import them all setting type to
+    <% options = Type.all.collect { |type| [type.name, type.id] } %>
+    <%= select_tag 'import_options[unknown_types_chose_ids][]', options_for_select(options),
+                   multiple: false,
+                   no_label: true,
+                   title:    l(:label_type),
+                   tabIndex: 0,
+                   class:    'form--select form--inline-select',
+                   id:       'unknown_types_chose_ids' %>
+  </label>
+
+  <%= submit_tag t('bcf.bcf_xml.import.button_proceed'), class: 'button -highlight' %>
+  <%= link_to t(:button_cancel),
+              { action: :index },
+              class: 'button' %>
+<% end %>
+

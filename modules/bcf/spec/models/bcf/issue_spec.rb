@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2019 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -53,7 +53,7 @@ describe ::Bcf::Issue, type: :model do
         <ModifiedDate>2015-06-21T14:22:47Z</ModifiedDate>
         <ModifiedAuthor>mike@example.com</ModifiedAuthor>
         <AssignedTo>andy@example.com</AssignedTo>
-        <Description>This is a topic with all informations present.</Description>
+        <Description>This is a topic with all information present.</Description>
         <BimSnippet SnippetType="JSON">
           <Reference>JsonElement.json</Reference>
           <ReferenceSchema>http://json-schema.org</ReferenceSchema>
@@ -115,9 +115,10 @@ describe ::Bcf::Issue, type: :model do
   shared_examples_for 'provides attributes' do
     it "provides attributes" do
       expect(subject.title).to be_eql 'Maximum Content'
-      expect(subject.description).to be_eql 'This is a topic with all informations present.'
+      expect(subject.description).to be_eql 'This is a topic with all information present.'
       expect(subject.priority_text).to be_eql 'High'
       expect(subject.status_text).to be_eql 'Open'
+      expect(subject.type_text).to be_eql 'Structural'
       expect(subject.assignee_text).to be_eql 'andy@example.com'
       expect(subject.index_text).to be_eql '0'
       expect(subject.labels).to contain_exactly 'Structural', 'IT Development'

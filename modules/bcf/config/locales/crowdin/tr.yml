@@ -25,7 +25,9 @@ tr:
         button_back_to_list: 'Listeye geri dön'
         description: "Bu projeye içe aktarmak için bir BCF-XML v2.1 dosyası sağlayın. İçe aktarma işlemini gerçekleştirmeden önce içeriğini inceleyebilirsiniz."
         perform_description: "Yukarıda listelenen sorunları içe aktarmak veya güncellemek mi istiyorsunuz?"
-        work_package_has_newer_changes: "%{bcf_uuid} BCF konusu için içe aktarma işlemi modası geçmiş görünüyor. Sunucudaki en son değişiklikler içe aktarılan konunun \"MofiedDate\" den daha yeni."
+        work_package_has_newer_changes: "%{bcf_uuid} BCF konusu için içe aktarma işlemi eski görünüyor. Sunucudaki en son değişiklikler içe aktarılan konunun \"MofiedDate\" den daha yeni. Ancak yorumlar güncellendi."
   export:
     format:
       bcf: "BCF-XML"
+  attributes:
+    bcf_thumbnail: "BCF görüntüsü"

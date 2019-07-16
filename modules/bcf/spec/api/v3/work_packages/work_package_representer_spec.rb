@@ -53,7 +53,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         <ModifiedDate>2015-06-21T14:22:47Z</ModifiedDate>
         <ModifiedAuthor>mike@example.com</ModifiedAuthor>
         <AssignedTo>andy@example.com</AssignedTo>
-        <Description>This is a topic with all informations present.</Description>
+        <Description>This is a topic with all information present.</Description>
         <BimSnippet SnippetType="JSON">
           <Reference>JsonElement.json</Reference>
           <ReferenceSchema>http://json-schema.org</ReferenceSchema>
@@ -110,7 +110,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     MARKUP
   end
   let(:bcf_issue) do
-    FactoryBot.create(:bcf_issue, markup: markup)
+    FactoryBot.create(:bcf_issue_with_comment, markup: markup)
   end
   let(:work_package) do
     FactoryBot.create(:work_package,

@@ -1,12 +1,14 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2019 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -23,23 +25,30 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
-#++
+# See doc/COPYRIGHT.rdoc for more details.
 
-module OpenProject::Bcf::Patches::SettingSeederPatch
+module OpenProject::BimSeeder::Patches::QueryBuilderPatch
   def self.included(base) # :nodoc:
     base.prepend InstanceMethods
   end
 
   module InstanceMethods
-    def data
-      original_data = super
+    private
 
-      unless original_data['default_projects_modules'].include? 'bcf'
-        original_data['default_projects_modules'] << 'bcf'
+    def filters
+      filters = super
+      set_bcf_issue_associated_filter!(filters)
+
+      filters
+    end
+
+    def set_bcf_issue_associated_filter!(filters)
+      if value = config[:bcf_issue_associated].presence
+        filters[:bcf_issue_associated] = {
+          operator: "=",
+          values: [value ? 't' : 'f']
+        }
       end
-
-      original_data
     end
   end
 end

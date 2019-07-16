@@ -1,6 +1,8 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2019 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,20 +28,28 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject::Bcf::Patches::SettingSeederPatch
-  def self.included(base) # :nodoc:
-    base.prepend InstanceMethods
-  end
+module OpenProject::Bcf
+  class QueryBcfThumbnailColumn < Queries::WorkPackages::Columns::WorkPackageColumn
+    def caption
+      I18n.t('attributes.bcf_thumbnail')
+    end
 
-  module InstanceMethods
-    def data
-      original_data = super
+    class_attribute :bcf_thumbnail_columns
 
-      unless original_data['default_projects_modules'].include? 'bcf'
-        original_data['default_projects_modules'] << 'bcf'
+    self.bcf_thumbnail_columns = {
+      bcf_thumbnail: {
+        summable: false,
+        groupable: false,
+        sortable: false
+      }
+    }
+
+    def self.instances(_context = nil)
+      # return [] if context && !context.module_enabled?(:bcf_module)
+
+      bcf_thumbnail_columns.map do |name, options|
+        new(name, options)
       end
-
-      original_data
     end
   end
 end

@@ -43,8 +43,6 @@ module ::Bcf
 
     before_action :build_importer, only: %i[prepare_import configure_import perform_import]
 
-    before_action :get_issue_type
-
     menu_item :bcf
 
     def index
@@ -92,7 +90,11 @@ module ::Bcf
     private
 
     def import_canceled?
-      if %i[invalid_people_action unknown_mails_action non_members_action].include? 'cancel'
+      if %i[unknown_types_action
+            unknown_statuses_action
+            invalid_people_action
+            unknown_mails_action
+            non_members_action].map { |key| params.dig(:import_options, key) }.include? 'cancel'
         flash[:notice] = I18n.t('bcf.bcf_xml.import_canceled')
         redirect_to action: :index
       end
@@ -100,16 +102,28 @@ module ::Bcf
 
     def set_import_options
       @import_options = {
-        invalid_people_action: params.dig(:import_options, :invalid_people_action).presence || "anonymize",
-        unknown_mails_action: params.dig(:import_options, :unknown_mails_action).presence || 'invite',
-        non_members_action: params.dig(:import_options, :non_members_action).presence || 'add',
-        unknown_mails_invite_role_ids: params.dig(:import_options, :unknown_mails_invite_role_ids) || [],
-        non_members_add_role_ids: params.dig(:import_options, :non_members_add_role_ids) || []
+        unknown_types_action:          params.dig(:import_options, :unknown_types_action).presence      || "use_default",
+        unknown_statuses_action:       params.dig(:import_options, :unknown_statuses_action).presence   || "use_default",
+        unknown_priorities_action:     params.dig(:import_options, :unknown_priorities_action).presence || "use_default",
+        invalid_people_action:         params.dig(:import_options, :invalid_people_action).presence     || "anonymize",
+        unknown_mails_action:          params.dig(:import_options, :unknown_mails_action).presence      || 'invite',
+        non_members_action:            params.dig(:import_options, :non_members_action).presence        || 'add',
+        unknown_types_chose_ids:       params.dig(:import_options, :unknown_types_chose_ids)            || [],
+        unknown_statuses_chose_ids:    params.dig(:import_options, :unknown_statuses_chose_ids)         || [],
+        unknown_priorities_chose_ids:  params.dig(:import_options, :unknown_priorities_chose_ids)       || [],
+        unknown_mails_invite_role_ids: params.dig(:import_options, :unknown_mails_invite_role_ids)      || [],
+        non_members_add_role_ids:      params.dig(:import_options, :non_members_add_role_ids)           || []
       }
     end
 
     def render_next
-      if render_config_invalid_people?
+      if render_config_unknown_types?
+        render_config_unknown_types
+      elsif render_config_unknown_statuses?
+        render_config_unknown_statuses
+      elsif render_config_unknown_priorities?
+        render_config_unknown_priorities
+      elsif render_config_invalid_people?
         render_config_invalid_people
       elsif render_config_unknown_mails?
         render_config_unknown_mails
@@ -128,7 +142,7 @@ module ::Bcf
 
       @issues = ::Bcf::Issue.with_markup
                   .includes(work_package: %i[status priority assigned_to])
-                  .where(uuid: @listing.map { |e| e[:uuid] })
+                  .where(uuid: @listing.map { |e| e[:uuid] }, project: @project)
       render 'bcf/issues/diff_on_work_packages'
     end
 
@@ -137,33 +151,53 @@ module ::Bcf
     end
 
     def render_config_invalid_people?
-      @importer.invalid_people.any? && !params.dig(:import_options, :invalid_people_action)
+      @importer.aggregations.invalid_people.present? && !params.dig(:import_options, :invalid_people_action).present?
+    end
+
+    def render_config_unknown_types
+      render 'bcf/issues/configure_unknown_types'
+    end
+
+    def render_config_unknown_types?
+      @importer.aggregations.unknown_types.present? && !params.dig(:import_options, :unknown_types_action).present?
+    end
+
+    def render_config_unknown_statuses
+      render 'bcf/issues/configure_unknown_statuses'
+    end
+
+    def render_config_unknown_statuses?
+      @importer.aggregations.unknown_statuses.present? && !params.dig(:import_options, :unknown_statuses_action).present?
+    end
+
+    def render_config_unknown_priorities?
+      @importer.aggregations.unknown_priorities.present? && !params.dig(:import_options, :unknown_priorities_action).present?
+    end
+
+    def render_config_unknown_priorities
+      render 'bcf/issues/configure_unknown_priorities'
     end
 
     def render_config_unknown_mails
-      @roles = Role.find_all_givable
+      @roles = Role.givable
       render 'bcf/issues/configure_unknown_mails'
     end
 
     def render_config_unknown_mails?
-      @importer.unknown_mails.any? && !params.dig(:import_options, :unknown_mails_action)
+      @importer.aggregations.unknown_mails.present? && !params.dig(:import_options, :unknown_mails_action).present?
     end
 
     def render_config_non_members
-      @roles = Role.find_all_givable
+      @roles = Role.givable
       render 'bcf/issues/configure_non_members'
     end
 
     def render_config_non_members?
-      @importer.non_members.any? && !params.dig(:import_options, :non_members_action)
+      @importer.aggregations.non_members.present? && !params.dig(:import_options, :non_members_action).present?
     end
 
     def build_importer
       @importer = ::OpenProject::Bcf::BcfXml::Importer.new @bcf_xml_file, @project, current_user: current_user
-    end
-
-    def get_issue_type
-      @issue_type = @project.types.find_by(name: 'Issue [BCF]')
     end
 
     def get_persisted_file

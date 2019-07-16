@@ -27,7 +27,7 @@ describe ::OpenProject::Bcf::BcfXml::Importer do
       'application/octet-stream'
     )
   end
-  let(:type) { FactoryBot.create :type, name: 'Issue [BCF]' }
+  let(:type) { FactoryBot.create :type, name: 'Issue' }
   let(:project) do
     FactoryBot.create(:project,
                       identifier: 'bim_project',
@@ -83,7 +83,7 @@ describe ::OpenProject::Bcf::BcfXml::Importer do
       expect(subject.import!).to be_present
     end
 
-    it 'creates to work packages' do
+    it 'creates 2 work packages' do
       subject.import!
 
       expect(::Bcf::Issue.count).to be_eql 2

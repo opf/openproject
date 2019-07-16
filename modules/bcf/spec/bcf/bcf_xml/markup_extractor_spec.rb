@@ -1,11 +1,18 @@
 #-- copyright
-# OpenProject Costs Plugin
+# OpenProject is a project management system.
+# Copyright (C) 2012-2019 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2009 - 2014 the OpenProject Foundation (OPF)
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# version 3.
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,6 +22,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -58,7 +67,7 @@ describe ::OpenProject::Bcf::BcfXml::MarkupExtractor do
   end
 
   it '#description' do
-    expect(subject.description).to be_eql 'This is a topic with all informations present.'
+    expect(subject.description).to be_eql 'This is a topic with all information present.'
   end
 
   it '#author' do
@@ -78,11 +87,11 @@ describe ::OpenProject::Bcf::BcfXml::MarkupExtractor do
   end
 
   it '#creation_date' do
-    expect(subject.creation_date).to eql Date.iso8601('2015-06-21T12:00:00Z')
+    expect(subject.creation_date).to eql(Time.iso8601('2015-06-21T12:00:00Z'))
   end
 
   it '#modified_date' do
-    expect(subject.modified_date).to eql Date.iso8601('2015-06-21T14:22:47Z')
+    expect(subject.modified_date).to eql(Time.iso8601('2015-06-21T14:22:47Z'))
   end
 
   it '#viewpoints' do
@@ -94,11 +103,14 @@ describe ::OpenProject::Bcf::BcfXml::MarkupExtractor do
 
   it '#comments' do
     expect(subject.comments.size).to eql 4
-    expect(subject.comments.first[:uuid]).to eql '780FAE52-C432-42BE-ADEA-FF3E7A8CD8E1'
-    expect(subject.comments.first[:date]).to eql '2015-08-31T12:40:17Z'
-    expect(subject.comments.first[:author]).to eql 'mike@example.com'
-    expect(subject.comments.first[:comment]).to eql 'This is an unmodified topic at the uppermost hierarchical level.
-All times in the XML are marked as UTC times.'
+    expect(subject.comments.first[:uuid]).to eql('780FAE52-C432-42BE-ADEA-FF3E7A8CD8E1')
+    expect(subject.comments.first[:date]).to eql(Time.iso8601('2015-08-31T12:40:17Z'))
+    expect(subject.comments.first[:modified_date]).to eql(Time.iso8601('2015-08-31T16:07:11Z'))
+    expect(subject.comments.first[:author]).to eql('mike@example.com')
+    expect(subject.comments.first[:modified_author]).to eql('mike@example.com')
+    expect(subject.comments.first[:comment]).to(
+      eql("This comment contained some spllng errs.\nHopefully, the modifier did catch them all.")
+    )
   end
 
   it '#people' do
