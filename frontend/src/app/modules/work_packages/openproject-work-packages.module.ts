@@ -156,6 +156,7 @@ import {WorkPackageRelationsAutocomplete} from "core-components/wp-relations/wp-
 import {CustomDateActionAdminComponent} from 'core-components/wp-custom-actions/date-action/custom-date-action-admin.component';
 import {WorkPackagesTableConfigMenu} from "core-components/wp-table/config-menu/config-menu.component";
 import {WorkPackageIsolatedGraphQuerySpaceDirective} from "core-app/modules/work_packages/query-space/wp-isolated-graph-query-space.directive";
+import {WorkPackageViewToggleButton} from "core-components/wp-buttons/wp-view-toggle-button/work-package-view-toggle-button.component";
 
 @NgModule({
   imports: [
@@ -357,6 +358,7 @@ import {WorkPackageIsolatedGraphQuerySpaceDirective} from "core-app/modules/work
 
     // Card view
     WorkPackageCardViewComponent,
+    WorkPackageViewToggleButton,
   ],
   entryComponents: [
     // Split view

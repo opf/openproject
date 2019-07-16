@@ -83,7 +83,7 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
   showResultOverlay = false;
 
   /** Switch between list and card view */
-  showListView:boolean = false;
+  private _showListView:boolean = false;
 
 
   // TODO: REPLACE WITH REAL IMPLEMENTATION
@@ -120,6 +120,7 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
       this.updateTitle(query);
       this.currentQuery = query;
       this.showPagination = !this.wpTableSortBy.isManualSortingMode;
+      this.showListView = !this.wpDisplayRepresentation.valueFromQuery(query);
       this.cdRef.detectChanges();
     });
   }
@@ -199,6 +200,14 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
 
   public updateResultVisibility(completed:boolean) {
     this.showResultOverlay = !completed;
+  }
+
+  public set showListView(val:boolean) {
+    this._showListView = val;
+  }
+
+  public get showListView():boolean {
+    return this._showListView;
   }
 
   protected updateQueryOnParamsChanges() {
