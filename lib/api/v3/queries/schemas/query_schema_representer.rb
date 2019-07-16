@@ -138,6 +138,13 @@ module API
                  has_default: true,
                  visibility: false
 
+          schema :display_representation,
+                 type: 'String',
+                 required: false,
+                 writable: true,
+                 has_default: true,
+                 visibility: false
+
           schema :show_hierarchies,
                  type: 'Boolean',
                  required: false,

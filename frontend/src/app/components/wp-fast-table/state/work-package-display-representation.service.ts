@@ -32,8 +32,11 @@ import {States} from 'core-components/states.service';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
 
+export const wpDisplayListRepresentation:string = 'list';
+export const wpDisplayCardRepresentation:string = 'card';
+
 @Injectable()
-export class WpDisplayRepresentationService extends WorkPackageQueryStateService<string> {
+export class WorkPackageDisplayRepresentationService extends WorkPackageQueryStateService<string> {
   public constructor(readonly states:States,
                      readonly querySpace:IsolatedQuerySpace) {
     super(querySpace);
@@ -44,7 +47,7 @@ export class WpDisplayRepresentationService extends WorkPackageQueryStateService
   }
 
   valueFromQuery(query:QueryResource) {
-    return query.displayRepresentation || '';
+    return query.displayRepresentation || wpDisplayListRepresentation;
   }
 
   public applyToQuery(query:QueryResource) {
@@ -53,7 +56,7 @@ export class WpDisplayRepresentationService extends WorkPackageQueryStateService
   }
 
   public get current():string {
-    return this.lastUpdatedState.getValueOr('');
+    return this.lastUpdatedState.getValueOr(wpDisplayListRepresentation);
   }
 
   public setDisplayRepresentation(representation:string) {

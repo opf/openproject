@@ -35,6 +35,10 @@ import {take} from "rxjs/operators";
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
+import {
+  wpDisplayCardRepresentation,
+  wpDisplayListRepresentation
+} from "core-components/wp-fast-table/state/work-package-display-representation.service";
 
 @Component({
   selector: 'wp-list',
@@ -83,7 +87,7 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
   showResultOverlay = false;
 
   /** Switch between list and card view */
-  private _showListView:boolean = false;
+  private _showListView:boolean = true;
 
 
   // TODO: REPLACE WITH REAL IMPLEMENTATION
@@ -120,7 +124,13 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
       this.updateTitle(query);
       this.currentQuery = query;
       this.showPagination = !this.wpTableSortBy.isManualSortingMode;
-      this.showListView = !this.wpDisplayRepresentation.valueFromQuery(query);
+
+      if (this.wpDisplayRepresentation.valueFromQuery(query) === wpDisplayCardRepresentation) {
+        this.showListView = false;
+      } else {
+        this.showListView = true;
+      }
+
       this.cdRef.detectChanges();
     });
   }

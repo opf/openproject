@@ -56,6 +56,8 @@ module API
 
         parsed_params[:highlighted_attributes] = highlighted_attributes_from_params(params)
 
+        parsed_params[:display_representation] = params[:displayRepresentation]
+
         parsed_params[:show_hierarchies] = boolearize(params[:showHierarchies])
 
         allow_empty = params.keys + skip_empty

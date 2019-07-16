@@ -44,6 +44,7 @@ module Queries
     attribute :highlighting_mode
     attribute :highlighted_attributes
     attribute :show_hierarchies
+    attribute :display_representation
 
     attribute :column_names # => columns
     attribute :filters

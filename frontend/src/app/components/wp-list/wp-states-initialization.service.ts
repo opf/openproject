@@ -23,7 +23,7 @@ import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table
 import {combineLatest, Observable} from "rxjs";
 import {take} from "rxjs/operators";
 import {WorkPackageTableOrderService} from "core-components/wp-fast-table/state/wp-table-order.service";
-import {WpDisplayRepresentationService} from "core-components/wp-fast-table/state/wp-display-representation.service";
+import {WorkPackageDisplayRepresentationService} from "core-components/wp-fast-table/state/work-package-display-representation.service";
 
 @Injectable()
 export class WorkPackageStatesInitializationService {
@@ -44,7 +44,7 @@ export class WorkPackageStatesInitializationService {
               protected wpCacheService:WorkPackageCacheService,
               protected wpListChecksumService:WorkPackagesListChecksumService,
               protected authorisationService:AuthorisationService,
-              protected wpDisplayRepresentation:WpDisplayRepresentationService) {
+              protected wpDisplayRepresentation:WorkPackageDisplayRepresentationService) {
   }
 
   /**
