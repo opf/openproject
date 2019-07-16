@@ -1,6 +1,5 @@
 import {QueryOrder} from "core-app/modules/hal/dm-services/query-order-dm.service";
 import {debugLog, timeOutput} from "core-app/helpers/debug_output";
-import {debug} from "util";
 
 // min allowed position
 export const MIN_ORDER = -2147483647;

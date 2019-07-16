@@ -75,13 +75,9 @@ export class TablePaginationComponent implements OnInit {
       .loadPaginationOptions()
       .then((paginationOptions:IPaginationOptions) => {
         this.perPageOptions = paginationOptions.perPageOptions;
-        this.newPagination(paginationOptions);
+        this.pagination = new PaginationInstance(1, parseInt(this.totalEntries), paginationOptions.perPage);
         this.cdRef.detectChanges();
       });
-  }
-
-  public newPagination(paginationOptions:IPaginationOptions) {
-    this.pagination = new PaginationInstance(1, parseInt(this.totalEntries), paginationOptions.perPage);
   }
 
   public update() {

@@ -4,7 +4,6 @@ import {WorkPackageTable} from '../../wp-fast-table';
 import {WorkPackageTableTimelineState} from '../../wp-table-timeline';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {WorkPackageTableTimelineService} from "core-components/wp-fast-table/state/wp-table-timeline.service";
-import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
 export class TimelineTransformer {
 
@@ -28,7 +27,7 @@ export class TimelineTransformer {
    * Update all currently visible rows to match the selection state.
    */
   private renderVisibility(visible:boolean) {
-    const container = jQuery(this.table.container);
+    const container = jQuery(this.table.container).parent();
     container.find('.work-packages-tabletimeline--timeline-side').toggle(visible);
     container.find('.work-packages-tabletimeline--table-side').toggleClass('-timeline-visible', visible);
   }

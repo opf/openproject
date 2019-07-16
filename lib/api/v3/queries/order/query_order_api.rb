@@ -72,7 +72,7 @@ module API
                 .exec_query(sql_query)
                 .rows
                 .first # first row
-                .first # first column (json object)
+                .first || {}.to_json # first column (json object or null)
             end
 
             params do

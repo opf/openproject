@@ -65,23 +65,23 @@ export class DragAndDropTransformer {
         const workPackage = this.states.workPackages.get(wpId).value!;
         return this.actionService.canPickup(workPackage);
       },
-      onMoved: (el:HTMLElement, target:HTMLElement, source:HTMLElement) => {
+      onMoved: async (el:HTMLElement, target:HTMLElement, source:HTMLElement) => {
         const wpId:string = el.dataset.workPackageId!;
         const workPackage = this.states.workPackages.get(wpId).value!;
         const rowIndex = this.findRowIndex(el);
 
-        this.actionService
-          .handleDrop(workPackage, el)
-          .then(async () => {
-            const newOrder = await this.wpTableOrder.move(this.currentOrder, wpId, rowIndex);
-            this.updateRenderedOrder(newOrder);
-            this.actionService.onNewOrder(newOrder);
-            this.wpTableSortBy.switchToManualSorting();
-          })
-          .catch(() => {
-            // Restore element in from container
-            DragAndDropHelpers.reinsert(el, el.dataset.sourceIndex || -1, source);
-          });
+        try {
+          const newOrder = await this.wpTableOrder.move(this.currentOrder, wpId, rowIndex);
+          await this.actionService.handleDrop(workPackage, el);
+          this.updateRenderedOrder(newOrder);
+          this.actionService.onNewOrder(newOrder);
+          this.wpTableSortBy.switchToManualSorting();
+        } catch (e) {
+          this.wpNotifications.handleRawError(e);
+
+          // Restore element in from container
+          DragAndDropHelpers.reinsert(el, el.dataset.sourceIndex || -1, source);
+        }
       },
       onRemoved: (el:HTMLElement) => {
         const wpId:string = el.dataset.workPackageId!;

@@ -30,12 +30,13 @@ export class DragDropHandleBuilder {
     // Wrap handle as span
     let span = document.createElement('span');
     span.classList.add('wp-table--drag-and-drop-handle', 'icon-toggle');
-
-    let text = document.createElement('span');
-    text.textContent = '' + position;
-
     td.appendChild(span);
-    td.appendChild(text);
+
+    if (window.OpenProject.flags.RENDER_DRAG_AND_DROP_POSITION) {
+      let text = document.createElement('span');
+      text.textContent = '' + position;
+      td.appendChild(text);
+    }
 
     return td;
   }

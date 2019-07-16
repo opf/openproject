@@ -32,7 +32,8 @@ module Query::ManualSorting
   extend ActiveSupport::Concern
 
   included do
-    has_many :ordered_work_packages
+    has_many :ordered_work_packages,
+             -> { order(position: :asc) }
 
     def manually_sorted?
       sort_criteria_columns.any? { |clz, _| clz.is_a?(::Queries::WorkPackages::Columns::ManualSortingColumn) }

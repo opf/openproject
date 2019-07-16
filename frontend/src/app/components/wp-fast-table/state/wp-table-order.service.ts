@@ -43,6 +43,7 @@ import {InputState} from "reactivestates";
 import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state/wp-table-sort-by.service";
 import {from} from "rxjs";
 
+
 @Injectable()
 export class WorkPackageTableOrderService extends WorkPackageQueryStateService<QueryOrder> {
 
@@ -55,6 +56,12 @@ export class WorkPackageTableOrderService extends WorkPackageQueryStateService<Q
   }
 
   public initialize(query:QueryResource, results:WorkPackageCollectionResource, schema?:QuerySchemaResource):Promise<unknown> {
+    // Take over our current value if the query is not saved
+    if (!query.persisted && this.positions.hasValue()) {
+      this.applyToQuery(query);
+    }
+
+
     if (this.wpTableSortBy.isManualSortingMode) {
       return this.withLoadedPositions();
     }
@@ -119,7 +126,7 @@ export class WorkPackageTableOrderService extends WorkPackageQueryStateService<Q
     const positions = await this.withLoadedPositions();
     const delta = new ReorderDeltaBuilder(order, positions, wpId, toIndex, fromIndex).buildDelta();
 
-    this.update(delta);
+    await this.update(delta);
   }
 
   protected get positions():InputState<QueryOrder> {
@@ -129,17 +136,20 @@ export class WorkPackageTableOrderService extends WorkPackageQueryStateService<Q
   /**
    * Update the order state
    */
-  public update(delta:QueryOrder) {
+  public async update(delta:QueryOrder) {
     let current = this.positions.getValueOr({});
     this.positions.putValue({ ...current, ...delta });
 
     // Push the update if the query is saved
     if (this.currentQuery.persisted) {
-      this.queryOrderDm.update(this.currentQuery.id!, delta);
+      await this.queryOrderDm.update(this.currentQuery.id!, delta);
     }
 
     // Push into the query object
     this.applyToQuery(this.currentQuery);
+
+    // Update the query
+    this.querySpace.query.putValue(this.currentQuery);
   }
 
   /**
@@ -150,7 +160,7 @@ export class WorkPackageTableOrderService extends WorkPackageQueryStateService<Q
       const value = this.positions.value;
 
       // Remove empty or stale values given we can reload them
-      if ((value === {} || this.positions.isPromiseRequestOlderThan(60000))) {
+      if ((value === {} || this.positions.isValueOlderThan(60000))) {
         this.positions.clear("Clearing old positions value");
       }
 
@@ -191,7 +201,7 @@ export class WorkPackageTableOrderService extends WorkPackageQueryStateService<Q
   }
 
   applyToQuery(query:QueryResource):boolean {
-    query.ordered_work_packages = this.positions.getValueOr({});
+    query.orderedWorkPackages = this.positions.getValueOr({});
     return false;
   }
 

@@ -184,6 +184,9 @@ module Pages
     end
 
     def drag_and_drop_work_package(from:, to:)
+      # Wait a bit because drag & drop in selenium is easily offendedA
+      sleep 1
+
       rows = page.all('.wp-table--row')
       source = rows[from]
       target = rows[to]
@@ -208,6 +211,9 @@ module Pages
         .move_to(target.native)
         .release
         .perform
+
+      # Wait a bit because drag & drop in selenium is easily offendedA
+      sleep 1
     end
 
     def row(work_package)
