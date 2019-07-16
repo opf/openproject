@@ -50,7 +50,7 @@ nl:
     button_export-atom: "Download Atom"
     calendar:
       title: 'Kalender'
-      too_many: 'Er zijn meer werkpakketten (%{count}) dan kunnen worden weergegeven op de kalender (%{max}). Voeg filters te concentreren op de relevante items.'
+      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
     card:
       add_new: 'Nieuwe kaart toevoegen'
       highlighting:
@@ -653,6 +653,8 @@ nl:
       no_results:
         title: Geen werkpakketten om te tonen.
         description: Ofwel zijn er geen gecreëerd ofwel zijn alle werkpakketten uitgefilterd.
+      limited_results: >
+        There are %{total} total work packages, but only %{count} can be shown in manual sorting mode. Please reduce the results by filtering.
       property_groups:
         details: "Details"
         people: "Mensen"

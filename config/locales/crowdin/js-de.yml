@@ -50,7 +50,7 @@ de:
     button_export-atom: "Atom-Download"
     calendar:
       title: 'Kalender'
-      too_many: 'Das Ergebnis enthält mehr Arbeitspakete (%{count}) als im Kalender angezeigt werden können (%{max} maximal). Fügen Sie Filter hinzu, um die Ergebnismenge zu reduzieren.'
+      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
     card:
       add_new: 'Neue Karte hinzufügen'
       highlighting:
@@ -652,6 +652,8 @@ de:
       no_results:
         title: Keine Arbeitspakete anzuzeigen.
         description: Es wurden entweder keine Arbeitspakete erzeugt oder alle Arbeitspakete wurden ausgefiltert.
+      limited_results: >
+        There are %{total} total work packages, but only %{count} can be shown in manual sorting mode. Please reduce the results by filtering.
       property_groups:
         details: "Details"
         people: "Personen"

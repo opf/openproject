@@ -50,7 +50,7 @@ ru:
     button_export-atom: "Скачать Atom"
     calendar:
       title: 'Календарь'
-      too_many: 'Пакетов работ больше (%{count}), чем может быть показано в календаре (%{max}). Отфильтруйте пакеты, чтобы сфокусироваться на нужных.'
+      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
     card:
       add_new: 'Добавить новую карточку'
       highlighting:
@@ -656,6 +656,8 @@ ru:
       no_results:
         title: Нет пакетов работ для показа.
         description: Ничего не найдено.
+      limited_results: >
+        There are %{total} total work packages, but only %{count} can be shown in manual sorting mode. Please reduce the results by filtering.
       property_groups:
         details: "Детали"
         people: "Люди"

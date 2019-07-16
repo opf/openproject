@@ -50,7 +50,7 @@ fi:
     button_export-atom: "Lataa Atom"
     calendar:
       title: 'Kalenteri'
-      too_many: 'There are more work packages (%{count}) than can be displayed by the calendar (%{max}). Add filters to focus on the relevant ones.'
+      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
     card:
       add_new: 'Add new card'
       highlighting:
@@ -653,6 +653,8 @@ fi:
       no_results:
         title: Ei työpaketteja näytettäväksi.
         description: Yhtään ei ole luotu tai sitten kaikki on suodatettu pois.
+      limited_results: >
+        There are %{total} total work packages, but only %{count} can be shown in manual sorting mode. Please reduce the results by filtering.
       property_groups:
         details: "Yksityiskohdat"
         people: "Henkilöt"

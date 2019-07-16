@@ -50,7 +50,7 @@ zh-CN:
     button_export-atom: "下载原子"
     calendar:
       title: '日历'
-      too_many: '工作包 (%{count}) 比日历 (%{max}) 显示的内容要多。添加筛选器可筛选相关内容。'
+      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
     card:
       add_new: '添加新卡'
       highlighting:
@@ -651,6 +651,8 @@ zh-CN:
       no_results:
         title: 没有要显示的工作包。
         description: 没有已创建的工作包或所有工作包都被筛选排除。
+      limited_results: >
+        There are %{total} total work packages, but only %{count} can be shown in manual sorting mode. Please reduce the results by filtering.
       property_groups:
         details: "详细信息"
         people: "人员"

@@ -50,7 +50,7 @@ sv:
     button_export-atom: "Ladda ner Atom"
     calendar:
       title: 'Kalender'
-      too_many: 'There are more work packages (%{count}) than can be displayed by the calendar (%{max}). Add filters to focus on the relevant ones.'
+      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
     card:
       add_new: 'Add new card'
       highlighting:
@@ -652,6 +652,8 @@ sv:
       no_results:
         title: Inga arbetspaket att visa.
         description: Antingen finns det inga arbetspaket eller så har alla filtrerats bort.
+      limited_results: >
+        There are %{total} total work packages, but only %{count} can be shown in manual sorting mode. Please reduce the results by filtering.
       property_groups:
         details: "Detaljer"
         people: "Personer"

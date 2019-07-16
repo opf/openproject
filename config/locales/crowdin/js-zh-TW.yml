@@ -50,7 +50,7 @@ zh-TW:
     button_export-atom: "下載 Atom"
     calendar:
       title: '行事曆'
-      too_many: '與日曆 (%{max}) 所顯示的工作包 (%{count}) 相比, 有更多的工作包 (123_0_321)。添加篩選器以將焦點放在相關篩選器上。'
+      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
     card:
       add_new: 'Add new card'
       highlighting:
@@ -650,6 +650,8 @@ zh-TW:
       no_results:
         title: 無工作項目可顯示
         description: 無工作項目或是被篩選器把工作項目隱藏了
+      limited_results: >
+        There are %{total} total work packages, but only %{count} can be shown in manual sorting mode. Please reduce the results by filtering.
       property_groups:
         details: "詳細資料"
         people: "人員"

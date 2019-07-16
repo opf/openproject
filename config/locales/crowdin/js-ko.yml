@@ -50,7 +50,7 @@ ko:
     button_export-atom: "Atom 다운로드"
     calendar:
       title: '달력'
-      too_many: '달력에서 표시할 수 있는 작업 패키지(%{max}) 보다 더 많은 작업 패키지(%{count})가 있습니다. 관련 작업 패키지에 집중하려면 필터를 추가하세요.'
+      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
     card:
       add_new: '새로운 카드를 추가하다'
       highlighting:
@@ -651,6 +651,8 @@ ko:
       no_results:
         title: 표시할 작업 패키지가 없습니다.
         description: 만든 작업 패키지가 없거나 모든 작업 패키지가 필터링에서 제외되었습니다.
+      limited_results: >
+        There are %{total} total work packages, but only %{count} can be shown in manual sorting mode. Please reduce the results by filtering.
       property_groups:
         details: "세부 정보"
         people: "사용자"

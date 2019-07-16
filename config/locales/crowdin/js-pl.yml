@@ -50,7 +50,7 @@ pl:
     button_export-atom: "Pobierz Atom"
     calendar:
       title: 'Kalendarz'
-      too_many: 'Jest więcej pakietów roboczych (%{count}) niż można wyświetlić w kalendarzu (%{max}). Dodaj filtry, aby skupić się na żądanych pakietach.'
+      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
     card:
       add_new: 'Dodaj nową kartę'
       highlighting:
@@ -657,6 +657,8 @@ pl:
       no_results:
         title: Brak pakietów prac do wyświetlenia.
         description: Pakiety prac nie zostały utworzone albo wszystkie są odfiltrowane.
+      limited_results: >
+        There are %{total} total work packages, but only %{count} can be shown in manual sorting mode. Please reduce the results by filtering.
       property_groups:
         details: "Szczegóły"
         people: "Ludzie"

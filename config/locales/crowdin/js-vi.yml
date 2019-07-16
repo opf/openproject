@@ -50,7 +50,7 @@ vi:
     button_export-atom: "Tải về Atom"
     calendar:
       title: 'Lịch'
-      too_many: 'There are more work packages (%{count}) than can be displayed by the calendar (%{max}). Add filters to focus on the relevant ones.'
+      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
     card:
       add_new: 'Add new card'
       highlighting:
@@ -650,6 +650,8 @@ vi:
       no_results:
         title: Không có gói công việc để hiển thị.
         description: Không có gì được tạo ra hoặc tất cả các gói công việc đã được lọc.
+      limited_results: >
+        There are %{total} total work packages, but only %{count} can be shown in manual sorting mode. Please reduce the results by filtering.
       property_groups:
         details: "Chi tiết"
         people: "Người"

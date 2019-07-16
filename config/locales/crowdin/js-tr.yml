@@ -50,7 +50,7 @@ tr:
     button_export-atom: "Atom indir"
     calendar:
       title: 'Takvim'
-      too_many: 'Takvimde gösterilebilecek iş paketinden(%{max}) daha fazla iş paketi mevcuttur(%{count}). İlişkili olanlara odaklanmak için filtreler ekleyin.'
+      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
     card:
       add_new: 'Yeni kart ekleyin'
       highlighting:
@@ -653,6 +653,8 @@ tr:
       no_results:
         title: Görüntülecek bir iş paketi bulunmuyor.
         description: Ya hiç iş paketi oluşturulmamış, ya da tüm iş paketeri filtrelenmiş.
+      limited_results: >
+        There are %{total} total work packages, but only %{count} can be shown in manual sorting mode. Please reduce the results by filtering.
       property_groups:
         details: "Detaylar"
         people: "Kişiler"

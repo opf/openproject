@@ -50,7 +50,7 @@ pt-BR:
     button_export-atom: "Baixar Atom"
     calendar:
       title: 'Calendário'
-      too_many: 'Existem mais pacotes de trabalho (%{count}) do que podem ser exibidos pelo calendário (%{max}). Adicione filtros para exibir os relevantes.'
+      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
     card:
       add_new: 'Adicionar novo cartão'
       highlighting:
@@ -61,20 +61,20 @@ pt-BR:
       browser_error: "Seu navegador não suporta copiar para a área de transferência. Por favor, copie o texto selecionado manualmente."
       copied_successful: "Copiado com sucesso para área de transferência!"
     chart:
-      type: 'Chart type'
-      axis_criteria: 'Axis criteria'
-      modal_title: 'Work package graph configuration'
+      type: 'Tipo do gráfico'
+      axis_criteria: 'Critérios de eixo'
+      modal_title: 'Configuração de tabela de pacote de trabalho'
       types:
-        line: 'Line'
-        horizontal_bar: 'Horizontal bar'
-        bar: 'Bar'
+        line: 'Linha'
+        horizontal_bar: 'Barra Horizontal'
+        bar: 'Barra'
         pie: 'Pie'
-        doughnut: 'Doughnut'
+        doughnut: 'Rosca'
         radar: 'Radar'
-        polar_area: 'Polar area'
+        polar_area: 'Área polar'
       tabs:
         graph_settings: 'Geral'
-        dataset: 'Dataset %{number}'
+        dataset: 'Base de dados %{number}'
     description_available_columns: "Colunas disponíveis"
     description_current_position: "Você está aqui: "
     description_select_work_package: "Selecionar o pacote de trabalho #%{id}"
@@ -192,9 +192,9 @@ pt-BR:
         work_packages_watched:
           title: 'Pacotes de trabalho observados por mim'
         work_packages_table:
-          title: 'Work packages table'
+          title: 'Tipo de pacote de trabalho'
         work_packages_graph:
-          title: 'Work packages graph'
+          title: 'Gráfico de pacotes de trabalho'
         work_packages_calendar:
           title: 'Calendário'
     homescreen:
@@ -652,6 +652,8 @@ pt-BR:
       no_results:
         title: Não há pacotes de trabalho para exibir.
         description: Nenhum pacote criado ou todos os pacotes de trabalho foram filtrados.
+      limited_results: >
+        There are %{total} total work packages, but only %{count} can be shown in manual sorting mode. Please reduce the results by filtering.
       property_groups:
         details: "Detalhes"
         people: "Pessoas"

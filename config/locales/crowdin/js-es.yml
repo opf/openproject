@@ -50,7 +50,7 @@ es:
     button_export-atom: "Descargar Atom"
     calendar:
       title: 'Calendario'
-      too_many: 'Hay más paquetes de trabajo (%{count}) de los que pueden mostrarse en en calendario (%{max}). Agregue filtros para centrarse en los relevantes.'
+      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
     card:
       add_new: 'Añadir nueva tarjeta'
       highlighting:
@@ -653,6 +653,8 @@ es:
       no_results:
         title: No hay paquetes de trabajo para mostrar.
         description: O bien no se han creado o se filtran todos los paquetes de trabajo.
+      limited_results: >
+        There are %{total} total work packages, but only %{count} can be shown in manual sorting mode. Please reduce the results by filtering.
       property_groups:
         details: "Detalles"
         people: "Participantes"

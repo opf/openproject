@@ -50,7 +50,7 @@ cs:
     button_export-atom: "Stáhnout Atom"
     calendar:
       title: 'Kalendář'
-      too_many: 'K zobrazení je více pracovních balíčků (%{count}) než je možné zobrazit na kalendáři (%{max}). Prosím použijte filtry.'
+      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
     card:
       add_new: 'Add new card'
       highlighting:
@@ -657,6 +657,8 @@ cs:
       no_results:
         title: Žádné pracovní balíčky k zobrazení.
         description: Either none have been created or all work packages are filtered out.
+      limited_results: >
+        There are %{total} total work packages, but only %{count} can be shown in manual sorting mode. Please reduce the results by filtering.
       property_groups:
         details: "Podrobnosti"
         people: "Lidé"

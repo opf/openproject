@@ -50,7 +50,7 @@ ca:
     button_export-atom: "Descarregar Atom"
     calendar:
       title: 'Calendari'
-      too_many: 'There are more work packages (%{count}) than can be displayed by the calendar (%{max}). Add filters to focus on the relevant ones.'
+      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
     card:
       add_new: 'Add new card'
       highlighting:
@@ -653,6 +653,8 @@ ca:
       no_results:
         title: Cap paquet de treball a visualitzar.
         description: No se n'ha creat cap o tots els paquets de treball s'han filtrat.
+      limited_results: >
+        There are %{total} total work packages, but only %{count} can be shown in manual sorting mode. Please reduce the results by filtering.
       property_groups:
         details: "Detalls"
         people: "Persones"

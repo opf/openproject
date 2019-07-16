@@ -50,7 +50,7 @@ ar:
     button_export-atom: "تحميل Atom"
     calendar:
       title: 'التقويم'
-      too_many: 'There are more work packages (%{count}) than can be displayed by the calendar (%{max}). Add filters to focus on the relevant ones.'
+      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
     card:
       add_new: 'Add new card'
       highlighting:
@@ -661,6 +661,8 @@ ar:
       no_results:
         title: لا يوجد مجموعات عمل لعرضها.
         description: إما أنه لا يوجد ما تم إنشاؤه أو أن جميع مجموعات العمل قد تمت فلترتها.
+      limited_results: >
+        There are %{total} total work packages, but only %{count} can be shown in manual sorting mode. Please reduce the results by filtering.
       property_groups:
         details: "تفاصيل"
         people: "الناس"

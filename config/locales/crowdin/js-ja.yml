@@ -51,7 +51,7 @@ ja:
     button_export-atom: "Atomをダウンロード"
     calendar:
       title: 'カレンダー'
-      too_many: 'カレンダー(%{max}) で表示できるよりも多くの作業項目 (%{count}) があります。 関連するものに焦点を当てるためにフィルタを追加します。'
+      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
     card:
       add_new: '新規カード追加'
       highlighting:
@@ -654,6 +654,8 @@ ja:
       no_results:
         title: 表示できる作業項目がありません。
         description: 作業項目が作成されていないかすべての作業項目が除外されています。
+      limited_results: >
+        There are %{total} total work packages, but only %{count} can be shown in manual sorting mode. Please reduce the results by filtering.
       property_groups:
         details: "詳細"
         people: "人"
