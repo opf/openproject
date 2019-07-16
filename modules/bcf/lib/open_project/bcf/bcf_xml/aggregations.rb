@@ -53,6 +53,14 @@ module OpenProject::Bcf::BcfXml
       @instance_cache[:unknown_types] ||= all_types - Type.all.map(&:name)
     end
 
+    def all_priorities
+      @instance_cache[:all_priorities] ||= listings.map { |entry| entry[:priority] }.flatten.uniq
+    end
+
+    def unknown_priorities
+      @instance_cache[:unknown_priorities] ||= all_priorities - IssuePriority.all.map(&:name)
+    end
+
     def clear_instance_cache
       @instance_cache = {}
     end
