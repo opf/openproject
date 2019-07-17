@@ -35,10 +35,7 @@ import {take} from "rxjs/operators";
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {
-  wpDisplayCardRepresentation,
-  wpDisplayListRepresentation
-} from "core-components/wp-fast-table/state/work-package-display-representation.service";
+import {wpDisplayCardRepresentation} from "core-components/wp-fast-table/state/work-package-display-representation.service";
 
 @Component({
   selector: 'wp-list',

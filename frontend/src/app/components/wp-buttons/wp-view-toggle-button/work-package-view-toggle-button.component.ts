@@ -27,7 +27,7 @@
 // ++
 
 import {AbstractWorkPackageButtonComponent} from '../wp-buttons.module';
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {StateService} from "@uirouter/core";
@@ -36,20 +36,44 @@ import {
   wpDisplayListRepresentation
 } from "core-components/wp-fast-table/state/work-package-display-representation.service";
 import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
+import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
 
 @Component({
-  templateUrl: '../wp-button.template.html',
+  template: `
+<ul class="toolbar-button-group">
+  <li>
+    <button class="button"
+            type="button"
+            [ngClass]="{ '-active': inListView }"
+            [disabled]="inListView"
+            [attr.id]="buttonId"
+            [attr.title]="label"
+            [attr.accesskey]="accessKey"
+            (accessibleClick)="performAction($event)">
+      <op-icon icon-classes="{{ iconListView }} button--icon"></op-icon>
+    </button>
+  </li>
+  <li>
+    <button class="button"
+            [ngClass]="{ '-active': !inListView }"
+            [attr.id]="buttonId"
+            [attr.title]="label"
+            [disabled]="!inListView"
+            (click)="performAction($event)">
+      <op-icon icon-classes="{{ iconCardView }} button--icon"></op-icon>
+    </button>
+  </li>
+</ul>
+`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'wp-view-toggle-button',
 })
-export class WorkPackageViewToggleButton extends AbstractWorkPackageButtonComponent implements OnInit {
+export class WorkPackageViewToggleButton extends AbstractWorkPackageButtonComponent implements OnInit, OnDestroy {
   private iconListView:string = 'icon-view-list';
   private iconCardView:string = 'icon-image2';
 
   public buttonId:string = 'work-packages-view-toggle-button';
-  public buttonClass:string = 'toolbar-icon';
-  public iconClass:string = this.iconCardView;
 
   public inListView:boolean = true;
 
@@ -68,8 +92,19 @@ export class WorkPackageViewToggleButton extends AbstractWorkPackageButtonCompon
   }
 
   ngOnInit() {
-    this.inListView = this.wpDisplayRepresentationService.valueFromQuery(this.wpListService.currentQuery) === wpDisplayListRepresentation;
-    this.iconClass = this.inListView ? this.iconCardView : this.iconListView;
+    this.wpDisplayRepresentationService
+      .live$()
+      .pipe(
+        untilComponentDestroyed(this)
+      )
+      .subscribe(() => {
+        this.inListView = this.wpDisplayRepresentationService.valueFromQuery(this.wpListService.currentQuery) === wpDisplayListRepresentation;
+        this.cdRef.detectChanges();
+      });
+  }
+
+  ngOnDestroy() {
+    //
   }
 
   public performAction(evt:Event):false {
@@ -84,18 +119,16 @@ export class WorkPackageViewToggleButton extends AbstractWorkPackageButtonCompon
   }
 
   private activateCardView() {
-    this.iconClass = this.iconListView;
     this.inListView = false;
-
     this.wpDisplayRepresentationService.setDisplayRepresentation(wpDisplayCardRepresentation);
+
     this.cdRef.detectChanges();
   }
 
   private activateListView() {
-    this.iconClass = this.iconCardView;
     this.inListView = true;
-
     this.wpDisplayRepresentationService.setDisplayRepresentation(wpDisplayListRepresentation);
+
     this.cdRef.detectChanges();
   }
 
