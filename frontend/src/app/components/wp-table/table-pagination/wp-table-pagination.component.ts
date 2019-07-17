@@ -54,6 +54,7 @@ export class WorkPackageTablePaginationComponent extends TablePaginationComponen
       .loadPaginationOptions()
       .then((paginationOptions:IPaginationOptions) => {
         this.perPageOptions = paginationOptions.perPageOptions;
+        this.cdRef.detectChanges();
       });
 
     this.wpTablePagination

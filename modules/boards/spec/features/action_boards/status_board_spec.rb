@@ -124,7 +124,7 @@ describe 'Status action board', type: :feature, js: true do
       expect(second.ordered_work_packages).to be_empty
 
       # Expect work package to be saved in query first
-      subjects = WorkPackage.where(id: first.ordered_work_packages).pluck(:subject, :status_id)
+      subjects = WorkPackage.where(id: first.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :status_id)
       expect(subjects).to match_array [['Task 1', open_status.id]]
 
       # Move item to Closed
@@ -139,7 +139,7 @@ describe 'Status action board', type: :feature, js: true do
         expect(second.reload.ordered_work_packages.count).to eq(1)
       end
 
-      subjects = WorkPackage.where(id: second.ordered_work_packages).pluck(:subject, :status_id)
+      subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :status_id)
       expect(subjects).to match_array [['Task 1', closed_status.id]]
 
       # Try to drag to whatever, which has no workflow
@@ -198,7 +198,7 @@ describe 'Status action board', type: :feature, js: true do
       expect(queries.last.name).to eq 'Closed'
       expect(queries.first.ordered_work_packages).to be_empty
 
-      subjects = WorkPackage.where(id: second.ordered_work_packages).pluck(:subject, :status_id)
+      subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :status_id)
       expect(subjects).to match_array [['Task 1', closed_status.id]]
     end
   end

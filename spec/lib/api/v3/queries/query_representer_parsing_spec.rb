@@ -104,20 +104,35 @@ describe ::API::V3::Queries::QueryRepresenter do
   describe 'parsing ordered work packages' do
     let(:request_body) do
       {
-        'orderedWorkPackages' => %w[
-          /api/v3/work_packages/50
-          /api/v3/work_packages/38
-          /api/v3/work_packages/102
-        ]
+        'orderedWorkPackages' => {
+          50 => 0,
+          38 => 1234,
+          102 => 81234123
+        }
       }
     end
 
-    it 'should set ordered_work_packages' do
-      expect(query)
-        .to receive(:ordered_work_packages=)
-        .with %w[50 38 102]
+    before do
+      allow(query).to receive(:new_record?).and_return(new_record)
+    end
 
-      subject
+    context 'assuming query is new' do
+      let(:new_record) { true }
+      it 'should set ordered_work_packages' do
+        order = subject.ordered_work_packages.map { |el| [el.work_package_id, el.position] }
+        expect(order).to match_array [[50, 0], [38, 1234], [102, 81234123]]
+      end
+    end
+
+    context 'assuming query is not new' do
+      let(:new_record) { false }
+
+      it 'should set ordered_work_packages' do
+        expect(query)
+          .not_to receive(:ordered_work_packages)
+
+        subject
+      end
     end
   end
 end

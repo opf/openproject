@@ -260,8 +260,8 @@ module API
                  setter: ->(fragment:, **) {
                    next unless represented.new_record?
 
-                   Hash(fragment).each do |wpId, position|
-                     represented.ordered_work_packages.build(work_package_id: wpId, position: position)
+                   Hash(fragment).each do |wp_id, position|
+                     represented.ordered_work_packages.build(work_package_id: wp_id, position: position)
                    end
                  }
 

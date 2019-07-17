@@ -158,7 +158,7 @@ export class TablePaginationComponent implements OnInit {
   public showPerPageOptions() {
     return !this.calculatePerPage &&
            this.perPageOptions.length > 0 &&
-           this.pagination.total > this.perPageOptions[0]
+           this.pagination.total > this.perPageOptions[0];
   }
 
   private truncatePageNums(pageNumbers:any, perform:any, disectFrom:any, disectLength:any, truncateFrom:any) {

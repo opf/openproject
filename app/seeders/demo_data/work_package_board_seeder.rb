@@ -154,7 +154,10 @@ module DemoData
           query.add_filter('manual_sort', 'ow', [])
           query.sort_criteria = [[:manual_sorting, 'asc']]
 
-          query.ordered_work_packages = list[:wps]
+          list[:wps].each_with_index do |wp_id, i|
+            query.ordered_work_packages.build(work_package_id: wp_id, position: i)
+          end
+
           query.save!
         end
       end
