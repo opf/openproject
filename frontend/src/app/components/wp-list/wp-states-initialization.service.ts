@@ -138,6 +138,7 @@ export class WorkPackageStatesInitializationService {
     this.wpTableTimeline.initialize(query, results);
     this.wpTableHierarchies.initialize(query, results);
     this.wpTableHighlighting.initialize(query, results);
+    this.wpDisplayRepresentation.initialize(query, results);
 
     this.authorisationService.initModelAuth('query', query.$links);
     this.authorisationService.initModelAuth('work_packages', results.$links);
