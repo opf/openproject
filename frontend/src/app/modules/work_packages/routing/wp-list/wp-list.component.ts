@@ -76,12 +76,11 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
   /** An overlay over the table shown for example when the filters are invalid */
   showResultOverlay = false;
 
-  /** Switch between list and card view */
-  private _showListView:boolean = true;
-
-
   // TODO: REPLACE WITH REAL IMPLEMENTATION
   public test = (workPackage:WorkPackageResource) => { return true };
+
+  /** Switch between list and card view */
+  private _showListView:boolean = true;
 
   private readonly titleService:OpTitleService = this.injector.get(OpTitleService);
 
@@ -105,12 +104,14 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
       }
     });
 
-    // Update the title whenever the query changes
     this.querySpace.query.values$().pipe(
       untilComponentDestroyed(this)
     ).subscribe((query) => {
+      // Update the title whenever the query changes
       this.updateTitle(query);
       this.currentQuery = query;
+      
+      // Update the visible representation
       if (this.wpDisplayRepresentation.valueFromQuery(query) === wpDisplayCardRepresentation) {
         this.showListView = false;
       } else {
@@ -231,6 +232,8 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
     return this.loadingIndicator =
       this.wpListService
         .loadCurrentQueryFromParams(this.projectIdentifier)
-        .then(() => this.querySpace.rendered.valuesPromise());
+        .then(() => {
+          this.querySpace.rendered.valuesPromise();
+        });
   }
 }

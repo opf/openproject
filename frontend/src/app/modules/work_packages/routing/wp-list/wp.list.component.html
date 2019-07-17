@@ -63,16 +63,27 @@
   <div class="work-packages-split-view">
 
     <!-- (TABLE + TIMELINE) and FOOTER vertical split-->
-    <div *ngIf="showListView"
-         class="work-packages-split-view--tabletimeline-side loading-indicator--location"
+    <div class="work-packages-split-view--tabletimeline-side loading-indicator--location"
          data-indicator-name="table">
       <div class="result-overlay"
-           *ngIf="showResultOverlay"></div>
+           *ngIf="showResultOverlay && showListView"></div>
 
       <!-- TABLE + TIMELINE horizontal split -->
-      <wp-table *ngIf="tableInformationLoaded"
+      <wp-table *ngIf="tableInformationLoaded && showListView"
                 [projectIdentifier]="projectIdentifier"
                 class="work-packages-split-view--tabletimeline-content"></wp-table>
+
+      <!-- CARD representation of the WP -->
+      <div *ngIf="!showListView"
+           class="work-packages--card-view-container">
+        <wp-card-view [dragOutOfHandler]="test"
+                      [dragInto]="true"
+                      [cardsRemovable]="false"
+                      [highlightingMode]="wpTableHighlighting.current.mode"
+                      [showStatusButton]="false"
+                      [orientation]="'horizontal'">
+        </wp-card-view>
+      </div>
 
       <!-- Footer -->
       <div class="work-packages-split-view--tabletimeline-footer hide-when-print"
@@ -83,19 +94,5 @@
 
     <!-- Details view -->
     <div class="work-packages-split-view--details-side" ui-view></div>
-
-    <!-- Card representation of the WP -->
-    <div *ngIf="!showListView"
-         class="work-packages--card-view-container loading-indicator--location"
-         data-indicator-name="table">
-      <wp-card-view *ngIf="!showListView"
-                    [dragOutOfHandler]="test"
-                    [dragInto]="true"
-                    [cardsRemovable]="false"
-                    [highlightingMode]="wpTableHighlighting.current.mode"
-                    [showStatusButton]="false"
-                    [orientation]="'horizontal'">
-      </wp-card-view>
-    </div>
   </div>
 </div>
