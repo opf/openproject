@@ -78,7 +78,7 @@ module API
             params do
               optional :delta, type: Hash
             end
-            put do
+            patch do
               params[:delta].each do |work_package_id, new_position|
                 if new_position == -1
                   remove_order(work_package_id)

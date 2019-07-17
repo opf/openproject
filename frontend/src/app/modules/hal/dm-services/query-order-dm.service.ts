@@ -49,7 +49,7 @@ export class QueryOrderDmService {
 
   public update(id:string, delta:QueryOrder):Promise<unknown> {
     return this.http
-      .put(
+      .patch(
         this.orderPath(id),
         { delta: delta }
       )
