@@ -165,23 +165,18 @@ module Type::AttributeGroups
     end
   end
 
+
   ##
   # Get the default attribute groups for this type.
   # If it has activated custom fields through +custom_field_ids=+,
   # it will put them into the other group.
   def work_package_attributes_by_default_group_key
     active_cfs = active_custom_field_attributes
+
     work_package_attributes
       .keys
-      .select { |key| default_attribute?(active_cfs, key) }
+      .reject { |key| CustomField.custom_field_attribute?(key) && !active_cfs.include?(key) }
       .group_by { |key| default_group_key(key.to_sym) }
-  end
-
-  ##
-  # Custom fields should not get included into the default form configuration.
-  # This method might get patched by modules.
-  def default_attribute?(active_cfs, key)
-    !(CustomField.custom_field_attribute?(key) && !active_cfs.include?(key))
   end
 
   def to_attribute_group_class(groups)

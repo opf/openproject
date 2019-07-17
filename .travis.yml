@@ -99,7 +99,7 @@ jobs:
       script:
         - bash script/ci/setup.sh spec_legacy postgres bim
         - bash script/ci/runner.sh spec_legacy 1 1 bim
-      if: head_branch =~ /^(bim\/|dev|release\/)/
+      if: head_branch =~ /^(bim\/|dev|release\/)/ OR (head_branch IS blank AND branch =~ /^(bim\/|dev|release\/)/)
     - stage: test
       name: 'units (1/4) - mysql'
       script:
@@ -116,7 +116,7 @@ jobs:
       script:
         - bash script/ci/setup.sh units postgres bim
         - bash script/ci/runner.sh units 4 1 bim
-      if: head_branch =~ /^(bim\/|dev|release\/)/
+      if: head_branch =~ /^(bim\/|dev|release\/)/ OR (head_branch IS blank AND branch =~ /^(bim\/|dev|release\/)/)
     - stage: test
       name: 'units (2/4) - mysql'
       script:
@@ -133,7 +133,7 @@ jobs:
       script:
         - bash script/ci/setup.sh units postgres bim
         - bash script/ci/runner.sh units 4 2 bim
-      if: head_branch =~ /^(bim\/|dev|release\/)/
+      if: head_branch =~ /^(bim\/|dev|release\/)/ OR (head_branch IS blank AND branch =~ /^(bim\/|dev|release\/)/)
     - stage: test
       name: 'units (3/4) - mysql'
       script:
@@ -150,7 +150,7 @@ jobs:
       script:
         - bash script/ci/setup.sh units postgres bim
         - bash script/ci/runner.sh units 4 3 bim
-      if: head_branch =~ /^(bim\/|dev|release\/)/
+      if: head_branch =~ /^(bim\/|dev|release\/)/ OR (head_branch IS blank AND branch =~ /^(bim\/|dev|release\/)/)
     - stage: test
       name: 'units (4/4) - mysql'
       script:
@@ -167,7 +167,7 @@ jobs:
       script:
       - bash script/ci/setup.sh units postgres bim
       - bash script/ci/runner.sh units 4 4 bim
-      if: head_branch =~ /^(bim\/|dev|release\/)/
+      if: head_branch =~ /^(bim\/|dev|release\/)/ OR (head_branch IS blank AND branch =~ /^(bim\/|dev|release\/)/)
     - stage: test
       name: 'features (1/4) - mysql'
       script:
@@ -184,7 +184,7 @@ jobs:
       script:
       - bash script/ci/setup.sh features postgres bim
       - bash script/ci/runner.sh features 4 1 bim
-      if: head_branch =~ /^(bim\/|dev|release\/)/
+      if: head_branch =~ /^(bim\/|dev|release\/)/ OR (head_branch IS blank AND branch =~ /^(bim\/|dev|release\/)/)
     - stage: test
       name: 'features (2/4) - mysql'
       script:
@@ -201,7 +201,7 @@ jobs:
       script:
       - bash script/ci/setup.sh features postgres bim
       - bash script/ci/runner.sh features 4 2 bim
-      if: head_branch =~ /^(bim\/|dev|release\/)/
+      if: head_branch =~ /^(bim\/|dev|release\/)/ OR (head_branch IS blank AND branch =~ /^(bim\/|dev|release\/)/)
     - stage: test
       name: 'features (3/4) - mysql'
       script:
@@ -218,7 +218,7 @@ jobs:
       script:
       - bash script/ci/setup.sh features postgres bim
       - bash script/ci/runner.sh features 4 3 bim
-      if: head_branch =~ /^(bim\/|dev|release\/)/
+      if: head_branch =~ /^(bim\/|dev|release\/)/ OR (head_branch IS blank AND branch =~ /^(bim\/|dev|release\/)/)
     - stage: test
       name: 'features (4/4) - mysql'
       script:
@@ -235,7 +235,7 @@ jobs:
       script:
       - bash script/ci/setup.sh features postgres bim
       - bash script/ci/runner.sh features 4 4 bim
-      if: head_branch =~ /^(bim\/|dev|release\/)/
+      if: head_branch =~ /^(bim\/|dev|release\/)/ OR (head_branch IS blank AND branch =~ /^(bim\/|dev|release\/)/)
     - stage: test
       name: 'plugins:units (1/1) - mysql'
       script:
@@ -253,7 +253,7 @@ jobs:
       script:
       - bash script/ci/setup.sh plugins:units postgres bim
       - bash script/ci/runner.sh plugins:units 1 1 bim
-      if: head_branch =~ /^(bim\/|dev|release\/)/
+      if: head_branch =~ /^(bim\/|dev|release\/)/ OR (head_branch IS blank AND branch =~ /^(bim\/|dev|release\/)/)
     - stage: test
       name: 'plugins:features (1/1) - mysql'
       script:
@@ -271,7 +271,7 @@ jobs:
       script:
       - bash script/ci/setup.sh plugins:features postgres bim
       - bash script/ci/runner.sh plugins:features 1 1 bim
-      if: head_branch =~ /^(bim\/|dev|release\/)/
+      if: head_branch =~ /^(bim\/|dev|release\/)/ OR (head_branch IS blank AND branch =~ /^(bim\/|dev|release\/)/)
     - stage: test
       name: 'plugins:cucumber (1/1) - mysql'
       script:
@@ -289,7 +289,7 @@ jobs:
       script:
       - bash script/ci/setup.sh plugins:cucumber postgres bim
       - bash script/ci/runner.sh plugins:cucumber 1 1 bim
-      if: head_branch =~ /^(bim\/|dev|release\/)/
+      if: head_branch =~ /^(bim\/|dev|release\/)/ OR (head_branch IS blank AND branch =~ /^(bim\/|dev|release\/)/)
 
 addons:
   chrome: stable
