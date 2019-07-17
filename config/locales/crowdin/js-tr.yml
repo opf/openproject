@@ -50,7 +50,7 @@ tr:
     button_export-atom: "Atom indir"
     calendar:
       title: 'Takvim'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
+      too_many: 'Toplamda %{count} iş paketi var, ancak sadece  %{max} gösterilebilir.'
     card:
       add_new: 'Yeni kart ekleyin'
       highlighting:
@@ -61,20 +61,20 @@ tr:
       browser_error: "Tarayıcınız panoya kopyalamayı desteklemiyor. Metni lütfen elle kopyalayınız."
       copied_successful: "Panoya başarıyla kopyalandı!"
     chart:
-      type: 'Chart type'
-      axis_criteria: 'Axis criteria'
-      modal_title: 'Work package graph configuration'
+      type: 'Grafik tipi'
+      axis_criteria: 'Eksen kriterleri'
+      modal_title: 'İş paketi grafik konfigürasyonu'
       types:
-        line: 'Line'
-        horizontal_bar: 'Horizontal bar'
-        bar: 'Bar'
-        pie: 'Pie'
-        doughnut: 'Doughnut'
+        line: 'Çizgi'
+        horizontal_bar: 'Yatay çubuk'
+        bar: 'Çubuk'
+        pie: 'Turta'
+        doughnut: 'Tatlı çörek'
         radar: 'Radar'
-        polar_area: 'Polar area'
+        polar_area: 'kutupsal alan'
       tabs:
         graph_settings: 'Genel'
-        dataset: 'Dataset %{number}'
+        dataset: 'Veri Kümesi %{number}'
     description_available_columns: "Kullanılabilir sütunlar"
     description_current_position: "Buradasınız:"
     description_select_work_package: "#%{id} nolu iş paketini seçin"
@@ -193,9 +193,9 @@ tr:
         work_packages_watched:
           title: 'İzlediğim iş paketleri'
         work_packages_table:
-          title: 'Work packages table'
+          title: 'İş paketleri tablosu'
         work_packages_graph:
-          title: 'Work packages graph'
+          title: 'İş paketleri grafiği'
         work_packages_calendar:
           title: 'Takvim'
     homescreen:
@@ -654,7 +654,7 @@ tr:
         title: Görüntülecek bir iş paketi bulunmuyor.
         description: Ya hiç iş paketi oluşturulmamış, ya da tüm iş paketeri filtrelenmiş.
       limited_results: >
-        There are %{total} total work packages, but only %{count} can be shown in manual sorting mode. Please reduce the results by filtering.
+        %{total} toplam iş paketi var, ancak manuel sıralama modunda sadece %{count} gösterilebilir. Lütfen sonuçları filtreleyerek azaltın.
       property_groups:
         details: "Detaylar"
         people: "Kişiler"
