@@ -117,6 +117,8 @@ export class TimelineCellRenderer {
     const initialStartDate = changeset.workPackage.startDate;
     const initialDueDate = changeset.workPackage.dueDate;
 
+    const now = moment().format('YYYY-MM-DD');
+
     const startDate = moment(changeset.value('startDate'));
     const dueDate = moment(changeset.value('dueDate'));
 
@@ -125,7 +127,7 @@ export class TimelineCellRenderer {
     if (direction === 'left') {
       dates.startDate = moment(initialStartDate || initialDueDate).add(delta, 'days');
     } else if (direction === 'right') {
-      dates.dueDate = moment(initialDueDate || initialStartDate).add(delta, 'days');
+      dates.dueDate = moment(initialDueDate || now).add(delta, 'days');
     } else if (direction === 'both') {
       if (initialStartDate) {
         dates.startDate = moment(initialStartDate).add(delta, 'days');
@@ -177,9 +179,6 @@ export class TimelineCellRenderer {
       // only right
       direction = 'right';
       this.workPackageTimeline.forceCursor('col-resize');
-      if (changeset.value('dueDate') === null) {
-        changeset.setValue('dueDate', changeset.value('startDate'));
-      }
     } else {
       // both
       direction = 'both';
