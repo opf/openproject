@@ -60,8 +60,8 @@ import {WorkPackagesListChecksumService} from "core-components/wp-list/wp-list-c
 import {debugLog} from "core-app/helpers/debug_output";
 import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
 import {TableDragActionsRegistryService} from "core-components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
-import {ReorderQueryService} from "core-app/modules/common/drag-and-drop/reorder-query.service";
 import {WorkPackageTableOrderService} from "core-components/wp-fast-table/state/wp-table-order.service";
+import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
 
 /**
  * Directive to open a work package query 'space', an isolated injector hierarchy
@@ -96,6 +96,8 @@ import {WorkPackageTableOrderService} from "core-components/wp-fast-table/state/
   WorkPackageTableFocusService,
   WorkPackageTableHighlightingService,
   WorkPackageTableOrderService,
+  CausedUpdatesService,
+
   WorkPackageService,
   WorkPackageRelationsHierarchyService,
   WorkPackageFiltersService,
@@ -112,8 +114,6 @@ import {WorkPackageTableOrderService} from "core-components/wp-fast-table/state/
   { provide: IWorkPackageEditingServiceToken, useClass: WorkPackageEditingService },
 
   WorkPackageStatesInitializationService,
-  ReorderQueryService,
-
   PortalCleanupService,
 
   // Table Drag & Drop actions

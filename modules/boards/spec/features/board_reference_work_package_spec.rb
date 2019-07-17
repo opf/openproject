@@ -86,8 +86,8 @@ describe 'Board reference work package spec', type: :feature, js: true do
 
     queries = board_page.board(reload: true).contained_queries
     first = queries.find_by(name: 'First')
-    subjects = WorkPackage.where(id: first.ordered_work_packages).pluck(:subject)
-    expect(subjects).to match_array [work_package.subject]
+    ids = first.ordered_work_packages.pluck(:work_package_id)
+    expect(ids).to match_array [work_package.id]
 
     # Reload work package expect version to be applied by filter
     work_package.reload

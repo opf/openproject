@@ -7,9 +7,7 @@ import {
   Injector,
   Input,
   OnInit,
-  ViewChild,
-  EventEmitter,
-  Output
+  ViewChild
 } from "@angular/core";
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
@@ -29,14 +27,11 @@ import {CardHighlightingMode} from "core-components/wp-fast-table/builders/highl
 import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
 import {StateService} from "@uirouter/core";
 import {States} from "core-components/states.service";
-import {RequestSwitchmap} from "core-app/helpers/rxjs/request-switchmap";
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
-import {ReorderQueryService} from "core-app/modules/common/drag-and-drop/reorder-query.service";
 import {DragAndDropHelpers} from "core-app/modules/common/drag-and-drop/drag-and-drop.helpers";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {filter} from 'rxjs/operators';
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
-import {of} from "rxjs";
 import {WorkPackageTableOrderService} from "core-components/wp-fast-table/state/wp-table-order.service";
 
 

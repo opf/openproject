@@ -256,7 +256,7 @@ export class BoardComponent implements OnInit, OnDestroy {
 
           return id === listId;
         })
-        .forEach((listComponent) => listComponent.refreshQueryUnlessCaused(false));
+        .forEach((listComponent) => listComponent.refreshQueryUnlessCaused(query, false));
     });
   }
 }

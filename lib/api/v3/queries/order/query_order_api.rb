@@ -87,7 +87,8 @@ module API
                 end
               end
 
-              status 204
+              @query.touch
+              { t: ::API::V3::Utilities::DateTimeFormatter.format_datetime(@query.updated_at) }
             end
           end
         end

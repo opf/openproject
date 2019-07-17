@@ -17,6 +17,10 @@ export class CausedUpdatesService {
   }
 
   public add(query:QueryResource) {
+    if (this.causedUpdates.length > 100) {
+      this.causedUpdates.splice(0, 90);
+    }
+
     this.causedUpdates.push(this.cacheValue(query));
   }
 

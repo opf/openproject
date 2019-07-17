@@ -73,8 +73,12 @@ describe 'Board remote changes resolution', type: :feature, js: true do
     board_page.expect_cards_in_order('Open', work_package1, work_package2)
 
     board_query = Query.last
-    board_query.ordered_work_packages = [work_package2.id, work_package1.id]
-    board_query.save!
+    board_query.ordered_work_packages.replace [
+      board_query.ordered_work_packages.create(work_package_id: work_package2.id, position: 0),
+      board_query.ordered_work_packages.create(work_package_id: work_package1.id, position: 16384)
+    ]
+
+    board_query.touch
 
     sleep(3)
 

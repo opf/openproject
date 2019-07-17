@@ -46,6 +46,7 @@ import {ComponentType} from "@angular/cdk/portal";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
 import {BoardListMenuComponent} from "core-app/modules/boards/board/board-list/board-list-menu.component";
+import {debugLog} from "core-app/helpers/debug_output";
 
 export interface DisabledButtonPlaceholder {
   text:string;
@@ -58,7 +59,6 @@ export interface DisabledButtonPlaceholder {
   styleUrls: ['./board-list.component.sass'],
   providers: [
     {provide: WorkPackageInlineCreateService, useClass: BoardInlineCreateService},
-    CausedUpdatesService,
     BoardListMenuComponent,
   ]
 })
@@ -260,10 +260,9 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     return this.board.showStatusButton();
   }
 
-  public refreshQueryUnlessCaused(visibly = true) {
-    const query = this.querySpace.query.value!;
-
+  public refreshQueryUnlessCaused(query:QueryResource, visibly = true) {
     if (!this.causedUpdates.includes(query)) {
+      debugLog(`Refreshing ${query.name} visibly due to external changes`);
       this.updateQuery(visibly);
     }
   }

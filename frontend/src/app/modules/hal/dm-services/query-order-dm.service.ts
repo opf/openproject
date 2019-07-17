@@ -47,13 +47,14 @@ export class QueryOrderDmService {
       .then(result => result || {});
   }
 
-  public update(id:string, delta:QueryOrder):Promise<unknown> {
+  public update(id:string, delta:QueryOrder):Promise<string> {
     return this.http
       .patch(
         this.orderPath(id),
         { delta: delta }
       )
-      .toPromise();
+      .toPromise()
+      .then((response:{t:string}) => response.t);
   }
 
   public delete(id:string, ...wpIds:string[]) {
