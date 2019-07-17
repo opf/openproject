@@ -126,15 +126,10 @@ export class DragAndDropTransformer {
   private updateRenderedOrder(order:string[]) {
     order = _.uniq(order);
 
-    const renderMap = _.keyBy(this.currentRenderedOrder, 'workPackageId');
-    const mappedOrder = order.map(id => renderMap[id]!);
+    const mappedOrder = order.map(id => this.states.workPackages.get(id).value!);
 
-    /** Update rendered order for e.g., redrawing timeline */
-    this.querySpace.rendered.putValue(mappedOrder);
-
-    /** If the timeline is visible, we will need to redraw it */
-    this.table.originalRows = this.currentRenderedOrder.map((e) => e.workPackageId!);
-    this.table.redrawTableAndTimeline();
+    /** Re-render the table */
+    this.table.initialSetup(mappedOrder);
   }
 
   protected get actionService():TableDragActionService {

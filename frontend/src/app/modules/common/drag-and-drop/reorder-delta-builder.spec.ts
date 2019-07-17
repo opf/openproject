@@ -87,7 +87,6 @@ describe('ReorderDeltaBuilder', () => {
 
   it('has no problems inserting in the beginning old sort oder (1..n)', () => {
     let positions = {
-      '5': 0,
       '2': 1,
       '3': 2,
       '4': 3,
@@ -121,9 +120,9 @@ describe('ReorderDeltaBuilder', () => {
 
     let delta = buildDelta('5', positions);
 
-    // 0 does not have to be updated
-    expect(Object.keys(delta).length).toEqual(9);
+    expect(Object.keys(delta).length).toEqual(10);
     expect(delta).toEqual({
+      '1': 0,
       '2': 1,
       '3': 2,
       '4': 3,
@@ -145,8 +144,9 @@ describe('ReorderDeltaBuilder', () => {
 
     let delta = buildDelta('2', positions);
 
-    expect(Object.keys(delta).length).toEqual(9);
+    expect(Object.keys(delta).length).toEqual(10);
     expect(delta).toEqual({
+      '1': 0,
       '2': 1,
       '3': 2,
       '4': 3,
@@ -167,9 +167,10 @@ describe('ReorderDeltaBuilder', () => {
     };
 
     let delta = buildDelta('3', positions, ['1', '2', '3', '4']);
-    expect(Object.keys(delta).length).toEqual(3);
+    expect(Object.keys(delta).length).toEqual(4);
     expect(delta).toEqual({
       // 1 remains at DEFAULT_ORDER
+      '1': DEFAULT_ORDER,
       // rest is evenly spaced until MAX
       '2': 715827882,
       // 715827882 * 2
@@ -232,7 +233,6 @@ describe('ReorderDeltaBuilder', () => {
     expect(delta['2']).toEqual(8192);
   });
 
-  // Move to where successor has undefined position
   it('adds to the predecessor if successor has no position', () => {
     let positions = { '1': 0 };
     let delta = buildDelta('2', positions, ['1', '2', '3']);
@@ -240,5 +240,29 @@ describe('ReorderDeltaBuilder', () => {
     expect(Object.keys(delta)).toEqual(['2']);
     expect(delta['2']).toEqual(8192);
   });
+
+  it('reorders according to positions when not in ascending order', () => {
+    let positions = { '1': 0, '2': 1234, '3': 981 };
+    let delta = buildDelta('1', positions, ['1', '2', '3']);
+
+    expect(delta).toEqual({
+      '1': 0,
+      '2': 617,
+      '3': 1234
+    });
+  });
+
+  it('reorders according to positions when not in ascending order with missing position', () => {
+    let positions = { '1': 1234, '3': 981 };
+    let delta = buildDelta('2', positions, ['1', '2', '3']);
+
+    expect(delta).toEqual({
+      '1': 981,
+      '2': 1107, // 981 + floor[(1234-981)/2]
+      '3': 1233 // Due to flooring
+    });
+  });
+
+  // It will reassign default orders when not in ascending order and min/max not sufficient
 
 });

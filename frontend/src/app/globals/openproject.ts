@@ -37,11 +37,6 @@ export class OpenProject {
 
   public pluginContext:InputState<OpenProjectPluginContext> = input<OpenProjectPluginContext>();
 
-  public flags = {
-    // Debug the drag & drop position in the table by rendering the respective position?
-    RENDER_DRAG_AND_DROP_POSITION: false,
-  };
-
   public getPluginContext():Promise<OpenProjectPluginContext> {
     return this.pluginContext
       .values$()

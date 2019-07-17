@@ -38,13 +38,68 @@ export class ReorderDeltaBuilder {
   }
 
   public buildDelta():QueryOrder {
-    timeOutput(`Building delta for ${this.wpId}@${this.index}`, () => this.buildInsertPosition());
+    timeOutput(`Building delta for ${this.wpId}@${this.index}`, () => {
+
+      // Ensure positions are strictly ascending. There may be cases were this does not happen
+      // e.g., having a flat sorted list and turning on hierarchy mode
+      if (!this.isAscendingOrder()) {
+        this.rebuildPositions();
+      } else {
+        // Insert only the new element
+        this.buildInsertPosition();
+      }
+    });
 
     debugLog("Order DELTA was built as %O", this.delta);
 
     return this.delta;
   }
 
+
+  /**
+   * Ensure +order+ is already ascending with the exception of +index+,
+   * or otherwise reorder the positions starting from the first element.
+   */
+  private isAscendingOrder() {
+    let current:number|undefined;
+
+    for (let i = 0, l = this.order.length; i < l; i++) {
+      const id = this.order[i];
+      const position = this.positions[id];
+
+      // Skip our insertion point
+      if (i === this.index) {
+        continue;
+      }
+
+      // If neither position is set
+      if (current === undefined || position === undefined) {
+        current = position;
+        continue;
+      }
+
+      // If the next position is not larger, rebuild positions
+      if (position < current) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  /**
+   * Reassign mixed positions so that they are strictly ascending again,
+   * but try to keep relative positions alive
+   */
+  private rebuildPositions() {
+    let [min, max] = this.minMaxPositions;
+    this.redistribute(min, max);
+  }
+
+  /**
+   * Insert +wpId+ at +index+ in a position that is determined either
+   * by its neighbors, one of them in case both do not yet have a position
+   */
   private buildInsertPosition() {
     // Special case, order is empty or only contains wpId
     // Then simply insert as the default position unless it already has a position
@@ -98,8 +153,7 @@ export class ReorderDeltaBuilder {
       return this.reorderedInsert();
     }
 
-    const optimal = predecessorPosition + distance;
-    this.delta[this.wpId] = optimal;
+    this.delta[this.wpId] = predecessorPosition + distance;
   }
 
   /**
@@ -185,28 +239,30 @@ export class ReorderDeltaBuilder {
    * we're going to evenly distribute all items again
    */
   private reorderedInsert() {
-    const itemsToDistribute = this.order.length;
-
     // Get the current distance between orders
     // Both must be set by now due to +buildUpPredecessorPosition+ having run.
-    let [minWpId, min] = this.minPosition!;
-    let [maxWpId, max] = this.maxPosition!;
+    let min = this.firstPosition!;
+    let max = this.lastPosition!;
 
+    this.redistribute(min, max);
+  }
+
+  /**
+   * Distribute the items over a given min/max
+   */
+  private redistribute(min:number, max:number) {
+    const itemsToDistribute = this.order.length;
 
     // We can keep min and max orders if distance/(items to distribute) >= 1
     let space = Math.floor((max - min) / (itemsToDistribute - 1));
-
-    debugLog(`Min=${min}  Max=${max}, items=${itemsToDistribute}, space=${space}`)
 
     // If no space is left, first try to add to the max item
     // Or subtract from the min item
     if (space < 1) {
       if ((max + itemsToDistribute) <= MAX_ORDER) {
         max += itemsToDistribute;
-        this.delta[maxWpId] = max;
       } else if ((min - itemsToDistribute) >= MIN_ORDER) {
         min -= itemsToDistribute;
-        this.delta[minWpId] = min;
       } else {
         // This should not happen in a 4-byte integer with our frontend
         throw "Elements cannot be moved further and no space is left. Too many elements";
@@ -216,35 +272,66 @@ export class ReorderDeltaBuilder {
       space = Math.floor((max - min) / (itemsToDistribute - 1));
     }
 
-    debugLog(`Min=${min}  Max=${max}, items=${itemsToDistribute}, space=${space}`)
-
     // Assign positions for all values in between min/max
-    for (let i = 1; i < itemsToDistribute; i++) {
+    for (let i = 0; i < itemsToDistribute; i++) {
       const wpId = this.order[i];
       this.delta[wpId] = min + (i * space);
     }
   }
 
   /**
+   * Get the absolute minimum and maximum positions
+   * currently assigned in the slot.
+   *
+   * If there is at least two positions assigned, returns the maximum
+   * between them.
+   *
+   * Otherwise, returns the optimum min max for the given order length.
+   */
+  private get minMaxPositions():[number, number] {
+    let min:number = MAX_ORDER;
+    let max:number = MIN_ORDER;
+    let any:boolean = false;
+
+    for (let i = this.order.length - 1; i >= 0; i--) {
+      let wpId = this.order[i];
+      let position = this.livePosition(wpId);
+
+      if (position !== undefined) {
+        min = Math.min(position, min);
+        max = Math.max(position, max);
+        any = true;
+      }
+    }
+
+    if (any && min !== max) {
+      return [min, max];
+    } else {
+      return [DEFAULT_ORDER, this.order.length * ORDER_DISTANCE];
+    }
+  }
+
+
+  /**
    * Returns the minimal position assigned currently
    */
-  private get minPosition():[string, number] {
+  private get firstPosition():number {
     const wpId = this.order[0]!;
-    return [wpId, this.livePosition(wpId)!];
+    return this.livePosition(wpId)!;
   }
 
   /**
    * Returns the maximum position assigned currently.
    * Note that a list can be unpositioned at the beginning, so this may return undefined
    */
-  private get maxPosition():[string, number]|undefined {
+  private get lastPosition():number|undefined {
     for (let i = this.order.length - 1; i >= 0; i--) {
       let wpId = this.order[i];
       let position = this.livePosition(wpId);
 
       // Return the first set position.
       if (position !== undefined) {
-        return [wpId, position];
+        return position;
       }
     }
 
