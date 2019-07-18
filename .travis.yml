@@ -94,7 +94,7 @@ jobs:
       script:
         - bash script/ci/setup.sh spec_legacy bim
         - bash script/ci/runner.sh spec_legacy 1 1 bim
-      if: head_branch =~ /^(bim\/|dev|release\/)/
+      if: head_branch =~ /^(bim\/|dev|release\/)/ OR (head_branch IS blank AND branch =~ /^(bim\/|dev|release\/)/)
     - stage: test
       name: 'units (1/4) - standard'
       script:
@@ -105,7 +105,7 @@ jobs:
       script:
         - bash script/ci/setup.sh units bim
         - bash script/ci/runner.sh units 4 1 bim
-      if: head_branch =~ /^(bim\/|dev|release\/)/
+      if: head_branch =~ /^(bim\/|dev|release\/)/ OR (head_branch IS blank AND branch =~ /^(bim\/|dev|release\/)/)
     - stage: test
       name: 'units (2/4) - standard'
       script:
@@ -116,7 +116,7 @@ jobs:
       script:
         - bash script/ci/setup.sh units bim
         - bash script/ci/runner.sh units 4 2 bim
-      if: head_branch =~ /^(bim\/|dev|release\/)/
+      if: head_branch =~ /^(bim\/|dev|release\/)/ OR (head_branch IS blank AND branch =~ /^(bim\/|dev|release\/)/)
     - stage: test
       name: 'units (3/4) - standard'
       script:
@@ -127,7 +127,7 @@ jobs:
       script:
         - bash script/ci/setup.sh units bim
         - bash script/ci/runner.sh units 4 3 bim
-      if: head_branch =~ /^(bim\/|dev|release\/)/
+      if: head_branch =~ /^(bim\/|dev|release\/)/ OR (head_branch IS blank AND branch =~ /^(bim\/|dev|release\/)/)
     - stage: test
       name: 'units (4/4) - standard'
       script:
@@ -138,7 +138,7 @@ jobs:
       script:
       - bash script/ci/setup.sh units bim
       - bash script/ci/runner.sh units 4 4 bim
-      if: head_branch =~ /^(bim\/|dev|release\/)/
+      if: head_branch =~ /^(bim\/|dev|release\/)/ OR (head_branch IS blank AND branch =~ /^(bim\/|dev|release\/)/)
     - stage: test
       name: 'features (1/4) - standard'
       script:
@@ -149,7 +149,7 @@ jobs:
       script:
       - bash script/ci/setup.sh features bim
       - bash script/ci/runner.sh features 4 1 bim
-      if: head_branch =~ /^(bim\/|dev|release\/)/
+      if: head_branch =~ /^(bim\/|dev|release\/)/ OR (head_branch IS blank AND branch =~ /^(bim\/|dev|release\/)/)
     - stage: test
       name: 'features (2/4) - standard'
       script:
@@ -160,7 +160,7 @@ jobs:
       script:
       - bash script/ci/setup.sh features bim
       - bash script/ci/runner.sh features 4 2 bim
-      if: head_branch =~ /^(bim\/|dev|release\/)/
+      if: head_branch =~ /^(bim\/|dev|release\/)/ OR (head_branch IS blank AND branch =~ /^(bim\/|dev|release\/)/)
     - stage: test
       name: 'features (3/4) - standard'
       script:
@@ -171,7 +171,7 @@ jobs:
       script:
       - bash script/ci/setup.sh features bim
       - bash script/ci/runner.sh features 4 3 bim
-      if: head_branch =~ /^(bim\/|dev|release\/)/
+      if: head_branch =~ /^(bim\/|dev|release\/)/ OR (head_branch IS blank AND branch =~ /^(bim\/|dev|release\/)/)
     - stage: test
       name: 'features (4/4) - standard'
       script:
@@ -182,7 +182,7 @@ jobs:
       script:
       - bash script/ci/setup.sh features bim
       - bash script/ci/runner.sh features 4 4 bim
-      if: head_branch =~ /^(bim\/|dev|release\/)/
+      if: head_branch =~ /^(bim\/|dev|release\/)/ OR (head_branch IS blank AND branch =~ /^(bim\/|dev|release\/)/)
     - stage: test
       name: 'plugins:units (1/1) - standard'
       script:
@@ -194,7 +194,7 @@ jobs:
       script:
       - bash script/ci/setup.sh plugins:units bim
       - bash script/ci/runner.sh plugins:units 1 1 bim
-      if: head_branch =~ /^(bim\/|dev|release\/)/
+      if: head_branch =~ /^(bim\/|dev|release\/)/ OR (head_branch IS blank AND branch =~ /^(bim\/|dev|release\/)/)
     - stage: test
       name: 'plugins:features (1/1) - standard'
       script:
@@ -206,7 +206,7 @@ jobs:
       script:
       - bash script/ci/setup.sh plugins:features bim
       - bash script/ci/runner.sh plugins:features 1 1 bim
-      if: head_branch =~ /^(bim\/|dev|release\/)/
+      if: head_branch =~ /^(bim\/|dev|release\/)/ OR (head_branch IS blank AND branch =~ /^(bim\/|dev|release\/)/)
     - stage: test
       name: 'plugins:cucumber (1/1) - standard'
       script:
@@ -218,7 +218,7 @@ jobs:
       script:
       - bash script/ci/setup.sh plugins:cucumber bim
       - bash script/ci/runner.sh plugins:cucumber 1 1 bim
-      if: head_branch =~ /^(bim\/|dev|release\/)/
+      if: head_branch =~ /^(bim\/|dev|release\/)/ OR (head_branch IS blank AND branch =~ /^(bim\/|dev|release\/)/)
 
 addons:
   chrome: stable

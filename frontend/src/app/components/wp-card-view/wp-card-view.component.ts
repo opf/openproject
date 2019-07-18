@@ -37,7 +37,6 @@ import {PathHelperService} from "core-app/modules/common/path-helper/path-helper
 import {filter} from 'rxjs/operators';
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
 
-
 @Component({
   selector: 'wp-card-view',
   styleUrls: ['./wp-card-view.component.sass'],
