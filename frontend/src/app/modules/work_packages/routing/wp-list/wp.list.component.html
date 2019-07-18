@@ -73,16 +73,10 @@
                 [projectIdentifier]="projectIdentifier"
                 class="work-packages-split-view--tabletimeline-content"></wp-table>
 
-      <!-- CARD representation of the WP -->
+      <!-- GRID representation of the WP -->
       <div *ngIf="!showListView"
            class="work-packages--card-view-container">
-        <wp-card-view [dragOutOfHandler]="test"
-                      [dragInto]="true"
-                      [cardsRemovable]="false"
-                      [highlightingMode]="wpTableHighlighting.current.mode"
-                      [showStatusButton]="false"
-                      [orientation]="'horizontal'">
-        </wp-card-view>
+        <wp-grid></wp-grid>
       </div>
 
       <!-- Footer -->

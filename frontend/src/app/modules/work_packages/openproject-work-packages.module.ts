@@ -157,6 +157,7 @@ import {CustomDateActionAdminComponent} from 'core-components/wp-custom-actions/
 import {WorkPackagesTableConfigMenu} from "core-components/wp-table/config-menu/config-menu.component";
 import {WorkPackageIsolatedGraphQuerySpaceDirective} from "core-app/modules/work_packages/query-space/wp-isolated-graph-query-space.directive";
 import {WorkPackageViewToggleButton} from "core-components/wp-buttons/wp-view-toggle-button/work-package-view-toggle-button.component";
+import {WorkPackagesGridComponent} from "core-components/wp-grid/wp-grid.component";
 
 @NgModule({
   imports: [
@@ -236,6 +237,8 @@ import {WorkPackageViewToggleButton} from "core-components/wp-buttons/wp-view-to
     // Inline create
     WorkPackageInlineCreateComponent,
     WpRelationInlineAddExistingComponent,
+
+    WorkPackagesGridComponent,
 
     WorkPackagesTableController,
     WorkPackagesTableConfigMenu,
@@ -378,8 +381,12 @@ import {WorkPackageViewToggleButton} from "core-components/wp-buttons/wp-view-to
 
     // Inline create
     WpRelationInlineAddExistingComponent,
+
+    // View representations
     WorkPackagesBaseComponent,
     WorkPackagesListComponent,
+
+    WorkPackagesGridComponent,
 
     // WP new
     WorkPackageNewFullViewComponent,

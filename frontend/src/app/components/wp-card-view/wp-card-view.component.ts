@@ -37,6 +37,7 @@ import {PathHelperService} from "core-app/modules/common/path-helper/path-helper
 import {filter} from 'rxjs/operators';
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
 
+export type CardViewOrientation = 'horizontal'|'vertical';
 
 @Component({
   selector: 'wp-card-view',
@@ -50,7 +51,14 @@ export class WorkPackageCardViewComponent  implements OnInit {
   @Input() public highlightingMode:CardHighlightingMode;
   @Input() public workPackageAddedHandler:(wp:WorkPackageResource) => Promise<unknown>;
   @Input() public showStatusButton:boolean = true;
-  @Input() public orientation:'horizontal'|'vertical' = 'vertical';
+  @Input() public orientation:CardViewOrientation = 'vertical';
+  /** Whether cards are removable */
+  @Input() public cardsRemovable:boolean = false;
+
+  /** Container reference */
+  @ViewChild('container', { static: true }) public container:ElementRef;
+
+  @Output() onMoved = new EventEmitter<void>();
 
   public trackByHref = AngularTrackingHelpers.trackByHref;
   public query:QueryResource;
@@ -72,12 +80,6 @@ export class WorkPackageCardViewComponent  implements OnInit {
     onCancel: () => this.setReferenceMode(false),
     onReferenced: (wp:WorkPackageResource) => this.addWorkPackageToQuery(wp, 0)
   };
-
-  /** Whether cards are removable */
-  @Input() public cardsRemovable:boolean = false;
-
-  /** Container reference */
-  @ViewChild('container', { static: true }) public container:ElementRef;
 
   /** Whether the card view has an active inline created wp */
   public activeInlineCreateWp?:WorkPackageResource;
@@ -211,6 +213,8 @@ export class WorkPackageCardViewComponent  implements OnInit {
 
         const newOrder = this.reorderService.move(this.currentOrder, wpId, toIndex);
         this.updateOrder(newOrder);
+
+        this.onMoved.emit();
       },
       onRemoved: (card:HTMLElement) => {
         const wpId:string = card.dataset.workPackageId!;

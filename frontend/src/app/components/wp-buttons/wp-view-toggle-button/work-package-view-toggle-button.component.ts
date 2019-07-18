@@ -70,8 +70,8 @@ import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
   selector: 'wp-view-toggle-button',
 })
 export class WorkPackageViewToggleButton extends AbstractWorkPackageButtonComponent implements OnInit, OnDestroy {
-  private iconListView:string = 'icon-view-list';
-  private iconCardView:string = 'icon-image2';
+  public iconListView:string = 'icon-view-list';
+  public iconCardView:string = 'icon-image2';
 
   public buttonId:string = 'work-packages-view-toggle-button';
 
