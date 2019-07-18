@@ -214,9 +214,23 @@ describe 'Version action board', type: :feature, js: true do
 
       visit settings_project_path(project, tab: 'versions')
       expect(page).to have_content 'Completely new version'
+      expect(page).to have_content 'Closed version'
 
       board_page.visit!
-      board_page.add_list option: closed_version.name
+
+      board_page.expect_list 'Open version'
+      board_page.expect_list 'A second version'
+      board_page.expect_list 'Completely new version'
+      board_page.expect_card('Open version', 'Foo')
+
+      queries = board_page.board(reload: true).contained_queries
+      closed = queries.find_by(name: 'Closed version')
+      expect(closed).to be_nil
+
+      retry_block(screenshot: true) do
+        board_page.add_list option: closed_version.name
+      end
+
       board_page.expect_list 'Closed version'
       expect(page).to have_selector('.version-board-header.-closed')
 
