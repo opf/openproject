@@ -157,6 +157,7 @@ import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relat
 import {OpenprojectBcfModule} from "core-app/modules/bcf/openproject-bcf.module";
 import {WorkPackageRelationsAutocomplete} from "core-components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.component";
 import {WorkPackageViewToggleButton} from "core-components/wp-buttons/wp-view-toggle-button/work-package-view-toggle-button.component";
+import {WorkPackagesGridComponent} from "core-components/wp-grid/wp-grid.component";
 
 
 @NgModule({
@@ -238,6 +239,8 @@ import {WorkPackageViewToggleButton} from "core-components/wp-buttons/wp-view-to
     // Inline create
     WorkPackageInlineCreateComponent,
     WpRelationInlineAddExistingComponent,
+
+    WorkPackagesGridComponent,
 
     WorkPackagesTableController,
     WorkPackageTablePaginationComponent,
@@ -383,8 +386,12 @@ import {WorkPackageViewToggleButton} from "core-components/wp-buttons/wp-view-to
 
     // Inline create
     WpRelationInlineAddExistingComponent,
+
+    // View representations
     WorkPackagesBaseComponent,
     WorkPackagesListComponent,
+
+    WorkPackagesGridComponent,
 
     // WP new
     WorkPackageNewFullViewComponent,

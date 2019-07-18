@@ -34,7 +34,6 @@ import {WorkPackagesViewBase} from "core-app/modules/work_packages/routing/wp-vi
 import {take} from "rxjs/operators";
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {wpDisplayCardRepresentation} from "core-components/wp-fast-table/state/work-package-display-representation.service";
 
 @Component({
@@ -75,9 +74,6 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
 
   /** An overlay over the table shown for example when the filters are invalid */
   showResultOverlay = false;
-
-  // TODO: REPLACE WITH REAL IMPLEMENTATION
-  public test = (workPackage:WorkPackageResource) => { return true };
 
   /** Switch between list and card view */
   private _showListView:boolean = true;
