@@ -26,6 +26,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
+require 'rails/generators'
+
 class OpenProject::PluginGenerator < Rails::Generators::Base
   source_root File.expand_path('../templates', __FILE__)
 

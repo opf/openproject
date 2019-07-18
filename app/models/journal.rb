@@ -30,9 +30,9 @@
 class Journal < ActiveRecord::Base
   self.table_name = 'journals'
 
-  include JournalChanges
-  include JournalFormatter
-  include FormatHooks
+  include ::JournalChanges
+  include ::JournalFormatter
+  include ::Redmine::Acts::Journalized::FormatHooks
 
   register_journal_formatter :diff, OpenProject::JournalFormatter::Diff
   register_journal_formatter :attachment, OpenProject::JournalFormatter::Attachment
