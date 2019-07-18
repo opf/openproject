@@ -36,6 +36,56 @@ module WorkPackage::Parent
     base.virtual_attribute 'parent_id', cast_type: :integer
 
     base.define_attribute_method 'parent'
+
+    base.scope :with_parent, ->(*args) do
+      opts = Hash(args.first)
+      # noinspection RubySimplifyBooleanInspection
+      neg = opts[:present] == false ? "NOT" : ""
+      rel = Relation.table_name
+      wp = WorkPackage.table_name
+
+      query = "#{neg} EXISTS (SELECT 1 FROM #{rel} WHERE #{rel}.to_id = #{wp}.id AND #{rel}.hierarchy > 0"
+
+      if opts[:in].respond_to? :arel
+        subset = opts[:in].arel #                            .select() (or project()) will only add columns
+        subset.projections = [WorkPackage.arel_table[:id]] # but we only need the ID, so we reset the projections
+
+        query += " AND relations.from_id IN (#{subset.to_sql})"
+      end
+
+      query += " LIMIT 1)"
+
+      where(query)
+    end
+
+    base.scope :without_parent, ->(*args) do
+      with_parent Hash(args.first).merge(present: false)
+    end
+
+    base.scope :with_children, ->(*args) do
+      opts = Hash(args.first)
+      # noinspection RubySimplifyBooleanInspection
+      neg = opts[:present] == false ? "NOT" : ""
+      rel = Relation.table_name
+      wp = WorkPackage.table_name
+
+      query = "#{neg} EXISTS (SELECT 1 FROM #{rel} WHERE #{rel}.from_id = #{wp}.id AND #{rel}.hierarchy > 0"
+
+      if opts[:in].respond_to? :arel
+        subset = opts[:in].arel #                            .select() (or project()) will only add columns
+        subset.projections = [WorkPackage.arel_table[:id]] # but we only need the ID, so we reset the projections
+
+        query += " AND relations.to_id IN (#{subset.to_sql})"
+      end
+
+      query += " LIMIT 1)"
+
+      where(query)
+    end
+
+    base.scope :without_children, ->(*args) do
+      with_children Hash(args.first).merge(present: false)
+    end
   end
 
   attr_accessor :parent_object,
@@ -55,6 +105,10 @@ module WorkPackage::Parent
     else
       @parent_object || parent_from_relation || parent_from_id
     end
+  end
+
+  def has_parent?
+    !parent_relation.nil?
   end
 
   def reload(*args)
