@@ -1,21 +1,21 @@
 fr:
   label_avatar: "Avatar"
-  label_current_avatar: "Current Avatar"
-  label_choose_avatar: "Choose Avatar from file"
-  message_avatar_uploaded: "Avatar changed successfully."
-  error_image_upload: "Error saving the image."
-  error_image_size: "The image is too large."
-  button_change_avatar: "Change avatar"
-  are_you_sure_delete_avatar: "Are you sure you want to delete your avatar?"
-  avatar_deleted: "Avatar deleted successfully."
-  unable_to_delete_avatar: "Avatar could not be deleted."
-  wrong_file_format: "Allowed formats are jpg, png, gif"
-  empty_file_error: "Please upload a valid image (jpg, png, gif)"
+  label_current_avatar: "Avatar actuel"
+  label_choose_avatar: "Choisir un avatar depuis vos fichiers"
+  message_avatar_uploaded: "L'avatar a bien été changé."
+  error_image_upload: "Erreur lors de la sauvegarde de l'image."
+  error_image_size: "L'image est trop grande."
+  button_change_avatar: "Changer d'avatar"
+  are_you_sure_delete_avatar: "Êtes-vous sûr de vouloir supprimer votre avatar ?"
+  avatar_deleted: "L'avatar a bien été supprimé."
+  unable_to_delete_avatar: "L'avatar n'a pas pu être supprimé."
+  wrong_file_format: "Les formats autorisés sont jpg, png, gif"
+  empty_file_error: "Veuillez télécharger une image valide (jpg, png, gif)"
   avatars:
     label_avatar: "Avatar"
     label_gravatar: 'Gravatar'
-    label_current_avatar: 'Current avatar'
-    label_local_avatar: 'Custom avatar'
+    label_current_avatar: 'Avatar actuel'
+    label_local_avatar: 'Avatar personnalisé'
     text_current_avatar: |
       The following image shows the current avatar.
     text_upload_instructions: |
@@ -30,9 +30,9 @@ fr:
       OpenProject uses your gravatar if you registered one, or a default image or icon if one exists.
       The current gravatar is as follows:
     settings:
-      enable_gravatars: 'Enable user gravatars'
+      enable_gravatars: 'Activer Gravatar pour les utilisateurs'
       gravatar_default: "Image Gravatar par défaut"
-      enable_local_avatars: 'Enable user custom avatars'
+      enable_local_avatars: 'Activer les avatars personnalisés pour les utilisateurs'
 
 
 

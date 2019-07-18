@@ -1,29 +1,29 @@
 ja:
   bcf:
     label_bcf: 'BCF'
-    issues: "Issues"
-    experimental_badge: "Experimental"
+    issues: "チケット"
+    experimental_badge: "実験的"
     exceptions:
-      file_invalid: "BCF file invalid"
+      file_invalid: "BCFファイルが無効"
     x_bcf_issues:
-      other: '%{count} BCF issues'
+      other: '%{count} BCF チケット'
     bcf_xml:
-      xml_file: 'BCF XML File'
-      import_title: 'Import from BCF file'
-      export: 'Export all to BCF-XML'
-      import_update_comment: '(Updated in BCF import)'
-      import_failed: 'Cannot import BCF file: %{error}'
-      import_successful: 'Imported %{count} BCF issues'
-      import_canceled: 'BCF-XML import canceled.'
-      type_not_active: "The issue type is not activated for this project."
+      xml_file: 'BCF XML ファイル'
+      import_title: 'BCF ファイルからインポート'
+      export: 'すべて BCF-XML にエクスポート'
+      import_update_comment: '(BCF インポートで更新済)'
+      import_failed: 'BCF ファイルをインポートできません: %{error}'
+      import_successful: '%{count} BCF チケットをインポートしました'
+      import_canceled: 'BCF-XML インポートをキャンセルしました。'
+      type_not_active: "チケットの形式がこのプロジェクトで有効になっていません。"
       import:
-        num_issues_found: '%{x_bcf_issues} are contained in the BCF-XML file, their details are listed below.'
-        button_prepare: 'Prepare import'
-        button_perform_import: 'Confirm import'
-        button_proceed: 'Proceed'
-        button_back_to_list: 'Back to list'
-        description: "Provide a BCF-XML v2.1 file to import into this project. You can examine its contents before performing the import."
-        perform_description: "Do you want to import or update the issues listed above?"
+        num_issues_found: '%{x_bcf_issues} は BCF-XML ファイルに含まれています。詳細は下に一覧表示されます。'
+        button_prepare: 'インポートの準備'
+        button_perform_import: 'インポートの確認'
+        button_proceed: '続行'
+        button_back_to_list: 'リストに戻る'
+        description: "BCF-XML v2.1 ファイルをこのプロジェクトにインポートします。インポートを実行する前に内容を確認することができます。"
+        perform_description: "上に一覧表示されたチケットをインポートまたは更新しますか?"
         work_package_has_newer_changes: "The import for BCF topic %{bcf_uuid} appears to be outdated. The latest changes on the server are newer than the \"MofiedDate\" of the imported topic. However, comments got updated."
   export:
     format:
