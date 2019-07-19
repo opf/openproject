@@ -29,8 +29,7 @@ export class WorkPackageEmbeddedGraphComponent {
   public chartData:any = [];
   public chartOptions:ChartOptions;
 
-  constructor(readonly i18n:I18nService) {
-  }
+  constructor(readonly i18n:I18nService) {}
 
   ngOnChanges(changes:SimpleChanges) {
     if (changes.datasets) {

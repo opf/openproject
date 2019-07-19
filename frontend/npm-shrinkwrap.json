@@ -2233,6 +2233,11 @@
         "color-name": "^1.0.0"
       }
     },
+    "chartjs-plugin-datalabels": {
+      "version": "0.6.0",
+      "resolved": "https://registry.npmjs.org/chartjs-plugin-datalabels/-/chartjs-plugin-datalabels-0.6.0.tgz",
+      "integrity": "sha512-3APqqeqVHlxjusTO0hETfNjq9HWCISLkjxQfAKgbnTfjZe60knOzVxDAgLGnpRvnzQvZUtwSlnJX2MHIuIUe8w=="
+    },
     "chokidar": {
       "version": "2.0.4",
       "resolved": "https://registry.npmjs.org/chokidar/-/chokidar-2.0.4.tgz",
@@ -3302,7 +3307,7 @@
     },
     "engine.io-client": {
       "version": "3.2.1",
-      "resolved": "https://registry.npmjs.org/engine.io-client/-/engine.io-client-3.2.1.tgz",
+      "resolved": "http://registry.npmjs.org/engine.io-client/-/engine.io-client-3.2.1.tgz",
       "integrity": "sha512-y5AbkytWeM4jQr7m/koQLc5AxpRKC1hEVUb/s1FUAWEJq5AzJJ4NLvzuKPuxtDi5Mq755WuDvZ6Iv2rXj4PTzw==",
       "dev": true,
       "requires": {
@@ -9044,7 +9049,7 @@
     },
     "socket.io-parser": {
       "version": "3.2.0",
-      "resolved": "https://registry.npmjs.org/socket.io-parser/-/socket.io-parser-3.2.0.tgz",
+      "resolved": "http://registry.npmjs.org/socket.io-parser/-/socket.io-parser-3.2.0.tgz",
       "integrity": "sha512-FYiBx7rc/KORMJlgsXysflWx/RIvtqZbyGLlHZvjfmPTPeuD/I8MaW7cfFrj5tRltICJdgwflhfZ3NVVbVLFQA==",
       "dev": true,
       "requires": {

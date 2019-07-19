@@ -239,6 +239,8 @@ en:
           title: 'Work packages graph'
         work_packages_calendar:
           title: 'Calendar'
+        work_packages_overview:
+          title: 'Work packages overview'
 
     homescreen:
       blocks:

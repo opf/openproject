@@ -27,7 +27,7 @@
 // ++
 
 import {OpenprojectCommonModule} from 'core-app/modules/common/openproject-common.module';
-import {NgModule} from '@angular/core';
+import {NgModule, APP_INITIALIZER, Injector} from '@angular/core';
 import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
 import {WpGraphConfigurationModalComponent} from "core-app/modules/work-package-graphs/configuration-modal/wp-graph-configuration.modal";
 import {WpGraphConfigurationFiltersTab} from "core-app/modules/work-package-graphs/configuration-modal/tabs/filters-tab.component";
@@ -35,8 +35,9 @@ import {WpGraphConfigurationSettingsTab} from "core-app/modules/work-package-gra
 import {WpGraphConfigurationFiltersTabInner} from "core-app/modules/work-package-graphs/configuration-modal/tabs/filters-tab-inner.component";
 import {WpGraphConfigurationSettingsTabInner} from "core-app/modules/work-package-graphs/configuration-modal/tabs/settings-tab-inner.component";
 import {WorkPackageEmbeddedGraphComponent} from "core-app/modules/work-package-graphs/embedded/wp-embedded-graph.component";
-import {WorkPackageByVersionGraphComponent} from "core-app/modules/work-package-graphs/by-version/wp-by-version-graph.component";
+import {WorkPackageOverviewGraphComponent} from "core-app/modules/work-package-graphs/overview/wp-overview-graph.component";
 import {ChartsModule} from 'ng2-charts';
+import * as ChartDataLabels from 'chartjs-plugin-datalabels';
 
 @NgModule({
   imports: [
@@ -48,6 +49,12 @@ import {ChartsModule} from 'ng2-charts';
     ChartsModule,
   ],
   providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: registerChartPlugins,
+      deps: [Injector],
+      multi: true
+    },
   ],
   declarations: [
     // Modals
@@ -60,7 +67,7 @@ import {ChartsModule} from 'ng2-charts';
     // Embedded graphs
     WorkPackageEmbeddedGraphComponent,
     // Work package graphs on version page
-    WorkPackageByVersionGraphComponent,
+    WorkPackageOverviewGraphComponent,
 
   ],
   entryComponents: [
@@ -70,7 +77,7 @@ import {ChartsModule} from 'ng2-charts';
     WpGraphConfigurationSettingsTab,
 
     // Work package graphs on version page
-    WorkPackageByVersionGraphComponent,
+    WorkPackageOverviewGraphComponent,
   ],
   exports: [
     // Modals
@@ -78,7 +85,19 @@ import {ChartsModule} from 'ng2-charts';
 
     // Embedded graphs
     WorkPackageEmbeddedGraphComponent,
+    WorkPackageOverviewGraphComponent
   ]
 })
 export class OpenprojectWorkPackageGraphsModule {
+}
+
+export function registerChartPlugins() {
+  return () => {
+    // By this seemingly useless statement, the plugin is registered with Chart.
+    // Simply importing it will have it removed probably by angular tree shaking
+    // so it will not be active. The current default of the plugin is to be enabled
+    // by default. This will be changed in the future:
+    // https://github.com/chartjs/chartjs-plugin-datalabels/issues/42
+    ChartDataLabels;
+  };
 }

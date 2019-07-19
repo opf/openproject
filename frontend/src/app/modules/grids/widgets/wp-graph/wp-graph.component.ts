@@ -2,7 +2,6 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {WorkPackageEmbeddedGraphDataset} from "core-app/modules/work-package-graphs/embedded/wp-embedded-graph.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
-import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
 import {ChartType, ChartOptions} from 'chart.js';
 import {WpGraphConfigurationService} from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration.service";
@@ -11,8 +10,7 @@ import {WpGraphConfiguration} from "core-app/modules/work-package-graphs/configu
 @Component({
   selector: 'widget-wp-graph',
   templateUrl: './wp-graph.component.html',
-  styleUrls: ['../wp-table/wp-table.component.sass',
-              './wp-graph.component.sass'],
+  styleUrls: ['../wp-table/wp-table.component.sass'],
   providers: [WpGraphConfigurationService]
 })
 export class WidgetWpGraphComponent extends AbstractWidgetComponent implements OnInit, OnDestroy {

@@ -83,7 +83,7 @@ $grid--header-width: 20px
 .grid--area-content
   height: 100%
 
-  ng-component
+  ng-component, widget-wp-graph
     display: flex
     flex-direction: column
     height: 100%
@@ -99,6 +99,11 @@ $grid--header-width: 20px
   height: 100%
   overflow-x: auto
   overflow-y: auto
+
+  &.-no-overflow
+    overflow-x: hidden
+    overflow-y: hidden
+    display: block
 
 .grid--widget-limited-text
   max-height: 5rem
