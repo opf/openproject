@@ -9,7 +9,7 @@ module OpenProject::Bcf::BcfXml
     end
 
     def work_packages
-      super.includes(:journals, bcf_issue: [:comments, { viewpoints: :attachments }])
+      super.includes(journals: [:bcf_comment], bcf_issue: [:comments, { viewpoints: :attachments }])
     end
 
     def list
