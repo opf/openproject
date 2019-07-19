@@ -29,32 +29,25 @@
 import {ChangeDetectionStrategy, Component} from "@angular/core";
 import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
 import {CardViewOrientation} from "core-components/wp-card-view/wp-card-view.component";
-import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state/wp-table-sort-by.service";
 
 @Component({
   selector: 'wp-grid',
   template: `
     <wp-card-view [dragOutOfHandler]="canDragOutOf"
-                  [dragInto]="true"
+                  [dragInto]="false"
                   [cardsRemovable]="false"
                   [highlightingMode]="highlightingMode()"
                   [showStatusButton]="false"
-                  [orientation]="gridOrientation"
-                  (onMoved)="switchToManualSorting()">
+                  [orientation]="gridOrientation">
     </wp-card-view>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackagesGridComponent {
-  public canDragOutOf = () => { return true };
+  public canDragOutOf = () => { return false };
   public gridOrientation:CardViewOrientation = 'horizontal';
 
-  constructor(readonly wpTableHighlight:WorkPackageTableHighlightingService,
-              readonly wpTableSortBy:WorkPackageTableSortByService) {
-  }
-
-  public switchToManualSorting() {
-    this.wpTableSortBy.switchToManualSorting();
+  constructor(readonly wpTableHighlight:WorkPackageTableHighlightingService) {
   }
 
   public highlightingMode() {

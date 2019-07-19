@@ -31,6 +31,8 @@ import {WorkPackageQueryStateService} from './wp-table-base.service';
 import {States} from 'core-components/states.service';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
+import {InputState} from "reactivestates";
+import {QuerySortByResource} from "core-app/modules/hal/resources/query-sort-by-resource";
 
 export const wpDisplayListRepresentation:string = 'list';
 export const wpDisplayCardRepresentation:string = 'card';
@@ -40,6 +42,10 @@ export class WorkPackageDisplayRepresentationService extends WorkPackageQuerySta
   public constructor(readonly states:States,
                      readonly querySpace:IsolatedQuerySpace) {
     super(querySpace);
+  }
+
+  public get state():InputState<string> {
+    return this.querySpace.displayRepresentation;
   }
 
   public hasChanged(query:QueryResource) {
@@ -56,7 +62,7 @@ export class WorkPackageDisplayRepresentationService extends WorkPackageQuerySta
   }
 
   public get current():string {
-    return this.lastUpdatedState.getValueOr(wpDisplayListRepresentation);
+    return this.state.getValueOr(wpDisplayListRepresentation);
   }
 
   public setDisplayRepresentation(representation:string) {

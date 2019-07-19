@@ -35,7 +35,6 @@ import {
   WorkPackageDisplayRepresentationService, wpDisplayCardRepresentation,
   wpDisplayListRepresentation
 } from "core-components/wp-fast-table/state/work-package-display-representation.service";
-import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
 
@@ -47,8 +46,8 @@ import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
             type="button"
             [ngClass]="{ '-active': inListView }"
             [disabled]="inListView"
-            [attr.id]="buttonId"
-            [attr.title]="label"
+            id="wp-view-toggle-button--list"
+            [attr.title]="listLabel"
             [attr.accesskey]="accessKey"
             (accessibleClick)="performAction($event)">
       <op-icon icon-classes="{{ iconListView }} button--icon"></op-icon>
@@ -57,8 +56,8 @@ import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
   <li>
     <button class="button"
             [ngClass]="{ '-active': !inListView }"
-            [attr.id]="buttonId"
-            [attr.title]="label"
+            id="wp-view-toggle-button--card"
+            [attr.title]="cardLabel"
             [disabled]="!inListView"
             (click)="performAction($event)">
       <op-icon icon-classes="{{ iconCardView }} button--icon"></op-icon>
@@ -73,38 +72,38 @@ export class WorkPackageViewToggleButton extends AbstractWorkPackageButtonCompon
   public iconListView:string = 'icon-view-list';
   public iconCardView:string = 'icon-image2';
 
-  public buttonId:string = 'work-packages-view-toggle-button';
-
   public inListView:boolean = true;
 
-  public activateLabel:string;
-  public deactivateLabel:string;
+  public cardLabel:string;
+  public listLabel:string;
 
   constructor(readonly $state:StateService,
               readonly I18n:I18nService,
               readonly cdRef:ChangeDetectorRef,
-              readonly wpDisplayRepresentationService:WorkPackageDisplayRepresentationService,
-              readonly wpListService:WorkPackagesListService) {
+              readonly wpDisplayRepresentationService:WorkPackageDisplayRepresentationService) {
     super(I18n);
 
-    this.activateLabel = I18n.t('js.button_card_list');
-    this.deactivateLabel = I18n.t('js.button_show_list');
+    this.cardLabel = I18n.t('js.button_card_list');
+    this.listLabel = I18n.t('js.button_show_list');
   }
 
   ngOnInit() {
-    this.wpDisplayRepresentationService
-      .live$()
+    this.wpDisplayRepresentationService.state.values$()
       .pipe(
         untilComponentDestroyed(this)
       )
       .subscribe(() => {
-        this.inListView = this.wpDisplayRepresentationService.valueFromQuery(this.wpListService.currentQuery) === wpDisplayListRepresentation;
+        this.inListView = this.wpDisplayRepresentationService.current === wpDisplayListRepresentation;
         this.cdRef.detectChanges();
       });
   }
 
   ngOnDestroy() {
     //
+  }
+
+  public isActive():boolean {
+    return false;
   }
 
   public performAction(evt:Event):false {
