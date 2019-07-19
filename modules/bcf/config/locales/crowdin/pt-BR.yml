@@ -30,4 +30,4 @@ pt-BR:
     format:
       bcf: "BCF-XML"
   attributes:
-    bcf_thumbnail: "Captura de snaphot BCF"
+    bcf_thumbnail: "Snapshot BCF"

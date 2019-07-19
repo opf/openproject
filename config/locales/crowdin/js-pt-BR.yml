@@ -50,7 +50,7 @@ pt-BR:
     button_export-atom: "Baixar Atom"
     calendar:
       title: 'Calendário'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
+      too_many: 'Existem %{count} pacotes de trabalho, mas apenas %{max} podem ser mostrados.'
     card:
       add_new: 'Adicionar novo cartão'
       highlighting:
@@ -61,15 +61,15 @@ pt-BR:
       browser_error: "Seu navegador não suporta copiar para a área de transferência. Por favor, copie o texto selecionado manualmente."
       copied_successful: "Copiado com sucesso para área de transferência!"
     chart:
-      type: 'Tipo do gráfico'
-      axis_criteria: 'Critérios de eixo'
-      modal_title: 'Configuração de tabela de pacote de trabalho'
+      type: 'Tipo de gráfico'
+      axis_criteria: 'Critérios do eixo'
+      modal_title: 'Configuração do gráfico do pacote de trabalho'
       types:
         line: 'Linha'
-        horizontal_bar: 'Barra Horizontal'
+        horizontal_bar: 'Barra horizontal'
         bar: 'Barra'
-        pie: 'Pie'
-        doughnut: 'Rosca'
+        pie: 'Pizza'
+        doughnut: 'Rosquinha'
         radar: 'Radar'
         polar_area: 'Área polar'
       tabs:
@@ -192,7 +192,7 @@ pt-BR:
         work_packages_watched:
           title: 'Pacotes de trabalho observados por mim'
         work_packages_table:
-          title: 'Tipo de pacote de trabalho'
+          title: 'Tabela de pacotes de trabalho'
         work_packages_graph:
           title: 'Gráfico de pacotes de trabalho'
         work_packages_calendar:
@@ -653,7 +653,7 @@ pt-BR:
         title: Não há pacotes de trabalho para exibir.
         description: Nenhum pacote criado ou todos os pacotes de trabalho foram filtrados.
       limited_results: >
-        There are %{total} total work packages, but only %{count} can be shown in manual sorting mode. Please reduce the results by filtering.
+        Existem %{total} pacotes de trabalho, mas apenas %{count} podem ser mostrados no modo manual de classificação. Por favor, reduza os resultados através da filtragem.
       property_groups:
         details: "Detalhes"
         people: "Pessoas"
