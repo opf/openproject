@@ -197,6 +197,8 @@ pt-BR:
           title: 'Gráfico de pacotes de trabalho'
         work_packages_calendar:
           title: 'Calendário'
+        work_packages_overview:
+          title: 'Work packages overview'
     homescreen:
       blocks:
         new_features:

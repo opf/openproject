@@ -198,6 +198,8 @@ uk:
           title: 'Work packages graph'
         work_packages_calendar:
           title: 'Календар'
+        work_packages_overview:
+          title: 'Work packages overview'
     homescreen:
       blocks:
         new_features:

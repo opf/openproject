@@ -198,6 +198,8 @@ tr:
           title: 'İş paketleri grafiği'
         work_packages_calendar:
           title: 'Takvim'
+        work_packages_overview:
+          title: 'Work packages overview'
     homescreen:
       blocks:
         new_features:

@@ -197,6 +197,8 @@ ru:
           title: 'График пакетов работ'
         work_packages_calendar:
           title: 'Календарь'
+        work_packages_overview:
+          title: 'Work packages overview'
     homescreen:
       blocks:
         new_features:
