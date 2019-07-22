@@ -112,6 +112,19 @@ describe UpdateQueryFromParamsService,
       end
     end
 
+    context 'display representation' do
+      let(:params) do
+        { display_representation: 'list' }
+      end
+
+      it 'sets the display_representation' do
+        subject
+
+        expect(query.display_representation)
+          .to eq('list')
+      end
+    end
+
     context 'highlighting mode', with_ee: %i[conditional_highlighting] do
       let(:params) do
         { highlighting_mode: 'status' }
