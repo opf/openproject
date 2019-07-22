@@ -4,12 +4,17 @@ module OpenProject::Bcf::BcfXml
   class Exporter < ::WorkPackage::Exporter::Base
     include Redmine::I18n
 
+    def initialize(object, options = {})
+      object.add_filter('bcf_issue_associated', '=', ['t'])
+      super(object, options)
+    end
+
     def current_user
       User.current
     end
 
     def work_packages
-      super.includes(:journals, bcf_issue: [:comments, { viewpoints: :attachments }])
+      super.includes(journals: [:bcf_comment], bcf_issue: [:comments, { viewpoints: :attachments }])
     end
 
     def list
