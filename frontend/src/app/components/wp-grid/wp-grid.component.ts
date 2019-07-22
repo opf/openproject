@@ -26,9 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectionStrategy, Component} from "@angular/core";
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from "@angular/core";
 import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
 import {CardViewOrientation} from "core-components/wp-card-view/wp-card-view.component";
+import {takeUntil} from "rxjs/operators";
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import {HighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 
 @Component({
   selector: 'wp-grid',
@@ -36,21 +39,31 @@ import {CardViewOrientation} from "core-components/wp-card-view/wp-card-view.com
     <wp-card-view [dragOutOfHandler]="canDragOutOf"
                   [dragInto]="false"
                   [cardsRemovable]="false"
-                  [highlightingMode]="highlightingMode()"
+                  [highlightingMode]="highlightingMode"
                   [showStatusButton]="false"
                   [orientation]="gridOrientation">
     </wp-card-view>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WorkPackagesGridComponent {
-  public canDragOutOf = () => { return false };
+export class WorkPackagesGridComponent implements OnInit {
+  public canDragOutOf = () => { return false; };
   public gridOrientation:CardViewOrientation = 'horizontal';
+  public highlightingMode:HighlightingMode = 'none';
 
-  constructor(readonly wpTableHighlight:WorkPackageTableHighlightingService) {
+  constructor(readonly wpTableHighlight:WorkPackageTableHighlightingService,
+              readonly querySpace:IsolatedQuerySpace,
+              readonly cdRef:ChangeDetectorRef) {
   }
 
-  public highlightingMode() {
-    return this.wpTableHighlight.current.mode;
+  ngOnInit() {
+    this.querySpace.highlighting.values$()
+      .pipe(
+        takeUntil(this.querySpace.stopAllSubscriptions)
+      )
+      .subscribe(() => {
+        this.highlightingMode = this.wpTableHighlight.current.mode;
+        this.cdRef.detectChanges();
+      });
   }
 }
