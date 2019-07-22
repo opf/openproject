@@ -67,32 +67,6 @@ describe ::OpenProject::Bcf::BcfXml::IssueWriter do
         </DocumentReference>
         <RelatedTopic Guid="5019D939-62A4-45D9-B205-FAB602C98FE8" />
       </Topic>
-      <Comment Guid="780FAE52-C432-42BE-ADEA-FF3E7A8CD8E1">
-        <Date>2015-08-31T12:40:17Z</Date>
-        <Author>mike@example.com</Author>
-        <Comment>This is an unmodified topic at the uppermost hierarchical level.
-    All times in the XML are marked as UTC times.</Comment>
-      </Comment>
-      <Comment Guid="897E4909-BDF3-4CC7-A283-6506CAFF93DD">
-        <Date>2015-08-31T14:00:01Z</Date>
-        <Author>mike@example.com</Author>
-        <Comment>This comment was a reply to the first comment in BCF v2.0. This is a no longer supported functionality and therefore is to be treated as a regular comment in v2.1.</Comment>
-      </Comment>
-      <Comment Guid="39C4B780-1B48-44E5-9802-D359007AA44E">
-        <Date>2015-08-31T13:07:11Z</Date>
-        <Author>mike@example.com</Author>
-        <Comment>This comment again is in the highest hierarchy level.
-    It references a viewpoint.</Comment>
-        <Viewpoint Guid="8dc86298-9737-40b4-a448-98a9e953293a" />
-      </Comment>
-      <Comment Guid="BD17158C-4267-4433-98C1-904F9B41CA50">
-        <Date>2015-08-31T15:42:58Z</Date>
-        <Author>mike@example.com</Author>
-        <Comment>This comment contained some spllng errs.
-    Hopefully, the modifier did catch them all.</Comment>
-        <ModifiedDate>2015-08-31T16:07:11Z</ModifiedDate>
-        <ModifiedAuthor>mike@example.com</ModifiedAuthor>
-      </Comment>
       <Viewpoints Guid="8dc86298-9737-40b4-a448-98a9e953293a">
         <Viewpoint>Viewpoint_8dc86298-9737-40b4-a448-98a9e953293a.bcfv</Viewpoint>
         <Snapshot>Snapshot_8dc86298-9737-40b4-a448-98a9e953293a.png</Snapshot>
@@ -109,14 +83,14 @@ describe ::OpenProject::Bcf::BcfXml::IssueWriter do
     MARKUP
   end
   let(:bcf_issue) do
-    FactoryBot.create(:bcf_issue,
+    FactoryBot.create(:bcf_issue_with_comment,
                       markup: markup,
                       project_id: project.id)
   end
   let(:priority) { FactoryBot.create :priority_low }
   let(:current_user) { FactoryBot.create(:user) }
   let(:due_date) { DateTime.now }
-  let(:type) { FactoryBot.create :type, name: 'Issue [BCF]'}
+  let(:type) { FactoryBot.create :type, name: 'Issue'}
   let(:work_package) do
     FactoryBot.create(:work_package,
                       project_id: project.id,
@@ -131,7 +105,9 @@ describe ::OpenProject::Bcf::BcfXml::IssueWriter do
   before do
     allow(User).to receive(:current).and_return current_user
 
-    work_package
+    work_package.bcf_issue.comments.first.journal.update_attribute('journable_id', work_package.id)
+    FactoryBot.create(:work_package_journal, notes: "Some note created in OP.", journable_id: work_package.id)
+    work_package.reload
   end
 
   shared_examples_for "writes Topic" do
@@ -141,16 +117,16 @@ describe ::OpenProject::Bcf::BcfXml::IssueWriter do
 
       expect(subject.at('Topic/@Guid').content).to be_eql bcf_issue.uuid
       expect(subject.at('Topic/@TopicStatus').content).to be_eql work_package.status.name
-      expect(subject.at('Topic/@TopicType').content).to be_eql 'Issue [BCF]'
+      expect(subject.at('Topic/@TopicType').content).to be_eql 'Issue'
 
       expect(subject.at('Topic/Title').content).to be_eql work_package.subject
       expect(subject.at('Topic/CreationDate').content).to be_eql work_package.created_at.iso8601
-      expect(subject.at('Topic/ModifiedDate').content).to be_eql work_package.updated_at.iso8601
+      expect(subject.at('Topic/ModifiedDate').content).to be_eql work_package.journals.last.created_at.iso8601
       expect(subject.at('Topic/Description').content).to be_eql work_package.description
       expect(subject.at('Topic/CreationAuthor').content).to be_eql work_package.author.mail
       expect(subject.at('Topic/ReferenceLink').content).to be_eql url_helpers.work_package_url(work_package)
       expect(subject.at('Topic/Priority').content).to be_eql work_package.priority.name
-      expect(subject.at('Topic/ModifiedAuthor').content).to be_eql work_package.author.mail
+      expect(subject.at('Topic/ModifiedAuthor').content).to be_eql work_package.journals.last.user.mail
       expect(subject.at('Topic/AssignedTo').content).to be_eql work_package.assigned_to.mail
       expect(subject.at('Topic/DueDate').content).to be_eql work_package.due_date.to_datetime.iso8601
     end
@@ -176,14 +152,14 @@ describe ::OpenProject::Bcf::BcfXml::IssueWriter do
   context 'no markup present yet' do
     let(:markup) { nil }
 
-    subject { Nokogiri::XML described_class.update_from!(work_package).markup }
+    subject { Nokogiri::XML(described_class.update_from!(work_package).markup) }
 
     it_behaves_like 'writes Topic'
     it_behaves_like 'valid markup'
   end
 
   context 'markup already present' do
-    subject { Nokogiri::XML described_class.update_from!(work_package).markup }
+    subject { Nokogiri::XML(described_class.update_from!(work_package).markup) }
 
     it_behaves_like 'writes Topic'
     it_behaves_like 'valid markup'
@@ -191,6 +167,15 @@ describe ::OpenProject::Bcf::BcfXml::IssueWriter do
     it "maintains existing nodes and attributes untouched" do
       expect(subject.at('Index').content).to be_eql "0"
       expect(subject.at('BimSnippet')['SnippetType']).to be_eql "JSON"
+    end
+
+    it 'it exports all BCF comments' do
+      expect(subject.at('/Markup/Comment[1]/Comment').content).to eql("Some BCF comment.")
+    end
+
+    it 'creates BCF comments for comments that were created within OP.' do
+      expect(subject.at('/Markup/Comment[2]/Comment').content).to eql("Some note created in OP.")
+      expect(Bcf::Comment.count).to eql(2)
     end
   end
 

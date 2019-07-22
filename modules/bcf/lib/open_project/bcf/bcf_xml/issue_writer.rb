@@ -209,12 +209,11 @@ module OpenProject::Bcf::BcfXml
     ##
     # Render the comments of the work package as XML nodes
     def comments(xml)
-      comments = issue.comments.group_by(&:journal_id)
       work_package.journals.select(:id, :notes, :user_id, :created_at).map do |journal|
         next if journal.notes.empty?
 
         # Create BCF comment reference for the journal
-        comment = comments[journal.id]&.first || issue.comments.build(issue_id: issue, journal_id: journal.id)
+        comment = journal.bcf_comment || issue.comments.create(issue_id: issue, journal_id: journal.id)
         comment_node xml, comment.uuid, journal
       end
     end
