@@ -169,6 +169,18 @@ describe WorkPackages::BaseContract do
       it 'is not writable' do
         expect(contract.writable?(:status)).to be_falsey
       end
+
+      context 'if we only switched into that status now' do
+        before do
+          allow(work_package)
+            .to receive(:status_id_change)
+            .and_return [1,2]
+        end
+
+        it 'is writable' do
+          expect(contract.writable?(:status)).to be_truthy
+        end
+      end
     end
   end
 
