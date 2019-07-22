@@ -40,11 +40,16 @@ module OpenProject::Backlogs::Patches::UpdateAncestorsServicePatch
 
   module InstanceMethods
     private
-    # piggybacking the method because it has the correct signature
-    # and is called in the desired places
-    def inherit_estimated_hours(ancestor, leaves)
+
+    ##
+    # Overrides method in original UpdateAncestorsService.
+    def inherit_from_leaves(ancestor:, leaves:, attributes:)
       super
 
+      inherit_remaining_hours ancestor, leaves if inherit? attributes, :remaining_hours
+    end
+
+    def inherit_remaining_hours(ancestor, leaves)
       ancestor.remaining_hours = all_remaining_hours(leaves).sum.to_f
       ancestor.remaining_hours = nil if ancestor.remaining_hours == 0.0
     end

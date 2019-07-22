@@ -34,7 +34,7 @@ describe 'Cost report showing my own times', type: :feature, js: true do
     it 'shows my time' do
       expect(page).to have_no_selector('.report')
       expect(page).to have_selector('.generic-table--no-results-title')
-      expect(page).not_to have_text '10.00' # 1 EUR x 10
+      expect(page).not_to have_text '10.0' # 1 EUR x 10
     end
   end
 end
