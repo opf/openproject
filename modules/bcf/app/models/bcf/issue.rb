@@ -4,6 +4,7 @@ module Bcf
 
     belongs_to :work_package
     belongs_to :project
+    has_many :comments, class_name: 'Bcf::Comment', foreign_key: 'issue_id'
 
     after_update :invalidate_markup_cache
 

@@ -44,5 +44,4 @@ describe 'export_card_configurations/edit', :type => :view do
     expect(rendered).to have_field("Orientation", with: config.orientation)
     expect(rendered).to have_field("Rows", with: config.rows)
   end
-
 end

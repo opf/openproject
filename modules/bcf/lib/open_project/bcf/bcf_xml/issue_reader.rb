@@ -341,11 +341,17 @@ module OpenProject::Bcf::BcfXml
     end
 
     def new_comment(comment_data)
-      bcf_comment = issue.comments.build(comment_data.slice(:uuid))
+      bcf_comment = issue.comments.build(uuid: comment_data[:uuid], viewpoint: viewpoint_by_uuid(comment_data[:viewpoint_uuid]))
 
       call = create_wp_comment_privileged(comment_data)
 
       new_comment_handler(bcf_comment, call, comment_data[:date])
+    end
+
+    def viewpoint_by_uuid(uuid)
+      return nil if uuid.nil?
+
+      issue.viewpoints.find { |vp| vp.uuid == uuid }
     end
 
     def create_wp_comment_privileged(comment_data)
@@ -371,10 +377,20 @@ module OpenProject::Bcf::BcfXml
     def update_comment(comment_data)
       if comment_data[:modified_date]
         bcf_comment = issue.comments.find_by(comment_data.slice(:uuid))
+        update_comment_viewpoint_by_uuid(bcf_comment, comment_data[:viewpoint_uuid])
+
         if bcf_comment.journal.created_at < comment_data[:modified_date]
           update_journal_attributes(bcf_comment, comment_data)
         end
       end
+    end
+
+    def update_comment_viewpoint_by_uuid(bcf_comment, viewpoint_uuid)
+      bcf_comment.viewpoint = if viewpoint_uuid.nil?
+                                nil
+                              else
+                                viewpoint_by_uuid(viewpoint_uuid)
+                              end
     end
 
     def update_journal_attributes(bcf_comment, comment_data)

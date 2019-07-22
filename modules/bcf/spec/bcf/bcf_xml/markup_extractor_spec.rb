@@ -111,6 +111,7 @@ describe ::OpenProject::Bcf::BcfXml::MarkupExtractor do
     expect(subject.comments.first[:comment]).to(
       eql("This comment contained some spllng errs.\nHopefully, the modifier did catch them all.")
     )
+    expect(subject.comments.first[:viewpoint_uuid]).to eql('8dc86298-9737-40b4-a448-98a9e953293a')
   end
 
   it '#people' do
