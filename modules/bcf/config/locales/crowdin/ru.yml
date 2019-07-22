@@ -27,7 +27,7 @@ ru:
         button_back_to_list: 'Назад к списку'
         description: "Предоставьте файл BCF-XML v2.1 для импорта в этот проект. Перед выполнением импорта вы можете изучить его содержимое."
         perform_description: "Вы хотите импортировать или обновить указанные выше задачи?"
-        work_package_has_newer_changes: "The import for BCF topic %{bcf_uuid} looks outdated. The latest changes on the server are newer than the \"MofiedDate\" of the imported topic."
+        work_package_has_newer_changes: "Импорт для темы BCF %{bcf_uuid} устарел. Последние изменения на сервере более новые, чем \"MofiedDate\" импортированной темы."
   export:
     format:
       bcf: "BCF-XML"
