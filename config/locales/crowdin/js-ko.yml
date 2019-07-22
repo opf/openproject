@@ -172,6 +172,8 @@ ko:
         choose_widget: '위젯 선택'
       remove: 'Remove widget'
       widgets:
+        custom_text:
+          title: '사용자 지정 텍스트'
         documents:
           title: '문서'
           no_results: '아직 문서가 없습니다.'
@@ -200,6 +202,7 @@ ko:
           title: '달력'
         work_packages_overview:
           title: 'Work packages overview'
+          placeholder: 'Click to edit ...'
     homescreen:
       blocks:
         new_features:

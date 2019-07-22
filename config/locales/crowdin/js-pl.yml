@@ -172,6 +172,8 @@ pl:
         choose_widget: 'Wybierz widżet'
       remove: 'Remove widget'
       widgets:
+        custom_text:
+          title: 'Tekst niestandardowy/użytkownika'
         documents:
           title: 'Dokumenty'
           no_results: 'Nie ma jeszcze dokumentów.'
@@ -200,6 +202,7 @@ pl:
           title: 'Kalendarz'
         work_packages_overview:
           title: 'Work packages overview'
+          placeholder: 'Click to edit ...'
     homescreen:
       blocks:
         new_features:

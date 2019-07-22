@@ -171,6 +171,8 @@ vi:
         choose_widget: 'Chọn tiện ích'
       remove: 'Remove widget'
       widgets:
+        custom_text:
+          title: 'Custom text'
         documents:
           title: 'Tài liệu'
           no_results: 'Chưa có tài liệu.'
@@ -199,6 +201,7 @@ vi:
           title: 'Lịch'
         work_packages_overview:
           title: 'Work packages overview'
+          placeholder: 'Click to edit ...'
     homescreen:
       blocks:
         new_features:

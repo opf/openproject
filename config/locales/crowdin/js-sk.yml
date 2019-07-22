@@ -172,6 +172,8 @@ sk:
         choose_widget: 'Vyberte miniaplikáciu'
       remove: 'Remove widget'
       widgets:
+        custom_text:
+          title: 'Vlastný text'
         documents:
           title: 'Dokumenty'
           no_results: 'Zatiaľ žiadne dokumenty.'
@@ -200,6 +202,7 @@ sk:
           title: 'Kalendár'
         work_packages_overview:
           title: 'Work packages overview'
+          placeholder: 'Click to edit ...'
     homescreen:
       blocks:
         new_features:

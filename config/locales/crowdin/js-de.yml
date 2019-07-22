@@ -171,6 +171,8 @@ de:
         choose_widget: 'Widget auswählen'
       remove: 'Widget entfernen'
       widgets:
+        custom_text:
+          title: 'Benutzerdefinierter Text'
         documents:
           title: 'Dokumente'
           no_results: 'Keine Dokumente.'
@@ -199,6 +201,7 @@ de:
           title: 'Kalender'
         work_packages_overview:
           title: 'Work packages overview'
+          placeholder: 'Click to edit ...'
     homescreen:
       blocks:
         new_features:

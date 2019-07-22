@@ -172,6 +172,8 @@ uk:
         choose_widget: 'Оберіть віджет'
       remove: 'Remove widget'
       widgets:
+        custom_text:
+          title: 'Текстовий блок'
         documents:
           title: 'Документи'
           no_results: 'Ще немає документів.'
@@ -200,6 +202,7 @@ uk:
           title: 'Календар'
         work_packages_overview:
           title: 'Work packages overview'
+          placeholder: 'Click to edit ...'
     homescreen:
       blocks:
         new_features:

@@ -172,6 +172,8 @@ tr:
         choose_widget: 'Widget seç'
       remove: 'Widget''ı kaldır'
       widgets:
+        custom_text:
+          title: 'Özel metin'
         documents:
           title: 'Belgeler'
           no_results: 'Henüz belge yok.'
@@ -199,7 +201,8 @@ tr:
         work_packages_calendar:
           title: 'Takvim'
         work_packages_overview:
-          title: 'Work packages overview'
+          title: 'İş paketlerine genel bakış'
+          placeholder: 'Click to edit ...'
     homescreen:
       blocks:
         new_features:

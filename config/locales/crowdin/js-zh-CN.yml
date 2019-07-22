@@ -172,6 +172,8 @@ zh-CN:
         choose_widget: '选择小部件'
       remove: 'Remove widget'
       widgets:
+        custom_text:
+          title: '自定义文本'
         documents:
           title: '文档'
           no_results: '没有文档。'
@@ -200,6 +202,7 @@ zh-CN:
           title: '日历'
         work_packages_overview:
           title: 'Work packages overview'
+          placeholder: 'Click to edit ...'
     homescreen:
       blocks:
         new_features:

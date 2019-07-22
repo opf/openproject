@@ -171,6 +171,8 @@ hu:
         choose_widget: 'Choose widget'
       remove: 'Remove widget'
       widgets:
+        custom_text:
+          title: 'Egyéni szöveg'
         documents:
           title: 'Dokumentumok'
           no_results: 'No documents yet.'
@@ -199,6 +201,7 @@ hu:
           title: 'Naptár'
         work_packages_overview:
           title: 'Work packages overview'
+          placeholder: 'Click to edit ...'
     homescreen:
       blocks:
         new_features:

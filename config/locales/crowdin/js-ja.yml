@@ -173,6 +173,8 @@ ja:
         choose_widget: 'ウィジェットを選択'
       remove: 'Remove widget'
       widgets:
+        custom_text:
+          title: 'カスタムテキスト'
         documents:
           title: 'ドキュメント'
           no_results: 'まだドキュメントはありません。'
@@ -201,6 +203,7 @@ ja:
           title: 'カレンダー'
         work_packages_overview:
           title: 'Work packages overview'
+          placeholder: 'Click to edit ...'
     homescreen:
       blocks:
         new_features:

@@ -172,6 +172,8 @@ fr:
         choose_widget: 'Choisir un widget'
       remove: 'Remove widget'
       widgets:
+        custom_text:
+          title: 'Texte personnalisé'
         documents:
           title: 'Documents'
           no_results: 'Encore aucun document.'
@@ -200,6 +202,7 @@ fr:
           title: 'Calendrier'
         work_packages_overview:
           title: 'Work packages overview'
+          placeholder: 'Click to edit ...'
     homescreen:
       blocks:
         new_features:

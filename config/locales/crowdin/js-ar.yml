@@ -172,6 +172,8 @@ ar:
         choose_widget: 'Choose widget'
       remove: 'Remove widget'
       widgets:
+        custom_text:
+          title: 'نص مخصص'
         documents:
           title: 'الوثائق'
           no_results: 'No documents yet.'
@@ -200,6 +202,7 @@ ar:
           title: 'التقويم'
         work_packages_overview:
           title: 'Work packages overview'
+          placeholder: 'Click to edit ...'
     homescreen:
       blocks:
         new_features:

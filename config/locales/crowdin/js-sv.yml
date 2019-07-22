@@ -171,6 +171,8 @@ sv:
         choose_widget: 'Choose widget'
       remove: 'Remove widget'
       widgets:
+        custom_text:
+          title: 'Egen text'
         documents:
           title: 'Dokument'
           no_results: 'No documents yet.'
@@ -199,6 +201,7 @@ sv:
           title: 'Kalender'
         work_packages_overview:
           title: 'Work packages overview'
+          placeholder: 'Click to edit ...'
     homescreen:
       blocks:
         new_features:

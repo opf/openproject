@@ -172,6 +172,8 @@ es:
         choose_widget: 'Seleccione el widget'
       remove: 'Remove widget'
       widgets:
+        custom_text:
+          title: 'Texto personalizado'
         documents:
           title: 'Documentos'
           no_results: 'No hay documentos.'
@@ -200,6 +202,7 @@ es:
           title: 'Calendario'
         work_packages_overview:
           title: 'Work packages overview'
+          placeholder: 'Click to edit ...'
     homescreen:
       blocks:
         new_features:

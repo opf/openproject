@@ -172,6 +172,8 @@
         choose_widget: 'Choose widget'
       remove: 'Remove widget'
       widgets:
+        custom_text:
+          title: 'Custom text'
         documents:
           title: 'Dokumenter'
           no_results: 'No documents yet.'
@@ -200,6 +202,7 @@
           title: 'Kalender'
         work_packages_overview:
           title: 'Work packages overview'
+          placeholder: 'Click to edit ...'
     homescreen:
       blocks:
         new_features:

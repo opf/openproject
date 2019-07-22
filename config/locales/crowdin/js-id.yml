@@ -172,6 +172,8 @@ id:
         choose_widget: 'Choose widget'
       remove: 'Remove widget'
       widgets:
+        custom_text:
+          title: 'Teks bebas'
         documents:
           title: 'Dokumen'
           no_results: 'No documents yet.'
@@ -200,6 +202,7 @@ id:
           title: 'Kalender'
         work_packages_overview:
           title: 'Work packages overview'
+          placeholder: 'Click to edit ...'
     homescreen:
       blocks:
         new_features:

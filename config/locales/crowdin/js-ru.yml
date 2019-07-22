@@ -171,6 +171,8 @@ ru:
         choose_widget: 'Выберите виджет'
       remove: 'Удалить виджет'
       widgets:
+        custom_text:
+          title: 'Пользовательский текст'
         documents:
           title: 'Документы'
           no_results: 'Документов пока нет.'
@@ -198,7 +200,8 @@ ru:
         work_packages_calendar:
           title: 'Календарь'
         work_packages_overview:
-          title: 'Work packages overview'
+          title: 'Обзор пакетов работ'
+          placeholder: 'Click to edit ...'
     homescreen:
       blocks:
         new_features:
