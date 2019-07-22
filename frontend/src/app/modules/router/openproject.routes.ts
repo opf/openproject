@@ -168,6 +168,13 @@ export function initializeUiRouterListeners(injector:Injector) {
       const profiler:any = (window as any).MiniProfiler;
       profiler && profiler.pageTransition();
 
+      const projectIdentifier = toParams.projectPath || currentProject.identifier;
+      if (!toParams.projects && projectIdentifier) {
+        const newParams = _.clone(toParams);
+        _.assign(newParams, {projectPath: projectIdentifier, projects: 'projects'});
+        return $state.target(toState, newParams, {location: 'replace'});
+      }
+
       // Abort the transition and move to the url instead
       if (wpBase === null) {
 
@@ -203,14 +210,6 @@ export function initializeUiRouterListeners(injector:Injector) {
       // Add new notifications if passed to params
       if (toParams.flash_message) {
         notificationsService.add(toParams.flash_message as INotification);
-      }
-
-      const projectIdentifier = toParams.projectPath || currentProject.identifier;
-
-      if (!toParams.projects && projectIdentifier) {
-        const newParams = _.clone(toParams);
-        _.assign(newParams, {projectPath: projectIdentifier, projects: 'projects'});
-        return $state.target(toState, newParams, {location: 'replace'});
       }
 
       return true;
