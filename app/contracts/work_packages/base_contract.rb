@@ -59,10 +59,8 @@ module WorkPackages
                 model.leaf? && Setting.work_package_done_ratio == 'field'
               }
 
-    attribute :estimated_hours,
-              writeable: ->(*) {
-                model.leaf?
-              }
+    attribute :estimated_hours
+    attribute :derived_estimated_hours, writeable: false
 
     attribute :parent_id,
               permission: :manage_subtasks

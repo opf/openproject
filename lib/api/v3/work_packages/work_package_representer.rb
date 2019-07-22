@@ -370,6 +370,14 @@ module API
                  end,
                  render_nil: true
 
+        property :derived_estimated_time,
+                 exec_context: :decorator,
+                 getter: ->(*) do
+                   datetime_formatter.format_duration_from_hours(represented.derived_estimated_hours,
+                                                                 allow_nil: true)
+                 end,
+                 render_nil: true
+
         property :spent_time,
                  exec_context: :decorator,
                  getter: ->(*) do
@@ -543,6 +551,11 @@ module API
           represented.estimated_hours = datetime_formatter.parse_duration_to_hours(value,
                                                                                    'estimatedTime',
                                                                                    allow_nil: true)
+        end
+
+        def derived_estimated_time=(value)
+          represented.derived_estimated_hours = datetime_formatter
+            .parse_duration_to_hours(value, 'derivedEstimatedTime', allow_nil: true)
         end
 
         def spent_time=(value)

@@ -54,7 +54,7 @@ describe WorkPackages::UpdateAncestorsService, type: :model do
       end
 
       it 'has the expected estimated_hours' do
-        expect(subject.dependent_results.first.result.estimated_hours)
+        expect(subject.dependent_results.first.result.derived_estimated_hours)
           .to eq aggregate_estimated_hours
       end
 
@@ -240,7 +240,7 @@ describe WorkPackages::UpdateAncestorsService, type: :model do
     end
 
     it 'updates the estimated_hours of the former parent' do
-      expect(parent.reload(select: :estimated_hours).estimated_hours)
+      expect(parent.reload(select: :derived_estimated_hours).derived_estimated_hours)
         .to eql sibling_estimated_hours
     end
 
@@ -250,7 +250,7 @@ describe WorkPackages::UpdateAncestorsService, type: :model do
     end
 
     it 'updates the estimated_hours of the former grandparent' do
-      expect(grandparent.reload(select: :estimated_hours).estimated_hours)
+      expect(grandparent.reload(select: :derived_estimated_hours).derived_estimated_hours)
         .to eql sibling_estimated_hours
     end
   end
@@ -305,7 +305,7 @@ describe WorkPackages::UpdateAncestorsService, type: :model do
     end
 
     it 'updates the estimated_hours of the new parent' do
-      expect(parent.reload(select: :estimated_hours).estimated_hours)
+      expect(parent.reload(select: :derived_estimated_hours).derived_estimated_hours)
         .to eql estimated_hours
     end
 
@@ -315,7 +315,7 @@ describe WorkPackages::UpdateAncestorsService, type: :model do
     end
 
     it 'updates the estimated_hours of the new grandparent' do
-      expect(grandparent.reload(select: :estimated_hours).estimated_hours)
+      expect(grandparent.reload(select: :derived_estimated_hours).derived_estimated_hours)
         .to eql estimated_hours
     end
   end
