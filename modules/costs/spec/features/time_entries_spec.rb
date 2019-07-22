@@ -64,8 +64,8 @@ describe 'Work Package table cost entries', type: :feature, js: true do
     parent_row = wp_table.row(parent)
     wp_row = wp_table.row(work_package)
 
-    expect(parent_row).to have_selector('.wp-edit-field.spentTime', text: '12.5 hours')
-    expect(wp_row).to have_selector('.wp-edit-field.spentTime', text: '2.5 hours')
+    expect(parent_row).to have_selector('.wp-edit-field.spentTime', text: '12.5 h')
+    expect(wp_row).to have_selector('.wp-edit-field.spentTime', text: '2.5 h')
   end
 
   it 'creates an activity' do
@@ -76,7 +76,7 @@ describe 'Work Package table cost entries', type: :feature, js: true do
     find('#show_cost_objects').set true
     click_on 'Apply'
 
-    expect(page).to have_selector('.time-entry a', text: '10.0 hours')
-    expect(page).to have_selector('.time-entry a', text: '2.5 hours')
+    expect(page).to have_selector('.time-entry a', text: '10.0 h')
+    expect(page).to have_selector('.time-entry a', text: '2.5 h')
   end
 end
