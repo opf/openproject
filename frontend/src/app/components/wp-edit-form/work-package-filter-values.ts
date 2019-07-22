@@ -44,7 +44,7 @@ export class WorkPackageFilterValues {
 
     if (newValue) {
       this.changeset.setValue(field, newValue);
-      this.changeset.workPackage[field] = newValue;
+      this.changeset.resource[field] = newValue;
     }
   }
 

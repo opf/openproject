@@ -92,7 +92,7 @@ export class WorkPackageCreateService implements IWorkPackageCreateService {
   }
 
   public copyWorkPackage(copyFrom:WorkPackageChangeset) {
-    let request = copyFrom.workPackage.$source;
+    let request = copyFrom.resource.$source;
 
     // Ideally we would make an empty request before to get the create schema (cannot use the update schema of the source changeset)
     // to get all the writable attributes and only send those.
@@ -148,7 +148,7 @@ export class WorkPackageCreateService implements IWorkPackageCreateService {
 
     return changesetPromise.then((changeset) => {
       this.wpEditing.updateValue('new', changeset);
-      this.wpCacheService.updateWorkPackage(changeset.workPackage);
+      this.wpCacheService.updateWorkPackage(changeset.resource);
 
       return changeset;
     });
@@ -157,7 +157,7 @@ export class WorkPackageCreateService implements IWorkPackageCreateService {
   protected continueExistingEdit(type?:number) {
     const changeset = this.wpEditing.state('new').value;
     if (changeset !== undefined) {
-      const changeType = changeset.workPackage.type;
+      const changeType = changeset.resource.type;
 
       const hasChanges = !changeset.empty;
       const typeEmpty = !changeType && !type;
@@ -191,7 +191,7 @@ export class WorkPackageCreateService implements IWorkPackageCreateService {
         except = ['type'];
       }
 
-      this.applyDefaults(changeset, changeset.workPackage, except);
+      this.applyDefaults(changeset, changeset.resource, except);
 
       return changeset;
     });

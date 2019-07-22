@@ -295,7 +295,7 @@ export class WorkPackageCardViewComponent  implements OnInit {
     this.wpCreate
       .createOrContinueWorkPackage(this.currentProject.identifier)
       .then((changeset:WorkPackageChangeset) => {
-        this.activeInlineCreateWp = changeset.workPackage;
+        this.activeInlineCreateWp = changeset.resource;
         this.workPackages = this.workPackages;
         this.cdRef.detectChanges();
       });

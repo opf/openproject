@@ -50,6 +50,14 @@ module Grids::Configuration
       def allowed?(user, project)
         allowed.(user, project)
       end
+
+      def options_representer(klass = nil)
+        if klass
+          @options_representer = klass
+        end
+
+        @options_representer || '::API::V3::Grids::Widgets::DefaultOptionsRepresenter'
+      end
     end
   end
 end

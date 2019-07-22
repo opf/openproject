@@ -5,7 +5,7 @@ import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
-
+import {WidgetChangeset} from "core-app/modules/grids/widgets/widget-changeset";
 
 @Injectable()
 export class GridAreaService {
@@ -18,21 +18,16 @@ export class GridAreaService {
   public gridAreas:GridArea[];
   public widgetAreas:GridWidgetArea[];
   public gridAreaIds:string[];
-  public widgetResources:GridWidgetResource[] = [];
   public mousedOverArea:GridArea|null;
 
-  constructor (private gridDm:GridDmService) {
-  }
+  constructor (private gridDm:GridDmService) { }
 
   public set gridResource(value:GridResource) {
     this.resource = value;
-
     this.fetchSchema();
 
     this.numRows = this.resource.rowCount;
     this.numColumns = this.resource.columnCount;
-
-    this.widgetResources = this.resource.widgets;
 
     this.buildAreas(false);
   }
@@ -46,18 +41,53 @@ export class GridAreaService {
     this.gridAreaIds = this.buildGridAreaIds();
     this.widgetAreas = this.buildGridWidgetAreas();
 
-    this.resource.widgets = this.widgetResources;
     this.resource.rowCount = this.numRows;
-
     this.resource.columnCount = this.numColumns;
 
     if (save) {
-      this.saveGrid();
+      this.saveGrid(this.resource, this.schema);
     }
   }
 
-  public saveGrid() {
-    this.gridDm.update(this.resource, this.schema);
+  public saveWidgetChangeset(changeset:WidgetChangeset) {
+    let payload = this.gridDm.extractPayload(this.resource, this.schema);
+
+    let payloadWidget = payload.widgets.find((w:any) => w.id === changeset.resource.id);
+    Object.assign(payloadWidget, changeset.changes);
+
+    // Adding the id so that the url can be deduced
+    payload['id'] = this.resource.id;
+
+    this.saveGrid(payload);
+  }
+
+  private saveGrid(resource:GridWidgetResource|any, schema?:SchemaResource) {
+    this
+      .gridDm
+      .update(resource, schema)
+      .then(updatedGrid => {
+        this.assignAreasWidget(updatedGrid);
+      });
+  }
+
+  private assignAreasWidget(newGrid:GridResource) {
+    this.resource.widgets = newGrid.widgets;
+
+    let takenIds = this.widgetAreas.map(a => a.widget.id);
+    this.widgetAreas.forEach(area => {
+      let newWidget:GridWidgetResource;
+
+      // identify the right resource for the area. Typically that means fetching them by id.
+      // But new areas have unpersisted resources at first. Unpersisted resources have no id.
+      // In those cases, we find the one resource which is not claimed by any other area.
+      if (area.widget.id) {
+        newWidget = newGrid.widgets.find(widget => widget.id === area.widget.id)!;
+      } else {
+        newWidget = newGrid.widgets.find(widget => !takenIds.includes(widget.id) && widget.identifier === area.widget.identifier && widget.startRow === area.widget.startRow && widget.startColumn === area.widget.startColumn)!;
+      }
+
+      area.widget = newWidget!;
+    });
   }
 
   private buildGridAreas() {
@@ -144,7 +174,7 @@ export class GridAreaService {
     this.numColumns--;
 
     // remove widgets that only span the removed column
-    this.widgetResources = this.widgetResources.filter((widget) => {
+    this.resource.widgets = this.widgetResources.filter((widget) => {
       return !(widget.startColumn === column && widget.endColumn === column + 1);
     });
 
@@ -172,7 +202,7 @@ export class GridAreaService {
     this.numRows--;
 
     // remove widgets that only span the removed row
-    this.widgetResources = this.widgetResources.filter((widget) => {
+    this.resource.widgets = this.widgetResources.filter((widget) => {
       return !(widget.startRow === row && widget.endRow === row + 1);
     });
 
@@ -221,5 +251,13 @@ export class GridAreaService {
       .then((form) => {
         this.schema = form.schema;
       });
+  }
+
+  public removeWidget(removedWidget:GridWidgetResource) {
+    this.resource.widgets = this.widgetResources.filter((widget) => widget.id !== removedWidget.id );
+  }
+
+  public get widgetResources() {
+    return (this.resource && this.resource.widgets) || [];
   }
 }

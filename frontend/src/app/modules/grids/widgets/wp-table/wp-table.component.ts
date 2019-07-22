@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Injector, ChangeDetectionStrategy} from '@angular/core';
 import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
 import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
@@ -17,6 +17,7 @@ import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
   selector: 'widget-wp-table',
   templateUrl: './wp-table.component.html',
   styleUrls: ['./wp-table.component.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WidgetWpTableComponent extends AbstractWidgetComponent {
   public queryId:string|null;
@@ -38,21 +39,22 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent {
   };
 
   constructor(protected i18n:I18nService,
+              protected readonly injector:Injector,
               protected urlParamsHelper:UrlParamsHelperService,
               protected readonly state:StateService,
               protected readonly queryDm:QueryDmService,
               protected readonly querySpace:IsolatedQuerySpace,
               protected readonly queryFormDm:QueryFormDmService) {
-    super(i18n);
+    super(i18n, injector);
   }
 
   ngOnInit() {
     if (!this.resource.options.queryId) {
       this.createInitial()
         .then((query) => {
-          this.resource.options.queryId = query.id;
+          let changeset = this.setChangesetOptions({ queryId: query.id });
 
-          this.resourceChanged.emit(this.resource);
+          this.resourceChanged.emit(changeset);
 
           this.queryId = query.id;
         });

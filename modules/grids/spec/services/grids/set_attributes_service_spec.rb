@@ -333,6 +333,7 @@ describe Grids::SetAttributesService, type: :model do
       let(:widgets) do
         [
           FactoryBot.build_stubbed(:grid_widget,
+                                   id: existing_widgets[0].id,
                                    identifier: 'work_packages_assigned',
                                    start_row: 3,
                                    end_row: 5,
@@ -374,7 +375,7 @@ describe Grids::SetAttributesService, type: :model do
       end
     end
 
-    context 'with updates to an existing widget' do
+    context 'with additions and updates to existing widgets' do
       let(:widgets) do
         [
           FactoryBot.build_stubbed(:grid_widget,

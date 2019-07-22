@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, Injector, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import {WorkPackageEmbeddedGraphDataset} from "core-app/modules/work-package-graphs/embedded/wp-embedded-graph.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
@@ -11,15 +11,18 @@ import {WpGraphConfiguration} from "core-app/modules/work-package-graphs/configu
   selector: 'widget-wp-graph',
   templateUrl: './wp-graph.component.html',
   styleUrls: ['../wp-table/wp-table.component.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [WpGraphConfigurationService]
 })
 export class WidgetWpGraphComponent extends AbstractWidgetComponent implements OnInit, OnDestroy {
   public datasets:WorkPackageEmbeddedGraphDataset[] = [];
 
   constructor(protected i18n:I18nService,
+              protected injector:Injector,
+              protected cdr:ChangeDetectorRef,
               protected urlParamsHelper:UrlParamsHelperService,
               protected readonly graphConfiguration:WpGraphConfigurationService) {
-    super(i18n);
+    super(i18n, injector);
   }
 
   ngOnInit() {
@@ -38,18 +41,19 @@ export class WidgetWpGraphComponent extends AbstractWidgetComponent implements O
   public updateGraph(config:any) {
     this.graphConfiguration.persistAndReload()
       .then(() => {
-        this.updateDatasets();
+        this.repaint();
 
         if (this.resource.options.chartType !== this.graphConfiguration.chartType) {
-          this.resource.options.chartType = this.graphConfiguration.chartType;
+          let changeset = this.setChangesetOptions({ chartType: this.graphConfiguration.chartType });
 
-          this.resourceChanged.emit(this.resource);
+          this.resourceChanged.emit(changeset);
         }
       });
   }
 
-  protected updateDatasets() {
+  protected repaint() {
     this.datasets = this.graphConfiguration.datasets;
+    this.cdr.detectChanges();
   }
 
   protected initializeConfiguration() {
@@ -67,10 +71,11 @@ export class WidgetWpGraphComponent extends AbstractWidgetComponent implements O
     this.graphConfiguration.ensureQueryAndLoad()
       .then(() => {
         if (!this.resource.options.queryId) {
-          this.resource.options.queryId = this.graphConfiguration.queryParams[0].id;
-          this.resourceChanged.emit(this.resource);
+          let changeset = this.setChangesetOptions({ queryId: this.graphConfiguration.queryParams[0].id });
+
+          this.resourceChanged.emit(changeset);
         }
-        this.updateDatasets();
+        this.repaint();
       });
   }
 

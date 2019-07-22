@@ -111,8 +111,8 @@ export class TimelineCellRenderer {
                      delta:number,
                      direction:'left' | 'right' | 'both' | 'create' | 'dragright'):CellDateMovement {
 
-    const initialStartDate = changeset.workPackage.startDate;
-    const initialDueDate = changeset.workPackage.dueDate;
+    const initialStartDate = changeset.resource.startDate;
+    const initialDueDate = changeset.resource.dueDate;
 
     const now = moment().format('YYYY-MM-DD');
 
@@ -421,7 +421,7 @@ export class TimelineCellRenderer {
                          labels:WorkPackageCellLabels,
                          changeset:WorkPackageChangeset) {
 
-    const labelConfiguration = this.wpTableTimeline.getNormalizedLabels(changeset.workPackage);
+    const labelConfiguration = this.wpTableTimeline.getNormalizedLabels(changeset.resource);
 
     if (!activeDragNDrop) {
       // normal display
@@ -460,7 +460,7 @@ export class TimelineCellRenderer {
     }
 
     // Get the rendered field
-    let [field, span] = this.fieldRenderer.renderFieldValue(changeset.workPackage, attribute, changeset);
+    let [field, span] = this.fieldRenderer.renderFieldValue(changeset.resource, attribute, changeset);
 
     if (label && field && span) {
       span.classList.add('label-content');

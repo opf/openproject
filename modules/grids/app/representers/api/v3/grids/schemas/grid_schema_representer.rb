@@ -87,10 +87,10 @@ module API
                                          visibility: false,
                                          values_callback: -> do
                                            represented.assignable_widgets.map do |identifier|
-                                             OpenStruct.new(identifier: identifier)
+                                             OpenStruct.new(identifier: identifier, grid: represented.model, options: {})
                                            end
                                          end,
-                                         value_representer: ::API::V3::Grids::WidgetRepresenter,
+                                         value_representer: ::API::V3::Grids::Widgets::WidgetRepresenter,
                                          link_factory: false
 
           def self.represented_class

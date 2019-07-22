@@ -30,7 +30,6 @@ import {debugLog} from '../../helpers/debug_output';
 import {SchemaCacheService} from '../schemas/schema-cache.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
-import {Injector} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {FormResource} from 'core-app/modules/hal/resources/form-resource';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
@@ -45,9 +44,9 @@ import {
 } from "core-components/wp-edit-form/work-package-editing.service.interface";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
-import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
+import {EditChangeset} from 'core-app/modules/fields/changeset/edit-changeset';
 
-export class WorkPackageChangeset {
+export class WorkPackageChangeset extends EditChangeset<WorkPackageResource> {
   // Injections
   public wpNotificationsService:WorkPackageNotificationService = this.injector.get(WorkPackageNotificationService);
   public schemaCacheService:SchemaCacheService = this.injector.get(SchemaCacheService);
@@ -58,20 +57,13 @@ export class WorkPackageChangeset {
   public halResourceService:HalResourceService = this.injector.get(HalResourceService);
 
   // The changeset to be applied to the work package
-  private changes:{ [attribute:string]:any } = {};
+  // private changes:{ [attribute:string]:any } = {};
   public inFlight:boolean = false;
 
-  private wpFormPromise:Promise<FormResource>|null;
-  public form:FormResource|null;
-
   // The current editing resource
-  public resource:WorkPackageResource|null;
+  public editingResource:WorkPackageResource|null;
 
-  constructor(readonly injector:Injector,
-              public workPackage:WorkPackageResource,
-              form?:FormResource) {
-    this.form = form || null;
-  }
+  private wpFormPromise:Promise<FormResource>|null;
 
   public reset(key:string) {
     delete this.changes[key];
@@ -102,50 +94,15 @@ export class WorkPackageChangeset {
     this.form = null;
   }
 
-  public get empty() {
-    return _.isEmpty(this.changes);
-  }
-
-  /**
-   * Get attributes
-   * @returns {string[]}
-   */
-  public get changedAttributes() {
-    return _.keys(this.changes);
-  }
-
-  /**
-   * Retrieve the editing value for the given attribute
-   *
-   * @param {string} key The attribute to read
-   * @return {any} Either the value from the overriden change, or the default value
-   */
-  public value(key:string) {
-    if (this.isOverridden(key)) {
-      return this.changes[key];
-    } else {
-      return this.workPackage[key];
-    }
-  }
-
   public setValue(key:string, val:any) {
-    this.changes[key] = val;
+    super.setValue(key, val);
 
     // Update the form for fields that may alter the form itself
     // when the work package is new. Otherwise, the save request afterwards
     // will update the form automatically.
-    if (this.workPackage.isNew && (key === 'project' || key === 'type')) {
+    if (this.resource.isNew && (key === 'project' || key === 'type')) {
       this.updateForm();
     }
-  }
-
-  /**
-   * Return whether a change value exist for the given attribute key.
-   * @param {string} key
-   * @return {boolean}
-   */
-  public isOverridden(key:string) {
-    return this.changes.hasOwnProperty(key);
   }
 
   public getForm():Promise<FormResource> {
@@ -163,12 +120,12 @@ export class WorkPackageChangeset {
     let payload = this.buildPayloadFromChanges();
 
     if (!this.wpFormPromise) {
-      this.wpFormPromise = this.workPackage.$links
+      this.wpFormPromise = this.resource.$links
         .update(payload)
         .then((form:FormResource) => {
           this.form = form;
-          if (!this.workPackage.isNew) {
-            this.schemaCacheService.state(this.workPackage).putValue(form.schema);
+          if (!this.resource.isNew) {
+            this.schemaCacheService.state(this.resource).putValue(form.schema);
           }
 
           this.rebuildDefaults(form.payload);
@@ -191,7 +148,7 @@ export class WorkPackageChangeset {
 
   public save():Promise<WorkPackageResource> {
     this.inFlight = true;
-    const wasNew = this.workPackage.isNew;
+    const wasNew = this.resource.isNew;
 
     let promise = new Promise<WorkPackageResource>((resolve, reject) => {
       this.updateForm()
@@ -204,32 +161,32 @@ export class WorkPackageChangeset {
             return reject(errors);
           }
 
-          this.workPackage.$links.updateImmediately(payload)
+          this.resource.$links.updateImmediately(payload)
             .then((savedWp:WorkPackageResource) => {
               // Ensure the schema is loaded before updating
               this.schemaCacheService.ensureLoaded(savedWp).then(() => {
 
                 // Clear any previous activities
-                this.wpActivity.clear(this.workPackage.id!);
+                this.wpActivity.clear(this.resource.id!);
 
                 // Initialize any potentially new HAL values
-                savedWp.retainFrom(this.workPackage);
+                savedWp.retainFrom(this.resource);
                 this.inFlight = false;
-                this.workPackage = savedWp;
-                this.wpCacheService.updateWorkPackage(this.workPackage, true);
+                this.resource = savedWp;
+                this.wpCacheService.updateWorkPackage(this.resource, true);
 
                 if (wasNew) {
-                  this.workPackage.overriddenSchema = undefined;
-                  this.wpCreate.newWorkPackageCreated(this.workPackage);
+                  this.resource.overriddenSchema = undefined;
+                  this.wpCreate.newWorkPackageCreated(this.resource);
                 }
 
                 // If there is a parent, its view has to be updated as well
-                if (this.workPackage.parent) {
-                  this.wpCacheService.loadWorkPackage(this.workPackage.parent.id.toString(), true);
+                if (this.resource.parent) {
+                  this.wpCacheService.loadWorkPackage(this.resource.parent.id.toString(), true);
                 }
-                this.resource = null;
+                this.editingResource = null;
                 this.clear();
-                resolve(this.workPackage);
+                resolve(this.resource);
               });
             })
             .catch(error => {
@@ -252,7 +209,7 @@ export class WorkPackageChangeset {
    * Will only apply for new work packages.
    */
   private rebuildDefaults(payload:HalResource) {
-    if (!this.workPackage.isNew) {
+    if (!this.resource.isNew) {
       return;
     }
 
@@ -270,7 +227,7 @@ export class WorkPackageChangeset {
    */
   private mergeWithPayload(plainPayload:any) {
     // Fall back to the last known state of the work package should the form not be loaded.
-    let reference = this.workPackage.$source;
+    let reference = this.resource.$source;
     if (this.form) {
       reference = this.form.payload.$source;
     }
@@ -300,19 +257,19 @@ export class WorkPackageChangeset {
   private buildPayloadFromChanges() {
     let payload;
 
-    if (this.workPackage.isNew) {
+    if (this.resource.isNew) {
       // If the work package is new, we need to pass the entire form payload
       // to let all default values be transmitted (type, status, etc.)
       if (this.form) {
         payload = this.form.payload.$source;
       } else {
-        payload = this.workPackage.$source;
+        payload = this.resource.$source;
       }
 
       // Add attachments to be assigned.
       // They will already be created on the server but now
       // we need to claim them for the newly created work package.
-      payload['_links']['attachments'] = this.workPackage
+      payload['_links']['attachments'] = this.resource
         .attachments
         .elements
         .map((a:HalResource) => { return { href: a.href }; });
@@ -325,7 +282,7 @@ export class WorkPackageChangeset {
   }
 
   private get minimalPayload() {
-    return {lockVersion: this.workPackage.lockVersion, _links: {}};
+    return {lockVersion: this.resource.lockVersion, _links: {}};
   }
 
   /**
@@ -371,9 +328,9 @@ export class WorkPackageChangeset {
    * If loaded, return the form schema, which provides better information on writable status
    * and contains available values.
    */
-  public get schema():SchemaResource {
-    return (this.form || this.workPackage).schema;
-  }
+  //public get schema():SchemaResource {
+  //  return (this.form || this.resource).schema;
+  //}
 
   /**
    * Check whether the given attribute is writable.
@@ -390,28 +347,27 @@ export class WorkPackageChangeset {
     return fieldSchema.name || attribute;
   }
 
-
   public getSchemaName(attribute:string):string {
     if (this.schema.hasOwnProperty('date') && (attribute === 'startDate' || attribute === 'dueDate')) {
       return 'date';
     } else {
-      return attribute;
+      return super.getSchemaName(attribute);
     }
   }
 
   private buildResource() {
     if (this.empty) {
-      this.resource = null;
-      this.wpEditing.updateValue(this.workPackage.id!, this);
+      this.editingResource = null;
+      this.wpEditing.updateValue(this.resource.id!, this);
       return;
     }
 
-    let payload:any = { ... this.workPackage.$source };
+    let payload:any = { ... this.resource.$source };
 
     const resource = this.halResourceService.createHalResourceOfType('WorkPackage', this.mergeWithPayload(payload));
 
     resource.overriddenSchema = this.schema;
-    this.resource = (resource as WorkPackageResource);
-    this.wpEditing.updateValue(this.workPackage.id!, this);
+    this.editingResource = (resource as WorkPackageResource);
+    this.wpEditing.updateValue(this.resource.id!, this);
   }
 }

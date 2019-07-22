@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Injector} from '@angular/core';
 import {AbstractWidgetComponent} from "app/modules/grids/widgets/abstract-widget.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {ProjectDmService} from "core-app/modules/hal/dm-services/project-dm.service";
@@ -40,10 +40,11 @@ export class WidgetProjectDescriptionComponent extends AbstractWidgetComponent i
   public description:string;
 
   constructor(protected readonly i18n:I18nService,
+              protected readonly injector:Injector,
               protected readonly projectDm:ProjectDmService,
               protected readonly currentProject:CurrentProjectService,
               protected readonly cdr:ChangeDetectorRef) {
-    super(i18n);
+    super(i18n, injector);
   }
 
   ngOnInit() {

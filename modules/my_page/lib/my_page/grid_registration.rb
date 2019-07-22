@@ -13,35 +13,19 @@ module MyPage
             'documents',
             'news'
 
-    widget_strategy 'work_packages_table' do
+    wp_table_strategy_proc = Proc.new do
       after_destroy -> { ::Query.find_by(id: options[:queryId])&.destroy }
 
       allowed ->(user, _project) { user.allowed_to_globally?(:save_queries) }
+
+      options_representer '::API::V3::Grids::Widgets::QueryOptionsRepresenter'
     end
 
-    widget_strategy 'work_packages_assigned' do
-      after_destroy -> { ::Query.find_by(id: options[:queryId])&.destroy }
-
-      allowed ->(user, _project) { user.allowed_to_globally?(:save_queries) }
-    end
-
-    widget_strategy 'work_packages_accountable' do
-      after_destroy -> { ::Query.find_by(id: options[:queryId])&.destroy }
-
-      allowed ->(user, _project) { user.allowed_to_globally?(:save_queries) }
-    end
-
-    widget_strategy 'work_packages_watched' do
-      after_destroy -> { ::Query.find_by(id: options[:queryId])&.destroy }
-
-      allowed ->(user, _project) { user.allowed_to_globally?(:save_queries) }
-    end
-
-    widget_strategy 'work_packages_created' do
-      after_destroy -> { ::Query.find_by(id: options[:queryId])&.destroy }
-
-      allowed ->(user, _project) { user.allowed_to_globally?(:save_queries) }
-    end
+    widget_strategy 'work_packages_table', &wp_table_strategy_proc
+    widget_strategy 'work_packages_assigned', &wp_table_strategy_proc
+    widget_strategy 'work_packages_accountable', &wp_table_strategy_proc
+    widget_strategy 'work_packages_watched', &wp_table_strategy_proc
+    widget_strategy 'work_packages_created', &wp_table_strategy_proc
 
     defaults -> {
       {

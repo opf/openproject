@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component} from '@angular/core';
+import {Component, Injector} from '@angular/core';
 import {AbstractWidgetComponent} from "app/modules/grids/widgets/abstract-widget.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
@@ -36,8 +36,9 @@ import {CurrentProjectService} from "core-components/projects/current-project.se
 })
 export class WidgetWpCalendarComponent extends AbstractWidgetComponent {
   constructor(protected readonly i18n:I18nService,
+              protected readonly injector:Injector,
               protected readonly currentProject:CurrentProjectService) {
-    super(i18n);
+    super(i18n, injector);
   }
 
   public get projectIdentifier() {

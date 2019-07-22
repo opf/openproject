@@ -95,6 +95,7 @@ describe ::API::V3::Grids::GridPayloadRepresenter, 'parsing' do
           .to eql(10)
       end
     end
+
     context 'columnCount' do
       it 'updates column_count' do
         grid = representer.from_hash(hash)
@@ -102,6 +103,7 @@ describe ::API::V3::Grids::GridPayloadRepresenter, 'parsing' do
           .to eql(20)
       end
     end
+
     context 'widgets' do
       it 'updates widgets' do
         grid = representer.from_hash(hash)

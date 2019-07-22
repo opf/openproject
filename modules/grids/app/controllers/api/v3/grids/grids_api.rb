@@ -79,7 +79,28 @@ module API
                 end
               end
 
-              patch &::API::V3::Utilities::Endpoints::Update.new(model: ::Grids::Grid).mount
+              patch &::API::V3::Utilities::Endpoints::Update.new(model: ::Grids::Grid,
+                                                                 params_modifier: ->(params) do
+                                                                   params[:widgets]&.each do |widget|
+                                                                     # Need to parse the widget options again
+                                                                     # as the right representer needs to be used
+                                                                     # which is specific to the @grid.class. The parsing
+                                                                     # before strives to be agnostic.
+                                                                     strategy = ::Grids::Configuration
+                                                                                .widget_strategy(@grid.class,
+                                                                                                 widget.identifier)
+                                                                     representer = strategy.options_representer.constantize
+
+                                                                     widget.options = representer
+                                                                                      .new(OpenStruct.new, current_user: current_user)
+                                                                                      .from_hash(widget.options)
+                                                                                      .to_h
+                                                                                      .with_indifferent_access
+                                                                   end
+
+                                                                   params
+                                                                 end)
+                                                            .mount
               delete &::API::V3::Utilities::Endpoints::Delete.new(model: ::Grids::Grid).mount
 
               mount UpdateFormAPI

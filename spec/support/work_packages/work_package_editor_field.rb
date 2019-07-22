@@ -1,7 +1,6 @@
 require_relative './work_package_field'
 
 class WorkPackageEditorField < WorkPackageField
-
   def ckeditor
     @ckeditor ||= ::Components::WysiwygEditor.new @selector
   end
@@ -29,7 +28,6 @@ class WorkPackageEditorField < WorkPackageField
   def set_value(text)
     ckeditor.set_markdown text
   end
-
 
   def clear
     ckeditor.clear

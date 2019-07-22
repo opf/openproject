@@ -78,7 +78,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
                      delta:number,
                      direction:'left' | 'right' | 'both' | 'create' | 'dragright') {
 
-    const initialDate = changeset.workPackage.date;
+    const initialDate = changeset.resource.date;
     let dates:CellDateMovement = {};
 
     if (initialDate) {
@@ -221,7 +221,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
                          labels:WorkPackageCellLabels,
                          changeset:WorkPackageChangeset) {
 
-    const labelConfiguration = this.wpTableTimeline.getNormalizedLabels(changeset.workPackage);
+    const labelConfiguration = this.wpTableTimeline.getNormalizedLabels(changeset.resource);
 
     if (!activeDragNDrop) {
       // normal display

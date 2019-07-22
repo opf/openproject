@@ -84,9 +84,9 @@ export class WorkPackageCopyController extends WorkPackageCreateController {
     return this.wpCreate
       .copyWorkPackage(sourceChangeset)
       .then((copyChangeset) => {
-        this.__initialized_at = copyChangeset.workPackage.__initialized_at;
+        this.__initialized_at = copyChangeset.resource.__initialized_at;
 
-        this.wpCacheService.updateWorkPackage(copyChangeset.workPackage);
+        this.wpCacheService.updateWorkPackage(copyChangeset.resource);
         this.wpEditing.updateValue('new', copyChangeset);
 
         return copyChangeset;

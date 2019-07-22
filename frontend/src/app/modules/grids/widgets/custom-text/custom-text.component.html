@@ -1,0 +1,37 @@
+<widget-header
+    [name]="widgetName"
+    [icon]="'quote'"
+    (onRenamed)="renameWidget($event)">
+
+  <widget-menu
+      [resource]="resource">
+  </widget-menu>
+</widget-header>
+
+<div class="grid--widget-content -custom-text">
+  <div class="wp-edit-field inplace-edit">
+    <edit-form-portal *ngIf="active"
+                      [schemaInput]="schema"
+                      [changesetInput]="changeset"
+                      [editFieldHandler]="handler">
+    </edit-form-portal>
+    <div *ngIf="!active"
+         class="inplace-edit--read">
+      <accessible-by-keyboard
+          class="inplace-editing--trigger-container"
+          [spanClass]="inplaceEditClasses"
+          [linkClass]="'inplace-editing--trigger-link'"
+          (execute)="activate()">
+
+          <span class="inplace-edit--read-value -default">
+            <span
+                *ngIf="!textEmpty"
+                [innerHTML]="customText"></span>
+            <span
+                *ngIf="textEmpty"
+                [innerHTML]="placeholderText"></span>
+          </span>
+      </accessible-by-keyboard>
+    </div>
+  </div>
+</div>

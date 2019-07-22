@@ -59,6 +59,8 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WidgetProjectDescriptionComponent} from "core-app/modules/grids/widgets/project-description/project-description.component";
 import {WidgetHeaderComponent} from "core-app/modules/grids/widgets/header/header.component";
 import {WidgetWpOverviewComponent} from "core-app/modules/grids/widgets/wp-overview/wp-overview.component";
+import {WidgetCustomTextComponent} from "core-app/modules/grids/widgets/custom-text/custom-text.component";
+import {OpenprojectFieldsModule} from "core-app/modules/fields/openproject-fields.module";
 
 export const GRID_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -84,7 +86,9 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
     OpenprojectWorkPackageGraphsModule,
     OpenprojectCalendarModule,
 
-    DynamicModule.withComponents([WidgetDocumentsComponent,
+    DynamicModule.withComponents([
+                                  WidgetCustomTextComponent,
+                                  WidgetDocumentsComponent,
                                   WidgetNewsComponent,
                                   WidgetWpTableQuerySpaceComponent,
                                   WidgetWpGraphComponent,
@@ -92,6 +96,9 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
                                   WidgetWpOverviewComponent,
                                   WidgetProjectDescriptionComponent,
                                   WidgetTimeEntriesCurrentUserComponent]),
+
+    // Support for inline editig fields
+    OpenprojectFieldsModule,
 
     // Routes for grid pages
     UIRouterModule.forChild({ states: GRID_ROUTES }),
@@ -108,6 +115,9 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
   ],
   declarations: [
     GridComponent,
+
+    // Widgets
+    WidgetCustomTextComponent,
     WidgetDocumentsComponent,
     WidgetNewsComponent,
     WidgetWpCalendarComponent,
@@ -118,6 +128,7 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
     WidgetProjectDescriptionComponent,
     WidgetTimeEntriesCurrentUserComponent,
 
+    // Widget menus
     WidgetMenuComponent,
     WidgetWpTableMenuComponent,
     WidgetWpGraphMenuComponent,
@@ -281,6 +292,17 @@ export function registerWidgets(injector:Injector) {
           title: i18n.t(`js.grid.widgets.project_description.title`),
           properties: {
             name: i18n.t('js.grid.widgets.project_description.title')
+          }
+        },
+        {
+          identifier: 'custom_text',
+          component: WidgetCustomTextComponent,
+          title: i18n.t(`js.grid.widgets.custom_text.title`),
+          properties: {
+            name: i18n.t('js.grid.widgets.custom_text.title'),
+            text: {
+              raw: ''
+            }
           }
         }
       ];

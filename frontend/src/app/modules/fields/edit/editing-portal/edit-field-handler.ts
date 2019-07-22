@@ -27,6 +27,7 @@
 // ++
 
 import {Subject} from 'rxjs';
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 export abstract class EditFieldHandler {
   /**
@@ -133,4 +134,12 @@ export abstract class EditFieldHandler {
    * Handle focus loss
    */
   public abstract onFocusOut():void;
+
+  public get formattableEditorType() {
+    return 'constrained';
+  }
+
+  public previewContext(resource:HalResource) {
+    return undefined;
+  }
 }

@@ -63,7 +63,7 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
 
     dashboard_page.add_widget(2, 3, "Project description")
 
-    sleep(1)
+    sleep(0.1)
 
     # As the user lacks the manage_public_queries and save_queries permission, no other widget is present
     description_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')

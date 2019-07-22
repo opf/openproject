@@ -2,7 +2,8 @@ import {Component,
   ComponentRef,
   OnDestroy,
   OnInit,
-  Input} from "@angular/core";
+  Input,
+  AfterViewInit} from "@angular/core";
 import {GridResource} from "app/modules/hal/resources/grid-resource";
 import {GridWidgetResource} from "app/modules/hal/resources/grid-widget-resource";
 import {debugLog} from "app/helpers/debug_output";
@@ -17,6 +18,8 @@ import {GridAreaService} from "core-app/modules/grids/grid/area.service";
 import {GridAddWidgetService} from "core-app/modules/grids/grid/add-widget.service";
 import {GridRemoveWidgetService} from "core-app/modules/grids/grid/remove-widget.service";
 import {WidgetWpGraphComponent} from "core-app/modules/grids/widgets/wp-graph/wp-graph.component";
+import {WidgetChangeset} from "core-app/modules/grids/widgets/widget-changeset";
+import {GridWidgetArea} from "core-app/modules/grids/areas/grid-widget-area";
 
 export interface WidgetRegistration {
   identifier:string;
@@ -62,7 +65,9 @@ export class GridComponent implements OnDestroy, OnInit {
     this.uiWidgets.forEach((widget) => widget.destroy());
   }
 
-  public widgetComponent(widget:GridWidgetResource|null) {
+  public widgetComponent(area:GridWidgetArea) {
+    let widget = area.widget;
+
     if (!widget) {
       return null;
     }
@@ -78,11 +83,13 @@ export class GridComponent implements OnDestroy, OnInit {
     }
   }
 
-  public widgetComponentInput(resource:GridWidgetResource) {
-    return { resource: resource };
+  public widgetComponentInput(area:GridWidgetArea) {
+    return { resource: area.widget };
   }
 
-  public widgetComponentOutput = { resourceChanged: this.layout.saveGrid.bind(this.layout) };
+  public widgetComponentOutput(area:GridWidgetArea) {
+    return { resourceChanged: this.layout.saveWidgetChangeset.bind(this.layout) };
+  }
 
   public get gridColumnStyle() {
     return this.sanitization.bypassSecurityTrustStyle(`repeat(${this.layout.numColumns}, 1fr)`);

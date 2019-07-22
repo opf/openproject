@@ -29,17 +29,12 @@
 module API
   module V3
     module Grids
-      class WidgetRepresenter < ::API::Decorators::Single
-        property :identifier
-        property :start_row
-        property :end_row
-        property :start_column
-        property :end_column
-
-        property :options
-
-        def _type
-          'GridWidget'
+      module Widgets
+        class DefaultOptionsRepresenter < ::API::Decorators::Single
+          property :name,
+                   getter: ->(represented:, **) {
+                     represented['name']
+                   }
         end
       end
     end

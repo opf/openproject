@@ -40,6 +40,7 @@ import {debugLog} from "core-app/helpers/debug_output";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {Subject} from 'rxjs';
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 
 export class WorkPackageEditFieldHandler extends EditFieldHandler {
   // Injections
@@ -64,7 +65,9 @@ export class WorkPackageEditFieldHandler extends EditFieldHandler {
               public fieldName:string,
               public schema:IFieldSchema,
               public element:HTMLElement,
+              protected pathHelper:PathHelperService,
               protected withErrors?:string[]) {
+
     super();
     this.editContext = form.editContext;
 
@@ -241,6 +244,22 @@ export class WorkPackageEditFieldHandler extends EditFieldHandler {
     else {
       return this.I18n.t('js.inplace.errors.messages_on_field',
         {messages: this.errors.join(' ')});
+    }
+  }
+
+  public get formattableEditorType() {
+    if (this.fieldName === 'description') {
+      return 'full';
+    } else {
+      return 'constrained';
+    }
+  }
+
+  public previewContext(resource:WorkPackageResource) {
+    if (resource.isNew && resource.project) {
+      return resource.project.href;
+    } else if (!resource.isNew) {
+      return this.pathHelper.api.v3.work_packages.id(resource.id!).path;
     }
   }
 }

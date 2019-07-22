@@ -88,6 +88,8 @@ describe 'Work package overview graph widget on dashboard',
   it 'can add the widget' do
     dashboard.add_column(3, before_or_after: :before)
 
+    sleep(0.1)
+
     dashboard.add_widget(1, 1, "Work packages overview")
 
     sleep(0.1)

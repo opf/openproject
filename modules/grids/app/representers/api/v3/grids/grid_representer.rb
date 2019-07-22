@@ -89,12 +89,12 @@ module API
                  exec_context: :decorator,
                  getter: ->(*) do
                    represented.widgets.map do |widget|
-                     WidgetRepresenter.new(widget, current_user: current_user)
+                     Widgets::WidgetRepresenter.new(widget, current_user: current_user)
                    end
                  end,
                  setter: ->(fragment:, **) do
                    represented.widgets = fragment.map do |widget_fragment|
-                     WidgetRepresenter
+                     Widgets::WidgetRepresenter
                        .new(::Grids::Widget.new, current_user: current_user)
                        .from_hash(widget_fragment.with_indifferent_access)
                    end

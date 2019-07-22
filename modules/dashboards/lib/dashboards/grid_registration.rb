@@ -7,24 +7,36 @@ module Dashboards
             'work_packages_graph',
             'project_description',
             'work_packages_calendar',
-            'work_packages_overview'
+            'work_packages_overview',
+            'custom_text'
+
+    remove_query_lambda = -> {
+      ::Query.find_by(id: options[:queryId])&.destroy
+    }
+
+    save_or_manage_queries_lambda = ->(user, project) {
+      user.allowed_to?(:save_queries, project) &&
+        user.allowed_to?(:manage_public_queries, project)
+    }
 
     widget_strategy 'work_packages_table' do
-      after_destroy -> { ::Query.find_by(id: options[:queryId])&.destroy }
+      after_destroy remove_query_lambda
 
-      allowed ->(user, project) {
-        user.allowed_to?(:save_queries, project) &&
-          user.allowed_to?(:manage_public_queries, project)
-      }
+      allowed save_or_manage_queries_lambda
+
+      options_representer '::API::V3::Grids::Widgets::QueryOptionsRepresenter'
     end
 
     widget_strategy 'work_packages_graph' do
-      after_destroy -> { ::Query.find_by(id: options[:queryId])&.destroy }
+      after_destroy remove_query_lambda
 
-      allowed ->(user, project) {
-        user.allowed_to?(:save_queries, project) &&
-          user.allowed_to?(:manage_public_queries, project)
-      }
+      allowed save_or_manage_queries_lambda
+
+      options_representer '::API::V3::Grids::Widgets::ChartOptionsRepresenter'
+    end
+
+    widget_strategy 'custom_text' do
+      options_representer '::API::V3::Grids::Widgets::CustomTextOptionsRepresenter'
     end
 
     defaults -> {

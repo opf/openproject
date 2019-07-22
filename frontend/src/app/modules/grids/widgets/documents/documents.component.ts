@@ -1,5 +1,5 @@
 import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
-import {Component, OnInit, SecurityContext, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, SecurityContext, ChangeDetectionStrategy, ChangeDetectorRef, Injector} from '@angular/core';
 import {DocumentResource} from "../../../../../../../modules/documents/frontend/module/hal/resources/document-resource";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
@@ -25,8 +25,9 @@ export class WidgetDocumentsComponent extends AbstractWidgetComponent implements
               readonly i18n:I18nService,
               readonly timezone:TimezoneService,
               readonly domSanitizer:DomSanitizer,
+              protected readonly injector:Injector,
               readonly cdr:ChangeDetectorRef) {
-    super(i18n);
+    super(i18n, injector);
   }
 
   ngOnInit() {

@@ -1,5 +1,5 @@
 import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
-import {Component, OnInit, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, ChangeDetectorRef, Injector} from '@angular/core';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
@@ -25,11 +25,12 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
   constructor(readonly halResource:HalResourceService,
               readonly pathHelper:PathHelperService,
               readonly i18n:I18nService,
+              protected readonly injector:Injector,
               readonly timezone:TimezoneService,
               readonly userCache:UserCacheService,
               readonly newsDm:NewsDmService,
               readonly cdr:ChangeDetectorRef) {
-    super(i18n);
+    super(i18n, injector);
   }
 
   ngOnInit() {

@@ -117,7 +117,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     }
   );
 
-  trackByQueryId = (index:number, widget:GridWidgetResource) => widget.options.query_id;
+  trackByQueryId = (index:number, widget:GridWidgetResource) => widget.options.queryId;
 
   constructor(public readonly state:StateService,
               private readonly I18n:I18nService,
@@ -239,7 +239,7 @@ export class BoardComponent implements OnInit, OnDestroy {
 
     this.currentQueryUpdatedMonitoring = this
                                          .QueryUpdated
-                                         .monitor(this.board.queries.map((widget) => widget.options.query_id as string))
+                                         .monitor(this.board.queries.map((widget) => widget.options.queryId as string))
                                          .pipe(
                                            untilComponentDestroyed(this)
                                          )
@@ -252,7 +252,7 @@ export class BoardComponent implements OnInit, OnDestroy {
         .lists
         .filter((listComponent) => {
           const id = query.id!.toString();
-          const listId = (listComponent.resource.options.query_id as string|number).toString() ;
+          const listId = (listComponent.resource.options.queryId as string|number).toString() ;
 
           return id === listId;
         })

@@ -102,6 +102,8 @@ describe 'My page', type: :feature, js: true do
 
     watched_area.resize_to(3, 6)
 
+    sleep(0.1)
+
     # Reloading kept the user's values
     visit home_path
     my_page.visit!
