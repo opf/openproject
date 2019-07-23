@@ -634,6 +634,7 @@ ja:
       message_successful_show_in_fullscreen: "クリックすると全画面表示でこの作業項目を開きます。"
       message_view_spent_time: "このワークパッケージに費やした時間を表示する"
       message_work_package_read_only: "作業項目はこの状態でロックされています。 ステータス以外の属性は変更できません。"
+      message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
       no_value: "値なし"
       placeholder_filter_by_text: "件名、説明、コメント、..."
       inline_create:

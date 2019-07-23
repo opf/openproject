@@ -63,7 +63,7 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
     FactoryBot.create(:user)
   end
 
-  let(:role) { FactoryBot.create(:role, permissions: %i[view_work_packages add_work_packages save_queries]) }
+  let(:role) { FactoryBot.create(:role, permissions: %i[view_work_packages add_work_packages edit_work_packages save_queries]) }
 
   let(:user) do
     FactoryBot.create(:user,

@@ -38,7 +38,9 @@ module WorkPackages
     attribute :description
     attribute :status_id,
               writeable: ->(*) {
-                !model.closed_version_and_status?
+                # If we did not change into the status,
+                # mark unwritable if status and version is closed
+                model.status_id_change || !model.closed_version_and_status?
               }
     attribute :type_id
     attribute :priority_id

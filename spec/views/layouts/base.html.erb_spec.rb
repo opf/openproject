@@ -108,7 +108,7 @@ describe 'layouts/base', type: :view do
       end
 
       it 'shows a login form' do
-        expect(rendered).to include 'Login'
+        expect(rendered).to include 'Username'
         expect(rendered).to include 'Password'
       end
     end
@@ -120,7 +120,7 @@ describe 'layouts/base', type: :view do
       end
 
       it 'shows no password login form' do
-        expect(rendered).not_to include 'Login'
+        expect(rendered).not_to include 'Username'
         expect(rendered).not_to include 'Password'
       end
     end

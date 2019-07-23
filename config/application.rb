@@ -49,6 +49,7 @@ end
 require 'rails/all'
 require 'active_support'
 require 'active_support/dependencies'
+require 'core_extensions'
 
 ActiveSupport::Deprecation.silenced = Rails.env.production? && !ENV['OPENPROJECT_SHOW_DEPRECATIONS']
 

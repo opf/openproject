@@ -47,7 +47,7 @@ describe 'Login', type: :feature do
 
   def expect_not_being_logged_in
     expect(page)
-      .to have_field('Login')
+      .to have_field('Username')
   end
 
   context 'sign in user' do
@@ -113,7 +113,7 @@ describe 'Login', type: :feature do
       visit my_page_path
 
       expect(page)
-        .to have_field('Login')
+        .to have_field('Username')
 
       login_with(user.login, user_password)
 

@@ -637,6 +637,7 @@ cs:
       message_successful_show_in_fullscreen: "Click here to open this work package in fullscreen view."
       message_view_spent_time: "Zobrazit strávený čas pro tento pracovní balíček"
       message_work_package_read_only: "Pracovní balíček je v tomto stavu uzamčen. Nemůže být změněn žádný jiný atribut mimo vlastního stavu balíčku."
+      message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
       no_value: "Žádná hodnota"
       placeholder_filter_by_text: "Subject, description, comments, ..."
       inline_create:

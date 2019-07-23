@@ -633,6 +633,7 @@
       message_successful_show_in_fullscreen: "Klikk her for å åpne denne arbeidspakken i fullskjermsmodus."
       message_view_spent_time: "Show spent time for this work package"
       message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
+      message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
       no_value: "Ingen verdi"
       placeholder_filter_by_text: "Subject, description, comments, ..."
       inline_create:

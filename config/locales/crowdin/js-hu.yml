@@ -632,6 +632,7 @@ hu:
       message_successful_show_in_fullscreen: "Ide kattintva a munkacsomag részletei teljes képernyős nézeten jeleníthetőek meg."
       message_view_spent_time: "Feladatcsoporttal töltött idő megjelenítése"
       message_work_package_read_only: "Ez Feladatcsomag ebben a státuszban zárolt. Nem lehet más attribútum segítségével megváltoztatni."
+      message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
       no_value: "Nincs érték"
       placeholder_filter_by_text: "Subject, description, comments, ..."
       inline_create:

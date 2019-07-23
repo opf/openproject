@@ -1,12 +1,11 @@
 <div class="wp-status-button"
      [ngClass]="containerClass"
+     [attr.title]="buttonTitle"
      *ngIf="status">
   <button class="button"
           [ngClass]="statusHighlightClass"
           [disabled]="isDisabled"
-          [attr.title]="buttonTitle"
           [attr.aria-label]="text.explanation"
-
           wpStatusDropdown
           [wpStatusDropdown-workPackage]="workPackage">
 

@@ -132,6 +132,7 @@ module API
         return unless highlighted_attributes.present?
 
         highlighted_attributes.map do |attr|
+          attr = href.split('/').last
           convert_attribute(attr)
         end
       end

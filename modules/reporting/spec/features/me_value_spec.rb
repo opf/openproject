@@ -40,7 +40,7 @@ describe 'Cost report showing my own times', type: :feature, js: true do
       check 'query_is_public'
       find('#query-icon-save-button').click
 
-      expect(page).to have_selector('.report', text: '10.00')
+      expect(page).to have_selector('.report', text: '10.0')
 
       report = CostQuery.last
       user_filter = report.serialized[:filters].detect { |name,_| name == filter_name }
@@ -51,8 +51,8 @@ describe 'Cost report showing my own times', type: :feature, js: true do
 
       # Create and save cost report
       visit cost_report_path(report.id, project_id: project.identifier)
-      expect(page).to have_no_selector('.report', text: '10.00')
-      expect(page).to have_selector('.report', text: '15.00')
+      expect(page).to have_no_selector('.report', text: '10.0')
+      expect(page).to have_selector('.report', text: '15.0')
 
       expect(find("##{filter_selector}").value).to eq 'me'
     end
