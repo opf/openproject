@@ -63,7 +63,7 @@ describe MailHandler, type: :model do
       email = ActionMailer::Base.deliveries.first
       expect(email).not_to be_nil
       expect(email.subject).to eq(I18n.t('mail_subject_register', value: Setting.app_title))
-      login = email.body.encoded.match(/\* Login: (\S+)\s?$/)[1]
+      login = email.body.encoded.match(/\* Username: (\S+)\s?$/)[1]
       password = email.body.encoded.match(/\* Password: (\S+)\s?$/)[1]
 
       # Can't log in here since randomly assigned password must be changed
