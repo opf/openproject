@@ -59,7 +59,7 @@ export class BoardInlineCreateService extends WorkPackageInlineCreateService imp
   public referenceTarget:WorkPackageResource|null = null;
 
   public get canAdd() {
-    return this.canCreateWorkPackages;
+    return this.authorisationService.can('work_packages', 'createWorkPackage');
   }
 
   public get canReference() {
