@@ -102,7 +102,7 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
     jQuery('#top-menu')[0].style.zIndex = '10';
   }
 
-  public gallleryPreviewClose():void {
+  public galleryPreviewClose():void {
     console.log("preview close");
     jQuery('#top-menu')[0].style.zIndex = '';
   }
