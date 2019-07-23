@@ -44,7 +44,7 @@ module Pages
       form.fill! 'Email', :email
 
       form.select! 'Authentication mode', :auth_source
-      form.fill! 'Login', :login
+      form.fill! 'Username', :login
 
       form.set_checked! 'Administrator', :admin
     end

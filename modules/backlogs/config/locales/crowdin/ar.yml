@@ -95,7 +95,7 @@ ar:
   label_backlog: "العمل المتراكم غير المنجز"
   label_backlogs: "الأعمال المتراكمة غير المنجزة"
   label_backlogs_unconfigured: "لم تقم بإنشاء الأعمال المتراكمة غير المنجزة بعد. من فضلك اذهب إلى %{administration} > %{plugins}، ثم اضغط على رابط %{configure} لهذا البرنامج المساعد. عندما تنتهي من تعيين الحقول، ارجع إلى هذه الصفحة لتبدأ باستخدام الأداة."
-  label_blocks_ids: "الهويات المعرِّفة لمجموعات العمل المحظورة"
+  label_blocks_ids: "مُعرِّفات مجموعات العمل المحظورة"
   label_burndown: "العمل المتبقي"
   label_column_in_backlog: "عمود في العمل المتراكم غير المنجز"
   label_hours: "الساعات"
@@ -116,7 +116,7 @@ ar:
   label_stories_tasks: "القصص/ المهمات"
   label_task_board: "لوحة المهمة"
   label_version_setting: "الإصدارات"
-  label_version: 'Version'
+  label_version: 'الإصدار'
   label_webcal: "تغذية Webcal"
   label_wiki: "Wiki"
   permission_view_master_backlog: "عرض العمل الرئيسي المتراكم غير المنجز"

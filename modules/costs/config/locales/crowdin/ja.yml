@@ -2,7 +2,7 @@ ja:
   activerecord:
     attributes:
       cost_entry:
-        work_package: "作業項目"
+        work_package: "ワーク パッケージ"
         overridden_costs: "オーバーライドされたコスト"
         spent: "使用済"
         spent_on: "日付"
@@ -55,7 +55,7 @@ ja:
     cost_type: "コスト種類"
     costs: "コスト"
     current_rate: "現状原価率"
-    hours: "時間"
+    hours: " 時間"
     units: "単位"
     valid_from: "から有効"
   button_add_budget_item: "計画コストを追加"
@@ -67,7 +67,7 @@ ja:
   button_log_costs: "単価を記録"
   button_log_time: "時間を記録"
   caption_booked_on_project: "プロジェクトの予約"
-  caption_default: "デフォルト"
+  caption_default: "既定の項目"
   caption_default_rate_history_for: "%{user} のデフォルト率の履歴"
   caption_labor: "労働"
   caption_labor_costs: "実際の労働コスト"
@@ -82,8 +82,8 @@ ja:
   caption_show_locked: "ロックの種類を表示します。"
   cost_objects_title: "予算"
   label_cost_type_plural: "コスト種類"
-  currency_delimiter: "、"
-  currency_separator: "。"
+  currency_delimiter: ","
+  currency_separator: "."
   description_date_for_new_rate: "新しいレートの日付"
   events:
     cost_object: "予算の編集"
@@ -123,7 +123,7 @@ ja:
   label_include_deleted: "削除済みを含める"
   label_work_package_filter_add: "作業項目フィルタを追加する"
   label_kind: "種別"
-  label_less_or_equal: "<="
+  label_less_or_equal: "以下"
   label_log_costs: "単価を記録"
   label_no: "いいえ"
   label_option_plural: "オプション"

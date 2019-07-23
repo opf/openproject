@@ -36,7 +36,7 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 @Component({
   template: `
-    <ng-select *ngIf="createAllowed"
+    <ng-select *ngIf="createAllowed && finishedLoading"
                #addActionAttributeSelect
                [(ngModel)]="model"
                [items]="availableValues"
@@ -58,7 +58,7 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
       </ng-template>
     </ng-select>
 
-    <ng-select *ngIf="!createAllowed"
+    <ng-select *ngIf="!createAllowed && finishedLoading"
                #actionAttributeSelect
                [(ngModel)]="model"
                [items]="availableValues"
@@ -87,6 +87,7 @@ export class CreateAutocompleterComponent implements AfterViewInit {
   @Input() public model:any;
   @Input() public required:boolean = false;
   @Input() public disabled:boolean = false;
+  @Input() public finishedLoading:boolean = false;
   @Input() public id:string = '';
   @Input() public classes:string = '';
   @Input() public set createAllowed(val:boolean) {
@@ -94,7 +95,6 @@ export class CreateAutocompleterComponent implements AfterViewInit {
     setTimeout(() => {
       if (this.openDirectly) {
         this.openSelect();
-        this.openDirectly = false;
       }
       this.ngAfterViewInit();
     });
@@ -124,11 +124,25 @@ export class CreateAutocompleterComponent implements AfterViewInit {
   }
 
   public openSelect() {
-    this.createAllowed ? this.addAutoCompleter.open() : this.autoCompleter.open();
+    if (this.createAllowed && this.addAutoCompleter) {
+      this.addAutoCompleter.open();
+    } else if (this.autoCompleter) {
+      this.autoCompleter.open();
+    } else {
+      // In case the autocompleter was not loaded,
+      // do not reset the variable
+      return;
+    }
+
+    this.openDirectly = false;
   }
 
   public closeSelect() {
-    this.createAllowed ? this.addAutoCompleter.close() : this.autoCompleter.close();
+    if (this.createAllowed && this.addAutoCompleter) {
+      return this.addAutoCompleter.close();
+    } else if (this.autoCompleter) {
+      return this.autoCompleter.close();
+    }
   }
 
   public createNewElement(newElement:string) {
@@ -166,10 +180,10 @@ export class CreateAutocompleterComponent implements AfterViewInit {
   }
 
   public focusInputField() {
-    if (this.createAllowed) {
-      return this.addAutoCompleter && this.addAutoCompleter.focus();
-    } else {
-      return this.autoCompleter && this.autoCompleter.focus();
+    if (this.createAllowed && this.addAutoCompleter) {
+      return this.addAutoCompleter.focus();
+    } else if (this.autoCompleter) {
+      return this.autoCompleter.focus();
     }
   }
 }

@@ -1,0 +1,7 @@
+ko:
+  permission_show_board_views: "View boards"
+  permission_manage_board_views: "Manage boards"
+  project_module_board_view: "보드"
+  boards:
+    new_badge: "새로 만들기"
+    label_boards: "보드"

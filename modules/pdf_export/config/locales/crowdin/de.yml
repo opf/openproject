@@ -6,7 +6,7 @@ de:
   label_export_card_configuration_new: "Neue Export-Kartenkonfiguration"
   label_export_card_configuration: "Export-Kartenkonfiguration"
   label_export_card_configuration_plural: "Export-Kartenkonfigurationen"
-  label_export_card_activate: "Aktivieren"
+  label_export_card_activate: "Aktiviere"
   label_export_card_deactivate: "De-aktivieren"
   notice_export_card_configuration_activated: "Export-Kartenkonfiguration erfolgreich aktiviert"
   notice_export_card_configuration_deactivated: "Export-Kartenkonfiguration erfolgreich de-aktiviert"
@@ -20,11 +20,11 @@ de:
   export_config_per_page: "Pro Seite"
   export_config_page_size: "Seitengröße"
   export_config_orientation: "Ausrichtung"
-  export_config_rows: "Reihen"
+  export_config_rows: "Zeilen"
   activerecord:
     attributes:
       export_card_configuration:
-        rows: "Reihen"
+        rows: "Zeilen"
         per_page: "Pro Seite"
         page_size: "Seitengröße"
         orientation: "Ausrichtung"

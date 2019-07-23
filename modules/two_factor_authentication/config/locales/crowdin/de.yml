@@ -145,12 +145,13 @@ de:
     remember:
       active_session_notice: >
         Für Ihren Account und Browser existiert ein gespeicherter zweiter Faktor bis %{expires_on}. Dieses Cookie erlaubt Ihnen, in diesem Browser bis zum Ablauf einen Login ohne zweiten Faktor durchzuführen.
+      other_active_session_notice: Ihr Konto hat einen aktiven Erinnerungs-Cookie in einer anderen Sitzung.
       label: 'Erinnern'
-      clear_cookie: 'Hier klicken, um dieses Cookie zu entfernen'
-      cookie_removed: 'Das Cookie wurde entfernt.'
+      clear_cookie: 'Klicken Sie hier, um alle gespeicherten 2FA Sitzungen zu entfernen.'
+      cookie_removed: 'Alle gespeicherten 2FA Sitzungen wurden entfernt.'
       dont_ask_again: "Die Zwei-Faktor-Authentifizierung auf diesem Browser für %{days} Tage nicht mehr abfragen."
   field_phone: "Mobiltelefon"
-  field_otp: "Einmalpasswort"
+  field_otp: "Passwort zur einmaligen Verwendung"
   notice_account_otp_invalid: "Ungültiges Einmalpasswort."
   notice_account_otp_expired: "Das Einmalpasswort ist abgelaufen."
   notice_developer_strategy_otp: "Die Entwicklungs-Strategie hat das folgende Einmalpasswort generiert: %{token} (Kanal: %{channel})"

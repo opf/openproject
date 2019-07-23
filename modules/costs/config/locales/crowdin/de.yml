@@ -4,7 +4,7 @@ de:
       cost_entry:
         work_package: "Arbeitspaket"
         overridden_costs: "Überschriebene Kosten"
-        spent: "Gebucht"
+        spent: "Verbraucht"
         spent_on: "Datum"
       cost_object:
         author: "Autor"
@@ -14,11 +14,11 @@ de:
         created_on: "Erstellt"
         description: "Beschreibung"
         fixed_date: "Referenzdatum"
-        spent: "Gebucht"
+        spent: "Verbraucht"
         status: "Status"
         subject: "Thema"
         type: "Kostentyp"
-        updated_on: "Aktualisiert"
+        updated_on: "Aktualisiert am"
       cost_type:
         unit: "Einheit"
         unit_plural: "Einheit plural"
@@ -83,7 +83,7 @@ de:
   caption_show_locked: "Gesperrte Typen anzeigen"
   cost_objects_title: "Budgets"
   label_cost_type_plural: "Kostentypen"
-  currency_delimiter: "."
+  currency_delimiter: ";"
   currency_separator: ","
   description_date_for_new_rate: "Datum für neuen Satz"
   events:

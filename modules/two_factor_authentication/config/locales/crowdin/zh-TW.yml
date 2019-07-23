@@ -53,7 +53,7 @@ zh-TW:
       text_configuration: |
         注意: 這些值表示當前應用程式範圍的配置。不能禁用由配置強制執行的設置或更改當前套用的策略, 因為它們需要重新開機伺服器。
       text_configuration_guide: 更多資訊，請參考設定指南．
-      text_enforced: 'Enable this setting to force all users to register a 2FA device on their next login. Can only be disabled when not enforced by configuration.'
+      text_enforced: '啟用這個設定強制所有使用者在下次登入時同時要求註冊一個2FA設備。 這個設定只能在沒有強制合規設定的情形下才能時被停用。'
       text_remember: |
         將此值設置為大於零, 以允許使用者在給定的天數內記住其2FA 身份驗證。在那段期間, 他們將不被要求重新進入。只能在配置不強制的情況下設置。
       error_invalid_settings: '您選擇的2FA 策略無效'
@@ -68,15 +68,15 @@ zh-TW:
       button_delete_all_devices: '刪除已註冊的2FA 設備'
       button_register_mobile_phone_for_user: '註冊手機'
       text_2fa_enabled: '每次登錄時, 都會要求該使用者從預設的2FA 設備中取得 OTP 密碼。'
-      text_2fa_disabled: "The user did not set up a 2FA device through his 'My account page'"
+      text_2fa_disabled: "使用者沒有透過【我的帳戶】頁面進行建立一個2FA設備的動作。"
     upsale:
-      title: 'Two-factor authentication is an enterprise feature'
-      description: 'Strenghten your internal or external authentication mechanisms with a second factor.'
+      title: '雙重認證是一個企業級功能'
+      description: '請使用第二種的認證方式加強您內部或外部的認證機制'
     backup_codes:
-      none_found: No backup codes exist for this account.
-      singular: Backup code
-      plural: Backup codes
-      your_codes: for your %{app_name} account %{login}
+      none_found: 這個帳戶沒有存在備份代碼
+      singular: 備份代碼
+      plural: 備份代碼
+      your_codes: 為您的 %{app_name} 帳戶 %{login}
       overview_description: |
         If you are unable to access your two factor devices, you can use a backup code to regain access to your account.
         Use the following button to generate a new set of backup codes.
@@ -147,9 +147,10 @@ zh-TW:
     remember:
       active_session_notice: >
         您的帳戶有一個活動的記住 cookie 有效, 直到 %{expires_on}。此 cookie 允許您在沒有第二個因素的情況下登錄到您的帳戶, 直到該時間。
+      other_active_session_notice: Your account has an active remember cookie on another session.
       label: '記住'
-      clear_cookie: '按一下此處刪除此 cookie'
-      cookie_removed: '記住的 cookie 已被刪除。'
+      clear_cookie: 'Click here to remove all remembered 2FA sessions.'
+      cookie_removed: 'All remembered 2FA sessions have been removed.'
       dont_ask_again: "創建 cookie，使 %{days} 天內記住此用戶端上的2FA 身份驗證。"
   field_phone: "手機"
   field_otp: "一次性密碼"

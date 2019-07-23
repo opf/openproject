@@ -69,7 +69,8 @@ export class WorkPackageInlineCreateService implements OnDestroy {
   }
 
   public get canCreateWorkPackages() {
-    return this.authorisationService.can('work_packages', 'createWorkPackage');
+    return this.authorisationService.can('work_packages', 'createWorkPackage') &&
+      this.authorisationService.can('work_packages', 'editWorkPackage');
   }
 
   /** Allow callbacks to happen on newly created inline work packages */

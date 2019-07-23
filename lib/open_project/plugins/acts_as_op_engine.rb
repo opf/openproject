@@ -35,7 +35,7 @@ module OpenProject::Plugins
       base.send :include, InstanceMethods
 
       base.class_eval do
-        config.autoload_paths += Dir["#{config.root}/lib/"]
+        config.eager_load_paths += Dir["#{config.root}/lib"]
 
         config.before_configuration do |app|
           # This is required for the routes to be loaded first

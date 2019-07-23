@@ -32,7 +32,7 @@ de:
   label_meeting_agenda: "Agenda"
   label_meeting_minutes: "Protokoll"
   label_meeting_close: "Schließen"
-  label_meeting_open: "Öffnen"
+  label_meeting_open: "Offene"
   label_meeting_agenda_close: "Agenda schließen um mit dem Protokoll zu beginnen"
   label_meeting_date_time: "Datum/Uhrzeit"
   label_meeting_diff: "Differenz"
@@ -40,7 +40,7 @@ de:
   label_icalendar: "ICalendar senden"
   label_version: "Version"
   label_time_zone: "Zeitzone"
-  label_start_date: "Beginn"
+  label_start_date: "Anfangstermin"
   notice_successful_notification: "Benachrichtigung erfolgreich gesendet"
   notice_timezone_missing: Keine Zeitzone eingestellt und daher %{zone} angenommen. Um Ihre Zeitzone einzustellen, klicken Sie bitte hier.
   permission_create_meetings: "Besprechungen erstellen"
@@ -59,6 +59,6 @@ de:
   text_meeting_closing_are_you_sure: "Möchten Sie dieses Meeting wirklich schließen?"
   text_meeting_agenda_open_are_you_sure: "Nicht-gespeicherte Inhalte des Protokolls werden durch diese Aktion verworfen! Weitermachen?"
   text_meeting_minutes_for_meeting: 'Protokoll für die Besprechung "%{meeting}"'
-  text_review_meeting_agenda: "%{author} hat die %{link} zur Einsicht freigegeben."
-  text_review_meeting_minutes: "%{author} hat die %{link} zur Einsicht freigegeben."
+  text_review_meeting_agenda: "%{author} hat das %{link} zur Einsicht freigegeben."
+  text_review_meeting_minutes: "%{author} hat das %{link} zur Einsicht freigegeben."
   text_notificiation_invited: "Diese Email enthält einen ics Eintrag für die untenstehende Besprechung:"

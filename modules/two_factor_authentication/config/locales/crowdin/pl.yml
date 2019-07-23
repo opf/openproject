@@ -30,7 +30,7 @@ pl:
     notice_pwd_confirmation: "Po wprowadzeniu zmian w tych ustawieniach musisz potwierdzić swoje hasło."
     label_device_type: "Rodzaj urządzenia"
     label_default_device: "Domyślne urządzenie 2FA"
-    label_device: "Urządzenie 2FA"
+    label_device: "Urządzenie 2FA (2 Factory Authenticator)"
     label_devices: "Urządzenie 2FA"
     label_one_time_password: 'Jednorazowe hasło'
     label_2fa_enabled: 'Uwierzytelnianie dwuskładnikowe jest aktywne'
@@ -148,9 +148,10 @@ pl:
     remember:
       active_session_notice: >
         Na tym koncie aktywny jest plik cookie pamiętania, ważny do %{expires_on}. Do tego czasu plik cookie będzie umożliwiać logowanie się do konta bez drugiego składnika.
+      other_active_session_notice: Twoje konto ma aktywny plik cookie pamiętania w innej sesji.
       label: 'Zapamiętaj'
-      clear_cookie: 'Kliknij tutaj, aby usunąć ten plik cookie'
-      cookie_removed: 'Plik cookie pamiętania został usunięty.'
+      clear_cookie: 'Kliknij tutaj, aby usunąć wszystkie zapamiętane sesje uwierzytelniania 2FA.'
+      cookie_removed: 'Wszystkie zapamiętane sesje uwierzytelniania 2FA zostały usunięte.'
       dont_ask_again: "Utwórz pliki cookie w celu zapamiętania uwierzytelnienia 2FA na tym kliencie na %{days} dni."
   field_phone: "Komórka"
   field_otp: "Jednorazowe hasło"
@@ -160,8 +161,8 @@ pl:
   notice_account_otp_send_failed: "Twoje jednorazowe hasło nie mogło zostać wysłane."
   notice_account_has_no_phone: "Żaden numer telefonu komórkowego nie jest powiązany z Twoim kontem."
   label_expiration_hint: "%{date} lub wylogowania"
-  label_actions: 'Działania'
-  label_confirmed: 'Zatwardziały'
+  label_actions: 'Akcje'
+  label_confirmed: 'Potwierdzone'
   button_continue: 'Dalej'
   button_make_default: 'Oznacz jako domyślny'
   label_unverified_phone: "Telefon komórkowy jeszcze niezweryfikowany"

@@ -6,7 +6,7 @@ it:
   label_export_card_configuration_new: "Nuova esportazione scheda Config"
   label_export_card_configuration: "Esporta la configurazione della scheda"
   label_export_card_configuration_plural: "Esporta le configurazioni della scheda"
-  label_export_card_activate: "Attivare"
+  label_export_card_activate: "Attiva"
   label_export_card_deactivate: "Disattivare"
   notice_export_card_configuration_activated: "Configurazione attivata con successo"
   notice_export_card_configuration_deactivated: "Configurazione disattivata con successo"

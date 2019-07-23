@@ -57,8 +57,20 @@ class FogFileUploader < CarrierWave::Uploader::Base
     super
   end
 
-  def download_url
-    remote_file.url
+  def download_url(options = {})
+    url_options = {}
+
+    if options[:content_disposition].present?
+      url_options[:query] = {
+        # Passing this option to S3 will make it serve the file with the
+        # respective content disposition. Without it no content disposition
+        # header is sent. This only works for S3 but we don't support
+        # anything else anyway (see carrierwave.rb).
+        "response-content-disposition" => options[:content_disposition]
+      }
+    end
+
+    remote_file.url url_options
   end
 
   ##

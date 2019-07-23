@@ -8,8 +8,10 @@ zh-CN:
   enumeration:
     document_category:
       documentation: 文档
-      specification: 技术规范
-      other: ' 其它'
+      specification: 技术规格
+      other: 其他
+  documents:
+    label_attachment_author: "附件作者"
   label_document_added: "文档已添加"
   label_document_new: "新建文档"
   label_document_plural: "文档"

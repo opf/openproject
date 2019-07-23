@@ -2,7 +2,7 @@ ar:
   error_can_not_delete_export_card_configuration: "لا يمكن حذف هذا التنسيق."
   error_can_not_change_name_of_default_configuration: "لا يمكن تغيير اسم الترتيب الافتراضي."
   label_backlogs_export_card_config_select: "قُم باختيار تنسيق بطاقة التصدير"
-  label_backlogs_export_card_export: "التصدير"
+  label_backlogs_export_card_export: "تصدير"
   label_export_card_configuration_new: "تنسيق بطاقة التصدير الجديد"
   label_export_card_configuration: "تنسيق بطاقة التصدير"
   label_export_card_configuration_plural: "تنسيقات بطاقة التصدير"
@@ -17,7 +17,7 @@ ar:
   validation_error_uknown_key: "مفتاح غير معروف:"
   yaml_error: "خطأ YAML:"
   help_link_rows_format: "تنسيق الصفوف"
-  export_config_per_page: "لكل صفحة"
+  export_config_per_page: "في كل صفحة"
   export_config_page_size: "حجم الصفحة"
   export_config_orientation: "الاتجاه"
   export_config_rows: "الصفوف"
@@ -25,6 +25,6 @@ ar:
     attributes:
       export_card_configuration:
         rows: "الصفوف"
-        per_page: "لكل صفحة"
+        per_page: "في كل صفحة"
         page_size: "حجم الصفحة"
         orientation: "الاتجاه"

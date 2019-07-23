@@ -365,6 +365,7 @@ class Journal::AggregatedJournal
            :editable_by?,
            :notes_id,
            :notes_version,
+           :project,
            :data,
            :data=,
            to: :journal

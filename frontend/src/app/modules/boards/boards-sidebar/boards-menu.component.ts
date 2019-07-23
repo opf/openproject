@@ -6,6 +6,8 @@ import {BoardCacheService} from "core-app/modules/boards/board/board-cache.servi
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 import {MainMenuNavigationService} from "core-components/main-menu/main-menu-navigation.service";
+import {map} from "rxjs/operators";
+import {CurrentProjectService} from "core-components/projects/current-project.service";
 
 @Component({
   selector: 'boards-menu',
@@ -15,10 +17,21 @@ import {MainMenuNavigationService} from "core-components/main-menu/main-menu-nav
 export class BoardsMenuComponent {
   trackById = AngularTrackingHelpers.compareByAttribute('id');
 
-  public boards$:Observable<Board[]> = this.boardCache.observeAll();
+  currentProjectIdentifier = this.currentProject.identifier;
+
+  public boards$:Observable<Board[]> = this.boardCache.observeAll().pipe(
+    map((boards:Board[]) => {
+      return boards.sort(function(a, b){
+        if(a.name < b.name) { return -1; }
+        if(a.name > b.name) { return 1; }
+        return 0;
+      });
+    })
+  );
 
   constructor(private readonly boardService:BoardService,
               private readonly boardCache:BoardCacheService,
+              private readonly currentProject:CurrentProjectService,
               private readonly mainMenuService:MainMenuNavigationService) {
 
     // When activating the work packages submenu,

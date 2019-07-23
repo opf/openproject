@@ -10,6 +10,8 @@ fi:
       documentation: Käyttöohjeet
       specification: Määrittely
       other: Muut
+  documents:
+    label_attachment_author: "Liitteen laatija"
   label_document_added: "Asiakirja lisätty"
   label_document_new: "Uusi asiakirja"
   label_document_plural: "Asiakirjat"

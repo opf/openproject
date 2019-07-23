@@ -3,7 +3,7 @@ zh-TW:
     attributes:
       meeting:
         location: "地點"
-        duration: "會議長度"
+        duration: "時間長度"
         participants: "參加人員"
         participants_attended: "出席人員"
         participants_invited: "受邀人員"
@@ -31,8 +31,8 @@ zh-TW:
   label_meeting_edit: "編輯會議"
   label_meeting_agenda: "會議大綱"
   label_meeting_minutes: "會議記錄"
-  label_meeting_close: "結束"
-  label_meeting_open: "開始"
+  label_meeting_close: "關閉"
+  label_meeting_open: "開啟"
   label_meeting_agenda_close: "定案會議大綱以便開始會議記錄"
   label_meeting_date_time: "日期 / 時間"
   label_meeting_diff: "比較"
@@ -40,7 +40,7 @@ zh-TW:
   label_icalendar: "發送 iCalendar"
   label_version: "版本"
   label_time_zone: "時區"
-  label_start_date: "開始日期"
+  label_start_date: "起始日期"
   notice_successful_notification: "通知傳送成功"
   notice_timezone_missing: 沒有設定時區，預設時區為 %{zone} 。請按這裡選擇您的時區。
   permission_create_meetings: "建立會議"

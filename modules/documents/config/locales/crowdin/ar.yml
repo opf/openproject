@@ -8,8 +8,10 @@ ar:
   enumeration:
     document_category:
       documentation: التوثيق
-      specification: المواصفة
-      other: أخرى
+      specification: مواصفات
+      other: اخرى
+  documents:
+    label_attachment_author: "Attachment author"
   label_document_added: "تم إضافة وثيقة"
   label_document_new: "وثيقة جديدة"
   label_document_plural: "الوثائق"

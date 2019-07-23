@@ -20,11 +20,11 @@ ru:
   export_config_per_page: "Постранично"
   export_config_page_size: "Размер страницы"
   export_config_orientation: "Ориентация"
-  export_config_rows: "Строк"
+  export_config_rows: "Строки"
   activerecord:
     attributes:
       export_card_configuration:
-        rows: "Строк"
+        rows: "Строки"
         per_page: "Постранично"
         page_size: "Размер страницы"
         orientation: "Ориентация"

@@ -2,16 +2,16 @@ tr:
   activerecord:
     attributes:
       cost_entry:
-        work_package: "Calisma paketi"
+        work_package: "İş paketi"
         overridden_costs: "Geçersiz kılınmış maliyetler"
         spent: "Harcanan"
         spent_on: "Tarih"
       cost_object:
-        author: "Yazar"
+        author: "Sahibi"
         available: "Uygun"
         budget: "Planlanmış"
         budget_ratio: "Harcanma (oranı)"
-        created_on: "Oluşturulma tarihi"
+        created_on: "Oluşturma tarihi"
         description: "Açıklama"
         fixed_date: "Düzenleme tarihi"
         spent: "Harcanan"
@@ -66,7 +66,7 @@ tr:
   button_cancel_edit_budget: "Bütçeyi düzenleme iptal et"
   button_cancel_edit_costs: "Düzenleme maliyetlerini iptal et"
   button_log_costs: "Günlük birim maliyetleri"
-  button_log_time: "Log time"
+  button_log_time: "Zaman kaydet"
   caption_booked_on_project: "Proje rezervasyonu yaptırdı"
   caption_default: "Varsayılan"
   caption_default_rate_history_for: "%{user} için varsayılan hızı geçmişi"

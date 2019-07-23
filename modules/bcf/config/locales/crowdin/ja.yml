@@ -1,0 +1,30 @@
+ja:
+  bcf:
+    label_bcf: 'BCF'
+    issues: "チケット"
+    experimental_badge: "実験的"
+    exceptions:
+      file_invalid: "BCFファイルが無効"
+    x_bcf_issues:
+      other: '%{count} BCF チケット'
+    bcf_xml:
+      xml_file: 'BCF XML ファイル'
+      import_title: 'BCF ファイルからインポート'
+      export: 'すべて BCF-XML にエクスポート'
+      import_update_comment: '(BCF インポートで更新済)'
+      import_failed: 'BCF ファイルをインポートできません: %{error}'
+      import_successful: '%{count} BCF チケットをインポートしました'
+      import_canceled: 'BCF-XML インポートをキャンセルしました。'
+      type_not_active: "チケットの形式がこのプロジェクトで有効になっていません。"
+      import:
+        num_issues_found: '%{x_bcf_issues} は BCF-XML ファイルに含まれています。詳細は下に一覧表示されます。'
+        button_prepare: 'インポートの準備'
+        button_perform_import: 'インポートの確認'
+        button_proceed: '続行'
+        button_back_to_list: 'リストに戻る'
+        description: "BCF-XML v2.1 ファイルをこのプロジェクトにインポートします。インポートを実行する前に内容を確認することができます。"
+        perform_description: "上に一覧表示されたチケットをインポートまたは更新しますか?"
+        work_package_has_newer_changes: "The import for BCF topic %{bcf_uuid} looks outdated. The latest changes on the server are newer than the \"MofiedDate\" of the imported topic."
+  export:
+    format:
+      bcf: "BCF-XML"

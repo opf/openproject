@@ -39,6 +39,7 @@ import {CollectionResource} from 'core-app/modules/hal/resources/collection-reso
 import {IWorkPackageEditingServiceToken} from "../../wp-edit-form/work-package-editing.service.interface";
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 
 @Directive({
   selector: '[wpStatusDropdown]'
@@ -50,6 +51,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
               readonly opContextMenu:OPContextMenuService,
               readonly $state:StateService,
               protected wpNotificationsService:WorkPackageNotificationService,
+              protected notificationService:NotificationsService,
               @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService,
               protected I18n:I18nService,
               protected wpTableRefresh:WorkPackageTableRefreshService) {
@@ -63,7 +65,13 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
     changeset.getForm().then((form:any) => {
       const statuses = form.schema.status.allowedValues;
       this.buildItems(statuses);
-      this.opContextMenu.show(this, evt);
+
+      const writable = changeset.isWritable('status');
+      if (!writable) {
+        this.notificationService.addError(this.I18n.t('js.work_packages.message_work_package_status_blocked'));
+      } else {
+        this.opContextMenu.show(this, evt);
+      }
     });
   }
 
@@ -78,7 +86,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
     const changeset = this.wpEditing.changesetFor(this.workPackage);
     changeset.setValue('status', status);
 
-    if(!this.workPackage.isNew) {
+    if (!this.workPackage.isNew) {
       changeset.save().then(() => {
         this.wpNotificationsService.showSave(this.workPackage);
         this.wpTableRefresh.request('Altered work package status via button');

@@ -240,11 +240,6 @@ describe API::V3, type: :request do
             it 'should return 200 OK' do
               expect(last_response.status).to eq 200
             end
-
-            it 'should login an admin system user' do
-              expect(User.current.is_a?(SystemUser)).to eq true
-              expect(User.current).to be_admin
-            end
           end
 
           context 'with valid user credentials' do
@@ -255,10 +250,6 @@ describe API::V3, type: :request do
 
             it 'should return 200 OK' do
               expect(last_response.status).to eq 200
-            end
-
-            it 'should login user' do
-              expect(User.current).to eq api_user
             end
           end
         end

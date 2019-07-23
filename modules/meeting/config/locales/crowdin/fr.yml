@@ -32,7 +32,7 @@ fr:
   label_meeting_agenda: "Ordre du jour"
   label_meeting_minutes: "Compte-rendu"
   label_meeting_close: "Fermer"
-  label_meeting_open: "Ouvrir"
+  label_meeting_open: "Ouvertes"
   label_meeting_agenda_close: "Fermer l'ordre du jour pour commencer les procès-verbaux"
   label_meeting_date_time: "Date/Heure"
   label_meeting_diff: "Différence"

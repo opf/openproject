@@ -26,8 +26,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class JournalFormatter::Decimal < JournalFormatter::Attribute
-  def format_values(values)
-    values.map { |v| v.to_i.to_s }
+module JournalFormatter
+  class Decimal < Attribute
+    def format_values(values)
+      values.map { |v| v.to_i.to_s }
+    end
   end
 end

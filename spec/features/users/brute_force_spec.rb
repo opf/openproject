@@ -42,7 +42,7 @@ describe 'Loggin (with brute force protection)', type: :feature do
   def new_login_attempt(login_attempt, password_attempt)
     # The login name already provided is retained
     expect(page)
-      .to have_field 'Login', with: login_attempt
+      .to have_field 'Username', with: login_attempt
 
     login_with(login_attempt, password_attempt)
   end

@@ -32,7 +32,7 @@ it:
   label_meeting_agenda: "Ordine del giorno"
   label_meeting_minutes: "Verbali"
   label_meeting_close: "Chiuso"
-  label_meeting_open: "Aperto"
+  label_meeting_open: "Aperti"
   label_meeting_agenda_close: "Chiudere l'agenda per iniziare i verbali"
   label_meeting_date_time: "Data/ora"
   label_meeting_diff: "Differenza"

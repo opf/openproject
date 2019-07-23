@@ -17,7 +17,7 @@ sk:
   validation_error_uknown_key: "Neznámy kľúč:"
   yaml_error: "YAML chyba:"
   help_link_rows_format: "Formátovanie riadkov"
-  export_config_per_page: "Na stránku"
+  export_config_per_page: "Na stranu"
   export_config_page_size: "Veľkosť stránky"
   export_config_orientation: "Orientácia"
   export_config_rows: "Riadky"
@@ -25,6 +25,6 @@ sk:
     attributes:
       export_card_configuration:
         rows: "Riadky"
-        per_page: "Na stránku"
+        per_page: "Na stranu"
         page_size: "Veľkosť stránky"
         orientation: "Orientácia"

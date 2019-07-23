@@ -9,4 +9,4 @@ hu:
         spentUnits: "Elköltött egység"
     button_log_costs: "Költségek naplózása"
     label_hour: "óra"
-    label_hours: "óra"
+    label_hours: "hours"

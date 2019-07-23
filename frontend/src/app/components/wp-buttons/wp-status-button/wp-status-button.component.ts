@@ -35,6 +35,7 @@ import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 
 @Component({
   selector: 'wp-status-button',
@@ -47,12 +48,14 @@ export class WorkPackageStatusButtonComponent implements OnInit, OnDestroy {
 
   public text = {
     explanation: this.I18n.t('js.label_edit_status'),
-    workPackageReadOnly: this.I18n.t('js.work_packages.message_work_package_read_only')
+    workPackageReadOnly: this.I18n.t('js.work_packages.message_work_package_read_only'),
+    workPackageStatusBlocked: this.I18n.t('js.work_packages.message_work_package_status_blocked')
   };
 
   constructor(readonly I18n:I18nService,
               readonly cdRef:ChangeDetectorRef,
               readonly wpCacheService:WorkPackageCacheService,
+              readonly schemaCacheService:SchemaCacheService,
               @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService) {
   }
 
@@ -67,20 +70,28 @@ export class WorkPackageStatusButtonComponent implements OnInit, OnDestroy {
         this.cdRef.detectChanges();
         this.workPackage.status.$load();
       });
+
+    this.schemaCacheService
+      .state(this.workPackage)
+      .changes$()
+      .pipe(
+        untilComponentDestroyed(this)
+      )
+      .subscribe(() => {
+        // we have to explicitly force the component to update
+        this.cdRef.detectChanges();
+      });
   }
 
   ngOnDestroy():void {
     // Nothing to do
   }
 
-  public isDisabled() {
-    let changeset = this.wpEditing.changesetFor(this.workPackage);
-    return !this.allowed || changeset.inFlight;
-  }
-
   public get buttonTitle() {
     if (this.workPackage.isReadonly) {
       return this.text.workPackageReadOnly;
+    } else if (this.workPackage.isEditable && this.isDisabled) {
+      return this.text.workPackageStatusBlocked;
     } else {
       return '';
     }
@@ -88,18 +99,31 @@ export class WorkPackageStatusButtonComponent implements OnInit, OnDestroy {
 
   public get statusHighlightClass() {
     let status = this.status;
-    if (!status) { return }
+    if (!status) {
+      return;
+    }
     return Highlighting.backgroundClass('status', status.id!);
   }
 
   public get status():HalResource|undefined {
-    if (!this.wpEditing) { return }
+    if (!this.wpEditing) {
+      return;
+    }
 
-    let changeset = this.wpEditing.changesetFor(this.workPackage);
-    return changeset.value('status');
+    return this.changeset.value('status');
   }
 
   public get allowed() {
     return this.workPackage.isAttributeEditable('status');
+  }
+
+  public get isDisabled() {
+    let writable = this.changeset.isWritable('status');
+
+    return !this.allowed || !writable || this.changeset.inFlight;
+  }
+
+  private get changeset() {
+    return this.wpEditing.changesetFor(this.workPackage);
   }
 }

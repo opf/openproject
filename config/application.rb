@@ -49,6 +49,7 @@ end
 require 'rails/all'
 require 'active_support'
 require 'active_support/dependencies'
+require 'core_extensions'
 
 ActiveSupport::Deprecation.silenced = Rails.env.production? && !ENV['OPENPROJECT_SHOW_DEPRECATIONS']
 
@@ -71,7 +72,6 @@ if defined?(Bundler)
 end
 
 require File.dirname(__FILE__) + '/../lib/open_project/configuration'
-require File.dirname(__FILE__) + '/../app/middleware/reset_current_user'
 
 module OpenProject
   class Application < Rails::Application
@@ -98,13 +98,11 @@ module OpenProject
     # Ensure that tempfiles are cleared after request
     # http://stackoverflow.com/questions/4590229
     config.middleware.use Rack::TempfileReaper
-    config.middleware.use ::ResetCurrentUser
 
     # Custom directories with classes and modules you want to be autoloadable.
-    # config.autoload_paths += %W(#{config.root}/extras)
     config.enable_dependency_loading = true
-    config.autoload_paths << Rails.root.join('lib').to_s
-    config.autoload_paths << Rails.root.join('lib/constraints').to_s
+    config.paths.add Rails.root.join('lib').to_s, eager_load: true
+    config.paths.add Rails.root.join('lib/constraints').to_s, eager_load: true
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
@@ -172,10 +170,6 @@ module OpenProject
     # Configure the relative url root to be whatever the configuration is set to.
     # This allows for setting the root either via config file or via environment variable.
     config.action_controller.relative_url_root = OpenProject::Configuration['rails_relative_url_root']
-
-    # Load API files
-    config.paths.add File.join('app', 'api'), glob: File.join('**', '*.rb')
-    config.autoload_paths += Dir[Rails.root.join('app', 'api', '*')]
 
     OpenProject::Configuration.configure_cache(config)
 

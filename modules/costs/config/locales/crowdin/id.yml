@@ -2,23 +2,23 @@ id:
   activerecord:
     attributes:
       cost_entry:
-        work_package: "Work Package"
+        work_package: "Paket-Penugasan"
         overridden_costs: "Overridden costs"
         spent: "Dihabiskan"
         spent_on: "Tanggal"
       cost_object:
-        author: "Pembuat"
+        author: "Penulis"
         available: "Tersedia"
         budget: "Terencana"
         budget_ratio: "Spent (rasio)"
-        created_on: "Dibuat pada"
+        created_on: "Dibuat"
         description: "Deskripsi"
         fixed_date: "Tanggal fix"
         spent: "Dihabiskan"
         status: "Status"
-        subject: "Subjek"
+        subject: "Perihal"
         type: "Jenis biaya"
-        updated_on: "Diperbaharui pada"
+        updated_on: "Diperbarui"
       cost_type:
         unit: "Nama unit"
         unit_plural: "Nama plural unit"
@@ -40,7 +40,7 @@ id:
     models:
       cost_object: "Bugdet"
       cost_type:
-        other: "Cost types"
+        other: "Jenis biaya"
       material_budget_item: "Unit"
       rate: "Rate"
     errors:
@@ -65,7 +65,7 @@ id:
   button_cancel_edit_budget: "Batalkan edit budget"
   button_cancel_edit_costs: "Batalkan edit biaya"
   button_log_costs: "Log biaya unit"
-  button_log_time: "Log waktu"
+  button_log_time: "Catatan waktu"
   caption_booked_on_project: "Telah dipesan pada proyek"
   caption_default: "Default"
   caption_default_rate_history_for: "Default rate history for %{user}"
@@ -169,4 +169,4 @@ id:
   text_warning_hidden_elements: "Beberapa entri mungkin tidak dipakai oleh agregasi yang dilakukan."
   week: "minggu"
   js:
-    text_are_you_sure: "Apakah anda yakin?"
+    text_are_you_sure: "Anda yakin?"

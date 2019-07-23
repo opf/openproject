@@ -41,6 +41,20 @@ describe Queries::Queries::QueryQuery, type: :model do
     end
   end
 
+  context 'with an updated_at filter' do
+    before do
+      instance.where('updated_at', '<>d', ['2018-03-22 20:00:00'])
+    end
+
+    describe '#results' do
+      it 'is the same as handwriting the query' do
+        expected = base_scope.merge(Query.where("queries.updated_at >= '2018-03-22 20:00:00'"))
+
+        expect(instance.results.to_sql).to eql expected.to_sql
+      end
+    end
+  end
+
   context 'with a project filter' do
     before do
       instance.where('project_id', '=', ['1', '2'])
@@ -51,8 +65,7 @@ describe Queries::Queries::QueryQuery, type: :model do
         # apparently, strings are accepted to be compared to
         # integers in the dbs (mysql, postgresql)
         expected = base_scope
-                   .merge(Query
-                   .where("queries.project_id IN ('1','2')"))
+                   .merge(Query.where("queries.project_id IN ('1','2')"))
 
         expect(instance.results.to_sql).to eql expected.to_sql
       end

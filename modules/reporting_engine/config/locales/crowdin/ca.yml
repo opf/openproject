@@ -19,7 +19,7 @@ ca:
   label_rows: "Files"
   label_saving: "Desant ..."
   label_sum: "Suma"
-  label_yes: "Si"
+  label_yes: "Sí"
   load_query_question: "L'informe tindrà %{size} de cel·les i pot trigar algun temps per generar-se. Encara voleu intentar la generació?"
   units: "Unitats"
   validation_failure_date: "no és una data vàlida"

@@ -26,15 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  Component,
-  ElementRef,
-  OnInit,
-  OnDestroy,
-  ViewChild,
-  HostListener,
-  ChangeDetectorRef
-} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ContainHelpers} from 'app/modules/common/focus/contain-helpers';
 import {I18nService} from 'app/modules/common/i18n/i18n.service';
 import {DynamicBootstrapper} from "app/globals/dynamic-bootstrapper";
@@ -51,6 +43,7 @@ import {debounceTime, distinctUntilChanged} from "rxjs/operators";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {Subject} from "rxjs";
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
+import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
 
 export const globalSearchSelector = 'global-search-input';
 
@@ -155,13 +148,29 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   // load selected item
   public onChange($event:any) {
     let selectedOption = $event;
-    if (selectedOption.id) {  // item is a work package element
-      this.redirectToWp(selectedOption.id);
-    } else {                  // item is a 'scope' element
+    // Clicks on will be handled by other handler
+    if (selectedOption.id) {
+      window.location.href = this.wpPath(selectedOption.id);
+    } else {
       // update embedded table and title when new search is submitted
       this.globalSearchService.searchTerm = this.currentValue;
       this.searchInScope(selectedOption.projectScope);
     }
+  }
+
+  public redirectToWp(id:string, event:JQueryEventObject) {
+    event.stopImmediatePropagation();
+    if (LinkHandling.isClickedWithModifier(event)) {
+      return true;
+    }
+
+    window.location.href = this.wpPath(id);
+    event.preventDefault();
+    return false;
+  }
+
+  public wpPath(id:string) {
+    return this.PathHelperService.workPackagePath(id);
   }
 
   public search($event:string) {
@@ -324,10 +333,6 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   public blur() {
     this.ngSelectComponent.filterValue = '';
     (<HTMLInputElement> document.activeElement).blur();
-  }
-
-  private redirectToWp(id:string) {
-    window.location = this.PathHelperService.workPackagePath(id) as unknown as Location;
   }
 
   private hideSpinner():void {

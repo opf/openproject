@@ -45,7 +45,7 @@ describe 'user self registration', type: :feature, js: true do
       click_link 'Create a new account'
       # deliberately inserting a wrong password confirmation
       within '.registration-modal' do
-        fill_in 'Login', with: 'heidi'
+        fill_in 'Username', with: 'heidi'
         fill_in 'First name', with: 'Heidi'
         fill_in 'Last name', with: 'Switzerland'
         fill_in 'Email', with: 'heidi@heidiland.com'
@@ -74,7 +74,7 @@ describe 'user self registration', type: :feature, js: true do
 
       # deliberately inserting a wrong password confirmation
       within '.registration-modal' do
-        fill_in 'Login', with: 'heidi'
+        fill_in 'Username', with: 'heidi'
         fill_in 'First name', with: 'Heidi'
         fill_in 'Last name', with: 'Switzerland'
         fill_in 'Email', with: 'heidi@heidiland.com'

@@ -6,7 +6,7 @@ zh-TW:
   label_export_card_configuration_new: "新匯出卡設定"
   label_export_card_configuration: "匯出卡設定"
   label_export_card_configuration_plural: "匯出卡設定"
-  label_export_card_activate: "啟動"
+  label_export_card_activate: "啟用"
   label_export_card_deactivate: "關閉"
   notice_export_card_configuration_activated: "設定成功啟動"
   notice_export_card_configuration_deactivated: "設定成功關閉"
@@ -20,11 +20,11 @@ zh-TW:
   export_config_per_page: "每頁"
   export_config_page_size: "頁面大小"
   export_config_orientation: "頁面方向"
-  export_config_rows: "行"
+  export_config_rows: "列"
   activerecord:
     attributes:
       export_card_configuration:
-        rows: "行"
+        rows: "列"
         per_page: "每頁"
         page_size: "頁面大小"
         orientation: "頁面方向"

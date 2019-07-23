@@ -2,5 +2,5 @@ de:
   js:
     work_packages:
       properties:
-        storyPoints: "Story Punkte"
+        storyPoints: "Story Punkte js"
         remainingTime: "Verbleibende Stunden"

@@ -55,6 +55,7 @@ import {VersionBoardHeaderComponent} from "core-app/modules/boards/board/board-a
 import {DynamicModule} from "ng-dynamic-component";
 import {BoardStatusActionService} from "core-app/modules/boards/board/board-actions/status/status-action.service";
 import {BoardVersionActionService} from "core-app/modules/boards/board/board-actions/version/version-action.service";
+import {QueryUpdatedService} from "core-app/modules/boards/board/query-updated/query-updated.service";
 
 const menuItemClass = 'board-view-menu-item';
 
@@ -148,6 +149,7 @@ export function registerBoardsModule(injector:Injector) {
     BoardActionsRegistryService,
     BoardStatusActionService,
     BoardVersionActionService,
+    QueryUpdatedService,
     {
       provide: APP_INITIALIZER,
       useFactory: registerBoardsModule,

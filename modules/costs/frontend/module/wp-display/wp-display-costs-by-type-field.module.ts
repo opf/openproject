@@ -62,7 +62,7 @@ export class CostsByTypeDisplayField extends DisplayField {
             this.value.$load().then(() => {
 
                 if (this.resource.$source._type === 'WorkPackage') {
-                    this.wpCacheService.updateWorkPackage(this.resource);
+                    this.wpCacheService.touch(this.resource.id!);
                 }
             });
         }

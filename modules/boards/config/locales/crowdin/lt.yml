@@ -1,0 +1,7 @@
+lt:
+  permission_show_board_views: "Peržiūrėti lentas"
+  permission_manage_board_views: "Valdyti lentas"
+  project_module_board_view: "Boards"
+  boards:
+    new_badge: "Naujas"
+    label_boards: "Boards"

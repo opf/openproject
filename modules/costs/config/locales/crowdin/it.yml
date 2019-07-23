@@ -2,7 +2,7 @@ it:
   activerecord:
     attributes:
       cost_entry:
-        work_package: "Macro-attività (work package)"
+        work_package: "Macro-attività"
         overridden_costs: "Costi eccedenti"
         spent: "Trascorso"
         spent_on: "Data"
@@ -41,7 +41,7 @@ it:
       cost_object: "Bilancio"
       cost_type:
         one: "Tipo di costo"
-        other: "Tipi di costo"
+        other: "Tipo di costo"
       material_budget_item: "Unità"
       rate: "Tariffa"
     errors:
@@ -57,7 +57,7 @@ it:
     costs: "Costi"
     current_rate: "Tariffa attuale"
     hours: "Ore"
-    units: "Unità"
+    units: "Unità di misura"
     valid_from: "Valido dal"
   button_add_budget_item: "Aggiungi costi pianificati"
   button_add_cost_object: "Aggiungi bilancio"
@@ -66,7 +66,7 @@ it:
   button_cancel_edit_budget: "Annulla modifica budget"
   button_cancel_edit_costs: "Annulla modifica dei costi"
   button_log_costs: "Registra unità di costo"
-  button_log_time: "Registra tempi"
+  button_log_time: "Registra l'orario effettuato"
   caption_booked_on_project: "Prenotato su progetto"
   caption_default: "Predefinito"
   caption_default_rate_history_for: "Cronologia tariffe predefinite per %{user}"
@@ -74,7 +74,7 @@ it:
   caption_labor_costs: "Costo del lavoro effettivo"
   caption_locked_on: "Bloccato su"
   caption_material_costs: "Costi effettivi unitari"
-  caption_materials: "Unità"
+  caption_materials: "Unità di misura"
   caption_rate_history: "Cronologia tariffe"
   caption_rate_history_for: "Cronologia tariffe per %{user}"
   caption_rate_history_for_project: "Cronologia tariffe per %{user} nel progetto %{project}"
@@ -82,7 +82,7 @@ it:
   caption_set_rate: "Impostata tariffa corrente"
   caption_show_locked: "Mostra tipi bloccati"
   cost_objects_title: "Bilanci"
-  label_cost_type_plural: "Tipi di costo"
+  label_cost_type_plural: "Tipo di costo"
   currency_delimiter: ","
   currency_separator: "."
   description_date_for_new_rate: "Data per la nuova tariffa"
@@ -170,4 +170,4 @@ it:
   text_warning_hidden_elements: "Alcune voci potrebbero essere state escluse dall'aggregazione."
   week: "settimana"
   js:
-    text_are_you_sure: "Sei sicuro/a?"
+    text_are_you_sure: "Sei sicuro?"

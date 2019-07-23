@@ -83,8 +83,8 @@ $search-input-height: 30px
     border-top: 0
     flex: 1 1 auto
   li.drop-down,
-  li.help-menu--overridden-link,
-  .accessibility-mode & #account-nav-left li
+  li.top-menu--login,
+  li.help-menu--overridden-link
     float: left
     list-style-type: none
     white-space: nowrap
@@ -268,6 +268,9 @@ $search-input-height: 30px
   font-size: 13px
   white-space: nowrap
 
+.global-search--option
+  @include without-link-styling
+
 .global-search--option-wrapper
   padding: 5px 5px
   line-height: 25px
@@ -335,7 +338,7 @@ $search-input-height: 30px
 
 #account-nav-right
   display: flex
-  .drop-down.last-child
+  .last-child
     .avatar
       // To accommodate the padding of the help icon which exists because of the circle
       margin-top: -5px

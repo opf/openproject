@@ -2,7 +2,7 @@ fil:
   activerecord:
     attributes:
       two_factor_authentication/device:
-        identifier: 'Ang Pagkakakilanlan'
+        identifier: 'Ang pagkakakilanlan'
         default: 'Gamitin bilang default'
       two_factor_authentication/device/sms:
         phone_number: "Ang Phone number"
@@ -26,11 +26,11 @@ fil:
     error_invalid_backup_code: 'Imbalido ang 2FA backup code'
     channel_unavailable: "Ang tagapaghatid na channel %{channel} ay hindi magamit."
     no_valid_phone_number: "Walang balido na numero sa telepono ang umiiral."
-    label_pwd_confirmation: "Ang Password"
+    label_pwd_confirmation: "Password"
     notice_pwd_confirmation: "Kailangan mong kumpirmahin ang iyong password sa paggawa ng mga pagbabago sa setting na ito."
     label_device_type: "Ang uri ng aparato"
     label_default_device: "I-Default ang 2FA na aparato"
-    label_device: "2Fa na aparato"
+    label_device: "Ang 2FA na aparato"
     label_devices: "Ang 2FA na mga aparato"
     label_one_time_password: 'Ang isang beses na password'
     label_2fa_enabled: 'Ang Dalawang-dahilan ng aktibo na pagpapatunay'
@@ -148,20 +148,21 @@ fil:
     remember:
       active_session_notice: >
         Ang iyong account ay aktibo sa naaalala na coockie na balido hanggang sa %{expires_on}. Ang coockie na iyo ay pinapayagan ka na mag-login ng walang pangalawa na dahilan sa iyong account hanggang sa mga oras na iyan.
+      other_active_session_notice: Your account has an active remember cookie on another session.
       label: 'Tandaan'
-      clear_cookie: 'I-Click dito upang maalis ang coockie na ito'
-      cookie_removed: 'Ang naalala na coockie ay naalis.'
+      clear_cookie: 'Click here to remove all remembered 2FA sessions.'
+      cookie_removed: 'All remembered 2FA sessions have been removed.'
       dont_ask_again: "Lumikha ng coockie upang maalala ang 2FA authentication para sa kleyente na ito %{days} mga araw."
   field_phone: "Ang Cell phone"
-  field_otp: "Ang Isang-beses na password"
+  field_otp: "Ang isang beses na password"
   notice_account_otp_invalid: "Imbalido ang isang-beses na password."
   notice_account_otp_expired: "Ang isang-beses na password na iyong ipinasok ay na-expire."
   notice_developer_strategy_otp: "Ang taga-develop ng diskarte sa nabuo na sumusunod na isang beses na password: %{token} (Channel: %{channel}"
   notice_account_otp_send_failed: "Ang iyong isang beses na password ay hindi maipadala."
   notice_account_has_no_phone: "Walang numero sa cellphone ang nauugnay sa iyong account."
   label_expiration_hint: "%{date} o mag-logout sa"
-  label_actions: 'Mga Aksyon'
-  label_confirmed: 'Kumpirmahin'
+  label_actions: 'Mga aksyon'
+  label_confirmed: 'Kinumpirma'
   button_continue: 'Ipagpatuloy'
   button_make_default: 'Markahan bilang default'
   label_unverified_phone: "Hindi ma-verify ang Cell Phone"

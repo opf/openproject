@@ -1,7 +1,7 @@
 hr:
   button_edit_this_page: "Edit this page"
+  error_block_not_saved: "The text block could not be saved."
   error_saving_changes: "The changes could not be saved: %{errors}"
-  error_textile_not_saved: "The textile block could not be saved."
   label_hidden_elements: "Skriveni elementi"
   label_visible_elements: "Vidljivi elementi"
   label_project_description: "Opis projekta"
@@ -13,9 +13,8 @@ hr:
   label_work_packages_responsible_for: "Work packages I am accountable for"
   label_work_packages_assigned_to_me: "Radni paketi dodijeljeni meni"
   label_work_packages_watched: "Nadgledani radni paketi"
-  label_work_package_tracking: " Work package tracking"
   label_members: "Članovi"
-  label_member_view_all: "View all members"
+  label_member_view_all: "Pogledaj sve članove"
   label_no_visible_members: "This project has no visible members."
   label_subprojects: "Potprojekti"
   project_page:

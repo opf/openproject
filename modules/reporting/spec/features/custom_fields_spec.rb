@@ -88,7 +88,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
 
       # Expect row of work package
       within('#result-table') do
-        expect(page).to have_selector('.top.result', text: '12.50 hours')
+        expect(page).to have_selector('.top.result', text: '12.5 hours')
       end
 
       # Update filter to other value
@@ -98,7 +98,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
 
       # Expect empty result table
       within('#result-table') do
-        expect(page).to have_no_selector('.top.result', text: '12.50 hours')
+        expect(page).to have_no_selector('.top.result', text: '12.5 hours')
       end
       expect(page).to have_selector('.generic-table--no-results-title')
     end
@@ -126,7 +126,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
         expect(row_elements[1].text).to eq(work_package.to_s)
 
         row_elements = page.all('table.report tr.odd td')
-        expect(row_elements[0].text).to eq('12.50 hours')
+        expect(row_elements[0].text).to eq('12.5 hours')
       end
     end
 
@@ -224,7 +224,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
         expect(row_elements[1].text).to eq(work_package.to_s)
 
         row_elements = page.all('table.report tr.odd td')
-        expect(row_elements[0].text).to eq('12.50 hours')
+        expect(row_elements[0].text).to eq('12.5 hours')
       end
     end
   end

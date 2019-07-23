@@ -49,7 +49,7 @@ module FileUploader
     file.to_file
   end
 
-  def download_url
+  def download_url(options = {})
     file.is_path? ? file.path : file.url
   end
 

@@ -1,0 +1,33 @@
+ru:
+  bcf:
+    label_bcf: 'BCF'
+    issues: "Замечания"
+    experimental_badge: "Экспериментально"
+    exceptions:
+      file_invalid: "Неверный файл BCF"
+    x_bcf_issues:
+      one: 'Проблема BCF'
+      few: '%{count} проблемы BCF'
+      many: '%{count} проблем BCF'
+      other: '%{count} проблемы BCF'
+    bcf_xml:
+      xml_file: 'XML файл BCF'
+      import_title: 'Импорт из файла BCF'
+      export: 'Экспорт всего в BCF-XML'
+      import_update_comment: '(Обновлено в импорте BCF)'
+      import_failed: 'Не удается импортировать файл BCF: %{error}'
+      import_successful: 'Импортировано %{count} BCF проблем'
+      import_canceled: 'Импорт BCF-XML отменен.'
+      type_not_active: "Тип задачи не активирован для этого проекта."
+      import:
+        num_issues_found: '%{x_bcf_issues} содержатся в файле BCF-XML, их данные перечислены ниже.'
+        button_prepare: 'Подготовка импорта'
+        button_perform_import: 'Подтверждение импорта'
+        button_proceed: 'Продолжить'
+        button_back_to_list: 'Назад к списку'
+        description: "Предоставьте файл BCF-XML v2.1 для импорта в этот проект. Перед выполнением импорта вы можете изучить его содержимое."
+        perform_description: "Вы хотите импортировать или обновить указанные выше задачи?"
+        work_package_has_newer_changes: "Импорт для темы BCF %{bcf_uuid} устарел. Последние изменения на сервере более новые, чем \"MofiedDate\" импортированной темы."
+  export:
+    format:
+      bcf: "BCF-XML"

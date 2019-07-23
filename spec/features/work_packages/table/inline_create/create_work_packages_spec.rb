@@ -4,7 +4,7 @@ describe 'inline create work package', js: true do
   let(:type) { FactoryBot.create(:type) }
   let(:types) { [type] }
 
-  let(:permissions) { %i(view_work_packages add_work_packages)}
+  let(:permissions) { %i(view_work_packages add_work_packages edit_work_packages) }
   let(:role) { FactoryBot.create :role, permissions: permissions }
   let(:user) do
     FactoryBot.create :user,

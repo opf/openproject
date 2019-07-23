@@ -45,7 +45,7 @@ describe 'Work Package boards spec', type: :feature, js: true do
   let!(:status) { FactoryBot.create :default_status }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
-  let(:board_view) { FactoryBot.create :board_grid_with_query, project: project }
+  let!(:board_view) { FactoryBot.create :board_grid_with_query, name: 'My board', project: project }
   let(:project_html_title) { ::Components::HtmlTitle.new project }
 
   before do
@@ -55,7 +55,6 @@ describe 'Work Package boards spec', type: :feature, js: true do
   end
 
   it 'navigates from boards to the WP full view and back' do
-    board_view
     board_index.visit!
 
     # Add a new WP on the board
@@ -74,5 +73,21 @@ describe 'Work Package boards spec', type: :feature, js: true do
     # Click back goes back to the board
     find('.work-packages-back-button').click
     expect(current_path).to eq project_work_package_boards_path(project, board_view.id)
+  end
+
+  it 'navigates correctly the path from overview page to the boards page' do
+    visit "/projects/#{project.identifier}"
+
+    item = page.find('#menu-sidebar li[data-name="board_view"]', wait: 10)
+    item.find('.toggler').click
+
+    subitem = page.find('.main-menu--children-sub-item', text: 'My board', wait: 10)
+    expect(subitem[:href]).to end_with "/projects/#{project.identifier}/boards/#{board_view.id}"
+
+    subitem.click
+
+    board_page = ::Pages::Board.new board_view
+    board_page.expect_query 'List 1', editable: true
+    board_page.add_card 'List 1', 'Task 1'
   end
 end

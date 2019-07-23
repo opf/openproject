@@ -2,7 +2,7 @@
   error_can_not_delete_export_card_configuration: "Denne konfigurasjonen kan ikke slettes."
   error_can_not_change_name_of_default_configuration: "Navnet på standard konfigurasjonen kan ikke forandres."
   label_backlogs_export_card_config_select: "Vel eksportkort konfigurasjon"
-  label_backlogs_export_card_export: "Eksporter"
+  label_backlogs_export_card_export: "Eksportèr"
   label_export_card_configuration_new: "Ny eksportkort konfigurasjon"
   label_export_card_configuration: "Eksportkort konfigurasjon"
   label_export_card_configuration_plural: "Eksportkort konfigurasjoner"
@@ -17,7 +17,7 @@
   validation_error_uknown_key: "Ukjent nøkkel:"
   yaml_error: "YAML feil:"
   help_link_rows_format: "Formatering av rader"
-  export_config_per_page: "Per side"
+  export_config_per_page: "Pr. side"
   export_config_page_size: "Sidestørrelse"
   export_config_orientation: "Orientering"
   export_config_rows: "Rader"
@@ -25,6 +25,6 @@
     attributes:
       export_card_configuration:
         rows: "Rader"
-        per_page: "Per side"
+        per_page: "Pr. side"
         page_size: "Sidestørrelse"
         orientation: "Orientering"
