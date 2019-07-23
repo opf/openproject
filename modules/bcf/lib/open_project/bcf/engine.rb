@@ -65,6 +65,9 @@ module OpenProject::Bcf
     patches %i[WorkPackage Type Journal]
 
     patch_with_namespace :BasicData, :SettingSeeder
+    patch_with_namespace :API, :V3, :Activities, :ActivityRepresenter
+    patch_with_namespace :Journal, :AggregatedJournal
+    patch_with_namespace :API, :V3, :Activities, :ActivitiesSharedHelpers
 
     extend_api_response(:v3, :work_packages, :work_package) do
       property :bcf,
@@ -97,6 +100,30 @@ module OpenProject::Bcf
              required: false,
              writable: false,
              show_if: ->(*) { represented&.project&.module_enabled?(:bcf) }
+    end
+
+    extend_api_response(:v3, :activities, :activity) do
+      property :bcf_comment,
+               exec_context: :decorator,
+               getter: ->(*) {
+                 bcf_comment = represented.bcf_comment
+                 comment = {
+                   id: bcf_comment.id
+                 }
+                 if bcf_comment.viewpoint.present?
+                   comment[:viewpoint] = {
+                     snapshot: {
+                       id: bcf_comment.viewpoint.snapshot.id,
+                       file_name: bcf_comment.viewpoint.snapshot.filename
+                     }
+                   }
+                 end
+
+                 comment
+               },
+               if: ->(*) {
+                 represented.bcf_comment.present?
+               }
     end
 
     add_api_path :bcf_xml do |project_id|

@@ -37,6 +37,7 @@ import {UserCacheService} from "core-components/user/user-cache.service";
 import {CommentService} from "core-components/wp-activity/comment-service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageCommentFieldHandler} from "core-components/work-packages/work-package-comment/work-package-comment-field-handler";
+import {ViewPointOriginal} from "core-app/modules/bcf/bcf-wp-single-view/bcf-wp-single-view.component";
 
 @Component({
   selector: 'user-activity',
@@ -61,6 +62,8 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   public fieldLabel:string;
   public details:any[] = [];
   public isComment:boolean;
+  public isBcfComment:boolean;
+  public bcfSnapshot:ViewPointOriginal;
 
   public focused = false;
 
@@ -89,6 +92,11 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
     super.ngOnInit();
 
     this.isComment = this.activity._type === 'Activity::Comment';
+    this.isBcfComment = this.activity._type === 'Activity::BcfComment';
+    if (this.isBcfComment && _.get(this.activity.bcfComment,  'viewpoint.snapshot')) {
+      this.bcfSnapshot = _.get(this.activity.bcfComment,  'viewpoint.snapshot');
+    }
+
     this.$element = jQuery(this.elementRef.nativeElement);
     this.reset();
     this.userCanEdit = !!this.activity.update;
@@ -122,7 +130,7 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   }
 
   public shouldHideIcons():boolean {
-    return !(this.isComment && this.focussing());
+    return !((this.isComment || this.isBcfComment) && this.focussing());
   }
 
   public get postedComment() {
