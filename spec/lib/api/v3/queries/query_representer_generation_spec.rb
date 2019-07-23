@@ -275,7 +275,7 @@ describe ::API::V3::Queries::QueryRepresenter do
 
         it_behaves_like 'has an untitled link' do
           let(:link) { 'updateOrderedWorkPackages' }
-          let(:href) { api_v3_paths.query query.id }
+          let(:href) { api_v3_paths.query_order query.id }
         end
 
         context 'when not persisted and lacking permission' do
@@ -293,7 +293,7 @@ describe ::API::V3::Queries::QueryRepresenter do
 
           it_behaves_like 'has an untitled link' do
             let(:link) { 'updateOrderedWorkPackages' }
-            let(:href) { api_v3_paths.query query.id }
+            let(:href) { api_v3_paths.query_order query.id }
           end
         end
 

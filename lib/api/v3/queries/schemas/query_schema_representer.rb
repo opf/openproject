@@ -160,7 +160,7 @@ module API
                  visibility: false
 
           schema :ordered_work_packages,
-                 type: 'String[]',
+                 type: 'QueryOrder',
                  required: false,
                  writable: true,
                  has_default: true,

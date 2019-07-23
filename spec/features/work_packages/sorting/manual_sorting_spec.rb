@@ -53,6 +53,17 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
   let(:hierarchies) { ::Components::WorkPackages::Hierarchies.new }
   let(:dialog) { ::Components::ConfirmationDialog.new }
 
+  def expect_query_order(query, expected)
+    retry_block do
+      query.reload
+
+      # work_package_4 was not positioned
+      found = query.ordered_work_packages.pluck(:work_package_id)
+
+      raise "Backend order is incorrect: #{found} != #{expected}" unless found == expected
+    end
+  end
+
   before do
     login_as(user)
 
@@ -89,8 +100,9 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
         raise "Query was not yet saved." unless query.name == 'My sorted query'
       end
 
-      expect(query.ordered_work_packages)
-        .to eq([work_package_1, work_package_4, work_package_2, work_package_3].map(&:id))
+
+      # Expect sorted 1 and 2, the rest is not positioned
+      expect_query_order(query, [work_package_1, work_package_4].map(&:id))
     end
 
     it 'can drag an element into a hierarchy' do
@@ -166,19 +178,12 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
 
       query = Query.last
       expect(query.name).to eq 'Manual sorted query'
-      expect(query.ordered_work_packages)
-        .to eq([work_package_1, work_package_3, work_package_2, work_package_4].map(&:id))
+
+      expect_query_order(query, [work_package_1.id, work_package_3.id, work_package_2.id])
 
       wp_table.drag_and_drop_work_package from: 0, to: 2
 
-      wp_table.expect_work_package_order work_package_3, work_package_1, work_package_2, work_package_4
-
-      sleep 2
-
-      # Saved automatically
-      query.reload
-      expect(query.ordered_work_packages)
-        .to eq([work_package_3, work_package_1, work_package_2, work_package_4].map(&:id))
+      expect_query_order(query, [work_package_3.id, work_package_1.id, work_package_2.id])
     end
 
     it 'saves the changed order in a previously saved query' do
@@ -189,14 +194,12 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
       sort_by.apply_changes
 
       wp_table.drag_and_drop_work_package from: 1, to: 3
-      wp_table.expect_work_package_order work_package_1, work_package_3, work_package_2, work_package_4
 
-      sleep 2
+      wp_table.expect_work_package_order work_package_1, work_package_3, work_package_2, work_package_4
 
       query = Query.last
       expect(query.name).to eq 'Manual sorted query'
-      expect(query.ordered_work_packages)
-        .to eq([work_package_1, work_package_3, work_package_2, work_package_4].map(&:id))
+      expect_query_order(query, [work_package_1.id, work_package_3.id, work_package_2.id])
     end
 
     it 'does not loose the current order when switching to manual sorting' do

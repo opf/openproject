@@ -172,6 +172,8 @@ module API
 
               representer
             end
+
+            mount API::V3::Queries::Order::QueryOrderAPI
           end
         end
       end

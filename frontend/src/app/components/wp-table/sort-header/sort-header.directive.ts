@@ -26,20 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, Input, OnDestroy} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnDestroy} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {RelationQueryColumn, TypeRelationQueryColumn} from 'core-components/wp-query/query-column';
-import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
-import {takeUntil} from 'rxjs/operators';
+import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {WorkPackageTableHierarchiesService} from '../../wp-fast-table/state/wp-table-hierarchy.service';
 import {WorkPackageTableRelationColumnsService} from '../../wp-fast-table/state/wp-table-relation-columns.service';
 import {WorkPackageTableSortByService} from '../../wp-fast-table/state/wp-table-sort-by.service';
 import {WorkPackageTableGroupByService} from './../../wp-fast-table/state/wp-table-group-by.service';
 import {WorkPackageTable} from 'core-components/wp-fast-table/wp-fast-table';
-import {
-  QUERY_SORT_BY_ASC,
-  QUERY_SORT_BY_DESC
-} from 'core-app/modules/hal/resources/query-sort-by-resource';
+import {QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC} from 'core-app/modules/hal/resources/query-sort-by-resource';
 
 
 @Component({
@@ -89,7 +85,6 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
 
   // noinspection TsLint
   ngOnDestroy():void {
-    console.warn("DESTROY");
   }
 
   ngAfterViewInit() {

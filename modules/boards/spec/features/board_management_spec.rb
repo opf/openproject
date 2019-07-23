@@ -107,7 +107,7 @@ describe 'Board management spec', type: :feature, js: true do
       expect(second.ordered_work_packages).to be_empty
 
       # Expect work package to be saved in query first
-      subjects = WorkPackage.where(id: first.ordered_work_packages).pluck(:subject)
+      subjects = WorkPackage.where(id: first.ordered_work_packages.pluck(:work_package_id)).pluck(:subject)
       expect(subjects).to match_array ['Task 1']
 
       # Move item to Second list
@@ -122,7 +122,7 @@ describe 'Board management spec', type: :feature, js: true do
         expect(second.reload.ordered_work_packages.count).to eq(1)
       end
 
-      subjects = WorkPackage.where(id: second.ordered_work_packages).pluck(:subject)
+      subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject)
       expect(subjects).to match_array ['Task 1']
 
       # Reference an existing work package
@@ -130,7 +130,7 @@ describe 'Board management spec', type: :feature, js: true do
       sleep 2
       board_page.expect_card('Second', work_package.subject)
 
-      subjects = WorkPackage.where(id: second.ordered_work_packages).pluck(:subject)
+      subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject)
       expect(subjects).to match_array [work_package.subject, 'Task 1']
 
       # Filter for Task
@@ -155,7 +155,7 @@ describe 'Board management spec', type: :feature, js: true do
       queries = board_page.board(reload: true).contained_queries
       expect(queries.count).to eq(1)
       expect(queries.first.name).to eq 'First'
-      expect(queries.first.ordered_work_packages).to be_empty
+      expect(queries.first.ordered_work_packages.to_a).to be_empty
 
       # Remove first list
       board_page.remove_list 'First'
@@ -216,7 +216,7 @@ describe 'Board management spec', type: :feature, js: true do
       expect(second.ordered_work_packages.count).to eq(1)
 
       # Expect work package to be saved in query first
-      subjects = WorkPackage.where(id: second.ordered_work_packages).pluck(:subject)
+      subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject)
       expect(subjects).to match_array ['Task 1']
 
       board_page.back_to_index

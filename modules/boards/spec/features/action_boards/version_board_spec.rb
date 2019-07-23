@@ -132,12 +132,13 @@ describe 'Version action board', type: :feature, js: true do
       expect(queries.count).to eq 3
       first = queries.find_by(name: 'Open version')
       second = queries.find_by(name: 'A second version')
-      expect(first.ordered_work_packages.count).to eq(2)
+      expect(first.ordered_work_packages.count).to eq(1)
       expect(second.ordered_work_packages).to be_empty
 
       # Expect work package to be saved in query first
-      subjects = WorkPackage.where(id: first.ordered_work_packages).pluck(:subject, :fixed_version_id)
-      expect(subjects).to match_array [[work_package.subject, open_version.id],['Task 1', open_version.id]]
+      subjects = WorkPackage.where(id: first.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :fixed_version_id)
+      # Only the explicitly added item is now contained in sort order
+      expect(subjects).to match_array [['Task 1', open_version.id]]
 
       # Move item to Closed
       board_page.move_card(0, from: 'Open version', to: 'A second version')
@@ -147,11 +148,11 @@ describe 'Version action board', type: :feature, js: true do
       # Expect work package to be saved in query second
       sleep 2
       retry_block do
-        expect(first.reload.ordered_work_packages.count).to eq(1)
+        expect(first.reload.ordered_work_packages.count).to eq(0)
         expect(second.reload.ordered_work_packages.count).to eq(1)
       end
 
-      subjects = WorkPackage.where(id: second.ordered_work_packages).pluck(:subject, :fixed_version_id)
+      subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :fixed_version_id)
       expect(subjects).to match_array [['Task 1', other_version.id]]
 
       # Expect that version is not available for global filter selection
@@ -201,7 +202,7 @@ describe 'Version action board', type: :feature, js: true do
       board_page.expect_card('Open version', 'Foo', present: false)
       board_page.expect_card('A second version', 'Task 1', present: true)
 
-      subjects = WorkPackage.where(id: second.ordered_work_packages).pluck(:subject, :fixed_version_id)
+      subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :fixed_version_id)
       expect(subjects).to match_array [['Task 1', other_version.id]]
     end
 
@@ -266,8 +267,8 @@ describe 'Version action board', type: :feature, js: true do
         expect(closed.reload.ordered_work_packages.count).to eq(0)
       end
 
-      subjects = WorkPackage.where(id: open.ordered_work_packages).pluck(:id)
-      expect(subjects).to match_array [work_package.id, closed_version_wp.id]
+      ids = open.ordered_work_packages.pluck(:work_package_id)
+      expect(ids).to match_array [work_package.id, closed_version_wp.id]
 
       closed_version_wp.reload
       expect(closed_version_wp.fixed_version_id).to eq(open_version.id)

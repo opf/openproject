@@ -7,9 +7,7 @@ import {
   Injector,
   Input,
   OnInit,
-  ViewChild,
-  EventEmitter,
-  Output
+  ViewChild
 } from "@angular/core";
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
@@ -29,13 +27,12 @@ import {CardHighlightingMode} from "core-components/wp-fast-table/builders/highl
 import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
 import {StateService} from "@uirouter/core";
 import {States} from "core-components/states.service";
-import {RequestSwitchmap} from "core-app/helpers/rxjs/request-switchmap";
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
-import {ReorderQueryService} from "core-app/modules/common/drag-and-drop/reorder-query.service";
 import {DragAndDropHelpers} from "core-app/modules/common/drag-and-drop/drag-and-drop.helpers";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {filter} from 'rxjs/operators';
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
+import {WorkPackageTableOrderService} from "core-components/wp-fast-table/state/wp-table-order.service";
 
 @Component({
   selector: 'wp-card-view',
@@ -80,13 +77,6 @@ export class WorkPackageCardViewComponent  implements OnInit {
   /** Whether the card view has an active inline created wp */
   public activeInlineCreateWp?:WorkPackageResource;
 
-  // We remember when we want to update the query with a given order
-  private queryUpdates = new RequestSwitchmap(
-    (order:string[]) => {
-      return this.reorderService.saveOrderInQuery(this.query, order);
-    }
-  );
-
   constructor(readonly querySpace:IsolatedQuerySpace,
               readonly states:States,
               readonly injector:Injector,
@@ -97,7 +87,7 @@ export class WorkPackageCardViewComponent  implements OnInit {
               readonly wpInlineCreate:WorkPackageInlineCreateService,
               readonly wpNotifications:WorkPackageNotificationService,
               readonly dragService:DragAndDropService,
-              readonly reorderService:ReorderQueryService,
+              readonly reorderService:WorkPackageTableOrderService,
               readonly authorisationService:AuthorisationService,
               readonly causedUpdates:CausedUpdatesService,
               readonly cdRef:ChangeDetectorRef,
@@ -108,17 +98,6 @@ export class WorkPackageCardViewComponent  implements OnInit {
     this.registerDragAndDrop();
 
     this.registerCreationCallback();
-
-    // Keep query loading requests
-    this.queryUpdates
-      .observe(componentDestroyed(this))
-      .subscribe(
-        (query:QueryResource) => {
-          this.causedUpdates.add(query);
-          this.querySpace.query.putValue((query));
-        },
-        (error:any) => this.wpNotifications.handleRawError(error)
-      );
 
     // Update permission on model updates
     this.authorisationService
@@ -203,11 +182,11 @@ export class WorkPackageCardViewComponent  implements OnInit {
         return this.canDragOutOf(workPackage) && !card.dataset.isNew;
       },
       accepts: () => this.dragInto,
-      onMoved: (card:HTMLElement) => {
+      onMoved: async (card:HTMLElement) => {
         const wpId:string = card.dataset.workPackageId!;
         const toIndex = DragAndDropHelpers.findIndex(card);
 
-        const newOrder = this.reorderService.move(this.currentOrder, wpId, toIndex);
+        const newOrder = await this.reorderService.move(this.currentOrder, wpId, toIndex);
         this.updateOrder(newOrder);
       },
       onRemoved: (card:HTMLElement) => {
@@ -246,8 +225,7 @@ export class WorkPackageCardViewComponent  implements OnInit {
     newOrder = _.uniq(newOrder);
 
     this.workPackages = newOrder.map(id => this.states.workPackages.get(id).value!);
-    // Ensure dragged work packages are being removed.
-    this.queryUpdates.request(newOrder);
+
     this.cdRef.detectChanges();
   }
 
@@ -270,7 +248,6 @@ export class WorkPackageCardViewComponent  implements OnInit {
     }
   }
 
-
   /**
    * Add the given work package to the query
    */
@@ -286,7 +263,6 @@ export class WorkPackageCardViewComponent  implements OnInit {
 
     return false;
   }
-
 
   /**
    * Inline create a new card

@@ -103,24 +103,6 @@ describe Queries::UpdateContract do
       end
     end
 
-    context 'user has permission to edit' do
-      let(:permissions) { %i(edit_work_packages) }
-
-      it 'is invalid' do
-        expect_valid(false, base: %i(error_unauthorized))
-      end
-
-      context 'when assuming only order changed' do
-        before do
-          query.ordered_work_packages = [1, 2, 3]
-        end
-
-        it 'is valid' do
-          expect_valid(true)
-        end
-      end
-    end
-
     context 'user has no permission to manage public' do
       let(:permissions) { %i(manage_public_queries) }
 

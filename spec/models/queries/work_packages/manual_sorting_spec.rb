@@ -40,21 +40,16 @@ describe Query, "manual sorting ", type: :model do
       expect(query.ordered_work_packages).to eq []
 
       expect(::OrderedWorkPackage.where(query_id: query.id).count).to eq 0
-      query.ordered_work_packages = [wp_1.id, wp_2.id]
-      expect(::OrderedWorkPackage.where(query_id: query.id).count).to eq 0
 
+      query.ordered_work_packages.build(work_package_id: wp_1.id, position: 0)
+      query.ordered_work_packages.build(work_package_id: wp_2.id, position: 1)
+
+      expect(::OrderedWorkPackage.where(query_id: query.id).count).to eq 0
       expect(query.save).to eq true
       expect(::OrderedWorkPackage.where(query_id: query.id).count).to eq 2
 
       query.reload
-      expect(query.ordered_work_packages).to eq [wp_1.id, wp_2.id]
-
-      query.ordered_work_packages = [wp_1.id]
-      expect(query.save).to eq true
-      expect(::OrderedWorkPackage.where(query_id: query.id).count).to eq 1
-
-      query.reload
-      expect(query.ordered_work_packages).to eq [wp_1.id]
+      expect(query.ordered_work_packages.pluck(:work_package_id)).to eq [wp_1.id, wp_2.id]
     end
   end
 

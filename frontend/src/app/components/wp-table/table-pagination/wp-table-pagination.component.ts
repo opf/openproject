@@ -29,17 +29,18 @@
 import {WorkPackageTablePaginationService} from '../../wp-fast-table/state/wp-table-pagination.service';
 import {WorkPackageTablePagination} from '../../wp-fast-table/wp-table-pagination';
 import {TablePaginationComponent} from 'core-components/table-pagination/table-pagination.component';
-import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
+import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {PaginationService} from 'core-components/table-pagination/pagination-service';
+import {IPaginationOptions, PaginationService} from 'core-components/table-pagination/pagination-service';
 
 @Component({
   templateUrl: '../../table-pagination/table-pagination.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'wp-table-pagination'
 })
-export class WorkPackageTablePaginationComponent extends TablePaginationComponent implements OnDestroy {
+export class WorkPackageTablePaginationComponent extends TablePaginationComponent implements OnInit, OnDestroy {
+
   constructor(protected paginationService:PaginationService,
               protected cdRef:ChangeDetectorRef,
               protected wpTablePagination:WorkPackageTablePaginationService,
@@ -48,7 +49,14 @@ export class WorkPackageTablePaginationComponent extends TablePaginationComponen
 
   }
 
-  public newPagination() {
+  ngOnInit() {
+    this.paginationService
+      .loadPaginationOptions()
+      .then((paginationOptions:IPaginationOptions) => {
+        this.perPageOptions = paginationOptions.perPageOptions;
+        this.cdRef.detectChanges();
+      });
+
     this.wpTablePagination
       .live$()
       .pipe(
@@ -61,7 +69,7 @@ export class WorkPackageTablePaginationComponent extends TablePaginationComponen
   }
 
   ngOnDestroy():void {
-    // Empty
+    // Nothing to do
   }
 
   public selectPerPage(perPage:number) {

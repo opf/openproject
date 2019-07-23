@@ -32,7 +32,8 @@ import {
   Component,
   ElementRef,
   Injector,
-  Input, NgZone,
+  Input,
+  NgZone,
   OnDestroy,
   OnInit,
   ViewEncapsulation
@@ -186,7 +187,8 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   public registerTimeline(controller:WorkPackageTimelineTableController, body:HTMLElement) {
     const tbody = this.$element.find('.work-package--results-tbody');
-    this.workPackageTable = new WorkPackageTable(this.injector, this.$element[0], tbody[0], body, controller, this.configuration);
+    const scrollContainer = this.$element.find('.work-package-table--container')[0];
+    this.workPackageTable = new WorkPackageTable(this.injector, scrollContainer, tbody[0], body, controller, this.configuration);
     this.tbody = tbody;
     controller.workPackageTable = this.workPackageTable;
     new TableHandlerRegistry(this.injector).attachTo(this.workPackageTable);

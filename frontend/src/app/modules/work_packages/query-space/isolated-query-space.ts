@@ -5,7 +5,6 @@ import {Injectable} from '@angular/core';
 import {map} from 'rxjs/operators';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {GroupObject, WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
 import {WPFocusState} from "core-components/wp-fast-table/state/wp-table-focus.service";
 import {QueryColumn} from "core-components/wp-query/query-column";

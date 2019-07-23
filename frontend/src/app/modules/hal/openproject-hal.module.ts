@@ -51,6 +51,7 @@ import {CommonModule} from "@angular/common";
 import {NewsDmService} from './dm-services/news-dm.service';
 import {StatusDmService} from "core-app/modules/hal/dm-services/status-dm.service";
 import {VersionDmService} from "core-app/modules/hal/dm-services/version-dm.service";
+import {QueryOrderDmService} from "core-app/modules/hal/dm-services/query-order-dm.service";
 
 @NgModule({
   imports: [
@@ -70,6 +71,7 @@ import {VersionDmService} from "core-app/modules/hal/dm-services/version-dm.serv
     PayloadDmService,
     ProjectDmService,
     QueryDmService,
+    QueryOrderDmService,
     QueryFormDmService,
     RelationsDmService,
     RootDmService,

@@ -69,8 +69,12 @@ export class WorkPackageTableSortByService extends WorkPackageQueryStateService<
   }
 
   public applyToQuery(query:QueryResource) {
+    const wasManuallySorted = this.isManuallySorted(query.sortBy);
+
     query.sortBy = [...this.current];
-    return !this.isManualSortingMode;
+
+    // Reload every time unless we stayed in manual sort mode
+    return !(wasManuallySorted && this.isManualSortingMode);
   }
 
   public isSortable(column:QueryColumn):boolean {
@@ -113,13 +117,7 @@ export class WorkPackageTableSortByService extends WorkPackageQueryStateService<
   }
 
   public get isManualSortingMode():boolean {
-    let current = this.current;
-
-    if (current && current.length > 0) {
-      return current[0].column.href!.endsWith('/manualSorting');
-    }
-
-    return false;
+    return this.isManuallySorted(this.current);
   }
 
   public switchToManualSorting() {
@@ -139,6 +137,14 @@ export class WorkPackageTableSortByService extends WorkPackageQueryStateService<
 
   public get available():QuerySortByResource[] {
     return this.availableState.getValueOr([]);
+  }
+
+  private isManuallySorted(sortBy:QuerySortByResource[]):boolean {
+    if (sortBy && sortBy.length > 0) {
+      return sortBy[0].column.href!.endsWith('/manualSorting');
+    }
+
+    return false;
   }
 
   private get manualSortObject() {

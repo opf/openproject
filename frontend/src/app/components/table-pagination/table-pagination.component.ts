@@ -75,13 +75,9 @@ export class TablePaginationComponent implements OnInit {
       .loadPaginationOptions()
       .then((paginationOptions:IPaginationOptions) => {
         this.perPageOptions = paginationOptions.perPageOptions;
-        this.newPagination(paginationOptions);
+        this.pagination = new PaginationInstance(1, parseInt(this.totalEntries), paginationOptions.perPage);
         this.cdRef.detectChanges();
       });
-  }
-
-  public newPagination(paginationOptions:IPaginationOptions) {
-    this.pagination = new PaginationInstance(1, parseInt(this.totalEntries), paginationOptions.perPage);
   }
 
   public update() {
@@ -162,7 +158,7 @@ export class TablePaginationComponent implements OnInit {
   public showPerPageOptions() {
     return !this.calculatePerPage &&
            this.perPageOptions.length > 0 &&
-           this.pagination.total > this.perPageOptions[0]
+           this.pagination.total > this.perPageOptions[0];
   }
 
   private truncatePageNums(pageNumbers:any, perform:any, disectFrom:any, disectLength:any, truncateFrom:any) {
