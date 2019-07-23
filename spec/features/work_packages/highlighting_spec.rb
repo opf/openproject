@@ -17,6 +17,7 @@ describe 'Work Package highlighting fields',
     FactoryBot.create :work_package,
                       project: project,
                       status: status1,
+                      subject: 'B',
                       due_date: (Date.today - 1.days),
                       priority: priority1
   end
@@ -25,13 +26,14 @@ describe 'Work Package highlighting fields',
     FactoryBot.create :work_package,
                       project: project,
                       status: status2,
+                      subject: 'A',
                       due_date: Date.today,
                       priority: priority_no_color
   end
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:highlighting) { ::Components::WorkPackages::Highlighting.new }
-  let!(:work_package) { FactoryBot.create :work_package, project: project }
+  let(:sort_by) { ::Components::WorkPackages::SortBy.new }
 
   let!(:query) do
     query = FactoryBot.build(:query, user: user, project: project)
@@ -185,5 +187,18 @@ describe 'Work Package highlighting fields',
     wp_table.open_full_screen_by_doubleclick wp_1
     expect(page).to have_selector(".wp-status-button .__hl_background_status_#{status1.id}")
     expect(page).to have_selector(".__hl_inline_priority_#{priority1.id}")
+  end
+
+  it 'correctly parses custom selected inline attributes' do
+    # Highlight only one attribute
+    highlighting.switch_inline_attribute_highlight "Priority"
+
+    # Regression test, resort table
+    sort_by.sort_via_header 'Subject'
+    wp_table.expect_work_package_order wp_2, wp_1
+
+    # Regression test, resort table
+    sort_by.sort_via_header 'Subject', descending: true
+    wp_table.expect_work_package_order wp_1, wp_2
   end
 end
