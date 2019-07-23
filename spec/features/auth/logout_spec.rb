@@ -57,6 +57,6 @@ describe 'Logout', type: :feature, js: true do
     visit my_page_path
 
     expect(page)
-      .to have_field('Login')
+      .to have_field('Username')
   end
 end

@@ -55,7 +55,7 @@ describe 'Cost report calculations', type: :feature, js: true do
   context 'as anonymous' do
     let(:current_user) { User.anonymous }
     it 'is redirect to login' do
-      expect(page).to have_content 'Login'
+      expect(page).to have_content 'Username'
       expect(page).to have_content 'Password'
     end
   end
