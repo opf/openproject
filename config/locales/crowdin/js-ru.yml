@@ -201,7 +201,7 @@ ru:
           title: 'Календарь'
         work_packages_overview:
           title: 'Обзор пакетов работ'
-          placeholder: 'Click to edit ...'
+          placeholder: 'Щелкнуть для изменения ...'
     homescreen:
       blocks:
         new_features:
