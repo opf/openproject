@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'Parallel work package creation spec', js: true do
   let(:type) { project.types.first }
 
-  let(:permissions) { %i(view_work_packages add_work_packages) }
+  let(:permissions) { %i(view_work_packages add_work_packages edit_work_packages) }
   let(:role) { FactoryBot.create :role, permissions: permissions }
   let(:user) do
     FactoryBot.create :user,

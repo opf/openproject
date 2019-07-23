@@ -135,7 +135,7 @@ describe 'Work package with relation query group', js: true, selenium: true do
 
     context 'with a user who has permission in one project' do
       let(:role) { FactoryBot.create(:role, permissions: permissions) }
-      let(:permissions) { [:view_work_packages, :add_work_packages, :manage_work_package_relations] }
+      let(:permissions) { %i[view_work_packages add_work_packages edit_work_packages manage_work_package_relations] }
       let(:user) do
         FactoryBot.create(:user,
                           member_in_project: project,
