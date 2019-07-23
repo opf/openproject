@@ -1,6 +1,8 @@
 @import 'helpers'
 
 .wp-card
+  display: flex
+  flex-direction: column
   user-select: none
   width: 100%
   border: 1px solid var(--widget-box-block-border-color)
@@ -25,7 +27,7 @@
   grid-row-gap: 10px
   grid-template-areas: "type type type" "subject subject subject" "attributeTag avatar idlink"
   overflow: hidden
-  height: 100%
+  flex-grow: 1
 
   .wp-card--type
     grid-area: type
@@ -79,5 +81,6 @@ wp-edit-field
   margin: -10px -10px 10px
   width: calc(100% + 10px + 10px)
   max-width: calc(100% + 10px + 10px)
-  height: 200px
+
+  flex-basis: 200px
   object-fit: cover

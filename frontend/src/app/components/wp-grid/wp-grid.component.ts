@@ -40,7 +40,7 @@ import {HighlightingMode} from "core-components/wp-fast-table/builders/highlight
                   [dragInto]="false"
                   [cardsRemovable]="false"
                   [highlightingMode]="highlightingMode"
-                  [showStatusButton]="false"
+                  [showStatusButton]="true"
                   [orientation]="gridOrientation">
     </wp-card-view>
   `,
