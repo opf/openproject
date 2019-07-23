@@ -594,6 +594,7 @@ zh-CN:
       message_successful_show_in_fullscreen: "单击此处以全屏视图打开此工作包。"
       message_view_spent_time: "显示这个工作包所花费的时间"
       message_work_package_read_only: "工作包被锁定在此状态。除状态外，其他属性均不可更改。"
+      message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
       no_value: "无值"
       placeholder_filter_by_text: "主题, 描述, 评论,..。"
       inline_create:

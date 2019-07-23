@@ -593,6 +593,7 @@ zh-TW:
       message_successful_show_in_fullscreen: "點擊此處以全螢幕開啟此工作包"
       message_view_spent_time: "顯示這個工作包所花費的時間"
       message_work_package_read_only: "工作包被鎖定在此狀態。任何屬性以外的狀態都不能更改。"
+      message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
       no_value: "無值"
       placeholder_filter_by_text: "主旨, 描述, 評論 ..."
       inline_create:
