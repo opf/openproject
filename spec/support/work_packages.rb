@@ -61,3 +61,24 @@ end
 def become_member_with_move_work_package_permissions
   become_member_with_permissions [:move_work_packages]
 end
+
+def build_work_package_hierarchy(data, *attributes, parent: nil)
+  work_packages = []
+
+  Array(data).each do |attr|
+    if attr.is_a? Hash
+      parent_wp = FactoryBot.create :work_package, **attributes.zip(attr.keys.first).to_h
+
+      work_packages << parent_wp
+      work_packages += build_work_package_hierarchy(attr.values.first, *attributes, parent: parent_wp)
+    else
+      wp = FactoryBot.create :work_package, **attributes.zip(attr).to_h
+
+      parent.children << wp if parent
+
+      work_packages << wp
+    end
+  end
+
+  work_packages
+end

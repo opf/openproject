@@ -48,14 +48,14 @@ export class WorkPackageStatusButtonComponent implements OnInit, OnDestroy {
 
   public text = {
     explanation: this.I18n.t('js.label_edit_status'),
-    workPackageReadOnly: this.I18n.t('js.work_packages.message_work_package_read_only')
+    workPackageReadOnly: this.I18n.t('js.work_packages.message_work_package_read_only'),
+    workPackageStatusBlocked: this.I18n.t('js.work_packages.message_work_package_status_blocked')
   };
 
   constructor(readonly I18n:I18nService,
               readonly cdRef:ChangeDetectorRef,
               readonly wpCacheService:WorkPackageCacheService,
               readonly schemaCacheService:SchemaCacheService,
-              readonly changeDetectorRef:ChangeDetectorRef,
               @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService) {
   }
 
@@ -77,9 +77,9 @@ export class WorkPackageStatusButtonComponent implements OnInit, OnDestroy {
       .pipe(
         untilComponentDestroyed(this)
       )
-      .subscribe((wp) => {
+      .subscribe(() => {
         // we have to explicitly force the component to update
-        this.changeDetectorRef.detectChanges();
+        this.cdRef.detectChanges();
       });
   }
 
@@ -90,6 +90,8 @@ export class WorkPackageStatusButtonComponent implements OnInit, OnDestroy {
   public get buttonTitle() {
     if (this.workPackage.isReadonly) {
       return this.text.workPackageReadOnly;
+    } else if (this.workPackage.isEditable && this.isDisabled) {
+      return this.text.workPackageStatusBlocked;
     } else {
       return '';
     }
@@ -97,12 +99,16 @@ export class WorkPackageStatusButtonComponent implements OnInit, OnDestroy {
 
   public get statusHighlightClass() {
     let status = this.status;
-    if (!status) { return; }
+    if (!status) {
+      return;
+    }
     return Highlighting.backgroundClass('status', status.id!);
   }
 
   public get status():HalResource|undefined {
-    if (!this.wpEditing) { return; }
+    if (!this.wpEditing) {
+      return;
+    }
 
     return this.changeset.value('status');
   }

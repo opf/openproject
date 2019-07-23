@@ -288,7 +288,7 @@ de:
         account: "Konto"
         attr_firstname: "Vorname-Attribut"
         attr_lastname: "Nachname-Attribut"
-        attr_login: "Mitgliedsname-Attribut"
+        attr_login: "Benutzername"
         attr_mail: "E-Mail-Attribut"
         base_dn: "BASE-DN"
         host: "Host"

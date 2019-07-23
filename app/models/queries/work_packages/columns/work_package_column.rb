@@ -42,12 +42,46 @@ class Queries::WorkPackages::Columns::WorkPackageColumn < Queries::Columns::Base
   end
 
   def sum_of(work_packages)
-    if work_packages.is_a?(Array)
+    wps = filter_for_sum work_packages
+
+    if wps.is_a?(Array)
       # TODO: Sums::grouped_sums might call through here without an AR::Relation
       # Ensure that this also calls using a Relation and drop this (slow!) implementation
-      work_packages.map { |wp| value(wp) }.compact.reduce(:+)
+      wps.map { |wp| value(wp) }.compact.reduce(:+)
     else
-      work_packages.sum(name)
+      wps.sum(name)
+    end
+  end
+
+  ##
+  # Sometimes we don't want to consider all work packages when calculating
+  # the sum for a certain column.
+  #
+  # Specifically we don't want to consider child work packages when summing up
+  # the estimated hours for work packages since the estimated hours of
+  # parent work packages already include those of their children.
+  #
+  # Right now we cover only this one case here explicilty.
+  # As soon as there are more cases to be considered this shall be
+  # refactored into something more generic and outside of this class.
+  def filter_for_sum(work_packages)
+    if name == :estimated_hours
+      filter_for_sum_of_estimated_hours work_packages
+    else
+      work_packages
+    end
+  end
+
+  def filter_for_sum_of_estimated_hours(work_packages)
+    # Why an array? See TODO above in #sum_of.
+    if work_packages.is_a? Array
+      work_packages.reject { |wp| !wp.children.empty? && work_packages.any? { |x| x.parent_id == wp.id } }
+    else
+      # @TODO Replace with CTE once we dropped MySQL support (MySQL only supports CTEs from version 8 onwards).
+      #       With a CTE (common table expression) we only need to query the work packages once and can then
+      #       drill the results down to the desired subset. Right now we run the work packages query a second
+      #       time in a sub query.
+      work_packages.without_children in: work_packages
     end
   end
 end

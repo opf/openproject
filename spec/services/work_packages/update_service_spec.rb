@@ -50,6 +50,11 @@ describe WorkPackages::UpdateService, type: :model do
                         model: work_package)
   end
 
+  before do
+    # Stub update_ancestors because it messes with the JournalManager expect
+    allow(instance).to receive(:update_ancestors).and_return []
+  end
+
   describe 'call' do
     let(:set_attributes_service) do
       service = double("WorkPackages::SetAttributesService",

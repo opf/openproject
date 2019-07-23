@@ -81,35 +81,5 @@ describe WorkPackage, type: :model do
         expect(mail).to be_present
       end
     end
-
-    describe 'notification triggered by subtask update' do
-      let!(:child) do
-        FactoryBot.create :work_package, subject: "I'm a child",
-                                         parent: work_package,
-                                         done_ratio: 42
-      end
-
-      let(:message) { "Updated automatically by changing values within child work package" }
-      let(:label) { "##{child.id}" }
-      let(:href) { "/work_packages/#{child.id}" }
-
-      let(:link_regex) { /#{message} <a[^<]*href="[^"]*#{href}"[^<]*>#{label}<\/a>/ }
-
-      before do
-        WorkPackages::UpdateService
-          .new(user: current_user,
-               model: child)
-          .call(done_ratio: 99)
-      end
-
-      it "sends out an email including a link to the subtask" do
-        matching_part = ->(part) { part.sub_type == "html" && part.to_s =~ link_regex }
-        matching_mail = ->(mail) { mail.body.parts.find(&matching_part) }
-
-        mail = ActionMailer::Base.deliveries.find(&matching_mail)
-
-        expect(mail).to be_present
-      end
-    end
   end
 end

@@ -84,3 +84,5 @@ OpenProject::Application.configure do
   # Send mails to browser window
   config.action_mailer.delivery_method = :letter_opener
 end
+
+ActiveRecord::Base.logger = Logger.new(STDOUT) unless String(ENV["SILENCE_SQL_LOGS"]).to_bool

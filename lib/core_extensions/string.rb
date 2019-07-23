@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,31 +28,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'support/pages/page'
-
-module Pages
-  class NewUser < Page
-    def path
-      '/users/new'
-    end
-
-    ##
-    # Fills in the given user form fields.
-    def fill_in!(fields = {})
-      form = FormFiller.new fields
-
-      form.fill! 'First name', :first_name
-      form.fill! 'Last name', :last_name
-      form.fill! 'Email', :email
-
-      form.select! 'Authentication mode', :auth_source
-      form.fill! 'Username', :login
-
-      form.set_checked! 'Administrator', :admin
-    end
-
-    def submit!
-      click_button 'Create'
+module CoreExtensions
+  module String
+    def to_bool
+      ActiveRecord::Type::Boolean.new.deserialize downcase.strip
     end
   end
 end

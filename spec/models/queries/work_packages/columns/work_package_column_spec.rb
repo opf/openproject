@@ -36,4 +36,57 @@ describe Queries::WorkPackages::Columns::WorkPackageColumn, type: :model do
   it "allows to be constructed without attribute highlightable" do
     expect(described_class.new('foo').highlightable?).to eq(false)
   end
+
+  describe "sum of" do
+    describe :estimated_hours do
+      context "with work packages in a hierarchy" do
+        let(:work_packages) do
+          hierarchy = [
+            ["Single", 1],
+            {
+              ["Parent", 3] => [
+                ["Child 1 of Parent", 1],
+                ["Child 2 of Parent", 1],
+                ["Hidden Child 3 of Parent", 1]
+              ]
+            },
+            {
+              ["Hidden Parent", 4] => [
+                ["Child of Hidden Parent", 1],
+                ["Hidden Child", 3]
+              ]
+            },
+            {
+              ["Parent 2", 3] => [
+                ["Child 1 of Parent 2", 1],
+                {
+                  ["Nested Parent", 2] => [
+                    ["Child 1 of Nested Parent", 1],
+                    ["Child 2 of Nested Parent", 1]
+                  ]
+                }
+              ]
+            }
+          ]
+
+          build_work_package_hierarchy hierarchy, :subject, :estimated_hours
+        end
+
+        let(:result_set) { WorkPackage.where("NOT subject LIKE 'Hidden%'") }
+        let(:column) { Queries::WorkPackages::Columns::WorkPackageColumn.new :estimated_hours }
+
+        before do
+          work_packages # create work packages
+
+          expect(WorkPackage.count).to eq work_packages.size
+          expect(result_set.count).to eq(work_packages.size - 3) # all work packages except the hidden parent and children
+        end
+
+        it "yields the correct sum, not counting any children (of parents in the result set) twice" do
+          expect(column.sum_of(result_set)).to eq 7 # (Single + Child 1 of Parent + Child 2 of Parent + Child of Hidden Parent + Parent 2)
+          expect(column.sum_of(WorkPackage.all)).to eq 11 # (Single + Parent + Hidden Parent + Parent 2)
+        end
+      end
+    end
+  end
 end

@@ -43,8 +43,12 @@ class WorkPackages::UpdateAncestorsService
 
     set_journal_note(modified)
 
-    result = ServiceResult.new(success: modified.all? { |wp| wp.save(validate: false) },
-                               result: work_package)
+    # Do not send notification for parent updates
+    success = JournalManager.with_send_notifications(false) do
+      modified.all? { |wp| wp.save(validate: false) }
+    end
+
+    result = ServiceResult.new(success: success, result: work_package)
 
     modified.each do |wp|
       result.add_dependent!(ServiceResult.new(success: !wp.changed?, result: wp))

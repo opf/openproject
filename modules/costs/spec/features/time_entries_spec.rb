@@ -76,7 +76,7 @@ describe 'Work Package table cost entries', type: :feature, js: true do
     find('#show_cost_objects').set true
     click_on 'Apply'
 
-    expect(page).to have_selector('.time-entry a', text: '10.00 hours')
-    expect(page).to have_selector('.time-entry a', text: '2.50 hours')
+    expect(page).to have_selector('.time-entry a', text: '10.0 hours')
+    expect(page).to have_selector('.time-entry a', text: '2.5 hours')
   end
 end

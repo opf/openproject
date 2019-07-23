@@ -600,6 +600,7 @@ uk:
       message_successful_show_in_fullscreen: "Клацніть тут, щоб відкрити цей пакет робіт в повноекранному режимі."
       message_view_spent_time: "Показувати час, витрачений на цей робочий пакет"
       message_work_package_read_only: "Робочий пакет заблоковано в цьому статусі. Атрибут, відмінний від статусу, може бути змінений."
+      message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
       no_value: "Значення відсутнє"
       placeholder_filter_by_text: "Тема, опис, коментарі, ..."
       inline_create:

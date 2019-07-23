@@ -89,12 +89,12 @@ describe 'time entry report', type: :feature, js: true do
       select 'Month', from: 'columns'
       find('.timelog-report-selection').click_button('Apply')
 
-      expect(page).to have_selector('.total-hours', text: 'Total: 10.00 hours')
+      expect(page).to have_selector('.total-hours', text: 'Total: 10.0 hours')
       expect(page).to have_selector('tr.total .hours', text: '5.00')
       select 'Year', from: 'columns'
 
       find('.timelog-report-selection').click_button('Apply')
-      expect(page).to have_selector('.total-hours', text: 'Total: 10.00 hours')
+      expect(page).to have_selector('.total-hours', text: 'Total: 10.0 hours')
     end
   end
 end

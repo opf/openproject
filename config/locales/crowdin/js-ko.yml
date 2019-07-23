@@ -594,6 +594,7 @@ ko:
       message_successful_show_in_fullscreen: "전체 화면 보기에서 이 작업 패키지를 열려면 여기를 클릭하세요."
       message_view_spent_time: "이 작업 패키지에 대해 소비한 시간 표시"
       message_work_package_read_only: "작업 패키지가 이 상태로 잠겨 있습니다. 상태 이외의 특성은 변경할 수 없습니다."
+      message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
       no_value: "값 없음"
       placeholder_filter_by_text: "제목, 설명, 코멘트, ..."
       inline_create:

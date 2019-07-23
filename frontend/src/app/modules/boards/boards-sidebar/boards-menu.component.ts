@@ -7,6 +7,7 @@ import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 import {MainMenuNavigationService} from "core-components/main-menu/main-menu-navigation.service";
 import {map} from "rxjs/operators";
+import {CurrentProjectService} from "core-components/projects/current-project.service";
 
 @Component({
   selector: 'boards-menu',
@@ -15,6 +16,8 @@ import {map} from "rxjs/operators";
 
 export class BoardsMenuComponent {
   trackById = AngularTrackingHelpers.compareByAttribute('id');
+
+  currentProjectIdentifier = this.currentProject.identifier;
 
   public boards$:Observable<Board[]> = this.boardCache.observeAll().pipe(
     map((boards:Board[]) => {
@@ -28,6 +31,7 @@ export class BoardsMenuComponent {
 
   constructor(private readonly boardService:BoardService,
               private readonly boardCache:BoardCacheService,
+              private readonly currentProject:CurrentProjectService,
               private readonly mainMenuService:MainMenuNavigationService) {
 
     // When activating the work packages submenu,
