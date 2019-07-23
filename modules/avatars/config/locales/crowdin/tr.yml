@@ -31,7 +31,7 @@ tr:
       Mevcut gravatar aşağıdaki gibidir:
     settings:
       enable_gravatars: 'Kullanıcı gravatarlarını etkinleştir'
-      gravatar_default: "Standart Gravatar resmi"
+      gravatar_default: "Varsayılan Gravatar resmi"
       enable_local_avatars: 'Kullanıcı özel avatarları etkinleştir'
 
 
