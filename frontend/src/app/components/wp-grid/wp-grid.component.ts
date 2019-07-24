@@ -26,12 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from "@angular/core";
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from "@angular/core";
 import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
 import {CardViewOrientation} from "core-components/wp-card-view/wp-card-view.component";
 import {takeUntil} from "rxjs/operators";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {HighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
+import {componentDestroyed, untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
 @Component({
   selector: 'wp-grid',
@@ -46,7 +47,7 @@ import {HighlightingMode} from "core-components/wp-fast-table/builders/highlight
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WorkPackagesGridComponent implements OnInit {
+export class WorkPackagesGridComponent implements OnInit, OnDestroy {
   public canDragOutOf = () => { return false; };
   public gridOrientation:CardViewOrientation = 'horizontal';
   public highlightingMode:HighlightingMode = 'none';
@@ -59,11 +60,15 @@ export class WorkPackagesGridComponent implements OnInit {
   ngOnInit() {
     this.querySpace.highlighting.values$()
       .pipe(
-        takeUntil(this.querySpace.stopAllSubscriptions)
+        takeUntil(this.querySpace.stopAllSubscriptions),
+        untilComponentDestroyed(this)
       )
       .subscribe(() => {
         this.highlightingMode = this.wpTableHighlight.current.mode;
         this.cdRef.detectChanges();
       });
+  }
+
+  ngOnDestroy():void {
   }
 }
