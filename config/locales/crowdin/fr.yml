@@ -2029,7 +2029,7 @@ fr:
   setting_display_subprojects_work_packages: "Par défaut, afficher les lots de travaux des sous-projets dans les projets parents"
   setting_emails_footer: "Pied de page des courriels"
   setting_emails_header: "En-tête des courriels"
-  setting_email_login: "Use email as login"
+  setting_email_login: "Utiliser l'adresse courriel comme login"
   setting_enabled_scm: "Permettre SCM"
   setting_feeds_enabled: "Permettre les flux"
   setting_feeds_limit: "Limite du contenu du flux"
@@ -2390,7 +2390,7 @@ fr:
     Envoie un nouveau courriel d'invitation avec un nouveau jeton, au cas où l'ancien jeton aurait expiré ou l'utilisateur n'aurait pas reçu le courriel original. Peut être également utilisé pour les utilisateurs actifs afin de choisir une nouvelle méthode d'authentification. Quand utilisé avec les utilisateurs actifs, leur statut sera changé en "invité".
   tooltip:
     setting_email_login: >
-      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
+      Si activé, un utilisateur ne pourra choisir son login lors de son inscription. Dans ce cas, son adresse courriel servira de login. Un administrateur pourra néanmoins modifier le login par ailleurs.
   queries:
     apply_filter: Appliquer le filtre pré-configuré
   top_menu:

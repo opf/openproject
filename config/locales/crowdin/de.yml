@@ -652,7 +652,7 @@ de:
     is_public: "Öffentlich"
     issue: "Arbeitspaket"
     lastname: "Nachname"
-    login: "Anmelden"
+    login: "Benutzername"
     mail: "E-Mail"
     name: "Name"
     password: "Kennwort"

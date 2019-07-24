@@ -50,7 +50,7 @@ de:
     button_export-atom: "Atom-Download"
     calendar:
       title: 'Kalender'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
+      too_many: 'Es gibt insgesamt %{count} Arbeitspakete, aber nur %{max} können angezeigt werden.'
     card:
       add_new: 'Neue Karte hinzufügen'
       highlighting:
@@ -200,8 +200,8 @@ de:
         work_packages_calendar:
           title: 'Kalender'
         work_packages_overview:
-          title: 'Work packages overview'
-          placeholder: 'Click to edit ...'
+          title: 'Übersicht der Arbeitspakete'
+          placeholder: 'Zum Ändern klicken...'
     homescreen:
       blocks:
         new_features:
@@ -659,7 +659,7 @@ de:
         title: Keine Arbeitspakete anzuzeigen.
         description: Es wurden entweder keine Arbeitspakete erzeugt oder alle Arbeitspakete wurden ausgefiltert.
       limited_results: >
-        There are %{total} total work packages, but only %{count} can be shown in manual sorting mode. Please reduce the results by filtering.
+        Es gibt %{total} komplette Arbeitspakete, aber nur %{count} können im manuellen Sortiermodus angezeigt werden. Bitte reduzieren Sie die Ergebnisse durch Filtern.
       property_groups:
         details: "Details"
         people: "Personen"

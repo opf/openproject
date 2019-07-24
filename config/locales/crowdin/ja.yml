@@ -2006,7 +2006,7 @@ ja:
   setting_display_subprojects_work_packages: "デフォルトで子プロジェクトの作業項目を親プロジェクトに表示する"
   setting_emails_footer: "電子メールのフッター"
   setting_emails_header: "電子メールのヘッダー"
-  setting_email_login: "Use email as login"
+  setting_email_login: "メールアドレスをログインに使用する"
   setting_enabled_scm: "使用するバージョン管理システム"
   setting_feeds_enabled: "フィードを有効にする"
   setting_feeds_limit: "フィードの項目数の上限"
@@ -2367,7 +2367,7 @@ ja:
     古いメールの有効期限が切れた、またはユーザーが元のメールを受け取っていない場合に、新しいトークンで別の招待メールを送信します。アクティブなユーザーに新しい認証方法を選択するために使用することもできます。アクティブなユーザーに使用する場合、彼らの ステータスが '招待' に変更されます。
   tooltip:
     setting_email_login: >
-      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
+      有効にした場合、登録時にユーザはログインを選択することができません。代わりに、指定されたメール アドレスがログインとして機能します。管理者はログインを個別に変更できます。
   queries:
     apply_filter: 構成済みのフィルタを適用する
   top_menu:

@@ -202,7 +202,7 @@ tr:
           title: 'Takvim'
         work_packages_overview:
           title: 'İş paketlerine genel bakış'
-          placeholder: 'Click to edit ...'
+          placeholder: 'Düzenlemek için tıkla ...'
     homescreen:
       blocks:
         new_features:

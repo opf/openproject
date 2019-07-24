@@ -2030,7 +2030,7 @@ es:
   setting_display_subprojects_work_packages: "Mostrar paquetes de trabajo de subproyectos en proyectos principales por defecto"
   setting_emails_footer: "Pie de correos electronicos"
   setting_emails_header: "Encabezado de correos electrónicos"
-  setting_email_login: "Use email as login"
+  setting_email_login: "Usar correo electrónico como nombre de usuario"
   setting_enabled_scm: "SCM activado"
   setting_feeds_enabled: "Activar Feeds"
   setting_feeds_limit: "Limite de contenido de feed"
@@ -2391,7 +2391,7 @@ es:
     Envía otro correo electrónico de invitación con un token nuevo, en caso de que el antiguo esté caducado o el usuario no hubiera recibido el primer correo. También se puede usar para usuarios activos con el fin de seleccionar un nuevo método de autenticación. Al usarse con usuarios activos, su estado pasará a ser 'invitado'.
   tooltip:
     setting_email_login: >
-      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
+      En caso de estar habilitado, el usuario no podrá elegir el nombre de usuario durante el registro. En su lugar, deberá utilizar el correo electrónico como nombre de usuario. No obstante, el administrador podría cambiar el nombre de usuario por su cuenta.
   queries:
     apply_filter: Aplicar filtro preconfigurado
   top_menu:

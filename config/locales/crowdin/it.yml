@@ -2390,7 +2390,7 @@ it:
     Invia un'altra email di invito con un token nuovo nel caso in cui quello vecchio sia scaduto o l'utente non abbia ricevuto la prima email. Può anche consentire agli utenti attivi di scegliere un nuovo metodo di autenticazione. Se utilizzato da utenti attivi, il loro stato verrà modificato in "invitato".
   tooltip:
     setting_email_login: >
-      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
+      Se attivato, un utente non potrà selezionare il login per la registrazione. Invece servirà il suo indirizzo di posta per l'accesso. Un amministratore può ancora modificare il login separatamente.
   queries:
     apply_filter: Applica il filtro preconfigurato
   top_menu:
