@@ -60,7 +60,7 @@ export class WorkPackageCardViewComponent  implements OnInit {
 
   @Output() onMoved = new EventEmitter<void>();
 
-  public trackByHref = AngularTrackingHelpers.trackByHref;
+  public trackByHref = AngularTrackingHelpers.trackByHrefAndProperty('lockVersion');
   public query:QueryResource;
   private _workPackages:WorkPackageResource[];
   public columns:QueryColumn[];
