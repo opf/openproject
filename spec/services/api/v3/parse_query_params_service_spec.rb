@@ -133,6 +133,12 @@ describe ::API::V3::ParseQueryParamsService,
         # Please note, that dueDate is expected to get translated to due_date.
         let(:expected) { { highlighted_attributes: %w(status type priority due_date) } }
       end
+
+      it_behaves_like 'transforms' do
+        let(:params) { { highlightedAttributes: %w(/api/v3/columns/status /api/v3/columns/type) } }
+        # Please note, that dueDate is expected to get translated to due_date.
+        let(:expected) { { highlighted_attributes: %w(status type) } }
+      end
     end
 
     context 'without highlighted_attributes' do
