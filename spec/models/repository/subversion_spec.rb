@@ -46,6 +46,11 @@ describe Repository::Subversion, type: :model do
     it 'does not allow creating a repository' do
       expect { instance.save! }.to raise_error ActiveRecord::RecordInvalid
     end
+
+    it 'returns an error when trying to save' do
+      expect(instance.save).to eq false
+      expect(instance.errors[:type]).to include I18n.translate('activerecord.errors.models.repository.not_available')
+    end
   end
 
   describe 'default Subversion' do

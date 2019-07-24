@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,25 +26,48 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require_relative 'base'
+require 'spec_helper'
 
-class Tables::Journals < Tables::Base
-  def self.table(migration)
-    create_table migration do |t|
-      t.references :journable, polymorphic: true, index: false, type: :int
-      t.integer :user_id, default: 0, null: false
-      t.text :notes
-      t.datetime :created_at, null: false
-      t.integer :version, default: 0, null: false
-      t.string :activity_type
+describe JournalVersion, type: :model do
+  let!(:work_package) do
+    wp = FactoryBot.build(:work_package)
+    wp.journal_notes = 'foobar!'
 
-      t.index :journable_id
-      t.index :created_at
-      t.index :journable_type
-      t.index :user_id
-      t.index :activity_type
-      t.index %i[journable_type journable_id version],
-              unique: true
-    end
+    wp.save!
+    wp
+  end
+
+  subject { ::JournalVersion.find_by!(journable_type: 'WorkPackage', id: work_package.id) }
+
+  before do
+    work_package
+    subject
+  end
+
+  it 'is created when the work package is created' do
+    expect(subject.version).to eq 1
+  end
+
+  it 'is incremented when the work package is journaled' do
+    work_package.subject = 'Foobar!'
+    work_package.journal_notes = 'My comment'
+    work_package.save!
+
+    work_package.reload
+
+    expect(work_package.journals.count).to eq 2
+    expect(work_package.journals.first.version).to eq 1
+    expect(work_package.journals.last.version).to eq 2
+
+    subject.reload
+    expect(subject.version).to eq 2
+  end
+
+  it 'is removed when the work package is removed' do
+    expect(subject).to be_present
+
+    work_package.destroy!
+
+    expect { subject.reload }.to raise_error ActiveRecord::RecordNotFound
   end
 end
