@@ -599,7 +599,7 @@ ru:
       message_successful_show_in_fullscreen: "Кликните здесь, чтобы открыть этот пакет работ в полноэкранном режиме."
       message_view_spent_time: "Показать время, затраченное на этот комплекс работ"
       message_work_package_read_only: "В этом статусе пакет работ заблокирован. Никакой атрибут, отличный от статуса, изменен быть не может."
-      message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
+      message_work_package_status_blocked: "Статус пакета работ не доступен для записи из-за закрытого состояния и назначена закрытая версия."
       no_value: "Значение отсутствует"
       placeholder_filter_by_text: "Тема, описание, комментарии, ..."
       inline_create:
