@@ -46,20 +46,14 @@ namespace :ldap do
     args = parse_args
     ldap = LdapAuthSource.find_by!(name: args.fetch(:name))
 
-    # Only get the required args for syncing
-    attributes = ['dn', ldap.attr_firstname, ldap.attr_lastname, ldap.attr_mail, ldap.attr_login]
-
-    # Map user attributes to their ldap counterpart
-    ar_map = Hash[ %w(firstname lastname mail login).zip(attributes.drop(1)) ]
-
     # Parse filter string if available
-    filter = Net::LDAP::Filter.from_rfc2254 args.fetch(:filter,  'objectClass = *')
+    filter = Net::LDAP::Filter.from_rfc2254 args.fetch(:filter, 'objectClass = *')
 
     # Open LDAP connection
     ldap_con = ldap.send(:initialize_ldap_con, ldap.account, ldap.account_password)
 
     User.transaction do
-      results = ldap_con.search(base: ldap.base_dn, filter: filter)  do |entry|
+      ldap_con.search(base: ldap.base_dn, filter: filter) do |entry|
 
         user = User.find_or_initialize_by(login: entry[ldap.attr_login])
         user.attributes = {
@@ -71,13 +65,69 @@ namespace :ldap do
         }
 
         if user.changed?
-          Rails.logger.info "Updated user #{user.login} due to ldap synchronization"
+          prefix = user.new_record? 'Created' : 'Updated'
+          Rails.logger.info "#{prefix} user #{user.login} from ldap synchronization"
           user.save
         end
       end
     end
   end
 
+  desc 'Synchronize a list of user IDs with the LDAP auth source' \
+       'rake ldap:sync_user_list LDAP=<LdapAuthSource Name>" USERLIST=<Path to file with newline separated USER ids>'
+  task sync_user_list: :environment do
+    file = ENV['USERLIST']
+    ldap_name = ENV['LDAP']
+
+    ldap = LdapAuthSource.find_by!(name: ldap_name)
+
+    # Open connection
+    puts "--> Opening LDAP connection"
+    ldap_con = ldap.instance_eval { initialize_ldap_con(account, account_password) }
+    base_dn = ldap.send :base_dn
+
+    attr_login = ldap.send :attr_login
+    object_filter = Net::LDAP::Filter.eq('objectClass', '*')
+    attributes = ldap.instance_eval do
+      ['dn', attr_login, attr_firstname, attr_lastname, attr_mail, attr_admin]
+    end
+
+    puts "--> Reading username file #{file}"
+    File.read(file).lines.each do |username|
+      # Trim and skip empty
+      username.chomp!
+      next unless username.present?
+
+      login_filter = Net::LDAP::Filter.eq(attr_login, username)
+
+      entries = ldap_con.search(base: base_dn, filter: object_filter & login_filter, attributes: attributes)
+
+
+      if entries.count == 0
+        warn "Did not find entry for #{username}"
+        next
+      end
+
+      if entries.count > 1
+        warn "Found multiple entries for #{username}: #{entries.map(&:dn)}. Skipping"
+        next
+      end
+
+      entry = entries.first
+      user = User.find_or_initialize_by(login: LdapAuthSource.get_attr(entry, ldap.attr_login))
+      user.attributes = ldap.send(:get_user_attributes_from_ldap_entry, entry).except(:dn)
+
+      if user.changed?
+        prefix = user.new_record? ? 'Created' : 'Updated'
+
+        if user.save
+          puts "#{prefix} user #{user.login} from ldap synchronization"
+        else
+          puts "Failed to save #{user.login}: #{user.errors.full_messages.join(", ")}."
+        end
+      end
+    end
+  end
 
   desc 'Register a LDAP auth source for the given LDAP URL and attribute mapping: ' \
        'rake ldap:register["url=<URL> name=<Name> onthefly=<true,false>map_{login,firstname,lastname,mail,admin}=attribute"]'
