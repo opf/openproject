@@ -93,7 +93,7 @@ export class WorkPackageViewToggleButton extends AbstractWorkPackageButtonCompon
         untilComponentDestroyed(this)
       )
       .subscribe(() => {
-        this.inListView = this.wpDisplayRepresentationService.current === wpDisplayListRepresentation;
+        this.inListView = this.wpDisplayRepresentationService.current !== wpDisplayCardRepresentation;
         this.cdRef.detectChanges();
       });
   }

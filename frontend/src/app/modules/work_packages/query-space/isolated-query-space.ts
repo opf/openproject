@@ -20,7 +20,7 @@ import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-
 import {QueryGroupByResource} from "core-app/modules/hal/resources/query-group-by-resource";
 import {QuerySortByResource} from "core-app/modules/hal/resources/query-sort-by-resource";
 import {WorkPackageTableRefreshRequest} from "core-components/wp-table/wp-table-refresh-request.service";
-import {WorkPackageDisplayRepresentationService} from "core-components/wp-fast-table/state/work-package-display-representation.service";
+import {wpDisplayRepresentation} from "core-components/wp-fast-table/state/work-package-display-representation.service";
 
 @Injectable()
 export class IsolatedQuerySpace extends StatesGroup {
@@ -65,7 +65,7 @@ export class IsolatedQuerySpace extends StatesGroup {
   // Highlighting mode
   highlighting = input<WorkPackageTableHighlight>();
   // Display of the WP results
-  displayRepresentation = input<string>();
+  displayRepresentation = input<wpDisplayRepresentation|null>();
   // State to be updated when the table is up to date
   rendered = input<RenderedRow[]>();
 

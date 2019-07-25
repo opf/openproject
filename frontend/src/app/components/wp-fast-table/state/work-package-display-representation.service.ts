@@ -32,19 +32,20 @@ import {States} from 'core-components/states.service';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
 import {InputState} from "reactivestates";
-import {QuerySortByResource} from "core-app/modules/hal/resources/query-sort-by-resource";
+
 
 export const wpDisplayListRepresentation:string = 'list';
 export const wpDisplayCardRepresentation:string = 'card';
+export type wpDisplayRepresentation = 'list'|'card';
 
 @Injectable()
-export class WorkPackageDisplayRepresentationService extends WorkPackageQueryStateService<string> {
+export class WorkPackageDisplayRepresentationService extends WorkPackageQueryStateService<string|null> {
   public constructor(readonly states:States,
                      readonly querySpace:IsolatedQuerySpace) {
     super(querySpace);
   }
 
-  public get state():InputState<string> {
+  public get state():InputState<string|null> {
     return this.querySpace.displayRepresentation;
   }
 
@@ -53,16 +54,17 @@ export class WorkPackageDisplayRepresentationService extends WorkPackageQuerySta
   }
 
   valueFromQuery(query:QueryResource) {
-    return query.displayRepresentation || wpDisplayListRepresentation;
+    return query.displayRepresentation || null;
   }
 
   public applyToQuery(query:QueryResource) {
-    query.displayRepresentation = this.current;
+    const current = this.current;
+    query.displayRepresentation = current === null ? undefined : current;
     return true;
   }
 
-  public get current():string {
-    return this.state.getValueOr(wpDisplayListRepresentation);
+  public get current():string|null {
+    return this.state.getValueOr(null);
   }
 
   public setDisplayRepresentation(representation:string) {
