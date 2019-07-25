@@ -26,6 +26,10 @@
           </wp-details-view-button>
         </li>
         <li class="toolbar-item hidden-for-mobile">
+          <wp-view-toggle-button>
+          </wp-view-toggle-button>
+        </li>
+        <li class="toolbar-item hidden-for-mobile">
           <wp-timeline-toggle-button>
           </wp-timeline-toggle-button>
         </li>
@@ -62,12 +66,18 @@
     <div class="work-packages-split-view--tabletimeline-side loading-indicator--location"
          data-indicator-name="table">
       <div class="result-overlay"
-           *ngIf="showResultOverlay"></div>
+           *ngIf="showResultOverlay && showListView"></div>
 
       <!-- TABLE + TIMELINE horizontal split -->
-      <wp-table *ngIf="tableInformationLoaded"
+      <wp-table *ngIf="tableInformationLoaded && showListView"
                 [projectIdentifier]="projectIdentifier"
                 class="work-packages-split-view--tabletimeline-content"></wp-table>
+
+      <!-- GRID representation of the WP -->
+      <div *ngIf="!showListView"
+           class="work-packages--card-view-container">
+        <wp-grid></wp-grid>
+      </div>
 
       <!-- Footer -->
       <div class="work-packages-split-view--tabletimeline-footer hide-when-print"

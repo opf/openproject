@@ -49,6 +49,8 @@ class UpdateQueryFromParamsService
 
     apply_highlighting(params)
 
+    apply_display_representation(params)
+
     disable_hierarchy_when_only_grouped_by(params)
 
     if valid_subset
@@ -104,6 +106,10 @@ class UpdateQueryFromParamsService
   def apply_highlighting(params)
     query.highlighting_mode = params[:highlighting_mode] if params.key?(:highlighting_mode)
     query.highlighted_attributes = params[:highlighted_attributes] if params.key?(:highlighted_attributes)
+  end
+
+  def apply_display_representation(params)
+    query.display_representation = params[:display_representation] if params.key?(:display_representation)
   end
 
   def disable_hierarchy_when_only_grouped_by(params)

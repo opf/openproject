@@ -336,6 +336,20 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
         it_behaves_like 'has no visibility property'
       end
 
+      describe 'display_representation' do
+        let(:path) { 'displayRepresentation' }
+
+        it_behaves_like 'has basic schema properties' do
+          let(:type) { 'String' }
+          let(:name) { Query.human_attribute_name('display_representation') }
+          let(:required) { false }
+          let(:writable) { true }
+          let(:has_default) { true }
+        end
+
+        it_behaves_like 'has no visibility property'
+      end
+
       describe 'columns' do
         let(:path) { 'columns' }
 

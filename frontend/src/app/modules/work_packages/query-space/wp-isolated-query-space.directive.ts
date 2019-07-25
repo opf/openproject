@@ -60,6 +60,7 @@ import {WpRelationInlineCreateService} from "core-components/wp-relations/embedd
 import {WorkPackagesListChecksumService} from "core-components/wp-list/wp-list-checksum.service";
 import {debugLog} from "core-app/helpers/debug_output";
 import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
+import {WorkPackageDisplayRepresentationService} from "core-components/wp-fast-table/state/work-package-display-representation.service";
 
 /**
  * Directive to open a work package query 'space', an isolated injector hierarchy
@@ -93,6 +94,7 @@ import {PortalCleanupService} from "core-app/modules/fields/display/display-port
     WorkPackageTableAdditionalElementsService,
     WorkPackageTableFocusService,
     WorkPackageTableHighlightingService,
+    WorkPackageDisplayRepresentationService,
     WorkPackageService,
     WorkPackageRelationsHierarchyService,
     WorkPackageFiltersService,

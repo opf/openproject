@@ -28,71 +28,22 @@
 
 module Components
   module WorkPackages
-    class Highlighting
+    class DisplayRepresentation
       include Capybara::DSL
       include RSpec::Matchers
 
       def initialize; end
 
-      def switch_highlighting_mode(label)
-        modal_open? or open_modal
-        choose label
-
-        apply
+      def switch_to_card_layout
+        expect(page).to have_button('wp-view-toggle-button--card', disabled: false)
+        expect(page).to have_button('wp-view-toggle-button--list', disabled: true)
+        page.find('#wp-view-toggle-button--card').click
       end
 
-      def switch_entire_row_highlight(label)
-        modal_open? or open_modal
-        choose "Entire row by"
-        page.all(".form--field")[1].select label
-        apply
-      end
-
-      def switch_inline_attribute_highlight(*labels)
-        modal_open? or open_modal
-        choose "Highlighted attribute(s)"
-        within(page.all(".form--field")[0]) do
-          if labels.size == 1
-            select labels.first
-          elsif labels.size > 1
-            find('[class*="--toggle-multiselect"]').click
-            labels.each do |label|
-              select label
-            end
-          end
-        end
-        apply
-      end
-
-      def apply
-        @opened = false
-
-        click_button('Apply')
-      end
-
-      def open_modal
-        @opened = true
-        ::Components::WorkPackages::SettingsMenu.new.open_and_choose 'Configure view'
-
-        retry_block do
-          find(".tab-show", text: 'Highlighting', wait: 10).click
-        end
-      end
-
-      def assume_opened
-        @opened = true
-      end
-
-      private
-
-      def within_modal
-        page.within('.wp-table--configuration-modal') do
-          yield
-        end
-      end
-
-      def modal_open?
-        !!@opened
+      def switch_to_list_layout
+        expect(page).to have_button('wp-view-toggle-button--card', disabled: true)
+        expect(page).to have_button('wp-view-toggle-button--list', disabled: false)
+        page.find('#wp-view-toggle-button--list').click
       end
     end
   end

@@ -32,11 +32,18 @@ import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {OpTitleService} from "core-components/html/op-title.service";
 import {WorkPackagesViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-packages-view.base";
 import {take} from "rxjs/operators";
+import {DragAndDropService} from "core-app/modules/boards/drag-and-drop/drag-and-drop.service";
+import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
+import {wpDisplayCardRepresentation} from "core-components/wp-fast-table/state/work-package-display-representation.service";
 
 @Component({
   selector: 'wp-list',
   templateUrl: './wp.list.component.html',
-  styleUrls: ['./wp-list.component.sass']
+  styleUrls: ['./wp-list.component.sass'],
+  providers: [
+    DragAndDropService,
+    CausedUpdatesService,
+  ]
 })
 export class WorkPackagesListComponent extends WorkPackagesViewBase implements OnDestroy {
   text = {
@@ -68,6 +75,9 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
   /** An overlay over the table shown for example when the filters are invalid */
   showResultOverlay = false;
 
+  /** Switch between list and card view */
+  private _showListView:boolean = true;
+
   private readonly titleService:OpTitleService = this.injector.get(OpTitleService);
 
   ngOnInit() {
@@ -90,12 +100,19 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
       }
     });
 
-    // Update the title whenever the query changes
     this.querySpace.query.values$().pipe(
       untilComponentDestroyed(this)
     ).subscribe((query) => {
+      // Update the title whenever the query changes
       this.updateTitle(query);
       this.currentQuery = query;
+      
+      // Update the visible representation
+      if (this.wpDisplayRepresentation.valueFromQuery(query) === wpDisplayCardRepresentation) {
+        this.showListView = false;
+      } else {
+        this.showListView = true;
+      }
     });
   }
 
@@ -165,6 +182,14 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
     this.showResultOverlay = !completed;
   }
 
+  public set showListView(val:boolean) {
+    this._showListView = val;
+  }
+
+  public get showListView():boolean {
+    return this._showListView;
+  }
+
   protected updateQueryOnParamsChanges() {
     // Listen for param changes
     this.removeTransitionSubscription = this.$transitions.onSuccess({}, (transition):any => {
@@ -203,6 +228,8 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
     return this.loadingIndicator =
       this.wpListService
         .loadCurrentQueryFromParams(this.projectIdentifier)
-        .then(() => this.querySpace.rendered.valuesPromise());
+        .then(() => {
+          this.querySpace.rendered.valuesPromise();
+        });
   }
 }

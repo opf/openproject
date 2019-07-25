@@ -20,6 +20,7 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {Injectable} from '@angular/core';
 import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
 import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
+import {WorkPackageDisplayRepresentationService} from "core-components/wp-fast-table/state/work-package-display-representation.service";
 
 @Injectable()
 export class WorkPackageStatesInitializationService {
@@ -38,7 +39,8 @@ export class WorkPackageStatesInitializationService {
               protected wpTableAdditionalElements:WorkPackageTableAdditionalElementsService,
               protected wpCacheService:WorkPackageCacheService,
               protected wpListChecksumService:WorkPackagesListChecksumService,
-              protected authorisationService:AuthorisationService) {
+              protected authorisationService:AuthorisationService,
+              protected wpDisplayRepresentation:WorkPackageDisplayRepresentationService) {
   }
 
   /**
@@ -92,6 +94,12 @@ export class WorkPackageStatesInitializationService {
         this.states.schemas.get(schema.href as string).putValue(schema);
       });
     }
+
+    // Ensure we're setting the current results to the query
+    // This is due to 9.X still loading results from /api/v3/work_packages
+    // for a previously loaded query.
+    query.results = results;
+
     this.querySpace.query.putValue(query);
 
     this.querySpace.rows.putValue(results.elements);
@@ -126,6 +134,7 @@ export class WorkPackageStatesInitializationService {
     this.wpTableTimeline.initialize(query, results);
     this.wpTableHierarchies.initialize(query, results);
     this.wpTableHighlighting.initialize(query, results);
+    this.wpDisplayRepresentation.initialize(query, results);
 
     this.authorisationService.initModelAuth('query', query.$links);
     this.authorisationService.initModelAuth('work_packages', results.$links);
@@ -140,6 +149,7 @@ export class WorkPackageStatesInitializationService {
     this.wpTableTimeline.applyToQuery(query);
     this.wpTableHighlighting.applyToQuery(query);
     this.wpTableHierarchies.applyToQuery(query);
+    this.wpDisplayRepresentation.applyToQuery(query);
   }
 
   public clearStates() {

@@ -30,15 +30,20 @@ import {KeepTabService} from '../../wp-single-view-tabs/keep-tab/keep-tab.servic
 import {States} from '../../states.service';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {StateService} from '@uirouter/core';
-import {Component} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {AbstractWorkPackageButtonComponent} from 'core-components/wp-buttons/wp-buttons.module';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {
+  WorkPackageDisplayRepresentationService,
+  wpDisplayCardRepresentation
+} from "core-components/wp-fast-table/state/work-package-display-representation.service";
 
 @Component({
   templateUrl: '../wp-button.template.html',
   selector: 'wp-details-view-button',
 })
-export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageButtonComponent {
+export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageButtonComponent implements OnInit, OnDestroy {
   public projectIdentifier:string;
   public accessKey:number = 8;
   public activeState:string = 'work-packages.list.details';
@@ -55,12 +60,29 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
     readonly I18n:I18nService,
     public states:States,
     public wpTableFocus:WorkPackageTableFocusService,
-    public keepTab:KeepTabService) {
+    public keepTab:KeepTabService,
+    public wpDisplayRepresentationService:WorkPackageDisplayRepresentationService,
+    public cdRef:ChangeDetectorRef) {
 
     super(I18n);
 
     this.activateLabel = I18n.t('js.button_open_details');
     this.deactivateLabel = I18n.t('js.button_close_details');
+  }
+
+  public ngOnInit() {
+    this.wpDisplayRepresentationService.state.values$()
+      .pipe(
+        untilComponentDestroyed(this)
+      )
+      .subscribe(() => {
+        this.disabled = this.wpDisplayRepresentationService.current === wpDisplayCardRepresentation;
+        this.cdRef.detectChanges();
+      });
+  }
+
+  public ngOnDestroy() {
+    // Nothing to do
   }
 
   public get label():string {
