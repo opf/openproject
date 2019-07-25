@@ -233,6 +233,7 @@
 <li><span class="icon icon-user-minus"></span>user-minus</li>
 <li><span class="icon icon-user-plus"></span>user-plus</li>
 <li><span class="icon icon-user"></span>user</li>
+<li><span class="icon icon-view-card"></span>view-card</li>
 <li><span class="icon icon-view-fullscreen"></span>view-fullscreen</li>
 <li><span class="icon icon-view-list"></span>view-list</li>
 <li><span class="icon icon-view-split"></span>view-split</li>
