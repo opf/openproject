@@ -65,7 +65,7 @@ namespace :ldap do
         }
 
         if user.changed?
-          prefix = user.new_record? 'Created' : 'Updated'
+          prefix = user.new_record? ? 'Created' : 'Updated'
           Rails.logger.info "#{prefix} user #{user.login} from ldap synchronization"
           user.save
         end
