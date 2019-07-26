@@ -52,7 +52,9 @@ module DemoData
       groups.each do |group_attr|
         print '.'
         group = create_group group_attr[:name]
+
         add_user_to_group group
+        add_projects_to_group group, group_attr[:projects]
       end
     end
 
@@ -62,6 +64,19 @@ module DemoData
 
     def add_user_to_group(group)
       group.users << user
+    end
+
+    def add_projects_to_group(group, projects)
+      projects.each do |project_attr|
+        project = Project.find(project_attr[:name])
+        role = Role.find_by(name: project_attr[:role])
+
+        Member.create!(
+          project: project,
+          principal: group,
+          roles: [role]
+        )
+      end
     end
   end
 end
