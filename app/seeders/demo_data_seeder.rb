@@ -28,8 +28,8 @@
 class DemoDataSeeder < CompositeSeeder
   def data_seeder_classes
     [
-      DemoData::ProjectSeeder,
-      DemoData::GroupSeeder
+      DemoData::GroupSeeder,
+      DemoData::ProjectSeeder
     ]
   end
 

@@ -98,13 +98,22 @@ module DemoData
       {
         project:       project,
         author:        user,
-        assigned_to:   user,
+        assigned_to:   find_assignee(attributes),
         subject:       attributes[:subject],
         description:   attributes[:description],
         status:        find_status(attributes),
         type:          find_type(attributes),
         priority:      find_priority(attributes) || IssuePriority.default
       }
+    end
+
+    def find_assignee(attributes)
+      if attributes[:assignee]
+        group_assignee =  Group.find_by(lastname: attributes[:assignee])
+        return group_assignee unless group_assignee.nil?
+      end
+
+      user
     end
 
     def find_priority(attributes)
