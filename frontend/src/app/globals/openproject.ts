@@ -37,6 +37,9 @@ export class OpenProject {
 
   public pluginContext:InputState<OpenProjectPluginContext> = input<OpenProjectPluginContext>();
 
+  /** Globally setable variable whether the page was edited */
+  public pageWasEdited:boolean = false;
+
   public getPluginContext():Promise<OpenProjectPluginContext> {
     return this.pluginContext
       .values$()
