@@ -342,7 +342,7 @@ pt-BR:
           overview: "Gerencie seu trabalho na visão de <b>Backlogs</b>.<br> À direita você possui o Backlog do produto ou um Backlog de Bug, à esquerda você terá sprints respectivos. Aqui você pode criar <b>épicos, histórias de usuários e bugs</b>, priorizar através de arrastar e soltar e adicioná-los a um sprint."
           task_board_arrow: 'Para visualizar seu <b>Quadro de tarefas</b>, abra o menu suspenso de Sprint...'
           task_board_select: '... e selecione <b>Quadro de tarefas</b>.'
-          task_board: "O <b>Quadro de tarefas</b> visualiza o progresso do sprint. Adicione novas tarefas ou impedimentos com o + ícone ao lado de uma história de usuário. Arrastando e soltando você pode atualizar o status."
+          task_board: "O <b>Quadro de tarefas</b> visualiza o progresso do sprint. Adicione novas tarefas ou impedimentos com o + ícone ao lado de uma história de usuário. Arrastando e soltando você pode atualizar a situação."
         boards:
           overview: 'Gerencie seu trabalho através de uma visão intuitiva de <b>Quadros</b>.'
           lists: 'Você pode criar várias listas (colunas) dentro de uma visão de um quadro, por exemplo, para criar um quadro KANBAN.'
@@ -351,7 +351,7 @@ pt-BR:
         wp:
           toggler: "Agora vamos dar uma olhada na seção <b>Pacotes de trabalho</b>, que lhe fornece uma visão mais detalhada do seu trabalho."
           list: 'Esta é a lista de <b>Pacotes de trabalho</b> com o trabalho importante dentro de seu projeto, tais como tarefas, recursos, marcos, bugs e muito mais. <br>Você pode criar ou editar um pacote de trabalho diretamente dentro desta lista. Para ver seus detalhes você pode clicar duas vezes em uma linha.'
-          full_view: 'Nos <b>detalhes do pacote de trabalho</b> você encontra todas as informações pertinentes, tais como descrição, estado e prioridade, atividades, dependências ou comentários.'
+          full_view: 'Nos <b>detalhes do pacote de trabalho</b> você encontra todas as informações pertinentes, tais como descrição, situação e prioridade, atividades, dependências ou comentários.'
           back_button: 'Com a seta você pode navegar de volta para a lista de pacotes de trabalho.'
           create_button: 'O botão <b>Criar</b> irá adicionar um novo pacote de trabalho ao seu projeto.'
           timeline_button: 'Você pode ativar o <b>gráfico de Gantt</b> para criar uma linha do tempo para o seu projeto.'
@@ -595,7 +595,7 @@ pt-BR:
       message_successful_show_in_fullscreen: "Clique aqui para abrir este pacote de trabalho na visualização de tela cheia."
       message_view_spent_time: "Mostrar o tempo gasto para este pacote de trabalho"
       message_work_package_read_only: "Pacote de trabalho está bloqueado na presente situação. Nenhum atributo que não seja a situação pode ser alterado."
-      message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
+      message_work_package_status_blocked: "A situação do pacote de trabalho não é gravável devido à situação fechada e à versão fechada sendo atribuída."
       no_value: "Nenhum valor"
       placeholder_filter_by_text: "Assunto, descrição, comentários, ..."
       inline_create:
@@ -627,7 +627,7 @@ pt-BR:
         estimatesAndTime: "Estimativas e Tempo"
         other: "Outro"
       properties:
-        assignee: "Atribuição"
+        assignee: "Atribuído para"
         author: "Autor"
         createdAt: "Criado em"
         description: "Descrição"
@@ -641,7 +641,7 @@ pt-BR:
         projectName: "Projeto"
         responsible: "Responsável"
         startDate: "Data de início"
-        status: "Status"
+        status: "Situação"
         subject: "Assunto"
         title: "Título"
         type: "Tipo"
@@ -710,7 +710,7 @@ pt-BR:
           inline: 'Atributo(s) destacado(s)'
           inline_all: 'Todos atributos'
           entire_row_by: 'Toda linha por'
-          status: 'Status'
+          status: 'Situação'
           priority: 'Prioridade'
           type: 'Tipo'
         columns_help_text: "Use a entrada acima para adicionar ou remover colunas à sua exibição de tabela. Você pode arrastar e soltar as colunas para reordená-las."
