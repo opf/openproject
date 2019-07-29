@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,38 +26,39 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {APP_INITIALIZER, NgModule} from '@angular/core';
-import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
-import {BcfWpSingleViewComponent} from "core-app/modules/bcf/bcf-wp-single-view/bcf-wp-single-view.component";
-import {NgxGalleryModule} from "ngx-gallery";
-import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
-import {initializeBcfDisplayFields} from "core-app/modules/bcf/fields/display/bcf-display-field.initializer";
-import {BcfImportButtonComponent} from "core-app/modules/bcf/bcf-buttons/bcf-import-button.component";
-import {BcfDetectorService} from "core-app/modules/bcf/helper/bcf-detector.service";
+import {Component} from '@angular/core';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {BcfPathHelperService} from "core-app/modules/bcf/helper/bcf-path-helper.service";
 
-
-@NgModule({
-  imports: [
-    OpenprojectCommonModule,
-    NgxGalleryModule,
-  ],
-  providers: [
-    { provide: APP_INITIALIZER, useFactory: initializeBcfDisplayFields, deps: [DisplayFieldService], multi: true },
-    BcfDetectorService,
-    BcfPathHelperService
-  ],
-  declarations: [
-    BcfWpSingleViewComponent,
-    BcfImportButtonComponent,
-  ],
-  exports: [
-    BcfWpSingleViewComponent,
-    BcfImportButtonComponent,
-  ],
-  entryComponents: [
-  ]
+@Component({
+  template: `
+    <a [title]="text.import" class="button import-bcf-button" (click)="handleClick()">
+      <op-icon icon-classes="button--icon icon-import"></op-icon>
+      <span class="button--text"> {{text.import}} </span>
+    </a>
+  `,
+  selector: 'bcf-import-button',
 })
-export class OpenprojectBcfModule {
+export class BcfImportButtonComponent {
+
+  public text = {
+    import: this.I18n.t('js.label_import')
+  }
+
+  constructor(readonly I18n:I18nService,
+              readonly currentProject:CurrentProjectService,
+              readonly bcfPathHelper:BcfPathHelperService) {
+  }
+
+  public handleClick() {
+    var projectIdentifier = this.currentProject.identifier;
+    if (projectIdentifier) {
+      var url = this.bcfPathHelper.projectImportIssuePath(projectIdentifier);
+      window.location.href = url;
+    }
+  }
 }
 
+DynamicBootstrapper.register({ selector: 'bcf-import-button', cls: BcfImportButtonComponent });
