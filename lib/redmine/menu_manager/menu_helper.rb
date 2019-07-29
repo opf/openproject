@@ -185,9 +185,9 @@ module Redmine::MenuManager::MenuHelper
 
   def render_single_menu_node(item, caption, url, selected)
     link_text = ''.html_safe
-    link_text << op_icon(item.icon) if item.icon.present?
+    link_text << op_icon(item.icon(@project)) if item.icon(@project).present?
     link_text << content_tag(:span,
-                             class: "menu-item--title ellipsis #{item.badge.present? ? '-has-badge' : ''}",
+                             class: "menu-item--title ellipsis #{item.badge(@project).present? ? '-has-badge' : ''}",
                              lang: menu_item_locale(item)) do
       ''.html_safe + caption + badge_for(item)
     end
@@ -318,8 +318,9 @@ module Redmine::MenuManager::MenuHelper
 
   def badge_for(item)
     badge = ''.html_safe
-    if item.badge.present?
-      badge += content_tag('span', I18n.t(item.badge), class: 'main-item--badge')
+
+    if item.badge(@project).present?
+      badge += content_tag('span', I18n.t(item.badge(@project)), class: 'main-item--badge')
     end
     badge
   end

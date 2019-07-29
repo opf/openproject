@@ -51,13 +51,12 @@ module OpenProject::Bcf
                    'bcf/issues': %i[index upload prepare_import configure_import perform_import]
       end
 
-      menu :project_menu,
-           :bcf,
-           { controller: '/bcf/issues', action: :index },
-           caption: :'bcf.label_bcf',
-           param: :project_id,
-           icon: 'icon2 icon-bcf',
-           badge: 'bcf.experimental_badge'
+      rename_menu_item :project_menu,
+                       :work_packages,
+                       { caption:   Proc.new { |project| project.module_enabled?(:bcf) ? I18n.t(:'bcf.label_bcf') : I18n.t(:label_work_package_plural) },
+                         icon:  Proc.new { |project| project.module_enabled?(:bcf) ? 'icon2 icon-bcf' : 'icon2 icon-view-timeline' },
+                         badge: Proc.new { |project| project.module_enabled?(:bcf) ? 'bcf.experimental_badge' : nil } }
+
     end
 
     assets %w(bcf/bcf.css)
