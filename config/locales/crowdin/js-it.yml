@@ -61,17 +61,17 @@ it:
       browser_error: "Il tuo browser non supporta la copia negli appunti. Copia il testo selezionato manualmente."
       copied_successful: "Copia negli appunti completata con successo!"
     chart:
-      type: 'Chart type'
-      axis_criteria: 'Axis criteria'
-      modal_title: 'Work package graph configuration'
+      type: 'Tipo di grafico'
+      axis_criteria: 'Criteri di Asse'
+      modal_title: 'Configurazione grafico macro-attività'
       types:
-        line: 'Line'
-        horizontal_bar: 'Horizontal bar'
-        bar: 'Bar'
-        pie: 'Pie'
-        doughnut: 'Doughnut'
+        line: 'Linea'
+        horizontal_bar: 'Barra Orizzontale'
+        bar: 'Barra'
+        pie: 'Torta'
+        doughnut: 'Anelli'
         radar: 'Radar'
-        polar_area: 'Polar area'
+        polar_area: 'Area polare'
       tabs:
         graph_settings: 'Generale'
         dataset: 'Dataset %{number}'
@@ -134,7 +134,7 @@ it:
         drag_to_activate: "Trascina i campi da qui per attivarli"
         add_group: "Aggiungi gruppo di attributi"
         add_table: "Aggiungi la tabella dei pacchetti di lavoro correlati"
-        edit_query: 'Edit query'
+        edit_query: 'Modifica query'
         new_group: 'Nuovo gruppo'
         reset_to_defaults: 'Ripristino predefinite'
     custom_actions:
