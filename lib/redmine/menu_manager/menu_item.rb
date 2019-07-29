@@ -29,7 +29,7 @@
 
 class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
   include Redmine::I18n
-  attr_reader :name, :url, :param, :icon, :icon_after, :context, :condition, :parent, :child_menus, :last, :partial, :badge
+  attr_reader :name, :url, :param, :icon_after, :context, :condition, :parent, :child_menus, :last, :partial
 
   def initialize(name, url, options)
     raise ArgumentError, "Invalid option :if for menu item '#{name}'" if options[:if] && !options[:if].respond_to?(:call)
@@ -75,6 +75,30 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
     @caption = new_caption
   end
 
+  def icon(project = nil)
+    if @icon.is_a?(Proc)
+      @icon.call(project).to_s
+    else
+      @icon
+    end
+  end
+
+  def icon=(new_icon)
+    @icon = new_icon
+  end
+
+  def badge(project = nil)
+    if @badge.is_a?(Proc)
+      @badge.call(project).to_s
+    else
+      @badge
+    end
+  end
+
+  def badge=(new_badge)
+    @badge = new_badge
+  end
+
   def html_options(options = {})
     if options[:selected]
       o = @html_options.dup
@@ -88,6 +112,10 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
   def add_condition(new_condition)
     raise ArgumentError, 'Condition needs to be callable' unless new_condition.respond_to?(:call)
     old_condition = @condition
-    @condition = -> (project) { old_condition.call(project) && new_condition.call(project) }
+    if old_condition.respond_to?(:call)
+      @condition = -> (project) { old_condition.call(project) && new_condition.call(project) }
+    else
+      @condition = -> (project) { new_condition.call(project) }
+    end
   end
 end
