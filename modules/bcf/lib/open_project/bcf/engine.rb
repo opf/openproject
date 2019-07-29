@@ -56,7 +56,7 @@ module OpenProject::Bcf
            { controller: '/bcf/issues', action: :index },
            caption: :'bcf.label_bcf',
            param: :project_id,
-           icon: 'icon2 icon-backlogs',
+           icon: 'icon2 icon-bcf',
            badge: 'bcf.experimental_badge'
     end
 
