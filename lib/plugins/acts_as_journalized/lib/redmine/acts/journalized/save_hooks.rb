@@ -74,7 +74,6 @@ module Redmine::Acts::Journalized
 
       add_journal = journals.empty? || JournalManager.changed?(self) || !@journal_notes.empty?
 
-      warn "Adding journal? #{add_journal}"
       journal = JournalManager.add_journal! self, @journal_user, @journal_notes if add_journal
 
       if add_journal
