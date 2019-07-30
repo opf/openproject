@@ -25,7 +25,7 @@ describe 'Cost report showing my own times', type: :feature, js: true do
   context 'as user with logged time' do
     let(:current_user) { user }
     it 'shows my time' do
-      expect(page).to have_selector('.report', text: '10.00')
+      expect(page).to have_selector('.report', text: '10.0')
     end
   end
 
