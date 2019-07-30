@@ -26,38 +26,62 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component} from '@angular/core';
+import {Component, OnDestroy, OnInit, Query} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {BcfPathHelperService} from "core-app/modules/bcf/helper/bcf-path-helper.service";
+import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import {QueryResource} from "core-app/modules/hal/resources/query-resource";
+import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
+import {StateService} from "@uirouter/core";
 
 @Component({
   template: `
-    <a [title]="text.import" class="button import-bcf-button" (click)="handleClick()">
-      <op-icon icon-classes="button--icon icon-import"></op-icon>
-      <span class="button--text"> {{text.import}} </span>
+    <a [title]="text.export" class="button import-bcf-button" (click)="handleClick()">
+      <op-icon icon-classes="button--icon icon-export"></op-icon>
+      <span class="button--text"> {{text.export}} </span>
     </a>
   `,
-  selector: 'bcf-import-button',
+  selector: 'bcf-export-button',
 })
-export class BcfImportButtonComponent {
+export class BcfExportButtonComponent implements OnInit, OnDestroy{
   public text = {
-    import: this.I18n.t('js.bcf.import')
+    export: this.I18n.t('js.bcf.export')
   };
+  public query:QueryResource;
 
   constructor(readonly I18n:I18nService,
               readonly currentProject:CurrentProjectService,
-              readonly bcfPathHelper:BcfPathHelperService) {
+              readonly bcfPathHelper:BcfPathHelperService,
+              readonly querySpace:IsolatedQuerySpace,
+              readonly queryUrlParamsHelper:UrlParamsHelperService,
+              public readonly state:StateService,) {
+  }
+
+  ngOnInit() {
+    this.querySpace.query
+      .values$()
+      .pipe(
+        untilComponentDestroyed(this)
+      )
+      .subscribe((query) => {
+        this.query = query;
+      });
+  }
+
+  ngOnDestroy() {
+    // Nothing to do
   }
 
   public handleClick() {
     var projectIdentifier = this.currentProject.identifier;
     if (projectIdentifier) {
-      var url = this.bcfPathHelper.projectImportIssuePath(projectIdentifier);
+      var url = this.bcfPathHelper.projectExportIssuesPath(projectIdentifier, this.queryUrlParamsHelper.encodeQueryJsonParams(this.query));
       window.location.href = url;
     }
   }
 }
 
-DynamicBootstrapper.register({ selector: 'bcf-import-button', cls: BcfImportButtonComponent });
+DynamicBootstrapper.register({ selector: 'bcf-export-button', cls: BcfExportButtonComponent });

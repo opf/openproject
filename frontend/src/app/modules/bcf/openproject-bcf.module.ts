@@ -35,6 +35,7 @@ import {initializeBcfDisplayFields} from "core-app/modules/bcf/fields/display/bc
 import {BcfImportButtonComponent} from "core-app/modules/bcf/bcf-buttons/bcf-import-button.component";
 import {BcfDetectorService} from "core-app/modules/bcf/helper/bcf-detector.service";
 import {BcfPathHelperService} from "core-app/modules/bcf/helper/bcf-path-helper.service";
+import {BcfExportButtonComponent} from "core-app/modules/bcf/bcf-buttons/bcf-export-button.component";
 
 
 @NgModule({
@@ -50,10 +51,12 @@ import {BcfPathHelperService} from "core-app/modules/bcf/helper/bcf-path-helper.
   declarations: [
     BcfWpSingleViewComponent,
     BcfImportButtonComponent,
+    BcfExportButtonComponent
   ],
   exports: [
     BcfWpSingleViewComponent,
     BcfImportButtonComponent,
+    BcfExportButtonComponent
   ],
   entryComponents: [
   ]

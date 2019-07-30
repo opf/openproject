@@ -30,7 +30,7 @@ require 'spec_helper'
 
 RSpec.feature 'Work package index view' do
   let(:user) { FactoryBot.create(:admin) }
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { FactoryBot.create(:project, enabled_module_names: %w[work_package_tracking]) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
   before do
