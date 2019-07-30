@@ -235,12 +235,11 @@ class JournalManager
     # since no version is changed here, in case of concurrency, one
     # of the calls is allowed to fail
     journable_type = base_class_name(journable.class)
-    warn "Setting version #{journable_type} #{journable.id}"
     ::JournalVersion.find_or_create_by(journable_type: journable_type, journable_id: journable.id)
 
     version = get_next_journal_version(journable_type, journable)
 
-    warn "Inserting new journal for #{journable_type} ##{journable.id} @ #{version}"
+    Rails.logger.debug "Inserting new journal for #{journable_type} ##{journable.id} @ #{version}"
 
     journal_attributes = { journable_id: journable.id,
                            journable_type: journal_class_name(journable.class),
@@ -248,7 +247,6 @@ class JournalManager
                            activity_type: journable.send(:activity_type),
                            details: journable_details(journable) }
 
-    warn "SAVING JOURNAL"
     journal = create_journal journable, journal_attributes, user, notes
 
     # FIXME: this is required for the association to be correctly saved...
