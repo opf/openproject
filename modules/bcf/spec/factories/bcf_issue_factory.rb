@@ -37,8 +37,8 @@ FactoryBot.define do
   factory :bcf_issue, class: ::Bcf::Issue do
     factory :bcf_issue_with_comment do
       after(:create) do |issue|
-        create(:bcf_viewpoint, issue: issue)
-        create(:bcf_comment, issue: issue)
+        viewpoint = create(:bcf_viewpoint, issue: issue)
+        create(:bcf_comment, issue: issue, viewpoint: viewpoint)
       end
     end
   end

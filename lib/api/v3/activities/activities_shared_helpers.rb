@@ -26,37 +26,33 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/activities/activity_representer'
-
 module API
   module V3
     module Activities
-      class ActivitiesByWorkPackageAPI < ::API::OpenProjectAPI
-        resource :activities do
-          helpers ::API::V3::Activities::ActivitiesSharedHelpers
+      module ActivitiesSharedHelpers
+        def comment_on_work_package(work_package, notify:, comment:)
+          result = AddWorkPackageNoteService
+                     .new(user: current_user,
+                          work_package: work_package)
+                     .call(comment,
+                           send_notifications: notify)
 
-          get do
-            @activities = get_aggregated_journals
-            self_link = api_v3_paths.work_package_activities @work_package.id
-            Activities::ActivityCollectionRepresenter.new(@activities,
-                                                          self_link,
-                                                          current_user: current_user)
+          if result.success?
+            journals = ::Journal::AggregatedJournal.aggregated_journals(journable: work_package)
+            Activities::ActivityRepresenter.new(journals.last, current_user: current_user)
+          else
+            fail ::API::Errors::ErrorBase.create_and_merge_errors(result.errors)
           end
+        end
 
-          params do
-            requires :comment, type: Hash
-          end
-          post do
-            authorize({ controller: :journals, action: :new }, context: @work_package.project) do
-              raise ::API::Errors::NotFound.new
-            end
-
-            comment_on_work_package(
-              @work_package,
-              notify: !(params.has_key?(:notify) && params[:notify] == 'false'),
-              comment: params[:comment][:raw]
-            )
-          end
+        def get_aggregated_journals
+          ::Journal::AggregatedJournal
+            .aggregated_journals(journable: @work_package,
+                                 includes: %i[
+                                   customizable_journals
+                                   attachable_journals
+                                   data
+                                 ])
         end
       end
     end

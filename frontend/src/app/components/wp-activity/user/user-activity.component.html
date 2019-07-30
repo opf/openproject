@@ -40,6 +40,9 @@
       </accessible-by-keyboard>
     </div>
   </div>
+  <img *ngIf="bcfSnapshot"
+       [src]="PathHelper.attachmentDownloadPath(bcfSnapshot.id, bcfSnapshot.file_name)"
+       class="activity-thumbnail">
   <div class="user-comment" [ngClass]="{ 'wiki': !inEdit }">
     <div *ngIf="inEdit" class="inplace-edit">
       <div class="user-comment--form inplace-edit--write-value">
@@ -49,7 +52,7 @@
         </edit-form-portal>
       </div>
     </div>
-    <span *ngIf="!inEdit && isComment"
+    <span *ngIf="!inEdit && (isComment || isBcfComment)"
           class="message"
           [innerHtml]="postedComment"></span>
     <ul class="work-package-details-activities-messages" *ngIf="!isInitial">

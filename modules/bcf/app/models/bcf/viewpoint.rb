@@ -12,6 +12,7 @@ module Bcf
     end
 
     belongs_to :issue, foreign_key: :issue_id, class_name: "Bcf::Issue"
+    has_many :comments, foreign_key: :viewpoint_id, class_name: "Bcf::Comment"
     delegate :project, :project_id, to: :issue, allow_nil: true
 
     def snapshot

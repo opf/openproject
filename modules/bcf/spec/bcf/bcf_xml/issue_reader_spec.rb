@@ -116,15 +116,36 @@ describe ::OpenProject::Bcf::BcfXml::IssueReader do
     context '#update_comment' do
       let!(:bcf_issue) { FactoryBot.create :bcf_issue_with_comment }
 
-      it '#update_comment' do
+      before do
         allow(subject).to receive(:issue).and_return(bcf_issue)
+      end
 
+      it '#update_comment' do
         modified_time = Time.now + 1.minute
         comment_data = { uuid: bcf_issue.comments.first.uuid, comment: 'Updated comment', modified_date: modified_time }
+        expect(subject).to receive(:update_comment_viewpoint_by_uuid)
+
         subject.send(:update_comment, comment_data)
 
         expect(bcf_issue.comments.first.journal.notes).to eql('Updated comment')
         expect(bcf_issue.comments.first.journal.created_at.utc.to_s).to eql(modified_time.utc.to_s)
+      end
+
+      it '#update_comment_viewpoint_by_uuid' do
+        bcf_comment = bcf_issue.comments.first
+        viewpoint = bcf_comment.viewpoint
+        bcf_comment.viewpoint = nil
+
+        subject.send(:update_comment_viewpoint_by_uuid, bcf_comment, viewpoint.uuid)
+        expect(bcf_comment.viewpoint_id).to eql(viewpoint.id)
+
+        subject.send(:update_comment_viewpoint_by_uuid, bcf_comment, nil)
+        expect(bcf_comment.viewpoint).to be_nil
+      end
+
+      it '#viewpoint_by_uuid' do
+        expect(subject.send(:viewpoint_by_uuid, nil)).to be_nil
+        expect(subject.send(:viewpoint_by_uuid, bcf_issue.comments.first.viewpoint.uuid)).to eql(bcf_issue.comments.first.viewpoint)
       end
     end
   end
