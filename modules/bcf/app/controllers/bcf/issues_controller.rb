@@ -30,6 +30,7 @@
 
 module ::Bcf
   class IssuesController < BaseController
+    include WorkPackagesFilterHelper
     include PaginationHelper
 
     before_action :find_project_by_project_id
@@ -43,7 +44,7 @@ module ::Bcf
 
     before_action :build_importer, only: %i[prepare_import configure_import perform_import]
 
-    menu_item :bcf
+    menu_item :work_packages
 
     def index
       @issues = ::Bcf::Issue.in_project(@project)
@@ -80,6 +81,7 @@ module ::Bcf
             @issues[:successful] << issue
           end
         end
+        redirect_to project_work_packages_bcf_issues_path(@project)
       rescue StandardError => e
         flash[:error] = I18n.t('bcf.bcf_xml.import_failed', error: e.message)
       end

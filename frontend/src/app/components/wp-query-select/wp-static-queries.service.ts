@@ -33,6 +33,7 @@ import {PathHelperService} from "core-app/modules/common/path-helper/path-helper
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {StateService} from "@uirouter/core";
 import {CurrentUserService} from "core-components/user/current-user.service";
+import {BcfDetectorService} from "core-app/modules/bcf/helper/bcf-detector.service";
 
 @Injectable()
 export class WorkPackageStaticQueriesService {
@@ -40,7 +41,8 @@ export class WorkPackageStaticQueriesService {
               private readonly $state:StateService,
               private readonly CurrentProject:CurrentProjectService,
               private readonly PathHelper:PathHelperService,
-              private readonly CurrentUserService:CurrentUserService) {
+              private readonly CurrentUserService:CurrentUserService,
+              private readonly BcfDetectorService:BcfDetectorService) {
   }
 
   public text = {
@@ -56,7 +58,8 @@ export class WorkPackageStaticQueriesService {
     assigned_to_me: this.I18n.t('js.work_packages.default_queries.assigned_to_me'),
     recently_created: this.I18n.t('js.work_packages.default_queries.recently_created'),
     all_open: this.I18n.t('js.work_packages.default_queries.all_open'),
-    summary: this.I18n.t('js.work_packages.default_queries.summary')
+    summary: this.I18n.t('js.work_packages.default_queries.summary'),
+    bcf_issues: this.I18n.t('js.bcf.work_packages.default_queries.bcf'),
   };
 
   // Create all static queries manually
@@ -108,6 +111,14 @@ export class WorkPackageStaticQueriesService {
           query_props: '{"c":["id","subject","type","status","author","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"assigneeOrGroup","o":"=","v":["me"]}]}'
         }
       ]);
+    }
+
+    if (this.BcfDetectorService.isBcfActivated) {
+      items.push({
+        identifier: 'bcf_issues',
+        label: this.text.bcf_issues,
+        query_props: '{"hi":true,"hl":"priority","g":"","t":"createdAt:desc","f":[{"n":"status","o":"o","v":[]}],"dr":"card"}'
+      });
     }
 
     return items;

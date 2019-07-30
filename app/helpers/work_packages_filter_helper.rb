@@ -214,6 +214,20 @@ module WorkPackagesFilterHelper
     project_work_packages_with_query_path(version.project, query, options)
   end
 
+  def project_work_packages_bcf_issues_path(project)
+    query = {
+      f: [
+        filter_object('status_id', 'o')
+      ],
+      hi: true,
+      hl: 'priority',
+      t: 'created_at:desc',
+      dr: 'card'
+    }
+
+    project_work_packages_with_query_path(project, query)
+  end
+
   private
 
   def default_sort
