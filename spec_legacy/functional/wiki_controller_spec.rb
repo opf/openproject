@@ -176,6 +176,7 @@ describe WikiController, type: :controller do
   # because running whole suite is fine, but running only this test
   # results in failure
   it 'should update stale page should not raise an error' do
+    ::JournalVersion.create!(journable_type: 'WikiContent', journable_id: 2, version: 1)
     journal = FactoryBot.create :wiki_content_journal,
                                  journable_id: 2,
                                  version: 1,
