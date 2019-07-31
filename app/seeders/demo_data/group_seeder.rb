@@ -46,17 +46,19 @@ module DemoData
 
     def add_projects_to_groups
       groups = demo_data_for('groups')
-      groups.each do |group_attr|
-        group = Group.find_by(lastname: group_attr[:name])
-        group_attr[:projects].each do |project_attr|
-          project = Project.find(project_attr[:name])
-          role = Role.find_by(name: project_attr[:role])
+      if groups.present?
+        groups.each do |group_attr|
+          group = Group.find_by(lastname: group_attr[:name])
+          group_attr[:projects].each do |project_attr|
+            project = Project.find(project_attr[:name])
+            role = Role.find_by(name: project_attr[:role])
 
-          Member.create!(
-            project: project,
-            principal: group,
-            roles: [role]
-          )
+            Member.create!(
+              project: project,
+              principal: group,
+              roles: [role]
+            )
+          end
         end
       end
     end
@@ -65,21 +67,16 @@ module DemoData
 
     def seed_groups
       groups = demo_data_for('groups')
-
-      groups.each do |group_attr|
-        print '.'
-        group = create_group group_attr[:name]
-
-        add_user_to_group group
+      if groups.present?
+        groups.each do |group_attr|
+          print '.'
+          create_group group_attr[:name]
+        end
       end
     end
 
     def create_group(name)
       Group.create lastname: name
-    end
-
-    def add_user_to_group(group)
-      group.users << user
     end
   end
 end

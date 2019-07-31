@@ -66,6 +66,7 @@ module DemoData
       wp_attr = base_work_package_attributes attributes
 
       set_version! wp_attr, attributes
+      set_accountable! wp_attr, attributes
       set_time_tracking_attributes! wp_attr, attributes
       set_backlogs_attributes! wp_attr, attributes
 
@@ -98,7 +99,7 @@ module DemoData
       {
         project:       project,
         author:        user,
-        assigned_to:   find_assignee(attributes),
+        assigned_to:   find_principal(attributes[:assignee]),
         subject:       attributes[:subject],
         description:   attributes[:description],
         status:        find_status(attributes),
@@ -107,9 +108,9 @@ module DemoData
       }
     end
 
-    def find_assignee(attributes)
-      if attributes[:assignee]
-        group_assignee =  Group.find_by(lastname: attributes[:assignee])
+    def find_principal(name)
+      if name
+        group_assignee =  Group.find_by(lastname: name)
         return group_assignee unless group_assignee.nil?
       end
 
@@ -131,6 +132,12 @@ module DemoData
     def set_version!(wp_attr, attributes)
       if attributes[:version]
         wp_attr[:fixed_version] = Version.find_by!(name: attributes[:version])
+      end
+    end
+
+    def set_accountable!(wp_attr, attributes)
+      if attributes[:accountable]
+        wp_attr[:responsible] = find_principal(attributes[:accountable])
       end
     end
 

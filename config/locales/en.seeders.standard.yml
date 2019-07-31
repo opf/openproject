@@ -29,13 +29,6 @@ en:
   seeders:
     standard:
       demo_data:
-        groups:
-          - name: 'Project Admins'
-            projects:
-              - name: 'demo-project'
-                role: 'Project admin'
-              - name: 'your-scrum-project'
-                role: 'Project admin'
         welcome:
           title: "Welcome to OpenProject!"
           text: |
@@ -187,7 +180,6 @@ en:
                     attachments:
                       - project_overview.jpg
                   - subject: Activate further modules
-                    assignee: 'Project Admins'
                     description: |
                       Please activate further [Modules](%{base_url}/projects/demo-project/settings/modules) in the Project settings in order to have more features in your project.
 
@@ -614,7 +606,6 @@ en:
                 start: 23
                 duration: 0
               - subject: Choose a content management system
-                assignee: 'Project Admins'
                 status: :default_status_specified
                 type: :default_type_user_story
                 version: Product Backlog
