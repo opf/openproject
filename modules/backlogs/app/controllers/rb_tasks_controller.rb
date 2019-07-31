@@ -41,9 +41,10 @@ class RbTasksController < RbApplicationController
                       "estimated_hours", "status_id", "sprint_id"]
 
   def create
+    parent_task = Task.find(params[:parent_id])
     call = Tasks::CreateService
            .new(user: current_user)
-           .call(attributes: task_params.merge(project: @project), prev: params[:prev])
+           .call(attributes: task_params.merge(project: parent_task.project), prev: params[:prev])
 
     respond_with_task call
   end
