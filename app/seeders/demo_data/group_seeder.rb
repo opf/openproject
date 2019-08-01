@@ -1,5 +1,7 @@
 #-- encoding: UTF-8
+
 #-- copyright
+
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
@@ -25,15 +27,56 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
-class DemoDataSeeder < CompositeSeeder
-  def data_seeder_classes
-    [
-      DemoData::GroupSeeder,
-      DemoData::ProjectSeeder
-    ]
-  end
+module DemoData
+  class GroupSeeder < Seeder
+    attr_accessor :user
+    include ::DemoData::References
 
-  def namespace
-    'DemoData'
+    def initialize
+      self.user = User.admin.first
+    end
+
+    def seed_data!
+      print '    ↳ Creating groups'
+
+      seed_groups
+
+      puts
+    end
+
+    def add_projects_to_groups
+      groups = demo_data_for('groups')
+      if groups.present?
+        groups.each do |group_attr|
+          group = Group.find_by(lastname: group_attr[:name])
+          group_attr[:projects].each do |project_attr|
+            project = Project.find(project_attr[:name])
+            role = Role.find_by(name: project_attr[:role])
+
+            Member.create!(
+              project: project,
+              principal: group,
+              roles: [role]
+            )
+          end
+        end
+      end
+    end
+
+    private
+
+    def seed_groups
+      groups = demo_data_for('groups')
+      if groups.present?
+        groups.each do |group_attr|
+          print '.'
+          create_group group_attr[:name]
+        end
+      end
+    end
+
+    def create_group(name)
+      Group.create lastname: name
+    end
   end
 end

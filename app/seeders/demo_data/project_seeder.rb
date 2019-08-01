@@ -66,6 +66,9 @@ module DemoData
         Setting.demo_projects_available = 'true'
       end
 
+      puts ' ↳ Assign groups to projects'
+      set_groups
+
       puts ' ↳ Updating settings'
       seed_settings
     end
@@ -119,6 +122,10 @@ module DemoData
         principal: user,
         roles: [role]
       )
+    end
+
+    def set_groups
+      DemoData::GroupSeeder.new.add_projects_to_groups
     end
 
     def set_types(project, key)
