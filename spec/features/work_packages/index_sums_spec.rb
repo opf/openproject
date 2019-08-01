@@ -65,7 +65,7 @@ RSpec.feature 'Work package index sums', js: true do
     wp_table.expect_work_package_listed work_package_1, work_package_2
 
     within('.sum.group.all') do
-      expect(page).to have_content('Sum for all work packages')
+      expect(page).to have_content('Sum')
       expect(page).to have_content('25')
     end
 
@@ -74,7 +74,7 @@ RSpec.feature 'Work package index sums', js: true do
     edit_field.update '20'
 
     within('.sum.group.all') do
-      expect(page).to have_content('Sum for all work packages')
+      expect(page).to have_content('Sum')
       expect(page).to have_content('35')
     end
   end
