@@ -14,6 +14,6 @@
 
   <%= submit_tag t('bcf.bcf_xml.import.button_prepare'), class: 'button -highlight' %>
   <%= link_to t(:button_cancel),
-              { action: :index },
+              project_work_packages_bcf_issues_path(@project),
               class: 'button' %>
 <% end %>

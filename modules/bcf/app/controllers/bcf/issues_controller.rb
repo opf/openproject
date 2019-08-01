@@ -81,7 +81,6 @@ module ::Bcf
             @issues[:successful] << issue
           end
         end
-        redirect_to project_work_packages_bcf_issues_path(@project)
       rescue StandardError => e
         flash[:error] = I18n.t('bcf.bcf_xml.import_failed', error: e.message)
       end
@@ -98,7 +97,7 @@ module ::Bcf
             unknown_mails_action
             non_members_action].map { |key| params.dig(:import_options, key) }.include? 'cancel'
         flash[:notice] = I18n.t('bcf.bcf_xml.import_canceled')
-        redirect_to action: :index
+        redirect_to project_work_packages_bcf_issues_path(@project)
       end
     end
 

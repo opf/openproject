@@ -3,7 +3,7 @@ en:
   js:
     bcf:
       import: 'Import'
-      export: 'Export BCF-XML'
+      export: 'Export'
       work_packages:
         default_queries:
           bcf: 'BCF issues'
