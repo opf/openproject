@@ -242,7 +242,16 @@ export class WorkPackageCardViewComponent  implements OnInit {
    */
   public set workPackages(workPackages:WorkPackageResource[]) {
     if (this.activeInlineCreateWp) {
-      this._workPackages = [this.activeInlineCreateWp, ...workPackages];
+      let existingNewWp = this._workPackages.find(o => o.isNew);
+
+      // If there is already a card for a new WP,
+      // we have to replace this one by the new activeInlineCreateWp
+      if (existingNewWp) {
+        let index = this._workPackages.indexOf(existingNewWp);
+        this._workPackages[index] = this.activeInlineCreateWp;
+      } else {
+        this._workPackages = [this.activeInlineCreateWp, ...workPackages];
+      }
     } else {
       this._workPackages = [...workPackages];
     }
