@@ -1,19 +1,8 @@
 @import 'helpers'
 
-.wp-cards-container
+.wp-card
   display: flex
   flex-direction: column
-  // Ensure 100% height for drag & drop area
-  height: 100%
-  // Some minor left/right padding
-  padding: 0 15px
-  border-radius: 2px
-  // We let the scrollbar be always there, so that we can align the button above with the card view
-  // independently of whether we scroll or not.
-  overflow-y: scroll
-  @include styled-scroll-bar
-
-.wp-card
   user-select: none
   width: 100%
   border: 1px solid var(--widget-box-block-border-color)
@@ -31,17 +20,14 @@
   &.-new
     padding-right: 25px
 
-  // Take care that the shadow of the last element is still visible
-  &:last-of-type
-    margin-bottom: 3px
-
 .wp-card--content:not(.-new)
   display: grid
   grid-template-columns: auto 1fr auto
-  grid-template-rows: auto auto auto
+  grid-template-rows: auto 1fr auto
   grid-row-gap: 10px
   grid-template-areas: "type type type" "subject subject subject" "attributeTag avatar idlink"
   overflow: hidden
+  flex-grow: 1
 
   .wp-card--type
     grid-area: type
@@ -95,3 +81,6 @@ wp-edit-field
   margin: -10px -10px 10px
   width: calc(100% + 10px + 10px)
   max-width: calc(100% + 10px + 10px)
+
+  flex-basis: 200px
+  object-fit: cover

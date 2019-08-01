@@ -66,6 +66,7 @@ module DemoData
       wp_attr = base_work_package_attributes attributes
 
       set_version! wp_attr, attributes
+      set_accountable! wp_attr, attributes
       set_time_tracking_attributes! wp_attr, attributes
       set_backlogs_attributes! wp_attr, attributes
 
@@ -98,13 +99,22 @@ module DemoData
       {
         project:       project,
         author:        user,
-        assigned_to:   user,
+        assigned_to:   find_principal(attributes[:assignee]),
         subject:       attributes[:subject],
         description:   attributes[:description],
         status:        find_status(attributes),
         type:          find_type(attributes),
         priority:      find_priority(attributes) || IssuePriority.default
       }
+    end
+
+    def find_principal(name)
+      if name
+        group_assignee =  Group.find_by(lastname: name)
+        return group_assignee unless group_assignee.nil?
+      end
+
+      user
     end
 
     def find_priority(attributes)
@@ -122,6 +132,12 @@ module DemoData
     def set_version!(wp_attr, attributes)
       if attributes[:version]
         wp_attr[:fixed_version] = Version.find_by!(name: attributes[:version])
+      end
+    end
+
+    def set_accountable!(wp_attr, attributes)
+      if attributes[:accountable]
+        wp_attr[:responsible] = find_principal(attributes[:accountable])
       end
     end
 
@@ -161,9 +177,12 @@ module DemoData
 
     def create_relations(attributes)
       Array(attributes[:relations]).each do |relation|
+        root_work_package = WorkPackage.find_by!(subject: attributes[:subject])
+        to_work_package =  WorkPackage.find_by(subject: relation[:to], project: root_work_package.project)
+        to_work_package =  WorkPackage.find_by!(subject: relation[:to]) unless to_work_package.nil?
         create_relation(
-          to:   WorkPackage.find_by!(subject: relation[:to]),
-          from: WorkPackage.find_by!(subject: attributes[:subject]),
+          to: to_work_package,
+          from: root_work_package,
           type: relation[:type]
         )
       end

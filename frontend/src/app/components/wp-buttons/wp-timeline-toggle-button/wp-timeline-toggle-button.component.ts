@@ -32,6 +32,10 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {TimelineZoomLevel} from 'core-app/modules/hal/resources/query-resource';
 import {componentDestroyed, untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {
+  WorkPackageDisplayRepresentationService,
+  wpDisplayCardRepresentation
+} from "core-components/wp-fast-table/state/work-package-display-representation.service";
 
 export interface TimelineButtonText extends ButtonControllerText {
   zoomOut:string;
@@ -63,7 +67,8 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
 
   constructor(readonly I18n:I18nService,
               readonly cdRef:ChangeDetectorRef,
-              public wpTableTimeline:WorkPackageTableTimelineService) {
+              public wpTableTimeline:WorkPackageTableTimelineService,
+              public wpDisplayRepresentationService:WorkPackageDisplayRepresentationService) {
     super(I18n);
 
     this.activateLabel = I18n.t('js.timelines.button_activate');
@@ -95,6 +100,15 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
       .subscribe((current) => {
         this.isMaxLevel = current === this.maxZoomLevel;
         this.isMinLevel = current === this.minZoomLevel;
+        this.cdRef.detectChanges();
+      });
+
+    this.wpDisplayRepresentationService.live$()
+      .pipe(
+        untilComponentDestroyed(this)
+      )
+      .subscribe(() => {
+        this.disabled = this.wpDisplayRepresentationService.current === wpDisplayCardRepresentation;
         this.cdRef.detectChanges();
       });
   }

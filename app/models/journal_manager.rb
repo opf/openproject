@@ -91,11 +91,15 @@ class JournalManager
     end
 
     def journal_class_name(type)
-      "#{base_class(type).name}Journal"
+      "#{base_class_name(type)}Journal"
     end
 
     def base_class(type)
       type.base_class
+    end
+
+    def base_class_name(type)
+      base_class(type).name
     end
 
     def create_association_data(journable, journal)
@@ -225,28 +229,73 @@ class JournalManager
   end
 
   def self.add_journal!(journable, user = User.current, notes = '')
-    if journalized? journable
-      # Obtain a table lock to ensure consistent version numbers
-      Journal.with_write_lock(journable) do
+    return unless journalized?(journable)
 
-        # Maximum version might be nil, so use to_i here.
-        version = journable.journals.maximum(:version).to_i + 1
+    # Ensure a version exists for this journable type
+    # since no version is changed here, in case of concurrency, one
+    # of the calls is allowed to fail
+    journable_type = base_class_name(journable.class)
+    ::JournalVersion.find_or_create_by(journable_type: journable_type, journable_id: journable.id)
 
-        journal_attributes = { journable_id: journable.id,
-                               journable_type: journal_class_name(journable.class),
-                               version: version,
-                               activity_type: journable.send(:activity_type),
-                               details: journable_details(journable) }
+    version = get_next_journal_version(journable_type, journable)
 
-        journal = create_journal journable, journal_attributes, user, notes
+    Rails.logger.debug "Inserting new journal for #{journable_type} ##{journable.id} @ #{version}"
 
-        # FIXME: this is required for the association to be correctly saved...
-        journable.journals.select(&:new_record?)
+    journal_attributes = { journable_id: journable.id,
+                           journable_type: journal_class_name(journable.class),
+                           version: version,
+                           activity_type: journable.send(:activity_type),
+                           details: journable_details(journable) }
 
-        journal.save!
-        journal
-      end
+    journal = create_journal journable, journal_attributes, user, notes
+
+    # FIXME: this is required for the association to be correctly saved...
+    journable.journals.select(&:new_record?)
+
+    journal.save!
+    journal
+  end
+
+  def self.get_next_journal_version(journable_type, journable)
+    # Increment the version according to our DB
+    if OpenProject::Database.postgresql?
+      increment_version!(journable_type, journable.id)
+    else
+      lock_and_increment_version!(journable_type, journable.id)
     end
+  end
+
+  ##
+  # In case of MySQL, we cannot return the value just inserted with RETURNING,
+  # but have to insert and select separately, which is not atomic
+  def self.lock_and_increment_version!(journable_type, journable_id)
+    result = Journal.with_advisory_lock_result('journals.write_lock', timeout_seconds: 30) do
+      entry = ::JournalVersion.find_by!(journable_type: journable_type, journable_id: journable_id)
+      entry.increment!(:version)
+
+      entry.version
+    end
+
+    unless result.lock_was_acquired?
+      raise "Failed to acquire write lock to journable #{journable_type} ##{journable_id}"
+    end
+
+    result.result
+  end
+
+  def self.increment_version!(journable_type, journable_id)
+    sql = <<~SQL
+      UPDATE #{JournalVersion.table_name}
+      SET version = version + 1
+      WHERE journable_type = :journable_type AND :journable_id = journable_id
+      RETURNING version
+    SQL
+
+    sanitized = ::OpenProject::SqlSanitization.sanitize(sql, journable_type: journable_type, journable_id: journable_id)
+    ::JournalVersion
+      .connection
+      .execute(sanitized)
+      .first['version']
   end
 
   def self.create_journal(journable, journal_attributes, user = User.current,  notes = '')

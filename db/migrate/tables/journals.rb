@@ -45,7 +45,8 @@ class Tables::Journals < Tables::Base
       t.index :journable_type
       t.index :user_id
       t.index :activity_type
-      t.index %i[journable_type journable_id version], unique: true
+      t.index %i[journable_type journable_id version],
+              unique: true
     end
   end
 end

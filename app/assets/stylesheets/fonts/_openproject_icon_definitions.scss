@@ -1384,99 +1384,105 @@
 .icon-user:before {
 	content: "\f1e6";
 }
-@mixin icon-mixin-view-fullscreen {
+@mixin icon-mixin-view-card {
     content: "\f1e7";
 }
-.icon-view-fullscreen:before {
+.icon-view-card:before {
 	content: "\f1e7";
 }
-@mixin icon-mixin-view-list {
+@mixin icon-mixin-view-fullscreen {
     content: "\f1e8";
 }
-.icon-view-list:before {
+.icon-view-fullscreen:before {
 	content: "\f1e8";
 }
-@mixin icon-mixin-view-split {
+@mixin icon-mixin-view-list {
     content: "\f1e9";
 }
-.icon-view-split:before {
+.icon-view-list:before {
 	content: "\f1e9";
 }
-@mixin icon-mixin-view-timeline {
+@mixin icon-mixin-view-split {
     content: "\f1ea";
 }
-.icon-view-timeline:before {
+.icon-view-split:before {
 	content: "\f1ea";
 }
-@mixin icon-mixin-warning {
+@mixin icon-mixin-view-timeline {
     content: "\f1eb";
 }
-.icon-warning:before {
+.icon-view-timeline:before {
 	content: "\f1eb";
 }
-@mixin icon-mixin-watched {
+@mixin icon-mixin-warning {
     content: "\f1ec";
 }
-.icon-watched:before {
+.icon-warning:before {
 	content: "\f1ec";
 }
-@mixin icon-mixin-wiki-edit {
+@mixin icon-mixin-watched {
     content: "\f1ed";
 }
-.icon-wiki-edit:before {
+.icon-watched:before {
 	content: "\f1ed";
 }
-@mixin icon-mixin-wiki {
+@mixin icon-mixin-wiki-edit {
     content: "\f1ee";
 }
-.icon-wiki:before {
+.icon-wiki-edit:before {
 	content: "\f1ee";
 }
-@mixin icon-mixin-wiki2 {
+@mixin icon-mixin-wiki {
     content: "\f1ef";
 }
-.icon-wiki2:before {
+.icon-wiki:before {
 	content: "\f1ef";
 }
-@mixin icon-mixin-work-packages {
+@mixin icon-mixin-wiki2 {
     content: "\f1f0";
 }
-.icon-work-packages:before {
+.icon-wiki2:before {
 	content: "\f1f0";
 }
-@mixin icon-mixin-workflow {
+@mixin icon-mixin-work-packages {
     content: "\f1f1";
 }
-.icon-workflow:before {
+.icon-work-packages:before {
 	content: "\f1f1";
 }
-@mixin icon-mixin-yes {
+@mixin icon-mixin-workflow {
     content: "\f1f2";
 }
-.icon-yes:before {
+.icon-workflow:before {
 	content: "\f1f2";
 }
-@mixin icon-mixin-zen-mode {
+@mixin icon-mixin-yes {
     content: "\f1f3";
 }
-.icon-zen-mode:before {
+.icon-yes:before {
 	content: "\f1f3";
 }
-@mixin icon-mixin-zoom-auto {
+@mixin icon-mixin-zen-mode {
     content: "\f1f4";
 }
-.icon-zoom-auto:before {
+.icon-zen-mode:before {
 	content: "\f1f4";
 }
-@mixin icon-mixin-zoom-in {
+@mixin icon-mixin-zoom-auto {
     content: "\f1f5";
 }
-.icon-zoom-in:before {
+.icon-zoom-auto:before {
 	content: "\f1f5";
 }
-@mixin icon-mixin-zoom-out {
+@mixin icon-mixin-zoom-in {
     content: "\f1f6";
 }
-.icon-zoom-out:before {
+.icon-zoom-in:before {
 	content: "\f1f6";
+}
+@mixin icon-mixin-zoom-out {
+    content: "\f1f7";
+}
+.icon-zoom-out:before {
+	content: "\f1f7";
 }

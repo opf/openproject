@@ -33,31 +33,10 @@ module API
     module Activities
       class ActivitiesByWorkPackageAPI < ::API::OpenProjectAPI
         resource :activities do
-          helpers do
-            def comment_on_work_package(work_package, notify:, comment:)
-              result = AddWorkPackageNoteService
-                       .new(user: current_user,
-                            work_package: work_package)
-                       .call(comment,
-                             send_notifications: notify)
-
-              if result.success?
-                journals = ::Journal::AggregatedJournal.aggregated_journals(journable: work_package)
-                Activities::ActivityRepresenter.new(journals.last, current_user: current_user)
-              else
-                fail ::API::Errors::ErrorBase.create_and_merge_errors(result.errors)
-              end
-            end
-          end
+          helpers ::API::V3::Activities::ActivitiesSharedHelpers
 
           get do
-            @activities = ::Journal::AggregatedJournal
-                          .aggregated_journals(journable: @work_package,
-                                               includes: %i(
-                                                 customizable_journals
-                                                 attachable_journals
-                                                 data
-                                               ))
+            @activities = get_aggregated_journals
             self_link = api_v3_paths.work_package_activities @work_package.id
             Activities::ActivityCollectionRepresenter.new(@activities,
                                                           self_link,

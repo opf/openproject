@@ -77,6 +77,7 @@ export class UrlParamsHelperService {
     paramsData = this.encodeFilters(paramsData, query.filters);
     paramsData.pa = additional.page;
     paramsData.pp = additional.perPage;
+    paramsData.dr = query.displayRepresentation;
 
     return JSON.stringify(paramsData);
   }
@@ -187,6 +188,10 @@ export class UrlParamsHelperService {
       }
     }
 
+    if (properties.dr) {
+      queryData.displayRepresentation = properties.dr;
+    }
+
     if (properties.hl) {
       queryData.highlightingMode = properties.hl;
     }
@@ -256,6 +261,10 @@ export class UrlParamsHelperService {
 
     if (query.highlightedAttributes && query.highlightingMode === 'inline') {
       queryData.highlightedAttributes = query.highlightedAttributes.map(el => el.href);
+    }
+
+    if (query.displayRepresentation) {
+      queryData.displayRepresentation = query.displayRepresentation;
     }
 
     queryData.showHierarchies = !!query.showHierarchies;

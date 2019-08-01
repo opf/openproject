@@ -196,13 +196,21 @@ class Changeset < ActiveRecord::Base
   # i.e. a work_package that belong to the repository project, a subproject or a parent project
   def find_referenced_work_package_by_id(id)
     return nil if id.blank?
+
     work_package = WorkPackage.includes(:project).find_by(id: id.to_i)
-    if work_package
-      unless work_package.project && (project == work_package.project || project.is_ancestor_of?(work_package.project) || project.is_descendant_of?(work_package.project))
-        work_package = nil
-      end
+
+    # Check that the work package is either in the same,
+    # a parent or child project of the given changeset
+    if in_ancestor_chain?(work_package, project)
+      work_package
     end
-    work_package
+  end
+
+  def in_ancestor_chain?(work_package, project)
+    work_package&.project &&
+      (project == work_package.project ||
+        project.is_ancestor_of?(work_package.project) ||
+        project.is_descendant_of?(work_package.project))
   end
 
   def fix_work_package(work_package)
@@ -227,6 +235,7 @@ class Changeset < ActiveRecord::Base
     unless work_package.save(validate: false)
       logger.warn("Work package ##{work_package.id} could not be saved by changeset #{id}: #{work_package.errors.full_messages}") if logger
     end
+
     work_package
   end
 

@@ -126,6 +126,7 @@ hu:
           text: '[Placeholder] Beágyazott feladatcsoport táblázat'
         embedded_calendar:
           text: '[Placeholder] Beágyazott naptár'
+
     admin:
       type_form:
         custom_field: 'Választható mező'
@@ -136,6 +137,7 @@ hu:
         edit_query: 'Edit query'
         new_group: 'Új csoport'
         reset_to_defaults: 'Alapbeállítások visszaállítása'
+
     custom_actions:
       date:
         specific: 'be'

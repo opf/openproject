@@ -38,4 +38,5 @@ export class QuerySchemaResource extends SchemaResource {
   filtersSchemas:CollectionResource<QueryFilterInstanceSchemaResource>;
   sortBy:{ allowedValues:QuerySortByResource[] };
   groupBy:{ allowedValues:QueryGroupByResource[] };
+  displayRepresentation:{ allowedValues:'list'|'card' };
 }

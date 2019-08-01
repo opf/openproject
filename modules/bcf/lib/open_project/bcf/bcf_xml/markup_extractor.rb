@@ -80,6 +80,7 @@ module OpenProject::Bcf::BcfXml
           date: extract_date_time("Date", node),
           author: extract_from_node('Author', node),
           comment: extract_from_node('Comment', node),
+          viewpoint_uuid: comment_viewpoint_uuid(node),
           modified_date: extract_date_time("ModifiedDate", node),
           modified_author: extract_from_node("ModifiedAuthor", node)
         }.with_indifferent_access
@@ -100,6 +101,11 @@ module OpenProject::Bcf::BcfXml
     end
 
     private
+
+    def comment_viewpoint_uuid(node)
+      viewpoint_node = node.at('Viewpoint')
+      extract_from_node('@Guid', viewpoint_node, attribute: true) if viewpoint_node
+    end
 
     def extract_date_time(path, node = nil)
       node ||= doc

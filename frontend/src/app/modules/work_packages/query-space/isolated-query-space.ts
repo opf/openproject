@@ -34,6 +34,7 @@ export class IsolatedQuerySpace extends StatesGroup {
 
   // Current state of collapsed groups (if any)
   collapsedGroups = input<{ [identifier:string]:boolean }>();
+
   // State to be updated when the table is up to date
   rendered = input<RenderedRow[]>();
 

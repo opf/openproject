@@ -54,24 +54,6 @@ class Journal < ActiveRecord::Base
   # logs like the history on issue#show
   scope :changing, -> { where(['version > 1']) }
 
-  # Ensure that no INSERT/UPDATE/DELETE statements as well as other code inside :with_write_lock
-  # is run concurrently to the code inside this block, by using database locking.
-  # Note: If this is called from inside a transaction, the lock will last until the
-  #   end of that transaction.
-  def self.with_write_lock(journable)
-    lock_name = "journal.#{journable.class}.#{journable.id}"
-
-    result = Journal.with_advisory_lock_result(lock_name, timeout_seconds: 60) do
-      yield
-    end
-
-    unless result.lock_was_acquired?
-      raise "Failed to acquire write lock to journable #{journable.class} #{journable.id}"
-    end
-
-    result.result
-  end
-
   def changed_data=(changed_attributes)
     attributes = changed_attributes
 

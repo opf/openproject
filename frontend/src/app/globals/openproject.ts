@@ -37,6 +37,12 @@ export class OpenProject {
 
   public pluginContext:InputState<OpenProjectPluginContext> = input<OpenProjectPluginContext>();
 
+  /** Globally setable variable whether the page was edited */
+  public pageWasEdited:boolean = false;
+  /** Globally setable variable whether the page form is submitted.
+   * Necessary to avoid a data loss warning on beforeunload */
+  public pageIsSubmitted:boolean = false;
+
   public getPluginContext():Promise<OpenProjectPluginContext> {
     return this.pluginContext
       .values$()

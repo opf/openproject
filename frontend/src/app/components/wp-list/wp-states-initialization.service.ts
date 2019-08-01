@@ -20,9 +20,9 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {Injectable} from '@angular/core';
 import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
 import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
-import {combineLatest, Observable} from "rxjs";
 import {take} from "rxjs/operators";
 import {WorkPackageTableOrderService} from "core-components/wp-fast-table/state/wp-table-order.service";
+import {WorkPackageDisplayRepresentationService} from "core-components/wp-fast-table/state/work-package-display-representation.service";
 
 @Injectable()
 export class WorkPackageStatesInitializationService {
@@ -42,7 +42,8 @@ export class WorkPackageStatesInitializationService {
               protected wpTableAdditionalElements:WorkPackageTableAdditionalElementsService,
               protected wpCacheService:WorkPackageCacheService,
               protected wpListChecksumService:WorkPackagesListChecksumService,
-              protected authorisationService:AuthorisationService) {
+              protected authorisationService:AuthorisationService,
+              protected wpDisplayRepresentation:WorkPackageDisplayRepresentationService) {
   }
 
   /**
@@ -85,6 +86,7 @@ export class WorkPackageStatesInitializationService {
     this.states.queries.columns.putValue(schema.columns.allowedValues);
     this.states.queries.sortBy.putValue(schema.sortBy.allowedValues);
     this.states.queries.groupBy.putValue(schema.groupBy.allowedValues);
+    this.states.queries.displayRepresentation.putValue(schema.displayRepresentation.allowedValues);
   }
 
   public updateQuerySpace(query:QueryResource, results:WorkPackageCollectionResource) {
@@ -97,6 +99,12 @@ export class WorkPackageStatesInitializationService {
         this.states.schemas.get(schema.href as string).putValue(schema);
       });
     }
+
+    // Ensure we're setting the current results to the query
+    // This is due to 9.X still loading results from /api/v3/work_packages
+    // for a previously loaded query.
+    query.results = results;
+
     this.querySpace.query.putValue(query);
 
     this.authorisationService.initModelAuth('work_packages', results.$links);
@@ -114,6 +122,8 @@ export class WorkPackageStatesInitializationService {
     this.wpTableAdditionalElements.initialize(results.elements);
 
     this.wpTableOrder.initialize(query, results);
+
+    this.wpDisplayRepresentation.initialize(query, results);
 
     this.querySpace.additionalRequiredWorkPackages
       .values$()
@@ -136,6 +146,7 @@ export class WorkPackageStatesInitializationService {
     this.wpTableTimeline.initialize(query, results);
     this.wpTableHierarchies.initialize(query, results);
     this.wpTableHighlighting.initialize(query, results);
+    this.wpDisplayRepresentation.initialize(query, results);
 
     this.authorisationService.initModelAuth('query', query.$links);
     this.authorisationService.initModelAuth('work_packages', results.$links);
@@ -151,6 +162,7 @@ export class WorkPackageStatesInitializationService {
     this.wpTableHighlighting.applyToQuery(query);
     this.wpTableHierarchies.applyToQuery(query);
     this.wpTableOrder.applyToQuery(query);
+    this.wpDisplayRepresentation.applyToQuery(query);
   }
 
   public clearStates() {
@@ -167,6 +179,7 @@ export class WorkPackageStatesInitializationService {
     this.wpTableColumns.clear(reason);
     this.wpTableSortBy.clear(reason);
     this.wpTableGroupBy.clear(reason);
+    this.wpDisplayRepresentation.clear(reason);
     this.wpTableSum.clear(reason);
 
     // Clear rendered state

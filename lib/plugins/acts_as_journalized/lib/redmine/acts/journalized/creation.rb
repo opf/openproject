@@ -156,6 +156,8 @@ module Redmine::Acts::Journalized
           new_journal.user_id = user.id
         end
 
+        # Ensure journal version exists
+        ::JournalVersion.find_or_create_by(journable_type: self.class.name, journable_id: id, version: 1)
         JournalManager.recreate_initial_journal self.class, new_journal, changed_data
 
         # Backdate journal

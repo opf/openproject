@@ -7,7 +7,9 @@ import {
   Injector,
   Input,
   OnInit,
-  ViewChild
+  Output,
+  ViewChild,
+  EventEmitter
 } from "@angular/core";
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
@@ -34,9 +36,11 @@ import {filter} from 'rxjs/operators';
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
 import {WorkPackageTableOrderService} from "core-components/wp-fast-table/state/wp-table-order.service";
 
+export type CardViewOrientation = 'horizontal'|'vertical';
+
 @Component({
   selector: 'wp-card-view',
-  styleUrls: ['./wp-card-view.component.sass'],
+  styleUrls: ['./wp-card-view.component.sass', './wp-card-view-horizontal.sass', './wp-card-view-vertical.sass'],
   templateUrl: './wp-card-view.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -46,8 +50,16 @@ export class WorkPackageCardViewComponent  implements OnInit {
   @Input() public highlightingMode:CardHighlightingMode;
   @Input() public workPackageAddedHandler:(wp:WorkPackageResource) => Promise<unknown>;
   @Input() public showStatusButton:boolean = true;
+  @Input() public orientation:CardViewOrientation = 'vertical';
+  /** Whether cards are removable */
+  @Input() public cardsRemovable:boolean = false;
 
-  public trackByHref = AngularTrackingHelpers.trackByHref;
+  /** Container reference */
+  @ViewChild('container', { static: true }) public container:ElementRef;
+
+  @Output() onMoved = new EventEmitter<void>();
+
+  public trackByHref = AngularTrackingHelpers.trackByHrefAndProperty('lockVersion');
   public query:QueryResource;
   private _workPackages:WorkPackageResource[];
   public columns:QueryColumn[];
@@ -67,12 +79,6 @@ export class WorkPackageCardViewComponent  implements OnInit {
     onCancel: () => this.setReferenceMode(false),
     onReferenced: (wp:WorkPackageResource) => this.addWorkPackageToQuery(wp, 0)
   };
-
-  /** Whether cards are removable */
-  @Input() public cardsRemovable:boolean = false;
-
-  /** Container reference */
-  @ViewChild('container', { static: true }) public container:ElementRef;
 
   /** Whether the card view has an active inline created wp */
   public activeInlineCreateWp?:WorkPackageResource;
@@ -188,6 +194,8 @@ export class WorkPackageCardViewComponent  implements OnInit {
 
         const newOrder = await this.reorderService.move(this.currentOrder, wpId, toIndex);
         this.updateOrder(newOrder);
+
+        this.onMoved.emit();
       },
       onRemoved: (card:HTMLElement) => {
         const wpId:string = card.dataset.workPackageId!;

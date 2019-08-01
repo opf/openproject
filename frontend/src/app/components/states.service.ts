@@ -16,6 +16,7 @@ import {QueryGroupByResource} from "core-app/modules/hal/resources/query-group-b
 import {Input} from "@angular/core";
 import {QueryFilterResource} from "core-app/modules/hal/resources/query-filter-resource";
 import {VersionResource} from "core-app/modules/hal/resources/version-resource";
+import {wpDisplayRepresentation} from "core-components/wp-fast-table/state/work-package-display-representation.service";
 
 export class States extends StatesGroup {
   name = 'MainStore';
@@ -86,4 +87,7 @@ export class QueryAvailableDataStates {
 
   // Available filter schemas (derived from their schema)
   filters = input<QueryFilterInstanceSchemaResource[]>();
+
+  // Display of the WP results
+  displayRepresentation = input<wpDisplayRepresentation|null>();
 }

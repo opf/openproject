@@ -80,7 +80,11 @@ module Components
 
       def open_modal
         @opened = true
-        ::Components::WorkPackages::TableConfigurationModal.new.open_and_switch_to 'Highlighting'
+        ::Components::WorkPackages::SettingsMenu.new.open_and_choose 'Configure view'
+
+        retry_block do
+          find(".tab-show", text: 'Highlighting', wait: 10).click
+        end
       end
 
       def assume_opened

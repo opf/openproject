@@ -67,7 +67,8 @@ module Changesets
 
     def log_error(service_result)
       unless service_result.success?
-        logger&.warn("TimeEntry could not be created by changeset #{id}: #{service_result.errors.full_messages}")
+        errors = service_result.errors.full_messages.join(", ")
+        Rails.logger.warn("TimeEntry could not be created by changeset #{changeset.id}: #{errors}")
       end
     end
 

@@ -46,7 +46,7 @@ import {combineLatest, concat} from "rxjs";
 })
 export class WorkPackageTableSumsRowController implements AfterViewInit {
 
-  private text:{ sumFor:string, allWorkPackages:string };
+  private text:{ sum:string };
 
   private $element:JQuery;
 
@@ -60,8 +60,7 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
               readonly I18n:I18nService) {
 
     this.text = {
-      sumFor: I18n.t('js.label_sum_for'),
-      allWorkPackages: I18n.t('js.label_all_work_packages')
+      sum: I18n.t('js.label_sum')
     };
   }
 
@@ -141,7 +140,7 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
 
   private appendFirstLabel(div:HTMLElement) {
     const span = document.createElement('span');
-    span.textContent = `${this.text.sumFor} ${this.text.allWorkPackages}`;
+    span.textContent = `${this.text.sum}`;
     jQuery(div).prepend(span);
   }
 }

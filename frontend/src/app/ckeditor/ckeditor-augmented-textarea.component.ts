@@ -26,14 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, OnInit, OnDestroy, ViewChild, AfterContentInit} from '@angular/core';
+import {Component, ElementRef, OnInit, OnDestroy, ViewChild, AfterContentInit, HostListener} from '@angular/core';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {DynamicBootstrapper} from 'core-app/globals/dynamic-bootstrapper';
 import {States} from 'core-components/states.service';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil, filter} from 'rxjs/operators';
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
@@ -67,6 +67,7 @@ export class CkeditorAugmentedTextareaComponent implements OnInit, OnDestroy {
   @ViewChild(OpCkeditorComponent, { static: true }) private ckEditorInstance:OpCkeditorComponent;
 
   private attachments:HalResource[];
+  private isEditing = false;
 
   constructor(protected elementRef:ElementRef,
               protected pathHelper:PathHelperService,
@@ -101,6 +102,10 @@ export class CkeditorAugmentedTextareaComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.formElement.off('submit.ckeditor');
+  }
+
+  public markEdited() {
+    window.OpenProject.pageWasEdited = true;
   }
 
   public setup(editor:ICKEditorInstance) {

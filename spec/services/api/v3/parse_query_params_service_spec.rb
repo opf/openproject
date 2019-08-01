@@ -148,6 +148,20 @@ describe ::API::V3::ParseQueryParamsService,
       end
     end
 
+    context 'with display_representation' do
+      it_behaves_like 'transforms' do
+        let(:params) { { displayRepresentation: 'cards' } }
+        let(:expected) { { display_representation:'cards' } }
+      end
+    end
+
+    context 'without display_representation' do
+      it_behaves_like 'transforms' do
+        let(:params) { { displayRepresentation: nil } }
+        let(:expected) { {} }
+      end
+    end
+
     context 'with sort' do
       context 'as sortBy in comma separated value' do
         it_behaves_like 'transforms' do

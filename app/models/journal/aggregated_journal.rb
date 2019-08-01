@@ -290,7 +290,7 @@ class Journal::AggregatedJournal
                .group_by(&:journal_id)
              end
 
-      aggregated_journals.each { |journal|
+      aggregated_journals.each do |journal|
         if includes.include?(:customizable_journals)
           journal.set_preloaded_customizable_journals customizable_journals[journal.id]
         end
@@ -303,7 +303,7 @@ class Journal::AggregatedJournal
         if journable
           journal.set_preloaded_journable journable
         end
-      }
+      end
     end
   end
 
