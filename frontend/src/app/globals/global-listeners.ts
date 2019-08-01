@@ -36,7 +36,7 @@ import {augmentedDatePicker} from "./global-listeners/augmented-date-picker";
 
   $(function() {
     $(document.documentElement!)
-      .on('click', (evt:JQueryEventObject) => {
+      .on('click', (evt:any) => {
         const target = jQuery(evt.target) as JQuery;
 
         // Create datepickers dynamically for Rails-based views
@@ -56,9 +56,26 @@ import {augmentedDatePicker} from "./global-listeners/augmented-date-picker";
       el && el.scrollIntoView();
     }
 
+    // Global submitting hook,
+    // necessary to avoid a data loss warning on beforeunload
+    $(document).on('submit','form',function(){
+      window.OpenProject.pageIsSubmitted = true;
+    });
+
+    // Global beforeunload hook
+    $(window).on('beforeunload', (e:JQueryEventObject) => {
+      const event = e.originalEvent as BeforeUnloadEvent;
+      if (window.OpenProject.pageWasEdited && !window.OpenProject.pageIsSubmitted) {
+        // Cancel the event
+        event.preventDefault();
+        // Chrome requires returnValue to be set
+        event.returnValue = '';
+      }
+    });
+
     // Disable global drag & drop handling, which results in the browser loading the image and losing the page
     $(document.documentElement!)
-      .on('dragover drop', (evt:JQueryEventObject) => {
+      .on('dragover drop', (evt:any) => {
         evt.preventDefault();
         return false;
       });
