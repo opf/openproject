@@ -100,11 +100,6 @@ export class WorkPackageStatesInitializationService {
       });
     }
 
-    // Ensure we're setting the current results to the query
-    // This is due to 9.X still loading results from /api/v3/work_packages
-    // for a previously loaded query.
-    query.results = results;
-
     this.querySpace.query.putValue(query);
 
     this.authorisationService.initModelAuth('work_packages', results.$links);

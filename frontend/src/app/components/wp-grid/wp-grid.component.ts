@@ -35,7 +35,7 @@ import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state
   selector: 'wp-grid',
   template: `
     <wp-card-view [dragOutOfHandler]="canDragOutOf"
-                  [dragInto]="false"
+                  [dragInto]="true"
                   [cardsRemovable]="false"
                   [highlightingMode]="highlightingMode()"
                   [showStatusButton]="false"
