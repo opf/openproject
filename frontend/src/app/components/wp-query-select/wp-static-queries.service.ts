@@ -59,7 +59,6 @@ export class WorkPackageStaticQueriesService {
     recently_created: this.I18n.t('js.work_packages.default_queries.recently_created'),
     all_open: this.I18n.t('js.work_packages.default_queries.all_open'),
     summary: this.I18n.t('js.work_packages.default_queries.summary'),
-    bcf_issues: this.I18n.t('js.bcf.work_packages.default_queries.bcf'),
   };
 
   // Create all static queries manually
@@ -81,13 +80,23 @@ export class WorkPackageStaticQueriesService {
       identifier: 'recently_created',
       label: this.text.recently_created,
       query_props: '{"c":["id","subject","type","status","assignee","createdAt"],"hi":false,"g":"","t":"createdAt:desc","f":[{"n":"status","o":"o","v":[]}]}'
-    },
-    {
-      identifier: 'all_open',
-      label: this.text.all_open,
-      query_props: null
     }
     ] as IAutocompleteItem[];
+
+    // Modify default "all open" query for BCF
+    if (this.BcfDetectorService.isBcfActivated) {
+      items.push({
+        identifier: 'all_open',
+          label: this.text.all_open,
+        query_props: '{"hi":true,"hl":"priority","f":[{"n":"status","o":"o","v":[]}],"dr":"card"}'
+      });
+    } else {
+      items.push({
+        identifier: 'all_open',
+        label: this.text.all_open,
+        query_props: null
+      });
+    }
 
     const projectIdentifier = this.CurrentProject.identifier;
     if (projectIdentifier) {
@@ -111,14 +120,6 @@ export class WorkPackageStaticQueriesService {
           query_props: '{"c":["id","subject","type","status","author","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"assigneeOrGroup","o":"=","v":["me"]}]}'
         }
       ]);
-    }
-
-    if (this.BcfDetectorService.isBcfActivated) {
-      items.push({
-        identifier: 'bcf_issues',
-        label: this.text.bcf_issues,
-        query_props: '{"hi":true,"hl":"priority","g":"","t":"createdAt:desc","f":[{"n":"status","o":"o","v":[]}],"dr":"card"}'
-      });
     }
 
     return items;

@@ -42,6 +42,8 @@ OpenProject::Application.routes.draw do
         post :configure_import, action: :configure_import, on: :collection
         post :import, action: :perform_import, on: :collection
       end
+
+      get 'bcf_issues', to: 'bcf/issues#redirect_to_bcf_issues_list', as: :work_packages
     end
   end
 end

@@ -201,9 +201,9 @@ module Redmine::MenuManager::MenuHelper
   def render_unattached_menu_item(menu_item, project)
     raise Redmine::MenuManager::MenuError, ':child_menus must be an array of MenuItems' unless menu_item.is_a? Redmine::MenuManager::MenuItem
 
-    if User.current.allowed_to?(menu_item.url, project)
+    if User.current.allowed_to?(menu_item.url(project), project)
       link_to(menu_item.caption,
-              menu_item.url,
+              menu_item.url(project),
               menu_item.html_options)
     end
   end
@@ -244,13 +244,13 @@ module Redmine::MenuManager::MenuHelper
 
   def extract_node_details(node, project = nil)
     item = node
-    url = case item.url
+    url = case item.url(project)
           when Hash
-            project.nil? ? item.url : { item.param => project }.merge(item.url)
+            project.nil? ? item.url(project) : { item.param => project }.merge(item.url(project))
           when Symbol
-            main_app.send(item.url)
+            main_app.send(item.url(project))
           else
-            item.url
+            item.url(project)
           end
 
     caption = item.caption(project)
@@ -271,7 +271,7 @@ module Redmine::MenuManager::MenuHelper
     end
 
     if project
-      user && user.allowed_to?(node.url, project)
+      user && user.allowed_to?(node.url(project), project)
     else
       # outside a project, all menu items allowed
       true

@@ -279,7 +279,7 @@ module Redmine #:nodoc:
         menu_item.caption = options[:caption]
         menu_item.icon = options[:icon]
         menu_item.badge = options[:badge]
-
+        menu_item.url = options[:url]
       end
     end
 

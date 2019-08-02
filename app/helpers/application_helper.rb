@@ -308,8 +308,6 @@ module ApplicationHelper
 
     css << "ee-banners-#{EnterpriseToken.show_banners? ? 'visible' : 'hidden'}"
 
-    css << "bcf-#{@project&.module_enabled?(:bcf) ? 'activated' : 'deactivated'}"
-
     # Add browser specific classes to aid css fixes
     css += browser_specific_classes
 

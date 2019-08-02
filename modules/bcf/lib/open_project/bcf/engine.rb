@@ -45,7 +45,10 @@ module OpenProject::Bcf
 
       project_module :bcf do
         permission :view_linked_issues,
-                   'bcf/issues': :index
+                   'bcf/issues': %i[index redirect_to_bcf_issues_list]
+
+        permission :view_work_packages,
+                   'bcf/issues': :redirect_to_bcf_issues_list
 
         permission :manage_bcf,
                    'bcf/issues': %i[index upload prepare_import configure_import perform_import]
@@ -53,8 +56,11 @@ module OpenProject::Bcf
 
       rename_menu_item :project_menu,
                        :work_packages,
-                       { caption:   Proc.new { |project| project.module_enabled?(:bcf) ? I18n.t(:'bcf.label_bcf') : I18n.t(:label_work_package_plural) },
-                         icon:  Proc.new { |project| project.module_enabled?(:bcf) ? 'icon2 icon-bcf' : 'icon2 icon-view-timeline' },
+                       { url: Proc.new { |project| project.module_enabled?(:bcf) ?
+                                                     { controller: 'bcf/issues', action: 'redirect_to_bcf_issues_list' } :
+                                                     { controller: 'work_packages', action: 'index' } },
+                         caption: Proc.new { |project| project.module_enabled?(:bcf) ? I18n.t(:'bcf.label_bcf') : I18n.t(:label_work_package_plural) },
+                         icon: Proc.new { |project| project.module_enabled?(:bcf) ? 'icon2 icon-bcf' : 'icon2 icon-view-timeline' },
                          badge: Proc.new { |project| project.module_enabled?(:bcf) ? 'bcf.experimental_badge' : nil } }
 
     end

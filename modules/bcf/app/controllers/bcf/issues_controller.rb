@@ -30,8 +30,9 @@
 
 module ::Bcf
   class IssuesController < BaseController
-    include WorkPackagesFilterHelper
     include PaginationHelper
+    include WorkPackagesFilterHelper
+    include BcfWorkPackagesFilterHelper
 
     before_action :find_project_by_project_id
     before_action :authorize
@@ -88,6 +89,10 @@ module ::Bcf
       @bcf_attachment.destroy
     end
 
+    def redirect_to_bcf_issues_list
+      redirect_to project_work_packages_bcf_issues_path(@project)
+    end
+
     private
 
     def import_canceled?
@@ -97,7 +102,7 @@ module ::Bcf
             unknown_mails_action
             non_members_action].map { |key| params.dig(:import_options, key) }.include? 'cancel'
         flash[:notice] = I18n.t('bcf.bcf_xml.import_canceled')
-        redirect_to project_work_packages_bcf_issues_path(@project)
+        redirect_to_bcf_issues_list
       end
     end
 

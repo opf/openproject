@@ -4,6 +4,3 @@ en:
     bcf:
       import: 'Import'
       export: 'Export'
-      work_packages:
-        default_queries:
-          bcf: 'BCF issues'

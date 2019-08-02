@@ -29,7 +29,7 @@
 
 class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
   include Redmine::I18n
-  attr_reader :name, :url, :param, :icon_after, :context, :condition, :parent, :child_menus, :last, :partial
+  attr_reader :name, :param, :icon_after, :context, :condition, :parent, :child_menus, :last, :partial
 
   def initialize(name, url, options)
     raise ArgumentError, "Invalid option :if for menu item '#{name}'" if options[:if] && !options[:if].respond_to?(:call)
@@ -97,6 +97,18 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
 
   def badge=(new_badge)
     @badge = new_badge
+  end
+
+  def url(project = nil)
+    if @url.is_a?(Proc)
+      @url.call(project)
+    else
+      @url
+    end
+  end
+
+  def url=(new_url)
+    @url = new_url
   end
 
   def html_options(options = {})
