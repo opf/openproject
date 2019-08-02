@@ -3,23 +3,15 @@
 
 <%= form_tag({ action: :configure_import }, multipart: true, method: :post) do %>
   <%= render 'import_options_hidden_fields' %>
-  <h3>Invalid priority names found</h3>
+  <h3><%= t('bcf.bcf_xml.import.invalid_priorities_found') %></h3>
   <ul>
     <% @importer.aggregations.unknown_priorities.each do |name| %>
-      <li> <%= name.present? ? name : '(No priority provided)' %></li>
+      <li> <%= name.present? ? name : "(#{t('bcf.bcf_xml.import.no_priority_provided')})" %></li>
     <% end %>
   </ul>
-  <div class="form--field -full-width">
-    <div class="form--field-container">
-      <label class="option-label">
-        <input type="radio" name="import_options[unknown_priorities_action]" value="cancel" checked>
-        Recommended: Correct the data first and try another import.
-      </label>
-    </div>
-  </div>
-  <label class="option-label">
-    <input type="radio" name="import_options[unknown_priorities_action]" value="chose">
-    Import them all, setting priority to
+  <p>
+    <input type="hidden" name="import_options[unknown_priorities_action]" value="chose">
+    <%= t('bcf.bcf_xml.import.import_priorities_as') %>
     <% options = IssuePriority.all.collect { |priority| [priority.name, priority.id] } %>
     <%= select_tag 'import_options[unknown_priorities_chose_ids][]', options_for_select(options, IssuePriority.default.id),
                    multiple: false,
@@ -28,7 +20,7 @@
                    tabIndex: 0,
                    class:    'form--select form--inline-select',
                    id:       'unknown_priorities_chose_ids' %>
-  </label>
+  </p>
 
   <%= submit_tag t('bcf.bcf_xml.import.button_proceed'), class: 'button -highlight' %>
   <%= link_to t(:button_cancel),

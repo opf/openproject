@@ -3,27 +3,16 @@
 
 <%= form_tag({ action: :configure_import }, multipart: true, method: :post) do %>
   <%= render 'import_options_hidden_fields' %>
-  <h3>Invalid email addresses found</h3>
+  <h3><%= t('bcf.bcf_xml.import.invalid_emails_found') %></h3>
   <ul>
     <% @importer.aggregations.invalid_people.each do |name| %>
       <li> <%= name %></li>
     <% end %>
   </ul>
-  <div class="form--field -full-width">
-    <div class="form--field-container">
-      <label class="option-label">
-        <input type="radio" name="import_options[invalid_people_action]" value="cancel" checked>
-        Recommended: Correct the data first and try another import.
-      </label>
-    </div>
-  </div>
-  <div class="form--field -full-width">
-    <div class="form--field-container">
-      <label class="option-label">
-        <input type="radio" name="import_options[invalid_people_action]" value="anonymize">No, import them as <i>System</i> user (not recommended)
-      </label>
-    </div>
-  </div>
+  <p>
+    <input type="hidden" name="import_options[invalid_people_action]" value="anonymize">
+    <%= t('bcf.bcf_xml.import.import_as_system_user') %>
+  </p>
 
   <%= submit_tag t('bcf.bcf_xml.import.button_proceed'), class: 'button -highlight' %>
   <%= link_to t(:button_cancel),

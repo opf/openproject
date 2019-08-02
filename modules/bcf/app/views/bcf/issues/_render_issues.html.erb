@@ -24,7 +24,7 @@
           </div>
         <% else %>
           <% if issue.viewpoints.empty? %>
-            <p>(No viewpoints)</p>
+            <p>(<%= t('bcf.no_viewpoints') %>)</p>
           <% end %>
           <% issue.viewpoints.each do |vp| %>
             <img src="<%= API::V3::Utilities::PathHelper::ApiV3Path.attachment_content(vp.snapshot.id) %>" />
