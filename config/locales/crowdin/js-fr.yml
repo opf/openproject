@@ -280,6 +280,7 @@ fr:
     label_star_query: "Préféré"
     label_press_enter_to_save: "Appuyer sur \"entrée\" pour enregistrer."
     label_public_query: "Public"
+    label_sum: "Total"
     label_sum_for: "Somme pour"
     label_subject: "Sujet"
     label_this_week: "cette semaine"

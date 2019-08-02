@@ -280,6 +280,7 @@ it:
     label_star_query: "Preferito"
     label_press_enter_to_save: "Premi Invio per salvare."
     label_public_query: "Pubblico"
+    label_sum: "Somma"
     label_sum_for: "Somma per"
     label_subject: "Soggetto"
     label_this_week: "questa settimana"

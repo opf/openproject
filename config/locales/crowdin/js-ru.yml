@@ -279,6 +279,7 @@ ru:
     label_star_query: "Добавлено в избранное"
     label_press_enter_to_save: "Нажмите ввод для сохранения."
     label_public_query: "Общий"
+    label_sum: "Сумма"
     label_sum_for: "Сумма для"
     label_subject: "Тема"
     label_this_week: "на этой неделе"

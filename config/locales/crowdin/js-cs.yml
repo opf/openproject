@@ -280,6 +280,7 @@ cs:
     label_star_query: "Favored"
     label_press_enter_to_save: "Press enter to save."
     label_public_query: "Veřejné"
+    label_sum: "Sum"
     label_sum_for: "Součet pro"
     label_subject: "Předmět"
     label_this_week: "tento týden"

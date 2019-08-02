@@ -280,6 +280,7 @@ hr:
     label_star_query: "Favored"
     label_press_enter_to_save: "Press enter to save."
     label_public_query: "Javno"
+    label_sum: "Zbroj"
     label_sum_for: "Iznos za"
     label_subject: "Predmet"
     label_this_week: "ovog tjedna"

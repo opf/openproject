@@ -279,6 +279,7 @@ vi:
     label_star_query: "Ưa thích"
     label_press_enter_to_save: "Nhấn enter để lưu."
     label_public_query: "Công cộng"
+    label_sum: "Sum"
     label_sum_for: "Tổng cho"
     label_subject: "Chủ đề"
     label_this_week: "tuần này"

@@ -279,6 +279,7 @@ sv:
     label_star_query: "Favored"
     label_press_enter_to_save: "Press enter to save."
     label_public_query: "Offentlig"
+    label_sum: "Summa"
     label_sum_for: "Summa för"
     label_subject: "Ämne"
     label_this_week: "denna vecka"

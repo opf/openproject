@@ -280,6 +280,7 @@ ar:
     label_star_query: "Favored"
     label_press_enter_to_save: "Press enter to save."
     label_public_query: "عام"
+    label_sum: "المجموع"
     label_sum_for: "مجموع ال"
     label_subject: "الموضوع"
     label_this_week: "هذا الأسبوع"

@@ -279,6 +279,7 @@ zh-TW:
     label_star_query: "喜好"
     label_press_enter_to_save: "按 Enter 即可儲存。"
     label_public_query: "公開"
+    label_sum: "總和"
     label_sum_for: "總和"
     label_subject: "主題"
     label_this_week: "本週"
