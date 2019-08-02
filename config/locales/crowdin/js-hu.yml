@@ -41,6 +41,8 @@ hu:
     button_open_details: "Részletes nézet megnyitása"
     button_close_details: "Részletes nézet bezárása"
     button_open_fullscreen: "Teljes képernyős nézet"
+    button_show_cards: "Show card view"
+    button_show_list: "Show list view"
     button_quote: "Idéz"
     button_save: "Mentés"
     button_settings: "Beállítások"
@@ -126,7 +128,6 @@ hu:
           text: '[Placeholder] Beágyazott feladatcsoport táblázat'
         embedded_calendar:
           text: '[Placeholder] Beágyazott naptár'
-
     admin:
       type_form:
         custom_field: 'Választható mező'
@@ -137,7 +138,6 @@ hu:
         edit_query: 'Edit query'
         new_group: 'Új csoport'
         reset_to_defaults: 'Alapbeállítások visszaállítása'
-
     custom_actions:
       date:
         specific: 'be'
@@ -317,6 +317,7 @@ hu:
     label_star_query: "Kedvenc"
     label_press_enter_to_save: "Nyomjon Entert a mentéshez"
     label_public_query: "Nyilvános"
+    label_sum: "Össz."
     label_sum_for: "Összeg"
     label_subject: "Tárgy"
     label_this_week: "ezen a héten"

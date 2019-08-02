@@ -621,7 +621,7 @@ pt-BR:
     updated: "Atualizado: %{title}"
   attributes:
     active: "Ativo"
-    assigned_to: "Atribuído para"
+    assigned_to: "Atribuição"
     assignee: "Atribuído para"
     attachments: "Anexos"
     author: "Autor"
@@ -2282,7 +2282,7 @@ pt-BR:
         date: "data"
         default: "padrão"
       column:
-        assigned_to: "Atribuído para"
+        assigned_to: "Atribuição"
         type: "Tipo"
         due_date: "Data de término"
         name: "Nome"
