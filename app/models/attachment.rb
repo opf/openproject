@@ -81,7 +81,9 @@ class Attachment < ActiveRecord::Base
   end
 
   def content_disposition
-    inlineable? ? "inline" : "attachment; filename=#{self[:file]}"
+    # Do not use filename with attachment as this may break for Unicode files
+    # specifically when using S3 for attachments.
+    inlineable? ? "inline" : "attachment"
   end
 
   def visible?(user = User.current)
