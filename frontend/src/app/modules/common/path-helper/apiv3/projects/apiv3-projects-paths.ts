@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {SimpleResourceCollection} from 'core-app/modules/common/path-helper/apiv3/path-resources';
+import {SimpleResource, SimpleResourceCollection} from 'core-app/modules/common/path-helper/apiv3/path-resources';
 import {Apiv3ProjectPaths} from 'core-app/modules/common/path-helper/apiv3/projects/apiv3-project-paths';
 
 export class Apiv3ProjectsPaths extends SimpleResourceCollection<Apiv3ProjectPaths> {
@@ -38,4 +38,7 @@ export class Apiv3ProjectsPaths extends SimpleResourceCollection<Apiv3ProjectPat
   public id(projectIdentifier:string|number):Apiv3ProjectPaths {
     return new Apiv3ProjectPaths(this.path, projectIdentifier);
   }
+
+  // /api/v3/projects/schema
+  public readonly schema = this.path + '/schema';
 }

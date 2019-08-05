@@ -61,6 +61,7 @@ import {WidgetHeaderComponent} from "core-app/modules/grids/widgets/header/heade
 import {WidgetWpOverviewComponent} from "core-app/modules/grids/widgets/wp-overview/wp-overview.component";
 import {WidgetCustomTextComponent} from "core-app/modules/grids/widgets/custom-text/custom-text.component";
 import {OpenprojectFieldsModule} from "core-app/modules/fields/openproject-fields.module";
+import {WidgetProjectDetailsComponent} from "core-app/modules/grids/widgets/project-details/project-details.component";
 
 export const GRID_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -95,6 +96,7 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
                                   WidgetWpCalendarComponent,
                                   WidgetWpOverviewComponent,
                                   WidgetProjectDescriptionComponent,
+                                  WidgetProjectDetailsComponent,
                                   WidgetTimeEntriesCurrentUserComponent]),
 
     // Support for inline editig fields
@@ -126,6 +128,7 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
     WidgetWpTableQuerySpaceComponent,
     WidgetWpGraphComponent,
     WidgetProjectDescriptionComponent,
+    WidgetProjectDetailsComponent,
     WidgetTimeEntriesCurrentUserComponent,
 
     // Widget menus
@@ -303,6 +306,14 @@ export function registerWidgets(injector:Injector) {
             text: {
               raw: ''
             }
+          }
+        },
+        {
+          identifier: 'project_details',
+          component: WidgetProjectDetailsComponent,
+          title: i18n.t(`js.grid.widgets.project_details.title`),
+          properties: {
+            name: i18n.t('js.grid.widgets.project_details.title')
           }
         }
       ];

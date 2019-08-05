@@ -226,6 +226,8 @@ en:
           no_results: 'Nothing new to report.'
         project_description:
           title: 'Project description'
+        project_details:
+          title: 'Project details'
         time_entries_current_user:
           title: 'Spent time (last 7 days)'
           no_results: 'No time entries for the last 7 days.'

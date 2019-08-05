@@ -6,6 +6,7 @@ module Dashboards
     widgets 'work_packages_table',
             'work_packages_graph',
             'project_description',
+            'project_details',
             'work_packages_calendar',
             'work_packages_overview',
             'custom_text'

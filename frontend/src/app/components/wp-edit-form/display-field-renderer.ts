@@ -24,7 +24,7 @@ export class DisplayFieldRenderer {
   readonly I18n:I18nService = this.injector.get(I18nService);
 
   /** We cache the previously used fields to avoid reinitialization */
-  private fieldCache:{ [key:string]: DisplayField } = {};
+  private fieldCache:{ [key:string]:DisplayField } = {};
 
   constructor(public readonly injector:Injector,
               public readonly container:'table' | 'single-view' | 'timeline',

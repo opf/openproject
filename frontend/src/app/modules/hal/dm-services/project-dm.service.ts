@@ -30,6 +30,8 @@ import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.ser
 import {Inject, Injectable} from '@angular/core';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {ProjectResource} from 'core-app/modules/hal/resources/project-resource';
+import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
+import {Apiv3ProjectsPaths} from "core-app/modules/common/path-helper/apiv3/projects/apiv3-projects-paths";
 
 @Injectable()
 export class ProjectDmService {
@@ -39,7 +41,17 @@ export class ProjectDmService {
 
   public load(id:string|number):Promise<ProjectResource> {
     return this.halResourceService
-      .get<ProjectResource>(this.pathHelper.api.v3.projects.id(id).toString())
+      .get<ProjectResource>(this.projectsPath.id(id).toString())
       .toPromise();
+  }
+
+  public schema():Promise<SchemaResource> {
+    return this.halResourceService
+      .get<SchemaResource>(this.projectsPath.schema)
+      .toPromise();
+  }
+
+  private get projectsPath():Apiv3ProjectsPaths {
+    return this.pathHelper.api.v3.projects;
   }
 }
