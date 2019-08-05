@@ -10,7 +10,7 @@ module OpenProject::BimSeeder
           'alternative-color'                                    => "#349939",
           'header-bg-color'                                      => "#05002C",
           'header-item-bg-hover-color'                           => "#163473",
-          'content-link-color'                                   => "#163473",
+          'content-link-color'                                   => "#275BB5",
           'main-menu-bg-color'                                   => "#0E2045",
           'main-menu-bg-selected-background'                     => "#3270DB",
           'main-menu-bg-hover-background'                        => "#163473",
