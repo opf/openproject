@@ -16,15 +16,17 @@
         <div class="form--field-container">
           <label class="option-label">
             <input type="radio" name="import_options[unknown_mails_action]" value="invite" checked>
-            <%= t('bcf.bcf_xml.import.invite_as_members_with_role', project: @project.name) %>
+            <%= t('bcf.bcf_xml.import.invite_as_members_with_role', project: @project.name) %>&nbsp;
             <% options = @roles.collect { |obj| [obj.name, obj.id] } %>
-            <%= select_tag 'import_options[unknown_mails_invite_role_ids][]', options_for_select(options),
-                           multiple: false,
-                           no_label: true,
-                           title:    l(:label_role_search),
-                           tabIndex: 0,
-                           class:    'form--select form--inline-select',
-                           id:       'unknown_mails_invite_role_ids' %>
+            <%= styled_select_tag 'import_options[unknown_mails_invite_role_ids][]',
+                                  options_for_select(options),
+                                  multiple: false,
+                                  no_label: true,
+                                  title:    l(:label_role_search),
+                                  tabIndex: 0,
+                                  class:    'form--select form--inline-select',
+                                  container_class: '-slim',
+                                  id:       'unknown_mails_invite_role_ids' %>
             (<%= t('bcf.recommended') %>)
           </label>
         </div>
@@ -38,27 +40,29 @@
         </div>
       </div>
     <% else %>
-      <p>
-        <%= t('bcf.bcf_xml.import.no_permission_to_add_members') %>
-        <%= t('bcf.bcf_xml.import.contact_project_admin') %>
-      </p>
-      <p>
+      <div class="notification-box -warning">
+        <div class="notification-box--content">
+          <%= t('bcf.bcf_xml.import.no_permission_to_add_members') %>
+          <%= t('bcf.bcf_xml.import.contact_project_admin') %>
+        </div>
+      </div>
+      <div class="form--field">
         <%= t('bcf.bcf_xml.import.continue_anyways') %>
         <input type="hidden" name="import_options[unknown_mails_action]" value="anonymize">
         <%= t('bcf.bcf_xml.import.replace_with_system_user') %>.
-      </p>
+      </div>
     <% end %>
     <%= submit_tag t('bcf.bcf_xml.import.button_proceed'), class: 'button -highlight' %>
-    <%= link_to t(:button_cancel),
-                project_work_packages_bcf_issues_path(@project),
-                class: 'button' %>
   <% else %>
-    <p>
-      <%= I18n.t('text_no_roles_defined') %>
-    </p>
-    <%= link_to t(:button_cancel),
-                project_work_packages_bcf_issues_path(@project),
-                class: 'button' %>
+    <div class="notification-box -error">
+      <div class="notification-box--content">
+        <%= I18n.t('text_no_roles_defined') %>
+      </div>
+    </div>
+    <br/>
   <% end %>
+  <%= link_to t(:button_cancel),
+              project_work_packages_bcf_issues_path(@project),
+              class: 'button' %>
 <% end %>
 

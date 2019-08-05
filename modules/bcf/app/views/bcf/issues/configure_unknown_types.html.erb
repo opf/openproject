@@ -9,18 +9,20 @@
       <li> <%= name.present? ? name : "(#{t('bcf.bcf_xml.import.no_type_provided')})" %></li>
     <% end %>
   </ul>
-  <p>
+  <div class="form--field">
     <input type="hidden" name="import_options[unknown_types_action]" value="chose">
-    <%= t('bcf.bcf_xml.import.import_types_as') %>
+    <%= t('bcf.bcf_xml.import.import_types_as') %>&nbsp;
     <% options = Type.all.collect { |type| [type.name, type.id] } %>
-    <%= select_tag 'import_options[unknown_types_chose_ids][]', options_for_select(options),
-                   multiple: false,
-                   no_label: true,
-                   title:    l(:label_type),
-                   tabIndex: 0,
-                   class:    'form--select form--inline-select',
-                   id:       'unknown_types_chose_ids' %>
-  </p>
+    <%= styled_select_tag 'import_options[unknown_types_chose_ids][]',
+                          options_for_select(options),
+                          multiple: false,
+                          no_label: true,
+                          title:    l(:label_type),
+                          tabIndex: 0,
+                          class:    'form--select form--inline-select',
+                          container_class: '-slim',
+                          id:       'unknown_types_chose_ids' %>
+  </div>
 
   <%= submit_tag t('bcf.bcf_xml.import.button_proceed'), class: 'button -highlight' %>
   <%= link_to t(:button_cancel),

@@ -9,10 +9,10 @@
       <li> <%= name %></li>
     <% end %>
   </ul>
-  <p>
+  <div class="form--field">
     <input type="hidden" name="import_options[invalid_people_action]" value="anonymize">
     <%= t('bcf.bcf_xml.import.import_as_system_user') %>
-  </p>
+  </div>
 
   <%= submit_tag t('bcf.bcf_xml.import.button_proceed'), class: 'button -highlight' %>
   <%= link_to t(:button_cancel),

@@ -11,36 +11,40 @@
   </ul>
   <% if @roles.any? %>
     <% if User.current.allowed_to?(:manage_members, @project) %>
-      <p>
+      <div class="form--field">
         <input type="hidden" name="import_options[non_members_action]" value="add" checked>
-        <%= t('bcf.bcf_xml.import.add_as_members_with_role', project: @project.name) %>
+        <%= t('bcf.bcf_xml.import.add_as_members_with_role', project: @project.name) %>&nbsp;
         <% options = @roles.collect { |obj| [obj.name, obj.id] } %>
-        <%= select_tag 'import_options[non_members_add_role_ids][]', options_for_select(options),
-                       multiple: false,
-                       no_label: true,
-                       title:    l(:label_role_search),
-                       tabIndex: 0,
-                       class:    'form--select form--inline-select',
-                       id:       'non_members_add_role_ids' %>
-      </p>
+        <%= styled_select_tag 'import_options[non_members_add_role_ids][]',
+                              options_for_select(options),
+                              multiple: false,
+                              no_label: true,
+                              title:    l(:label_role_search),
+                              tabIndex: 0,
+                              class:    'form--select form--inline-select',
+                              container_class: '-slim',
+                              id:       'non_members_add_role_ids' %>
+      </div>
+      <%= submit_tag t('bcf.bcf_xml.import.button_proceed'), class: 'button -highlight' %>
     <% else %>
-      <p>
-        <input type="hidden" name="import_options[non_members_action]" value="cancel">
-        <%= t('bcf.bcf_xml.import.contact_project_admin') %>
-      </p>
+      <div class="notification-box -warning">
+        <div class="notification-box--content">
+          <input type="hidden" name="import_options[non_members_action]" value="cancel">
+          <%= t('bcf.bcf_xml.import.contact_project_admin') %>
+        </div>
+      </div>
+      <br/>
     <% end %>
-
-    <%= submit_tag t('bcf.bcf_xml.import.button_proceed'), class: 'button -highlight' %>
-    <%= link_to t(:button_cancel),
-                project_work_packages_bcf_issues_path(@project),
-                class: 'button' %>
   <% else %>
-    <p>
-      <%= I18n.t('text_no_roles_defined') %>
-    </p>
-    <%= link_to t(:button_cancel),
-                project_work_packages_bcf_issues_path(@project),
-                class: 'button' %>
+    <div class="notification-box -error">
+      <div class="notification-box--content">
+        <%= I18n.t('text_no_roles_defined') %>
+      </div>
+    </div>
+    <br/>
   <% end %>
+  <%= link_to t(:button_cancel),
+              project_work_packages_bcf_issues_path(@project),
+              class: 'button' %>
 <% end %>
 
