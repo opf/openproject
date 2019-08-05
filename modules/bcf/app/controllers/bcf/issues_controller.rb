@@ -31,7 +31,6 @@
 module ::Bcf
   class IssuesController < BaseController
     include PaginationHelper
-    include WorkPackagesFilterHelper
     include BcfWorkPackagesFilterHelper
 
     before_action :find_project_by_project_id

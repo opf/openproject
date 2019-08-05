@@ -29,6 +29,8 @@
 #++
 
 module BcfWorkPackagesFilterHelper
+  include WorkPackagesFilterHelper
+
   def project_work_packages_bcf_issues_path(project)
     query = {
       f: [
