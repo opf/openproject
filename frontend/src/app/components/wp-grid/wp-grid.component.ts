@@ -26,10 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectionStrategy, Component} from "@angular/core";
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from "@angular/core";
 import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
 import {CardViewOrientation} from "core-components/wp-card-view/wp-card-view.component";
 import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state/wp-table-sort-by.service";
+import {distinctUntilChanged, takeUntil} from "rxjs/operators";
+import {HighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 
 @Component({
   selector: 'wp-grid',
@@ -37,7 +40,7 @@ import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state
     <wp-card-view [dragOutOfHandler]="canDragOutOf"
                   [dragInto]="true"
                   [cardsRemovable]="false"
-                  [highlightingMode]="highlightingMode()"
+                  [highlightingMode]="highlightingMode"
                   [showStatusButton]="false"
                   [orientation]="gridOrientation"
                   (onMoved)="switchToManualSorting()">
@@ -48,16 +51,33 @@ import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state
 export class WorkPackagesGridComponent {
   public canDragOutOf = () => { return true; };
   public gridOrientation:CardViewOrientation = 'horizontal';
+  public highlightingMode:HighlightingMode = 'none';
 
   constructor(readonly wpTableHighlight:WorkPackageTableHighlightingService,
-              readonly wpTableSortBy:WorkPackageTableSortByService) {
+              readonly wpTableSortBy:WorkPackageTableSortByService,
+              readonly querySpace:IsolatedQuerySpace,
+              readonly cdRef:ChangeDetectorRef) {
+  }
+
+  ngOnInit() {
+    this.wpTableHighlight
+      .updates$()
+      .pipe(
+        takeUntil(this.querySpace.stopAllSubscriptions),
+        distinctUntilChanged()
+      )
+      .subscribe(() => {
+        this.highlightingMode = this.wpTableHighlight.current.mode;
+        this.cdRef.detectChanges();
+      });
+
+  }
+
+  ngOnDestroy():void {
+    // Nothing to do
   }
 
   public switchToManualSorting() {
     this.wpTableSortBy.switchToManualSorting();
-  }
-
-  public highlightingMode() {
-    return this.wpTableHighlight.current.mode;
   }
 }
