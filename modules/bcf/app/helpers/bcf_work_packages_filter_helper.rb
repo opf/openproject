@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,32 +28,19 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+module BcfWorkPackagesFilterHelper
+  include WorkPackagesFilterHelper
 
-RSpec.feature 'Work package index view' do
-  let(:user) { FactoryBot.create(:admin) }
-  let(:project) { FactoryBot.create(:project, enabled_module_names: %w[work_package_tracking]) }
-  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  def project_work_packages_bcf_issues_path(project)
+    query = {
+      f: [
+        filter_object('status_id', 'o')
+      ],
+      hi: true,
+      hl: 'priority',
+      dr: 'card'
+    }
 
-  before do
-    login_as(user)
-  end
-
-  scenario 'is reachable by clicking the sidebar menu item', js: true do
-    visit project_path(project)
-
-    within('#content') do
-      expect(page).to have_content('Overview')
-    end
-
-    within('#main-menu') do
-      click_link 'Work package'
-    end
-
-    expect(current_path).to eql("/projects/#{project.identifier}/work_packages")
-    within('#content') do
-      wp_table.expect_title('All open', editable: false)
-      expect(page).to have_content('No work packages to display')
-    end
+    project_work_packages_with_query_path(project, query)
   end
 end

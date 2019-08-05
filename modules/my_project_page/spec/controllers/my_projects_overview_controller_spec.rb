@@ -22,7 +22,7 @@ require 'spec_helper'
 
 describe MyProjectsOverviewsController, type: :controller do
   let(:admin) { FactoryBot.build_stubbed(:admin) }
-  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:project) { FactoryBot.build_stubbed(:project, enabled_module_names: %i[work_package_tracking] ) }
 
   let(:overview) { double(MyProjectsOverview) }
   let(:custom_block) { %w(a title content) }
