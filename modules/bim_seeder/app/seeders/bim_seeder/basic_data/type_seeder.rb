@@ -31,21 +31,32 @@
 module BimSeeder
   module BasicData
     class TypeSeeder < ::BasicData::TypeSeeder
+
       def type_names
-        %i[task milestone phase building_model fault approval clash inquiry issue remark request]
+        %i[task milestone phase clash issue remark request]
       end
 
+
       def type_table
+        color_names = [
+          'yellow-6',
+          'grape-4',
+          'orange-6'
+        ]
+
+        # When selecting for an array of values, implicit order is applied
+        # so we need to restore values by their name.
+        colors_by_name = Color.where(name: color_names).index_by(&:name)
+        colors = color_names.collect { |name| colors_by_name[name].id }
+
         { # position is_default color_id is_in_roadmap is_milestone
-          task:           [1, true, :default_color_blue,        true,  false, :default_type_task],
-          milestone:      [2, true, :default_color_green_light, false, true,  :default_type_milestone],
-          phase:          [3, true, :default_color_blue_dark,   false, false, :default_type_phase],
-          fault:          [4, true, :default_color_red,         true,  false, 'seeders.bim.default_type_fault'],
-          clash:          [5, true, :default_color_red,         true,  false, 'seeders.bim.default_type_clash'],
-          inquiry:        [6, true, :default_color_blue,        true,  false, 'seeders.bim.default_type_inquiry'],
-          issue:          [7, true, :default_color_blue,        true,  false, 'seeders.bim.default_type_issue'],
-          remark:         [8, true, :default_color_yellow,     true,  false, 'seeders.bim.default_type_remark'],
-          request:        [9, true, :default_color_blue,       true,  false, 'seeders.bim.default_type_request']
+          task:           [1, true, colors[0],        true,  false, :default_type_task],
+          milestone:      [2, true, colors[1], false, true,  :default_type_milestone],
+          phase:          [3, true, :default_color_gray,   false, false, :default_type_phase],
+          clash:          [4, true, :default_color_magenta,         true,  false, 'seeders.bim.default_type_clash'],
+          issue:          [5, true, colors[2],        true,  false, 'seeders.bim.default_type_issue'],
+          remark:         [6, true, :default_color_green_dark,     true,  false, 'seeders.bim.default_type_remark'],
+          request:        [7, true, :default_color_blue,       true,  false, 'seeders.bim.default_type_request']
         }
       end
     end

@@ -49,9 +49,7 @@ module BimSeeder
           types[I18n.t(:default_type_task)]                         => [new, in_progress, on_hold, rejected, closed],
           types[I18n.t(:default_type_milestone)]                    => [new, to_be_scheduled, scheduled, in_progress, on_hold, rejected, closed],
           types[I18n.t(:default_type_phase)]                        => [new, to_be_scheduled, scheduled, in_progress, on_hold, rejected, closed],
-          types[I18n.t('seeders.bim.default_type_fault')]           => [new, active, resolved, closed],
           types[I18n.t('seeders.bim.default_type_clash')]           => [new, active, resolved, closed],
-          types[I18n.t('seeders.bim.default_type_inquiry')]         => [new, active, resolved, closed],
           types[I18n.t('seeders.bim.default_type_issue')]           => [new, active, resolved, closed],
           types[I18n.t('seeders.bim.default_type_remark')]          => [new, active, resolved, closed],
           types[I18n.t('seeders.bim.default_type_request')]         => [new, active, resolved, closed]
