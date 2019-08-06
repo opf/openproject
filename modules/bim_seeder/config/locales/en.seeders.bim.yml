@@ -35,6 +35,14 @@ en:
       default_status_active: Active
       default_status_resolved: Resolved
       demo_data:
+        groups:
+          - name: Architects
+          - name: BIM Coordinators
+          - name: BIM Managers
+          - name: BIM Modellers
+          - name: Lead BIM Coordinators
+          - name: MEP Engineers
+          - name: Structural Engineers
         welcome:
           title: "Welcome to OpenProject BIM Edition!"
           text: |
