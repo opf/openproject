@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 describe ::API::V3::WorkPackages::Schema::WorkPackageSumsSchemaRepresenter do
-  let(:current_user) {
+  let(:current_user) do
     FactoryBot.build_stubbed(:user)
-  }
+  end
 
   let(:schema) { ::API::V3::WorkPackages::Schema::WorkPackageSumsSchema.new }
 

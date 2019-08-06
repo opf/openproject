@@ -654,7 +654,7 @@ describe Project, type: :model do
     assert_equal source_project.types, copied_project.types
 
     # Default attributes
-    assert_equal 1, copied_project.status
+    assert_equal "active", copied_project.status
   end
 
   it 'should activities should use the system activities' do
@@ -757,11 +757,11 @@ describe Project, type: :model do
 
     it 'should copy work units' do
       work_package = FactoryBot.create(:work_package,
-                                        status: Status.find_by_name('Closed'),
-                                        subject: 'copy issue status',
-                                        type_id: 1,
-                                        assigned_to_id: 2,
-                                        project_id: @source_project.id)
+                                       status: Status.find_by_name('Closed'),
+                                       subject: 'copy issue status',
+                                       type_id: 1,
+                                       assigned_to_id: 2,
+                                       project_id: @source_project.id)
 
       @source_project.work_packages << work_package
       assert @project.valid?

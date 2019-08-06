@@ -32,7 +32,6 @@ module API
     module Schemas
       class SchemaCollectionRepresenter <
         ::API::Decorators::UnpaginatedCollection
-
         def initialize(represented, self_link, current_user:, form_embedded: false)
           self.form_embedded = form_embedded
 

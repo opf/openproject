@@ -27,27 +27,42 @@
 #++
 
 require 'spec_helper'
+require 'rack/test'
 
-describe ::API::Decorators::AggregationGroup do
-  let(:query) do
-    query = FactoryBot.build_stubbed(:query)
-    query.group_by = :assigned_to
+describe 'API v3 Projects schema resource', type: :request, content_type: :json do
+  include Rack::Test::Methods
+  include API::V3::Utilities::PathHelper
 
-    query
+  shared_let(:current_user) do
+    FactoryBot.create(:user)
   end
-  let(:group_key) { OpenStruct.new name: 'ABC' }
-  let(:count) { 5 }
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
 
-  subject { described_class.new(group_key, count, query: query, current_user: current_user).to_json }
+  let(:path) { api_v3_paths.project_schema }
 
-  context 'with an empty array key' do
-    let(:group_key) { [] }
+  before do
+    login_as(current_user)
+  end
 
-    it 'has an empty value' do
-      is_expected
-        .to be_json_eql(nil.to_json)
-        .at_path('value')
+  subject(:response) { last_response }
+
+  describe '#GET /projects/schema' do
+    before do
+      get path
     end
+
+    it 'responds with 200 OK' do
+      expect(subject.status).to eq(200)
+    end
+
+    it 'returns a schema' do
+      expect(subject.body)
+        .to be_json_eql('Schema'.to_json)
+        .at_path '_type'
+    end
+
+    #it 'does not embed' do
+    #  expect(subject.body)
+    #    .not_to have_json_path('page/_links/allowedValues')
+    #end
   end
 end

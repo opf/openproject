@@ -353,12 +353,18 @@ module API
                                                 injector_class: ::API::V3::Utilities::CustomFieldInjector }
           end
 
-          def create_class(represented)
-            custom_field_class(represented.available_custom_fields)
+          def create_class(represented, current_user)
+            custom_fields = if current_user.admin?
+                              represented.available_custom_fields
+                            else
+                              represented.available_custom_fields.select(&:visible?)
+                            end
+
+            custom_field_class(custom_fields)
           end
 
           def create(*args)
-            create_class(args.first)
+            create_class(args.first, args.last[:current_user])
               .new(*args)
           end
 

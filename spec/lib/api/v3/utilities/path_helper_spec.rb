@@ -240,6 +240,7 @@ describe ::API::V3::Utilities::PathHelper do
   describe 'projects paths' do
     it_behaves_like 'index', :project
     it_behaves_like 'show', :project
+    it_behaves_like 'schema', :project
   end
 
   describe 'query paths' do

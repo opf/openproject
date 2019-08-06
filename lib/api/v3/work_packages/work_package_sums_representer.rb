@@ -13,8 +13,8 @@ module API
           super(sums, current_user: nil)
         end
 
-        def self.create(sums)
-          create_class(Schema::WorkPackageSumsSchema.new).new(sums)
+        def self.create(sums, current_user)
+          create_class(Schema::WorkPackageSumsSchema.new, current_user).new(sums)
         end
 
         property :estimated_time,

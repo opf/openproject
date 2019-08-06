@@ -39,11 +39,13 @@ class Project < ActiveRecord::Base
   STATUS_ACTIVE     = 1
   STATUS_ARCHIVED   = 9
 
+  enum status: { active: STATUS_ACTIVE, archived: STATUS_ARCHIVED }
+
   # Maximum length for project identifiers
   IDENTIFIER_MAX_LENGTH = 100
 
   # reserved identifiers
-  RESERVED_IDENTIFIERS = %w(new)
+  RESERVED_IDENTIFIERS = %w(new).freeze
 
   # Specific overridden Activities
   has_many :time_entry_activities
@@ -163,7 +165,7 @@ class Project < ActiveRecord::Base
   # starts with lower-case letter, a-z, 0-9, dashes and underscores afterwards
   validates :identifier,
             format: { with: /\A[a-z][a-z0-9\-_]*\z/ },
-            if: -> (p) { p.identifier_changed? }
+            if: ->(p) { p.identifier_changed? }
   # reserved words
   validates_exclusion_of :identifier, in: RESERVED_IDENTIFIERS
 
@@ -175,13 +177,12 @@ class Project < ActiveRecord::Base
   scope :has_module, ->(mod) {
     where(["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s])
   }
-  scope :active, -> { where(status: STATUS_ACTIVE) }
   scope :public_projects, -> { where(is_public: true) }
   scope :visible, ->(user = User.current) { Project.visible_by(user) }
   scope :newest, -> { order(created_on: :desc) }
 
   def visible?(user = User.current)
-    self.active? and (self.is_public? or user.admin? or user.member_of?(self))
+    active? and (is_public? or user.admin? or user.member_of?(self))
   end
 
   def copy_allowed?
@@ -311,14 +312,6 @@ class Project < ActiveRecord::Base
     cond
   end
 
-  def active?
-    status == STATUS_ACTIVE
-  end
-
-  def archived?
-    status == STATUS_ARCHIVED
-  end
-
   # Archives the project and its descendants
   def archive
     # Check that there is no issue of a non descendant project that is assigned
@@ -331,9 +324,11 @@ class Project < ActiveRecord::Base
                      .first
       return false
     end
+
     Project.transaction do
       archive!
     end
+
     true
   end
 
@@ -341,6 +336,7 @@ class Project < ActiveRecord::Base
   # All its ancestors must be active
   def unarchive
     return false if ancestors.detect { |a| !a.active? }
+
     update_attribute :status, STATUS_ACTIVE
   end
 
@@ -348,6 +344,7 @@ class Project < ActiveRecord::Base
   # by the current user
   def allowed_parents
     return @allowed_parents if @allowed_parents
+
     @allowed_parents = Project.allowed_to(User.current, :add_subprojects)
     @allowed_parents = @allowed_parents - self_and_descendants
     if User.current.allowed_to?(:add_project, nil, global: true) || (!new_record? && parent.nil?)

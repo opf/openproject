@@ -93,10 +93,13 @@ module API
           { href: api_v3_paths.types_by_project(represented.id) }
         end
 
-        property :id, render_nil: true
-        property :identifier,   render_nil: true
+        property :id
+        property :identifier
+        property :name
+        property :status
+        property :is_public,
+                 as: :public
 
-        property :name,         render_nil: true
         formattable_property :description,
                              uncacheable: true
 

@@ -27,27 +27,21 @@
 #++
 
 require 'spec_helper'
+require_relative './shared_contract_examples'
 
-describe ::API::Decorators::AggregationGroup do
-  let(:query) do
-    query = FactoryBot.build_stubbed(:query)
-    query.group_by = :assigned_to
-
-    query
-  end
-  let(:group_key) { OpenStruct.new name: 'ABC' }
-  let(:count) { 5 }
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
-
-  subject { described_class.new(group_key, count, query: query, current_user: current_user).to_json }
-
-  context 'with an empty array key' do
-    let(:group_key) { [] }
-
-    it 'has an empty value' do
-      is_expected
-        .to be_json_eql(nil.to_json)
-        .at_path('value')
+describe Projects::UpdateContract do
+  it_behaves_like 'project contract' do
+    let(:project) do
+      FactoryBot.build_stubbed(:project,
+                               identifier: project_identifier,
+                               status: project_status,
+                               is_public: project_public).tap do |p|
+        # in order to actually have something changed
+        p.name = project_name
+        p.parent = project_parent
+      end
     end
+
+    subject(:contract) { described_class.new(project, current_user) }
   end
 end

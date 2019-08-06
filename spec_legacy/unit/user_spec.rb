@@ -26,7 +26,7 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
+require_relative '../legacy_spec_helper'
 
 describe User, type: :model do
   include MiniTest::Assertions # refute
@@ -386,7 +386,7 @@ describe User, type: :model do
     context 'with a unique project' do
       it 'should return false if project is archived' do
         project = Project.find(1)
-        allow_any_instance_of(Project).to receive(:status).and_return(Project::STATUS_ARCHIVED)
+        allow_any_instance_of(Project).to receive(:active?).and_return(false)
         assert ! @admin.allowed_to?(:view_work_packages, Project.find(1))
       end
 

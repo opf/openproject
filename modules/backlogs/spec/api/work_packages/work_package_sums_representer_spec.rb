@@ -31,8 +31,9 @@ require 'spec_helper'
 describe ::API::V3::WorkPackages::WorkPackageSumsRepresenter do
   let(:sums) { double 'sums', story_points: 5, remaining_hours: 10 }
   let(:schema) { double 'schema', available_custom_fields: [] }
+  let(:user) { FactoryBot.build_stubbed(:user) }
   let(:representer) {
-    described_class.create_class(schema).new(sums)
+    described_class.create_class(schema, user).new(sums)
   }
   let(:summable_columns) { [] }
 

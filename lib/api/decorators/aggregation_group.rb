@@ -31,7 +31,7 @@
 module API
   module Decorators
     class AggregationGroup < Single
-      def initialize(group_key, count, query:, sums: nil)
+      def initialize(group_key, count, query:, sums: nil, current_user:)
         @count = count
         @sums = sums
         @query = query
@@ -42,7 +42,7 @@ module API
 
         @link = ::API::V3::Utilities::ResourceLinkGenerator.make_link(group_key)
 
-        super(group_key, current_user: nil)
+        super(group_key, current_user: current_user)
       end
 
       links :valueLink do
@@ -76,7 +76,7 @@ module API
       property :sums,
                exec_context: :decorator,
                getter: ->(*) {
-                 ::API::V3::WorkPackages::WorkPackageSumsRepresenter.create(sums) if sums
+                 ::API::V3::WorkPackages::WorkPackageSumsRepresenter.create(sums, current_user) if sums
                },
                render_nil: false
 

@@ -44,18 +44,13 @@ describe Project, type: :model do
   end
 
   describe '#active?' do
-    before do
-      # stub out the actual value of the constant
-      stub_const('Project::STATUS_ACTIVE', 42)
-    end
-
     it 'is active when :status equals STATUS_ACTIVE' do
-      project = FactoryBot.build :project, status: 42
+      project = FactoryBot.build :project, status: :active
       expect(project).to be_active
     end
 
     it "is not active when :status doesn't equal STATUS_ACTIVE" do
-      project = FactoryBot.build :project, status: 99
+      project = FactoryBot.build :project, status: :archived
       expect(project).not_to be_active
     end
   end
@@ -85,23 +80,23 @@ describe Project, type: :model do
     let(:role_copy_projects) { FactoryBot.create(:role, permissions: [:edit_project, :copy_projects, :add_project]) }
     let(:parent_project) { FactoryBot.create(:project) }
     let(:project) { FactoryBot.create(:project, parent: parent_project) }
-    let!(:subproject_member) {
+    let!(:subproject_member) do
       FactoryBot.create(:member,
                          user: user,
                          project: project,
                          roles: [role_copy_projects])
-    }
+    end
     before do
       login_as(user)
     end
 
     context 'with permission to add subprojects' do
-      let!(:member_add_subproject) {
+      let!(:member_add_subproject) do
         FactoryBot.create(:member,
                            user: user,
                            project: parent_project,
                            roles: [role_add_subproject])
-      }
+      end
 
       it 'should allow copy' do
         expect(project.copy_allowed?).to eq(true)
@@ -119,18 +114,18 @@ describe Project, type: :model do
     let(:user) { FactoryBot.create(:user) }
     let(:group) { FactoryBot.create(:group) }
     let(:role) { FactoryBot.create(:role) }
-    let!(:user_member) {
+    let!(:user_member) do
       FactoryBot.create(:member,
-                         principal: user,
-                         project: project,
-                         roles: [role])
-    }
-    let!(:group_member) {
+                        principal: user,
+                        project: project,
+                        roles: [role])
+    end
+    let!(:group_member) do
       FactoryBot.create(:member,
-                         principal: group,
-                         project: project,
-                         roles: [role])
-    }
+                        principal: group,
+                        project: project,
+                        roles: [role])
+    end
 
     shared_examples_for 'respecting group assignment settings' do
       context 'with group assignment' do

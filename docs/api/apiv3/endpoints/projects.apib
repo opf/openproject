@@ -22,14 +22,16 @@ Depending on custom fields defined for projects, additional links might exist.
 
 ## Local Properties
 
-| Property    | Description                                   | Type        | Constraints | Supported operations |
-| :---------: | -------------                                 | ----        | ----------- | -------------------- |
-| id          | Projects's id                                 | Integer     | x > 0       | READ                 |
-| identifier  |                                               | String      |             | READ                 |
-| name        |                                               | String      |             | READ                 |
-| description |                                               | Formattable |             | READ                 |
-| createdAt   | Time of creation                              | DateTime    |             | READ                 |
-| updatedAt   | Time of the most recent change to the project | DateTime    |             | READ                 |
+| Property    | Description                                               | Type        | Constraints            | Supported operations |
+| :---------: | -------------                                             | ----        | -----------            | -------------------- |
+| id          | Projects's id                                             | Integer     | x > 0                  | READ                 |
+| identifier  |                                                           | String      |                        | READ                 |
+| name        |                                                           | String      |                        | READ                 |
+| status      | The project's status                                      | String      | 'active' or 'archived' | READ                 |
+| public      | Indicates whether the project is accessible for everybody | Boolean     |                        | READ                 |
+| description |                                                           | Formattable |                        | READ                 |
+| createdAt   | Time of creation                                          | DateTime    |                        | READ                 |
+| updatedAt   | Time of the most recent change to the project             | DateTime    |                        | READ                 |
 
 Depending on custom fields defined for projects, additional properties might exist.
 
@@ -76,6 +78,8 @@ Depending on custom fields defined for projects, additional properties might exi
                 "id": 1,
                 "identifier": "project_identifier",
                 "name": "Project example",
+                "status": active,
+                "public": false,
                 "description": {
                     "format": "markdown",
                     "raw": "Lorem **ipsum** dolor sit amet",
@@ -154,6 +158,8 @@ Depending on custom fields defined for projects, additional properties might exi
                     "id": 6,
                     "identifier": "a_project",
                     "name": "A project",
+                    "status": "active",
+                    "public": false,
                     "description": {
                         "format": "markdown",
                         "raw": "Lorem **ipsum** dolor sit amet",
@@ -188,6 +194,8 @@ Depending on custom fields defined for projects, additional properties might exi
                     "id": 14,
                     "identifier": "another_project",
                     "name": "Another project",
+                    "status": "archived",
+                    "public": true,
                     "description": {
                         "format": "markdown",
                         "raw": "",
@@ -215,6 +223,130 @@ Returns a collection of projects. The collection can be filtered via query param
 
     [Projects][]
 
+## Projects schema [/api/v3/projects/schemas]
+
++ Model
+    + Body
+
+            {
+                "_type": "Schema",
+                "_dependencies": [],
+                "id": {
+                    "type": "Integer",
+                    "name": "ID",
+                    "required": true,
+                    "hasDefault": false,
+                    "writable": false
+                },
+                "name": {
+                    "type": "String",
+                    "name": "Name",
+                    "required": true,
+                    "hasDefault": false,
+                    "writable": true,
+                    "minLength": 1,
+                    "maxLength": 255
+                },
+                "identifier": {
+                    "type": "String",
+                    "name": "Identifier",
+                    "required": true,
+                    "hasDefault": false,
+                    "writable": true,
+                    "minLength": 1,
+                    "maxLength": 100
+                },
+                "description": {
+                    "type": "Formattable",
+                    "name": "Description",
+                    "required": false,
+                    "hasDefault": false,
+                    "writable": true
+                },
+                "public": {
+                    "type": "Boolean",
+                    "name": "Public",
+                    "required": true,
+                    "hasDefault": false,
+                    "writable": true
+                },
+                "status": {
+                    "type": "String",
+                    "name": "Status",
+                    "required": true,
+                    "hasDefault": false,
+                    "writable": true,
+                    "visibility": "default",
+                    "_links": {}
+                },
+                "createdAt": {
+                    "type": "DateTime",
+                    "name": "Created on",
+                    "required": true,
+                    "hasDefault": false,
+                    "writable": false
+                },
+                "updatedAt": {
+                    "type": "DateTime",
+                    "name": "Updated on",
+                    "required": true,
+                    "hasDefault": false,
+                    "writable": false
+                },
+                "customField30": {
+                    "type": "Integer",
+                    "name": "Integer project custom field",
+                    "required": false,
+                    "hasDefault": false,
+                    "writable": true,
+                    "visibility": "default"
+                },
+                "customField31": {
+                    "type": "CustomOption",
+                    "name": "List project custom field",
+                    "required": false,
+                    "hasDefault": false,
+                    "writable": true,
+                    "visibility": "default",
+                    "_links": {}
+                },
+                "customField32": {
+                    "type": "Version",
+                    "name": "Version project custom field",
+                    "required": false,
+                    "hasDefault": false,
+                    "writable": true,
+                    "visibility": "default",
+                    "_links": {}
+                },
+                "customField34": {
+                    "type": "Boolean",
+                    "name": "Boolean project custom field",
+                    "required": false,
+                    "hasDefault": false,
+                    "writable": true,
+                    "visibility": "default"
+                },
+                "customField35": {
+                    "type": "String",
+                    "name": "Text project custom field",
+                    "required": true,
+                    "hasDefault": false,
+                    "writable": true,
+                    "visibility": "default"
+                },
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/projects/schema"
+                    }
+                }
+            }
+
+## View project schema [GET]
+
++ Response 200 (application/hal+json)
+
+    [Projects schema][]
 
 ## Projects by version [/api/v3/versions/{id}/projects]
 
