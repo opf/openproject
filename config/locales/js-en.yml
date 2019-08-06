@@ -886,9 +886,9 @@ en:
         one: "one child work package"
         other: "%{count} work package children"
       hour:
-        one: "1h"
-        other: "%{count}h"
-        zero: "0h"
+        one: "1 h"
+        other: "%{count} h"
+        zero: "0 h"
     zen_mode:
       button_activate: 'Activate zen mode'
       button_deactivate: 'Deactivate zen mode'
