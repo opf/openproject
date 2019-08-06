@@ -1532,7 +1532,7 @@ zh-CN:
   label_user_new: "新用户"
   label_user_plural: "用户"
   label_user_search: "搜索用户"
-  label_user_settings: "User settings"
+  label_user_settings: "用户设置"
   label_version_new: "新版本"
   label_version_plural: "版本"
   label_version_sharing_descendants: "与子项目"
