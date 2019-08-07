@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,52 +28,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+class Queries::News::Filters::NewsFilter < Queries::Filters::Base
+  self.model = News
 
-describe Queries::News::NewsQuery, type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:base_scope) { News.visible(user) }
-  let(:instance) { described_class.new }
-
-  before do
-    login_as(user)
-  end
-
-  context 'without a filter' do
-    describe '#results' do
-      it 'is the same as getting all the visible news' do
-        expect(instance.results.to_sql).to eql base_scope.to_sql
-      end
-    end
-  end
-
-  context 'with a project filter' do
-    before do
-      allow(Project)
-        .to receive_message_chain(:visible, :pluck)
-        .with(:id)
-        .and_return([1])
-      instance.where('project_id', '=', ['1'])
-    end
-
-    describe '#results' do
-      it 'is the same as handwriting the query' do
-        expected = base_scope
-                   .where(["news.project_id IN (?)", ['1']])
-
-        expect(instance.results.to_sql).to eql expected.to_sql
-      end
-    end
-
-    describe '#valid?' do
-      it 'is true' do
-        expect(instance).to be_valid
-      end
-
-      it 'is invalid if the filter is invalid' do
-        instance.where('project_id', '=', [''])
-        expect(instance).to be_invalid
-      end
-    end
+  def human_name
+    News.human_attribute_name(name)
   end
 end

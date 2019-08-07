@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,50 +30,34 @@
 
 require 'spec_helper'
 
-describe Queries::News::NewsQuery, type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:base_scope) { News.visible(user) }
-  let(:instance) { described_class.new }
+describe Queries::News::Filters::ProjectFilter, type: :model do
+  let(:project1) { FactoryBot.build_stubbed(:project) }
+  let(:project2) { FactoryBot.build_stubbed(:project) }
 
   before do
-    login_as(user)
+    allow(Project)
+      .to receive_message_chain(:visible, :pluck)
+      .with(:id)
+      .and_return([project1.id, project2.id])
   end
 
-  context 'without a filter' do
-    describe '#results' do
-      it 'is the same as getting all the visible news' do
-        expect(instance.results.to_sql).to eql base_scope.to_sql
+  it_behaves_like 'basic query filter' do
+    let(:class_key) { :project_id }
+    let(:type) { :list_optional }
+    let(:name) { News.human_attribute_name(:project) }
+
+    describe '#allowed_values' do
+      it 'is a list of the possible values' do
+        expected = [[project1.id, project1.id.to_s], [project2.id, project2.id.to_s]]
+
+        expect(instance.allowed_values).to match_array(expected)
       end
     end
   end
 
-  context 'with a project filter' do
-    before do
-      allow(Project)
-        .to receive_message_chain(:visible, :pluck)
-        .with(:id)
-        .and_return([1])
-      instance.where('project_id', '=', ['1'])
-    end
-
-    describe '#results' do
-      it 'is the same as handwriting the query' do
-        expected = base_scope
-                   .where(["news.project_id IN (?)", ['1']])
-
-        expect(instance.results.to_sql).to eql expected.to_sql
-      end
-    end
-
-    describe '#valid?' do
-      it 'is true' do
-        expect(instance).to be_valid
-      end
-
-      it 'is invalid if the filter is invalid' do
-        instance.where('project_id', '=', [''])
-        expect(instance).to be_invalid
-      end
-    end
+  it_behaves_like 'list_optional query filter' do
+    let(:attribute) { :project_id }
+    let(:model) { News }
+    let(:valid_values) { [project1.id.to_s] }
   end
 end
