@@ -53,10 +53,10 @@ module BimSeeder
           task:           [1, true, colors[0],                  true,  false, :default_type_task],
           milestone:      [2, true, colors[1],                  false, true,  :default_type_milestone],
           phase:          [3, true, :default_color_gray,        false, false, :default_type_phase],
-          clash:          [4, true, :default_color_magenta,     true,  false, 'seeders.bim.default_type_clash'],
-          issue:          [5, true, colors[2],                  true,  false, 'seeders.bim.default_type_issue'],
-          remark:         [6, true, :default_color_green_dark,  true,  false, 'seeders.bim.default_type_remark'],
-          request:        [7, true, :default_color_blue,        true,  false, 'seeders.bim.default_type_request']
+          issue:          [4, true, colors[2],                  true,  false, 'seeders.bim.default_type_issue'],
+          remark:         [5, true, :default_color_green_dark,  true,  false, 'seeders.bim.default_type_remark'],
+          request:        [6, true, :default_color_blue,        true,  false, 'seeders.bim.default_type_request'],
+          clash:          [7, true, :default_color_magenta,     true,  false, 'seeders.bim.default_type_clash']
         }
       end
     end
