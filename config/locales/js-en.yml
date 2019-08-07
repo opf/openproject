@@ -210,45 +210,6 @@ en:
     general_text_No: "No"
     general_text_Yes: "Yes"
 
-    grid:
-      add_modal:
-        choose_widget: 'Choose widget'
-      remove: 'Remove widget'
-      widgets:
-        custom_text:
-          title: 'Custom text'
-        documents:
-          title: 'Documents'
-          no_results: 'No documents yet.'
-        news:
-          title: 'News'
-          at: 'at'
-          no_results: 'Nothing new to report.'
-        project_description:
-          title: 'Project description'
-        project_details:
-          title: 'Project details'
-        time_entries_list:
-          title: 'Spent time (last 7 days)'
-          no_results: 'No time entries for the last 7 days.'
-        work_packages_accountable:
-          title: "Work packages I am accountable for"
-        work_packages_assigned:
-          title: 'Work packages assigned to me'
-        work_packages_created:
-          title: 'Work packages created by me'
-        work_packages_watched:
-          title: 'Work packages watched by me'
-        work_packages_table:
-          title: 'Work packages table'
-        work_packages_graph:
-          title: 'Work packages graph'
-        work_packages_calendar:
-          title: 'Calendar'
-        work_packages_overview:
-          title: 'Work packages overview'
-          placeholder: 'Click to edit ...'
-
     homescreen:
       blocks:
         new_features:
