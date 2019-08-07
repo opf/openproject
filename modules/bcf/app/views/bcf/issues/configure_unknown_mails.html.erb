@@ -1,16 +1,13 @@
 <%= stylesheet_link_tag 'bcf/bcf.css' %>
 <%= toolbar title: t('bcf.bcf_xml.import_title') %>
 
-<%= form_tag({ action: :configure_import }, multipart: true, method: :post) do %>
-  <%= render 'import_options_hidden_fields' %>
-  <h3><%= t('bcf.bcf_xml.import.unknown_emails_found') %></h3>
-  <ul>
-    <% @importer.aggregations.unknown_mails.each do |mail| %>
-      <li> <%= mail %></li>
-    <% end %>
-  </ul>
+<%= styled_form_tag({ action: :configure_import }, multipart: true, method: :post) do %>
+  <%= render partial: 'import_errors', locals: { error_message: t('bcf.bcf_xml.import.unknown_emails_found'),
+                                                 error_objects: @importer.aggregations.unknown_mails,
+                                                 error_default_text: t('bcf.bcf_xml.import.unknown_property')} %>
   <% if @roles.any? %>
     <% if  User.current.admin? %>
+      <hr class="form--separator">
       <p><%= t('bcf.bcf_xml.import.what_to_do') %></p>
       <div class="form--field -full-width">
         <div class="form--field-container">
@@ -20,11 +17,9 @@
             <% options = @roles.collect { |obj| [obj.name, obj.id] } %>
             <%= styled_select_tag 'import_options[unknown_mails_invite_role_ids][]',
                                   options_for_select(options),
-                                  multiple: false,
                                   no_label: true,
                                   title:    l(:label_role_search),
                                   tabIndex: 0,
-                                  class:    'form--select form--inline-select',
                                   container_class: '-slim',
                                   id:       'unknown_mails_invite_role_ids' %>
             (<%= t('bcf.recommended') %>)
@@ -52,7 +47,7 @@
         <%= t('bcf.bcf_xml.import.replace_with_system_user') %>.
       </div>
     <% end %>
-    <%= submit_tag t('bcf.bcf_xml.import.button_proceed'), class: 'button -highlight' %>
+    <%= styled_submit_tag t('bcf.bcf_xml.import.button_proceed'), class: '-highlight' %>
   <% else %>
     <div class="notification-box -error">
       <div class="notification-box--content">

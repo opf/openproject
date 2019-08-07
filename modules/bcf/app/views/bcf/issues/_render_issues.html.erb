@@ -2,8 +2,8 @@
   <div class="bcf--issues">
     <% issues.each do |issue| %>
       <% status_id = issue.work_package&.status_id %>
-      <% hl_classname = status_id.present? ? "__hl_background_status_#{status_id}" : '' %>
-      <div class="<%= hl_classname %>">
+      <% highlighting_class = status_id.present? ? "__hl_background_status_#{status_id}" : '' %>
+      <div class="<%= highlighting_class %>">
         <p>
           <strong><%= issue.title %></strong>
           <br/>

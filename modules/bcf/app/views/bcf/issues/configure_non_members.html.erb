@@ -1,31 +1,17 @@
 <%= stylesheet_link_tag 'bcf/bcf.css' %>
 <%= toolbar title: t('bcf.bcf_xml.import_title') %>
 
-<%= form_tag({ action: :configure_import }, multipart: true, method: :post) do %>
-  <%= render 'import_options_hidden_fields' %>
-  <h3><%= t('bcf.bcf_xml.import.non_members_found') %></h3>
-  <ul>
-    <% @importer.aggregations.non_members.each do |user| %>
-      <li><%= user.mail %> (<%= user.name %>)</li>
-    <% end %>
-  </ul>
+<%= styled_form_tag({ action: :configure_import }, multipart: true, method: :post) do %>
+  <%= render partial: 'import_errors', locals: { error_message: t('bcf.bcf_xml.import.non_members_found'),
+                                                 error_objects: @importer.aggregations.non_members,
+                                                 error_default_text: t('bcf.bcf_xml.import.unknown_property')} %>
   <% if @roles.any? %>
     <% if User.current.allowed_to?(:manage_members, @project) %>
-      <div class="form--field">
-        <input type="hidden" name="import_options[non_members_action]" value="add" checked>
-        <%= t('bcf.bcf_xml.import.add_as_members_with_role', project: @project.name) %>&nbsp;
-        <% options = @roles.collect { |obj| [obj.name, obj.id] } %>
-        <%= styled_select_tag 'import_options[non_members_add_role_ids][]',
-                              options_for_select(options),
-                              multiple: false,
-                              no_label: true,
-                              title:    l(:label_role_search),
-                              tabIndex: 0,
-                              class:    'form--select form--inline-select',
-                              container_class: '-slim',
-                              id:       'non_members_add_role_ids' %>
-      </div>
-      <%= submit_tag t('bcf.bcf_xml.import.button_proceed'), class: 'button -highlight' %>
+
+      <%= render partial: 'import_solution', locals: { solution_select_id: 'non_members_add_role_ids',
+                                                       hidden_field_identifier: 'non_members_action',
+                                                       solution_text: t('bcf.bcf_xml.import.add_as_members_with_role', project: @project.name),
+                                                       solution_options: @roles.collect { |obj| [obj.name, obj.id] }} %>
     <% else %>
       <div class="notification-box -warning">
         <div class="notification-box--content">
@@ -34,6 +20,9 @@
         </div>
       </div>
       <br/>
+      <%= link_to t(:button_cancel),
+                  project_work_packages_bcf_issues_path(@project),
+                  class: 'button' %>
     <% end %>
   <% else %>
     <div class="notification-box -error">
@@ -42,9 +31,9 @@
       </div>
     </div>
     <br/>
+    <%= link_to t(:button_cancel),
+                project_work_packages_bcf_issues_path(@project),
+                class: 'button' %>
   <% end %>
-  <%= link_to t(:button_cancel),
-              project_work_packages_bcf_issues_path(@project),
-              class: 'button' %>
 <% end %>
 

@@ -42,6 +42,7 @@ en:
         invalid_priorities_found: 'Invalid priority names found'
         invalid_emails_found: 'Invalid email addresses found'
         unknown_emails_found: 'Unknown email addresses found'
+        unknown_property: 'Unknown property'
         non_members_found: 'Non project members found'
         import_types_as: 'Set all these types to'
         import_statuses_as: 'Set all these statuses to'

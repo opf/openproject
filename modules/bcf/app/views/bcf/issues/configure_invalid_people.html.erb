@@ -1,20 +1,18 @@
 <%= stylesheet_link_tag 'bcf/bcf.css' %>
 <%= toolbar title: t('bcf.bcf_xml.import_title') %>
 
-<%= form_tag({ action: :configure_import }, multipart: true, method: :post) do %>
-  <%= render 'import_options_hidden_fields' %>
-  <h3><%= t('bcf.bcf_xml.import.invalid_emails_found') %></h3>
-  <ul>
-    <% @importer.aggregations.invalid_people.each do |name| %>
-      <li> <%= name %></li>
-    <% end %>
-  </ul>
+<%= styled_form_tag({ action: :configure_import }, multipart: true, method: :post) do %>
+  <%= render partial: 'import_errors', locals: { error_message: t('bcf.bcf_xml.import.invalid_emails_found'),
+                                                 error_objects:  @importer.aggregations.invalid_people,
+                                                 error_default_text: t('bcf.bcf_xml.import.unknown_property')} %>
+
+  <hr class="form--separator">
   <div class="form--field">
     <input type="hidden" name="import_options[invalid_people_action]" value="anonymize">
     <%= t('bcf.bcf_xml.import.import_as_system_user') %>
   </div>
 
-  <%= submit_tag t('bcf.bcf_xml.import.button_proceed'), class: 'button -highlight' %>
+  <%= styled_submit_tag t('bcf.bcf_xml.import.button_proceed'), class: '-highlight' %>
   <%= link_to t(:button_cancel),
               project_work_packages_bcf_issues_path(@project),
               class: 'button' %>
