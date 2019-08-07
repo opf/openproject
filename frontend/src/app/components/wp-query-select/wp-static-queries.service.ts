@@ -33,6 +33,7 @@ import {PathHelperService} from "core-app/modules/common/path-helper/path-helper
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {StateService} from "@uirouter/core";
 import {CurrentUserService} from "core-components/user/current-user.service";
+import {BcfDetectorService} from "core-app/modules/bcf/helper/bcf-detector.service";
 
 @Injectable()
 export class WorkPackageStaticQueriesService {
@@ -40,7 +41,8 @@ export class WorkPackageStaticQueriesService {
               private readonly $state:StateService,
               private readonly CurrentProject:CurrentProjectService,
               private readonly PathHelper:PathHelperService,
-              private readonly CurrentUserService:CurrentUserService) {
+              private readonly CurrentUserService:CurrentUserService,
+              private readonly BcfDetectorService:BcfDetectorService) {
   }
 
   public text = {
@@ -56,7 +58,7 @@ export class WorkPackageStaticQueriesService {
     assigned_to_me: this.I18n.t('js.work_packages.default_queries.assigned_to_me'),
     recently_created: this.I18n.t('js.work_packages.default_queries.recently_created'),
     all_open: this.I18n.t('js.work_packages.default_queries.all_open'),
-    summary: this.I18n.t('js.work_packages.default_queries.summary')
+    summary: this.I18n.t('js.work_packages.default_queries.summary'),
   };
 
   // Create all static queries manually
@@ -78,13 +80,23 @@ export class WorkPackageStaticQueriesService {
       identifier: 'recently_created',
       label: this.text.recently_created,
       query_props: '{"c":["id","subject","type","status","assignee","createdAt"],"hi":false,"g":"","t":"createdAt:desc","f":[{"n":"status","o":"o","v":[]}]}'
-    },
-    {
-      identifier: 'all_open',
-      label: this.text.all_open,
-      query_props: null
     }
     ] as IAutocompleteItem[];
+
+    // Modify default "all open" query for BCF
+    if (this.BcfDetectorService.isBcfActivated) {
+      items.push({
+        identifier: 'all_open',
+          label: this.text.all_open,
+        query_props: '{"hi":true,"hl":"priority","f":[{"n":"status","o":"o","v":[]}],"dr":"card"}'
+      });
+    } else {
+      items.push({
+        identifier: 'all_open',
+        label: this.text.all_open,
+        query_props: null
+      });
+    }
 
     const projectIdentifier = this.CurrentProject.identifier;
     if (projectIdentifier) {

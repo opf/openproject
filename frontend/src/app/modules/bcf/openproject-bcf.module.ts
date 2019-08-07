@@ -32,6 +32,10 @@ import {BcfWpSingleViewComponent} from "core-app/modules/bcf/bcf-wp-single-view/
 import {NgxGalleryModule} from "ngx-gallery";
 import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
 import {initializeBcfDisplayFields} from "core-app/modules/bcf/fields/display/bcf-display-field.initializer";
+import {BcfImportButtonComponent} from "core-app/modules/bcf/bcf-buttons/bcf-import-button.component";
+import {BcfDetectorService} from "core-app/modules/bcf/helper/bcf-detector.service";
+import {BcfPathHelperService} from "core-app/modules/bcf/helper/bcf-path-helper.service";
+import {BcfExportButtonComponent} from "core-app/modules/bcf/bcf-buttons/bcf-export-button.component";
 
 
 @NgModule({
@@ -41,12 +45,18 @@ import {initializeBcfDisplayFields} from "core-app/modules/bcf/fields/display/bc
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: initializeBcfDisplayFields, deps: [DisplayFieldService], multi: true },
+    BcfDetectorService,
+    BcfPathHelperService
   ],
   declarations: [
     BcfWpSingleViewComponent,
+    BcfImportButtonComponent,
+    BcfExportButtonComponent
   ],
   exports: [
     BcfWpSingleViewComponent,
+    BcfImportButtonComponent,
+    BcfExportButtonComponent
   ],
   entryComponents: [
   ]

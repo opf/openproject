@@ -35,6 +35,7 @@ import {take} from "rxjs/operators";
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
 import {wpDisplayCardRepresentation} from "core-components/wp-fast-table/state/work-package-display-representation.service";
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
+import {BcfDetectorService} from "core-app/modules/bcf/helper/bcf-detector.service";
 
 @Component({
   selector: 'wp-list',
@@ -86,6 +87,7 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
   private _showListView:boolean = true;
 
   private readonly titleService:OpTitleService = this.injector.get(OpTitleService);
+  private readonly bcfDetectorService:BcfDetectorService = this.injector.get(BcfDetectorService);
 
   ngOnInit() {
     super.ngOnInit();
@@ -211,6 +213,10 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
 
   public get showListView():boolean {
     return this._showListView;
+  }
+
+  public bcfActivated() {
+    return this.bcfDetectorService.isBcfActivated;
   }
 
   protected updateQueryOnParamsChanges() {

@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,48 +28,19 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+module BcfWorkPackagesFilterHelper
+  include WorkPackagesFilterHelper
 
-describe JournalVersion, type: :model do
-  let!(:work_package) do
-    wp = FactoryBot.build(:work_package)
-    wp.journal_notes = 'foobar!'
+  def project_work_packages_bcf_issues_path(project)
+    query = {
+      f: [
+        filter_object('status_id', 'o')
+      ],
+      hi: true,
+      hl: 'priority',
+      dr: 'card'
+    }
 
-    wp.save!
-    wp
-  end
-
-  subject { ::JournalVersion.find_by!(journable_type: 'WorkPackage', journable_id: work_package.id) }
-
-  before do
-    work_package
-    subject
-  end
-
-  it 'is created when the work package is created' do
-    expect(subject.version).to eq 1
-  end
-
-  it 'is incremented when the work package is journaled' do
-    work_package.subject = 'Foobar!'
-    work_package.journal_notes = 'My comment'
-    work_package.save!
-
-    work_package.reload
-
-    expect(work_package.journals.count).to eq 2
-    expect(work_package.journals.first.version).to eq 1
-    expect(work_package.journals.last.version).to eq 2
-
-    subject.reload
-    expect(subject.version).to eq 2
-  end
-
-  it 'is removed when the work package is removed' do
-    expect(subject).to be_present
-
-    work_package.destroy!
-
-    expect { subject.reload }.to raise_error ActiveRecord::RecordNotFound
+    project_work_packages_with_query_path(project, query)
   end
 end

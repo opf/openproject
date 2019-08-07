@@ -319,6 +319,7 @@ en:
     label_in: "in"
     label_in_less_than: "in less than"
     label_in_more_than: "in more than"
+    label_import: "Import"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Last updated on"
     label_less_or_equal: "<="

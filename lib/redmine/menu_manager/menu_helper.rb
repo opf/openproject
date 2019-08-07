@@ -166,9 +166,9 @@ module Redmine::MenuManager::MenuHelper
     caption, url, selected = extract_node_details(item, project)
 
     link_text = ''.html_safe
-    link_text << op_icon(item.icon) if item.icon.present?
+    link_text << op_icon(item.icon(project)) if item.icon(project).present?
     link_text << content_tag(:span,
-                             class: "menu-item--title ellipsis #{item.badge.present? ? '-has-badge' : ''}",
+                             class: "menu-item--title ellipsis #{item.badge(project).present? ? '-has-badge' : ''}",
                              lang: menu_item_locale(item)) do
       ''.html_safe + caption + badge_for(item)
     end
@@ -215,9 +215,9 @@ module Redmine::MenuManager::MenuHelper
   def render_unattached_menu_item(menu_item, project)
     raise Redmine::MenuManager::MenuError, ':child_menus must be an array of MenuItems' unless menu_item.is_a? Redmine::MenuManager::MenuItem
 
-    if User.current.allowed_to?(menu_item.url, project)
+    if User.current.allowed_to?(menu_item.url(project), project)
       link_to(menu_item.caption,
-              menu_item.url,
+              menu_item.url(project),
               menu_item.html_options)
     end
   end
@@ -253,13 +253,13 @@ module Redmine::MenuManager::MenuHelper
   def node_url(node, project)
     engine = node_engine(node)
 
-    case node.url
+    case node.url(project)
     when Hash
-      engine.url_for(project.nil? ? node.url : { node.param => project }.merge(node.url))
+      engine.url_for(project.nil? ? node.url(project) : { node.param => project }.merge(node.url(project)))
     when Symbol
-      engine.send(node.url)
+      engine.send(node.url(project))
     else
-      engine.url_for(node.url)
+      engine.url_for(node.url(project))
     end
   end
 
@@ -290,7 +290,7 @@ module Redmine::MenuManager::MenuHelper
     end
 
     if project
-      user&.allowed_to?(node.url, project)
+      user&.allowed_to?(node.url(project), project)
     else
       # outside a project, all menu items allowed
       true
@@ -326,8 +326,9 @@ module Redmine::MenuManager::MenuHelper
 
   def badge_for(item)
     badge = ''.html_safe
-    if item.badge.present?
-      badge += content_tag('span', I18n.t(item.badge), class: 'main-item--badge')
+
+    if item.badge(@project).present?
+      badge += content_tag('span', I18n.t(item.badge(@project)), class: 'main-item--badge')
     end
     badge
   end

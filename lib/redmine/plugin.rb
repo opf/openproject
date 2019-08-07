@@ -280,6 +280,16 @@ module Redmine #:nodoc:
       end
     end
 
+    def rename_menu_item(menu_name, item, options)
+      Redmine::MenuManager.map(menu_name) do |menu|
+        menu_item = menu.find(item)
+        menu_item.caption = options[:caption]
+        menu_item.icon = options[:icon]
+        menu_item.badge = options[:badge]
+        menu_item.url = options[:url]
+      end
+    end
+
     # Defines a permission called +name+ for the given +actions+.
     #
     # The +actions+ argument is a hash with controllers as keys and actions as values (a single value or an array):
