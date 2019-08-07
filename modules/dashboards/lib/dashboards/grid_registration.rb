@@ -9,6 +9,7 @@ module Dashboards
             'project_details',
             'work_packages_calendar',
             'work_packages_overview',
+            'time_entries_project',
             'custom_text'
 
     remove_query_lambda = -> {

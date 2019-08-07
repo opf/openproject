@@ -228,7 +228,7 @@ en:
           title: 'Project description'
         project_details:
           title: 'Project details'
-        time_entries_current_user:
+        time_entries_list:
           title: 'Spent time (last 7 days)'
           no_results: 'No time entries for the last 7 days.'
         work_packages_accountable:

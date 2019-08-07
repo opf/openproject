@@ -36,7 +36,7 @@ import {FormsModule} from '@angular/forms';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
 import {WidgetWpCalendarComponent} from "core-app/modules/grids/widgets/wp-calendar/wp-calendar.component.ts";
-import {WidgetTimeEntriesCurrentUserComponent} from "core-app/modules/grids/widgets/time-entries-current-user/time-entries-current-user.component";
+import {WidgetTimeEntriesCurrentUserComponent} from "core-app/modules/grids/widgets/time-entries-current-user/current-user/time-entries-current-user.component";
 import {GridWidgetsService} from "core-app/modules/grids/widgets/widgets.service";
 import {GridComponent} from "core-app/modules/grids/grid/grid.component";
 import {AddGridWidgetModal} from "core-app/modules/grids/widgets/add/add.modal";
@@ -62,6 +62,7 @@ import {WidgetWpOverviewComponent} from "core-app/modules/grids/widgets/wp-overv
 import {WidgetCustomTextComponent} from "core-app/modules/grids/widgets/custom-text/custom-text.component";
 import {OpenprojectFieldsModule} from "core-app/modules/fields/openproject-fields.module";
 import {WidgetProjectDetailsComponent} from "core-app/modules/grids/widgets/project-details/project-details.component";
+import {WidgetTimeEntriesProjectComponent} from "core-app/modules/grids/widgets/time-entries-current-user/project/time-entries-project.component";
 
 export const GRID_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -97,7 +98,8 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
                                   WidgetWpOverviewComponent,
                                   WidgetProjectDescriptionComponent,
                                   WidgetProjectDetailsComponent,
-                                  WidgetTimeEntriesCurrentUserComponent]),
+                                  WidgetTimeEntriesCurrentUserComponent,
+                                  WidgetTimeEntriesProjectComponent]),
 
     // Support for inline editig fields
     OpenprojectFieldsModule,
@@ -130,6 +132,7 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
     WidgetProjectDescriptionComponent,
     WidgetProjectDetailsComponent,
     WidgetTimeEntriesCurrentUserComponent,
+    WidgetTimeEntriesProjectComponent,
 
     // Widget menus
     WidgetMenuComponent,
@@ -268,9 +271,17 @@ export function registerWidgets(injector:Injector) {
         {
           identifier: 'time_entries_current_user',
           component: WidgetTimeEntriesCurrentUserComponent,
-          title: i18n.t(`js.grid.widgets.time_entries_current_user.title`),
+          title: i18n.t(`js.grid.widgets.time_entries_list.title`),
           properties: {
-            name: i18n.t('js.grid.widgets.time_entries_current_user.title'),
+            name: i18n.t('js.grid.widgets.time_entries_list.title'),
+          }
+        },
+        {
+          identifier: 'time_entries_project',
+          component: WidgetTimeEntriesProjectComponent,
+          title: i18n.t(`js.grid.widgets.time_entries_list.title`),
+          properties: {
+            name: i18n.t('js.grid.widgets.time_entries_list.title'),
           }
         },
         {
