@@ -46,18 +46,10 @@ module Projects
 
     attribute_alias :is_public, :public
 
-    def validate_status_not_nil
-      errors.add(:status, :blank) if model.status.nil?
-    end
+    def validate
+      validate_user_allowed_to_manage
 
-    def validate_status_included
-      if model.status.present? && !assignable_statuses.include?(model.status)
-        errors.add(:status, :inclusion)
-      end
-    end
-
-    def validate_parent_visible
-      errors.add(:parent, :does_not_exist) if model.parent && model.parent_id_changed? && !model.parent.visible?
+      super
     end
 
     def assignable_parents
@@ -78,6 +70,30 @@ module Projects
       else
         model.available_custom_fields.select(&:visible?)
       end
+    end
+
+    private
+
+    def validate_status_not_nil
+      errors.add(:status, :blank) if model.status.nil?
+    end
+
+    def validate_status_included
+      if model.status.present? && !assignable_statuses.include?(model.status)
+        errors.add(:status, :inclusion)
+      end
+    end
+
+    def validate_parent_visible
+      errors.add(:parent, :does_not_exist) if model.parent && model.parent_id_changed? && !model.parent.visible?
+    end
+
+    def validate_user_allowed_to_manage
+      errors.add :base, :error_unauthorized unless user.allowed_to?(manage_permission, model)
+    end
+
+    def manage_permission
+      raise NotImplementedError
     end
   end
 end

@@ -41,6 +41,7 @@ describe Projects::UpdateContract do
         p.parent = project_parent
       end
     end
+    let(:permissions) { [:edit_project] }
 
     subject(:contract) { described_class.new(project, current_user) }
   end

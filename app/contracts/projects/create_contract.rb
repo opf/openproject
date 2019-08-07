@@ -28,5 +28,10 @@
 
 module Projects
   class CreateContract < BaseContract
+    private
+
+    def manage_permission
+      :add_project
+    end
   end
 end
