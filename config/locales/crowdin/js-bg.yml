@@ -280,6 +280,7 @@ bg:
     label_star_query: "Favored"
     label_press_enter_to_save: "Press enter to save."
     label_public_query: "Публичен"
+    label_sum: "Sum"
     label_sum_for: "Сума за"
     label_subject: "Заглавие"
     label_this_week: "тази седмица"

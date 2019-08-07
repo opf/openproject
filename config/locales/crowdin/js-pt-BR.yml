@@ -279,6 +279,7 @@ pt-BR:
     label_star_query: "Favorecido"
     label_press_enter_to_save: "Pressione enter para salvar."
     label_public_query: "Público"
+    label_sum: "Soma"
     label_sum_for: "Soma para"
     label_subject: "Assunto"
     label_this_week: "esta semana"

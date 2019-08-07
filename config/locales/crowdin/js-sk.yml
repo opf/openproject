@@ -280,6 +280,7 @@ sk:
     label_star_query: "Preferované"
     label_press_enter_to_save: "Stlačte enter pre uloženie."
     label_public_query: "Verejný"
+    label_sum: "Súčet"
     label_sum_for: "Súčet pre"
     label_subject: "Predmet"
     label_this_week: "tento týždeň"

@@ -281,6 +281,7 @@ ja:
     label_star_query: "支持された"
     label_press_enter_to_save: "Enterを押して保存します。"
     label_public_query: "公開"
+    label_sum: "合計"
     label_sum_for: "合計"
     label_subject: "題名"
     label_this_week: "今週"

@@ -280,6 +280,7 @@ nl:
     label_star_query: "Favoriet"
     label_press_enter_to_save: "Druk op Enter om te bewaren."
     label_public_query: "Publiek"
+    label_sum: "Som"
     label_sum_for: "Som voor"
     label_subject: "Onderwerp"
     label_this_week: "deze week"

@@ -1,5 +1,5 @@
 zh-CN:
-  label_avatar: "Avatar"
+  label_avatar: "头像"
   label_current_avatar: "Current Avatar"
   label_choose_avatar: "Choose Avatar from file"
   message_avatar_uploaded: "Avatar changed successfully."
@@ -32,7 +32,7 @@ zh-CN:
     settings:
       enable_gravatars: 'Enable user gravatars'
       gravatar_default: "默认的 Gravatar 图像"
-      enable_local_avatars: 'Enable user custom avatars'
+      enable_local_avatars: '启用用户自定义头像'
 
 
 

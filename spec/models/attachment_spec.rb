@@ -290,8 +290,8 @@ describe Attachment, type: :model do
       before { binary_attachment.save! }
 
       it "should make S3 use content_disposition 'attachment; filename=...'" do
-        expect(binary_attachment.content_disposition).to eq "attachment; filename=textfile.txt.gz"
-        expect(binary_attachment.external_url.to_s).to include "response-content-disposition=attachment%3B%20filename%3Dtextfile.txt.gz"
+        expect(binary_attachment.content_disposition).to eq "attachment"
+        expect(binary_attachment.external_url.to_s).to include "response-content-disposition=attachment"
       end
     end
   end
