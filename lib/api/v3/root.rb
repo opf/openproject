@@ -35,6 +35,8 @@
 module API
   module V3
     class Root < ::API::OpenProjectAPI
+      include ::API::Formats::HalJsonFormat
+
       mount ::API::V3::Activities::ActivitiesAPI
       mount ::API::V3::Attachments::AttachmentsAPI
       mount ::API::V3::Categories::CategoriesAPI

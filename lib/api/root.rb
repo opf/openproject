@@ -41,30 +41,6 @@ module API
 
     prefix :api
 
-    class Formatter
-      def call(object, _env)
-        object.respond_to?(:to_json) ? object.to_json : MultiJson.dump(object)
-      end
-    end
-
-    class Parser
-      def call(object, _env)
-        MultiJson.load(object)
-      rescue MultiJson::ParseError => e
-        error = ::API::Errors::ParseError.new(details: e.message)
-        representer = ::API::V3::Errors::ErrorRepresenter.new(error)
-
-        throw :error, status: 400, message: representer.to_json
-      end
-    end
-
-    content_type 'hal+json', 'application/hal+json; charset=utf-8'
-    content_type :json,      'application/json; charset=utf-8'
-    format 'hal+json'
-    formatter 'hal+json', Formatter.new
-
-    parser :json, Parser.new
-
     use OpenProject::Authentication::Manager
 
     helpers API::Caching::Helpers
