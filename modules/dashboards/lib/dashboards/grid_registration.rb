@@ -23,6 +23,10 @@ module Dashboards
         user.allowed_to?(:manage_public_queries, project)
     }
 
+    view_work_packages_lambda = ->(user, project) {
+      user.allowed_to?(:view_work_packages, project)
+    }
+
     widget_strategy 'work_packages_table' do
       after_destroy remove_query_lambda
 
@@ -44,9 +48,11 @@ module Dashboards
     end
 
     widget_strategy 'work_packages_overview' do
-      allowed ->(user, project) {
-        user.allowed_to?(:view_work_packages, project)
-      }
+      allowed view_work_packages_lambda
+    end
+
+    widget_strategy 'work_packages_calendar' do
+      allowed view_work_packages_lambda
     end
 
     defaults -> {
