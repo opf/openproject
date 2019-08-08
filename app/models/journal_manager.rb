@@ -35,8 +35,8 @@ class JournalManager
       merged_journals = merge_reference_journals_by_id(current, predecessor, key.to_s, value.to_s)
 
       changes = added_references(merged_journals)
-                .merge(removed_references(merged_journals))
-                .merge(changed_references(merged_journals))
+        .merge(removed_references(merged_journals))
+        .merge(changed_references(merged_journals))
 
       to_changes_format(changes, association.to_s)
     end
@@ -237,7 +237,7 @@ class JournalManager
     journable_type = base_class_name(journable.class)
     ::JournalVersion.find_or_create_by(journable_type: journable_type, journable_id: journable.id)
 
-    version = get_next_journal_version(journable_type, journable)
+    version = increment_version!(journable_type, journable.id)
 
     Rails.logger.debug "Inserting new journal for #{journable_type} ##{journable.id} @ #{version}"
 
@@ -256,33 +256,6 @@ class JournalManager
     journal
   end
 
-  def self.get_next_journal_version(journable_type, journable)
-    # Increment the version according to our DB
-    if OpenProject::Database.postgresql?
-      increment_version!(journable_type, journable.id)
-    else
-      lock_and_increment_version!(journable_type, journable.id)
-    end
-  end
-
-  ##
-  # In case of MySQL, we cannot return the value just inserted with RETURNING,
-  # but have to insert and select separately, which is not atomic
-  def self.lock_and_increment_version!(journable_type, journable_id)
-    result = Journal.with_advisory_lock_result('journals.write_lock', timeout_seconds: 30) do
-      entry = ::JournalVersion.find_by!(journable_type: journable_type, journable_id: journable_id)
-      entry.increment!(:version)
-
-      entry.version
-    end
-
-    unless result.lock_was_acquired?
-      raise "Failed to acquire write lock to journable #{journable_type} ##{journable_id}"
-    end
-
-    result.result
-  end
-
   def self.increment_version!(journable_type, journable_id)
     sql = <<~SQL
       UPDATE #{JournalVersion.table_name}
@@ -298,13 +271,13 @@ class JournalManager
       .first['version']
   end
 
-  def self.create_journal(journable, journal_attributes, user = User.current,  notes = '')
+  def self.create_journal(journable, journal_attributes, user = User.current, notes = '')
     type = base_class(journable.class)
     extended_journal_attributes = journal_attributes
-                                  .merge(journable_type: type.to_s)
-                                  .merge(notes: notes)
-                                  .except(:details)
-                                  .except(:id)
+      .merge(journable_type: type.to_s)
+      .merge(notes: notes)
+      .except(:details)
+      .except(:id)
 
     unless extended_journal_attributes.has_key? :user_id
       extended_journal_attributes[:user_id] = user.id
