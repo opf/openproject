@@ -53,7 +53,7 @@ describe WorkPackages::UpdateAncestorsService, type: :model do
           .to eq aggregate_done_ratio
       end
 
-      it 'has the expected estimated_hours' do
+      it 'has the expected derived estimated_hours' do
         expect(subject.dependent_results.first.result.derived_estimated_hours)
           .to eq aggregate_estimated_hours
       end
