@@ -53,11 +53,13 @@ module BasicData
       colors = colors.map { |c| { c.name =>  c.id } }.reduce({}, :merge)
 
       type_table.map do |_name, values|
+        color_id = Color.find_by(id: values[2]) ? values[2] : colors[I18n.t(values[2])]
+
         {
           name:                 I18n.t(values[5]),
           position:             values[0],
           is_default:           values[1],
-          color_id:             colors[I18n.t(values[2])],
+          color_id:             color_id,
           is_in_roadmap:        values[3],
           is_milestone:         values[4]
         }
