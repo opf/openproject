@@ -55,6 +55,12 @@ module Dashboards
       allowed view_work_packages_lambda
     end
 
+    widget_strategy 'news' do
+      allowed ->(user, project) {
+        user.allowed_to?(:view_news, project)
+      }
+    end
+
     defaults -> {
       {
         row_count: 7,

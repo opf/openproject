@@ -44,7 +44,8 @@ describe 'News widget on dashboard', type: :feature, js: true do
   end
   let(:role) do
     FactoryBot.create(:role,
-                      permissions: %i[view_dashboards
+                      permissions: %i[view_news
+                                      view_dashboards
                                       manage_dashboards])
   end
   let(:user) do
