@@ -34,7 +34,8 @@ OpenProject::CustomFieldFormat.map do |fields|
                                                      order: 1)
   fields.register OpenProject::CustomFieldFormat.new('text',
                                                      label: :label_text,
-                                                     order: 2)
+                                                     order: 2,
+                                                     formatter: 'CustomValue::FormattableStrategy')
   fields.register OpenProject::CustomFieldFormat.new('int',
                                                      label: :label_integer,
                                                      order: 3,

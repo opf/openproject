@@ -31,6 +31,7 @@ require 'action_view/helpers/form_helper'
 
 class CustomFieldFormBuilder < TabularFormBuilder
   include ActionView::Context
+
   # Return custom field html tag corresponding to its format
   def custom_field(options = {})
     input = custom_field_input(options)
@@ -67,7 +68,7 @@ class CustomFieldFormBuilder < TabularFormBuilder
       input_options[:class] = (input_options[:class] || '') << ' -augmented-datepicker'
       text_field(field, input_options)
     when 'text'
-      text_area(field, input_options.merge(rows: 3))
+      text_area(field, input_options.merge(rows: 3, with_text_formatting: true))
     when 'bool'
       formatter = field_format.formatter.new(object)
       check_box(field, input_options.merge(checked: formatter.checked?))
