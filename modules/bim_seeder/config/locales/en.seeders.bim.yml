@@ -28,15 +28,21 @@
 en:
   seeders:
     bim:
-      default_type_fault: Fault
       default_type_clash: Clash
-      default_type_inquiry: Inquiry
       default_type_issue: Issue
       default_type_remark: Remark
       default_type_request: Request
-      default_status_active: Active
       default_status_resolved: Resolved
+      default_priority_critical: Critical
       demo_data:
+        groups:
+          - name: Architects
+          - name: BIM Coordinators
+          - name: BIM Managers
+          - name: BIM Modellers
+          - name: Lead BIM Coordinators
+          - name: MEP Engineers
+          - name: Structural Engineers
         welcome:
           title: "Welcome to OpenProject BIM Edition!"
           text: |
@@ -73,14 +79,11 @@ en:
               - :default_type_task
               - :default_type_milestone
               - :default_type_phase
-              - 'seeders.bim.default_type_fault'
+              - 'seeders.bim.default_type_clash'
               - 'seeders.bim.default_type_request'
             categories:
               - Category 1 (to be changed in Project settings)
             queries:
-              - name: Faults
-                status: open
-                type: 'seeders.bim.default_type_fault'
               - name: Project plan
                 status: open
                 timeline: true
@@ -113,7 +116,7 @@ en:
             work_packages:
               - subject: Project kick-off
                 description: Plan and execute the project kick-off.
-                status: :default_status_scheduled
+                status: :default_status_in_progress
                 type: :default_type_milestone
                 priority: :default_priority_high
                 estimated_hours: 8
@@ -131,7 +134,7 @@ en:
                   * ##child:5
                   * ##child:6
                   * ##child:7
-                status: :default_status_scheduled
+                status: :default_status_in_progress
                 type: :default_type_phase
                 priority: :default_priority_high
                 estimated_hours: 8
@@ -296,18 +299,18 @@ en:
                     attachments:
                       - edit_work_package.jpg
               - subject: Develop v1.0
-                status: :default_status_scheduled
+                status: :default_status_in_progress
                 type: :default_type_phase
                 start: 7
                 duration: 17
                 children:
                   - subject: Big change
-                    status: 'seeders.bim.default_status_active'
+                    status: :default_status_in_progress
                     type: 'seeders.bim.default_type_request'
                     start: 7
                     duration: 8
                   - subject: Best change
-                    status: 'seeders.bim.default_status_active'
+                    status: :default_status_in_progress
                     type: 'seeders.bim.default_type_request'
                     start: 16
                     duration: 5
@@ -315,15 +318,15 @@ en:
                       - to: Big change
                         type: follows
                   - subject: Terrible fault
-                    status: 'seeders.bim.default_status_active'
-                    type: 'seeders.bim.default_type_fault'
+                    status: :default_status_in_progress
+                    type: 'seeders.bim.default_type_clash'
                     start: 22
                     duration: 2
                     relations:
                       - to: Best change
                         type: follows
               - subject: Go-Live v1.0
-                status: :default_status_scheduled
+                status: :default_status_in_progress
                 type: :default_type_milestone
                 start: 25
                 duration: 0
@@ -331,26 +334,26 @@ en:
                   - to: Develop v1.0
                     type: follows
               - subject: Develop v1.1
-                status: :default_status_scheduled
+                status: :default_status_in_progress
                 type: :default_type_phase
                 start: 28
                 duration: 2
                 children:
                   - subject: Wonderful change
-                    status: 'seeders.bim.default_status_active'
+                    status: :default_status_in_progress
                     type: 'seeders.bim.default_type_request'
                     start: 28
                     duration: 1
                   - subject: Ugly fault
-                    status: 'seeders.bim.default_status_active'
-                    type: 'seeders.bim.default_type_fault'
+                    status: :default_status_in_progress
+                    type: 'seeders.bim.default_type_clash'
                     start: 30
                     duration: 1
                     relations:
                       - to: Wonderful change
                         type: follows
               - subject: Go-Live v1.1
-                status: :default_status_to_be_scheduled
+                status: :default_status_in_progress
                 type: :default_type_milestone
                 start: 32
                 duration: 0
@@ -404,9 +407,7 @@ en:
               - :default_type_task
               - :default_type_milestone
               - :default_type_phase
-              - 'seeders.bim.default_type_fault'
               - 'seeders.bim.default_type_clash'
-              - 'seeders.bim.default_type_inquiry'
               - 'seeders.bim.default_type_request'
               - 'seeders.bim.default_type_issue'
               - 'seeders.bim.default_type_remark'
@@ -434,12 +435,6 @@ en:
               - name: Clashes
                 status: open
                 type: 'seeders.bim.default_type_clash'
-              - name: Faults
-                status: open
-                type: 'seeders.bim.default_type_fault'
-              - name: Inquiries
-                status: open
-                type: 'seeders.bim.default_type_inquiry'
               - name: Requests
                 status: open
                 type: 'seeders.bim.default_type_request'

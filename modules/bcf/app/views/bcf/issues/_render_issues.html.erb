@@ -2,8 +2,8 @@
   <div class="bcf--issues">
     <% issues.each do |issue| %>
       <% status_id = issue.work_package&.status_id %>
-      <% hl_classname = status_id.present? ? "__hl_background_status_#{status_id}" : '' %>
-      <div class="<%= hl_classname %>">
+      <% highlighting_class = status_id.present? ? "__hl_background_status_#{status_id}" : '' %>
+      <div class="<%= highlighting_class %>">
         <p>
           <strong><%= issue.title %></strong>
           <br/>
@@ -24,7 +24,7 @@
           </div>
         <% else %>
           <% if issue.viewpoints.empty? %>
-            <p>(No viewpoints)</p>
+            <p>(<%= t('bcf.no_viewpoints') %>)</p>
           <% end %>
           <% issue.viewpoints.each do |vp| %>
             <img src="<%= API::V3::Utilities::PathHelper::ApiV3Path.attachment_content(vp.snapshot.id) %>" />
