@@ -86,7 +86,7 @@ class AddDerivedEstimatedHoursToWorkPackages < ActiveRecord::Migration[5.2]
     work_packages = "work_packages"
 
     WorkPackage.connection.execute("
-      INSERT INTO #{WorkPackageJournal.table_name} (
+      INSERT INTO #{wp_journals} (
         journal_id, type_id, project_id, subject, description, due_date, category_id, status_id,
         assigned_to_id, priority_id, fixed_version_id, author_id, done_ratio,
         start_date, parent_id, responsible_id, cost_object_id, story_points, remaining_hours,
