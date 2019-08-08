@@ -1,10 +1,10 @@
 class AddDerivedEstimatedHoursToWorkPackages < ActiveRecord::Migration[5.2]
   class WorkPackageWithRelations < ActiveRecord::Base
-    self.table_name = WorkPackage.table_name
+    self.table_name = "work_packages"
 
     scope :with_children, ->(*args) do
-      rel = Relation.table_name
-      wp = WorkPackage.table_name
+      rel = "relations"
+      wp = "work_packages"
 
       query = "EXISTS (SELECT 1 FROM #{rel} WHERE #{rel}.from_id = #{wp}.id AND #{rel}.hierarchy > 0 LIMIT 1)"
 
@@ -34,21 +34,19 @@ class AddDerivedEstimatedHoursToWorkPackages < ActiveRecord::Migration[5.2]
   # only touches the derived_estimated_hours column.
   def migrate_to_derived_estimated_hours!
     last_id = Journal.order(id: :desc).limit(1).pluck(:id).first
-    wp_journals = WorkPackageJournal.table_name
-    author = User.system
-    notes = "_Estimated Hours migrated to Derived Estimated Hours_"
+    wp_journals = "work_package_journals"
     work_packages = WorkPackageWithRelations.with_children
 
     work_packages.update_all("derived_estimated_hours = estimated_hours, estimated_hours = NULL")
 
-    create_journals_for work_packages, author: author, notes: notes
+    create_journals_for work_packages
     create_work_package_journals last_id: last_id
   end
 
   ##
   # Creates a new journal for each work package with the next version.
   # The respective work_package journal is created in a separate step.
-  def create_journals_for(work_packages, author:, notes:)
+  def create_journals_for(work_packages, author: journal_author, notes: journal_notes)
     WorkPackage.connection.execute("
       INSERT INTO #{Journal.table_name} (journable_type, journable_id, user_id, notes, created_at, version, activity_type)
       SELECT
@@ -65,6 +63,14 @@ class AddDerivedEstimatedHoursToWorkPackages < ActiveRecord::Migration[5.2]
     ")
   end
 
+  def journal_author
+    @journal_author ||= User.system
+  end
+
+  def journal_notes
+    "_'Estimated hours' changed to 'Derived estimated hours'_"
+  end
+
   ##
   # Creates work package journals for the move of estimated_hours to derived_estimated_hours.
   #
@@ -75,9 +81,9 @@ class AddDerivedEstimatedHoursToWorkPackages < ActiveRecord::Migration[5.2]
   #
   # @param last_id [Integer] The ID of the last journal before the journals for the migration were created.
   def create_work_package_journals(last_id:)
-    journals = Journal.table_name
-    wp_journals = WorkPackageJournal.table_name
-    work_packages = WorkPackage.table_name
+    journals = "journals"
+    wp_journals = "work_package_journals"
+    work_packages = "work_packages"
 
     WorkPackage.connection.execute("
       INSERT INTO #{WorkPackageJournal.table_name} (
