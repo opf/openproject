@@ -28,10 +28,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Documents
-  query = Queries::Documents::DocumentQuery
+class Queries::Documents::Filters::DocumentFilter < Queries::Filters::Base
+  self.model = Document
 
-  Queries::Register.filter query, Queries::Documents::Filters::ProjectFilter
-
-  Queries::Register.order query, Queries::Documents::Orders::DefaultOrder
+  def human_name
+    Document.human_attribute_name(name)
+  end
 end

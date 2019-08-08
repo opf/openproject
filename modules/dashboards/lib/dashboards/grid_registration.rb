@@ -11,6 +11,7 @@ module Dashboards
             'work_packages_overview',
             'time_entries_project',
             'news',
+            'documents',
             'custom_text'
 
     remove_query_lambda = -> {
