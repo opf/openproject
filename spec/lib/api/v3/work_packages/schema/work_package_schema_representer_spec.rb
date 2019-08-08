@@ -988,12 +988,17 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           let(:permissions1) { %i[blubs some more] }
           let(:role2) { FactoryBot.build_stubbed(:role, permissions: permissions2) }
           let(:permissions2) { %i[and other random permissions] }
+          let(:roles) { [role1, role2] }
 
           let(:setup) do
             allow(Authorization)
               .to receive(:roles)
               .with(current_user, project)
-              .and_return([role1, role2])
+              .and_return(roles)
+
+            allow(roles)
+              .to receive(:eager_load)
+              .and_return(roles)
           end
 
           let(:change) do

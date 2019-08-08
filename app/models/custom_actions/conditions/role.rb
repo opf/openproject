@@ -40,11 +40,10 @@ class CustomActions::Conditions::Role < CustomActions::Conditions::Base
     end
 
     def roles_in_project(work_packages, user)
-      with_request_store(project_ids_of(work_packages)) do |ids|
-        ::Role
-          .joins(:members)
-          .where(members: { project_id: ids, user_id: user.id })
-          .select(:id)
+      with_request_store(projects_of(work_packages)) do |projects|
+        projects.map do |project|
+          user.roles_for_project(project)
+        end.flatten
       end
     end
 
@@ -56,23 +55,23 @@ class CustomActions::Conditions::Role < CustomActions::Conditions::Base
         .where(habtm_table => { key_id => roles_in_project(work_packages, user) })
     end
 
-    def project_ids_of(work_packages)
+    def projects_of(work_packages)
       # Using this if/else instead of Array(work_packages)
       # to avoid "delegator does not forward private method #to_ary" warnings
       # for WorkPackageEagerLoadingWrapper
       if work_packages.respond_to?(:map)
-        work_packages.map(&:project_id).uniq
+        work_packages.map(&:project).uniq
       else
-        [work_packages.project_id]
+        [work_packages.project]
       end
     end
 
-    def with_request_store(project_ids)
-      RequestStore.store[:custom_actions_role] ||= Hash.new do |hash, ids|
-        hash[ids] = yield ids
+    def with_request_store(projects)
+      RequestStore.store[:custom_actions_role] ||= Hash.new do |hash, hash_projects|
+        hash[hash_projects] = yield hash_projects
       end
 
-      RequestStore.store[:custom_actions_role][project_ids]
+      RequestStore.store[:custom_actions_role][projects]
     end
   end
 

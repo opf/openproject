@@ -48,27 +48,19 @@ describe CustomActions::Conditions::Role, type: :model do
     end
 
     describe '#fulfilled_by?' do
-      let(:work_package) { double('work_package', project_id: 1) }
-      let(:user) { double('user', id: 3) }
-
-      before do
-        role1 = double('role', id: 1)
-        role2 = double('role', id: 2)
-        roles = [role1, role2]
-
-        allow(Role)
-          .to receive(:joins)
-          .with(:members)
-          .and_return(roles)
-        allow(roles)
-          .to receive(:where)
-          .with(members: { project_id: [work_package.project_id],
-                           user_id: user.id })
-          .and_return(roles)
-        allow(roles)
-          .to receive(:select)
-          .and_return(roles)
+      let(:project) { double('project', id: 1) }
+      let(:work_package) { double('work_package', project: project, project_id: 1) }
+      let(:user) do
+        double('user', id: 3).tap do |user|
+          allow(user)
+            .to receive(:roles_for_project)
+            .with(project)
+            .and_return(roles)
+        end
       end
+      let(:role1) { double('role', id: 1) }
+      let(:role2) { double('role', id: 2) }
+      let(:roles) { [role1, role2] }
 
       it 'is true if values are empty' do
         instance.values = []
