@@ -33,7 +33,7 @@ class AddDerivedEstimatedHoursToWorkPackages < ActiveRecord::Migration[5.2]
   # for parent work pacages separately there while the UpdateAncestorsService
   # only touches the derived_estimated_hours column.
   def migrate_to_derived_estimated_hours!
-    last_id = Journal.order(id: :desc).limit(1).pluck(:id).first
+    last_id = Journal.order(id: :desc).limit(1).pluck(:id).first || 0
     wp_journals = "work_package_journals"
     work_packages = WorkPackageWithRelations.with_children
 
