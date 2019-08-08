@@ -54,7 +54,7 @@ Note down or copy the current MySQL `DATABASE_URL`. The following command export
 # mysql2://user:password@localhost:3306/dbname
 
 # Pass into the container but replace mysql2 with mysql!
-export MYSQL_DATABSAE_URL="mysql://user:password@localhost:3306/dbname"
+export MYSQL_DATABASE_URL="mysql://user:password@localhost:3306/dbname"
 ```
 
 
@@ -68,7 +68,7 @@ export MYSQL_DATABSAE_URL="mysql://user:password@localhost:3306/dbname"
 Pass in `DATABASE_URL` pointing to your new PostgreSQL database. Fill the template below with the password you entered above.
 
 ```bash
-export POSTGRES_DATABASE_URL="postgresql://openproject:<PASSWORD>@localhost/openproject
+export POSTGRES_DATABASE_URL="postgresql://openproject:<PASSWORD>@localhost/openproject"
 ```
 
 ## Running the migration via Docker
