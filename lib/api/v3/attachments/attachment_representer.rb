@@ -104,8 +104,7 @@ module API
                  getter: ->(*) { filesize }
 
         formattable_property :description,
-                             plain: true,
-                             uncacheable: true
+                             plain: true
 
         property :content_type
         property :digest,

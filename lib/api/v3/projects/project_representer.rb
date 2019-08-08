@@ -100,8 +100,7 @@ module API
         property :is_public,
                  as: :public
 
-        formattable_property :description,
-                             uncacheable: true
+        formattable_property :description
 
         date_time_property :created_on,
                            as: 'createdAt'
