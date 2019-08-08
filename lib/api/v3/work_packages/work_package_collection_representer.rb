@@ -173,6 +173,10 @@ module API
 
         def schemas
           schemas = schema_pairs.map do |project, type, available_custom_fields|
+            # This hack preloads the custom fields for a project so that they do not have to be
+            # loaded again later on
+            project.instance_variable_set(:'@all_work_package_custom_fields', available_custom_fields)
+
             Schema::TypedWorkPackageSchema.new(project: project, type: type, custom_fields: available_custom_fields)
           end
 
