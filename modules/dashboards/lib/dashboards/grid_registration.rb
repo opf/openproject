@@ -61,6 +61,12 @@ module Dashboards
       }
     end
 
+    widget_strategy 'documents' do
+      allowed ->(user, project) {
+        user.allowed_to?(:view_documents, project)
+      }
+    end
+
     defaults -> {
       {
         row_count: 7,
