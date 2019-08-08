@@ -273,6 +273,7 @@ uk:
     label_in: "в"
     label_in_less_than: "менш ніж"
     label_in_more_than: "більше ніж"
+    label_import: "Імпортувати"
     label_latest_activity: "Останні дії"
     label_last_updated_on: "Останнє оновлення"
     label_less_or_equal: "<="

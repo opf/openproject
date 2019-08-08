@@ -272,6 +272,7 @@ da:
     label_in: "i"
     label_in_less_than: "på mindre end"
     label_in_more_than: "på mere end"
+    label_import: "Import"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Senest opdateret den"
     label_less_or_equal: "<="

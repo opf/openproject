@@ -273,6 +273,7 @@ id:
     label_in: "dalam"
     label_in_less_than: "kurang dari"
     label_in_more_than: "lebih dari"
+    label_import: "Impor"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Terakhir diupdate pada"
     label_less_or_equal: "<="

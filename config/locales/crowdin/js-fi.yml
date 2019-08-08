@@ -273,6 +273,7 @@ fi:
     label_in: "tässä"
     label_in_less_than: "pienempi kuin"
     label_in_more_than: "suurempi kuin"
+    label_import: "Import"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Viimeisin päivitys"
     label_less_or_equal: "<="

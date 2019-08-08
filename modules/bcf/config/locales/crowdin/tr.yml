@@ -1,6 +1,8 @@
 tr:
   bcf:
     label_bcf: 'BCF'
+    label_imported_failed: 'Failed imports of BCF topics'
+    label_imported_successfully: 'Successfully imported BCF topics'
     issues: "Sorunlar"
     experimental_badge: "Deneysel"
     exceptions:
@@ -10,8 +12,8 @@ tr:
       other: '%{count} BCF sorunu'
     bcf_xml:
       xml_file: 'BCF XML Dosyası'
-      import_title: 'BCF dosyasından içe aktar'
-      export: 'Tümünü BCF-XML’ye Aktar'
+      import_title: 'İçeri Aktar'
+      export: 'Dışarı aktar'
       import_update_comment: '(BCF ithalatında güncellendi)'
       import_failed: 'BCF dosyası alınamıyor: %{error}'
       import_successful: 'İçe aktarılan %{count} BCF sorunları'
@@ -30,4 +32,5 @@ tr:
     format:
       bcf: "BCF-XML"
   attributes:
-    bcf_thumbnail: "BCF görüntüsü"
+    bcf_thumbnail: "BCF snapshot"
+  project_module_bcf: "BCF"

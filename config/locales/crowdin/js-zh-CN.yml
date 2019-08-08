@@ -273,6 +273,7 @@ zh-CN:
     label_in: "在"
     label_in_less_than: "在小于"
     label_in_more_than: "在多于"
+    label_import: "导入"
     label_latest_activity: "最新活动"
     label_last_updated_on: "最后更新日期"
     label_less_or_equal: "<="

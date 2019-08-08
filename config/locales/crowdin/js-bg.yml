@@ -273,6 +273,7 @@ bg:
     label_in: "в"
     label_in_less_than: "в по-малко от"
     label_in_more_than: "в повече от"
+    label_import: "Import"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Последно актуализиран на"
     label_less_or_equal: "<="

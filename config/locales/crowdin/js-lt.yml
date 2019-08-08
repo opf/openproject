@@ -273,6 +273,7 @@ lt:
     label_in: " "
     label_in_less_than: "mažiau nei"
     label_in_more_than: "daugiau nei"
+    label_import: "Import"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Paskiausias atnaujinimas"
     label_less_or_equal: "<="

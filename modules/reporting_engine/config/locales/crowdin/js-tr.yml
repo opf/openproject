@@ -1,5 +1,5 @@
 tr:
   js:
     reporting_engine:
-      label_remove: "silmek"
-      label_response_error: "Sorgu işlenirken bir hata oluştu."
+      label_remove: "Sil"
+      label_response_error: "Sorguyu işlerken hata oluştu."

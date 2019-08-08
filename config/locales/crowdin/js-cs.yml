@@ -273,6 +273,7 @@ cs:
     label_in: "v"
     label_in_less_than: "za méně než"
     label_in_more_than: "za více než"
+    label_import: "Import"
     label_latest_activity: "Poslední aktivita"
     label_last_updated_on: "Naposled aktualizováno"
     label_less_or_equal: "<="

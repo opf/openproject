@@ -272,6 +272,7 @@ hu:
     label_in: "in"
     label_in_less_than: "kevesebb, mint"
     label_in_more_than: "több mint"
+    label_import: "Importálás"
     label_latest_activity: "Utolsó aktivitás"
     label_last_updated_on: "Utolsó frissítés"
     label_less_or_equal: "<="

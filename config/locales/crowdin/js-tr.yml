@@ -273,6 +273,7 @@ tr:
     label_in: "şurada"
     label_in_less_than: "daha azdır"
     label_in_more_than: "daha fazla"
+    label_import: "İçeri Aktar"
     label_latest_activity: "En son etkinlik"
     label_last_updated_on: "Son güncelleme"
     label_less_or_equal: "<="

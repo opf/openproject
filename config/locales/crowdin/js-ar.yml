@@ -273,6 +273,7 @@ ar:
     label_in: "في"
     label_in_less_than: "في أقل من"
     label_in_more_than: "في أكثر من"
+    label_import: "Import"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "تاريخ آخر تحديث"
     label_less_or_equal: "=>"

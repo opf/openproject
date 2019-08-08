@@ -1,6 +1,8 @@
 it:
   bcf:
     label_bcf: 'BCF'
+    label_imported_failed: 'Failed imports of BCF topics'
+    label_imported_successfully: 'Successfully imported BCF topics'
     issues: "Problemi"
     experimental_badge: "Sperimentale"
     exceptions:
@@ -10,8 +12,8 @@ it:
       other: '%{count} Problemi BCF'
     bcf_xml:
       xml_file: 'File XML BCF'
-      import_title: 'Importa da file BCF'
-      export: 'Esporta tutto in BCF-XML'
+      import_title: 'Importazione'
+      export: 'Esporta'
       import_update_comment: '(Aggiornato nell''importazione BCF)'
       import_failed: 'Cannot import BCF file: %{error}'
       import_successful: 'Imported %{count} BCF issues'
@@ -30,4 +32,5 @@ it:
     format:
       bcf: "BCF-XML"
   attributes:
-    bcf_thumbnail: "BCF snaphot"
+    bcf_thumbnail: "BCF snapshot"
+  project_module_bcf: "BCF"

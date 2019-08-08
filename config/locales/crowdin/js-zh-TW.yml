@@ -272,6 +272,7 @@ zh-TW:
     label_in: "在"
     label_in_less_than: "少於"
     label_in_more_than: "多於"
+    label_import: "Import"
     label_latest_activity: "最新活動"
     label_last_updated_on: "最後更新於"
     label_less_or_equal: "<="

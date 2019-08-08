@@ -273,6 +273,7 @@ pl:
     label_in: "w"
     label_in_less_than: "w mniej niż"
     label_in_more_than: "w ponad"
+    label_import: "Importuj"
     label_latest_activity: "Ostatnia aktywność"
     label_last_updated_on: "Ostatnia aktualizacja"
     label_less_or_equal: "≤"

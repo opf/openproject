@@ -272,6 +272,7 @@ ru:
     label_in: "в"
     label_in_less_than: "менее чем"
     label_in_more_than: "более чем"
+    label_import: "Импорт"
     label_latest_activity: "Последние действия"
     label_last_updated_on: "Последний раз обновлено"
     label_less_or_equal: "<="

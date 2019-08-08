@@ -33,7 +33,7 @@ zh-CN:
     settings:
       enable_gravatars: 'Enable user gravatars'
       gravatar_default: "默认的 Gravatar 图像"
-      enable_local_avatars: '启用用户自定义头像'
+      enable_local_avatars: 'Enable user custom avatars'
 
 
 

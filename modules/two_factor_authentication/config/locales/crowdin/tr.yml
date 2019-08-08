@@ -2,18 +2,18 @@ tr:
   activerecord:
     attributes:
       two_factor_authentication/device:
-        identifier: 'Tanıtıcı'
+        identifier: 'Tanımlayıcı'
         default: 'Varsayılan olarak kullan'
       two_factor_authentication/device/sms:
         phone_number: "Telefon numarası"
     errors:
       models:
         two_factor_authentication/device:
-          default_already_exists: 'zaten başka bir OTP cihazı için ayarlanmış.'
+          default_already_exists: 'zaten başka OTP cihazı ayarlanmış.'
         two_factor_authentication/device/sms:
           attributes:
             phone_number:
-              error_phone_number_format: "+ XX XXXdiven formatında olmalı"
+              error_phone_number_format: "format +XX XXXXXXXXX olmalı"
     models:
       two_factor_authentication/device: "2FA cihazı"
       two_factor_authentication/device/sms: "Cep telefonu"
@@ -32,106 +32,104 @@ tr:
     label_default_device: "Varsayılan 2FA cihazı"
     label_device: "2FA aygıtı"
     label_devices: "2FA cihazları"
-    label_one_time_password: 'Tek seferlik şifre'
-    label_2fa_enabled: 'İki faktörlü kimlik doğrulama etkin'
-    label_2fa_disabled: 'İki faktörlü kimlik doğrulama etkin değil'
-    text_otp_delivery_message_sms: "%{app_title} bir kerelik şifreniz %{token}"
-    text_otp_delivery_message_voice: "%{app_title} bir kerelik parolanız: %{pause} %{token}. %{pause} Tekrar ediyorum: %{pause}   %{token} "
-    text_enter_2fa: 'Lütfen cihazınızdan bir kerelik şifre girin.'
-    text_2fa_enabled: 'Her giriş yaptığınızda, varsayılan 2FA cihazınızdan bir OTP belirteci girmeniz istenir.'
-    text_2fa_disabled: 'İki faktörlü kimlik doğrulamayı etkinleştirmek için, yeni bir 2FA cihazı kaydetmek için yukarıdaki düğmeyi kullanın. Zaten bir cihazınız varsa, varsayılan olarak ayarlamanız gerekir.'
+    label_one_time_password: 'Tek kullanımlık şifre'
+    label_2fa_enabled: 'İki faktörlü kimlik doğrulama aktif'
+    label_2fa_disabled: 'İki faktörlü kimlik doğrulama aktif değil'
+    text_otp_delivery_message_sms: "Senin %{app_title} one-time şifre %{token}"
+    text_otp_delivery_message_voice: "%{app_title} bir kerelik parolanız:  %{pause} %{token}. %{pause} Tekrar ediyorum: %{pause} %{token}"
+    text_enter_2fa: 'Lütfen cihazınızdaki tek kullanımlık şifreyi giriniz.'
+    text_2fa_enabled: 'Her girişte, varsayılan 2FA cihazınızdan bir OTP jetonu girmeniz talep edilir.'
+    text_2fa_disabled: 'İki faktörlü kimlik doğrulamayı etkinleştirmek için yukarıdaki düğmeyi kullanarak yeni bir 2FA aygıtı kaydedin. zaten bir cihazınız varsa, onu bir varsayılan yapmanız gerekir.'
     login:
-      enter_backup_code_title: Yedek kodunu girin
-      enter_backup_code_text: Kayıtlı 2FA cihazlarınıza artık erişememeniz durumunda lütfen kod listenizden geçerli bir yedekleme kodu girin.
-      other_device: 'Başka bir cihaz veya yedekleme kodu kullanın'
+      enter_backup_code_title: Yedekleme kodunu giriniz
+      enter_backup_code_text: Kayıtlı 2FA cihazlarınıza erişememe ihtimalinize karşı lütfen kod listenizden geçerli bir yedek kod giriniz.
+      other_device: 'Başka bir cihaz yada yedek kod kullanın'
     settings:
       title: '2FA ayarları'
-      current_configuration: 'Geçerli yapılandırma'
+      current_configuration: 'Mevcut yapılandırma'
       label_active_strategies: 'Aktif 2FA stratejileri'
-      label_enforced: '2FA''yı uygula'
-      label_remember: '2FA girişini hatırla'
+      label_enforced: '2FA uygula'
+      label_remember: '2FA girişi hatırla'
       text_configuration: |
-        Not: Bu değerler geçerli uygulama genelinde yapılandırmayı temsil eder. Yapılandırmanın uyguladığı ayarları devre dışı bırakamaz veya mevcut aktif stratejileri değiştiremezsiniz, çünkü sunucunun yeniden başlatılmasını gerektirir.
-      text_configuration_guide: Daha fazla bilgi için yapılandırma kılavuzunu kontrol edin.
-      text_enforced: 'Tüm kullanıcıları bir sonraki oturum açışında 2FA cihazı kaydetmeye zorlamak için bu ayarı etkinleştirin. Yalnızca yapılandırma tarafından zorlanmadığında devre dışı bırakılabilir.'
+        Not: Bu değerler mevcut uygulama çapı yapılandırmasını temsil eder. Mevcut aktif stratejileri yapılandırarak veya değiştirerek zorlanan ayarları devre dışı bırakamazsınız. Çünkü bir sunucunun yeniden başlatılması gerekir.
+      text_configuration_guide: Daha fazla bilgi için, yapılandırma klavuzunu kontrol edin.
+      text_enforced: 'Tüm kullanıcıların bir sonraki oturum açışlarında 2FA cihazını kaydettirmek için bu ayarı etkinleştirin. Sadece yapılandırma tarafından zorlanmadığında devre dışı bırakılabilir.'
       text_remember: |
-        Kullanıcıların verilen 2 gün için 2FA onaylarını hatırlamalarını sağlamak için bunu sıfırdan büyük olarak ayarlayın.
-        Bu süre içinde tekrar girmeleri istenmeyecektir. Sadece yapılandırma tarafından zorlanmadığında ayarlanabilir.
-      error_invalid_settings: 'Seçtiğiniz 2FA stratejileri geçersiz'
-      failed_to_save_settings: '2FA ayarları güncellenemedi: %{message}'
+        Kullanıcılara verilen belirli sürede 2FA kimlik doğrulayıcılarını hatırlamalarına izin vermek için sıfırdan büyük ayarlayın. Bu süre zarfında onların tekrar girilmesi istenmeyecek. Sadece yapılandırma tarafından zorlanmadığında ayarlanabilir.
+      error_invalid_settings: 'Seçtiğiniz 2FA stratejileri geçersizdir'
+      failed_to_save_settings: '2FA ayarları güncelleştirmesi başarısız: %{message}'
     admin:
-      self_edit_path: 'Kendi 2FA cihazlarınızı eklemek veya değiştirmek için, lütfen %{self_edit_link} adresine gidin.'
-      self_edit_link_name: 'Hesap sayfanızda iki faktörlü kimlik doğrulama'
-      self_edit_forbidden: 'Bu yolda kendi 2FA cihazlarınızı düzenleyemezsiniz. Hesabım> İki faktörlü kimlik doğrulama yerine gidin.'
-      no_devices_for_user: 'Bu kullanıcı için 2FA cihazı kayıtlı değil.'
+      self_edit_path: 'Kendi 2FA cihazınızı eklemek yada değiştirmek için, lütfen burdan%{self_edit_link}'
+      self_edit_link_name: 'Hesap sayfanızdaki iki faktörlü kimlik doğrulayıcı'
+      self_edit_forbidden: 'Burada kendi 2FA cihazınızı düzenleyemezsiniz. Bunun yerine Hesabım > İki faktörlü kimlik doğrulama.'
+      no_devices_for_user: 'Bu kullanıcı için hiçbir 2FA cihazı kayıtlı değil.'
       all_devices_deleted: 'Bu kullanıcının tüm 2FA cihazları silindi'
-      delete_all_are_you_sure: 'Bu kullanıcı için tüm 2FA cihazlarını silmek istediğinize emin misiniz?'
-      button_delete_all_devices: 'Kayıtlı 2FA cihazlarını sil'
+      delete_all_are_you_sure: 'Bu kullanıcı için tüm 2FA cihazlarını silmek istediğinizden emin misiniz?'
+      button_delete_all_devices: 'Kayıtlı cihazları sil'
       button_register_mobile_phone_for_user: 'Cep telefonunu kaydet'
-      text_2fa_enabled: 'Her oturum açıldığında, bu kullanıcıdan varsayılan 2FA cihazından bir OTP belirteci girmesi istenir.'
-      text_2fa_disabled: "Kullanıcı, 'Hesabım sayfam' üzerinden bir 2FA cihazı kurmadı"
+      text_2fa_enabled: 'Her girişte bu kullanıcının varsayılan 2FA cihazından bir OTP jetonu girmesi istenir.'
+      text_2fa_disabled: "Kullanıcı, \"Hesabım sayfası\" ndan bir 2FA cihazı kurmadı"
     upsale:
-      title: 'İki faktörlü kimlik doğrulama kurumsal bir özelliktir'
-      description: 'Dahili veya harici doğrulama mekanizmalarınızı ikinci bir faktörle güçlendirin.'
+      title: 'İki faktörlü kimlik doğrulaması kurumsal bir özelliktir'
+      description: 'İç ve dış kimlik doğrulamanızı ikincil faktörler ile güçlendirin.'
     backup_codes:
-      none_found: Bu hesap için yedek kod yok.
+      none_found: Bu hesap için yedek kodlar mevcut değil.
       singular: Yedek kod
-      plural: Yedek kodlar
+      plural: Yedek kodları
       your_codes: sizin %{app_name} için hesap %{login}
       overview_description: |
-        İki faktörlü cihazlarınıza erişemiyorsanız, hesabınıza tekrar erişim sağlamak için bir yedekleme kodu kullanabilirsiniz.
-        Yeni bir yedekleme kodu kümesi oluşturmak için aşağıdaki düğmeyi kullanın.
+        İki faktör cihazlarınıza erişiminiz yok ise, Yedek kodu kullanarak hesabınızı yeniden elde edebilisiniz. Yeni yedek kodları oluşturmak için bu butonu kullanın.
       generate:
-        title: Yedek kodları üret
-        keep_safe_as_password: 'Önemli! Bu kodları şifre olarak kabul edin.'
-        keep_safe_warning: 'Onları şifre yöneticinize kaydedin veya bu sayfayı yazdırın ve güvenli bir yere koyun.'
-        regenerate_warning: 'Uyarı: Daha önce yedekleme kodları oluşturduysanız, geçersiz sayılacaklar ve artık çalışmayacaklar.'
+        title: Yedek kodları oluşturun
+        keep_safe_as_password: 'Önemli! Bu kodlar şifre gibidir.'
+        keep_safe_warning: 'Ya şifre yöneticinize kaydedin, yada bu sayfayı yazdırın ve güvenli bir yer koyun.'
+        regenerate_warning: 'Uyarı: Önceden yedek kodlar oluşturduysanız, geçersiz olacaklar ve artık çalışmayacaklar.'
     devices:
-      add_new: 'Yeni 2FA cihazı ekle'
-      register: 'Kayıt cihazı'
-      confirm_default: 'Varsayılan cihazı değiştirmeyi onayla'
-      confirm_device: 'Cihazı onayla'
-      confirm_now: 'Onaylanmadı, etkinleştirmek için buraya tıklayın'
-      cannot_delete_default: 'Varsayılan cihaz silinemiyor'
-      make_default_are_you_sure: 'Bu 2FA cihazını varsayılan yapmak istediğinize emin misiniz?'
+      add_new: 'Yeni 2FA cihazı ekleyin'
+      register: 'Cihaz kaydedin'
+      confirm_default: 'Değişen varsayılan cihazı onaylayın'
+      confirm_device: 'Cihazı onaylayın'
+      confirm_now: 'Onaylanmamıştır, aktif etmek için tıklayın'
+      cannot_delete_default: 'Varsayılan cihazı silemezsiniz'
+      make_default_are_you_sure: 'Bu 2FA cihazını varsayılan yapmak istediğinizden emin misiniz?'
       make_default_failed: 'Varsayılan 2FA cihazı güncellenemedi.'
-      deletion_are_you_sure: 'Bu 2FA cihazını silmek istediğinize emin misiniz?'
+      deletion_are_you_sure: 'Bu 2FA cihazını silmek istediğinizden emin misiniz?'
       registration_complete: '2FA cihaz kaydı tamamlandı!'
-      registration_failed_token_invalid: '2FA cihaz kaydı başarısız oldu; belirteç geçersizdi.'
-      registration_failed_update: '2FA cihaz kaydı başarısız oldu; belirteç geçerliydi, ancak cihaz güncellenemedi.'
+      registration_failed_token_invalid: '2FA cihaz kaydı başarısız oldu, Jeton geçersizdi.'
+      registration_failed_update: '2FA cihaz kaydı başarısız oldu, jeton geçerliydi fakat cihaz güncellenemedi.'
       confirm_send_failed: '2FA cihazınızın onayı başarısız oldu.'
-      button_complete_registration: '2FA kaydını tamamla'
-      text_confirm_to_complete_html: "Lütfen varsayılan cihazınızdan bir kerelik bir şifre girerek cihazınızın <strong> %{identifier} </strong> kaydını tamamlayın."
-      text_confirm_to_change_default_html: "Lütfen geçerli varsayılan cihazınızdan bir kerelik bir şifre girerek varsayılan cihazınızı <strong>%{new_identifier} </strong> olarak değiştirmeyi onaylayın."
+      button_complete_registration: '2FA kaydını tamamlayın'
+      text_confirm_to_complete_html: "Lütfen varsayılan cihazınızdan tek kullanımlık şifreyi girerek <strong>%{identifier}</strong> cihazınızın kaydını tamalayın."
+      text_confirm_to_change_default_html: "Lütfen mevcut varsayılan cihazınızdan tek kullanımlık şifreyi girerek <strong>%{new_identifier}</strong> varsayılan cihaz değişikliğini onaylayın."
       text_identifier: 'Bu alanı kullanarak cihaza özel bir tanımlayıcı verebilirsiniz.'
-      failed_to_delete: '2FA cihazı silinemedi.'
-      is_default_cannot_delete: 'Cihaz varsayılan olarak işaretlenmiştir ve aktif bir güvenlik politikası nedeniyle silinemez. Silmeden önce başka bir cihazı varsayılan olarak işaretleyin.'
-      not_existing: 'Hesabınız için 2FA cihazı kayıtlı değil.'
-      request_2fa: Lütfen kimliğinizi doğrulamak için %{device_name} kodunuzu girin.
+      failed_to_delete: '2FA cihazı silme hatası.'
+      is_default_cannot_delete: 'Cihaz varsayılan olarak işaretlidir ve aktif güvenlik politikası gereği silinemez. Silmeden önce başka bir cihazı varsayılan olarak işaretleyin.'
+      not_existing: 'Hesabınız için kaydedilmiş hiçbir 2FA cihazı yok.'
+      request_2fa: Kimliğinizi doğrulamak için lütfen %{device_name}'dan kod girin.
       totp:
         title: 'Uygulama tabanlı kimlik doğrulayıcınızı kullanın'
-        provisioning_uri: 'URI sağlama'
+        provisioning_uri: 'URI hazırlama'
         secret_key: 'Gizli anahtar'
         time_based: 'Zaman bazlı'
-        account: 'Hesap adı / İhraççı'
+        account: 'Hesap adı / veren'
         setup: |
-          Google Authenticator ile iki faktörlü kimlik doğrulaması ayarlamak için uygulamayı Apple App Store'dan veya Google Play Store'dan indirin.
-          Uygulamayı açtıktan sonra, cihazı kaydetmek için aşağıdaki QR kodunu tarayabilirsiniz.
+          Google Authenticator ile İki faktörlü kimlik doğrulayıcısını kurmak için, uygulamayı Apple App mağazasından yada Google Play Store'dan indirin.
+          Uygulamayı açtıktan sonra, cihazı kaydetmek için çıkan QR kodunu taratabilirsiniz.
         question_cannot_scan: |
-          Uygulamanızı kullanarak kodu tarayamıyor musunuz?
+          Uygulamanızı kullanarak kod taratma kapalı mı?
         text_cannot_scan: |
-          Kodu tarayamıyorsanız, aşağıdaki ayrıntıları kullanarak girişi el ile girebilirsiniz:
+          Eğer kodu taratamıyorsanız, devamındaki detayları kullanarak manuel olarak girebilirsiniz:
         description: |
-          OpenProject ile kullanmak için zaman tabanlı bir kerelik şifre kimlik doğrulama standardını kullanarak bir uygulama kimlik doğrulayıcı kaydedin.
-          Yaygın örnekler, Google Authenticator veya Authy.
+          Zaman bazlı tek kullanımlık kimlik doğrulayıcı standardını OpenProject ile kullanmak için bir kimlik doğrulayıcı uygulama kaydedin.
+          Yaygın örnekler Google Authenticator yada Authy'dir.
       sms:
-        title: 'cep telefonunu kullan'
+        title: 'Cep telefonunuzu kullanın'
         redacted_identifier: 'Mobil cihaz (%{redacted_number})'
-        request_2fa_identifier: '%{redacted_identifier}, size %{delivery_channel} üzerinden bir kimlik doğrulama kodu gönderdik '
+        request_2fa_identifier: '%{redacted_identifier}, size %{delivery_channel} ile kimlik doğrulayıcısı kodu gönderdik'
         description: |
-          OpenProject bir kerelik şifrelerin teslimi için cep telefonu numaranızı kaydedin.
+          OpenProject'in tek kullanımlık şifrelerini göndermek için cep telefon numaranızı kaydedin.
     sns:
-      delivery_failed: 'SNS teslimi başarısız oldu:'
+      delivery_failed: 'SNS gönderimi başarısız:'
     message_bird:
       sms_delivery_failed: 'MessageBird SMS gönderimi başarısız oldu.'
       voice_delivery_failed: 'MessageBird sesli arama başarısız oldu.'

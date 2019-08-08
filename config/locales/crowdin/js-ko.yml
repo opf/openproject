@@ -273,6 +273,7 @@ ko:
     label_in: "-"
     label_in_less_than: "보다 작음"
     label_in_more_than: "보다 큼"
+    label_import: "가져오기"
     label_latest_activity: "최근 활동"
     label_last_updated_on: "마지막 업데이트 날짜"
     label_less_or_equal: "<="

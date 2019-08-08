@@ -274,6 +274,7 @@ ja:
     label_in: "今日から○日後"
     label_in_less_than: "今日から○日後以前"
     label_in_more_than: "今日から○日後以降"
+    label_import: "インポート"
     label_latest_activity: "最新の活動"
     label_last_updated_on: "最終更新日："
     label_less_or_equal: "以下"

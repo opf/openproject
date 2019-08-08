@@ -273,6 +273,7 @@ ca:
     label_in: "en"
     label_in_less_than: "en menys de"
     label_in_more_than: "en més de"
+    label_import: "Import"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "La darrera actualització el"
     label_less_or_equal: "<="

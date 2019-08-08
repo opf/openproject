@@ -1,6 +1,8 @@
 uk:
   bcf:
     label_bcf: 'BCF'
+    label_imported_failed: 'Failed imports of BCF topics'
+    label_imported_successfully: 'Successfully imported BCF topics'
     issues: "Issues"
     experimental_badge: "Experimental"
     exceptions:
@@ -12,8 +14,8 @@ uk:
       other: '%{count} BCF issues'
     bcf_xml:
       xml_file: 'BCF XML File'
-      import_title: 'Import from BCF file'
-      export: 'Export all to BCF-XML'
+      import_title: 'Імпортувати'
+      export: 'Експорт'
       import_update_comment: '(Updated in BCF import)'
       import_failed: 'Cannot import BCF file: %{error}'
       import_successful: 'Imported %{count} BCF issues'
@@ -32,4 +34,5 @@ uk:
     format:
       bcf: "BCF-XML"
   attributes:
-    bcf_thumbnail: "BCF snaphot"
+    bcf_thumbnail: "BCF snapshot"
+  project_module_bcf: "BCF"

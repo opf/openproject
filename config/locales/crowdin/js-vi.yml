@@ -272,6 +272,7 @@ vi:
     label_in: "trong"
     label_in_less_than: "ít hơn"
     label_in_more_than: "nhiều hơn"
+    label_import: "Import"
     label_latest_activity: "Hoạt động mới nhất"
     label_last_updated_on: "Cập nhật lần cuối lúc"
     label_less_or_equal: "<="
