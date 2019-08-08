@@ -53,7 +53,7 @@ class AddDerivedEstimatedHoursToWorkPackages < ActiveRecord::Migration[5.2]
         'WorkPackage',
         parents.id,
         #{author.id},
-        '#{notes}',
+        #{WorkPackage.connection.quote(notes)},
         NOW(),
         (SELECT MAX(version) FROM journals WHERE journable_id = parents.id AND journable_type = 'WorkPackage') + 1,
         'work_packages'
