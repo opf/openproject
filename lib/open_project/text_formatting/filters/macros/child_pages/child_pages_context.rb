@@ -41,7 +41,7 @@ module OpenProject::TextFormatting::Filters::Macros::ChildPages
 
     def check
       if @page.nil? || !@user.allowed_to?(:view_wiki_pages, @page.wiki.project)
-        raise I18n.t('macros.include_wiki_page.errors.page_not_found', name: @page_value)
+        raise I18n.t('macros.wiki_child_pages.errors.page_not_found', name: @page_value)
       end
     end
 
