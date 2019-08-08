@@ -30,13 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <style type="text/css">
   <% if CustomStyle.current.logo.present? %>
     #logo .home-link {
-      margin-top: 12px;
-      width: 230px;
-      height: 30px;
       background-image: url("<%= custom_style_logo_path(digest: CustomStyle.current.digest, filename: CustomStyle.current.logo_identifier) %>");
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: contain;
     }
   <% end %>
 
