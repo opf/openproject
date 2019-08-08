@@ -113,6 +113,8 @@ en:
       tabs:
         graph_settings: 'General'
         dataset: 'Dataset %{number}'
+      errors:
+        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
 
     description_available_columns: "Available Columns"
     description_current_position: "You are here: "

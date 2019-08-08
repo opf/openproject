@@ -31,6 +31,7 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
   public datasets:WorkPackageEmbeddedGraphDataset[] = [];
   public displayModeSingle = true;
   public availableGroupBy:{label:string, key:string}[];
+  public error:string|null = null;
 
   constructor(readonly elementRef:ElementRef,
               readonly I18n:I18nService,
@@ -59,11 +60,20 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
 
     this.graphConfigurationService.configuration = new WpGraphConfiguration(params, {}, 'horizontalBar');
 
-    this.graphConfigurationService.reloadQueries().then(() => {
-      this.datasets = this.sortedDatasets(this.graphConfigurationService.datasets, params);
+    // 'finally' was not available yet so the code for the change detection is duplicated
+    this
+      .graphConfigurationService
+      .reloadQueries()
+      .then(() => {
+        this.datasets = this.sortedDatasets(this.graphConfigurationService.datasets, params);
 
-      this.cdr.detectChanges();
-    });
+        this.cdr.detectChanges();
+      })
+      .catch(() => {
+        this.error = this.I18n.t('js.chart.errors.could_not_load');
+
+        this.cdr.detectChanges();
+      });
   }
 
   public get graphParams() {

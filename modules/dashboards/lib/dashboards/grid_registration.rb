@@ -43,6 +43,12 @@ module Dashboards
       options_representer '::API::V3::Grids::Widgets::CustomTextOptionsRepresenter'
     end
 
+    widget_strategy 'work_packages_overview' do
+      allowed ->(user, project) {
+        user.allowed_to?(:view_work_packages, project)
+      }
+    end
+
     defaults -> {
       {
         row_count: 7,
