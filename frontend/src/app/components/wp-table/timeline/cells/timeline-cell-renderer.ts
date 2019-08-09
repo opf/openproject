@@ -56,10 +56,6 @@ export class TimelineCellRenderer {
     return 'bar';
   }
 
-  public get fallbackColor():string {
-    return 'rgba(50, 50, 50, 0.1)';
-  }
-
   public canMoveDates(wp:WorkPackageResource) {
     return wp.schema.startDate.writable && wp.schema.dueDate.writable && wp.isAttributeEditable('startDate');
   }
@@ -368,12 +364,6 @@ export class TimelineCellRenderer {
     let wp = renderInfo.workPackage;
     let type = wp.type;
     let selectionMode = renderInfo.viewParams.activeSelectionMode;
-
-    if (!type && !selectionMode) {
-      bg.style.backgroundColor = this.fallbackColor;
-    } else {
-      bg.style.backgroundColor = '';
-    }
 
     // Don't apply the class in selection mode or for parents (clamps)
     const id = type.id;
