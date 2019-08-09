@@ -30,6 +30,17 @@ worker_processes Integer(ENV['WEB_CONCURRENCY'] || 4)
 timeout Integer(ENV['WEB_TIMEOUT'] || 300)
 preload_app true
 
+# HEROKU is set to true in the Dockerfile. In the Dockerfile we do just want to
+# log to STDOUT. In any other case (i.e. packager) we want to log to files
+# so that users can inspect the logs if necessary.
+if ENV["HEROKU"] != "true"
+  directory = "/var/log/openproject"
+  directory = "." unless File.directory? directory
+
+  stdout_path "#{directory}/stdout.log"
+  stderr_path "#{directory}/stderr.log"
+end
+
 # Preloading the unicorn server to have all workers spawn the application
 # automatically.
 #

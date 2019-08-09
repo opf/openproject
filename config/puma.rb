@@ -15,6 +15,17 @@ port ENV.fetch("PORT") { 3000 }
 #
 environment ENV.fetch("RAILS_ENV") { "development" }
 
+# HEROKU is set to true in the Dockerfile. In the Dockerfile we do just want to
+# log to STDOUT. In any other case (i.e. packager) we want to log to files
+# so that users can inspect the logs if necessary.
+if ENV["HEROKU"] != "true"
+  directory = "/var/log/openproject"
+  directory = "." unless File.directory? directory
+
+  stdout_redirect "#{directory}/stdout.log",
+                  "#{directory}/stderr.log"
+end
+
 # Specifies the number of `workers` to boot in clustered mode.
 # Workers are forked webserver processes. If using threads and workers together
 # the concurrency of the application would be max `threads` * `workers`.
