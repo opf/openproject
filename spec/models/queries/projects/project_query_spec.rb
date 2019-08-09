@@ -40,59 +40,81 @@ describe Queries::Projects::ProjectQuery, type: :model do
     end
   end
 
-  context 'with an ancestor filter - "=" operator' do
-    before do
-      instance.where('ancestor', '=', ['8'])
-    end
+  context 'with a parent filter' do
+    context 'with a "=" operator' do
+      before do
+        allow(Project)
+          .to receive_message_chain(:visible, :pluck)
+          .with(:id)
+          .and_return([8])
 
-    describe '#results' do
+        instance.where('parent_id', '=', ['8'])
+      end
+
       it 'is the same as handwriting the query' do
-        projects_table = Project.arel_table
-        projects_ancestor_table = projects_table.alias(:ancestor_projects)
-
-        condition = projects_table[:lft]
-                    .gt(projects_ancestor_table[:lft])
-                    .and(projects_table[:rgt].lt(projects_ancestor_table[:rgt]))
-                    .and(projects_ancestor_table[:id].in(['8']))
-
-        arel = projects_table
-               .join(projects_ancestor_table)
-               .on(condition)
-
-        expected = base_scope.joins(arel.join_sources)
+        expected = base_scope
+                     .where(["projects.parent_id IN (?)", ['8']])
 
         expect(instance.results.to_sql).to eql expected.to_sql
       end
     end
   end
 
-  context 'with an ancestor filter - "!" operator' do
-    before do
-      instance.where('ancestor', '!', ['8'])
+  context 'with an ancestor filter' do
+    context 'with a "=" operator' do
+      before do
+        instance.where('ancestor', '=', ['8'])
+      end
+
+      describe '#results' do
+        it 'is the same as handwriting the query' do
+          projects_table = Project.arel_table
+          projects_ancestor_table = projects_table.alias(:ancestor_projects)
+
+          condition = projects_table[:lft]
+                        .gt(projects_ancestor_table[:lft])
+                        .and(projects_table[:rgt].lt(projects_ancestor_table[:rgt]))
+                        .and(projects_ancestor_table[:id].in(['8']))
+
+          arel = projects_table
+                   .join(projects_ancestor_table)
+                   .on(condition)
+
+          expected = base_scope.joins(arel.join_sources)
+
+          expect(instance.results.to_sql).to eql expected.to_sql
+        end
+      end
     end
 
-    describe '#results' do
-      it 'is the same as handwriting the query' do
-        projects_table = Project.arel_table
-        projects_ancestor_table = projects_table.alias(:ancestor_projects)
+    context 'with a "!" operator' do
+      before do
+        instance.where('ancestor', '!', ['8'])
+      end
 
-        condition = projects_table[:lft]
-                    .gt(projects_ancestor_table[:lft])
-                    .and(projects_table[:rgt].lt(projects_ancestor_table[:rgt]))
+      describe '#results' do
+        it 'is the same as handwriting the query' do
+          projects_table = Project.arel_table
+          projects_ancestor_table = projects_table.alias(:ancestor_projects)
 
-        arel = projects_table
-               .outer_join(projects_ancestor_table)
-               .on(condition)
+          condition = projects_table[:lft]
+                      .gt(projects_ancestor_table[:lft])
+                      .and(projects_table[:rgt].lt(projects_ancestor_table[:rgt]))
 
-        where_condition = projects_ancestor_table[:id]
-                          .not_in(['8'])
-                          .or(projects_ancestor_table[:id].eq(nil))
+          arel = projects_table
+                 .outer_join(projects_ancestor_table)
+                 .on(condition)
 
-        expected = base_scope
-                   .joins(arel.join_sources)
-                   .where(where_condition)
+          where_condition = projects_ancestor_table[:id]
+                            .not_in(['8'])
+                            .or(projects_ancestor_table[:id].eq(nil))
 
-        expect(instance.results.to_sql).to eql expected.to_sql
+          expected = base_scope
+                     .joins(arel.join_sources)
+                     .where(where_condition)
+
+          expect(instance.results.to_sql).to eql expected.to_sql
+        end
       end
     end
   end

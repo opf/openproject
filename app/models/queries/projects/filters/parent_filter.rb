@@ -28,24 +28,18 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Projects
-  register = ::Queries::Register
-  filters = ::Queries::Projects::Filters
-  orders = ::Queries::Projects::Orders
-  query = ::Queries::Projects::ProjectQuery
+class Queries::Projects::Filters::ParentFilter < Queries::Projects::Filters::ProjectFilter
+  def type
+    :list_optional
+  end
 
-  register.filter query, filters::AncestorFilter
-  register.filter query, filters::TypeFilter
-  register.filter query, filters::ActiveOrArchivedFilter
-  register.filter query, filters::NameAndIdentifierFilter
-  register.filter query, filters::CustomFieldFilter
-  register.filter query, filters::CreatedOnFilter
-  register.filter query, filters::LatestActivityAtFilter
-  register.filter query, filters::PrincipalFilter
-  register.filter query, filters::ParentFilter
+  def self.key
+    :parent_id
+  end
 
-  register.order query, orders::DefaultOrder
-  register.order query, orders::LatestActivityAtOrder
-  register.order query, orders::RequiredDiskSpaceOrder
-  register.order query, orders::CustomFieldOrder
+  def allowed_values
+    @allowed_values ||= begin
+      ::Project.visible.pluck(:id).map { |id| [id, id.to_s] }
+    end
+  end
 end

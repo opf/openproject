@@ -63,6 +63,7 @@ import {WidgetCustomTextComponent} from "core-app/modules/grids/widgets/custom-t
 import {OpenprojectFieldsModule} from "core-app/modules/fields/openproject-fields.module";
 import {WidgetProjectDetailsComponent} from "core-app/modules/grids/widgets/project-details/project-details.component";
 import {WidgetTimeEntriesProjectComponent} from "core-app/modules/grids/widgets/time-entries-current-user/project/time-entries-project.component";
+import {WidgetSubprojectsComponent} from "core-app/modules/grids/widgets/subprojects/subprojects.component";
 
 export const GRID_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -98,6 +99,7 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
                                   WidgetWpOverviewComponent,
                                   WidgetProjectDescriptionComponent,
                                   WidgetProjectDetailsComponent,
+                                  WidgetSubprojectsComponent,
                                   WidgetTimeEntriesCurrentUserComponent,
                                   WidgetTimeEntriesProjectComponent]),
 
@@ -131,6 +133,7 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
     WidgetWpGraphComponent,
     WidgetProjectDescriptionComponent,
     WidgetProjectDetailsComponent,
+    WidgetSubprojectsComponent,
     WidgetTimeEntriesCurrentUserComponent,
     WidgetTimeEntriesProjectComponent,
 
@@ -325,6 +328,14 @@ export function registerWidgets(injector:Injector) {
           title: i18n.t(`js.grid.widgets.project_details.title`),
           properties: {
             name: i18n.t('js.grid.widgets.project_details.title')
+          }
+        },
+        {
+          identifier: 'subprojects',
+          component: WidgetSubprojectsComponent,
+          title: i18n.t(`js.grid.widgets.subprojects.title`),
+          properties: {
+            name: i18n.t('js.grid.widgets.subprojects.title')
           }
         }
       ];

@@ -29,8 +29,8 @@
 import {Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Injector} from '@angular/core';
 import {AbstractWidgetComponent} from "app/modules/grids/widgets/abstract-widget.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {ProjectDmService} from "core-app/modules/hal/dm-services/project-dm.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
+import {ProjectCacheService} from "core-components/projects/project-cache.service";
 
 @Component({
   templateUrl: './project-description.component.html',
@@ -41,7 +41,7 @@ export class WidgetProjectDescriptionComponent extends AbstractWidgetComponent i
 
   constructor(protected readonly i18n:I18nService,
               protected readonly injector:Injector,
-              protected readonly projectDm:ProjectDmService,
+              protected readonly projectCache:ProjectCacheService,
               protected readonly currentProject:CurrentProjectService,
               protected readonly cdr:ChangeDetectorRef) {
     super(i18n, injector);
@@ -61,6 +61,6 @@ export class WidgetProjectDescriptionComponent extends AbstractWidgetComponent i
   }
 
   private loadCurrentProject() {
-    return this.projectDm.load(this.currentProject.id as string);
+    return this.projectCache.require(this.currentProject.id as string);
   }
 }
