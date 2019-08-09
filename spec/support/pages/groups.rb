@@ -64,6 +64,7 @@ module Pages
   end
 
   class Group < Pages::Page
+    include ::Components::NgSelectAutocompleteHelpers
     attr_reader :id
 
     def initialize(id)
@@ -108,7 +109,10 @@ module Pages
 
     def add_user!(user_name)
       open_users_tab!
-      check user_name
+
+      container = page.find('.new-group-members--autocomplete')
+      select_autocomplete container,
+                          query: user_name
       click_on 'Add'
     end
 
