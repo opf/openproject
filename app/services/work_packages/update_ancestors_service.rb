@@ -73,22 +73,34 @@ class WorkPackages::UpdateAncestorsService
     parent = WorkPackage.find(previous_parent_id)
 
     ([parent] + parent.ancestors).each do |ancestor|
-      inherit_attributes(ancestor, %i(estimated_hours done_ratio))
+      # pass :parent to force update of all inherited attributes
+      inherit_attributes(ancestor, %i(parent))
     end.select(&:changed?)
   end
 
   def inherit_attributes(ancestor, attributes)
     return unless attributes_justify_inheritance?(attributes)
 
-    leaves = ancestor
+    leaves = leaves_for_ancestor ancestor
+
+    inherit_from_leaves ancestor: ancestor, leaves: leaves, attributes: attributes
+  end
+
+  def leaves_for_ancestor(ancestor)
+    ancestor
       .leaves
       .select(selected_leaf_attributes)
       .distinct(true) # Be explicit that this is a distinct (wrt ID) query
       .includes(:status).to_a
+  end
 
-    inherit_done_ratio(ancestor, leaves)
+  def inherit_from_leaves(ancestor:, leaves:, attributes:)
+    inherit_done_ratio ancestor, leaves if inherit? attributes, :done_ratio
+    derive_estimated_hours ancestor, leaves if inherit? attributes, :estimated_hours
+  end
 
-    inherit_estimated_hours(ancestor, leaves)
+  def inherit?(attributes, attribute)
+    [attribute, :parent].any? { |attr| attributes.include? attr }
   end
 
   def set_journal_note(work_packages)
@@ -156,13 +168,18 @@ class WorkPackages::UpdateAncestorsService
     summands.sum
   end
 
-  def inherit_estimated_hours(ancestor, leaves)
-    ancestor.estimated_hours = all_estimated_hours(leaves).sum.to_f
-    ancestor.estimated_hours = nil if ancestor.estimated_hours.zero?
+  def derive_estimated_hours(ancestor, leaves)
+    ancestor.derived_estimated_hours = not_zero all_estimated_hours(leaves, derived: true).sum.to_f
   end
 
-  def all_estimated_hours(work_packages)
-    work_packages.map(&:estimated_hours).reject { |hours| hours.to_f.zero? }
+  def not_zero(value)
+    value unless value.zero?
+  end
+
+  def all_estimated_hours(work_packages, derived: false)
+    work_packages
+      .map { |wp| (derived && wp.derived_estimated_hours) || wp.estimated_hours }
+      .reject { |hours| hours.to_f.zero? }
   end
 
   ##
@@ -191,6 +208,6 @@ class WorkPackages::UpdateAncestorsService
   end
 
   def selected_leaf_attributes
-    %i(id done_ratio estimated_hours status_id)
+    %i(id done_ratio derived_estimated_hours estimated_hours status_id)
   end
 end

@@ -81,6 +81,7 @@ module WorkPackage::Journalized
 
     register_on_journal_formatter(:id, 'parent_id')
     register_on_journal_formatter(:fraction, 'estimated_hours')
+    register_on_journal_formatter(:fraction, 'derived_estimated_hours')
     register_on_journal_formatter(:decimal, 'done_ratio')
     register_on_journal_formatter(:diff, 'description')
     register_on_journal_formatter(:attachment, /attachments_?\d+/)
