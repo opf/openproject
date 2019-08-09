@@ -37,7 +37,7 @@ describe JournalVersion, type: :model do
     wp
   end
 
-  subject { ::JournalVersion.find_by!(journable_type: 'WorkPackage', id: work_package.id) }
+  subject { ::JournalVersion.find_by!(journable_type: 'WorkPackage', journable_id: work_package.id) }
 
   before do
     work_package
