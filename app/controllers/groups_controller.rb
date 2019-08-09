@@ -69,6 +69,8 @@ class GroupsController < ApplicationController
   # GET /groups/1/edit
   def edit
     @group = Group.includes(:members, :users).find(params[:id])
+
+    set_filters_for_user_autocompleter
   end
 
   # POST /groups
@@ -176,6 +178,12 @@ class GroupsController < ApplicationController
 
   def find_group
     @group = Group.find(params[:id])
+  end
+
+  def set_filters_for_user_autocompleter
+    @autocompleter_filters = []
+    @autocompleter_filters.push({ selector: 'status', operator: '=', values: ['active'] })
+    @autocompleter_filters.push({ selector: 'group', operator: '!', values: [@group.id] })
   end
 
   def default_breadcrumb
