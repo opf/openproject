@@ -54,11 +54,38 @@ describe 'Projects custom fields', type: :feature do
     end
   end
 
+  describe 'with long text CF' do
+    let!(:custom_field) do
+      FactoryBot.create(:text_project_custom_field)
+    end
+    let(:editor) { ::Components::WysiwygEditor.new ".form--field.custom_field_#{custom_field.id}" }
+
+    scenario 'allows settings the project boolean CF (regression #26313)', js: true do
+      visit settings_project_path(id: project.id)
+
+      # expect CF and description ckeditor
+      expect(page).to have_selector('.op-ckeditor--wrapper', count: 2)
+
+      # single hash autocomplete
+      editor.insert_link 'http://example.org/link with spaces'
+
+      # Save wiki page
+      click_on 'Save'
+
+      expect(page).to have_selector('.flash.notice')
+
+      project.reload
+      cv = project.custom_values.find_by(custom_field_id: custom_field.id).value
+
+      expect(cv).to include '[http://example.org/link with spaces](http://example.org/link%20with%20spaces)'
+      expect(page).to have_selector('a[href="http://example.org/link%20with%20spaces"]')
+    end
+  end
+
   describe 'with boolean CF' do
     let!(:custom_field) do
       FactoryBot.create(:bool_project_custom_field)
     end
-
 
     scenario 'allows settings the project boolean CF (regression #26313)', js: true do
       visit settings_project_path(id: project.id)
