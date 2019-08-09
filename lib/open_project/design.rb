@@ -199,6 +199,7 @@ module OpenProject
       'timeline--header-border-color'                        => '#aaaaaa',
       'timeline--grid-color'                                 => '#dddddd',
       'timeline--separator'                                  => '3px solid #E7E7E7',
+      'timeline--type-fallback-color'                        => 'rgba(150, 150, 150, 0.8)',
       'table-timeline--row-height'                           => '40px',
       'status-selector-bg-color'                             => '#F99601',
       'status-selector-bg-hover-color'                       => '#E08600',
