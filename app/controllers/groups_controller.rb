@@ -31,7 +31,7 @@ class GroupsController < ApplicationController
   layout 'admin'
 
   before_action :require_admin
-  before_action :find_group, only: [:destroy, :autocomplete_for_user,
+  before_action :find_group, only: [:destroy,
                                     :show, :create_memberships, :destroy_membership,
                                     :edit_membership]
 
@@ -134,11 +134,6 @@ class GroupsController < ApplicationController
 
     I18n.t :notice_successful_update
     redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'users'
-  end
-
-  def autocomplete_for_user
-    @users = User.active.not_in_group(@group).like(params[:q]).limit(100)
-    render layout: false
   end
 
   def create_memberships

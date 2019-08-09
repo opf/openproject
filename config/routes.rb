@@ -357,7 +357,6 @@ OpenProject::Application.routes.draw do
 
     resources :groups do
       member do
-        get :autocomplete_for_user
         # this should be put into it's own resource
         match '/members' => 'groups#add_users', via: :post, as: 'members_of'
         match '/members/:user_id' => 'groups#remove_user', via: :delete, as: 'member_of'
