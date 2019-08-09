@@ -38,50 +38,8 @@ module OpenProject::TextFormatting::Filters::Macros
       HTML_CLASS
     end
 
-    def apply(macro, result:, context:)
-      args = macro['data-page']
-      raise I18n.t('macros.errors.missing_or_invalid_parameter') unless args.present?
-
-      page = Wiki.find_page(args, project: context[:project])
-      user = context[:current_user]
-
-      if page.nil? || !user.allowed_to?(:view_wiki_pages, page.wiki.project)
-        raise I18n.t('macros.include_wiki_page.errors.page_not_found', name: args)
-      end
-
-      # We remember the already included wiki pages in this run in:
-      # - the result object for this current run
-      # - the context of all contained inclusion runs, since result is reset in each pipeline instance.
-      result[:included_wiki_pages] ||= context[:included_wiki_pages] || []
-      if result[:included_wiki_pages].include?(args)
-        raise I18n.t('macros.include_wiki_page.errors.circular_inclusion')
-      end
-
-      result[:included_wiki_pages] << args
-
-      out = format_included_page(page, context, result)
-
-      result[:included_wiki_pages].pop
-
-      # Wrap result in section so we could, e.g., highlight it
-      macro.replace ApplicationController.helpers.content_tag :section,
-                                                              out,
-                                                              class: 'macros--included-wiki-page',
-                                                              data: { 'page-name': args }
-    end
-
-    ##
-    # Format included wiki page
-    def format_included_page(page, context, result)
-      OpenProject::TextFormatting::Renderer.format_text(
-        page.content.text,
-        context.merge(
-          included_wiki_pages: result[:included_wiki_pages],
-          # Markdown handler currently does no inline_attachments_parsing. Still needed?
-          attachments: page.attachments,
-          headings: false
-        )
-      )
+    def apply(*)
+      raise I18n.t('macros.include_wiki_page.removed')
     end
   end
 end
