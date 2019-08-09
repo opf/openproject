@@ -65,9 +65,9 @@ module API
             contract_instance = contract.new(instance, User.current)
 
             representer
-              .new(contract_instance,
-                   self_path,
-                   current_user: User.current)
+              .create(contract_instance,
+                      self_path,
+                      current_user: User.current)
           end
 
           def self_path

@@ -96,7 +96,7 @@ module API
                    format_query_sums results.all_sums_for_group(group)
                  end
 
-          ::API::Decorators::AggregationGroup.new(group, count, query: results.query, sums: sums)
+          ::API::Decorators::AggregationGroup.new(group, count, query: results.query, sums: sums, current_user: current_user)
         end
       end
 

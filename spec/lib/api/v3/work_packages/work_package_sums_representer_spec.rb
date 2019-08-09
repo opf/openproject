@@ -32,8 +32,9 @@ describe ::API::V3::WorkPackages::WorkPackageSumsRepresenter do
   let(:available_custom_fields) { [] }
   let(:sums) { double 'sums', estimated_hours: 5 }
   let(:schema) { double 'schema', available_custom_fields: available_custom_fields }
+  let(:current_user) { FactoryBot.build_stubbed(:user) }
   let(:representer) do
-    described_class.create_class(schema).new(sums)
+    described_class.create_class(schema, current_user).new(sums)
   end
   let(:summable_columns) { [] }
 

@@ -6,8 +6,12 @@ module Dashboards
     widgets 'work_packages_table',
             'work_packages_graph',
             'project_description',
+            'project_details',
             'work_packages_calendar',
             'work_packages_overview',
+            'time_entries_project',
+            'news',
+            'documents',
             'custom_text'
 
     remove_query_lambda = -> {
@@ -17,6 +21,10 @@ module Dashboards
     save_or_manage_queries_lambda = ->(user, project) {
       user.allowed_to?(:save_queries, project) &&
         user.allowed_to?(:manage_public_queries, project)
+    }
+
+    view_work_packages_lambda = ->(user, project) {
+      user.allowed_to?(:view_work_packages, project)
     }
 
     widget_strategy 'work_packages_table' do
@@ -37,6 +45,26 @@ module Dashboards
 
     widget_strategy 'custom_text' do
       options_representer '::API::V3::Grids::Widgets::CustomTextOptionsRepresenter'
+    end
+
+    widget_strategy 'work_packages_overview' do
+      allowed view_work_packages_lambda
+    end
+
+    widget_strategy 'work_packages_calendar' do
+      allowed view_work_packages_lambda
+    end
+
+    widget_strategy 'news' do
+      allowed ->(user, project) {
+        user.allowed_to?(:view_news, project)
+      }
+    end
+
+    widget_strategy 'documents' do
+      allowed ->(user, project) {
+        user.allowed_to?(:view_documents, project)
+      }
     end
 
     defaults -> {

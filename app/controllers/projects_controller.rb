@@ -135,8 +135,13 @@ class ProjectsController < ApplicationController
   def update
     @altered_project = Project.find(@project.id)
 
-    @altered_project.attributes = permitted_params.project
-    if validate_parent_id && @altered_project.save
+    # TODO: move the validation into the contract
+    #       move setting the allowed parents to the service
+    service = Projects::UpdateService
+              .new(user: current_user,
+                   model: @altered_project)
+
+    if validate_parent_id && service.call(permitted_params.project).success?
       if params['project'].has_key?('parent_id')
         @altered_project.set_allowed_parent!(params['project']['parent_id'])
       end

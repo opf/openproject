@@ -28,12 +28,72 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'model_contract'
-
 module Projects
   class BaseContract < ::ModelContract
-    def self.model
-      ::Project
+    include AssignableValuesContract
+
+    attribute :name
+    attribute :identifier
+    attribute :description
+    attribute :is_public
+    attribute :status do
+      validate_status_not_nil
+      validate_status_included
+    end
+    attribute :parent do
+      validate_parent_visible
+    end
+
+    attribute_alias :is_public, :public
+
+    def validate
+      validate_user_allowed_to_manage
+
+      super
+    end
+
+    def assignable_parents
+      Project.visible
+    end
+
+    def assignable_statuses
+      Project.statuses.keys
+    end
+
+    def assignable_custom_field_values(custom_field)
+      custom_field.possible_values
+    end
+
+    def available_custom_fields
+      if user.admin?
+        model.available_custom_fields
+      else
+        model.available_custom_fields.select(&:visible?)
+      end
+    end
+
+    private
+
+    def validate_status_not_nil
+      errors.add(:status, :blank) if model.status.nil?
+    end
+
+    def validate_status_included
+      if model.status.present? && !assignable_statuses.include?(model.status)
+        errors.add(:status, :inclusion)
+      end
+    end
+
+    def validate_parent_visible
+      errors.add(:parent, :does_not_exist) if model.parent && model.parent_id_changed? && !model.parent.visible?
+    end
+
+    def validate_user_allowed_to_manage
+      errors.add :base, :error_unauthorized unless user.allowed_to?(manage_permission, model)
+    end
+
+    def manage_permission
+      raise NotImplementedError
     end
   end
 end

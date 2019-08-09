@@ -211,6 +211,7 @@ module API
 
           index :project
           show :project
+          schema :project
 
           resources :query
 

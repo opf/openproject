@@ -1,5 +1,5 @@
 import {Component, OnInit, ChangeDetectorRef, Injector} from "@angular/core";
-import {AbstractWidgetComponent} from "app/modules/grids/widgets/abstract-widget.component";
+import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {TimeEntryDmService} from "core-app/modules/hal/dm-services/time-entry-dm.service";
 import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
@@ -8,11 +8,7 @@ import {PathHelperService} from "core-app/modules/common/path-helper/path-helper
 import {ConfirmDialogService} from "core-components/modals/confirm-dialog/confirm-dialog.service";
 import {FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
 
-@Component({
-  templateUrl: './time-entries-current-user.component.html',
-})
-
-export class WidgetTimeEntriesCurrentUserComponent extends AbstractWidgetComponent implements OnInit {
+export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetComponent implements OnInit {
   public text = {
     activity: this.i18n.t('js.time_entry.activity'),
     comment: this.i18n.t('js.time_entry.comment'),
@@ -24,7 +20,7 @@ export class WidgetTimeEntriesCurrentUserComponent extends AbstractWidgetCompone
       text: this.i18n.t('js.text_are_you_sure'),
       title: this.i18n.t('js.modals.form_submit.title')
     },
-    noResults: this.i18n.t('js.grid.widgets.time_entries_current_user.no_results'),
+    noResults: this.i18n.t('js.grid.widgets.time_entries_list.no_results'),
   };
   public entries:TimeEntryResource[] = [];
   private entriesLoaded = false;
@@ -41,10 +37,7 @@ export class WidgetTimeEntriesCurrentUserComponent extends AbstractWidgetCompone
   }
 
   ngOnInit() {
-    let filters = [['spentOn', '>t-', ['7']] as [string, FilterOperator, [string]],
-                   ['user_id', '=', ['me']] as [string, FilterOperator, [string]]];
-
-    this.timeEntryDm.list({ filters: filters })
+    this.timeEntryDm.list({ filters: this.dmFilters() })
       .then((collection) => {
         this.buildEntries(collection.elements);
         this.entriesLoaded = true;
@@ -118,10 +111,12 @@ export class WidgetTimeEntriesCurrentUserComponent extends AbstractWidgetCompone
         this.buildEntries(newEntries);
       });
     })
-    .catch(() => {
-      // nothing
-    });
+      .catch(() => {
+        // nothing
+      });
   }
+
+  protected abstract dmFilters():Array<[string, FilterOperator, [string]]>;
 
   private buildEntries(entries:TimeEntryResource[]) {
     this.entries = entries;

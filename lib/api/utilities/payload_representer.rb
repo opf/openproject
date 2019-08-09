@@ -105,8 +105,8 @@ module API
       end
 
       module ClassMethods
-        def create_class(work_package)
-          new_class = super
+        def create_class(*args)
+          new_class = super(*args)
 
           new_class.send(:include, ::API::Utilities::PayloadRepresenter)
 

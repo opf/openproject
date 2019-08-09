@@ -115,16 +115,19 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
     Struct.new(:group,
                :count,
                :query,
-               :sums) do
+               :sums,
+               :current_user) do
 
       def initialize(group,
                      count,
                      query:,
-                     sums:)
+                     sums:,
+                     current_user:)
         super(group,
               count,
               query,
-              sums)
+              sums,
+              current_user)
       end
     end
   end

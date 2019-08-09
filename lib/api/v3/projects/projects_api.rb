@@ -37,10 +37,11 @@ module API
                                                           scope: -> { Project.visible(User.current).includes(:enabled_modules) })
                                                      .mount
 
+          mount ::API::V3::Projects::Schemas::ProjectSchemaAPI
+
           params do
             requires :id, desc: 'Project id'
           end
-
           route_param :id do
             after_validation do
               @project = Project.find(params[:id])

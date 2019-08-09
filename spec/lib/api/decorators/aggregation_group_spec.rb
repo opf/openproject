@@ -37,8 +37,9 @@ describe ::API::Decorators::AggregationGroup do
   end
   let(:group_key) { OpenStruct.new name: 'ABC' }
   let(:count) { 5 }
+  let(:current_user) { FactoryBot.build_stubbed(:user) }
 
-  subject { described_class.new(group_key, count, query: query).to_json }
+  subject { described_class.new(group_key, count, query: query, current_user: current_user).to_json }
 
   context 'with an empty array key' do
     let(:group_key) { [] }

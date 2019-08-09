@@ -91,7 +91,7 @@ None yet
 
 
 
-## List of News [/api/v3/news{?offset,pageSize,sortBy}]
+## List of News [/api/v3/news{?offset,pageSize,filters,sortBy}]
 
 + Model
     + Body
@@ -189,6 +189,10 @@ Lists news. The news returned depend on the provided parameters and also on the 
     Accepts the same format as returned by the [queries](#queries) endpoint. Currently supported sorts are:
       + id: Sort by primary key
       + created_on: Sort by news creation datetime
+
+    + filters (optional, string, `[{ "project_id": { "operator": "=", "values": ["1", "2"] } }]`) ... JSON specifying filter conditions.
+    Accepts the same format as returned by the [queries](#queries) endpoint. Currently supported filters are:
+      + project_id: Filter news by project
 
 + Response 200 (application/hal+json)
 

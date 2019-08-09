@@ -7,6 +7,7 @@ import {HalResourceService} from "core-app/modules/hal/services/hal-resource.ser
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {TimezoneService} from "core-components/datetime/timezone.service";
 import {DomSanitizer} from '@angular/platform-browser';
+import {CurrentProjectService} from "core-components/projects/current-project.service";
 
 @Component({
   templateUrl: './documents.component.html',
@@ -26,17 +27,14 @@ export class WidgetDocumentsComponent extends AbstractWidgetComponent implements
               readonly timezone:TimezoneService,
               readonly domSanitizer:DomSanitizer,
               protected readonly injector:Injector,
+              readonly currentProject:CurrentProjectService,
               readonly cdr:ChangeDetectorRef) {
     super(i18n, injector);
   }
 
   ngOnInit() {
-    let orders = JSON.stringify([['created_on', 'desc']]);
-
-    let url = `${this.pathHelper.api.v3.apiV3Base}/documents?sortBy=${orders}&pageSize=10`;
-
     this.halResource
-      .get<CollectionResource>(url)
+      .get<CollectionResource>(this.documentsUrl)
       .toPromise()
       .then((collection) => {
         this.entries = collection.elements as DocumentResource[];
@@ -60,5 +58,19 @@ export class WidgetDocumentsComponent extends AbstractWidgetComponent implements
 
   public get noEntries() {
     return !this.entries.length && this.entriesLoaded;
+  }
+
+  public get documentsUrl() {
+    let orders = JSON.stringify([['created_on', 'desc']]);
+
+    let url = `${this.pathHelper.api.v3.apiV3Base}/documents?sortBy=${orders}&pageSize=10`;
+
+    if (this.currentProject.id) {
+      let filters = JSON.stringify([{project_id: { operator: '=', values: [this.currentProject.id.toString()]}}]);
+
+      url = url + `&filters=${filters}`;
+    }
+
+    return url;
   }
 }

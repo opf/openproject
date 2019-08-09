@@ -42,7 +42,7 @@ module API
 
         def payload_representer
           WorkPackagePayloadRepresenter
-            .create_class(represented)
+            .create_class(represented, current_user)
             .new(represented, current_user: current_user)
         end
 

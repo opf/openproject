@@ -59,8 +59,8 @@ describe ::API::V3::Projects::ProjectRepresenter do
     end
   end
 
-  let(:int_custom_field) { FactoryBot.build_stubbed(:int_project_custom_field) }
-  let(:version_custom_field) { FactoryBot.build_stubbed(:version_project_custom_field) }
+  let(:int_custom_field) { FactoryBot.build_stubbed(:int_project_custom_field, visible: false) }
+  let(:version_custom_field) { FactoryBot.build_stubbed(:version_project_custom_field, visible: true) }
   let(:int_custom_value) do
     CustomValue.new(custom_field: int_custom_field,
                     value: '1234',
@@ -101,6 +101,14 @@ describe ::API::V3::Projects::ProjectRepresenter do
         let(:value) { project.name }
       end
 
+      it_behaves_like 'property', :status do
+        let(:value) { project.status }
+      end
+
+      it_behaves_like 'property', :public do
+        let(:value) { project.is_public }
+      end
+
       it_behaves_like 'formattable property', :description do
         let(:value) { project.description }
       end
@@ -115,10 +123,27 @@ describe ::API::V3::Projects::ProjectRepresenter do
         let(:json_path) { 'updatedAt' }
       end
 
-      it "has a property for the int custom field" do
-        is_expected
-          .to be_json_eql(int_custom_value.value.to_json)
-          .at_path("customField#{int_custom_field.id}")
+      context 'int custom field' do
+        context 'if the user is admin' do
+          before do
+            allow(user)
+              .to receive(:admin?)
+              .and_return(true)
+          end
+
+          it "has a property for the int custom field" do
+            is_expected
+              .to be_json_eql(int_custom_value.value.to_json)
+              .at_path("customField#{int_custom_field.id}")
+          end
+        end
+
+        context 'if the user is no admin' do
+          it "has no property for the int custom field" do
+            is_expected
+              .not_to have_json_path("customField#{int_custom_field.id}")
+          end
+        end
       end
     end
 
@@ -245,10 +270,41 @@ describe ::API::V3::Projects::ProjectRepresenter do
         end
       end
 
-      it 'links custom fields' do
-        is_expected
-          .to be_json_eql(api_v3_paths.version(version.id).to_json)
-          .at_path("_links/customField#{version_custom_field.id}/href")
+      context 'link custom field' do
+        context 'if the user is admin and the field is invisible' do
+          before do
+            allow(user)
+              .to receive(:admin?)
+              .and_return(true)
+
+            version_custom_field.visible = false
+          end
+
+          it 'links custom fields' do
+            is_expected
+              .to be_json_eql(api_v3_paths.version(version.id).to_json)
+              .at_path("_links/customField#{version_custom_field.id}/href")
+          end
+        end
+
+        context 'if the user is no admin and the field is invisible' do
+          before do
+            version_custom_field.visible = false
+          end
+
+          it "has no property for the int custom field" do
+            is_expected
+              .not_to have_json_path("links/customField#{version_custom_field.id}")
+          end
+        end
+
+        context 'if the user is no admin and the field is visible' do
+          it 'links custom fields' do
+            is_expected
+              .to be_json_eql(api_v3_paths.version(version.id).to_json)
+                    .at_path("_links/customField#{version_custom_field.id}/href")
+          end
+        end
       end
     end
 
