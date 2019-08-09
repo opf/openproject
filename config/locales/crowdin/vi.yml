@@ -1640,9 +1640,10 @@ vi:
     legacy_warning:
       timeline: 'Macro này đã bị xóa. Bạn có thể thay thế các chức năng với một table macro.'
     include_wiki_page:
+      removed: 'The macro does no longer exist.'
+    wiki_child_pages:
       errors:
         page_not_found: "Không tim thấy trang wiki %{name}."
-        circular_inclusion: "Phát hiện có tham chiếu vòng tròn giữa các trang."
     create_work_package_link:
       errors:
         no_project_context: 'Calling create_work_package_link macro from outside project context.'

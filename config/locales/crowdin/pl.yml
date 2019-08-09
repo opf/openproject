@@ -1703,9 +1703,10 @@ pl:
     legacy_warning:
       timeline: 'To starsze makro osi czasu zostało usunięte i nie jest już dostępne. Funkcję tę można zastąpić makrem tabeli osadzonej.'
     include_wiki_page:
+      removed: 'The macro does no longer exist.'
+    wiki_child_pages:
       errors:
         page_not_found: "Nie można znaleźć strony wiki %{name}."
-        circular_inclusion: "Wykryto cykliczne uwzględnienie stron."
     create_work_package_link:
       errors:
         no_project_context: 'Wywołanie makra create_work_package_link spoza kontekstu projektu.'

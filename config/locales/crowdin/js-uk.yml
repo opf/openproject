@@ -77,6 +77,8 @@ uk:
       tabs:
         graph_settings: 'Загальні'
         dataset: 'Dataset %{number}'
+      errors:
+        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
     description_available_columns: "Доступні стовпці"
     description_current_position: "Ви знаходитесь тут: "
     description_select_work_package: "Виберіть пакет робіт #%{id}"
@@ -169,42 +171,6 @@ uk:
     general_text_yes: "так"
     general_text_No: "Ні"
     general_text_Yes: "Так"
-    grid:
-      add_modal:
-        choose_widget: 'Оберіть віджет'
-      remove: 'Remove widget'
-      widgets:
-        custom_text:
-          title: 'Текстовий блок'
-        documents:
-          title: 'Документи'
-          no_results: 'Ще немає документів.'
-        news:
-          title: 'Новини'
-          at: 'на'
-          no_results: 'Нічого нового для звітування.'
-        project_description:
-          title: 'Опис проекту'
-        time_entries_current_user:
-          title: 'Витрачений час (останні 7 днів)'
-          no_results: 'Немає записів часу за останні 7 днів.'
-        work_packages_accountable:
-          title: "Робочі пакети, за які я відповідаю"
-        work_packages_assigned:
-          title: 'Робочі пакети призначені мені'
-        work_packages_created:
-          title: 'Пакети робіт створені мною'
-        work_packages_watched:
-          title: 'Пакети робіт переглянуті мною'
-        work_packages_table:
-          title: 'Work packages table'
-        work_packages_graph:
-          title: 'Work packages graph'
-        work_packages_calendar:
-          title: 'Календар'
-        work_packages_overview:
-          title: 'Work packages overview'
-          placeholder: 'Click to edit ...'
     homescreen:
       blocks:
         new_features:

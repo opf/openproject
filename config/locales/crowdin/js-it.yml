@@ -77,6 +77,8 @@ it:
       tabs:
         graph_settings: 'Generale'
         dataset: 'Dataset %{number}'
+      errors:
+        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
     description_available_columns: "Colonne disponibili"
     description_current_position: "Sei qui: "
     description_select_work_package: "Seleziona la macro-attività #%{id}"
@@ -169,42 +171,6 @@ it:
     general_text_yes: "si"
     general_text_No: "No"
     general_text_Yes: "Si"
-    grid:
-      add_modal:
-        choose_widget: 'Scegli widget'
-      remove: 'Rimuovi widget'
-      widgets:
-        custom_text:
-          title: 'Testo personalizzato'
-        documents:
-          title: 'Documenti'
-          no_results: 'Nessun documento ancora.'
-        news:
-          title: 'Notizie'
-          at: 'a'
-          no_results: 'Niente di nuovo da segnalare.'
-        project_description:
-          title: 'Descrizione del progetto'
-        time_entries_current_user:
-          title: 'Tempo trascorso (ultimi 7 giorni)'
-          no_results: 'Nessuna voce sul tempo per gli ultimi 7 giorni.'
-        work_packages_accountable:
-          title: "Macro-attività di cui sono responsabile del risultato"
-        work_packages_assigned:
-          title: 'Macro-attività assegnate a me'
-        work_packages_created:
-          title: 'Pacchetti di lavoro creati da me'
-        work_packages_watched:
-          title: 'Pacchetti di lavoro visti da me'
-        work_packages_table:
-          title: 'Work packages table'
-        work_packages_graph:
-          title: 'Work packages graph'
-        work_packages_calendar:
-          title: 'Calendario'
-        work_packages_overview:
-          title: 'Work packages overview'
-          placeholder: 'Click to edit ...'
     homescreen:
       blocks:
         new_features:

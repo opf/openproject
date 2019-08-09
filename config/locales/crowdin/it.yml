@@ -1660,9 +1660,10 @@ it:
     legacy_warning:
       timeline: 'Questa macro legacy di sequenza temporale è stata rimossa e non è più disponibile. È possibile sostituire la funzionalità con una macro di tabella incorporata.'
     include_wiki_page:
+      removed: 'The macro does no longer exist.'
+    wiki_child_pages:
       errors:
         page_not_found: "Impossibile trovare la pagina del wiki \"%{name}\"."
-        circular_inclusion: "Rilevata inclusione circolare di pagine."
     create_work_package_link:
       errors:
         no_project_context: 'Chiamando dal contesto progettuale esterno la macro crea_lavoro_pacchetto_link.'

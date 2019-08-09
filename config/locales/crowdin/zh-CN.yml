@@ -1639,9 +1639,10 @@ zh-CN:
     legacy_warning:
       timeline: '此旧版时间轴宏已被删除，不再可用。 您可以使用嵌入式表格宏替换该功能。'
     include_wiki_page:
+      removed: 'The macro does no longer exist.'
+    wiki_child_pages:
       errors:
         page_not_found: "无法找到Wiki页“%{name}”。"
-        circular_inclusion: "检测到页面的循环包含。"
     create_work_package_link:
       errors:
         no_project_context: '从外部项目上下文调用 create_work_package_link 宏。'

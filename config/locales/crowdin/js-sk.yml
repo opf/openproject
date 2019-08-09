@@ -77,6 +77,8 @@ sk:
       tabs:
         graph_settings: 'Všeobecné'
         dataset: 'Dataset %{number}'
+      errors:
+        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
     description_available_columns: "Dostupné stĺpce"
     description_current_position: "You are here: "
     description_select_work_package: "Vyberte pracovný balík #%{id}"
@@ -169,42 +171,6 @@ sk:
     general_text_yes: "áno"
     general_text_No: "Nie"
     general_text_Yes: "Áno"
-    grid:
-      add_modal:
-        choose_widget: 'Vyberte miniaplikáciu'
-      remove: 'Remove widget'
-      widgets:
-        custom_text:
-          title: 'Vlastný text'
-        documents:
-          title: 'Dokumenty'
-          no_results: 'Zatiaľ žiadne dokumenty.'
-        news:
-          title: 'Novinky'
-          at: 'o'
-          no_results: 'Nič nové pre nahlásenie.'
-        project_description:
-          title: 'Popis projektu'
-        time_entries_current_user:
-          title: 'Strávený čas (posledných 7 dní)'
-          no_results: 'Žiadne časové záznamy za posledných 7 dní.'
-        work_packages_accountable:
-          title: "Pracovné balíčky, za ktoré som zodpovedný(a)"
-        work_packages_assigned:
-          title: 'Mne priradené pracovné balíčky'
-        work_packages_created:
-          title: 'Pracovné balíčky vytvorené mnou'
-        work_packages_watched:
-          title: 'Pracovné balíčky sledované mnou'
-        work_packages_table:
-          title: 'Work packages table'
-        work_packages_graph:
-          title: 'Work packages graph'
-        work_packages_calendar:
-          title: 'Kalendár'
-        work_packages_overview:
-          title: 'Work packages overview'
-          placeholder: 'Click to edit ...'
     homescreen:
       blocks:
         new_features:

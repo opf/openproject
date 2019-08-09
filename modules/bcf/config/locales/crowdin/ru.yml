@@ -1,9 +1,12 @@
 ru:
   bcf:
     label_bcf: 'BCF'
-    label_imported_failed: 'Failed imports of BCF topics'
-    label_imported_successfully: 'Successfully imported BCF topics'
+    label_imported_failed: 'Неудачный импорт тем BCF'
+    label_imported_successfully: 'Успешно импортированные темы BCF'
     issues: "Замечания"
+    recommended: 'recommended'
+    not_recommended: 'not recommended'
+    no_viewpoints: 'No viewpoints'
     experimental_badge: "Экспериментально"
     exceptions:
       file_invalid: "Неверный файл BCF"
@@ -27,12 +30,33 @@ ru:
         button_perform_import: 'Подтверждение импорта'
         button_proceed: 'Продолжить'
         button_back_to_list: 'Назад к списку'
+        no_permission_to_add_members: 'You do not have sufficient permissions to add them as members to the project.'
+        contact_project_admin: 'Contact your project admin to add them as members and start this import again.'
+        continue_anyways: 'Do you want to proceed and finish the import anyways?'
         description: "Предоставьте файл BCF-XML v2.1 для импорта в этот проект. Перед выполнением импорта можете изучить его содержимое."
+        invalid_types_found: 'Invalid topic type names found'
+        invalid_statuses_found: 'Invalid status names found'
+        invalid_priorities_found: 'Invalid priority names found'
+        invalid_emails_found: 'Invalid email addresses found'
+        unknown_emails_found: 'Unknown email addresses found'
+        unknown_property: 'Unknown property'
+        non_members_found: 'Non project members found'
+        import_types_as: 'Set all these types to'
+        import_statuses_as: 'Set all these statuses to'
+        import_priorities_as: 'Set all these priorities to'
+        invite_as_members_with_role: 'Invite them as members to the project "%{project}" with role'
+        add_as_members_with_role: 'Add them as members to the project "%{project}" with role'
+        no_type_provided: 'No type provided'
+        no_status_provided: 'No status provided'
+        no_priority_provided: 'No priority provided'
         perform_description: "Вы хотите импортировать или обновить указанные выше задачи?"
-        work_package_has_newer_changes: "Импорт для темы BCF %{bcf_uuid} устарел. Последние изменения на сервере новее импортированной темы \"MofiedDate\". Тем не мение, комментарии обновлены."
+        replace_with_system_user: 'Replace them with "System" user'
+        import_as_system_user: 'Import them as "System" user.'
+        what_to_do: "Что Вы хотите сделать?"
+        work_package_has_newer_changes: "Outdated! This topic was not updated as the latest changes on the server were newer than the \"ModifiedDate\" of the imported topic. However, comments to the topic were imported."
   export:
     format:
       bcf: "BCF-XML"
   attributes:
-    bcf_thumbnail: "BCF snapshot"
+    bcf_thumbnail: "Снимок BCF"
   project_module_bcf: "BCF"

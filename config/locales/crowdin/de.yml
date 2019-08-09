@@ -1659,9 +1659,10 @@ de:
     legacy_warning:
       timeline: 'Das alte Timeline-Makro wurde entfernt und steht nicht mehr zur Verfügung. Verwenden Sie stattdessen das eingebettete Arbeitspaket-Tabellen-Makro, um eine Gantt Ansicht zu erzeugen.'
     include_wiki_page:
+      removed: 'The macro does no longer exist.'
+    wiki_child_pages:
       errors:
         page_not_found: "Die Wiki-Seite '%{name}' konnte nicht gefunden werden."
-        circular_inclusion: "Zyklische Einbettung von Seiten erkannt."
     create_work_package_link:
       errors:
         no_project_context: 'Rufe create_work_link Makro aus externen Projekt auf.'

@@ -1638,9 +1638,10 @@ ja:
     legacy_warning:
       timeline: 'このレガシータイムラインマクロは削除され、もう使用できなくなりました。 この機能を埋め込みテーブルマクロで置き換えることができます。'
     include_wiki_page:
+      removed: 'The macro does no longer exist.'
+    wiki_child_pages:
       errors:
         page_not_found: "Wikiページ'%{name}'が見つかりません。"
-        circular_inclusion: "ページの循環包含が検出されました。"
     create_work_package_link:
       errors:
         no_project_context: '外部プロジェクトのコンテキストから create_work_package_link マクロを呼び出します。'

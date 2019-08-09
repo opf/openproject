@@ -1703,9 +1703,10 @@ sk:
     legacy_warning:
       timeline: 'Staré makro časovej osi bolo odstránené a už nie je k dispozícii. Funkcie môžete nahradiť makrom vloženého do tabuľky.'
     include_wiki_page:
+      removed: 'The macro does no longer exist.'
+    wiki_child_pages:
       errors:
         page_not_found: "Wiki stránka '%{name}' sa nedá nájsť."
-        circular_inclusion: "Cyklické vkladanie rozpoznaných stránok."
     create_work_package_link:
       errors:
         no_project_context: 'Volanie create_work_package_link makra z kontextu mimo projektu.'

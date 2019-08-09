@@ -1661,9 +1661,10 @@ sv:
     legacy_warning:
       timeline: 'Detta äldre tidslinje-makro har tagits bort och är inte längre tillgängligt. Du kan ersätta funktionen med ett inbäddat tabell-makro.'
     include_wiki_page:
+      removed: 'The macro does no longer exist.'
+    wiki_child_pages:
       errors:
         page_not_found: "Kan inte hitta wiki-sidan '%{name}'."
-        circular_inclusion: "Cirkulärt införande av sidor upptäckt."
     create_work_package_link:
       errors:
         no_project_context: 'Calling create_work_package_link macro from outside project context.'

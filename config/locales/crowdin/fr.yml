@@ -1660,9 +1660,10 @@ fr:
     legacy_warning:
       timeline: 'Cette ancienne macro de ligne du temps a été supprimée ou n''est plus disponible. Vous pouvez remplacer la fonctionnalité par une macro de tableau intégrée.'
     include_wiki_page:
+      removed: 'The macro does no longer exist.'
+    wiki_child_pages:
       errors:
         page_not_found: "Impossible de trouver la page wiki \"%{name}\"."
-        circular_inclusion: "Inclusion circulaire de pages détectée."
     create_work_package_link:
       errors:
         no_project_context: 'Appel de la macro create_work_package_link depuis un contexte de projet externe.'

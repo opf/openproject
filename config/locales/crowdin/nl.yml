@@ -1661,9 +1661,10 @@ nl:
     legacy_warning:
       timeline: 'Deze oudere tijdlijn macro is verwijderd en is niet langer beschikbaar. U kunt de functionaliteit vervangen door een ingesloten tabel macro.'
     include_wiki_page:
+      removed: 'The macro does no longer exist.'
+    wiki_child_pages:
       errors:
         page_not_found: "Kan de wiki-pagina '%{name} ' niet vinden."
-        circular_inclusion: "Er zijn circulaire opnemingen van pagina's gedetecteerd."
     create_work_package_link:
       errors:
         no_project_context: 'Create_work_package_link macro aanroepen buitenom de project context.'

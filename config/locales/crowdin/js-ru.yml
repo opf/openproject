@@ -77,6 +77,8 @@ ru:
       tabs:
         graph_settings: 'Общие'
         dataset: 'Набор данных %{number}'
+      errors:
+        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
     description_available_columns: "Доступные столбцы"
     description_current_position: "Вы здесь: "
     description_select_work_package: "Выберите пакет работ #%{id}"
@@ -168,42 +170,6 @@ ru:
     general_text_yes: "Да"
     general_text_No: "Нет"
     general_text_Yes: "да"
-    grid:
-      add_modal:
-        choose_widget: 'Выберите виджет'
-      remove: 'Удалить виджет'
-      widgets:
-        custom_text:
-          title: 'Пользовательский текст'
-        documents:
-          title: 'Документы'
-          no_results: 'Документов пока нет.'
-        news:
-          title: 'Новости'
-          at: 'на'
-          no_results: 'Ничего нового для отчета.'
-        project_description:
-          title: 'Описание проекта'
-        time_entries_current_user:
-          title: 'Затраченное время (за последние 7 дней)'
-          no_results: 'Нет записей о входах за последние 7 дней.'
-        work_packages_accountable:
-          title: "Пакеты работ, в которых я подотчетен"
-        work_packages_assigned:
-          title: 'Переданные мне пакеты работ'
-        work_packages_created:
-          title: 'Пакеты работ, созданные мной'
-        work_packages_watched:
-          title: 'Пакеты работ, просмотренные мной'
-        work_packages_table:
-          title: 'Таблица пакетов работ'
-        work_packages_graph:
-          title: 'График пакетов работ'
-        work_packages_calendar:
-          title: 'Календарь'
-        work_packages_overview:
-          title: 'Обзор пакетов работ'
-          placeholder: 'Щелкнуть для изменения ...'
     homescreen:
       blocks:
         new_features:

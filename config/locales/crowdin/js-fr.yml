@@ -77,6 +77,8 @@ fr:
       tabs:
         graph_settings: 'Général'
         dataset: 'Dataset %{number}'
+      errors:
+        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
     description_available_columns: "Colonnes disponibles"
     description_current_position: "Vous êtes ici :"
     description_select_work_package: "Sélectionner le lot de travaux #%{id}"
@@ -169,42 +171,6 @@ fr:
     general_text_yes: "oui"
     general_text_No: "Non"
     general_text_Yes: "Oui"
-    grid:
-      add_modal:
-        choose_widget: 'Choisir un widget'
-      remove: 'Remove widget'
-      widgets:
-        custom_text:
-          title: 'Texte personnalisé'
-        documents:
-          title: 'Documents'
-          no_results: 'Encore aucun document.'
-        news:
-          title: 'Actualités'
-          at: 'à'
-          no_results: 'Rien de nouveau à signaler.'
-        project_description:
-          title: 'Description du projet'
-        time_entries_current_user:
-          title: 'Temps passé (7 derniers jours)'
-          no_results: 'Aucune entrée de temps pour les 7 derniers jours.'
-        work_packages_accountable:
-          title: "Lots de Travaux dont je suis responsable"
-        work_packages_assigned:
-          title: 'Lots de Travaux m''étant assignés'
-        work_packages_created:
-          title: 'Lots de travaux que j''ai créés'
-        work_packages_watched:
-          title: 'Lots de travaux que j''ai observés'
-        work_packages_table:
-          title: 'Work packages table'
-        work_packages_graph:
-          title: 'Work packages graph'
-        work_packages_calendar:
-          title: 'Calendrier'
-        work_packages_overview:
-          title: 'Work packages overview'
-          placeholder: 'Click to edit ...'
     homescreen:
       blocks:
         new_features:

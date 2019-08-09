@@ -1660,9 +1660,10 @@ pt-BR:
     legacy_warning:
       timeline: 'Essa macro de cronograma legada foi removida e não está mais disponível. Você pode substituir a funcionalidade com uma macro da tabela embutida.'
     include_wiki_page:
+      removed: 'The macro does no longer exist.'
+    wiki_child_pages:
       errors:
         page_not_found: "Não é possível encontrar a página wiki '%{name} '."
-        circular_inclusion: "Detectada inclusão circular de páginas."
     create_work_package_link:
       errors:
         no_project_context: 'Chamando macro create_work_package_link fora do contexto do projeto.'

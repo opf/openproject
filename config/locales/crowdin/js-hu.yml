@@ -77,6 +77,8 @@ hu:
       tabs:
         graph_settings: 'Általános'
         dataset: 'Dataset %{number}'
+      errors:
+        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
     description_available_columns: "Elérhető oszlopok"
     description_current_position: "You are here: "
     description_select_work_package: "Munkacsomag kiválasztás #%{id}"
@@ -168,42 +170,6 @@ hu:
     general_text_yes: "yes"
     general_text_No: "Nem"
     general_text_Yes: "Igen"
-    grid:
-      add_modal:
-        choose_widget: 'Modul kiválasztása'
-      remove: 'Remove widget'
-      widgets:
-        custom_text:
-          title: 'Egyéni szöveg'
-        documents:
-          title: 'Dokumentumok'
-          no_results: 'Még nincs dokumentum.'
-        news:
-          title: 'Hírek'
-          at: '-kor'
-          no_results: 'Semmi új jelenteni való.'
-        project_description:
-          title: 'Projekt leírása'
-        time_entries_current_user:
-          title: 'Eltöltött idő (elmúlt 7 nap)'
-          no_results: 'Az elmúlt 7 napra nincs bejegyzés.'
-        work_packages_accountable:
-          title: "Feladatcsoportok, amelyért én vagyok a felelős"
-        work_packages_assigned:
-          title: 'Magamhoz rendelt feladatcsoportok'
-        work_packages_created:
-          title: 'Általam készített munkacsomagok'
-        work_packages_watched:
-          title: 'Megfigyelt munkacsomagok'
-        work_packages_table:
-          title: 'Work packages table'
-        work_packages_graph:
-          title: 'Work packages graph'
-        work_packages_calendar:
-          title: 'Naptár'
-        work_packages_overview:
-          title: 'Work packages overview'
-          placeholder: 'Click to edit ...'
     homescreen:
       blocks:
         new_features:

@@ -1659,9 +1659,10 @@ hu:
     legacy_warning:
       timeline: 'Ez az örökölt idővonal makró eltávolításra került, és már nem áll rendelkezésre. A funkcionalitást beágyazott táblázat makróval helyettesítheti.'
     include_wiki_page:
+      removed: 'The macro does no longer exist.'
+    wiki_child_pages:
       errors:
         page_not_found: "Nem található a wiki oldal \"%{name}\"."
-        circular_inclusion: "A talált oldalak körkörös bevonása."
     create_work_package_link:
       errors:
         no_project_context: 'A create_work_package_link makró hívása külső projektek környezetéből.'

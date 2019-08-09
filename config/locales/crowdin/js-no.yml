@@ -77,6 +77,8 @@
       tabs:
         graph_settings: 'Generell'
         dataset: 'Dataset %{number}'
+      errors:
+        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
     description_available_columns: "Tilgjengelige Kolonner"
     description_current_position: "You are here: "
     description_select_work_package: "Velg arbeidspakke #%{id}"
@@ -169,42 +171,6 @@
     general_text_yes: "ja"
     general_text_No: "Nei"
     general_text_Yes: "Ja"
-    grid:
-      add_modal:
-        choose_widget: 'Choose widget'
-      remove: 'Remove widget'
-      widgets:
-        custom_text:
-          title: 'Custom text'
-        documents:
-          title: 'Dokumenter'
-          no_results: 'No documents yet.'
-        news:
-          title: 'Nyheter'
-          at: 'at'
-          no_results: 'Nothing new to report.'
-        project_description:
-          title: 'Project description'
-        time_entries_current_user:
-          title: 'Spent time (last 7 days)'
-          no_results: 'No time entries for the last 7 days.'
-        work_packages_accountable:
-          title: "Work packages I am accountable for"
-        work_packages_assigned:
-          title: 'Arbeidspakker tildelt meg'
-        work_packages_created:
-          title: 'Work packages created by me'
-        work_packages_watched:
-          title: 'Work packages watched by me'
-        work_packages_table:
-          title: 'Work packages table'
-        work_packages_graph:
-          title: 'Work packages graph'
-        work_packages_calendar:
-          title: 'Kalender'
-        work_packages_overview:
-          title: 'Work packages overview'
-          placeholder: 'Click to edit ...'
     homescreen:
       blocks:
         new_features:

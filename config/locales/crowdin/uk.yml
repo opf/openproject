@@ -1703,9 +1703,10 @@ uk:
     legacy_warning:
       timeline: 'Цей попередній макрос часової шкали видалено та більше не доступний. Можна замінити функціональність вбудованим макросом таблиці.'
     include_wiki_page:
+      removed: 'The macro does no longer exist.'
+    wiki_child_pages:
       errors:
         page_not_found: "Не вдається знайти вікі-сторінку %{name}"
-        circular_inclusion: "Кругове включення виявлених сторінок."
     create_work_package_link:
       errors:
         no_project_context: 'Виклик макросу create_work_package_link із зовнішнього контексту проекту.'

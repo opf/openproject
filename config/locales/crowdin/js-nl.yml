@@ -77,6 +77,8 @@ nl:
       tabs:
         graph_settings: 'Algemeen'
         dataset: 'Dataset %{number}'
+      errors:
+        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
     description_available_columns: "Beschikbare kolommen"
     description_current_position: "You are here: "
     description_select_work_package: "Selecteer werk pakket #%{id}"
@@ -169,42 +171,6 @@ nl:
     general_text_yes: "Ja"
     general_text_No: "Nee"
     general_text_Yes: "Ja"
-    grid:
-      add_modal:
-        choose_widget: 'Widget kiezen'
-      remove: 'Remove widget'
-      widgets:
-        custom_text:
-          title: 'Aangepaste tekst'
-        documents:
-          title: 'Documenten'
-          no_results: 'Geen documenten.'
-        news:
-          title: 'Nieuws'
-          at: 'bij'
-          no_results: 'Niets nieuws om te rapporteren.'
-        project_description:
-          title: 'Projectbeschrijving'
-        time_entries_current_user:
-          title: 'Besteed tijd (laatste 7 dagen)'
-          no_results: 'Geen tijd items voor de afgelopen 7 dagen.'
-        work_packages_accountable:
-          title: "Werkpakketten waar ik verantwoordelijk voor ben"
-        work_packages_assigned:
-          title: 'Werkpakketten toegewezen aan mij'
-        work_packages_created:
-          title: 'Werkpakketten gemaakt door mij werk werk'
-        work_packages_watched:
-          title: 'Werkpakketten bekeken door mij'
-        work_packages_table:
-          title: 'Work packages table'
-        work_packages_graph:
-          title: 'Work packages graph'
-        work_packages_calendar:
-          title: 'Kalender'
-        work_packages_overview:
-          title: 'Work packages overview'
-          placeholder: 'Click to edit ...'
     homescreen:
       blocks:
         new_features:

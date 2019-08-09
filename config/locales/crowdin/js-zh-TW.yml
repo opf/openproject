@@ -77,6 +77,8 @@ zh-TW:
       tabs:
         graph_settings: '一般'
         dataset: 'Dataset %{number}'
+      errors:
+        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
     description_available_columns: "可用欄"
     description_current_position: "You are here: "
     description_select_work_package: "選取工作項目 #%{id}"
@@ -168,42 +170,6 @@ zh-TW:
     general_text_yes: "是"
     general_text_No: "否"
     general_text_Yes: "是"
-    grid:
-      add_modal:
-        choose_widget: 'Choose widget'
-      remove: 'Remove widget'
-      widgets:
-        custom_text:
-          title: '自訂文字'
-        documents:
-          title: '文件'
-          no_results: 'No documents yet.'
-        news:
-          title: '新知'
-          at: 'at'
-          no_results: '沒有新的消息可以報告'
-        project_description:
-          title: '專案描述'
-        time_entries_current_user:
-          title: 'Spent time (last 7 days)'
-          no_results: 'No time entries for the last 7 days.'
-        work_packages_accountable:
-          title: "我負責的工作項目"
-        work_packages_assigned:
-          title: '分配給我的工作項目'
-        work_packages_created:
-          title: 'Work packages created by me'
-        work_packages_watched:
-          title: 'Work packages watched by me'
-        work_packages_table:
-          title: 'Work packages table'
-        work_packages_graph:
-          title: 'Work packages graph'
-        work_packages_calendar:
-          title: '行事曆'
-        work_packages_overview:
-          title: 'Work packages overview'
-          placeholder: 'Click to edit ...'
     homescreen:
       blocks:
         new_features:

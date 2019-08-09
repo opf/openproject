@@ -1661,9 +1661,10 @@ tr:
     legacy_warning:
       timeline: 'Bu eski zaman çizelgesi makrosu kaldırıldı ve artık kullanılamıyor. İşlevselliği katıştırılmış tablo makrosu ile değiştirebilirsiniz.'
     include_wiki_page:
+      removed: 'The macro does no longer exist.'
+    wiki_child_pages:
       errors:
         page_not_found: "Wiki sayfası '%{name} ' bulunamıyor."
-        circular_inclusion: "Sayfaların dairesel olarak dahil edilmesi algılandı."
     create_work_package_link:
       errors:
         no_project_context: 'Proje içeriği dışından create_work_package_link makrosu çağrılıyor.'

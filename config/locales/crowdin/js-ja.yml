@@ -78,6 +78,8 @@ ja:
       tabs:
         graph_settings: '概要'
         dataset: 'Dataset %{number}'
+      errors:
+        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
     description_available_columns: "利用できる項目"
     description_current_position: "現在の位置: "
     description_select_work_package: "作業項目を選択 #%{id}"
@@ -170,42 +172,6 @@ ja:
     general_text_yes: "はい"
     general_text_No: "いいえ"
     general_text_Yes: "はい"
-    grid:
-      add_modal:
-        choose_widget: 'ウィジェットを選択'
-      remove: 'Remove widget'
-      widgets:
-        custom_text:
-          title: 'カスタムテキスト'
-        documents:
-          title: 'ドキュメント'
-          no_results: 'まだドキュメントはありません。'
-        news:
-          title: 'ニュース'
-          at: '日時'
-          no_results: '新しい報告はありません。'
-        project_description:
-          title: 'プロジェクトの説明'
-        time_entries_current_user:
-          title: '経過時間(過去7日)'
-          no_results: '過去7日間の時間エントリはありません。'
-        work_packages_accountable:
-          title: "責任者である作業項目"
-        work_packages_assigned:
-          title: '担当している作業項目'
-        work_packages_created:
-          title: '自分が作成した作業項目'
-        work_packages_watched:
-          title: '自分が見た作業項目'
-        work_packages_table:
-          title: 'Work packages table'
-        work_packages_graph:
-          title: 'Work packages graph'
-        work_packages_calendar:
-          title: 'カレンダー'
-        work_packages_overview:
-          title: 'Work packages overview'
-          placeholder: 'Click to edit ...'
     homescreen:
       blocks:
         new_features:

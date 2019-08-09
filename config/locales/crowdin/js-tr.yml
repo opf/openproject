@@ -77,6 +77,8 @@ tr:
       tabs:
         graph_settings: 'Genel'
         dataset: 'Veri Kümesi %{number}'
+      errors:
+        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
     description_available_columns: "Kullanılabilir sütunlar"
     description_current_position: "Buradasınız:"
     description_select_work_package: "#%{id} nolu iş paketini seçin"
@@ -169,42 +171,6 @@ tr:
     general_text_yes: "evet"
     general_text_No: "Hayır"
     general_text_Yes: "Evet"
-    grid:
-      add_modal:
-        choose_widget: 'Widget seç'
-      remove: 'Widget''ı kaldır'
-      widgets:
-        custom_text:
-          title: 'Özel metin'
-        documents:
-          title: 'Belgeler'
-          no_results: 'Henüz belge yok.'
-        news:
-          title: 'Haberler'
-          at: 'en'
-          no_results: 'Rapor için yeni birşey bulunamadı.'
-        project_description:
-          title: 'Proje tanımı'
-        time_entries_current_user:
-          title: 'Harcanan zaman (son 7 gün)'
-          no_results: 'Son 7 güne zaman girişi yok.'
-        work_packages_accountable:
-          title: "Sorumlusu olduğum iş paketleri"
-        work_packages_assigned:
-          title: 'Bana atanan iş paketleri'
-        work_packages_created:
-          title: 'Oluşturduğum iş paketleri'
-        work_packages_watched:
-          title: 'İzlediğim iş paketleri'
-        work_packages_table:
-          title: 'İş paketleri tablosu'
-        work_packages_graph:
-          title: 'İş paketleri grafiği'
-        work_packages_calendar:
-          title: 'Takvim'
-        work_packages_overview:
-          title: 'İş paketlerine genel bakış'
-          placeholder: 'Düzenlemek için tıkla ...'
     homescreen:
       blocks:
         new_features:

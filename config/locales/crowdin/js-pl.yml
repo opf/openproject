@@ -77,6 +77,8 @@ pl:
       tabs:
         graph_settings: 'Ogólne'
         dataset: 'Dataset %{number}'
+      errors:
+        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
     description_available_columns: "Dostępne kolumny"
     description_current_position: "Jesteś tutaj: "
     description_select_work_package: "Zaznacz zestaw Zadań #%{id}"
@@ -169,42 +171,6 @@ pl:
     general_text_yes: "tak"
     general_text_No: "Nie"
     general_text_Yes: "Tak"
-    grid:
-      add_modal:
-        choose_widget: 'Wybierz widżet'
-      remove: 'Remove widget'
-      widgets:
-        custom_text:
-          title: 'Tekst niestandardowy/użytkownika'
-        documents:
-          title: 'Dokumenty'
-          no_results: 'Nie ma jeszcze dokumentów.'
-        news:
-          title: 'Aktualności'
-          at: 'w'
-          no_results: 'Utwórz nowy raport.'
-        project_description:
-          title: 'Opis projektu'
-        time_entries_current_user:
-          title: 'Poświęcony czas (ostatnie 7 dni)'
-          no_results: 'Brak zarejestrowanego czasu pracy w ostatnich 7 dniach.'
-        work_packages_accountable:
-          title: "Pakiety robocze, za które odpowiadam"
-        work_packages_assigned:
-          title: 'Zadania przypisane do mnie'
-        work_packages_created:
-          title: 'Pakiety robocze stworzone przeze mnie'
-        work_packages_watched:
-          title: 'Pakiety robocze obserwowane przeze mnie'
-        work_packages_table:
-          title: 'Work packages table'
-        work_packages_graph:
-          title: 'Work packages graph'
-        work_packages_calendar:
-          title: 'Kalendarz'
-        work_packages_overview:
-          title: 'Work packages overview'
-          placeholder: 'Click to edit ...'
     homescreen:
       blocks:
         new_features:

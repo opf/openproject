@@ -77,6 +77,8 @@ vi:
       tabs:
         graph_settings: 'Tổng quan'
         dataset: 'Dataset %{number}'
+      errors:
+        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
     description_available_columns: "Cột có sẵn"
     description_current_position: "You are here: "
     description_select_work_package: "Chọn work package #%{id}"
@@ -168,42 +170,6 @@ vi:
     general_text_yes: "có"
     general_text_No: "Không"
     general_text_Yes: "Có"
-    grid:
-      add_modal:
-        choose_widget: 'Chọn tiện ích'
-      remove: 'Remove widget'
-      widgets:
-        custom_text:
-          title: 'Custom text'
-        documents:
-          title: 'Tài liệu'
-          no_results: 'Chưa có tài liệu.'
-        news:
-          title: 'Tin tức'
-          at: 'tại'
-          no_results: 'Không có gì mới để báo cáo.'
-        project_description:
-          title: 'Project description'
-        time_entries_current_user:
-          title: 'Thời gian làm việc (trong 7 ngày gần nhất)'
-          no_results: 'Không có ghi nhận thời gian làm việc trong 7 ngày gần nhất.'
-        work_packages_accountable:
-          title: "Gói công việc mà tôi có trách nhiệm"
-        work_packages_assigned:
-          title: 'Work package được chỉ định cho tôi'
-        work_packages_created:
-          title: 'Công việc tạo bởi tôi'
-        work_packages_watched:
-          title: 'Công việc có liên quan tới tôi'
-        work_packages_table:
-          title: 'Work packages table'
-        work_packages_graph:
-          title: 'Work packages graph'
-        work_packages_calendar:
-          title: 'Lịch'
-        work_packages_overview:
-          title: 'Work packages overview'
-          placeholder: 'Click to edit ...'
     homescreen:
       blocks:
         new_features:
