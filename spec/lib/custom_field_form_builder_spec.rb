@@ -103,7 +103,8 @@ describe CustomFieldFormBuilder do
           <textarea class="custom-class form--text-area"
                     id="user#{resource.custom_field_id}"
                     name="user[#{resource.custom_field_id}]"
-                    rows="3">
+                    rows="3"
+                    with_text_formatting="true">
           </textarea>
         }).at_path('textarea')
       end

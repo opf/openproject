@@ -136,8 +136,8 @@ describe 'Projects copy',
     check 'only_wiki_page_attachments'
 
     # the value of the custom field should be preselected
-    expect(page)
-      .to have_field(project_custom_field.name, with: 'some text cf')
+    editor = ::Components::WysiwygEditor.new ".form--field.custom_field_#{project_custom_field.id}"
+    editor.expect_value 'some text cf'
 
     click_button 'Copy'
 
@@ -160,8 +160,8 @@ describe 'Projects copy',
                       selected: parent_project.name)
 
     # copies over the value of the custom field
-    expect(page)
-      .to have_field(project_custom_field.name, with: 'some text cf')
+    editor = ::Components::WysiwygEditor.new ".form--field.custom_field_#{project_custom_field.id}"
+    editor.expect_value 'some text cf'
 
     # has wp custom fields of original project active
     copied_settings_page.visit_tab!('custom_fields')

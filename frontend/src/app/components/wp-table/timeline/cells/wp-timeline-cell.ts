@@ -124,19 +124,19 @@ export class WorkPackageTimelineCell {
     return this.cellContainer.find(`.${this.classIdentifier}`);
   }
 
-  private lazyInit(renderer:TimelineCellRenderer, renderInfo:RenderInfo) {
+  private lazyInit(renderer:TimelineCellRenderer, renderInfo:RenderInfo):Promise<void> {
     const body = this.workPackageTimeline.timelineBody[0];
     const cell = this.cellElement;
 
     if (!cell.length) {
-      return;
+      return Promise.reject();
     }
 
     const wasRendered = this.wpElement !== null && body.contains(this.wpElement);
 
     // If already rendered with correct shape, ignore
     if (wasRendered && (this.elementShape === renderer.type)) {
-      return;
+      return Promise.resolve();
     }
 
     // Remove the element first if we're redrawing
@@ -168,6 +168,8 @@ export class WorkPackageTimelineCell {
         renderer,
         renderInfo);
     }
+
+    return Promise.resolve();
   }
 
   private cellRenderer(workPackage:WorkPackageResource):TimelineCellRenderer {
@@ -183,17 +185,17 @@ export class WorkPackageTimelineCell {
     const renderer = this.cellRenderer(renderInfo.workPackage);
 
     // Render initial element if necessary
-    this.lazyInit(renderer, renderInfo);
+    this.lazyInit(renderer, renderInfo).then(() => {
+      // Render the upgrade from renderInfo
+      const shouldBeDisplayed = renderer.update(
+        this.wpElement as HTMLDivElement,
+        this.labels,
+        renderInfo);
 
-    // Render the upgrade from renderInfo
-    const shouldBeDisplayed = renderer.update(
-      this.wpElement as HTMLDivElement,
-      this.labels,
-      renderInfo);
-
-    if (!shouldBeDisplayed) {
-      this.clear();
-    }
+      if (!shouldBeDisplayed) {
+        this.clear();
+      }
+    });
   }
 
 }

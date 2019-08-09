@@ -85,7 +85,7 @@ module OpenProject
 
     ##
     # Create a wrapper for the text formatting toolbar for this field
-    def text_formatting_wrapper(target_id, options)
+    def text_formatting_wrapper(target_id, options = {})
       return ''.html_safe unless target_id.present?
 
       helper = ::OpenProject::TextFormatting::Formats.rich_helper.new(self)
