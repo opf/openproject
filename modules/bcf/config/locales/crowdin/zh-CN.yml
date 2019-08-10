@@ -1,30 +1,30 @@
 zh-CN:
   bcf:
     label_bcf: 'BCF'
-    issues: "Issues"
-    experimental_badge: "Experimental"
+    issues: "问题"
+    experimental_badge: "实验"
     exceptions:
-      file_invalid: "BCF file invalid"
+      file_invalid: "BCF 文件无效"
     x_bcf_issues:
-      other: '%{count} BCF issues'
+      other: '%{count} 個議題'
     bcf_xml:
-      xml_file: 'BCF XML File'
-      import_title: 'Import from BCF file'
-      export: 'Export all to BCF-XML'
-      import_update_comment: '(Updated in BCF import)'
-      import_failed: 'Cannot import BCF file: %{error}'
-      import_successful: 'Imported %{count} BCF issues'
-      import_canceled: 'BCF-XML import canceled.'
-      type_not_active: "The issue type is not activated for this project."
+      xml_file: 'BCF XML 文件'
+      import_title: '从 BCF 文件导入'
+      export: '导出所有到 BCF-XML'
+      import_update_comment: '(在 BCF 导入中更新)'
+      import_failed: '无法导入 BCF 文件: %{error}'
+      import_successful: '导入了 %{count} BCF 问题'
+      import_canceled: 'BCF-XML 导入已取消。'
+      type_not_active: "此项目未激活问题类型。"
       import:
-        num_issues_found: '%{x_bcf_issues} are contained in the BCF-XML file, their details are listed below.'
-        button_prepare: 'Prepare import'
-        button_perform_import: 'Confirm import'
-        button_proceed: 'Proceed'
-        button_back_to_list: 'Back to list'
-        description: "Provide a BCF-XML v2.1 file to import into this project. You can examine its contents before performing the import."
-        perform_description: "Do you want to import or update the issues listed above?"
-        work_package_has_newer_changes: "The import for BCF topic %{bcf_uuid} looks outdated. The latest changes on the server are newer than the \"MofiedDate\" of the imported topic."
+        num_issues_found: '%{x_bcf_issues} 载于 BCF-XML 文件中，它们的详细信息列于下面。'
+        button_prepare: '准备导入'
+        button_perform_import: '确认导入'
+        button_proceed: '继续'
+        button_back_to_list: '返回列表'
+        description: "提供一个 BCF-XML v2.1 文件导入此项目。您可以在导入前检查其内容。"
+        perform_description: "您想要导入或更新上面所列问题吗？"
+        work_package_has_newer_changes: "BCF 主题 %{bcf_uuid} 的进口似乎已经过时。服务器的最新更改比导入主题的“MofiedDate”更新。"
   export:
     format:
       bcf: "BCF-XML"

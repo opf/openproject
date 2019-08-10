@@ -2,31 +2,31 @@ zh-CN:
   activerecord:
     attributes:
       ldap_groups/synchronized_group:
-        entry: 'Entry identifier'
-        auth_source: 'LDAP connection'
+        entry: '组标识符'
+        auth_source: 'LDAP 连接'
     models:
-      ldap_groups/synchronized_group: 'Synchronized LDAP group'
+      ldap_groups/synchronized_group: '同步LDAP群组'
   ldap_groups:
-    label_menu_item: 'Group synchronization'
-    label_group_key: 'LDAP group filter key'
+    label_menu_item: '分组同步'
+    label_group_key: 'LDAP 组过滤器密钥'
     settings:
-      group_key: 'LDAP group attribute'
-      group_key_text: 'The LDAP attribute name used to identify the groups.'
-      group_base: 'LDAP group base'
-      group_base_text: 'LDAP group base used to search for group entries.'
+      group_key: 'LDAP 群属性'
+      group_key_text: '用于识别组别中的LDAP属性名称。'
+      group_base: 'LDAP 分组'
+      group_base_text: '用于搜索组条目的 LDAP 组基数。'
     synchronized_groups:
-      add_new: 'Add synchronized LDAP group'
+      add_new: '添加同步的 LDAP 组'
       destroy:
-        title: 'Remove synchronized group %{name}'
-        confirmation: "If you continue, the synchronized group %{name} and all %{users_count} users synchronized through it will be removed."
-        info: "Note: The OpenProject group itself and members added outside this LDAP synchronization will not be removed."
-        verification: "Enter the group's name %{name} to verify the deletion."
-      no_results: 'No synchronized groups found.'
-      no_members: 'This group has no synchronized members yet.'
-      plural: 'Synchronized LDAP groups'
-      singular: 'Synchronized LDAP group'
+        title: '删除同步组 %{name}'
+        confirmation: "如果您继续，同步组 %{name} 和 %{users_count} 用户将会被删除。"
+        info: "注意：OpenProject 组本身，并且在这个 LDAP 同步之外添加的成员不会被删除。"
+        verification: "输入组名称 %{name} 来验证删除。"
+      no_results: '没有找到同步群组。'
+      no_members: '此群组尚未同步成员。'
+      plural: '同步LDAP群组'
+      singular: '同步LDAP群组'
       form:
-        auth_source_text: 'Select which LDAP authentication mode is used.'
-        entry_text: 'Define the LDAP group identifier.'
-        group_text: 'Select an existing OpenProject group that members of the LDAP group shall be synchronized with'
+        auth_source_text: '选择使用哪个LDAP认证模式。'
+        entry_text: '定义LDAP群组标识符。'
+        group_text: '选择一个现有的 OpenProject 组，LDAP 群组成员应与'
 

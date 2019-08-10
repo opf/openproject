@@ -291,6 +291,7 @@ tr:
     label_total_progress: "Toplam ilerleme %{percent}%"
     label_total_amount: "Toplam: %{amount}"
     label_updated_on: "güncelleme tarihi"
+    label_value_derived_from_children: "(value derived from children)"
     label_warning: "Uyarı"
     label_work_package: "İş paketi"
     label_work_package_plural: "İş paketleri"
@@ -808,8 +809,8 @@ tr:
         one: "bir alt iş paketi"
         other: "%{count} alt iş paketi"
       hour:
-        one: "1 saat"
-        other: "%{count} saat"
+        one: "1 h"
+        other: "%{count} h"
     zen_mode:
       button_activate: 'Zen modunu etkinleştir'
       button_deactivate: 'Zen modunu devre dışı bırak'

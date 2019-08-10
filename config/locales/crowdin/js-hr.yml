@@ -291,6 +291,7 @@ hr:
     label_total_progress: "%{percent}% ukupnog napretka"
     label_total_amount: "Total: %{amount}"
     label_updated_on: "ažurirano"
+    label_value_derived_from_children: "(value derived from children)"
     label_warning: "Upozorenje"
     label_work_package: "Radni paket"
     label_work_package_plural: "Radni paketi"
@@ -812,9 +813,9 @@ hr:
         few: "%{count} work package children"
         other: "%{count} work package children"
       hour:
-        one: "1 sat"
-        few: "%{count} sata"
-        other: "%{count} sata"
+        one: "1 h"
+        few: "%{count} h"
+        other: "%{count} h"
     zen_mode:
       button_activate: 'Activate zen mode'
       button_deactivate: 'Deactivate zen mode'

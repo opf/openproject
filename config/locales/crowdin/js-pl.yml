@@ -291,6 +291,7 @@ pl:
     label_total_progress: "%{percent}% Całkowitego postępu"
     label_total_amount: "Łącznie: %{amount}"
     label_updated_on: "zaktualizowany"
+    label_value_derived_from_children: "(value derived from children)"
     label_warning: "Ostrzeżenie"
     label_work_package: "Zadanie"
     label_work_package_plural: "Pakiety robocze"
@@ -816,10 +817,10 @@ pl:
         many: "%{count} potomnych pakietów roboczych"
         other: "%{count} potomnych pakietów roboczych"
       hour:
-        one: "1 godzina"
-        few: "%{count} godziny"
-        many: "%{count} godziny"
-        other: "%{count} godziny"
+        one: "1 h"
+        few: "%{count} h"
+        many: "%{count} h"
+        other: "%{count} h"
     zen_mode:
       button_activate: 'Włącz tryb zen'
       button_deactivate: 'Wyłącz tryb zen'

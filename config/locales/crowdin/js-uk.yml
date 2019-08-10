@@ -291,6 +291,7 @@ uk:
     label_total_progress: "%{percent}% загального прогресу"
     label_total_amount: "Всього: %{amount}"
     label_updated_on: "оновлено"
+    label_value_derived_from_children: "(value derived from children)"
     label_warning: "Попередження"
     label_work_package: "Пакет робіт"
     label_work_package_plural: "Пакет робіт"
@@ -816,10 +817,10 @@ uk:
         many: "%{count} робочий пакет дітей"
         other: "%{count} робочий пакет дітей"
       hour:
-        one: "1 година"
-        few: "%{count} години"
-        many: "%{count} години"
-        other: "%{count} години"
+        one: "1 h"
+        few: "%{count} h"
+        many: "%{count} h"
+        other: "%{count} h"
     zen_mode:
       button_activate: 'Активуйте режим дзен'
       button_deactivate: 'Деактивуйте режим дзен'
