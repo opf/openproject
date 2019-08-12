@@ -3,13 +3,13 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
   Inject,
   Injector,
   Input,
   OnInit,
-  ViewChild,
-  EventEmitter,
-  Output
+  Output,
+  ViewChild
 } from "@angular/core";
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
@@ -36,6 +36,9 @@ import {RequestSwitchmap} from "core-app/helpers/rxjs/request-switchmap";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {filter} from 'rxjs/operators';
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
+import {WorkPackageTableSelection} from "core-components/wp-fast-table/state/wp-table-selection.service";
+import {CardViewHandlerRegistry} from "core-components/wp-card-view/event-handler/card-view-handler-registry";
+import {WorkPackageCardViewService} from "core-components/wp-card-view/services/wp-card-view.service";
 
 export type CardViewOrientation = 'horizontal'|'vertical';
 
@@ -112,7 +115,9 @@ export class WorkPackageCardViewComponent  implements OnInit {
               readonly authorisationService:AuthorisationService,
               readonly causedUpdates:CausedUpdatesService,
               readonly cdRef:ChangeDetectorRef,
-              readonly pathHelper:PathHelperService) {
+              readonly pathHelper:PathHelperService,
+              readonly wpTableSelection:WorkPackageTableSelection,
+              readonly cardView:WorkPackageCardViewService) {
   }
 
   ngOnInit() {
@@ -150,7 +155,19 @@ export class WorkPackageCardViewComponent  implements OnInit {
       this.workPackages = query.results.elements;
       this.isResultEmpty = this.workPackages.length === 0;
       this.cdRef.detectChanges();
+
+      // Register event handlers for the cards
+      new CardViewHandlerRegistry(this.injector).attachTo(this);
     });
+
+    // Update selection state
+    this.wpTableSelection.selectionState.values$()
+      .pipe(
+        untilComponentDestroyed(this)
+      )
+      .subscribe(() => {
+        this.cdRef.detectChanges();
+      });
   }
 
   ngOnDestroy():void {
@@ -174,6 +191,14 @@ export class WorkPackageCardViewComponent  implements OnInit {
 
   public wpSubject(wp:WorkPackageResource) {
     return wp.subject;
+  }
+
+  public isSelected(wp:WorkPackageResource):boolean {
+    return this.wpTableSelection.isSelected(wp.id!);
+  }
+
+  public classIdentifier(wp:WorkPackageResource) {
+    return this.cardView.classIdentifier(wp);
   }
 
   public bcfSnapshotPath(wp:WorkPackageResource) {
