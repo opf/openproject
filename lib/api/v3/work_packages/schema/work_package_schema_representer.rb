@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -40,7 +41,7 @@ module API
           include API::Caching::CachedRepresenter
           cached_representer key_parts: %i[project type],
                              dependencies: -> {
-                               Authorization.roles(User.current, represented.project).map(&:permissions).sort +
+                               User.current.roles_for_project(represented.project).map(&:permissions).sort +
                                  [Setting.work_package_done_ratio]
                              }
 
@@ -253,11 +254,9 @@ module API
           def attribute_groups
             (represented.type&.attribute_groups || []).map do |group|
               if group.is_a?(Type::QueryGroup)
-                ::API::V3::WorkPackages::Schema::FormConfigurations::QueryRepresenter
-                  .new(group, current_user: current_user, embed_links: true)
+                form_config_query_representation(group)
               else
-                ::API::V3::WorkPackages::Schema::FormConfigurations::AttributeRepresenter
-                  .new(group, current_user: current_user, project: represented.project, embed_links: true)
+                form_config_attribute_representation(group)
               end
             end
           end
@@ -289,6 +288,31 @@ module API
           # change their to_params value consistently
           def json_key_part_represented
             []
+          end
+
+          def form_config_query_representation(group)
+            # While we cannot cache the query group to be shared with other users (e.g. project names)
+            # we can cache it for the same user for this request so that when a collection of
+            # schemas is rendered, we can reuse that.
+            RequestStore.fetch("wp_schema_query_group/#{group.key}") do
+              ::JSON::parse(::API::V3::WorkPackages::Schema::FormConfigurations::QueryRepresenter
+                              .new(group, current_user: current_user, embed_links: true)
+                              .to_json)
+            end
+          end
+
+          def form_config_attribute_representation(group)
+            cache_keys = ['wp_schema_attribute_group', group.key,
+                          I18n.locale,
+                          represented.project,
+                          represented.type,
+                          represented.available_custom_fields]
+
+            OpenProject::Cache.fetch(OpenProject::Cache::CacheKey.expand(cache_keys.flatten.compact)) do
+              ::JSON::parse(::API::V3::WorkPackages::Schema::FormConfigurations::AttributeRepresenter
+                              .new(group, current_user: current_user, project: represented.project, embed_links: true)
+                              .to_json)
+            end
           end
         end
       end

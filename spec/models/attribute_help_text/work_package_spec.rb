@@ -50,14 +50,21 @@ describe AttributeHelpText::WorkPackage, type: :model do
     let(:role) { FactoryBot.create(:role, permissions: permissions) }
     let(:user) do
       FactoryBot.create(:user,
-                         member_in_project: project,
-                         member_through_role: role)
+                        member_in_project: project,
+                        member_through_role: role)
     end
     let(:permission) { [] }
     let(:static_instance) { FactoryBot.create :work_package_help_text, attribute_name: 'project' }
+
+    def create_cf_help_text(custom_field)
+      # Need to clear the request store after every creation as the available attributes are cached
+      RequestStore.clear!
+      FactoryBot.create(:work_package_help_text, attribute_name: "custom_field_#{custom_field.id}")
+    end
+
     let(:cf_instance) do
       custom_field = FactoryBot.create :text_wp_custom_field
-      FactoryBot.create :work_package_help_text, attribute_name: "custom_field_#{custom_field.id}"
+      create_cf_help_text(custom_field)
     end
 
     subject { FactoryBot.build :work_package_help_text }
@@ -67,8 +74,8 @@ describe AttributeHelpText::WorkPackage, type: :model do
       # Type.translated_work_package_form_attributes
       Rails.cache.clear
 
-      static_instance
       cf_instance
+      static_instance
     end
 
     subject { described_class.visible(user) }
@@ -105,7 +112,7 @@ describe AttributeHelpText::WorkPackage, type: :model do
         custom_field = FactoryBot.create(:text_wp_custom_field)
         project.work_package_custom_fields << custom_field
         type.custom_fields << custom_field
-        FactoryBot.create :work_package_help_text, attribute_name: "custom_field_#{custom_field.id}"
+        create_cf_help_text(custom_field)
       end
       let(:cf_instance_inactive) do
         cf_instance
@@ -113,16 +120,16 @@ describe AttributeHelpText::WorkPackage, type: :model do
       let(:cf_instance_inactive_no_type) do
         custom_field = FactoryBot.create(:text_wp_custom_field)
         project.work_package_custom_fields << custom_field
-        FactoryBot.create :work_package_help_text, attribute_name: "custom_field_#{custom_field.id}"
+        create_cf_help_text(custom_field)
       end
       let(:cf_instance_inactive_not_in_project) do
         custom_field = FactoryBot.create(:text_wp_custom_field)
         type.custom_fields << custom_field
-        FactoryBot.create :work_package_help_text, attribute_name: "custom_field_#{custom_field.id}"
+        create_cf_help_text(custom_field)
       end
       let(:cf_instance_for_all) do
         custom_field = FactoryBot.create(:text_wp_custom_field, is_for_all: true)
-        FactoryBot.create :work_package_help_text, attribute_name: "custom_field_#{custom_field.id}"
+        create_cf_help_text(custom_field)
       end
 
       before do

@@ -187,6 +187,7 @@ class User < Principal
     @name = nil
     @projects_by_role = nil
     @authorization_service = ::Authorization::UserAllowedService.new(self)
+    @project_role_cache = ::User::ProjectRoleCache.new(self)
 
     super
   end
@@ -555,29 +556,9 @@ class User < Principal
 
   # Return user's roles for project
   def roles_for_project(project)
-    roles = []
-
-    # No role on archived projects
-    return roles unless project&.active?
-
-    # Return all roles if user is admin
-    return Role.givable.to_a if admin?
-
-    if logged?
-      # Find project membership
-      membership = memberships.detect { |m| m.project_id == project.id }
-      if membership
-        roles = membership.roles
-      else
-        @role_non_member ||= Role.non_member
-        roles << @role_non_member
-      end
-    else
-      @role_anonymous ||= Role.anonymous
-      roles << @role_anonymous
-    end
-    roles
+    project_role_cache.fetch(project)
   end
+  alias :roles :roles_for_project
 
   # Cheap version of Project.visible.count
   def number_of_known_projects
@@ -669,10 +650,6 @@ class User < Principal
     yield
   ensure
     User.current = previous_user
-  end
-
-  def roles(project)
-    User.current.admin? ? Role.all : User.current.roles_for_project(project)
   end
 
   ##
@@ -769,7 +746,11 @@ class User < Principal
   end
 
   def authorization_service
-    @authorization_service ||= ::Authorization::UserAllowedService.new(self)
+    @authorization_service ||= ::Authorization::UserAllowedService.new(self, role_cache: project_role_cache)
+  end
+
+  def project_role_cache
+    @project_role_cache ||= ::User::ProjectRoleCache.new(self)
   end
 
   def former_passwords_include?(password)

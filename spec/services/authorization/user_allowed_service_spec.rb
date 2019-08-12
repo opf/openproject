@@ -36,7 +36,14 @@ describe Authorization::UserAllowedService do
   let(:project) { FactoryBot.build_stubbed(:project) }
   let(:other_project) { FactoryBot.build_stubbed(:project) }
   let(:role) { FactoryBot.build_stubbed(:role) }
-  let(:user_roles_in_project) { [role] }
+  let(:user_roles_in_project) do
+    array = [role]
+    allow(array)
+      .to receive(:eager_load)
+      .and_return(array)
+
+    array
+  end
   let(:role_grants_action) { true }
   let(:project_allows_to) { true }
 
@@ -272,7 +279,7 @@ describe Authorization::UserAllowedService do
           allow(Authorization)
             .to receive(:roles)
             .with(user, nil)
-            .and_return([role])
+            .and_return(user_roles_in_project)
 
           allow(role)
             .to receive(:allowed_to?)
@@ -294,7 +301,7 @@ describe Authorization::UserAllowedService do
           allow(Authorization)
             .to receive(:roles)
             .with(user, nil)
-            .and_return([role])
+            .and_return(user_roles_in_project)
 
           allow(role)
             .to receive(:allowed_to?)

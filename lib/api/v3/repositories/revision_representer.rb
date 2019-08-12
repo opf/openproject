@@ -68,8 +68,7 @@ module API
 
         formattable_property :comments,
                              as: :message,
-                             plain: true,
-                             uncacheable: true
+                             plain: true
 
         date_time_property :committed_on,
                            as: 'createdAt'

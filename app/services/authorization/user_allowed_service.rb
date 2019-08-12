@@ -30,8 +30,9 @@
 class Authorization::UserAllowedService
   attr_accessor :user
 
-  def initialize(user)
+  def initialize(user, role_cache: User::ProjectRoleCache.new(user))
     self.user = user
+    self.project_role_cache = role_cache
   end
 
   # Return true if the user is allowed to do the specified action on a specific context
@@ -58,6 +59,8 @@ class Authorization::UserAllowedService
   end
 
   private
+
+  attr_accessor :project_role_cache
 
   def allowed_to?(action, context, options = {})
     action = normalize_action(action)
@@ -102,19 +105,15 @@ class Authorization::UserAllowedService
   end
 
   def has_authorized_role?(action, project = nil)
-    project_role_cache[project] ||= ::Authorization.roles(user, project)
-
-    project_role_cache[project].any? do |role|
+    project_role_cache
+      .fetch(project)
+      .any? do |role|
       role.allowed_to?(action)
     end
   end
 
   def project_authorization_cache
     @project_authorization_cache ||= User::ProjectAuthorizationCache.new(user)
-  end
-
-  def project_role_cache
-    @project_role_cache ||= {}
   end
 
   def normalize_action(action)
