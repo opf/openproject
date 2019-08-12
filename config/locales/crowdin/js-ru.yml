@@ -78,7 +78,7 @@ ru:
         graph_settings: 'Общие'
         dataset: 'Набор данных %{number}'
       errors:
-        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
+        could_not_load: 'Данные для отображения графика не могут быть загружены. Необходимые разрешения могут отсутствовать.'
     description_available_columns: "Доступные столбцы"
     description_current_position: "Вы здесь: "
     description_select_work_package: "Выберите пакет работ #%{id}"

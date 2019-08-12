@@ -1703,7 +1703,7 @@ ru:
     legacy_warning:
       timeline: 'Макрос этого унаследованного графика был удален и более не доступен. Вы можете заменить функциональность внедренной таблицей макросов.'
     include_wiki_page:
-      removed: 'The macro does no longer exist.'
+      removed: 'Макроса больше не существует.'
     wiki_child_pages:
       errors:
         page_not_found: "Не удается найти вики-страницу «%{name}»."
