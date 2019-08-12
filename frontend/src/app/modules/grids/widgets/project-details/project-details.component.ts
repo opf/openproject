@@ -38,6 +38,7 @@ import {PortalCleanupService} from 'core-app/modules/fields/display/display-port
 import {DisplayField} from "core-app/modules/fields/display/display-field.module";
 import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import {ProjectCacheService} from "core-components/projects/project-cache.service";
 
 export const emptyPlaceholder = '-';
 
@@ -59,6 +60,7 @@ export class WidgetProjectDetailsComponent extends AbstractWidgetComponent imple
   constructor(protected readonly i18n:I18nService,
               protected readonly injector:Injector,
               protected readonly projectDm:ProjectDmService,
+              protected readonly projectCache:ProjectCacheService,
               protected readonly currentProject:CurrentProjectService,
               protected readonly displayField:DisplayFieldService,
               protected readonly cdr:ChangeDetectorRef) {
@@ -82,7 +84,7 @@ export class WidgetProjectDetailsComponent extends AbstractWidgetComponent imple
   }
 
   private loadCurrentProject() {
-    return this.projectDm.load(this.currentProject.id as string);
+    return this.projectCache.require(this.currentProject.id as string);
   }
 
   private loadProjectSchema() {

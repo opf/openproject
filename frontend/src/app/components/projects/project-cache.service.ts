@@ -48,7 +48,7 @@ export class ProjectCacheService extends StateCacheService<ProjectResource> {
   }
 
   protected load(id:string):Promise<ProjectResource> {
-    return this.projectDmService.load(id);
+    return this.projectDmService.one(parseInt(id));
   }
 
   protected get multiState():MultiInputState<ProjectResource> {

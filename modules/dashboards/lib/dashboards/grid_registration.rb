@@ -7,6 +7,7 @@ module Dashboards
             'work_packages_graph',
             'project_description',
             'project_details',
+            'subprojects',
             'work_packages_calendar',
             'work_packages_overview',
             'time_entries_project',

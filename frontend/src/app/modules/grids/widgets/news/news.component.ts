@@ -53,7 +53,7 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
   }
 
   public newsPath(news:NewsResource) {
-    return `${this.pathHelper.appBasePath}/news/${news.id}`;
+    return this.pathHelper.newsPath(news.id!);
   }
 
   public newsProjectPath(news:NewsResource) {

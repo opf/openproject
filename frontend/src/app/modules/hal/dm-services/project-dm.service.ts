@@ -32,23 +32,22 @@ import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper
 import {ProjectResource} from 'core-app/modules/hal/resources/project-resource';
 import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 import {Apiv3ProjectsPaths} from "core-app/modules/common/path-helper/apiv3/projects/apiv3-projects-paths";
+import {AbstractDmService} from "core-app/modules/hal/dm-services/abstract-dm.service";
 
 @Injectable()
-export class ProjectDmService {
-  constructor(protected halResourceService:HalResourceService,
-              protected pathHelper:PathHelperService) {
-  }
-
-  public load(id:string|number):Promise<ProjectResource> {
-    return this.halResourceService
-      .get<ProjectResource>(this.projectsPath.id(id).toString())
-      .toPromise();
-  }
-
+export class ProjectDmService extends AbstractDmService<ProjectResource> {
   public schema():Promise<SchemaResource> {
     return this.halResourceService
       .get<SchemaResource>(this.projectsPath.schema)
       .toPromise();
+  }
+
+  protected listUrl():string {
+    return this.projectsPath.toString();
+  }
+
+  protected oneUrl(id:number|string):string {
+    return this.projectsPath.id(id).toString();
   }
 
   private get projectsPath():Apiv3ProjectsPaths {

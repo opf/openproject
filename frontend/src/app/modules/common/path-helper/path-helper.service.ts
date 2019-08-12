@@ -74,6 +74,10 @@ export class PathHelperService {
     return this.staticBase + '/my/page';
   }
 
+  public newsPath(newsId:string) {
+    return this.staticBase + '/news/' + newsId;
+  }
+
   public loginPath() {
     return this.staticBase + '/login';
   }

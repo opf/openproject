@@ -217,7 +217,16 @@ Returns a collection of projects. The collection can be filtered via query param
     + filters (optional, string, `[{ "ancestor": { "operator": "=", "values": ['1'] }" }]`) ... JSON specifying filter conditions.
     Accepts the same format as returned by the [queries](#queries) endpoint.
     Currently supported filters are:
+      + status: based on the status of the project
       + ancestor: filters projects by their ancestor. A project is not considered to be it's own ancestor.
+      + created_on: based on the time the project was created
+      + latest_activity_at: based on the time the last activity was registered on a project.
+      + name_and_identifier: based on both the name and the identifier.
+      + parent_id: filters projects by their parent.
+      + principal: based on members of the project.
+      + type_id: based on the types active in a project.
+    There might also be additional filters based on the custom fields that have been configured.
+
 
 + Response 200 (application/hal+json)
 
