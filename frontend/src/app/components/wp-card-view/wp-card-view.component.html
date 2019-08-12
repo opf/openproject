@@ -20,14 +20,22 @@
         [ngClass]="cardHighlightingClass(wp)">
     </div>
 
-    <a class="wp-card--inline-cancel-button -no-decoration"
-       *ngIf="wp.isNew || cardsRemovable"
-       [ngClass]="{ '-show': wp.isNew }"
-       [title]="text.removeCard"
-       (accessibleClick)="removeCard(wp)">
-      <op-icon icon-classes="icon icon-close"></op-icon>
-    </a>
+    <div class="wp-card--inline-buttons">
+      <a class="wp-card--inline-cancel-button -no-decoration"
+         *ngIf="wp.isNew || cardsRemovable"
+         [ngClass]="{ '-show': wp.isNew }"
+         [title]="text.removeCard"
+         (accessibleClick)="removeCard(wp)">
+        <op-icon icon-classes="icon icon-close"></op-icon>
+      </a>
 
+      <a class="-no-decoration"
+         *ngIf="!wp.isNew || showInfoButton"
+         [title]="text.detailsView"
+         (accessibleClick)="openSplitScreen(wp)">
+        <op-icon icon-classes="icon icon-info2"></op-icon>
+      </a>
+    </div>
 
     <wp-edit-field-group [workPackage]="wp"
                          [inEditMode]="wp.isNew"

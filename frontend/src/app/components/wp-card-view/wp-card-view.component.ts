@@ -54,6 +54,7 @@ export class WorkPackageCardViewComponent  implements OnInit {
   @Input() public highlightingMode:CardHighlightingMode;
   @Input() public workPackageAddedHandler:(wp:WorkPackageResource) => Promise<unknown>;
   @Input() public showStatusButton:boolean = true;
+  @Input() public showInfoButton:boolean = false;
   @Input() public orientation:CardViewOrientation = 'vertical';
   /** Whether cards are removable */
   @Input() public cardsRemovable:boolean = false;
@@ -77,6 +78,7 @@ export class WorkPackageCardViewComponent  implements OnInit {
       title: this.I18n.t('js.work_packages.no_results.title'),
       description: this.I18n.t('js.work_packages.no_results.description')
     },
+    detailsView: this.I18n.t('js.button_open_details')
   };
 
   /** Inline create / reference properties */
@@ -176,6 +178,13 @@ export class WorkPackageCardViewComponent  implements OnInit {
 
   public handleDblClick(wp:WorkPackageResource) {
     this.goToWpFullView(wp.id!);
+  }
+
+  public openSplitScreen(wp:WorkPackageResource) {
+    this.$state.go(
+      'work-packages.list.details',
+      {workPackageId: wp.id!}
+    );
   }
 
   private goToWpFullView(wpId:string) {
