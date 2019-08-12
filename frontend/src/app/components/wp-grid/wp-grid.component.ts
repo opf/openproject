@@ -42,7 +42,8 @@ import {componentDestroyed, untilComponentDestroyed} from "ng2-rx-componentdestr
                   [cardsRemovable]="false"
                   [highlightingMode]="highlightingMode"
                   [showStatusButton]="true"
-                  [orientation]="gridOrientation">
+                  [orientation]="gridOrientation"
+                  [showEmptyResultsBox]="true">
     </wp-card-view>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
