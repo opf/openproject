@@ -290,7 +290,7 @@ ru:
     label_total_progress: "%{percent}% общего прогресса"
     label_total_amount: "Всего: %{amount}"
     label_updated_on: "Обновлено"
-    label_value_derived_from_children: "(value derived from children)"
+    label_value_derived_from_children: "(значение, полученное от наследников)"
     label_warning: "Предупреждение"
     label_work_package: "Пакет работ"
     label_work_package_plural: "Комплекс работ"
@@ -816,10 +816,10 @@ ru:
         many: "пакет работ с %{count} дочерними"
         other: "пакет работ с %{count} дочерними"
       hour:
-        one: "1 h"
-        few: "%{count} h"
-        many: "%{count} h"
-        other: "%{count} h"
+        one: "1 ч"
+        few: "%{count} ч"
+        many: "%{count} ч"
+        other: "%{count} ч"
     zen_mode:
       button_activate: 'Включить дзен-режим'
       button_deactivate: 'Отключить дзен-режим'
