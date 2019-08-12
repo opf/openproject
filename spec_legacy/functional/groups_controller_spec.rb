@@ -110,13 +110,4 @@ describe GroupsController, type: :controller do
       delete :destroy_membership, params: { id: 10, membership_id: 6 }
     end
   end
-
-  it 'should autocomplete for user' do
-    get :autocomplete_for_user, params: { id: 10, q: 'mis' }
-    assert_response :success
-    users = assigns(:users)
-    refute_nil users
-    assert users.any?
-    assert !users.include?(Group.find(10).users.first)
-  end
 end

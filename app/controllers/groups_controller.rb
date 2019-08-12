@@ -31,7 +31,7 @@ class GroupsController < ApplicationController
   layout 'admin'
 
   before_action :require_admin
-  before_action :find_group, only: [:destroy, :autocomplete_for_user,
+  before_action :find_group, only: [:destroy,
                                     :show, :create_memberships, :destroy_membership,
                                     :edit_membership]
 
@@ -69,6 +69,8 @@ class GroupsController < ApplicationController
   # GET /groups/1/edit
   def edit
     @group = Group.includes(:members, :users).find(params[:id])
+
+    set_filters_for_user_autocompleter
   end
 
   # POST /groups
@@ -134,11 +136,6 @@ class GroupsController < ApplicationController
     redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'users'
   end
 
-  def autocomplete_for_user
-    @users = User.active.not_in_group(@group).like(params[:q]).limit(100)
-    render layout: false
-  end
-
   def create_memberships
     membership_params = permitted_params.group_membership
     membership_id = membership_params[:membership_id]
@@ -176,6 +173,12 @@ class GroupsController < ApplicationController
 
   def find_group
     @group = Group.find(params[:id])
+  end
+
+  def set_filters_for_user_autocompleter
+    @autocompleter_filters = []
+    @autocompleter_filters.push({ selector: 'status', operator: '=', values: ['active'] })
+    @autocompleter_filters.push({ selector: 'group', operator: '!', values: [@group.id] })
   end
 
   def default_breadcrumb

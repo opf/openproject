@@ -110,7 +110,7 @@ feature 'group memberships through project members page', type: :feature do
       allow(User).to receive(:current).and_return admin
     end
 
-    scenario 'adding members to that group adds them to the project too' do
+    scenario 'adding members to that group adds them to the project too', js: true do
       members_page.visit!
 
       expect(members_page).not_to have_user('Alice Wonderland') # Alice not in the project yet
