@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,28 +30,38 @@
 
 module API
   module V3
-    module Grids
-      module Widgets
-        class WidgetRepresenter < ::API::Decorators::Single
-          property :id
-          property :identifier
-          property :start_row
-          property :end_row
-          property :start_column
-          property :end_column
+    module Attachments
+      module AttachablePayloadRepresenterMixin
+        extend ActiveSupport::Concern
 
-          property :options,
-                   getter: ->(represented:, decorator:, **) {
-                     ::Grids::Configuration
-                       .widget_strategy(represented.grid.class, represented.identifier)
-                       .options_representer
-                       .constantize
-                       .new(represented.options.with_indifferent_access.merge(grid: represented.grid),
-                            current_user: decorator.current_user)
-                   }
+        included do
+          def writeable_attributes
+            super + %w[attachments]
+          end
 
-          def _type
-            'GridWidget'
+          property :attachments,
+                   exec_context: :decorator,
+                   getter: ->(*) {},
+                   setter: ->(fragment:, **) do
+                     next unless fragment.is_a?(Array)
+
+                     ids = fragment.map do |link|
+                       ::API::Utilities::ResourceLinkParser.parse_id link['href'],
+                                                                     property: :attachment,
+                                                                     expected_version: '3',
+                                                                     expected_namespace: :attachments
+                     end
+
+                     represented.attachment_ids = ids
+                   end,
+                   skip_render: ->(*) { true },
+                   linked_resource: true,
+                   uncacheable: true
+
+          links :attachments do
+            represented.attachments.map do |attachment|
+              { href: api_v3_paths.attachment(attachment.id) }
+            end
           end
         end
       end

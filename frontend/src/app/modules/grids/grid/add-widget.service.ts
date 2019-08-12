@@ -99,6 +99,8 @@ export class GridAddWidgetService {
 
         let resource = this.halResource.createHalResource(source) as GridWidgetResource;
 
+        resource.grid = this.layout.gridResource;
+
         resolve(resource);
       });
     });

@@ -50,6 +50,9 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
   let(:dashboard_page) do
     Pages::Dashboard.new(project)
   end
+  let(:image_fixture) { Rails.root.join('spec/fixtures/files/image.png') }
+  let(:editor) { ::Components::WysiwygEditor.new 'body' }
+  let(:field) { WorkPackageEditorField.new(page, 'description', selector: '.wp-inline-edit--active-field') }
 
   before do
     login_as user
@@ -57,7 +60,7 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
     dashboard_page.visit!
   end
 
-  it 'can add the widget and see the description in it' do
+  it 'can add the widget set custom text and upload attachments' do
     dashboard_page.add_column(3, before_or_after: :before)
 
     sleep(0.1)
@@ -77,8 +80,6 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
     within custom_text_widget.area do
       find('.inplace-editing--trigger-container').click
 
-      field = WorkPackageEditorField.new(page, 'description', selector: '.wp-inline-edit--active-field')
-
       field.set_value('My own little text')
       field.save!
 
@@ -92,6 +93,28 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
 
       expect(page)
         .to have_selector('.wp-edit-field--display-field', text: 'My own little text')
+
+      # adding an image
+      find('.inplace-editing--trigger-container').click
+
+      sleep(0.1)
+    end
+
+    # The drag_attachment is written in a way that it requires to be executed with page on body
+    # so we cannot have it wrapped in the within block.
+    editor.drag_attachment image_fixture, 'Image uploaded'
+
+    within custom_text_widget.area do
+      expect(page).to have_selector('attachment-list-item', text: 'image.png')
+      expect(page).to have_no_selector('notifications-upload-progress')
+
+      field.save!
+
+      expect(page)
+        .to have_selector('#content img', count: 1)
+
+      expect(page)
+        .to have_no_selector('attachment-list-item', text: 'image.png')
     end
   end
 end

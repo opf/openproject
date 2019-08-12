@@ -89,6 +89,7 @@ describe "PATCH /api/v3/grids/:id/form for Board Grids", type: :request, content
         widgets: [],
         options: {},
         "_links": {
+          "attachments": [],
           "scope": {
             "href": project_work_package_boards_path(project),
             "type": "text/html"

@@ -115,7 +115,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
     public uploadAttachments(files:UploadFile[]):Promise<{ response:HalResource, uploadUrl:string }[]> {
       const { uploads, finished } = this.performUpload(files);
 
-      const message = I18n.t('js.label_upload_notification', this);
+      const message = I18n.t('js.label_upload_notification');
       const notification = this.NotificationsService.addAttachmentUpload(message, uploads);
 
       return finished

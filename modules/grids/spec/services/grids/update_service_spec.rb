@@ -76,6 +76,8 @@ describe Grids::UpdateService, type: :model do
     allow(service)
       .to receive(:call)
       .and_return(set_attributes_result)
+
+    service
   end
 
   describe 'call' do
@@ -142,6 +144,30 @@ describe Grids::UpdateService, type: :model do
 
     context 'with parameters' do
       let(:call_attributes) { { row_count: 5 } }
+
+      it_behaves_like 'service call'
+    end
+
+    context 'with parameters only for widgets' do
+      let(:call_attributes) { { widgets: [FactoryBot.build_stubbed(:grid_widget)] } }
+
+      before do
+        allow(set_attributes_service)
+          .to receive(:call) do |params|
+            grid.widgets.build(params[:widgets].first.attributes)
+
+            allow(grid.widgets.last)
+              .to receive(:saved_changes?)
+              .and_return(true)
+
+            if set_attributes_success && grid_valid
+              expect(grid)
+                .to receive(:touch)
+            end
+
+            set_attributes_result
+          end
+      end
 
       it_behaves_like 'service call'
     end

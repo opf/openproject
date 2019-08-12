@@ -74,4 +74,9 @@ shared_examples_for 'grid attributes' do
         .to match_array widgets
     end
   end
+
+  it_behaves_like 'acts_as_attachable included' do
+    let(:model_instance) { instance }
+    let(:project) { FactoryBot.create(:project) }
+  end
 end

@@ -42,6 +42,7 @@ import {filter, takeUntil} from 'rxjs/operators';
 })
 export class AttachmentsComponent implements OnInit, OnDestroy {
   @Input('resource') public resource:HalResource;
+  @Input() public selfDestroy:boolean = false;
 
   public $element:JQuery;
   public allowUploading:boolean;
@@ -117,6 +118,10 @@ export class AttachmentsComponent implements OnInit, OnDestroy {
   }
 
   private destroyRemovedAttachments() {
+    if (this.selfDestroy) {
+      return;
+    }
+
     let missingAttachments = _.differenceBy(this.initialAttachments,
       this.resource.attachments.elements,
       (attachment:HalResource) => attachment.id);

@@ -29,6 +29,8 @@
 #++
 
 class Grids::SetAttributesService < ::BaseServices::SetAttributes
+  include Attachments::SetReplacements
+
   private
 
   def set_attributes(attributes)

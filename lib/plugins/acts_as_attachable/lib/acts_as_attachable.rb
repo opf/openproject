@@ -40,7 +40,7 @@ module Redmine
       module ClassMethods
         def acts_as_attachable(options = {})
           Redmine::Acts::Attachable.attachables.push(self)
-          cattr_accessor :attachable_options
+          class_attribute :attachable_options
           set_acts_as_attachable_options(options)
 
           attachments_order = options.delete(:order) || "#{Attachment.table_name}.created_at"
@@ -117,7 +117,7 @@ module Redmine
 
         module InstanceMethods
           def modification_blocked?
-            if policy = self.class.attachable_options[:modification_blocked]
+            if (policy = self.class.attachable_options[:modification_blocked])
               return instance_eval &policy
             end
 
@@ -158,7 +158,11 @@ module Redmine
 
           def allowed_to_on_attachment?(user, permissions)
             Array(permissions).any? do |permission|
-              user.allowed_to?(permission, project)
+              if respond_to?(:project)
+                user.allowed_to?(permission, project)
+              else
+                user.allowed_to_globally?(permission)
+              end
             end
           end
 

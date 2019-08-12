@@ -33,6 +33,9 @@ module API
     module Grids
       class GridPayloadRepresenter < GridRepresenter
         include ::API::Utilities::PayloadRepresenter
+        include ::API::V3::Attachments::AttachablePayloadRepresenterMixin
+
+        cached_representer disabled: true
 
         def widget_representer_class
           Widgets::WidgetPayloadRepresenter

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,12 +26,19 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Grids
-  class Dashboard < Grid
-    belongs_to :project
+require 'spec_helper'
+require File.join(Rails.root, 'spec', 'requests', 'api', 'v3', 'attachments', 'attachment_resource_shared_examples')
 
-    set_acts_as_attachable_options view_permission: :view_dashboards,
-                                   delete_permission: :manage_dashboards,
-                                   add_permission: :manage_dashboards
+describe "grid attachments" do
+  it_behaves_like "an APIv3 attachment resource" do
+    let(:attachment_type) { :grid }
+
+    let(:create_permission) { :manage_dashboards }
+    let(:read_permission) { :view_dashboards }
+    let(:update_permission) { :manage_dashboards }
+
+    let(:grid) { FactoryBot.create(:dashboard, project: project) }
+
+    let(:missing_permissions_user) { FactoryBot.create(:user) }
   end
 end

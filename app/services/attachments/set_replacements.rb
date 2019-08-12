@@ -28,12 +28,26 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Grids
-  class Dashboard < Grid
-    belongs_to :project
+module Attachments
+  module SetReplacements
+    extend ActiveSupport::Concern
 
-    set_acts_as_attachable_options view_permission: :view_dashboards,
-                                   delete_permission: :manage_dashboards,
-                                   add_permission: :manage_dashboards
+    included do
+      private
+
+      def set_attributes(attributes)
+        set_attachments_attributes(attributes)
+
+        super
+      end
+
+      def set_attachments_attributes(attributes)
+        attachment_ids = attributes.delete(:attachment_ids)
+
+        return unless attachment_ids
+
+        work_package.attachments_replacements = Attachment.where(id: attachment_ids)
+      end
+    end
   end
 end

@@ -100,6 +100,7 @@ describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
           }
         ],
         "_links": {
+          "attachments": [],
           "scope": {
             "href": "/my/page",
             "type": "text/html"

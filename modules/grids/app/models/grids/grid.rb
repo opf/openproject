@@ -42,5 +42,7 @@ module Grids
     def user_deletable?
       false
     end
+
+    acts_as_attachable
   end
 end

@@ -36,7 +36,7 @@ module API
           formattable_property :text,
                                getter: ->(*) do
                                  ::API::Decorators::Formattable.new(represented[:text],
-                                                                    object: represented,
+                                                                    object: represented[:grid],
                                                                     plain: false)
                                end
         end

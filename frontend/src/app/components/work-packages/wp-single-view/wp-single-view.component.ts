@@ -218,7 +218,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
     // Is a query in a new screen
     const queryInNew = this.workPackage.isNew && !!group.query;
 
-    return isEmpty || queryInNew
+    return isEmpty || queryInNew;
   }
 
   /**
