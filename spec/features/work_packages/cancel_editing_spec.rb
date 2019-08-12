@@ -157,6 +157,29 @@ describe 'Cancel editing work package', js: true do
     expect(wp_page).not_to have_alert_dialog
   end
 
+  it 'correctly cancels setting the back route (Regression #30714)' do
+    wp_page = ::Pages::FullWorkPackage.new work_package
+    wp_page.visit!
+    wp_page.ensure_page_loaded
+
+    # Edit description in full view
+    description = wp_page.edit_field :description
+    description.activate!
+    description.click_and_type_slowly 'foobar'
+
+    # Try to move back to list, expect warning
+    find('.work-packages-back-button').click
+    wp_page.dismiss_alert_dialog!
+
+    # Now cancel the field
+    description.cancel_by_click
+
+    # Now we should be able to get back to list
+    find('.work-packages-back-button').click
+
+    wp_table.expect_work_package_listed(work_package, work_package2)
+  end
+
   context 'when user does not want to be warned' do
     before do
       FactoryBot.create(:user_preference, user: user, others: { warn_on_leaving_unsaved: false })
