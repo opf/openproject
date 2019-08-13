@@ -38,7 +38,7 @@ export type CardViewOrientation = 'horizontal'|'vertical';
 
 @Component({
   selector: 'wp-card-view',
-  styleUrls: ['./wp-card-view.component.sass', './wp-card-view-horizontal.sass', './wp-card-view-vertical.sass'],
+  styleUrls: ['./styles/wp-card-view.component.sass', './styles/wp-card-view-horizontal.sass', './styles/wp-card-view-vertical.sass'],
   templateUrl: './wp-card-view.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
