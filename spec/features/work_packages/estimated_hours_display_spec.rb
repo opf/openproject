@@ -79,9 +79,11 @@ RSpec.feature 'Estimated hours display' do
 
     scenario 'work package index', js: true do
       wp_table.visit_query query
-      wp_table.expect_work_package_listed parent, child
+      wp_table.expect_work_package_listed child
 
-      expect(page).to have_content("Parent\n1 h(+3 h)")
+      wp_table.expect_work_package_with_attributes(
+        parent, estimatedTime: "1 h(+3 h)"
+      )
     end
 
     scenario 'work package details', js: true do
@@ -104,9 +106,11 @@ RSpec.feature 'Estimated hours display' do
 
     scenario 'work package index', js: true do
       wp_table.visit_query query
-      wp_table.expect_work_package_listed parent, child
+      wp_table.expect_work_package_listed child
 
-      expect(page).to have_content("Parent\n1 h")
+      wp_table.expect_work_package_with_attributes(
+        parent, subject: parent.subject, estimatedTime: "1 h"
+      )
     end
 
     scenario 'work package details', js: true do
@@ -129,9 +133,11 @@ RSpec.feature 'Estimated hours display' do
 
     scenario 'work package index', js: true do
       wp_table.visit_query query
-      wp_table.expect_work_package_listed parent, child
+      wp_table.expect_work_package_listed child
 
-      expect(page).to have_content("Parent\n(3 h)")
+      wp_table.expect_work_package_with_attributes(
+        parent, subject: parent.subject, estimatedTime: "(3 h)"
+      )
     end
 
     scenario 'work package details', js: true do
@@ -154,9 +160,11 @@ RSpec.feature 'Estimated hours display' do
 
     scenario 'work package index', js: true do
       wp_table.visit_query query
-      wp_table.expect_work_package_listed parent, child
+      wp_table.expect_work_package_listed child
 
-      expect(page).to have_content("Parent\n-")
+      wp_table.expect_work_package_with_attributes(
+        parent, subject: parent.subject, estimatedTime: "-"
+      )
     end
 
     scenario 'work package details', js: true do
