@@ -158,6 +158,8 @@ export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
 
     // Register event handlers for the cards
     new CardViewHandlerRegistry(this.injector).attachTo(this);
+    this.wpTableSelection.registerSelectAllListener(this.cardView.renderedCards);
+    this.wpTableSelection.registerDeselectAllListener();
   }
 
   ngOnDestroy():void {

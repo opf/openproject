@@ -146,6 +146,27 @@ export class WorkPackageTableSelection {
     this.selectionState.putValue(state);
   }
 
+  public registerSelectAllListener(renderedElements:RenderedRow[], callback?:() => void) {
+    // Bind CTRL+A to select all work packages
+    Mousetrap.bind(['command+a', 'ctrl+a'], (e) => {
+      this.selectAll(renderedElements);
+      e.preventDefault();
+
+      if (callback) { callback(); }
+      return false;
+    });
+  }
+
+  public registerDeselectAllListener (callback?:() => void) {
+    // Bind CTRL+D to deselect all work packages
+    Mousetrap.bind(['command+d', 'ctrl+d'], (e) => {
+      this.reset();
+      e.preventDefault();
+
+      if (callback) { callback(); }
+      return false;
+    });
+  }
 
   private get _emptyState():WPTableRowSelectionState {
     return {

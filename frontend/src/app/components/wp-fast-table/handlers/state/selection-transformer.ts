@@ -48,22 +48,9 @@ export class SelectionTransformer {
         this.renderSelectionState(state);
       });
 
-    // Bind CTRL+A to select all work packages
-    Mousetrap.bind(['command+a', 'ctrl+a'], (e) => {
-      this.wpTableSelection.selectAll(table.renderedRows);
 
-      e.preventDefault();
-      this.opContextMenu.close();
-      return false;
-    });
-
-    // Bind CTRL+D to deselect all work packages
-    Mousetrap.bind(['command+d', 'ctrl+d'], (e) => {
-      this.wpTableSelection.reset();
-      this.opContextMenu.close();
-      e.preventDefault();
-      return false;
-    });
+    this.wpTableSelection.registerSelectAllListener(table.renderedRows, this.opContextMenu.close);
+    this.wpTableSelection.registerDeselectAllListener(this.opContextMenu.close);
   }
 
   /**
