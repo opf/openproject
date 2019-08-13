@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -48,7 +49,7 @@ export type CardViewOrientation = 'horizontal'|'vertical';
   templateUrl: './wp-card-view.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class WorkPackageCardViewComponent  implements OnInit {
+export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
   @Input('dragOutOfHandler') public canDragOutOf:(wp:WorkPackageResource) => boolean;
   @Input() public dragInto:boolean;
   @Input() public highlightingMode:CardHighlightingMode;
@@ -157,9 +158,6 @@ export class WorkPackageCardViewComponent  implements OnInit {
       this.workPackages = query.results.elements;
       this.isResultEmpty = this.workPackages.length === 0;
       this.cdRef.detectChanges();
-
-      // Register event handlers for the cards
-      new CardViewHandlerRegistry(this.injector).attachTo(this);
     });
 
     // Update selection state
@@ -172,25 +170,19 @@ export class WorkPackageCardViewComponent  implements OnInit {
       });
   }
 
-  ngOnDestroy():void {
-    this.dragService.remove(this.container.nativeElement);
+  ngAfterViewInit() {
+    // Register event handlers for the cards
+    new CardViewHandlerRegistry(this.injector).attachTo(this);
   }
 
-  public handleDblClick(wp:WorkPackageResource) {
-    this.goToWpFullView(wp.id!);
+  ngOnDestroy():void {
+    this.dragService.remove(this.container.nativeElement);
   }
 
   public openSplitScreen(wp:WorkPackageResource) {
     this.$state.go(
       'work-packages.list.details',
       {workPackageId: wp.id!}
-    );
-  }
-
-  private goToWpFullView(wpId:string) {
-    this.$state.go(
-      'work-packages.show',
-      {workPackageId: wpId}
     );
   }
 
