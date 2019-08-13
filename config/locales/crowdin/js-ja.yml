@@ -297,6 +297,7 @@ ja:
     label_total_progress: "%{percent}% 進行状況"
     label_total_amount: "合計: %{amount}"
     label_updated_on: "更新日時"
+    label_value_derived_from_children: "(value derived from children)"
     label_warning: "注意"
     label_work_package: "ワーク パッケージ"
     label_work_package_plural: "ワークパッケージ"
@@ -820,7 +821,7 @@ ja:
       child_work_packages:
         other: "%{count} の子ワークパッケージ"
       hour:
-        other: "%{count}時間"
+        other: "%{count} h"
     zen_mode:
       button_activate: 'マナーモードをアクティブにする'
       button_deactivate: 'マナーモードを非アクティブにする'

@@ -69,12 +69,6 @@ describe 'groups routes', type: :routing do
   }
 
   it {
-    is_expected.to route(:get, '/admin/groups/4/autocomplete_for_user').to(controller: 'groups',
-                                                                           action: 'autocomplete_for_user',
-                                                                           id: '4')
-  }
-
-  it {
     is_expected.to route(:post, '/admin/groups/4/members').to(controller: 'groups',
                                                               action: 'add_users',
                                                               id: '4')

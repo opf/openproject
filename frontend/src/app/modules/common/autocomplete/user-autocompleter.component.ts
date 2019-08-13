@@ -27,10 +27,9 @@
 // ++
 
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
+import {ApiV3FilterBuilder, FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
 import {NgSelectComponent} from "@ng-select/ng-select";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {Observable} from "rxjs";
@@ -78,11 +77,16 @@ export class UserAutocompleterComponent implements OnInit {
   // Update an input field after changing, used when externally loaded
   private updateInputField:HTMLInputElement|undefined;
 
+<<<<<<< HEAD
   /** Keep a switchmap for search term and loading state */
   public requests = new DebouncedRequestSwitchmap<string, {[key:string]:string|null}>(
     (searchTerm:string) => this.getAvailableUsers(this.url, searchTerm),
     errorNotificationHandler(this.wpNotification)
   );
+=======
+  public options:any[];
+  public filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
+>>>>>>> release/9.1
 
   constructor(protected elementRef:ElementRef,
               protected halResourceService:HalResourceService,
@@ -94,6 +98,7 @@ export class UserAutocompleterComponent implements OnInit {
   ngOnInit() {
     const input = this.elementRef.nativeElement.dataset['updateInput'];
     const allowEmpty = this.elementRef.nativeElement.dataset['allowEmpty'];
+
     if (input) {
       this.updateInputField = document.getElementsByName(input)[0] as HTMLInputElement|undefined;
       this.setInitialSelection();
@@ -104,14 +109,30 @@ export class UserAutocompleterComponent implements OnInit {
     }
   }
 
+<<<<<<< HEAD
   public onFocus() {
     this.requests.input$.next('');
+=======
+
+    let filterInput  = this.elementRef.nativeElement.dataset['additionalFilter'];
+    if (filterInput) {
+      JSON.parse(filterInput).forEach((filter:{selector:string; operator:FilterOperator, values:string[]}) => {
+        this.filters.add(filter['selector'], filter['operator'], filter['values']);
+      })
+    }
+
+    this.setAvailableUsers(this.url, this.filters);
+>>>>>>> release/9.1
   }
 
   public onModelChange(user:any) {
     if (user) {
       this.onChange.emit(user);
+<<<<<<< HEAD
       this.requests.input$.next('');
+=======
+      this.setAvailableUsers(this.url, this.filters);
+>>>>>>> release/9.1
 
       if (this.clearAfterSelection) {
         this.ngSelectComponent.clearItem(user);
@@ -123,6 +144,7 @@ export class UserAutocompleterComponent implements OnInit {
     }
   }
 
+<<<<<<< HEAD
   private getAvailableUsers(url:string, searchTerm:any):Observable<{[key:string]:string|null}[]> {
     let filters = new ApiV3FilterBuilder();
 
@@ -145,6 +167,38 @@ export class UserAutocompleterComponent implements OnInit {
           return options;
         })
       );
+=======
+  public onSearch($event:any) {
+    let newFilters = this.filters;
+    if($event) {
+      newFilters.add('name', '~', [$event]);
+    }
+
+    this.setAvailableUsers(this.url, newFilters);
+  }
+
+  public onFocus(){
+    // For dynamic changes of the available users
+    // we have to reload them on focus (e.g. watchers)
+    this.setAvailableUsers(this.url, this.filters);
+  }
+
+  private setAvailableUsers(url:string, filters:ApiV3FilterBuilder) {
+    let params = {
+      filters: filters.toJson()
+    };
+
+    this.halResourceService.get(url, params)
+      .subscribe(res => {
+        this.options = res.elements.map((el:any) => {
+          return {name: el.name, id: el.id, href: el.href, avatar: el.avatar};
+        });
+
+        if (this.allowEmpty) {
+          this.options.unshift({ name: this.I18n.t('js.timelines.filter.noneSelection'), id: null });
+        }
+      });
+>>>>>>> release/9.1
   }
 
   private setInitialSelection() {

@@ -296,6 +296,7 @@ ar:
     label_total_progress: "%{percent} من التقدم الكلي"
     label_total_amount: "Total: %{amount}"
     label_updated_on: "تم التحديث بتاريخ"
+    label_value_derived_from_children: "(value derived from children)"
     label_warning: "تحذير"
     label_work_package: "مجموعة العمل"
     label_work_package_plural: "مجموعات العمل"
@@ -837,12 +838,12 @@ ar:
         many: "%{count} work package children"
         other: "%{count} work package children"
       hour:
-        zero: "%{count} ساعات"
-        one: "ساعة واحدة"
-        two: "%{count} ساعات"
-        few: "%{count} ساعات"
-        many: "%{count} ساعات"
-        other: "%{count} ساعات"
+        zero: "%{count} h"
+        one: "1 h"
+        two: "%{count} h"
+        few: "%{count} h"
+        many: "%{count} h"
+        other: "%{count} h"
     zen_mode:
       button_activate: 'Activate zen mode'
       button_deactivate: 'Deactivate zen mode'

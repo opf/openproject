@@ -295,6 +295,7 @@ ro:
     label_total_progress: "%{percent} % Progres total"
     label_total_amount: "Total: %{amount}"
     label_updated_on: "actualizat la data de"
+    label_value_derived_from_children: "(value derived from children)"
     label_warning: "Avertizare"
     label_work_package: "Pachet de lucru"
     label_work_package_plural: "Pachete de lucru"
@@ -824,9 +825,9 @@ ro:
         few: "%{count} work package children"
         other: "%{count} work package children"
       hour:
-        one: "1 oră"
-        few: "%{count} ore"
-        other: "%{count} ore"
+        one: "1 h"
+        few: "%{count} h"
+        other: "%{count} h"
     zen_mode:
       button_activate: 'Activați modul zen'
       button_deactivate: 'Dezactivați modul zen'

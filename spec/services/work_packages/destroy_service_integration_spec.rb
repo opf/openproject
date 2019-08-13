@@ -68,7 +68,8 @@ describe WorkPackages::DeleteService, 'integration', type: :model do
 
     it 'updates the parent estimated_hours' do
       expect(child.estimated_hours).to eq 123
-      expect(parent.estimated_hours).to eq 123
+      expect(parent.derived_estimated_hours).to eq 123
+      expect(parent.estimated_hours).to eq nil
 
       expect(subject).to be_success
 

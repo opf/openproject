@@ -57,7 +57,7 @@ zh-CN:
         此部分涉及此LDAP认证源的连接安全。更多信息，访问 <a href="%{link}">网络::LDAP 文档</a>。
   forums:
     show:
-      no_results_title_text: 论坛中目前无发贴。
+      no_results_title_text: 目前没有论坛的帖子。
   colors:
     index:
       no_results_title_text: 目前没有颜色。

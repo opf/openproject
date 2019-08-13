@@ -296,6 +296,7 @@ es:
     label_total_progress: "Progreso total: %{percent}%"
     label_total_amount: "Total: %{amount}"
     label_updated_on: "actualizado el"
+    label_value_derived_from_children: "(value derived from children)"
     label_warning: "Alerta"
     label_work_package: "Paquete de trabajo"
     label_work_package_plural: "Paquetes de trabajo"
@@ -821,8 +822,8 @@ es:
         one: "un paquete de trabajo secundario"
         other: "%{count} paquetes de trabajo secundarios"
       hour:
-        one: "1 hora"
-        other: "%{count} horas"
+        one: "1 h"
+        other: "%{count} h"
     zen_mode:
       button_activate: 'Activar modo «zen»'
       button_deactivate: 'Desactivar modo «zen»'

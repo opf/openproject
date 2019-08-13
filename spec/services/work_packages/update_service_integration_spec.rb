@@ -489,8 +489,8 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
 
           wp.reload
 
-          expect(wp.estimated_hours)
-            .to eql(sum)
+          expect(wp.estimated_hours).to eql(nil)
+          expect(wp.derived_estimated_hours).to eql(sum)
         end
 
         # sibling hours are unchanged

@@ -359,7 +359,6 @@ OpenProject::Application.routes.draw do
 
     resources :groups do
       member do
-        get :autocomplete_for_user
         # this should be put into it's own resource
         match '/members' => 'groups#add_users', via: :post, as: 'members_of'
         match '/members/:user_id' => 'groups#remove_user', via: :delete, as: 'member_of'
@@ -397,11 +396,11 @@ OpenProject::Application.routes.draw do
     match 'plugin/:id', action: 'plugin', via: %i[get post]
   end
 
-  # We should fix this crappy routing (split up and rename controller methods)
-  get '/workflows' => 'workflows#index'
-  scope 'workflows', controller: 'workflows' do
-    match 'edit', action: 'edit', via: %i[get post]
-    match 'copy', action: 'copy', via: %i[get post]
+  resource :workflows, only: %i[edit update show] do
+    member do
+      # We should fix this crappy routing (split up and rename controller methods)
+      match 'copy', action: 'copy', via: %i[get post]
+    end
   end
 
   namespace :work_packages do

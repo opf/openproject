@@ -240,6 +240,18 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       it { is_expected.to be_json_eql('PT6H30M'.to_json).at_path('estimatedTime') }
     end
 
+    describe 'derivedEstimatedTime' do
+      let(:work_package) do
+        FactoryBot.build_stubbed(:work_package,
+                                 id: 42,
+                                 created_at: DateTime.now,
+                                 updated_at: DateTime.now,
+                                 derived_estimated_hours: 3.75)
+      end
+
+      it { is_expected.to be_json_eql('PT3H45M'.to_json).at_path('derivedEstimatedTime') }
+    end
+
     describe 'spentTime' do
       describe '#content' do
         context 'no view_time_entries permission' do
