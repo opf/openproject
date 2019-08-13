@@ -30,12 +30,13 @@ import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} f
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {ApiV3FilterBuilder, FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
-import {NgSelectComponent} from "@ng-select/ng-select";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
 import {DebouncedRequestSwitchmap, errorNotificationHandler} from "core-app/helpers/rxjs/debounced-input-switchmap";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+import {NgSelectComponent} from "@ng-select/ng-select";
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
 @Component({
   template: `
@@ -63,7 +64,7 @@ import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notific
 export class UserAutocompleterComponent implements OnInit {
   userTracker = (item:any) => item.href;
 
-  @ViewChild(NgSelectComponent, {static: true}) public ngSelectComponent:NgSelectComponent;
+  @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
   @Output() public onChange = new EventEmitter<void>();
   @Input() public clearAfterSelection:boolean = false;
 
@@ -77,16 +78,13 @@ export class UserAutocompleterComponent implements OnInit {
   // Update an input field after changing, used when externally loaded
   private updateInputField:HTMLInputElement|undefined;
 
-<<<<<<< HEAD
   /** Keep a switchmap for search term and loading state */
   public requests = new DebouncedRequestSwitchmap<string, {[key:string]:string|null}>(
     (searchTerm:string) => this.getAvailableUsers(this.url, searchTerm),
     errorNotificationHandler(this.wpNotification)
   );
-=======
-  public options:any[];
-  public filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
->>>>>>> release/9.1
+
+  public inputFilters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
 
   constructor(protected elementRef:ElementRef,
               protected halResourceService:HalResourceService,
@@ -104,35 +102,26 @@ export class UserAutocompleterComponent implements OnInit {
       this.setInitialSelection();
     }
 
+    let filterInput  = this.elementRef.nativeElement.dataset['additionalFilter'];
+    if (filterInput) {
+      JSON.parse(filterInput).forEach((filter:{selector:string; operator:FilterOperator, values:string[]}) => {
+        this.inputFilters.add(filter['selector'], filter['operator'], filter['values']);
+      })
+    }
+
     if (allowEmpty === 'true') {
       this.allowEmpty = true;
     }
   }
 
-<<<<<<< HEAD
   public onFocus() {
     this.requests.input$.next('');
-=======
-
-    let filterInput  = this.elementRef.nativeElement.dataset['additionalFilter'];
-    if (filterInput) {
-      JSON.parse(filterInput).forEach((filter:{selector:string; operator:FilterOperator, values:string[]}) => {
-        this.filters.add(filter['selector'], filter['operator'], filter['values']);
-      })
-    }
-
-    this.setAvailableUsers(this.url, this.filters);
->>>>>>> release/9.1
   }
 
   public onModelChange(user:any) {
     if (user) {
       this.onChange.emit(user);
-<<<<<<< HEAD
       this.requests.input$.next('');
-=======
-      this.setAvailableUsers(this.url, this.filters);
->>>>>>> release/9.1
 
       if (this.clearAfterSelection) {
         this.ngSelectComponent.clearItem(user);
@@ -144,16 +133,15 @@ export class UserAutocompleterComponent implements OnInit {
     }
   }
 
-<<<<<<< HEAD
   private getAvailableUsers(url:string, searchTerm:any):Observable<{[key:string]:string|null}[]> {
-    let filters = new ApiV3FilterBuilder();
+    let searchFilters = this.inputFilters;
 
     if (searchTerm) {
-      filters.add('name', '~', [searchTerm]);
+      searchFilters.add('name', '~', [searchTerm]);
     }
 
     return this.halResourceService
-      .get(url, { filters: filters.toJson() })
+      .get(url, { filters: searchFilters.toJson() })
       .pipe(
         map(res => {
           let options = res.elements.map((el:any) => {
@@ -167,38 +155,6 @@ export class UserAutocompleterComponent implements OnInit {
           return options;
         })
       );
-=======
-  public onSearch($event:any) {
-    let newFilters = this.filters;
-    if($event) {
-      newFilters.add('name', '~', [$event]);
-    }
-
-    this.setAvailableUsers(this.url, newFilters);
-  }
-
-  public onFocus(){
-    // For dynamic changes of the available users
-    // we have to reload them on focus (e.g. watchers)
-    this.setAvailableUsers(this.url, this.filters);
-  }
-
-  private setAvailableUsers(url:string, filters:ApiV3FilterBuilder) {
-    let params = {
-      filters: filters.toJson()
-    };
-
-    this.halResourceService.get(url, params)
-      .subscribe(res => {
-        this.options = res.elements.map((el:any) => {
-          return {name: el.name, id: el.id, href: el.href, avatar: el.avatar};
-        });
-
-        if (this.allowEmpty) {
-          this.options.unshift({ name: this.I18n.t('js.timelines.filter.noneSelection'), id: null });
-        }
-      });
->>>>>>> release/9.1
   }
 
   private setInitialSelection() {

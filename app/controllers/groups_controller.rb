@@ -28,6 +28,7 @@
 #++
 
 class GroupsController < ApplicationController
+  include GroupsHelper
   layout 'admin'
 
   before_action :require_admin
@@ -173,12 +174,6 @@ class GroupsController < ApplicationController
 
   def find_group
     @group = Group.find(params[:id])
-  end
-
-  def set_filters_for_user_autocompleter
-    @autocompleter_filters = []
-    @autocompleter_filters.push({ selector: 'status', operator: '=', values: ['active'] })
-    @autocompleter_filters.push({ selector: 'group', operator: '!', values: [@group.id] })
   end
 
   def default_breadcrumb
