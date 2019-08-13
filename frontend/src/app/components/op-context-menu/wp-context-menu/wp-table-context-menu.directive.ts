@@ -146,7 +146,7 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
             return false;
           }
 
-          this.triggerContextMenuAction(action)
+          this.triggerContextMenuAction(action);
           return true;
         }
       };

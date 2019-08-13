@@ -167,6 +167,8 @@ export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
   }
 
   public openSplitScreen(wp:WorkPackageResource) {
+    let classIdentifier = this.classIdentifier(wp);
+    this.wpTableSelection.setSelection(wp.id!, this.cardView.findRenderedCard(classIdentifier));
     this.$state.go(
       'work-packages.list.details',
       {workPackageId: wp.id!}

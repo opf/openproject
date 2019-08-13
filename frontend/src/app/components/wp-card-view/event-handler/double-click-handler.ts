@@ -2,7 +2,6 @@ import {Injector} from '@angular/core';
 import {CardEventHandler} from "core-components/wp-card-view/event-handler/card-view-handler-registry";
 import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card-view.component";
 import {WorkPackageTableSelection} from "core-components/wp-fast-table/state/wp-table-selection.service";
-import {WorkPackageTableFocusService} from "core-components/wp-fast-table/state/wp-table-focus.service";
 import {StateService} from "@uirouter/core";
 
 export class CardDblClickHandler implements CardEventHandler {
@@ -10,7 +9,6 @@ export class CardDblClickHandler implements CardEventHandler {
   // Injections
   public $state:StateService = this.injector.get(StateService);
   public wpTableSelection:WorkPackageTableSelection = this.injector.get(WorkPackageTableSelection);
-  public wpTableFocus:WorkPackageTableFocusService = this.injector.get(WorkPackageTableFocusService);
 
   constructor(public readonly injector:Injector,
               card:WorkPackageCardViewComponent) {
