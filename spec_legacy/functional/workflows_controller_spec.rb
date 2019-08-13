@@ -40,16 +40,6 @@ describe WorkflowsController, type: :controller do
     session[:user_id] = 1 # admin
   end
 
-  it 'should index' do
-    get :index
-    assert_response :success
-    assert_template 'index'
-
-    count = Workflow.where('role_id = 1 AND type_id = 2').count
-    assert_select 'a', content: count.to_s,
-                       attributes: { href: '/workflows/edit?role_id=1&amp;type_id=2' }
-  end
-
   it 'should get edit' do
     get :edit
     assert_response :success
@@ -100,50 +90,6 @@ describe WorkflowsController, type: :controller do
                                          name: 'status[1][1][]',
                                          value: 'always',
                                          checked: nil }
-  end
-
-  it 'should post edit' do
-    post :edit, params: { role_id: 2, type_id: 1,
-                          status: {
-                            '4' => { '5' => ['always'] },
-                            '3' => { '1' => ['always'], '2' => ['always'] }
-                          } }
-    assert_redirected_to '/workflows/edit?role_id=2&type_id=1'
-
-    assert_equal 3, Workflow.where(type_id: 1, role_id: 2).count
-    refute_nil Workflow.where(role_id: 2, type_id: 1, old_status_id: 3, new_status_id: 2).first
-    assert_nil Workflow.where(role_id: 2, type_id: 1, old_status_id: 5, new_status_id: 4).first
-  end
-
-  it 'should post edit with additional transitions' do
-    post :edit, params: { role_id: 2, type_id: 1,
-                          status: {
-                            '4' => { '5' => ['always'] },
-                            '3' => { '1' => ['author'], '2' => ['assignee'], '4' => ['author', 'assignee'] }
-                          } }
-    assert_redirected_to '/workflows/edit?role_id=2&type_id=1'
-
-    assert_equal 4, Workflow.where(type_id: 1, role_id: 2).count
-
-    w = Workflow.where(role_id: 2, type_id: 1, old_status_id: 4, new_status_id: 5).first
-    assert !w.author
-    assert !w.assignee
-    w = Workflow.where(role_id: 2, type_id: 1, old_status_id: 3, new_status_id: 1).first
-    assert w.author
-    assert !w.assignee
-    w = Workflow.where(role_id: 2, type_id: 1, old_status_id: 3, new_status_id: 2).first
-    assert !w.author
-    assert w.assignee
-    w = Workflow.where(role_id: 2, type_id: 1, old_status_id: 3, new_status_id: 4).first
-    assert w.author
-    assert w.assignee
-  end
-
-  it 'should clear workflow' do
-    assert Workflow.where(type_id: 1, role_id: 2).count > 0
-
-    post :edit, params: { role_id: 2, type_id: 1 }
-    assert_equal 0, Workflow.where(type_id: 1, role_id: 2).count
   end
 
   it 'should get copy' do
