@@ -227,14 +227,26 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
     end
 
     context 'estimated time' do
-      it 'is not writable when the work package is a parent' do
+      it 'is writable when the work package is a parent' do
         allow(work_package).to receive(:leaf?).and_return(false)
-        expect(subject.writable?(:estimated_time)).to be false
+        expect(subject.writable?(:estimated_time)).to be true
       end
 
       it 'is writable when the work package is a leaf' do
         allow(work_package).to receive(:leaf?).and_return(true)
         expect(subject.writable?(:estimated_time)).to be true
+      end
+    end
+
+    context 'derived estimated time' do
+      it 'is not writable when the work package is a parent' do
+        allow(work_package).to receive(:leaf?).and_return(false)
+        expect(subject.writable?(:derived_estimated_time)).to be false
+      end
+
+      it 'is not writable when the work package is a leaf' do
+        allow(work_package).to receive(:leaf?).and_return(true)
+        expect(subject.writable?(:derived_estimated_time)).to be false
       end
     end
 

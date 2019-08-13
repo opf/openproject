@@ -173,7 +173,7 @@ gem 'unicorn'
 
 gem 'puma', '~> 4.0.0' # used for development and optionally for production
 
-gem 'nokogiri', '~> 1.10.3'
+gem 'nokogiri', '~> 1.10.4'
 
 gem 'carrierwave', '~> 1.3.1'
 gem 'fog-aws'

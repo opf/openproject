@@ -291,6 +291,7 @@ bg:
     label_total_progress: "%{percent} % Общ напредък"
     label_total_amount: "Total: %{amount}"
     label_updated_on: "актуализиран на"
+    label_value_derived_from_children: "(value derived from children)"
     label_warning: "Предупреждение"
     label_work_package: "Работен пакет"
     label_work_package_plural: "Работни пакети"
@@ -808,8 +809,8 @@ bg:
         one: "one child work package"
         other: "%{count} work package children"
       hour:
-        one: "1 час"
-        other: "%{count} часа"
+        one: "1 h"
+        other: "%{count} h"
     zen_mode:
       button_activate: 'Activate zen mode'
       button_deactivate: 'Deactivate zen mode'

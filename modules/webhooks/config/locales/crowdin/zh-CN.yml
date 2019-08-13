@@ -2,55 +2,55 @@ zh-CN:
   activerecord:
     attributes:
       webhooks/webhook:
-        url: 'Payload URL'
-        secret: 'Signature secret'
-        events: 'Events'
+        url: '推送地址'
+        secret: '签名密钥'
+        events: '事件'
         projects: '已启用的项目'
       webhooks/log:
-        event_name: 'Event name'
-        url: 'Payload URL'
-        response_code: 'Response code'
-        response_body: 'Response'
+        event_name: '事件名称'
+        url: '推送地址'
+        response_code: '响应代码'
+        response_body: '响应'
     models:
-      webhooks/outgoing_webhook: "Outgoing webhook"
+      webhooks/outgoing_webhook: "发送网页钩子"
   webhooks:
     singular: Webhook
     plural: Webhooks
     outgoing:
-      no_results_table: No webhooks have been defined yet.
-      label_add_new: Add new webhook
-      label_edit: Edit webhook
-      label_event_resources: Event resources
+      no_results_table: 尚未定义 webhooks。
+      label_add_new: 添加webhook
+      label_edit: 编辑webhook
+      label_event_resources: 事件资源
       events:
         created: "已创建"
-        updated: "Updated"
+        updated: "已更新"
       status:
-        enabled: 'Webhook is enabled'
-        disabled: 'Webhook is disabled'
-        enabled_text: 'The webhook will emit payloads for the defined events below.'
-        disabled_text: 'Click the edit button to activate the webhook.'
+        enabled: 'Webhook已启用'
+        disabled: 'Webhook 已禁用'
+        enabled_text: 'Webhook 将为下面定义的事件释放有效载荷。'
+        disabled_text: '点击编辑按钮激活 webhook。'
       deliveries:
-        no_results_table: No deliveries have been made for this webhook.
-        title: 'Recent deliveries'
-        time: 'Delivery time'
+        no_results_table: 这个webhook还没有交付。
+        title: '最近推送记录'
+        time: '推送时间'
       form:
         introduction: >
-          Send a POST request to the payload URL below for any event in the project your subscribe. Payload will correspond to the APIv3 representation of the object being modified.
-        apiv3_doc_url: For more information, visit the API documentation
+          发送 POST 请求给下面的有效链接，用于项目中的任何事件。Payload 将响应正在修改的对象API3代表。
+        apiv3_doc_url: 要获取更多信息, 请阅读用户手册。
         description:
-          placeholder: 'Optional description for the webhook.'
+          placeholder: 'Webhook 可选描述。'
         enabled:
           description: >
-            When checked, the webhook will trigger on the selected events. Uncheck to disable the webhook.
+            选中时，Webhook 将触发选定事件。取消选中以禁用 webhook。
         events:
-          title: 'Enabled events'
+          title: '启用事件'
         project_ids:
           title: '已启用的项目'
-          description: 'Select for which projects this webhook should be executed for.'
-          all: 'All projects'
-          selected: 'Selected projects only'
+          description: '选择此网络钩子应该执行的项目。'
+          all: '所有项目'
+          selected: '只选择项目'
         selected_project_ids:
-          title: 'Selected projects'
+          title: '已选项目:'
         secret:
           description: >
-            If set, this secret value is used by OpenProject to sign the webhook payload.
+            如果设置，OpenProject 使用此密钥值来登录 webhook payload。

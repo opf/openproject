@@ -114,9 +114,8 @@ describe Queries::Users::UserQuery, type: :model do
     describe '#results' do
       it 'is the same as handwriting the query' do
         expected = base_scope
-                   .merge(User
-                          .joins(:groups)
-                          .where("groups_users.id IN ('#{group_1.id}')"))
+                     .merge(User
+                              .where(["users.id IN (#{User.in_group([group_1.id.to_s]).select(:id).to_sql})"]))
 
         expect(instance.results.to_sql).to eql expected.to_sql
       end

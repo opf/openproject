@@ -31,45 +31,38 @@ class WorkflowsController < ApplicationController
   layout 'admin'
 
   before_action :require_admin
-  before_action :find_roles
-  before_action :find_types
 
-  def index
+  before_action :find_roles, except: :update
+  before_action :find_types, except: :update
+
+  before_action :find_role, only: :update
+  before_action :find_type, only: :update
+
+  before_action :find_optional_role, only: :edit
+  before_action :find_optional_type, only: :edit
+
+  def show
     @workflow_counts = Workflow.count_by_type_and_role
   end
 
   def edit
-    @role = Role.find_by(id: params[:role_id])
-    @type = ::Type.find_by(id: params[:type_id])
-
-    if request.post?
-      Workflow.where(role_id: @role.id, type_id: @type.id).delete_all
-      (params[:status] || []).each do |status_id, transitions|
-        transitions.each { |new_status_id, options|
-          author = options.is_a?(Array) && options.include?('author') && !options.include?('always')
-          assignee = options.is_a?(Array) && options.include?('assignee') && !options.include?('always')
-          @role.workflows.build(type_id: @type.id, old_status_id: status_id, new_status_id: new_status_id, author: author, assignee: assignee)
-        }
-      end
-      if @role.save
-        flash[:notice] = l(:notice_successful_update)
-        redirect_to action: 'edit', role_id: @role, type_id: @type
-        return
-      end
-    end
-
     @used_statuses_only = params[:used_statuses_only] != '0'
-    if @type && @used_statuses_only && @type.statuses.any?
-      @statuses = @type.statuses
-    end
-    @statuses ||= Status.all
+
+    statuses_for_form
 
     if @type && @role && @statuses.any?
-      workflows = Workflow.where(role_id: @role.id, type_id: @type.id)
-      @workflows = {}
-      @workflows['always'] = workflows.select { |w| !w.author && !w.assignee }
-      @workflows['author'] = workflows.select(&:author)
-      @workflows['assignee'] = workflows.select(&:assignee)
+      workflows_for_form
+    end
+  end
+
+  def update
+    call = Workflows::BulkUpdateService
+           .new(role: @role, type: @type)
+           .call(params['status'])
+
+    if call.success?
+      flash[:notice] = I18n.t(:notice_successful_update)
+      redirect_to action: 'edit', role_id: @role, type_id: @type
     end
   end
 
@@ -115,11 +108,43 @@ class WorkflowsController < ApplicationController
 
   private
 
+  def statuses_for_form
+    @statuses = if @type && @used_statuses_only && @type.statuses.any?
+                  @type.statuses
+                else
+                  Status.all
+                end
+  end
+
+  def workflows_for_form
+    workflows = Workflow.where(role_id: @role.id, type_id: @type.id)
+    @workflows = {}
+    @workflows['always'] = workflows.select { |w| !w.author && !w.assignee }
+    @workflows['author'] = workflows.select(&:author)
+    @workflows['assignee'] = workflows.select(&:assignee)
+  end
+
   def find_roles
     @roles = Role.order(Arel.sql('builtin, position'))
   end
 
   def find_types
     @types = ::Type.order(Arel.sql('position'))
+  end
+
+  def find_role
+    @role = Role.find(params[:role_id])
+  end
+
+  def find_type
+    @type = ::Type.find(params[:type_id])
+  end
+
+  def find_optional_role
+    @role = Role.find_by(id: params[:role_id])
+  end
+
+  def find_optional_type
+    @type = ::Type.find_by(id: params[:type_id])
   end
 end

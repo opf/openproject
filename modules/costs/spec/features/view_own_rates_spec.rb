@@ -83,7 +83,7 @@ describe 'Only see your own rates', type: :feature, js: true do
 
   it 'only displays own entries and rates' do
     # All the values do not include the entries made by the other user
-    wp_page.expect_attributes spent_time: '1 hour',
+    wp_page.expect_attributes spent_time: '1 h',
                               costs_by_type: '2 Translations',
                               overall_costs: '24.00 EUR',
                               labor_costs: '10.00 EUR',

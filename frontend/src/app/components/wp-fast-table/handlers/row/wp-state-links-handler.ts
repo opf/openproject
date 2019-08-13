@@ -60,8 +60,6 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
     let classIdentifier = row.data('classIdentifier');
     let [index, _] = table.findRenderedRow(classIdentifier);
 
-    this.wpTableFocus.updateFocus(workPackageId);
-
     // Update single selection if no modifier present
     this.wpTableSelection.setSelection(workPackageId, index);
 

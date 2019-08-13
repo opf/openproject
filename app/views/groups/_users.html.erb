@@ -28,51 +28,42 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <%= activate_angular_js do %>
-<div class="grid-block">
-  <div class="grid-content">
-    <% if @group.users.any? %>
-      <div class="generic-table--container">
-        <div id="group_users_table" class="generic-table--results-container">
+  <div class="grid-block -visible-overflow">
+    <div class="grid-content medium-6">
+      <% if @group.users.any? %>
+        <div class="generic-table--container">
+          <div id="group_users_table" class="generic-table--results-container">
             <%= render partial: 'groups/users_table' %>
+          </div>
         </div>
-      </div>
-    <% else %>
-      <%= no_results_box %>
-    <% end %>
-  </div>
-  <div class="grid-content">
-    <% users = User
-               .not_builtin
-               .active
-               .not_in_group(@group)
-               .limit(100) %>
-    <% if users.any? %>
-      <%= styled_form_tag(members_of_group_path(@group), method: :post) do |f| %>
-        <remote-field-updater url="<%= url_for(controller: '/groups', action: 'autocomplete_for_user', id: @group)%>">
+      <% else %>
+        <%= no_results_box %>
+      <% end %>
+    </div>
+    <div class="grid-content medium-6 -visible-overflow">
+      <% users = User
+        .not_builtin
+        .active
+        .not_in_group(@group)
+        .limit(1) %>
+      <% if users.any? %>
+        <%= styled_form_tag(members_of_group_path(@group), method: :post) do %>
           <fieldset class="form--fieldset">
             <legend class="form--fieldset-legend"><%=l(:label_user_new)%></legend>
-              <div class="form--field -vertical">
-                <%= styled_label_tag "user_search", l(:label_user_search) %>
-                <div class="form--field-container">
-                  <%= styled_text_field_tag 'user_search',
-                                            nil,
-                                            class: 'remote-field--input',
-                                            data: { :'remote-field-key' =>'q' } %>
-                </div>
-              </div>
-              <div class="form--field -vertical">
-                <div id="users" class="remote-field--target form--field-container -vertical">
-                  <%= principals_check_box_tags 'user_ids[]', users %>
-                </div>
-              </div>
+            <div class="form--field -vertical">
+              <%= hidden_field_tag :user_ids, nil  %>
+              <user-autocompleter data-update-input="user_ids"
+                                  data-additional-filter="<%= @autocompleter_filters&.to_json %>"
+                                  class="new-group-members--autocomplete">
+              </user-autocompleter>
+            </div>
+            <div>
+              <%= styled_button_tag l(:button_add),
+                                    class: '-highlight -with-icon icon-checkmark' %>
+            </div>
           </fieldset>
-        </remote-field-updater>
-        <div>
-          <%= styled_button_tag l(:button_add),
-                                class: '-highlight -with-icon icon-checkmark' %>
-        </div>
+        <% end %>
       <% end %>
-    <% end %>
+    </div>
   </div>
-</div>
 <% end %>

@@ -220,6 +220,73 @@ shared_examples_for 'list_optional query filter' do
     end
   end
 end
+shared_examples_for 'list_optional group query filter' do
+  include_context 'filter tests'
+  describe '#scope' do
+    let(:values) { valid_values }
+
+    context 'for "="' do
+      let(:operator) { '=' }
+
+      it 'is the same as handwriting the query' do
+        expected = model.where(["users.id IN (#{User.in_group(values).select(:id).to_sql})"])
+        expect(instance.scope.to_sql).to eql expected.to_sql
+      end
+    end
+
+    context 'for "!"' do
+      let(:operator) { '!' }
+
+      it 'is the same as handwriting the query' do
+        expected = model.where(["users.id NOT IN (#{User.in_group(values).select(:id).to_sql})"])
+        expect(instance.scope.to_sql).to eql expected.to_sql
+      end
+    end
+
+    context 'for "*"' do
+      let(:operator) { '*' }
+
+      it 'is the same as handwriting the query' do
+        expected = model.where(["users.id IN (#{User.within_group([]).select(:id).to_sql})"])
+        expect(instance.scope.to_sql).to eql expected.to_sql
+      end
+    end
+
+    context 'for "!*"' do
+      let(:operator) { '!*' }
+
+      it 'is the same as handwriting the query' do
+        expected = model.where(["users.id NOT IN (#{User.within_group([]).select(:id).to_sql})"])
+        expect(instance.scope.to_sql).to eql expected.to_sql
+      end
+    end
+  end
+
+  describe '#valid?' do
+    let(:operator) { '=' }
+    let(:values) { valid_values }
+
+    it 'is valid' do
+      expect(instance).to be_valid
+    end
+
+    context 'for an invalid operator' do
+      let(:operator) { '~' }
+
+      it 'is invalid' do
+        expect(instance).to be_invalid
+      end
+    end
+
+    context 'for an invalid value' do
+      let(:values) { ['inexistent'] }
+
+      it 'is invalid' do
+        expect(instance).to be_invalid
+      end
+    end
+  end
+end
 
 shared_examples_for 'list_all query filter' do
   include_context 'filter tests'
