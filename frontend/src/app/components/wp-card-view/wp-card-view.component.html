@@ -29,7 +29,7 @@
       </a>
 
       <a class="-no-decoration"
-         *ngIf="!wp.isNew || showInfoButton"
+         *ngIf="!wp.isNew && showInfoButton"
          [title]="text.detailsView"
          (accessibleClick)="openSplitScreen(wp)">
         <op-icon icon-classes="icon icon-info2"></op-icon>

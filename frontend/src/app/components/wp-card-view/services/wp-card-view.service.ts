@@ -6,7 +6,6 @@ import {RenderedRow} from "core-components/wp-fast-table/builders/primary-render
 @Injectable()
 export class WorkPackageCardViewService {
   public constructor(readonly querySpace:IsolatedQuerySpace) {
-
   }
 
   public classIdentifier(wp:WorkPackageResource) {

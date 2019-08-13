@@ -62,6 +62,7 @@ import {debugLog} from "core-app/helpers/debug_output";
 import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
 import {WorkPackageDisplayRepresentationService} from "core-components/wp-fast-table/state/work-package-display-representation.service";
 import {WorkPackageCardViewService} from "core-components/wp-card-view/services/wp-card-view.service";
+import {WorkPackageCardDragAndDropService} from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";
 
 /**
  * Directive to open a work package query 'space', an isolated injector hierarchy
@@ -108,6 +109,7 @@ import {WorkPackageCardViewService} from "core-components/wp-card-view/services/
     WpRelationInlineCreateService,
 
     WorkPackageCardViewService,
+    WorkPackageCardDragAndDropService,
 
     // Provide both serves with tokens to avoid tight dependency cycles
     { provide: IWorkPackageCreateServiceToken, useClass: WorkPackageCreateService },
