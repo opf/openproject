@@ -171,6 +171,11 @@ export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    // In case "rendered" was not already set by the list
+    if (this.cardView.renderedCards.length === 0) {
+      this.cardView.updateRenderedCardsValues(this.workPackages);
+    }
+
     // Register event handlers for the cards
     new CardViewHandlerRegistry(this.injector).attachTo(this);
   }
