@@ -71,3 +71,8 @@
   </div>
 </div>
 
+<div *ngIf="showEmptyResultsBox && isResultEmpty">
+  <no-results [title]="text.noResults.title" [description]="text.noResults.description"></no-results>
+</div>
+
+

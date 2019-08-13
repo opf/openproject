@@ -1,4 +1,5 @@
 <i class="icon-info1" aria-hidden="true"></i>
-<span class="generic-table--no-results-title"
-      [textContent]="title">
+<span class="generic-table--no-results-title">
+  {{ title }}
+  <span *ngIf="description" [textContent]="description"></span>
 </span>
