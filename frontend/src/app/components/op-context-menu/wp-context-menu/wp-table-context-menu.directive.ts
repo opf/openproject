@@ -33,7 +33,8 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
   private selectedWorkPackages = this.getSelectedWorkPackages();
   private permittedActions = this.WorkPackageContextMenuHelper.getPermittedActions(
     this.selectedWorkPackages,
-    PERMITTED_CONTEXT_MENU_ACTIONS
+    PERMITTED_CONTEXT_MENU_ACTIONS,
+    this.allowSplitScreenActions
   );
   protected items = this.buildItems();
 
@@ -41,7 +42,8 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
               readonly workPackageId:string,
               public $element:JQuery,
               public additionalPositionArgs:any = {},
-              readonly table?:WorkPackageTable) {
+              readonly table?:WorkPackageTable,
+              readonly allowSplitScreenActions:boolean = true) {
     super(injector.get(OPContextMenuService))
   }
 
@@ -156,9 +158,29 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
       };
     });
 
+
     if (!this.workPackage.isNew) {
-      items.unshift(
-        {
+      items.unshift({
+        disabled: false,
+        icon: 'icon-view-fullscreen',
+        class: 'openFullScreenView',
+        href: this.$state.href('work-packages.show', {workPackageId: this.workPackageId}),
+        linkText: I18n.t('js.button_open_fullscreen'),
+        onClick: ($event:JQueryEventObject) => {
+          if (LinkHandling.isClickedWithModifier($event)) {
+            return false;
+          }
+
+          this.$state.go(
+            'work-packages.show',
+            { workPackageId: this.workPackageId }
+          );
+          return true;
+        }
+      });
+
+      if (this.allowSplitScreenActions) {
+        items.unshift({
           disabled: false,
           icon: 'icon-view-split',
           class: 'detailsViewMenuItem',
@@ -175,26 +197,8 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
             );
             return true;
           }
-        },
-        {
-          disabled: false,
-          icon: 'icon-view-fullscreen',
-          class: 'openFullScreenView',
-          href: this.$state.href('work-packages.show', {workPackageId: this.workPackageId}),
-          linkText: I18n.t('js.button_open_fullscreen'),
-          onClick: ($event:JQueryEventObject) => {
-            if (LinkHandling.isClickedWithModifier($event)) {
-              return false;
-            }
-
-            this.$state.go(
-              'work-packages.show',
-              { workPackageId: this.workPackageId }
-            );
-            return true;
-          }
-        },
-      )
+        });
+      }
     }
 
     return items;

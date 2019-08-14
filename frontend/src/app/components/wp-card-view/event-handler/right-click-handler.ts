@@ -58,10 +58,10 @@ export class CardRightClickHandler implements CardEventHandler {
         this.wpTableSelection.setSelection(wpId, index);
       }
 
-      const handler = new OpWorkPackageContextMenu(this.injector, wpId, jQuery(evt.target) as JQuery, {});
+      const handler = new OpWorkPackageContextMenu(this.injector, wpId, jQuery(evt.target) as JQuery, {}, undefined, card.showInfoButton);
       this.opContextMenu.show(handler, evt);
     }
-    
+
     return false;
   }
 }

@@ -55,6 +55,8 @@ export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
   @Input() public cardsRemovable:boolean = false;
   /** Whether a notification box shall be shown when there are no WP to display */
   @Input() public showEmptyResultsBox:boolean = false;
+  /** Whether the first element of the view shall be marked as selected. */
+  @Input() public showInitialSelection:boolean = false;
 
   /** Container reference */
   @ViewChild('container') public container:ElementRef;
@@ -164,6 +166,11 @@ export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
     new CardViewHandlerRegistry(this.injector).attachTo(this);
     this.wpTableSelection.registerSelectAllListener(this.cardView.renderedCards);
     this.wpTableSelection.registerDeselectAllListener();
+
+    // Do not highlight selected elements on initial load
+    if (!this.showInitialSelection) {
+      this.wpTableSelection.reset();
+    }
   }
 
   ngOnDestroy():void {
@@ -206,8 +213,7 @@ export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
 
 
   public cardClasses(wp:WorkPackageResource) {
-    let classes:string = '';
-    classes = this.isSelected(wp) ? checkedClassName : '';
+    let classes = this.isSelected(wp) ? checkedClassName : '';
     classes += this.canDragOutOf(wp) ? ' -draggable' : '';
     classes += wp.isNew ? ' -new' : '';
     return classes;
