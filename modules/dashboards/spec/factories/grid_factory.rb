@@ -15,4 +15,27 @@ FactoryBot.define do
       ]
     end
   end
+
+  factory :dashboard_with_table, class: Grids::Dashboard do
+    project
+    row_count { 7 }
+    column_count { 4 }
+
+    callback(:after_build) do |dashboard|
+      query = FactoryBot.create(:query, project: dashboard.project, hidden: true, is_public: true)
+
+      widget = FactoryBot.build(:grid_widget,
+                                identifier: 'work_packages_table',
+                                start_row: 1,
+                                end_row: 7,
+                                start_column: 1,
+                                end_column: 3,
+                                options: {
+                                  name: 'Work package table',
+                                  queryId: query.id
+                                })
+
+      dashboard.widgets = [widget]
+    end
+  end
 end

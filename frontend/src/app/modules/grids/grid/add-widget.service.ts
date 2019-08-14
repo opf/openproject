@@ -25,7 +25,8 @@ export class GridAddWidgetService {
     return !this.drag.currentlyDragging &&
       !this.resize.currentlyResizing &&
       this.layout.mousedOverArea === area &&
-      this.layout.gridAreaIds.includes(area.guid);
+      this.layout.gridAreaIds.includes(area.guid) &&
+      this.isAllowed;
   }
 
   public widget(area:GridArea, schema:SchemaResource) {
@@ -104,5 +105,9 @@ export class GridAddWidgetService {
         resolve(resource);
       });
     });
+  }
+
+  private get isAllowed() {
+    return this.layout.gridResource.updateImmediately;
   }
 }

@@ -4,6 +4,7 @@ import {GridArea} from "core-app/modules/grids/areas/grid-area";
 import {ResizeDelta} from "core-app/modules/common/resizer/resizer.component";
 import {GridAreaService} from "core-app/modules/grids/grid/area.service";
 import {GridMoveService} from "core-app/modules/grids/grid/move.service";
+import {GridDragAndDropService} from "core-app/modules/grids/grid/drag-and-drop.service";
 
 @Injectable()
 export class GridResizeService {
@@ -12,7 +13,8 @@ export class GridResizeService {
   private targetIds:string[];
 
   constructor(readonly layout:GridAreaService,
-              readonly move:GridMoveService) { }
+              readonly move:GridMoveService,
+              readonly drag:GridDragAndDropService) { }
 
   public end(area:GridWidgetArea, deltas:ResizeDelta) {
     if (!this.placeholderArea ||
@@ -68,5 +70,13 @@ export class GridResizeService {
 
   public get currentlyResizing() {
     return this.placeholderArea;
+  }
+
+  public get isResizable() {
+    return !this.drag.currentlyDragging && this.isAllowed;
+  }
+
+  private get isAllowed() {
+    return this.layout.gridResource.updateImmediately;
   }
 }

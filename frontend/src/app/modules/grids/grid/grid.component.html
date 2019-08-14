@@ -1,6 +1,7 @@
 
 <!-- Column headers -->
 <div class="grid--column-headers"
+     *ngIf="isHeadersDisplayed"
      [style.grid-template-columns]="gridColumnStyle">
   <div *ngFor="let column of columnNumbers"
        [style.grid-row-start]="1"
@@ -15,6 +16,7 @@
 
 <!-- Row headers -->
 <div class="grid--row-headers"
+     *ngIf="isHeadersDisplayed"
      [style.grid-template-rows]="gridRowStyle">
   <div *ngFor="let row of rowNumbers"
        [style.grid-row-start]="row"
@@ -48,7 +50,8 @@
          (cdkDragStarted)="drag.start(area)"
          (cdkDragEnded)="drag.stop(area, $event)">
 
-      <span class="grid--area-drag-handle
+      <span *ngIf="drag.isDraggable"
+            class="grid--area-drag-handle
                    icon
                    icon-drag-handle"
             cdkDragHandle></span>
@@ -59,7 +62,7 @@
                    [ndcDynamicOutputs]="widgetComponentOutput(area)">
       </ndc-dynamic>
     </div>
-    <resizer *ngIf="!drag.currentlyDragging"
+    <resizer *ngIf="resize.isResizable"
              (end)="resize.end(area, $event)"
              (start)="resize.start(area)"
              (move)="resize.moving($event)">

@@ -65,6 +65,38 @@ module Components
         end
       end
 
+      def expect_not_resizable
+        within area do
+          expect(page)
+            .to have_no_selector('.grid--area.-widgeted resizer')
+        end
+      end
+
+      def expect_not_draggable
+        area.hover
+
+        within area do
+          expect(page)
+            .to have_no_selector(".grid--area-drag-handle")
+        end
+      end
+
+      def expect_not_renameable
+        within area do
+          expect(page)
+            .to have_selector(".editable-toolbar-title--fixed")
+        end
+      end
+
+      def expect_no_menu
+        area.hover
+
+        within area do
+          expect(page)
+            .to have_no_selector(".icon-show-more-horizontal")
+        end
+      end
+
       def area
         page.find(*area_selector)
       end

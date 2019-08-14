@@ -26,11 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Input} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {OpContextMenuItem} from "core-components/op-context-menu/op-context-menu.types";
-import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
-import {GridRemoveWidgetService} from "core-app/modules/grids/grid/remove-widget.service";
+import {Component} from '@angular/core';
 import {WidgetAbstractMenuComponent} from "core-app/modules/grids/widgets/menu/widget-abstract-menu.component";
 
 @Component({
