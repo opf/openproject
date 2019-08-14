@@ -38,10 +38,10 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
   protected items = this.buildItems();
 
   constructor(readonly injector:Injector,
-              readonly table:WorkPackageTable,
               readonly workPackageId:string,
               public $element:JQuery,
-              public additionalPositionArgs:any = {}) {
+              public additionalPositionArgs:any = {},
+              readonly table?:WorkPackageTable) {
     super(injector.get(OPContextMenuService))
   }
 
@@ -73,11 +73,15 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
         break;
 
       case 'relation-precedes':
-        this.table.timelineController.startAddRelationPredecessor(this.workPackage);
+        if (this.table) {
+          this.table.timelineController.startAddRelationPredecessor(this.workPackage);
+        }
         break;
 
       case 'relation-follows':
-        this.table.timelineController.startAddRelationFollower(this.workPackage);
+        if (this.table) {
+          this.table.timelineController.startAddRelationFollower(this.workPackage);
+        }
         break;
 
       case 'relation-new-child':

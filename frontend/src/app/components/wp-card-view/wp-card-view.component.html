@@ -13,7 +13,7 @@
        [attr.data-is-new]="wp.isNew || undefined"
        [attr.data-work-package-id]="wp.id"
        [attr.data-class-identifier]="classIdentifier(wp)"
-       [ngClass]="{'-draggable': canDragOutOf(wp), '-new' : wp.isNew, '-checked' : isSelected(wp) }">
+       [ngClass]="cardClasses(wp)">
 
     <div class="wp-card--highlighting"
         [ngClass]="cardHighlightingClass(wp)">
@@ -61,7 +61,8 @@
           [ngClass]="typeHighlightingClass(wp)"></span>
       <a uiSref="work-packages.show"
          [uiParams]="{workPackageId: wp.id}"
-         class="wp-card--id">
+         class="wp-card--id"
+         [ngClass]="uiStateLinkClass">
         #{{wp.id}}
       </a>
       <span [textContent]="wpSubject(wp)"

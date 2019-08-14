@@ -2,6 +2,7 @@ import {Injector} from '@angular/core';
 import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card-view.component";
 import {CardClickHandler} from "core-components/wp-card-view/event-handler/click-handler";
 import {CardDblClickHandler} from "core-components/wp-card-view/event-handler/double-click-handler";
+import {CardRightClickHandler} from "core-components/wp-card-view/event-handler/right-click-handler";
 
 export interface CardEventHandler {
   EVENT:string;
@@ -22,6 +23,8 @@ export class CardViewHandlerRegistry {
     c => new CardClickHandler(this.injector, c),
     // Double Clicking on the row (not within a cell)
     c => new CardDblClickHandler(this.injector, c),
+    // Right clicking on cards
+    t => new CardRightClickHandler(this.injector, t),
   ];
 
   attachTo(card:WorkPackageCardViewComponent) {

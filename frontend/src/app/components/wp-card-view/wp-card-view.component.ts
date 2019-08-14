@@ -33,6 +33,7 @@ import {WorkPackageTableSelection} from "core-components/wp-fast-table/state/wp-
 import {CardViewHandlerRegistry} from "core-components/wp-card-view/event-handler/card-view-handler-registry";
 import {WorkPackageCardViewService} from "core-components/wp-card-view/services/wp-card-view.service";
 import {WorkPackageCardDragAndDropService} from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";
+import {uiStateLinkClass, checkedClassName} from "core-components/wp-fast-table/builders/ui-state-link-builder";
 
 export type CardViewOrientation = 'horizontal'|'vertical';
 
@@ -71,6 +72,9 @@ export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
     },
     detailsView: this.I18n.t('js.button_open_details')
   };
+
+  public uiStateLinkClass:string = uiStateLinkClass;
+  public checkedClassName:string = checkedClassName;
 
   /** Inline create / reference properties */
   public canAdd = false;
@@ -198,6 +202,15 @@ export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
     } else {
       return null;
     }
+  }
+
+
+  public cardClasses(wp:WorkPackageResource) {
+    let classes:string = '';
+    classes = this.isSelected(wp) ? checkedClassName : '';
+    classes += this.canDragOutOf(wp) ? ' -draggable' : '';
+    classes += wp.isNew ? ' -new' : '';
+    return classes;
   }
 
   public cardHighlightingClass(wp:WorkPackageResource) {
