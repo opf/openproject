@@ -291,7 +291,7 @@ fr:
     label_total_progress: "%{percent}% de progression totale"
     label_total_amount: "Total : %{amount}"
     label_updated_on: "mis à jour le"
-    label_value_derived_from_children: "(value derived from children)"
+    label_value_derived_from_children: "(valeur dérivée des enfants)"
     label_warning: "Attention"
     label_work_package: "Lot de travaux"
     label_work_package_plural: "Lots de Travaux"
@@ -598,7 +598,7 @@ fr:
       message_successful_show_in_fullscreen: "Cliquez ici pour ouvrir ce lot de travaux en affichage plein écran."
       message_view_spent_time: "Afficher le temps passé pour ce lot de travaux"
       message_work_package_read_only: "Paquet de travail est verrouillé. Aucun attribut autre que l’État ne peut être modifié."
-      message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
+      message_work_package_status_blocked: "Le statut du lot de travail n'est pas modifiable en raison de la fermeture du statut et de la version assignés."
       no_value: "Aucune valeur"
       placeholder_filter_by_text: "Objet, description, commentaires, ..."
       inline_create:
@@ -809,8 +809,8 @@ fr:
         one: "un lot de travaux enfant"
         other: "%{count} lots de travaux enfant"
       hour:
-        one: "1 h"
-        other: "%{count} h"
+        one: "1h"
+        other: "%{count}h"
     zen_mode:
       button_activate: 'Activer le mode zen'
       button_deactivate: 'Désactiver le mode zen'
