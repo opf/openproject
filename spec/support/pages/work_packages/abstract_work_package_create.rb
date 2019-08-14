@@ -35,8 +35,9 @@ module Pages
                 :project,
                 :parent_work_package
 
-    def initialize(original_work_package: nil, parent_work_package: nil)
+    def initialize(original_work_package: nil, parent_work_package: nil, project: nil)
       # in case of copy, the original work package can be provided
+      @project = project
       @original_work_package = original_work_package
       @parent_work_package = parent_work_package
     end

@@ -70,11 +70,13 @@ gem 'htmldiff'
 gem 'stringex', '~> 2.8.5'
 
 # CommonMark markdown parser with GFM extension
-gem 'commonmarker', '~> 0.17.9'
+gem 'commonmarker', '~> 0.20.1'
 
 # HTML pipeline for transformations on text formatter output
 # such as sanitization or additional features
 gem 'html-pipeline', '~> 2.8.0'
+# Tasklist parsing and renderer
+gem 'deckar01-task_list', '2.2.0'
 # Requires escape-utils for faster escaping
 gem 'escape_utils', '~> 1.0'
 # Syntax highlighting used in html-pipeline with rouge

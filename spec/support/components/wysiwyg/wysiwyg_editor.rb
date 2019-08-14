@@ -117,14 +117,16 @@ module Components
       container.find('.ck-button', visible: :all, text: label).click
     end
 
+    def type_slowly(*text)
+      editor_element.send_keys *text
+      sleep 0.5
+    end
+
     def click_and_type_slowly(*text)
       sleep 0.5
       editor_element.click
 
-      sleep 0.5
-      editor_element.send_keys *text
-
-      sleep 0.5
+      type_slowly *text
     end
 
     def click_hover_toolbar_button(label)

@@ -387,7 +387,7 @@ GEM
     coderay (1.1.2)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
-    commonmarker (0.17.9)
+    commonmarker (0.20.1)
       ruby-enum (~> 0.5)
     concurrent-ruby (1.1.5)
     crack (0.4.3)
@@ -423,6 +423,8 @@ GEM
       activemodel
       activesupport
     debug_inspector (0.0.3)
+    deckar01-task_list (2.2.0)
+      html-pipeline
     declarative (0.0.10)
     declarative-builder (0.1.0)
       declarative-option (< 0.2.0)
@@ -923,7 +925,7 @@ DEPENDENCIES
   cells-erb (~> 0.1.0)
   cells-rails (~> 0.0.9)
   chromedriver-helper (~> 2.1.0)
-  commonmarker (~> 0.17.9)
+  commonmarker (~> 0.20.1)
   cucumber (~> 3.1.0)
   cucumber-rails (~> 1.6.0)
   daemons
@@ -931,6 +933,7 @@ DEPENDENCIES
   dashboards!
   database_cleaner (~> 1.6)
   date_validator (~> 0.9.0)
+  deckar01-task_list (= 2.2.0)
   delayed_job_active_record (~> 4.1.1)
   doorkeeper!
   equivalent-xml (~> 0.6)
