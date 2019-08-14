@@ -86,7 +86,7 @@ module Grids
     def validate_registered_widgets
       return unless config.registered_grid?(grid_class)
 
-      undestroyed_widgets.each do |widget|
+      widgets_to_be_created.each do |widget|
         next if config.allowed_widget?(grid_class, widget.identifier, user, grid_project)
 
         errors.add(:widgets, :inclusion)
@@ -179,6 +179,10 @@ module Grids
 
     def undestroyed_widgets
       model.widgets.reject(&:marked_for_destruction?)
+    end
+
+    def widgets_to_be_created
+      undestroyed_widgets.select(&:new_record?)
     end
 
     def all_allowed_widget_identifiers(user)
