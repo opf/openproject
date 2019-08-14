@@ -32,8 +32,12 @@ module Components
       include Capybara::DSL
       include RSpec::Matchers
 
-      def open_for(work_package)
-        find(".wp-row-#{work_package.id}-table").right_click
+      def open_for(work_package, list_view = true)
+        if list_view
+          find(".wp-row-#{work_package.id}-table").right_click
+        else
+          find(".wp-card-#{work_package.id}").right_click
+        end
         expect_open
       end
 

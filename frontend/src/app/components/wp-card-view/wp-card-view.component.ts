@@ -216,6 +216,7 @@ export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
     let classes = this.isSelected(wp) ? checkedClassName : '';
     classes += this.canDragOutOf(wp) ? ' -draggable' : '';
     classes += wp.isNew ? ' -new' : '';
+    classes += ' wp-card-' + wp.id;
     return classes;
   }
 
