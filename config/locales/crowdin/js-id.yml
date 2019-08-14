@@ -296,6 +296,7 @@ id:
     label_total_progress: "%{percent}% total progres"
     label_total_amount: "Total: %{amount}"
     label_updated_on: "diupdate pada"
+    label_value_derived_from_children: "(value derived from children)"
     label_warning: "Warning"
     label_work_package: "Paket-Penugasan"
     label_work_package_plural: "Paket-Penugasan"
@@ -817,7 +818,7 @@ id:
       child_work_packages:
         other: "Paket kerja %{count} turunan"
       hour:
-        other: "1 jam\n%{count} jam"
+        other: "%{count} h"
     zen_mode:
       button_activate: 'Mengaktifkan modus zen'
       button_deactivate: 'Menonaktifkan modus zen'

@@ -27,16 +27,16 @@
 // ++
 
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
-import {NgSelectComponent} from "@ng-select/ng-select";
+import {ApiV3FilterBuilder, FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
 import {DebouncedRequestSwitchmap, errorNotificationHandler} from "core-app/helpers/rxjs/debounced-input-switchmap";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+import {NgSelectComponent} from "@ng-select/ng-select";
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
 @Component({
   template: `
@@ -64,7 +64,7 @@ import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notific
 export class UserAutocompleterComponent implements OnInit {
   userTracker = (item:any) => item.href;
 
-  @ViewChild(NgSelectComponent, {static: true}) public ngSelectComponent:NgSelectComponent;
+  @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
   @Output() public onChange = new EventEmitter<void>();
   @Input() public clearAfterSelection:boolean = false;
 
@@ -84,6 +84,8 @@ export class UserAutocompleterComponent implements OnInit {
     errorNotificationHandler(this.wpNotification)
   );
 
+  public inputFilters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
+
   constructor(protected elementRef:ElementRef,
               protected halResourceService:HalResourceService,
               protected I18n:I18nService,
@@ -94,9 +96,17 @@ export class UserAutocompleterComponent implements OnInit {
   ngOnInit() {
     const input = this.elementRef.nativeElement.dataset['updateInput'];
     const allowEmpty = this.elementRef.nativeElement.dataset['allowEmpty'];
+
     if (input) {
       this.updateInputField = document.getElementsByName(input)[0] as HTMLInputElement|undefined;
       this.setInitialSelection();
+    }
+
+    let filterInput  = this.elementRef.nativeElement.dataset['additionalFilter'];
+    if (filterInput) {
+      JSON.parse(filterInput).forEach((filter:{selector:string; operator:FilterOperator, values:string[]}) => {
+        this.inputFilters.add(filter['selector'], filter['operator'], filter['values']);
+      })
     }
 
     if (allowEmpty === 'true') {
@@ -124,14 +134,14 @@ export class UserAutocompleterComponent implements OnInit {
   }
 
   private getAvailableUsers(url:string, searchTerm:any):Observable<{[key:string]:string|null}[]> {
-    let filters = new ApiV3FilterBuilder();
+    let searchFilters = this.inputFilters;
 
     if (searchTerm) {
-      filters.add('name', '~', [searchTerm]);
+      searchFilters.add('name', '~', [searchTerm]);
     }
 
     return this.halResourceService
-      .get(url, { filters: filters.toJson() })
+      .get(url, { filters: searchFilters.toJson() })
       .pipe(
         map(res => {
           let options = res.elements.map((el:any) => {

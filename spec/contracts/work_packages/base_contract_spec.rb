@@ -185,8 +185,6 @@ describe WorkPackages::BaseContract do
   end
 
   describe 'estimated hours' do
-    it_behaves_like 'a parent unwritable property', :estimated_hours
-
     let(:estimated_hours) { 1 }
 
     before do
@@ -234,6 +232,31 @@ describe WorkPackages::BaseContract do
 
         expect(subject.errors.symbols_for(:estimated_hours))
           .to match_array [:only_values_greater_or_equal_zeroes_allowed]
+      end
+    end
+  end
+
+  describe 'derived estimated hours' do
+    let(:changed_values) { [] }
+    let(:attribute) { :derived_estimated_hours }
+
+    before do
+      allow(work_package).to receive(:changed).and_return(changed_values.map(&:to_s))
+
+      contract.validate
+    end
+
+    context 'has not changed' do
+      let(:changed_values) { [] }
+
+      it('is valid') { expect(contract.errors).to be_empty }
+    end
+
+    context 'has changed' do
+      let(:changed_values) { [attribute] }
+
+      it('is invalid (read only)') do
+        expect(contract.errors.symbols_for(attribute)).to match_array([:error_readonly])
       end
     end
   end

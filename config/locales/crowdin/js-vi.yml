@@ -295,6 +295,7 @@ vi:
     label_total_progress: "%{percent}% Tổng tiến độ"
     label_total_amount: "Tổng số tiền%{amount}"
     label_updated_on: "cập Nhật ngày"
+    label_value_derived_from_children: "(value derived from children)"
     label_warning: "Warning"
     label_work_package: "Work Package"
     label_work_package_plural: "Work Packages"
@@ -816,7 +817,7 @@ vi:
       child_work_packages:
         other: "%{count} tác phẩm gói phần mềm trẻ em"
       hour:
-        other: "%{count} hours"
+        other: "%{count} h"
     zen_mode:
       button_activate: 'Activate zen mode'
       button_deactivate: 'Deactivate zen mode'

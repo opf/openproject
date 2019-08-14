@@ -34,4 +34,10 @@ module GroupsHelper
      { name: 'memberships', partial: 'groups/memberships', label: :label_project_plural }
     ]
   end
+
+  def set_filters_for_user_autocompleter
+    @autocompleter_filters = []
+    @autocompleter_filters.push({ selector: 'status', operator: '=', values: ['active'] })
+    @autocompleter_filters.push({ selector: 'group', operator: '!', values: [@group.id] })
+  end
 end

@@ -75,7 +75,7 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
     const confirmText = I18n.t('js.work_packages.confirm_edit_cancel');
     const requiresConfirmation = ConfigurationService.warnOnLeavingUnsaved();
 
-    this.unregisterListener = $transitions.onStart({}, (transition:Transition) => {
+    this.unregisterListener = $transitions.onBefore({}, (transition:Transition) => {
       if (!this.editing) {
         return undefined;
       }

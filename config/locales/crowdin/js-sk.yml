@@ -296,6 +296,7 @@ sk:
     label_total_progress: "%{percent}% celkový priebeh"
     label_total_amount: "Celkom: %{amount}"
     label_updated_on: "aktualizované"
+    label_value_derived_from_children: "(value derived from children)"
     label_warning: "Upozornenie"
     label_work_package: "Pracovný balíček"
     label_work_package_plural: "Pracovné balíčky"
@@ -829,10 +830,10 @@ sk:
         many: "%{count} podradených pracovných balíčkov"
         other: "%{count} podradených pracovných balíčkov"
       hour:
-        one: "1 hodina"
-        few: "%{count} hodiny"
-        many: "%{count} hodiny"
-        other: "%{count} hodiny"
+        one: "1 h"
+        few: "%{count} h"
+        many: "%{count} h"
+        other: "%{count} h"
     zen_mode:
       button_activate: 'Aktivovať zen režim'
       button_deactivate: 'Deaktivovať zen režim'

@@ -295,6 +295,7 @@ zh-TW:
     label_total_progress: "%{percent}%總進度"
     label_total_amount: "總計: %{amount}"
     label_updated_on: "更新於"
+    label_value_derived_from_children: "(value derived from children)"
     label_warning: "警告"
     label_work_package: "Work package"
     label_work_package_plural: "Work packages"
@@ -816,7 +817,7 @@ zh-TW:
       child_work_packages:
         other: "%{count} 個子工作項目"
       hour:
-        other: "%{count} 一個小時"
+        other: "%{count} h"
     zen_mode:
       button_activate: '啟動 zen 模式'
       button_deactivate: '停用 zen 模式'

@@ -296,6 +296,7 @@ nl:
     label_total_progress: "%{percent}% totale vooruitgang"
     label_total_amount: "Totaal: %{amount}"
     label_updated_on: "bijgewerkt op"
+    label_value_derived_from_children: "(value derived from children)"
     label_warning: "Waarschuwing"
     label_work_package: "Werkpakket"
     label_work_package_plural: "Werkpakketten"
@@ -821,8 +822,8 @@ nl:
         one: "één onderliggend werkpakket"
         other: "%{count} werkpakket kinderen"
       hour:
-        one: "%{count} uur"
-        other: "%{count} uren"
+        one: "1 h"
+        other: "%{count} h"
     zen_mode:
       button_activate: 'Zen-modus activeren'
       button_deactivate: 'Deactiveren van zen modus'

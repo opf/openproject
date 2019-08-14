@@ -55,10 +55,8 @@ describe Queries::Members::Filters::GroupFilter, type: :model do
     end
   end
 
-  it_behaves_like 'list_optional query filter' do
-    let(:attribute) { :id }
+  it_behaves_like 'list_optional group query filter' do
     let(:model) { Member.joins(:principal).merge(User.joins(:groups)) }
     let(:valid_values) { [group1.id.to_s] }
-    let(:expected_table_name) { 'groups_users' }
   end
 end

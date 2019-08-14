@@ -169,4 +169,4 @@ Feature: Team Member
       And task A Whole New Task should have remaining_hours set to 3
       And task A Whole New Task should have estimated_hours set to 8
       And story Story 1 should have remaining_hours set to 4
-      And story Story 1 should have estimated_hours set to 10
+      And story Story 1 should have derived_estimated_hours set to 10

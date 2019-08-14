@@ -42,34 +42,34 @@ describe Queries::WorkPackages::Columns::WorkPackageColumn, type: :model do
       context "with work packages in a hierarchy" do
         let(:work_packages) do
           hierarchy = [
-            ["Single", 1],
+            ["Single", 1, 0],
             {
-              ["Parent", 3] => [
-                ["Child 1 of Parent", 1],
-                ["Child 2 of Parent", 1],
-                ["Hidden Child 3 of Parent", 1]
+              ["Parent", 1, 3] => [
+                ["Child 1 of Parent", 1, 0],
+                ["Child 2 of Parent", 1, 0],
+                ["Hidden Child 3 of Parent", 1, 0]
               ]
             },
             {
-              ["Hidden Parent", 4] => [
-                ["Child of Hidden Parent", 1],
-                ["Hidden Child", 3]
+              ["Hidden Parent", 5, 4] => [
+                ["Child of Hidden Parent", 1, 0],
+                ["Hidden Child", 3, 0]
               ]
             },
             {
-              ["Parent 2", 3] => [
-                ["Child 1 of Parent 2", 1],
+              ["Parent 2", 1, 3] => [
+                ["Child 1 of Parent 2", 1, 0],
                 {
-                  ["Nested Parent", 2] => [
-                    ["Child 1 of Nested Parent", 1],
-                    ["Child 2 of Nested Parent", 1]
+                  ["Nested Parent", 0, 2] => [
+                    ["Child 1 of Nested Parent", 1, 0],
+                    ["Child 2 of Nested Parent", 1, 0]
                   ]
                 }
               ]
             }
           ]
 
-          build_work_package_hierarchy hierarchy, :subject, :estimated_hours
+          build_work_package_hierarchy hierarchy, :subject, :estimated_hours, :derived_estimated_hours
         end
 
         let(:result_set) { WorkPackage.where("NOT subject LIKE 'Hidden%'") }
@@ -83,8 +83,10 @@ describe Queries::WorkPackages::Columns::WorkPackageColumn, type: :model do
         end
 
         it "yields the correct sum, not counting any children (of parents in the result set) twice" do
-          expect(column.sum_of(result_set)).to eq 7 # (Single + Child 1 of Parent + Child 2 of Parent + Child of Hidden Parent + Parent 2)
-          expect(column.sum_of(WorkPackage.all)).to eq 11 # (Single + Parent + Hidden Parent + Parent 2)
+          # Single + Parent + Child 1 of Parent + Child 2 of Parent + Child of Hidden Parent + Parent 2 + Child 1 of Parent 2
+          # + Nested Parent + Child 1 of Nested Parent + Child 2 of Nested Parent
+          expect(column.sum_of(result_set)).to eq 9
+          expect(column.sum_of(WorkPackage.all)).to eq 18 # the above + Hidden Child 3 of Parent + Hidden Parent + Hidden Child
         end
       end
     end

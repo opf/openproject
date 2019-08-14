@@ -295,6 +295,7 @@ hu:
     label_total_progress: "%{percent}% a teljes folyamatban"
     label_total_amount: "Teljes: %{amount}"
     label_updated_on: "frissítve"
+    label_value_derived_from_children: "(value derived from children)"
     label_warning: "Figyelem"
     label_work_package: "Feladatcsoport"
     label_work_package_plural: "Work packages"
@@ -820,8 +821,8 @@ hu:
         one: "egy gyermek munkacsomag"
         other: "%{count} gyermek feladatcsoport"
       hour:
-        one: "1 óra"
-        other: "%{count} óra"
+        one: "1 h"
+        other: "%{count} h"
     zen_mode:
       button_activate: 'Zen mód aktiválása'
       button_deactivate: 'Zen mód kikapcsolása'

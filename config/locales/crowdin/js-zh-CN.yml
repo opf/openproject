@@ -296,6 +296,7 @@ zh-CN:
     label_total_progress: "%{percent} %总进度"
     label_total_amount: "总计: %{amount}"
     label_updated_on: "更新于"
+    label_value_derived_from_children: "(value derived from children)"
     label_warning: "警告"
     label_work_package: "工作包"
     label_work_package_plural: "工作包"
@@ -817,7 +818,7 @@ zh-CN:
       child_work_packages:
         other: "%{count} 子工作包"
       hour:
-        other: "%{count} 小时"
+        other: "%{count} h"
     zen_mode:
       button_activate: '激活 zen 模式'
       button_deactivate: '取消激活 zen 模式'

@@ -296,6 +296,7 @@ it:
     label_total_progress: "%{percent}% Progresso totale"
     label_total_amount: "Totale: %{amount}"
     label_updated_on: "aggiornato il"
+    label_value_derived_from_children: "(value derived from children)"
     label_warning: "Attenzione"
     label_work_package: "Macro-attività"
     label_work_package_plural: "Macro-attività"
@@ -821,8 +822,8 @@ it:
         one: "una macro-attività subordinata"
         other: "%{count} macro-attività subordinate"
       hour:
-        one: "1 ora"
-        other: "%{count} ore"
+        one: "1 h"
+        other: "%{count} h"
     zen_mode:
       button_activate: 'Attiva modalità zen'
       button_deactivate: 'Disattiva modalità zen'

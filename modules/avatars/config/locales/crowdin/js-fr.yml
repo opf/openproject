@@ -3,7 +3,7 @@ fr:
     label_preview: 'Aperçu'
     button_update: 'Mettre à jour'
     avatars:
-      label_choose_avatar: "Choose Avatar from file"
+      label_choose_avatar: "Choisir un avatar depuis un fichier"
       uploading_avatar: "Uploading your avatar."
       text_upload_instructions: |
         Upload your own custom avatar of 128 by 128 pixels. Larger files will be resized and cropped to match.

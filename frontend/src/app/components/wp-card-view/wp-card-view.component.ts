@@ -53,6 +53,8 @@ export class WorkPackageCardViewComponent  implements OnInit {
   @Input() public orientation:CardViewOrientation = 'vertical';
   /** Whether cards are removable */
   @Input() public cardsRemovable:boolean = false;
+  /** Whether a notification box shall be shown when there are no WP to display */
+  @Input() public showEmptyResultsBox:boolean = false;
 
   /** Container reference */
   @ViewChild('container', { static: true }) public container:ElementRef;
@@ -61,11 +63,16 @@ export class WorkPackageCardViewComponent  implements OnInit {
 
   public trackByHref = AngularTrackingHelpers.trackByHrefAndProperty('lockVersion');
   public query:QueryResource;
-  private _workPackages:WorkPackageResource[];
+  private _workPackages:WorkPackageResource[] = [];
+  public isResultEmpty:boolean = false;
   public columns:QueryColumn[];
   public text = {
     removeCard: this.I18n.t('js.card.remove_from_list'),
     addNewCard:  this.I18n.t('js.card.add_new'),
+    noResults: {
+      title: this.I18n.t('js.work_packages.no_results.title'),
+      description: this.I18n.t('js.work_packages.no_results.description')
+    },
   };
 
   /** Inline create / reference properties */
@@ -122,6 +129,7 @@ export class WorkPackageCardViewComponent  implements OnInit {
     ).subscribe((query:QueryResource) => {
       this.query = query;
       this.workPackages = query.results.elements;
+      this.isResultEmpty = this.workPackages.length === 0;
       this.cdRef.detectChanges();
     });
   }
