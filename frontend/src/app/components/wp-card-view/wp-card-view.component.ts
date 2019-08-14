@@ -164,7 +164,7 @@ export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
 
     // Register event handlers for the cards
     new CardViewHandlerRegistry(this.injector).attachTo(this);
-    this.wpTableSelection.registerSelectAllListener(this.cardView.renderedCards);
+    this.wpTableSelection.registerSelectAllListener(() => { return this.cardView.renderedCards; });
     this.wpTableSelection.registerDeselectAllListener();
 
     // Do not highlight selected elements on initial load
