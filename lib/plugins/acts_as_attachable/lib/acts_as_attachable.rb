@@ -61,6 +61,7 @@ module Redmine
             delete_permission: delete_permission(options),
             add_on_new_permission: add_on_new_permission(options),
             add_on_persisted_permission: add_on_persisted_permission(options),
+            only_user_allowed: only_user_allowed(options),
             modification_blocked: options[:modification_blocked]
           }
 
@@ -69,6 +70,7 @@ module Redmine
                           :add_on_new_permission,
                           :add_on_persisted_permission,
                           :add_permission,
+                          :only_user_allowed,
                           :modification_blocked)
         end
 
@@ -86,6 +88,10 @@ module Redmine
 
         def add_on_persisted_permission(options)
           options[:add_on_persisted_permission] || options[:add_permission] || edit_permission_default
+        end
+
+        def only_user_allowed(options)
+          options.fetch(:only_user_allowed, false)
         end
 
         def view_permission_default

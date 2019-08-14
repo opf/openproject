@@ -3,14 +3,15 @@ module MyPage
     grid_class 'Grids::MyPage'
     to_scope :my_page_path
 
-    widgets 'work_packages_assigned',
+    widgets 'custom_text',
+            'documents',
+            'work_packages_assigned',
             'work_packages_accountable',
             'work_packages_watched',
             'work_packages_created',
             'work_packages_calendar',
             'work_packages_table',
             'time_entries_current_user',
-            'documents',
             'news'
 
     wp_table_strategy_proc = Proc.new do
@@ -26,6 +27,14 @@ module MyPage
     widget_strategy 'work_packages_accountable', &wp_table_strategy_proc
     widget_strategy 'work_packages_watched', &wp_table_strategy_proc
     widget_strategy 'work_packages_created', &wp_table_strategy_proc
+
+    widget_strategy 'custom_text' do
+      # Requiring a permission here as one is required to assign attachments.
+      # Should be replaced by a global permission to have a my page
+      allowed ->(user, _project) { user.allowed_to_globally?(:view_project) }
+
+      options_representer '::API::V3::Grids::Widgets::CustomTextOptionsRepresenter'
+    end
 
     defaults -> {
       {

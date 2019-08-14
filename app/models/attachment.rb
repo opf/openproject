@@ -199,6 +199,7 @@ class Attachment < ActiveRecord::Base
 
   def extract_fulltext
     return unless OpenProject::Database.allows_tsv?
+
     job = ExtractFulltextJob.new(id)
     Delayed::Job.enqueue job, priority: ::ApplicationJob.priority_number(:low)
   end
@@ -259,7 +260,7 @@ class Attachment < ActiveRecord::Base
   end
 
   def allowed_or_author?(user)
-    containered? && yield ||
+    containered? && !(container.class.attachable_options[:only_user_allowed] && author_id != user.id) && yield ||
       !containered? && author_id == user.id
   end
 end
