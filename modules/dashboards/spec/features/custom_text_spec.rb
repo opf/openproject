@@ -56,65 +56,95 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
 
   before do
     login_as user
-
-    dashboard_page.visit!
   end
 
-  it 'can add the widget set custom text and upload attachments' do
-    dashboard_page.add_column(3, before_or_after: :before)
-
-    sleep(0.1)
-
-    dashboard_page.add_widget(2, 3, "Custom text")
-
-    sleep(0.1)
-
-    # As the user lacks the manage_public_queries and save_queries permission, no other widget is present
-    custom_text_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
-
-    custom_text_widget.expect_to_span(2, 3, 5, 5)
-    custom_text_widget.resize_to(6, 5)
-
-    custom_text_widget.expect_to_span(2, 3, 7, 6)
-
-    within custom_text_widget.area do
-      find('.inplace-editing--trigger-container').click
-
-      field.set_value('My own little text')
-      field.save!
-
-      expect(page)
-        .to have_selector('.wp-edit-field--display-field', text: 'My own little text')
-
-      find('.inplace-editing--trigger-container').click
-
-      field.set_value('My new text')
-      field.cancel_by_click
-
-      expect(page)
-        .to have_selector('.wp-edit-field--display-field', text: 'My own little text')
-
-      # adding an image
-      find('.inplace-editing--trigger-container').click
-
-      sleep(0.1)
+  context 'for a user having edit permissions' do
+    before do
+      dashboard_page.visit!
     end
 
-    # The drag_attachment is written in a way that it requires to be executed with page on body
-    # so we cannot have it wrapped in the within block.
-    editor.drag_attachment image_fixture, 'Image uploaded'
+    it 'can add the widget set custom text and upload attachments' do
+      dashboard_page.add_column(3, before_or_after: :before)
 
-    within custom_text_widget.area do
-      expect(page).to have_selector('attachment-list-item', text: 'image.png')
-      expect(page).to have_no_selector('notifications-upload-progress')
+      sleep(0.1)
 
-      field.save!
+      dashboard_page.add_widget(2, 3, "Custom text")
 
-      expect(page)
-        .to have_selector('#content img', count: 1)
+      sleep(0.1)
 
-      expect(page)
-        .to have_no_selector('attachment-list-item', text: 'image.png')
+      # As the user lacks the manage_public_queries and save_queries permission, no other widget is present
+      custom_text_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+
+      custom_text_widget.expect_to_span(2, 3, 5, 5)
+      custom_text_widget.resize_to(6, 5)
+
+      custom_text_widget.expect_to_span(2, 3, 7, 6)
+
+      within custom_text_widget.area do
+        find('.inplace-editing--trigger-container').click
+
+        field.set_value('My own little text')
+        field.save!
+
+        expect(page)
+          .to have_selector('.wp-edit-field--display-field', text: 'My own little text')
+
+        find('.inplace-editing--trigger-container').click
+
+        field.set_value('My new text')
+        field.cancel_by_click
+
+        expect(page)
+          .to have_selector('.wp-edit-field--display-field', text: 'My own little text')
+
+        # adding an image
+        find('.inplace-editing--trigger-container').click
+
+        sleep(0.1)
+      end
+
+      # The drag_attachment is written in a way that it requires to be executed with page on body
+      # so we cannot have it wrapped in the within block.
+      editor.drag_attachment image_fixture, 'Image uploaded'
+
+      within custom_text_widget.area do
+        expect(page).to have_selector('attachment-list-item', text: 'image.png')
+        expect(page).to have_no_selector('notifications-upload-progress')
+
+        field.save!
+
+        expect(page)
+          .to have_selector('#content img', count: 1)
+
+        expect(page)
+          .to have_no_selector('attachment-list-item', text: 'image.png')
+      end
+    end
+  end
+
+  context 'for a user lacking edit permissions' do
+    let!(:dashboard) do
+      FactoryBot.create(:dashboard_with_custom_text, project: project)
+    end
+
+    let(:permissions) do
+      %i[view_dashboards]
+    end
+
+    before do
+      dashboard_page.visit!
+    end
+
+    it 'allows reading but not editing the custom text' do
+      custom_text_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+
+      within custom_text_widget.area do
+        expect(page)
+          .to have_content(dashboard.widgets.first.options[:text])
+
+        expect(page)
+          .to have_no_selector('.inplace-editing--trigger-container')
+      end
     end
   end
 end

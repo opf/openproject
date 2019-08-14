@@ -38,4 +38,25 @@ FactoryBot.define do
       dashboard.widgets = [widget]
     end
   end
+
+  factory :dashboard_with_custom_text, class: Grids::Dashboard do
+    project
+    row_count { 7 }
+    column_count { 4 }
+
+    callback(:after_build) do |dashboard|
+      widget = FactoryBot.build(:grid_widget,
+                                identifier: 'custom_text',
+                                start_row: 1,
+                                end_row: 7,
+                                start_column: 1,
+                                end_column: 3,
+                                options: {
+                                  name: 'Custom text',
+                                  text: 'Lorem ipsum'
+                                })
+
+      dashboard.widgets = [widget]
+    end
+  end
 end
