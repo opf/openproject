@@ -74,3 +74,37 @@
   display: block
   max-width: 400px
   @include text-shortener
+
+// Document editor styles
+.document-editor
+  /* This element is a flex container for easier rendering. */
+  display: flex
+  flex-flow: column nowrap
+
+  .document-editor__toolbar
+    position: sticky
+    top: 0
+
+  .ck.ck-toolbar.ck-rounded-corners
+    border-bottom-left-radius: 0
+    border-bottom-right-radius: 0
+
+  .document-editor__editable-container
+    border: 1px solid var(--ck-color-base-border)
+    border-top: none
+    border-radius: var(--ck-border-radius)
+    border-top-left-radius: 0
+    border-top-right-radius: 0
+
+  .ck-editor__editable
+
+    /* Keep the "page" off the boundaries of the container. */
+    padding: 1cm 2cm 2cm
+
+    border: 1px hsl( 0,0%,82.7% ) solid
+    border-radius: var(--ck-border-radius)
+    background: white
+
+    /* The "page" should cast a slight shadow (3D illusion). */
+    box-shadow: 0 0 5px hsla( 0,0%,0%,.1 )
+
