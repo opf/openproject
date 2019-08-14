@@ -29,18 +29,23 @@ class AddDerivedEstimatedHoursToWorkPackages < ActiveRecord::Migration[5.2]
   # estimated hours set based on their children through the UpdateAncestorsService.
   #
   # We move this value to the derived_estimated_hours column and clear
-  # the estimated_hours column. In the future users can estimte the time
-  # for parent work pacages separately there while the UpdateAncestorsService
+  # the estimated_hours column. In the future users can estimate the time
+  # for parent work packages separately while the UpdateAncestorsService
   # only touches the derived_estimated_hours column.
   def migrate_to_derived_estimated_hours!
     last_id = Journal.order(id: :desc).limit(1).pluck(:id).first || 0
     wp_journals = "work_package_journals"
-    work_packages = WorkPackageWithRelations.with_children
 
+    work_packages = WorkPackageWithRelations.with_children.where("estimated_hours > ?", 0)
     work_packages.update_all("derived_estimated_hours = estimated_hours, estimated_hours = NULL")
+    work_packages = WorkPackageWithRelations.with_children.where("derived_estimated_hours > ?", 0)
 
     create_journals_for work_packages
     create_work_package_journals last_id: last_id
+    create_customizable_journals last_id: last_id
+    create_attachable_journals last_id: last_id
+
+    work_packages.each(&:touch) # invalidate cache
   end
 
   ##
@@ -113,6 +118,50 @@ class AddDerivedEstimatedHoursToWorkPackages < ActiveRecord::Migration[5.2]
           )
         WHERE #{journals}.id > #{last_id} -- make sure to only create entries for the newly created journals
       ) AS results
+    ")
+  end
+
+  def create_customizable_journals(last_id:)
+    journals = "journals"
+    customizable = "customizable_journals"
+    work_packages = "work_packages"
+
+    WorkPackage.connection.execute("
+      INSERT INTO #{customizable} (journal_id, custom_field_id, value)
+      SELECT #{journals}.id, #{customizable}.custom_field_id, #{customizable}.value
+      FROM #{journals} -- take the journal ID from here (ID of newly created journals from above)
+        LEFT JOIN #{work_packages}
+        ON #{work_packages}.id = #{journals}.journable_id AND #{journals}.journable_type = 'WorkPackage'
+        RIGHT JOIN #{customizable} -- keep everything else the same; there can be multiple customizable journals (custom fields)
+        ON #{customizable}.journal_id = (
+          SELECT MAX(id)
+          FROM #{journals}
+          WHERE #{journals}.journable_id = #{work_packages}.id AND journable_type = 'WorkPackage' AND #{journals}.id <= #{last_id}
+          -- we are selecting the latest previous (hence <= last_id) customizable journal here to copy its values
+        )
+      WHERE #{journals}.id > #{last_id} -- make sure to only create entries for the newly created journals
+    ")
+  end
+
+  def create_attachable_journals(last_id:)
+    journals = "journals"
+    attachable = "attachable_journals"
+    work_packages = "work_packages"
+
+    WorkPackage.connection.execute("
+      INSERT INTO #{attachable} (journal_id, attachment_id, filename)
+      SELECT #{journals}.id, #{attachable}.attachment_id, #{attachable}.filename
+      FROM #{journals} -- take the journal ID from here (ID of newly created journals from above)
+        LEFT JOIN #{work_packages}
+        ON #{work_packages}.id = #{journals}.journable_id AND #{journals}.journable_type = 'WorkPackage'
+        RIGHT JOIN #{attachable} -- keep everything else the same; there can be multiple attachable journals (attachments)
+        ON #{attachable}.journal_id = (
+          SELECT MAX(id)
+          FROM #{journals}
+          WHERE #{journals}.journable_id = #{work_packages}.id AND journable_type = 'WorkPackage' AND #{journals}.id <= #{last_id}
+          -- we are selecting the latest previous (hence <= last_id) customizable journal here to copy its values
+        )
+      WHERE #{journals}.id > #{last_id} -- make sure to only create entries for the newly created journals
     ")
   end
 end
