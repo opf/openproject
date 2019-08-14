@@ -43,7 +43,8 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
                   [highlightingMode]="highlightingMode"
                   [showStatusButton]="false"
                   [orientation]="gridOrientation"
-                  (onMoved)="switchToManualSorting()">
+                  (onMoved)="switchToManualSorting()"
+                  [showEmptyResultsBox]="true">
     </wp-card-view>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
