@@ -12,6 +12,7 @@ export interface ICKEditorInstance {
   model:any;
   editing:any;
   config:any;
+  ui:any;
   element:HTMLElement;
 }
 
@@ -57,18 +58,17 @@ export class CKEditorSetupService {
     const editor = type === 'constrained' ? window.OPConstrainedEditor : window.OPClassicEditor;
     wrapper.classList.add(`ckeditor-type-${type}`);
 
-    let initialDataSet = initialData !== null;
-    let param = initialDataSet ? initialData! : wrapper;
+    const toolbarWrapper = wrapper.querySelector('.document-editor__toolbar') as HTMLElement;
+    const contentWrapper = wrapper.querySelector('.document-editor__editable') as HTMLElement;
 
     return editor
-      .createCustomized(param, {
-        openProject: this.createConfig(context)
+      .createCustomized(contentWrapper, {
+        openProject: this.createConfig(context),
+        initialData: initialData
       })
       .then((editor) => {
-        // If initial data was passed, add to wrapper element
-        if (initialDataSet) {
-          wrapper.appendChild((editor as any).ui.element);
-        }
+        // Add decoupled toolbar
+        toolbarWrapper.appendChild( editor.ui.view.toolbar.element );
 
         // Allow custom events on wrapper to set/get data for debugging
         jQuery(wrapper)

@@ -7,7 +7,7 @@
     padding-left: 2px !important
 
 // Wrapper for full text element
-.op-ckeditor--wrapper
+ckeditor-augmented-textarea .op-ckeditor--wrapper
   margin-bottom: 2rem
 
 // Ensure same border and min-height for preview
@@ -74,3 +74,38 @@
   display: block
   max-width: 400px
   @include text-shortener
+
+// Document editor styles
+.document-editor
+  /* This element is a flex container for easier rendering. */
+  display: flex
+  flex-flow: column nowrap
+
+  .document-editor__toolbar
+    position: sticky
+    top: 0
+    z-index: 1
+
+  .ck.ck-toolbar.ck-rounded-corners
+    border-bottom-left-radius: 0
+    border-bottom-right-radius: 0
+
+  .document-editor__editable-container
+    // Ensure max-height is set to allow stickiness
+    // in global scrolling pages (forums e.g.)
+    max-height: 75vh
+    overflow-y: auto
+
+    border: 1px solid var(--ck-color-base-border)
+    border-top: none
+    border-radius: var(--ck-border-radius)
+    border-top-left-radius: 0
+    border-top-right-radius: 0
+
+  .ck-editor__editable
+    padding: 1cm 2cm 2cm
+    border: 1px hsl( 0,0%,82.7% ) solid
+    border-radius: var(--ck-border-radius)
+    background: white
+    box-shadow: 0 0 5px hsla( 0,0%,0%,.1 )
+
