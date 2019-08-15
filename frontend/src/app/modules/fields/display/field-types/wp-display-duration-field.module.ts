@@ -65,6 +65,7 @@ export class DurationDisplayField extends DisplayField {
       return;
     }
 
+    element.classList.add('split-time-field');
     let value = this.value;
     let actual:number = (value && this.timezoneService.toHours(value)) || 0;
 
@@ -83,6 +84,7 @@ export class DurationDisplayField extends DisplayField {
 
     span.textContent = displayText;
     span.title = this.valueString;
+    span.classList.add('-actual-value')
 
     element.appendChild(span);
   }
@@ -91,12 +93,12 @@ export class DurationDisplayField extends DisplayField {
     const span = document.createElement('span');
 
     span.setAttribute('title', this.texts.empty);
-    span.textContent = "(" + (actualPresent ? "+" : "") + displayText + ")";
+    span.textContent = '(' + (actualPresent ? '+' : '') + displayText + ')';
     span.title = `${this.derivedValueString} ${this.derivedText}`;
-    span.classList.add("-derived");
+    span.classList.add('-derived-value');
 
     if (actualPresent) {
-      span.classList.add("-with-actual");
+      span.classList.add('-with-actual-value');
     }
 
     element.appendChild(span);
