@@ -76,7 +76,7 @@ module Redmine
     end
 
     def localized_float(number, locale: ::I18n.locale, precision: 2)
-      number_with_delimiter(number, locale: locale, precision: precision)
+      number_with_precision(number, locale: locale, precision: precision)
     rescue StandardError => e
       Rails.logger.error("Failed to localize float number #{number}: #{e}")
       ('%.2f' % hours.to_f)
