@@ -1404,6 +1404,7 @@ en:
   label_member_new: "New member"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Members"
+  # TODO: remove once overview page is replaced
   label_view_all_members: "View all members"
   label_menu_item_name: "Name of menu item"
   label_message: "Message"

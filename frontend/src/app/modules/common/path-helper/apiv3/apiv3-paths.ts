@@ -41,6 +41,8 @@ import {Apiv3GridsPaths} from "core-app/modules/common/path-helper/apiv3/grids/a
 import {Apiv3NewsesPaths} from "core-app/modules/common/path-helper/apiv3/news/apiv3-newses-paths";
 import {Apiv3TimeEntriesPaths} from "core-app/modules/common/path-helper/apiv3/time-entries/apiv3-time-entries-paths";
 import {Apiv3VersionPaths} from "core-app/modules/common/path-helper/apiv3/versions/apiv3-version-paths";
+import {Apiv3MembershipsPaths} from "core-app/modules/common/path-helper/apiv3/memberships/apiv3-memberships-paths";
+import {Apiv3GroupsPaths} from "core-app/modules/common/path-helper/apiv3/groups/apiv3-groups-path";
 
 export class ApiV3Paths {
   // Base path
@@ -66,6 +68,9 @@ export class ApiV3Paths {
 
   // /api/v3/time_entries
   public readonly time_entries = new Apiv3TimeEntriesPaths(this.apiV3Base);
+
+  // /api/v3/memberships
+  public readonly memberships = new Apiv3MembershipsPaths(this.apiV3Base);
 
   // /api/v3/news
   public readonly news = new Apiv3NewsesPaths(this.apiV3Base);
@@ -93,6 +98,10 @@ export class ApiV3Paths {
 
   // /api/v3/grids
   public readonly grids = new Apiv3GridsPaths(this.apiV3Base);
+
+  // /api/v3/groups
+  public readonly groups = new Apiv3GroupsPaths(this.apiV3Base);
+
 
   constructor(readonly appBasePath:string) {
   }

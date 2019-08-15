@@ -11,6 +11,7 @@ module Dashboards
             'work_packages_calendar',
             'work_packages_overview',
             'time_entries_project',
+            'members',
             'news',
             'documents',
             'custom_text'
@@ -54,6 +55,12 @@ module Dashboards
 
     widget_strategy 'work_packages_calendar' do
       allowed view_work_packages_lambda
+    end
+
+    widget_strategy 'members' do
+      allowed ->(user, project) {
+        user.allowed_to?(:view_members, project)
+      }
     end
 
     widget_strategy 'news' do

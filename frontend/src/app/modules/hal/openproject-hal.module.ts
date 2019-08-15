@@ -52,6 +52,7 @@ import {NewsDmService} from './dm-services/news-dm.service';
 import {StatusDmService} from "core-app/modules/hal/dm-services/status-dm.service";
 import {VersionDmService} from "core-app/modules/hal/dm-services/version-dm.service";
 import {QueryOrderDmService} from "core-app/modules/hal/dm-services/query-order-dm.service";
+import {MembershipDmService} from "core-app/modules/hal/dm-services/membership-dm.service";
 
 @NgModule({
   imports: [
@@ -67,6 +68,7 @@ import {QueryOrderDmService} from "core-app/modules/hal/dm-services/query-order-
     ConfigurationDmService,
     GridDmService,
     HelpTextDmService,
+    MembershipDmService,
     NewsDmService,
     PayloadDmService,
     ProjectDmService,

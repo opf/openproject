@@ -10,6 +10,12 @@ en:
         documents:
           title: 'Documents'
           no_results: 'No documents yet.'
+        members:
+          title: 'Members'
+          no_results: 'No visible members.'
+          view_all_members: 'View all members'
+          add: 'Member'
+          too_many: 'Displaying %{count} of %{total} members.'
         news:
           title: 'News'
           at: 'at'

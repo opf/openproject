@@ -43,6 +43,7 @@ module Queries::Projects
   register.filter query, filters::LatestActivityAtFilter
   register.filter query, filters::PrincipalFilter
   register.filter query, filters::ParentFilter
+  register.filter query, filters::IdFilter
 
   register.order query, orders::DefaultOrder
   register.order query, orders::LatestActivityAtOrder

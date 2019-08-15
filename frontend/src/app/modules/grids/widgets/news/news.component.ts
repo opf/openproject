@@ -9,7 +9,6 @@ import {UserCacheService} from "core-components/user/user-cache.service";
 import {UserResource} from "core-app/modules/hal/resources/user-resource";
 import {NewsDmService} from "core-app/modules/hal/dm-services/news-dm.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
 import {DmListParameter} from "core-app/modules/hal/dm-services/dm.service.interface";
 
 @Component({
