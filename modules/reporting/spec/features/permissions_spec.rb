@@ -64,8 +64,8 @@ describe 'Cost report calculations', type: :feature, js: true do
     let(:current_user) { admin }
 
     it 'shows everything' do
-      expect(page).to have_content '5.0 hours'
-      expect(page).to have_content '10.0 hours'
+      expect(page).to have_content '5.00 hours'
+      expect(page).to have_content '10.00 hours'
 
       report_page.switch_to_type 'Translations'
 
@@ -83,8 +83,8 @@ describe 'Cost report calculations', type: :feature, js: true do
     end
 
     it 'shows everything' do
-      expect(page).to have_content '5.0 hours'
-      expect(page).to have_content '10.0 hours'
+      expect(page).to have_content '5.00 hours'
+      expect(page).to have_content '10.00 hours'
       report_page.switch_to_type 'Translations'
       expect(page).to have_selector('td.units', text: '3.0 plural_unit', wait: 10)
     end
@@ -106,8 +106,8 @@ describe 'Cost report calculations', type: :feature, js: true do
     end
 
     it 'shows his own costs' do
-      expect(page).to have_content '5.0 hours'
-      expect(page).not_to have_content '10.0 hours'
+      expect(page).to have_content '5.00 hours'
+      expect(page).not_to have_content '10.00 hours'
       report_page.switch_to_type 'Translations'
       expect(page).to have_selector('td.units', text: '3.0 plural_unit', wait: 10)
     end
@@ -120,8 +120,8 @@ describe 'Cost report calculations', type: :feature, js: true do
     end
 
     it 'shows his own time only' do
-      expect(page).to have_content '5.0 hours'
-      expect(page).not_to have_content '10.0 hours'
+      expect(page).to have_content '5.00 hours'
+      expect(page).not_to have_content '10.00 hours'
 
       report_page.switch_to_type 'Translations'
       expect(page).to have_selector('.generic-table--no-results-title')
@@ -136,8 +136,8 @@ describe 'Cost report calculations', type: :feature, js: true do
 
     it 'shows his own costs' do
       expect(page).to have_selector('.generic-table--no-results-title')
-      expect(page).not_to have_content '5.0 hours'
-      expect(page).not_to have_content '10.0 hours'
+      expect(page).not_to have_content '5.00 hours'
+      expect(page).not_to have_content '10.00 hours'
       report_page.switch_to_type 'Translations'
       expect(page).to have_no_selector('td.unit', text: '3.0 plural_unit')
     end
