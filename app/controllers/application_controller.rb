@@ -207,7 +207,7 @@ class ApplicationController < ActionController::Base
   def logged_user=(user)
     reset_session
 
-    if user && user.is_a?(User)
+    if user&.is_a?(User)
       User.current = user
       Sessions::InitializeSessionService.call(user, session)
     else
@@ -375,7 +375,6 @@ class ApplicationController < ActionController::Base
     else
       @project = Project.find(params[:project_id])
     end
-
   rescue ActiveRecord::RecordNotFound
     render_404
   end

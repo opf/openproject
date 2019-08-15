@@ -62,9 +62,42 @@ describe 'My page', type: :feature, js: true do
     my_page.visit!
   end
 
+  def grid
+    @grid ||= Grids::MyPage.first
+  end
+
+  def reload_grid!
+    @grid = Grids::MyPage.first
+  end
+
+  def assigned_area
+    find_area("Work packages assigned to me")
+  end
+
+  def created_area
+    find_area("Work packages created by me")
+  end
+
+  def calendar_area
+    find_area("Calendar")
+  end
+
+  def news_area
+    find_area("News")
+  end
+
+  def watched_area
+    find_area("Work packages watched by me")
+  end
+
+  def find_area(name)
+    index = grid.widgets.sort_by(&:id).each_with_index.detect { |w, index| w.options["name"] == name }.last
+
+    Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(#{index + 1})")
+  end
+
   it 'renders the default view, allows altering and saving' do
-    assigned_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
-    created_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
+    sleep(0.5)
 
     assigned_area.expect_to_exist
     created_area.expect_to_exist
@@ -80,7 +113,9 @@ describe 'My page', type: :feature, js: true do
     # add widget above to right area
     my_page.add_widget(1, 1, :row, 'Calendar')
 
-    calendar_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(3)')
+    sleep(0.5)
+    reload_grid!
+
     calendar_area.expect_to_span(1, 1, 2, 2)
 
     # resizing will move the created area down
@@ -95,7 +130,10 @@ describe 'My page', type: :feature, js: true do
 
     # add widget right next to the calendar widget
     my_page.add_widget(1, 2, :within, 'News')
-    news_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(4)')
+
+    sleep(0.5)
+    reload_grid!
+
     news_area.expect_to_span(1, 2, 2, 3)
 
     calendar_area.resize_to(2, 1)
@@ -110,7 +148,9 @@ describe 'My page', type: :feature, js: true do
 
     my_page.add_widget(1, 3, :column, 'Work packages watched by me')
 
-    watched_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(5)')
+    sleep(0.5)
+    reload_grid!
+
     watched_area.expect_to_exist
 
     sleep(1)
@@ -119,7 +159,9 @@ describe 'My page', type: :feature, js: true do
     # that widgets that have been there are moved down
     created_area.drag_to(1, 3)
 
-    sleep(2)
+    sleep(1)
+
+    reload_grid!
 
     calendar_area.expect_to_span(1, 1, 3, 2)
     watched_area.expect_to_span(2, 3, 3, 4)
@@ -132,13 +174,8 @@ describe 'My page', type: :feature, js: true do
     # as no more widgets start in the second column, that column is removed
     news_area.drag_to(1, 3)
 
-    sleep(2)
-
-    calendar_area.expect_to_span(1, 1, 3, 2)
-    news_area.expect_to_span(1, 2, 2, 3)
-    created_area.expect_to_span(2, 2, 3, 3)
-    assigned_area.expect_to_span(3, 1, 4, 2)
-    watched_area.expect_to_span(3, 2, 4, 3)
+    sleep(1)
+    reload_grid!
 
     # Reloading keeps the user's values
     visit home_path

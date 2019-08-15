@@ -35,8 +35,7 @@ class ProjectSettingsController < ApplicationController
   before_action :check_valid_tab
   before_action :get_tab_settings
 
-  def show
-  end
+  def show; end
 
   private
 

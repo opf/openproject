@@ -159,7 +159,7 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
     find('.wp-query-menu--item-link', text: query.name).click
 
     expect(page).not_to have_selector('.title-container', text: 'Overview')
-    page.should have_field('editable-toolbar-title', with: query.name)
+    expect(page).to have_field('editable-toolbar-title', with: query.name)
   end
 
   scenario 'double clicking search result row (Regression #30247)' do

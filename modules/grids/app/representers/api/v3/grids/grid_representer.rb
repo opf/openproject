@@ -94,7 +94,7 @@ module API
         property :widgets,
                  exec_context: :decorator,
                  getter: ->(*) do
-                   represented.widgets.map do |widget|
+                   represented.widgets.sort_by { |w| w.id.to_i }.map do |widget|
                      Widgets::WidgetRepresenter.new(widget, current_user: current_user)
                    end
                  end,

@@ -29,108 +29,6 @@
 #++
 
 module WorkPackagesFilterHelper
-  # General
-  def project_property_path(project, property, property_id, options = {})
-    query = {
-      f: [
-        filter_object(property, '=', property_id)
-      ],
-      t: default_sort
-    }
-    project_work_packages_with_query_path(project, query, options)
-  end
-
-  # Links for my page
-  def work_packages_assigned_to_me_path(options = {})
-    query = {
-      f: [
-        filter_object('assigned_to_id', '=', 'me'),
-        filter_object('status_id', 'o')
-      ],
-      t: 'priority:desc,updated_at:desc'
-    }
-    work_packages_with_query_path(query, options)
-  end
-
-  def work_packages_reported_by_me_path(options = {})
-    query = {
-      f: [
-        filter_object('author_id', '=', 'me'),
-        filter_object('status_id', '*')
-      ],
-      t: 'updated_at:desc'
-    }
-    work_packages_with_query_path(query, options)
-  end
-
-  def work_packages_responsible_for_path(options = {})
-    query = {
-      f: [
-        filter_object('responsible_id', '=', 'me'),
-        filter_object('status_id', 'o')
-      ],
-      t: 'priority:desc,updated_at:desc'
-    }
-    work_packages_with_query_path(query, options)
-  end
-
-  def work_packages_watched_path(options = {})
-    query = {
-      f: [
-        filter_object('watcher_id', '=', 'me'),
-        filter_object('status_id', 'o')
-      ],
-      t: 'updated_at:desc'
-    }
-    work_packages_with_query_path(query, options)
-  end
-
-  # Links for My Project Page plugin
-
-  def project_work_packages_assigned_to_me_path(project, options = {})
-    query = {
-      f: [
-        filter_object('assigned_to_id', '=', 'me'),
-        filter_object('status_id', 'o')
-      ],
-      t: 'priority:desc,updated_at:desc'
-    }
-    project_work_packages_with_query_path(project, query, options)
-  end
-
-  def project_work_packages_reported_by_me_path(project, options = {})
-    query = {
-      f: [
-        filter_object('author_id', '=', 'me'),
-        filter_object('status_id', '*')
-      ],
-      t: 'updated_at:desc'
-    }
-    project_work_packages_with_query_path(project, query, options)
-  end
-
-  def project_work_packages_responsible_for_path(project, options = {})
-    query = {
-      f: [
-        filter_object('responsible_id', '=', 'me'),
-        filter_object('status_id', 'o')
-      ],
-      t: 'priority:desc,updated_at:desc'
-    }
-    project_work_packages_with_query_path(project, query, options)
-  end
-
-  def project_work_packages_watched_path(project, options = {})
-    query = {
-      f: [
-        filter_object('watcher_id', '=', 'me'),
-        filter_object('status_id', 'o')
-      ],
-      t: 'updated_at:desc'
-    }
-    project_work_packages_with_query_path(project, query, options)
-  end
-
   # Links for project overview
   def project_work_packages_closed_version_path(version, options = {})
     query = {
@@ -218,10 +116,6 @@ module WorkPackagesFilterHelper
 
   def default_sort
     'updated_at:desc'
-  end
-
-  def work_packages_with_query_path(query, options = {})
-    work_packages_path(options.reverse_merge!(query_props: query.to_json))
   end
 
   def project_work_packages_with_query_path(project, query, options = {})

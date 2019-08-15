@@ -290,10 +290,6 @@ Redmine::MenuManager.map :admin_menu do |menu|
 end
 
 Redmine::MenuManager.map :project_menu do |menu|
-  menu.push :overview,
-            { controller: '/projects', action: 'show' },
-            icon: 'icon2 icon-info1'
-
   menu.push :activity,
             { controller: '/activities', action: 'index' },
             param: :project_id,

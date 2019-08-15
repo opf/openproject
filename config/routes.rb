@@ -163,7 +163,7 @@ OpenProject::Application.routes.draw do
     match '/unwatch' => 'watchers#unwatch', via: :delete
   end
 
-  resources :projects, except: [:edit] do
+  resources :projects, except: %i[show edit] do
     member do
       # this route let's you access the project specific settings (by tab)
       #
@@ -340,6 +340,9 @@ OpenProject::Application.routes.draw do
       post :test_email
     end
   end
+
+  # has to be after the route definitions for project
+  mount Overviews::Engine, at: 'projects/:project_id', as: :project_overview
 
   scope 'admin' do
     resource :announcements, only: %i[edit update]
@@ -549,7 +552,6 @@ OpenProject::Application.routes.draw do
   scope controller: 'onboarding' do
     patch 'user_settings', action: 'user_settings'
   end
-
 
   scope controller: 'authentication' do
     get 'authentication' => 'authentication#index'

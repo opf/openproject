@@ -49,26 +49,6 @@ describe ProjectsController, type: :routing do
     end
   end
 
-  describe 'show' do
-    it do
-      expect(get('/projects/1')).to route_to(
-        controller: 'projects', action: 'show', id: '1'
-      )
-    end
-
-    it do
-      expect(get('/projects/1.xml')).to route_to(
-        controller: 'projects', action: 'show', id: '1', format: 'xml'
-      )
-    end
-
-    it do
-      expect(get('/projects/test')).to route_to(
-        controller: 'projects', action: 'show', id: 'test'
-      )
-    end
-  end
-
   describe 'new' do
     it do
       expect(get('/projects/new')).to route_to(
@@ -164,7 +144,8 @@ describe ProjectsController, type: :routing do
         controller: 'copy_projects',
         action: 'copy',
         id: '123',
-        coming_from: 'settings')
+        coming_from: 'settings'
+      )
     end
 
     it do
@@ -172,7 +153,8 @@ describe ProjectsController, type: :routing do
         controller: 'copy_projects',
         action: 'copy',
         id: '123',
-        coming_from: 'admin')
+        coming_from: 'admin'
+      )
     end
   end
 

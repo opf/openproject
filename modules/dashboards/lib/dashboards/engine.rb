@@ -24,7 +24,7 @@ module Dashboards
       end
     end
 
-    initializer 'dashboards.menu' do
+    initializer 'dashboards.permissions' do
       OpenProject::AccessControl.map do |ac_map|
         ac_map.project_module(:dashboards) do |pm_map|
           pm_map.permission(:view_dashboards, 'dashboards/dashboards': ['show'])

@@ -327,68 +327,6 @@ describe ProjectsController, type: :controller do
     end
   end
 
-  it 'should show by id' do
-    get :show, params: { id: 1 }
-    assert_response :success
-    assert_template 'show'
-    refute_nil assigns(:project)
-  end
-
-  it 'should show by identifier' do
-    get :show, params: { id: 'ecookbook' }
-    assert_response :success
-    assert_template 'show'
-    refute_nil assigns(:project)
-    assert_equal Project.find_by(identifier: 'ecookbook'), assigns(:project)
-
-    assert_select 'li', content: /Development status/
-  end
-
-  it 'should show should not display hidden custom fields' do
-    ProjectCustomField.find_by(name: 'Development status').update_attribute :visible, false
-    get :show, params: { id: 'ecookbook' }
-    assert_response :success
-    assert_template 'show'
-    refute_nil assigns(:project)
-
-    assert_select('li', { content: /Development status/ }, false)
-  end
-
-  it 'should show should not fail when custom values are nil' do
-    project = Project.find_by(identifier: 'ecookbook')
-    project.custom_values.first.update_attribute(:value, nil)
-    get :show, params: { id: 'ecookbook' }
-    assert_response :success
-    assert_template 'show'
-    refute_nil assigns(:project)
-    assert_equal Project.find_by(identifier: 'ecookbook'), assigns(:project)
-  end
-
-  def show_archived_project_should_be_denied
-    project = Project.find_by(identifier: 'ecookbook')
-    project.archive!
-
-    get :show, params: { id: 'ecookbook' }
-    assert_response 403
-    assert_nil assigns(:project)
-    assert_select 'p', content: /archived/
-  end
-
-  it 'should private subprojects hidden' do
-    get :show, params: { id: 'ecookbook' }
-    assert_response :success
-    assert_template 'show'
-    assert_select('a', { content: /Private child/ }, false)
-  end
-
-  it 'should private subprojects visible' do
-    session[:user_id] = 2 # manager who is a member of the private subproject
-    get :show, params: { id: 'ecookbook' }
-    assert_response :success
-    assert_template 'show'
-    assert_select 'a', content: /Private child/
-  end
-
   it 'should update' do
     session[:user_id] = 2 # manager
     put :update,
@@ -434,46 +372,5 @@ describe ProjectsController, type: :controller do
     put :unarchive, params: { id: 1 }
     assert_redirected_to '/projects'
     assert Project.find(1).active?
-  end
-
-  it 'should jump should redirect to active tab' do
-    get :show, params: { id: 1, jump: 'work_packages' }
-    assert_redirected_to controller: :work_packages, action: :index, project_id: 'ecookbook'
-  end
-
-  it 'should jump should not redirect to inactive tab' do
-    get :show, params: { id: 3, jump: 'news' }
-    assert_response :success
-    assert_template 'show'
-  end
-
-  it 'should jump should not redirect to unknown tab' do
-    get :show, params: { id: 3, jump: 'foobar' }
-    assert_response :success
-    assert_template 'show'
-  end
-
-  context 'with hooks' do
-    # A hook that is manually registered later
-    class ProjectBasedTemplate < Redmine::Hook::ViewListener
-      def view_layouts_base_html_head(context)
-        context[:controller].send(:render, html: '<p id="hookselector">Hello from hook!</p>'.html_safe)
-      end
-    end
-
-    before do
-      # Don't use this hook now
-      Redmine::Hook.clear_listeners
-    end
-
-    after do
-      Redmine::Hook.clear_listeners
-    end
-
-    it 'should hook response' do
-      Redmine::Hook.add_listener(ProjectBasedTemplate)
-      get :show, params: { id: 1 }
-      assert_select('p#hookselector')
-    end
   end
 end

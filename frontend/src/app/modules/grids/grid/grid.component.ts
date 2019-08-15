@@ -2,10 +2,8 @@ import {Component,
   ComponentRef,
   OnDestroy,
   OnInit,
-  Input,
-  AfterViewInit} from "@angular/core";
+  Input} from "@angular/core";
 import {GridResource} from "app/modules/hal/resources/grid-resource";
-import {GridWidgetResource} from "app/modules/hal/resources/grid-widget-resource";
 import {debugLog} from "app/helpers/debug_output";
 import {DomSanitizer} from "@angular/platform-browser";
 import {GridWidgetsService} from "app/modules/grids/widgets/widgets.service";
@@ -18,7 +16,6 @@ import {GridAreaService} from "core-app/modules/grids/grid/area.service";
 import {GridAddWidgetService} from "core-app/modules/grids/grid/add-widget.service";
 import {GridRemoveWidgetService} from "core-app/modules/grids/grid/remove-widget.service";
 import {WidgetWpGraphComponent} from "core-app/modules/grids/widgets/wp-graph/wp-graph.component";
-import {WidgetChangeset} from "core-app/modules/grids/widgets/widget-changeset";
 import {GridWidgetArea} from "core-app/modules/grids/areas/grid-widget-area";
 
 export interface WidgetRegistration {

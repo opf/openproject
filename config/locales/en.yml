@@ -272,16 +272,6 @@ en:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: 'Bulk move/copy is not supported for work packages from multiple projects'
 
-    list_simple:
-      assigned:
-        no_results_title_text: There are currently no work packages assigned to me.
-      reported:
-        no_results_title_text: There are currently no work packages that I have reported.
-      responsible:
-        no_results_title_text: There are currently no work packages that I am accountable for.
-      watched:
-        no_results_title_text: There are currently no work packages that I am watching.
-
     summary:
       reports:
         category:
@@ -1404,8 +1394,6 @@ en:
   label_member_new: "New member"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Members"
-  # TODO: remove once overview page is replaced
-  label_view_all_members: "View all members"
   label_menu_item_name: "Name of menu item"
   label_message: "Message"
   label_message_last: "Last message"
@@ -1671,11 +1659,6 @@ en:
   label_work_package_updated: "Work package updated"
   label_work_package_tracking: "Work package tracking"
   label_work_package_view_all: "View all work packages"
-  label_work_package_view_all_assigned_to_me: "View all work packages assigned to me"
-  label_work_package_view_all_reported_by_me: "View all work packages reported by me"
-  label_work_package_view_all_responsible_for: "View all work packages that I am accountable for"
-  label_work_package_view_all_watched: "View all watched work packages"
-  label_work_package_watchers: "Watchers"
   label_workflow: "Workflow"
   label_workflow_plural: "Workflows"
   label_workflow_summary: "Summary"
@@ -1691,10 +1674,6 @@ en:
     one: "1 open"
     other: "%{count} open"
     zero: "0 open"
-  label_x_open_work_packages_abbr_on_total:
-    one: "1 open / %{total}"
-    other: "%{count} open / %{total}"
-    zero: "0 open / %{total}"
   label_x_projects:
     one: "1 project"
     other: "%{count} projects"

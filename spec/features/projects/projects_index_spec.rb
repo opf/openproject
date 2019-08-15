@@ -339,11 +339,11 @@ describe 'Projects index page',
         expect(page).to have_text('Development project')
         expect(page).to have_text('Public project')
 
-        visit project_path(parent_project)
+        visit project_overview_path(parent_project)
         expect(page).to have_text("The project you're trying to access has been archived.")
 
         # The child project gets archived automatically
-        visit project_path(child_project)
+        visit project_overview_path(child_project)
         expect(page).to have_text("The project you're trying to access has been archived.")
 
         load_and_open_filters admin
