@@ -126,23 +126,24 @@ describe 'Moving a work package through Rails view', js: true do
     before do
       display_representation.switch_to_card_layout
       loading_indicator_saveguard
+      find('body').send_keys [:control, 'a']
     end
 
     context 'with permissions' do
       let(:current_user) { mover }
 
-      it 'does not allow to copy' do
+      it 'does allow to move' do
         context_menu.open_for work_package, false
-        context_menu.expect_options 'Move'
+        context_menu.expect_options ['Bulk move']
       end
     end
 
     context 'without permission' do
       let(:current_user) { dev }
 
-      it 'does not allow to copy' do
+      it 'does not allow to move' do
         context_menu.open_for work_package, false
-        context_menu.expect_no_options 'Move'
+        context_menu.expect_no_options ['Bulk move']
       end
     end
   end

@@ -126,9 +126,9 @@ describe 'Copy work packages through Rails view', js: true do
     context 'with permissions' do
       let(:current_user) { mover }
 
-      it 'does not allow to copy' do
+      it 'does allow to copy' do
         context_menu.open_for work_package, false
-        context_menu.expect_options 'Bulk copy'
+        context_menu.expect_options ['Bulk copy']
       end
     end
 
@@ -137,7 +137,7 @@ describe 'Copy work packages through Rails view', js: true do
 
       it 'does not allow to copy' do
         context_menu.open_for work_package, false
-        context_menu.expect_no_options 'Bulk copy'
+        context_menu.expect_no_options ['Bulk copy']
       end
     end
   end

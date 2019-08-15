@@ -132,18 +132,18 @@ describe 'Bulk update work packages through Rails view', js: true do
     context 'with permissions' do
       let(:current_user) { mover }
 
-      it 'does not allow to copy' do
+      it 'does allow to edit' do
         context_menu.open_for work_package, false
-        context_menu.expect_options 'Bulk edit'
+        context_menu.expect_options ['Bulk edit']
       end
     end
 
     context 'without permission' do
       let(:current_user) { dev }
 
-      it 'does not allow to copy' do
+      it 'does not allow to edit' do
         context_menu.open_for work_package, false
-        context_menu.expect_no_options 'Bulk edit'
+        context_menu.expect_no_options ['Bulk edit']
       end
     end
   end
