@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,12 +26,40 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Grids
-  class Dashboard < Grid
-    belongs_to :project
+module Constants
+  class ARToAPIConversions
+    WELL_KNOWN_CONVERSIONS = {
+      assigned_to: 'assignee',
+      fixed_version: 'version',
+      done_ratio: 'percentageDone',
+      estimated_hours: 'estimatedTime',
+      created_on: 'createdAt',
+      updated_on: 'updatedAt',
+      remaining_hours: 'remainingTime',
+      spent_hours: 'spentTime',
+      subproject: 'subprojectId',
+      relation_type: 'type',
+      mail: 'email',
+      column_names: 'columns',
+      is_public: 'public',
+      sort_criteria: 'sortBy',
+      message: 'post'
+    }.freeze
 
-    set_acts_as_attachable_options view_permission: :view_dashboards,
-                                   delete_permission: :manage_dashboards,
-                                   add_permission: :manage_dashboards
+    class << self
+      def add(map)
+        conversions.push(map)
+      end
+
+      def all
+        conversions.inject(:merge)
+      end
+
+      private
+
+      def conversions
+        @conversions ||= [WELL_KNOWN_CONVERSIONS]
+      end
+    end
   end
 end

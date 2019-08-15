@@ -104,6 +104,7 @@ describe "POST /api/v3/grids/form for Dashboard Grids", type: :request, content_
           "name": 'foo',
           "options": {},
           "_links": {
+            "attachments": [],
             "scope": {
               'href': project_dashboards_path(project),
               "type": "text/html"
@@ -171,6 +172,7 @@ describe "POST /api/v3/grids/form for Dashboard Grids", type: :request, content_
         {
           name: 'foo',
           "_links": {
+            "attachments": [],
             "scope": {
               'href': project_dashboards_path(project)
             }
@@ -216,6 +218,7 @@ describe "POST /api/v3/grids/form for Dashboard Grids", type: :request, content_
           "name": 'foo',
           "options": {},
           "_links": {
+            "attachments": [],
             "scope": {
               'href': project_dashboards_path(project),
               "type": "text/html"

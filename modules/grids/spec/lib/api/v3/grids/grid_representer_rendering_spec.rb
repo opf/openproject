@@ -30,6 +30,7 @@ require 'spec_helper'
 
 describe ::API::V3::Grids::GridRepresenter, 'rendering' do
   include OpenProject::StaticRouting::UrlHelpers
+  include API::V3::Utilities::PathHelper
 
   let(:grid) do
     FactoryBot.build_stubbed(
@@ -65,13 +66,17 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
     )
   end
 
+  let(:embed_links) { true }
   let(:current_user) { FactoryBot.build_stubbed(:user) }
-  let(:representer) { described_class.new(grid, current_user: current_user) }
+  let(:representer) { described_class.new(grid, current_user: current_user, embed_links: embed_links) }
 
   let(:writable) { true }
   let(:scope_path) { 'bogus_scope' }
+  let(:attachment_addable) { true }
 
   before do
+    OpenProject::Cache.clear
+
     allow(::Grids::Configuration)
       .to receive(:writable?)
       .with(grid, current_user)
@@ -81,6 +86,11 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
       .to receive(:to_scope)
       .with(Grids::Grid, [])
       .and_return(scope_path)
+
+    allow(grid)
+      .to receive(:attachments_addable?)
+      .with(current_user)
+      .and_return(attachment_addable)
   end
 
   context 'generation' do
@@ -201,6 +211,34 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
               .at_path("_links/#{link}/type")
           end
         end
+      end
+
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'attachments' }
+        let(:href) { api_v3_paths.attachments_by_grid(grid.id) }
+      end
+
+      context 'addAttachments link' do
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'addAttachment' }
+          let(:href) { api_v3_paths.attachments_by_grid(grid.id) }
+        end
+
+        context 'user is not allowed to edit work packages' do
+          let(:attachment_addable) { false }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'addAttachment' }
+          end
+        end
+      end
+    end
+
+    context 'embedded' do
+      it 'embeds the attachments as collection' do
+        is_expected
+          .to be_json_eql('Collection'.to_json)
+          .at_path('_embedded/attachments/_type')
       end
     end
   end

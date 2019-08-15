@@ -37,7 +37,7 @@ module Projects
     end
 
     def only_custom_values_updated?
-      model.saved_changes.empty? && model.custom_values.map(&:saved_changes).any?(&:present?)
+      !model.saved_changes? && model.custom_values.any?(&:saved_changes?)
     end
   end
 end

@@ -67,7 +67,9 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
         "columnCount": 5,
         "widgets": [],
         "options": {},
-        "_links": {}
+        "_links": {
+          "attachments": []
+        }
       }
 
       expect(subject.body)

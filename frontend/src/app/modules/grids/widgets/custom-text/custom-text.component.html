@@ -15,6 +15,12 @@
                       [changesetInput]="changeset"
                       [editFieldHandler]="handler">
     </edit-form-portal>
+    <attachments *ngIf="active"
+                 [resource]="resource.grid"
+                 [selfDestroy]="true"
+                 data-allow-uploading="true">
+    </attachments>
+
     <div *ngIf="!active"
          class="inplace-edit--read">
       <accessible-by-keyboard

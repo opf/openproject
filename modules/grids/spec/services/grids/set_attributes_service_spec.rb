@@ -64,7 +64,7 @@ describe Grids::SetAttributesService, type: :model do
   describe 'call' do
     let(:call_attributes) do
       {
-        row_count: 5
+        column_count: 6
       }
     end
 

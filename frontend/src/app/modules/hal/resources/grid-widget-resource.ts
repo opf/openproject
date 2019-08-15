@@ -27,6 +27,10 @@
 //++
 
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {GridResource} from "core-app/modules/hal/resources/grid-resource";
+import {Attachable} from "core-app/modules/hal/resources/mixins/attachable-mixin";
+import {AttachmentCollectionResource} from "core-app/modules/hal/resources/attachment-collection-resource";
+import {UploadFile} from "core-components/api/op-file-upload/op-file-upload.service";
 
 export class GridWidgetResource extends HalResource {
   public identifier:string;
@@ -44,4 +48,6 @@ export class GridWidgetResource extends HalResource {
   public get width() {
     return this.endColumn - this.startColumn;
   }
+
+  public grid:GridResource;
 }

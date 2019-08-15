@@ -37,6 +37,10 @@ module Boards
 
     before_destroy :delete_queries
 
+    set_acts_as_attachable_options view_permission: :show_board_views,
+                                   delete_permission: :manage_board_views,
+                                   add_permission: :manage_board_views
+
     def user_deletable?
       true
     end

@@ -80,6 +80,7 @@ describe "POST /api/v3/grids/form for Board Grids", type: :request, content_type
           "name": 'foo',
           "options": {},
           "_links": {
+            "attachments": [],
             "scope": {
               'href': project_work_package_boards_path(project),
               "type": "text/html"
@@ -147,6 +148,7 @@ describe "POST /api/v3/grids/form for Board Grids", type: :request, content_type
         {
           name: 'foo',
           "_links": {
+            "attachments": [],
             "scope": {
               'href': project_work_package_boards_path(project),
               "type": "text/html"

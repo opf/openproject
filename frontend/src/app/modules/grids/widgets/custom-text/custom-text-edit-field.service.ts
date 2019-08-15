@@ -4,6 +4,8 @@ import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {BehaviorSubject} from "rxjs";
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 import {CustomTextChangeset} from "core-app/modules/grids/widgets/custom-text/custom-text-changeset";
+import {Attachable} from "core-app/modules/hal/resources/mixins/attachable-mixin";
+import {UploadFile} from "core-components/api/op-file-upload/op-file-upload.service";
 
 @Injectable()
 export class CustomTextEditFieldService extends EditFieldHandler {
@@ -28,12 +30,12 @@ export class CustomTextEditFieldService extends EditFieldHandler {
   }
 
   public initialize(value:GridWidgetResource) {
-    this.changeset = new CustomTextChangeset(this.injector, value.options);
+    this.changeset = new CustomTextChangeset(this.injector, this.newEditResource(value));
     this.valueChanged$ = new BehaviorSubject(value.options['text'] as string);
   }
 
   public reinitialize(value:GridWidgetResource) {
-    this.changeset = new CustomTextChangeset(this.injector, value.options);
+    this.changeset = new CustomTextChangeset(this.injector, this.newEditResource(value));
   }
 
   /**
@@ -114,5 +116,11 @@ export class CustomTextEditFieldService extends EditFieldHandler {
 
   stopPropagation(evt:JQueryEventObject):boolean {
     return false;
+  }
+
+  private newEditResource(value:GridWidgetResource) {
+    return { text: value.options.text,
+             canAddAttachments: value.grid.canAddAttachments,
+             uploadAttachments: (files:UploadFile[]) => value.grid.uploadAttachments(files) };
   }
 }

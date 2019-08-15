@@ -32,6 +32,10 @@ module API
       class GridRepresenter < ::API::Decorators::Single
         include API::Decorators::LinkedResource
         include API::Decorators::DateProperty
+        include API::Caching::CachedRepresenter
+        include ::API::V3::Attachments::AttachableRepresenterMixin
+
+        cached_representer key_parts: %i(widgets)
 
         resource_link :scope,
                       getter: ->(*) {
@@ -52,6 +56,7 @@ module API
 
         link :updateImmediately do
           next unless write_allowed?
+
           {
             href: api_v3_paths.grid(represented.id),
             method: :patch
@@ -60,6 +65,7 @@ module API
 
         link :update do
           next unless write_allowed?
+
           {
             href: api_v3_paths.grid_form(represented.id),
             method: :post

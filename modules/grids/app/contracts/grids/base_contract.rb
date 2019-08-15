@@ -34,6 +34,7 @@ module Grids
   class BaseContract < ::ModelContract
     include OpenProject::StaticRouting::UrlHelpers
     include AssignableValuesContract
+    include ::Attachments::ValidateReplacements
 
     attribute :row_count do
       validate_positive_integer(:row_count)

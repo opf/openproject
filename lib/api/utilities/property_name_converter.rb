@@ -46,25 +46,7 @@ module API
     # sense in different contexts.
     class PropertyNameConverter
       class << self
-        WELL_KNOWN_AR_TO_API_CONVERSIONS = {
-          assigned_to: 'assignee',
-          fixed_version: 'version',
-          done_ratio: 'percentageDone',
-          estimated_hours: 'estimatedTime',
-          created_on: 'createdAt',
-          updated_on: 'updatedAt',
-          remaining_hours: 'remainingTime',
-          spent_hours: 'spentTime',
-          subproject: 'subprojectId',
-          relation_type: 'type',
-          mail: 'email',
-          column_names: 'columns',
-          is_public: 'public',
-          sort_criteria: 'sortBy',
-          message: 'post'
-        }.freeze
-
-        # Converts the attribute name as refered to by ActiveRecord to a corresponding API-conform
+        # Converts the attribute name as referred to by ActiveRecord to a corresponding API-conform
         # attribute name:
         #  * camelCasing the attribute name
         #  * unifying :status and :status_id to 'status' (and other foo_id fields)
@@ -73,14 +55,14 @@ module API
           attribute = normalize_foreign_key_name attribute
           attribute = expand_custom_field_name attribute
 
-          special_conversion = WELL_KNOWN_AR_TO_API_CONVERSIONS[attribute.to_sym]
+          special_conversion = Constants::ARToAPIConversions.all[attribute.to_sym]
           return special_conversion if special_conversion
 
           # use the generic conversion rules if there is no special conversion
           attribute.camelize(:lower)
         end
 
-        # Converts the attribute name as refered to by the APIv3 to the source name of the attribute
+        # Converts the attribute name as referred to by the APIv3 to the source name of the attribute
         # in ActiveRecord. For that to work properly, an instance of the correct AR-class needs
         # to be passed as context.
         def to_ar_name(attribute, context:, refer_to_ids: false)
@@ -105,7 +87,7 @@ module API
         private
 
         def special_api_to_ar_conversions
-          @api_to_ar_conversions ||= WELL_KNOWN_AR_TO_API_CONVERSIONS.inject({}) do |result, (k, v)|
+          @api_to_ar_conversions ||= Constants::ARToAPIConversions.all.inject({}) do |result, (k, v)|
             result[v.underscore] = k.to_s
             result
           end

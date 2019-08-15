@@ -114,6 +114,7 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
             }
           ],
           "_links": {
+            "attachments": [],
             "scope": {
               "href": "/my/page",
               "type": "text/html"

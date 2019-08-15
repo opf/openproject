@@ -29,6 +29,7 @@
 shared_examples_for 'acts_as_attachable included' do
   let(:attachment1) { FactoryBot.create(:attachment, container: nil, author: current_user) }
   let(:attachment2) { FactoryBot.create(:attachment, container: nil, author: current_user) }
+  let(:instance_project) { respond_to?(:project) ? project : model_instance.project }
   let(:add_permission_user) do
     permission = if model_instance.persisted?
                    Array(described_class.attachable_options[:add_on_persisted_permission])
@@ -36,12 +37,12 @@ shared_examples_for 'acts_as_attachable included' do
                    Array(described_class.attachable_options[:add_on_new_permission])
                  end
     FactoryBot.create(:user,
-                      member_in_project: model_instance.project,
+                      member_in_project: instance_project,
                       member_with_permissions: permission)
   end
   let(:no_permission_user) do
     FactoryBot.create(:user,
-                      member_in_project: model_instance.project,
+                      member_in_project: instance_project,
                       member_with_permissions: [])
   end
   let(:other_user) do

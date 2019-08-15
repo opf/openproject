@@ -29,6 +29,8 @@
 #++
 
 class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
+  include Attachments::SetReplacements
+
   private
 
   def set_attributes(attributes)
@@ -49,14 +51,8 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
     end
   end
 
-  def set_attachments_attributes(attributes)
-    return unless attributes.key?(:attachment_ids)
-
-    work_package.attachments_replacements = Attachment.where(id: attributes[:attachment_ids])
-  end
-
   def set_static_attributes(attributes)
-    assignable_attributes = attributes.except(:attachment_ids).select do |key, _|
+    assignable_attributes = attributes.select do |key, _|
       !CustomField.custom_field_attribute?(key) && work_package.respond_to?(key)
     end
 

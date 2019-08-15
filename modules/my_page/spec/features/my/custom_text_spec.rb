@@ -28,17 +28,13 @@
 
 require 'spec_helper'
 
-require_relative '../support/pages/dashboard'
+require_relative '../../support/pages/my/page'
 
-describe 'Project description widget on dashboard', type: :feature, js: true do
-  let!(:project) do
-    FactoryBot.create :project
-  end
-
+describe 'Custom text widget on my page', type: :feature, js: true do
   let(:permissions) do
-    %i[view_dashboards
-       manage_dashboards]
+    []
   end
+  let(:project) { FactoryBot.create(:project) }
 
   let(:role) do
     FactoryBot.create(:role, permissions: permissions)
@@ -47,8 +43,11 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
   let(:user) do
     FactoryBot.create(:user, member_in_project: project, member_with_permissions: permissions)
   end
-  let(:dashboard_page) do
-    Pages::Dashboard.new(project)
+  let(:other_user) do
+    FactoryBot.create(:user, member_in_project: project, member_with_permissions: permissions)
+  end
+  let(:my_page) do
+    Pages::My::Page.new
   end
   let(:image_fixture) { Rails.root.join('spec/fixtures/files/image.png') }
   let(:editor) { ::Components::WysiwygEditor.new 'body' }
@@ -57,15 +56,15 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
   before do
     login_as user
 
-    dashboard_page.visit!
+    my_page.visit!
   end
 
   it 'can add the widget set custom text and upload attachments' do
-    dashboard_page.add_column(3, before_or_after: :before)
+    my_page.add_column(3, before_or_after: :before)
 
     sleep(0.1)
 
-    dashboard_page.add_widget(2, 3, "Custom text")
+    my_page.add_widget(2, 3, "Custom text")
 
     sleep(0.1)
 
@@ -116,5 +115,9 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
       expect(page)
         .to have_no_selector('attachment-list-item', text: 'image.png')
     end
+
+    # ensure no one but the page's user can see the uploaded attachment
+    expect(Attachment.last.visible?(other_user))
+      .to be_falsey
   end
 end

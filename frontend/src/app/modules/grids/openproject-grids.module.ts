@@ -64,6 +64,7 @@ import {OpenprojectFieldsModule} from "core-app/modules/fields/openproject-field
 import {WidgetProjectDetailsComponent} from "core-app/modules/grids/widgets/project-details/project-details.component";
 import {WidgetTimeEntriesProjectComponent} from "core-app/modules/grids/widgets/time-entries-current-user/project/time-entries-project.component";
 import {WidgetSubprojectsComponent} from "core-app/modules/grids/widgets/subprojects/subprojects.component";
+import {OpenprojectAttachmentsModule} from "core-app/modules/attachments/openproject-attachments.module";
 
 export const GRID_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -88,6 +89,8 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
     OpenprojectWorkPackagesModule,
     OpenprojectWorkPackageGraphsModule,
     OpenprojectCalendarModule,
+
+    OpenprojectAttachmentsModule,
 
     DynamicModule.withComponents([
                                   WidgetCustomTextComponent,

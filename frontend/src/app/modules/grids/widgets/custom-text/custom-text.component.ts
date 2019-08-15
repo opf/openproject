@@ -52,6 +52,9 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
   }
 
   public activate() {
+    // load the attachments so that they are displayed in the list;
+    this.resource.grid.updateAttachments();
+
     this.handler.activate();
   }
 

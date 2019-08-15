@@ -4,7 +4,6 @@ module Components
     include RSpec::Matchers
     attr_reader :context_selector, :attachments
 
-
     def initialize(context = '#content')
       @context_selector = context
       @attachments = ::Components::Attachments.new
@@ -86,7 +85,6 @@ module Components
         # Besides testing caption functionality this also slows down clicking on the submit button
         # so that the image is properly embedded
         editable.all('figure').each do |figure|
-
           # Locate image within figure
           # Click on image to show figcaption
           img = figure.find('img')
@@ -108,7 +106,7 @@ module Components
       warn "Failed to refocus on first editor element #{e}"
     end
 
-  def insert_link(link)
+    def insert_link(link)
       click_toolbar_button 'Link (Ctrl+K)'
       page.find('.ck-input-text').set link
       page.find('.ck-button-save').click

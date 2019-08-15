@@ -32,6 +32,10 @@ export class GridAreaService {
     this.buildAreas(false);
   }
 
+  public get gridResource() {
+    return this.resource;
+  }
+
   public setMousedOverArea(area:GridArea) {
     this.mousedOverArea = area;
   }

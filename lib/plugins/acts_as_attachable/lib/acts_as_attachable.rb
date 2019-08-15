@@ -40,7 +40,7 @@ module Redmine
       module ClassMethods
         def acts_as_attachable(options = {})
           Redmine::Acts::Attachable.attachables.push(self)
-          cattr_accessor :attachable_options
+          class_attribute :attachable_options
           set_acts_as_attachable_options(options)
 
           attachments_order = options.delete(:order) || "#{Attachment.table_name}.created_at"
@@ -61,6 +61,7 @@ module Redmine
             delete_permission: delete_permission(options),
             add_on_new_permission: add_on_new_permission(options),
             add_on_persisted_permission: add_on_persisted_permission(options),
+            only_user_allowed: only_user_allowed(options),
             modification_blocked: options[:modification_blocked]
           }
 
@@ -69,6 +70,7 @@ module Redmine
                           :add_on_new_permission,
                           :add_on_persisted_permission,
                           :add_permission,
+                          :only_user_allowed,
                           :modification_blocked)
         end
 
@@ -86,6 +88,10 @@ module Redmine
 
         def add_on_persisted_permission(options)
           options[:add_on_persisted_permission] || options[:add_permission] || edit_permission_default
+        end
+
+        def only_user_allowed(options)
+          options.fetch(:only_user_allowed, false)
         end
 
         def view_permission_default
@@ -117,7 +123,7 @@ module Redmine
 
         module InstanceMethods
           def modification_blocked?
-            if policy = self.class.attachable_options[:modification_blocked]
+            if (policy = self.class.attachable_options[:modification_blocked])
               return instance_eval &policy
             end
 
@@ -158,7 +164,11 @@ module Redmine
 
           def allowed_to_on_attachment?(user, permissions)
             Array(permissions).any? do |permission|
-              user.allowed_to?(permission, project)
+              if respond_to?(:project)
+                user.allowed_to?(permission, project)
+              else
+                user.allowed_to_globally?(permission)
+              end
             end
           end
 

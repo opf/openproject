@@ -51,13 +51,13 @@ module API
 
           route_param :id, type: Integer, desc: 'News ID' do
             after_validation do
-              @time_entry = ::News
-                            .visible
-                            .find(params[:id])
+              @news = ::News
+                      .visible
+                      .find(params[:id])
             end
 
             get do
-              NewsRepresenter.create(@time_entry,
+              NewsRepresenter.create(@news,
                                      current_user: current_user,
                                      embed_links: true)
             end

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,12 +26,18 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Grids
-  class Dashboard < Grid
-    belongs_to :project
+require 'spec_helper'
 
-    set_acts_as_attachable_options view_permission: :view_dashboards,
-                                   delete_permission: :manage_dashboards,
-                                   add_permission: :manage_dashboards
+describe ::API::V3::Utilities::PathHelper do
+  let(:helper) { Class.new.tap { |c| c.extend(::API::V3::Utilities::PathHelper) }.api_v3_paths }
+
+  context 'attachments paths' do
+    describe '#attachments_by_grid' do
+      subject { helper.attachments_by_grid 1 }
+
+      it 'provides the path' do
+        is_expected.to match('/grids/1/attachments')
+      end
+    end
   end
 end

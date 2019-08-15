@@ -42,7 +42,7 @@ module API
 
             if query.valid?
               GridCollectionRepresenter.new(query.results,
-                                            api_v3_paths.time_entries,
+                                            api_v3_paths.grids,
                                             grid_scope: query.filter_scope,
                                             page: to_i_or_nil(params[:offset]),
                                             per_page: resolve_page_size(params[:pageSize]),
@@ -69,6 +69,8 @@ module API
               GridRepresenter.new(@grid,
                                   current_user: current_user)
             end
+
+            mount ::API::V3::Attachments::AttachmentsByGridAPI
 
             # Hack to be able to use the Default* mount while having the permission check
             # not affecting the GET request
