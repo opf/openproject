@@ -76,7 +76,6 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
         untilComponentDestroyed(this)
       )
       .subscribe(() => {
-        this.disabled = this.wpDisplayRepresentationService.current === wpDisplayCardRepresentation;
         this.cdRef.detectChanges();
       });
   }

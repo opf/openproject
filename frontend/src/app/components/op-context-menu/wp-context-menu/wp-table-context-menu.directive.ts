@@ -33,15 +33,17 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
   private selectedWorkPackages = this.getSelectedWorkPackages();
   private permittedActions = this.WorkPackageContextMenuHelper.getPermittedActions(
     this.selectedWorkPackages,
-    PERMITTED_CONTEXT_MENU_ACTIONS
+    PERMITTED_CONTEXT_MENU_ACTIONS,
+    this.allowSplitScreenActions
   );
   protected items = this.buildItems();
 
   constructor(readonly injector:Injector,
-              readonly table:WorkPackageTable,
               readonly workPackageId:string,
               public $element:JQuery,
-              public additionalPositionArgs:any = {}) {
+              public additionalPositionArgs:any = {},
+              readonly table?:WorkPackageTable,
+              readonly allowSplitScreenActions:boolean = true) {
     super(injector.get(OPContextMenuService))
   }
 
@@ -73,11 +75,15 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
         break;
 
       case 'relation-precedes':
-        this.table.timelineController.startAddRelationPredecessor(this.workPackage);
+        if (this.table) {
+          this.table.timelineController.startAddRelationPredecessor(this.workPackage);
+        }
         break;
 
       case 'relation-follows':
-        this.table.timelineController.startAddRelationFollower(this.workPackage);
+        if (this.table) {
+          this.table.timelineController.startAddRelationFollower(this.workPackage);
+        }
         break;
 
       case 'relation-new-child':
@@ -146,15 +152,35 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
             return false;
           }
 
-          this.triggerContextMenuAction(action)
+          this.triggerContextMenuAction(action);
           return true;
         }
       };
     });
 
+
     if (!this.workPackage.isNew) {
-      items.unshift(
-        {
+      items.unshift({
+        disabled: false,
+        icon: 'icon-view-fullscreen',
+        class: 'openFullScreenView',
+        href: this.$state.href('work-packages.show', {workPackageId: this.workPackageId}),
+        linkText: I18n.t('js.button_open_fullscreen'),
+        onClick: ($event:JQueryEventObject) => {
+          if (LinkHandling.isClickedWithModifier($event)) {
+            return false;
+          }
+
+          this.$state.go(
+            'work-packages.show',
+            { workPackageId: this.workPackageId }
+          );
+          return true;
+        }
+      });
+
+      if (this.allowSplitScreenActions) {
+        items.unshift({
           disabled: false,
           icon: 'icon-view-split',
           class: 'detailsViewMenuItem',
@@ -171,26 +197,8 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
             );
             return true;
           }
-        },
-        {
-          disabled: false,
-          icon: 'icon-view-fullscreen',
-          class: 'openFullScreenView',
-          href: this.$state.href('work-packages.show', {workPackageId: this.workPackageId}),
-          linkText: I18n.t('js.button_open_fullscreen'),
-          onClick: ($event:JQueryEventObject) => {
-            if (LinkHandling.isClickedWithModifier($event)) {
-              return false;
-            }
-
-            this.$state.go(
-              'work-packages.show',
-              { workPackageId: this.workPackageId }
-            );
-            return true;
-          }
-        },
-      )
+        });
+      }
     }
 
     return items;

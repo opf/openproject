@@ -77,12 +77,12 @@ export class WorkPackageContextMenuHelperService {
               private PathHelper:PathHelperService) {
   }
 
-  public getPermittedActionLinks(workPackage:WorkPackageResource, permittedActionConstants:any):WorkPackageAction[] {
+  public getPermittedActionLinks(workPackage:WorkPackageResource, permittedActionConstants:any, allowSplitScreenActions:boolean):WorkPackageAction[] {
     let singularPermittedActions: any[] = [];
 
     let allowedActions = this.getAllowedActions(workPackage, permittedActionConstants);
 
-    allowedActions = allowedActions.concat(this.getAllowedRelationActions(workPackage));
+    allowedActions = allowedActions.concat(this.getAllowedRelationActions(workPackage, allowSplitScreenActions));
 
     _.each(allowedActions, (allowedAction) => {
       singularPermittedActions.push({
@@ -151,7 +151,7 @@ export class WorkPackageContextMenuHelperService {
     return allowedActions;
   }
 
-  private getAllowedRelationActions(workPackage:WorkPackageResource) {
+  private getAllowedRelationActions(workPackage:WorkPackageResource, allowSplitScreenActions:boolean) {
     let allowedActions: WorkPackageAction[] = [];
 
     if (workPackage.addRelation && this.wpTableTimeline.isVisible) {
@@ -167,7 +167,7 @@ export class WorkPackageContextMenuHelperService {
       });
     }
 
-    if (!!workPackage.addChild) {
+    if (!!workPackage.addChild && allowSplitScreenActions) {
       allowedActions.push({
         key: "relation-new-child",
         text: I18n.t("js.relation_buttons.add_new_child"),
@@ -179,9 +179,9 @@ export class WorkPackageContextMenuHelperService {
   }
 
 
-  public getPermittedActions(workPackages:WorkPackageResource[], permittedActionConstants:any):WorkPackageAction[] {
+  public getPermittedActions(workPackages:WorkPackageResource[], permittedActionConstants:any, allowSplitScreenActions:boolean):WorkPackageAction[] {
     if (workPackages.length === 1) {
-      return this.getPermittedActionLinks(workPackages[0], permittedActionConstants);
+      return this.getPermittedActionLinks(workPackages[0], permittedActionConstants, allowSplitScreenActions);
     } else {
       return this.getIntersectOfPermittedActions(workPackages);
     }
