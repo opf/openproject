@@ -42,13 +42,27 @@ export abstract class AbstractDmService<T extends HalResource> implements DmServ
   }
 
   public list(params:DmListParameter|null):Promise<CollectionResource<T>> {
+    return this.listRequest(this.listUrl(), params) as Promise<CollectionResource<T>>;
+  }
+
+
+  public one(id:number):Promise<T> {
+    return this.halResourceService.get<T>(this.oneUrl(id).toString()).toPromise();
+  }
+
+  protected listRequest(url:string, params:DmListParameter|null) {
+    return this.halResourceService.get(url + this.listParamsString(params)).toPromise();
+  }
+
+  protected listParamsString(params:DmListParameter|null):string {
     let queryProps = [];
 
     if (params && params.sortBy) {
       queryProps.push(`sortBy=${JSON.stringify(params.sortBy)}`);
     }
 
-    if (params && params.pageSize) {
+    // 0 should not be treated as false
+    if (params && params.pageSize !== undefined) {
       queryProps.push(`pageSize=${params.pageSize}`);
     }
 
@@ -68,11 +82,7 @@ export abstract class AbstractDmService<T extends HalResource> implements DmServ
       queryPropsString = `?${queryProps.join('&')}`;
     }
 
-    return this.halResourceService.get<CollectionResource<T>>(this.listUrl() + queryPropsString).toPromise();
-  }
-
-  public one(id:number):Promise<T> {
-    return this.halResourceService.get<T>(this.oneUrl(id).toString()).toPromise();
+    return queryPropsString;
   }
 
 

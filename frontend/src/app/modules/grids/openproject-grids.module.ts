@@ -65,6 +65,7 @@ import {WidgetProjectDetailsComponent} from "core-app/modules/grids/widgets/proj
 import {WidgetTimeEntriesProjectComponent} from "core-app/modules/grids/widgets/time-entries-current-user/project/time-entries-project.component";
 import {WidgetSubprojectsComponent} from "core-app/modules/grids/widgets/subprojects/subprojects.component";
 import {OpenprojectAttachmentsModule} from "core-app/modules/attachments/openproject-attachments.module";
+import {WidgetMembersComponent} from "core-app/modules/grids/widgets/members/members.component";
 
 export const GRID_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -95,6 +96,7 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
     DynamicModule.withComponents([
                                   WidgetCustomTextComponent,
                                   WidgetDocumentsComponent,
+                                  WidgetMembersComponent,
                                   WidgetNewsComponent,
                                   WidgetWpTableQuerySpaceComponent,
                                   WidgetWpGraphComponent,
@@ -128,6 +130,7 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
     // Widgets
     WidgetCustomTextComponent,
     WidgetDocumentsComponent,
+    WidgetMembersComponent,
     WidgetNewsComponent,
     WidgetWpCalendarComponent,
     WidgetWpOverviewComponent,
@@ -296,6 +299,14 @@ export function registerWidgets(injector:Injector) {
           title: i18n.t(`js.grid.widgets.documents.title`),
           properties: {
             name: i18n.t('js.grid.widgets.documents.title')
+          }
+        },
+        {
+          identifier: 'members',
+          component: WidgetMembersComponent,
+          title: i18n.t(`js.grid.widgets.members.title`),
+          properties: {
+            name: i18n.t('js.grid.widgets.members.title')
           }
         },
         {

@@ -102,6 +102,10 @@ export class PathHelperService {
     return this.projectPath(projectId) + '/work_packages/calendar';
   }
 
+  public projectMembershipsPath(projectId:string) {
+    return this.projectPath(projectId) + '/members';
+  }
+
   public projectNewsPath(projectId:string) {
     return this.projectPath(projectId) + '/news';
   }

@@ -59,6 +59,8 @@ import {GridResource} from "core-app/modules/hal/resources/grid-resource";
 import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
 import {NewsResource} from "core-app/modules/hal/resources/news-resource";
 import {VersionResource} from "core-app/modules/hal/resources/version-resource";
+import {MembershipResource} from "core-app/modules/hal/resources/membership-resource";
+import {RoleResource} from "core-app/modules/hal/resources/role-resource";
 
 const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInterface } = {
   WorkPackage: {
@@ -166,6 +168,9 @@ const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInter
   Post: {
     cls: PostResource
   },
+  Role: {
+    cls: RoleResource
+  },
   Grid: {
     cls: GridResource,
   },
@@ -174,6 +179,9 @@ const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInter
   },
   TimeEntry: {
     cls: TimeEntryResource
+  },
+  Membership: {
+    cls: MembershipResource
   },
   News: {
     cls: NewsResource
