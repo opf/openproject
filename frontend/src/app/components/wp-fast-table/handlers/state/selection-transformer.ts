@@ -7,7 +7,6 @@ import {locateTableRow, scrollTableRowIntoView} from '../../helpers/wp-table-row
 import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {WPTableRowSelectionState} from '../../wp-table.interfaces';
-import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 
@@ -17,7 +16,6 @@ export class SelectionTransformer {
   public wpTableFocus:WorkPackageTableFocusService = this.injector.get(WorkPackageTableFocusService);
   public querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
   public FocusHelper:FocusHelperService = this.injector.get(FocusHelperService);
-  public opContextMenu:OPContextMenuService = this.injector.get(OPContextMenuService);
 
   constructor(public readonly injector:Injector,
               public readonly table:WorkPackageTable) {
@@ -48,22 +46,9 @@ export class SelectionTransformer {
         this.renderSelectionState(state);
       });
 
-    // Bind CTRL+A to select all work packages
-    Mousetrap.bind(['command+a', 'ctrl+a'], (e) => {
-      this.wpTableSelection.selectAll(table.renderedRows);
 
-      e.preventDefault();
-      this.opContextMenu.close();
-      return false;
-    });
-
-    // Bind CTRL+D to deselect all work packages
-    Mousetrap.bind(['command+d', 'ctrl+d'], (e) => {
-      this.wpTableSelection.reset();
-      this.opContextMenu.close();
-      e.preventDefault();
-      return false;
-    });
+    this.wpTableSelection.registerSelectAllListener(() => { return table.renderedRows; });
+    this.wpTableSelection.registerDeselectAllListener();
   }
 
   /**

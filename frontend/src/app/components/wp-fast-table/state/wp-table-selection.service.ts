@@ -3,9 +3,10 @@ import {RenderedRow} from '../builders/primary-render-pass';
 import {input} from 'reactivestates';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
-import {Injectable} from '@angular/core';
+import {Injectable, Injector} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from 'core-components/states.service';
+import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 
 @Injectable()
 export class WorkPackageTableSelection {
@@ -14,8 +15,8 @@ export class WorkPackageTableSelection {
 
   public constructor(readonly querySpace:IsolatedQuerySpace,
                      readonly states:States,
-                     readonly wpCacheService:WorkPackageCacheService) {
-
+                     readonly wpCacheService:WorkPackageCacheService,
+                     readonly opContextMenu:OPContextMenuService) {
     this.reset();
   }
 
@@ -151,6 +152,27 @@ export class WorkPackageTableSelection {
     this.selectionState.putValue(state);
   }
 
+  public registerSelectAllListener(renderedElements: () => RenderedRow[]) {
+    // Bind CTRL+A to select all work packages
+    Mousetrap.bind(['command+a', 'ctrl+a'], (e) => {
+      this.selectAll(renderedElements());
+      e.preventDefault();
+
+      this.opContextMenu.close();
+      return false;
+    });
+  }
+
+  public registerDeselectAllListener () {
+    // Bind CTRL+D to deselect all work packages
+    Mousetrap.bind(['command+d', 'ctrl+d'], (e) => {
+      this.reset();
+      e.preventDefault();
+
+      this.opContextMenu.close();
+      return false;
+    });
+  }
 
   private get _emptyState():WPTableRowSelectionState {
     return {

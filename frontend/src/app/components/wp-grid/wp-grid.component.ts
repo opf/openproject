@@ -33,6 +33,8 @@ import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state
 import {distinctUntilChanged, takeUntil} from "rxjs/operators";
 import {HighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
+import {WorkPackageCardDragAndDropService} from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";
 
 @Component({
   selector: 'wp-grid',
@@ -44,10 +46,16 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
                   [showStatusButton]="false"
                   [orientation]="gridOrientation"
                   (onMoved)="switchToManualSorting()"
-                  [showEmptyResultsBox]="true">
+                  [showEmptyResultsBox]="true"
+                  [showInfoButton]="true"
+                  [showInitialSelection]="true">
     </wp-card-view>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    DragAndDropService,
+    WorkPackageCardDragAndDropService
+  ]
 })
 export class WorkPackagesGridComponent {
   public canDragOutOf = () => { return true; };

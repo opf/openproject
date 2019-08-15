@@ -47,6 +47,7 @@ import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
 import {BoardListMenuComponent} from "core-app/modules/boards/board/board-list/board-list-menu.component";
 import {debugLog} from "core-app/helpers/debug_output";
+import {WorkPackageCardDragAndDropService} from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";
 
 export interface DisabledButtonPlaceholder {
   text:string;
@@ -60,6 +61,7 @@ export interface DisabledButtonPlaceholder {
   providers: [
     {provide: WorkPackageInlineCreateService, useClass: BoardInlineCreateService},
     BoardListMenuComponent,
+    WorkPackageCardDragAndDropService
   ]
 })
 export class BoardListComponent extends AbstractWidgetComponent implements OnInit, OnDestroy, OnChanges {
