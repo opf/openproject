@@ -5,6 +5,7 @@
 
   <editable-toolbar-title [title]="name"
                           (onSave)="renamed($event)"
+                          [editable]="isRenameable"
                           class="widget-box--header-title">
   </editable-toolbar-title>
 

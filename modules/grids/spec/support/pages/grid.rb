@@ -65,14 +65,17 @@ module Pages
       end
     end
 
-    def expect_unable_to_add_widget(row_number, column_number, name)
-      within_add_widget_modal(row_number, column_number) do
-        expect(page)
-          .to have_content(I18n.t('js.grid.add_modal.choose_widget'))
-
-        expect(page)
-          .not_to have_selector('.grid--addable-widget', text: Regexp.new("^#{name}$"))
+    def expect_unable_to_add_widget(row_number, column_number, name = nil)
+      if name
+        expect_specific_widget_unaddable(row_number, column_number, name)
+      else
+        expect_widget_adding_prohibited_generally(row_number, column_number)
       end
+    end
+
+    def expect_no_headers
+      expect(page)
+        .to have_no_selector('.grid--header')
     end
 
     def area_of(row_number, column_number)
@@ -88,6 +91,24 @@ module Pages
 
       within '.op-modal--portal' do
         yield
+      end
+    end
+
+    def expect_widget_adding_prohibited_generally(row_number = 1, column_number = 1)
+      area = area_of(row_number, column_number)
+      area.hover
+
+      expect(area)
+        .to have_no_selector('.grid--widget-add')
+    end
+
+    def expect_specific_widget_unaddable(row_number, column_number, name)
+      within_add_widget_modal(row_number, column_number) do
+        expect(page)
+          .to have_content(I18n.t('js.grid.add_modal.choose_widget'))
+
+        expect(page)
+          .not_to have_selector('.grid--addable-widget', text: Regexp.new("^#{name}$"))
       end
     end
   end

@@ -31,11 +31,12 @@
 shared_context 'grid contract' do
   let(:user) { FactoryBot.build_stubbed(:user) }
   let(:instance) { described_class.new(grid, user) }
+  let(:widgets) { [] }
   let(:default_values) do
     {
       row_count: 6,
       column_count: 7,
-      widgets: []
+      widgets: widgets
     }
   end
   let(:grid) do
@@ -126,6 +127,81 @@ shared_examples_for 'shared grid contract attributes' do
       it 'is invalid for the grid superclass itself' do
         expect(instance.errors.details[:scope])
           .to match_array [{ error: :inclusion }]
+      end
+    end
+  end
+
+  describe 'widgets' do
+    before do
+      allow(Grids::Configuration)
+        .to receive(:writable?)
+        .and_return(true)
+
+      allow(Grids::Configuration)
+        .to receive(:registered_grid?)
+        .with(Grids::Grid)
+        .and_return(true)
+
+      allow(Grids::Configuration)
+        .to receive(:allowed_widget?)
+        .with(Grids::Grid, 'widget1', user, nil)
+        .and_return(true)
+
+      allow(Grids::Configuration)
+        .to receive(:allowed_widget?)
+        .with(Grids::Grid, 'widget2', user, nil)
+        .and_return(false)
+    end
+
+    context 'if there are new widgets that are not allowed' do
+      let(:widgets) do
+        [Grids::Widget.new(identifier: 'widget2', start_row: 1, end_row: 3, start_column: 1, end_column: 3)]
+      end
+
+      it 'notes the error' do
+        instance.validate
+
+        expect(instance.errors.details[:widgets])
+          .to match_array [{ error: :inclusion }]
+      end
+    end
+
+    context 'if there are new widgets that are allowed' do
+      let(:widgets) do
+        [Grids::Widget.new(identifier: 'widget1', start_row: 1, end_row: 3, start_column: 1, end_column: 3)]
+      end
+
+      it 'is valid' do
+        expect(instance.validate)
+          .to be_truthy
+      end
+    end
+
+    context 'if there are new widgets that are not allowed but marked for destruction' do
+      let(:widgets) do
+        widget = Grids::Widget.new(identifier: 'widget2', start_row: 1, end_row: 3, start_column: 1, end_column: 3)
+
+        allow(widget)
+          .to receive(:marked_for_destruction?)
+          .and_return(true)
+
+        [widget]
+      end
+
+      it 'is valid' do
+        expect(instance.validate)
+          .to be_truthy
+      end
+    end
+
+    context 'if there are existing widgets that are not allowed' do
+      let(:widgets) do
+        [FactoryBot.build_stubbed(:grid_widget, identifier: 'widget2', start_row: 1, end_row: 3, start_column: 1, end_column: 3)]
+      end
+
+      it 'is valid' do
+        expect(instance.validate)
+          .to be_truthy
       end
     end
   end

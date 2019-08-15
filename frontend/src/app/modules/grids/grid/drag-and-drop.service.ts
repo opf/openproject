@@ -55,6 +55,10 @@ export class GridDragAndDropService {
     return this.currentlyDragging && this.draggedArea!.guid === area.guid;
   }
 
+  public get isDraggable() {
+    return this.layout.isEditable;
+  }
+
   public start(area:GridWidgetArea) {
     this.draggedArea = area;
     this.placeholderArea = new GridWidgetArea(area.widget);

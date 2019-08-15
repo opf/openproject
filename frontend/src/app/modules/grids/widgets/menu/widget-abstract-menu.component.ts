@@ -31,6 +31,7 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {OpContextMenuItem} from "core-components/op-context-menu/op-context-menu.types";
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 import {GridRemoveWidgetService} from "core-app/modules/grids/grid/remove-widget.service";
+import {GridAreaService} from "core-app/modules/grids/grid/area.service";
 
 export abstract class WidgetAbstractMenuComponent {
   @Input() resource:GridWidgetResource;
@@ -38,7 +39,8 @@ export abstract class WidgetAbstractMenuComponent {
   protected menuItemList:OpContextMenuItem[] = [this.removeItem];
 
   constructor(readonly i18n:I18nService,
-              protected readonly remove:GridRemoveWidgetService) {
+              protected readonly remove:GridRemoveWidgetService,
+              protected readonly layout:GridAreaService) {
   }
 
   public get menuItems() {
@@ -55,5 +57,9 @@ export abstract class WidgetAbstractMenuComponent {
         return true;
       }
     };
+  }
+
+  public get hasMenu() {
+    return this.layout.isEditable;
   }
 }

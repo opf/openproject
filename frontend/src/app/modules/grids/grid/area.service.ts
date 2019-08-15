@@ -244,6 +244,10 @@ export class GridAreaService {
     this.numColumns = this.resource.columnCount;
   }
 
+  public get isEditable() {
+    return this.gridResource.updateImmediately !== undefined;
+  }
+
   private buildGridAreaIds() {
     return this.gridAreas.map((area) => {
       return area.guid;

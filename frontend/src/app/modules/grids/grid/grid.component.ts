@@ -111,4 +111,8 @@ export class GridComponent implements OnDestroy, OnInit {
   public identifyGridArea(index:number, area:GridArea) {
     return area.guid;
   }
+
+  public get isHeadersDisplayed() {
+    return this.layout.isEditable;
+  }
 }

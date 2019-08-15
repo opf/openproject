@@ -27,6 +27,7 @@
 // ++
 
 import {Component, ChangeDetectionStrategy, Input, EventEmitter, Output} from '@angular/core';
+import {GridAreaService} from "core-app/modules/grids/grid/area.service";
 
 @Component({
   selector: 'widget-header',
@@ -39,11 +40,19 @@ export class WidgetHeaderComponent {
   @Input() icon:string;
   @Output() onRenamed = new EventEmitter<string>();
 
+  constructor(readonly layout:GridAreaService) {
+
+  }
+
   public renamed(name:string) {
     this.onRenamed.emit(name);
   }
 
   public get iconClass() {
     return `icon-${this.icon}`;
+  }
+
+  public get isRenameable() {
+    return this.layout.isEditable;
   }
 }

@@ -5,6 +5,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {filter} from 'rxjs/operators';
+import {GridAreaService} from "core-app/modules/grids/grid/area.service";
 
 @Component({
   templateUrl: './custom-text.component.html',
@@ -19,7 +20,8 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
   constructor (protected i18n:I18nService,
                protected injector:Injector,
                public handler:CustomTextEditFieldService,
-               protected cdr:ChangeDetectorRef) {
+               protected cdr:ChangeDetectorRef,
+               protected layout:GridAreaService) {
     super(i18n, injector);
   }
 
@@ -90,6 +92,10 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
 
   public get textEmpty() {
     return !this.customText;
+  }
+
+  public get isTextEditable() {
+    return this.layout.isEditable;
   }
 
   private memorizeRawText() {

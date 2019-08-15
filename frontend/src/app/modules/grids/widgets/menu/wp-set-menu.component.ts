@@ -34,6 +34,7 @@ import {OpModalComponent} from "core-components/op-modals/op-modal.component";
 import {ComponentType} from '@angular/cdk/portal';
 import {WidgetAbstractMenuComponent} from "core-app/modules/grids/widgets/menu/widget-abstract-menu.component";
 import {WpGraphConfigurationModalComponent} from "core-app/modules/work-package-graphs/configuration-modal/wp-graph-configuration.modal";
+import {GridAreaService} from "core-app/modules/grids/grid/area.service";
 
 export abstract class WidgetWpSetMenuComponent extends WidgetAbstractMenuComponent {
   protected configurationComponent:ComponentType<OpModalComponent>;
@@ -49,9 +50,11 @@ export abstract class WidgetWpSetMenuComponent extends WidgetAbstractMenuCompone
   constructor(private readonly injector:Injector,
               private readonly opModalService:OpModalService,
               readonly i18n:I18nService,
-              protected readonly remove:GridRemoveWidgetService) {
-    super(i18n,
-      remove);
+              protected readonly remove:GridRemoveWidgetService,
+              readonly layout:GridAreaService) {
+  super(i18n,
+        remove,
+        layout);
   }
 
   protected get configureItem() {
