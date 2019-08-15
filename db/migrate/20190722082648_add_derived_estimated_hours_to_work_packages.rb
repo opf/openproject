@@ -45,7 +45,7 @@ class AddDerivedEstimatedHoursToWorkPackages < ActiveRecord::Migration[5.2]
     create_customizable_journals last_id: last_id
     create_attachable_journals last_id: last_id
 
-    work_packages.each(&:touch) # invalidate cache
+    touch_work_packages work_packages # to invalidate cache
   end
 
   ##
@@ -162,6 +162,14 @@ class AddDerivedEstimatedHoursToWorkPackages < ActiveRecord::Migration[5.2]
           -- we are selecting the latest previous (hence <= last_id) customizable journal here to copy its values
         )
       WHERE #{journals}.id > #{last_id} -- make sure to only create entries for the newly created journals
+    ")
+  end
+
+  def touch_work_packages(work_packages)
+    where = work_packages.arel.where_sql
+
+    WorkPackage.connection.execute("
+      UPDATE work_packages SET updated_at = NOW(), lock_version = lock_version + 1 #{where}
     ")
   end
 end
