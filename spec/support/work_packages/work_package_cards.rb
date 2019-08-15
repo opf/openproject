@@ -25,53 +25,29 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
+require 'spec_helper'
 
-module Components
-  module WorkPackages
-    class ContextMenu
-      include Capybara::DSL
-      include RSpec::Matchers
+class WorkPackageCards
+  include Capybara::DSL
+  include RSpec::Matchers
+  attr_reader :project
 
-      def open_for(work_package, list_view = true)
-        if list_view
-          find(".wp-row-#{work_package.id}-table").right_click
-        else
-          find(".wp-card-#{work_package.id}").right_click
-        end
-        expect_open
-      end
+  def initialize(project = nil)
+    @project = project
+  end
 
-      def expect_open
-        expect(page).to have_selector(selector)
-      end
+  def open_full_screen_by_doubleclick(work_package)
+    loading_indicator_saveguard
+    page.driver.browser.action.double_click(card(work_package).native).perform
 
-      def expect_closed
-        expect(page).to have_no_selector(selector)
-      end
+    Pages::FullWorkPackage.new(work_package, project)
+  end
 
-      def choose(target)
-        find("#{selector} a", text: target).click
-      end
+  def select_work_package(work_package)
+    card(work_package).click
+  end
 
-      def expect_no_options(*options)
-        expect_open
-        options.each do |text|
-          expect(page).to have_no_selector("#{selector} a", text: text)
-        end
-      end
-
-      def expect_options(options)
-        expect_open
-        options.each do |text|
-          expect(page).to have_selector("#{selector} a", text: text)
-        end
-      end
-
-      private
-
-      def selector
-        '#work-package-context-menu'
-      end
-    end
+  def card(work_package)
+    page.find(".wp-card-#{work_package.id}")
   end
 end

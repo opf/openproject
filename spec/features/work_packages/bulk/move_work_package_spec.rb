@@ -57,6 +57,7 @@ describe 'Moving a work package through Rails view', js: true do
 
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:context_menu) { Components::WorkPackages::ContextMenu.new }
+  let(:display_representation) { ::Components::WorkPackages::DisplayRepresentation.new }
 
   before do
     login_as current_user
@@ -117,6 +118,32 @@ describe 'Moving a work package through Rails view', js: true do
       it 'does not allow to move' do
         context_menu.open_for work_package
         context_menu.expect_no_options 'Move'
+      end
+    end
+  end
+
+  describe 'accessing the bulk move from the card view' do
+    before do
+      display_representation.switch_to_card_layout
+      loading_indicator_saveguard
+      find('body').send_keys [:control, 'a']
+    end
+
+    context 'with permissions' do
+      let(:current_user) { mover }
+
+      it 'does allow to move' do
+        context_menu.open_for work_package, false
+        context_menu.expect_options ['Bulk move']
+      end
+    end
+
+    context 'without permission' do
+      let(:current_user) { dev }
+
+      it 'does not allow to move' do
+        context_menu.open_for work_package, false
+        context_menu.expect_no_options ['Bulk move']
       end
     end
   end
