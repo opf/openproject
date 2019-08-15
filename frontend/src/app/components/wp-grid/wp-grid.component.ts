@@ -43,7 +43,7 @@ import {WorkPackageCardDragAndDropService} from "core-components/wp-card-view/se
                   [dragInto]="true"
                   [cardsRemovable]="false"
                   [highlightingMode]="highlightingMode"
-                  [showStatusButton]="false"
+                  [showStatusButton]="true"
                   [orientation]="gridOrientation"
                   (onMoved)="switchToManualSorting()"
                   [showEmptyResultsBox]="true"
