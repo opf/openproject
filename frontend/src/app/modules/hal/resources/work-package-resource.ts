@@ -278,6 +278,9 @@ export class WorkPackageBaseResource extends HalResource {
     this.form = Promise.resolve(form);
     this.$source.id = 'new';
 
+    // Ensure type is set to identify the resource
+    this._type = 'WorkPackage';
+
     // Since the ID will change upon saving, keep track of the WP
     // with the actual creation date
     this.__initialized_at = Date.now();
