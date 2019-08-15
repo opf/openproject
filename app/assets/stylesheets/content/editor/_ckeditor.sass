@@ -91,6 +91,11 @@ ckeditor-augmented-textarea .op-ckeditor--wrapper
     border-bottom-right-radius: 0
 
   .document-editor__editable-container
+    // Ensure max-height is set to allow stickiness
+    // in global scrolling pages (forums e.g.)
+    max-height: 75vh
+    overflow-y: auto
+
     border: 1px solid var(--ck-color-base-border)
     border-top: none
     border-radius: var(--ck-border-radius)
