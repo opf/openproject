@@ -158,6 +158,7 @@ import {WorkPackagesTableConfigMenu} from "core-components/wp-table/config-menu/
 import {WorkPackageIsolatedGraphQuerySpaceDirective} from "core-app/modules/work_packages/query-space/wp-isolated-graph-query-space.directive";
 import {WorkPackageViewToggleButton} from "core-components/wp-buttons/wp-view-toggle-button/work-package-view-toggle-button.component";
 import {WorkPackagesGridComponent} from "core-components/wp-grid/wp-grid.component";
+import {WorkPackageViewDropdownMenuDirective} from "core-components/op-context-menu/handlers/wp-view-dropdown-menu.directive";
 
 
 @NgModule({
@@ -275,6 +276,7 @@ import {WorkPackagesGridComponent} from "core-components/wp-grid/wp-grid.compone
     WorkPackageCreateSettingsMenuDirective,
     WorkPackageSingleContextMenuDirective,
     WorkPackageQuerySelectDropdownComponent,
+    WorkPackageViewDropdownMenuDirective,
 
     // Timeline
     WorkPackageTimelineButtonComponent,
