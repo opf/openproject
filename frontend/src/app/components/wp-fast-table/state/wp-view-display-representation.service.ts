@@ -41,7 +41,7 @@ export const wpDisplayCardRepresentation:string = 'card';
 export type wpDisplayRepresentation = 'list'|'card';
 
 @Injectable()
-export class WorkPackageDisplayRepresentationService extends WorkPackageQueryStateService<string|null> {
+export class WorkPackageViewDisplayRepresentationService extends WorkPackageQueryStateService<string|null> {
   public constructor(readonly states:States,
                      readonly querySpace:IsolatedQuerySpace) {
     super(querySpace);
