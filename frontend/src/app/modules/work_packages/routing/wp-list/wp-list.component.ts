@@ -33,9 +33,9 @@ import {OpTitleService} from "core-components/html/op-title.service";
 import {WorkPackagesViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-packages-view.base";
 import {take} from "rxjs/operators";
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
-import {wpDisplayCardRepresentation} from "core-components/wp-fast-table/state/work-package-display-representation.service";
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
 import {BcfDetectorService} from "core-app/modules/bcf/helper/bcf-detector.service";
+import {wpDisplayCardRepresentation} from "core-components/wp-fast-table/state/wp-view-display-representation.service";
 
 @Component({
   selector: 'wp-list',

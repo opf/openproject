@@ -32,9 +32,9 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {StateService} from "@uirouter/core";
 import {
-  WorkPackageDisplayRepresentationService, wpDisplayCardRepresentation,
+  WorkPackageViewDisplayRepresentationService, wpDisplayCardRepresentation,
   wpDisplayListRepresentation
-} from "core-components/wp-fast-table/state/work-package-display-representation.service";
+} from "core-components/wp-fast-table/state/wp-view-display-representation.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
 
@@ -80,7 +80,7 @@ export class WorkPackageViewToggleButton extends AbstractWorkPackageButtonCompon
   constructor(readonly $state:StateService,
               readonly I18n:I18nService,
               readonly cdRef:ChangeDetectorRef,
-              readonly wpDisplayRepresentationService:WorkPackageDisplayRepresentationService) {
+              readonly wpDisplayRepresentationService:WorkPackageViewDisplayRepresentationService) {
     super(I18n);
 
     this.cardLabel = I18n.t('js.button_card_list');

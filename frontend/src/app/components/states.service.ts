@@ -5,7 +5,6 @@ import {UserResource} from 'core-app/modules/hal/resources/user-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {input, InputState, multiInput, MultiInputState, StatesGroup} from 'reactivestates';
 import {QueryColumn} from './wp-query/query-column';
-import {WikiPageResource} from 'core-app/modules/hal/resources/wiki-page-resource';
 import {PostResource} from 'core-app/modules/hal/resources/post-resource';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {StatusResource} from "core-app/modules/hal/resources/status-resource";
@@ -13,10 +12,8 @@ import {QueryFilterInstanceSchemaResource} from "core-app/modules/hal/resources/
 import {Subject} from "rxjs";
 import {QuerySortByResource} from "core-app/modules/hal/resources/query-sort-by-resource";
 import {QueryGroupByResource} from "core-app/modules/hal/resources/query-group-by-resource";
-import {Input} from "@angular/core";
-import {QueryFilterResource} from "core-app/modules/hal/resources/query-filter-resource";
 import {VersionResource} from "core-app/modules/hal/resources/version-resource";
-import {wpDisplayRepresentation} from "core-components/wp-fast-table/state/work-package-display-representation.service";
+import {wpDisplayRepresentation} from "core-components/wp-fast-table/state/wp-view-display-representation.service";
 
 export class States extends StatesGroup {
   name = 'MainStore';

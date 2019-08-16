@@ -62,8 +62,8 @@ import {PortalCleanupService} from "core-app/modules/fields/display/display-port
 import {TableDragActionsRegistryService} from "core-components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
 import {WorkPackageTableOrderService} from "core-components/wp-fast-table/state/wp-table-order.service";
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
-import {WorkPackageDisplayRepresentationService} from "core-components/wp-fast-table/state/work-package-display-representation.service";
 import {WorkPackageCardViewService} from "core-components/wp-card-view/services/wp-card-view.service";
+import {WorkPackageViewDisplayRepresentationService} from "core-components/wp-fast-table/state/wp-view-display-representation.service";
 
 /**
  * Directive to open a work package query 'space', an isolated injector hierarchy
@@ -97,7 +97,7 @@ import {WorkPackageCardViewService} from "core-components/wp-card-view/services/
   WorkPackageTableAdditionalElementsService,
   WorkPackageTableFocusService,
   WorkPackageTableHighlightingService,
-  WorkPackageDisplayRepresentationService,
+  WorkPackageViewDisplayRepresentationService,
   WorkPackageTableOrderService,
   CausedUpdatesService,
 

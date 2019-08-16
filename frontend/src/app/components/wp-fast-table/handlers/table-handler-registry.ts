@@ -21,7 +21,7 @@ import {DragAndDropTransformer} from "core-components/wp-fast-table/handlers/sta
 import {
   WorkPackageViewEventHandler,
   WorkPackageViewHandlerRegistry
-} from "core-app/modules/work_packages/event-handling/event-handler-registry";
+} from "core-app/modules/work_packages/routing/wp-view-base/event-handling/event-handler-registry";
 
 type StateTransformers = {
   // noinspection JSUnusedLocalSymbols
@@ -65,4 +65,12 @@ export class TableHandlerRegistry extends WorkPackageViewHandlerRegistry<WorkPac
     HighlightingTransformer,
     DragAndDropTransformer
   ];
+
+  attachTo(viewRef:WorkPackageTable) {
+    this.stateTransformers.map((cls) => {
+      return new cls(this.injector, viewRef);
+    });
+
+    super.attachTo(viewRef);
+  }
 }

@@ -22,7 +22,7 @@ import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-r
 import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
 import {take} from "rxjs/operators";
 import {WorkPackageTableOrderService} from "core-components/wp-fast-table/state/wp-table-order.service";
-import {WorkPackageDisplayRepresentationService} from "core-components/wp-fast-table/state/work-package-display-representation.service";
+import {WorkPackageViewDisplayRepresentationService} from "core-components/wp-fast-table/state/wp-view-display-representation.service";
 
 @Injectable()
 export class WorkPackageStatesInitializationService {
@@ -43,7 +43,7 @@ export class WorkPackageStatesInitializationService {
               protected wpCacheService:WorkPackageCacheService,
               protected wpListChecksumService:WorkPackagesListChecksumService,
               protected authorisationService:AuthorisationService,
-              protected wpDisplayRepresentation:WorkPackageDisplayRepresentationService) {
+              protected wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService) {
   }
 
   /**

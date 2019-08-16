@@ -34,10 +34,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit
 import {AbstractWorkPackageButtonComponent} from 'core-components/wp-buttons/wp-buttons.module';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {
-  WorkPackageDisplayRepresentationService,
-  wpDisplayCardRepresentation
-} from "core-components/wp-fast-table/state/work-package-display-representation.service";
+import {WorkPackageViewDisplayRepresentationService} from "core-components/wp-fast-table/state/wp-view-display-representation.service";
 
 @Component({
   templateUrl: '../wp-button.template.html',
@@ -66,7 +63,7 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
     public states:States,
     public wpTableFocus:WorkPackageTableFocusService,
     public keepTab:KeepTabService,
-    public wpDisplayRepresentationService:WorkPackageDisplayRepresentationService) {
+    public wpDisplayRepresentationService:WorkPackageViewDisplayRepresentationService) {
 
     super(I18n);
 

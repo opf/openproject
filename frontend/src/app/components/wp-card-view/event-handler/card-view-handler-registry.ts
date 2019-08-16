@@ -5,7 +5,8 @@ import {CardRightClickHandler} from "core-components/wp-card-view/event-handler/
 import {
   WorkPackageViewEventHandler,
   WorkPackageViewHandlerRegistry
-} from "core-app/modules/work_packages/event-handling/event-handler-registry";
+} from "core-app/modules/work_packages/routing/wp-view-base/event-handling/event-handler-registry";
+
 
 export type CardEventHandler = WorkPackageViewEventHandler<WorkPackageCardViewComponent>;
 
