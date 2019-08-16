@@ -5,8 +5,8 @@ import {WorkPackageTableSelection} from "core-components/wp-fast-table/state/wp-
 import {uiStateLinkClass} from "core-components/wp-fast-table/builders/ui-state-link-builder";
 import {debugLog} from "core-app/helpers/debug_output";
 import {WorkPackageCardViewService} from "core-components/wp-card-view/services/wp-card-view.service";
-import {OpWorkPackageContextMenu} from "core-components/op-context-menu/wp-context-menu/wp-table-context-menu.directive";
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
+import {WorkPackageViewContextMenu} from "core-components/op-context-menu/wp-context-menu/wp-view-context-menu.directive";
 
 export class CardRightClickHandler implements CardEventHandler {
 
@@ -58,7 +58,7 @@ export class CardRightClickHandler implements CardEventHandler {
         this.wpTableSelection.setSelection(wpId, index);
       }
 
-      const handler = new OpWorkPackageContextMenu(this.injector, wpId, jQuery(evt.target) as JQuery, {}, undefined, card.showInfoButton);
+      const handler = new WorkPackageViewContextMenu(this.injector, wpId, jQuery(evt.target) as JQuery, {}, card.showInfoButton);
       this.opContextMenu.show(handler, evt);
     }
 
