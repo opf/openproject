@@ -1,34 +1,3 @@
-
-<!-- Column headers -->
-<div class="grid--column-headers"
-     *ngIf="isHeadersDisplayed"
-     [style.grid-template-columns]="gridColumnStyle">
-  <div *ngFor="let column of columnNumbers"
-       [style.grid-row-start]="1"
-       [style.grid-row-end]="1"
-       [style.grid-column-start]="column"
-       [style.grid-column-end]="column + 1"
-       class="grid--header"
-       gridColumnContextMenu
-       [gridColumnContextMenu-columnNumber]="column">
-  </div>
-</div>
-
-<!-- Row headers -->
-<div class="grid--row-headers"
-     *ngIf="isHeadersDisplayed"
-     [style.grid-template-rows]="gridRowStyle">
-  <div *ngFor="let row of rowNumbers"
-       [style.grid-row-start]="row"
-       [style.grid-row-end]="row + 1"
-       [style.grid-column-start]="1"
-       [style.grid-column-end]="2"
-       class="grid--header"
-       gridRowContextMenu
-       [gridRowContextMenu-rowNumber]="row">
-  </div>
-</div>
-
 <div class="grid--container"
      [style.grid-template-columns]="gridColumnStyle"
      [style.grid-template-rows]="gridRowStyle">
@@ -36,11 +5,12 @@
   <!-- Grid areas that have a widget in them -->
   <div *ngFor="let area of layout.widgetAreas; trackBy: identifyGridArea;"
        class="grid--area -widgeted"
-       [ngClass]="{'-dragged': drag.isDragged(area)}"
-       [style.grid-row-start]="area.startRow"
-       [style.grid-row-end]="area.endRow"
-       [style.grid-column-start]="area.startColumn"
-       [style.grid-column-end]="area.endColumn"
+       [ngClass]="{'-dragged': drag.isDragged(area),
+                   '-undragged': drag.currentlyDragging && !drag.isDragged(area)}"
+       [style.grid-row-start]="area.gridStartRow"
+       [style.grid-row-end]="area.gridEndRow"
+       [style.grid-column-start]="area.gridStartColumn"
+       [style.grid-column-end]="area.gridEndColumn"
        cdkDropList
        [id]="area.guid"
        [cdkDropListData]="area"
@@ -74,11 +44,11 @@
        class="grid--area"
        [ngClass] = "{'-drop-target': drag.currentlyDragging,
                      '-resize-target': resize.isTarget(area),
-                     '-addable': add.isAddable(area) }"
-       [style.grid-row-start]="area.startRow"
-       [style.grid-row-end]="area.endRow"
-       [style.grid-column-start]="area.startColumn"
-       [style.grid-column-end]="area.endColumn"
+                     '-addable': add.isAddable(area)}"
+       [style.grid-row-start]="area.gridStartRow"
+       [style.grid-row-end]="area.gridEndRow"
+       [style.grid-column-start]="area.gridStartColumn"
+       [style.grid-column-end]="area.gridEndColumn"
        cdkDropList
        [id]="area.guid"
        (mouseover)="layout.setMousedOverArea(area)"
@@ -88,26 +58,43 @@
        [cdkDropListConnectedTo]="layout.gridAreaIds">
     <div class="grid--widget-add"
          *ngIf="add.isAddable(area)"
-         (click)="add.widget(area, layout.schema)">
+         (click)="add.widget(area)">
+    </div>
+  </div>
+
+  <div *ngFor="let gap of layout.gridGaps; trackBy: identifyGridArea;"
+       class="grid--area -gap"
+       [ngClass] = "{'-addable': add.isAddable(gap),
+                     '-row': gap.isRow,
+                     '-column': gap.isColumn}"
+       [style.grid-row-start]="gap.gridStartRow"
+       [style.grid-row-end]="gap.gridEndRow"
+       [style.grid-column-start]="gap.gridStartColumn"
+       [style.grid-column-end]="gap.gridEndColumn"
+       [id]="gap.guid"
+       (mouseover)="layout.setMousedOverArea(gap)">
+    <div class="grid--widget-add -gap"
+         *ngIf="add.isAddable(gap)"
+         (click)="add.widget(gap, layout.schema)">
     </div>
   </div>
 
   <!-- Grid area to visualize resizing -->
   <div class="grid--area -resizing"
        *ngIf="resize.placeholderArea"
-       [style.grid-row-start]="resize.placeholderArea.startRow"
-       [style.grid-row-end]="resize.placeholderArea.endRow"
-       [style.grid-column-start]="resize.placeholderArea.startColumn"
-       [style.grid-column-end]="resize.placeholderArea.endColumn">
+       [style.grid-row-start]="resize.placeholderArea.gridStartRow"
+       [style.grid-row-end]="resize.placeholderArea.gridEndRow"
+       [style.grid-column-start]="resize.placeholderArea.gridStartColumn"
+       [style.grid-column-end]="resize.placeholderArea.gridEndColumn">
   </div>
 
   <!-- Grid area used as a placeholder while dragging -->
   <div *ngIf="drag.placeholderArea"
        class="grid--area -widgeted -placeholder"
-       [style.grid-row-start]="drag.placeholderArea.startRow"
-       [style.grid-row-end]="drag.placeholderArea.endRow"
-       [style.grid-column-start]="drag.placeholderArea.startColumn"
-       [style.grid-column-end]="drag.placeholderArea.endColumn">
+       [style.grid-row-start]="drag.placeholderArea.gridStartRow"
+       [style.grid-row-end]="drag.placeholderArea.gridEndRow"
+       [style.grid-column-start]="drag.placeholderArea.gridStartColumn"
+       [style.grid-column-end]="drag.placeholderArea.gridEndColumn">
     <div class="widget-box">
       <ndc-dynamic [ndcDynamicComponent]="widgetComponent(drag.placeholderArea.widget)"
                    [ndcDynamicInputs]="{ resource: drag.placeholderArea.widget }"

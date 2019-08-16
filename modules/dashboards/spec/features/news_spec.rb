@@ -67,23 +67,22 @@ describe 'News widget on dashboard', type: :feature, js: true do
 
   it 'can add the widget and see the visible news' do
     # within top-right area, add an additional widget
-    dashboard.add_widget(1, 3, 'News')
+    dashboard.add_widget(1, 1, :within, 'News')
 
-    document_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
-    document_area.expect_to_span(1, 3, 4, 5)
+    news_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
 
-    document_area.resize_to(7, 4)
+    within news_widget.area do
+      expect(page)
+        .to have_content visible_news.title
+      expect(page)
+        .to have_content visible_news.author.name
+      expect(page)
+        .to have_content visible_news.project.name
+      expect(page)
+        .to have_content visible_news.created_on.strftime('%m/%d/%Y')
 
-    expect(page)
-      .to have_content visible_news.title
-    expect(page)
-      .to have_content visible_news.author.name
-    expect(page)
-      .to have_content visible_news.project.name
-    expect(page)
-      .to have_content visible_news.created_on.strftime('%m/%d/%Y')
-
-    expect(page)
-      .to have_no_content invisible_news.title
+      expect(page)
+        .to have_no_content invisible_news.title
+    end
   end
 end

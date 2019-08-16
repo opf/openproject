@@ -84,12 +84,12 @@ describe "POST /api/v3/grids/form for Dashboard Grids", type: :request, content_
 
       it 'contains default data in the payload' do
         expected = {
-          "rowCount": 7,
-          "columnCount": 4,
+          "rowCount": 1,
+          "columnCount": 2,
           "widgets": [{
             "_type": "GridWidget",
-            "endColumn": 3,
-            "endRow": 7,
+            "endColumn": 2,
+            "endRow": 2,
             "identifier": "work_packages_table",
             "options": {
               "name": "Work packages table",
@@ -212,8 +212,8 @@ describe "POST /api/v3/grids/form for Dashboard Grids", type: :request, content_
 
       it 'contains default data in the payload that lacks the work_packages_table widget' do
         expected = {
-          "rowCount": 7,
-          "columnCount": 4,
+          "rowCount": 1,
+          "columnCount": 2,
           "widgets": [],
           "name": 'foo',
           "options": {},

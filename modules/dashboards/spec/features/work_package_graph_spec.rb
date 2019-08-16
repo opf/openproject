@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-describe 'Arbitrary WorkPackage query graph widget dashboard', type: :feature, js: true do
+describe 'Arbitrary WorkPackage query graph widget dashboard', type: :feature, js: true, with_mail: false do
   let!(:type) { FactoryBot.create :type }
   let!(:other_type) { FactoryBot.create :type }
   let!(:priority) { FactoryBot.create :default_priority }
@@ -98,22 +98,15 @@ describe 'Arbitrary WorkPackage query graph widget dashboard', type: :feature, j
 
   context 'with the permission to save queries' do
     it 'can add the widget and see the work packages of the filtered for types' do
-      dashboard_page.add_column(3, before_or_after: :before)
-
-      sleep(0.1)
-
-      dashboard_page.add_widget(2, 3, "Work packages graph")
+      dashboard_page.add_widget(1, 1, :column, "Work packages graph")
 
       sleep(0.1)
 
       filter_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
 
-      filter_area.expect_to_span(2, 3, 5, 5)
-      filter_area.resize_to(6, 5)
+      filter_area.expect_to_span(1, 1, 2, 2)
 
-      filter_area.expect_to_span(2, 3, 7, 6)
-
-      sleep(1)
+      sleep(0.1)
 
       # User has the ability to modify the query
 
@@ -153,9 +146,7 @@ describe 'Arbitrary WorkPackage query graph widget dashboard', type: :feature, j
     let(:permissions) { %i[view_work_packages add_work_packages view_dashboards manage_dashboards] }
 
     it 'cannot add the widget' do
-      dashboard_page.add_column(3, before_or_after: :before)
-
-      dashboard_page.expect_unable_to_add_widget(2, 3, "Work packages graph")
+      dashboard_page.expect_unable_to_add_widget(1, 1, :within, "Work packages graph")
     end
   end
 end

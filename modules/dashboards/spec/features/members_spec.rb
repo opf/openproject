@@ -94,12 +94,9 @@ describe 'Members widget on dashboard', type: :feature, js: true do
 
   it 'can add the widget and see the members if the permissions suffice' do
     # within top-right area, add an additional widget
-    dashboard.add_widget(1, 3, 'Members')
+    dashboard.add_widget(1, 1, :within, 'Members')
 
     members_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
-    members_area.expect_to_span(1, 3, 4, 5)
-
-    members_area.resize_to(7, 4)
 
     expect_all_members_visible(members_area.area)
 
