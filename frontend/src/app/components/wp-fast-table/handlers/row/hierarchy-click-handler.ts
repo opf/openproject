@@ -4,7 +4,7 @@ import {tableRowClassName} from '../../builders/rows/single-row-builder';
 import {WorkPackageTableHierarchiesService} from '../../state/wp-table-hierarchy.service';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {ClickOrEnterHandler} from '../click-or-enter-handler';
-import {TableEventHandler} from '../table-handler-registry';
+import {TableEventHandler} from "core-components/wp-fast-table/handlers/table-handler-registry";
 
 export class HierarchyClickHandler extends ClickOrEnterHandler implements TableEventHandler {
   // Injections
@@ -27,7 +27,7 @@ export class HierarchyClickHandler extends ClickOrEnterHandler implements TableE
     return jQuery(table.tbody);
   }
 
-  public processEvent(table:WorkPackageTable, evt:JQueryEventObject):boolean {
+  public processEvent(table:WorkPackageTable, evt:JQuery.Event):boolean {
     let target = jQuery(evt.target);
 
     // Locate the row from event

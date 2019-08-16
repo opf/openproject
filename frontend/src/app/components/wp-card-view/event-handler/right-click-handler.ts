@@ -31,7 +31,7 @@ export class CardRightClickHandler implements CardEventHandler {
     return jQuery(card.container.nativeElement);
   }
 
-  public handleEvent(card:WorkPackageCardViewComponent, evt:JQueryEventObject) {
+  public handleEvent(card:WorkPackageCardViewComponent, evt:JQuery.Event) {
     let target = jQuery(evt.target);
 
     // We want to keep the original context menu on hrefs

@@ -9,9 +9,8 @@ export class WorkPackageTableContextMenu extends WorkPackageViewContextMenu {
               protected workPackageId:string,
               protected $element:JQuery,
               protected additionalPositionArgs:any = {},
-              protected allowSplitScreenActions:boolean = true,
               protected table:WorkPackageTable) {
-    super(injector, workPackageId, $element, additionalPositionArgs, allowSplitScreenActions);
+    super(injector, workPackageId, $element, additionalPositionArgs, true);
   }
 
   public triggerContextMenuAction(action:WorkPackageAction) {
