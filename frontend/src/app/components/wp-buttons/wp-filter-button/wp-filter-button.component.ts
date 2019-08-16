@@ -26,12 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageTableFiltersService} from '../../wp-fast-table/state/wp-table-filters.service';
 import {AbstractWorkPackageButtonComponent} from 'core-components/wp-buttons/wp-buttons.module';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
 import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
+import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 
 @Component({
   selector: 'wp-filter-button',
@@ -48,7 +48,7 @@ export class WorkPackageFilterButtonComponent extends AbstractWorkPackageButtonC
   constructor(readonly I18n:I18nService,
               protected cdRef:ChangeDetectorRef,
               protected wpFiltersService:WorkPackageFiltersService,
-              protected wpTableFilters:WorkPackageTableFiltersService) {
+              protected wpTableFilters:WorkPackageViewFiltersService) {
     super(I18n);
   }
 

@@ -46,21 +46,21 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {combineLatest} from 'rxjs';
 import {States} from '../states.service';
-import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
-import {WorkPackageTableGroupByService} from '../wp-fast-table/state/wp-table-group-by.service';
-import {WorkPackageTableTimelineService} from '../wp-fast-table/state/wp-table-timeline.service';
-import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
-import {WorkPackageTimelineTableController} from './timeline/container/wp-timeline-container.directive';
-import {WpTableHoverSync} from './wp-table-hover-sync';
-import {createScrollSync} from './wp-table-scroll-sync';
 import {
   WorkPackageTableConfiguration,
   WorkPackageTableConfigurationObject
 } from 'core-app/components/wp-table/wp-table-configuration';
 import {QueryColumn} from 'core-components/wp-query/query-column';
-import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state/wp-table-sort-by.service";
+import {WorkPackageViewSortByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
+import {WorkPackageViewGroupByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service";
+import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
+import {createScrollSync} from "core-components/wp-table/wp-table-scroll-sync";
+import {WpTableHoverSync} from "core-components/wp-table/wp-table-hover-sync";
+import {WorkPackageTimelineTableController} from "core-components/wp-table/timeline/container/wp-timeline-container.directive";
+import {WorkPackageTable} from "core-components/wp-fast-table/wp-fast-table";
+import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 
 @Component({
   templateUrl: './wp-table.directive.html',
@@ -119,10 +119,10 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
               readonly I18n:I18nService,
               readonly cdRef:ChangeDetectorRef,
               readonly zone:NgZone,
-              readonly wpTableGroupBy:WorkPackageTableGroupByService,
-              readonly wpTableTimeline:WorkPackageTableTimelineService,
-              readonly wpTableColumns:WorkPackageTableColumnsService,
-              readonly wpTableSortBy:WorkPackageTableSortByService) {
+              readonly wpTableGroupBy:WorkPackageViewGroupByService,
+              readonly wpTableTimeline:WorkPackageViewTimelineService,
+              readonly wpTableColumns:WorkPackageViewColumnsService,
+              readonly wpTableSortBy:WorkPackageViewSortByService) {
   }
 
   ngOnInit():void {

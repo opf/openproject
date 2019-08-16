@@ -1,6 +1,6 @@
 import {Component, Injector} from '@angular/core';
 import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
-import {WorkPackageTableHighlightingService} from 'core-components/wp-fast-table/state/wp-table-highlighting.service';
+import {WorkPackageViewHighlightingService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
@@ -45,7 +45,7 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
               readonly states:States,
               readonly querySpace:IsolatedQuerySpace,
               readonly Banners:BannersService,
-              readonly wpTableHighlight:WorkPackageTableHighlightingService) {
+              readonly wpTableHighlight:WorkPackageViewHighlightingService) {
   }
 
   ngOnInit() {

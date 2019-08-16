@@ -3,11 +3,11 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 import {States} from '../../../states.service';
 import {isRelationColumn, QueryColumn} from '../../../wp-query/query-column';
-import {RelationColumnType} from '../../state/wp-table-relation-columns.service';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {wpCellTdClassName} from '../cell-builder';
 import {commonRowClassName, SingleRowBuilder, tableRowClassName} from '../rows/single-row-builder';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {RelationColumnType} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
 
 export function relationGroupClass(workPackageId:string) {
   return `__relations-expanded-from-${workPackageId}`;

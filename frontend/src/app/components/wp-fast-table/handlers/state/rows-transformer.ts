@@ -3,15 +3,15 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {States} from 'core-components/states.service';
-import {WorkPackageTableOrderService} from "core-components/wp-fast-table/state/wp-table-order.service";
-import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state/wp-table-sort-by.service";
+import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
+import {WorkPackageViewSortByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 
 export class RowsTransformer {
 
   public querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
-  public wpTableSortBy = this.injector.get(WorkPackageTableSortByService);
-  public wpTableOrder = this.injector.get(WorkPackageTableOrderService);
+  public wpTableSortBy = this.injector.get(WorkPackageViewSortByService);
+  public wpTableOrder = this.injector.get(WorkPackageViewOrderService);
   public states:States = this.injector.get(States);
 
   constructor(public readonly injector:Injector,

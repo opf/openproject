@@ -1,17 +1,25 @@
-import {WPTableRowSelectionState} from '../wp-table.interfaces';
-import {RenderedRow} from '../builders/primary-render-pass';
 import {input} from 'reactivestates';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
-import {Injectable, Injector} from '@angular/core';
+import {Injectable, Injector, OnDestroy} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from 'core-components/states.service';
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
+import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
+
+export interface WorkPackageViewSelectionState {
+  // Map of selected rows
+  selected:{[workPackageId:string]:boolean};
+  // Index of current selection
+  // required for shift-offsets
+  activeRowIndex:number | null;
+}
+
 
 @Injectable()
-export class WorkPackageTableSelection {
+export class WorkPackageViewSelectionService implements OnDestroy {
 
-  private selectionState = input<WPTableRowSelectionState>();
+  private selectionState = input<WorkPackageViewSelectionState>();
 
   public constructor(readonly querySpace:IsolatedQuerySpace,
                      readonly states:States,
@@ -20,6 +28,10 @@ export class WorkPackageTableSelection {
     this.reset();
   }
 
+  ngOnDestroy():void {
+    Mousetrap.unbind(['command+d', 'ctrl+d']);
+    Mousetrap.unbind(['command+a', 'ctrl+a']);
+  }
 
   public isSelected(workPackageId:string) {
     return this.currentState.selected[workPackageId];
@@ -28,8 +40,8 @@ export class WorkPackageTableSelection {
   /**
    * Select all work packages
    */
-  public selectAll(rows: RenderedRow[]) {
-    const state:WPTableRowSelectionState = this._emptyState;
+  public selectAll(rows:RenderedWorkPackage[]) {
+    const state:WorkPackageViewSelectionState = this._emptyState;
 
     rows.forEach((row) => {
       if (row.workPackageId) {
@@ -76,10 +88,10 @@ export class WorkPackageTableSelection {
 
   /**
    * Get current selection state.
-   * @returns {WPTableRowSelectionState}
+   * @returns {WorkPackageViewSelectionState}
    */
-  public get currentState():WPTableRowSelectionState {
-    return this.selectionState.value as WPTableRowSelectionState;
+  public get currentState():WorkPackageViewSelectionState {
+    return this.selectionState.value as WorkPackageViewSelectionState;
   }
 
   public get isEmpty() {
@@ -117,7 +129,7 @@ export class WorkPackageTableSelection {
    * Override current selection with the given work package id.
    */
   public setSelection(wpId:string, position:number) {
-    let state:WPTableRowSelectionState = {
+    let state:WorkPackageViewSelectionState = {
       selected: {},
       activeRowIndex: position
     };
@@ -131,7 +143,7 @@ export class WorkPackageTableSelection {
    * to the selected target.
    * (aka shift click expansion)
    */
-  public setMultiSelectionFrom(rows:RenderedRow[], wpId:string, position:number) {
+  public setMultiSelectionFrom(rows:RenderedWorkPackage[], wpId:string, position:number) {
     let state = this.currentState;
 
     // If there are no other selections, it does not matter what the index is
@@ -152,7 +164,7 @@ export class WorkPackageTableSelection {
     this.selectionState.putValue(state);
   }
 
-  public registerSelectAllListener(renderedElements: () => RenderedRow[]) {
+  public registerSelectAllListener(renderedElements:() => RenderedWorkPackage[]) {
     // Bind CTRL+A to select all work packages
     Mousetrap.bind(['command+a', 'ctrl+a'], (e) => {
       this.selectAll(renderedElements());
@@ -163,7 +175,7 @@ export class WorkPackageTableSelection {
     });
   }
 
-  public registerDeselectAllListener () {
+  public registerDeselectAllListener() {
     // Bind CTRL+D to deselect all work packages
     Mousetrap.bind(['command+d', 'ctrl+d'], (e) => {
       this.reset();
@@ -174,7 +186,7 @@ export class WorkPackageTableSelection {
     });
   }
 
-  private get _emptyState():WPTableRowSelectionState {
+  private get _emptyState():WorkPackageViewSelectionState {
     return {
       selected: {},
       activeRowIndex: null

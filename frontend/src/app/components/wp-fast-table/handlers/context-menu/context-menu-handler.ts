@@ -3,7 +3,7 @@ import {tableRowClassName} from '../../builders/rows/single-row-builder';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {TableEventHandler} from '../table-handler-registry';
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
-import {OpWorkPackageContextMenu} from "core-components/op-context-menu/wp-context-menu/wp-table-context-menu.directive";
+import {WorkPackageTableContextMenu} from "core-components/op-context-menu/wp-context-menu/wp-table-context-menu.directive";
 
 export abstract class ContextMenuHandler implements TableEventHandler {
   // Injections
@@ -27,8 +27,8 @@ export abstract class ContextMenuHandler implements TableEventHandler {
 
   public abstract handleEvent(table:WorkPackageTable, evt:JQueryEventObject):boolean;
 
-  protected openContextMenu(evt:JQueryEventObject, workPackageId:string, positionArgs?:any):void {
-    const handler = new OpWorkPackageContextMenu(this.injector, workPackageId, jQuery(evt.target) as JQuery, positionArgs, this.table);
+  protected openContextMenu(evt:JQuery.Event, workPackageId:string, positionArgs?:any):void {
+    const handler = new WorkPackageTableContextMenu(this.injector, workPackageId, jQuery(evt.target) as JQuery, positionArgs, this.table);
     this.opContextMenu.show(handler, evt);
   }
 }

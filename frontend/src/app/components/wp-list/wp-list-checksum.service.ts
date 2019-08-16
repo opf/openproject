@@ -27,10 +27,10 @@
 // ++
 
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {WorkPackageTablePagination} from '../wp-fast-table/wp-table-pagination';
 import {StateService} from '@uirouter/core';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 import {Injectable} from '@angular/core';
+import {WorkPackageViewPagination} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-pagination";
 
 @Injectable()
 export class WorkPackagesListChecksumService {
@@ -43,7 +43,7 @@ export class WorkPackagesListChecksumService {
   public visibleChecksum:string|null;
 
   public updateIfDifferent(query:QueryResource,
-                           pagination:WorkPackageTablePagination) {
+                           pagination:WorkPackageViewPagination) {
 
     let newQueryChecksum = this.getNewChecksum(query, pagination);
 
@@ -61,7 +61,7 @@ export class WorkPackagesListChecksumService {
     this.set(query.id, newQueryChecksum);
   }
 
-  public update(query:QueryResource, pagination:WorkPackageTablePagination) {
+  public update(query:QueryResource, pagination:WorkPackageViewPagination) {
     let newQueryChecksum = this.getNewChecksum(query, pagination);
 
     this.set(query.id, newQueryChecksum);
@@ -69,7 +69,7 @@ export class WorkPackagesListChecksumService {
     this.maintainUrlQueryState(query.id, newQueryChecksum);
   }
 
-  public setToQuery(query:QueryResource, pagination:WorkPackageTablePagination) {
+  public setToQuery(query:QueryResource, pagination:WorkPackageViewPagination) {
     let newQueryChecksum = this.getNewChecksum(query, pagination);
 
     this.set(query.id, newQueryChecksum);
@@ -78,7 +78,7 @@ export class WorkPackagesListChecksumService {
   }
 
   public isQueryOutdated(query:QueryResource,
-                         pagination:WorkPackageTablePagination) {
+                         pagination:WorkPackageViewPagination) {
     let newQueryChecksum = this.getNewChecksum(query, pagination);
 
     return this.isOutdated(query.id, newQueryChecksum);
@@ -139,7 +139,7 @@ export class WorkPackagesListChecksumService {
     );
   }
 
-  private getNewChecksum(query:QueryResource, pagination:WorkPackageTablePagination) {
+  private getNewChecksum(query:QueryResource, pagination:WorkPackageViewPagination) {
     return this.UrlParamsHelper.encodeQueryJsonParams(query, _.pick(pagination, ['page', 'perPage']));
   }
 

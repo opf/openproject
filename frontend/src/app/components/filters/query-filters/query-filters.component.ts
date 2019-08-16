@@ -26,8 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {WorkPackageTableFiltersService} from '../../wp-fast-table/state/wp-table-filters.service';
-import {WorkPackageFiltersService} from "../../filters/wp-filters/wp-filters.service";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -46,6 +44,8 @@ import {DebouncedEventEmitter} from 'core-components/angular/debounced-event-emi
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 import {NgSelectComponent} from "@ng-select/ng-select";
+import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
+import {WorkPackageFiltersService} from "core-components/filters/wp-filters/wp-filters.service";
 
 const ADD_FILTER_SELECT_INDEX = -1;
 
@@ -81,7 +81,7 @@ export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
     filter_by_text: this.I18n.t('js.work_packages.label_filter_by_text')
   };
 
-  constructor(readonly wpTableFilters:WorkPackageTableFiltersService,
+  constructor(readonly wpTableFilters:WorkPackageViewFiltersService,
               readonly wpFiltersService:WorkPackageFiltersService,
               readonly I18n:I18nService,
               readonly bannerService:BannersService) {

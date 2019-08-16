@@ -13,6 +13,7 @@ import {
 } from "../../wp-edit-form/work-package-editing.service.interface";
 import {HighlightingRenderPass} from "core-components/wp-fast-table/builders/highlighting/row-highlight-render-pass";
 import {DragDropHandleRenderPass} from "core-components/wp-fast-table/builders/drag-and-drop/drag-drop-handle-render-pass";
+import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
 
 export type RenderedRowType = 'primary' | 'relations';
 
@@ -35,8 +36,6 @@ export interface RowRenderInfo {
   // Additional data by the render passes
   data?:any;
 }
-
-export type RenderedRow = { classIdentifier:string, workPackageId:string | null, hidden:boolean };
 
 export abstract class PrimaryRenderPass {
 
@@ -127,13 +126,13 @@ export abstract class PrimaryRenderPass {
     }
   }
 
-  public get result():RenderedRow[] {
+  public get result():RenderedWorkPackage[] {
     return this.renderedOrder.map((row) => {
       return {
         classIdentifier: row.classIdentifier,
         workPackageId: row.workPackage ? row.workPackage.id : null,
         hidden: row.hidden
-      } as RenderedRow;
+      };
     });
   }
 

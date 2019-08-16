@@ -26,16 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageTableTimelineService} from '../../wp-fast-table/state/wp-table-timeline.service';
 import {AbstractWorkPackageButtonComponent, ButtonControllerText} from '../wp-buttons.module';
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {TimelineZoomLevel} from 'core-app/modules/hal/resources/query-resource';
-import {componentDestroyed, untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {
-  WorkPackageDisplayRepresentationService,
+  WorkPackageViewDisplayRepresentationService,
   wpDisplayCardRepresentation
-} from "core-components/wp-fast-table/state/work-package-display-representation.service";
+} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
+import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 
 export interface TimelineButtonText extends ButtonControllerText {
   zoomOut:string;
@@ -67,8 +67,8 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
 
   constructor(readonly I18n:I18nService,
               readonly cdRef:ChangeDetectorRef,
-              public wpTableTimeline:WorkPackageTableTimelineService,
-              public wpDisplayRepresentationService:WorkPackageDisplayRepresentationService) {
+              public wpTableTimeline:WorkPackageViewTimelineService,
+              public wpDisplayRepresentationService:WorkPackageViewDisplayRepresentationService) {
     super(I18n);
 
     this.activateLabel = I18n.t('js.timelines.button_activate');

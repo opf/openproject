@@ -39,13 +39,12 @@ import {
   OnInit
 } from '@angular/core';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
-import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
+import {WorkPackageViewFocusService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import {filter} from 'rxjs/operators';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
 import {WorkPackageEditForm} from '../wp-edit-form/work-package-edit-form';
 import {onClickOrEnter} from '../wp-fast-table/handlers/click-or-enter-handler';
-import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
 import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
 import {WorkPackageCreateService} from '../wp-new/wp-create.service';
 import {
@@ -61,6 +60,7 @@ import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.s
 import {CurrentUserService} from "core-components/user/current-user.service";
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
 import {Subscription} from 'rxjs';
+import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
 
 @Component({
   selector: '[wpInlineCreate]',
@@ -98,8 +98,8 @@ export class WorkPackageInlineCreateComponent implements OnInit, AfterViewInit, 
               protected readonly cdRef:ChangeDetectorRef,
               @Inject(IWorkPackageCreateServiceToken) protected readonly wpCreate:WorkPackageCreateService,
               protected readonly wpInlineCreate:WorkPackageInlineCreateService,
-              protected readonly wpTableColumns:WorkPackageTableColumnsService,
-              protected readonly wpTableFocus:WorkPackageTableFocusService,
+              protected readonly wpTableColumns:WorkPackageViewColumnsService,
+              protected readonly wpTableFocus:WorkPackageViewFocusService,
               protected readonly authorisationService:AuthorisationService) {
   }
 

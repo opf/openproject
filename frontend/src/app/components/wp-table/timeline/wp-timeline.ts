@@ -30,8 +30,8 @@ import {WorkPackageChangeset} from 'core-components/wp-edit-form/work-package-ch
 // ++
 import * as moment from 'moment';
 import {InputState, MultiInputState} from 'reactivestates';
-import {RenderedRow} from '../../wp-fast-table/builders/primary-render-pass';
 import Moment = moment.Moment;
+import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
 
 export const timelineElementCssClass = 'timeline-element';
 export const timelineBackgroundElementClass = 'timeline-element--bg';
@@ -179,7 +179,7 @@ export function getTimeSlicesForHeader(vp:TimelineViewParameters,
 
 }
 
-export function calculateDaySpan(visibleWorkPackages:RenderedRow[],
+export function calculateDaySpan(visibleWorkPackages:RenderedWorkPackage[],
                                  loadedWorkPackages:MultiInputState<WorkPackageResource>,
                                  viewParameters:TimelineViewParameters):number {
   let earliest:Moment = moment();

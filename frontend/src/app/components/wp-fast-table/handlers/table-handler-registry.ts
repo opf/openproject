@@ -18,27 +18,21 @@ import {SelectionTransformer} from './state/selection-transformer';
 import {TimelineTransformer} from './state/timeline-transformer';
 import {HighlightingTransformer} from "core-components/wp-fast-table/handlers/state/highlighting-transformer";
 import {DragAndDropTransformer} from "core-components/wp-fast-table/handlers/state/drag-and-drop-transformer";
-
-export interface TableEventHandler {
-  EVENT:string;
-  SELECTOR:string;
-
-  handleEvent(table:WorkPackageTable, evt:JQueryEventObject):void;
-
-  eventScope(table:WorkPackageTable):JQuery;
-}
+import {
+  WorkPackageViewEventHandler,
+  WorkPackageViewHandlerRegistry
+} from "core-app/modules/work_packages/routing/wp-view-base/event-handling/event-handler-registry";
 
 type StateTransformers = {
   // noinspection JSUnusedLocalSymbols
   new(injector:Injector, table:WorkPackageTable):any;
 };
 
-export class TableHandlerRegistry {
+export type TableEventHandler = WorkPackageViewEventHandler<WorkPackageTable>;
 
-  constructor(public readonly injector:Injector) {
-  }
+export class TableHandlerRegistry extends WorkPackageViewHandlerRegistry<WorkPackageTable> {
 
-  private eventHandlers:((t:WorkPackageTable) => TableEventHandler)[] = [
+  protected eventHandlers:((t:WorkPackageTable) => WorkPackageViewEventHandler<WorkPackageTable>)[] = [
     // Hierarchy expansion/collapsing
     t => new HierarchyClickHandler(this.injector, t),
     // Clicking or pressing Enter on a single cell, editable or not
@@ -61,7 +55,7 @@ export class TableHandlerRegistry {
     t => new RelationsCellHandler(this.injector, t)
   ];
 
-  private readonly stateTransformers:StateTransformers[] = [
+  protected readonly stateTransformers:StateTransformers[] = [
     SelectionTransformer,
     RowsTransformer,
     ColumnsTransformer,
@@ -72,21 +66,11 @@ export class TableHandlerRegistry {
     DragAndDropTransformer
   ];
 
-  attachTo(table:WorkPackageTable) {
+  attachTo(viewRef:WorkPackageTable) {
     this.stateTransformers.map((cls) => {
-      return new cls(this.injector, table);
+      return new cls(this.injector, viewRef);
     });
 
-    this.eventHandlers.map(factory => {
-      let handler = factory(table);
-      let target = handler.eventScope(table);
-
-      target.on(handler.EVENT, handler.SELECTOR, (evt:JQueryEventObject) => {
-        handler.handleEvent(table, evt);
-      });
-
-      return handler;
-    });
+    super.attachTo(viewRef);
   }
-
 }

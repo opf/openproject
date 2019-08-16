@@ -1,17 +1,16 @@
 import {Injector} from '@angular/core';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
 import {WorkPackageRelationsService} from '../../../wp-relations/wp-relations.service';
-import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
-import {
-  RelationColumnType,
-  WorkPackageTableRelationColumnsService
-} from '../../state/wp-table-relation-columns.service';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {PrimaryRenderPass, RowRenderInfo} from '../primary-render-pass';
 import {relationGroupClass, RelationRowBuilder} from './relation-row-builder';
 import {QueryColumn} from 'core-components/wp-query/query-column';
+import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
+import {
+  RelationColumnType,
+  WorkPackageViewRelationColumnsService
+} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
 
 export interface RelationRenderInfo extends RowRenderInfo {
   data:{
@@ -24,8 +23,8 @@ export interface RelationRenderInfo extends RowRenderInfo {
 export class RelationsRenderPass {
 
   public wpRelations = this.injector.get(WorkPackageRelationsService);
-  public wpTableColumns = this.injector.get(WorkPackageTableColumnsService);
-  public wpTableRelationColumns = this.injector.get(WorkPackageTableRelationColumnsService);
+  public wpTableColumns = this.injector.get(WorkPackageViewColumnsService);
+  public wpTableRelationColumns = this.injector.get(WorkPackageViewRelationColumnsService);
 
   public relationRowBuilder:RelationRowBuilder;
 

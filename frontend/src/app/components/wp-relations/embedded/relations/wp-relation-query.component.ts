@@ -40,7 +40,7 @@ import {WpRelationInlineCreateService} from "core-components/wp-relations/embedd
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {forkJoin, merge} from "rxjs";
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
-import {WorkPackageTableRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
+import {WorkPackageViewRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
 import {filter, skip} from "rxjs/operators";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {GroupDescriptor} from "core-components/work-packages/wp-single-view/wp-single-view.component";
@@ -75,7 +75,7 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
   constructor(protected readonly PathHelper:PathHelperService,
               @Inject(WorkPackageInlineCreateService) protected readonly wpInlineCreate:WpRelationInlineCreateService,
               protected readonly wpRelations:WorkPackageRelationsService,
-              protected readonly wpTableRefresh:WorkPackageTableRefreshService,
+              protected readonly wpTableRefresh:WorkPackageViewRefreshService,
               protected readonly queryUrlParamsHelper:UrlParamsHelperService,
               protected readonly wpNotifications:WorkPackageNotificationService,
               protected readonly I18n:I18nService) {

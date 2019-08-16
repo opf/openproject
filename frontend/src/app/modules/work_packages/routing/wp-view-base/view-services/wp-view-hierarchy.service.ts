@@ -1,13 +1,13 @@
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {WorkPackageQueryStateService} from './wp-table-base.service';
-import {WorkPackageTableHierarchies} from '../wp-table-hierarchies';
+import {WorkPackageQueryStateService} from './wp-view-base.service';
 import {Injectable} from '@angular/core';
+import {WorkPackageViewHierarchies} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-hierarchies";
 
 @Injectable()
-export class WorkPackageTableHierarchiesService extends WorkPackageQueryStateService<WorkPackageTableHierarchies> {
+export class WorkPackageViewHierarchiesService extends WorkPackageQueryStateService<WorkPackageViewHierarchies> {
 
-  public valueFromQuery(query:QueryResource):WorkPackageTableHierarchies {
-    const value =  new WorkPackageTableHierarchies(query.showHierarchies);
+  public valueFromQuery(query:QueryResource):WorkPackageViewHierarchies {
+    const value =  new WorkPackageViewHierarchies(query.showHierarchies);
     const current = this.current;
 
     // Take over current collapsed values
@@ -90,7 +90,7 @@ export class WorkPackageTableHierarchiesService extends WorkPackageQueryStateSer
   /**
    * Get current selection state.
    */
-  public get current():WorkPackageTableHierarchies {
+  public get current():WorkPackageViewHierarchies {
     const state = this.lastUpdatedState.value;
 
     if (state === undefined) {
@@ -104,7 +104,7 @@ export class WorkPackageTableHierarchiesService extends WorkPackageQueryStateSer
     return state;
   }
 
-  private get initialState():WorkPackageTableHierarchies {
-    return new WorkPackageTableHierarchies(false);
+  private get initialState():WorkPackageViewHierarchies {
+    return new WorkPackageViewHierarchies(false);
   }
 }

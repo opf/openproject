@@ -31,10 +31,9 @@ import {PaginationObject} from 'core-app/modules/hal/dm-services/query-dm.servic
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {InputState} from 'reactivestates';
-import {WorkPackageTablePagination} from '../wp-table-pagination';
-import {WorkPackageTableBaseService,} from './wp-table-base.service';
 import {PaginationService} from 'core-components/table-pagination/pagination-service';
+import {WorkPackageViewPagination} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-pagination";
+import {WorkPackageViewBaseService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-base.service";
 
 export interface PaginationUpdateObject {
   page?:number;
@@ -44,7 +43,7 @@ export interface PaginationUpdateObject {
 }
 
 @Injectable()
-export class WorkPackageTablePaginationService extends WorkPackageTableBaseService<WorkPackageTablePagination> {
+export class WorkPackageViewPaginationService extends WorkPackageViewBaseService<WorkPackageViewPagination> {
   public constructor(querySpace:IsolatedQuerySpace,
                      readonly paginationService:PaginationService) {
     super(querySpace);
@@ -66,7 +65,7 @@ export class WorkPackageTablePaginationService extends WorkPackageTableBaseServi
   }
 
   public valueFromQuery(query:QueryResource, results:WorkPackageCollectionResource) {
-    return new WorkPackageTablePagination(results);
+    return new WorkPackageViewPagination(results);
   }
 
   public updateFromObject(object:PaginationUpdateObject) {
@@ -96,7 +95,7 @@ export class WorkPackageTablePaginationService extends WorkPackageTableBaseServi
     this.updateFromObject(update);
   }
 
-  public get current():WorkPackageTablePagination {
+  public get current():WorkPackageViewPagination {
     return this.lastUpdatedState.value!;
   }
 }

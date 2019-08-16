@@ -27,22 +27,22 @@
 // ++
 
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageTableColumnsService} from './wp-table-columns.service';
+import {WorkPackageViewColumnsService} from './wp-view-columns.service';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
-import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
-import {RelationsStateValue, WorkPackageRelationsService} from '../../wp-relations/wp-relations.service';
-import {WorkPackageTableHierarchiesService} from './wp-table-hierarchy.service';
+import {WorkPackageViewHierarchiesService} from './wp-view-hierarchy.service';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
+import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
+import {RelationsStateValue, WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
 
 @Injectable()
-export class WorkPackageTableAdditionalElementsService {
+export class WorkPackageViewAdditionalElementsService {
 
   constructor(readonly querySpace:IsolatedQuerySpace,
-              readonly wpTableHierarchies:WorkPackageTableHierarchiesService,
-              readonly wpTableColumns:WorkPackageTableColumnsService,
+              readonly wpTableHierarchies:WorkPackageViewHierarchiesService,
+              readonly wpTableColumns:WorkPackageViewColumnsService,
               readonly wpNotificationsService:WorkPackageNotificationService,
               readonly halResourceService:HalResourceService,
               readonly wpCacheService:WorkPackageCacheService,

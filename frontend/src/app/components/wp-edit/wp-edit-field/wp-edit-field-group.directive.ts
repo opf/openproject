@@ -30,7 +30,7 @@ import {Component, Inject, Injector, Input, OnDestroy, OnInit} from '@angular/co
 import {StateService, Transition, TransitionService} from '@uirouter/core';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {WorkPackageEditFieldComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.component';
-import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
+import {WorkPackageViewFocusService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {input} from 'reactivestates';
 import {filter, map, take, takeUntil} from 'rxjs/operators';
@@ -39,12 +39,12 @@ import {SingleViewEditContext} from '../../wp-edit-form/single-view-edit-context
 import {WorkPackageEditForm} from '../../wp-edit-form/work-package-edit-form';
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageTableSelection} from '../../wp-fast-table/state/wp-table-selection.service';
 import {WorkPackageNotificationService} from '../wp-notification.service';
 import {WorkPackageCreateService} from './../../wp-new/wp-create.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {IWorkPackageEditingServiceToken} from "../../wp-edit-form/work-package-editing.service.interface";
 import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
+import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 
 @Component({
   selector: 'wp-edit-field-group,[wp-edit-field-group]',
@@ -65,8 +65,8 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
               @Inject(IWorkPackageCreateServiceToken) protected wpCreate:WorkPackageCreateService,
               @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService,
               protected wpNotificationsService:WorkPackageNotificationService,
-              protected wpTableSelection:WorkPackageTableSelection,
-              protected wpTableFocus:WorkPackageTableFocusService,
+              protected wpTableSelection:WorkPackageViewSelectionService,
+              protected wpTableFocus:WorkPackageViewFocusService,
               protected $transitions:TransitionService,
               protected ConfigurationService:ConfigurationService,
               readonly $state:StateService,

@@ -33,10 +33,10 @@ import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-
 import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
 import {OpContextMenuItem} from 'core-components/op-context-menu/op-context-menu.types';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
-import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
-import {WorkPackageTableGroupByService} from 'core-components/wp-fast-table/state/wp-table-group-by.service';
-import {WorkPackageTableHierarchiesService} from 'core-components/wp-fast-table/state/wp-table-hierarchy.service';
-import {WorkPackageTableSortByService} from 'core-components/wp-fast-table/state/wp-table-sort-by.service';
+import {WorkPackageViewColumnsService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service';
+import {WorkPackageViewGroupByService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service';
+import {WorkPackageViewHierarchiesService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
+import {WorkPackageViewSortByService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
 import {WorkPackageTable} from 'core-components/wp-fast-table/wp-fast-table';
 import {QueryColumn} from 'core-components/wp-query/query-column';
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
@@ -61,10 +61,10 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
 
   constructor(readonly elementRef:ElementRef,
               readonly opContextMenu:OPContextMenuService,
-              readonly wpTableColumns:WorkPackageTableColumnsService,
-              readonly wpTableSortBy:WorkPackageTableSortByService,
-              readonly wpTableGroupBy:WorkPackageTableGroupByService,
-              readonly wpTableHierarchies:WorkPackageTableHierarchiesService,
+              readonly wpTableColumns:WorkPackageViewColumnsService,
+              readonly wpTableSortBy:WorkPackageViewSortByService,
+              readonly wpTableGroupBy:WorkPackageViewGroupByService,
+              readonly wpTableHierarchies:WorkPackageViewHierarchiesService,
               readonly opModalService:OpModalService,
               readonly injector:Injector,
               readonly I18n:I18nService,

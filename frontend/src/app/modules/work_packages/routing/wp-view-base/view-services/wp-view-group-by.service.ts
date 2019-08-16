@@ -28,14 +28,14 @@
 
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-by-resource';
-import {WorkPackageQueryStateService} from './wp-table-base.service';
-import {QueryColumn} from '../../wp-query/query-column';
+import {WorkPackageQueryStateService} from './wp-view-base.service';
 import {States} from 'core-components/states.service';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
+import {QueryColumn} from "core-components/wp-query/query-column";
 
 @Injectable()
-export class WorkPackageTableGroupByService extends WorkPackageQueryStateService<QueryGroupByResource|null> {
+export class WorkPackageViewGroupByService extends WorkPackageQueryStateService<QueryGroupByResource|null> {
   public constructor(readonly states:States,
                      readonly querySpace:IsolatedQuerySpace) {
     super(querySpace);

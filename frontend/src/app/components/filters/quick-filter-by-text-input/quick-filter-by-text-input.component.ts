@@ -28,7 +28,7 @@
 
 import {Component, OnDestroy, Output} from '@angular/core';
 import {I18nService} from "app/modules/common/i18n/i18n.service";
-import {WorkPackageTableFiltersService} from "app/components/wp-fast-table/state/wp-table-filters.service";
+import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import {componentDestroyed, untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {WorkPackageCacheService} from "app/components/work-packages/work-package-cache.service";
 import {merge, Observable, Subject} from "rxjs";
@@ -61,7 +61,7 @@ export class WorkPackageFilterByTextInputComponent implements OnDestroy {
 
   constructor(readonly I18n:I18nService,
               readonly querySpace:IsolatedQuerySpace,
-              readonly wpTableFilters:WorkPackageTableFiltersService,
+              readonly wpTableFilters:WorkPackageViewFiltersService,
               readonly wpCacheService:WorkPackageCacheService) {
 
     this.wpTableFilters

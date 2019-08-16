@@ -2,7 +2,7 @@ import {AfterViewInit, Component, ElementRef, Injector, OnDestroy, ViewChild} fr
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {QueryColumn} from 'core-components/wp-query/query-column';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
+import {WorkPackageViewColumnsService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 
@@ -37,7 +37,7 @@ export class WpTableConfigurationColumnsTab implements TabComponent, AfterViewIn
 
   constructor(readonly injector:Injector,
               readonly I18n:I18nService,
-              readonly wpTableColumns:WorkPackageTableColumnsService,
+              readonly wpTableColumns:WorkPackageViewColumnsService,
               readonly ConfigurationService:ConfigurationService,
               readonly bannerService:BannersService) {
   }

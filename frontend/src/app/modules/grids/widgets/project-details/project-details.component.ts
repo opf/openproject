@@ -36,7 +36,7 @@ import {DisplayFieldContext, DisplayFieldService} from "core-app/modules/fields/
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 import {PortalCleanupService} from 'core-app/modules/fields/display/display-portal/portal-cleanup.service';
 import {DisplayField} from "core-app/modules/fields/display/display-field.module";
-import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
+import {WorkPackageViewHighlightingService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {ProjectCacheService} from "core-components/projects/project-cache.service";
 
@@ -48,7 +48,7 @@ export const emptyPlaceholder = '-';
   providers: [
     // required by the displayField service to render the fields
     PortalCleanupService,
-    WorkPackageTableHighlightingService,
+    WorkPackageViewHighlightingService,
     IsolatedQuerySpace
   ]
 })

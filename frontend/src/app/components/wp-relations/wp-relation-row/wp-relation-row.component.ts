@@ -6,7 +6,7 @@ import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 import {ChangeDetectorRef, Component, ElementRef, Inject, Input, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {WorkPackageTableRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
+import {WorkPackageViewRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
 
@@ -58,7 +58,7 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
   constructor(protected wpCacheService:WorkPackageCacheService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected wpRelations:WorkPackageRelationsService,
-              protected wpTableRefresh:WorkPackageTableRefreshService,
+              protected wpTableRefresh:WorkPackageViewRefreshService,
               protected I18n:I18nService,
               protected cdRef:ChangeDetectorRef,
               protected PathHelper:PathHelperService) {

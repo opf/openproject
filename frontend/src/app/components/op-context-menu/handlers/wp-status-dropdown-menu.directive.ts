@@ -31,7 +31,7 @@ import {OPContextMenuService} from "core-components/op-context-menu/op-context-m
 import {Directive, ElementRef, Inject, Input} from "@angular/core";
 import {OpContextMenuTrigger} from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
-import {WorkPackageTableRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
+import {WorkPackageViewRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
@@ -54,7 +54,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
               protected notificationService:NotificationsService,
               @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService,
               protected I18n:I18nService,
-              protected wpTableRefresh:WorkPackageTableRefreshService) {
+              protected wpTableRefresh:WorkPackageViewRefreshService) {
 
     super(elementRef, opContextMenu);
   }

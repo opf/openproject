@@ -29,12 +29,12 @@
 import {Injector} from '@angular/core';
 import {States} from '../../../states.service';
 import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
-import {RenderedRow} from '../../../wp-fast-table/builders/primary-render-pass';
 import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import {RenderInfo} from '../wp-timeline';
 import {TimelineCellRenderer} from './timeline-cell-renderer';
 import {TimelineMilestoneCellRenderer} from './timeline-milestone-cell-renderer';
 import {WorkPackageTimelineCell} from './wp-timeline-cell';
+import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
 
 export class WorkPackageTimelineCellsRenderer {
 
@@ -93,7 +93,7 @@ export class WorkPackageTimelineCellsRenderer {
     const currentlyActive:string[] = Object.keys(this.cells);
     const newCells:string[] = [];
 
-    _.each(this.wpTimeline.workPackageIdOrder, (renderedRow:RenderedRow) => {
+    _.each(this.wpTimeline.workPackageIdOrder, (renderedRow:RenderedWorkPackage) => {
       const wpId = renderedRow.workPackageId;
 
       // Ignore extra rows not tied to a work package

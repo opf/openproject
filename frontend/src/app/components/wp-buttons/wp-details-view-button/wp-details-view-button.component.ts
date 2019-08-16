@@ -28,16 +28,13 @@
 
 import {KeepTabService} from '../../wp-single-view-tabs/keep-tab/keep-tab.service';
 import {States} from '../../states.service';
-import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
+import {WorkPackageViewFocusService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import {StateService, TransitionService} from '@uirouter/core';
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {AbstractWorkPackageButtonComponent} from 'core-components/wp-buttons/wp-buttons.module';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {
-  WorkPackageDisplayRepresentationService,
-  wpDisplayCardRepresentation
-} from "core-components/wp-fast-table/state/work-package-display-representation.service";
+import {WorkPackageViewDisplayRepresentationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 
 @Component({
   templateUrl: '../wp-button.template.html',
@@ -64,9 +61,9 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
     readonly transitions:TransitionService,
     readonly cdRef:ChangeDetectorRef,
     public states:States,
-    public wpTableFocus:WorkPackageTableFocusService,
+    public wpTableFocus:WorkPackageViewFocusService,
     public keepTab:KeepTabService,
-    public wpDisplayRepresentationService:WorkPackageDisplayRepresentationService) {
+    public wpDisplayRepresentationService:WorkPackageViewDisplayRepresentationService) {
 
     super(I18n);
 

@@ -35,7 +35,7 @@ import {ChangeDetectorRef, Component, ElementRef, Inject, OnInit} from "@angular
 import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
+import {WorkPackageViewFocusService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import {StateService} from '@uirouter/core';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageService} from "core-components/work-packages/work-package.service";
@@ -74,7 +74,7 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
               readonly cdRef:ChangeDetectorRef,
               readonly $state:StateService,
               readonly states:States,
-              readonly wpTableFocus:WorkPackageTableFocusService,
+              readonly wpTableFocus:WorkPackageViewFocusService,
               readonly wpListService:WorkPackagesListService,
               readonly wpNotificationsService:WorkPackageNotificationService,
               readonly notificationsService:NotificationsService,

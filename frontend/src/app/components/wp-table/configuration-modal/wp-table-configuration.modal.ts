@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
+import {WorkPackageViewColumnsService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
 import {WpTableConfigurationService} from 'core-components/wp-table/configuration-modal/wp-table-configuration.service';
 import {
@@ -81,7 +81,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
               readonly queryFormDm:QueryFormDmService,
               readonly wpStatesInitialization:WorkPackageStatesInitializationService,
               readonly wpNotificationsService:WorkPackageNotificationService,
-              readonly wpTableColumns:WorkPackageTableColumnsService,
+              readonly wpTableColumns:WorkPackageViewColumnsService,
               readonly cdRef:ChangeDetectorRef,
               readonly ConfigurationService:ConfigurationService,
               readonly elementRef:ElementRef) {

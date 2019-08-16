@@ -36,28 +36,28 @@ import {auditTime, filter, take, withLatestFrom} from 'rxjs/operators';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageStaticQueriesService} from 'core-components/wp-query-select/wp-static-queries.service';
-import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
+import {WorkPackageViewHighlightingService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
 import {States} from "core-components/states.service";
 import {
   WorkPackageTableRefreshRequest,
-  WorkPackageTableRefreshService
+  WorkPackageViewRefreshService
 } from "core-components/wp-table/wp-table-refresh-request.service";
-import {WorkPackageTableColumnsService} from "core-components/wp-fast-table/state/wp-table-columns.service";
-import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state/wp-table-sort-by.service";
-import {WorkPackageTableGroupByService} from "core-components/wp-fast-table/state/wp-table-group-by.service";
-import {WorkPackageTableFiltersService} from "core-components/wp-fast-table/state/wp-table-filters.service";
-import {WorkPackageTableSumService} from "core-components/wp-fast-table/state/wp-table-sum.service";
-import {WorkPackageTableTimelineService} from "core-components/wp-fast-table/state/wp-table-timeline.service";
-import {WorkPackageTableHierarchiesService} from "core-components/wp-fast-table/state/wp-table-hierarchy.service";
-import {WorkPackageTablePaginationService} from "core-components/wp-fast-table/state/wp-table-pagination.service";
+import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
+import {WorkPackageViewSortByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
+import {WorkPackageViewGroupByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service";
+import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
+import {WorkPackageViewSumService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sum.service";
+import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
+import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
+import {WorkPackageViewPaginationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service";
 import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
 import {WorkPackagesListChecksumService} from "core-components/wp-list/wp-list-checksum.service";
-import {WorkPackageQueryStateService} from "core-components/wp-fast-table/state/wp-table-base.service";
+import {WorkPackageQueryStateService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-base.service";
 import {debugLog} from "core-app/helpers/debug_output";
 import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
 import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";
-import {WorkPackageTableOrderService} from "core-components/wp-fast-table/state/wp-table-order.service";
-import {WorkPackageDisplayRepresentationService} from "core-components/wp-fast-table/state/work-package-display-representation.service";
+import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
+import {WorkPackageViewDisplayRepresentationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 
 export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
 
@@ -65,17 +65,17 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
   readonly states:States = this.injector.get(States);
   readonly querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
   readonly authorisationService:AuthorisationService = this.injector.get(AuthorisationService);
-  readonly wpTableRefresh:WorkPackageTableRefreshService = this.injector.get(WorkPackageTableRefreshService);
-  readonly wpTableColumns:WorkPackageTableColumnsService = this.injector.get(WorkPackageTableColumnsService);
-  readonly wpTableHighlighting:WorkPackageTableHighlightingService = this.injector.get(WorkPackageTableHighlightingService);
-  readonly wpTableSortBy:WorkPackageTableSortByService = this.injector.get(WorkPackageTableSortByService);
-  readonly wpTableGroupBy:WorkPackageTableGroupByService = this.injector.get(WorkPackageTableGroupByService);
-  readonly wpTableFilters:WorkPackageTableFiltersService = this.injector.get(WorkPackageTableFiltersService);
-  readonly wpTableSum:WorkPackageTableSumService = this.injector.get(WorkPackageTableSumService);
-  readonly wpTableTimeline:WorkPackageTableTimelineService = this.injector.get(WorkPackageTableTimelineService);
-  readonly wpTableHierarchies:WorkPackageTableHierarchiesService = this.injector.get(WorkPackageTableHierarchiesService);
-  readonly wpTablePagination:WorkPackageTablePaginationService = this.injector.get(WorkPackageTablePaginationService);
-  readonly wpTableOrder:WorkPackageTableOrderService = this.injector.get(WorkPackageTableOrderService);
+  readonly wpTableRefresh:WorkPackageViewRefreshService = this.injector.get(WorkPackageViewRefreshService);
+  readonly wpTableColumns:WorkPackageViewColumnsService = this.injector.get(WorkPackageViewColumnsService);
+  readonly wpTableHighlighting:WorkPackageViewHighlightingService = this.injector.get(WorkPackageViewHighlightingService);
+  readonly wpTableSortBy:WorkPackageViewSortByService = this.injector.get(WorkPackageViewSortByService);
+  readonly wpTableGroupBy:WorkPackageViewGroupByService = this.injector.get(WorkPackageViewGroupByService);
+  readonly wpTableFilters:WorkPackageViewFiltersService = this.injector.get(WorkPackageViewFiltersService);
+  readonly wpTableSum:WorkPackageViewSumService = this.injector.get(WorkPackageViewSumService);
+  readonly wpTableTimeline:WorkPackageViewTimelineService = this.injector.get(WorkPackageViewTimelineService);
+  readonly wpTableHierarchies:WorkPackageViewHierarchiesService = this.injector.get(WorkPackageViewHierarchiesService);
+  readonly wpTablePagination:WorkPackageViewPaginationService = this.injector.get(WorkPackageViewPaginationService);
+  readonly wpTableOrder:WorkPackageViewOrderService = this.injector.get(WorkPackageViewOrderService);
   readonly wpListService:WorkPackagesListService = this.injector.get(WorkPackagesListService);
   readonly wpListChecksumService:WorkPackagesListChecksumService = this.injector.get(WorkPackagesListChecksumService);
   readonly loadingIndicatorService:LoadingIndicatorService = this.injector.get(LoadingIndicatorService);
@@ -85,7 +85,7 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
   readonly QueryDm:QueryDmService = this.injector.get(QueryDmService);
   readonly wpStatesInitialization:WorkPackageStatesInitializationService = this.injector.get(WorkPackageStatesInitializationService);
   readonly cdRef:ChangeDetectorRef = this.injector.get(ChangeDetectorRef);
-  readonly wpDisplayRepresentation:WorkPackageDisplayRepresentationService = this.injector.get(WorkPackageDisplayRepresentationService);
+  readonly wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService = this.injector.get(WorkPackageViewDisplayRepresentationService);
 
   constructor(protected injector:Injector) {
   }

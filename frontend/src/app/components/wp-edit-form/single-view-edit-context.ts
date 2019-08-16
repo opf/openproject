@@ -32,26 +32,26 @@ import {WorkPackageEditFieldComponent} from 'core-components/wp-edit/wp-edit-fie
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from '../states.service';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
-import {WorkPackageTableSelection} from '../wp-fast-table/state/wp-table-selection.service';
 import {Injector} from '@angular/core';
 import {WorkPackageEditContext} from 'core-components/wp-edit-form/work-package-edit-context';
-import {WorkPackageTableRefreshService} from 'core-components/wp-table/wp-table-refresh-request.service';
+import {WorkPackageViewRefreshService} from 'core-components/wp-table/wp-table-refresh-request.service';
 import {WorkPackageEditForm} from 'core-components/wp-edit-form/work-package-edit-form';
 import {WorkPackageEditFieldHandler} from 'core-components/wp-edit-form/work-package-edit-field-handler';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 import {WorkPackageEditingPortalService} from "core-app/modules/fields/edit/editing-portal/wp-editing-portal-service";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
+import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 
 export class SingleViewEditContext implements WorkPackageEditContext {
 
   // Injections
-  public wpTableRefresh:WorkPackageTableRefreshService = this.injector.get(WorkPackageTableRefreshService);
+  public wpTableRefresh:WorkPackageViewRefreshService = this.injector.get(WorkPackageViewRefreshService);
   public states:States = this.injector.get(States);
   public FocusHelper:FocusHelperService = this.injector.get(FocusHelperService);
   public $state:StateService = this.injector.get(StateService);
   public wpNotificationsService:WorkPackageNotificationService = this.injector.get(WorkPackageNotificationService);
   public wpEditingPortalService:WorkPackageEditingPortalService = this.injector.get(WorkPackageEditingPortalService);
-  protected wpTableSelection:WorkPackageTableSelection = this.injector.get(WorkPackageTableSelection);
+  protected wpTableSelection:WorkPackageViewSelectionService = this.injector.get(WorkPackageViewSelectionService);
 
   // other fields
   public successState:string;

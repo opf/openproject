@@ -6,9 +6,9 @@ import {
   hierarchyGroupClass,
   hierarchyRootClass
 } from '../../../helpers/wp-table-hierarchy-helpers';
-import {WorkPackageTableHierarchiesService} from '../../../state/wp-table-hierarchy.service';
 import {WorkPackageTable} from '../../../wp-fast-table';
 import {SingleRowBuilder} from '../../rows/single-row-builder';
+import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
 
 export const indicatorCollapsedClass = '-hierarchy-collapsed';
 export const hierarchyCellClassName = 'wp-table--hierarchy-span';
@@ -17,7 +17,7 @@ export const hierarchyIndentation = 20;
 
 export class SingleHierarchyRowBuilder extends SingleRowBuilder {
   // Injected
-  public wpTableHierarchies = this.injector.get(WorkPackageTableHierarchiesService);
+  public wpTableHierarchies = this.injector.get(WorkPackageViewHierarchiesService);
   public states = this.injector.get(States);
 
   // Retain a map of hierarchy elements present in the table

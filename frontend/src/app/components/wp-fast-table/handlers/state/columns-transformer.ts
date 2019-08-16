@@ -1,14 +1,14 @@
 import {Injector} from '@angular/core';
 import {debugLog} from '../../../../helpers/debug_output';
-import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {takeUntil} from "rxjs/operators";
+import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
 
 export class ColumnsTransformer {
 
   public querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
-  public wpTableColumns:WorkPackageTableColumnsService = this.injector.get(WorkPackageTableColumnsService);
+  public wpTableColumns:WorkPackageViewColumnsService = this.injector.get(WorkPackageViewColumnsService);
 
   constructor(public readonly injector:Injector,
               public table:WorkPackageTable) {

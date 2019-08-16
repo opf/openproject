@@ -26,6 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-export interface WorkPackageTableRelationColumns {
+export interface WorkPackageViewRelationColumns {
   [workPackageId:string]:string;
 }

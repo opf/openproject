@@ -10,7 +10,7 @@ export interface WorkPackageTableRefreshRequest {
 }
 
 @Injectable()
-export class WorkPackageTableRefreshService {
+export class WorkPackageViewRefreshService {
 
   constructor(public querySpace:IsolatedQuerySpace) {
   }

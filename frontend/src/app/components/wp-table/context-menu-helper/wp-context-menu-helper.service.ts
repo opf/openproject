@@ -26,11 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageTableTimelineService} from "../../wp-fast-table/state/wp-table-timeline.service";
-import {Inject, Injectable} from "@angular/core";
+import {Injectable} from "@angular/core";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 import {HookService} from "core-app/modules/plugins/hook-service";
+import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 
 export type WorkPackageAction = {
   text:string;
@@ -73,7 +73,7 @@ export class WorkPackageContextMenuHelperService {
 
   constructor(private HookService:HookService,
               private UrlParamsHelper:UrlParamsHelperService,
-              private wpTableTimeline:WorkPackageTableTimelineService,
+              private wpTableTimeline:WorkPackageViewTimelineService,
               private PathHelper:PathHelperService) {
   }
 

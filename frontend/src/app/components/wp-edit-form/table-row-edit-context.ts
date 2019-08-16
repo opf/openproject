@@ -30,8 +30,6 @@ import {Injector} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from '../states.service';
 import {CellBuilder, editCellContainer, tdClassName} from '../wp-fast-table/builders/cell-builder';
-import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
-import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-request.service';
 import {WorkPackageEditContext} from './work-package-edit-context';
 import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
 import {WorkPackageEditForm} from './work-package-edit-form';
@@ -40,12 +38,14 @@ import {WorkPackageTable} from 'core-components/wp-fast-table/wp-fast-table';
 import {WorkPackageEditingPortalService} from "core-app/modules/fields/edit/editing-portal/wp-editing-portal-service";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {editModeClassName} from "core-app/modules/fields/edit/edit-field.component";
+import {WorkPackageViewRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
+import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
 
 export class TableRowEditContext implements WorkPackageEditContext {
 
   // Injections
-  public wpTableRefresh:WorkPackageTableRefreshService = this.injector.get(WorkPackageTableRefreshService);
-  public wpTableColumns:WorkPackageTableColumnsService = this.injector.get(WorkPackageTableColumnsService);
+  public wpTableRefresh:WorkPackageViewRefreshService = this.injector.get(WorkPackageViewRefreshService);
+  public wpTableColumns:WorkPackageViewColumnsService = this.injector.get(WorkPackageViewColumnsService);
   public states:States = this.injector.get(States);
   public FocusHelper:FocusHelperService = this.injector.get(FocusHelperService);
   public wpEditingPortalService:WorkPackageEditingPortalService = this.injector.get(WorkPackageEditingPortalService);

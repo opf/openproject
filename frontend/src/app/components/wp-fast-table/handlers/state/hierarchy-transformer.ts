@@ -2,9 +2,8 @@ import {Injector} from '@angular/core';
 import {scrollTableRowIntoView} from 'core-components/wp-fast-table/helpers/wp-table-row-helpers';
 import {distinctUntilChanged, filter, map, takeUntil} from 'rxjs/operators';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {WorkPackageTableHierarchiesService} from "core-components/wp-fast-table/state/wp-table-hierarchy.service";
+import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
 import {WorkPackageTable} from "core-components/wp-fast-table/wp-fast-table";
-import {WorkPackageTableHierarchies} from "core-components/wp-fast-table/wp-table-hierarchies";
 import {
   collapsedGroupClass,
   hierarchyGroupClass,
@@ -12,10 +11,11 @@ import {
 } from "core-components/wp-fast-table/helpers/wp-table-hierarchy-helpers";
 import {indicatorCollapsedClass} from "core-components/wp-fast-table/builders/modes/hierarchy/single-hierarchy-row-builder";
 import {tableRowClassName} from "core-components/wp-fast-table/builders/rows/single-row-builder";
+import {WorkPackageViewHierarchies} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-hierarchies";
 
 export class HierarchyTransformer {
 
-  public wpTableHierarchies = this.injector.get(WorkPackageTableHierarchiesService);
+  public wpTableHierarchies = this.injector.get(WorkPackageViewHierarchiesService);
   public querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
 
   constructor(public readonly injector:Injector,
@@ -43,7 +43,7 @@ export class HierarchyTransformer {
         takeUntil(this.querySpace.stopAllSubscriptions),
         filter(() => this.querySpace.rendered.hasValue())
       )
-      .subscribe((state:WorkPackageTableHierarchies) => {
+      .subscribe((state:WorkPackageViewHierarchies) => {
 
         if (state.isVisible === lastValue) {
           this.renderHierarchyState(state);
@@ -56,7 +56,7 @@ export class HierarchyTransformer {
   /**
    * Update all currently visible rows to match the selection state.
    */
-  private renderHierarchyState(state:WorkPackageTableHierarchies) {
+  private renderHierarchyState(state:WorkPackageViewHierarchies) {
     const rendered = this.querySpace.rendered.value!;
 
     // Show all hierarchies

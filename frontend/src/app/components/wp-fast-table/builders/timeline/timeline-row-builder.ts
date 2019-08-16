@@ -1,16 +1,16 @@
 import {Injector} from '@angular/core';
 import {States} from '../../../states.service';
 import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
-import {WorkPackageTableTimelineService} from '../../state/wp-table-timeline.service';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {commonRowClassName} from '../rows/single-row-builder';
+import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 
 export const timelineCellClassName = 'wp-timeline-cell';
 
 export class TimelineRowBuilder {
 
   public states = this.injector.get(States);
-  public wpTableTimeline = this.injector.get(WorkPackageTableTimelineService);
+  public wpTableTimeline = this.injector.get(WorkPackageViewTimelineService);
   public wpCacheService = this.injector.get(WorkPackageCacheService);
 
   constructor(public readonly injector:Injector,

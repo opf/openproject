@@ -4,19 +4,19 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {States} from '../../../../states.service';
 import {ancestorClassIdentifier, hierarchyGroupClass} from '../../../helpers/wp-table-hierarchy-helpers';
 import {WorkPackageTable} from '../../../wp-fast-table';
-import {WorkPackageTableHierarchies} from '../../../wp-table-hierarchies';
 import {WorkPackageTableRow} from '../../../wp-table.interfaces';
 import {PrimaryRenderPass, RowRenderInfo} from '../../primary-render-pass';
 import {additionalHierarchyRowClassName, SingleHierarchyRowBuilder} from './single-hierarchy-row-builder';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageTableHierarchiesService} from "core-components/wp-fast-table/state/wp-table-hierarchy.service";
+import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
+import {WorkPackageViewHierarchies} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-hierarchies";
 
 export class HierarchyRenderPass extends PrimaryRenderPass {
 
   protected readonly querySpace = this.injector.get(IsolatedQuerySpace);
   protected readonly states = this.injector.get(States);
   protected readonly wpCacheService = this.injector.get(WorkPackageCacheService);
-  protected readonly wpTableHierarchies = this.injector.get(WorkPackageTableHierarchiesService);
+  protected readonly wpTableHierarchies = this.injector.get(WorkPackageViewHierarchiesService);
 
   // Remember which rows were already rendered
   private rendered:{ [workPackageId:string]:boolean } = {};
@@ -28,7 +28,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
   private deferred:{ [parentId:string]:WorkPackageResource[] } = {};
 
   // Collapsed state
-  private hierarchies:WorkPackageTableHierarchies;
+  private hierarchies:WorkPackageViewHierarchies;
 
   // Build a map of hierarchy elements present in the table
   // with at least a visible child

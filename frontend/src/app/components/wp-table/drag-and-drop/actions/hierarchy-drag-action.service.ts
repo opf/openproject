@@ -1,6 +1,6 @@
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {TableDragActionService} from "core-components/wp-table/drag-and-drop/actions/table-drag-action.service";
-import {WorkPackageTableHierarchiesService} from "core-components/wp-fast-table/state/wp-table-hierarchy.service";
+import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
 import {WorkPackageRelationsHierarchyService} from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
 import {
   hierarchyGroupClass,
@@ -9,7 +9,7 @@ import {
 
 export class HierarchyDragActionService extends TableDragActionService {
 
-  private wpTableHierarchies = this.injector.get(WorkPackageTableHierarchiesService);
+  private wpTableHierarchies = this.injector.get(WorkPackageViewHierarchiesService);
   private relationHierarchyService = this.injector.get(WorkPackageRelationsHierarchyService);
 
   public get applies() {

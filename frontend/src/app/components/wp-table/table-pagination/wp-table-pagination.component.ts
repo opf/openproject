@@ -26,13 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageTablePaginationService} from '../../wp-fast-table/state/wp-table-pagination.service';
-import {WorkPackageTablePagination} from '../../wp-fast-table/wp-table-pagination';
 import {TablePaginationComponent} from 'core-components/table-pagination/table-pagination.component';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {IPaginationOptions, PaginationService} from 'core-components/table-pagination/pagination-service';
+import {WorkPackageViewPaginationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service";
+import {WorkPackageViewPagination} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-pagination";
 
 @Component({
   templateUrl: '../../table-pagination/table-pagination.component.html',
@@ -43,7 +43,7 @@ export class WorkPackageTablePaginationComponent extends TablePaginationComponen
 
   constructor(protected paginationService:PaginationService,
               protected cdRef:ChangeDetectorRef,
-              protected wpTablePagination:WorkPackageTablePaginationService,
+              protected wpTablePagination:WorkPackageViewPaginationService,
               readonly I18n:I18nService) {
     super(paginationService, cdRef, I18n);
 
@@ -62,7 +62,7 @@ export class WorkPackageTablePaginationComponent extends TablePaginationComponen
       .pipe(
         untilComponentDestroyed(this)
       )
-      .subscribe((wpPagination:WorkPackageTablePagination) => {
+      .subscribe((wpPagination:WorkPackageViewPagination) => {
         this.pagination = wpPagination.current;
         this.update();
     });

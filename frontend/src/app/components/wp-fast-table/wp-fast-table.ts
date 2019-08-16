@@ -11,12 +11,13 @@ import {GroupedRowsBuilder} from './builders/modes/grouped/grouped-rows-builder'
 import {HierarchyRowsBuilder} from './builders/modes/hierarchy/hierarchy-rows-builder';
 import {PlainRowsBuilder} from './builders/modes/plain/plain-rows-builder';
 import {RowsBuilder} from './builders/modes/rows-builder';
-import {PrimaryRenderPass, RenderedRow} from './builders/primary-render-pass';
+import {PrimaryRenderPass} from './builders/primary-render-pass';
 import {WorkPackageTableEditingContext} from './wp-table-editing';
 
 import {WorkPackageTableRow} from './wp-table.interfaces';
 import {WorkPackageTableConfiguration} from 'core-app/components/wp-table/wp-table-configuration';
 import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
+import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
 
 export class WorkPackageTable {
 
@@ -57,7 +58,7 @@ export class WorkPackageTable {
     return this.querySpace.rendered.getValueOr([]);
   }
 
-  public findRenderedRow(classIdentifier:string):[number, RenderedRow] {
+  public findRenderedRow(classIdentifier:string):[number, RenderedWorkPackage] {
     const index = _.findIndex(this.renderedRows, (row) => row.classIdentifier === classIdentifier);
 
     return [index, this.renderedRows[index]];

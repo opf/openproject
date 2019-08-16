@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-request.service';
+import {WorkPackageViewRefreshService} from '../wp-table/wp-table-refresh-request.service';
 import {StateService} from '@uirouter/core';
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
@@ -48,7 +48,7 @@ export class WorkPackageService {
               private readonly UrlParamsHelper:UrlParamsHelperService,
               private readonly NotificationsService:NotificationsService,
               private readonly I18n:I18nService,
-              private readonly wpTableRefresh:WorkPackageTableRefreshService) {
+              private readonly wpTableRefresh:WorkPackageViewRefreshService) {
   }
 
   public performBulkDelete(ids:string[], defaultHandling:boolean) {

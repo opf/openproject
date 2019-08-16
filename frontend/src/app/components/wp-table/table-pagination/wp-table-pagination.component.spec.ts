@@ -34,7 +34,7 @@ import {async, inject, TestBed} from '@angular/core/testing';
 import {States} from 'core-components/states.service';
 import {PaginationInstance} from 'core-components/table-pagination/pagination-instance';
 import {IPaginationOptions, PaginationService} from 'core-components/table-pagination/pagination-service';
-import {WorkPackageTablePaginationService} from 'core-components/wp-fast-table/state/wp-table-pagination.service';
+import {WorkPackageViewPaginationService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service';
 import {WorkPackageTablePaginationComponent} from 'core-components/wp-table/table-pagination/wp-table-pagination.component';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
@@ -75,7 +75,7 @@ describe('wpTablePagination Directive', () => {
         States,
         PaginationService,
         PathHelperService,
-        WorkPackageTablePaginationService,
+        WorkPackageViewPaginationService,
         HalResourceService,
         ConfigurationDmService,
         IsolatedQuerySpace,

@@ -2,10 +2,10 @@ import {Injector} from '@angular/core';
 import {States} from '../../states.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {tdClassName} from './cell-builder';
-import {WorkPackageTableRelationColumnsService} from '../state/wp-table-relation-columns.service';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 import {QueryColumn} from '../../wp-query/query-column';
 import {WorkPackageRelationsService} from '../../wp-relations/wp-relations.service';
+import {WorkPackageViewRelationColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
 
 export const relationCellTdClassName = 'wp-table--relation-cell-td';
 export const relationCellIndicatorClassName = 'wp-table--relation-indicator';
@@ -14,7 +14,7 @@ export class RelationCellbuilder {
 
   public states = this.injector.get(States);
   public wpRelations = this.injector.get(WorkPackageRelationsService);
-  public wpTableRelationColumns = this.injector.get(WorkPackageTableRelationColumnsService);
+  public wpTableRelationColumns = this.injector.get(WorkPackageViewRelationColumnsService);
 
   constructor(public readonly injector:Injector) {
   }

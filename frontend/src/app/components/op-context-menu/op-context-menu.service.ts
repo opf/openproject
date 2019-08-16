@@ -60,7 +60,7 @@ export class OPContextMenuService {
    * Open a ContextMenu reference and append it to the portal
    * @param contextMenu A reference to a context menu handler
    */
-  public show(menu:OpContextMenuHandler, event:JQueryEventObject, component:any = OPContextMenuComponent) {
+  public show(menu:OpContextMenuHandler, event:JQueryEventObject|JQuery.Event, component:any = OPContextMenuComponent) {
     this.close();
 
     // Create a portal for the given component class and render it
@@ -97,7 +97,7 @@ export class OPContextMenuService {
     this.active = null;
   }
 
-  public reposition(event:JQueryEventObject) {
+  public reposition(event:JQueryEventObject|JQuery.Event) {
     if (!this.active) {
       return;
     }

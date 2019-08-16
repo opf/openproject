@@ -23,13 +23,13 @@ import {
 import {classNameBarLabel, classNameLeftHandle, classNameRightHandle} from './wp-timeline-cell-mouse-handler';
 import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
-import {WorkPackageTableTimelineService} from '../../../wp-fast-table/state/wp-table-timeline.service';
 import {DisplayFieldRenderer} from '../../../wp-edit-form/display-field-renderer';
 import {Injector} from '@angular/core';
 import {TimezoneService} from 'core-components/datetime/timezone.service';
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import {HierarchyRenderPass} from "core-components/wp-fast-table/builders/modes/hierarchy/hierarchy-render-pass";
 import Moment = moment.Moment;
+import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 
 export interface CellDateMovement {
   // Target values to move work package to
@@ -43,7 +43,7 @@ export type LabelPosition = 'left' | 'right' | 'farRight';
 
 export class TimelineCellRenderer {
   readonly TimezoneService = this.injector.get(TimezoneService);
-  readonly wpTableTimeline:WorkPackageTableTimelineService = this.injector.get(WorkPackageTableTimelineService);
+  readonly wpTableTimeline:WorkPackageViewTimelineService = this.injector.get(WorkPackageViewTimelineService);
   public fieldRenderer:DisplayFieldRenderer = new DisplayFieldRenderer(this.injector, 'timeline');
 
   protected dateDisplaysOnMouseMove:{ left?:HTMLElement; right?:HTMLElement } = {};

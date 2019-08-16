@@ -33,7 +33,7 @@ import * as moment from 'moment';
 import {calculatePositionValueForDayCount, getTimeSlicesForHeader, TimelineViewParameters} from '../wp-timeline';
 import Moment = moment.Moment;
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {WorkPackageTableTimelineService} from "core-components/wp-fast-table/state/wp-table-timeline.service";
+import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 
 
 export const timelineHeaderCSSClass = 'wp-timeline--header-element';
@@ -52,7 +52,7 @@ export class WorkPackageTimelineHeaderController implements OnInit {
 
   constructor(elementRef:ElementRef,
               readonly I18n:I18nService,
-              readonly wpTimelineService:WorkPackageTableTimelineService,
+              readonly wpTimelineService:WorkPackageViewTimelineService,
               readonly workPackageTimelineTableController:WorkPackageTimelineTableController) {
 
     this.$element = jQuery(elementRef.nativeElement);

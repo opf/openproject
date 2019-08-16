@@ -26,46 +26,49 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {InputState} from 'reactivestates';
+import {WorkPackageQueryStateService} from './wp-view-base.service';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {WorkPackageQueryStateService} from './wp-table-base.service';
-import {States} from 'core-components/states.service';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
-import {combine, InputState} from "reactivestates";
-import {Observable} from "rxjs";
-import {mapTo} from "rxjs/operators";
-
-
-export const wpDisplayListRepresentation:string = 'list';
-export const wpDisplayCardRepresentation:string = 'card';
-export type wpDisplayRepresentation = 'list'|'card';
 
 @Injectable()
-export class WorkPackageDisplayRepresentationService extends WorkPackageQueryStateService<string|null> {
-  public constructor(readonly states:States,
-                     readonly querySpace:IsolatedQuerySpace) {
+export class WorkPackageViewSumService extends WorkPackageQueryStateService<boolean> {
+
+  public constructor(querySpace:IsolatedQuerySpace) {
     super(querySpace);
   }
 
-  public hasChanged(query:QueryResource) {
-    return this.current !== query.displayRepresentation;
+  public valueFromQuery(query:QueryResource) {
+    return !!query.sums;
   }
 
-  valueFromQuery(query:QueryResource) {
-    return query.displayRepresentation || null;
+  public initialize(query:QueryResource) {
+    this.pristineState.putValue(!!query.sums);
+  }
+
+  public hasChanged(query:QueryResource) {
+    return query.sums !== this.isEnabled;
   }
 
   public applyToQuery(query:QueryResource) {
-    const current = this.current;
-    query.displayRepresentation = current === null ? undefined : current;
+    query.sums = this.isEnabled;
     return true;
   }
 
-  public get current():string|null {
-    return this.lastUpdatedState.getValueOr(null);
+  public toggle() {
+    this.updatesState.putValue(!this.current);
   }
 
-  public setDisplayRepresentation(representation:string) {
-    this.update(representation);
+  public setEnabled(value:boolean) {
+    this.updatesState.putValue(value);
+  }
+
+  public get isEnabled() {
+    return this.current;
+  }
+
+  public get current():boolean {
+    return this.lastUpdatedState.getValueOr(false);
   }
 }

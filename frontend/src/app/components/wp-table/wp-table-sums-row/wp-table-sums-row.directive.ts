@@ -37,8 +37,8 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {QueryColumn} from "core-components/wp-query/query-column";
-import {WorkPackageTableColumnsService} from "core-components/wp-fast-table/state/wp-table-columns.service";
-import {WorkPackageTableSumService} from "core-components/wp-fast-table/state/wp-table-sum.service";
+import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
+import {WorkPackageViewSumService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sum.service";
 import {combineLatest, concat} from "rxjs";
 
 @Directive({
@@ -55,8 +55,8 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
               readonly querySpace:IsolatedQuerySpace,
               readonly states:States,
               readonly displayFieldService:DisplayFieldService,
-              readonly wpTableColumns:WorkPackageTableColumnsService,
-              readonly wpTableSums:WorkPackageTableSumService,
+              readonly wpTableColumns:WorkPackageViewColumnsService,
+              readonly wpTableSums:WorkPackageViewSumService,
               readonly I18n:I18nService) {
 
     this.text = {

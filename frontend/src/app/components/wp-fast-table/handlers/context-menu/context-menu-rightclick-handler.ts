@@ -5,11 +5,11 @@ import {timelineCellClassName} from '../../builders/timeline/timeline-row-builde
 import {uiStateLinkClass} from '../../builders/ui-state-link-builder';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {ContextMenuHandler} from './context-menu-handler';
-import {WorkPackageTableSelection} from "core-components/wp-fast-table/state/wp-table-selection.service";
+import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 
 export class ContextMenuRightClickHandler extends ContextMenuHandler {
 
-  readonly wpTableSelection = this.injector.get(WorkPackageTableSelection);
+  readonly wpTableSelection = this.injector.get(WorkPackageViewSelectionService);
 
   constructor(public readonly injector:Injector,
               table:WorkPackageTable) {

@@ -26,49 +26,37 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {InputState} from 'reactivestates';
-import {WorkPackageQueryStateService} from './wp-table-base.service';
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {Injectable} from '@angular/core';
+import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
+import {PaginationInstance} from 'core-components/table-pagination/pagination-instance';
 
-@Injectable()
-export class WorkPackageTableSumService extends WorkPackageQueryStateService<boolean> {
+export class WorkPackageViewPagination {
+  public current:PaginationInstance;
 
-  public constructor(querySpace:IsolatedQuerySpace) {
-    super(querySpace);
+  constructor(results:WorkPackageCollectionResource) {
+    this.current = new PaginationInstance(results.offset, results.total, results.pageSize);
   }
 
-  public valueFromQuery(query:QueryResource) {
-    return !!query.sums;
+  public get page() {
+    return this.current.page;
   }
 
-  public initialize(query:QueryResource) {
-    this.pristineState.putValue(!!query.sums);
+  public set page(val) {
+    this.current.page = val;
   }
 
-  public hasChanged(query:QueryResource) {
-    return query.sums !== this.isEnabled;
+  public get perPage() {
+    return this.current.perPage;
   }
 
-  public applyToQuery(query:QueryResource) {
-    query.sums = this.isEnabled;
-    return true;
+  public set perPage(val) {
+    this.current.perPage = val;
   }
 
-  public toggle() {
-    this.updatesState.putValue(!this.current);
+  public get total() {
+    return this.current.total;
   }
 
-  public setEnabled(value:boolean) {
-    this.updatesState.putValue(value);
-  }
-
-  public get isEnabled() {
-    return this.current;
-  }
-
-  public get current():boolean {
-    return this.lastUpdatedState.getValueOr(false);
+  public set total(val) {
+    this.current.total = val;
   }
 }
