@@ -36,13 +36,24 @@
   &.-placeholder
     font-style: italic
 
-  span.-derived
-    @include varprop(color, gray-dark)
-    font-style: italic
-    font-weight: bold
+  &.split-time-field
+    white-space: nowrap
+    .-actual-value,
+    .-derived-value
+      display: inline-block
+      width: 48%
 
-  span.-with-actual
-    margin-left: 0.5em
+    .-actual-value
+      text-align: right
+      padding-right: 0.5rem
+
+    .-derived-value
+      @include varprop(color, gray-dark)
+      font-style: italic
+      font-weight: bold
+
+      &:not(.-with-actual-value)
+        margin-left: 48%
 
 .wp-edit-field--text,
 wp-edit-field
