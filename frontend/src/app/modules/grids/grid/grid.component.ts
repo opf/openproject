@@ -42,7 +42,7 @@ export interface WidgetRegistration {
 })
 export class GridComponent implements OnDestroy, OnInit {
   public uiWidgets:ComponentRef<any>[] = [];
-  public GRID_AREA_HEIGHT = 100;
+  public GRID_AREA_HEIGHT = 'auto';
 
   public component = WidgetWpGraphComponent;
 

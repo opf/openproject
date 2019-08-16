@@ -13,6 +13,7 @@ $grid--header-width: 20px
 
 .grid--area
   overflow: hidden
+  min-height: 30px
 
   &.-drop-target
     background-color: $gray-light
@@ -47,6 +48,9 @@ $grid--header-width: 20px
 
   &.-dragged
     display: none
+
+  &.-undragged
+    pointer-events: none
 
   .resizer
     margin-top: 0
@@ -173,12 +177,6 @@ $grid--header-width: 20px
 .grid--column-headers
   @include grid--commons
   grid-template-rows: $grid--header-width
-
-.grid--row-headers
-  @include grid--commons
-  grid-template-columns: $grid--header-width
-  float: left
-  margin-left: -$grid--header-width
 
 .grid--header
   background-color: $gray-light

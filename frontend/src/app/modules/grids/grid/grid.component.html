@@ -14,21 +14,6 @@
   </div>
 </div>
 
-<!-- Row headers -->
-<div class="grid--row-headers"
-     *ngIf="isHeadersDisplayed"
-     [style.grid-template-rows]="gridRowStyle">
-  <div *ngFor="let row of rowNumbers"
-       [style.grid-row-start]="row"
-       [style.grid-row-end]="row + 1"
-       [style.grid-column-start]="1"
-       [style.grid-column-end]="2"
-       class="grid--header"
-       gridRowContextMenu
-       [gridRowContextMenu-rowNumber]="row">
-  </div>
-</div>
-
 <div class="grid--container"
      [style.grid-template-columns]="gridColumnStyle"
      [style.grid-template-rows]="gridRowStyle">
@@ -36,7 +21,8 @@
   <!-- Grid areas that have a widget in them -->
   <div *ngFor="let area of layout.widgetAreas; trackBy: identifyGridArea;"
        class="grid--area -widgeted"
-       [ngClass]="{'-dragged': drag.isDragged(area)}"
+       [ngClass]="{'-dragged': drag.isDragged(area),
+                   '-undragged': drag.currentlyDragging && !drag.isDragged(area)}"
        [style.grid-row-start]="area.startRow"
        [style.grid-row-end]="area.endRow"
        [style.grid-column-start]="area.startColumn"

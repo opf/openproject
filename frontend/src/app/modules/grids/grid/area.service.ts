@@ -40,6 +40,18 @@ export class GridAreaService {
     this.mousedOverArea = area;
   }
 
+  public cleanupUnusedAreas() {
+    let unusedRows = Array.from(Array(this.numRows + 1).keys()).slice(1);
+
+    this.widgetAreas.forEach(widgetArea => {
+      unusedRows = unusedRows.filter(item => item !== widgetArea.startRow);
+    });
+
+    unusedRows.forEach(number => {
+      this.removeRow(number);
+    });
+  }
+
   public buildAreas(save = true) {
     this.gridAreas = this.buildGridAreas();
     this.gridAreaIds = this.buildGridAreaIds();

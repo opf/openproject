@@ -96,6 +96,7 @@ export class GridDragAndDropService {
       draggedArea.endColumn = dropArea.startColumn + draggedArea.widget.width;
     }
 
+    this.layout.cleanupUnusedAreas();
     this.layout.writeAreaChangesToWidgets();
     this.layout.buildAreas();
   }
