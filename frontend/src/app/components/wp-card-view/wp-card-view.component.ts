@@ -29,7 +29,7 @@ import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and
 import {DragAndDropHelpers} from "core-app/modules/common/drag-and-drop/drag-and-drop.helpers";
 import {WorkPackageTableOrderService} from "core-components/wp-fast-table/state/wp-table-order.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {filter} from 'rxjs/operators';
+import {filter, withLatestFrom} from 'rxjs/operators';
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
 import {WorkPackageTableSelection} from "core-components/wp-fast-table/state/wp-table-selection.service";
 import {CardViewHandlerRegistry} from "core-components/wp-card-view/event-handler/card-view-handler-registry";
@@ -123,14 +123,16 @@ export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
         this.cdRef.detectChanges();
       });
 
-    this.querySpace.query
+    this.querySpace.results
     .values$()
     .pipe(
+      withLatestFrom(this.querySpace.query.values$()),
       untilComponentDestroyed(this),
-      filter((query) => !this.causedUpdates.includes(query))
-    ).subscribe((query:QueryResource) => {
+      filter(([results, query]) => results && !this.causedUpdates.includes(query))
+    ).subscribe(([results, query]) => {
       this.query = query;
-      this.workPackages = query.results.elements;
+      this.workPackages = results.elements;
+      this.cardView.updateRenderedCardsValues(this.workPackages);
       this.isResultEmpty = this.workPackages.length === 0;
       this.cdRef.detectChanges();
     });
@@ -146,11 +148,6 @@ export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // In case "rendered" was not already set by the list
-    if (this.cardView.renderedCards.length === 0) {
-      this.cardView.updateRenderedCardsValues(this.workPackages);
-    }
-
     // Register Drag & Drop
     this.cardDragDrop.init(this);
     this.cardDragDrop.registerDragAndDrop();

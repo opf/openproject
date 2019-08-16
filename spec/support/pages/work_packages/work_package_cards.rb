@@ -25,29 +25,35 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-require 'spec_helper'
+require 'support/pages/page'
 
-class WorkPackageCards
-  include Capybara::DSL
-  include RSpec::Matchers
-  attr_reader :project
+module Pages
+  class WorkPackageCards < Page
+    include Capybara::DSL
+    include RSpec::Matchers
+    attr_reader :project
 
-  def initialize(project = nil)
-    @project = project
-  end
+    def initialize(project = nil)
+      @project = project
+    end
 
-  def open_full_screen_by_doubleclick(work_package)
-    loading_indicator_saveguard
-    page.driver.browser.action.double_click(card(work_package).native).perform
+    def open_full_screen_by_doubleclick(work_package)
+      loading_indicator_saveguard
+      page.driver.browser.action.double_click(card(work_package).native).perform
 
-    Pages::FullWorkPackage.new(work_package, project)
-  end
+      Pages::FullWorkPackage.new(work_package, project)
+    end
 
-  def select_work_package(work_package)
-    card(work_package).click
-  end
+    def select_work_package(work_package)
+      card(work_package).click
+    end
 
-  def card(work_package)
-    page.find(".wp-card-#{work_package.id}")
+    def card(work_package)
+      page.find(".wp-card-#{work_package.id}")
+    end
+
+    def status_button(work_package)
+      WorkPackageStatusField.new card(work_package)
+    end
   end
 end

@@ -28,44 +28,59 @@
 
 require 'spec_helper'
 
-describe 'Select work package card', type: :feature, js: true, selenium: true do
-  let(:user) { FactoryBot.create(:admin) }
-  let(:project) { FactoryBot.create(:project) }
-  let(:work_package_1) { FactoryBot.create(:work_package, project: project) }
-  let(:work_package_2) { FactoryBot.create(:work_package, project: project) }
+describe 'Update status from WP card', type: :feature, js: true do
+  let(:manager_role) do
+    FactoryBot.create :role, permissions: %i[view_work_packages edit_work_packages]
+  end
+  let(:manager) do
+    FactoryBot.create :user,
+                      firstname: 'Manager',
+                      lastname: 'Guy',
+                      member_in_project: project,
+                      member_through_role: manager_role
+  end
+  let(:status1) { FactoryBot.create :status }
+  let(:status2) { FactoryBot.create :status }
+
+  let(:type) { FactoryBot.create :type }
+  let!(:project) { FactoryBot.create(:project, types: [type]) }
+  let!(:work_package) {
+    FactoryBot.create(:work_package,
+                      project: project,
+                      type: type,
+                      status: status1,
+                      subject: 'Foobar')
+  }
+
+  let!(:workflow) do
+    FactoryBot.create :workflow,
+                      type_id: type.id,
+                      old_status: status1,
+                      new_status: status2,
+                      role: manager_role
+  end
+
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:wp_card_view) { ::Pages::WorkPackageCards.new(project) }
-
   let(:display_representation) { ::Components::WorkPackages::DisplayRepresentation.new }
 
   before do
-    login_as(user)
-
-    work_package_1
-    work_package_2
+    login_as(manager)
 
     wp_table.visit!
-    wp_table.expect_work_package_listed(work_package_1)
-    wp_table.expect_work_package_listed(work_package_2)
+    wp_table.expect_work_package_listed(work_package)
 
     display_representation.switch_to_card_layout
   end
 
-  describe 'opening' do
-    it 'the full screen view via double click' do
-      wp_card_view.open_full_screen_by_doubleclick(work_package_1)
-      expect(page).to have_selector('.work-packages--details--subject',
-                                    text: work_package_1.subject)
-    end
+  it 'can update the status through the button' do
+    status_button = wp_card_view.status_button(work_package)
+    status_button.update status2.name
 
-    it 'the split screen of the selected WP' do
-      wp_card_view.select_work_package(work_package_2)
-      find('#work-packages-details-view-button').click
-      split_wp = Pages::SplitWorkPackage.new(work_package_2)
-      split_wp.expect_attributes Subject: work_package_2.subject
+    wp_card_view.expect_and_dismiss_notification message: 'Successful update.'
+    status_button.expect_text status2.name
 
-      find('#work-packages-details-view-button').click
-      expect(page).to have_no_selector('.work-packages--details')
-    end
+    work_package.reload
+    expect(work_package.status).to eq(status2)
   end
 end
