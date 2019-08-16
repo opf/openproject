@@ -49,15 +49,15 @@ import {WorkPackageTable} from "core-components/wp-fast-table/wp-fast-table";
 import {WorkPackageTimelineCellsRenderer} from "core-components/wp-table/timeline/cells/wp-timeline-cells-renderer";
 import {States} from "core-components/states.service";
 import {WorkPackagesTableController} from "core-components/wp-table/wp-table.directive";
-import {WorkPackageTableTimelineService} from "core-components/wp-fast-table/state/wp-table-timeline.service";
+import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
-import {WorkPackageTableHierarchiesService} from "core-components/wp-fast-table/state/wp-table-hierarchy.service";
-import {WorkPackageTableTimelineState} from "core-components/wp-fast-table/wp-table-timeline";
+import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
+import {WorkPackageTimelineState} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-timeline";
 import {WorkPackageTimelineCell} from "core-components/wp-table/timeline/cells/wp-timeline-cell";
 import {selectorTimelineSide} from "core-components/wp-table/wp-table-scroll-sync";
 import {debugLog, timeOutput} from "core-app/helpers/debug_output";
-import {WorkPackageTableRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
+import {WorkPackageViewRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
 import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
 
 @Component({
@@ -99,11 +99,11 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
               private states:States,
               public wpTableDirective:WorkPackagesTableController,
               private NotificationsService:NotificationsService,
-              private wpTableTimeline:WorkPackageTableTimelineService,
+              private wpTableTimeline:WorkPackageViewTimelineService,
               private wpNotificationsService:WorkPackageNotificationService,
               private wpRelations:WorkPackageRelationsService,
-              private wpTableRefresh:WorkPackageTableRefreshService,
-              private wpTableHierarchies:WorkPackageTableHierarchiesService,
+              private wpTableRefresh:WorkPackageViewRefreshService,
+              private wpTableHierarchies:WorkPackageViewHierarchiesService,
               readonly I18n:I18nService) {
   }
 
@@ -147,9 +147,9 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       .live$()
       .pipe(
         untilComponentDestroyed(this),
-        filter((timelineState:WorkPackageTableTimelineState) => timelineState.visible),
+        filter((timelineState:WorkPackageTimelineState) => timelineState.visible),
       )
-      .subscribe((timelineState:WorkPackageTableTimelineState) => {
+      .subscribe((timelineState:WorkPackageTimelineState) => {
         this.refreshRequest.putValue(undefined);
       });
   }

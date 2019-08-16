@@ -29,7 +29,7 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {States} from '../../../states.service';
 import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../../../wp-edit/wp-notification.service';
-import {WorkPackageTableRefreshService} from '../../wp-table-refresh-request.service';
+import {WorkPackageViewRefreshService} from '../../wp-table-refresh-request.service';
 import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import {RenderInfo} from '../wp-timeline';
 import {TimelineCellRenderer} from './timeline-cell-renderer';
@@ -62,7 +62,7 @@ export class WorkPackageCellLabels {
 
 export class WorkPackageTimelineCell {
   readonly wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
-  readonly wpTableRefresh:WorkPackageTableRefreshService = this.injector.get(WorkPackageTableRefreshService);
+  readonly wpTableRefresh:WorkPackageViewRefreshService = this.injector.get(WorkPackageViewRefreshService);
   readonly wpNotificationsService:WorkPackageNotificationService = this.injector.get(WorkPackageNotificationService);
   readonly states:States = this.injector.get(States);
   readonly loadingIndicator:LoadingIndicatorService = this.injector.get(LoadingIndicatorService);

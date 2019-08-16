@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageQueryStateService} from './wp-table-base.service';
+import {WorkPackageQueryStateService} from './wp-view-base.service';
 import {Injectable} from '@angular/core';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
@@ -41,7 +41,7 @@ import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {mapTo, take} from "rxjs/operators";
 
 @Injectable()
-export class WorkPackageTableFiltersService extends WorkPackageQueryStateService<QueryFilterInstanceResource[]> {
+export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<QueryFilterInstanceResource[]> {
   public hidden:string[] = [
     'id',
     'parent',

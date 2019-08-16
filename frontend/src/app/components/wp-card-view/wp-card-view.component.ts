@@ -27,11 +27,11 @@ import {StateService} from "@uirouter/core";
 import {States} from "core-components/states.service";
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
 import {DragAndDropHelpers} from "core-app/modules/common/drag-and-drop/drag-and-drop.helpers";
-import {WorkPackageTableOrderService} from "core-components/wp-fast-table/state/wp-table-order.service";
+import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {filter, withLatestFrom} from 'rxjs/operators';
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
-import {WorkPackageTableSelection} from "core-components/wp-fast-table/state/wp-table-selection.service";
+import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import {CardViewHandlerRegistry} from "core-components/wp-card-view/event-handler/card-view-handler-registry";
 import {WorkPackageCardViewService} from "core-components/wp-card-view/services/wp-card-view.service";
 import {WorkPackageCardDragAndDropService} from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";
@@ -106,7 +106,7 @@ export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
               readonly causedUpdates:CausedUpdatesService,
               readonly cdRef:ChangeDetectorRef,
               readonly pathHelper:PathHelperService,
-              readonly wpTableSelection:WorkPackageTableSelection,
+              readonly wpTableSelection:WorkPackageViewSelectionService,
               readonly cardView:WorkPackageCardViewService,
               readonly cardDragDrop:WorkPackageCardDragAndDropService) {
   }

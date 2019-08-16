@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, ElementRef, Inject, OnInit} from '@angular/core';
 import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
-import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
+import {WorkPackageViewColumnsService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
@@ -38,7 +38,7 @@ export class WpTableExportModal extends OpModalComponent implements OnInit {
               readonly UrlParamsHelper:UrlParamsHelperService,
               readonly querySpace:IsolatedQuerySpace,
               readonly cdRef:ChangeDetectorRef,
-              readonly wpTableColumns:WorkPackageTableColumnsService) {
+              readonly wpTableColumns:WorkPackageViewColumnsService) {
     super(locals, cdRef, elementRef);
   }
 

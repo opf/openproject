@@ -28,13 +28,13 @@
 
 import {ChangeDetectionStrategy, Component, Injector, OnInit} from '@angular/core';
 import {StateService} from '@uirouter/core';
-import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
+import {WorkPackageViewFocusService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
 import {States} from "core-components/states.service";
 import {FirstRouteService} from "core-app/modules/router/first-route-service";
 import {KeepTabService} from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
-import {WorkPackageTableSelection} from "core-components/wp-fast-table/state/wp-table-selection.service";
+import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import {WorkPackageSingleViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-package-single-view.base";
 
 @Component({
@@ -48,8 +48,8 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
               public states:States,
               public firstRoute:FirstRouteService,
               public keepTab:KeepTabService,
-              public wpTableSelection:WorkPackageTableSelection,
-              public wpTableFocus:WorkPackageTableFocusService,
+              public wpTableSelection:WorkPackageViewSelectionService,
+              public wpTableFocus:WorkPackageViewFocusService,
               readonly $state:StateService) {
     super(injector, $state.params['workPackageId']);
   }

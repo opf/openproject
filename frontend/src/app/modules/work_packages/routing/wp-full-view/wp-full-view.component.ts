@@ -28,11 +28,11 @@
 
 import {UserResource} from 'core-app/modules/hal/resources/user-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
+import {WorkPackageViewFocusService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import {StateService} from '@uirouter/core';
 import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
 import {Component, Injector, OnInit} from '@angular/core';
-import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
+import {WorkPackageViewSelectionService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import {States} from 'core-components/states.service';
 import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import {FirstRouteService} from "core-app/modules/router/first-route-service";
@@ -70,8 +70,8 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
               public states:States,
               public firstRoute:FirstRouteService,
               public keepTab:KeepTabService,
-              public wpTableSelection:WorkPackageTableSelection,
-              public wpTableFocus:WorkPackageTableFocusService,
+              public wpTableSelection:WorkPackageViewSelectionService,
+              public wpTableFocus:WorkPackageViewFocusService,
               readonly $state:StateService) {
     super(injector, $state.params['workPackageId']);
   }

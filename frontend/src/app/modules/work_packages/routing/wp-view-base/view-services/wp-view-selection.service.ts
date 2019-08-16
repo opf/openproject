@@ -1,4 +1,3 @@
-import {WPTableRowSelectionState} from '../wp-table.interfaces';
 import {input} from 'reactivestates';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
@@ -8,10 +7,19 @@ import {States} from 'core-components/states.service';
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
 
-@Injectable()
-export class WorkPackageTableSelection implements OnDestroy {
+export interface WorkPackageViewSelectionState {
+  // Map of selected rows
+  selected:{[workPackageId:string]:boolean};
+  // Index of current selection
+  // required for shift-offsets
+  activeRowIndex:number | null;
+}
 
-  private selectionState = input<WPTableRowSelectionState>();
+
+@Injectable()
+export class WorkPackageViewSelectionService implements OnDestroy {
+
+  private selectionState = input<WorkPackageViewSelectionState>();
 
   public constructor(readonly querySpace:IsolatedQuerySpace,
                      readonly states:States,
@@ -33,7 +41,7 @@ export class WorkPackageTableSelection implements OnDestroy {
    * Select all work packages
    */
   public selectAll(rows:RenderedWorkPackage[]) {
-    const state:WPTableRowSelectionState = this._emptyState;
+    const state:WorkPackageViewSelectionState = this._emptyState;
 
     rows.forEach((row) => {
       if (row.workPackageId) {
@@ -80,10 +88,10 @@ export class WorkPackageTableSelection implements OnDestroy {
 
   /**
    * Get current selection state.
-   * @returns {WPTableRowSelectionState}
+   * @returns {WorkPackageViewSelectionState}
    */
-  public get currentState():WPTableRowSelectionState {
-    return this.selectionState.value as WPTableRowSelectionState;
+  public get currentState():WorkPackageViewSelectionState {
+    return this.selectionState.value as WorkPackageViewSelectionState;
   }
 
   public get isEmpty() {
@@ -121,7 +129,7 @@ export class WorkPackageTableSelection implements OnDestroy {
    * Override current selection with the given work package id.
    */
   public setSelection(wpId:string, position:number) {
-    let state:WPTableRowSelectionState = {
+    let state:WorkPackageViewSelectionState = {
       selected: {},
       activeRowIndex: position
     };
@@ -178,7 +186,7 @@ export class WorkPackageTableSelection implements OnDestroy {
     });
   }
 
-  private get _emptyState():WPTableRowSelectionState {
+  private get _emptyState():WorkPackageViewSelectionState {
     return {
       selected: {},
       activeRowIndex: null

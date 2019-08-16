@@ -34,7 +34,7 @@ import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
 import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
 
-export abstract class WorkPackageTableBaseService<T> {
+export abstract class WorkPackageViewBaseService<T> {
 
   /** Internal state to push non-persisted updates */
   protected updatesState = input<T>();
@@ -155,7 +155,7 @@ export abstract class WorkPackageTableBaseService<T> {
   }
 }
 
-export abstract class WorkPackageQueryStateService<T> extends WorkPackageTableBaseService<T> {
+export abstract class WorkPackageQueryStateService<T> extends WorkPackageViewBaseService<T> {
   /**
    * Check whether the state value does not match the query resource's value.
    * @param query The current query resource

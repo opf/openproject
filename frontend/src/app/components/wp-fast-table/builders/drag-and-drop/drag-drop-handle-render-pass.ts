@@ -1,15 +1,15 @@
 import {Injector} from '@angular/core';
-import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
 import {PrimaryRenderPass, RowRenderInfo} from '../primary-render-pass';
 import {DragDropHandleBuilder} from "core-components/wp-fast-table/builders/drag-and-drop/drag-drop-handle-builder";
 import {WorkPackageTable} from "core-components/wp-fast-table/wp-fast-table";
-import {WorkPackageTableOrderService} from "core-components/wp-fast-table/state/wp-table-order.service";
+import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import {QueryOrder} from "core-app/modules/hal/dm-services/query-order-dm.service";
+import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
 
 export class DragDropHandleRenderPass {
 
-  public wpTableColumns = this.injector.get(WorkPackageTableColumnsService);
-  public wpTableOrder = this.injector.get(WorkPackageTableOrderService);
+  public wpTableColumns = this.injector.get(WorkPackageViewColumnsService);
+  public wpTableOrder = this.injector.get(WorkPackageViewOrderService);
 
   // Drag & Drop handle builder
   protected dragDropHandleBuilder = new DragDropHandleBuilder(this.injector);

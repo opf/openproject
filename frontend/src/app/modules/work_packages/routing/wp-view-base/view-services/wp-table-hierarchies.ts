@@ -26,10 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {HighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+export class WorkPackageViewHierarchies {
+  public isVisible:boolean = false;
+  public last:string|null = null;
+  public collapsed:{[workPackageId:string]:boolean} = {};
 
-export interface WorkPackageTableHighlight {
-  mode:HighlightingMode;
-  selectedAttributes?:HalResource[]|undefined;
+  constructor(visible:boolean) {
+    this.isVisible = visible;
+  }
 }

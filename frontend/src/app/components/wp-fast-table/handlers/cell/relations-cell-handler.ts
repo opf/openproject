@@ -2,15 +2,15 @@ import {Injector} from '@angular/core';
 import {debugLog} from '../../../../helpers/debug_output';
 import {relationCellIndicatorClassName, relationCellTdClassName} from '../../builders/relation-cell-builder';
 import {tableRowClassName} from '../../builders/rows/single-row-builder';
-import {WorkPackageTableRelationColumnsService} from '../../state/wp-table-relation-columns.service';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {ClickOrEnterHandler} from '../click-or-enter-handler';
 import {TableEventHandler} from '../table-handler-registry';
+import {WorkPackageViewRelationColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
 
 export class RelationsCellHandler extends ClickOrEnterHandler implements TableEventHandler {
 
   // Injections
-  public wpTableRelationColumns = this.injector.get(WorkPackageTableRelationColumnsService);
+  public wpTableRelationColumns = this.injector.get(WorkPackageViewRelationColumnsService);
 
   public get EVENT() {
     return 'click.table.relationsCell, keydown.table.relationsCell';

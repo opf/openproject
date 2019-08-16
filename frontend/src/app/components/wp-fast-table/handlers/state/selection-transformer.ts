@@ -1,19 +1,21 @@
 import {Injector} from '@angular/core';
-import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
+import {WorkPackageViewFocusService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import {takeUntil} from 'rxjs/operators';
 import {tableRowClassName} from '../../builders/rows/single-row-builder';
 import {checkedClassName} from '../../builders/ui-state-link-builder';
 import {locateTableRow, scrollTableRowIntoView} from '../../helpers/wp-table-row-helpers';
-import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
 import {WorkPackageTable} from '../../wp-fast-table';
-import {WPTableRowSelectionState} from '../../wp-table.interfaces';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
+import {
+  WorkPackageViewSelectionService,
+  WorkPackageViewSelectionState
+} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 
 export class SelectionTransformer {
 
-  public wpTableSelection:WorkPackageTableSelection = this.injector.get(WorkPackageTableSelection);
-  public wpTableFocus:WorkPackageTableFocusService = this.injector.get(WorkPackageTableFocusService);
+  public wpTableSelection:WorkPackageViewSelectionService = this.injector.get(WorkPackageViewSelectionService);
+  public wpTableFocus:WorkPackageViewFocusService = this.injector.get(WorkPackageViewFocusService);
   public querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
   public FocusHelper:FocusHelperService = this.injector.get(FocusHelperService);
 
@@ -42,7 +44,7 @@ export class SelectionTransformer {
       .pipe(
         takeUntil(this.querySpace.stopAllSubscriptions)
       )
-      .subscribe((state:WPTableRowSelectionState) => {
+      .subscribe((state:WorkPackageViewSelectionState) => {
         this.renderSelectionState(state);
       });
 
@@ -54,7 +56,7 @@ export class SelectionTransformer {
   /**
    * Update all currently visible rows to match the selection state.
    */
-  private renderSelectionState(state:WPTableRowSelectionState) {
+  private renderSelectionState(state:WorkPackageViewSelectionState) {
     const context = jQuery(this.table.container);
 
     context.find(`.${tableRowClassName}.${checkedClassName}`).removeClass(checkedClassName);

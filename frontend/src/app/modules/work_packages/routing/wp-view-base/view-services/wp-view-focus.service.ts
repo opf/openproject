@@ -27,11 +27,11 @@
 //++
 
 import {Injectable} from '@angular/core';
-import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {InputState} from 'reactivestates';
 import {Observable} from 'rxjs';
 import {distinctUntilChanged, filter, map} from 'rxjs/operators';
+import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 
 export interface WPFocusState {
   workPackageId:string;
@@ -39,12 +39,12 @@ export interface WPFocusState {
 }
 
 @Injectable()
-export class WorkPackageTableFocusService {
+export class WorkPackageViewFocusService {
 
   public state:InputState<WPFocusState>;
 
   constructor(public querySpace:IsolatedQuerySpace,
-              public wpTableSelection:WorkPackageTableSelection) {
+              public wpTableSelection:WorkPackageViewSelectionService) {
     this.state = querySpace.focusedWorkPackage;
     this.observeToUpdateFocused();
   }

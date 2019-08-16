@@ -26,12 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-export class WorkPackageTableHierarchies {
-  public isVisible:boolean = false;
-  public last:string|null = null;
-  public collapsed:{[workPackageId:string]:boolean} = {};
+import {
+  QueryResource, TimelineLabels,
+  TimelineZoomLevel
+} from 'core-app/modules/hal/resources/query-resource';
 
-  constructor(visible:boolean) {
-    this.isVisible = visible;
-  }
+export interface WorkPackageTimelineState {
+  visible:boolean;
+  zoomLevel:TimelineZoomLevel;
+  labels:TimelineLabels;
 }

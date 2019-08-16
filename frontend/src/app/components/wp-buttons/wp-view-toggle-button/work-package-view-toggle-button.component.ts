@@ -34,7 +34,7 @@ import {StateService} from "@uirouter/core";
 import {
   WorkPackageViewDisplayRepresentationService, wpDisplayCardRepresentation,
   wpDisplayListRepresentation
-} from "core-components/wp-fast-table/state/wp-view-display-representation.service";
+} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
 

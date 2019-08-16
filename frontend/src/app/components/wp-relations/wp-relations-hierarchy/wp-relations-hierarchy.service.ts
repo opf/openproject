@@ -30,7 +30,7 @@ import {WorkPackageCacheService} from '../../work-packages/work-package-cache.se
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 import {States} from '../../states.service';
-import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-request.service';
+import {WorkPackageViewRefreshService} from '../../wp-table/wp-table-refresh-request.service';
 import {StateService} from '@uirouter/core';
 import {Injectable} from '@angular/core';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
@@ -39,7 +39,7 @@ import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper
 export class WorkPackageRelationsHierarchyService {
   constructor(protected $state:StateService,
               protected states:States,
-              protected wpTableRefresh:WorkPackageTableRefreshService,
+              protected wpTableRefresh:WorkPackageViewRefreshService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected pathHelper:PathHelperService,
               protected wpCacheService:WorkPackageCacheService) {

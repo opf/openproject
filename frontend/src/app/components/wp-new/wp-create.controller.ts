@@ -44,7 +44,6 @@ import {RootResource} from 'core-app/modules/hal/resources/root-resource';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
-import {WorkPackageTableFiltersService} from '../wp-fast-table/state/wp-table-filters.service';
 import {WorkPackageCreateService} from './wp-create.service';
 import {takeUntil} from 'rxjs/operators';
 import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
@@ -52,6 +51,7 @@ import {OpTitleService} from 'core-components/html/op-title.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 import {CurrentUserService} from "core-app/components/user/current-user.service";
+import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 
 
 @Injectable()
@@ -78,7 +78,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
               protected wpNotificationsService:WorkPackageNotificationService,
               protected states:States,
               @Inject(IWorkPackageCreateServiceToken) protected wpCreate:WorkPackageCreateService,
-              protected wpTableFilters:WorkPackageTableFiltersService,
+              protected wpTableFilters:WorkPackageViewFiltersService,
               protected wpCacheService:WorkPackageCacheService,
               protected pathHelper:PathHelperService,
               protected cdRef:ChangeDetectorRef,

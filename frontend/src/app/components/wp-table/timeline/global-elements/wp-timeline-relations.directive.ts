@@ -41,7 +41,7 @@ import {WorkPackageTimelineCell} from '../cells/wp-timeline-cell';
 import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import {timelineElementCssClass, TimelineViewParameters} from '../wp-timeline';
 import {TimelineRelationElement, workPackagePrefix} from './timeline-relation-element';
-import {WorkPackageTableTimelineService} from "core-components/wp-fast-table/state/wp-table-timeline.service";
+import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 
 const DEBUG_DRAW_RELATION_LINES_WITH_COLOR = false;
 
@@ -92,7 +92,7 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
               public elementRef:ElementRef,
               public states:States,
               public workPackageTimelineTableController:WorkPackageTimelineTableController,
-              public wpTableTimeline:WorkPackageTableTimelineService,
+              public wpTableTimeline:WorkPackageViewTimelineService,
               public wpRelations:WorkPackageRelationsService) {
 
   }

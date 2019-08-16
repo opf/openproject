@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageTableFiltersService} from '../../wp-fast-table/state/wp-table-filters.service';
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
@@ -34,6 +33,7 @@ import {QueryFilterResource} from 'core-app/modules/hal/resources/query-filter-r
 import {AngularTrackingHelpers} from 'core-components/angular/tracking-functions';
 import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
+import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 
 @Component({
   selector: '[query-filter]',
@@ -60,7 +60,7 @@ export class QueryFilterComponent implements OnInit, OnDestroy {
     button_delete: this.I18n.t('js.button_delete'),
   };
 
-  constructor(readonly wpTableFilters:WorkPackageTableFiltersService,
+  constructor(readonly wpTableFilters:WorkPackageViewFiltersService,
               readonly wpFiltersService:WorkPackageFiltersService,
               readonly I18n:I18nService,
               readonly bannerService:BannersService) {

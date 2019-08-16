@@ -30,12 +30,12 @@ import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnDestro
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {RelationQueryColumn, TypeRelationQueryColumn} from 'core-components/wp-query/query-column';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
-import {WorkPackageTableHierarchiesService} from '../../wp-fast-table/state/wp-table-hierarchy.service';
-import {WorkPackageTableRelationColumnsService} from '../../wp-fast-table/state/wp-table-relation-columns.service';
-import {WorkPackageTableSortByService} from '../../wp-fast-table/state/wp-table-sort-by.service';
-import {WorkPackageTableGroupByService} from './../../wp-fast-table/state/wp-table-group-by.service';
 import {WorkPackageTable} from 'core-components/wp-fast-table/wp-fast-table';
 import {QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC} from 'core-app/modules/hal/resources/query-sort-by-resource';
+import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
+import {WorkPackageViewSortByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
+import {WorkPackageViewGroupByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service";
+import {WorkPackageViewRelationColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
 
 
 @Component({
@@ -74,10 +74,10 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
 
   private currentSortDirection:any;
 
-  constructor(private wpTableHierarchies:WorkPackageTableHierarchiesService,
-              private wpTableSortBy:WorkPackageTableSortByService,
-              private wpTableGroupBy:WorkPackageTableGroupByService,
-              private wpTableRelationColumns:WorkPackageTableRelationColumnsService,
+  constructor(private wpTableHierarchies:WorkPackageViewHierarchiesService,
+              private wpTableSortBy:WorkPackageViewSortByService,
+              private wpTableGroupBy:WorkPackageViewGroupByService,
+              private wpTableRelationColumns:WorkPackageViewRelationColumnsService,
               private elementRef:ElementRef,
               private cdRef:ChangeDetectorRef,
               private I18n:I18nService) {

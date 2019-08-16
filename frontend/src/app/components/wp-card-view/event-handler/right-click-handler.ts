@@ -1,7 +1,7 @@
 import {Injector} from '@angular/core';
 import {CardEventHandler} from "core-components/wp-card-view/event-handler/card-view-handler-registry";
 import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card-view.component";
-import {WorkPackageTableSelection} from "core-components/wp-fast-table/state/wp-table-selection.service";
+import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import {uiStateLinkClass} from "core-components/wp-fast-table/builders/ui-state-link-builder";
 import {debugLog} from "core-app/helpers/debug_output";
 import {WorkPackageCardViewService} from "core-components/wp-card-view/services/wp-card-view.service";
@@ -11,7 +11,7 @@ import {WorkPackageViewContextMenu} from "core-components/op-context-menu/wp-con
 export class CardRightClickHandler implements CardEventHandler {
 
   // Injections
-  public wpTableSelection:WorkPackageTableSelection = this.injector.get(WorkPackageTableSelection);
+  public wpTableSelection:WorkPackageViewSelectionService = this.injector.get(WorkPackageViewSelectionService);
   public wpCardView:WorkPackageCardViewService = this.injector.get(WorkPackageCardViewService);
   public opContextMenu:OPContextMenuService = this.injector.get(OPContextMenuService);
 

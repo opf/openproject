@@ -29,7 +29,7 @@
 import {ChangeDetectorRef, Injector, OnDestroy} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
+import {WorkPackageViewFocusService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
@@ -39,7 +39,7 @@ import {AuthorisationService} from "core-app/modules/common/model-auth/model-aut
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {States} from "core-components/states.service";
 import {KeepTabService} from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
-import {WorkPackageTableRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
+import {WorkPackageViewRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
 import {
   IWorkPackageEditingService,
   IWorkPackageEditingServiceToken
@@ -52,9 +52,9 @@ export class WorkPackageSingleViewBase implements OnDestroy {
   public I18n:I18nService = this.injector.get(I18nService);
   public keepTab:KeepTabService = this.injector.get(KeepTabService);
   public PathHelper:PathHelperService = this.injector.get(PathHelperService);
-  public wpTableRefresh:WorkPackageTableRefreshService = this.injector.get(WorkPackageTableRefreshService);
+  public wpTableRefresh:WorkPackageViewRefreshService = this.injector.get(WorkPackageViewRefreshService);
   protected wpEditing:IWorkPackageEditingService = this.injector.get(IWorkPackageEditingServiceToken);
-  protected wpTableFocus:WorkPackageTableFocusService = this.injector.get(WorkPackageTableFocusService);
+  protected wpTableFocus:WorkPackageViewFocusService = this.injector.get(WorkPackageViewFocusService);
   protected projectCacheService:ProjectCacheService = this.injector.get(ProjectCacheService);
   protected authorisationService:AuthorisationService = this.injector.get(AuthorisationService);
   protected cdRef:ChangeDetectorRef = this.injector.get(ChangeDetectorRef);

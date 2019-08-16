@@ -35,7 +35,7 @@ import {take} from "rxjs/operators";
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
 import {BcfDetectorService} from "core-app/modules/bcf/helper/bcf-detector.service";
-import {wpDisplayCardRepresentation} from "core-components/wp-fast-table/state/wp-view-display-representation.service";
+import {wpDisplayCardRepresentation} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 
 @Component({
   selector: 'wp-list',

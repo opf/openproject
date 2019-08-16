@@ -28,7 +28,7 @@
 
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {Injectable, Optional} from '@angular/core';
-import {WorkPackageQueryStateService} from './wp-table-base.service';
+import {WorkPackageQueryStateService} from './wp-view-base.service';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
@@ -40,19 +40,19 @@ import {debugLog} from "core-app/helpers/debug_output";
 import {QueryOrder, QueryOrderDmService} from "core-app/modules/hal/dm-services/query-order-dm.service";
 import {take} from "rxjs/operators";
 import {InputState} from "reactivestates";
-import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state/wp-table-sort-by.service";
+import {WorkPackageViewSortByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
 import {from} from "rxjs";
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
 
 
 @Injectable()
-export class WorkPackageTableOrderService extends WorkPackageQueryStateService<QueryOrder> {
+export class WorkPackageViewOrderService extends WorkPackageQueryStateService<QueryOrder> {
 
   constructor(protected readonly querySpace:IsolatedQuerySpace,
               protected readonly queryOrderDm:QueryOrderDmService,
               protected readonly states:States,
               protected readonly causedUpdates:CausedUpdatesService,
-              protected readonly wpTableSortBy:WorkPackageTableSortByService,
+              protected readonly wpTableSortBy:WorkPackageViewSortByService,
               protected readonly pathHelper:PathHelperService) {
     super(querySpace);
   }

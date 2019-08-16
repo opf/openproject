@@ -31,7 +31,6 @@ import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resou
 import {States} from '../states.service';
 import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
 import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
-import {WorkPackageTablePaginationService} from '../wp-fast-table/state/wp-table-pagination.service';
 import {WorkPackagesListInvalidQueryService} from './wp-list-invalid-query.service';
 import {WorkPackageStatesInitializationService} from './wp-states-initialization.service';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
@@ -47,6 +46,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {BehaviorSubject, from, Observable, of} from 'rxjs';
 import {input} from "reactivestates";
 import {catchError, mergeMap, share, switchMap, take, tap} from "rxjs/operators";
+import {WorkPackageViewPaginationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service";
 
 export interface QueryDefinition {
   queryParams:{ query_id?:string, query_props?:string };
@@ -88,7 +88,7 @@ export class WorkPackagesListService {
               protected QueryFormDm:QueryFormDmService,
               protected states:States,
               protected querySpace:IsolatedQuerySpace,
-              protected wpTablePagination:WorkPackageTablePaginationService,
+              protected wpTablePagination:WorkPackageViewPaginationService,
               protected wpStatesInitialization:WorkPackageStatesInitializationService,
               protected wpListInvalidQueryService:WorkPackagesListInvalidQueryService) {
   }

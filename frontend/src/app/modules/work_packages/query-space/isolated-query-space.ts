@@ -5,7 +5,7 @@ import {map} from 'rxjs/operators';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {GroupObject, WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
 import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
-import {WPFocusState} from "core-components/wp-fast-table/state/wp-table-focus.service";
+import {WPFocusState} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
 import {QueryColumn} from "core-components/wp-query/query-column";
 import {WorkPackageTableRefreshRequest} from "core-components/wp-table/wp-table-refresh-request.service";
 import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";

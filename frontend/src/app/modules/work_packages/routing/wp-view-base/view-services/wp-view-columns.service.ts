@@ -26,17 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageQueryStateService} from './wp-table-base.service';
+import {WorkPackageQueryStateService} from './wp-view-base.service';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {QueryColumn, queryColumnTypes} from '../../wp-query/query-column';
-import {InputState} from 'reactivestates';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {States} from 'core-components/states.service';
 import {Injectable} from '@angular/core';
 import {cloneHalResourceCollection} from 'core-app/modules/hal/helpers/hal-resource-builder';
+import {QueryColumn, queryColumnTypes} from "core-components/wp-query/query-column";
 
 @Injectable()
-export class WorkPackageTableColumnsService extends WorkPackageQueryStateService<QueryColumn[]> {
+export class WorkPackageViewColumnsService extends WorkPackageQueryStateService<QueryColumn[]> {
 
   public constructor(readonly states:States, readonly querySpace:IsolatedQuerySpace) {
     super(querySpace);

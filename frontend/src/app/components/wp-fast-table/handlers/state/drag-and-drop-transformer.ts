@@ -6,15 +6,15 @@ import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/w
 import {RequestSwitchmap} from "core-app/helpers/rxjs/request-switchmap";
 import {Observable, of} from "rxjs";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
-import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state/wp-table-sort-by.service";
+import {WorkPackageViewSortByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
 import {TableDragActionsRegistryService} from "core-components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
 import {TableDragActionService} from "core-components/wp-table/drag-and-drop/actions/table-drag-action.service";
 import {States} from "core-components/states.service";
-import {WorkPackageTableTimelineService} from "core-components/wp-fast-table/state/wp-table-timeline.service";
+import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 import {tableRowClassName} from "core-components/wp-fast-table/builders/rows/single-row-builder";
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
 import {DragAndDropHelpers} from "core-app/modules/common/drag-and-drop/drag-and-drop.helpers";
-import {WorkPackageTableOrderService} from "core-components/wp-fast-table/state/wp-table-order.service";
+import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
 
 export class DragAndDropTransformer {
@@ -24,9 +24,9 @@ export class DragAndDropTransformer {
   private readonly dragService:DragAndDropService|null = this.injector.get(DragAndDropService, null);
   private readonly inlineCreateService = this.injector.get(WorkPackageInlineCreateService);
   private readonly wpNotifications = this.injector.get(WorkPackageNotificationService);
-  private readonly wpTableSortBy = this.injector.get(WorkPackageTableSortByService);
-  private readonly wpTableTimeline = this.injector.get(WorkPackageTableTimelineService);
-  private readonly wpTableOrder = this.injector.get(WorkPackageTableOrderService);
+  private readonly wpTableSortBy = this.injector.get(WorkPackageViewSortByService);
+  private readonly wpTableTimeline = this.injector.get(WorkPackageViewTimelineService);
+  private readonly wpTableOrder = this.injector.get(WorkPackageViewOrderService);
 
   private readonly dragActionRegistry = this.injector.get(TableDragActionsRegistryService);
 

@@ -1,14 +1,14 @@
 import {Injector} from '@angular/core';
 import {PrimaryRenderPass, RowRenderInfo} from "core-components/wp-fast-table/builders/primary-render-pass";
 import {WorkPackageTable} from "core-components/wp-fast-table/wp-fast-table";
-import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
+import {WorkPackageViewHighlightingService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 
 export class HighlightingRenderPass {
 
-  private readonly wpTableHighlighting:WorkPackageTableHighlightingService = this.injector.get(WorkPackageTableHighlightingService);
+  private readonly wpTableHighlighting:WorkPackageViewHighlightingService = this.injector.get(WorkPackageViewHighlightingService);
   private readonly querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
 
   constructor(public readonly injector:Injector,

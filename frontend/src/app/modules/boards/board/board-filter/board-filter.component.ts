@@ -7,7 +7,7 @@ import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resou
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
-import {WorkPackageTableFiltersService} from "core-components/wp-fast-table/state/wp-table-filters.service";
+import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import {componentDestroyed, untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
 import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
@@ -38,7 +38,7 @@ export class BoardFilterComponent implements OnDestroy {
               private readonly querySpace:IsolatedQuerySpace,
               private readonly halResourceService:HalResourceService,
               private readonly wpStatesInitialization:WorkPackageStatesInitializationService,
-              private readonly wpTableFilters:WorkPackageTableFiltersService,
+              private readonly wpTableFilters:WorkPackageViewFiltersService,
               private readonly urlParamsHelper:UrlParamsHelperService,
               private readonly $state:StateService,
               private readonly queryFormDm:QueryFormDmService) {

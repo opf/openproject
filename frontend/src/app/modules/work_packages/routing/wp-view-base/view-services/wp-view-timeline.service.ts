@@ -30,14 +30,13 @@ import {Injectable} from '@angular/core';
 import {QueryResource, TimelineLabels, TimelineZoomLevel} from 'core-app/modules/hal/resources/query-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {input, InputState} from 'reactivestates';
-import {zoomLevelOrder} from '../../wp-table/timeline/wp-timeline';
-import {WorkPackageTableTimelineState} from './../wp-table-timeline';
-import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
-import {Subject} from "rxjs";
+import {input} from 'reactivestates';
+import {WorkPackageQueryStateService} from './wp-view-base.service';
+import {WorkPackageTimelineState} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-timeline";
+import {zoomLevelOrder} from "core-components/wp-table/timeline/wp-timeline";
 
 @Injectable()
-export class WorkPackageTableTimelineService extends WorkPackageQueryStateService<WorkPackageTableTimelineState> {
+export class WorkPackageViewTimelineService extends WorkPackageQueryStateService<WorkPackageTimelineState> {
 
   /** Remember the computed zoom level to correct zooming after leaving autozoom */
   public appliedZoomLevel$ = input<TimelineZoomLevel>('auto');
@@ -156,7 +155,7 @@ export class WorkPackageTableTimelineService extends WorkPackageQueryStateServic
     this.modify({ zoomLevel: "auto" });
   }
 
-  public get current():WorkPackageTableTimelineState {
+  public get current():WorkPackageTimelineState {
     return this.lastUpdatedState.getValueOr(this.defaultState);
   }
 
@@ -164,8 +163,8 @@ export class WorkPackageTableTimelineService extends WorkPackageQueryStateServic
    * Modify the state, updating with parts of properties
    * @param update
    */
-  private modify(update:Partial<WorkPackageTableTimelineState>) {
-    this.update({ ...this.current, ...update } as WorkPackageTableTimelineState);
+  private modify(update:Partial<WorkPackageTimelineState>) {
+    this.update({ ...this.current, ...update } as WorkPackageTimelineState);
   }
 
   /**
@@ -191,7 +190,7 @@ export class WorkPackageTableTimelineService extends WorkPackageQueryStateServic
     };
   }
 
-  private get defaultState():WorkPackageTableTimelineState {
+  private get defaultState():WorkPackageTimelineState {
     return {
       zoomLevel: 'auto',
       visible: false,

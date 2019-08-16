@@ -1,16 +1,16 @@
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {WorkPackageQueryStateService} from './wp-table-base.service';
+import {WorkPackageQueryStateService} from './wp-view-base.service';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
 import {States} from 'core-components/states.service';
-import {WorkPackageTableHighlight} from "core-components/wp-fast-table/wp-table-highlight";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
 import {QuerySchemaResource} from "core-app/modules/hal/resources/query-schema-resource";
+import {WorkPackageViewHighlight} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-highlight";
 
 @Injectable()
-export class WorkPackageTableHighlightingService extends WorkPackageQueryStateService<WorkPackageTableHighlight>{
+export class WorkPackageViewHighlightingService extends WorkPackageQueryStateService<WorkPackageViewHighlight>{
   public constructor(readonly states:States,
                      readonly Banners:BannersService,
                      readonly querySpace:IsolatedQuerySpace) {
@@ -41,8 +41,8 @@ export class WorkPackageTableHighlightingService extends WorkPackageQueryStateSe
     return !!_.find(this.current.selectedAttributes, (attr:HalResource) => attr.id === name);
   }
 
-  public get current():WorkPackageTableHighlight {
-    let value = this.lastUpdatedState.getValueOr({ mode: 'inline' } as WorkPackageTableHighlight);
+  public get current():WorkPackageViewHighlight {
+    let value = this.lastUpdatedState.getValueOr({ mode: 'inline' } as WorkPackageViewHighlight);
     return this.filteredValue(value);
   }
 
@@ -54,11 +54,11 @@ export class WorkPackageTableHighlightingService extends WorkPackageQueryStateSe
     return this.current.mode === 'none';
   }
 
-  public update(value:WorkPackageTableHighlight) {
+  public update(value:WorkPackageViewHighlight) {
     super.update(this.filteredValue(value));
   }
 
-  public valueFromQuery(query:QueryResource):WorkPackageTableHighlight {
+  public valueFromQuery(query:QueryResource):WorkPackageViewHighlight {
     const highlight = { mode: query.highlightingMode || 'inline', selectedAttributes: query.highlightedAttributes };
     return this.filteredValue(highlight);
   }
@@ -77,7 +77,7 @@ export class WorkPackageTableHighlightingService extends WorkPackageQueryStateSe
     return false;
   }
 
-  private filteredValue(value:WorkPackageTableHighlight):WorkPackageTableHighlight {
+  private filteredValue(value:WorkPackageViewHighlight):WorkPackageViewHighlight {
     if (_.isEmpty(value.selectedAttributes)) {
       value.selectedAttributes = undefined;
     }

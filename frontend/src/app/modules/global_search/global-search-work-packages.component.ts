@@ -49,7 +49,7 @@ import {WorkPackageTableConfigurationObject} from "core-components/wp-table/wp-t
 import {cloneHalResource} from "core-app/modules/hal/helpers/hal-resource-builder";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
-import {WorkPackageTableFiltersService} from "core-components/wp-fast-table/state/wp-table-filters.service";
+import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import {debounceTime, distinctUntilChanged, skip} from "rxjs/operators";
 import {combineLatest} from "rxjs";
 
@@ -85,7 +85,7 @@ export class GlobalSearchWorkPackagesComponent implements OnInit, OnDestroy, Aft
               readonly I18n:I18nService,
               readonly halResourceService:HalResourceService,
               readonly globalSearchService:GlobalSearchService,
-              readonly wpTableFilters:WorkPackageTableFiltersService,
+              readonly wpTableFilters:WorkPackageViewFiltersService,
               readonly querySpace:IsolatedQuerySpace,
               readonly wpFilters:WorkPackageFiltersService,
               readonly cdRef:ChangeDetectorRef,

@@ -29,23 +29,23 @@
 import {Directive, ElementRef, Injector} from '@angular/core';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {OpTableActionsService} from "core-components/wp-table/table-actions/table-actions.service";
-import {WorkPackageTableRelationColumnsService} from "core-components/wp-fast-table/state/wp-table-relation-columns.service";
-import {WorkPackageTablePaginationService} from "core-components/wp-fast-table/state/wp-table-pagination.service";
-import {WorkPackageTableGroupByService} from "core-components/wp-fast-table/state/wp-table-group-by.service";
-import {WorkPackageTableHierarchiesService} from "core-components/wp-fast-table/state/wp-table-hierarchy.service";
-import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state/wp-table-sort-by.service";
-import {WorkPackageTableColumnsService} from "core-components/wp-fast-table/state/wp-table-columns.service";
-import {WorkPackageTableFiltersService} from "core-components/wp-fast-table/state/wp-table-filters.service";
-import {WorkPackageTableTimelineService} from "core-components/wp-fast-table/state/wp-table-timeline.service";
-import {WorkPackageTableSelection} from "core-components/wp-fast-table/state/wp-table-selection.service";
-import {WorkPackageTableSumService} from "core-components/wp-fast-table/state/wp-table-sum.service";
-import {WorkPackageTableAdditionalElementsService} from "core-components/wp-fast-table/state/wp-table-additional-elements.service";
-import {WorkPackageTableRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
-import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
+import {WorkPackageViewRelationColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
+import {WorkPackageViewPaginationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service";
+import {WorkPackageViewGroupByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service";
+import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
+import {WorkPackageViewSortByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
+import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
+import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
+import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
+import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import {WorkPackageViewSumService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sum.service";
+import {WorkPackageViewAdditionalElementsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-additional-elements.service";
+import {WorkPackageViewRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
+import {WorkPackageViewHighlightingService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
 import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
 import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";
-import {WorkPackageTableFocusService} from "core-components/wp-fast-table/state/wp-table-focus.service";
+import {WorkPackageViewFocusService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
 import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
 import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
@@ -60,10 +60,10 @@ import {WorkPackagesListChecksumService} from "core-components/wp-list/wp-list-c
 import {debugLog} from "core-app/helpers/debug_output";
 import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
 import {TableDragActionsRegistryService} from "core-components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
-import {WorkPackageTableOrderService} from "core-components/wp-fast-table/state/wp-table-order.service";
+import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
 import {WorkPackageCardViewService} from "core-components/wp-card-view/services/wp-card-view.service";
-import {WorkPackageViewDisplayRepresentationService} from "core-components/wp-fast-table/state/wp-view-display-representation.service";
+import {WorkPackageViewDisplayRepresentationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 
 /**
  * Directive to open a work package query 'space', an isolated injector hierarchy
@@ -79,26 +79,26 @@ import {WorkPackageViewDisplayRepresentationService} from "core-components/wp-fa
   IsolatedQuerySpace,
   OpTableActionsService,
 
-  WorkPackageTableRefreshService,
+  WorkPackageViewRefreshService,
 
   // Work package table services
   WorkPackagesListChecksumService,
   WorkPackagesListService,
-  WorkPackageTableRelationColumnsService,
-  WorkPackageTablePaginationService,
-  WorkPackageTableGroupByService,
-  WorkPackageTableHierarchiesService,
-  WorkPackageTableSortByService,
-  WorkPackageTableColumnsService,
-  WorkPackageTableFiltersService,
-  WorkPackageTableTimelineService,
-  WorkPackageTableSelection,
-  WorkPackageTableSumService,
-  WorkPackageTableAdditionalElementsService,
-  WorkPackageTableFocusService,
-  WorkPackageTableHighlightingService,
+  WorkPackageViewRelationColumnsService,
+  WorkPackageViewPaginationService,
+  WorkPackageViewGroupByService,
+  WorkPackageViewHierarchiesService,
+  WorkPackageViewSortByService,
+  WorkPackageViewColumnsService,
+  WorkPackageViewFiltersService,
+  WorkPackageViewTimelineService,
+  WorkPackageViewSelectionService,
+  WorkPackageViewSumService,
+  WorkPackageViewAdditionalElementsService,
+  WorkPackageViewFocusService,
+  WorkPackageViewHighlightingService,
   WorkPackageViewDisplayRepresentationService,
-  WorkPackageTableOrderService,
+  WorkPackageViewOrderService,
   CausedUpdatesService,
 
   WorkPackageService,

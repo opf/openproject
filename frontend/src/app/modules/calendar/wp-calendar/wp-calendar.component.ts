@@ -6,7 +6,7 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
-import {WorkPackageTableFiltersService} from "core-components/wp-fast-table/state/wp-table-filters.service";
+import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import * as moment from "moment";
 import {Moment} from "moment";
 import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
@@ -34,7 +34,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
 
   constructor(readonly states:States,
               readonly $state:StateService,
-              readonly wpTableFilters:WorkPackageTableFiltersService,
+              readonly wpTableFilters:WorkPackageViewFiltersService,
               readonly wpListService:WorkPackagesListService,
               readonly querySpace:IsolatedQuerySpace,
               readonly wpListChecksumService:WorkPackagesListChecksumService,

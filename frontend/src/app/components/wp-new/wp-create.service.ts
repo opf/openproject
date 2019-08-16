@@ -205,7 +205,7 @@ export class WorkPackageCreateService implements IWorkPackageCreateService {
    * @param except
    */
   private applyDefaults(changeset:WorkPackageChangeset, wp:WorkPackageResource, except:string[]) {
-    // Not using WorkPackageTableFiltersService here as the embedded table does not load the form
+    // Not using WorkPackageViewFiltersService here as the embedded table does not load the form
     // which will result in that service having empty current filters.
     let query = this.querySpace.query.value;
 

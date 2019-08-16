@@ -32,7 +32,7 @@ import {States} from '../../../states.service';
 import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
 import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
 import {WorkPackageNotificationService} from '../../../wp-edit/wp-notification.service';
-import {WorkPackageTableRefreshService} from '../../wp-table-refresh-request.service';
+import {WorkPackageViewRefreshService} from '../../wp-table-refresh-request.service';
 import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import {RenderInfo} from '../wp-timeline';
 import {TimelineCellRenderer} from './timeline-cell-renderer';
@@ -54,7 +54,7 @@ export function registerWorkPackageMouseHandler(this:void,
                                                 getRenderInfo:() => RenderInfo,
                                                 workPackageTimeline:WorkPackageTimelineTableController,
                                                 wpCacheService:WorkPackageCacheService,
-                                                wpTableRefresh:WorkPackageTableRefreshService,
+                                                wpTableRefresh:WorkPackageViewRefreshService,
                                                 wpNotificationsService:WorkPackageNotificationService,
                                                 loadingIndicator:LoadingIndicatorService,
                                                 cell:HTMLElement,

@@ -14,10 +14,3 @@ export interface WorkPackageTableRow {
   group:GroupObject|null;
 }
 
-export interface WPTableRowSelectionState {
-  // Map of selected rows
-  selected:{[workPackageId:string]:boolean};
-  // Index of current selection
-  // required for shift-offsets
-  activeRowIndex:number | null;
-}

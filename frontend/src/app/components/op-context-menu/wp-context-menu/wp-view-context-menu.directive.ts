@@ -6,7 +6,7 @@ import {
 import {WorkPackageTable} from "core-components/wp-fast-table/wp-fast-table";
 import {States} from "core-components/states.service";
 import {WorkPackageRelationsHierarchyService} from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
-import {WorkPackageTableSelection} from "core-components/wp-fast-table/state/wp-table-selection.service";
+import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
 import {OpContextMenuHandler} from "core-components/op-context-menu/op-context-menu-handler";
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
@@ -25,7 +25,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
   protected wpRelationsHierarchyService = this.injector.get(WorkPackageRelationsHierarchyService);
   protected opModalService:OpModalService = this.injector.get(OpModalService);
   protected $state:StateService = this.injector.get(StateService);
-  protected wpTableSelection = this.injector.get(WorkPackageTableSelection);
+  protected wpTableSelection = this.injector.get(WorkPackageViewSelectionService);
   protected WorkPackageContextMenuHelper = this.injector.get(WorkPackageContextMenuHelperService);
 
   protected workPackage = this.states.workPackages.get(this.workPackageId).value!;

@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {WorkPackageTableFiltersService} from "core-components/wp-fast-table/state/wp-table-filters.service";
+import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import {QueryFilterResource} from "core-app/modules/hal/resources/query-filter-resource";
 import {QueryOperatorResource} from "core-app/modules/hal/resources/query-operator-resource";
 import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
@@ -54,7 +54,7 @@ export class WpTableConfigurationRelationSelectorComponent implements OnInit  {
 
   constructor(readonly injector:Injector,
               readonly I18n:I18nService,
-              readonly wpTableFilters:WorkPackageTableFiltersService,
+              readonly wpTableFilters:WorkPackageViewFiltersService,
               readonly ConfigurationService:ConfigurationService) {
   }
 

@@ -27,9 +27,9 @@
 // ++
 
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from "@angular/core";
-import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
+import {WorkPackageViewHighlightingService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
 import {CardViewOrientation} from "core-components/wp-card-view/wp-card-view.component";
-import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state/wp-table-sort-by.service";
+import {WorkPackageViewSortByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
 import {distinctUntilChanged, takeUntil} from "rxjs/operators";
 import {HighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
@@ -62,8 +62,8 @@ export class WorkPackagesGridComponent {
   public gridOrientation:CardViewOrientation = 'horizontal';
   public highlightingMode:HighlightingMode = 'none';
 
-  constructor(readonly wpTableHighlight:WorkPackageTableHighlightingService,
-              readonly wpTableSortBy:WorkPackageTableSortByService,
+  constructor(readonly wpTableHighlight:WorkPackageViewHighlightingService,
+              readonly wpTableSortBy:WorkPackageViewSortByService,
               readonly querySpace:IsolatedQuerySpace,
               readonly cdRef:ChangeDetectorRef) {
   }

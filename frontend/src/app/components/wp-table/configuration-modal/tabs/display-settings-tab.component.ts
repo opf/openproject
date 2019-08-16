@@ -1,10 +1,10 @@
 
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
-import {WorkPackageTableGroupByService} from 'core-components/wp-fast-table/state/wp-table-group-by.service';
+import {WorkPackageViewGroupByService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service';
 import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-by-resource';
-import {WorkPackageTableHierarchiesService} from 'core-components/wp-fast-table/state/wp-table-hierarchy.service';
-import {WorkPackageTableSumService} from 'core-components/wp-fast-table/state/wp-table-sum.service';
+import {WorkPackageViewHierarchiesService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
+import {WorkPackageViewSumService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sum.service';
 import {Component, Injector} from "@angular/core";
 
 @Component({
@@ -41,9 +41,9 @@ export class WpTableConfigurationDisplaySettingsTab implements TabComponent {
 
   constructor(readonly injector:Injector,
               readonly I18n:I18nService,
-              readonly wpTableGroupBy:WorkPackageTableGroupByService,
-              readonly wpTableHierarchies:WorkPackageTableHierarchiesService,
-              readonly wpTableSums:WorkPackageTableSumService) {
+              readonly wpTableGroupBy:WorkPackageViewGroupByService,
+              readonly wpTableHierarchies:WorkPackageViewHierarchiesService,
+              readonly wpTableSums:WorkPackageViewSumService) {
   }
 
   public onSave() {

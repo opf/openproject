@@ -26,13 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  QueryResource, TimelineLabels,
-  TimelineZoomLevel
-} from 'core-app/modules/hal/resources/query-resource';
+import {HighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
-export interface WorkPackageTableTimelineState {
-  visible:boolean;
-  zoomLevel:TimelineZoomLevel;
-  labels:TimelineLabels;
+export interface WorkPackageViewHighlight {
+  mode:HighlightingMode;
+  selectedAttributes?:HalResource[]|undefined;
 }

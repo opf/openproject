@@ -1,15 +1,15 @@
 import {Injector} from '@angular/core';
 import {States} from '../../../states.service';
 import {tableRowClassName} from '../../builders/rows/single-row-builder';
-import {WorkPackageTableHierarchiesService} from '../../state/wp-table-hierarchy.service';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {ClickOrEnterHandler} from '../click-or-enter-handler';
 import {TableEventHandler} from "core-components/wp-fast-table/handlers/table-handler-registry";
+import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
 
 export class HierarchyClickHandler extends ClickOrEnterHandler implements TableEventHandler {
   // Injections
   public states:States = this.injector.get(States);
-  public wpTableHierarchies:WorkPackageTableHierarchiesService = this.injector.get(WorkPackageTableHierarchiesService);
+  public wpTableHierarchies:WorkPackageViewHierarchiesService = this.injector.get(WorkPackageViewHierarchiesService);
 
   constructor(public readonly injector:Injector, table:WorkPackageTable) {
     super();

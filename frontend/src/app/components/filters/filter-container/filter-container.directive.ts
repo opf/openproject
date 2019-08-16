@@ -27,7 +27,7 @@
 // ++
 
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {WorkPackageTableFiltersService} from 'core-components/wp-fast-table/state/wp-table-filters.service';
+import {WorkPackageViewFiltersService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
 import {DebouncedEventEmitter} from "core-components/angular/debounced-event-emitter";
@@ -50,7 +50,7 @@ export class WorkPackageFilterContainerComponent implements OnInit, OnDestroy {
   public filters = this.wpTableFilters.current;
   public loaded = false;
 
-  constructor(readonly wpTableFilters:WorkPackageTableFiltersService,
+  constructor(readonly wpTableFilters:WorkPackageViewFiltersService,
               readonly cdRef:ChangeDetectorRef,
               readonly wpFiltersService:WorkPackageFiltersService) {
     this.visible$ = this.wpFiltersService.observeUntil(componentDestroyed(this));

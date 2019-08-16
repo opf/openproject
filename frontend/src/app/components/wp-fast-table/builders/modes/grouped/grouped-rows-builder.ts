@@ -1,7 +1,6 @@
 import {Injector} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {States} from '../../../../states.service';
-import {WorkPackageTableColumnsService} from '../../../state/wp-table-columns.service';
 import {WorkPackageTable} from '../../../wp-fast-table';
 import {tableRowClassName} from '../../rows/single-row-builder';
 import {RowsBuilder} from '../rows-builder';
@@ -14,13 +13,14 @@ import {
   collapsedRowClass,
   rowGroupClassName
 } from "core-components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
+import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
 
 export class GroupedRowsBuilder extends RowsBuilder {
 
   // Injections
   private readonly querySpace = this.injector.get(IsolatedQuerySpace);
   public states:States = this.injector.get(States);
-  public wpTableColumns:WorkPackageTableColumnsService = this.injector.get(WorkPackageTableColumnsService);
+  public wpTableColumns:WorkPackageViewColumnsService = this.injector.get(WorkPackageViewColumnsService);
   public I18n:I18nService = this.injector.get(I18nService);
 
   constructor(public readonly injector:Injector, workPackageTable:WorkPackageTable) {

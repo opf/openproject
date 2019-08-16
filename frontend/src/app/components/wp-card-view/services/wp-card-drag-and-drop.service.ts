@@ -1,6 +1,6 @@
 import {Inject, Injectable, Injector} from '@angular/core';
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {WorkPackageTableOrderService} from "core-components/wp-fast-table/state/wp-table-order.service";
+import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import {States} from "core-components/states.service";
 import {WorkPackageChangeset} from "core-components/wp-edit-form/work-package-changeset";
 import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
@@ -27,7 +27,7 @@ export class WorkPackageCardDragAndDropService {
 
   public constructor(readonly states:States,
                      readonly injector:Injector,
-                     readonly reorderService:WorkPackageTableOrderService,
+                     readonly reorderService:WorkPackageViewOrderService,
                      @Inject(IWorkPackageCreateServiceToken) readonly wpCreate:WorkPackageCreateService,
                      readonly wpNotifications:WorkPackageNotificationService,
                      readonly currentProject:CurrentProjectService,

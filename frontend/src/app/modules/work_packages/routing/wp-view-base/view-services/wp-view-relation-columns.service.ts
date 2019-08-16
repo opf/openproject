@@ -27,41 +27,37 @@
 // ++
 
 import {InputState} from 'reactivestates';
-import {WorkPackageTableRelationColumns} from '../wp-table-relation-columns';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageTableColumnsService} from './wp-table-columns.service';
-import {WorkPackageTableBaseService} from './wp-table-base.service';
+import {WorkPackageViewColumnsService} from './wp-view-columns.service';
+import {WorkPackageViewBaseService} from './wp-view-base.service';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
+import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
+import {WorkPackageViewRelationColumns} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-relation-columns";
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
+import {RelationsStateValue, WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
+import {Injectable} from "@angular/core";
 import {
   QueryColumn,
   queryColumnTypes,
   RelationQueryColumn,
   TypeRelationQueryColumn
-} from '../../wp-query/query-column';
-import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
-import {
-  RelationsStateValue,
-  WorkPackageRelationsService
-} from '../../wp-relations/wp-relations.service';
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {Injectable} from '@angular/core';
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
-import {WorkPackageTableHierarchies} from "core-components/wp-fast-table/wp-table-hierarchies";
+} from "core-components/wp-query/query-column";
 
 export type RelationColumnType = 'toType'|'ofType';
 
 @Injectable()
-export class WorkPackageTableRelationColumnsService extends WorkPackageTableBaseService<WorkPackageTableRelationColumns> {
+export class WorkPackageViewRelationColumnsService extends WorkPackageViewBaseService<WorkPackageViewRelationColumns> {
   constructor(public querySpace:IsolatedQuerySpace,
-              public wpTableColumns:WorkPackageTableColumnsService,
+              public wpTableColumns:WorkPackageViewColumnsService,
               public halResourceService:HalResourceService,
               public wpCacheService:WorkPackageCacheService,
               public wpRelations:WorkPackageRelationsService) {
     super(querySpace);
   }
 
-  public valueFromQuery(query:QueryResource):WorkPackageTableRelationColumns {
+  public valueFromQuery(query:QueryResource):WorkPackageViewRelationColumns {
     // Take over current expanded values
     // which are not yet saved
     return this.current;
@@ -168,7 +164,7 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
     this.update(nextState);
   }
 
-  public get current():WorkPackageTableRelationColumns {
+  public get current():WorkPackageViewRelationColumns {
     return this.lastUpdatedState.getValueOr({});
   }
 }

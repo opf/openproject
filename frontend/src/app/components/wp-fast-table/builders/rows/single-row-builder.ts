@@ -4,13 +4,13 @@ import {locateTableRowByIdentifier} from 'core-components/wp-fast-table/helpers/
 import {debugLog} from '../../../../helpers/debug_output';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {isRelationColumn, QueryColumn} from '../../../wp-query/query-column';
-import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
-import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
+import {WorkPackageViewColumnsService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {CellBuilder, wpCellTdClassName} from '../cell-builder';
 import {RelationCellbuilder} from '../relation-cell-builder';
 import {checkedClassName} from '../ui-state-link-builder';
 import {TableActionRenderer} from 'core-components/wp-fast-table/builders/table-action-renderer';
+import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 
 // Work package table row entries
 export const tableRowClassName = 'wp-table--row';
@@ -28,8 +28,8 @@ export const internalContextMenuColumn = {
 export class SingleRowBuilder {
 
   // Injections
-  public wpTableSelection = this.injector.get(WorkPackageTableSelection);
-  public wpTableColumns = this.injector.get(WorkPackageTableColumnsService);
+  public wpTableSelection = this.injector.get(WorkPackageViewSelectionService);
+  public wpTableColumns = this.injector.get(WorkPackageViewColumnsService);
   public I18n:I18nService = this.injector.get(I18nService);
 
   // Cell builder instance
