@@ -130,7 +130,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             first: true
 
   menu.push :users_and_permissions,
-            { controller: '/users_settings' },
+            { controller: '/users' },
             caption: :label_user_and_permission,
             icon: 'icon2 icon-group'
 
