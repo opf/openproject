@@ -1,4 +1,3 @@
-import {RenderedRow} from 'app/components/wp-fast-table/builders/primary-render-pass';
 import {derive, input, InputState, State, StatesGroup} from 'reactivestates';
 import {Subject} from 'rxjs';
 import {Injectable} from '@angular/core';
@@ -9,6 +8,7 @@ import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resou
 import {WPFocusState} from "core-components/wp-fast-table/state/wp-table-focus.service";
 import {QueryColumn} from "core-components/wp-query/query-column";
 import {WorkPackageTableRefreshRequest} from "core-components/wp-table/wp-table-refresh-request.service";
+import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
 
 @Injectable()
 export class IsolatedQuerySpace extends StatesGroup {
@@ -36,9 +36,9 @@ export class IsolatedQuerySpace extends StatesGroup {
   collapsedGroups = input<{ [identifier:string]:boolean }>();
 
   // State to be updated when the table is up to date
-  rendered = input<RenderedRow[]>();
+  rendered = input<RenderedWorkPackage[]>();
 
-  renderedWorkPackages:State<RenderedRow[]> = derive(this.rendered, $ => $.pipe(
+  renderedWorkPackages:State<RenderedWorkPackage[]> = derive(this.rendered, $ => $.pipe(
     map(rows => rows.filter(row => !!row.workPackageId)))
   );
 

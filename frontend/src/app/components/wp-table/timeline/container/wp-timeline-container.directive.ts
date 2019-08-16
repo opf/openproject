@@ -46,7 +46,6 @@ import {
 } from '../wp-timeline';
 import {input, InputState} from "reactivestates";
 import {WorkPackageTable} from "core-components/wp-fast-table/wp-fast-table";
-import {RenderedRow} from "core-components/wp-fast-table/builders/primary-render-pass";
 import {WorkPackageTimelineCellsRenderer} from "core-components/wp-table/timeline/cells/wp-timeline-cells-renderer";
 import {States} from "core-components/states.service";
 import {WorkPackagesTableController} from "core-components/wp-table/wp-table.directive";
@@ -59,6 +58,7 @@ import {WorkPackageTimelineCell} from "core-components/wp-table/timeline/cells/w
 import {selectorTimelineSide} from "core-components/wp-table/wp-table-scroll-sync";
 import {debugLog, timeOutput} from "core-app/helpers/debug_output";
 import {WorkPackageTableRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
+import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
 
 @Component({
   selector: 'wp-timeline-container',
@@ -76,7 +76,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
 
   public disableViewParamsCalculation = false;
 
-  public workPackageIdOrder:RenderedRow[] = [];
+  public workPackageIdOrder:RenderedWorkPackage[] = [];
 
   private renderers:{ [name:string]:(vp:TimelineViewParameters) => void } = {};
 

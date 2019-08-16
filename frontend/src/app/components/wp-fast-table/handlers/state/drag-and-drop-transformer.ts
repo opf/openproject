@@ -6,7 +6,6 @@ import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/w
 import {RequestSwitchmap} from "core-app/helpers/rxjs/request-switchmap";
 import {Observable, of} from "rxjs";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
-import {RenderedRow} from "core-components/wp-fast-table/builders/primary-render-pass";
 import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state/wp-table-sort-by.service";
 import {TableDragActionsRegistryService} from "core-components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
 import {TableDragActionService} from "core-components/wp-table/drag-and-drop/actions/table-drag-action.service";
@@ -16,6 +15,7 @@ import {tableRowClassName} from "core-components/wp-fast-table/builders/rows/sin
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
 import {DragAndDropHelpers} from "core-app/modules/common/drag-and-drop/drag-and-drop.helpers";
 import {WorkPackageTableOrderService} from "core-components/wp-fast-table/state/wp-table-order.service";
+import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
 
 export class DragAndDropTransformer {
 
@@ -142,7 +142,7 @@ export class DragAndDropTransformer {
       .map((row) => row.workPackageId!);
   }
 
-  protected get currentRenderedOrder():RenderedRow[] {
+  protected get currentRenderedOrder():RenderedWorkPackage[] {
     return this
       .querySpace
       .renderedWorkPackages

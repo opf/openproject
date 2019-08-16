@@ -1,5 +1,4 @@
 import {WPTableRowSelectionState} from '../wp-table.interfaces';
-import {RenderedRow} from '../builders/primary-render-pass';
 import {input} from 'reactivestates';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
@@ -7,6 +6,7 @@ import {Injectable, Injector} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from 'core-components/states.service';
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
+import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
 
 @Injectable()
 export class WorkPackageTableSelection {
@@ -28,7 +28,7 @@ export class WorkPackageTableSelection {
   /**
    * Select all work packages
    */
-  public selectAll(rows: RenderedRow[]) {
+  public selectAll(rows:RenderedWorkPackage[]) {
     const state:WPTableRowSelectionState = this._emptyState;
 
     rows.forEach((row) => {
@@ -131,7 +131,7 @@ export class WorkPackageTableSelection {
    * to the selected target.
    * (aka shift click expansion)
    */
-  public setMultiSelectionFrom(rows:RenderedRow[], wpId:string, position:number) {
+  public setMultiSelectionFrom(rows:RenderedWorkPackage[], wpId:string, position:number) {
     let state = this.currentState;
 
     // If there are no other selections, it does not matter what the index is
@@ -152,7 +152,7 @@ export class WorkPackageTableSelection {
     this.selectionState.putValue(state);
   }
 
-  public registerSelectAllListener(renderedElements: () => RenderedRow[]) {
+  public registerSelectAllListener(renderedElements:() => RenderedWorkPackage[]) {
     // Bind CTRL+A to select all work packages
     Mousetrap.bind(['command+a', 'ctrl+a'], (e) => {
       this.selectAll(renderedElements());
@@ -163,7 +163,7 @@ export class WorkPackageTableSelection {
     });
   }
 
-  public registerDeselectAllListener () {
+  public registerDeselectAllListener() {
     // Bind CTRL+D to deselect all work packages
     Mousetrap.bind(['command+d', 'ctrl+d'], (e) => {
       this.reset();
