@@ -26,25 +26,27 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {AbstractWorkPackageButtonComponent} from '../wp-buttons.module';
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
-import {StateService} from "@uirouter/core";
 import {
-  WorkPackageViewDisplayRepresentationService, wpDisplayCardRepresentation,
+  WorkPackageViewDisplayRepresentationService,
+  wpDisplayCardRepresentation,
   wpDisplayListRepresentation
 } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 
 
 @Component({
-  template: `    
+  template: `
       <button class="button"
               wpViewDropdown>
-        <op-icon icon-classes="button--icon"></op-icon>
+        <op-icon icon-classes="button--icon icon-view-{{view}}"></op-icon>
         <span class="button--text"
-              aria-hidden="true"></span>
+              aria-hidden="true"
+              [textContent]="text[view]">
+        </span>
         <op-icon icon-classes="button--icon icon-small icon-pulldown"></op-icon>
       </button>
 `,
@@ -52,9 +54,18 @@ import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
   selector: 'wp-view-toggle-button',
 })
 export class WorkPackageViewToggleButton implements OnInit, OnDestroy {
+  public view:string;
+
+  public text:any = {
+    card: this.I18n.t('js.views.card'),
+    list: this.I18n.t('js.views.list'),
+    timeline: this.I18n.t('js.views.timeline'),
+  };
+
   constructor(readonly I18n:I18nService,
               readonly cdRef:ChangeDetectorRef,
-              readonly wpDisplayRepresentationService:WorkPackageViewDisplayRepresentationService) {
+              readonly wpDisplayRepresentationService:WorkPackageViewDisplayRepresentationService,
+              readonly wpTableTimeline:WorkPackageViewTimelineService) {
   }
 
   ngOnInit() {
@@ -63,12 +74,25 @@ export class WorkPackageViewToggleButton implements OnInit, OnDestroy {
         untilComponentDestroyed(this)
       )
       .subscribe(() => {
+        this.detectView();
         this.cdRef.detectChanges();
       });
   }
 
   ngOnDestroy() {
     // Nothing to do
+  }
+
+  public detectView() {
+    if (this.wpDisplayRepresentationService.current !== wpDisplayCardRepresentation) {
+      if (this.wpTableTimeline.isVisible) {
+        this.view = 'timeline';
+      } else {
+        this.view = wpDisplayListRepresentation;
+      }
+    } else {
+      this.view = wpDisplayCardRepresentation;
+    }
   }
 }
 

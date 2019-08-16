@@ -30,16 +30,4 @@
       <op-icon icon-classes="icon-zoom-in button--icon"></op-icon>
     </button>
   </li>
-
-  <li>
-    <button class="button timeline-toolbar--button toolbar-icon"
-            [ngClass]="{ '-active': isActive }"
-            [attr.id]="buttonId"
-            [attr.title]="label"
-            [disabled]="disabled || (!isToggle() && isActive)"
-            (click)="toggleTimeline()">
-      <op-icon icon-classes="{{ iconClass }} button--icon"></op-icon>
-    </button>
-  </li>
-
 </ul>
