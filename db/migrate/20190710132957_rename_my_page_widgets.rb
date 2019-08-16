@@ -1,5 +1,7 @@
 class RenameMyPageWidgets < ActiveRecord::Migration[5.2]
   def up
+    reset_column_information
+
     Grids::MyPage.eager_load(:widgets, user: :preference).each do |page|
       I18n.with_locale(page.user&.language.presence || 'en') do
         page.widgets.each(&method(:update_widget))
@@ -59,6 +61,11 @@ class RenameMyPageWidgets < ActiveRecord::Migration[5.2]
     }
 
     widget.save(validate: false)
+  end
+
+  def reset_column_information
+    # Without this, AR tries to join e.g. verified phone which might not exist yet
+    User.reset_column_information
   end
 
   def down
