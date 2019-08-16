@@ -1,11 +1,13 @@
 import {Injectable} from '@angular/core';
 import {GridWidgetArea} from "app/modules/grids/areas/grid-widget-area";
 import {GridArea} from "core-app/modules/grids/areas/grid-area";
+import {GridGap} from "core-app/modules/grids/areas/grid-gap";
 import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 import {WidgetChangeset} from "core-app/modules/grids/widgets/widget-changeset";
+import * as moment from 'moment';
 
 @Injectable()
 export class GridAreaService {
@@ -16,6 +18,7 @@ export class GridAreaService {
   public numColumns:number = 0;
   public numRows:number = 0;
   public gridAreas:GridArea[];
+  public gridGaps:GridArea[];
   public widgetAreas:GridWidgetArea[];
   public gridAreaIds:string[];
   public mousedOverArea:GridArea|null;
@@ -40,8 +43,35 @@ export class GridAreaService {
     this.mousedOverArea = area;
   }
 
+  public cleanupUnusedAreas(save = true) {
+    let unusedRows = Array.from(Array(this.numRows + 1).keys()).slice(1);
+
+    this.widgetResources.forEach(widget => {
+      unusedRows = unusedRows.filter(item => item !== widget.startRow);
+    });
+
+    unusedRows.forEach(number => {
+      if (this.numRows > 1) {
+        this.removeRow(number, save);
+      }
+    });
+
+    let unusedColumns = Array.from(Array(this.numColumns + 1).keys()).slice(1);
+
+    this.widgetResources.forEach(widget => {
+      unusedColumns = unusedColumns.filter(item => item !== widget.startColumn);
+    });
+
+    unusedColumns.forEach(number => {
+      if (this.numColumns > 1) {
+        this.removeColumn(number, save);
+      }
+    });
+  }
+
   public buildAreas(save = true) {
     this.gridAreas = this.buildGridAreas();
+    this.gridGaps = this.buildGridGaps();
     this.gridAreaIds = this.buildGridAreaIds();
     this.widgetAreas = this.buildGridWidgetAreas();
 
@@ -63,6 +93,18 @@ export class GridAreaService {
     payload['id'] = this.resource.id;
 
     this.saveGrid(payload);
+  }
+
+  public isGap(area:GridArea) {
+    return area instanceof GridGap;
+  }
+
+  public get isSingleCell() {
+    return this.numRows === 1 && this.numColumns === 1 && this.widgetResources.length === 0;
+  }
+
+  public get isNewlyCreated() {
+    return moment(moment.utc()).diff(moment(this.resource.createdAt), 'seconds') < 20;
   }
 
   private saveGrid(resource:GridWidgetResource|any, schema?:SchemaResource) {
@@ -104,16 +146,16 @@ export class GridAreaService {
     return cells;
   }
 
-  private buildGridAreasColumn(column:number) {
+  private buildGridGaps() {
     let cells:GridArea[] = [];
 
-    for (let row = 1; row <= this.numRows; row++) {
-      let cell = new GridArea(row,
-        row + 1,
-        column,
-        column + 1);
+    // special case where we want no gaps
+    if (this.isSingleCell) {
+      return cells;
+    }
 
-      cells.push(cell);
+    for (let row = 1; row <= this.numRows + 1; row++) {
+      cells.push(...this.buildGridGapRow(row));
     }
 
     return cells;
@@ -134,6 +176,30 @@ export class GridAreaService {
     return cells;
   }
 
+  private buildGridGapRow(row:number) {
+    let cells:GridGap[] = [];
+
+    for (let column = 1; column <= this.numColumns; column++) {
+      cells.push(new GridGap(row,
+                                  row + 1,
+                             column,
+                                  column + 1,
+                                  'row'));
+    }
+
+    if (row <= this.numRows) {
+      for (let column = 1; column <= this.numColumns + 1; column++) {
+        cells.push(new GridGap(row,
+          row + 1,
+          column,
+          column + 1,
+          'column'));
+      }
+    }
+
+    return cells;
+  }
+
   private buildGridWidgetAreas() {
     return this.widgetResources.map((widget) => {
       return new GridWidgetArea(widget);
@@ -148,33 +214,63 @@ export class GridAreaService {
     });
   }
 
-  public addColumn(column:number) {
+  public addColumn(column:number, excludeRow:number) {
     this.numColumns++;
 
-    this.widgetResources.filter((widget) => {
-      return widget.startColumn > column;
-    }).forEach((widget) => {
-      widget.startColumn++;
-      widget.endColumn++;
-    });
+    let movedWidgets:GridWidgetArea[] = [];
 
-    this.buildAreas();
+    for (let row = 1; row <= this.numRows; row++) {
+      if (row === excludeRow) {
+        continue;
+      }
+
+      let widget = this
+                   .rowWidgets(row)
+                   .sort((a, b) => a.startColumn - b.startColumn)
+                   .find(widget => !(widget.startRow < excludeRow && widget.endRow > excludeRow) &&
+                     (widget.startColumn === column + 1 ||
+                      widget.endColumn === column + 1 ||
+                      widget.startColumn <= column && widget.endColumn > column));
+
+      if (widget) {
+        movedWidgets.push(widget);
+        widget.endColumn++;
+      }
+    }
+
+    this.moveSubsequentRowWidgets(this.widgetAreas.filter(widget => !movedWidgets.includes(widget)),
+                                  column);
   }
 
-  public addRow(row:number) {
+  public addRow(row:number, excludeColumn:number) {
     this.numRows++;
 
-    this.widgetResources.filter((widget) => {
-      return widget.startRow > row;
-    }).forEach((widget) => {
-      widget.startRow++;
-      widget.endRow++;
-    });
+    let movedWidgets:GridWidgetArea[] = [];
 
-    this.buildAreas();
+    for (let column = 1; column <= this.numColumns; column++) {
+      if (column === excludeColumn) {
+        continue;
+      }
+
+      let widget = this
+                   .columnWidgets(column)
+                   .sort((a, b) => a.startRow - b.startRow)
+                   .find(widget => !(widget.startColumn < excludeColumn && widget.endColumn > excludeColumn) &&
+                     (widget.startRow === row + 1 ||
+                       widget.endRow === row + 1 ||
+                       widget.startRow <= row && widget.endRow > row));
+
+      if (widget) {
+        movedWidgets.push(widget);
+        widget.endRow++;
+      }
+    }
+
+    this.moveSubsequentColumnWidgets(this.widgetAreas.filter(widget => !movedWidgets.includes(widget)),
+                                     row);
   }
 
-  public removeColumn(column:number) {
+  public removeColumn(column:number, save = true) {
     this.numColumns--;
 
     // remove widgets that only span the removed column
@@ -199,10 +295,10 @@ export class GridAreaService {
       widget.endColumn--;
     });
 
-    this.buildAreas();
+    this.buildAreas(save);
   }
 
-  public removeRow(row:number) {
+  public removeRow(row:number, save = true) {
     this.numRows--;
 
     // remove widgets that only span the removed row
@@ -227,18 +323,13 @@ export class GridAreaService {
       widget.endRow--;
     });
 
-    this.buildAreas();
+    this.buildAreas(save);
   }
 
   public resetAreas(ignoredArea:GridWidgetArea|null = null) {
     this.widgetAreas.filter((area) => {
       return !ignoredArea || area.guid !== ignoredArea.guid;
-    }).forEach((area) => {
-      area.startRow = area.widget.startRow;
-      area.endRow = area.widget.endRow;
-      area.startColumn = area.widget.startColumn;
-      area.endColumn = area.widget.endColumn;
-    });
+    }).forEach(area => area.reset());
 
     this.numRows = this.resource.rowCount;
     this.numColumns = this.resource.columnCount;
@@ -249,9 +340,10 @@ export class GridAreaService {
   }
 
   private buildGridAreaIds() {
-    return this.gridAreas.map((area) => {
-      return area.guid;
-    });
+    return this
+      .gridAreas
+      .filter(area => !this.isGap(area))
+      .map((area) => area.guid);
   }
 
   private fetchSchema() {
@@ -263,9 +355,36 @@ export class GridAreaService {
 
   public removeWidget(removedWidget:GridWidgetResource) {
     this.resource.widgets = this.widgetResources.filter((widget) => widget.id !== removedWidget.id );
+    this.cleanupUnusedAreas(true);
   }
 
   public get widgetResources() {
     return (this.resource && this.resource.widgets) || [];
+  }
+
+  private rowWidgets(row:number) {
+    return this.widgetAreas.filter(widget => widget.startRow === row);
+  }
+
+  private moveSubsequentRowWidgets(rowWidgets:GridWidgetArea[], column:number) {
+    rowWidgets.forEach(subsequentWidget => {
+      if (subsequentWidget.startColumn > column) {
+        subsequentWidget.startColumn++;
+        subsequentWidget.endColumn++;
+      }
+    });
+  }
+
+  private columnWidgets(column:number) {
+    return this.widgetAreas.filter(widget => widget.startColumn === column);
+  }
+
+  private moveSubsequentColumnWidgets(columnWidgets:GridWidgetArea[], row:number) {
+    columnWidgets.forEach(subsequentWidget => {
+      if (subsequentWidget.startRow > row) {
+        subsequentWidget.startRow++;
+        subsequentWidget.endRow++;
+      }
+    });
   }
 }

@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../../support/pages/my/page'
 
-describe 'My page time entries current user widget spec', type: :feature, js: true do
+describe 'My page time entries current user widget spec', type: :feature, js: true, with_mail: false do
   let!(:type) { FactoryBot.create :type }
   let!(:project) { FactoryBot.create :project, types: [type] }
   let!(:work_package) do
@@ -84,15 +84,10 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
 
   it 'adds the widget and checks the displayed entries' do
     # within top-right area, add an additional widget
-    my_page.add_widget(1, 1, 'Spent time \(last 7 days\)')
+    my_page.add_widget(1, 1, :within, 'Spent time \(last 7 days\)')
 
-    calendar_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
-    calendar_area.expect_to_span(1, 1, 4, 3)
-
-    calendar_area.resize_to(7, 2)
-
-    # Resizing leads to the calendar area now spanning a larger area
-    calendar_area.expect_to_span(1, 1, 8, 3)
+    entries_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+    entries_area.expect_to_span(1, 1, 2, 2)
 
     expect(page)
       .to have_content "Total: 11.00"
@@ -109,7 +104,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
       .to have_selector('.hours', text: visible_time_entry.hours)
 
     expect(page)
-      .to have_content (Date.today - 1.day).strftime('%m/%d/%Y')
+      .to have_content((Date.today - 1.day).strftime('%m/%d/%Y'))
     expect(page)
       .to have_selector('.activity', text: other_visible_time_entry.activity.name)
     expect(page)
@@ -118,5 +113,16 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
       .to have_selector('.comments', text: other_visible_time_entry.comments)
     expect(page)
       .to have_selector('.hours', text: other_visible_time_entry.hours)
+
+    entries_area.remove
+
+    # as the last widget has been removed, the add button is always displayed
+    nucleous_area = Components::Grids::GridArea.of(2, 2)
+    nucleous_area.expect_to_exist
+
+    within nucleous_area.area do
+      expect(page)
+        .to have_selector(".grid--widget-add")
+    end
   end
 end

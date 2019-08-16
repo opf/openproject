@@ -13,6 +13,13 @@ export class GridWidgetArea extends GridArea {
     this.widget = widget;
   }
 
+  public reset() {
+    this.startRow = this.widget.startRow;
+    this.endRow = this.widget.endRow;
+    this.startColumn = this.widget.startColumn;
+    this.endColumn = this.widget.endColumn;
+  }
+
   public moveRight() {
     this.startColumn++;
     this.endColumn++;

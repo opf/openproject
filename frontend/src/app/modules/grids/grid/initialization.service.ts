@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
+import {GridAreaService} from "core-app/modules/grids/grid/area.service";
 
 @Injectable()
 export class GridInitializationService {
@@ -42,6 +43,11 @@ export class GridInitializationService {
           let source = form.payload.$source;
 
           let resource = this.halResourceService.createHalResource(source) as GridResource;
+
+          if (resource.widgets.length === 0) {
+            resource.rowCount = 1;
+            resource.columnCount = 1;
+          }
 
           this.gridDm.create(resource, form.schema)
             .then((resource) => {

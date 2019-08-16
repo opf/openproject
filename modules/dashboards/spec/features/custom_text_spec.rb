@@ -64,21 +64,12 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
     end
 
     it 'can add the widget set custom text and upload attachments' do
-      dashboard_page.add_column(3, before_or_after: :before)
-
-      sleep(0.1)
-
-      dashboard_page.add_widget(2, 3, "Custom text")
+      dashboard_page.add_widget(1, 1, :within, "Custom text")
 
       sleep(0.1)
 
       # As the user lacks the manage_public_queries and save_queries permission, no other widget is present
       custom_text_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
-
-      custom_text_widget.expect_to_span(2, 3, 5, 5)
-      custom_text_widget.resize_to(6, 5)
-
-      custom_text_widget.expect_to_span(2, 3, 7, 6)
 
       within custom_text_widget.area do
         find('.inplace-editing--trigger-container').click

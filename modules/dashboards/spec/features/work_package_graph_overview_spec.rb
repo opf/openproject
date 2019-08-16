@@ -86,20 +86,13 @@ describe 'Work package overview graph widget on dashboard',
 
   # As a graph is rendered as a canvas, we have limited abilities to test the widget
   it 'can add the widget' do
-    dashboard.add_column(3, before_or_after: :before)
-
     sleep(0.1)
 
-    dashboard.add_widget(1, 1, "Work packages overview")
-
-    sleep(0.1)
+    dashboard.add_widget(1, 1, :within, "Work packages overview")
 
     # As the user lacks the necessary permisisons, no widget is preconfigured
     overview_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
 
-    overview_widget.expect_to_span(1, 1, 4, 3)
-    overview_widget.resize_to(6, 4)
-
-    overview_widget.expect_to_span(1, 1, 7, 5)
+    overview_widget.expect_to_span(1, 1, 2, 2)
   end
 end

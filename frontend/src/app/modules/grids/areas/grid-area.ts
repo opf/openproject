@@ -12,6 +12,22 @@ export class GridArea {
     this.endColumn = endColumn;
   }
 
+  public get gridStartRow() {
+    return this.startRow * 2;
+  }
+
+  public get gridEndRow() {
+    return this.endRow * 2 - 1;
+  }
+
+  public get gridStartColumn() {
+    return this.startColumn * 2;
+  }
+
+  public get gridEndColumn() {
+    return this.endColumn * 2 - 1;
+  }
+
   public get guid():string {
     if (!this.storedGuid) {
       this.storedGuid = this.newGuid();

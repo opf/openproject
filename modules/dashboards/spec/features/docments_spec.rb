@@ -66,21 +66,20 @@ describe 'Documents widget on dashboard', type: :feature, js: true do
 
   it 'can add the widget and see the visible documents' do
     # within top-right area, add an additional widget
-    dashboard.add_widget(1, 3, 'Documents')
+    dashboard.add_widget(1, 1, :within, 'Documents')
 
-    document_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
-    document_area.expect_to_span(1, 3, 4, 5)
+    document_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
 
-    document_area.resize_to(7, 4)
+    within document_widget.area do
+      expect(page)
+        .to have_content visible_document.title
+      expect(page)
+        .to have_content visible_document.description
+      expect(page)
+        .to have_content visible_document.created_on.strftime('%m/%d/%Y')
 
-    expect(page)
-      .to have_content visible_document.title
-    expect(page)
-      .to have_content visible_document.description
-    expect(page)
-      .to have_content visible_document.created_on.strftime('%m/%d/%Y')
-
-    expect(page)
-      .to have_no_content invisible_document.title
+      expect(page)
+        .to have_no_content invisible_document.title
+    end
   end
 end
