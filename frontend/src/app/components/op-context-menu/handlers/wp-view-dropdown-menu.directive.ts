@@ -29,13 +29,13 @@
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 import {Directive, ElementRef} from "@angular/core";
 import {OpContextMenuTrigger} from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {
-  WorkPackageDisplayRepresentationService,
+  WorkPackageViewDisplayRepresentationService,
   wpDisplayCardRepresentation,
   wpDisplayListRepresentation
-} from "core-components/wp-fast-table/state/work-package-display-representation.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {WorkPackageTableTimelineService} from "core-components/wp-fast-table/state/wp-table-timeline.service";
+} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
+import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 
 @Directive({
   selector: '[wpViewDropdown]'
@@ -44,8 +44,8 @@ export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
   constructor(readonly elementRef:ElementRef,
               readonly opContextMenu:OPContextMenuService,
               readonly I18n:I18nService,
-              readonly wpDisplayRepresentationService:WorkPackageDisplayRepresentationService,
-              readonly wpTableTimeline:WorkPackageTableTimelineService) {
+              readonly wpDisplayRepresentationService:WorkPackageViewDisplayRepresentationService,
+              readonly wpTableTimeline:WorkPackageViewTimelineService) {
 
     super(elementRef, opContextMenu);
   }
