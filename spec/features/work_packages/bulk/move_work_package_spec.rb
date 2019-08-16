@@ -74,7 +74,7 @@ describe 'Moving a work package through Rails view', js: true do
         expect(child_wp.project_id).to eq(project.id)
 
         context_menu.open_for work_package
-        context_menu.choose 'Move'
+        context_menu.choose 'Change project'
 
         # On work packages move page
         expect(page).to have_selector('#new_project_id')
@@ -117,7 +117,7 @@ describe 'Moving a work package through Rails view', js: true do
 
       it 'does not allow to move' do
         context_menu.open_for work_package
-        context_menu.expect_no_options 'Move'
+        context_menu.expect_no_options 'Change project'
       end
     end
   end
@@ -134,7 +134,7 @@ describe 'Moving a work package through Rails view', js: true do
 
       it 'does allow to move' do
         context_menu.open_for work_package, false
-        context_menu.expect_options ['Bulk move']
+        context_menu.expect_options ['Bulk change of project']
       end
     end
 
@@ -143,7 +143,7 @@ describe 'Moving a work package through Rails view', js: true do
 
       it 'does not allow to move' do
         context_menu.open_for work_package, false
-        context_menu.expect_no_options ['Bulk move']
+        context_menu.expect_no_options ['Bulk change of project']
       end
     end
   end
