@@ -30,7 +30,7 @@ import {Injectable} from '@angular/core';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {InputState} from 'reactivestates';
 import {Observable} from 'rxjs';
-import {distinctUntilChanged, filter, map} from 'rxjs/operators';
+import {distinctUntilChanged, map} from 'rxjs/operators';
 import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 
 export interface WPFocusState {
@@ -46,7 +46,6 @@ export class WorkPackageViewFocusService {
   constructor(public querySpace:IsolatedQuerySpace,
               public wpTableSelection:WorkPackageViewSelectionService) {
     this.state = querySpace.focusedWorkPackage;
-    this.observeToUpdateFocused();
   }
 
   public isFocused(workPackageId:string) {
@@ -70,6 +69,12 @@ export class WorkPackageViewFocusService {
       return value.workPackageId;
     }
 
+    // Return the first result if none selected
+    const results = this.querySpace.results.value;
+    if (results && results.elements.length > 0) {
+      return results.elements[0].id!.toString();
+    }
+
     return null;
   }
 
@@ -91,22 +96,5 @@ export class WorkPackageViewFocusService {
       this.wpTableSelection.setRowState(workPackageId, true);
     }
     this.state.putValue({workPackageId: workPackageId, focusAfterRender: setFocusAfterRender});
-  }
-
-  /**
-   * Put the first row that is eligible to be displayed in the details view into
-   * the focused state if no manual selection has been made yet.
-   */
-  private observeToUpdateFocused() {
-    this
-      .querySpace.rendered
-      .values$()
-      .pipe(
-        map(state => _.find(state, (row:any) => row.workPackageId)),
-        filter(fullRow => !!fullRow && this.wpTableSelection.isEmpty)
-      )
-      .subscribe((fullRow:any) => {
-        this.updateFocus(fullRow!.workPackageId);
-      });
   }
 }

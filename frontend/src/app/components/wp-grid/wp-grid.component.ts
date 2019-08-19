@@ -47,8 +47,7 @@ import {WorkPackageCardDragAndDropService} from "core-components/wp-card-view/se
                   [orientation]="gridOrientation"
                   (onMoved)="switchToManualSorting()"
                   [showEmptyResultsBox]="true"
-                  [showInfoButton]="true"
-                  [showInitialSelection]="true">
+                  [showInfoButton]="true">
     </wp-card-view>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
