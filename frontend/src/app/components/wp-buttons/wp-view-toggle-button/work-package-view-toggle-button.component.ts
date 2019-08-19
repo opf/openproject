@@ -41,6 +41,7 @@ import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/rou
 @Component({
   template: `
       <button class="button"
+              id="wp-view-toggle-button"
               wpViewDropdown>
         <op-icon icon-classes="button--icon icon-view-{{view}}"></op-icon>
         <span class="button--text"
