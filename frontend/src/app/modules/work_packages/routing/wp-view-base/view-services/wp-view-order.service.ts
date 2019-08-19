@@ -193,7 +193,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
    * Return ordered work packages
    */
   orderedWorkPackages():WorkPackageResource[] {
-    const upstreamOrder = this.currentQuery.results.elements;
+    const upstreamOrder = this.querySpace.results.value!.elements;
 
     if (this.currentQuery.persisted || this.positions.isPristine()) {
       return upstreamOrder;

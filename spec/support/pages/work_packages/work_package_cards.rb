@@ -37,6 +37,16 @@ module Pages
       @project = project
     end
 
+    def expect_work_package_order(*ids)
+      retry_block do
+        rows = page.all '.wp-card'
+        expected = ids.map { |el| el.is_a?(WorkPackage) ? el.id.to_s : el.to_s }
+        found = rows.map { |el| el['data-work-package-id'] }
+
+        raise "Order is incorrect: #{found.inspect} != #{expected.inspect}" unless found == expected
+      end
+    end
+
     def open_full_screen_by_doubleclick(work_package)
       loading_indicator_saveguard
       page.driver.browser.action.double_click(card(work_package).native).perform

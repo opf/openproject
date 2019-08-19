@@ -35,6 +35,7 @@ describe 'Work package timeline navigation',
   let(:project) { FactoryBot.create(:project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:highlighting) { ::Components::WorkPackages::Highlighting.new }
+  let(:cards) { ::Pages::WorkPackageCards.new(project) }
   let(:display_representation) { ::Components::WorkPackages::DisplayRepresentation.new }
 
   let(:priority1) { FactoryBot.create :issue_priority, color: FactoryBot.create(:color, hexcode: '#123456') }
@@ -62,48 +63,66 @@ describe 'Work package timeline navigation',
     login_as(user)
     wp_table.visit!
     wp_table.expect_work_package_listed wp_1, wp_2
-
-    # Enable card representation
-    display_representation.switch_to_card_layout
-    expect(page).to have_selector(".wp-card[data-work-package-id='#{wp_1.id}']")
-    expect(page).to have_selector(".wp-card[data-work-package-id='#{wp_2.id}']")
   end
 
-  it 'can switch the representations and keep the configuration settings' do
-    # Enable highlighting
-    highlighting.switch_entire_row_highlight "Priority"
-    within ".wp-card[data-work-package-id='#{wp_1.id}']" do
-      expect(page).to have_selector(".wp-card--highlighting.__hl_background_priority_#{priority1.id}")
-    end
-    within ".wp-card[data-work-package-id='#{wp_2.id}']" do
-      expect(page).to have_selector(".wp-card--highlighting.__hl_background_priority_#{priority2.id}")
+  context 'switching to card view' do
+    before do
+      # Enable card representation
+      display_representation.switch_to_card_layout
+      expect(page).to have_selector(".wp-card[data-work-package-id='#{wp_1.id}']")
+      expect(page).to have_selector(".wp-card[data-work-package-id='#{wp_2.id}']")
     end
 
-    # Switch back to list representation & Highlighting is kept
-    display_representation.switch_to_list_layout
-    wp_table.expect_work_package_listed wp_1, wp_2
-    expect(page).to have_selector("#{wp_table.row_selector(wp_1)}.__hl_background_priority_#{priority1.id}")
-    expect(page).to have_selector("#{wp_table.row_selector(wp_2)}.__hl_background_priority_#{priority2.id}")
+    it 'can switch the representations and keep the configuration settings' do
+      # Enable highlighting
+      highlighting.switch_entire_row_highlight "Priority"
+      within ".wp-card[data-work-package-id='#{wp_1.id}']" do
+        expect(page).to have_selector(".wp-card--highlighting.__hl_background_priority_#{priority1.id}")
+      end
+      within ".wp-card[data-work-package-id='#{wp_2.id}']" do
+        expect(page).to have_selector(".wp-card--highlighting.__hl_background_priority_#{priority2.id}")
+      end
 
-    # Change attribute
-    highlighting.switch_entire_row_highlight "Status"
-    expect(page).to have_selector("#{wp_table.row_selector(wp_1)}.__hl_background_status_#{status.id}")
-    expect(page).to have_selector("#{wp_table.row_selector(wp_2)}.__hl_background_status_#{status.id}")
+      # Switch back to list representation & Highlighting is kept
+      display_representation.switch_to_list_layout
+      wp_table.expect_work_package_listed wp_1, wp_2
+      expect(page).to have_selector("#{wp_table.row_selector(wp_1)}.__hl_background_priority_#{priority1.id}")
+      expect(page).to have_selector("#{wp_table.row_selector(wp_2)}.__hl_background_priority_#{priority2.id}")
 
-    # Switch back to card representation & Highlighting is kept, too
-    display_representation.switch_to_card_layout
-    within ".wp-card[data-work-package-id='#{wp_1.id}']" do
-      expect(page).to have_selector(".wp-card--highlighting.__hl_background_status_#{status.id}")
+      # Change attribute
+      highlighting.switch_entire_row_highlight "Status"
+      expect(page).to have_selector("#{wp_table.row_selector(wp_1)}.__hl_background_status_#{status.id}")
+      expect(page).to have_selector("#{wp_table.row_selector(wp_2)}.__hl_background_status_#{status.id}")
+
+      # Switch back to card representation & Highlighting is kept, too
+      display_representation.switch_to_card_layout
+      within ".wp-card[data-work-package-id='#{wp_1.id}']" do
+        expect(page).to have_selector(".wp-card--highlighting.__hl_background_status_#{status.id}")
+      end
+      within ".wp-card[data-work-package-id='#{wp_2.id}']" do
+        expect(page).to have_selector(".wp-card--highlighting.__hl_background_status_#{status.id}")
+      end
     end
-    within ".wp-card[data-work-package-id='#{wp_2.id}']" do
-      expect(page).to have_selector(".wp-card--highlighting.__hl_background_status_#{status.id}")
+
+    it 'saves the representation in the query' do
+      # After refresh the WP are still disaplyed as cards
+      page.driver.browser.navigate.refresh
+      expect(page).to have_selector(".wp-card[data-work-package-id='#{wp_1.id}']")
+      expect(page).to have_selector(".wp-card[data-work-package-id='#{wp_2.id}']")
     end
   end
 
-  it 'saves the representation in the query' do
-    # After refresh the WP are still disaplyed as cards
-    page.driver.browser.navigate.refresh
-    expect(page).to have_selector(".wp-card[data-work-package-id='#{wp_1.id}']")
-    expect(page).to have_selector(".wp-card[data-work-package-id='#{wp_2.id}']")
+  context 'when reordering an unsaved query' do
+    it 'retains that order' do
+      wp_table.expect_work_package_order wp_1, wp_2
+
+      wp_table.drag_and_drop_work_package from: 1, to: 0
+
+      wp_table.expect_work_package_order wp_2, wp_1
+
+      display_representation.switch_to_card_layout
+
+      cards.expect_work_package_order wp_2, wp_1
+    end
   end
 end

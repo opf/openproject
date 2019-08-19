@@ -94,10 +94,10 @@ export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
         linkText: this.I18n.t('js.views.timeline'),
         icon: 'icon-view-timeline',
         onClick: (evt:any) => {
-          this.wpDisplayRepresentationService.setDisplayRepresentation(wpDisplayListRepresentation);
           if (!this.wpTableTimeline.isVisible) {
             this.wpTableTimeline.toggle();
           }
+          this.wpDisplayRepresentationService.setDisplayRepresentation(wpDisplayListRepresentation);
           return true;
         }
       }
