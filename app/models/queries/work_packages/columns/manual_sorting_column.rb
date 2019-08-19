@@ -34,7 +34,7 @@ class Queries::WorkPackages::Columns::ManualSortingColumn < Queries::WorkPackage
   def initialize
     super :manual_sorting,
           default_order: 'asc',
-          sortable: "ordered_work_packages.position NULLS LAST"
+          sortable: "#{OrderedWorkPackage.table_name}.position NULLS LAST, #{WorkPackage.table_name}.id"
   end
 
   def sortable_join_statement(query)
