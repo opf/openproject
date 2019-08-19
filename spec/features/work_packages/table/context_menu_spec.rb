@@ -47,7 +47,7 @@ describe 'Work package table context menu', js: true do
 
         # Open Move
         goto_context_menu list_view
-        menu.choose('Move')
+        menu.choose('Change project')
         expect(page).to have_selector('h2', text: I18n.t(:button_move))
         expect(page).to have_selector('a.issue', text: "##{work_package.id}")
 
@@ -100,7 +100,7 @@ describe 'Work package table context menu', js: true do
 
         menu.open_for(work_package, list_view)
         menu.expect_options ['Open details view', 'Open fullscreen view',
-                             'Bulk edit', 'Bulk copy', 'Bulk move', 'Bulk delete']
+                             'Bulk edit', 'Bulk copy', 'Bulk change of project', 'Bulk delete']
       end
     end
   end
