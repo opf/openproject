@@ -56,6 +56,11 @@ export class TableDragActionService {
    * @param backToDefault: Shall the modifications be made undone
    */
   public changeShadowElement(shadowElement:HTMLElement, backToDefault:boolean = false) {
-    return false;
+    if (backToDefault) {
+      shadowElement.classList.remove('-dragged');
+    } else {
+      shadowElement.classList.add('-dragged');
+    }
+    return true;
   }
 }

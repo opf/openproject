@@ -30,36 +30,6 @@ export class HierarchyDragActionService extends TableDragActionService {
   }
 
   /**
-   * Indent the shadow element according to the hierarchy level it would be dropped
-   * @param shadowElement
-   * @param backToDefault
-   */
-  public changeShadowElement(shadowElement:HTMLElement, backToDefault:boolean = false) {
-    if (backToDefault) {
-      // Overwrite the indentation back to the original value
-      let hierarchyElement = jQuery(shadowElement).find('.wp-table--hierarchy-span')[0];
-      hierarchyElement.style.width = hierarchyElement.dataset.indentation!;
-      return true;
-    }
-
-    let parent = this.determineParent(shadowElement);
-    let shadowElementHierarchySpan =  jQuery(shadowElement).find('.wp-table--hierarchy-span')[0];
-    let shadowElementIndent:string;
-
-    if (parent) {
-      // When there is a parent, the shadow element is indented accordingly
-      let parentHierarchySpan = jQuery(parent.el).find('.wp-table--hierarchy-span')[0] as HTMLElement;
-      shadowElementIndent = parentHierarchySpan.offsetWidth + 20 + 'px';
-    } else {
-      // Otherwise the original indentation is applied
-      shadowElementIndent = '25px';
-    }
-
-    shadowElementHierarchySpan.style.width = shadowElementIndent;
-    return true;
-  }
-
-  /**
    * Find an applicable parent element from the hierarchy information in the table.
    * @param el
    */
