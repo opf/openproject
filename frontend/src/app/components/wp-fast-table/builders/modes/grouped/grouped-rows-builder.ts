@@ -72,7 +72,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
     const rendered = this.querySpace.rendered.value!;
     const builder = new GroupHeaderBuilder(this.injector);
 
-    jQuery(this.workPackageTable.container)
+    jQuery(this.workPackageTable.tableAndTimelineContainer)
       .find(`.${rowGroupClassName}`)
       .each((i:number, oldRow:Element) => {
       let groupIndex = jQuery(oldRow).data('groupIndex');

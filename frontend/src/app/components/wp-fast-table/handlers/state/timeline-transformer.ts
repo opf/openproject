@@ -27,7 +27,7 @@ export class TimelineTransformer {
    * Update all currently visible rows to match the selection state.
    */
   private renderVisibility(visible:boolean) {
-    const container = jQuery(this.table.container).parent();
+    const container = jQuery(this.table.tableAndTimelineContainer).parent();
     container.find('.work-packages-tabletimeline--timeline-side').toggle(visible);
     container.find('.work-packages-tabletimeline--table-side').toggleClass('-timeline-visible', visible);
   }

@@ -54,7 +54,7 @@ export class DragAndDropTransformer {
 
     this.dragService.register({
       dragContainer: this.table.tbody,
-      scrollContainers: [this.table.container],
+      scrollContainers: [this.table.scrollContainer],
       accepts: () => true,
       moves: (el:any, source:any, handle:HTMLElement) => {
         if (!handle.classList.contains('wp-table--drag-and-drop-handle')) {

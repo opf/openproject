@@ -185,10 +185,24 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     this.wpTableHoverSync.deactivate();
   }
 
-  public registerTimeline(controller:WorkPackageTimelineTableController, body:HTMLElement) {
+  public registerTimeline(controller:WorkPackageTimelineTableController, timelineBody:HTMLElement) {
     const tbody = this.$element.find('.work-package--results-tbody');
     const scrollContainer = this.$element.find('.work-package-table--container')[0];
-    this.workPackageTable = new WorkPackageTable(this.injector, scrollContainer, tbody[0], body, controller, this.configuration);
+    this.workPackageTable = new WorkPackageTable(
+      this.injector,
+      // Outer container for both table + Timeline
+      this.$element[0],
+      // Scroll container for the table/timeline
+      scrollContainer,
+      // Table tbody to insert into
+      tbody[0],
+      // Timeline body to insert into
+      timelineBody,
+      // Timeline controller
+      controller,
+      // Table configuration
+      this.configuration
+    );
     this.tbody = tbody;
     controller.workPackageTable = this.workPackageTable;
     new TableHandlerRegistry(this.injector).attachTo(this.workPackageTable);

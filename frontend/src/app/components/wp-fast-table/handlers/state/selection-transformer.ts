@@ -57,7 +57,7 @@ export class SelectionTransformer {
    * Update all currently visible rows to match the selection state.
    */
   private renderSelectionState(state:WorkPackageViewSelectionState) {
-    const context = jQuery(this.table.container);
+    const context = jQuery(this.table.tableAndTimelineContainer);
 
     context.find(`.${tableRowClassName}.${checkedClassName}`).removeClass(checkedClassName);
 

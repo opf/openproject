@@ -25,6 +25,10 @@ export class ContextMenuRightClickHandler extends ContextMenuHandler {
     return `.${tableRowClassName},.${timelineCellClassName}`;
   }
 
+  public eventScope(table:WorkPackageTable) {
+    return jQuery(table.tableAndTimelineContainer);
+  }
+
   public handleEvent(table:WorkPackageTable, evt:JQueryEventObject):boolean {
     if (!table.configuration.contextMenuEnabled) {
       return false;
