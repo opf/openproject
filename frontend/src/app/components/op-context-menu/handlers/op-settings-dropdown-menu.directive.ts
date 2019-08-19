@@ -174,6 +174,45 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
         }
       },
       {
+        // Insert columns
+        linkText: this.I18n.t('js.work_packages.query.insert_columns'),
+        icon: 'icon-columns',
+        onClick: () => {
+          this.opModalService.show<WpTableConfigurationModalComponent>(
+            WpTableConfigurationModalComponent,
+            this.injector,
+            { initialTab: 'columns' }
+          );
+          return true;
+        }
+      },
+      {
+        // Sort by
+        linkText: this.I18n.t('js.toolbar.settings.sort_by'),
+        icon: 'icon-sort-by',
+        onClick: () => {
+          this.opModalService.show<WpTableConfigurationModalComponent>(
+            WpTableConfigurationModalComponent,
+            this.injector,
+            { initialTab: 'sort-by' }
+          );
+          return true;
+        }
+      },
+      {
+        // Group by
+        linkText: this.I18n.t('js.toolbar.settings.group_by'),
+        icon: 'icon-group-by',
+        onClick: () => {
+          this.opModalService.show<WpTableConfigurationModalComponent>(
+            WpTableConfigurationModalComponent,
+            this.injector,
+            { initialTab: 'display-settings' }
+          );
+          return true;
+        }
+      },
+      {
         // Rename query shortcut
         disabled: !this.query.id || this.authorisationService.cannot('query', 'updateImmediately'),
         linkText: this.I18n.t('js.toolbar.settings.page_settings'),

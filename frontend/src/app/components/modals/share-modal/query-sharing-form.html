@@ -1,4 +1,4 @@
-<div class="form--field -wide-label">
+<div class="form--field">
   <div class="form--field-container -vertical">
     <label class="form--label-with-check-box">
       <div class="form--check-box-container">
@@ -12,6 +12,8 @@
       </div>
       {{ text.visibleForOthers }}
     </label>
+    <div class="form--field-instructions" [textContent]="text.visibleForOthersText"></div>
+
     <label class="form--label-with-check-box">
       <div class="form--check-box-container">
         <input type="checkbox"
@@ -24,5 +26,6 @@
       </div>
       {{ text.showInMenu }}
     </label>
+    <div class="form--field-instructions" [textContent]="text.showInMenuText"></div>
   </div>
 </div>
