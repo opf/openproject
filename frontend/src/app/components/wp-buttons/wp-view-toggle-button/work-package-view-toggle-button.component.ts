@@ -26,65 +26,47 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {AbstractWorkPackageButtonComponent} from '../wp-buttons.module';
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
-import {StateService} from "@uirouter/core";
 import {
-  WorkPackageViewDisplayRepresentationService, wpDisplayCardRepresentation,
+  WorkPackageViewDisplayRepresentationService,
+  wpDisplayCardRepresentation,
   wpDisplayListRepresentation
 } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 
 
 @Component({
   template: `
-<ul class="toolbar-button-group">
-  <li>
-    <button class="button"
-            type="button"
-            [ngClass]="{ '-active': inListView }"
-            [disabled]="inListView"
-            id="wp-view-toggle-button--list"
-            [attr.title]="listLabel"
-            [attr.accesskey]="accessKey"
-            (accessibleClick)="performAction($event)">
-      <op-icon icon-classes="{{ iconListView }} button--icon"></op-icon>
-    </button>
-  </li>
-  <li>
-    <button class="button"
-            [ngClass]="{ '-active': !inListView }"
-            id="wp-view-toggle-button--card"
-            [attr.title]="cardLabel"
-            [disabled]="!inListView"
-            (click)="performAction($event)">
-      <op-icon icon-classes="{{ iconCardView }} button--icon"></op-icon>
-    </button>
-  </li>
-</ul>
+      <button class="button"
+              id="wp-view-toggle-button"
+              wpViewDropdown>
+        <op-icon icon-classes="button--icon icon-view-{{view}}"></op-icon>
+        <span class="button--text"
+              aria-hidden="true"
+              [textContent]="text[view]">
+        </span>
+        <op-icon icon-classes="button--icon icon-small icon-pulldown"></op-icon>
+      </button>
 `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'wp-view-toggle-button',
 })
-export class WorkPackageViewToggleButton extends AbstractWorkPackageButtonComponent implements OnInit, OnDestroy {
-  public iconListView:string = 'icon-view-list';
-  public iconCardView:string = 'icon-view-card';
+export class WorkPackageViewToggleButton implements OnInit, OnDestroy {
+  public view:string;
 
-  public inListView:boolean = true;
+  public text:any = {
+    card: this.I18n.t('js.views.card'),
+    list: this.I18n.t('js.views.list'),
+    timeline: this.I18n.t('js.views.timeline'),
+  };
 
-  public cardLabel:string;
-  public listLabel:string;
-
-  constructor(readonly $state:StateService,
-              readonly I18n:I18nService,
+  constructor(readonly I18n:I18nService,
               readonly cdRef:ChangeDetectorRef,
-              readonly wpDisplayRepresentationService:WorkPackageViewDisplayRepresentationService) {
-    super(I18n);
-
-    this.cardLabel = I18n.t('js.button_card_list');
-    this.listLabel = I18n.t('js.button_show_list');
+              readonly wpDisplayRepresentationService:WorkPackageViewDisplayRepresentationService,
+              readonly wpTableTimeline:WorkPackageViewTimelineService) {
   }
 
   ngOnInit() {
@@ -93,40 +75,26 @@ export class WorkPackageViewToggleButton extends AbstractWorkPackageButtonCompon
         untilComponentDestroyed(this)
       )
       .subscribe(() => {
-        this.inListView = this.wpDisplayRepresentationService.current !== wpDisplayCardRepresentation;
+        this.detectView();
         this.cdRef.detectChanges();
       });
   }
 
   ngOnDestroy() {
-    //
+    // Nothing to do
   }
 
-  public performAction(evt:Event):false {
-    if (this.inListView) {
-      this.activateCardView();
+  public detectView() {
+    if (this.wpDisplayRepresentationService.current !== wpDisplayCardRepresentation) {
+      if (this.wpTableTimeline.isVisible) {
+        this.view = 'timeline';
+      } else {
+        this.view = wpDisplayListRepresentation;
+      }
     } else {
-      this.activateListView();
+      this.view = wpDisplayCardRepresentation;
     }
-
-    evt.preventDefault();
-    return false;
   }
-
-  private activateCardView() {
-    this.inListView = false;
-    this.wpDisplayRepresentationService.setDisplayRepresentation(wpDisplayCardRepresentation);
-
-    this.cdRef.detectChanges();
-  }
-
-  private activateListView() {
-    this.inListView = true;
-    this.wpDisplayRepresentationService.setDisplayRepresentation(wpDisplayListRepresentation);
-
-    this.cdRef.detectChanges();
-  }
-
 }
 
 DynamicBootstrapper.register({ selector: 'wp-view-toggle-button', cls: WorkPackageViewToggleButton });

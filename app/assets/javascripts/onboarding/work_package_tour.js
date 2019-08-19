@@ -37,16 +37,18 @@
                             resolve();
                         });
                     });
-
+                },
+                onNext: function () {
+                    $('#wp-view-toggle-button').click();
                 }
             },
             {
-                'next .timeline-toolbar--button': I18n.t('js.onboarding.steps.wp.timeline_button'),
+                'next #wp-view-toggle-button': I18n.t('js.onboarding.steps.wp.timeline_button'),
                 'showSkip': false,
                 'nextButton': {text: I18n.t('js.onboarding.buttons.next')},
-                'shape': 'circle',
+                'bottom': '-100',
                 onNext: function () {
-                    $('.timeline-toolbar--button')[0].click();
+                    $('#wp-view-context-menu .icon-view-timeline')[0].click();
                 }
             },
             {

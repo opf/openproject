@@ -30,18 +30,16 @@ import {KeepTabService} from '../../wp-single-view-tabs/keep-tab/keep-tab.servic
 import {States} from '../../states.service';
 import {WorkPackageViewFocusService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import {StateService, TransitionService} from '@uirouter/core';
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
 import {AbstractWorkPackageButtonComponent} from 'core-components/wp-buttons/wp-buttons.module';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {WorkPackageViewDisplayRepresentationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 
 @Component({
   templateUrl: '../wp-button.template.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'wp-details-view-button',
 })
-export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageButtonComponent implements OnInit, OnDestroy {
+export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageButtonComponent implements OnDestroy {
   public projectIdentifier:string;
   public accessKey:number = 8;
   public activeState:string = 'work-packages.list.details';
@@ -62,9 +60,7 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
     readonly cdRef:ChangeDetectorRef,
     public states:States,
     public wpTableFocus:WorkPackageViewFocusService,
-    public keepTab:KeepTabService,
-    public wpDisplayRepresentationService:WorkPackageViewDisplayRepresentationService) {
-
+    public keepTab:KeepTabService) {
     super(I18n);
 
     this.activateLabel = I18n.t('js.button_open_details');
@@ -74,16 +70,6 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
       this.isActive = this.$state.includes(this.activeState);
       this.cdRef.detectChanges();
     });
-  }
-
-  public ngOnInit() {
-    this.wpDisplayRepresentationService.live$()
-      .pipe(
-        untilComponentDestroyed(this)
-      )
-      .subscribe(() => {
-        this.cdRef.detectChanges();
-      });
   }
 
   public ngOnDestroy() {

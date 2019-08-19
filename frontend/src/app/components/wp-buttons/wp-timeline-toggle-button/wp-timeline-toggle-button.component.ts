@@ -31,10 +31,6 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {TimelineZoomLevel} from 'core-app/modules/hal/resources/query-resource';
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {
-  WorkPackageViewDisplayRepresentationService,
-  wpDisplayCardRepresentation
-} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 
 export interface TimelineButtonText extends ButtonControllerText {
@@ -67,8 +63,7 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
 
   constructor(readonly I18n:I18nService,
               readonly cdRef:ChangeDetectorRef,
-              public wpTableTimeline:WorkPackageViewTimelineService,
-              public wpDisplayRepresentationService:WorkPackageViewDisplayRepresentationService) {
+              public wpTableTimeline:WorkPackageViewTimelineService) {
     super(I18n);
 
     this.activateLabel = I18n.t('js.timelines.button_activate');
@@ -100,15 +95,6 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
       .subscribe((current) => {
         this.isMaxLevel = current === this.maxZoomLevel;
         this.isMinLevel = current === this.minZoomLevel;
-        this.cdRef.detectChanges();
-      });
-
-    this.wpDisplayRepresentationService.live$()
-      .pipe(
-        untilComponentDestroyed(this)
-      )
-      .subscribe(() => {
-        this.disabled = this.wpDisplayRepresentationService.current === wpDisplayCardRepresentation;
         this.cdRef.detectChanges();
       });
   }
