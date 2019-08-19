@@ -11,16 +11,16 @@ in OpenProject you can create multiple projects to collaborate with your team me
 
 Your projects can be available publicly or internally. OpenProject does not limit the number of projects, neither in the Community nor in the Cloud or Enterprise Edition.
 
-| Feature                                                   | Documentation for                                            |
-| --------------------------------------------------------- | ------------------------------------------------------------ |
-| [Create a new project](./getting-started/#create-project) | Find out how to create a new project in OpenProject.         |
-| [Project structure](#project-structure)                   | Find out how to set up a project structure.                  |
-| [Select a project](#select-a-project)                     | Open a project which you want to work at.                    |
-| [Project settings](#project-settings)                     | Configure further settings for your projects, such as description, project hierarchy structure, or setting it to public. |
-| Change the project hierarchy                              |                                                              |
-| Set a project to public                                   |                                                              |
-| Copy a project                                            |                                                              |
-| Create a project template                                 |                                                              |
+| Feature                                                      | Documentation for                                            |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [Create a new project](./getting-started/#create-project)    | Find out how to create a new project in OpenProject.         |
+| [Project structure](#project-structure)                      | Find out how to set up a project structure.                  |
+| [Select a project](#select-a-project)                        | Open a project which you want to work at.                    |
+| [Project settings](#project-settings)                        | Configure further settings for your projects, such as description, project hierarchy structure, or setting it to public. |
+| [Change the project hierarchy](#change-the-project-hierarchy) | You can change the hierarchy by selecting the parent parent (subproject of). |
+| [Set a project to public](#set-a-project-to-public)          | Set a project to public to have it accessible without signing-in. |
+| [Copy a project](#copy-a-project)                            | Copy an existing project.                                    |
+| [Create a project template](#create-a-project-template)      | You can create a project template and use it for future projects. |
 
 ## Create a new project
 
