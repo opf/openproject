@@ -1,11 +1,11 @@
 ---
-title: Configure Work Package Types
-description: Configure Work Package Types in OpenProject
+title: Help texts
+description: Manage help texts for work package attributes in OpenProject
 robots: index, follow
-keywords: work package types
+keywords: help texts
 ---
 
-# Configure Work Package Types
+# Help texts
 
 XX
 

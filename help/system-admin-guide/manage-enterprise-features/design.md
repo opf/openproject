@@ -1,11 +1,11 @@
 ---
-title: Configure Work Package Types
-description: Configure Work Package Types in OpenProject
+title: Design (Custom theme and logo)
+description: Manage your design with custom theme and logo in OpenProject
 robots: index, follow
-keywords: work package types
+keywords: design, custom theme, logo
 ---
 
-# Configure Work Package Types
+# Design (Custom theme and logo)
 
 XX
 
