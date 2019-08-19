@@ -38,9 +38,9 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
 
   let(:work_package) do
     FactoryBot.create :work_package,
-                       project: project,
-                       start_date: Date.today,
-                       due_date: (Date.today + 5.days)
+                      project: project,
+                      start_date: Date.today,
+                      due_date: (Date.today + 5.days)
   end
 
   before do
@@ -55,18 +55,18 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
 
     let!(:work_package) do
       FactoryBot.create :work_package,
-                         project: project,
-                         type: type
+                        project: project,
+                        type: type
     end
 
     let!(:work_package2) do
       FactoryBot.create :work_package,
-                         project: project,
-                         type: type2
+                        project: project,
+                        type: type2
     end
 
     let!(:query) do
-      query              = FactoryBot.build(:query, user: user, project: project)
+      query = FactoryBot.build(:query, user: user, project: project)
       query.column_names = ['id', 'type', 'subject']
       query.filters.clear
       query.timeline_visible = false
@@ -78,7 +78,7 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
     end
 
     let!(:query_tl) do
-      query              = FactoryBot.build(:query, user: user, project: project)
+      query = FactoryBot.build(:query, user: user, project: project)
       query.column_names = ['id', 'type', 'subject']
       query.filters.clear
       query.add_filter('type_id', '=', [type2.id])
@@ -109,6 +109,20 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
       wp_timeline.expect_timeline!(open: true)
       wp_timeline.expect_work_package_listed work_package2
       wp_timeline.ensure_work_package_not_listed! work_package
+    end
+
+    it 'can open a context menu in the timeline (Regression #30761)' do
+      # Visit timeline query
+      wp_timeline.visit_query query_tl
+
+      wp_timeline.expect_timeline!(open: true)
+      wp_timeline.expect_work_package_listed work_package2
+      wp_timeline.ensure_work_package_not_listed! work_package
+
+      page.find(".wp-row-#{work_package2.id}-timeline").right_click
+
+      expect(page).to have_selector('.menu-item', text: 'Add predecessor')
+      expect(page).to have_selector('.menu-item', text: 'Add follower')
     end
   end
 
@@ -167,10 +181,10 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
   describe 'with a hierarchy being shown' do
     let!(:child_work_package) do
       FactoryBot.create :work_package,
-                         project: project,
-                         parent: work_package,
-                         start_date: Date.today,
-                         due_date: (Date.today + 5.days)
+                        project: project,
+                        parent: work_package,
+                        start_date: Date.today,
+                        due_date: (Date.today + 5.days)
     end
     let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
 
@@ -209,32 +223,32 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
 
     let!(:wp_cat1) do
       FactoryBot.create :work_package,
-                         project: project,
-                         category: category,
-                         start_date: Date.today,
-                         due_date: (Date.today + 5.days)
+                        project: project,
+                        category: category,
+                        start_date: Date.today,
+                        due_date: (Date.today + 5.days)
     end
     let!(:wp_cat2) do
       FactoryBot.create :work_package,
-                         project: project,
-                         category: category2,
-                         start_date: Date.today + 5.days,
-                         due_date: (Date.today + 10.days)
+                        project: project,
+                        category: category2,
+                        start_date: Date.today + 5.days,
+                        due_date: (Date.today + 10.days)
     end
     let!(:wp_none) do
       FactoryBot.create :work_package,
-                         project: project
+                        project: project
     end
 
     let!(:relation) do
       FactoryBot.create(:relation,
-                         from: wp_cat1,
-                         to: wp_cat2,
-                         relation_type: Relation::TYPE_FOLLOWS)
+                        from: wp_cat1,
+                        to: wp_cat2,
+                        relation_type: Relation::TYPE_FOLLOWS)
     end
 
     let!(:query) do
-      query              = FactoryBot.build(:query, user: user, project: project)
+      query = FactoryBot.build(:query, user: user, project: project)
       query.column_names = ['id', 'subject', 'category']
       query.show_hierarchies = false
       query.timeline_visible = true

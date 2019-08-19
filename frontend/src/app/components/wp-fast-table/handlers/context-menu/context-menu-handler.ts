@@ -22,7 +22,7 @@ export abstract class ContextMenuHandler implements TableEventHandler {
   public abstract get SELECTOR():string;
 
   public eventScope(table:WorkPackageTable) {
-    return jQuery(table.container);
+    return jQuery(table.tableAndTimelineContainer);
   }
 
   public abstract handleEvent(table:WorkPackageTable, evt:JQueryEventObject):boolean;

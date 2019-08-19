@@ -21,7 +21,7 @@ export class RelationsCellHandler extends ClickOrEnterHandler implements TableEv
   }
 
   public eventScope(table:WorkPackageTable) {
-    return jQuery(table.container);
+    return jQuery(table.tableAndTimelineContainer);
   }
 
   constructor(public readonly injector:Injector,

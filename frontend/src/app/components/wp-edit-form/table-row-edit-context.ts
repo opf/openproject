@@ -140,6 +140,6 @@ export class TableRowEditContext implements WorkPackageEditContext {
   }
 
   private get rowContainer() {
-    return jQuery(this.table.container).find(`.${this.classIdentifier}-table`);
+    return jQuery(this.table.tableAndTimelineContainer).find(`.${this.classIdentifier}-table`);
   }
 }

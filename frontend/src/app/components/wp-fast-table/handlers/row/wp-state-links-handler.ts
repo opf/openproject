@@ -32,7 +32,7 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
   }
 
   public eventScope(table:WorkPackageTable) {
-    return jQuery(table.container);
+    return jQuery(table.tableAndTimelineContainer);
   }
 
   protected workPackage:WorkPackageResource;

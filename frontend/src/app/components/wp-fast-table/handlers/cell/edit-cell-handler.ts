@@ -30,7 +30,7 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
   }
 
   public eventScope(table:WorkPackageTable) {
-    return jQuery(table.container);
+    return jQuery(table.tableAndTimelineContainer);
   }
 
   constructor(public readonly injector:Injector, table:WorkPackageTable) {

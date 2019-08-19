@@ -47,7 +47,8 @@ export class WorkPackageTable {
   public editing:WorkPackageTableEditingContext = new WorkPackageTableEditingContext(this, this.injector);
 
   constructor(public readonly injector:Injector,
-              public container:HTMLElement,
+              public tableAndTimelineContainer:HTMLElement,
+              public scrollContainer:HTMLElement,
               public tbody:HTMLElement,
               public timelineBody:HTMLElement,
               public timelineController:WorkPackageTimelineTableController,
