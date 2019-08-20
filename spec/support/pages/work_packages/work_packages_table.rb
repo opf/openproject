@@ -212,6 +212,22 @@ module Pages
         .click_and_hold(source.find('.wp-table--drag-and-drop-handle', visible: false).native)
         .perform
 
+      ## Hover over each row to be sure,
+      # that the dragged element is reduced to the minimum height.
+      # Thus we can afterwards drag to the correct position.
+      rows.each do |row|
+        next if row == source
+
+        page
+          .driver
+          .browser
+          .action
+          .move_to(row.native)
+          .perform
+      end
+
+      sleep 2
+
       scroll_to_element(target)
 
       page
