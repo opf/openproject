@@ -38,12 +38,12 @@ export class GridResizeService {
 
     let resizeTargets = this.layout.gridAreas.filter((area) => {
       return area.startRow >= this.placeholderArea!.startRow &&
-        area.startColumn >= this.placeholderArea!.startColumn;
+        area.startColumn >= this.placeholderArea!.startColumn &&
+        !this.layout.isGap(area);
     });
 
-    this.targetIds = resizeTargets.map((area) => {
-      return area.guid;
-    });
+    this.targetIds = resizeTargets
+                     .map(area => area.guid);
   }
 
   public moving(deltas:ResizeDelta) {

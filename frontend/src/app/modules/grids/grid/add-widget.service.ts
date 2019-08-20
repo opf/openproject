@@ -27,16 +27,10 @@ export class GridAddWidgetService {
     return !this.drag.currentlyDragging &&
       !this.resize.currentlyResizing &&
       this.layout.mousedOverArea === area &&
-      this.layout.gridAreaIds.includes(area.guid) &&
       this.isAllowed;
   }
 
   public widget(area:GridArea, schema:SchemaResource) {
-    //let targetArea = area;
-    //if (this.layout.isGap(targetArea)) {
-
-    //}
-
     this
       .select(area, schema)
       .then((widgetResource) => {

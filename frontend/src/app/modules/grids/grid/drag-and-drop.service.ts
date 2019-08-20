@@ -16,7 +16,7 @@ export class GridDragAndDropService {
   }
 
   public entered(event:CdkDragEnter<GridArea>) {
-    if (this.draggedArea) {
+    if (this.draggedArea && !this.layout.isGap(event.container.data)) {
       let dropArea = event.container.data;
       this.layout.resetAreas(this.draggedArea);
       this.moveAreasOnDragging(dropArea);
@@ -30,19 +30,7 @@ export class GridDragAndDropService {
     let widgetArea = this.draggedArea!;
 
     // we cannot use the widget's original area as moving it while dragging confuses cdkDrag
-    this.placeholderArea.startRow = dropArea.startRow;
-    if (this.placeholderArea.startRow + this.placeholderArea.widget.height > this.layout.numRows + 1) {
-      this.placeholderArea.endRow = this.layout.numRows + 1;
-    } else {
-      this.placeholderArea.endRow = dropArea.startRow + this.placeholderArea.widget.height;
-    }
-
-    this.placeholderArea.startColumn = dropArea.startColumn;
-    if (this.placeholderArea.startColumn + this.placeholderArea.widget.width > this.layout.numColumns + 1) {
-      this.placeholderArea.endColumn = this.layout.numColumns + 1;
-    } else {
-      this.placeholderArea.endColumn = dropArea.startColumn + this.placeholderArea.widget.width;
-    }
+    this.copyPositionButRestrict(dropArea, this.placeholderArea);
 
     this.move.down(this.placeholderArea, widgetArea);
   }
@@ -82,23 +70,27 @@ export class GridDragAndDropService {
     // to the drop zone ones.
     // The dragged Area should keep it's height and width normally but will
     // shrink if the area would otherwise end outside the grid.
-    draggedArea.startRow = dropArea.startRow;
-    if (dropArea.startRow + draggedArea.widget.height > this.layout.numRows + 1) {
-      draggedArea.endRow = this.layout.numRows + 1;
-    } else {
-      draggedArea.endRow = dropArea.startRow + draggedArea.widget.height;
-    }
-
-    draggedArea.startColumn = dropArea.startColumn;
-    if (dropArea.startColumn + draggedArea.widget.width > this.layout.numColumns + 1) {
-      draggedArea.endColumn = this.layout.numColumns + 1;
-    } else {
-      draggedArea.endColumn = dropArea.startColumn + draggedArea.widget.width;
-    }
+    this.copyPositionButRestrict(dropArea, draggedArea);
 
     this.layout.cleanupUnusedAreas();
     this.layout.writeAreaChangesToWidgets();
     this.layout.buildAreas();
+  }
+
+  private copyPositionButRestrict(source:GridArea, sink:GridWidgetArea) {
+    sink.startRow = source.startRow;
+    if (source.startRow + sink.widget.height > this.layout.numRows * 2 + 1) {
+      sink.endRow = this.layout.numRows + 1;
+    } else {
+      sink.endRow = source.startRow + sink.widget.height;
+    }
+
+    sink.startColumn = source.startColumn;
+    if (source.startColumn + sink.widget.width > this.layout.numColumns * 2 + 1) {
+      sink.endColumn = this.layout.numColumns + 1;
+    } else {
+      sink.endColumn = source.startColumn + sink.widget.width;
+    }
   }
 
 }

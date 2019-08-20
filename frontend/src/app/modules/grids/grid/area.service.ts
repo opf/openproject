@@ -238,12 +238,7 @@ export class GridAreaService {
   public resetAreas(ignoredArea:GridWidgetArea|null = null) {
     this.widgetAreas.filter((area) => {
       return !ignoredArea || area.guid !== ignoredArea.guid;
-    }).forEach((area) => {
-      area.startRow = area.widget.startRow;
-      area.endRow = area.widget.endRow;
-      area.startColumn = area.widget.startColumn;
-      area.endColumn = area.widget.endColumn;
-    });
+    }).forEach(area => area.reset());
 
     this.numRows = this.resource.rowCount;
     this.numColumns = this.resource.columnCount;
@@ -254,9 +249,10 @@ export class GridAreaService {
   }
 
   private buildGridAreaIds() {
-    return this.gridAreas.map((area) => {
-      return area.guid;
-    });
+    return this
+      .gridAreas
+      .filter(area => !this.isGap(area))
+      .map((area) => area.guid);
   }
 
   private fetchSchema() {
