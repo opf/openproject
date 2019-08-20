@@ -59,7 +59,7 @@ describe('WorkPackage', () => {
 
   const createWorkPackage = () => {
     source = source || { id: 'new' };
-    workPackage = halResourceService.createHalResourceOfType('WorkPackage', source);
+    workPackage = halResourceService.createHalResourceOfType('WorkPackage', { ...source });
   };
 
   beforeEach(async(() => {
@@ -113,34 +113,24 @@ describe('WorkPackage', () => {
   describe('when retrieving `canAddAttachment`', () => {
     beforeEach(createWorkPackage);
 
-    const expectValue = (value:any, prepare:any = () => undefined) => {
-      beforeEach(prepare);
-      it('should be ' + value, () => {
-        expect(workPackage.canAddAttachments).toEqual(value);
-      });
-    };
-
-    describe('when the work package is new', () => {
-      expectValue(true);
+    it('should be true for new work packages', () => {
+      expect(workPackage.canAddAttachments).toEqual(true);
     });
 
-    describe('when the work package is not new', () => {
-      expectValue(false, () => {
-        workPackage.$source.id = 420;
-      });
+    it('when work package is not new', () => {
+      workPackage.$source.id = 420;
+      expect(workPackage.canAddAttachments).toEqual(false);
     });
 
-    describe('when the work work package has no `addAttachment` link and is not new', () => {
-      expectValue(false, () => {
-        workPackage.$source.id = 69;
-        workPackage.$links.addAttachment = null as any;
-      });
+    it('when the work work package has no `addAttachment` link and is not new', () => {
+      workPackage.$source.id = 69;
+      workPackage.$links.addAttachment = null as any;
+      expect(workPackage.canAddAttachments).toEqual(false);
     });
 
-    describe('when the work work package has an `addAttachment` link', () => {
-      expectValue(true, () => {
-        workPackage.$links.addAttachment = <any> _.noop;
-      });
+    it('when the work work package has an `addAttachment` link', () => {
+      workPackage.$links.addAttachment = <any> _.noop;
+      expect(workPackage.canAddAttachments).toEqual(true);
     });
   });
 

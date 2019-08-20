@@ -30,26 +30,32 @@ import {KeepTabService} from './keep-tab.service';
 import {StateService, Transition} from '@uirouter/core';
 
 describe('keepTab service', () => {
-  var callback:(transition:any) => void;
-  var includes = (path:string) => false;
+  let callback:(transition:any) => void;
+  let includes = (path:string) => false;
+  let $state:any;
+  let $transitions:any;
+  let keepTab:KeepTabService;
+  let defaults:any;
 
-  var $state:any = {
-    current: {
-      name: 'whatever',
-    },
-    includes: includes
-  };
+  beforeEach(() => {
+    $state = {
+      current: {
+        name: 'whatever',
+      },
+      includes: includes
+    };
 
-  var $transitions:any = {
-    onSuccess: (criteria:any, cb:(transition:any) => void) => callback = cb
-  };
+    $transitions = {
+      onSuccess: (criteria:any, cb:(transition:any) => void) => callback = cb
+    };
 
-  var keepTab:KeepTabService = new KeepTabService($state, $transitions);
+    keepTab = new KeepTabService($state, $transitions);
 
-  var defaults = {
-    showTab: 'work-packages.show.activity',
-    detailsTab: 'work-packages.list.details.overview'
-  };
+    defaults = {
+      showTab: 'work-packages.show.activity',
+      detailsTab: 'work-packages.list.details.overview'
+    };
+  });
 
   describe('when initially invoked, or when an unsupported route is opened', () => {
     it('should have the correct default value for the currentShowTab', () => {
