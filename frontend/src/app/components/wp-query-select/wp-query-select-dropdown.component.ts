@@ -281,7 +281,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
           autocompleteUi.show();
         }
       },
-      focus: (_event:JQueryEventObject, ui:{ item:IAutocompleteItem }) => {
+      focus: (_event:JQuery.TriggeredEvent, ui:{ item:IAutocompleteItem }) => {
         let sourceEvent:any|null = _event;
 
         while (sourceEvent && sourceEvent.originalEvent) {
@@ -493,7 +493,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
    */
   private addClickHandler() {
     this.queryResultsContainer
-      .on('click keydown', '.ui-menu-item a', (evt:JQueryEventObject) => {
+      .on('click keydown', '.ui-menu-item a', (evt:JQuery.TriggeredEvent) => {
         if (evt.type === 'keydown' && evt.which !== keyCodes.ENTER) {
           return true;
         }
@@ -527,7 +527,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
 
         return true;
       })
-      .on('click keydown', '.wp-query-menu--category-toggle', (evt:JQueryEventObject) => {
+      .on('click keydown', '.wp-query-menu--category-toggle', (evt:JQuery.TriggeredEvent) => {
         if (evt.type === 'keydown' && evt.which !== keyCodes.ENTER) {
           return true;
         }

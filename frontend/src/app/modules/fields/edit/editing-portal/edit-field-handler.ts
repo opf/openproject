@@ -89,7 +89,7 @@ export abstract class EditFieldHandler {
   /**
    * Stop event propagation
    */
-  public abstract stopPropagation(evt:JQueryEventObject):boolean;
+  public abstract stopPropagation(evt:JQuery.TriggeredEvent):boolean;
 
   /**
    * Focus on the active field.
@@ -108,7 +108,7 @@ export abstract class EditFieldHandler {
    * In an edit mode, we can't derive from a submit event wheteher the user pressed enter
    * (and on what field he did that).
    */
-  public abstract handleUserKeydown(event:JQueryEventObject, onlyCancel?:boolean):void;
+  public abstract handleUserKeydown(event:JQuery.TriggeredEvent, onlyCancel?:boolean):void;
 
   /**
    * Cancel edit

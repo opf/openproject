@@ -65,7 +65,7 @@ import {registerRequestForConfirmation} from "core-app/globals/global-listeners/
     });
 
     // Global beforeunload hook
-    $(window).on('beforeunload', (e:JQueryEventObject) => {
+    $(window).on('beforeunload', (e:JQuery.TriggeredEvent) => {
       const event = e.originalEvent as BeforeUnloadEvent;
       if (window.OpenProject.pageWasEdited && !window.OpenProject.pageIsSubmitted) {
         // Cancel the event

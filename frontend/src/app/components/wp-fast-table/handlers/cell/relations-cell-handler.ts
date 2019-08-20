@@ -29,7 +29,7 @@ export class RelationsCellHandler extends ClickOrEnterHandler implements TableEv
     super();
   }
 
-  protected processEvent(table:WorkPackageTable, evt:JQueryEventObject):boolean {
+  protected processEvent(table:WorkPackageTable, evt:JQuery.TriggeredEvent):boolean {
     debugLog('Handled click on relation cell %o', evt.target);
     evt.preventDefault();
 

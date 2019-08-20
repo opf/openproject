@@ -173,7 +173,7 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
     return this.table && this.table.configuration.hierarchyToggleEnabled;
   }
 
-  toggleHierarchy(evt:JQueryEventObject) {
+  toggleHierarchy(evt:JQuery.TriggeredEvent) {
     if (this.wpTableHierarchies.toggleState()) {
       this.wpTableGroupBy.disable();
     }

@@ -18,7 +18,7 @@ export class ContextMenuKeyboardHandler extends ContextMenuHandler {
     return this.rowSelector;
   }
 
-  public handleEvent(table:WorkPackageTable, evt:JQueryEventObject):boolean {
+  public handleEvent(table:WorkPackageTable, evt:JQuery.TriggeredEvent):boolean {
     if (!table.configuration.contextMenuEnabled) {
       return false;
     }

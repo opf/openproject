@@ -29,7 +29,7 @@ export class GroupRowHandler implements TableEventHandler {
     return jQuery(table.tbody);
   }
 
-  public handleEvent(table:WorkPackageTable, evt:JQueryEventObject) {
+  public handleEvent(table:WorkPackageTable, evt:JQuery.TriggeredEvent) {
     evt.preventDefault();
     evt.stopPropagation();
 

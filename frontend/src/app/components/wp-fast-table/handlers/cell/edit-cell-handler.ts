@@ -8,10 +8,7 @@ import {WorkPackageTable} from '../../wp-fast-table';
 import {ClickOrEnterHandler} from '../click-or-enter-handler';
 import {TableEventHandler} from '../table-handler-registry';
 import {ClickPositionMapper} from "core-app/modules/common/set-click-position/set-click-position";
-import {
-  IWorkPackageEditingService,
-  IWorkPackageEditingServiceToken
-} from "../../../wp-edit-form/work-package-editing.service.interface";
+import {IWorkPackageEditingServiceToken} from "../../../wp-edit-form/work-package-editing.service.interface";
 
 export class EditCellHandler extends ClickOrEnterHandler implements TableEventHandler {
 
@@ -37,7 +34,7 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
     super();
   }
 
-  protected processEvent(table:WorkPackageTable, evt:JQueryEventObject):boolean {
+  protected processEvent(table:WorkPackageTable, evt:JQuery.TriggeredEvent):boolean {
     debugLog('Starting editing on cell: ', evt.target);
     evt.preventDefault();
 

@@ -76,7 +76,7 @@ export class BoardsToolbarMenuDirective extends OpContextMenuTrigger implements 
     };
   }
 
-  protected open(evt:JQueryEventObject) {
+  protected open(evt:JQuery.TriggeredEvent) {
     this.buildItems();
     this.opContextMenu.show(this, evt);
   }
@@ -87,7 +87,7 @@ export class BoardsToolbarMenuDirective extends OpContextMenuTrigger implements 
         // Configuration modal
         linkText: this.I18n.t('js.toolbar.settings.configure_view'),
         icon: 'icon-settings',
-        onClick: ($event:JQueryEventObject) => {
+        onClick: ($event:JQuery.TriggeredEvent) => {
           this.opContextMenu.close();
           this.opModalService.show(BoardConfigurationModal, this.injector, { board: this.board });
 
@@ -98,7 +98,7 @@ export class BoardsToolbarMenuDirective extends OpContextMenuTrigger implements 
         // Rename query shortcut
         linkText: this.I18n.t('js.toolbar.settings.page_settings'),
         icon: 'icon-edit',
-        onClick: ($event:JQueryEventObject) => {
+        onClick: ($event:JQuery.TriggeredEvent) => {
           if (!!this.board.grid.updateImmediately) {
             jQuery(`.board--header-container .editable-toolbar-title--input`).trigger(triggerEditingEvent);
           }
@@ -110,7 +110,7 @@ export class BoardsToolbarMenuDirective extends OpContextMenuTrigger implements 
         // Delete query
         linkText: this.I18n.t('js.toolbar.settings.delete'),
         icon: 'icon-delete',
-        onClick: ($event:JQueryEventObject) => {
+        onClick: ($event:JQuery.TriggeredEvent) => {
           if (this.board.grid.delete &&
             window.confirm(this.I18n.t('js.text_query_destroy_confirmation'))) {
             this.boardService

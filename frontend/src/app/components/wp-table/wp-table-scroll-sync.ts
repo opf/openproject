@@ -60,7 +60,7 @@ function getPlattformAgnosticScrollAmount(originalValue: number) {
   return delta;
 }
 
-function syncWheelEvent(jev: JQueryEventObject, elementTable: JQuery, elementTimeline: JQuery) {
+function syncWheelEvent(jev: JQuery.TriggeredEvent, elementTable: JQuery, elementTimeline: JQuery) {
   const scrollTarget = jev.target;
   const ev: WheelEvent = jev.originalEvent as any;
   let [deltaX, deltaY] = getXandYScrollDeltas(ev);
@@ -98,10 +98,10 @@ export function createScrollSync($element:JQuery) {
 
     if (timelineVisible) {
       // setup event listener for table
-      elTable.on("wheel" + jQueryScrollSyncEventNamespace, (jev: JQueryEventObject) => {
+      elTable.on("wheel" + jQueryScrollSyncEventNamespace, (jev: JQuery.TriggeredEvent) => {
         syncWheelEvent(jev, elTable, elTimeline);
       });
-      elTable.on("scroll" + jQueryScrollSyncEventNamespace, (ev: JQueryEventObject) => {
+      elTable.on("scroll" + jQueryScrollSyncEventNamespace, (ev: JQuery.TriggeredEvent) => {
         syncedLeft = true;
         if (!syncedRight) {
           elTimeline[0].scrollTop = ev.target.scrollTop;
@@ -113,10 +113,10 @@ export function createScrollSync($element:JQuery) {
       });
 
       // setup event listener for timeline
-      elTimeline.on("wheel" + jQueryScrollSyncEventNamespace, (jev: JQueryEventObject) => {
+      elTimeline.on("wheel" + jQueryScrollSyncEventNamespace, (jev: JQuery.TriggeredEvent) => {
         syncWheelEvent(jev, elTable, elTimeline);
       });
-      elTimeline.on("scroll" + jQueryScrollSyncEventNamespace, (ev: JQueryEventObject) => {
+      elTimeline.on("scroll" + jQueryScrollSyncEventNamespace, (ev: JQuery.TriggeredEvent) => {
         syncedRight = true;
         if (!syncedLeft) {
           elTable[0].scrollTop = ev.target.scrollTop;

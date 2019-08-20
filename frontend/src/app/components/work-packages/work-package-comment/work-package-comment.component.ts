@@ -105,7 +105,7 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
   }
 
   // Open the field when its closed and relay drag & drop events to it.
-  public startDragOverActivation(event:JQueryEventObject) {
+  public startDragOverActivation(event:JQuery.TriggeredEvent) {
     if (this.active) {
       return true;
     }

@@ -86,7 +86,7 @@ export class MainMenuToggleService {
   }
 
   // click on arrow or hamburger icon
-  public toggleNavigation(event?:JQueryEventObject) : void {
+  public toggleNavigation(event?:JQuery.TriggeredEvent) : void {
     if (event) {
       event.stopPropagation();
       event.preventDefault();
@@ -162,7 +162,7 @@ export class MainMenuToggleService {
   }
 
   public setWidth(width?:any):void {
-    if (width != undefined) {
+    if (width !== undefined) {
       this.elementWidth = width as number;
     }
     this.snapBack();
@@ -176,10 +176,11 @@ export class MainMenuToggleService {
   private setupAutocloseMainMenu():void {
     let that = this;
     jQuery('#main-menu').off('focusout.main_menu');
-    jQuery('#main-menu').on('focusout.main_menu', function (event:JQueryEventObject) {
+    jQuery('#main-menu').on('focusout.main_menu', function (event) {
+      let originalEvent = event.originalEvent as FocusEvent;
       // Check that main menu is not closed and that the `focusout` event is not a click on an element
       // that tries to close the menu anyways.
-      if (!that.showNavigation || document.getElementById('main-menu-toggle') ===  event.relatedTarget) {
+      if (!that.showNavigation || document.getElementById('main-menu-toggle') ===  originalEvent.relatedTarget) {
         return;
       }
       else {

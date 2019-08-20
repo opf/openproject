@@ -111,7 +111,7 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
     });
   }
 
-  public handleDescriptionKey($event:JQueryEventObject) {
+  public handleDescriptionKey($event:JQuery.TriggeredEvent) {
     if ($event.which === 27) {
       this.cancelDescriptionEdit();
     }
@@ -149,7 +149,7 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
     }
   }
 
-  public cancelRelationTypeEditOnEscape(evt:JQueryEventObject) {
+  public cancelRelationTypeEditOnEscape(evt:JQuery.TriggeredEvent) {
     this.userInputs.showRelationTypesForm = false;
   }
 

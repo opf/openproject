@@ -47,7 +47,7 @@ export class GridRowContextMenu extends OpContextMenuTrigger {
     super(elementRef, opContextMenu);
   }
 
-  protected open(evt:JQueryEventObject) {
+  protected open(evt:JQuery.TriggeredEvent) {
     this.buildItems();
     this.opContextMenu.show(this, evt);
   }
@@ -58,7 +58,7 @@ export class GridRowContextMenu extends OpContextMenuTrigger {
     };
   }
 
-  public positionArgs(openerEvent:JQueryEventObject):any {
+  public positionArgs(openerEvent:JQuery.TriggeredEvent):any {
     return {
       my: 'left top',
       at: 'right top',

@@ -29,7 +29,7 @@ export class ContextMenuRightClickHandler extends ContextMenuHandler {
     return jQuery(table.tableAndTimelineContainer);
   }
 
-  public handleEvent(table:WorkPackageTable, evt:JQueryEventObject):boolean {
+  public handleEvent(table:WorkPackageTable, evt:JQuery.TriggeredEvent):boolean {
     if (!table.configuration.contextMenuEnabled) {
       return false;
     }

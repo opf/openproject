@@ -59,7 +59,7 @@ export class PreviewTriggerService {
       jQuery(this.modalElement).addClass('-no-width -no-height');
     });
 
-    jQuery(document.body).on('mouseleave', '.preview-trigger', (e:JQueryEventObject) => {
+    jQuery(document.body).on('mouseleave', '.preview-trigger', (e:JQuery.MouseLeaveEvent) => {
       e.preventDefault();
       e.stopPropagation();
 
@@ -73,13 +73,13 @@ export class PreviewTriggerService {
     });
   }
 
-  private isMouseOverPreview(evt:JQueryEventObject) {
+  private isMouseOverPreview(mev:JQuery.MouseLeaveEvent) {
     const previewElement = jQuery(this.modalElement.children[0]);
     if (previewElement && previewElement.offset()) {
-      let horizontalHover = evt.pageX >= Math.floor(previewElement.offset()!.left) &&
-                            evt.pageX < previewElement.offset()!.left + previewElement.width()!;
-      let verticalHover = evt.pageY >= Math.floor(previewElement.offset()!.top) &&
-                          evt.pageY < previewElement.offset()!.top + previewElement.height()!;
+      let horizontalHover = mev.pageX >= Math.floor(previewElement.offset()!.left) &&
+                            mev.pageX < previewElement.offset()!.left + previewElement.width()!;
+      let verticalHover = mev.pageY >= Math.floor(previewElement.offset()!.top) &&
+                          mev.pageY < previewElement.offset()!.top + previewElement.height()!;
       return horizontalHover && verticalHover;
     }
     return false;

@@ -126,7 +126,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
   // detect if click is outside or inside the element
   @HostListener('click', ['$event'])
-  public handleClick(event:JQueryEventObject):void {
+  public handleClick(event:JQuery.TriggeredEvent):void {
     event.stopPropagation();
     event.preventDefault();
 
@@ -163,7 +163,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
     }
   }
 
-  public redirectToWp(id:string, event:JQueryEventObject) {
+  public redirectToWp(id:string, event:JQuery.TriggeredEvent) {
     event.stopImmediatePropagation();
     if (LinkHandling.isClickedWithModifier(event)) {
       return true;

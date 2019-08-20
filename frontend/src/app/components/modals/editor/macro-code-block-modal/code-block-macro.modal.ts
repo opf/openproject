@@ -82,7 +82,7 @@ export class CodeBlockMacroModal extends OpModalComponent implements AfterViewIn
     }
   }
 
-  public applyAndClose(evt:JQueryEventObject) {
+  public applyAndClose(evt:JQuery.TriggeredEvent) {
     this.content = this.codeMirrorInstance.getValue();
     const lang = this.language || 'text';
     this.languageClass = `language-${lang}`;

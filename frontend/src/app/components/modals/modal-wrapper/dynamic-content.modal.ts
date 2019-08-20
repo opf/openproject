@@ -58,7 +58,7 @@ export class DynamicContentModal extends OpModalComponent implements OnInit, OnD
     jQuery(document.body)
       .on('click.opdynamicmodal',
         '.dynamic-content-modal--close-button',
-        (evt:JQueryEventObject) => {
+        (evt:JQuery.TriggeredEvent) => {
         this.closeMe(evt);
       });
   }

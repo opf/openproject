@@ -84,7 +84,7 @@ export class WorkPackageTableConfiguration {
   constructor(providedConfig:WorkPackageTableConfigurationObject) {
     _.each(providedConfig, (value, k) => {
       let key = (k as keyof WorkPackageTableConfiguration);
-      this[key] = value as any;
+      (this as any)[key] = value;
     });
   }
 }

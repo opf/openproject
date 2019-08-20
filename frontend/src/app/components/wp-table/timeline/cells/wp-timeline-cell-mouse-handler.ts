@@ -121,10 +121,9 @@ export function registerWorkPackageMouseHandler(this:void,
   }
 
   function createMouseMoveFn(direction:'left' | 'right' | 'both' | 'create' | 'dragright') {
-    return (ev:JQueryEventObject) => {
-      const mev:MouseEvent = ev as any;
+    return (ev:JQuery.MouseMoveEvent) => {
 
-      const days = getCursorOffsetInDaysFromLeft(renderInfo, mev) - mouseDownStartDay!;
+      const days = getCursorOffsetInDaysFromLeft(renderInfo, ev.originalEvent!) - mouseDownStartDay!;
       const offsetDayCurrent = Math.floor(ev.offsetX / renderInfo.viewParams.pixelPerDay);
       const dayUnderCursor = renderInfo.viewParams.dateDisplayStart.clone().add(offsetDayCurrent, 'days');
 
@@ -134,7 +133,7 @@ export function registerWorkPackageMouseHandler(this:void,
     };
   }
 
-  function keyPressFn(ev:JQueryEventObject) {
+  function keyPressFn(ev:JQuery.TriggeredEvent) {
     const kev:KeyboardEvent = ev as any;
     if (kev.keyCode === keyCodes.ESCAPE) {
       deactivate(true);

@@ -49,7 +49,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
     return { contextMenuId: 'work-package-context-menu', items: this.items};
   }
 
-  public positionArgs(evt:JQueryEventObject) {
+  public positionArgs(evt:JQuery.TriggeredEvent) {
     let position = super.positionArgs(evt);
     _.assign(position, this.additionalPositionArgs);
 
@@ -133,7 +133,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
         linkText: action.text,
         href: action.href,
         icon: action.icon != null ? action.icon : `icon-${action.key}`,
-        onClick: ($event:JQueryEventObject) => {
+        onClick: ($event:JQuery.TriggeredEvent) => {
           if (action.href && LinkHandling.isClickedWithModifier($event)) {
             return false;
           }
@@ -152,7 +152,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
         class: 'openFullScreenView',
         href: this.$state.href('work-packages.show', {workPackageId: this.workPackageId}),
         linkText: I18n.t('js.button_open_fullscreen'),
-        onClick: ($event:JQueryEventObject) => {
+        onClick: ($event:JQuery.TriggeredEvent) => {
           if (LinkHandling.isClickedWithModifier($event)) {
             return false;
           }
@@ -172,7 +172,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
           class: 'detailsViewMenuItem',
           href: this.$state.href('work-packages.list.details.overview', {workPackageId: this.workPackageId}),
           linkText: I18n.t('js.button_open_details'),
-          onClick: ($event:JQueryEventObject) => {
+          onClick: ($event:JQuery.TriggeredEvent) => {
             if (LinkHandling.isClickedWithModifier($event)) {
               return false;
             }
