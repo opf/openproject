@@ -143,7 +143,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, AfterViewInit, 
    * which is dynamically inserted into the action row by the inline create renderer.
    */
   private registerCancelHandler() {
-    this.$element.on('click keydown', `.${inlineCreateCancelClassName}`, (evt:JQueryEventObject) => {
+    this.$element.on('click keydown', `.${inlineCreateCancelClassName}`, (evt:JQuery.TriggeredEvent) => {
       onClickOrEnter(evt, () => {
         this.resetRow();
       });

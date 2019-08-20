@@ -30,6 +30,7 @@ import {HalResource, HalResourceClass} from 'core-app/modules/hal/resources/hal-
 import {QueryFilterResource} from 'core-app/modules/hal/resources/query-filter-resource';
 import {QueryFilterInstanceSchemaResource} from 'core-app/modules/hal/resources/query-filter-instance-schema-resource';
 import {QueryOperatorResource} from 'core-app/modules/hal/resources/query-operator-resource';
+import {Query} from "@angular/core";
 
 export class QueryFilterInstanceResource extends HalResource {
   public filter:QueryFilterResource;
@@ -42,7 +43,7 @@ export class QueryFilterInstanceResource extends HalResource {
    * Create a copied filter, taking over the manually set schema instance.
    */
   public $copy<T extends HalResource = HalResource>():T {
-    let clone:T = super.$copy<T>();
+    let clone = super.$copy<T>() as any;
     clone.schema = this.schema;
 
     return clone;

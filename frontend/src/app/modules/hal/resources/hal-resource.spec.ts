@@ -36,6 +36,7 @@ import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {States} from 'core-components/states.service';
 import {of} from 'rxjs';
+import Spy = jasmine.Spy;
 
 describe('HalResource', () => {
   let halResourceService:HalResourceService;
@@ -146,10 +147,13 @@ describe('HalResource', () => {
   });
 
   describe('when after generating the lazy object', () => {
-    var linkFn = jasmine.createSpy();
-    var embeddedFn = jasmine.createSpy();
+    let linkFn:Spy;
+    let embeddedFn:Spy;
 
     beforeEach(() => {
+      linkFn = jasmine.createSpy();
+      embeddedFn = jasmine.createSpy();
+
       resource = halResourceService.createHalResource({
         _links: {
           get link() {
@@ -715,7 +719,7 @@ describe('HalResource', () => {
           let newResult:any;
           let promise:Promise<any>;
 
-          beforeEach(() => {
+          beforeEach((done) => {
             let result = halResourceService.createHalResource({
               _links: {},
               name: 'name',
@@ -737,6 +741,7 @@ describe('HalResource', () => {
             });
 
             expect(getStub).toHaveBeenCalled();
+            done();
           });
 
           it('should be loaded', (done) => {
@@ -750,12 +755,12 @@ describe('HalResource', () => {
             expect(newResult.name).toEqual('name');
           });
 
-          it('should have properties that have a getter', () => {
-            expect((Object as any).getOwnPropertyDescriptor(newResult, 'foo').get).toBeDefined();
-          });
+          it('should have properties that have a getter and setter', () => {
+            const descriptor = Object.getOwnPropertyDescriptor(newResult, 'foo');
+            expect(descriptor).toBeDefined("Descriptor should be defined");
 
-          it('should have properties that have a setter', () => {
-            expect((Object as any).getOwnPropertyDescriptor(newResult, 'foo').set).toBeDefined();
+            expect(descriptor!.get).toBeDefined("Descriptor getter should be defined");
+            expect(descriptor!.set).toBeDefined("Descriptor setter should be defined");
           });
 
           it('should return itself in a promise if already loaded', () => {

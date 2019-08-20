@@ -81,7 +81,7 @@ export class AddCardDropdownMenuDirective extends OpContextMenuTrigger {
     super(elementRef, opContextMenu);
   }
 
-  protected open(evt:JQueryEventObject) {
+  protected open(evt:JQuery.TriggeredEvent) {
     this.items = this.buildItems();
     this.opContextMenu.show(this, evt);
   }
@@ -91,7 +91,7 @@ export class AddCardDropdownMenuDirective extends OpContextMenuTrigger {
    *
    * @param {Event} openerEvent
    */
-  public positionArgs(evt:JQueryEventObject) {
+  public positionArgs(evt:JQuery.TriggeredEvent) {
     let additionalPositionArgs = {
       my: 'left top',
       at: 'left bottom'

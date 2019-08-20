@@ -54,7 +54,7 @@ export class NotificationsService {
   constructor(readonly configurationService:ConfigurationService) {
     jQuery(window)
       .on(OPNotificationEvent,
-        (event:JQuery.Event, notification:INotification) => {
+        (event:JQuery.TriggeredEvent, notification:INotification) => {
           this.add(notification);
         });
   }

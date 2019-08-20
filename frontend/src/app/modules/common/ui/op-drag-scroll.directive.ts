@@ -46,7 +46,7 @@ export class OpDragScrollDirective implements OnInit {
     var mousedownX:number, mousedownY:number;
 
     // Mousedown: Potential drag start
-    element.on('mousedown', (evt:JQueryEventObject) => {
+    element.on('mousedown', (evt) => {
       setTimeout(() => {
         mousedown = true;
         mousedownX = evt.clientX;
@@ -60,7 +60,7 @@ export class OpDragScrollDirective implements OnInit {
     });
 
     // Mousemove: Report movement if mousedown
-    element.on('mousemove', (evt:JQueryEventObject) => {
+    element.on('mousemove', (evt) => {
       if (!mousedown) {
         return;
       }

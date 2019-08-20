@@ -107,7 +107,7 @@ export class WorkPackageEditFieldComponent implements OnInit {
   }
 
   // Open the field when its closed and relay drag & drop events to it.
-  public startDragOverActivation(event:JQueryEventObject) {
+  public startDragOverActivation(event:JQuery.TriggeredEvent) {
     if (!this.isDropTarget || !this.isEditable || this.active) {
       return true;
     }
@@ -144,7 +144,7 @@ export class WorkPackageEditFieldComponent implements OnInit {
     return this.resource.isAttributeEditable(this.fieldName) && fieldSchema && fieldSchema.writable;
   }
 
-  public activateIfEditable(event:JQueryEventObject) {
+  public activateIfEditable(event:JQuery.TriggeredEvent) {
     // Ignore selections
     if (SelectionHelpers.hasSelectionWithin(event.target)) {
       debugLog(`Not activating ${this.fieldName} because of active selection within`);
@@ -183,7 +183,7 @@ export class WorkPackageEditFieldComponent implements OnInit {
       .catch(() => this.deactivate(true));
   }
 
-  public handleUserActivate(evt:JQueryEventObject|null) {
+  public handleUserActivate(evt:JQuery.TriggeredEvent|null) {
     let positionOffset = 0;
 
     if (evt) {

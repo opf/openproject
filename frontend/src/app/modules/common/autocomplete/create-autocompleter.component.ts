@@ -102,7 +102,7 @@ export class CreateAutocompleterComponent implements AfterViewInit {
 
   @Output() public create = new EventEmitter<string>();
   @Output() public onChange = new EventEmitter<HalResource>();
-  @Output() public onKeydown = new EventEmitter<JQueryEventObject>();
+  @Output() public onKeydown = new EventEmitter<JQuery.TriggeredEvent>();
   @Output() public onOpen = new EventEmitter<void>();
   @Output() public onClose = new EventEmitter<void>();
   @Output() public onAfterViewInit = new EventEmitter<CreateAutocompleterComponent>();
@@ -162,7 +162,7 @@ export class CreateAutocompleterComponent implements AfterViewInit {
     this.onClose.emit();
   }
 
-  public keyPressed(event:JQueryEventObject) {
+  public keyPressed(event:JQuery.TriggeredEvent) {
     this.onKeydown.emit(event);
   }
 

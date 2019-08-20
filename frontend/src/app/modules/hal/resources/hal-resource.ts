@@ -65,18 +65,18 @@ export class HalResource {
    *
    * @param {Injector} injector
    * @param $halType The HalResource type that this instance maps to
-   * @param source
+   * @param $source
    * @param {boolean} $loaded
    * @param {Function} initializer The initializer callback to HAL-transform all linked and embedded resources.
    *
    */
   public constructor(public injector:Injector,
-                     public source:any,
+                     public $source:any,
                      public $loaded:boolean,
                      public halInitializer:(halResource:any) => void,
                      $halType:string) {
     this.$halType = $halType;
-    this.$initialize(source);
+    this.$initialize($source);
   }
 
   public static getEmptyResource(self:{ href:string|null } = { href: null }):any {

@@ -40,7 +40,7 @@ export class WpTableHoverSync {
   }
 
   activate() {
-    this.$body.on('mousemove.hoverSync', (event:JQueryEventObject) => {
+    this.$body.on('mousemove.hoverSync', (event:JQuery.TriggeredEvent) => {
       if (event.target !== this.lastHoveredElement) {
         this.handleHover(event.target);
       }

@@ -126,7 +126,7 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
       wp.children && wp.children.length > 0);
   }
 
-  public confirmDeletion($event:JQueryEventObject) {
+  public confirmDeletion($event:JQuery.TriggeredEvent) {
     if (this.busy || this.blockedDueToUnconfirmedChildren) {
       return false;
     }

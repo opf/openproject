@@ -84,7 +84,7 @@ export class WpButtonMacroModal extends OpModalComponent implements AfterViewIni
       });
   }
 
-  public applyAndClose(evt:JQueryEventObject) {
+  public applyAndClose(evt:JQuery.TriggeredEvent) {
     this.changed = true;
     this.classes = this.buttonStyle ? 'button' : '';
     this.type = this.selectedType;

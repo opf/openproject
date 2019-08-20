@@ -37,7 +37,7 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
 
   protected workPackage:WorkPackageResource;
 
-  public handleEvent(table:WorkPackageTable, evt:JQueryEventObject) {
+  public handleEvent(table:WorkPackageTable, evt:JQuery.TriggeredEvent) {
     // Avoid the state capture when clicking with modifier
     if (evt.shiftKey || evt.ctrlKey || evt.metaKey || evt.altKey) {
       return true;

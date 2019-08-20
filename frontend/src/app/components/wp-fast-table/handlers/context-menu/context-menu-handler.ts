@@ -25,9 +25,9 @@ export abstract class ContextMenuHandler implements TableEventHandler {
     return jQuery(table.tableAndTimelineContainer);
   }
 
-  public abstract handleEvent(table:WorkPackageTable, evt:JQueryEventObject):boolean;
+  public abstract handleEvent(table:WorkPackageTable, evt:JQuery.TriggeredEvent):boolean;
 
-  protected openContextMenu(evt:JQuery.Event, workPackageId:string, positionArgs?:any):void {
+  protected openContextMenu(evt:JQuery.TriggeredEvent, workPackageId:string, positionArgs?:any):void {
     const handler = new WorkPackageTableContextMenu(this.injector, workPackageId, jQuery(evt.target) as JQuery, positionArgs, this.table);
     this.opContextMenu.show(handler, evt);
   }

@@ -90,7 +90,7 @@ export class QuerySharingModal extends OpModalComponent implements OnInit {
     return jQuery('#work-packages-settings-button');
   }
 
-  public saveQuery($event:JQueryEventObject) {
+  public saveQuery($event:JQuery.TriggeredEvent) {
     if (this.isBusy) {
       return;
     }

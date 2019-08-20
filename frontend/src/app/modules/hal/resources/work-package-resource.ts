@@ -275,7 +275,6 @@ export class WorkPackageBaseResource extends HalResource {
    */
   public initializeNewResource(form:any) {
     this.overriddenSchema = form.schema;
-    this.form = Promise.resolve(form);
     this.$source.id = 'new';
 
     // Ensure type is set to identify the resource

@@ -2,7 +2,7 @@
 
 // Require the reflect ES7 polyfill for JIT
 import 'zone.js/dist/zone';  // Included with Angular CLI.
-import 'core-js/es7/reflect';
+import 'core-js/es/reflect';
 
 import 'zone.js/dist/zone-testing';
 import { getTestBed } from '@angular/core/testing';

@@ -27,7 +27,7 @@ export class HierarchyClickHandler extends ClickOrEnterHandler implements TableE
     return jQuery(table.tbody);
   }
 
-  public processEvent(table:WorkPackageTable, evt:JQuery.Event):boolean {
+  public processEvent(table:WorkPackageTable, evt:JQuery.TriggeredEvent):boolean {
     let target = jQuery(evt.target);
 
     // Locate the row from event
