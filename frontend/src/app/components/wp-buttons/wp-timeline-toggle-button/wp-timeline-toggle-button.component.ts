@@ -41,6 +41,7 @@ export interface TimelineButtonText extends ButtonControllerText {
 
 @Component({
   templateUrl: './wp-timeline-toggle-button.html',
+  styleUrls: ['./wp-timeline-toggle-button.sass'],
   selector: 'wp-timeline-toggle-button',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
