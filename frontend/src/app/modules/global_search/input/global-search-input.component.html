@@ -21,7 +21,7 @@
               (focus)="onFocus()"
               (search)="search($event)"
               (open)="openCloseMenu(currentValue)"
-              (close)="select.filterValue = currentValue"
+              (close)="select.searchTerm = currentValue"
               (change)="onChange($event)"
               (keydown.enter)="onEnterBeforeResultsLoaded()"
               (keydown.escape)="blur()"

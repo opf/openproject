@@ -1299,10 +1299,18 @@
         }
       }
     },
+    "@ng-select/ng-option-highlight": {
+      "version": "0.0.2",
+      "resolved": "https://registry.npmjs.org/@ng-select/ng-option-highlight/-/ng-option-highlight-0.0.2.tgz",
+      "integrity": "sha512-lgDpL9eOaCNqH4xQq7jY7mEsuckuZZkzg+uLtEycjLl5YWkpG9lZaYo3rTUcOQafnhrIgieUBZmWItkMtiL8jw==",
+      "requires": {
+        "tslib": "^1.9.0"
+      }
+    },
     "@ng-select/ng-select": {
-      "version": "2.20.3",
-      "resolved": "https://registry.npmjs.org/@ng-select/ng-select/-/ng-select-2.20.3.tgz",
-      "integrity": "sha512-QVyBiT2H6sljRrcNb4Wx7lABd08FQqWDJ/0LlfeWiP6N2Zc8+uSwCglkAgl7wu746mf7McVwL0H4ewVYnc+iHw==",
+      "version": "3.0.6",
+      "resolved": "https://registry.npmjs.org/@ng-select/ng-select/-/ng-select-3.0.6.tgz",
+      "integrity": "sha512-nF9ie8S4RZ1UKM9Q0ew/O/i0sZZQB/h1DGRX7ezUo+9Q4NdtxonMF57q5IRbOu3TscWTjiilA7ThRXpWIjWOGg==",
       "requires": {
         "tslib": "^1.9.0"
       }
