@@ -110,6 +110,15 @@ describe WikiController, type: :controller do
       end
     end
 
+    describe 'edit' do
+      it 'will link to a parent page if it was set' do
+        get 'edit', params: { project_id: @project, id: 'foobar' }, flash: { _related_wiki_page_id: 1234 }
+
+        page = assigns[:page]
+        expect(page.parent_id).to eq 1234
+      end
+    end
+
     describe 'create' do
       describe 'successful action' do
         it 'redirects to the show action' do
@@ -442,6 +451,9 @@ describe WikiController, type: :controller do
                     params: { id: @page_with_content.title, project_id: @project.identifier }
 
                 expect(response).to be_successful
+
+                # Expect to set back ref id
+                expect(flash[:_related_wiki_page_id]).to eq @page_with_content.id
 
                 assert_select "#content a[href='#{new_child_project_wiki_path(project_id: @project, id: @page_with_content.slug)}']", 'Wiki page'
               end
