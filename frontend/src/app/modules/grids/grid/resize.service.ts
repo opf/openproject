@@ -26,6 +26,7 @@ export class GridResizeService {
     this.resizedArea.endColumn = this.placeholderArea.endColumn;
 
     this.layout.writeAreaChangesToWidgets();
+    this.layout.cleanupUnusedAreas();
     this.layout.buildAreas();
 
     this.resizedArea = null;
