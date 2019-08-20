@@ -154,6 +154,11 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
       return; // Nothing changed
     }
 
+    // Blur this element
+    if (this.inputField) {
+      (this.inputField.nativeElement as HTMLInputElement).blur();
+    }
+
     this.emitSave(this.selectedTitle);
   }
 
