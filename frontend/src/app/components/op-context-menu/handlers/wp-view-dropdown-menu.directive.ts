@@ -63,45 +63,56 @@ export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
   }
 
   private buildItems() {
-    this.items = [
-      {
-        // Card View
-        linkText: this.I18n.t('js.views.card'),
-        icon: 'icon-view-card',
-        onClick: (evt:any) => {
-          this.wpDisplayRepresentationService.setDisplayRepresentation(wpDisplayCardRepresentation);
-          if (this.wpTableTimeline.isVisible) {
-            // Necessary for the timeline buttons to disappear
-            this.wpTableTimeline.toggle();
+    this.items = [];
+    
+    if (this.wpDisplayRepresentationService.current !== wpDisplayCardRepresentation) {
+      this.items.push(
+        {
+          // Card View
+          linkText: this.I18n.t('js.views.card'),
+          icon: 'icon-view-card',
+          onClick: (evt:any) => {
+            this.wpDisplayRepresentationService.setDisplayRepresentation(wpDisplayCardRepresentation);
+            if (this.wpTableTimeline.isVisible) {
+              // Necessary for the timeline buttons to disappear
+              this.wpTableTimeline.toggle();
+            }
+            return true;
           }
-          return true;
-        }
-      },
-      {
-        // List View
-        linkText: this.I18n.t('js.views.list'),
-        icon: 'icon-view-list',
-        onClick: (evt:any) => {
-          this.wpDisplayRepresentationService.setDisplayRepresentation(wpDisplayListRepresentation);
-          if (this.wpTableTimeline.isVisible) {
-            this.wpTableTimeline.toggle();
+        });
+    }
+
+    if (this.wpTableTimeline.isVisible || this.wpDisplayRepresentationService.current === wpDisplayCardRepresentation) {
+      this.items.push(
+        {
+          // List View
+          linkText: this.I18n.t('js.views.list'),
+          icon: 'icon-view-list',
+          onClick: (evt:any) => {
+            this.wpDisplayRepresentationService.setDisplayRepresentation(wpDisplayListRepresentation);
+            if (this.wpTableTimeline.isVisible) {
+              this.wpTableTimeline.toggle();
+            }
+            return true;
           }
-          return true;
-        }
-      },
-      {
-        // List View with enabled Gantt
-        linkText: this.I18n.t('js.views.timeline'),
-        icon: 'icon-view-timeline',
-        onClick: (evt:any) => {
-          if (!this.wpTableTimeline.isVisible) {
-            this.wpTableTimeline.toggle();
+        });
+    }
+
+    if (!this.wpTableTimeline.isVisible || this.wpDisplayRepresentationService.current === wpDisplayCardRepresentation) {
+      this.items.push(
+        {
+          // List View with enabled Gantt
+          linkText: this.I18n.t('js.views.timeline'),
+          icon: 'icon-view-timeline',
+          onClick: (evt: any) => {
+            if (!this.wpTableTimeline.isVisible) {
+              this.wpTableTimeline.toggle();
+            }
+            this.wpDisplayRepresentationService.setDisplayRepresentation(wpDisplayListRepresentation);
+            return true;
           }
-          this.wpDisplayRepresentationService.setDisplayRepresentation(wpDisplayListRepresentation);
-          return true;
-        }
-      }
-    ];
+        });
+    }
   }
 }
 
