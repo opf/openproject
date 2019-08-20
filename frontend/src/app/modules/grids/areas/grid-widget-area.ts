@@ -57,9 +57,9 @@ export class GridWidgetArea extends GridArea {
   }
 
   public writeAreaChangeToWidget() {
-    this.widget.startRow = this.startRow;
-    this.widget.endRow = this.endRow;
-    this.widget.startColumn = this.startColumn;
-    this.widget.endColumn = this.endColumn;
+    this.widget.startRow = this.startRow / 2;
+    this.widget.endRow = (this.endRow + 1) / 2;
+    this.widget.startColumn = this.startColumn / 2;
+    this.widget.endColumn = (this.endColumn + 1) / 2;
   }
 }

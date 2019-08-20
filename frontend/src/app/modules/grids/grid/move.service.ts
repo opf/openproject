@@ -41,11 +41,11 @@ export class GridMoveService {
 
       let areaHeight = toMoveArea.widget.height;
 
-      toMoveArea.startRow = anchorArea.endRow;
-      toMoveArea.endRow = toMoveArea.startRow + areaHeight;
+      toMoveArea.startRow = anchorArea.endRow + 1;
+      toMoveArea.endRow = toMoveArea.startRow + areaHeight + 1;
 
-      if (this.layout.numRows < toMoveArea.endRow - 1) {
-        this.layout.numRows = toMoveArea.endRow - 1;
+      if (this.layout.numRows < toMoveArea.endRow - 2) {
+        this.layout.numRows = toMoveArea.endRow - 2;
       }
 
       return toMoveArea;

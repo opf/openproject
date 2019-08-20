@@ -9,6 +9,7 @@ import {GridAreaService} from "core-app/modules/grids/grid/area.service";
 import {GridDragAndDropService} from "core-app/modules/grids/grid/drag-and-drop.service";
 import {GridResizeService} from "core-app/modules/grids/grid/resize.service";
 import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
+import {GridMoveService} from "core-app/modules/grids/grid/move.service";
 
 @Injectable()
 export class GridAddWidgetService {
@@ -18,6 +19,7 @@ export class GridAddWidgetService {
               readonly halResource:HalResourceService,
               readonly layout:GridAreaService,
               readonly drag:GridDragAndDropService,
+              readonly move:GridMoveService,
               readonly resize:GridResizeService) {
   }
 
@@ -30,45 +32,78 @@ export class GridAddWidgetService {
   }
 
   public widget(area:GridArea, schema:SchemaResource) {
+    //let targetArea = area;
+    //if (this.layout.isGap(targetArea)) {
+
+    //}
+
     this
       .select(area, schema)
       .then((widgetResource) => {
         // try to set it to a 2 x 3 layout
         // but shrink if that is outside the grid or
         // overlaps any other widget
+
+        // rowGap
+        if (this.layout.isGap(area)) {
+          widgetResource.startRow = Math.floor(widgetResource.startRow / 2) + 1;
+          widgetResource.endRow = Math.floor(widgetResource.endRow / 2) + 1;
+          widgetResource.startColumn = Math.floor(widgetResource.startColumn / 2);
+          widgetResource.endColumn = Math.floor(widgetResource.endColumn / 2) + 1;
+        } else {
+          widgetResource.startRow = Math.floor(widgetResource.startRow / 2);
+          widgetResource.endRow = Math.floor(widgetResource.endRow / 2) + 1;
+          widgetResource.startColumn = Math.floor(widgetResource.startColumn / 2);
+          widgetResource.endColumn = Math.floor(widgetResource.endColumn / 2) + 1;
+        }
+
         let newArea = new GridWidgetArea(widgetResource);
 
-        newArea.endColumn = newArea.endColumn + 1;
-        newArea.endRow = newArea.endRow + 2;
-
-        let maxRow:number = this.layout.numRows + 1;
-        let maxColumn:number = this.layout.numColumns + 1;
-
-        this.layout.widgetAreas.forEach((existingArea) => {
-          if (newArea.startColumnOverlaps(existingArea) &&
-            maxColumn > existingArea.startColumn) {
-            maxColumn = existingArea.startColumn;
-          }
-        });
-
-        if (maxColumn < newArea.endColumn) {
-          newArea.endColumn = maxColumn;
+        // Added at last row gap
+        if (this.layout.isGap(area) && this.layout.numRows * 2 + 1 === area.startRow) {
+          this.layout.addRow(this.layout.numRows, false);
+        // Added at non last row gap
+        } else if (this.layout.isGap(area)) {
+          this.move.down(newArea, newArea);
         }
 
-        this.layout.widgetAreas.forEach((existingArea) => {
-          if (newArea.overlaps(existingArea) &&
-            maxRow > existingArea.startRow) {
-            maxRow = existingArea.startRow;
-          }
-        });
+        //newArea.endColumn = newArea.endColumn + 1;
+        //newArea.endRow = newArea.endRow + 2;
 
-        if (maxRow < newArea.endRow) {
-          newArea.endRow = maxRow;
-        }
+        //let maxRow:number = this.layout.numRows + 1;
+        //let maxColumn:number = this.layout.numColumns + 1;
 
-        newArea.writeAreaChangeToWidget();
+        //this.layout.widgetAreas.forEach((existingArea) => {
+        //  if (newArea.startColumnOverlaps(existingArea) &&
+        //    maxColumn > existingArea.startColumn) {
+        //    maxColumn = existingArea.startColumn;
+        //  }
+        //});
+
+        //if (maxColumn < newArea.endColumn) {
+        //  newArea.endColumn = maxColumn;
+        //}
+
+        //this.layout.widgetAreas.forEach((existingArea) => {
+        //  if (newArea.overlaps(existingArea) &&
+        //    maxRow > existingArea.startRow) {
+        //    maxRow = existingArea.startRow;
+        //  }
+        //});
+
+        //if (maxRow < newArea.endRow) {
+        //  newArea.endRow = maxRow;
+        //}
+
+        //newArea.writeAreaChangeToWidget();
+
+        //if (this.layout.isGap(area)) {
+        //} else {
+        //
+        //}
 
         this.layout.widgetResources.push(newArea.widget);
+        this.layout.writeAreaChangesToWidgets();
 
         this.layout.buildAreas();
       })

@@ -42,7 +42,7 @@
   <!-- One grid area per cell (row x columns) -->
   <div *ngFor="let area of layout.gridAreas; trackBy: identifyGridArea;"
        class="grid--area"
-       [ngClass] = "{'-drop-target': drag.currentlyDragging,
+       [ngClass] = "{'-drop-target': drag.currentlyDragging && !layout.isGap(area),
                      '-resize-target': resize.isTarget(area),
                      '-addable': add.isAddable(area),
                      '-row-gap': area.startRow % 2 === 1,
