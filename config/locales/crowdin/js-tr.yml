@@ -691,6 +691,9 @@ tr:
         confirm_edit_cancel: "Bu görünümün adını düzenlemeyi iptal etmek istediğinizden emin misiniz? Başlık önceki değere ayarlanacaktır."
         click_to_edit_query_name: "Bu görünümün başlığını düzenlemek için tıklayın."
         rename_query_placeholder: "Bu görünümüm adı"
+        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        public_text: >
+          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
         errors:
           unretrievable_query: "URL’den görünüm alınamadı"
           not_found: "Böyle bir görünüm bulunmamakta"
@@ -837,3 +840,7 @@ tr:
         all_projects: "tüm projeler"
         project_and_subprojects: "ve tüm alt projeler"
         search_for: "Aramak"
+    views:
+      card: 'Cards'
+      list: 'Table'
+      timeline: 'Gantt'

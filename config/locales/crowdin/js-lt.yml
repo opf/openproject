@@ -695,6 +695,9 @@ lt:
         confirm_edit_cancel: "Ar tikrai norite atšaukti pavadinimo pakeitimus? Pavadinimas bus atstatytas į prieš tai buvusį tekstą."
         click_to_edit_query_name: "Paspauskite norėdami keisti vaizdo pavadinimą."
         rename_query_placeholder: "Vaizdo pavadinimas"
+        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        public_text: >
+          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
         errors:
           unretrievable_query: "Nepavyksta gauti vaizdo iš URL"
           not_found: "Nėra tokio vaizdo"
@@ -847,3 +850,7 @@ lt:
         all_projects: "all projects"
         project_and_subprojects: "and all subprojects"
         search_for: "Search for"
+    views:
+      card: 'Cards'
+      list: 'Table'
+      timeline: 'Gantt'

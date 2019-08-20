@@ -695,6 +695,9 @@ uk:
         confirm_edit_cancel: "Дійсно скасувати редагування імені цього перегляду? Заголовок повернеться до попереднього значення."
         click_to_edit_query_name: "Натисніть, щоб змінити заголовок цього перегляду."
         rename_query_placeholder: "Назва цього перегляду"
+        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        public_text: >
+          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
         errors:
           unretrievable_query: "Неможливо отримати перегляд з URL-адреси"
           not_found: "Такого погляду немає"
@@ -847,3 +850,7 @@ uk:
         all_projects: "всі проекти"
         project_and_subprojects: "і всі підпроекти"
         search_for: "Пошук по"
+    views:
+      card: 'Cards'
+      list: 'Table'
+      timeline: 'Гантт'

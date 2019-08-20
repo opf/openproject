@@ -689,6 +689,9 @@ ko:
         confirm_edit_cancel: "이 보기 이름 편집을 취소하시겠습니까? 제목이 이전 값으로 다시 설정됩니다."
         click_to_edit_query_name: "이 보기의 제목을 편집하려면 클릭하세요."
         rename_query_placeholder: "이 보기의 이름"
+        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        public_text: >
+          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
         errors:
           unretrievable_query: "URL에서 보기를 검색할 수 없음"
           not_found: "해당 보기가 없습니다."
@@ -832,3 +835,7 @@ ko:
         all_projects: "모든 프로젝트"
         project_and_subprojects: "그리고 모든 하위 프로젝트"
         search_for: "검색:"
+    views:
+      card: 'Cards'
+      list: 'Table'
+      timeline: 'Gantt'

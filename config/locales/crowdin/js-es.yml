@@ -691,6 +691,9 @@ es:
         confirm_edit_cancel: "¿Está seguro de que quiere cancelar la edición del nombre de esta vista? El título volverá a establecerse en el valor anterior."
         click_to_edit_query_name: "Haga clic para editar el título de esta vista."
         rename_query_placeholder: "Nombre de la vista"
+        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        public_text: >
+          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
         errors:
           unretrievable_query: "No se puede recuperar la vista de la URL"
           not_found: "No existe la vista"
@@ -837,3 +840,7 @@ es:
         all_projects: "todos los proyectos"
         project_and_subprojects: "y todos los subproyectos"
         search_for: "Búsqueda por"
+    views:
+      card: 'Cards'
+      list: 'Table'
+      timeline: 'Gantt'

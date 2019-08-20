@@ -690,6 +690,9 @@ de:
         confirm_edit_cancel: "Sind Sie sicher, dass Sie die Umbenennung dieser Ansicht abbrechen wollen? Der Titel wird zum letzten gespeicherten Wert zurückgesetzt."
         click_to_edit_query_name: "Klicken, um den Titel dieser Ansicht zu bearbeiten."
         rename_query_placeholder: "Name der Ansicht"
+        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        public_text: >
+          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
         errors:
           unretrievable_query: "Konnte die Ansicht nicht verarbeiten"
           not_found: "Diese Ansicht konnte nicht gefunden werden"
@@ -836,3 +839,7 @@ de:
         all_projects: "alle Projekte"
         project_and_subprojects: "und alle Unterprojekte"
         search_for: "Suche nach"
+    views:
+      card: 'Cards'
+      list: 'Table'
+      timeline: 'Gantt'

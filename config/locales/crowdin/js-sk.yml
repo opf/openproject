@@ -695,6 +695,9 @@ sk:
         confirm_edit_cancel: "Naozaj chcete zrušiť premenovanie tohto zobrazenia? Názov sa obnoví na poslednú uloženú hodnotu."
         click_to_edit_query_name: "Kliknutím upravíte názov tohto zobrazenia."
         rename_query_placeholder: "Názov tohto zobrazenia"
+        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        public_text: >
+          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
         errors:
           unretrievable_query: "Nepodarilo sa načítať zobrazenie z adresy URL"
           not_found: "Toto zobrazenie sa nepodarilo nájsť"
@@ -847,3 +850,7 @@ sk:
         all_projects: "všetky projekty"
         project_and_subprojects: "a všetky podprojekty"
         search_for: "Hľadať"
+    views:
+      card: 'Cards'
+      list: 'Table'
+      timeline: 'Ganttov graf'

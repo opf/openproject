@@ -689,6 +689,9 @@ zh-CN:
         confirm_edit_cancel: "确定要取消编辑此视图的名称吗？标题将重置为上一个值。"
         click_to_edit_query_name: "单击可以编辑此视图的标题。"
         rename_query_placeholder: "此视图的名称"
+        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        public_text: >
+          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
         errors:
           unretrievable_query: "无法从 URL 检索视图"
           not_found: "无此视图"
@@ -832,3 +835,7 @@ zh-CN:
         all_projects: "所有项目"
         project_and_subprojects: "和所有子项目"
         search_for: "搜索"
+    views:
+      card: 'Cards'
+      list: 'Table'
+      timeline: '甘特图'

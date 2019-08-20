@@ -688,6 +688,9 @@ vi:
         confirm_edit_cancel: "Bạn có chắc bạn muốn hủy bỏ chỉnh sửa tên của trình bày này? Tiêu đề sẽ được đặt trở về giá trị trước đó."
         click_to_edit_query_name: "Nhấp vào chỉnh sửa tiêu đề của trình bày này."
         rename_query_placeholder: "Tên của trình bày"
+        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        public_text: >
+          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
         errors:
           unretrievable_query: "Không thể đọc trình bày từ URL"
           not_found: "Không có trình bày nào đã được tạo ra"
@@ -831,3 +834,7 @@ vi:
         all_projects: "mọi dự án"
         project_and_subprojects: "và tất cả các dự án con"
         search_for: "Tìm kiếm"
+    views:
+      card: 'Cards'
+      list: 'Table'
+      timeline: 'Biểu đồ sự kiện'

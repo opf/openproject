@@ -691,6 +691,9 @@ nl:
         confirm_edit_cancel: "Weet u zeker dat u wilt stoppen met het bewerken van de naam van deze weergave? De Titel zal terug naar vorige waarde worden ingesteld."
         click_to_edit_query_name: "Klik om de titel van de weergave te bewerken."
         rename_query_placeholder: "Naam van deze weergave"
+        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        public_text: >
+          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
         errors:
           unretrievable_query: "Het is onmogelijk om de weergave van de url op te halen"
           not_found: "Deze weergave bestaat niet"
@@ -837,3 +840,7 @@ nl:
         all_projects: "alle projecten"
         project_and_subprojects: "en alle subprojecten"
         search_for: "Zoeken naar"
+    views:
+      card: 'Cards'
+      list: 'Table'
+      timeline: 'Gantt'
