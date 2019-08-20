@@ -5,8 +5,8 @@ $grid--header-width: 20px
 
 @mixin grid--commons
   display: grid
-  grid-column-gap: $grid--gap-width
-  grid-row-gap: $grid--gap-width
+  //grid-column-gap: $grid--gap-width
+  //grid-row-gap: $grid--gap-width
 
 .grid--container
   @include grid--commons
@@ -51,6 +51,12 @@ $grid--header-width: 20px
 
   &.-undragged
     pointer-events: none
+
+  &.-row-gap
+    height: $grid--gap-width
+
+  &.-column-gap
+    width: $grid--gap-width
 
   .resizer
     margin-top: 0
@@ -162,6 +168,9 @@ $grid--header-width: 20px
   &:before
     @include icon-font-common
     @include icon-mixin-add
+
+  .-column-gap &, .-row-gap &
+    padding: 5px
 
 .grid--widget-remove
   float: right

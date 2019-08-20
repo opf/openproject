@@ -5,10 +5,10 @@ export class GridWidgetArea extends GridArea {
   public widget:GridWidgetResource;
 
   constructor(widget:GridWidgetResource) {
-    super(widget.startRow,
-      widget.endRow,
-      widget.startColumn,
-      widget.endColumn);
+    super(widget.startRow * 2,
+      widget.endRow * 2 - 1,
+      widget.startColumn * 2,
+      widget.endColumn * 2 - 1);
 
     this.widget = widget;
   }

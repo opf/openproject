@@ -77,6 +77,10 @@ export class GridAreaService {
     this.saveGrid(payload);
   }
 
+  public isGap(area:GridArea) {
+    return area.startRow % 2 === 1 || area.startColumn % 2 === 1;
+  }
+
   private saveGrid(resource:GridWidgetResource|any, schema?:SchemaResource) {
     this
       .gridDm
@@ -109,23 +113,8 @@ export class GridAreaService {
   private buildGridAreas() {
     let cells:GridArea[] = [];
 
-    for (let row = 1; row <= this.numRows; row++) {
+    for (let row = 1; row <= this.numRows * 2 + 1; row++) {
       cells.push(...this.buildGridAreasRow(row));
-    }
-
-    return cells;
-  }
-
-  private buildGridAreasColumn(column:number) {
-    let cells:GridArea[] = [];
-
-    for (let row = 1; row <= this.numRows; row++) {
-      let cell = new GridArea(row,
-        row + 1,
-        column,
-        column + 1);
-
-      cells.push(cell);
     }
 
     return cells;
@@ -134,7 +123,7 @@ export class GridAreaService {
   private buildGridAreasRow(row:number) {
     let cells:GridArea[] = [];
 
-    for (let column = 1; column <= this.numColumns; column++) {
+    for (let column = 1; column <= this.numColumns * 2 + 1; column++) {
       let cell = new GridArea(row,
         row + 1,
         column,

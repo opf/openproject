@@ -92,7 +92,14 @@ export class GridComponent implements OnDestroy, OnInit {
   }
 
   public get gridColumnStyle() {
-    return this.sanitization.bypassSecurityTrustStyle(`repeat(${this.layout.numColumns}, 1fr)`);
+    let style = '';
+    for (let i = 0; i < this.layout.numColumns; i++) {
+      style += '20px 1fr ';
+    }
+
+    style += '20px';
+
+    return this.sanitization.bypassSecurityTrustStyle(style);
   }
 
   // array containing Numbers from 1 to this.numColumns
@@ -101,7 +108,7 @@ export class GridComponent implements OnDestroy, OnInit {
   }
 
   public get gridRowStyle() {
-    return this.sanitization.bypassSecurityTrustStyle(`repeat(${this.layout.numRows}, ${this.GRID_AREA_HEIGHT}px)`);
+    return this.sanitization.bypassSecurityTrustStyle(`repeat(${this.layout.numRows}, ${this.GRID_AREA_HEIGHT})`);
   }
 
   public get rowNumbers() {
