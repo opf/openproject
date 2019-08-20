@@ -21,7 +21,10 @@ export class QuerySharingForm {
 
   public text = {
     showInMenu: this.I18n.t('js.label_star_query'),
-    visibleForOthers: this.I18n.t('js.label_public_query')
+    visibleForOthers: this.I18n.t('js.label_public_query'),
+
+    showInMenuText: this.I18n.t('js.work_packages.query.star_text'),
+    visibleForOthersText: this.I18n.t('js.work_packages.query.public_text')
   };
 
   constructor(readonly states:States,
