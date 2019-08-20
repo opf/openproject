@@ -112,20 +112,6 @@ describe ProjectsController, type: :controller do
     end
   end
 
-  describe 'index.html' do
-    let(:user) { FactoryBot.build(:admin) }
-
-    before do
-      login_as(user)
-      get 'index', format: 'atom'
-    end
-
-    it 'is 410 GONE' do
-      expect(response.response_code)
-        .to eql 410
-    end
-  end
-
   describe 'settings' do
     render_views
 

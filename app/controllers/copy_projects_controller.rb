@@ -28,7 +28,6 @@
 #++
 
 class CopyProjectsController < ApplicationController
-  before_action :disable_api
   before_action :find_project
   before_action :authorize
 

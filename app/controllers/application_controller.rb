@@ -573,25 +573,6 @@ class ApplicationController < ActionController::Base
   end
   helper_method :show_local_breadcrumb
 
-  def disable_everything_except_api
-    unless api_request?
-      head 410
-      return false
-    end
-    true
-  end
-
-  def disable_api
-    # Changing this to not use api_request? to determine whether a request is an API
-    # request can have security implications regarding CSRF. See handle_unverified_request
-    # for more information.
-    if api_request?
-      head 410
-      return false
-    end
-    true
-  end
-
   def check_session_lifetime
     if session_expired?
       self.logged_user = nil

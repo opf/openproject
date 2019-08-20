@@ -31,13 +31,10 @@ class ProjectsController < ApplicationController
   menu_item :overview
   menu_item :roadmap, only: :roadmap
 
-  before_action :disable_api, except: :level_list
   before_action :find_project, except: %i[index level_list new create]
   before_action :authorize, only: %i[update modules types custom_fields]
   before_action :authorize_global, only: %i[new create]
   before_action :require_admin, only: %i[archive unarchive destroy destroy_info]
-
-  accept_key_auth :index, :level_list, :show, :create, :update, :destroy
 
   include SortHelper
   include PaginationHelper
@@ -59,9 +56,6 @@ class ProjectsController < ApplicationController
     @custom_fields = ProjectCustomField.visible(User.current)
 
     respond_to do |format|
-      format.atom do
-        head(:gone)
-      end
       format.html do
         render layout: 'no_menu'
       end
