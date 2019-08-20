@@ -58,7 +58,8 @@ export class WorkPackageViewDisplayRepresentationService extends WorkPackageQuer
   public applyToQuery(query:QueryResource) {
     const current = this.current;
     query.displayRepresentation = current === null ? undefined : current;
-    return true;
+
+    return false;
   }
 
   public get current():string|null {

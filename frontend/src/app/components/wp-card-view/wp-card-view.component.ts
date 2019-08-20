@@ -105,6 +105,7 @@ export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
               readonly cdRef:ChangeDetectorRef,
               readonly pathHelper:PathHelperService,
               readonly wpTableSelection:WorkPackageViewSelectionService,
+              readonly wpViewOrder:WorkPackageViewOrderService,
               readonly cardView:WorkPackageCardViewService,
               readonly cardDragDrop:WorkPackageCardDragAndDropService) {
   }
@@ -129,7 +130,7 @@ export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
       filter(([results, query]) => results && !this.causedUpdates.includes(query))
     ).subscribe(([results, query]) => {
       this.query = query;
-      this.workPackages = results.elements;
+      this.workPackages = this.wpViewOrder.orderedWorkPackages();
       this.cardView.updateRenderedCardsValues(this.workPackages);
       this.isResultEmpty = this.workPackages.length === 0;
       this.cdRef.detectChanges();
