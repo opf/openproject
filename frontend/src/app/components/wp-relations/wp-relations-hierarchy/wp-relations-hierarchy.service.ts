@@ -34,12 +34,14 @@ import {WorkPackageViewRefreshService} from '../../wp-table/wp-table-refresh-req
 import {StateService} from '@uirouter/core';
 import {Injectable} from '@angular/core';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
+import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
 
 @Injectable()
 export class WorkPackageRelationsHierarchyService {
   constructor(protected $state:StateService,
               protected states:States,
               protected wpTableRefresh:WorkPackageViewRefreshService,
+              protected wpEvents:WorkPackageEventsService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected pathHelper:PathHelperService,
               protected wpCacheService:WorkPackageCacheService) {
@@ -70,10 +72,13 @@ export class WorkPackageRelationsHierarchyService {
       .then((wp:WorkPackageResource) => {
         this.wpCacheService.updateWorkPackage(wp);
         this.wpNotificationsService.showSave(wp);
-        this.wpTableRefresh.request(
-          `Changed parent of ${workPackage.id} to ${parentId}`,
-          { visible: true }
-        );
+        this.wpEvents.push({
+          type: 'association',
+          id: workPackage.id!,
+          relatedWorkPackage: parentId,
+          relationType: 'parent'
+        });
+
         return wp;
       })
       .catch((error) => {
@@ -93,9 +98,13 @@ export class WorkPackageRelationsHierarchyService {
         return this.changeParent(wpToBecomeChild!, workPackage.id!)
           .then(wp => {
             this.wpCacheService.loadWorkPackage(workPackage.id!, true);
-            this.wpTableRefresh.request(
-              `Added new child to ${workPackage.id}`,
-              { visible: true });
+            this.wpEvents.push({
+              type: 'association',
+              id: workPackage.id!,
+              relatedWorkPackage: wpToBecomeChild!.id!,
+              relationType: 'child'
+            });
+
             return wp;
           });
       });

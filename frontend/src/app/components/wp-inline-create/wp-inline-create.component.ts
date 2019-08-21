@@ -61,6 +61,10 @@ import {CurrentUserService} from "core-components/user/current-user.service";
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
 import {Subscription} from 'rxjs';
 import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
+import {
+  WorkPackageEvent,
+  WorkPackageEventsService
+} from "core-app/modules/work_packages/events/work-package-events.service";
 
 @Component({
   selector: '[wpInlineCreate]',

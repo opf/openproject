@@ -122,6 +122,7 @@ describe 'Switching types in work package table', js: true do
         message: 'Successful update. Click here to open this work package in fullscreen view.'
       )
 
+      expect(page).to have_no_selector "#{req_text_field.selector} #{req_text_field.display_selector}"
       expect { req_text_field.display_element }.to raise_error(Capybara::ElementNotFound)
     end
 

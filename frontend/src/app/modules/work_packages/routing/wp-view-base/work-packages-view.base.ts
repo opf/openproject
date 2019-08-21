@@ -29,10 +29,9 @@
 import {ChangeDetectorRef, Injector, OnDestroy, OnInit} from '@angular/core';
 import {StateService, TransitionService} from '@uirouter/core';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
-import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
-import {auditTime, filter, take, withLatestFrom} from 'rxjs/operators';
+import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
+import {auditTime, filter, withLatestFrom} from 'rxjs/operators';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageStaticQueriesService} from 'core-components/wp-query-select/wp-static-queries.service';
@@ -58,6 +57,10 @@ import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service"
 import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";
 import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import {WorkPackageViewDisplayRepresentationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
+import {
+  WorkPackageEvent,
+  WorkPackageEventsService
+} from "core-app/modules/work_packages/events/work-package-events.service";
 
 export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
 
@@ -86,6 +89,7 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
   readonly wpStatesInitialization:WorkPackageStatesInitializationService = this.injector.get(WorkPackageStatesInitializationService);
   readonly cdRef:ChangeDetectorRef = this.injector.get(ChangeDetectorRef);
   readonly wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService = this.injector.get(WorkPackageViewDisplayRepresentationService);
+  readonly wpEvents:WorkPackageEventsService = this.injector.get(WorkPackageEventsService);
 
   constructor(protected injector:Injector) {
   }
@@ -99,7 +103,7 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
   }
 
   ngOnDestroy():void {
-    this.wpTableRefresh.clear('Table controller scope destroyed.');
+    // Nothing to do
   }
 
   private setupQueryObservers() {
@@ -149,15 +153,14 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
         this.querySpace.query.putValue(newQuery);
 
         // Update the current checksum
-        this.wpListChecksumService.updateIfDifferent(newQuery, this.wpTablePagination.current);
-
-        // Update the page, if the change requires it
-        if (triggerUpdate) {
-          this.wpTableRefresh.request(
-            'Query updated by user',
-            { visible: true, firstPage: firstPage }
-          );
-        }
+        this.wpListChecksumService
+          .updateIfDifferent(newQuery, this.wpTablePagination.current)
+          .then(() => {
+            // Update the page, if the change requires it
+            if (triggerUpdate) {
+              this.refresh(true, firstPage);
+            }
+          });
       });
   }
 
@@ -166,9 +169,19 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
    * through the refresh service.
    */
   protected setupRefreshObserver() {
+    (window as any).wpEvents = this.wpEvents;
+    this.wpEvents
+      .aggregated$()
+      .pipe(
+        untilComponentDestroyed(this),
+        filter((events:WorkPackageEvent[]) => this.filterRefreshEvents(events))
+      )
+      .subscribe((events:WorkPackageEvent[]) => {
+        this.refresh(false, false);
+      });
+
     this.wpTableRefresh.state.values$('Refresh listener in wp-set.component').pipe(
       untilComponentDestroyed(this),
-      filter(request => this.filterRefreshRequest(request)),
       auditTime(20)
     ).subscribe((request) => {
       debugLog('Refreshing work package results.');
@@ -193,11 +206,21 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
   protected abstract set loadingIndicator(promise:Promise<unknown>);
 
   /**
-   * Filter the given refresh request?
-   * @param request {WorkPackageTableRefreshRequest}
-   * @return {boolean} whether the request should be processed.
+   * Filter the given work package events for something interesting
+   * @param events WorkPackageEvent[]
+   *
+   * @return {boolean} whether any of these events should trigger the view reloading
    */
-  protected filterRefreshRequest(request:WorkPackageTableRefreshRequest):boolean {
-    return true;
+  protected filterRefreshEvents(events:WorkPackageEvent[]):boolean {
+    let rendered = new Set(this.querySpace.renderedWorkPackageIds.getValueOr([]));
+
+    for (let i = 0; i < events.length; i++) {
+      const item = events[i];
+      if (rendered.has(item.id) || item.type === 'created') {
+        return true;
+      }
+    }
+
+    return false;
   }
 }

@@ -42,6 +42,7 @@ import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service'
 import Moment = moment.Moment;
 import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
+import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
 
 export const classNameBar = 'bar';
 export const classNameLeftHandle = 'leftHandle';
@@ -54,7 +55,7 @@ export function registerWorkPackageMouseHandler(this:void,
                                                 getRenderInfo:() => RenderInfo,
                                                 workPackageTimeline:WorkPackageTimelineTableController,
                                                 wpCacheService:WorkPackageCacheService,
-                                                wpTableRefresh:WorkPackageViewRefreshService,
+                                                wpEvents:WorkPackageEventsService,
                                                 wpNotificationsService:WorkPackageNotificationService,
                                                 loadingIndicator:LoadingIndicatorService,
                                                 cell:HTMLElement,
@@ -65,7 +66,7 @@ export function registerWorkPackageMouseHandler(this:void,
 
   const querySpace:IsolatedQuerySpace = injector.get(IsolatedQuerySpace);
 
-  let mouseDownStartDay:number | null = null; // also flag to signal active drag'n'drop
+  let mouseDownStartDay:number|null = null; // also flag to signal active drag'n'drop
   renderInfo.changeset = new WorkPackageChangeset(injector, renderInfo.workPackage);
 
   let dateStates:any;
@@ -120,7 +121,7 @@ export function registerWorkPackageMouseHandler(this:void,
     jBody.on('mouseup.timelinecell', () => deactivate(false));
   }
 
-  function createMouseMoveFn(direction:'left' | 'right' | 'both' | 'create' | 'dragright') {
+  function createMouseMoveFn(direction:'left'|'right'|'both'|'create'|'dragright') {
     return (ev:JQuery.MouseMoveEvent) => {
 
       const days = getCursorOffsetInDaysFromLeft(renderInfo, ev.originalEvent!) - mouseDownStartDay!;
@@ -252,8 +253,7 @@ export function registerWorkPackageMouseHandler(this:void,
         loadingIndicator.table.promise =
           queryDm.loadIdsUpdatedSince(ids, updatedAt).then(workPackageCollection => {
             wpCacheService.updateWorkPackageList(workPackageCollection.elements);
-
-            wpTableRefresh.request(`Moved work package ${wp.id} through timeline`);
+            wpEvents.push({ type: 'updated', id: wp.id! });
           });
       })
       .catch((error) => {

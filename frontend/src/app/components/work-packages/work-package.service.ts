@@ -34,6 +34,10 @@ import {PathHelperService} from "core-app/modules/common/path-helper/path-helper
 import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {
+  WorkPackageDeletedEvent,
+  WorkPackageEventsService
+} from "core-app/modules/work_packages/events/work-package-events.service";
 
 @Injectable()
 export class WorkPackageService {
@@ -48,7 +52,8 @@ export class WorkPackageService {
               private readonly UrlParamsHelper:UrlParamsHelperService,
               private readonly NotificationsService:NotificationsService,
               private readonly I18n:I18nService,
-              private readonly wpTableRefresh:WorkPackageViewRefreshService) {
+              private readonly wpTableRefresh:WorkPackageViewRefreshService,
+              private readonly wpEvents:WorkPackageEventsService) {
   }
 
   public performBulkDelete(ids:string[], defaultHandling:boolean) {
@@ -63,7 +68,8 @@ export class WorkPackageService {
       promise
         .then(() => {
           this.NotificationsService.addSuccess(this.text.successful_delete);
-          this.wpTableRefresh.request('Bulk delete removed elements', { visible: true });
+
+          ids.forEach(id => this.wpEvents.push({ type: 'deleted', id: id } as WorkPackageDeletedEvent));
 
           if (this.$state.includes('**.list.details.**')
             && ids.indexOf(this.$state.params.workPackageId) > -1) {

@@ -27,7 +27,7 @@
 // ++
 
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {StateService} from '@uirouter/core';
+import {StateService, TransitionPromise} from '@uirouter/core';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 import {Injectable} from '@angular/core';
 import {WorkPackageViewPagination} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-pagination";
@@ -43,22 +43,24 @@ export class WorkPackagesListChecksumService {
   public visibleChecksum:string|null;
 
   public updateIfDifferent(query:QueryResource,
-                           pagination:WorkPackageViewPagination) {
+                           pagination:WorkPackageViewPagination):Promise<unknown> {
 
     let newQueryChecksum = this.getNewChecksum(query, pagination);
+    let routePromise:Promise<unknown> = Promise.resolve();
 
     if (this.isUninitialized()) {
       // Do nothing
     } else if (this.isIdDifferent(query.id)) {
-      this.maintainUrlQueryState(query.id, null);
+      routePromise = this.maintainUrlQueryState(query.id, null);
 
       this.clear();
 
     } else if (this.isChecksumDifferent(newQueryChecksum)) {
-      this.maintainUrlQueryState(query.id, newQueryChecksum);
+      routePromise = this.maintainUrlQueryState(query.id, newQueryChecksum);
     }
 
     this.set(query.id, newQueryChecksum);
+    return routePromise;
   }
 
   public update(query:QueryResource, pagination:WorkPackageViewPagination) {
@@ -74,7 +76,7 @@ export class WorkPackagesListChecksumService {
 
     this.set(query.id, newQueryChecksum);
 
-    this.maintainUrlQueryState(query.id, null);
+    return this.maintainUrlQueryState(query.id, null);
   }
 
   public isQueryOutdated(query:QueryResource,
@@ -143,9 +145,13 @@ export class WorkPackagesListChecksumService {
     return this.UrlParamsHelper.encodeQueryJsonParams(query, _.pick(pagination, ['page', 'perPage']));
   }
 
-  private maintainUrlQueryState(id:string|null, checksum:string|null) {
+  private maintainUrlQueryState(id:string|null, checksum:string|null):TransitionPromise {
     this.visibleChecksum = checksum;
 
-    this.$state.go('.', {query_props: checksum, query_id: id}, {custom: {notify: false}});
+    return this.$state.go(
+      '.',
+      { query_props: checksum, query_id: id },
+      { custom: { notify: false } }
+    );
   }
 }

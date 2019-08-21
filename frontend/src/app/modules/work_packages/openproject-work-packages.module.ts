@@ -159,6 +159,7 @@ import {WorkPackageIsolatedGraphQuerySpaceDirective} from "core-app/modules/work
 import {WorkPackageViewToggleButton} from "core-components/wp-buttons/wp-view-toggle-button/work-package-view-toggle-button.component";
 import {WorkPackagesGridComponent} from "core-components/wp-grid/wp-grid.component";
 import {WorkPackageViewDropdownMenuDirective} from "core-components/op-context-menu/handlers/wp-view-dropdown-menu.directive";
+import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
 
 
 @NgModule({
@@ -209,6 +210,7 @@ import {WorkPackageViewDropdownMenuDirective} from "core-components/op-context-m
     WorkPackageWatchersService,
 
     QueryFormDmService,
+    WorkPackageEventsService,
   ],
   declarations: [
     // Routing
