@@ -112,8 +112,11 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
   }
 
   public repositionDropdown() {
-    if (this.ngSelectInstance && this.ngSelectInstance.dropdownPanel) {
-      setTimeout(() => this.ngSelectInstance.dropdownPanel.adjustPosition(), 25);
+    if (this.ngSelectInstance) {
+      setTimeout(() => {
+        const component = (this.ngSelectInstance) as any;
+        component.dropdownPanel._updatePosition();
+      }, 25);
     }
   }
 

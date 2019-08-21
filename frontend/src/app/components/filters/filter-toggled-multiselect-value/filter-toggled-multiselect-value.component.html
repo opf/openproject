@@ -6,6 +6,7 @@
              (change)="setValues($event)"
              (add)="repositionDropdown()"
              (remove)="repositionDropdown()"
+             (open)="repositionDropdown()"
              [compareWith]="compareByHrefOrString"
              [clearSearchOnAdd]="true"
              [placeholder]="text.placeholder"
