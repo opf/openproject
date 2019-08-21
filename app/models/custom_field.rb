@@ -139,6 +139,14 @@ class CustomField < ActiveRecord::Base
     end
   end
 
+  def value_of(value)
+    if list?
+      custom_options.where(value: value).pluck(:id).first
+    else
+      CustomValue.new(custom_field: self, value: value).valid? && value
+    end
+  end
+
   ##
   # Returns possible values for this custom field.
   # Options may be a customizable, or options suitable for ActiveRecord#read_attribute.

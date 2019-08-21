@@ -22,6 +22,12 @@ class AddDerivedEstimatedHoursToWorkPackages < ActiveRecord::Migration[5.2]
           migrate_to_derived_estimated_hours!
         end
       end
+
+      change.down do
+        WorkPackage.transaction do
+          rollback_from_derived_estimated_hours!
+        end
+      end
     end
   end
 
@@ -34,7 +40,6 @@ class AddDerivedEstimatedHoursToWorkPackages < ActiveRecord::Migration[5.2]
   # only touches the derived_estimated_hours column.
   def migrate_to_derived_estimated_hours!
     last_id = Journal.order(id: :desc).limit(1).pluck(:id).first || 0
-    wp_journals = "work_package_journals"
 
     work_packages = WorkPackageWithRelations.with_children.where("estimated_hours > ?", 0)
     work_packages.update_all("derived_estimated_hours = estimated_hours, estimated_hours = NULL")
@@ -45,7 +50,22 @@ class AddDerivedEstimatedHoursToWorkPackages < ActiveRecord::Migration[5.2]
     create_customizable_journals last_id: last_id
     create_attachable_journals last_id: last_id
 
-    work_packages.each(&:touch) # invalidate cache
+    touch_work_packages work_packages # to invalidate cache
+  end
+
+  def rollback_from_derived_estimated_hours!
+    last_id = Journal.order(id: :desc).limit(1).pluck(:id).first || 0
+
+    work_packages = WorkPackageWithRelations.with_children.where("derived_estimated_hours > ?", 0)
+    work_packages.update_all("estimated_hours = derived_estimated_hours, derived_estimated_hours = NULL")
+    work_packages = WorkPackageWithRelations.with_children.where("estimated_hours > ?", 0)
+
+    create_journals_for work_packages, notes: rollback_notes
+    create_work_package_journals last_id: last_id
+    create_customizable_journals last_id: last_id
+    create_attachable_journals last_id: last_id
+
+    touch_work_packages work_packages # to invalidate cache
   end
 
   ##
@@ -74,6 +94,10 @@ class AddDerivedEstimatedHoursToWorkPackages < ActiveRecord::Migration[5.2]
 
   def journal_notes
     "_'Estimated hours' changed to 'Derived estimated hours'_"
+  end
+
+  def rollback_notes
+    "_'Derived estimated hours' rolled back to 'Estimated hours'_"
   end
 
   ##
@@ -162,6 +186,14 @@ class AddDerivedEstimatedHoursToWorkPackages < ActiveRecord::Migration[5.2]
           -- we are selecting the latest previous (hence <= last_id) customizable journal here to copy its values
         )
       WHERE #{journals}.id > #{last_id} -- make sure to only create entries for the newly created journals
+    ")
+  end
+
+  def touch_work_packages(work_packages)
+    where = work_packages.arel.where_sql
+
+    WorkPackage.connection.execute("
+      UPDATE work_packages SET updated_at = NOW(), lock_version = lock_version + 1 #{where}
     ")
   end
 end
