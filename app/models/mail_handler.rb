@@ -34,29 +34,27 @@ class MailHandler < ActionMailer::Base
   class UnauthorizedAction < StandardError; end
   class MissingInformation < StandardError; end
 
-  attr_reader :email, :user
+  attr_reader :email, :user, :options
 
-  def self.receive(email, options = {})
-    @@handler_options = options.dup
+  ##
+  # Code copied from base class and extended with optional options parameter
+  # as well as force_encoding support.
+  def self.receive(raw_mail, options = {})
+    raw_mail.force_encoding('ASCII-8BIT') if raw_mail.respond_to?(:force_encoding)
 
-    @@handler_options[:issue] ||= {}
+    ActiveSupport::Notifications.instrument("receive.action_mailer") do |payload|
+      mail = Mail.new(raw_mail)
+      set_payload_for_mail(payload, mail)
+      with_options(options).receive(mail)
+    end
+  end
 
-    @@handler_options[:allow_override] =
-      if @@handler_options[:allow_override].is_a?(String)
-        @@handler_options[:allow_override].split(',').map(&:strip)
-      else
-        @@handler_options[:allow_override] || []
-      end.map(&:to_sym).to_set
+  def self.with_options(options)
+    handler = self.new
 
-    # Project needs to be overridable if not specified
-    @@handler_options[:allow_override] << :project unless @@handler_options[:issue].has_key?(:project)
-    # Status overridable by default
-    @@handler_options[:allow_override] << :status unless @@handler_options[:issue].has_key?(:status)
+    handler.options = options
 
-    @@handler_options[:no_permission_check] = @@handler_options[:no_permission_check].to_s == '1'
-
-    email.force_encoding('ASCII-8BIT') if email.respond_to?(:force_encoding)
-    super email
+    handler
   end
 
   cattr_accessor :ignored_emails_headers
@@ -93,7 +91,7 @@ class MailHandler < ActionMailer::Base
     end
     if @user.nil?
       # Email was submitted by an unknown user
-      case @@handler_options[:unknown_user]
+      case options[:unknown_user]
       when 'accept'
         @user = User.anonymous
       when 'create'
@@ -113,6 +111,18 @@ class MailHandler < ActionMailer::Base
     end
     User.current = @user
     dispatch
+  end
+
+  def options=(value)
+    @options = value.dup
+
+    options[:issue] ||= {}
+    options[:allow_override] = allow_override_option(options).map(&:to_sym).to_set
+    # Project needs to be overridable if not specified
+    options[:allow_override] << :project unless options[:issue].has_key?(:project)
+    # Status overridable by default
+    options[:allow_override] << :status unless options[:issue].has_key?(:status)
+    options[:no_permission_check] = options[:no_permission_check].to_s == '1'
   end
 
   private
@@ -179,7 +189,7 @@ class MailHandler < ActionMailer::Base
     work_package = WorkPackage.find_by(id: work_package_id)
     return unless work_package
     # ignore CLI-supplied defaults for new work_packages
-    @@handler_options[:issue].clear
+    options[:issue].clear
 
     result = update_work_package(work_package)
 
@@ -208,7 +218,7 @@ class MailHandler < ActionMailer::Base
     if message
       message = message.root
 
-      unless @@handler_options[:no_permission_check]
+      unless options[:no_permission_check]
         raise UnauthorizedAction unless user.allowed_to?(:add_messages, message.project)
       end
 
@@ -281,12 +291,12 @@ class MailHandler < ActionMailer::Base
       @keywords[attr]
     else
       @keywords[attr] = begin
-        if (options[:override] || @@handler_options[:allow_override].include?(attr)) &&
+        if (options[:override] || self.options[:allow_override].include?(attr)) &&
           (v = extract_keyword!(plain_text_body, attr, options[:format]))
           v
         else
           # Return either default or nil
-          @@handler_options[:issue][attr]
+          self.options[:issue][attr]
         end
       end
     end
@@ -424,6 +434,14 @@ class MailHandler < ActionMailer::Base
 
   private
 
+  def allow_override_option(options)
+    if options[:allow_override].is_a?(String)
+      options[:allow_override].split(',').map(&:strip)
+    else
+      options[:allow_override] || []
+    end
+  end
+
   # Removes the email body of text after the truncation configurations.
   def cleanup_body(body)
     delimiters = Setting.mail_handler_body_delimiters.to_s.split(/[\r\n]+/).reject(&:blank?).map { |s| Regexp.escape(s) }
@@ -534,7 +552,7 @@ class MailHandler < ActionMailer::Base
   end
 
   def work_package_create_contract_class
-    if @@handler_options[:no_permission_check]
+    if options[:no_permission_check]
       CreateWorkPackageWithoutAuthorizationsContract
     else
       WorkPackages::CreateContract
@@ -542,7 +560,7 @@ class MailHandler < ActionMailer::Base
   end
 
   def work_package_update_contract_class
-    if @@handler_options[:no_permission_check]
+    if options[:no_permission_check]
       UpdateWorkPackageWithoutAuthorizationsContract
     else
       WorkPackages::UpdateContract
