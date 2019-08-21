@@ -136,6 +136,10 @@ class WikiController < ApplicationController
       end
       return
     end
+
+    # Set the related page ID to make it the parent of new links
+    flash[:_related_wiki_page_id] = @page.id
+
     if params[:version] && !User.current.allowed_to?(:view_wiki_edits, @project)
       # Redirects user to the current version if he's not allowed to view previous versions
       redirect_to version: nil
@@ -153,7 +157,11 @@ class WikiController < ApplicationController
   def edit
     @page = @wiki.find_or_new_page(wiki_page_title)
     return render_403 unless editable?
-    @page.content = WikiContent.new(page: @page) if @page.new_record?
+
+    if @page.new_record?
+      @page.parent_id = flash[:_related_wiki_page_id] if flash[:_related_wiki_page_id]
+      @page.content = WikiContent.new(page: @page)
+    end
 
     @content = @page.content_for_version(params[:version])
     # don't keep previous comment
@@ -396,6 +404,10 @@ class WikiController < ApplicationController
   def build_wiki_page_and_content
     @page = WikiPage.new wiki: @wiki, title: wiki_page_title.presence
     @page.content = WikiContent.new page: @page
+
+    if flash[:_related_wiki_page_id]
+      @page.parent_id = flash[:_related_wiki_page_id]
+    end
 
     @content = @page.content_for_version nil
   end
