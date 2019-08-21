@@ -52,6 +52,7 @@ en:
     button_back_to_list_view: "Back to list view"
     button_cancel: "Cancel"
     button_close: "Close"
+    button_change_project: "Change project"
     button_check_all: "Check all"
     button_configure-form: "Configure form"
     button_confirm: "Confirm"
@@ -69,7 +70,6 @@ en:
     button_show_view: "Fullscreen view"
     button_log_time: "Log time"
     button_more: "More"
-    button_move: "Move"
     button_open_details: "Open details view"
     button_close_details: "Close details view"
     button_open_fullscreen: "Open fullscreen view"
@@ -646,7 +646,7 @@ en:
       image: "Image"
     work_packages:
       bulk_actions:
-        move: 'Bulk move'
+        move: 'Bulk change of project'
         edit: 'Bulk edit'
         copy: 'Bulk copy'
         delete: 'Bulk delete'

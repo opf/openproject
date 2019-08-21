@@ -3,11 +3,14 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef, EventEmitter,
+  ElementRef,
+  EventEmitter,
   Inject,
   Injector,
   Input,
-  OnInit, Output, ViewChild
+  OnInit,
+  Output,
+  ViewChild
 } from "@angular/core";
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
@@ -25,8 +28,6 @@ import {CardHighlightingMode} from "core-components/wp-fast-table/builders/highl
 import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
 import {StateService} from "@uirouter/core";
 import {States} from "core-components/states.service";
-import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
-import {DragAndDropHelpers} from "core-app/modules/common/drag-and-drop/drag-and-drop.helpers";
 import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {filter, withLatestFrom} from 'rxjs/operators';
@@ -35,7 +36,7 @@ import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/ro
 import {CardViewHandlerRegistry} from "core-components/wp-card-view/event-handler/card-view-handler-registry";
 import {WorkPackageCardViewService} from "core-components/wp-card-view/services/wp-card-view.service";
 import {WorkPackageCardDragAndDropService} from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";
-import {uiStateLinkClass, checkedClassName} from "core-components/wp-fast-table/builders/ui-state-link-builder";
+import {checkedClassName, uiStateLinkClass} from "core-components/wp-fast-table/builders/ui-state-link-builder";
 
 export type CardViewOrientation = 'horizontal'|'vertical';
 

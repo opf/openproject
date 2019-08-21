@@ -5,7 +5,8 @@ export const PERMITTED_CONTEXT_MENU_ACTIONS = [
     resource: 'workPackage'
   },
   {
-    key: 'move',
+    key: 'change_project',
+    icon: 'icon-move',
     link: 'move',
     resource: 'workPackage'
   },

@@ -1,7 +1,7 @@
 import {input} from 'reactivestates';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
-import {Injectable, Injector, OnDestroy} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from 'core-components/states.service';
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
@@ -14,7 +14,6 @@ export interface WorkPackageViewSelectionState {
   // required for shift-offsets
   activeRowIndex:number | null;
 }
-
 
 @Injectable()
 export class WorkPackageViewSelectionService implements OnDestroy {
