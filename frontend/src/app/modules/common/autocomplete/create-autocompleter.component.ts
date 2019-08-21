@@ -155,6 +155,13 @@ export class CreateAutocompleterComponent implements AfterViewInit {
 
   public opened() {
     this.onOpen.emit();
+
+    // Force reposition as a workaround for BUG
+    // https://github.com/ng-select/ng-select/issues/1259
+    setTimeout(() => {
+      const component = (this.addAutoCompleter || this.autoCompleter) as any;
+      component.dropdownPanel._updatePosition();
+    }, 25);
   }
 
   public closed() {

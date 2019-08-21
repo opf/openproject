@@ -92,6 +92,7 @@ import {AutofocusDirective} from "core-app/modules/common/autofocus/autofocus.di
 import {ShowSectionDropdownComponent} from "core-app/modules/common/hide-section/show-section-dropdown.component";
 import {IconTriggeredContextMenuComponent} from "core-components/op-context-menu/icon-triggered-context-menu/icon-triggered-context-menu.component";
 import {NgSelectModule} from "@ng-select/ng-select";
+import {NgOptionHighlightModule} from "@ng-select/ng-option-highlight";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -118,6 +119,7 @@ export function bootstrapModule(injector:Injector) {
     // Our own A11y module
     OpenprojectAccessibilityModule,
     NgSelectModule,
+    NgOptionHighlightModule,
 
     DynamicModule.withComponents([VersionAutocompleterComponent,
       CreateAutocompleterComponent]),
@@ -132,6 +134,7 @@ export function bootstrapModule(injector:Injector) {
     DragDropModule,
     OpenprojectAccessibilityModule,
     NgSelectModule,
+    NgOptionHighlightModule,
 
     OpDatePickerComponent,
     OpDateTimeComponent,

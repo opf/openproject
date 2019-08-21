@@ -8,6 +8,7 @@
            [typeahead]="searchInput$"
            [closeOnSelect]="true"
            (close)="cancel()"
+           (open)="onOpen()"
            (change)="onWorkPackageSelected($event)">
   <ng-template ng-label-tmp let-item="item">
     {{item.type.name }} #{{ item.id }} {{ item.subject }}

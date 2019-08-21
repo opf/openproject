@@ -113,8 +113,8 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // check searchterm on init, expand / collapse search bar and set correct classes
-    this.ngSelectComponent.filterValue = this.currentValue = this.globalSearchService.searchTerm;
-    this.expanded = (this.ngSelectComponent.filterValue.length > 0);
+    this.ngSelectComponent.searchTerm = this.currentValue = this.globalSearchService.searchTerm;
+    this.expanded = (this.ngSelectComponent.searchTerm.length > 0);
     jQuery('#top-menu').toggleClass('-global-search-expanded', this.expanded);
 
 
@@ -136,7 +136,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
         this.toggleMobileSearch();
         // open ng-select menu on default
         jQuery('.ng-input input').focus();
-      } else if (this.ngSelectComponent.filterValue.length === 0) {
+      } else if (this.ngSelectComponent.searchTerm.length === 0) {
         this.ngSelectComponent.focus();
       } else {
         this.submitNonEmptySearch();
@@ -179,7 +179,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   }
 
   public search($event:any) {
-    this.currentValue = this.ngSelectComponent.filterValue;
+    this.currentValue = this.ngSelectComponent.searchTerm;
     this.openCloseMenu($event.term);
   }
 
@@ -196,14 +196,14 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
   public onFocusOut() {
     if (!this.deviceService.isMobile) {
-      this.expanded = (this.ngSelectComponent.filterValue.length > 0);
+      this.expanded = (this.ngSelectComponent.searchTerm.length > 0);
       this.ngSelectComponent.isOpen = false;
       jQuery('#top-menu').toggleClass('-global-search-expanded', this.expanded);
     }
   }
 
   public clearSearch() {
-    this.currentValue = this.ngSelectComponent.filterValue = '';
+    this.currentValue = this.ngSelectComponent.searchTerm = '';
     this.openCloseMenu(this.currentValue);
   }
 
@@ -311,7 +311,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
           this.globalSearchService.currentTab === 'work_packages') {
         window.history
           .replaceState({},
-            `${I18n.t('global_search.search')}: ${this.ngSelectComponent.filterValue}`,
+            `${I18n.t('global_search.search')}: ${this.ngSelectComponent.searchTerm}`,
             this.globalSearchService.searchPath());
 
         return;
@@ -321,7 +321,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   }
 
   public blur() {
-    this.ngSelectComponent.filterValue = '';
+    this.ngSelectComponent.searchTerm = '';
     (<HTMLInputElement> document.activeElement).blur();
   }
 

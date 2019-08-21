@@ -153,4 +153,13 @@ export class WorkPackageRelationsAutocomplete implements AfterContentInit {
         tap(() => this.isLoading = false)
       );
   }
+
+  onOpen() {
+    // Force reposition as a workaround for BUG
+    // https://github.com/ng-select/ng-select/issues/1259
+    setTimeout(() => {
+      const component = (this.ngSelectComponent) as any;
+      component.dropdownPanel._updatePosition();
+    }, 25);
+  }
 }
