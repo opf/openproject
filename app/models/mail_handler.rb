@@ -346,7 +346,7 @@ class MailHandler < ActionMailer::Base
   def custom_field_values_from_keywords(customized)
     "#{customized.class.name}CustomField".constantize.all.inject({}) do |h, v|
       if value = get_keyword(v.name, override: true)
-        h[v.id.to_s] = value
+        h[v.id.to_s] = v.value_of value
       end
       h
     end

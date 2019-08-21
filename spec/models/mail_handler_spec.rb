@@ -112,6 +112,54 @@ describe MailHandler, type: :model do
         expect(work_package.attachments.length).to eq 2
       end
     end
+
+    context 'with a custom field' do
+      let(:work_package) { FactoryBot.create :work_package, project: project }
+      let(:type) { FactoryBot.create :type }
+
+      before do
+        type.custom_fields << custom_field
+        type.save!
+
+        allow_any_instance_of(WorkPackage).to receive(:available_custom_fields).and_return([custom_field])
+
+        expect(WorkPackage).to receive(:find_by).with(id: 42).and_return(work_package)
+        expect(User).to receive(:find_by_mail).with("h.wurst@openproject.com").and_return(mail_user)
+      end
+
+      context 'of type text' do
+        let(:custom_field) { FactoryBot.create :text_wp_custom_field, name: "Notes" }
+
+        before do
+          submit_email 'work_package_with_text_custom_field.eml', issue: { project: project.identifier }
+
+          work_package.reload
+        end
+
+        it "sets the value" do
+          value = work_package.custom_values.where(custom_field_id: custom_field.id).pluck(:value).first
+
+          expect(value).to eq "some text" # as given in .eml fixture
+        end
+      end
+
+      context 'of type list' do
+        let(:custom_field) { FactoryBot.create :list_wp_custom_field, name: "Letters", possible_values: %w(A B C) }
+
+        before do
+          submit_email 'work_package_with_list_custom_field.eml', issue: { project: project.identifier }
+
+          work_package.reload
+        end
+
+        it "sets the value" do
+          option = CustomOption.where(custom_field_id: custom_field.id, value: "B").first # as given in .eml fixture
+          value = work_package.custom_values.where(custom_field_id: custom_field.id).pluck(:value).first
+
+          expect(value).to eq option.id.to_s
+        end
+      end
+    end
   end
 
   describe '#category' do
