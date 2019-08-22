@@ -36,6 +36,7 @@ import {
 } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
+import {combineLatest} from "rxjs";
 
 
 @Component({
@@ -70,14 +71,17 @@ export class WorkPackageViewToggleButton implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.wpDisplayRepresentationService.live$()
-      .pipe(
-        untilComponentDestroyed(this)
-      )
-      .subscribe(() => {
-        this.detectView();
-        this.cdRef.detectChanges();
-      });
+    let statesCombined = combineLatest([
+      this.wpDisplayRepresentationService.live$(),
+      this.wpTableTimeline.live$(),
+    ]);
+
+    statesCombined.pipe(
+      untilComponentDestroyed(this)
+    ).subscribe(([display, timelines]) => {
+      this.detectView();
+      this.cdRef.detectChanges();
+    });
   }
 
   ngOnDestroy() {
