@@ -52,7 +52,6 @@ export class WpRelationInlineAddExistingComponent {
   public queryFilters = this.buildQueryFilters();
 
   public text = {
-    save: this.I18n.t('js.relation_buttons.save'),
     abort: this.I18n.t('js.relation_buttons.abort'),
   };
 
@@ -98,7 +97,7 @@ export class WpRelationInlineAddExistingComponent {
       });
   }
 
-  public onReferenced(workPackage?:WorkPackageResource) {
+  public onSelected(workPackage?:WorkPackageResource) {
     if (workPackage) {
       this.selectedWpId = workPackage.id!;
       this.addExisting();
@@ -112,7 +111,6 @@ export class WpRelationInlineAddExistingComponent {
   public get workPackage() {
     return this.wpInlineCreate.referenceTarget!;
   }
-
 
   public cancel() {
     this.parent.resetRow();

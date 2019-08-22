@@ -218,7 +218,6 @@ describe 'Work package with relation query group', js: true, selenium: true do
                           query: independent_work_package.subject,
                           select_text: independent_work_package.subject
 
-      container.find('.wp-create-relation--save').click
       embedded_table.expect_work_package_listed(independent_work_package)
       relations.expect_relation(independent_work_package)
 

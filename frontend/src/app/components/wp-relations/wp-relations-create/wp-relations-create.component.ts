@@ -24,7 +24,6 @@ export class WorkPackageRelationsCreateComponent {
   public isDisabled = false;
 
   public text = {
-    save: this.I18n.t('js.relation_buttons.save'),
     abort: this.I18n.t('js.relation_buttons.abort'),
     relationType: this.I18n.t('js.relation_buttons.relation_type'),
     addNewRelation: this.I18n.t('js.relation_buttons.add_new_relation')
@@ -51,9 +50,10 @@ export class WorkPackageRelationsCreateComponent {
       .then(() => this.isDisabled = false);
   }
 
-  public onReferenced(workPackage?:WorkPackageResource) {
+  public onSelected(workPackage?:WorkPackageResource) {
     if (workPackage) {
       this.selectedWpId = workPackage.id!;
+      this.createCommonRelation();
     }
   }
 

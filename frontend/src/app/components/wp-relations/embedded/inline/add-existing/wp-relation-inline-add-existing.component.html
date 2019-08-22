@@ -4,20 +4,12 @@
     <div class="wp-relations-input-section">
       <wp-relations-autocomplete
           [workPackage]="workPackage"
-          (onReferenced)="onReferenced($event)"
+          (onSelected)="onSelected($event)"
           [additionalFilters]="queryFilters"
           [filterCandidatesFor]="relationType">
       </wp-relations-autocomplete>
     </div>
     <div class="wp-relations-controls-section relation-row">
-      <accessible-by-keyboard
-          linkClass="wp-create-relation--save"
-          [isDisabled]="isDisabled"
-          (execute)="addExisting()"
-          aria-hidden="false">
-        <op-icon icon-classes="icon-checkmark" [icon-title]="text.save"></op-icon>
-      </accessible-by-keyboard>
-      &nbsp;
       <accessible-by-keyboard
           linkClass="wp-create-relation--cancel"
           (execute)="cancel()"
