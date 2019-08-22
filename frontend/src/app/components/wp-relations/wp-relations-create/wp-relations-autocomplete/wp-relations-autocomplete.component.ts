@@ -30,7 +30,7 @@ import {
   AfterContentInit,
   ChangeDetectorRef,
   Component,
-  EventEmitter,
+  EventEmitter, HostListener,
   Input,
   Output,
   ViewChild,
@@ -75,7 +75,7 @@ export class WorkPackageRelationsAutocomplete implements AfterContentInit {
   @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
 
   @Output() onCancel = new EventEmitter<undefined>();
-  @Output() onReferenced = new EventEmitter<WorkPackageResource>();
+  @Output() onSelected = new EventEmitter<WorkPackageResource>();
   @Output() onEmptySelected = new EventEmitter<undefined>();
 
   // Whether we're currently loading
@@ -102,6 +102,11 @@ export class WorkPackageRelationsAutocomplete implements AfterContentInit {
               private readonly I18n:I18nService) {
   }
 
+  @HostListener('keydown.escape')
+  public reset() {
+    this.cancel();
+  }
+
   ngAfterContentInit():void {
     if (!this.ngSelectComponent) {
       return;
@@ -121,7 +126,7 @@ export class WorkPackageRelationsAutocomplete implements AfterContentInit {
       this.schemaCacheService
         .ensureLoaded(workPackage)
         .then(() => {
-          this.onReferenced.emit(workPackage);
+          this.onSelected.emit(workPackage);
           this.ngSelectComponent.close();
         });
     }

@@ -32,22 +32,16 @@
                   [value]="type.name"></option>
         </select>
       </div>
-      <div class="grid-content medium-7">
+      <div class="grid-content medium-8">
         <wp-relations-autocomplete
             [workPackage]="workPackage"
-            (onReferenced)="onReferenced($event)"
+            (onSelected)="onSelected($event)"
+            (onCancel)="toggleRelationsCreateForm()"
             [appendToContainer]="'.work-packages-tab-view--overflow'"
             [selectedRelationType]="selectedRelationType">
         </wp-relations-autocomplete>
       </div>
-      <div class="grid-content medium-2 collapse wp-relations-controls-section relation-row">
-        <accessible-by-keyboard
-            (execute)="createRelation()"
-            [isDisabled]="isDisabled || !selectedWpId"
-            linkClass="wp-create-relation--save"
-            aria-hidden="false">
-          <op-icon icon-classes="icon-checkmark -padded" [icon-title]="text.save"></op-icon>
-        </accessible-by-keyboard>
+      <div class="grid-content medium-1 collapse wp-relations-controls-section relation-row">
         <accessible-by-keyboard
             (execute)="toggleRelationsCreateForm()"
             linkClass="wp-create-relation--cancel"

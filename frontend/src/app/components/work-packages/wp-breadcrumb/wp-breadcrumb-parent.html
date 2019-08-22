@@ -20,11 +20,12 @@
       linkClass="wp-relation--parent-remove hide-when-print -no-decoration icon-small icon-remove icon4">
   </accessible-by-keyboard>
 </ng-container>
+
 <wp-relations-autocomplete
   *ngIf="active"
   [inputPlaceholder]="text.set_or_remove_parent"
   [workPackage]="workPackage"
   (onCancel)="close()"
-  (onReferenced)="updateParent($event)"
+  (onSelected)="updateParent($event)"
   filterCandidatesFor="parent">
 </wp-relations-autocomplete>

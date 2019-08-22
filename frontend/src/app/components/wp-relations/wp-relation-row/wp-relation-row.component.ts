@@ -184,7 +184,6 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
 
         this.wpCacheService.updateWorkPackage(this.relatedWorkPackage);
         this.wpNotificationsService.showSave(this.relatedWorkPackage);
-        this.cdRef.detectChanges();
       })
       .catch((err:any) => this.wpNotificationsService.handleRawError(err,
         this.relatedWorkPackage));
