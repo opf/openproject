@@ -212,7 +212,8 @@ module OpenProject
 
       def relation_type(work_package, other, relation)
         if relation
-          relation.relation_type_for work_package
+          normalized = relation.relation_type_for(work_package)
+          I18n.t("js.relation_labels.#{normalized}", default: normalized)
         elsif work_package.parent_id == other.id
           I18n.t 'xls_export.child_of'
         elsif work_package.children.where(id: other.id).exists?
