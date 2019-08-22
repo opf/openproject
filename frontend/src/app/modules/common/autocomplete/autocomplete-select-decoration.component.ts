@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {NgSelectComponent} from "@ng-select/ng-select";
 
@@ -96,6 +96,9 @@ export class AutocompleteSelectDecorationComponent implements OnInit {
     }
 
     this.options = data;
+
+    // Unhide the parent
+    element.parentElement.hidden = false;
   }
 
   setInitialSelection(data:SelectItem[]) {
