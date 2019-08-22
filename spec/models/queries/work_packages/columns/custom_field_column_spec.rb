@@ -86,8 +86,8 @@ describe Queries::WorkPackages::Columns::CustomFieldColumn, type: :model do
   describe '#value' do
     let(:mock) { double(WorkPackage) }
 
-    it 'delegates to typed_custom_value_for' do
-      expect(mock).to receive(:typed_custom_value_for).with(custom_field.id)
+    it 'delegates to formatted_custom_value_for' do
+      expect(mock).to receive(:formatted_custom_value_for).with(custom_field.id)
       instance.value(mock)
     end
   end
