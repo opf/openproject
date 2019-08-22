@@ -40,6 +40,7 @@ import {IWorkPackageEditingServiceToken} from "../../wp-edit-form/work-package-e
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
+import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
 
 @Directive({
   selector: '[wpStatusDropdown]'
@@ -54,7 +55,8 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
               protected notificationService:NotificationsService,
               @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService,
               protected I18n:I18nService,
-              protected wpTableRefresh:WorkPackageViewRefreshService) {
+              protected wpTableRefresh:WorkPackageViewRefreshService,
+              protected wpEvents:WorkPackageEventsService) {
 
     super(elementRef, opContextMenu);
   }
@@ -89,7 +91,8 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
     if (!this.workPackage.isNew) {
       changeset.save().then(() => {
         this.wpNotificationsService.showSave(this.workPackage);
-        this.wpTableRefresh.request('Altered work package status via button');
+
+        this.wpEvents.push({ type: 'updated', id: this.workPackage.id! });
       });
     }
   }

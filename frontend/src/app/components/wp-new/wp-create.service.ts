@@ -41,6 +41,7 @@ import {WorkPackageEditingService} from "core-components/wp-edit-form/work-packa
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
+import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
 
 @Injectable()
 export class WorkPackageCreateService implements IWorkPackageCreateService {
@@ -55,11 +56,13 @@ export class WorkPackageCreateService implements IWorkPackageCreateService {
               protected halResourceService:HalResourceService,
               @Inject(IWorkPackageEditingServiceToken) protected readonly wpEditing:WorkPackageEditingService,
               protected readonly querySpace:IsolatedQuerySpace,
-              protected workPackageDmService:WorkPackageDmService) {
+              protected workPackageDmService:WorkPackageDmService,
+              protected readonly wpEvents:WorkPackageEventsService) {
   }
 
   public newWorkPackageCreated(wp:WorkPackageResource) {
     this.form = undefined;
+    this.wpEvents.push({ type: 'created', id: wp.id! });
     this.newWorkPackageCreatedSubject.next(wp);
   }
 

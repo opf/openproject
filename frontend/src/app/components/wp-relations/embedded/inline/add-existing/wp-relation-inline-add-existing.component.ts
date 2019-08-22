@@ -40,6 +40,7 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
 import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
 import {RelationResource} from "core-app/modules/hal/resources/relation-resource";
+import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
 
 @Component({
   templateUrl: './wp-relation-inline-add-existing.component.html'
@@ -61,6 +62,7 @@ export class WpRelationInlineAddExistingComponent {
               protected wpRelations:WorkPackageRelationsService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected wpTableRefresh:WorkPackageViewRefreshService,
+              protected wpEvents:WorkPackageEventsService,
               protected urlParamsHelper:UrlParamsHelperService,
               protected querySpace:IsolatedQuerySpace,
               protected readonly I18n:I18nService) {
@@ -77,7 +79,14 @@ export class WpRelationInlineAddExistingComponent {
     this.wpInlineCreate.add(this.workPackage, newRelationId)
       .then(() => {
         this.wpCacheService.loadWorkPackage(this.workPackage.id!, true);
-        this.wpTableRefresh.request(`Added relation ${newRelationId}`, { visible: true });
+
+        this.wpEvents.push({
+          type: 'association',
+          id: this.workPackage.id!,
+          relatedWorkPackage: newRelationId,
+          relationType: this.relationType,
+        });
+
         this.isDisabled = false;
         this.wpInlineCreate.newInlineWorkPackageReferenced.next(newRelationId);
         this.cancel();

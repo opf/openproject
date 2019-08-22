@@ -95,7 +95,6 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
     this.hasQueryProps = !!this.$state.params.query_props;
 
     // Load query initially
-    this.wpTableRefresh.clear('Impending query loading.');
     this.loadCurrentQuery();
 
     // Load query on URL transitions

@@ -8,6 +8,7 @@ import {ChangeDetectorRef, Component, ElementRef, Inject, Input, OnDestroy, OnIn
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageViewRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
 
 
 @Component({
@@ -59,6 +60,7 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
               protected wpNotificationsService:WorkPackageNotificationService,
               protected wpRelations:WorkPackageRelationsService,
               protected wpTableRefresh:WorkPackageViewRefreshService,
+              protected wpEvents:WorkPackageEventsService,
               protected I18n:I18nService,
               protected cdRef:ChangeDetectorRef,
               protected PathHelper:PathHelperService) {
@@ -130,10 +132,6 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
         this.relation = savedRelation;
         this.relatedWorkPackage.relatedBy = savedRelation;
         this.userInputs.showDescriptionEditForm = false;
-        this.wpTableRefresh.request(
-          `Updated relation ${this.relatedWorkPackage.id}`,
-          {visible: true}
-        );
         this.wpNotificationsService.showSave(this.relatedWorkPackage);
         this.cdRef.detectChanges();
       });
@@ -177,10 +175,13 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
   public removeRelation() {
     this.wpRelations.removeRelation(this.relation)
       .then(() => {
-        this.wpTableRefresh.request(
-          `Removed relation ${this.relatedWorkPackage.id}`,
-          { visible: true }
-        );
+        this.wpEvents.push({
+          type: 'association',
+          id: this.workPackage.id!,
+          relatedWorkPackage: null,
+          relationType: this.relation.normalizedType(this.workPackage)
+        });
+
         this.wpCacheService.updateWorkPackage(this.relatedWorkPackage);
         this.wpNotificationsService.showSave(this.relatedWorkPackage);
         this.cdRef.detectChanges();

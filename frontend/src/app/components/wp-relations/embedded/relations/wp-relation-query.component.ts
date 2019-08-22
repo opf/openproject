@@ -44,6 +44,7 @@ import {WorkPackageViewRefreshService} from "core-components/wp-table/wp-table-r
 import {filter, skip} from "rxjs/operators";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {GroupDescriptor} from "core-components/work-packages/wp-single-view/wp-single-view.component";
+import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
 
 @Component({
   selector: 'wp-relation-query',
@@ -76,6 +77,7 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
               @Inject(WorkPackageInlineCreateService) protected readonly wpInlineCreate:WpRelationInlineCreateService,
               protected readonly wpRelations:WorkPackageRelationsService,
               protected readonly wpTableRefresh:WorkPackageViewRefreshService,
+              protected readonly wpEvents:WorkPackageEventsService,
               protected readonly queryUrlParamsHelper:UrlParamsHelperService,
               protected readonly wpNotifications:WorkPackageNotificationService,
               protected readonly I18n:I18nService) {
@@ -114,7 +116,12 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
     this.wpInlineCreate
       .add(this.workPackage, toId)
       .then(() => {
-        this.wpTableRefresh.request(`Added relation ${toId}`, { visible: true });
+        this.wpEvents.push({
+          type: 'association',
+          id: this.workPackage.id!,
+          relatedWorkPackage: toId,
+          relationType: this.getRelationTypeFromQuery()
+        });
       })
       .catch(error => this.wpNotifications.handleRawError(error, this.workPackage));
   }

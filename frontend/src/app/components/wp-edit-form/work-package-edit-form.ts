@@ -39,6 +39,7 @@ import {WorkPackageEditContext} from './work-package-edit-context';
 import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
 import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
+import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
 
 export const activeFieldContainerClassName = 'wp-inline-edit--active-field';
 export const activeFieldClassName = 'wp-inline-edit--field';
@@ -50,6 +51,7 @@ export class WorkPackageEditForm {
   public wpEditing = this.injector.get(IWorkPackageEditingServiceToken);
   public wpTableRefresh = this.injector.get(WorkPackageViewRefreshService);
   public wpNotificationsService = this.injector.get(WorkPackageNotificationService);
+  public wpEvents = this.injector.get(WorkPackageEventsService);
 
   // All current active (open) edit fields
   public activeFields:{ [fieldName:string]:WorkPackageEditFieldHandler } = {};
@@ -181,9 +183,7 @@ export class WorkPackageEditForm {
           this.wpNotificationsService.showSave(savedWorkPackage, isInitial);
           this.editMode = false;
           this.editContext.onSaved(isInitial, savedWorkPackage);
-          this.wpTableRefresh.request(
-            `Saved work package ${savedWorkPackage.id}`
-          );
+          this.wpEvents.push({ type: 'updated', id: savedWorkPackage.id! });
         })
         .catch((error:ErrorResource|Object) => {
           this.wpNotificationsService.handleRawError(error, this.workPackage);

@@ -42,6 +42,10 @@ export class IsolatedQuerySpace extends StatesGroup {
     map(rows => rows.filter(row => !!row.workPackageId)))
   );
 
+  renderedWorkPackageIds:State<string[]> = derive(this.renderedWorkPackages, $ => $.pipe(
+    map(rows => rows.map(row => row.workPackageId!.toString())))
+  );
+
   // Current focused work package (e.g, row preselected for details button)
   focusedWorkPackage:InputState<WPFocusState> = input<WPFocusState>();
 

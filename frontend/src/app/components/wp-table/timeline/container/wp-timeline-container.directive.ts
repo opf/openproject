@@ -59,6 +59,7 @@ import {selectorTimelineSide} from "core-components/wp-table/wp-table-scroll-syn
 import {debugLog, timeOutput} from "core-app/helpers/debug_output";
 import {WorkPackageViewRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
 import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
+import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
 
 @Component({
   selector: 'wp-timeline-container',
@@ -104,6 +105,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
               private wpRelations:WorkPackageRelationsService,
               private wpTableRefresh:WorkPackageViewRefreshService,
               private wpTableHierarchies:WorkPackageViewHierarchiesService,
+              private wpEvents:WorkPackageEventsService,
               readonly I18n:I18nService) {
   }
 
@@ -264,7 +266,14 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     this.activateSelectionMode(start.id!, end => {
       this.wpRelations
         .addCommonRelation(start.id!, 'follows', end.id!)
-        .then(() => this.wpTableRefresh.request('Timeline relation'))
+        .then(() => {
+          this.wpEvents.push({
+            type: 'association',
+            id: start.id!,
+            relatedWorkPackage: end.id!,
+            relationType: 'follows'
+          });
+        })
         .catch((error:any) => this.wpNotificationsService.handleRawError(error, end));
     });
   }
@@ -273,7 +282,14 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     this.activateSelectionMode(start.id!, end => {
       this.wpRelations
         .addCommonRelation(start.id!, 'precedes', end.id!)
-        .then(() => this.wpTableRefresh.request('Timeline relation'))
+        .then(() => {
+          this.wpEvents.push({
+            type: 'association',
+            id: start.id!,
+            relatedWorkPackage: end.id!,
+            relationType: 'precedes'
+          });
+        })
         .catch((error:any) => this.wpNotificationsService.handleRawError(error, end));
     });
   }
