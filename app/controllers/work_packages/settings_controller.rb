@@ -30,7 +30,9 @@
 
 class WorkPackages::SettingsController < ::ApplicationController
   layout 'admin'
-  menu_item :work_packages_setting
+  current_menu_item :index do
+    :work_packages_setting
+  end
 
   def index
     render 'work_packages/settings/work_package_tracking'
