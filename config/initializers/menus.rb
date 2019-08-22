@@ -233,6 +233,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :oauth_applications,
             { controller: '/oauth/applications', action: 'index' },
             parent: :authentication,
+            caption: :'oauth.application.plural',
             html: { class: 'oauth_applications' }
 
   menu.push :announcements,
