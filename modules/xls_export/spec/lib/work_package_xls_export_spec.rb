@@ -126,14 +126,14 @@ describe "WorkPackageXlsExport" do
     expect(sheet.row(CHILD_2 + 1)[RELATED_SUBJECT]).to eq "Child 2's child"
 
     # shows Child 2 as following Followed
-    expect(sheet.row(CHILD_2 + 2)[RELATION]).to eq 'follows'
+    expect(sheet.row(CHILD_2 + 2)[RELATION]).to eq 'Follows'
     expect(sheet.row(CHILD_2 + 2)[RELATED_SUBJECT]).to eq 'Followed'
 
     # shows no relation information for Single
     expect(sheet.row(SINGLE).drop(7).compact).to eq []
 
     # shows Followed as preceding Child 2'
-    expect(sheet.row(FOLLOWED)[RELATION]).to eq 'precedes'
+    expect(sheet.row(FOLLOWED)[RELATION]).to eq 'Precedes'
     expect(sheet.row(FOLLOWED)[RELATION_DESCRIPTION]).to eq 'description foobar'
     expect(sheet.row(FOLLOWED)[RELATED_SUBJECT]).to eq 'Child 2'
 
@@ -153,7 +153,7 @@ describe "WorkPackageXlsExport" do
       .to eq [
         nil, followed.type.name, followed.id, followed.subject, followed.status.name,
           followed.assigned_to, followed.priority.name,
-        nil, 'precedes', 0, relation.description, child_2.id,  child_2.type.name, child_2.subject
+        nil, 'Precedes', 0, relation.description, child_2.id,  child_2.type.name, child_2.subject
       ]
   end
 
