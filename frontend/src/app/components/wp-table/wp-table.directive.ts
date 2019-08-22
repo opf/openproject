@@ -170,6 +170,10 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
       // Total columns = all available columns + id + checkbox
       this.numTableColumns = this.columns.length + 2;
 
+      if (this.scrollSyncUpdate && this.timelineVisible !== timelines.visible) {
+        this.scrollSyncUpdate(timelines.visible);
+      }
+
       this.timelineVisible = timelines.visible;
 
       this.manualSortEnabled = this.wpTableSortBy.isManualSortingMode;
