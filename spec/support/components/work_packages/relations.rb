@@ -102,8 +102,6 @@ module Components
                             query: to.subject,
                             select_text: to.subject
 
-        container.find('.wp-create-relation--save').click
-
         expect(page).to have_selector('.relation-group--header',
                                       text: relation_label.upcase,
                                       wait: 10)
@@ -183,8 +181,6 @@ module Components
                             query: work_package.id,
                             results_selector: '.ng-dropdown-panel-items',
                             select_text: work_package.subject
-
-        page.find('.wp-relations--add-form .wp-create-relation--save').click
       end
 
       def expect_child(work_package)
