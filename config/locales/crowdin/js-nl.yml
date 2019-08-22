@@ -20,6 +20,7 @@ nl:
     button_back_to_list_view: "Terug naar het overzicht"
     button_cancel: "Annuleren"
     button_close: "Sluiten"
+    button_change_project: "Change project"
     button_check_all: "Selecteer alles"
     button_configure-form: "Formulier configureren"
     button_confirm: "Accepteren"
@@ -37,7 +38,6 @@ nl:
     button_show_view: "Fullscreen weergave"
     button_log_time: "Gelogde tijd"
     button_more: "Meer"
-    button_move: "Verplaatsen"
     button_open_details: "Open detailweergave"
     button_close_details: "Sluit detailweergave"
     button_open_fullscreen: "Open volledig scherm"
@@ -572,7 +572,7 @@ nl:
       image: "Afbeelding"
     work_packages:
       bulk_actions:
-        move: 'Bulk verplaatsen'
+        move: 'Bulk change of project'
         edit: 'Aanpassen in bulk'
         copy: 'Selectie kopiëren'
         delete: 'Selectie verwijderen'

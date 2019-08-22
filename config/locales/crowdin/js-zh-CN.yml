@@ -20,6 +20,7 @@ zh-CN:
     button_back_to_list_view: "返回列表视图"
     button_cancel: "取消"
     button_close: "关闭"
+    button_change_project: "Change project"
     button_check_all: "全选"
     button_configure-form: "配置表单"
     button_confirm: "确认"
@@ -37,7 +38,6 @@ zh-CN:
     button_show_view: "全屏视图"
     button_log_time: "记录时间"
     button_more: "更多"
-    button_move: "移动"
     button_open_details: "打开详细信息视图"
     button_close_details: "关闭细节显示"
     button_open_fullscreen: "打开全屏视图"
@@ -570,7 +570,7 @@ zh-CN:
       image: "图片"
     work_packages:
       bulk_actions:
-        move: '批量移动'
+        move: 'Bulk change of project'
         edit: '批量编辑'
         copy: '批量复制'
         delete: '批量删除'

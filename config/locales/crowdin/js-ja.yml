@@ -21,6 +21,7 @@ ja:
     button_back_to_list_view: "リスト表示に戻る"
     button_cancel: "キャンセル"
     button_close: "閉じる"
+    button_change_project: "Change project"
     button_check_all: "全てを選択"
     button_configure-form: "フォームを設定"
     button_confirm: "確認"
@@ -38,7 +39,6 @@ ja:
     button_show_view: "全画面表示"
     button_log_time: "時間を記録"
     button_more: "続き"
-    button_move: "移動"
     button_open_details: "詳細表示を開く"
     button_close_details: "詳細表示を閉じる"
     button_open_fullscreen: "全画面表示を開く"
@@ -573,7 +573,7 @@ ja:
       image: "画像"
     work_packages:
       bulk_actions:
-        move: '一括移動'
+        move: 'Bulk change of project'
         edit: '一括編集'
         copy: '一括コピー'
         delete: '一括削除'

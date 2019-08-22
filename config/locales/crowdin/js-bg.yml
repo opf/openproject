@@ -20,6 +20,7 @@ bg:
     button_back_to_list_view: "Back to list view"
     button_cancel: "Отказ"
     button_close: "Close"
+    button_change_project: "Change project"
     button_check_all: "Избери всички"
     button_configure-form: "Configure form"
     button_confirm: "Confirm"
@@ -37,7 +38,6 @@ bg:
     button_show_view: "Изглед на цял екран"
     button_log_time: "Отчетено време"
     button_more: "Повече"
-    button_move: "Премести"
     button_open_details: "Отвори детайлен изглед"
     button_close_details: "Close details view"
     button_open_fullscreen: "Отвори на цял екран"
@@ -572,7 +572,7 @@ bg:
       image: "Изображение"
     work_packages:
       bulk_actions:
-        move: 'Bulk move'
+        move: 'Bulk change of project'
         edit: 'Bulk edit'
         copy: 'Bulk copy'
         delete: 'Bulk delete'

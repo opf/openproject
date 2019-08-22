@@ -20,6 +20,7 @@ id:
     button_back_to_list_view: "Kembali ke tampilan daftar"
     button_cancel: "Batal"
     button_close: "Tutup"
+    button_change_project: "Change project"
     button_check_all: "Cek semua"
     button_configure-form: "Mengkonfigurasi formulir"
     button_confirm: "Konfirmasi"
@@ -37,7 +38,6 @@ id:
     button_show_view: "Tampilan layar penuh"
     button_log_time: "Catatan waktu"
     button_more: "Lanjut"
-    button_move: "Pindahkan"
     button_open_details: "Lihat tampilan detail"
     button_close_details: "Menutup tampilan rinci"
     button_open_fullscreen: "Open fullscreen view"
@@ -570,7 +570,7 @@ id:
       image: "Gambar"
     work_packages:
       bulk_actions:
-        move: 'Perpindahan massal'
+        move: 'Bulk change of project'
         edit: 'Edit massal'
         copy: 'Penggandaan massal'
         delete: 'Penghapusan massal'

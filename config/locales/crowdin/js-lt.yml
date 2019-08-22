@@ -20,6 +20,7 @@ lt:
     button_back_to_list_view: "Atgal į sąrašo peržiūrą"
     button_cancel: "Atšaukti"
     button_close: "Uždaryti"
+    button_change_project: "Change project"
     button_check_all: "Žymėti visus"
     button_configure-form: "Konfigūruoti formą"
     button_confirm: "Patvirtinti"
@@ -37,7 +38,6 @@ lt:
     button_show_view: "Fullscreen view"
     button_log_time: "Registruoti laiką"
     button_more: "Daugiau"
-    button_move: "Perkelti"
     button_open_details: "Atidaryti detalesnį vaizdą"
     button_close_details: "Uždaryti detalų vaizdavimą"
     button_open_fullscreen: "Atidaryti viso ekrano rodinį"
@@ -576,7 +576,7 @@ lt:
       image: "Paveikslėlis"
     work_packages:
       bulk_actions:
-        move: 'Masinis perkėlimas'
+        move: 'Bulk change of project'
         edit: 'Masinis redagavimas'
         copy: 'Masinis kopijavimas'
         delete: 'Masinis trynimas'

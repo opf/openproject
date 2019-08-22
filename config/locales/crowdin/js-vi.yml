@@ -20,6 +20,7 @@ vi:
     button_back_to_list_view: "Back to list view"
     button_cancel: "Hủy"
     button_close: "Đóng"
+    button_change_project: "Change project"
     button_check_all: "Đánh dấu tất cả"
     button_configure-form: "Configure form"
     button_confirm: "Confirm"
@@ -37,7 +38,6 @@ vi:
     button_show_view: "Xem toàn màn hình"
     button_log_time: "Thời gian truy cập"
     button_more: "Xem thêm"
-    button_move: "Di chuyển"
     button_open_details: "Mở thông tin chi tiết xem"
     button_close_details: "Close details view"
     button_open_fullscreen: "Mở chế độ toàn màn hình"
@@ -569,7 +569,7 @@ vi:
       image: "Image"
     work_packages:
       bulk_actions:
-        move: 'Dịch chuyển hàng loạt'
+        move: 'Bulk change of project'
         edit: 'Chỉnh sửa hàng loạt'
         copy: 'Sao chép hàng loạt'
         delete: 'Xoá hàng loạt'

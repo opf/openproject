@@ -20,6 +20,7 @@ it:
     button_back_to_list_view: "Torna alla visualizzazione in lista"
     button_cancel: "Cancella"
     button_close: "Chiuso"
+    button_change_project: "Change project"
     button_check_all: "Seleziona tutti"
     button_configure-form: "Configura modulo"
     button_confirm: "Conferma"
@@ -37,7 +38,6 @@ it:
     button_show_view: "Visualizzazione a schermo intero"
     button_log_time: "Registra l'orario effettuato"
     button_more: "Più"
-    button_move: "Sposta"
     button_open_details: "Mostra dettagli"
     button_close_details: "Nascondi dettagli"
     button_open_fullscreen: "Apri la visualizzazione a schermo intero"
@@ -572,7 +572,7 @@ it:
       image: "Immagine"
     work_packages:
       bulk_actions:
-        move: 'Spostamento di massa'
+        move: 'Bulk change of project'
         edit: 'Modifica di massa'
         copy: 'Copia di massa'
         delete: 'Eliminazione di massa'

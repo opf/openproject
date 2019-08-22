@@ -20,6 +20,7 @@ ro:
     button_back_to_list_view: "Înapoi la listă"
     button_cancel: "Anulare"
     button_close: "Închide"
+    button_change_project: "Change project"
     button_check_all: "Selectează tot"
     button_configure-form: "Configure form"
     button_confirm: "Confirmă"
@@ -37,7 +38,6 @@ ro:
     button_show_view: "Vizualizare pe tot ecranul"
     button_log_time: "Consum timp"
     button_more: "Mai mult"
-    button_move: "Mutare"
     button_open_details: "Deschidere vizualizare detaliată"
     button_close_details: "Închideţi fereastra cu detalii"
     button_open_fullscreen: "Afișare pe tot ecranul"
@@ -573,7 +573,7 @@ ro:
       image: "Imagine"
     work_packages:
       bulk_actions:
-        move: 'Mută mai multe elemente'
+        move: 'Bulk change of project'
         edit: 'Editează mai multe elemente'
         copy: 'Copiază mai multe elemente'
         delete: 'Șterge mai multe element'

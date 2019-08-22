@@ -20,6 +20,7 @@
     button_back_to_list_view: "Back to list view"
     button_cancel: "Avbryt"
     button_close: "Lukk"
+    button_change_project: "Change project"
     button_check_all: "Velg alle"
     button_configure-form: "Configure form"
     button_confirm: "Bekreft"
@@ -37,7 +38,6 @@
     button_show_view: "Fullskjermvisning"
     button_log_time: "Logg tid"
     button_more: "Mer"
-    button_move: "Flytt"
     button_open_details: "Åpne detaljvisning"
     button_close_details: "Close details view"
     button_open_fullscreen: "Åpne fullskjermvisning"
@@ -572,7 +572,7 @@
       image: "Bilde"
     work_packages:
       bulk_actions:
-        move: 'Bulk move'
+        move: 'Bulk change of project'
         edit: 'Bulk edit'
         copy: 'Bulk copy'
         delete: 'Bulk delete'

@@ -20,6 +20,7 @@ sv:
     button_back_to_list_view: "Tillbaka till listvy"
     button_cancel: "Avbryt"
     button_close: "Stäng"
+    button_change_project: "Change project"
     button_check_all: "Markera alla"
     button_configure-form: "Ställ in formulär"
     button_confirm: "Bekräfta"
@@ -37,7 +38,6 @@ sv:
     button_show_view: "Helskärmsläge"
     button_log_time: "Logga tid"
     button_more: "Mer"
-    button_move: "Flytta"
     button_open_details: "Öppna detaljvyn"
     button_close_details: "Stäng detaljvyn"
     button_open_fullscreen: "Öppna fullskärmsläge"
@@ -571,7 +571,7 @@ sv:
       image: "Bild"
     work_packages:
       bulk_actions:
-        move: 'Bulk flytta'
+        move: 'Bulk change of project'
         edit: 'Lägg till/Ändra'
         copy: 'Bulkkopiera'
         delete: 'Massborttagning'

@@ -20,6 +20,7 @@ es:
     button_back_to_list_view: "Volver a la lista"
     button_cancel: "Cancelar"
     button_close: "Cerrar"
+    button_change_project: "Change project"
     button_check_all: "Seleccionar Todos"
     button_configure-form: "Configurar formulario"
     button_confirm: "Confirmar"
@@ -37,7 +38,6 @@ es:
     button_show_view: "Vista de pantalla completa"
     button_log_time: "Registro de tiempo"
     button_more: "Más"
-    button_move: "Mover"
     button_open_details: "Abrir vista detallada"
     button_close_details: "Cerrar vista detallada"
     button_open_fullscreen: "Ver pantalla completa"
@@ -572,7 +572,7 @@ es:
       image: "Imagen"
     work_packages:
       bulk_actions:
-        move: 'Movimiento en masa'
+        move: 'Bulk change of project'
         edit: 'Edición en masa'
         copy: 'Copia en masa'
         delete: 'Eliminación en masa'

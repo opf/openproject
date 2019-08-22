@@ -20,6 +20,7 @@ uk:
     button_back_to_list_view: "Повернутися до списку"
     button_cancel: "Скасувати"
     button_close: "Закрити"
+    button_change_project: "Change project"
     button_check_all: "Перевірити все"
     button_configure-form: "Налаштуйте форму"
     button_confirm: "Підтвердити"
@@ -37,7 +38,6 @@ uk:
     button_show_view: "Повноекранний режим"
     button_log_time: "Час журналу"
     button_more: "Більше"
-    button_move: "Перемістити"
     button_open_details: "Відкрити докладне подання"
     button_close_details: "Закрити подання деталей"
     button_open_fullscreen: "Відкрити на весь екран"
@@ -576,7 +576,7 @@ uk:
       image: "Зображення"
     work_packages:
       bulk_actions:
-        move: 'Масове переміщення'
+        move: 'Bulk change of project'
         edit: 'Масове редагування'
         copy: 'Масова копія'
         delete: 'Масове видалення'

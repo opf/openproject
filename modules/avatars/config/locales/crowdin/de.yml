@@ -20,11 +20,11 @@ de:
     text_current_avatar: |
       Das folgende Bild zeigt das aktuelle Profilbild.
     text_upload_instructions: |
-      Laden Sie Ihren eigenes Profilbild von 128 mal 128 Pixeln hoch. Größere Dateien werden verkleinert und zugeschnitten.
+      Laden Sie Ihr eigenes Profilbild von 128 mal 128 Pixeln hoch. Größere Dateien werden verkleinert und zugeschnitten.
       Eine Vorschau Ihres Profilbild wird angezeigt, sobald Sie ein Bild ausgewählt haben.
-    text_change_gravatar_html: 'Um das Gravatar für Ihre E-Mail-Adresse zu ändern oder eines hinzuzüfigen, gehen Sie zu %{gravatar_url}.'
+    text_change_gravatar_html: 'Um das Gravatar für Ihre E-Mail-Adresse zu ändern oder eines hinzuzufügen, gehen Sie zu %{gravatar_url}.'
     text_your_local_avatar: |
-      OpenProject ermöglicht es Ihnen, Ihren eigenes Profilbild hochzuladen.
+      OpenProject ermöglicht es Ihnen, Ihr eigenes Profilbild hochzuladen.
     text_local_avatar_over_gravatar: |
       Wenn Sie ein eigenes Profilbild verwenden, wird es vorrangig vor dem für Ihre E-Mail-Adresse hinterlegten Gravatar verwendet.
     text_your_current_gravatar: |

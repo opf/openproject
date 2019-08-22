@@ -20,6 +20,7 @@ de:
     button_back_to_list_view: "Zurück zur Listenansicht"
     button_cancel: "Abbrechen"
     button_close: "Schließen"
+    button_change_project: "Change project"
     button_check_all: "Alle auswählen"
     button_configure-form: "Formular konfigurieren"
     button_confirm: "Bestätigen"
@@ -37,7 +38,6 @@ de:
     button_show_view: "Vollbildansicht"
     button_log_time: "Zeit buchen"
     button_more: "Mehr"
-    button_move: "Verschieben"
     button_open_details: "Öffne Detailansicht"
     button_close_details: "Detailansicht schließen"
     button_open_fullscreen: "Vollbildansicht öffnen"
@@ -571,7 +571,7 @@ de:
       image: "Bild"
     work_packages:
       bulk_actions:
-        move: 'Arbeitspakete verschieben'
+        move: 'Bulk change of project'
         edit: 'Arbeitspakete bearbeiten'
         copy: 'Arbeitspakete kopieren'
         delete: 'Arbeitspakete löschen'

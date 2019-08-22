@@ -20,6 +20,7 @@ zh-TW:
     button_back_to_list_view: "返回清單"
     button_cancel: "取消"
     button_close: "關閉"
+    button_change_project: "Change project"
     button_check_all: "勾選全部"
     button_configure-form: "配置表單"
     button_confirm: "確認"
@@ -37,7 +38,6 @@ zh-TW:
     button_show_view: "全螢幕瀏覽"
     button_log_time: "日誌的時間"
     button_more: "更多"
-    button_move: "移動"
     button_open_details: "開啟詳細檢視"
     button_close_details: "關閉詳細檢視"
     button_open_fullscreen: "開啟全螢幕檢視"
@@ -569,7 +569,7 @@ zh-TW:
       image: "圖片"
     work_packages:
       bulk_actions:
-        move: '整批移動'
+        move: 'Bulk change of project'
         edit: '整批編輯'
         copy: '整批複製'
         delete: '整批刪除'

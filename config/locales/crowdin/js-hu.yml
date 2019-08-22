@@ -20,6 +20,7 @@ hu:
     button_back_to_list_view: "Vissza a lista nézethez"
     button_cancel: "Mégsem"
     button_close: "Bezár"
+    button_change_project: "Change project"
     button_check_all: "Az összes kijelölése"
     button_configure-form: "Űrlap beállítás"
     button_confirm: "Jóváhagy"
@@ -37,7 +38,6 @@ hu:
     button_show_view: "Teljes képernyős nézet"
     button_log_time: "Eltöltött idő rögzítése"
     button_more: "További"
-    button_move: "Mozgatás"
     button_open_details: "Részletes nézet megnyitása"
     button_close_details: "Részletes nézet bezárása"
     button_open_fullscreen: "Teljes képernyős nézet"
@@ -571,7 +571,7 @@ hu:
       image: "Kép"
     work_packages:
       bulk_actions:
-        move: 'Tömeges mozgatás'
+        move: 'Bulk change of project'
         edit: 'Tömeges szerkesztés'
         copy: 'Tömeges másolás'
         delete: 'Tömeges törlés'

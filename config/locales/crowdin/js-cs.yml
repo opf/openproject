@@ -20,6 +20,7 @@ cs:
     button_back_to_list_view: "Zpět na seznam"
     button_cancel: "Zrušit"
     button_close: "Zavřít"
+    button_change_project: "Change project"
     button_check_all: "Zaškrtnout vše"
     button_configure-form: "Configure form"
     button_confirm: "Potvrdit"
@@ -37,7 +38,6 @@ cs:
     button_show_view: "Celá obrazovka"
     button_log_time: "Čas protokolu"
     button_more: "Více"
-    button_move: "Přesunout"
     button_open_details: "Open details view"
     button_close_details: "Close details view"
     button_open_fullscreen: "Otevřít celoobrazovkový pohled"
@@ -576,7 +576,7 @@ cs:
       image: "Obrázek"
     work_packages:
       bulk_actions:
-        move: 'Hromadný přesun'
+        move: 'Bulk change of project'
         edit: 'Hromadná úprava'
         copy: 'Hromadné kopírování'
         delete: 'Bulk delete'

@@ -20,6 +20,7 @@ ar:
     button_back_to_list_view: "Back to list view"
     button_cancel: "إلغاء"
     button_close: "أغلِق"
+    button_change_project: "Change project"
     button_check_all: "اختر الكل"
     button_configure-form: "Configure form"
     button_confirm: "تأكيد"
@@ -37,7 +38,6 @@ ar:
     button_show_view: "عرض ملء الشاشة"
     button_log_time: "وقت السجل"
     button_more: "المزيد"
-    button_move: "نقل"
     button_open_details: "عرض التفاصيل المفتوحة"
     button_close_details: "Close details view"
     button_open_fullscreen: "فتح عرض كامل الشاشة"
@@ -580,7 +580,7 @@ ar:
       image: "صورة"
     work_packages:
       bulk_actions:
-        move: 'Bulk move'
+        move: 'Bulk change of project'
         edit: 'Bulk edit'
         copy: 'Bulk copy'
         delete: 'Bulk delete'

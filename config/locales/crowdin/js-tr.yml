@@ -20,6 +20,7 @@ tr:
     button_back_to_list_view: "Listeye görünümüne geri dön"
     button_cancel: "İptal"
     button_close: "Kapat"
+    button_change_project: "Change project"
     button_check_all: "Tümünü işaretle"
     button_configure-form: "Formu yapılandır"
     button_confirm: "Doğrula"
@@ -37,7 +38,6 @@ tr:
     button_show_view: "Tam Ekran görünümü"
     button_log_time: "Zaman kaydet"
     button_more: "Fazlası"
-    button_move: "Taşı"
     button_open_details: "Detay görünümünü aç"
     button_close_details: "Detay görünümünü kapat"
     button_open_fullscreen: "Tam Ekran görünümünü aç"
@@ -572,7 +572,7 @@ tr:
       image: "Görsel"
     work_packages:
       bulk_actions:
-        move: 'Toplu taşıma'
+        move: 'Bulk change of project'
         edit: 'Toplu düzenle'
         copy: 'Toplu kopyala'
         delete: 'Toplu silme'

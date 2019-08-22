@@ -20,6 +20,7 @@ hr:
     button_back_to_list_view: "Back to list view"
     button_cancel: "Odustani"
     button_close: "Zatvori"
+    button_change_project: "Change project"
     button_check_all: "Označi sve"
     button_configure-form: "Configure form"
     button_confirm: "Potvrdi"
@@ -37,7 +38,6 @@ hr:
     button_show_view: "Prikaz na cijelom ekranu"
     button_log_time: "Vrijeme pristupa"
     button_more: "Više"
-    button_move: "Premjesti"
     button_open_details: "Otvorite pregled pojedinosti"
     button_close_details: "Close details view"
     button_open_fullscreen: "Otvoren prikaz preko cijeliog ekrana"
@@ -574,7 +574,7 @@ hr:
       image: "Fotografija"
     work_packages:
       bulk_actions:
-        move: 'Bulk move'
+        move: 'Bulk change of project'
         edit: 'Bulk edit'
         copy: 'Bulk copy'
         delete: 'Bulk delete'

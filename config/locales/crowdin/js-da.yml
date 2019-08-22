@@ -20,6 +20,7 @@ da:
     button_back_to_list_view: "Tilbage til listevisning"
     button_cancel: "Annuller"
     button_close: "Luk"
+    button_change_project: "Change project"
     button_check_all: "Vælg alt"
     button_configure-form: "Konfigurer formularen"
     button_confirm: "Bekræft"
@@ -37,7 +38,6 @@ da:
     button_show_view: "Fuldskærmsvisning"
     button_log_time: "Tidsregistrering"
     button_more: "mere"
-    button_move: "Flyt"
     button_open_details: "Åbn detaljevisning"
     button_close_details: "Luk detaljeret visning"
     button_open_fullscreen: "Fuldskærmsvisning"
@@ -571,7 +571,7 @@ da:
       image: "Billede"
     work_packages:
       bulk_actions:
-        move: 'Bulk move'
+        move: 'Bulk change of project'
         edit: 'Bulk edit'
         copy: 'Bulk copy'
         delete: 'Bulk delete'

@@ -20,6 +20,7 @@ ca:
     button_back_to_list_view: "Back to list view"
     button_cancel: "Cancel·la"
     button_close: "Tancar"
+    button_change_project: "Change project"
     button_check_all: "Marcar-ho tot"
     button_configure-form: "Configure form"
     button_confirm: "Confirm"
@@ -37,7 +38,6 @@ ca:
     button_show_view: "Vista de pantalla completa"
     button_log_time: "Temps de registre"
     button_more: "Més"
-    button_move: "Moure"
     button_open_details: "Obrir vista detallada"
     button_close_details: "Close details view"
     button_open_fullscreen: "Obrir vista a pantalla completa"
@@ -572,7 +572,7 @@ ca:
       image: "Imatge"
     work_packages:
       bulk_actions:
-        move: 'Bulk move'
+        move: 'Bulk change of project'
         edit: 'Bulk edit'
         copy: 'Bulk copy'
         delete: 'Bulk delete'

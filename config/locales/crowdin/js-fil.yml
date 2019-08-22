@@ -20,6 +20,7 @@ fil:
     button_back_to_list_view: "Bumalik sa listahan ng view"
     button_cancel: "Kanselahin"
     button_close: "Isara"
+    button_change_project: "Change project"
     button_check_all: "Suriin lahat"
     button_configure-form: "Configure form"
     button_confirm: "Kumpirmahin"
@@ -37,7 +38,6 @@ fil:
     button_show_view: "Tanawin sa buong screen"
     button_log_time: "Ang oras ng tala"
     button_more: "Iba pa"
-    button_move: "Ilipat"
     button_open_details: "Buksan ang detalyeng view"
     button_close_details: "Isara ang mga detalye na view"
     button_open_fullscreen: "Buksan ang view ng buong screen"
@@ -572,7 +572,7 @@ fil:
       image: "Larawan"
     work_packages:
       bulk_actions:
-        move: 'Ilipat ang bulk'
+        move: 'Bulk change of project'
         edit: 'I-edit ang bulk'
         copy: 'Kopyahin ang bulk'
         delete: 'Burahin ang bulk'

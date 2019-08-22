@@ -20,6 +20,7 @@ sk:
     button_back_to_list_view: "Späť na zobrazenie zoznamu"
     button_cancel: "Zrušíť"
     button_close: "Zatvoriť"
+    button_change_project: "Change project"
     button_check_all: "Označiť všetko"
     button_configure-form: "Konfigurácia formulára"
     button_confirm: "Potvrdiť"
@@ -37,7 +38,6 @@ sk:
     button_show_view: "Zobrazenie na celú obrazovku"
     button_log_time: "Zaprotokoluj čas"
     button_more: "Viac"
-    button_move: "Presunúť"
     button_open_details: "Zobraziť podrobnosti"
     button_close_details: "Zavrieť podrobnosti"
     button_open_fullscreen: "Otvorené zobrazenie na celú obrazovku"
@@ -576,7 +576,7 @@ sk:
       image: "Obrázok"
     work_packages:
       bulk_actions:
-        move: 'Hromadne presunúť'
+        move: 'Bulk change of project'
         edit: 'Hromadne editovať'
         copy: 'Hromadne kopírovať'
         delete: 'Hromadne zmazať'

@@ -20,6 +20,7 @@ fi:
     button_back_to_list_view: "Back to list view"
     button_cancel: "Peruuta"
     button_close: "Sulje"
+    button_change_project: "Change project"
     button_check_all: "Valitse kaikki"
     button_configure-form: "Configure form"
     button_confirm: "Vahvista"
@@ -37,7 +38,6 @@ fi:
     button_show_view: "Koko näytön tila"
     button_log_time: "Kirjaa lokiin aika"
     button_more: "Lisää"
-    button_move: "Siirrä"
     button_open_details: "Avaa tiedot"
     button_close_details: "Sulje tarkemmat tiedot"
     button_open_fullscreen: "Avaa kokonäyttötila"
@@ -572,7 +572,7 @@ fi:
       image: "Kuva"
     work_packages:
       bulk_actions:
-        move: 'Bulk move'
+        move: 'Bulk change of project'
         edit: 'Bulk edit'
         copy: 'Bulk copy'
         delete: 'Bulk delete'

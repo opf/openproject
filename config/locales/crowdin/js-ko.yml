@@ -20,6 +20,7 @@ ko:
     button_back_to_list_view: "목록으로 돌아가기"
     button_cancel: "취소"
     button_close: "닫기"
+    button_change_project: "Change project"
     button_check_all: "모두 선택"
     button_configure-form: "구성 양식"
     button_confirm: "확인"
@@ -37,7 +38,6 @@ ko:
     button_show_view: "전체화면 보기"
     button_log_time: "작업시간 기록"
     button_more: "기타"
-    button_move: "이동"
     button_open_details: "자세히 보기"
     button_close_details: "디테일 닫기"
     button_open_fullscreen: "전체화면 보기"
@@ -570,7 +570,7 @@ ko:
       image: "이미지"
     work_packages:
       bulk_actions:
-        move: '대량 이동'
+        move: 'Bulk change of project'
         edit: '대량 편집'
         copy: '대량 복사'
         delete: '대량 삭제'

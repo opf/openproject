@@ -20,6 +20,7 @@ ru:
     button_back_to_list_view: "Вернуться к просмотру списка"
     button_cancel: "Отмена"
     button_close: "Закрыть"
+    button_change_project: "Change project"
     button_check_all: "Выделить все"
     button_configure-form: "Настроить форму"
     button_confirm: "Подтверждение"
@@ -37,7 +38,6 @@ ru:
     button_show_view: "Полноэкранный просмотр"
     button_log_time: "Журналировать время"
     button_more: "Более"
-    button_move: "Переместить"
     button_open_details: "Открыть детальный просмотр"
     button_close_details: "Закрыть детальный просмотр"
     button_open_fullscreen: "Полноэкранный просмотр"
@@ -575,7 +575,7 @@ ru:
       image: "Изображение"
     work_packages:
       bulk_actions:
-        move: 'Массовое перемещение'
+        move: 'Bulk change of project'
         edit: 'Массовое изменение'
         copy: 'Массовое копирование'
         delete: 'Массовое удаление'
