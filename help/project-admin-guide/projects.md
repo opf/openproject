@@ -7,24 +7,34 @@ keywords: projects
 
 # Projects
 
-in OpenProject you can create multiple projects to collaborate with your team members, track issues, document and share information with stakeholders, organize things. A project is a way to structure your work in OpenProject.
+In OpenProject you can create multiple projects to collaborate with your team members, track issues, document and share information with stakeholders, organize things. A project is a way to structure your work in OpenProject.
 
 Your projects can be available publicly or internally. OpenProject does not limit the number of projects, neither in the Community nor in the Cloud or Enterprise Edition.
 
 | Feature                                                      | Documentation for                                            |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [Select a project](#select-a-project)                        | Open a project which you want to work at.                    |
 | [Create a new project](./getting-started/#create-project)    | Find out how to create a new project in OpenProject.         |
 | [Project structure](#project-structure)                      | Find out how to set up a project structure.                  |
-| [Select a project](#select-a-project)                        | Open a project which you want to work at.                    |
 | [Project settings](#project-settings)                        | Configure further settings for your projects, such as description, project hierarchy structure, or setting it to public. |
 | [Change the project hierarchy](#change-the-project-hierarchy) | You can change the hierarchy by selecting the parent parent (subproject of). |
 | [Set a project to public](#set-a-project-to-public)          | Set a project to public to have it accessible without signing-in. |
 | [Copy a project](#copy-a-project)                            | Copy an existing project.                                    |
+| [Archive a project](#archive-a-project)                      | Find out how to archive completed projects.                  |
+| [Delete a project](#delete-a-project)                        | How to delete a project?                                     |
 | [Create a project template](#create-a-project-template)      | You can create a project template and use it for future projects. |
+
+## Select a project
+
+Find out [how to open an existing project](./getting-started/#open-an-existing-project) in OpenProject.
 
 ## Create a new project
 
 Find out how to [create a new project](./getting-started/#create-project) in OpenProject.
+
+## Create subproject
+
+To create a subproject for an existing project, navigate to the View all projects page.
 
 ## Project structure
 
@@ -58,18 +68,11 @@ OpenProject, for example, uses the projects to structured the different modules/
 
 <div class="notice">
 **Note**: You have to be a [member](./invite-members/#add-new-members) of a project in order to see the project and to work in a project.
-
 </div>
-
-## Select a project
-
-In order to open a project, click on the Select a project button on the top left corner of the header, and click the project which you want to open. You can also type in a project name to filter.
-
-![select-project](../getting-started/1566216783549.png)
 
 ## Project Settings
 
-You can specify further advanced settings if you like. Navigate to your project settings by [selecting a project](#select-a-project), and click **Project settings** in the project menu on the bottom and select the tab **Information**.
+You can specify further advanced settings for your project. Navigate to your project settings by [selecting a project](#select-a-project), and click **Project settings** in the project menu on the bottom and select the tab **Information**.
 
 - You can define whether the project should have a parent by selecting **Subproject of**. This way, you can [change the project hierarchy](change-the-project-hierarchy).
 
@@ -123,11 +126,25 @@ Then, the project cannot be selected from the project selection anymore. It is s
 
 ### Delete a project
 
-If you want to delete a project, navigate to the [project settings](#project-settings),
+If you want to delete a project, navigate to the [project settings](#project-settings). Click the button **Delete project** on the top right of the page.
+
+![delete-project](1566302412893.png)
+
+Also, you can delete a project via the [projects overview](#view-all-projects).
+
+
 
 ## View all projects
 
+To get an overview of all your projects, select the **View all projects** option from the Select a project menu in the top left header navigation. 
 
+![view all projects](1566293251039.png)
+
+You will then get a list of all your projects in OpenProject.
+
+With the **three dots** icon at the right in the list you can open further features, such as creating a new subproject, [project settings](#project-settings), [archive a project](#archive-a-project), [copy](#copy-a-project) and [delete a project](#delte-a-project).
+
+![Project list](1566293423878.png)
 
 ## Create a project template
 
