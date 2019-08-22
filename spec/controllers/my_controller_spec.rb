@@ -172,6 +172,19 @@ describe MyController, type: :controller do
       it 'has a successful flash' do
         expect(flash[:notice]).to eql I18n.t(:notice_account_updated)
       end
+
+      context 'when user is invalid' do
+        let(:user) do
+          FactoryBot.create(:user).tap do |u|
+            u.update_column(:mail, 'something invalid')
+          end
+        end
+
+        it 'shows a flash error' do
+          expect(flash[:error]).to include 'Email is invalid.'
+          expect(request.path).to eq(my_settings_path)
+        end
+      end
     end
   end
 

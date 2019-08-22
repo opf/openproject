@@ -154,10 +154,15 @@ class MyController < ApplicationController
              .new(current_user: current_user)
              .call(permitted_params, params)
 
-    if result && result.success
-      redirect_back(fallback_location: my_account_path)
+    if result&.success
       flash[:notice] = t(:notice_account_updated)
+    else
+      errors = result ? result.errors.full_messages.join("\n") : ''
+      flash[:error] = [t(:notice_account_update_failed)]
+      flash[:error] << errors
     end
+
+    redirect_back(fallback_location: my_account_path)
   end
 
   helper_method :has_tokens?
