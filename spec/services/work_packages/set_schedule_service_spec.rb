@@ -33,8 +33,8 @@ require 'spec_helper'
 describe WorkPackages::SetScheduleService do
   let(:work_package) do
     FactoryBot.build_stubbed(:stubbed_work_package,
-                              start_date: work_package_start_date,
-                              due_date: work_package_due_date)
+                             start_date: work_package_start_date,
+                             due_date: work_package_due_date)
   end
   let(:work_package_due_date) { Date.today }
   let(:work_package_start_date) { nil }
@@ -49,20 +49,20 @@ describe WorkPackages::SetScheduleService do
 
   def stub_follower(start_date, due_date, predecessors)
     work_package = FactoryBot.build_stubbed(:stubbed_work_package,
-                                             type: type,
-                                             start_date: start_date,
-                                             due_date: due_date)
+                                            type: type,
+                                            start_date: start_date,
+                                            due_date: due_date)
 
     relations = predecessors.map do |predecessor, delay|
       FactoryBot.build_stubbed(:follows_relation,
-                                delay: delay,
-                                from: work_package,
-                                to: predecessor)
+                               delay: delay,
+                               from: work_package,
+                               to: predecessor)
     end
 
     allow(work_package)
       .to receive(:follows_relations)
-      .and_return relations
+            .and_return relations
 
     work_package
   end
@@ -73,8 +73,8 @@ describe WorkPackages::SetScheduleService do
                           {})
 
     relation = FactoryBot.build_stubbed(:hierarchy_relation,
-                                         from: parent,
-                                         to: child)
+                                        from: parent,
+                                        to: child)
 
     allow(child)
       .to receive(:parent_relation)
@@ -117,12 +117,12 @@ describe WorkPackages::SetScheduleService do
                                  {})
 
     relation = FactoryBot.build_stubbed(:hierarchy_relation,
-                                         from: work_package,
-                                         to: following_work_package1)
+                                        from: work_package,
+                                        to: following_work_package1)
 
     allow(following_work_package1)
       .to receive(:parent_relation)
-      .and_return relation
+            .and_return relation
 
     work_package
   end
@@ -133,12 +133,12 @@ describe WorkPackages::SetScheduleService do
                             {})
 
     relation = FactoryBot.build_stubbed(:hierarchy_relation,
-                                         from: parent_following_work_package1,
-                                         to: sibling)
+                                        from: parent_following_work_package1,
+                                        to: sibling)
 
     allow(sibling)
       .to receive(:parent_relation)
-      .and_return relation
+            .and_return relation
 
     sibling
   end
@@ -149,12 +149,12 @@ describe WorkPackages::SetScheduleService do
     following.each do |wp, results|
       allow(WorkPackage)
         .to receive(:hierarchy_tree_following)
-        .with(wp)
-        .and_return(results)
+              .with(wp)
+              .and_return(results)
 
       allow(results)
         .to receive(:includes)
-        .and_return(results)
+              .and_return(results)
     end
   end
   let(:attributes) { [:start_date] }
@@ -180,10 +180,10 @@ describe WorkPackages::SetScheduleService do
 
     it 'returns only the original and the changed work packages' do
       expected_to_change = if defined?(unchanged)
-                             expected.keys - unchanged
-                           else
-                             expected.keys
-                           end
+        expected.keys - unchanged
+      else
+        expected.keys
+      end
 
       expected_to_change << work_package
 
@@ -219,6 +219,18 @@ describe WorkPackages::SetScheduleService do
       it_behaves_like 'reschedules' do
         let(:expected) do
           { following_work_package1 => [Date.today + 6.days, Date.today + 8.day] }
+        end
+      end
+
+      context 'when the follower has no due date' do
+        before do
+          following_work_package1.due_date = nil
+        end
+
+        it_behaves_like 'reschedules' do
+          let(:expected) do
+            { following_work_package1 => [Date.today + 6.days, nil] }
+          end
         end
       end
     end
@@ -320,28 +332,28 @@ describe WorkPackages::SetScheduleService do
     context 'moving backwards with the follower having another relation limiting movement' do
       let(:other_work_package) do
         FactoryBot.build_stubbed(:stubbed_work_package,
-                                  type: type,
-                                  start_date: follower1_start_date - 8.days,
-                                  due_date: follower1_start_date - 5.days)
+                                 type: type,
+                                 start_date: follower1_start_date - 8.days,
+                                 due_date: follower1_start_date - 5.days)
       end
 
       let(:follow_relation) do
         FactoryBot.build_stubbed(:follows_relation,
-                                  to: work_package,
-                                  from: following_work_package1)
+                                 to: work_package,
+                                 from: following_work_package1)
       end
 
       let(:other_follow_relation) do
         FactoryBot.build_stubbed(:follows_relation,
-                                  delay: 3,
-                                  to: other_work_package,
-                                  from: following_work_package1)
+                                 delay: 3,
+                                 to: other_work_package,
+                                 from: following_work_package1)
       end
 
       before do
         allow(following_work_package1)
           .to receive(:follows_relations)
-          .and_return [other_follow_relation, follow_relation]
+                .and_return [other_follow_relation, follow_relation]
 
         work_package.due_date = Date.today - 5.days
       end
@@ -429,8 +441,8 @@ describe WorkPackages::SetScheduleService do
       end
       let(:another_successor) do
         FactoryBot.build_stubbed(:stubbed_work_package,
-                                  start_date: nil,
-                                  due_date: nil)
+                                 start_date: nil,
+                                 due_date: nil)
       end
 
       context 'moving forward' do
@@ -475,7 +487,7 @@ describe WorkPackages::SetScheduleService do
       work_package.parent = parent_work_package
       allow(parent_work_package)
         .to receive(:descendants)
-        .and_return([work_package])
+              .and_return([work_package])
       work_package.build_parent_relation from_id: parent_work_package.id
     end
 
@@ -560,22 +572,22 @@ describe WorkPackages::SetScheduleService do
     context 'moving backwards with the parent having another relation limiting movement' do
       let(:other_work_package) do
         FactoryBot.build_stubbed(:stubbed_work_package,
-                                  type: type,
-                                  start_date: Date.today - 8.days,
-                                  due_date: Date.today - 4.days)
+                                 type: type,
+                                 start_date: Date.today - 8.days,
+                                 due_date: Date.today - 4.days)
       end
 
       let(:other_follow_relation) do
         FactoryBot.build_stubbed(:follows_relation,
-                                  delay: 2,
-                                  to: other_work_package,
-                                  from: parent_following_work_package1)
+                                 delay: 2,
+                                 to: other_work_package,
+                                 from: parent_following_work_package1)
       end
 
       before do
         allow(parent_following_work_package1)
           .to receive(:follows_relations)
-          .and_return [other_follow_relation]
+                .and_return [other_follow_relation]
 
         work_package.due_date = Date.today - 5.days
       end
@@ -595,22 +607,22 @@ describe WorkPackages::SetScheduleService do
     context 'moving backwards with the parent having another relation not limiting movement' do
       let(:other_work_package) do
         FactoryBot.build_stubbed(:stubbed_work_package,
-                                  type: type,
-                                  start_date: Date.today - 10.days,
-                                  due_date: Date.today - 9.days)
+                                 type: type,
+                                 start_date: Date.today - 10.days,
+                                 due_date: Date.today - 9.days)
       end
 
       let(:other_follow_relation) do
         FactoryBot.build_stubbed(:follows_relation,
-                                  delay: 2,
-                                  to: other_work_package,
-                                  from: parent_following_work_package1)
+                                 delay: 2,
+                                 to: other_work_package,
+                                 from: parent_following_work_package1)
       end
 
       before do
         allow(parent_following_work_package1)
           .to receive(:follows_relations)
-          .and_return [other_follow_relation]
+                .and_return [other_follow_relation]
 
         work_package.due_date = Date.today - 5.days
       end
@@ -700,8 +712,8 @@ describe WorkPackages::SetScheduleService do
     let(:child2_start_date) { follower1_start_date + 8.days }
     let(:child2_due_date) { follower1_due_date }
 
-    let(:child1_work_package) { stub_follower_child(following_work_package1, child1_start_date, child1_due_date)}
-    let(:child2_work_package) { stub_follower_child(following_work_package1, child2_start_date, child2_due_date)}
+    let(:child1_work_package) { stub_follower_child(following_work_package1, child1_start_date, child1_due_date) }
+    let(:child2_work_package) { stub_follower_child(following_work_package1, child2_start_date, child2_due_date) }
 
     let(:following) do
       {
@@ -948,10 +960,10 @@ describe WorkPackages::SetScheduleService do
     before do
       allow(new_parent_work_package)
         .to receive(:soonest_start)
-        .and_return(soonest_date)
+              .and_return(soonest_date)
       allow(work_package)
         .to receive(:parent)
-        .and_return(new_parent_work_package)
+              .and_return(new_parent_work_package)
     end
 
     context "with the parent being restricted in it's ability to be moved" do
