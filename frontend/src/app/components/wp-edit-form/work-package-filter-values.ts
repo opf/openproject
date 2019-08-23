@@ -4,6 +4,8 @@ import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-
 import {CurrentUserService} from "core-components/user/current-user.service";
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {Injector} from '@angular/core';
+import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
+import compareByHrefOrString = AngularTrackingHelpers.compareByHrefOrString;
 
 export class WorkPackageFilterValues {
 
@@ -26,6 +28,12 @@ export class WorkPackageFilterValues {
 
       // Exclude filters specified in constructor
       if (this.excluded.indexOf(filter.id) !== -1) {
+        return;
+      }
+
+      // Avoid setting a value if current value is in filter list
+      // and more than one value selected
+      if (this.filterAlreadyApplied(filter)) {
         return;
       }
 
@@ -63,5 +71,28 @@ export class WorkPackageFilterValues {
     }
 
     return undefined;
+  }
+
+  /**
+   * Avoid applying filter values when
+   *  - more than one filter value selected
+   *  - changeset already matches one of the selected values
+   * @param filter
+   */
+  private filterAlreadyApplied(filter:any):boolean {
+    // Only applicable if more than one selected
+    if (filter.values.length <= 1) {
+      return false;
+    }
+
+    const current = this.changeset.value(filter.id);
+
+    for (let i = 0; i < filter.values.length; i++) {
+      if (compareByHrefOrString(current, filter.values[i])) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }

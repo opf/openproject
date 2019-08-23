@@ -34,8 +34,23 @@ module Pages
 
     def initialize(work_package, project = nil)
       @work_package = work_package
-      @project = project
+      @project = project || work_package.project
     end
 
+    def card_element
+      page.find(".wp-card-#{work_package.id}")
+    end
+
+    def expect_type(name)
+      page.within(card_element) do
+        expect(page).to have_selector('.wp-card--type', text: name.upcase)
+      end
+    end
+
+    def expect_subject(subject)
+      page.within(card_element) do
+        expect(page).to have_selector('.wp-card--subject', text: subject)
+      end
+    end
   end
 end

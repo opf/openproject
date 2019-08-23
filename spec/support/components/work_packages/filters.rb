@@ -144,9 +144,11 @@ module Components
       def set_value(id, value)
         retry_block do
           if page.has_selector?("#filter_#{id} .ng-select-container")
-            select_autocomplete page.find("#filter_#{id}"),
-                                query: value,
-                                results_selector: '.advanced-filters--ng-select .ng-dropdown-panel-items'
+            Array(value).each do |val|
+              select_autocomplete page.find("#filter_#{id}"),
+                                  query: val,
+                                  results_selector: '.advanced-filters--ng-select .ng-dropdown-panel-items'
+            end
           else
             within_values(id) do
               page.all('input').each_with_index do |input, index|
