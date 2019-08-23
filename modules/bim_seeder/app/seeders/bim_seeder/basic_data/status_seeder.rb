@@ -63,7 +63,6 @@ module BimSeeder
           { name: I18n.t(:default_status_to_be_scheduled),  color_id: colors[4], is_closed: false, is_default: false, position: 5  },
           { name: I18n.t(:default_status_scheduled),        color_id: colors[5], is_closed: false, is_default: false, position: 6  },
           { name: I18n.t(:default_status_in_progress),      color_id: colors[6], is_closed: false, is_default: false, position: 7  },
-          { name: I18n.t(:default_status_in_development),   color_id: colors[7], is_closed: false, is_default: false, position: 8  },
           { name: I18n.t(:default_status_developed),        color_id: colors[8], is_closed: false, is_default: false, position: 9  },
           { name: I18n.t(:default_status_in_testing),       color_id: colors[9], is_closed: false, is_default: false, position: 10 },
           { name: I18n.t(:default_status_tested),           color_id: colors[10], is_closed: false, is_default: false, position: 11 },
