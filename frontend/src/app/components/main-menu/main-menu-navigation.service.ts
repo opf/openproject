@@ -68,6 +68,13 @@ export class MainMenuNavigationService {
     // Wrap main item
     this.wrapMainItem();
 
+    // Scroll to the active item
+    const selected = jQuery('.main-item-wrapper a.selected');
+    if (selected.length > 0) {
+      selected[0].scrollIntoView();
+    }
+
+
     // Recreate toggler
     const toggler = this.recreateToggler();
 
@@ -77,8 +84,6 @@ export class MainMenuNavigationService {
     if (active || activeRoot) {
       this.navigationEvents$.next(active || activeRoot);
     }
-
-
 
     jQuery('#main-menu li:has(ul) .main-item-wrapper > a').not('ul ul a')
     // 1. unbind the current click functions
