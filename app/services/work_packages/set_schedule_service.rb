@@ -152,6 +152,6 @@ class WorkPackages::SetScheduleService
     required_delta = [min_start_date - scheduled.start_date, [delta, 0].min].max
 
     scheduled.start_date += required_delta
-    scheduled.due_date += required_delta
+    scheduled.due_date += required_delta if scheduled.due_date
   end
 end
