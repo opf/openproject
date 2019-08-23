@@ -70,7 +70,7 @@ class Queries::WorkPackages::Columns::CustomFieldColumn < Queries::WorkPackages:
   end
 
   def value(work_package)
-    work_package.typed_custom_value_for(@cf.id)
+    work_package.formatted_custom_value_for(@cf.id)
   end
 
   def sum_of(work_packages)
