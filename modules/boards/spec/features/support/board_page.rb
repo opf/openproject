@@ -220,6 +220,10 @@ module Pages
       page.find('.dropdown-menu a', text: action).click
     end
 
+    def card_for(work_package)
+      ::Pages::WorkPackageCard.new work_package
+    end
+
     def expect_list_option(name, present: true)
       open_and_fill_add_list_modal name
 

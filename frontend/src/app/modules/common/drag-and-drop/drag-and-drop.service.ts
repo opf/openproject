@@ -163,7 +163,7 @@ export class DragAndDropService implements OnDestroy {
       try {
         await this.handleDrop(el, target, source, sibling);
       } catch (e) {
-        console.error("Failed to handle drop of %O", el);
+        console.error("Failed to handle drop of %O, %O", el, e);
       }
     });
 
