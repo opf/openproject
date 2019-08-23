@@ -60,26 +60,19 @@ export class WorkPackageStatusButtonComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.wpCacheService
-      .observe(this.workPackage.id!)
+    this.wpEditing
+      .temporaryEditResource(this.workPackage.id!)
+      .values$()
       .pipe(
         untilComponentDestroyed(this)
       )
       .subscribe((wp) => {
         this.workPackage = wp;
         this.cdRef.detectChanges();
-        this.workPackage.status.$load();
-      });
 
-    this.schemaCacheService
-      .state(this.workPackage)
-      .changes$()
-      .pipe(
-        untilComponentDestroyed(this)
-      )
-      .subscribe(() => {
-        // we have to explicitly force the component to update
-        this.cdRef.detectChanges();
+        if (this.workPackage.status) {
+          this.workPackage.status.$load();
+        }
       });
   }
 

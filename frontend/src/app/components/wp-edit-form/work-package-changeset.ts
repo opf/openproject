@@ -124,10 +124,6 @@ export class WorkPackageChangeset extends EditChangeset<WorkPackageResource> {
         .update(payload)
         .then((form:FormResource) => {
           this.form = form;
-          if (!this.resource.isNew) {
-            this.schemaCacheService.state(this.resource).putValue(form.schema);
-          }
-
           this.rebuildDefaults(form.payload);
 
           this.buildResource();
