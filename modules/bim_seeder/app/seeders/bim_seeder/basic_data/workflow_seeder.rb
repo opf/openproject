@@ -41,7 +41,6 @@ module BimSeeder
         to_be_scheduled  = Status.find_by(name: I18n.t(:default_status_to_be_scheduled))
         scheduled        = Status.find_by(name: I18n.t(:default_status_scheduled))
         in_progress      = Status.find_by(name: I18n.t(:default_status_in_progress))
-        in_development   = Status.find_by(name: I18n.t(:default_status_in_development))
         developed        = Status.find_by(name: I18n.t(:default_status_developed))
         in_testing       = Status.find_by(name: I18n.t(:default_status_in_testing))
         tested           = Status.find_by(name: I18n.t(:default_status_tested))
@@ -54,9 +53,9 @@ module BimSeeder
           types[I18n.t(:default_type_task)]                         => [new, in_progress, on_hold, rejected, closed],
           types[I18n.t(:default_type_milestone)]                    => [new, to_be_scheduled, scheduled, in_progress, on_hold, rejected, closed],
           types[I18n.t(:default_type_phase)]                        => [new, to_be_scheduled, scheduled, in_progress, on_hold, rejected, closed],
-          types[I18n.t('seeders.bim.default_type_building_model')]  => [new, in_specification, specified, in_development, developed, in_testing, tested, test_failed, on_hold, rejected, closed],
-          types[I18n.t('seeders.bim.default_type_defect')]          => [new, in_specification, specified, in_development, developed, in_testing, tested, test_failed, on_hold, rejected, closed],
-          types[I18n.t('seeders.bim.default_type_approval')]        => [new, in_specification, specified, in_development, developed, in_testing, tested, test_failed, on_hold, rejected, closed]
+          types[I18n.t('seeders.bim.default_type_building_model')]  => [new, in_specification, specified, in_progress, developed, in_testing, tested, test_failed, on_hold, rejected, closed],
+          types[I18n.t('seeders.bim.default_type_defect')]          => [new, in_specification, specified, in_progress, developed, in_testing, tested, test_failed, on_hold, rejected, closed],
+          types[I18n.t('seeders.bim.default_type_approval')]        => [new, in_specification, specified, in_progress, developed, in_testing, tested, test_failed, on_hold, rejected, closed]
         }
       end
 
