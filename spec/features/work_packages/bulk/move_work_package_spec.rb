@@ -147,30 +147,4 @@ describe 'Moving a work package through Rails view', js: true do
       end
     end
   end
-
-  describe 'accessing the bulk move from the card view' do
-    before do
-      display_representation.switch_to_card_layout
-      loading_indicator_saveguard
-      find('body').send_keys [:control, 'a']
-    end
-
-    context 'with permissions' do
-      let(:current_user) { mover }
-
-      it 'does allow to move' do
-        context_menu.open_for work_package, false
-        context_menu.expect_options ['Bulk change of project']
-      end
-    end
-
-    context 'without permission' do
-      let(:current_user) { dev }
-
-      it 'does not allow to move' do
-        context_menu.open_for work_package, false
-        context_menu.expect_no_options ['Bulk change of project']
-      end
-    end
-  end
 end

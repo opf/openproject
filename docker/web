@@ -23,7 +23,7 @@ if [ "$MIGRATE" = "true" ]; then
 	bundle exec rake db:migrate
 fi
 
-if [ "$USE_PUMA" ]; then
+if [ "$USE_PUMA" = "true" ]; then
 	# see `config/puma.rb` for configuration
 	bundle exec rails server puma -b $BIND -p $PORT
 else
