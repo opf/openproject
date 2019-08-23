@@ -30,9 +30,11 @@
 #++
 
 module API
-  module V3
-    module BcfXml
+  module BcfXml
+    module V1
       class BcfXmlAPI < ::API::OpenProjectAPI
+        prefix :bcf_xml_api
+
         resources :projects do
           route_param :id do
             namespace 'bcf_xml' do
@@ -54,10 +56,30 @@ module API
                 def import_options
                   params[:import_options].presence || {}
                 end
+
+                def find_project
+                  Project.find(params[:id])
+                end
+              end
+
+              get do
+                project = find_project
+
+                authorize_any(%i[view_linked_issues view_work_packages], projects: [project]) do
+                  raise ::API::Errors::NotFound.new
+                end
+
+                query = Query.new_default(name: '_', project: project)
+                updated_query = ::API::V3::UpdateQueryFromV3ParamsService.new(query, User.current).call(params)
+
+                exporter = ::OpenProject::Bcf::BcfXml::Exporter.new(updated_query.result)
+                header['Content-Disposition'] = "attachment; filename=\"#{exporter.bcf_filename}\""
+                env['api.format'] = :binary
+                exporter.list_from_api.read
               end
 
               post do
-                project = Project.find(params[:id])
+                project = find_project
 
                 authorize(:manage_bcf, context: project) do
                   raise API::Errors::NotFound.new

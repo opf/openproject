@@ -134,11 +134,6 @@ module OpenProject::Bcf
       "#{project(project_id)}/bcf_xml"
     end
 
-    add_api_endpoint 'API::V3::Projects::ProjectsAPI' do
-      content_type :binary, 'application/octet-stream'
-      mount ::API::V3::BcfXml::BcfXmlAPI
-    end
-
     initializer 'bcf.register_hooks' do
       # don't use require_dependency to not reload hooks in development mode
       require 'open_project/xls_export/hooks/work_package_hook.rb'
@@ -146,6 +141,7 @@ module OpenProject::Bcf
 
     initializer 'bcf.register_mimetypes' do
       Mime::Type.register "application/octet-stream", :bcf unless Mime::Type.lookup_by_extension(:bcf)
+      Mime::Type.register "application/octet-stream", :bcfzip unless Mime::Type.lookup_by_extension(:bcfzip)
     end
 
     config.to_prepare do
@@ -154,6 +150,15 @@ module OpenProject::Bcf
 
       ::Queries::Register.filter ::Query, OpenProject::Bcf::BcfIssueAssociatedFilter
       ::Queries::Register.column ::Query, OpenProject::Bcf::QueryBcfThumbnailColumn
+
+      ::API::Root.class_eval do
+        content_type :binary, 'application/octet-stream'
+        default_format :binary
+        # mount ::API::BCF_XML::V1::Root
+        version 'v1', using: :path do
+          mount ::API::BcfXml::V1::BcfXmlAPI
+        end
+      end
     end
   end
 end
