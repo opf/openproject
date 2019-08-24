@@ -14,9 +14,9 @@ it:
       version:
         is_locked: 'Version is locked. No items can be added to this version.'
         is_closed: 'Version is closed. No items can be added to this version.'
-        close_version: 'Close version'
-        open_version: 'Open version'
-        lock_version: 'Lock version'
+        close_version: 'Chiudi versione'
+        open_version: 'Apri versione'
+        lock_version: 'Blocca versione'
         unlock_version: 'Sblocca versione'
         edit_version: 'Modifica versione'
         show_version: 'Mostra versione'

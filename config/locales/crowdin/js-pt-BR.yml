@@ -20,7 +20,7 @@ pt-BR:
     button_back_to_list_view: "Voltar à lista"
     button_cancel: "Cancelar"
     button_close: "Fechar"
-    button_change_project: "Change project"
+    button_change_project: "Alterar projeto"
     button_check_all: "Selecionar todos"
     button_configure-form: "Configurar formulário"
     button_confirm: "Confirmar"
@@ -41,7 +41,7 @@ pt-BR:
     button_open_details: "Abrir visão detalhada"
     button_close_details: "Fechar visão detalhada"
     button_open_fullscreen: "Abrir visualização em tela cheia"
-    button_show_cards: "Show card view"
+    button_show_cards: "Mostrar exibição de cartão"
     button_show_list: "Mostrar lista"
     button_quote: "Citar"
     button_save: "Salvar"
@@ -78,7 +78,7 @@ pt-BR:
         graph_settings: 'Geral'
         dataset: 'Base de dados %{number}'
       errors:
-        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
+        could_not_load: 'Os dados para exibir o gráfico não puderam ser carregados. As permissões necessárias podem estar faltando.'
     description_available_columns: "Colunas disponíveis"
     description_current_position: "Você está aqui: "
     description_select_work_package: "Selecionar o pacote de trabalho #%{id}"
@@ -295,7 +295,7 @@ pt-BR:
     label_total_progress: "%{percent}% Total de progresso"
     label_total_amount: "Total: %{amount}"
     label_updated_on: "atualizado em"
-    label_value_derived_from_children: "(value derived from children)"
+    label_value_derived_from_children: "(valor derivado de crianças)"
     label_warning: "Aviso"
     label_work_package: "Pacote de trabalho"
     label_work_package_plural: "Pacotes de trabalho"
@@ -571,7 +571,7 @@ pt-BR:
       image: "Imagem"
     work_packages:
       bulk_actions:
-        move: 'Bulk change of project'
+        move: 'Mudança em massa de projeto'
         edit: 'Editar vários'
         copy: 'Copiar vários'
         delete: 'Excluir vários'
@@ -690,9 +690,9 @@ pt-BR:
         confirm_edit_cancel: "Tem certeza que deseja cancelar a edição do nome desta visão? O título será definido novamente com o valor anterior."
         click_to_edit_query_name: "Clique para editar o título desta visão."
         rename_query_placeholder: "Nome desta visão"
-        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        star_text: "Marcar esta visão como favorita e adicionar à barra lateral de visualização salva à esquerda."
         public_text: >
-          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+          Publicar esta visualização, permitindo que outros usuários acessem sua visualização. Usuários com a permissão 'Gerenciar visualizações públicas' podem modificar ou remover a consulta pública. Isso não afeta a visibilidade dos resultados do pacote de trabalho nessa visualização e dependendo de suas permissões, os usuários podem ver resultados diferentes.
         errors:
           unretrievable_query: "Não foi possível recuperar a visualização da URL"
           not_found: "Esta visão não existe"
@@ -840,6 +840,6 @@ pt-BR:
         project_and_subprojects: "e todos os subprojetos"
         search_for: "Pesquisar por"
     views:
-      card: 'Cards'
-      list: 'Table'
+      card: 'Cartões'
+      list: 'Tabela'
       timeline: 'Gantt'

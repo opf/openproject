@@ -20,7 +20,7 @@ ru:
     button_back_to_list_view: "Вернуться к просмотру списка"
     button_cancel: "Отмена"
     button_close: "Закрыть"
-    button_change_project: "Change project"
+    button_change_project: "Изменить проект"
     button_check_all: "Выделить все"
     button_configure-form: "Настроить форму"
     button_confirm: "Подтверждение"
@@ -575,7 +575,7 @@ ru:
       image: "Изображение"
     work_packages:
       bulk_actions:
-        move: 'Bulk change of project'
+        move: 'Массовые изменения проекта'
         edit: 'Массовое изменение'
         copy: 'Массовое копирование'
         delete: 'Массовое удаление'
@@ -694,9 +694,9 @@ ru:
         confirm_edit_cancel: "Уверены, что хотите отменить редактирование названия этого представления? Заголовку будет присвоено прежнее название."
         click_to_edit_query_name: "Кликните, чтобы изменить название этого представления."
         rename_query_placeholder: "Название этого представления"
-        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        star_text: "Отметить этот вид как избранный и добавить в панель сохраненных видов слева."
         public_text: >
-          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+          Опубликовать это представление, дав к нему доступ другим пользователям. Пользователи с правом 'Управление публичными представлениями' могут изменить или удалить публичный запрос. Это не влияет на видимость результатов пакета работ в данном представлении и в зависимости от своих прав пользователи могут видеть различные результаты.
         errors:
           unretrievable_query: "Не удается получить представление из URL-адреса"
           not_found: "Нет такого представления"
@@ -850,6 +850,6 @@ ru:
         project_and_subprojects: "и все подпроекты"
         search_for: "Поиск по"
     views:
-      card: 'Cards'
-      list: 'Table'
+      card: 'Карточки'
+      list: 'Таблица'
       timeline: 'Гант'

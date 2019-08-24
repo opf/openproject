@@ -3,19 +3,19 @@ it:
     attributes:
       webhooks/webhook:
         url: 'Payload URL'
-        secret: 'Signature secret'
-        events: 'Events'
+        secret: 'Firma segreta'
+        events: 'Eventi'
         projects: 'Progetti abilitati'
       webhooks/log:
-        event_name: 'Event name'
+        event_name: 'Nome dell''evento'
         url: 'Payload URL'
-        response_code: 'Response code'
-        response_body: 'Response'
+        response_code: 'Codice di risposta'
+        response_body: 'Risposta'
     models:
       webhooks/outgoing_webhook: "Outgoing webhook"
   webhooks:
     singular: Webhook
-    plural: Webhooks
+    plural: Webhook
     outgoing:
       no_results_table: No webhooks have been defined yet.
       label_add_new: Add new webhook

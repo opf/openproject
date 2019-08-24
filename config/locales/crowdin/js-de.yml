@@ -20,7 +20,7 @@ de:
     button_back_to_list_view: "Zurück zur Listenansicht"
     button_cancel: "Abbrechen"
     button_close: "Schließen"
-    button_change_project: "Change project"
+    button_change_project: "In anderes Projekt verschieben"
     button_check_all: "Alle auswählen"
     button_configure-form: "Formular konfigurieren"
     button_confirm: "Bestätigen"
@@ -41,8 +41,8 @@ de:
     button_open_details: "Öffne Detailansicht"
     button_close_details: "Detailansicht schließen"
     button_open_fullscreen: "Vollbildansicht öffnen"
-    button_show_cards: "Show card view"
-    button_show_list: "Show list view"
+    button_show_cards: "Kartenansicht anzeigen"
+    button_show_list: "Listenansicht anzeigen"
     button_quote: "Zitieren"
     button_save: "Speichern"
     button_settings: "Einstellungen"
@@ -78,7 +78,7 @@ de:
         graph_settings: 'Allgemein'
         dataset: 'Datensatz %{number}'
       errors:
-        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
+        could_not_load: 'Die Daten, die das Diagramm ausmachen, konnten nicht geladen werden. Die erforderlichen Berechtigungen fehlen möglicherweise.'
     description_available_columns: "Verfügbare Spalten"
     description_current_position: "Du bist hier: "
     description_select_work_package: "Arbeitspaket #%{id} auswählen"
@@ -464,7 +464,7 @@ de:
       abort: "Abbrechen"
     relations_autocomplete:
       placeholder: "Suchbegriff eintippen"
-      parent_placeholder: "Wählen Sie einen neuen Teil oder drücken sie Escape, um abzubrechen."
+      parent_placeholder: "Wählen Sie ein neues Eltern-Arbeitspaket oder drücken Sie Escape, um abzubrechen."
     repositories:
       select_tag: 'Tag auswählen'
       select_branch: 'Branch auswählen'
@@ -571,7 +571,7 @@ de:
       image: "Bild"
     work_packages:
       bulk_actions:
-        move: 'Bulk change of project'
+        move: 'In anderes Projekt verschieben'
         edit: 'Arbeitspakete bearbeiten'
         copy: 'Arbeitspakete kopieren'
         delete: 'Arbeitspakete löschen'
@@ -690,9 +690,9 @@ de:
         confirm_edit_cancel: "Sind Sie sicher, dass Sie die Umbenennung dieser Ansicht abbrechen wollen? Der Titel wird zum letzten gespeicherten Wert zurückgesetzt."
         click_to_edit_query_name: "Klicken, um den Titel dieser Ansicht zu bearbeiten."
         rename_query_placeholder: "Name der Ansicht"
-        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        star_text: "Markiert diese Ansicht als Favoriten und fügt sie der Sidebar links hinzu."
         public_text: >
-          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+          Veröffentlicht die Ansicht für andere Mitglieder des Projekts. Nutzer mit der 'Öffentliche Ansichten verwalten'-Berechtigung können diese Ansicht auch verändern oder entfernen. Beeinträchtigt nicht die Sichtbarkeit von Arbeitspaketen in der Ansicht. Abhängig der Berechtigungen, erhalten Mitglieder unterschiedliche Ergebnisse.
         errors:
           unretrievable_query: "Konnte die Ansicht nicht verarbeiten"
           not_found: "Diese Ansicht konnte nicht gefunden werden"
@@ -824,7 +824,7 @@ de:
         one: "ein untergeordnetes Arbeitspaket"
         other: "%{count} untergeordnete Arbeitspakete"
       hour:
-        one: "%{count} h"
+        one: "1 h"
         other: "%{count} h"
     zen_mode:
       button_activate: 'Zen-Modus aktivieren'
@@ -840,6 +840,6 @@ de:
         project_and_subprojects: "und alle Unterprojekte"
         search_for: "Suche nach"
     views:
-      card: 'Cards'
-      list: 'Table'
+      card: 'Karten'
+      list: 'Tabelle'
       timeline: 'Gantt'

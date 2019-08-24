@@ -1,12 +1,12 @@
 de:
   bcf:
     label_bcf: 'BCF'
-    label_imported_failed: 'Failed imports of BCF topics'
-    label_imported_successfully: 'Successfully imported BCF topics'
+    label_imported_failed: 'Fehler beim Import von BCF-Themen'
+    label_imported_successfully: 'Erfolgreich importierte Einträge'
     issues: "Probleme"
-    recommended: 'recommended'
-    not_recommended: 'not recommended'
-    no_viewpoints: 'No viewpoints'
+    recommended: 'empfohlen'
+    not_recommended: 'nicht empfohlen'
+    no_viewpoints: 'Keine Ansichten'
     experimental_badge: "Experimentell"
     exceptions:
       file_invalid: "BCF-Datei ungültig"
@@ -28,33 +28,33 @@ de:
         button_perform_import: 'Import bestätigen'
         button_proceed: 'Fortfahren'
         button_back_to_list: 'Zurück zur Liste'
-        no_permission_to_add_members: 'You do not have sufficient permissions to add them as members to the project.'
-        contact_project_admin: 'Contact your project admin to add them as members and start this import again.'
-        continue_anyways: 'Do you want to proceed and finish the import anyways?'
+        no_permission_to_add_members: 'Sie haben nicht genügend Berechtigungen, um Mitglieder zum Projekt hinzuzufügen.'
+        contact_project_admin: 'Kontaktieren Sie Ihren Projektadministrator, um sie als Mitglieder hinzuzufügen und starten Sie diesen Import erneut.'
+        continue_anyways: 'Möchten Sie trotzdem fortfahren und den Importvorgang abschließen?'
         description: "Geben Sie eine BCF-XML v2.1 Datei für den Import in dieses Projekt an. Sie können dessen Inhalt vor dem Importvorgang prüfen."
-        invalid_types_found: 'Invalid topic type names found'
-        invalid_statuses_found: 'Invalid status names found'
-        invalid_priorities_found: 'Invalid priority names found'
-        invalid_emails_found: 'Invalid email addresses found'
-        unknown_emails_found: 'Unknown email addresses found'
-        unknown_property: 'Unknown property'
-        non_members_found: 'Non project members found'
-        import_types_as: 'Set all these types to'
-        import_statuses_as: 'Set all these statuses to'
-        import_priorities_as: 'Set all these priorities to'
-        invite_as_members_with_role: 'Invite them as members to the project "%{project}" with role'
-        add_as_members_with_role: 'Add them as members to the project "%{project}" with role'
-        no_type_provided: 'No type provided'
-        no_status_provided: 'No status provided'
-        no_priority_provided: 'No priority provided'
+        invalid_types_found: 'Ungültige Typen in BCF-Themen gefunden'
+        invalid_statuses_found: 'Ungültige Statusnamen gefunden'
+        invalid_priorities_found: 'Ungültige Prioritäten gefunden'
+        invalid_emails_found: 'Ungültige E-Mail-Adressen gefunden'
+        unknown_emails_found: 'Unbekannte E-Mail-Adressen gefunden'
+        unknown_property: 'Unbekannte Eigenschaft'
+        non_members_found: 'Nicht-Projektmitglieder gefunden'
+        import_types_as: 'Alle diese Typen festlegen auf'
+        import_statuses_as: 'Alle diese Status festlegen auf'
+        import_priorities_as: 'Alle diese Prioritäten festlegen auf'
+        invite_as_members_with_role: 'Als Mitglieder zum Projekt "%{project}" mit Rolle einladen'
+        add_as_members_with_role: 'Als Mitglieder zum Projekt "%{project}" mit Rolle hinzufügen'
+        no_type_provided: 'Kein Typ angegeben'
+        no_status_provided: 'Kein Status angegeben'
+        no_priority_provided: 'Keine Priorität angegeben'
         perform_description: "Möchten Sie die oben aufgeführten BCF-Fälle importieren oder aktualisieren?"
-        replace_with_system_user: 'Replace them with "System" user'
-        import_as_system_user: 'Import them as "System" user.'
+        replace_with_system_user: 'Mit dem "System"-Benutzer ersetzen'
+        import_as_system_user: 'Als "System"-Benutzer importieren'
         what_to_do: "Was soll mit den Objekten geschehen?"
-        work_package_has_newer_changes: "Outdated! This topic was not updated as the latest changes on the server were newer than the \"ModifiedDate\" of the imported topic. However, comments to the topic were imported."
+        work_package_has_newer_changes: "Veraltet! Dieser Eintrag wurde nicht aktualisiert, da die letzten Änderungen auf dem Server neuer als das angegebene Aktualisierungsdatum war. Kommentare des Eintrages wurden dennoch importiert."
   export:
     format:
       bcf: "BCF-XML"
   attributes:
-    bcf_thumbnail: "BCF snapshot"
+    bcf_thumbnail: "BCF-Snapshot"
   project_module_bcf: "BCF"

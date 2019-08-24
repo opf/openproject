@@ -825,8 +825,8 @@ it:
         one: "una macro-attività subordinata"
         other: "%{count} macro-attività subordinate"
       hour:
-        one: "1 h"
-        other: "%{count} h"
+        one: "1 o"
+        other: "%{count} o"
     zen_mode:
       button_activate: 'Attiva modalità zen'
       button_deactivate: 'Disattiva modalità zen'
@@ -841,6 +841,6 @@ it:
         project_and_subprojects: "e tutti i sottoprogetti"
         search_for: "Cerca per"
     views:
-      card: 'Cards'
-      list: 'Table'
+      card: 'Carte'
+      list: 'Tabella'
       timeline: 'Gantt'

@@ -1660,7 +1660,7 @@ pt-BR:
     legacy_warning:
       timeline: 'Essa macro de cronograma legada foi removida e não está mais disponível. Você pode substituir a funcionalidade com uma macro da tabela embutida.'
     include_wiki_page:
-      removed: 'The macro does no longer exist.'
+      removed: 'A macro não existe mais.'
     wiki_child_pages:
       errors:
         page_not_found: "Não é possível encontrar a página wiki '%{name} '."

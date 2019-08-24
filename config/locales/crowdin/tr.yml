@@ -1661,7 +1661,7 @@ tr:
     legacy_warning:
       timeline: 'Bu eski zaman çizelgesi makrosu kaldırıldı ve artık kullanılamıyor. İşlevselliği katıştırılmış tablo makrosu ile değiştirebilirsiniz.'
     include_wiki_page:
-      removed: 'The macro does no longer exist.'
+      removed: 'Makro artık mevcut değil.'
     wiki_child_pages:
       errors:
         page_not_found: "Wiki sayfası '%{name} ' bulunamıyor."
