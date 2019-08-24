@@ -809,7 +809,7 @@ it:
         one: "una macro-attività subordinata"
         other: "%{count} macro-attività subordinate"
       hour:
-        one: "1 h"
+        one: "1 o"
         other: "%{count} h"
     zen_mode:
       button_activate: 'Attiva modalità zen'

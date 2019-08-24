@@ -1,18 +1,18 @@
 tr:
   js:
     ajax:
-      hide: "Gizle"
+      hide: "Saklamak"
       loading: "Yükleniyor ..."
     attachments:
       draggable_hint: |
         Editör alanında, satır içi görüntüye veya referans ekine sürükleyin. Sürüklemeye devam ederken kapalı editör alanları açılacaktır.
     autocomplete_select:
       placeholder:
-        multi: "\"%{name}\" ekle"
-        single: "\"%{name}\" Seç"
-      remove: "%{name} kaldır"
-      active: "Etkin %{label} %{name}"
-    close_popup_title: "Pencereyi kapat"
+        multi: "\"%{name}\" ekleyin"
+        single: "\"%{name}\" seçeneğini seçin"
+      remove: "%{name} öğesini kaldır"
+      active: "Aktif %{label} %{name}"
+    close_popup_title: "Açılır pencereyi kapat"
     close_filter_title: "Filtreyi kapat"
     close_form_title: "Formu kapat"
     card:
@@ -22,41 +22,41 @@ tr:
         entire_card_by: 'Kartın tamamı'
       remove_from_list: 'Kartı listeden çıkar'
     clipboard:
-      browser_error: "Tarayıcınız panoya kopyalamayı desteklemiyor. Metni lütfen elle kopyalayınız."
-      copied_successful: "Panoya başarıyla kopyalandı!"
+      browser_error: "Tarayıcınız panoya kopyalamayı desteklemiyor. Lütfen seçilen metni manuel olarak kopyalayın."
+      copied_successful: "Başarıyla panoya kopyalandı!"
     button_add_watcher: "Takipçi ekle"
     button_back: "Geri"
-    button_back_to_list_view: "Listeye görünümüne geri dön"
-    button_cancel: "İptal"
+    button_back_to_list_view: "Liste görünümüne geri dön"
+    button_cancel: "İptal etmek"
     button_close: "Kapat"
-    button_check_all: "Tümünü işaretle"
+    button_check_all: "Hepsini kontrol et"
     button_configure-form: "Formu yapılandır"
-    button_confirm: "Doğrula"
+    button_confirm: "Onaylamak"
     button_continue: "Devam et"
-    button_copy: "Kopyala"
-    button_custom-fields: "Özel alanlar"
-    button_delete: "Sil"
+    button_copy: "Kopyalamak"
+    button_custom-fields: "Özel Alanlar"
+    button_delete: "silmek"
     button_delete_watcher: "Takipçi sil"
-    button_details_view: "Detay görünümü"
-    button_duplicate: "Çoğalt"
+    button_details_view: "Ayrıntılar görünümü"
+    button_duplicate: "Çoğaltın"
     button_edit: "Düzenle"
     button_filter: "Filtre"
     button_advanced_filter: "Gelişmiş filtre"
     button_list_view: "Liste görünümü"
-    button_show_view: "Tam Ekran görünümü"
-    button_log_time: "Zaman kaydet"
-    button_more: "Fazlası"
-    button_move: "Taşı"
-    button_open_details: "Detay görünümünü aç"
-    button_close_details: "Detay görünümünü kapat"
-    button_open_fullscreen: "Tam Ekran görünümünü aç"
+    button_show_view: "Tam ekran görünümü"
+    button_log_time: "Günlük zamanı kaydet"
+    button_more: "Daha"
+    button_move: "Hareket"
+    button_open_details: "Ayrıntılar görünümünü aç"
+    button_close_details: "Ayrıntılar görünümünü kapat"
+    button_open_fullscreen: "Tam ekran görünümünü aç"
     button_quote: "Alıntı"
-    button_save: "Kaydet"
+    button_save: "Kayıt etmek"
     button_settings: "Ayarlar"
-    button_uncheck_all: "Tüm işaretleri kaldır"
-    button_update: "Güncelle"
+    button_uncheck_all: "Tümünü işaretleme"
+    button_update: "Güncelleştirme"
     button_export-pdf: "PDF indir"
-    button_export-atom: "Atom indir"
+    button_export-atom: "Atom İndir"
     calendar:
       title: 'Takvim'
       too_many: 'Takvimde gösterilebilecek iş paketinden(%{max}) daha fazla iş paketi mevcuttur(%{count}). İlişkili olanlara odaklanmak için filtreler ekleyin.'
@@ -291,7 +291,7 @@ tr:
     label_total_progress: "Toplam ilerleme %{percent}%"
     label_total_amount: "Toplam: %{amount}"
     label_updated_on: "güncelleme tarihi"
-    label_value_derived_from_children: "(value derived from children)"
+    label_value_derived_from_children: "(çocuklardan elde edilen değer)"
     label_warning: "Uyarı"
     label_work_package: "İş paketi"
     label_work_package_plural: "İş paketleri"
@@ -809,8 +809,8 @@ tr:
         one: "bir alt iş paketi"
         other: "%{count} alt iş paketi"
       hour:
-        one: "1 h"
-        other: "%{count} h"
+        one: "%{count} 1 saat"
+        other: "%{count} 1 saat"
     zen_mode:
       button_activate: 'Zen modunu etkinleştir'
       button_deactivate: 'Zen modunu devre dışı bırak'

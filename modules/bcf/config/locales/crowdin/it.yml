@@ -13,19 +13,19 @@ it:
       import_title: 'Importa da file BCF'
       export: 'Esporta tutto in BCF-XML'
       import_update_comment: '(Aggiornato nell''importazione BCF)'
-      import_failed: 'Cannot import BCF file: %{error}'
-      import_successful: 'Imported %{count} BCF issues'
-      import_canceled: 'BCF-XML import canceled.'
-      type_not_active: "The issue type is not activated for this project."
+      import_failed: 'Impossibile importare il file BCF: %{error}'
+      import_successful: 'Problemi BCF %{count} importati'
+      import_canceled: 'Importazione BCF-XML annullata.'
+      type_not_active: "Il tipo di problema non è attivato per questo progetto."
       import:
-        num_issues_found: '%{x_bcf_issues} are contained in the BCF-XML file, their details are listed below.'
+        num_issues_found: '%{x_bcf_issues} sono contenuti nel file BCF-XML, i loro dettagli sono elencati di seguito.'
         button_prepare: 'Prepara l''importazione'
         button_perform_import: 'Conferma importazione'
         button_proceed: 'Procedere'
         button_back_to_list: 'Torna alla lista'
-        description: "Provide a BCF-XML v2.1 file to import into this project. You can examine its contents before performing the import."
-        perform_description: "Do you want to import or update the issues listed above?"
-        work_package_has_newer_changes: "The import for BCF topic %{bcf_uuid} looks outdated. The latest changes on the server are newer than the \"MofiedDate\" of the imported topic."
+        description: "Fornisci un file BCF-XML v2.1 da importare in questo progetto. Puoi esaminarne il contenuto prima di eseguire l'importazione."
+        perform_description: "Vuoi importare o aggiornare i problemi elencati sopra?"
+        work_package_has_newer_changes: "L'importazione per l'argomento BCF %{bcf_uuid} è obsoleta. Le ultime modifiche sul server sono più recenti di \"MofiedDate\" dell'argomento importato."
   export:
     format:
       bcf: "BCF-XML"

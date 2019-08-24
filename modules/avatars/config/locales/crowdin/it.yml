@@ -8,31 +8,31 @@ it:
   button_change_avatar: "Cambia avatar"
   are_you_sure_delete_avatar: "Sei sicuro di voler eliminare il tuo avatar?"
   avatar_deleted: "Avatar eliminato con successo."
-  unable_to_delete_avatar: "Avatar could not be deleted."
-  wrong_file_format: "Allowed formats are jpg, png, gif"
-  empty_file_error: "Please upload a valid image (jpg, png, gif)"
+  unable_to_delete_avatar: "L'avatar non può essere cancellato."
+  wrong_file_format: "I formati consentiti sono jpg, png, gif"
+  empty_file_error: "Per favore caricare un'immagine valida (jpg, png, gif)"
   avatars:
     label_avatar: "Avatar"
     label_gravatar: 'Gravatar'
-    label_current_avatar: 'Current avatar'
-    label_local_avatar: 'Custom avatar'
+    label_current_avatar: 'Avatar attuale'
+    label_local_avatar: 'Avatar personalizzato'
     text_current_avatar: |
-      The following image shows the current avatar.
+      L'immagine seguente mostra l'avatar corrente.
     text_upload_instructions: |
-      Upload your own custom avatar of 128 by 128 pixels. Larger files will be resized and cropped to match.
-      A preview of your avatar will be shown before uploading, once you selected an image.
-    text_change_gravatar_html: 'To change or add the Gravatar for your mail address, go to %{gravatar_url}.'
+      Carica il tuo avatar personalizzato di 128x128 pixel. I file più grandi saranno ridimensionati e tagliati per corrispondere.
+      Una volta selezionata un'immagine, verrà mostrata un'anteprima del tuo avatar prima del caricamento.
+    text_change_gravatar_html: 'Per cambiare o aggiungere il Gravatar per il tuo indirizzo email, vai su %{gravatar_url}.'
     text_your_local_avatar: |
-      OpenProject allows you to upload your own custom avatar.
+      OpenProject ti permette di caricare il tuo avatar personalizzato.
     text_local_avatar_over_gravatar: |
-      If you set one, this custom avatar is used in precedence over the gravatar above.
+      Se ne selezioni uno, questo avatar personalizzato viene utilizzato in precedenza rispetto al gravatar sopra.
     text_your_current_gravatar: |
-      OpenProject uses your gravatar if you registered one, or a default image or icon if one exists.
-      The current gravatar is as follows:
+      OpenProject utilizza il tuo gravatar se ne hai registrato uno, o un'immagine o un'icona predefinita se esiste.
+      Il gravatar corrente è il seguente:
     settings:
-      enable_gravatars: 'Enable user gravatars'
+      enable_gravatars: 'Abilita i gravatars dell''utente'
       gravatar_default: "Immagine Gravatar predefinita"
-      enable_local_avatars: 'Enable user custom avatars'
+      enable_local_avatars: 'Abilita gli avatar personalizzati dell''utente'
 
 
 

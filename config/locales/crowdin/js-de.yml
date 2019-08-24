@@ -646,7 +646,7 @@ de:
         status: "Status"
         subject: "Thema"
         title: "Titel"
-        type: "Art"
+        type: "Typ"
         updatedAt: "Aktualisiert am"
         versionName: "Version"
         version: "Version"
@@ -714,7 +714,7 @@ de:
           entire_row_by: 'Gesamte Zeile durch'
           status: 'Status'
           priority: 'Priorität'
-          type: 'Art'
+          type: 'Typ'
         columns_help_text: "Verwenden Sie die Eingabe oben um Spalten zur Tabellenansicht hinzuzufügen oder zu entfernen. Sie können die Reihenfolge der Spalten über Drag & Drop verändern."
         upsale:
           attribute_highlighting: 'Sollen bestimmte Arbeitspakete aus der Menge herausstechen?'
