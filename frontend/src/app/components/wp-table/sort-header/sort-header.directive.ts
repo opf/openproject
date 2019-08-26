@@ -36,6 +36,7 @@ import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/
 import {WorkPackageViewSortByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
 import {WorkPackageViewGroupByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service";
 import {WorkPackageViewRelationColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
+import {combineLatest, merge} from "rxjs";
 
 
 @Component({
@@ -94,7 +95,10 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
   private initialize():void {
     this.element = jQuery(this.elementRef.nativeElement);
 
-    this.wpTableSortBy.onReadyWithAvailable()
+    combineLatest([
+      this.wpTableSortBy.onReadyWithAvailable(),
+      this.wpTableSortBy.live$()
+    ])
       .pipe(
         untilComponentDestroyed(this)
       )
