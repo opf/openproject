@@ -227,8 +227,15 @@ a.main-menu--parent-node
         display: none
       > li.open
         display: list-item
+
         .main-item-wrapper
           display: none
+
+        // Avoid that the original menu item is shortly shown before it is overwritten by
+        // the parent menu entry with the toggler
+        [class*="-menu-item"] .icon2,
+        [class*="-menu-item"] .icon2 ~ .menu-item--title
+          visibility: hidden
 
         .main-menu--children
           display: block
