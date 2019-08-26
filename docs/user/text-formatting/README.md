@@ -118,6 +118,8 @@ As with the textile formatting syntax, you can link to other resources within Op
 - **commit by hash:** `commit:f30e13e4`
 - **To a source file in the repository**: `source:"some/file"`
 
+To avoid processing these items, preceed them with a bang `!` character such as `!#12` will prevent linking to a work package with ID 12.
+
 
 
 ### Autocompletion for work packages and users
