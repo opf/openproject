@@ -11,7 +11,9 @@
         <%= t('two_factor_authentication.settings.text_configuration') %>
         <br/>
         <% configuration_link = OpenProject::Static::Links.links.fetch :configuration_guide %>
-        <%= link_to t('two_factor_authentication.settings.text_configuration_guide'), configuration_link[:href] %>
+        <%= link_to t('two_factor_authentication.settings.text_configuration_guide'),
+                    configuration_link[:href],
+                    target: '_blank' %>
       </p>
       <div class="attributes-key-value">
         <div class="attributes-key-value--key"><%= t('two_factor_authentication.settings.label_active_strategies') %></div>
