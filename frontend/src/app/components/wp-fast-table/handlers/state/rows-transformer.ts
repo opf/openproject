@@ -6,6 +6,7 @@ import {States} from 'core-components/states.service';
 import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import {WorkPackageViewSortByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
+import {debugLog} from "core-app/helpers/debug_output";
 
 export class RowsTransformer {
 
@@ -40,7 +41,10 @@ export class RowsTransformer {
     this.states.workPackages.observeChange()
       .pipe(
         takeUntil(this.querySpace.stopAllSubscriptions.asObservable()),
-        filter(() => !!this.querySpace.rendered.hasValue())
+        filter(() => {
+          let rendered = this.querySpace.rendered.getValueOr([]);
+          return rendered && rendered.length > 0;
+        })
       )
       .subscribe(([changedId, wp]) => {
         if (wp === undefined) {

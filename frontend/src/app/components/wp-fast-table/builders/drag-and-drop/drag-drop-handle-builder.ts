@@ -3,6 +3,7 @@ import {wpCellTdClassName} from "core-components/wp-fast-table/builders/cell-bui
 import {Injector} from "@angular/core";
 import {TableDragActionsRegistryService} from "core-components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
 import {TableDragActionService} from "core-components/wp-table/drag-and-drop/actions/table-drag-action.service";
+import {internalSortColumn} from "core-components/wp-fast-table/builders/rows/single-row-builder";
 
 /** Debug the render position */
 const RENDER_DRAG_AND_DROP_POSITION = false;
@@ -28,7 +29,7 @@ export class DragDropHandleBuilder {
       return td;
     }
 
-    td.classList.add(wpCellTdClassName, 'wp-table--sort-td', 'hide-when-print');
+    td.classList.add(wpCellTdClassName, 'wp-table--sort-td', internalSortColumn.id,  'hide-when-print');
 
     // Wrap handle as span
     let span = document.createElement('span');
