@@ -1,21 +1,19 @@
 import {Injector} from '@angular/core';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {mergeMap, take, takeUntil} from "rxjs/operators";
+import {take, takeUntil} from "rxjs/operators";
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
-import {RequestSwitchmap} from "core-app/helpers/rxjs/request-switchmap";
-import {Observable, of} from "rxjs";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {WorkPackageViewSortByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
 import {TableDragActionsRegistryService} from "core-components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
 import {TableDragActionService} from "core-components/wp-table/drag-and-drop/actions/table-drag-action.service";
 import {States} from "core-components/states.service";
-import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 import {tableRowClassName} from "core-components/wp-fast-table/builders/rows/single-row-builder";
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
 import {DragAndDropHelpers} from "core-app/modules/common/drag-and-drop/drag-and-drop.helpers";
 import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
+import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
 
 export class DragAndDropTransformer {
 
@@ -25,8 +23,8 @@ export class DragAndDropTransformer {
   private readonly inlineCreateService = this.injector.get(WorkPackageInlineCreateService);
   private readonly wpNotifications = this.injector.get(WorkPackageNotificationService);
   private readonly wpTableSortBy = this.injector.get(WorkPackageViewSortByService);
-  private readonly wpTableTimeline = this.injector.get(WorkPackageViewTimelineService);
   private readonly wpTableOrder = this.injector.get(WorkPackageViewOrderService);
+  private readonly browserDetector = this.injector.get(BrowserDetector);
 
   private readonly dragActionRegistry = this.injector.get(TableDragActionsRegistryService);
 
@@ -112,10 +110,14 @@ export class DragAndDropTransformer {
         });
       },
       onShadowInserted: (el:HTMLElement) => {
-        this.actionService.changeShadowElement(el);
+        if (!this.browserDetector.isEdge) {
+          this.actionService.changeShadowElement(el);
+        }
       },
       onCancel: (el:HTMLElement) => {
-        this.actionService.changeShadowElement(el, true);
+        if (!this.browserDetector.isEdge) {
+          this.actionService.changeShadowElement(el, true);
+        }
       },
     });
   }
