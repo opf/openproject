@@ -44,38 +44,21 @@ module OpenProject::TextFormatting::Matchers
       #
       # #1234, ##1234, ###1234
       def call
-        oid = matcher.identifier.to_i
-        work_package = find_work_package(oid)
-        return nil unless work_package
+        wp_id = matcher.identifier.to_i
 
-        # Avoid cyclic dependencies between linking two work packages
-        return nil if cyclic_inclusion?(work_package)
+        # Ensure that the element was entered numeric,
+        # prohibits links to things like #0123
+        return if wp_id.to_s != matcher.identifier
 
-        render_work_package_link(work_package)
+        render_work_package_link(wp_id)
       end
 
       private
 
-      def cyclic_inclusion?(work_package)
-        description = context[:attribute] == :description
-        same_object = context[:object] && context[:object].id == work_package.id
-        link_with_description = matcher.sep == "###"
-
-        description && same_object && link_with_description || context[:no_nesting]
-      end
-
-      def render_work_package_link(work_package)
-        link_to("##{work_package.id}",
-                work_package_path_or_url(id: work_package.id, only_path: context[:only_path]),
-                class: work_package_css_classes(work_package),
-                title: "#{truncate(work_package.subject, escape: false, length: 100)} (#{work_package.status.try(:name)})")
-      end
-
-      def find_work_package(oid)
-        WorkPackage
-          .includes(:status)
-          .references(:statuses)
-          .find_by(id: oid)
+      def render_work_package_link(wp_id)
+        link_to("##{wp_id}",
+                work_package_path_or_url(id: wp_id, only_path: context[:only_path]),
+                class: 'issue work_package preview-trigger')
       end
     end
   end
