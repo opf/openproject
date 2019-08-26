@@ -142,7 +142,7 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
     describe 'group by type' do
       let(:group_by) { ::Components::WorkPackages::GroupBy.new }
 
-      it 'updates the work packages appropriately' do
+      before do
         wp_table.visit!
         group_by.enable_via_menu 'Type'
 
@@ -151,11 +151,22 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
 
         expect(page).to have_selector('.group--value', text: 'Task (2)')
         expect(page).to have_selector('.group--value', text: 'Bug (2)')
+      end
 
+      it 'updates the work packages appropriately' do
         wp_table.drag_and_drop_work_package from: 0, to: 3
 
         expect(page).to have_selector('.group--value', text: 'Task (1)')
         expect(page).to have_selector('.group--value', text: 'Bug (3)')
+      end
+
+      it 'dragging item with parent does not result in an error (Regression #30832)' do
+        wp_table.drag_and_drop_work_package from: 1, to: 3
+
+        expect(page).to have_selector('.group--value', text: 'Task (1)')
+        expect(page).to have_selector('.group--value', text: 'Bug (3)')
+
+        expect(page).to have_no_selector '.notification-box.error'
       end
     end
   end
