@@ -108,8 +108,7 @@ export abstract class StateCacheService<T> {
 
     // Refresh when stale or being forced
     if (this.stale(state) || force) {
-      state.clear();
-      state.putFromPromiseIfPristine(() => this.load(id));
+      this.load(id).then(wp => state.putValue(wp));
     }
 
     return state.valuesPromise() as Promise<T>;
