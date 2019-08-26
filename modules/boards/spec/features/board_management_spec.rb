@@ -65,6 +65,45 @@ describe 'Board management spec', type: :feature, js: true do
     end
     let(:board_view) { FactoryBot.create :board_grid_with_query, project: project }
 
+    it 'allows parallel creation of cards (Regression #30842)' do
+      board_view
+      board_index.visit!
+
+      board_page = board_index.open_board board_view
+
+      board_page.add_list
+      board_page.rename_list 'Unnamed list', 'List 2'
+
+      # Open in list 1
+      board_page.within_list('List 1') do
+        page.find('.board-list--add-button ').click
+      end
+
+      page.find('.menu-item', text: 'Add new card').click
+
+      # Open in list 2
+      board_page.within_list('List 2') do
+        page.find('.board-list--add-button ').click
+      end
+
+      page.find('.menu-item', text: 'Add new card').click
+
+      board_page.within_list('List 2') do
+        subject = page.find('#wp-new-inline-edit--field-subject')
+        subject.set 'New card 1'
+        subject.send_keys :enter
+      end
+
+      board_page.within_list('List 1') do
+        subject = page.find('#wp-new-inline-edit--field-subject')
+        subject.set 'New card 2'
+        subject.send_keys :enter
+      end
+
+      board_page.expect_card('List 1', 'New card 2')
+      board_page.expect_card('List 2', 'New card 1')
+    end
+
     it 'allows management of boards' do
       board_view
       board_index.visit!

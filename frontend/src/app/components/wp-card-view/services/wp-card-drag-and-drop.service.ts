@@ -185,8 +185,9 @@ export class WorkPackageCardDragAndDropService {
    * On new card saved
    */
   async onCardSaved(wp:WorkPackageResource) {
-    if (this.activeInlineCreateWp && this.activeInlineCreateWp.__initialized_at === wp.__initialized_at) {
-      const index = this.workPackages.indexOf(this.activeInlineCreateWp);
+    const index = this.workPackages.findIndex((el) => el.id === 'new');
+
+    if (index !== -1) {
       this.activeInlineCreateWp = undefined;
 
       // Add this item to the results
