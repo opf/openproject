@@ -81,9 +81,8 @@ describe UserMailer, type: :mailer do
                     "https://mydomain.foo/journals/#{journal.id}/diff/description",
                     text: 'Details'
       # link to a referenced ticket
-      assert_select 'a[href=?][title=?]',
+      assert_select 'a[href=?]',
                     "https://mydomain.foo/work_packages/#{related_issue.id}",
-                    "My related Ticket (#{related_issue.status})",
                     text: "##{related_issue.id}"
       # link to a changeset
       if changeset
@@ -120,9 +119,8 @@ describe UserMailer, type: :mailer do
                       "http://mydomain.foo/rdm/journals/#{journal.id}/diff/description",
                       text: 'Details'
         # link to a referenced ticket
-        assert_select 'a[href=?][title=?]',
+        assert_select 'a[href=?]',
                       "http://mydomain.foo/rdm/work_packages/#{related_issue.id}",
-                      "My related Ticket (#{related_issue.status})",
                       text: "##{related_issue.id}"
         # link to a changeset
         if changeset
