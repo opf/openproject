@@ -10,10 +10,6 @@ module Bcf
     after_update :invalidate_markup_cache
 
     class << self
-      def in_project(project)
-        where(project_id: project.try(:id) || project)
-      end
-
       def with_markup
         select '*',
                extract_first_node(title_path, 'title'),

@@ -46,28 +46,24 @@ module ::Bcf
 
     menu_item :work_packages
 
-    def index
-      @issues = ::Bcf::Issue.in_project(@project)
-                            .with_markup
-                            .includes(:comments, :work_package, viewpoints: :attachments)
-                            .page(page_param)
-                            .per_page(per_page_param)
-    end
-
     def upload; end
+
+    def index
+      redirect_to action: :upload
+    end
 
     def prepare_import
       render_next
     rescue StandardError => e
       flash[:error] = I18n.t('bcf.bcf_xml.import_failed', error: e.message)
-      redirect_to action: :index
+      redirect_to action: :upload
     end
 
     def configure_import
       render_next
     rescue StandardError => e
       flash[:error] = I18n.t('bcf.bcf_xml.import_failed', error: e.message)
-      redirect_to action: :index
+      redirect_to action: :upload
     end
 
     def perform_import
