@@ -154,7 +154,6 @@ module OpenProject::Bcf
       ::API::Root.class_eval do
         content_type :binary, 'application/octet-stream'
         default_format :binary
-        # mount ::API::BCF_XML::V1::Root
         version 'v1', using: :path do
           mount ::API::BcfXml::V1::BcfXmlAPI
         end

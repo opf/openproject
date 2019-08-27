@@ -33,13 +33,22 @@ describe 'BCF XML API v1 bcf_xml resource', type: :request do
   include Rack::Test::Methods
 
   let(:current_user) do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+    FactoryBot.create(:user, member_in_project: project, member_through_role: role, firstname: "BIMjamin")
   end
-  let(:work_package) { FactoryBot.create(:work_package) }
+  let(:status) { FactoryBot.create(:status, name: 'New', is_default: true) }
+  let(:priority) { FactoryBot.create(:issue_priority, name: "Mega high", is_default: true)}
+  let(:work_package) { FactoryBot.create(:work_package, status: status, priority: priority) }
   let(:project) { work_package.project }
   let(:bcf_issue) { FactoryBot.create(:bcf_issue_with_comment, work_package: work_package) }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
-  let(:permissions) { %i(view_work_packages view_associated_issues) }
+  let(:permissions) { %i(view_work_packages view_linked_issues) }
+  let(:filename) { 'MaximumInformation.bcf' }
+  let(:bcf_xml_file) do
+    Rack::Test::UploadedFile.new(
+      File.join(Rails.root, "modules/bcf/spec/fixtures/files/#{filename}"),
+      'application/octet-stream'
+    )
+  end
 
   subject(:response) { last_response }
 
@@ -54,6 +63,8 @@ describe 'BCF XML API v1 bcf_xml resource', type: :request do
 
     context 'without params' do
       before do
+        bcf_issue
+
         get path
       end
 
@@ -71,19 +82,93 @@ describe 'BCF XML API v1 bcf_xml resource', type: :request do
           .to match(/attachment; filename="OpenProject_Work_packages_\d\d\d\d-\d\d-\d\d.bcfzip"/)
       end
 
-      it 'responds with a .bcfzip file in the body ' do
+      it 'responds with a correct .bcfzip file in the body ' do
+        expect(zip_has_file?(subject.body, 'bcf.version')).to be_truthy
+        expect(zip_has_file?(subject.body, "#{bcf_issue.uuid}/markup.bcf")).to be_truthy
+      end
+
+      %i[view_work_packages view_linked_issues].each do |permission|
+        context "without :#{permission} permission" do
+          let(:permissions) do
+            %i[view_work_packages view_linked_issues] - [permission]
+          end
+
+          it "returns a status 404" do
+            expect(subject.status).to eql(404)
+          end
+        end
+      end
+    end
+
+    context 'with params filter on work package subject' do
+      let(:escaped_query_params) do
+        CGI.escape("[{\"subject\":{\"operator\":\"!~\",\"values\":[\"#{work_package.subject}\"]}}]")
+      end
+      let(:path) do
+        "/bcf_xml_api/v1/projects/#{project.identifier}/bcf_xml?filters=#{escaped_query_params}"
+      end
+
+      before do
         bcf_issue
 
-        expect(zip_has_file?(subject.body, 'bcf.version')).to be_truthy
+        get path
+      end
+
+      it 'excludes the work package from the .bcfzip file' do
+        expect(zip_has_file?(subject.body, "#{bcf_issue.uuid}/markup.bcf")).to be_falsey
+      end
+    end
+  end
+
+  describe 'POST /bcf_xml_api/v1/projects/<project>/bcf_xml' do
+    let(:permissions) { %i(view_work_packages add_work_packages edit_work_packages manage_bcf view_linked_issues) }
+    let(:path) { "/bcf_xml_api/v1/projects/#{project.identifier}/bcf_xml" }
+    let(:params) do
+      {
+        bcf_xml_file: bcf_xml_file
+      }
+    end
+
+    before do
+      expect(project.work_packages.count).to eql(1)
+      post path, params, 'CONTENT_TYPE' => 'multipart/form-data'
+    end
+
+    context 'without import conflicts' do
+      it "creates two new work packages" do
+        expect(subject.status).to eql(201)
+        expect(project.work_packages.count).to eql(3)
+      end
+    end
+
+    context 'without :manage_bcf permission' do
+      let(:permissions) { %i(view_work_packages add_work_packages edit_work_packages view_linked_issues) }
+
+      it "returns a status 404" do
+        expect(subject.status).to eql(404)
+        expect(project.work_packages.count).to eql(1)
+      end
+    end
+
+    %i[manage_bcf view_work_packages add_work_packages edit_work_packages view_linked_issues].each do |permission|
+      context "without :#{permission} permission" do
+        let(:permissions) do
+          %i[manage_bcf view_work_packages add_work_packages edit_work_packages view_linked_issues] - [permission]
+        end
+
+        it "returns a status 404" do
+          expect(subject.status).to eql(404)
+          expect(project.work_packages.count).to eql(1)
+        end
       end
     end
   end
 
   def zip_has_file?(zip_string, filename)
-    has_bcf_version_file = false
-    Zip::File.open_buffer(zip_string) do |zip_io|
-      has_bcf_version_file = zip_io.find { |entry| entry.name == filename }.present?
+    has_file = false
+    Zip::File.open_buffer(zip_string) do |zip_file|
+      has_file = zip_file.find { |entry| entry.name == filename }.present?
     end
-    has_bcf_version_file
+    has_file
   end
 end
