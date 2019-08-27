@@ -32,8 +32,17 @@ See docs/COPYRIGHT.rdoc for more details.
       body {
         font-family: Verdana, sans-serif;
         font-size: 0.8em;
-        color:#484848;
+        color: #484848;
+        background: #FFFFFF;
       }
+
+      @media (prefers-color-scheme: dark) {
+        body {
+          color: #CCC;
+          background: #222222;
+        }
+      }
+      
       h1, h2, h3 { font-family: "Trebuchet MS", Verdana, sans-serif; margin: 0px; }
       h1 { font-size: 1.2em; }
       h2, h3 { font-size: 1.1em; }
