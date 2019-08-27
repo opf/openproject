@@ -104,10 +104,9 @@ export class GridAddWidgetService {
 
   private persist(area:GridWidgetArea) {
     area.writeAreaChangeToWidget();
+    this.layout.widgetAreas.push(area);
     this.layout.widgetResources.push(area.widget);
-    this.layout.writeAreaChangesToWidgets();
-
-    this.layout.buildAreas();
+    this.layout.rebuildAndPersist();
   }
 
   private get isAllowed() {
