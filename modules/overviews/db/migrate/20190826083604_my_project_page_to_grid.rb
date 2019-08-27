@@ -85,13 +85,7 @@ class MyProjectPageToGrid < ActiveRecord::Migration[5.2]
                   'work_packages_responsible_for',
                   'work_packages_watched'
                :build_wp_table_widget
-             when 'project_description',
-                  'work_package_tracking',
-                  'members',
-                  'news_latest',
-                  'calendar',
-                  'spent_time',
-                  'subprojects'
+             else
                :build_default_widget
              end
 
