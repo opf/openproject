@@ -153,8 +153,9 @@ export class SingleRowBuilder {
     this.augmentedColumns.forEach((column:QueryColumn) => {
       const oldTd = cells.filter(`td.${column.id}`);
 
-      // Skip the replacement of the column if this is being edited.
-      if (this.isColumnBeingEdited(workPackage, column)) {
+      // Treat internal columns specially
+      // and skip the replacement of the column if this is being edited.
+      if (column.id.startsWith('__internal') || this.isColumnBeingEdited(workPackage, column)) {
         newCells.push(oldTd[0]);
         return;
       }
