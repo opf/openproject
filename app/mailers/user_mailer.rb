@@ -377,31 +377,3 @@ class DoNotSendMailsWithoutReceiverInterceptor
     mail.perform_deliveries = false if receivers.all?(&:blank?)
   end
 end
-
-# helper object for `rake redmine:send_reminders`
-
-class DueIssuesReminder
-  def initialize(days = nil, project_id = nil, type_id = nil, user_ids = [])
-    @days     = days ? days.to_i : 7
-    @project  = Project.find_by(id: project_id)
-    @type  = ::Type.find_by(id: type_id)
-    @user_ids = user_ids
-  end
-
-  def remind_users
-    s = ARCondition.new ["#{Status.table_name}.is_closed = ? AND #{WorkPackage.table_name}.due_date <= ?", false, @days.days.from_now.to_date]
-    s << "#{WorkPackage.table_name}.assigned_to_id IS NOT NULL"
-    s << ["#{WorkPackage.table_name}.assigned_to_id IN (?)", @user_ids] if @user_ids.any?
-    s << "#{Project.table_name}.status = #{Project::STATUS_ACTIVE}"
-    s << "#{WorkPackage.table_name}.project_id = #{@project.id}" if @project
-    s << "#{WorkPackage.table_name}.type_id = #{@type.id}" if @type
-
-    issues_by_assignee = WorkPackage.includes(:status, :assigned_to, :project, :type)
-                         .where(s.conditions)
-                         .references(:projects)
-                         .group_by(&:assigned_to)
-    issues_by_assignee.each do |assignee, issues|
-      UserMailer.reminder_mail(assignee, issues, @days).deliver_now if assignee && assignee.active?
-    end
-  end
-end

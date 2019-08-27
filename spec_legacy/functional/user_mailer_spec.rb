@@ -330,35 +330,6 @@ describe UserMailer, type: :mailer do
     assert mail.body.encoded.include?("https://redmine.foo/account/activate?token=#{token.value}")
   end
 
-  it 'should reminders' do
-    user  = FactoryBot.create(:user, mail: 'foo@bar.de')
-    issue = FactoryBot.create(:work_package, due_date: Date.tomorrow, assigned_to: user, subject: 'some issue')
-
-    DueIssuesReminder.new(42).remind_users
-    assert_equal 1, ActionMailer::Base.deliveries.size
-    mail = ActionMailer::Base.deliveries.last
-    assert mail.to.include?('foo@bar.de')
-    assert mail.body.encoded.include?("#{issue.project.name} - #{issue.type.name} ##{issue.id}: some issue")
-    assert_equal '1 work package(s) due in the next 42 days', mail.subject
-  end
-
-  it 'should reminders for users' do
-    user1  = FactoryBot.create(:user, mail: 'foo1@bar.de')
-    user2  = FactoryBot.create(:user, mail: 'foo2@bar.de')
-    issue = FactoryBot.create(:work_package, due_date: Date.tomorrow, assigned_to: user1, subject: 'some issue')
-
-    DueIssuesReminder.new(42, nil, nil, [user2.id]).remind_users
-    assert_equal 0, ActionMailer::Base.deliveries.size
-
-    DueIssuesReminder.new(42, nil, nil, [user1.id]).remind_users
-    assert_equal 1, ActionMailer::Base.deliveries.size
-
-    mail = ActionMailer::Base.deliveries.last
-    assert mail.to.include?('foo1@bar.de')
-    assert mail.body.encoded.include?("#{issue.project.name} - #{issue.type.name} ##{issue.id}: some issue")
-    assert_equal '1 work package(s) due in the next 42 days', mail.subject
-  end
-
   context 'with locale settings',
           with_settings: { available_languages: ['en', 'de'], default_language: 'de' } do
     it 'should mailer should not change locale' do
