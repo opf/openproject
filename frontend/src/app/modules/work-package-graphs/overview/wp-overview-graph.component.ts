@@ -115,7 +115,7 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
   }
 
   private baseProps(filter?:any) {
-    let filters = [{subprojectId: {operator: '*', values: []}}];
+    let filters = [];
 
     if (filter) {
       filters.push(filter);

@@ -37,7 +37,8 @@ module WorkPackagesFilterHelper
         filter_object('fixed_version_id', '=', version.id)
       ]
     }
-    project_work_packages_with_query_path(version.project, query, options)
+
+    conditional_query_path(version, query, options)
   end
 
   def project_work_packages_open_version_path(version, options = {})
@@ -47,7 +48,8 @@ module WorkPackagesFilterHelper
         filter_object('fixed_version_id', '=', version.id)
       ]
     }
-    project_work_packages_with_query_path(version.project, query, options)
+
+    conditional_query_path(version, query, options)
   end
 
   # Links for reports
@@ -118,8 +120,21 @@ module WorkPackagesFilterHelper
     'updated_at:desc'
   end
 
+  def conditional_query_path(version, query, options)
+    if version.shared_with_outsiders?
+      global_work_packages_with_query_path(query, options)
+    else
+      query[:f] << filter_object('subproject_id', '*')
+      project_work_packages_with_query_path(version.project, query, options)
+    end
+  end
+
   def project_work_packages_with_query_path(project, query, options = {})
     project_work_packages_path(project, options.reverse_merge!(query_props: query.to_json))
+  end
+
+  def global_work_packages_with_query_path(query, options = {})
+    work_packages_path(options.reverse_merge!(query_props: query.to_json))
   end
 
   def filter_object(property, operator, values = nil)

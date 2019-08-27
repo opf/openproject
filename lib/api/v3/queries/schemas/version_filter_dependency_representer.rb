@@ -43,9 +43,7 @@ module API
             order = "sortBy=#{to_query [%i(name asc)]}"
 
             if filter.project.nil?
-              filter_params = [{ sharing: { operator: '=', values: ['system'] } }]
-
-              "#{api_v3_paths.versions}?filters=#{to_query filter_params}&#{order}"
+              "#{api_v3_paths.versions}?#{order}"
             else
               "#{api_v3_paths.versions_by_project(filter.project.id)}?#{order}"
             end

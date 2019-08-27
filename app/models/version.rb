@@ -66,6 +66,11 @@ class Version < ActiveRecord::Base
     user.allowed_to?(:view_work_packages, project)
   end
 
+  # Returns whether this version is limited to project and subprojects
+  def shared_with_outsiders?
+    !%w(none descendants).include?(sharing)
+  end
+
   # When a version started.
   #
   # Can either be a set date stored in the database or a dynamic one

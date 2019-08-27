@@ -80,8 +80,8 @@ export class WpGraphConfigurationService {
       .loadWithParams(
         {pageSize: 0},
         undefined,
-        this.currentProject.identifier,
-        WpGraphConfiguration.queryCreationParams(this.I18n, !!this.currentProject.identifier)
+        undefined,
+        WpGraphConfiguration.queryCreationParams(this.I18n, false)
       )
       .then(form => {
         const query = this.queryFormDm.buildQueryResource(form);
@@ -103,7 +103,7 @@ export class WpGraphConfigurationService {
       .find(
         Object.assign({pageSize: 0}, params.props),
         params.id,
-        this.currentProject.identifier,
+        undefined
       )
       .then(query => {
         if (params.name) {
