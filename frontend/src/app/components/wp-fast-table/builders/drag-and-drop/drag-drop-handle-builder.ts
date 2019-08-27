@@ -3,7 +3,7 @@ import {wpCellTdClassName} from "core-components/wp-fast-table/builders/cell-bui
 import {Injector} from "@angular/core";
 import {TableDragActionsRegistryService} from "core-components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
 import {TableDragActionService} from "core-components/wp-table/drag-and-drop/actions/table-drag-action.service";
-import {internalSortColumn} from "core-components/wp-fast-table/builders/rows/single-row-builder";
+import {internalSortColumn} from "core-components/wp-fast-table/builders/internal-sort-columns";
 
 /** Debug the render position */
 const RENDER_DRAG_AND_DROP_POSITION = false;

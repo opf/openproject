@@ -165,4 +165,11 @@ export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
   public isFilterAvailable(id:string):boolean {
     return (this.wpTableFilters.availableFilters.some(filter => filter.id === id));
   }
+
+  public onOpen() {
+    setTimeout(() => {
+      const component = this.ngSelectComponent as any;
+      component.dropdownPanel._updatePosition();
+    }, 25);
+  }
 }
