@@ -19,6 +19,7 @@
               [typeahead]="requests.input$"
               [loading]="requests.loading$ | async"
               (focus)="onFocus()"
+              (blur)="onFocusOut()"
               (search)="search($event)"
               (open)="openCloseMenu(currentValue)"
               (close)="select.searchTerm = currentValue"
