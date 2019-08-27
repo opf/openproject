@@ -30,34 +30,8 @@ require 'support/pages/page'
 
 module Pages
   class Grid < ::Pages::Page
-    def add_row(row_number, before_or_after: :before)
-      # open grid row menu
-      find(".grid--row-headers .grid--header:nth-of-type(#{row_number})").click
-
-      label = if before_or_after == :before
-                I18n.t('js.label_add_row_before')
-              else
-                I18n.t('js.label_add_row_after')
-              end
-
-      find('li .menu-item', text: label).click
-    end
-
-    def add_column(column_number, before_or_after: :before)
-      # open grid column menu
-      find(".grid--column-headers .grid--header:nth-of-type(#{column_number})").click
-
-      label = if before_or_after == :before
-                I18n.t('js.label_add_column_before')
-              else
-                I18n.t('js.label_add_column_after')
-              end
-
-      find('li .menu-item', text: label).click
-    end
-
-    def add_widget(row_number, column_number, name)
-      within_add_widget_modal(row_number, column_number) do
+    def add_widget(row_number, column_number, location, name)
+      within_add_widget_modal(row_number, column_number, location) do
         expect(page)
           .to have_content(I18n.t('js.grid.add_modal.choose_widget'))
 
@@ -65,27 +39,31 @@ module Pages
       end
     end
 
-    def expect_unable_to_add_widget(row_number, column_number, name = nil)
+    def expect_unable_to_add_widget(row_number, column_number, location, name = nil)
       if name
-        expect_specific_widget_unaddable(row_number, column_number, name)
+        expect_specific_widget_unaddable(row_number, column_number, location, name)
       else
         expect_widget_adding_prohibited_generally(row_number, column_number)
       end
     end
 
-    def expect_no_headers
-      expect(page)
-        .to have_no_selector('.grid--header')
-    end
+    def area_of(row_number, column_number, location = :within)
+      real_row, real_column = case location
+                              when :within
+                                [row_number * 2, column_number * 2]
+                              when :row
+                                [row_number * 2 - 1, column_number * 2]
+                              when :column
+                                [row_number * 2, column_number * 2 - 1]
+                              end
 
-    def area_of(row_number, column_number)
-      ::Components::Grids::GridArea.of(row_number, column_number).area
+      ::Components::Grids::GridArea.of(real_row, real_column).area
     end
 
     private
 
-    def within_add_widget_modal(row_number, column_number)
-      area = area_of(row_number, column_number)
+    def within_add_widget_modal(row_number, column_number, location)
+      area = area_of(row_number, column_number, location)
       area.hover
       area.find('.grid--widget-add').click
 
@@ -102,8 +80,8 @@ module Pages
         .to have_no_selector('.grid--widget-add')
     end
 
-    def expect_specific_widget_unaddable(row_number, column_number, name)
-      within_add_widget_modal(row_number, column_number) do
+    def expect_specific_widget_unaddable(row_number, column_number, location, name)
+      within_add_widget_modal(row_number, column_number, location) do
         expect(page)
           .to have_content(I18n.t('js.grid.add_modal.choose_widget'))
 

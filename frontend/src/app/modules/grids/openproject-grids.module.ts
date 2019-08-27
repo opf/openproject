@@ -40,8 +40,6 @@ import {WidgetTimeEntriesCurrentUserComponent} from "core-app/modules/grids/widg
 import {GridWidgetsService} from "core-app/modules/grids/widgets/widgets.service";
 import {GridComponent} from "core-app/modules/grids/grid/grid.component";
 import {AddGridWidgetModal} from "core-app/modules/grids/widgets/add/add.modal";
-import {GridColumnContextMenu} from "core-app/modules/grids/context_menus/column.directive";
-import {GridRowContextMenu} from "core-app/modules/grids/context_menus/row.directive";
 import {OpenprojectCalendarModule} from "core-app/modules/calendar/openproject-calendar.module";
 import {Ng2StateDeclaration, UIRouterModule} from '@uirouter/angular';
 import {WidgetDocumentsComponent} from "core-app/modules/grids/widgets/documents/documents.component";
@@ -149,9 +147,6 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
     WidgetWpGraphMenuComponent,
 
     AddGridWidgetModal,
-
-    GridColumnContextMenu,
-    GridRowContextMenu,
 
     WidgetHeaderComponent,
 

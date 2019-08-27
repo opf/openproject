@@ -62,14 +62,47 @@ describe 'My page', type: :feature, js: true do
     my_page.visit!
   end
 
+  def grid
+    @grid ||= Grids::MyPage.first
+  end
+
+  def reload_grid!
+    @grid = Grids::MyPage.first
+  end
+
+  def assigned_area
+    find_area("Work packages assigned to me")
+  end
+
+  def created_area
+    find_area("Work packages created by me")
+  end
+
+  def calendar_area
+    find_area("Calendar")
+  end
+
+  def news_area
+    find_area("News")
+  end
+
+  def watched_area
+    find_area("Work packages watched by me")
+  end
+
+  def find_area(name)
+    index = grid.widgets.sort_by(&:id).each_with_index.detect { |w, index| w.options["name"] == name }.last
+
+    Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(#{index + 1})")
+  end
+
   it 'renders the default view, allows altering and saving' do
-    assigned_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
-    created_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
+    sleep(0.5)
 
     assigned_area.expect_to_exist
     created_area.expect_to_exist
-    assigned_area.expect_to_span(1, 1, 7, 3)
-    created_area.expect_to_span(1, 3, 7, 5)
+    assigned_area.expect_to_span(1, 1, 2, 2)
+    created_area.expect_to_span(1, 2, 2, 3)
 
     # The widgets load their respective contents
     expect(page)
@@ -77,61 +110,81 @@ describe 'My page', type: :feature, js: true do
     expect(page)
       .to have_content(assigned_work_package.subject)
 
-    my_page.add_row(1)
+    # add widget above to right area
+    my_page.add_widget(1, 1, :row, 'Calendar')
 
-    # within top-right area, add an additional widget
-    my_page.add_widget(1, 1, 'Calendar')
+    sleep(0.5)
+    reload_grid!
 
-    calendar_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(3)')
-    calendar_area.expect_to_span(1, 1, 2, 3)
+    calendar_area.expect_to_span(1, 1, 2, 2)
 
-    calendar_area.resize_to(2, 4)
-
-    # Resizing leads to the calendar area now spanning a larger area
-    calendar_area.expect_to_span(1, 1, 3, 5)
-    # Because of the added column, and the resizing the other widgets have moved down
-    assigned_area.expect_to_span(3, 1, 9, 3)
-    created_area.expect_to_span(3, 3, 9, 5)
-
-    my_page.add_column(4, before_or_after: :after)
-    my_page.add_column(5, before_or_after: :after)
-    my_page.add_widget(1, 5, 'Work packages watched by me')
-
-    watched_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(4)')
-    watched_area.expect_to_exist
-
-    watched_area.resize_to(3, 6)
+    # resizing will move the created area down
+    calendar_area.resize_to(1, 2)
 
     sleep(0.1)
 
-    # Reloading kept the user's values
+    # resizing again will not influence the created area. It will stay down
+    calendar_area.resize_to(1, 1)
+
+    calendar_area.expect_to_span(1, 1, 2, 2)
+
+    # add widget right next to the calendar widget
+    my_page.add_widget(1, 2, :within, 'News')
+
+    sleep(0.5)
+    reload_grid!
+
+    news_area.expect_to_span(1, 2, 2, 3)
+
+    calendar_area.resize_to(2, 1)
+
+    sleep(0.3)
+
+    # Resizing leads to the calender area now spanning a larger area
+    calendar_area.expect_to_span(1, 1, 3, 2)
+    # Because of the added row, and the resizing the other widgets (assigned and created) have moved down
+    assigned_area.expect_to_span(3, 1, 4, 2)
+    created_area.expect_to_span(2, 2, 3, 3)
+
+    my_page.add_widget(1, 3, :column, 'Work packages watched by me')
+
+    sleep(0.5)
+    reload_grid!
+
+    watched_area.expect_to_exist
+
+    sleep(1)
+
+    # dragging makes room for the dragged widget which means
+    # that widgets that have been there are moved down
+    created_area.drag_to(1, 3)
+
+    sleep(1)
+
+    reload_grid!
+
+    calendar_area.expect_to_span(1, 1, 3, 2)
+    watched_area.expect_to_span(2, 3, 3, 4)
+    assigned_area.expect_to_span(3, 1, 4, 2)
+    created_area.expect_to_span(1, 3, 2, 4)
+    news_area.expect_to_span(1, 2, 2, 3)
+
+    # dragging again makes room for the dragged widget which means
+    # that widgets that have been there are moved down. Additionally,
+    # as no more widgets start in the second column, that column is removed
+    news_area.drag_to(1, 3)
+
+    sleep(1)
+    reload_grid!
+
+    # Reloading keeps the user's values
     visit home_path
     my_page.visit!
 
-    assigned_area.expect_to_exist
-    created_area.expect_to_exist
-    calendar_area.expect_to_exist
-    watched_area.expect_to_exist
-    calendar_area.expect_to_span(1, 1, 3, 5)
-    assigned_area.expect_to_span(3, 1, 9, 3)
-    created_area.expect_to_span(3, 3, 9, 5)
-    watched_area.expect_to_span(1, 5, 4, 7)
-
-    # Disabling the following as it leads to false positives on travis only
-
-    # # dragging makes room for the dragged widget which means
-    # # that widgets that have been there are moved down
-    # watched_area.drag_to(1, 3)
-    # watched_area.expect_to_span(1, 3, 4, 5)
-    # calendar_area.expect_to_span(4, 1, 6, 5)
-    # assigned_area.expect_to_span(6, 1, 12, 3)
-    # created_area.expect_to_span(6, 3, 12, 5)
-
-    # calendar_area.drag_to(3, 4)
-    # # reduces the size of calendar as the widget would otherwise not fit
-    # calendar_area.expect_to_span(3, 4, 5, 7)
-    # watched_area.expect_to_span(5, 3, 8, 5)
-    # assigned_area.expect_to_span(6, 1, 12, 3)
-    # created_area.expect_to_span(8, 3, 14, 5)
+    calendar_area.expect_to_span(1, 1, 3, 2)
+    news_area.expect_to_span(1, 2, 2, 3)
+    created_area.expect_to_span(2, 2, 3, 3)
+    assigned_area.expect_to_span(3, 1, 4, 2)
+    watched_area.expect_to_span(3, 2, 4, 3)
   end
 end

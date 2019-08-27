@@ -91,6 +91,7 @@ import {OpenprojectDashboardsModule} from "core-app/modules/dashboards/openproje
 import {OpenprojectWorkPackageGraphsModule} from "core-app/modules/work-package-graphs/openproject-work-package-graphs.module";
 import {WpPreviewModal} from "core-components/modals/preview-modal/wp-preview-modal/wp-preview.modal";
 import {PreviewTriggerService} from "core-app/globals/global-listeners/preview-trigger.service";
+import {OpenprojectOverviewModule} from "core-app/modules/overview/openproject-overview.module";
 
 @NgModule({
   imports: [
@@ -125,6 +126,9 @@ import {PreviewTriggerService} from "core-app/globals/global-listeners/preview-t
 
     // Dashboards
     OpenprojectDashboardsModule,
+
+    // Overview
+    OpenprojectOverviewModule,
 
     // Global Search
     OpenprojectGlobalSearchModule,

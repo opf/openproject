@@ -74,6 +74,7 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
     Pages::My::Page.new
   end
   let(:assigned_area) { Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)') }
+  let(:created_area) { Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)') }
   let(:embedded_table) { Pages::EmbeddedWorkPackagesTable.new(assigned_area.area) }
   let(:hierarchies) { ::Components::WorkPackages::Hierarchies.new }
 
@@ -169,23 +170,31 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
     embedded_table.expect_work_package_listed wp
   end
 
-  it 'can paginate in embedded tables (Regression test #29845)' do
+  it 'can paginate in embedded tables (Regression test #29845)', with_settings: { per_page_options: '1' } do
     my_page.visit!
 
     # exists as default
     assigned_area.expect_to_exist
-    assigned_area.resize_to(2, 2)
+    assigned_area.resize_to(1, 2)
 
-    expect(assigned_area.area)
-      .to have_selector('.subject', text: assigned_work_package.subject)
-    expect(assigned_area.area)
-      .not_to have_selector('.subject', text: assigned_work_package_2.subject)
+    sleep(0.1)
 
-    assigned_area.area.find('.pagination--item a', text: '2').click
+    assigned_area.expect_to_span(1, 1, 2, 3)
+    # has been moved down by resizing
+    created_area.expect_to_span(2, 2, 3, 3)
 
-    expect(assigned_area.area)
-      .not_to have_selector('.subject', text: assigned_work_package.subject)
-    expect(assigned_area.area)
-      .to have_selector('.subject', text: assigned_work_package_2.subject)
+    within assigned_area.area do
+      expect(page)
+        .to have_selector('.subject', text: assigned_work_package.subject)
+      expect(page)
+        .not_to have_selector('.subject', text: assigned_work_package_2.subject)
+
+      page.find('.pagination--item a', text: '2').click
+
+      expect(page)
+        .not_to have_selector('.subject', text: assigned_work_package.subject)
+      expect(page)
+        .to have_selector('.subject', text: assigned_work_package_2.subject)
+    end
   end
 end

@@ -62,12 +62,10 @@ describe 'My page documents widget', type: :feature, js: true do
 
   it 'can add the widget and see the visible documents' do
     # within top-right area, add an additional widget
-    my_page.add_widget(1, 3, 'Documents')
+    my_page.add_widget(1, 1, :within, 'Documents')
 
     document_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
-    document_area.expect_to_span(1, 3, 4, 5)
-
-    document_area.resize_to(7, 4)
+    document_area.expect_to_span(1, 1, 2, 2)
 
     expect(page)
       .to have_content visible_document.title

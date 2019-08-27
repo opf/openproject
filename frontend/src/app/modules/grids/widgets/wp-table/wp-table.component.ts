@@ -25,12 +25,6 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent {
   public inFlight = false;
   public query$:Observable<QueryResource>;
 
-  // An heuristic based on paddings, margins, the widget header height and the pagination height
-  private static widgetSpaceOutsideTable:number = 230;
-  private static wpLineHeight:number = 40;
-  private static gridAreaHeight:number = 100;
-  private static gridAreaSpace:number = 20;
-
   public configuration:Partial<WorkPackageTableConfiguration> = {
     actionsColumnEnabled: false,
     columnMenuEnabled: false,
@@ -75,25 +69,10 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent {
       ).subscribe((query) => {
       this.ensureFormAndSaveQuery(query);
     });
-
-    this.configuration.forcePerPageOption = this.perPageOption;
   }
 
   public static get identifier():string {
     return 'work_packages_table';
-  }
-
-  private get perPageOption():number|false {
-    if (this.resource) {
-      let numberOfRows = this.resource.height;
-      let availableHeight = numberOfRows * WidgetWpTableComponent.gridAreaHeight +
-        (numberOfRows - 1) * WidgetWpTableComponent.gridAreaSpace;
-      let perPageOption:number = Math.floor((availableHeight - WidgetWpTableComponent.widgetSpaceOutsideTable) / WidgetWpTableComponent.wpLineHeight);
-
-      return perPageOption < 1 ? 1 : perPageOption;
-    } else {
-      return false;
-    }
   }
 
   ngOnDestroy() {

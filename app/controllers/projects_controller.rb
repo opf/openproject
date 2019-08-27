@@ -31,17 +31,10 @@ class ProjectsController < ApplicationController
   menu_item :overview
   menu_item :roadmap, only: :roadmap
 
-  before_action :disable_api, except: :level_list
-  before_action :find_project, except: [:index, :level_list, :new, :create]
-  before_action :authorize, only: [
-    :show, :edit, :update, :modules, :types, :custom_fields
-  ]
-  before_action :authorize_global, only: [:new, :create]
-  before_action :require_admin, only: [:archive, :unarchive, :destroy, :destroy_info]
-  before_action :jump_to_project_menu_item, only: :show
-  before_action :load_project_settings, only: :settings
-
-  accept_key_auth :index, :level_list, :show, :create, :update, :destroy
+  before_action :find_project, except: %i[index level_list new create]
+  before_action :authorize, only: %i[update modules types custom_fields]
+  before_action :authorize_global, only: %i[new create]
+  before_action :require_admin, only: %i[archive unarchive destroy destroy_info]
 
   include SortHelper
   include PaginationHelper
@@ -63,9 +56,6 @@ class ProjectsController < ApplicationController
     @custom_fields = ProjectCustomField.visible(User.current)
 
     respond_to do |format|
-      format.atom do
-        head(:gone)
-      end
       format.html do
         render layout: 'no_menu'
       end
@@ -102,33 +92,6 @@ class ProjectsController < ApplicationController
       respond_to do |format|
         format.html { render action: 'new', layout: 'no_menu' }
       end
-    end
-  end
-
-  # Show @project
-  def show
-    @users_by_role = @project.users_by_role
-    @subprojects = @project.children.visible
-    @news = @project.news.limit(5).includes(:author, :project).order("#{News.table_name}.created_on DESC")
-    @types = @project.rolled_up_types
-
-    cond = @project.project_condition(Setting.display_subprojects_work_packages?)
-
-    @open_issues_by_type = WorkPackage
-                           .visible.group(:type)
-                           .includes(:project, :status, :type)
-                           .where(["(#{cond}) AND #{Status.table_name}.is_closed=?", false])
-                           .references(:projects, :statuses, :types)
-                           .count
-    @total_issues_by_type = WorkPackage
-                            .visible.group(:type)
-                            .includes(:project, :status, :type)
-                            .where(cond)
-                            .references(:projects, :statuses, :types)
-                            .count
-
-    respond_to do |format|
-      format.html
     end
   end
 
@@ -257,14 +220,7 @@ class ProjectsController < ApplicationController
   def redirect_work_packages_or_overview
     return if redirect_to_project_menu_item(@project, :work_packages)
 
-    redirect_to controller: '/projects', action: 'show', id: @project
-  end
-
-  def jump_to_project_menu_item
-    if params[:jump]
-      # try to redirect to the requested menu item
-      redirect_to_project_menu_item(@project, params[:jump]) && return
-    end
+    redirect_to project_overview_path(@project)
   end
 
   def hide_project_in_layout

@@ -127,6 +127,10 @@ module Grids::Configuration
       grid_register[grid.class.to_s]&.writable?(grid, user)
     end
 
+    def validations(grid, mode)
+      grid_register[grid.class.to_s]&.validations(mode) || []
+    end
+
     protected
 
     def grid_register

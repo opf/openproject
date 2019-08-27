@@ -207,7 +207,7 @@ class ApplicationController < ActionController::Base
   def logged_user=(user)
     reset_session
 
-    if user && user.is_a?(User)
+    if user&.is_a?(User)
       User.current = user
       Sessions::InitializeSessionService.call(user, session)
     else
@@ -375,7 +375,6 @@ class ApplicationController < ActionController::Base
     else
       @project = Project.find(params[:project_id])
     end
-
   rescue ActiveRecord::RecordNotFound
     render_404
   end
@@ -573,25 +572,6 @@ class ApplicationController < ActionController::Base
     false
   end
   helper_method :show_local_breadcrumb
-
-  def disable_everything_except_api
-    unless api_request?
-      head 410
-      return false
-    end
-    true
-  end
-
-  def disable_api
-    # Changing this to not use api_request? to determine whether a request is an API
-    # request can have security implications regarding CSRF. See handle_unverified_request
-    # for more information.
-    if api_request?
-      head 410
-      return false
-    end
-    true
-  end
 
   def check_session_lifetime
     if session_expired?

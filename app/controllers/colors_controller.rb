@@ -28,10 +28,7 @@
 #++
 
 class ColorsController < ApplicationController
-  before_action :disable_api
   before_action :require_admin_unless_readonly_api_request
-
-  accept_key_auth :index, :show
 
   layout 'admin'
 

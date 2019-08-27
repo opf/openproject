@@ -118,19 +118,12 @@ describe 'Work package calendar widget on dashboard',
   end
 
   it 'can add the widget and see the work packages of the project' do
-    dashboard.add_column(3, before_or_after: :before)
+    dashboard.add_widget(1, 1, :within, "Calendar")
 
-    dashboard.add_widget(1, 1, "Calendar")
-
-    sleep(1)
+    sleep(0.1)
 
     # As the user lacks the necessary permisisons, no widget is preconfigured
     calendar_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
-
-    calendar_widget.expect_to_span(1, 1, 4, 3)
-    calendar_widget.resize_to(6, 4)
-
-    calendar_widget.expect_to_span(1, 1, 7, 5)
 
     within(calendar_widget.area) do
       expect(page)

@@ -26,6 +26,7 @@ export class GridResizeService {
     this.resizedArea.endColumn = this.placeholderArea.endColumn;
 
     this.layout.writeAreaChangesToWidgets();
+    this.layout.cleanupUnusedAreas();
     this.layout.buildAreas();
 
     this.resizedArea = null;
@@ -41,9 +42,8 @@ export class GridResizeService {
         area.startColumn >= this.placeholderArea!.startColumn;
     });
 
-    this.targetIds = resizeTargets.map((area) => {
-      return area.guid;
-    });
+    this.targetIds = resizeTargets
+                     .map(area => area.guid);
   }
 
   public moving(deltas:ResizeDelta) {

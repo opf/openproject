@@ -29,13 +29,11 @@
 #++
 
 class TimelogController < ApplicationController
-  before_action :disable_api, except: %i[index destroy]
   before_action :find_work_package, only: %i[new create]
   before_action :find_project, only: %i[new create]
   before_action :find_time_entry, only: %i[show edit update destroy]
   before_action :authorize, except: [:index]
   before_action :find_optional_project, only: [:index]
-  accept_key_auth :index, :show, :create, :update, :destroy
 
   include SortHelper
   include TimelogHelper

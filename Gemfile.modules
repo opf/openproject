@@ -25,7 +25,6 @@ group :opf_plugins do
 	gem 'openproject-auth_saml',                 path: 'modules/auth_saml'
 	gem 'openproject-openid_connect',            path: 'modules/openid_connect'
 	gem 'openproject-documents',                 path: 'modules/documents'
-	gem 'openproject-my_project_page',           path: 'modules/my_project_page'
 	gem 'openproject-xls_export',                path: 'modules/xls_export'
 	gem 'reporting_engine',                      path: 'modules/reporting_engine'
 	gem 'openproject-costs',                     path: 'modules/costs'
@@ -43,7 +42,8 @@ group :opf_plugins do
 	gem 'my_page',                               path: 'modules/my_page'
 	gem 'dashboards',                            path: 'modules/dashboards'
 	gem 'openproject-boards',                    path: 'modules/boards'
+	gem 'overviews',                             path: 'modules/overviews'
 
 	gem 'openproject-bim_seeder',                path: 'modules/bim_seeder', require: !!(ENV['OPENPROJECT_EDITION'] == 'bim')
-	gem 'openproject-bcf',                       path: 'modules/bcf',                       require: !!(ENV['OPENPROJECT_EDITION'] == 'bim')
+	gem 'openproject-bcf',                       path: 'modules/bcf', require: !!(ENV['OPENPROJECT_EDITION'] == 'bim')
 end

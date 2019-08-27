@@ -2,10 +2,8 @@ import {Component,
   ComponentRef,
   OnDestroy,
   OnInit,
-  Input,
-  AfterViewInit} from "@angular/core";
+  Input} from "@angular/core";
 import {GridResource} from "app/modules/hal/resources/grid-resource";
-import {GridWidgetResource} from "app/modules/hal/resources/grid-widget-resource";
 import {debugLog} from "app/helpers/debug_output";
 import {DomSanitizer} from "@angular/platform-browser";
 import {GridWidgetsService} from "app/modules/grids/widgets/widgets.service";
@@ -18,7 +16,6 @@ import {GridAreaService} from "core-app/modules/grids/grid/area.service";
 import {GridAddWidgetService} from "core-app/modules/grids/grid/add-widget.service";
 import {GridRemoveWidgetService} from "core-app/modules/grids/grid/remove-widget.service";
 import {WidgetWpGraphComponent} from "core-app/modules/grids/widgets/wp-graph/wp-graph.component";
-import {WidgetChangeset} from "core-app/modules/grids/widgets/widget-changeset";
 import {GridWidgetArea} from "core-app/modules/grids/areas/grid-widget-area";
 
 export interface WidgetRegistration {
@@ -42,7 +39,7 @@ export interface WidgetRegistration {
 })
 export class GridComponent implements OnDestroy, OnInit {
   public uiWidgets:ComponentRef<any>[] = [];
-  public GRID_AREA_HEIGHT = 100;
+  public GRID_AREA_HEIGHT = 'auto';
 
   public component = WidgetWpGraphComponent;
 
@@ -92,7 +89,14 @@ export class GridComponent implements OnDestroy, OnInit {
   }
 
   public get gridColumnStyle() {
-    return this.sanitization.bypassSecurityTrustStyle(`repeat(${this.layout.numColumns}, 1fr)`);
+    let style = '';
+    for (let i = 0; i < this.layout.numColumns; i++) {
+      style += '20px 1fr ';
+    }
+
+    style += '20px';
+
+    return this.sanitization.bypassSecurityTrustStyle(style);
   }
 
   // array containing Numbers from 1 to this.numColumns
@@ -101,7 +105,7 @@ export class GridComponent implements OnDestroy, OnInit {
   }
 
   public get gridRowStyle() {
-    return this.sanitization.bypassSecurityTrustStyle(`repeat(${this.layout.numRows}, ${this.GRID_AREA_HEIGHT}px)`);
+    return this.sanitization.bypassSecurityTrustStyle(`repeat(${this.layout.numRows}, ${this.GRID_AREA_HEIGHT})`);
   }
 
   public get rowNumbers() {

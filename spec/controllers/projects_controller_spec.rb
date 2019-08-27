@@ -37,120 +37,10 @@ describe ProjectsController, type: :controller do
   before do
     allow(@controller).to receive(:set_localization)
 
-    @role = FactoryBot.create(:non_member)
     @user = FactoryBot.create(:admin)
     allow(User).to receive(:current).and_return @user
 
     @params = {}
-  end
-
-  describe 'show' do
-    render_views
-
-    describe 'without wiki' do
-      before do
-        @project = FactoryBot.create(:project)
-        @project.reload # project contains wiki by default
-        @project.wiki.destroy
-        @project.reload
-        @params[:id] = @project.id
-      end
-
-      it 'renders show' do
-        get 'show', params: @params
-        expect(response).to be_successful
-        expect(response).to render_template 'show'
-      end
-
-      it 'renders main menu without wiki menu item' do
-        get 'show', params: @params
-
-        assert_select '#main-menu a.wiki-Wiki-menu-item', false # assert_no_select
-      end
-    end
-
-    describe 'with wiki' do
-      before do
-        @project = FactoryBot.create(:project)
-        @project.reload # project contains wiki by default
-        @params[:id] = @project.id
-      end
-
-      describe 'without custom wiki menu items' do
-        it 'renders show' do
-          get 'show', params: @params
-          expect(response).to be_successful
-          expect(response).to render_template 'show'
-        end
-
-        it 'renders main menu with wiki menu item' do
-          get 'show', params: @params
-
-          assert_select '#main-menu a.wiki-wiki-menu-item', 'Wiki'
-        end
-      end
-
-      describe 'with custom wiki menu item' do
-        before do
-          main_item = FactoryBot.create(:wiki_menu_item, navigatable_id: @project.wiki.id, name: 'example', title: 'Example Title')
-          sub_item = FactoryBot.create(:wiki_menu_item, navigatable_id: @project.wiki.id, name: 'sub', title: 'Sub Title', parent_id: main_item.id)
-        end
-
-        it 'renders show' do
-          get 'show', params: @params
-          expect(response).to be_successful
-          expect(response).to render_template 'show'
-        end
-
-        it 'renders main menu with wiki menu item' do
-          get 'show', params: @params
-
-          assert_select '#main-menu a.wiki-example-menu-item', 'Example Title'
-        end
-
-        it 'renders main menu with sub wiki menu item' do
-          get 'show', params: @params
-
-          assert_select '#main-menu a.wiki-sub-menu-item', 'Sub Title'
-        end
-      end
-    end
-
-    describe 'with activated activity module' do
-      before do
-        @project = FactoryBot.create(:project, enabled_module_names: %w[activity])
-        @params[:id] = @project.id
-      end
-
-      it 'renders show' do
-        get 'show', params: @params
-        expect(response).to be_successful
-        expect(response).to render_template 'show'
-      end
-
-      it 'renders main menu with activity tab' do
-        get 'show', params: @params
-        assert_select '#main-menu a.activity-menu-item'
-      end
-    end
-
-    describe 'without activated activity module' do
-      before do
-        @project = FactoryBot.create(:project, enabled_module_names: %w[wiki])
-        @params[:id] = @project.id
-      end
-
-      it 'renders show' do
-        get 'show', params: @params
-        expect(response).to be_successful
-        expect(response).to render_template 'show'
-      end
-
-      it 'renders main menu without activity tab' do
-        get 'show', params: @params
-        expect(response.body).not_to have_selector '#main-menu a.activity-menu-item'
-      end
-    end
   end
 
   describe 'new' do
@@ -171,6 +61,8 @@ describe ProjectsController, type: :controller do
 
     before do
       Role.anonymous
+      Role.non_member
+
       projects
       login_as(user)
       get 'index'
@@ -217,20 +109,6 @@ describe ProjectsController, type: :controller do
         expect(assigns[:projects])
           .to match_array [project_b, project_c]
       end
-    end
-  end
-
-  describe 'index.html' do
-    let(:user) { FactoryBot.build(:admin) }
-
-    before do
-      login_as(user)
-      get 'index', format: 'atom'
-    end
-
-    it 'is 410 GONE' do
-      expect(response.response_code)
-        .to eql 410
     end
   end
 

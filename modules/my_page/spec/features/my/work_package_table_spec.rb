@@ -75,23 +75,17 @@ describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, 
 
   context 'with the permission to save queries' do
     it 'can add the widget and see the work packages of the filtered for types' do
-      my_page.add_column(3, before_or_after: :before)
+      sleep(0.1)
 
-      sleep(1)
+      my_page.add_widget(1, 2, :column, "Work packages table")
 
-      my_page.add_widget(2, 3, "Work packages table")
-
-      sleep(1)
+      sleep(0.1)
 
       filter_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(3)')
-      created_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
 
-      filter_area.expect_to_span(2, 3, 5, 4)
-      filter_area.resize_to(6, 4)
+      sleep(0.1)
 
-      filter_area.expect_to_span(2, 3, 7, 5)
-      ## enlarging the table area will have moved the created area down
-      created_area.expect_to_span(7, 4, 13, 6)
+      filter_area.expect_to_span(1, 2, 2, 3)
 
       # At the beginning, the default query is displayed
       expect(filter_area.area)
@@ -162,9 +156,7 @@ describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, 
     let(:permissions) { %i[view_work_packages add_work_packages] }
 
     it 'cannot add the widget' do
-      my_page.add_column(3, before_or_after: :before)
-
-      my_page.expect_unable_to_add_widget(2, 3, "Work packages table")
+      my_page.expect_unable_to_add_widget(1, 1, :within, "Work packages table")
     end
   end
 end

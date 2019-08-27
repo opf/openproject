@@ -275,7 +275,7 @@ describe OpenProject::TextFormatting,
 
     context 'Project links' do
       let(:subproject) { FactoryBot.create :valid_project, parent: project, is_public: true }
-      let(:project_url) { { controller: 'projects', action: 'show', id: subproject.identifier } }
+      let(:project_url) { project_overview_path(subproject) }
 
       context 'Plain project link' do
         subject { format_text("project##{subproject.id}") }

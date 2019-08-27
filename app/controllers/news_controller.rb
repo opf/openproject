@@ -33,7 +33,6 @@ class NewsController < ApplicationController
 
   default_search_scope :news
 
-  before_action :disable_api
   before_action :find_news_object, except: %i[new create index]
   before_action :find_project_from_association, except: %i[new create index]
   before_action :find_project, only: %i[new create]

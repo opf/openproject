@@ -32,7 +32,6 @@ class UsersController < ApplicationController
 
   helper_method :gon
 
-  before_action :disable_api
   before_action :require_admin, except: [:show, :deletion_info, :destroy]
   before_action :find_user, only: [:show,
                                    :edit,
@@ -55,8 +54,6 @@ class UsersController < ApplicationController
   include Concerns::UserLimits
   before_action :enforce_user_limit, only: [:create]
   before_action -> { enforce_user_limit flash_now: true }, only: [:new]
-
-  accept_key_auth :index, :show, :create, :update, :destroy
 
   include SortHelper
   include CustomFieldsHelper

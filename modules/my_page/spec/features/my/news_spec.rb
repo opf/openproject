@@ -61,13 +61,12 @@ describe 'My page news widget spec', type: :feature, js: true do
   end
 
   it 'can add the widget and see the visible news' do
-    # within top-right area, add an additional widget
-    my_page.add_widget(1, 3, 'News')
+    # No other widgets exist as the user lacks the permissions for the default widgets
+    # add widget in top right corner
+    my_page.add_widget(1, 1, :within, 'News')
 
-    document_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
-    document_area.expect_to_span(1, 3, 4, 5)
-
-    document_area.resize_to(7, 4)
+    news_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+    news_area.expect_to_span(1, 1, 2, 2)
 
     expect(page)
       .to have_content visible_news.title

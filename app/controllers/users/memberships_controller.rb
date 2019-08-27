@@ -30,7 +30,6 @@
 class Users::MembershipsController < ApplicationController
   layout 'admin'
 
-  before_action :disable_api
   before_action :require_admin
   before_action :find_user
 

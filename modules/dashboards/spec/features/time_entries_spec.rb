@@ -93,39 +93,35 @@ describe 'Time entries widget on dashboard', type: :feature, js: true, with_mail
 
   it 'adds the widget and checks the displayed entries' do
     # within top-right area, add an additional widget
-    dashboard.add_widget(1, 1, 'Spent time \(last 7 days\)')
+    dashboard.add_widget(1, 1, :within, 'Spent time \(last 7 days\)')
 
-    calendar_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
-    calendar_area.expect_to_span(1, 1, 4, 3)
+    spent_time_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
 
-    calendar_area.resize_to(7, 2)
+    within spent_time_widget.area do
+      expect(page)
+        .to have_content "Total: 11.00"
 
-    # Resizing leads to the calendar area now spanning a larger area
-    calendar_area.expect_to_span(1, 1, 8, 3)
+      expect(page)
+        .to have_content Date.today.strftime('%m/%d/%Y')
+      expect(page)
+        .to have_selector('.activity', text: visible_time_entry.activity.name)
+      expect(page)
+        .to have_selector('.subject', text: "#{project.name} - ##{work_package.id}: #{work_package.subject}")
+      expect(page)
+        .to have_selector('.comments', text: visible_time_entry.comments)
+      expect(page)
+        .to have_selector('.hours', text: visible_time_entry.hours)
 
-    expect(page)
-      .to have_content "Total: 11.00"
-
-    expect(page)
-      .to have_content Date.today.strftime('%m/%d/%Y')
-    expect(page)
-      .to have_selector('.activity', text: visible_time_entry.activity.name)
-    expect(page)
-      .to have_selector('.subject', text: "#{project.name} - ##{work_package.id}: #{work_package.subject}")
-    expect(page)
-      .to have_selector('.comments', text: visible_time_entry.comments)
-    expect(page)
-      .to have_selector('.hours', text: visible_time_entry.hours)
-
-    expect(page)
-      .to have_content (Date.today - 1.day).strftime('%m/%d/%Y')
-    expect(page)
-      .to have_selector('.activity', text: other_visible_time_entry.activity.name)
-    expect(page)
-      .to have_selector('.subject', text: "#{project.name} - ##{work_package.id}: #{work_package.subject}")
-    expect(page)
-      .to have_selector('.comments', text: other_visible_time_entry.comments)
-    expect(page)
-      .to have_selector('.hours', text: other_visible_time_entry.hours)
+      expect(page)
+        .to have_content((Date.today - 1.day).strftime('%m/%d/%Y'))
+      expect(page)
+        .to have_selector('.activity', text: other_visible_time_entry.activity.name)
+      expect(page)
+        .to have_selector('.subject', text: "#{project.name} - ##{work_package.id}: #{work_package.subject}")
+      expect(page)
+        .to have_selector('.comments', text: other_visible_time_entry.comments)
+      expect(page)
+        .to have_selector('.hours', text: other_visible_time_entry.hours)
+    end
   end
 end

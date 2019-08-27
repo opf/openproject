@@ -53,6 +53,8 @@ module Grids
       validate_widgets_within
       validate_widgets_start_before_end
 
+      run_registration_validations
+
       super
     end
 
@@ -132,6 +134,14 @@ module Grids
 
           errors.add(:widgets, :end_before_start)
         end
+      end
+    end
+
+    def run_registration_validations
+      validations = config.validations(model, self.class.name.demodulize.gsub('Contract', '').underscore.to_sym)
+
+      validations.each do |validation|
+        instance_eval(&validation)
       end
     end
 

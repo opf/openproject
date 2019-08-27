@@ -33,7 +33,7 @@ class ForumsController < ApplicationController
                 :authorize
   before_action :new_forum, only: %i[new create]
   before_action :find_forum, only: %i[show edit update move destroy]
-  accept_key_auth :index, :show
+  accept_key_auth :show
 
   include SortHelper
   include WatchersHelper

@@ -28,12 +28,9 @@
 #++
 
 class AuthenticationController < ApplicationController
-  before_action :disable_api
   before_action :require_login
   layout 'admin'
   menu_item :authentication_settings
-
-  accept_key_auth :index
 
   def index
     respond_to do |format|

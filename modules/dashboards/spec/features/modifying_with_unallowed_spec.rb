@@ -61,7 +61,7 @@ describe 'Modifying a dashboard which already has widgets for which permissions 
   end
 
   it 'can add and modify widgets' do
-    dashboard_page.add_widget(1, dashboard.column_count - 1, "News")
+    dashboard_page.add_widget(dashboard.row_count, dashboard.column_count, :row, "News")
 
     sleep(0.1)
 
