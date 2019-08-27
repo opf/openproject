@@ -106,7 +106,13 @@ export class DatePicker {
 
   private visibleAndActive() {
     var input = this.datepickerCont;
-    return document.elementFromPoint(input.offset()!.left, input.offset()!.top) === input[0] &&
-      document.activeElement === input[0];
+
+    try {
+      return document.elementFromPoint(input.offset()!.left, input.offset()!.top) === input[0] &&
+        document.activeElement === input[0];
+    } catch(e) {
+      console.error("Failed to test visibleAndActive " + e)
+      return false;
+    }
   };
 }

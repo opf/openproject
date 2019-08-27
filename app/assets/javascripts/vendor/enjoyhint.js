@@ -608,10 +608,14 @@ var EnjoyHint;
 
                         $('canvas').css({left: '4000px'});
 
-                        var BottomElement = document.elementFromPoint(e.clientX, e.clientY);
-                        $('canvas').css({left: '0px'});
+                        try {
+                          var BottomElement = document.elementFromPoint(e.clientX, e.clientY);
+                          $('canvas').css({left: '0px'});
 
-                        $(BottomElement).click();
+                          $(BottomElement).click();
+                        } catch (e) {
+                          console.error("Failed to click on element from point. " + e);
+                        }
 
                         return false;
                     });
