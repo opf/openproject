@@ -19,12 +19,14 @@
           <span [textContent]="text.highlighting_mode.inline"></span>&nbsp;
         </label>
 
-        <ng-select [items]="availableInlineHighlightedAttributes"
+        <ng-select #highlightedAttributesNgSelect
+                   [items]="availableInlineHighlightedAttributes"
                    [(ngModel)]="selectedAttributes"
                    [multiple]="true"
                    [disabled]="highlightingMode !== 'inline'"
                    [clearable]="false"
                    [closeOnSelect]="false"
+                   (open)="onOpen(highlightedAttributesNgSelect)"
                    (change)="updateHighlightingAttributes($event)"
                    class="-multi-select"
                    bindLabel="name"
@@ -45,10 +47,12 @@
           <span [textContent]="text.highlighting_mode.entire_row_by"></span>
         </label>
 
-        <ng-select [items]="availableRowHighlightedAttributes"
+        <ng-select #rowHighlightNgSelect
+                   [items]="availableRowHighlightedAttributes"
                    [(ngModel)]="lastEntireRowAttribute"
                    [disabled]="disabledValue(eeShowBanners)"
                    [clearable]="false"
+                   (open)="onOpen(rowHighlightNgSelect)"
                    (change)="updateMode($event.value)"
                    bindLabel="name"
                    bindValue="value"

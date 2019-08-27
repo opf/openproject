@@ -52,7 +52,8 @@
       </label>
 
       <div class="advanced-filters--add-filter-value">
-        <ng-select [items]="remainingFilters"
+        <ng-select #ngSelectComponent
+                   [items]="remainingFilters"
                    [clearSearchOnAdd]="true"
                    [multiple]="false"
                    [clearable]="true"
@@ -60,6 +61,7 @@
                    [closeOnSelect]="true"
                    [virtualScroll]="true"
                    [placeholder]="text.please_select"
+                   (open)="onOpen()"
                    (change)="onFilterAdded($event)"
                    id="add_filter_select"
                    bindLabel="name"

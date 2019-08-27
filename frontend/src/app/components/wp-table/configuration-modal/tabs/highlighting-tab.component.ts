@@ -1,4 +1,4 @@
-import {Component, Injector} from '@angular/core';
+import {Component, Injector, ViewChild} from '@angular/core';
 import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 import {WorkPackageViewHighlightingService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
@@ -7,6 +7,7 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {States} from "core-app/components/states.service";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import {NgSelectComponent} from "@ng-select/ng-select";
 
 @Component({
   templateUrl: './highlighting-tab.component.html'
@@ -23,6 +24,9 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
   public selectedAttributes:any[] = [];
 
   public availableRowHighlightedAttributes:{name:string; value:HighlightingMode}[] = [];
+
+  @ViewChild('highlightedAttributesNgSelect', { static: false }) public highlightedAttributesNgSelect:NgSelectComponent;
+  @ViewChild('rowHighlightNgSelect', { static: false }) public rowHighlightNgSelect:NgSelectComponent;
 
   public text = {
     title: this.I18n.t('js.work_packages.table_configuration.highlighting'),
@@ -96,6 +100,12 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
   public get availableHighlightedAttributes():HalResource[] {
     const schema = this.querySpace.queryForm.value!.schema;
     return schema.highlightedAttributes.allowedValues;
+  }
+
+  public onOpen(component:any) {
+    setTimeout(() => {
+      component.dropdownPanel._updatePosition();
+    }, 25);
   }
 
   private setSelectedValues() {

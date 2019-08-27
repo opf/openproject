@@ -5,7 +5,6 @@ import {States} from '../states.service';
 import {WorkPackageEditForm} from '../wp-edit-form/work-package-edit-form';
 import {
   commonRowClassName,
-  internalContextMenuColumn,
   SingleRowBuilder,
   tableRowClassName
 } from '../wp-fast-table/builders/rows/single-row-builder';
@@ -15,6 +14,7 @@ import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/ro
 import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
 import {QueryColumn} from "core-components/wp-query/query-column";
 import {wpCellTdClassName} from "core-components/wp-fast-table/builders/cell-builder";
+import {internalContextMenuColumn} from "core-components/wp-fast-table/builders/internal-sort-columns";
 
 export const inlineCreateRowClassName = 'wp-inline-create-row';
 export const inlineCreateCancelClassName = 'wp-table--cancel-create-link';

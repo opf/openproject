@@ -3,7 +3,7 @@ import {wpCellTdClassName} from './cell-builder';
 import {OpTableActionsService} from 'core-components/wp-table/table-actions/table-actions.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {contextMenuSpanClassName, contextMenuTdClassName} from "core-components/wp-table/table-actions/table-action";
-import {internalContextMenuColumn} from "core-components/wp-fast-table/builders/rows/single-row-builder";
+import {internalContextMenuColumn} from "core-components/wp-fast-table/builders/internal-sort-columns";
 
 export class TableActionRenderer {
 

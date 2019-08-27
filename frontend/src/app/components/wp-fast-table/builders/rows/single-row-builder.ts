@@ -11,19 +11,15 @@ import {RelationCellbuilder} from '../relation-cell-builder';
 import {checkedClassName} from '../ui-state-link-builder';
 import {TableActionRenderer} from 'core-components/wp-fast-table/builders/table-action-renderer';
 import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import {
+  internalContextMenuColumn,
+  internalSortColumn
+} from "core-components/wp-fast-table/builders/internal-sort-columns";
 
 // Work package table row entries
 export const tableRowClassName = 'wp-table--row';
 // Work package and timeline rows
 export const commonRowClassName = 'wp--row';
-
-export const internalSortColumn = {
-  id: '__internal-sorthandle'
-} as QueryColumn;
-
-export const internalContextMenuColumn = {
-  id: '__internal-contextMenu'
-} as QueryColumn;
 
 export class SingleRowBuilder {
 
