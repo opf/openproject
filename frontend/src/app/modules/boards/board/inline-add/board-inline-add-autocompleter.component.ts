@@ -27,7 +27,7 @@
 //++
 
 import {
-  AfterContentInit,
+  AfterViewInit,
   ChangeDetectorRef,
   Component,
   EventEmitter,
@@ -49,6 +49,7 @@ import {CurrentProjectService} from "core-components/projects/current-project.se
 import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import {WorkPackageCardDragAndDropService} from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";
 
 @Component({
   selector: 'board-inline-add-autocompleter',
@@ -58,7 +59,7 @@ import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./board-inline-add-autocompleter.sass']
 })
-export class BoardInlineAddAutocompleterComponent implements AfterContentInit {
+export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
   readonly text = {
     placeholder: this.I18n.t('js.relations_autocomplete.placeholder')
   };
@@ -90,10 +91,11 @@ export class BoardInlineAddAutocompleterComponent implements AfterContentInit {
               private readonly halResourceService:HalResourceService,
               private readonly schemaCacheService:SchemaCacheService,
               private readonly cdRef:ChangeDetectorRef,
-              private readonly I18n:I18nService) {
+              private readonly I18n:I18nService,
+              private readonly wpCardDragDrop:WorkPackageCardDragAndDropService) {
   }
 
-  ngAfterContentInit():void {
+  ngAfterViewInit():void {
     if (!this.ngSelectComponent) {
       return;
     }
@@ -102,6 +104,8 @@ export class BoardInlineAddAutocompleterComponent implements AfterContentInit {
     setTimeout(() => {
       this.ngSelectComponent.focus();
     }, 25);
+
+    this.wpCardDragDrop.removeReferenceWorkPackageForm();
   }
 
   cancel() {

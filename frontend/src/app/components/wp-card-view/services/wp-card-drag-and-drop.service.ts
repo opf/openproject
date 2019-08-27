@@ -170,6 +170,12 @@ export class WorkPackageCardDragAndDropService {
   /**
    * Remove the new card
    */
+  public removeReferenceWorkPackageForm() {
+    if (this.activeInlineCreateWp) {
+      this.removeCard(this.activeInlineCreateWp);
+    }
+  }
+
   removeCard(wp:WorkPackageResource) {
     const index = this.workPackages.indexOf(wp);
     this.workPackages.splice(index, 1);

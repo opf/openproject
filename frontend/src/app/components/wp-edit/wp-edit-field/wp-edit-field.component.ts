@@ -44,7 +44,7 @@ import {
   ElementRef,
   Inject,
   Injector,
-  Input,
+  Input, OnDestroy,
   OnInit,
   ViewChild
 } from '@angular/core';
@@ -62,7 +62,7 @@ import {IWorkPackageEditingServiceToken} from "../../wp-edit-form/work-package-e
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './wp-edit-field.html'
 })
-export class WorkPackageEditFieldComponent implements OnInit {
+export class WorkPackageEditFieldComponent implements OnInit, OnDestroy {
   @Input('fieldName') public fieldName:string;
   @Input('workPackageId') public workPackageId:string;
   @Input('wrapperClasses') public wrapperClasses?:string;
@@ -78,6 +78,8 @@ export class WorkPackageEditFieldComponent implements OnInit {
   public editFieldContainerClass = editFieldContainerClass;
   public active = false;
   private $element:JQuery;
+
+  public destroyed:boolean = false;
 
   constructor(protected states:States,
               protected injector:Injector,
@@ -97,13 +99,19 @@ export class WorkPackageEditFieldComponent implements OnInit {
 
   public setActive(active:boolean = true) {
     this.active = active;
-    this.cdRef.detectChanges();
+    if (!this.destroyed) {
+      this.cdRef.detectChanges();
+    }
   }
 
   public ngOnInit() {
     this.fieldRenderer = new DisplayFieldRenderer(this.injector, 'single-view', this.displayFieldOptions);
     this.$element = jQuery(this.elementRef.nativeElement);
     this.wpEditFieldGroup.register(this);
+  }
+
+  public ngOnDestroy() {
+    this.destroyed = true;
   }
 
   // Open the field when its closed and relay drag & drop events to it.
