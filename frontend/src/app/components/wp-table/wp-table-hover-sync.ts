@@ -32,24 +32,23 @@ export class WpTableHoverSync {
 
   private lastHoveredElement:Element | null = null;
 
-  private $body = jQuery('body');
-
-  private lastAffectedElements:JQuery[] = [];
+  private eventListener = (evt:MouseEvent) => {
+    const target = evt.target as Element|null;
+    if (target && target !== this.lastHoveredElement) {
+      this.handleHover(target);
+    }
+    this.lastHoveredElement = target;
+  }
 
   constructor(private tableAndTimeline:JQuery) {
   }
 
   activate() {
-    this.$body.on('mousemove.hoverSync', (event:JQuery.TriggeredEvent) => {
-      if (event.target !== this.lastHoveredElement) {
-        this.handleHover(event.target);
-      }
-      this.lastHoveredElement = event.target;
-    });
+    window.addEventListener('mousemove', this.eventListener, { passive: true });
   }
 
   deactivate() {
-    this.$body.off('.hoverSync');
+    window.removeEventListener('mousemove', this.eventListener);
     this.removeAllHoverClasses();
   }
 
@@ -98,17 +97,12 @@ export class WpTableHoverSync {
       this.removeAllHoverClasses();
       timelineRow.addClass(cssClassRowHovered);
       tableRow.addClass(cssClassRowHovered);
-      this.lastAffectedElements.push(tableRow);
-      this.lastAffectedElements.push(timelineRow);
     });
-
   }
 
   private removeAllHoverClasses() {
-    this.lastAffectedElements.forEach(e => {
-      e.removeClass(cssClassRowHovered);
-    });
-    this.lastAffectedElements = [];
+    this.tableAndTimeline
+      .find(`.${cssClassRowHovered}`)
+      .removeClass(cssClassRowHovered);
   }
-
 }
