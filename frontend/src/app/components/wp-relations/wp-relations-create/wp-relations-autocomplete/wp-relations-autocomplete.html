@@ -7,7 +7,6 @@
            [placeholder]="inputPlaceholder"
            [typeahead]="searchInput$"
            [closeOnSelect]="true"
-           (close)="cancel()"
            (open)="onOpen()"
            (change)="onWorkPackageSelected($event)">
   <ng-template ng-label-tmp let-item="item">

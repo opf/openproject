@@ -13,7 +13,6 @@ import {WorkPackageEventsService} from "core-app/modules/work_packages/events/wo
 })
 export class WorkPackageRelationsCreateComponent {
   @Input() readonly workPackage:WorkPackageResource;
-  @ViewChild('focusAfterSave', { static: false }) readonly focusAfterSave:ElementRef;
 
   public showRelationsCreateForm:boolean = false;
   public selectedRelationType:string = RelationResource.DEFAULT();
@@ -77,13 +76,7 @@ export class WorkPackageRelationsCreateComponent {
 
   public toggleRelationsCreateForm() {
     this.showRelationsCreateForm = !this.showRelationsCreateForm;
-
-    setTimeout(() => {
-      if (!this.showRelationsCreateForm) {
-        // Reset value
-        this.selectedWpId = '';
-        this.focusAfterSave.nativeElement.focus();
-      }
-    }, 50);
+    // Reset value
+    this.selectedWpId = '';
   }
 }
