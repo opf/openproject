@@ -38,10 +38,8 @@ import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {WorkPackageRelationQueryBase} from "core-components/wp-relations/embedded/wp-relation-query.base";
 import {WpRelationInlineCreateService} from "core-components/wp-relations/embedded/relations/wp-relation-inline-create.service";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
-import {forkJoin, merge} from "rxjs";
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
-import {WorkPackageViewRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
-import {filter, skip} from "rxjs/operators";
+import {filter} from "rxjs/operators";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {GroupDescriptor} from "core-components/work-packages/wp-single-view/wp-single-view.component";
 import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
@@ -76,7 +74,6 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
   constructor(protected readonly PathHelper:PathHelperService,
               @Inject(WorkPackageInlineCreateService) protected readonly wpInlineCreate:WpRelationInlineCreateService,
               protected readonly wpRelations:WorkPackageRelationsService,
-              protected readonly wpTableRefresh:WorkPackageViewRefreshService,
               protected readonly wpEvents:WorkPackageEventsService,
               protected readonly queryUrlParamsHelper:UrlParamsHelperService,
               protected readonly wpNotifications:WorkPackageNotificationService,

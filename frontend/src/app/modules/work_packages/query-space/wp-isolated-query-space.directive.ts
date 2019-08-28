@@ -40,7 +40,6 @@ import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/rou
 import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import {WorkPackageViewSumService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sum.service";
 import {WorkPackageViewAdditionalElementsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-additional-elements.service";
-import {WorkPackageViewRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
 import {WorkPackageViewHighlightingService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
 import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
@@ -78,8 +77,6 @@ import {WorkPackageViewDisplayRepresentationService} from "core-app/modules/work
   // Open the isolated space first, order is important here
   IsolatedQuerySpace,
   OpTableActionsService,
-
-  WorkPackageViewRefreshService,
 
   // Work package table services
   WorkPackagesListChecksumService,

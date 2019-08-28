@@ -31,16 +31,12 @@ import {StateService, TransitionService} from '@uirouter/core';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
-import {auditTime, filter, withLatestFrom} from 'rxjs/operators';
+import {filter, withLatestFrom} from 'rxjs/operators';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageStaticQueriesService} from 'core-components/wp-query-select/wp-static-queries.service';
 import {WorkPackageViewHighlightingService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
 import {States} from "core-components/states.service";
-import {
-  WorkPackageTableRefreshRequest,
-  WorkPackageViewRefreshService
-} from "core-components/wp-table/wp-table-refresh-request.service";
 import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
 import {WorkPackageViewSortByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
 import {WorkPackageViewGroupByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service";
@@ -52,7 +48,6 @@ import {WorkPackageViewPaginationService} from "core-app/modules/work_packages/r
 import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
 import {WorkPackagesListChecksumService} from "core-components/wp-list/wp-list-checksum.service";
 import {WorkPackageQueryStateService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-base.service";
-import {debugLog} from "core-app/helpers/debug_output";
 import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
 import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";
 import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
@@ -68,7 +63,6 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
   readonly states:States = this.injector.get(States);
   readonly querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
   readonly authorisationService:AuthorisationService = this.injector.get(AuthorisationService);
-  readonly wpTableRefresh:WorkPackageViewRefreshService = this.injector.get(WorkPackageViewRefreshService);
   readonly wpTableColumns:WorkPackageViewColumnsService = this.injector.get(WorkPackageViewColumnsService);
   readonly wpTableHighlighting:WorkPackageViewHighlightingService = this.injector.get(WorkPackageViewHighlightingService);
   readonly wpTableSortBy:WorkPackageViewSortByService = this.injector.get(WorkPackageViewSortByService);
@@ -179,14 +173,6 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
       .subscribe((events:WorkPackageEvent[]) => {
         this.refresh(false, false);
       });
-
-    this.wpTableRefresh.state.values$('Refresh listener in wp-set.component').pipe(
-      untilComponentDestroyed(this),
-      auditTime(20)
-    ).subscribe((request) => {
-      debugLog('Refreshing work package results.');
-      this.refresh(request.visible, request.firstPage);
-    });
   }
 
 
