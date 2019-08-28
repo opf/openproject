@@ -300,7 +300,6 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     const nonVisibleDaysLeft = Math.floor(scrollLeft / this.viewParameters.pixelPerDay);
     return this.viewParameters.dateDisplayStart.clone().add(nonVisibleDaysLeft, 'days');
   }
-
   getLastDayInViewport() {
     const outerContainer = this.getParentScrollContainer();
     const scrollLeft = outerContainer.scrollLeft;
@@ -401,7 +400,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     });
 
     // left spacing
-    newParams.dateDisplayStart.subtract(currentParams.dayCountForMarginLeft, 'days');
+    newParams.dateDisplayStart = newParams.dateDisplayStart.subtract(currentParams.dayCountForMarginLeft, 'days');
 
     // right spacing
     // RR: kept both variants for documentation purpose.
@@ -412,7 +411,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
 
     const pixelPerDay = currentParams.pixelPerDay;
     const visibleDays = Math.ceil((width / pixelPerDay) * 1.5);
-    newParams.dateDisplayEnd.add(visibleDays, 'days');
+    newParams.dateDisplayEnd = newParams.dateDisplayEnd.add(visibleDays, 'days');
 
     // Check if view params changed:
 
