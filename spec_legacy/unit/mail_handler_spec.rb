@@ -315,13 +315,6 @@ describe MailHandler, type: :model do
     end
   end
 
-  it 'should ignore emails from emission address' do
-    Role.anonymous.add_permission!(:add_work_packages)
-    assert_no_difference 'User.count' do
-      assert !submit_email('ticket_from_emission_address.eml', issue: { project: 'ecookbook' }, unknown_user: 'create')
-    end
-  end
-
   it 'should ignore auto replied emails' do
     expect_any_instance_of(MailHandler).to receive(:dispatch).never
     [
