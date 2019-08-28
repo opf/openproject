@@ -9,6 +9,7 @@ import {groupClassNameFor, GroupHeaderBuilder} from './group-header-builder';
 import {groupByProperty, groupedRowClassName} from './grouped-rows-helpers';
 import {GroupObject} from 'core-app/modules/hal/resources/wp-collection-resource';
 import {collapsedRowClass} from "core-components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
+import {getLocaleCurrencyName} from "@angular/common";
 
 export class GroupedRenderPass extends PlainRenderPass {
 
@@ -31,6 +32,7 @@ export class GroupedRenderPass extends PlainRenderPass {
       let nextGroup = this.matchingGroup(row.object);
 
       if (nextGroup && currentGroup !== nextGroup) {
+        nextGroup.renderedCount = 0;
         const groupClass = groupClassNameFor(nextGroup);
         let rowElement = this.headerBuilder.buildGroupRow(nextGroup, this.colspan);
         this.appendNonWorkPackageRow(rowElement, groupClass);
@@ -39,6 +41,11 @@ export class GroupedRenderPass extends PlainRenderPass {
 
       row.group = currentGroup;
       this.buildSingleRow(row);
+    });
+
+    // Update the counts to what we actually rendered
+    this.groups.forEach((group) => {
+      this.headerBuilder.setActualCount(group, this.tableBody);
     });
   }
 
@@ -113,8 +120,10 @@ export class GroupedRenderPass extends PlainRenderPass {
       additionalClasses.push(collapsedRowClass);
     }
 
+
     row.element = tr;
     tr.classList.add(...additionalClasses);
     this.appendRow(row.object, tr, additionalClasses, hidden);
+    group.renderedCount += 1;
   }
 }
