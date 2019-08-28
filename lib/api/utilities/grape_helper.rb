@@ -71,7 +71,11 @@ module API
           resp_headers = instance_exec &headers
           env['api.format'] = 'hal+json'
 
-          OpenProject.logger.error original_exception, reference: :APIv3 if log
+          if log == true
+            OpenProject.logger.error original_exception, reference: :APIv3
+          elsif log.respond_to?(:call)
+            log.call(original_exception)
+          end
 
           error_response status: e.code, message: representer.to_json, headers: resp_headers
         }

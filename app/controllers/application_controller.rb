@@ -109,15 +109,21 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # Ensure the default handler is listed FIRST
+  unless Rails.application.config.consider_all_requests_local
+    rescue_from StandardError do |exception|
+      render_500 exception: exception
+    end
+  end
+
   rescue_from ActionController::ParameterMissing do |exception|
     render body:   "Required parameter missing: #{exception.param}",
            status: :bad_request
   end
 
-  unless Rails.application.config.consider_all_requests_local
-    rescue_from StandardError do |exception|
-      render_500 exception: exception
-    end
+  rescue_from ActiveRecord::ConnectionTimeoutError do |exception|
+    render_500 exception: exception,
+               payload: ::OpenProject::Logging::ThreadPoolContextBuilder.build!
   end
 
   before_action :user_setup,
