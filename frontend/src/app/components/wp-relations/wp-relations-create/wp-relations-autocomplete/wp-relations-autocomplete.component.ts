@@ -134,7 +134,7 @@ export class WorkPackageRelationsAutocomplete implements AfterContentInit {
 
   private autocompleteWorkPackages(query:string):Observable<WorkPackageResource[]> {
     // Return when the search string is empty
-    if (query.length === 0) {
+    if (query === null || query.length === 0) {
       this.isLoading = false;
       return of([]);
     }
