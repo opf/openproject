@@ -307,8 +307,8 @@ module Redmine #:nodoc:
     #   permission :say_hello, { example: :say_hello }, require: :member
     def permission(name, actions, options = {})
       if @project_scope
-        mod, options = @project_scope
-        OpenProject::AccessControl.map { |map| map.project_module(mod, options) { |map| map.permission(name, actions, options) } }
+        mod, mod_options = @project_scope
+        OpenProject::AccessControl.map { |map| map.project_module(mod, mod_options) { |map| map.permission(name, actions, options) } }
       else
         OpenProject::AccessControl.map { |map| map.permission(name, actions, options) }
       end
