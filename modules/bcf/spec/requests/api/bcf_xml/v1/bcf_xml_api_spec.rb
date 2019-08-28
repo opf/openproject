@@ -87,15 +87,11 @@ describe 'BCF XML API v1 bcf_xml resource', type: :request do
         expect(zip_has_file?(subject.body, "#{bcf_issue.uuid}/markup.bcf")).to be_truthy
       end
 
-      %i[view_work_packages view_linked_issues].each do |permission|
-        context "without :#{permission} permission" do
-          let(:permissions) do
-            %i[view_work_packages view_linked_issues] - [permission]
-          end
+      context "without :view_linked_issues permission" do
+        let(:permissions) { %i[view_work_packages] }
 
-          it "returns a status 404" do
-            expect(subject.status).to eql(404)
-          end
+        it "returns a status 404" do
+          expect(subject.status).to eql(404)
         end
       end
     end
@@ -141,25 +137,14 @@ describe 'BCF XML API v1 bcf_xml resource', type: :request do
       end
     end
 
-    context 'without :manage_bcf permission' do
-      let(:permissions) { %i(view_work_packages add_work_packages edit_work_packages view_linked_issues) }
+    context "without :manage_bcf permission" do
+      let(:permissions) do
+        %i[view_work_packages add_work_packages edit_work_packages view_linked_issues]
+      end
 
       it "returns a status 404" do
         expect(subject.status).to eql(404)
         expect(project.work_packages.count).to eql(1)
-      end
-    end
-
-    %i[manage_bcf view_work_packages add_work_packages edit_work_packages view_linked_issues].each do |permission|
-      context "without :#{permission} permission" do
-        let(:permissions) do
-          %i[manage_bcf view_work_packages add_work_packages edit_work_packages view_linked_issues] - [permission]
-        end
-
-        it "returns a status 404" do
-          expect(subject.status).to eql(404)
-          expect(project.work_packages.count).to eql(1)
-        end
       end
     end
   end

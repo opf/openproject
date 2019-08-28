@@ -60,14 +60,6 @@ module API
                 def find_project
                   Project.find(params[:id])
                 end
-
-                def check_permissions(project, permissions)
-                  permissions.each do |permission|
-                    authorize(permission, context: project) do
-                      raise API::Errors::NotFound.new
-                    end
-                  end
-                end
               end
 
               get do
@@ -77,8 +69,9 @@ module API
                   raise ::API::Errors::NotFound.new
                 end
 
-                check_permissions(project,
-                                  %i[view_linked_issues view_work_packages])
+                authorize(:view_linked_issues, context: project) do
+                  raise API::Errors::NotFound.new
+                end
 
                 query = Query.new_default(name: '_', project: project)
                 updated_query = ::API::V3::UpdateQueryFromV3ParamsService.new(query, User.current).call(params)
@@ -91,8 +84,10 @@ module API
 
               post do
                 project = find_project
-                check_permissions(project,
-                                  %i[view_work_packages add_work_packages edit_work_packages manage_bcf view_linked_issues])
+
+                authorize(:manage_bcf, context: project) do
+                  raise API::Errors::NotFound.new
+                end
 
                 begin
                   file = params[:bcf_xml_file][:tempfile]

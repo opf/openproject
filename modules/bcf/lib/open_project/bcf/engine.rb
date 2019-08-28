@@ -45,10 +45,11 @@ module OpenProject::Bcf
 
       project_module :bcf do
         permission :view_linked_issues,
-                   'bcf/issues': %i[index]
-
+                   { 'bcf/issues': %i[index] },
+                   dependencies: %i[view_work_packages]
         permission :manage_bcf,
-                   'bcf/issues': %i[index upload prepare_import configure_import perform_import]
+                   { 'bcf/issues': %i[index upload prepare_import configure_import perform_import] },
+                   dependencies: %i[view_linked_issues view_work_packages add_work_packages edit_work_packages]
       end
 
       OpenProject::AccessControl.permission(:view_work_packages).actions << 'bcf/issues/redirect_to_bcf_issues_list'
