@@ -83,7 +83,7 @@ export class SingleRowBuilder {
           return null;
         }
       default:
-        return this.cellBuilder.build(workPackage, column.id);
+        return this.cellBuilder.build(workPackage, column);
     }
   }
 

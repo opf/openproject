@@ -4,6 +4,7 @@ import {
   editFieldContainerClass
 } from '../../wp-edit-form/display-field-renderer';
 import {Injector} from '@angular/core';
+import {QueryColumn} from "core-components/wp-query/query-column";
 export const tdClassName = 'wp-table--cell-td';
 export const editCellContainer = 'wp-table--cell-container';
 export const wpCellTdClassName = 'wp-table--cell-td';
@@ -15,12 +16,18 @@ export class CellBuilder {
   constructor(public injector:Injector) {
   }
 
-  public build(workPackage:WorkPackageResource, attribute:string) {
+  public build(workPackage:WorkPackageResource, column:QueryColumn) {
     const td = document.createElement('td');
+    const attribute = column.id;
     td.classList.add(tdClassName, wpCellTdClassName, attribute);
 
     if (attribute === 'subject') {
       td.classList.add('-max');
+    }
+
+    const schema = workPackage.schema[attribute];
+    if (schema && schema.type === 'User') {
+      td.classList.add('-contains-avatar');
     }
 
     const container = document.createElement('span');
