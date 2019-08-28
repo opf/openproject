@@ -220,14 +220,14 @@ module ::Bcf
       session[:bcf_file_id] = @bcf_attachment.id
     rescue StandardError => e
       flash[:error] = "Failed to persist BCF file: #{e.message}"
-      redirect_to action: :index
+      redirect_to action: :upload
     end
 
     def check_file_param
       path = params[:bcf_file]&.path
       unless path && File.readable?(path)
         flash[:error] = I18n.t('bcf.bcf_xml.import_failed', error: 'File missing or not readable')
-        redirect_to action: :import
+        redirect_to action: :upload
       end
     end
   end
