@@ -29,6 +29,17 @@ module OpenProject::Bcf::BcfXml
       raise e
     end
 
+    def list_from_api
+      Dir.mktmpdir do |dir|
+        files = create_bcf! dir
+
+        zip_folder dir, files
+      end
+    rescue StandardError => e
+      Rails.logger.error "Failed to export work package list #{e} #{e.message}"
+      raise e
+    end
+
     def success(zip)
       WorkPackage::Exporter::Success
         .new format: :xls,

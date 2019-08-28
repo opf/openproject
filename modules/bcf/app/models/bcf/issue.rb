@@ -3,16 +3,13 @@ module Bcf
     include InitializeWithUuid
 
     belongs_to :work_package
-    belongs_to :project
-    has_many :comments, class_name: 'Bcf::Comment', foreign_key: 'issue_id'
+    has_one :project, through: :work_package
+    has_many :viewpoints, foreign_key: :issue_id, class_name: "Bcf::Viewpoint"
+    has_many :comments,   foreign_key: :issue_id, class_name: "Bcf::Comment"
 
     after_update :invalidate_markup_cache
 
     class << self
-      def in_project(project)
-        where(project_id: project.try(:id) || project)
-      end
-
       def with_markup
         select '*',
                extract_first_node(title_path, 'title'),
@@ -152,8 +149,5 @@ module Bcf
     def invalidate_markup_cache
       @markup_doc = nil
     end
-
-    has_many :viewpoints, foreign_key: :issue_id, class_name: "Bcf::Viewpoint"
-    has_many :comments, foreign_key: :issue_id, class_name: "Bcf::Comment"
   end
 end

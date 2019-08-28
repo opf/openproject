@@ -84,8 +84,7 @@ describe ::OpenProject::Bcf::BcfXml::IssueWriter do
   end
   let(:bcf_issue) do
     FactoryBot.create(:bcf_issue_with_comment,
-                      markup: markup,
-                      project_id: project.id)
+                      markup: markup)
   end
   let(:priority) { FactoryBot.create :priority_low }
   let(:current_user) { FactoryBot.create(:user) }

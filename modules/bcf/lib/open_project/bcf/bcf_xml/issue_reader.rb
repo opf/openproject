@@ -142,6 +142,7 @@ module OpenProject::Bcf::BcfXml
         issue.work_package = call.result
         create_wp_comment(user, I18n.t('bcf.bcf_xml.import_update_comment')) if is_update
       else
+        issue.errors.merge!(call.errors)
         Rails.logger.error "Failed to synchronize BCF #{issue.uuid} with work package: #{call.errors.full_messages.join('; ')}"
       end
     end
@@ -314,7 +315,11 @@ module OpenProject::Bcf::BcfXml
     ##
     # Find existing issue or create new
     def find_or_initialize_issue
-      ::Bcf::Issue.find_or_initialize_by(uuid: topic_uuid, project_id: project.id)
+      ::Bcf::Issue
+        .joins(:work_package)
+        .where(uuid: topic_uuid, 'work_packages.project_id': @project.id)
+        .references(:work_package).first ||
+        ::Bcf::Issue.new
     end
 
     ##
