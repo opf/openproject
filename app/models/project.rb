@@ -769,8 +769,6 @@ class Project < ActiveRecord::Base
     update_attribute :status, STATUS_ARCHIVED
   end
 
-  protected
-
   def self.possible_principles_condition
     condition = if Setting.work_package_group_assignment?
                   ["(#{Principal.table_name}.type=? OR #{Principal.table_name}.type=?)", 'User', 'Group']
@@ -785,6 +783,8 @@ class Project < ActiveRecord::Base
 
     sanitize_sql_array condition
   end
+
+  protected
 
   def guarantee_project_or_nil_or_false(p)
     if p.is_a?(Project)

@@ -33,14 +33,14 @@ describe 'Projects copy',
          js: true do
   let!(:project) do
     project = FactoryBot.create(:project,
-                                 parent: parent_project,
-                                 types: active_types,
-                                 custom_field_values: { project_custom_field.id => 'some text cf' })
+                                parent: parent_project,
+                                types: active_types,
+                                custom_field_values: { project_custom_field.id => 'some text cf' })
 
     FactoryBot.create(:member,
-                       project: project,
-                       user: user,
-                       roles: [role])
+                      project: project,
+                      user: user,
+                      roles: [role])
 
     project.work_package_custom_fields << wp_custom_field
     project.types.first.custom_fields << wp_custom_field
@@ -54,9 +54,9 @@ describe 'Projects copy',
     project = FactoryBot.create(:project)
 
     FactoryBot.create(:member,
-                       project: project,
-                       user: user,
-                       roles: [role])
+                      project: project,
+                      user: user,
+                      roles: [role])
     project
   end
   let!(:project_custom_field) do
@@ -77,16 +77,16 @@ describe 'Projects copy',
   let(:user) { FactoryBot.create(:user) }
   let(:role) do
     FactoryBot.create(:role,
-                       permissions: permissions)
+                      permissions: permissions)
   end
   let(:permissions) { %i(copy_projects edit_project add_subprojects manage_types view_work_packages) }
   let(:wp_user) do
     user = FactoryBot.create(:user)
 
     FactoryBot.create(:member,
-                       project: project,
-                       user: user,
-                       roles: [role])
+                      project: project,
+                      user: user,
+                      roles: [role])
     user
   end
   let(:category) do
@@ -97,16 +97,16 @@ describe 'Projects copy',
   end
   let!(:work_package) do
     FactoryBot.create(:work_package,
-                       project: project,
-                       type: project.types.first,
-                       author: wp_user,
-                       assigned_to: wp_user,
-                       responsible: wp_user,
-                       done_ratio: 20,
-                       category: category,
-                       fixed_version: version,
-                       description: 'Some desciption',
-                       custom_field_values: { wp_custom_field.id => 'Some wp cf text' })
+                      project: project,
+                      type: project.types.first,
+                      author: wp_user,
+                      assigned_to: wp_user,
+                      responsible: wp_user,
+                      done_ratio: 20,
+                      category: category,
+                      fixed_version: version,
+                      description: 'Some desciption',
+                      custom_field_values: { wp_custom_field.id => 'Some wp cf text' })
   end
 
   let!(:wiki) { project.wiki }

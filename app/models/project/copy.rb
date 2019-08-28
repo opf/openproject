@@ -127,7 +127,7 @@ module Project::Copy
     end
 
     # Copies versions from +project+
-    def copy_versions(project, selected_copies = [])
+    def copy_versions(project, _selected_copies = [])
       project.versions.each do |version|
         new_version = Version.new
         new_version.attributes = version.attributes.dup.except('id', 'project_id', 'created_on', 'updated_at')
@@ -136,7 +136,7 @@ module Project::Copy
     end
 
     # Copies issue categories from +project+
-    def copy_categories(project, selected_copies = [])
+    def copy_categories(project, _selected_copies = [])
       project.categories.each do |category|
         new_category = Category.new
         new_category.send(:assign_attributes, category.attributes.dup.except('id', 'project_id'))
@@ -144,39 +144,54 @@ module Project::Copy
       end
     end
 
-    # Copies issues from +project+
+    # Copies work_packages from +project+
     def copy_work_packages(project, selected_copies = [])
-      # Stores the source issue id as a key and the copied issues as the
-      # value.  Used to map the two together for issue relations.
+      # Stores the source work_package id as a key and the copied work_packages as the
+      # value.  Used to map the two together for work_package relations.
       work_packages_map = {}
 
-      # Get issues sorted by their depth in the hierarchy tree
+      # Get work_packages sorted by their depth in the hierarchy tree
       # so that parents get copied before their children.
       to_copy = project
                 .work_packages
+                .includes(:custom_values, :fixed_version, :assigned_to, :responsible)
                 .order_by_ancestors('asc')
 
-      to_copy.each do |issue|
-        parent_id = (work_packages_map[issue.parent_id] && work_packages_map[issue.parent_id].id) || issue.parent_id
+      user_cf_ids = WorkPackageCustomField.where(field_format: 'user').pluck(:id)
 
-        overrides = { project: self,
-                      parent_id: parent_id,
-                      fixed_version: issue.fixed_version && versions.detect { |v| v.name == issue.fixed_version.name } }
+      to_copy.each do |wp|
+        parent_id = (work_packages_map[wp.parent_id]&.id) || wp.parent_id
+        custom_value_attributes = wp.custom_value_attributes.map do |id, value|
+          if user_cf_ids.include?(id) && !users.detect { |u| u.id.to_s == value }
+            [id, nil]
+          else
+            [id, value]
+          end
+        end.to_h
+
+        overrides = {
+          project: self,
+          parent_id: parent_id,
+          fixed_version: wp.fixed_version && versions.detect { |v| v.name == wp.fixed_version.name },
+          assigned_to: wp.assigned_to && possible_assignees.detect { |u| u.id == wp.assigned_to_id },
+          responsible: wp.responsible && possible_responsibles.detect { |u| u.id == wp.responsible_id },
+          custom_field_values: custom_value_attributes
+        }
 
         service_call = WorkPackages::CopyService
                        .new(user: User.current,
-                            work_package: issue,
+                            work_package: wp,
                             contract_class: WorkPackages::CopyProjectContract)
                        .call(overrides)
 
         if service_call.success?
           new_work_package = service_call.result
 
-          work_packages_map[issue.id] = new_work_package
-        elsif logger && logger.info
+          work_packages_map[wp.id] = new_work_package
+        elsif logger&.info
           compiled_errors << service_call.errors
           logger.info <<-MSG
-            Project#copy_work_packages: work package ##{issue.id} could not be copied: #{service_call.errors.full_messages}
+            Project#copy_work_packages: work package ##{wp.id} could not be copied: #{service_call.errors.full_messages}
           MSG
         end
       end
@@ -184,39 +199,39 @@ module Project::Copy
       # reload all work_packages in our map, they might be modified by movement in their tree
       work_packages_map.each_value(&:reload)
 
-      # Relations and attachments after in case issues related each other
-      to_copy.each do |issue|
-        new_issue = work_packages_map[issue.id]
-        unless new_issue
-          # Issue was not copied
+      # Relations and attachments after in case work_packages related each other
+      to_copy.each do |wp|
+        new_wp = work_packages_map[wp.id]
+        unless new_wp
+          # work_package was not copied
           next
         end
 
         # Attachments
         if selected_copies.include? :work_package_attachments
-          copy_attachments(issue, new_issue)
+          copy_attachments(wp, new_wp)
         end
 
         # Relations
-        issue.relations_to.non_hierarchy.direct.each do |source_relation|
+        wp.relations_to.non_hierarchy.direct.each do |source_relation|
           new_relation = Relation.new
           new_relation.attributes = source_relation.attributes.dup.except('id', 'from_id', 'to_id', 'relation_type')
           new_relation.to = work_packages_map[source_relation.to_id]
           if new_relation.to.nil? && Setting.cross_project_work_package_relations?
             new_relation.to = source_relation.to
           end
-          new_relation.from = new_issue
+          new_relation.from = new_wp
           new_relation.save
         end
 
-        issue.relations_from.non_hierarchy.direct.each do |source_relation|
+        wp.relations_from.non_hierarchy.direct.each do |source_relation|
           new_relation = Relation.new
           new_relation.attributes = source_relation.attributes.dup.except('id', 'from_id', 'to_id', 'relation_type')
           new_relation.from = work_packages_map[source_relation.from_id]
           if new_relation.from.nil? && Setting.cross_project_work_package_relations?
             new_relation.from = source_relation.from
           end
-          new_relation.to = new_issue
+          new_relation.to = new_wp
           new_relation.save
         end
       end

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Project::Copy, type: :model do
+describe Project::Copy, type: :model, with_mail: false do
   describe '#copy' do
     let(:project) { FactoryBot.create(:project_with_types) }
     let(:copy) { Project.new }
@@ -126,7 +126,6 @@ describe Project::Copy, type: :model do
       let(:work_package) { FactoryBot.create(:work_package, project: project) }
       let(:work_package2) { FactoryBot.create(:work_package, project: project) }
       let(:work_package3) { FactoryBot.create(:work_package, project: project) }
-      let(:version) { FactoryBot.create(:version, project: project) }
       let(:user) { FactoryBot.create(:admin) }
 
       before do
@@ -264,6 +263,143 @@ describe Project::Copy, type: :model do
             expect(copy.work_packages[0].watchers).to eq([])
           end
         end
+
+        describe 'versions' do
+          let(:version) { FactoryBot.create(:version, project: project) }
+          let(:version2) { FactoryBot.create(:version, project: project) }
+
+          before do
+            work_package.update_column(:fixed_version_id, version.id)
+            work_package2.update_column(:fixed_version_id, version2.id)
+            work_package3
+
+            copy.send :copy_versions, project
+            copy.send :copy_work_packages, project
+            copy.save
+          end
+
+          it 'assigns the work packages to copies of the versions' do
+            expect(copy.work_packages.detect { |wp| wp.subject == work_package.subject }.fixed_version.name)
+              .to eql version.name
+            expect(copy.work_packages.detect { |wp| wp.subject == work_package2.subject }.fixed_version.name)
+              .to eql version2.name
+            expect(copy.work_packages.detect { |wp| wp.subject == work_package3.subject }.fixed_version)
+              .to be_nil
+          end
+        end
+      end
+
+      describe 'assigned_to' do
+        let(:member?) { true }
+        let(:assignee) do
+          FactoryBot.create(:user).tap do |u|
+            if member?
+              copy.add_member!(u, role)
+            end
+          end
+        end
+        let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
+
+        before do
+          work_package.update_column(:assigned_to_id, assignee.id)
+
+          copy.send :copy_work_packages, project
+        end
+
+        context 'with the assignee being a member' do
+          it 'copies the assigned_to' do
+            expect(copy.work_packages[0].assigned_to)
+              .to eql assignee
+          end
+        end
+
+        context 'with the assignee not being a member' do
+          let(:member?) { false }
+
+          it 'nils the assigned_to' do
+            expect(copy.work_packages[0].assigned_to)
+              .to be_nil
+          end
+        end
+      end
+
+      describe 'responsible' do
+        let(:member?) { true }
+        let(:responsible) do
+          FactoryBot.create(:user).tap do |u|
+            if member?
+              copy.add_member!(u, role)
+            end
+          end
+        end
+        let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
+
+        before do
+          work_package.update_column(:responsible_id, responsible.id)
+
+          copy.send :copy_work_packages, project
+        end
+
+        context 'with the responsible being a member' do
+          it 'copies the responsible' do
+            expect(copy.work_packages[0].responsible)
+              .to eql responsible
+          end
+        end
+
+        context 'with the responsible not being a member' do
+          let(:member?) { false }
+
+          it 'nils the responsible' do
+            expect(copy.work_packages[0].responsible)
+              .to be_nil
+          end
+        end
+      end
+
+      describe 'user custom field' do
+        let(:member?) { true }
+        let(:value) do
+          FactoryBot.create(:user).tap do |u|
+            project.add_member!(u, role)
+            if member?
+              copy.add_member!(u, role)
+            end
+          end
+        end
+        let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
+        let(:custom_field) do
+          FactoryBot.create(:user_wp_custom_field).tap do |cf|
+            project.work_package_custom_fields << cf
+            copy.work_package_custom_fields << cf
+            work_package.type.custom_fields << cf
+          end
+        end
+
+        before do
+          custom_field
+          work_package.reload
+          work_package.send(:"custom_field_#{custom_field.id}=", value.id)
+          work_package.save(validate: false)
+
+          copy.send :copy_work_packages, project
+        end
+
+        context 'with the value being a member' do
+          it 'copies the custom_field' do
+            expect(copy.work_packages[0].send(:"custom_field_#{custom_field.id}"))
+              .to eql value
+          end
+        end
+
+        context 'with the value not being a member' do
+          let(:member?) { false }
+
+          it 'nils the custom_field' do
+            expect(copy.work_packages[0].send(:"custom_field_#{custom_field.id}"))
+              .to be_nil
+          end
+        end
       end
     end
 
@@ -282,11 +418,11 @@ describe Project::Copy, type: :model do
       it { is_expected.to eq(project.queries.count) }
 
       context 'with a filter' do
-        let(:query) {
+        let(:query) do
           query = FactoryBot.build(:query, project: project)
           query.add_filter('subject', '~', ['bogus'])
           query.save!
-        }
+        end
 
         subject { copy.queries }
 
@@ -297,7 +433,7 @@ describe Project::Copy, type: :model do
       end
 
       context 'with a query menu item' do
-        let(:query) {
+        let(:query) do
           query = FactoryBot.build(:query, project: project)
           query.add_filter('subject', '~', ['bogus'])
           query.save!
@@ -309,8 +445,8 @@ describe Project::Copy, type: :model do
           )
 
           query
-        }
-        subject { copy.queries.first}
+        end
+        subject { copy.queries.first }
 
         it 'copies the menu item' do
           expect(subject).to be_valid
