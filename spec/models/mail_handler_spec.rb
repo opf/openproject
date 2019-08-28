@@ -33,6 +33,7 @@ DEVELOPER_PERMISSIONS = [:view_messages, :delete_own_messages, :edit_own_message
 describe MailHandler, type: :model do
   let(:anno_user) { User.anonymous }
   let(:project) { FactoryBot.create(:valid_project, identifier: 'onlinestore', name: 'OnlineStore', is_public: false) }
+  let(:public_project) { FactoryBot.create(:valid_project, identifier: 'onlinestore', name: 'OnlineStore', is_public: true) }
   let(:priority_low) { FactoryBot.create(:priority_low, is_default: true) }
 
   before do
@@ -48,140 +49,170 @@ describe MailHandler, type: :model do
     allow(Setting).to receive(:default_language).and_return('en')
   end
 
-  it 'should add a work_package by create user on public project' do
-    Role.non_member.update_attribute :permissions, [:add_work_packages]
-    project.update_attribute :is_public, true
-    expect {
-      work_package = submit_email('ticket_by_unknown_user.eml', issue: { project: 'onlinestore' }, unknown_user: 'create')
-      work_package_created(work_package)
-      expect(work_package.author.active?).to be_truthy
-      expect(work_package.author.mail).to eq('john.doe@somenet.foo')
-      expect(work_package.author.firstname).to eq('John')
-      expect(work_package.author.lastname).to eq('Doe')
+  describe '#receive' do
+    it 'should add a work_package by create user on public project' do
+      Role.non_member.update_attribute :permissions, [:add_work_packages]
+      project.update_attribute :is_public, true
+      expect do
+        work_package = submit_email('ticket_by_unknown_user.eml', issue: { project: 'onlinestore' }, unknown_user: 'create')
+        work_package_created(work_package)
+        expect(work_package.author.active?).to be_truthy
+        expect(work_package.author.mail).to eq('john.doe@somenet.foo')
+        expect(work_package.author.firstname).to eq('John')
+        expect(work_package.author.lastname).to eq('Doe')
 
-      # account information
-      email = ActionMailer::Base.deliveries.first
-      expect(email).not_to be_nil
-      expect(email.subject).to eq(I18n.t('mail_subject_register', value: Setting.app_title))
-      login = email.body.encoded.match(/\* Username: (\S+)\s?$/)[1]
-      password = email.body.encoded.match(/\* Password: (\S+)\s?$/)[1]
+        # account information
+        email = ActionMailer::Base.deliveries.first
+        expect(email).not_to be_nil
+        expect(email.subject).to eq(I18n.t('mail_subject_register', value: Setting.app_title))
+        login = email.body.encoded.match(/\* Username: (\S+)\s?$/)[1]
+        password = email.body.encoded.match(/\* Password: (\S+)\s?$/)[1]
 
-      # Can't log in here since randomly assigned password must be changed
-      found_user = User.find_by_login(login)
-      expect(work_package.author).to eq(found_user)
-      expect(found_user.check_password?(password)).to be_truthy
-    }.to change(User, :count).by(1)
-  end
-
-  describe 'update work package' do
-    let!(:mail_user) { FactoryBot.create :admin, mail: 'user@example.org' }
-    let!(:work_package) { FactoryBot.create :work_package, project: project }
-
-    before do
-      # Avoid trying to extract text
-      allow(OpenProject::Database).to receive(:allows_tsv?).and_return false
+        # Can't log in here since randomly assigned password must be changed
+        found_user = User.find_by_login(login)
+        expect(work_package.author).to eq(found_user)
+        expect(found_user.check_password?(password)).to be_truthy
+      end.to change(User, :count).by(1)
     end
 
-    it 'should update a work package with attachment' do
-      expect(WorkPackage).to receive(:find_by).with(id: 123).and_return(work_package)
+    context 'email from emission address', with_settings: { mail_from: 'openproject@example.net' } do
+      before do
+        Role.non_member.add_permission!(:add_work_packages)
+      end
 
-      # Mail with two attachemnts, one of which is skipped by signature.asc filename match
-      submit_email 'update_ticket_with_attachment_and_sig.eml', issue: { project: 'onlinestore' }
+      subject do
+        submit_email('ticket_from_emission_address.eml',
+                     issue: { project: public_project.identifier },
+                     unknown_user: 'create')
+      end
 
-      work_package.reload
+      it 'returns false' do
+        expect(subject).to be_falsey
+      end
 
-      # Expect comment
-      expect(work_package.journals.last.notes).to eq 'Reply to work package #123'
-      expect(work_package.journals.last.user).to eq mail_user
+      it 'does not create the user' do
+        expect { subject }
+          .not_to(change { User.count })
+      end
 
-      # Expect filename without signature to be saved
-      expect(work_package.attachments.count).to eq(1)
-      expect(work_package.attachments.first.filename).to eq('Photo25.jpg')
+      it 'does not create the work_package' do
+        expect { subject }
+          .not_to(change { WorkPackage.count })
+      end
     end
 
-    context 'with existing attachment' do
-      let!(:attachment) { FactoryBot.create(:attachment, container: work_package) }
+    describe 'update work package' do
+      let!(:mail_user) { FactoryBot.create :admin, mail: 'user@example.org' }
+      let!(:work_package) { FactoryBot.create :work_package, project: project }
 
-      it 'does not replace it (Regression #29722)' do
-        work_package.reload
+      before do
+        # Avoid trying to extract text
+        allow(OpenProject::Database).to receive(:allows_tsv?).and_return false
+      end
+
+      it 'should update a work package with attachment' do
         expect(WorkPackage).to receive(:find_by).with(id: 123).and_return(work_package)
 
         # Mail with two attachemnts, one of which is skipped by signature.asc filename match
         submit_email 'update_ticket_with_attachment_and_sig.eml', issue: { project: 'onlinestore' }
 
-        expect(work_package.attachments.length).to eq 2
+        work_package.reload
+
+        # Expect comment
+        expect(work_package.journals.last.notes).to eq 'Reply to work package #123'
+        expect(work_package.journals.last.user).to eq mail_user
+
+        # Expect filename without signature to be saved
+        expect(work_package.attachments.count).to eq(1)
+        expect(work_package.attachments.first.filename).to eq('Photo25.jpg')
+      end
+
+      context 'with existing attachment' do
+        let!(:attachment) { FactoryBot.create(:attachment, container: work_package) }
+
+        it 'does not replace it (Regression #29722)' do
+          work_package.reload
+          expect(WorkPackage).to receive(:find_by).with(id: 123).and_return(work_package)
+
+          # Mail with two attachemnts, one of which is skipped by signature.asc filename match
+          submit_email 'update_ticket_with_attachment_and_sig.eml', issue: { project: 'onlinestore' }
+
+          expect(work_package.attachments.length).to eq 2
+        end
+      end
+
+      context 'with a custom field' do
+        let(:work_package) { FactoryBot.create :work_package, project: project }
+        let(:type) { FactoryBot.create :type }
+
+        before do
+          type.custom_fields << custom_field
+          type.save!
+
+          allow_any_instance_of(WorkPackage).to receive(:available_custom_fields).and_return([custom_field])
+
+          expect(WorkPackage).to receive(:find_by).with(id: 42).and_return(work_package)
+          expect(User).to receive(:find_by_mail).with("h.wurst@openproject.com").and_return(mail_user)
+        end
+
+        context 'of type text' do
+          let(:custom_field) { FactoryBot.create :text_wp_custom_field, name: "Notes" }
+
+          before do
+            submit_email 'work_package_with_text_custom_field.eml', issue: { project: project.identifier }
+
+            work_package.reload
+          end
+
+          it "sets the value" do
+            value = work_package.custom_values.where(custom_field_id: custom_field.id).pluck(:value).first
+
+            expect(value).to eq "some text" # as given in .eml fixture
+          end
+        end
+
+        context 'of type list' do
+          let(:custom_field) { FactoryBot.create :list_wp_custom_field, name: "Letters", possible_values: %w(A B C) }
+
+          before do
+            submit_email 'work_package_with_list_custom_field.eml', issue: { project: project.identifier }
+
+            work_package.reload
+          end
+
+          it "sets the value" do
+            option = CustomOption.where(custom_field_id: custom_field.id, value: "B").first # as given in .eml fixture
+            value = work_package.custom_values.where(custom_field_id: custom_field.id).pluck(:value).first
+
+            expect(value).to eq option.id.to_s
+          end
+        end
       end
     end
 
-    context 'with a custom field' do
-      let(:work_package) { FactoryBot.create :work_package, project: project }
-      let(:type) { FactoryBot.create :type }
+    describe 'category' do
+      let!(:category) { FactoryBot.create :category, project: project, name: 'Foobar' }
 
-      before do
-        type.custom_fields << custom_field
-        type.save!
+      it 'should add a work_package with category' do
+        allow(Setting).to receive(:default_language).and_return('en')
+        Role.non_member.update_attribute :permissions, [:add_work_packages]
+        project.update_attribute :is_public, true
 
-        allow_any_instance_of(WorkPackage).to receive(:available_custom_fields).and_return([custom_field])
-
-        expect(WorkPackage).to receive(:find_by).with(id: 42).and_return(work_package)
-        expect(User).to receive(:find_by_mail).with("h.wurst@openproject.com").and_return(mail_user)
+        work_package = submit_email 'ticket_with_category.eml',
+                                    issue: { project: 'onlinestore' },
+                                    allow_override: ['category'],
+                                    unknown_user: 'create'
+        work_package_created(work_package)
+        expect(work_package.category).to eq(category)
       end
-
-      context 'of type text' do
-        let(:custom_field) { FactoryBot.create :text_wp_custom_field, name: "Notes" }
-
-        before do
-          submit_email 'work_package_with_text_custom_field.eml', issue: { project: project.identifier }
-
-          work_package.reload
-        end
-
-        it "sets the value" do
-          value = work_package.custom_values.where(custom_field_id: custom_field.id).pluck(:value).first
-
-          expect(value).to eq "some text" # as given in .eml fixture
-        end
-      end
-
-      context 'of type list' do
-        let(:custom_field) { FactoryBot.create :list_wp_custom_field, name: "Letters", possible_values: %w(A B C) }
-
-        before do
-          submit_email 'work_package_with_list_custom_field.eml', issue: { project: project.identifier }
-
-          work_package.reload
-        end
-
-        it "sets the value" do
-          option = CustomOption.where(custom_field_id: custom_field.id, value: "B").first # as given in .eml fixture
-          value = work_package.custom_values.where(custom_field_id: custom_field.id).pluck(:value).first
-
-          expect(value).to eq option.id.to_s
-        end
-      end
-    end
-  end
-
-  describe '#category' do
-    let!(:category) { FactoryBot.create :category, project: project, name: 'Foobar' }
-
-    it 'should add a work_package with category' do
-      allow(Setting).to receive(:default_language).and_return('en')
-      Role.non_member.update_attribute :permissions, [:add_work_packages]
-      project.update_attribute :is_public, true
-
-      work_package = submit_email 'ticket_with_category.eml',
-                                  issue: { project: 'onlinestore' },
-                                  allow_override: ['category'],
-                                  unknown_user: 'create'
-      work_package_created(work_package)
-      expect(work_package.category).to eq(category)
     end
   end
 
   describe '#cleanup_body' do
-    let(:input) { "Subject:foo\nDescription:bar\n" \
-                  ">>> myserver.example.org 2016-01-27 15:56 >>>\n... (Email-Body) ..." }
+    let(:input) do
+      "Subject:foo\nDescription:bar\n" \
+      ">>> myserver.example.org 2016-01-27 15:56 >>>\n... (Email-Body) ..."
+    end
     let(:handler) { MailHandler.send :new }
 
     context 'with regex delimiter' do
