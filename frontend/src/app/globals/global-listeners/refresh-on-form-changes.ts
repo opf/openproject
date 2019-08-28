@@ -36,7 +36,7 @@ export function refreshOnFormChanges() {
 
       form
         .find(inputId)
-        .on('click', () => {
+        .on('change', () => {
           window.location.href = url + '?' + form.serialize();
         });
     });
