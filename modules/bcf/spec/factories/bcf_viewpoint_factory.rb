@@ -35,6 +35,10 @@
 
 FactoryBot.define do
   factory :bcf_viewpoint, class: ::Bcf::Viewpoint do
+    new_uuid = SecureRandom.uuid
+    uuid { new_uuid }
+    viewpoint_name { "Viewpoint_#{new_uuid}.bcfv" }
+
     after(:create) do |viewpoint|
       create(:bcf_viewpoint_attachment, container: viewpoint)
     end

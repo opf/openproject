@@ -45,10 +45,11 @@ module OpenProject::Bcf
 
       project_module :bcf do
         permission :view_linked_issues,
-                   'bcf/issues': %i[index]
-
+                   { 'bcf/issues': %i[index] },
+                   dependencies: %i[view_work_packages]
         permission :manage_bcf,
-                   'bcf/issues': %i[index upload prepare_import configure_import perform_import]
+                   { 'bcf/issues': %i[index upload prepare_import configure_import perform_import] },
+                   dependencies: %i[view_linked_issues view_work_packages add_work_packages edit_work_packages]
       end
 
       OpenProject::AccessControl.permission(:view_work_packages).actions << 'bcf/issues/redirect_to_bcf_issues_list'
@@ -134,11 +135,6 @@ module OpenProject::Bcf
       "#{project(project_id)}/bcf_xml"
     end
 
-    add_api_endpoint 'API::V3::Projects::ProjectsAPI' do
-      content_type :binary, 'application/octet-stream'
-      mount ::API::V3::BcfXml::BcfXmlAPI
-    end
-
     initializer 'bcf.register_hooks' do
       # don't use require_dependency to not reload hooks in development mode
       require 'open_project/xls_export/hooks/work_package_hook.rb'
@@ -146,6 +142,7 @@ module OpenProject::Bcf
 
     initializer 'bcf.register_mimetypes' do
       Mime::Type.register "application/octet-stream", :bcf unless Mime::Type.lookup_by_extension(:bcf)
+      Mime::Type.register "application/octet-stream", :bcfzip unless Mime::Type.lookup_by_extension(:bcfzip)
     end
 
     config.to_prepare do
@@ -154,6 +151,14 @@ module OpenProject::Bcf
 
       ::Queries::Register.filter ::Query, OpenProject::Bcf::BcfIssueAssociatedFilter
       ::Queries::Register.column ::Query, OpenProject::Bcf::QueryBcfThumbnailColumn
+
+      ::API::Root.class_eval do
+        content_type :binary, 'application/octet-stream'
+        default_format :binary
+        version 'v1', using: :path do
+          mount ::API::BcfXml::V1::BcfXmlAPI
+        end
+      end
     end
   end
 end
