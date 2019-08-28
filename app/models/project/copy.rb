@@ -36,7 +36,7 @@ module Project::Copy
     base.not_to_copy ['id', 'created_on', 'updated_on', 'name', 'identifier', 'status', 'lft', 'rgt']
 
     # specify the order of associations to copy
-    base.copy_precedence ['members', 'versions', 'categories', 'work_packages', 'wiki', 'custom_values']
+    base.copy_precedence ['members', 'versions', 'categories', 'work_packages', 'wiki', 'custom_values', 'queries']
   end
 
   module CopyMethods
@@ -264,27 +264,15 @@ module Project::Copy
     end
 
     # Copies queries from +project+
-    def copy_queries(project, selected_copies = [])
-      project.queries.includes(:query_menu_item).each do |query|
-        new_query = ::Query.new name: '_'
-        new_query.attributes = query.attributes.dup.except('id', 'project_id', 'sort_criteria')
-        new_query.sort_criteria = query.sort_criteria if query.sort_criteria
-        new_query.set_context
-        new_query.project = self
-        queries << new_query
-
-        # Copy menu item if any
-        if query.query_menu_item && new_query.persisted?
-          ::MenuItems::QueryMenuItem.create(
-            navigatable_id: new_query.id,
-            name: SecureRandom.uuid,
-            title: query.query_menu_item.title
-          )
-        end
+    # Only includes the queries visible in the wp table view.
+    def copy_queries(project, _selected_copies = [])
+      project.queries.non_hidden.includes(:query_menu_item).each do |query|
+        new_query = duplicate_query(query)
+        duplicate_query_menu_item(query, new_query)
       end
 
       # Update the context in the new project, otherwise, the filters will be invalid
-      queries.map { |q| q.set_context }
+      queries.map(&:set_context)
     end
 
     # Copies forums from +project+
@@ -333,6 +321,27 @@ module Project::Copy
         rescue => e
           Rails.logger.error "Failed to copy attachments from #{from_container} to #{to_container}: #{e}"
         end
+      end
+    end
+
+    def duplicate_query(query)
+      new_query = ::Query.new name: '_'
+      new_query.attributes = query.attributes.dup.except('id', 'project_id', 'sort_criteria')
+      new_query.sort_criteria = query.sort_criteria if query.sort_criteria
+      new_query.set_context
+      new_query.project = self
+      queries << new_query
+
+      new_query
+    end
+
+    def duplicate_query_menu_item(source, sink)
+      if source.query_menu_item && sink.persisted?
+        ::MenuItems::QueryMenuItem.create(
+          navigatable_id: sink.id,
+          name: SecureRandom.uuid,
+          title: source.query_menu_item.title
+        )
       end
     end
   end
