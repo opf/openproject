@@ -5,7 +5,6 @@ import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.serv
 import {WorkPackageRelationsService} from '../wp-relations.service';
 import {Component, ElementRef, Inject, Input, ViewChild} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {WorkPackageViewRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
 import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
 
 @Component({
@@ -32,7 +31,6 @@ export class WorkPackageRelationsCreateComponent {
   constructor(readonly I18n:I18nService,
               protected wpRelations:WorkPackageRelationsService,
               protected wpNotificationsService:WorkPackageNotificationService,
-              protected wpTableRefresh:WorkPackageViewRefreshService,
               protected wpEvents:WorkPackageEventsService,
               protected wpCacheService:WorkPackageCacheService) {
   }

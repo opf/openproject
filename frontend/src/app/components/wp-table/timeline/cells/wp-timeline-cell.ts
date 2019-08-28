@@ -29,7 +29,6 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {States} from '../../../states.service';
 import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../../../wp-edit/wp-notification.service';
-import {WorkPackageViewRefreshService} from '../../wp-table-refresh-request.service';
 import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import {RenderInfo} from '../wp-timeline';
 import {TimelineCellRenderer} from './timeline-cell-renderer';

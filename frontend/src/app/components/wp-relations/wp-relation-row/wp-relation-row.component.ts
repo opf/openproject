@@ -4,9 +4,8 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {WorkPackageRelationsService} from '../wp-relations.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
-import {ChangeDetectorRef, Component, ElementRef, Inject, Input, OnDestroy, OnInit, ViewChild} from "@angular/core";
+import {ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {WorkPackageViewRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
 
@@ -59,7 +58,6 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
   constructor(protected wpCacheService:WorkPackageCacheService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected wpRelations:WorkPackageRelationsService,
-              protected wpTableRefresh:WorkPackageViewRefreshService,
               protected wpEvents:WorkPackageEventsService,
               protected I18n:I18nService,
               protected cdRef:ChangeDetectorRef,

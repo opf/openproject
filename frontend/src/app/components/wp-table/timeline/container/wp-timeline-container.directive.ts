@@ -57,7 +57,6 @@ import {WorkPackageTimelineState} from "core-app/modules/work_packages/routing/w
 import {WorkPackageTimelineCell} from "core-components/wp-table/timeline/cells/wp-timeline-cell";
 import {selectorTimelineSide} from "core-components/wp-table/wp-table-scroll-sync";
 import {debugLog, timeOutput} from "core-app/helpers/debug_output";
-import {WorkPackageViewRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
 import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
 import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
 
@@ -103,7 +102,6 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
               private wpTableTimeline:WorkPackageViewTimelineService,
               private wpNotificationsService:WorkPackageNotificationService,
               private wpRelations:WorkPackageRelationsService,
-              private wpTableRefresh:WorkPackageViewRefreshService,
               private wpTableHierarchies:WorkPackageViewHierarchiesService,
               private wpEvents:WorkPackageEventsService,
               readonly I18n:I18nService) {

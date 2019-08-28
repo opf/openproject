@@ -7,7 +7,6 @@ import {GroupObject, WorkPackageCollectionResource} from 'core-app/modules/hal/r
 import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
 import {WPFocusState} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
 import {QueryColumn} from "core-components/wp-query/query-column";
-import {WorkPackageTableRefreshRequest} from "core-components/wp-table/wp-table-refresh-request.service";
 import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
 
 @Injectable()
@@ -51,8 +50,6 @@ export class IsolatedQuerySpace extends StatesGroup {
 
   // Subject used to unregister all listeners of states above.
   stopAllSubscriptions = new Subject();
-  // Fire when table refresh is required
-  refreshRequired = input<WorkPackageTableRefreshRequest>();
 
   // Required work packages to be rendered by hierarchy mode + relation columns
   additionalRequiredWorkPackages = input<null>();

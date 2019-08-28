@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {WorkPackageViewRefreshService} from '../wp-table/wp-table-refresh-request.service';
 import {StateService} from '@uirouter/core';
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
@@ -52,7 +51,6 @@ export class WorkPackageService {
               private readonly UrlParamsHelper:UrlParamsHelperService,
               private readonly NotificationsService:NotificationsService,
               private readonly I18n:I18nService,
-              private readonly wpTableRefresh:WorkPackageViewRefreshService,
               private readonly wpEvents:WorkPackageEventsService) {
   }
 

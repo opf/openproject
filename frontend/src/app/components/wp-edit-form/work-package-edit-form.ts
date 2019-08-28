@@ -33,7 +33,6 @@ import {Subscription} from 'rxjs';
 import {States} from '../states.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
-import {WorkPackageViewRefreshService} from '../wp-table/wp-table-refresh-request.service';
 import {WorkPackageChangeset} from './work-package-changeset';
 import {WorkPackageEditContext} from './work-package-edit-context';
 import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
@@ -49,7 +48,6 @@ export class WorkPackageEditForm {
   public states:States = this.injector.get(States);
   public wpCacheService = this.injector.get(WorkPackageCacheService);
   public wpEditing = this.injector.get(IWorkPackageEditingServiceToken);
-  public wpTableRefresh = this.injector.get(WorkPackageViewRefreshService);
   public wpNotificationsService = this.injector.get(WorkPackageNotificationService);
   public wpEvents = this.injector.get(WorkPackageEventsService);
 

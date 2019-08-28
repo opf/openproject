@@ -34,7 +34,6 @@ import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relat
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {WpRelationInlineCreateServiceInterface} from "core-components/wp-relations/embedded/wp-relation-inline-create.service.interface";
-import {WorkPackageViewRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
@@ -60,7 +59,6 @@ export class WpRelationInlineAddExistingComponent {
               protected wpCacheService:WorkPackageCacheService,
               protected wpRelations:WorkPackageRelationsService,
               protected wpNotificationsService:WorkPackageNotificationService,
-              protected wpTableRefresh:WorkPackageViewRefreshService,
               protected wpEvents:WorkPackageEventsService,
               protected urlParamsHelper:UrlParamsHelperService,
               protected querySpace:IsolatedQuerySpace,
