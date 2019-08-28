@@ -179,6 +179,13 @@ table.generic-table
         width: 100%
         max-width: 500px
 
+      // The avatar image is not taken into the width calculation of the table cell by the browser.
+         That is why we add the space manually.
+      &.-contains-avatar
+        text-overflow: clip
+        .wp-table--cell-container
+          padding-right: 35px
+
       &.info
         a
           text-decoration: none
