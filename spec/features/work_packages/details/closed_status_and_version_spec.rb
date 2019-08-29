@@ -25,7 +25,6 @@ describe 'Closed status and version in full view', js: true do
     wp_page.expect_and_dismiss_notification type: :error,
                                             message: I18n.t('js.work_packages.message_work_package_status_blocked')
 
-
     expect(page).to have_selector('.wp-status-button button[disabled]')
   end
 end

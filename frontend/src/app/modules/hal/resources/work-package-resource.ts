@@ -45,6 +45,7 @@ import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {Attachable} from 'core-app/modules/hal/resources/mixins/attachable-mixin';
 import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
+import {FormResource} from "core-app/modules/hal/resources/form-resource";
 
 export interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
@@ -97,11 +98,11 @@ export interface WorkPackageResourceLinks extends WorkPackageResourceEmbedded {
 
   removeWatcher():Promise<any>;
 
-  self():Promise<any>;
+  self():Promise<WorkPackageResource>;
 
-  update(payload:any):Promise<any>;
+  update(payload:any):Promise<FormResource<WorkPackageResource>>;
 
-  updateImmediately(payload:any):Promise<any>;
+  updateImmediately(payload:any):Promise<WorkPackageResource>;
 
   watch():Promise<any>;
 }
@@ -273,7 +274,7 @@ export class WorkPackageBaseResource extends HalResource {
    * Assign values from the form for a newly created work package resource.
    * @param form
    */
-  public initializeNewResource(form:any) {
+  public initializeNewResource(form:FormResource) {
     this.overriddenSchema = form.schema;
     this.$source.id = 'new';
 

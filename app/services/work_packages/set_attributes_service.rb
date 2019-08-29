@@ -85,12 +85,12 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
     return unless default_description.present?
 
     # And the current description matches ANY current default text
-    return unless work_package.description.blank? || is_default_description?
+    return unless work_package.description.blank? || default_description?
 
     work_package.description = default_description
   end
 
-  def is_default_description?
+  def default_description?
     Type
       .pluck(:description)
       .compact
