@@ -55,6 +55,7 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
         height: '400px',
         thumbnailsColumns: 4,
         imageAnimation: '',
+        previewAnimation: '',
         previewCloseOnEsc: true,
         previewKeyboardNavigation: true,
         imageSize: 'contain',
