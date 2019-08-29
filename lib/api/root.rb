@@ -245,6 +245,14 @@ module API
     # Handle grape validation errors
     error_response ::Grape::Exceptions::ValidationErrors, ::API::Errors::BadRequest, log: false
 
+    # Handle connection timeouts with appropriate payload
+    error_response ActiveRecord::ConnectionTimeoutError,
+                   ::API::Errors::InternalError,
+                   log: ->(exception) do
+                     payload = ::OpenProject::Logging::ThreadPoolContextBuilder.build!
+                     ::OpenProject.logger.error exception, reference: :APIv3, payload: payload
+                   end
+
     # hide internal errors behind the same JSON response as all other errors
     # only doing it in production to allow for easier debugging
     if Rails.env.production?
