@@ -61,7 +61,7 @@ module OpenProject::Bcf
                                                      { controller: '/work_packages', action: 'index' } },
                          caption: Proc.new { |project| project.module_enabled?(:bcf) ? I18n.t(:'bcf.label_bcf') : I18n.t(:label_work_package_plural) },
                          icon: Proc.new { |project| project.module_enabled?(:bcf) ? 'icon2 icon-bcf' : 'icon2 icon-view-timeline' },
-                         badge: Proc.new { |project| project.module_enabled?(:bcf) ? 'bcf.experimental_badge' : nil } }
+                         badge: Proc.new { |project| project.module_enabled?(:bcf) ? 'bcf.new_badge' : nil } }
 
     end
 
