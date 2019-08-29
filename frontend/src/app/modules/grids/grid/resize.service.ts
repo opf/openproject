@@ -27,10 +27,11 @@ export class GridResizeService {
 
     this.layout.writeAreaChangesToWidgets();
     this.layout.cleanupUnusedAreas();
-    this.layout.buildAreas();
 
     this.resizedArea = null;
     this.placeholderArea = null;
+
+    this.layout.rebuildAndPersist();
   }
 
   public start(resizedArea:GridWidgetArea) {

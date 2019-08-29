@@ -71,10 +71,9 @@ export class GridDragAndDropService {
     // The dragged Area should keep it's height and width normally but will
     // shrink if the area would otherwise end outside the grid.
     this.copyPositionButRestrict(dropArea, draggedArea);
-
     this.layout.writeAreaChangesToWidgets();
-    this.layout.cleanupUnusedAreas(false);
-    this.layout.buildAreas();
+    this.layout.cleanupUnusedAreas();
+    this.layout.rebuildAndPersist();
   }
 
   private copyPositionButRestrict(source:GridArea, sink:GridWidgetArea) {

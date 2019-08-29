@@ -15,8 +15,6 @@ export class GridRemoveWidgetService {
 
   public widget(widget:GridWidgetResource) {
     this.layout.removeWidget(widget);
-
-    this.layout.buildAreas();
   }
 
 }
