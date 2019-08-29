@@ -67,6 +67,8 @@ class Query < ActiveRecord::Base
 
   scope(:hidden, -> { where(hidden: true) })
 
+  scope(:non_hidden, -> { where(hidden: false) })
+
   def self.new_default(attributes = nil)
     new(attributes).tap do |query|
       query.add_default_filter
