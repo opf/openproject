@@ -61,7 +61,8 @@ module BasicData
           is_default:           values[1],
           color_id:             color_id,
           is_in_roadmap:        values[3],
-          is_milestone:         values[4]
+          is_milestone:         values[4],
+          description:          type_description(values[5])
         }
       end
     end
@@ -72,6 +73,18 @@ module BasicData
 
     def type_table
       raise NotImplementedError
+    end
+
+    def type_description(type_name)
+      return '' if demo_data_for('default_description_for_types').nil?
+
+      demo_data_for('default_description_for_types').each do |entry|
+        if I18n.t(entry[:type]) === I18n.t(type_name)
+          return entry[:description]
+        else
+          return ''
+        end
+      end
     end
   end
 end
