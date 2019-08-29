@@ -208,15 +208,6 @@ nl:
     move:
       no_common_statuses_exists: "Er is geen status beschikbaar voor alle geselecteerde werkpakketten. Hun status kan niet worden gewijzigd."
       unsupported_for_multiple_projects: 'Bulk verplaatsen/kopiëren wordt niet ondersteund voor werkpakketten uit meerdere projecten'
-    list_simple:
-      assigned:
-        no_results_title_text: Er zijn momenteel geen werkpakketten toegewezen aan mij.
-      reported:
-        no_results_title_text: Er zijn momenteel geen werkpakketten die ik heb gerapporteerd.
-      responsible:
-        no_results_title_text: Er zijn momenteel geen werkpakketten waar ik aansprakelijk voor ben.
-      watched:
-        no_results_title_text: Er zijn momenteel geen werkpakketten die ik volg.
     summary:
       reports:
         category:
@@ -1332,7 +1323,6 @@ nl:
   label_member_new: "Nieuw lid"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Leden"
-  label_view_all_members: "Alle leden bekijken"
   label_menu_item_name: "Naam van het menu-item"
   label_message: "Bericht"
   label_message_last: "Laatste bericht"
@@ -1598,11 +1588,6 @@ nl:
   label_work_package_updated: "Werkpakket bijgewerkt"
   label_work_package_tracking: "Werkpakket bijhouden"
   label_work_package_view_all: "Bekijk alle werkpakketten"
-  label_work_package_view_all_assigned_to_me: "Bekijk alle werkpakketten die zijn toegewezen aan mij"
-  label_work_package_view_all_reported_by_me: "Bekijk alle werkpakketten gemeld door mij"
-  label_work_package_view_all_responsible_for: "Bekijk alle werkpakketten waar ik verantwoordelijk voor ben"
-  label_work_package_view_all_watched: "Bekijk alle gevolgde werkpakketten"
-  label_work_package_watchers: "Volgers"
   label_workflow: "Werkstroom"
   label_workflow_plural: "Workflows"
   label_workflow_summary: "Samenvatting"
@@ -1615,9 +1600,6 @@ nl:
   label_x_open_work_packages_abbr:
     one: "1 open"
     other: "%{count} open"
-  label_x_open_work_packages_abbr_on_total:
-    one: "1 open / %{total}"
-    other: "%{count} open / %{total}"
   label_x_projects:
     one: "1 project"
     other: "%{count} projecten"

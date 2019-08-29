@@ -205,15 +205,6 @@ ja:
     move:
       no_common_statuses_exists: "選択されたすべての項目に利用可能なステータスはありません。 それらの状態は変更できません。"
       unsupported_for_multiple_projects: '複数のプロジェクトから、作業項目の一括移動/コピーはサポートされていません'
-    list_simple:
-      assigned:
-        no_results_title_text: 現在、自分に割り当てられている作業項目はありません。
-      reported:
-        no_results_title_text: 現在、自分が報告している作業項目はありません。
-      responsible:
-        no_results_title_text: 現在、自分が責任者の作業項目はありません。
-      watched:
-        no_results_title_text: 現在、自分がウォッチしている作業項目はありません。
     summary:
       reports:
         category:
@@ -1314,7 +1305,6 @@ ja:
   label_member_new: "新規メンバー"
   label_member_all_admin: "(管理ステータスのすべての役割)"
   label_member_plural: "メンバー"
-  label_view_all_members: "すべてのメンバーを表示"
   label_menu_item_name: "メニュー項目の名称"
   label_message: "メッセージ"
   label_message_last: "最新のメッセージ"
@@ -1580,11 +1570,6 @@ ja:
   label_work_package_updated: "作業項目が更新されました。"
   label_work_package_tracking: "作業項目の追跡"
   label_work_package_view_all: "全ての作業項目を表示"
-  label_work_package_view_all_assigned_to_me: "担当している全ての作業項目を表示"
-  label_work_package_view_all_reported_by_me: "報告した全ての作業項目を表示"
-  label_work_package_view_all_responsible_for: "責任者である全ての作業項目を表示"
-  label_work_package_view_all_watched: "ウォッチしている全ての作業項目を表示"
-  label_work_package_watchers: "ウォッチャー"
   label_workflow: "ワークフロー"
   label_workflow_plural: "ワークフロー"
   label_workflow_summary: "サマリー"
@@ -1594,8 +1579,6 @@ ja:
     other: "%{count}件コメント"
   label_x_open_work_packages_abbr:
     other: "%{count}件未完了"
-  label_x_open_work_packages_abbr_on_total:
-    other: "%{count}件未完了 / 全%{total}件"
   label_x_projects:
     other: "%{count}件プロジェクト"
   label_year: "年"

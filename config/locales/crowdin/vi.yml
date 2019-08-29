@@ -207,15 +207,6 @@ vi:
     move:
       no_common_statuses_exists: "Có là tình trạng không có sẵn cho tất cả các gói đã chọn công việc. Tình trạng của họ không thể thay đổi."
       unsupported_for_multiple_projects: 'Bulk move/copy is not supported for work packages from multiple projects'
-    list_simple:
-      assigned:
-        no_results_title_text: There are currently no work packages assigned to me.
-      reported:
-        no_results_title_text: There are currently no work packages that I have reported.
-      responsible:
-        no_results_title_text: Hiện có không có gói công việc tôi là trách nhiệm.
-      watched:
-        no_results_title_text: There are currently no work packages that I am watching.
     summary:
       reports:
         category:
@@ -1316,7 +1307,6 @@ vi:
   label_member_new: "New member"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Members"
-  label_view_all_members: "View all members"
   label_menu_item_name: "Name of menu item"
   label_message: "Message"
   label_message_last: "Last message"
@@ -1582,11 +1572,6 @@ vi:
   label_work_package_updated: "đã cập nhật work package"
   label_work_package_tracking: "Theo dõi work package"
   label_work_package_view_all: "Xem tất cả các work package"
-  label_work_package_view_all_assigned_to_me: "Xem tất cả các work package được chỉ định cho tôi"
-  label_work_package_view_all_reported_by_me: "Xem tất cả các work package được báo cáo bởi tôi"
-  label_work_package_view_all_responsible_for: "Xem tất cả các gói công việc mà tôi có trách nhiệm"
-  label_work_package_view_all_watched: "View all watched work packages"
-  label_work_package_watchers: "Watchers"
   label_workflow: "Quy trình làm việc"
   label_workflow_plural: "Workflows"
   label_workflow_summary: "Tóm tắt"
@@ -1596,8 +1581,6 @@ vi:
     other: "%{count} comments"
   label_x_open_work_packages_abbr:
     other: "%{count} open"
-  label_x_open_work_packages_abbr_on_total:
-    other: "%{count} open / %{total}"
   label_x_projects:
     other: "%{count} projects"
   label_year: "Year"

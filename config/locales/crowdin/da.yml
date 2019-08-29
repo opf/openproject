@@ -208,15 +208,6 @@ da:
     move:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: 'Bulk move/copy is not supported for work packages from multiple projects'
-    list_simple:
-      assigned:
-        no_results_title_text: Der er i øjeblikket ingen arbejdskort tildelt mig.
-      reported:
-        no_results_title_text: There are currently no work packages that I have reported.
-      responsible:
-        no_results_title_text: There are currently no work packages that I am accountable for.
-      watched:
-        no_results_title_text: There are currently no work packages that I am watching.
     summary:
       reports:
         category:
@@ -1332,7 +1323,6 @@ da:
   label_member_new: "Nyt medlem"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Medlemmer"
-  label_view_all_members: "Vis alle medlemmer"
   label_menu_item_name: "Navn på menupunkt"
   label_message: "Message"
   label_message_last: "Seneste meddelelse"
@@ -1598,11 +1588,6 @@ da:
   label_work_package_updated: "Arbejdspakke opdateret"
   label_work_package_tracking: "Sporing af arbejdspakke"
   label_work_package_view_all: "Vis alle arbejdspakker"
-  label_work_package_view_all_assigned_to_me: "Vis alle arbejdspakker, der er tilknyttet mig"
-  label_work_package_view_all_reported_by_me: "Vis alle arbejdspakker, der rapporterer til mig"
-  label_work_package_view_all_responsible_for: "View all work packages that I am accountable for"
-  label_work_package_view_all_watched: "Vis alle arbejdspakker, jeg fører tilsyn med"
-  label_work_package_watchers: "Tilsynsførende"
   label_workflow: "Arbejdsgang"
   label_workflow_plural: "Arbejdsprocesser"
   label_workflow_summary: "Opsummering"
@@ -1615,9 +1600,6 @@ da:
   label_x_open_work_packages_abbr:
     one: "1 åbne"
     other: "%{count} åbne"
-  label_x_open_work_packages_abbr_on_total:
-    one: "1 åben/%{total}"
-    other: "%{count} åbne/%{total}"
   label_x_projects:
     one: "%{count} projekter"
     other: "%{count} projekter"

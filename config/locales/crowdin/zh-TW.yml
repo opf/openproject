@@ -207,15 +207,6 @@ zh-TW:
     move:
       no_common_statuses_exists: "被選取的工作項目沒有可用的狀態。他們的狀態不可以變更。"
       unsupported_for_multiple_projects: '工作項目不支援從多個專案的大區塊的移動/複製'
-    list_simple:
-      assigned:
-        no_results_title_text: 目前沒有工作項目指派給我
-      reported:
-        no_results_title_text: 目前沒有我已經報告的工作項目
-      responsible:
-        no_results_title_text: 目前沒有我負責的工作項目
-      watched:
-        no_results_title_text: 目前沒有我在關注的工作項目
     summary:
       reports:
         category:
@@ -1316,7 +1307,6 @@ zh-TW:
   label_member_new: "新成員"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "成員"
-  label_view_all_members: "查看所有的成員"
   label_menu_item_name: "選單項目名稱"
   label_message: "訊息"
   label_message_last: "最後訊息"
@@ -1582,11 +1572,6 @@ zh-TW:
   label_work_package_updated: "工作項目已更新"
   label_work_package_tracking: "工作項目追蹤"
   label_work_package_view_all: "檢視所有工作項目"
-  label_work_package_view_all_assigned_to_me: "檢視所有分配給我的工作項目"
-  label_work_package_view_all_reported_by_me: "檢視所有由我提出的工作項目"
-  label_work_package_view_all_responsible_for: "查看所有我負責的工作項目"
-  label_work_package_view_all_watched: "檢視所有監看的工作項目"
-  label_work_package_watchers: "監看者"
   label_workflow: "工作流程"
   label_workflow_plural: "工作流程"
   label_workflow_summary: "大綱"
@@ -1596,8 +1581,6 @@ zh-TW:
     other: "%{count} 個評論"
   label_x_open_work_packages_abbr:
     other: "%{count} 個未完成"
-  label_x_open_work_packages_abbr_on_total:
-    other: "%{count} 個未完成 / 總共 %{total} 個"
   label_x_projects:
     other: "%{count} 個專案"
   label_year: "年份"

@@ -206,15 +206,6 @@ zh-CN:
     move:
       no_common_statuses_exists: "所有选中的工作包都没有可用的状态，因此无法更改其状态。"
       unsupported_for_multiple_projects: '不支持多个项目工作包的大批量移动/复制'
-    list_simple:
-      assigned:
-        no_results_title_text: 目前没有分配给我的工作包。
-      reported:
-        no_results_title_text: 目前没有我已报告的工作包。
-      responsible:
-        no_results_title_text: 目前没有我负责的工作包。
-      watched:
-        no_results_title_text: 目前没有我关注的工作包。
     summary:
       reports:
         category:
@@ -1315,7 +1306,6 @@ zh-CN:
   label_member_new: "新成员"
   label_member_all_admin: "（所有角色都由管理员状态决定）"
   label_member_plural: "成员"
-  label_view_all_members: "查看所有成员"
   label_menu_item_name: "菜单项名称"
   label_message: "消息"
   label_message_last: "最后一条消息"
@@ -1581,11 +1571,6 @@ zh-CN:
   label_work_package_updated: "工作包更新"
   label_work_package_tracking: "工作包跟踪"
   label_work_package_view_all: "查看所有工作包"
-  label_work_package_view_all_assigned_to_me: "查看分配给我的所有工作包"
-  label_work_package_view_all_reported_by_me: "查看所有由我报告的工作包"
-  label_work_package_view_all_responsible_for: "查看所有我负责的工作包"
-  label_work_package_view_all_watched: "查看所有被关注的工作包"
-  label_work_package_watchers: "关注人"
   label_workflow: "工作流"
   label_workflow_plural: "工作流"
   label_workflow_summary: "摘要"
@@ -1595,8 +1580,6 @@ zh-CN:
     other: "%{count} 条评论"
   label_x_open_work_packages_abbr:
     other: "%{count} 个待处理"
-  label_x_open_work_packages_abbr_on_total:
-    other: "%{total} 中 %{count} 个待处理"
   label_x_projects:
     other: "%{count} 个项目"
   label_year: "年"

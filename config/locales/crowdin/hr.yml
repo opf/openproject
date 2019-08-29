@@ -209,15 +209,6 @@ hr:
     move:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: 'Masovno premještanje/kopiranje ne podržava radne pakete iz više projekata'
-    list_simple:
-      assigned:
-        no_results_title_text: Trenutno ne postoji niti jedan radni paket dodijeljen meni.
-      reported:
-        no_results_title_text: Trenutno ne postoji niti jedan radni paket kojeg je potrebno izvjestiti.
-      responsible:
-        no_results_title_text: There are currently no work packages that I am accountable for.
-      watched:
-        no_results_title_text: Trenutno ne postoji radni paket kojeg nadgledam.
     summary:
       reports:
         category:
@@ -1348,7 +1339,6 @@ hr:
   label_member_new: "Novi član"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Članovi"
-  label_view_all_members: "Pogledaj sve članove"
   label_menu_item_name: "Naziv stavke izbornika"
   label_message: "Poruka"
   label_message_last: "Posljednja poruka"
@@ -1614,11 +1604,6 @@ hr:
   label_work_package_updated: "Radni paket je ažuriran"
   label_work_package_tracking: "Praćenje radnog paketa"
   label_work_package_view_all: "Pogledaj sve radne pakete"
-  label_work_package_view_all_assigned_to_me: "Pogledaj sve radne pakete dodijeljene meni"
-  label_work_package_view_all_reported_by_me: "Pogledaj sve radne pakete koje sam priopćio"
-  label_work_package_view_all_responsible_for: "View all work packages that I am accountable for"
-  label_work_package_view_all_watched: "Pogledaj sve nadgledane radne pakete"
-  label_work_package_watchers: "Nadglednici"
   label_workflow: "Tijek rada"
   label_workflow_plural: "Tijek rada"
   label_workflow_summary: "Sažetak"
@@ -1634,10 +1619,6 @@ hr:
     one: "1 započet"
     few: "%{count} započeta"
     other: "%{count} započeta"
-  label_x_open_work_packages_abbr_on_total:
-    one: "1 započet / %{total}"
-    few: "%{count} započeta / %{total}"
-    other: "%{count} započeta / %{total}"
   label_x_projects:
     one: "1 projekt"
     few: "%{count} projekta"

@@ -210,15 +210,6 @@ uk:
     move:
       no_common_statuses_exists: "Немає доступного статусу для всіх вибраних робочих пакетів. Їх статус не може бути змінений."
       unsupported_for_multiple_projects: 'Масове переміщення/копіювання не підтримується для робочих пакетів з декількох проектів'
-    list_simple:
-      assigned:
-        no_results_title_text: Наразі мені не має призначених робочих пакетів.
-      reported:
-        no_results_title_text: Наразі немає робочих пакетів про які я повідомляв.
-      responsible:
-        no_results_title_text: Наразі немає робочих пакетів, за які я відповідаю.
-      watched:
-        no_results_title_text: На даний момент немає робочих пакетів за якими я спостерігаю.
     summary:
       reports:
         category:
@@ -1364,7 +1355,6 @@ uk:
   label_member_new: "Новий учасник"
   label_member_all_admin: "(Усі ролі через статус адміністратора)"
   label_member_plural: "Учасники"
-  label_view_all_members: "Переглянути всіх учасників"
   label_menu_item_name: "Назва пункту меню"
   label_message: "Повідомлення"
   label_message_last: "Останнє повідомлення"
@@ -1630,11 +1620,6 @@ uk:
   label_work_package_updated: "Робочий пакет оновлений"
   label_work_package_tracking: "Відстеження робочого пакету"
   label_work_package_view_all: "Переглянути всі робочі пакети"
-  label_work_package_view_all_assigned_to_me: "Перегляд всіх пакетів робіт призначених мені"
-  label_work_package_view_all_reported_by_me: "Переглянути всі робочі пакети в які я вносив повідомлення"
-  label_work_package_view_all_responsible_for: "Переглянути всі робочі пакети, за які я відповідаю"
-  label_work_package_view_all_watched: "Переглянути всі переглянуті робочі пакети"
-  label_work_package_watchers: "Спостерігачі"
   label_workflow: "Робочий процес"
   label_workflow_plural: "Робочі процеси"
   label_workflow_summary: "Резюме"
@@ -1653,11 +1638,6 @@ uk:
     few: "%{count} відкритих"
     many: "%{count} відкритих"
     other: "%{count} відкритих"
-  label_x_open_work_packages_abbr_on_total:
-    one: "1 відкрито / %{total}"
-    few: "%{count} з %{total}"
-    many: "%{count} з %{total}"
-    other: "%{count} з %{total}"
   label_x_projects:
     one: "1 проект"
     few: "%{count} проектів"

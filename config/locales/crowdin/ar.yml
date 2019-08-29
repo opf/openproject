@@ -212,15 +212,6 @@ ar:
     move:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: 'حجم النقل أو النسخ غير مدعوم من أجل حزم العمل المكونة من عدة مشاريع'
-    list_simple:
-      assigned:
-        no_results_title_text: لا يوجد حالياً أي حزم عمل موكلة لي.
-      reported:
-        no_results_title_text: لا يوجد حاليا أي حزم عمل التي قد ذكرت في التقرير.
-      responsible:
-        no_results_title_text: There are currently no work packages that I am accountable for.
-      watched:
-        no_results_title_text: لا يوجد حاليا أي حزم عمل اراقبها.
     summary:
       reports:
         category:
@@ -1396,7 +1387,6 @@ ar:
   label_member_new: "عضو جديد"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "أعضاء"
-  label_view_all_members: "عرض جميع الأعضاء"
   label_menu_item_name: "اسم عنصر من القائمة"
   label_message: "رسالة"
   label_message_last: "الرسالة الأخيرة"
@@ -1662,11 +1652,6 @@ ar:
   label_work_package_updated: "تم تحديث مجموعة العمل"
   label_work_package_tracking: "تتبع مجموعة العمل"
   label_work_package_view_all: "عرض جميع مجموعات العمل"
-  label_work_package_view_all_assigned_to_me: "عرض جميع مجموعات العمل الموكلة لي"
-  label_work_package_view_all_reported_by_me: "عرض جميع مجموعات العمل التي أوردت لي"
-  label_work_package_view_all_responsible_for: "View all work packages that I am accountable for"
-  label_work_package_view_all_watched: "عرض جميع مجموعات العمل المشاهدة"
-  label_work_package_watchers: "المشاهدون"
   label_workflow: "سير العمل"
   label_workflow_plural: "تدفقات العمل"
   label_workflow_summary: "مُلخّص"
@@ -1691,13 +1676,6 @@ ar:
     few: "%{count} مفتوح"
     many: "%{count} مفتوح"
     other: "%{count} مفتوح"
-  label_x_open_work_packages_abbr_on_total:
-    zero: "%{count} مفتوح / %{total}"
-    one: "1 open / %{total}"
-    two: "%{count} مفتوح / %{total}"
-    few: "%{count} مفتوح / %{total}"
-    many: "%{count} مفتوح / %{total}"
-    other: "%{count} مفتوح / %{total}"
   label_x_projects:
     zero: "%{count} مشاريع"
     one: "1 project"

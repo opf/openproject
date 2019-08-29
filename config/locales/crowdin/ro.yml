@@ -209,15 +209,6 @@ ro:
     move:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: 'Mutarea/copierea în masă nu este suportată pentru pachete de lucru din proiecte multiple'
-    list_simple:
-      assigned:
-        no_results_title_text: În acest moment nu există pachete de lucru alocate mie.
-      reported:
-        no_results_title_text: În acest moment nu există pachete de lucru raportate de mine.
-      responsible:
-        no_results_title_text: There are currently no work packages that I am accountable for.
-      watched:
-        no_results_title_text: În acest moment nu există pachete de lucru urmărite de mine.
     summary:
       reports:
         category:
@@ -1348,7 +1339,6 @@ ro:
   label_member_new: "Membru nou"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Membri"
-  label_view_all_members: "Vizualizare toți participanții"
   label_menu_item_name: "Numele meniului"
   label_message: "Mesaj"
   label_message_last: "Ultimul mesaj"
@@ -1614,11 +1604,6 @@ ro:
   label_work_package_updated: "Pachet de lucru actualizat"
   label_work_package_tracking: "Urmărire pachete de lucru"
   label_work_package_view_all: "Toate pachetele de lucru"
-  label_work_package_view_all_assigned_to_me: "Toate pachetele de lucru atribuite mie"
-  label_work_package_view_all_reported_by_me: "Toate pachetele de lucru deschise de mine"
-  label_work_package_view_all_responsible_for: "View all work packages that I am accountable for"
-  label_work_package_view_all_watched: "Toate pachetele de lucru la care sunt observator"
-  label_work_package_watchers: "Observatori"
   label_workflow: "Flux de lucru"
   label_workflow_plural: "Fluxuri de lucru"
   label_workflow_summary: "Descriere"
@@ -1634,10 +1619,6 @@ ro:
     one: "unul deschis"
     few: "%{count} deschise"
     other: "%{count} deschise"
-  label_x_open_work_packages_abbr_on_total:
-    one: "unul deschis / %{total}"
-    few: "%{count} deschise / %{total}"
-    other: "%{count} deschise / %{total}"
   label_x_projects:
     one: "un proiect"
     few: "%{count} proiecte"

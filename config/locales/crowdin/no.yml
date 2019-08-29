@@ -208,15 +208,6 @@
     move:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: 'Bulk move/copy is not supported for work packages from multiple projects'
-    list_simple:
-      assigned:
-        no_results_title_text: There are currently no work packages assigned to me.
-      reported:
-        no_results_title_text: There are currently no work packages that I have reported.
-      responsible:
-        no_results_title_text: There are currently no work packages that I am accountable for.
-      watched:
-        no_results_title_text: There are currently no work packages that I am watching.
     summary:
       reports:
         category:
@@ -1332,7 +1323,6 @@
   label_member_new: "Nytt medlem"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Medlemmer"
-  label_view_all_members: "View all members"
   label_menu_item_name: "Navn på menyelement"
   label_message: "Melding"
   label_message_last: "Siste melding"
@@ -1598,11 +1588,6 @@
   label_work_package_updated: "Arbeidspakke oppdatert"
   label_work_package_tracking: "Sporing av arbeidspakke"
   label_work_package_view_all: "Vis alle arbeidspakker"
-  label_work_package_view_all_assigned_to_me: "Vis alle arbeidspakker tildelt meg"
-  label_work_package_view_all_reported_by_me: "Vis alle arbeidspakker rapportert av meg"
-  label_work_package_view_all_responsible_for: "View all work packages that I am accountable for"
-  label_work_package_view_all_watched: "Vis alle overvåkede arbeidspakker"
-  label_work_package_watchers: "Overvåkere"
   label_workflow: "Arbeidsflyt"
   label_workflow_plural: "Arbeidsflyt"
   label_workflow_summary: "Sammendrag"
@@ -1615,9 +1600,6 @@
   label_x_open_work_packages_abbr:
     one: "%{count} åpen"
     other: "%{count} åpne"
-  label_x_open_work_packages_abbr_on_total:
-    one: "1 åpen / %{total}"
-    other: "%{count} åpne / %{total}"
   label_x_projects:
     one: "%{count} prosjekt"
     other: "%{count} prosjekter"

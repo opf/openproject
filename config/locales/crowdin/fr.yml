@@ -207,15 +207,6 @@ fr:
     move:
       no_common_statuses_exists: "Il n’y a pas de statut disponible pour tous les lots de travaux sélectionnés. Ce statut ne peut pas être changé."
       unsupported_for_multiple_projects: 'Déplacer/copier en masse n''est pas supporté pour des lots de travaux provenant de plusieurs projets'
-    list_simple:
-      assigned:
-        no_results_title_text: Il n'y a actuellement aucun lot de travaux m'étant assigné.
-      reported:
-        no_results_title_text: Il n'y a actuellement aucun lot de travaux que j'ai consigné.
-      responsible:
-        no_results_title_text: Il n'y a actuellement aucun lot de travaux dont je suis responsable.
-      watched:
-        no_results_title_text: Il n'y a actuellement aucun lot de travaux que je suis.
     summary:
       reports:
         category:
@@ -1331,7 +1322,6 @@ fr:
   label_member_new: "Nouveau membre"
   label_member_all_admin: "(Tous les rôles en raison du statut d'administrateur)"
   label_member_plural: "Membres"
-  label_view_all_members: "Afficher tous les membres"
   label_menu_item_name: "Nom de l'élément du menu"
   label_message: "Message"
   label_message_last: "Dernier message"
@@ -1597,11 +1587,6 @@ fr:
   label_work_package_updated: "Lot de Travaux mis à jour"
   label_work_package_tracking: "Suivi des lots de travaux"
   label_work_package_view_all: "Afficher tous les lots de travaux"
-  label_work_package_view_all_assigned_to_me: "Afficher tous les lots de travaux qui me sont assignés"
-  label_work_package_view_all_reported_by_me: "Afficher tous les lots de travaux que j'ai consignés"
-  label_work_package_view_all_responsible_for: "Afficher tous les lots de travaux dont je suis responsable"
-  label_work_package_view_all_watched: "Afficher tous les lots de travaux suivis"
-  label_work_package_watchers: "Observateurs"
   label_workflow: "Flux de travail"
   label_workflow_plural: "Flux de travail"
   label_workflow_summary: "Résumé"
@@ -1614,9 +1599,6 @@ fr:
   label_x_open_work_packages_abbr:
     one: "un ouvert"
     other: "%{count} ouverts"
-  label_x_open_work_packages_abbr_on_total:
-    one: "1 / %{total} ouvert"
-    other: "%{count} / %{total} ouverts"
   label_x_projects:
     one: "1 projet"
     other: "%{count} projets"

@@ -206,15 +206,6 @@ de:
     move:
       no_common_statuses_exists: "Es gibt keine gemeinsamen Status für die ausgewählten Arbeitspakete. Ihr Status kann daher nicht verändert werden."
       unsupported_for_multiple_projects: 'Verschieben / Kopieren nicht unterstützt für Arbeitspakete in verschiedenen Projekten'
-    list_simple:
-      assigned:
-        no_results_title_text: Derzeit gibt es keine Arbeitspakete, die mir zugewiesen sind.
-      reported:
-        no_results_title_text: Derzeit gibt es keine Arbeitspakete, die ich gemeldet habe.
-      responsible:
-        no_results_title_text: Derzeit gibt es keine Arbeitspakete, für die ich verantwortlich bin.
-      watched:
-        no_results_title_text: Derzeit gibt es keine Arbeitspakete, die ich beobachte.
     summary:
       reports:
         category:
@@ -1330,7 +1321,6 @@ de:
   label_member_new: "Neues Mitglied"
   label_member_all_admin: "(Alle Rollen, da Administrator)"
   label_member_plural: "Mitglieder"
-  label_view_all_members: "Alle Mitglieder anzeigen"
   label_menu_item_name: "Name des Menüpunktes"
   label_message: "Nachricht"
   label_message_last: "Letzter Forenbeitrag"
@@ -1596,11 +1586,6 @@ de:
   label_work_package_updated: "Arbeitspaket aktualisiert"
   label_work_package_tracking: "Arbeitspakete-Verfolgung"
   label_work_package_view_all: "Alle Arbeitspakete anzeigen"
-  label_work_package_view_all_assigned_to_me: "Alle mir zugewiesenen Arbeitspakete anzeigen"
-  label_work_package_view_all_reported_by_me: "Alle von mir erstellten Arbeitspakete anzeigen"
-  label_work_package_view_all_responsible_for: "Alle Arbeitspakete anzeigen, für die ich verantwortlich bin"
-  label_work_package_view_all_watched: "Alle beobachteten Arbeitspakete anzeigen"
-  label_work_package_watchers: "Beobachter"
   label_workflow: "Workflow"
   label_workflow_plural: "Workflows"
   label_workflow_summary: "Zusammenfassung"
@@ -1613,9 +1598,6 @@ de:
   label_x_open_work_packages_abbr:
     one: "1 offen"
     other: "%{count} offen"
-  label_x_open_work_packages_abbr_on_total:
-    one: "1 offen / %{total}"
-    other: "%{count} offen / %{total}"
   label_x_projects:
     one: "1 Projekt"
     other: "%{count} Projekte"

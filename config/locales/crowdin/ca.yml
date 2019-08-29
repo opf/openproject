@@ -208,15 +208,6 @@ ca:
     move:
       no_common_statuses_exists: "No hi ha disponible un estat per a tots els paquets de treball seleccionats. El seu estat no es pot canviar."
       unsupported_for_multiple_projects: 'Moure o copiar en massa no està soportat per paquets de treball de múltiples projectes'
-    list_simple:
-      assigned:
-        no_results_title_text: Actualment no hi ha cap paquet de treball assignat a mi.
-      reported:
-        no_results_title_text: Actualment no he informat cap paquet de treball.
-      responsible:
-        no_results_title_text: There are currently no work packages that I am accountable for.
-      watched:
-        no_results_title_text: Actualment no estic seguint cap paquet de treball.
     summary:
       reports:
         category:
@@ -1332,7 +1323,6 @@ ca:
   label_member_new: "Nou membre"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Membres"
-  label_view_all_members: "Veure tots els membres"
   label_menu_item_name: "Nom de l'element de menú"
   label_message: "Message"
   label_message_last: "Darrer missatge"
@@ -1598,11 +1588,6 @@ ca:
   label_work_package_updated: "Paquet de treball actualitzat"
   label_work_package_tracking: "Paquet de treball de seguiment"
   label_work_package_view_all: "Veure tots els paquets de treball"
-  label_work_package_view_all_assigned_to_me: "Veure tots els paquets de treball assignats a mi"
-  label_work_package_view_all_reported_by_me: "Veure tots els paquets de treball comunicats per mi"
-  label_work_package_view_all_responsible_for: "View all work packages that I am accountable for"
-  label_work_package_view_all_watched: "Veure tots els paquets de treball observats"
-  label_work_package_watchers: "Observadors"
   label_workflow: "Flux de treball"
   label_workflow_plural: "Fluxos de treball"
   label_workflow_summary: "Resum"
@@ -1615,9 +1600,6 @@ ca:
   label_x_open_work_packages_abbr:
     one: "1 obert"
     other: "%{count} oberts"
-  label_x_open_work_packages_abbr_on_total:
-    one: "1 obert / %{total}"
-    other: "%{count} oberts / %{total}"
   label_x_projects:
     one: "1 projecte"
     other: "%{count} projectes"

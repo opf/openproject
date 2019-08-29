@@ -208,15 +208,6 @@ tr:
     move:
       no_common_statuses_exists: "Seçilen tüm iş paketleri için uygun bir durum yoktur. Durumları değiştirilemez."
       unsupported_for_multiple_projects: 'Birden çok projeden iş paketi için toplu taşıma / kopyalama desteklenmiyor'
-    list_simple:
-      assigned:
-        no_results_title_text: Bana atanan iş paketi bulunmuyor.
-      reported:
-        no_results_title_text: Raporladığım iş paketi bulunmuyor.
-      responsible:
-        no_results_title_text: Şu anda sorumlusu olduğum iş paketi bulunmuyor.
-      watched:
-        no_results_title_text: İzlediğim iş paketi bulunmuyor.
     summary:
       reports:
         category:
@@ -1332,7 +1323,6 @@ tr:
   label_member_new: "Yeni Üye"
   label_member_all_admin: "(Yönetici durumuna bağlı olarak tüm roller)"
   label_member_plural: "Üyeler"
-  label_view_all_members: "Tüm üyeleri göster"
   label_menu_item_name: "Menü öğesinin ismi"
   label_message: "İleti"
   label_message_last: "Son mesaj"
@@ -1598,11 +1588,6 @@ tr:
   label_work_package_updated: "İş paketi güncellendi"
   label_work_package_tracking: "İş paketi takibi"
   label_work_package_view_all: "Tüm iş paketleri görüntüle"
-  label_work_package_view_all_assigned_to_me: "Bana atanan tüm iş paketlerini göster"
-  label_work_package_view_all_reported_by_me: "Bildirdiğim tüm iş paketleri"
-  label_work_package_view_all_responsible_for: "Sorumlusu olduğum tüm iş paketleri"
-  label_work_package_view_all_watched: "Takip edilen tüm iş paketlerini göster"
-  label_work_package_watchers: "Takip Edenler"
   label_workflow: "İş akışı"
   label_workflow_plural: "İş Akışları"
   label_workflow_summary: "Özet"
@@ -1615,9 +1600,6 @@ tr:
   label_x_open_work_packages_abbr:
     one: "1 açık"
     other: "%{count} açık"
-  label_x_open_work_packages_abbr_on_total:
-    one: "1 açık / %{total} toplam"
-    other: "%{count} açık / %{total} toplam"
   label_x_projects:
     one: "1 proje"
     other: "%{count} proje"

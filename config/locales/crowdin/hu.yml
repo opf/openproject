@@ -206,15 +206,6 @@ hu:
     move:
       no_common_statuses_exists: "Az összes kiválasztott feladatcsoporthoz nincs elérhető állapot. Státuszuk nem változtatható meg."
       unsupported_for_multiple_projects: 'Tömeges mozgatás/másolás nem támogatott a különböző projektekből származó feladatcsoportokhoz'
-    list_simple:
-      assigned:
-        no_results_title_text: Nincs hozzám rendelt feladatcsoport.
-      reported:
-        no_results_title_text: Nincs általam beszámolt feladatcsoport.
-      responsible:
-        no_results_title_text: Nincs feladatcsoport, amelyért én vagyok a felelős.
-      watched:
-        no_results_title_text: Nincs általam megfigyelt feladatcsoport.
     summary:
       reports:
         category:
@@ -1330,7 +1321,6 @@ hu:
   label_member_new: "Új tag"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Tagok"
-  label_view_all_members: "Az összes tag megtekintése"
   label_menu_item_name: "A menüpont neve"
   label_message: "Üzenet"
   label_message_last: "Utolsó üzenet"
@@ -1596,11 +1586,6 @@ hu:
   label_work_package_updated: "Frissült a munkacsomag"
   label_work_package_tracking: "A munkacsomag nyomon követése"
   label_work_package_view_all: "Minden munkacsomag megtekintése"
-  label_work_package_view_all_assigned_to_me: "Az összes magamhoz rendelt munkacsomag megtekintése"
-  label_work_package_view_all_reported_by_me: "Az összes magamhoz rendelt munkacsomag módosításainak listája"
-  label_work_package_view_all_responsible_for: "Az összes feladatcsoport megtekintése, amelyért én vagyok a felelős"
-  label_work_package_view_all_watched: "Az összes megfigyelt munkacsomag megtekintése"
-  label_work_package_watchers: "Megfigyelők"
   label_workflow: "Munkafolyamat"
   label_workflow_plural: "A munkafolyamatok"
   label_workflow_summary: "Összegzés"
@@ -1613,9 +1598,6 @@ hu:
   label_x_open_work_packages_abbr:
     one: "1 nyitott"
     other: "%{count} nyitott"
-  label_x_open_work_packages_abbr_on_total:
-    one: "1 nyitott / %{total}"
-    other: "%{count} nyitott / %{total}"
   label_x_projects:
     one: "1 projekt"
     other: "%{count} projekt"

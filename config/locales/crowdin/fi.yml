@@ -208,15 +208,6 @@ fi:
     move:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: 'Massasiirto tai -kopiointi ei ole sallittu eri projektien työpaketeille'
-    list_simple:
-      assigned:
-        no_results_title_text: Minulle ei ole osoitettu työpaketteja.
-      reported:
-        no_results_title_text: Tällä hetkellä ei ole työpaketteja jotka olisi olisin raportoinut.
-      responsible:
-        no_results_title_text: There are currently no work packages that I am accountable for.
-      watched:
-        no_results_title_text: En ole tällä hetkellä seuraajana työpaketeissa.
     summary:
       reports:
         category:
@@ -1332,7 +1323,6 @@ fi:
   label_member_new: "Uusi jäsen"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Jäsenet"
-  label_view_all_members: "Näytä kaikki jäsenet"
   label_menu_item_name: "Valinnan nimi"
   label_message: "Vesti"
   label_message_last: "Viimeisin viesti"
@@ -1598,11 +1588,6 @@ fi:
   label_work_package_updated: "Työpakettia muokattu"
   label_work_package_tracking: "Työpaketin seuranta"
   label_work_package_view_all: "Näytä kaikki työpaketit"
-  label_work_package_view_all_assigned_to_me: "Näytä kaikki minulle määritetyt työpaketit"
-  label_work_package_view_all_reported_by_me: "Näytä kaikki työpaketit jotka minä olen raportoinut"
-  label_work_package_view_all_responsible_for: "View all work packages that I am accountable for"
-  label_work_package_view_all_watched: "Näytä kaikki seuratut työpaketit"
-  label_work_package_watchers: "Seuraajat"
   label_workflow: "Työnkulku"
   label_workflow_plural: "Työnkulut"
   label_workflow_summary: "Yhteenveto"
@@ -1615,9 +1600,6 @@ fi:
   label_x_open_work_packages_abbr:
     one: "1 avoin"
     other: "%{count} avoinna"
-  label_x_open_work_packages_abbr_on_total:
-    one: "1 auki / %{total}"
-    other: "%{count} avoinna / %{total}"
   label_x_projects:
     one: "1 projekti"
     other: "%{count} projects"

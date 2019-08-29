@@ -210,15 +210,6 @@ lt:
     move:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: 'Masinis darbų paketų perkėlimas/kopijavimas nėra palaikomas darbui iškart su keliais projektais'
-    list_simple:
-      assigned:
-        no_results_title_text: Nėra darbų paketo, paskirto man.
-      reported:
-        no_results_title_text: Šiuo metu nėra darbų paketo, apie kurio vykdymą turėčiau atsiskaityti.
-      responsible:
-        no_results_title_text: There are currently no work packages that I am accountable for.
-      watched:
-        no_results_title_text: Nėra mano stebimų darbų paketų.
     summary:
       reports:
         category:
@@ -1364,7 +1355,6 @@ lt:
   label_member_new: "Naujas narys"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Nariai"
-  label_view_all_members: "Rodyti visus narius"
   label_menu_item_name: "Meniu punkto pavadinimas"
   label_message: "Pranešimas"
   label_message_last: "Paskutinis pranešimas"
@@ -1630,11 +1620,6 @@ lt:
   label_work_package_updated: "Darbų paketas atnaujintas"
   label_work_package_tracking: "Darbų paketo sekimas"
   label_work_package_view_all: "Peržiūrėti visus darbų paketus"
-  label_work_package_view_all_assigned_to_me: "Peržiūrėti visus darbų paketus, priskirtus man"
-  label_work_package_view_all_reported_by_me: "Peržiūrėti visus darbų paketus, kuriuos užregistravau aš"
-  label_work_package_view_all_responsible_for: "View all work packages that I am accountable for"
-  label_work_package_view_all_watched: "Peržiūrėti visus stebimus darbų paketus"
-  label_work_package_watchers: "Stebėtojai"
   label_workflow: "Darbų eiga"
   label_workflow_plural: "Darbų eigos"
   label_workflow_summary: "Santrauka"
@@ -1653,11 +1638,6 @@ lt:
     few: "%{count} atidaryti (-as, -ų)"
     many: "%{count} atidaryti (-as, -ų)"
     other: "%{count} atidaryti (-as, -ų)"
-  label_x_open_work_packages_abbr_on_total:
-    one: "1 atidarytas / %{total}"
-    few: "%{count} atidaryti (-as, -ų) / %{total}"
-    many: "%{count} atidaryti (-as, -ų) / %{total}"
-    other: "%{count} atidaryti (-as, -ų) / %{total}"
   label_x_projects:
     one: "1 projektas"
     few: "%{count} projektai (-as, -ų)"

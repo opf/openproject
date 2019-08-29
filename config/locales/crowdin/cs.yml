@@ -210,15 +210,6 @@ cs:
     move:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: 'Bulk move/copy is not supported for work packages from multiple projects'
-    list_simple:
-      assigned:
-        no_results_title_text: Nyní neexistují žádná pracovní balíčky mně přidělené.
-      reported:
-        no_results_title_text: There are currently no work packages that I have reported.
-      responsible:
-        no_results_title_text: There are currently no work packages that I am accountable for.
-      watched:
-        no_results_title_text: There are currently no work packages that I am watching.
     summary:
       reports:
         category:
@@ -1364,7 +1355,6 @@ cs:
   label_member_new: "Nový člen"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Členové"
-  label_view_all_members: "Zobrazit všechny členy"
   label_menu_item_name: "Název položky menu"
   label_message: "Zpráva"
   label_message_last: "Poslední zpráva"
@@ -1630,11 +1620,6 @@ cs:
   label_work_package_updated: "Pracovní balíček aktualizován"
   label_work_package_tracking: "Sledování pracovních balíčků"
   label_work_package_view_all: "Zobrazit všechny pracovní balíčky"
-  label_work_package_view_all_assigned_to_me: "Zobrazit všechny pracovní balíčky přiřazené mně"
-  label_work_package_view_all_reported_by_me: "Zobrazit všechny pracovní balíčky mnou nahlášené"
-  label_work_package_view_all_responsible_for: "Zobrazit všechny pracovní balíčky, za které jsem zodpovědný"
-  label_work_package_view_all_watched: "Zobrazit všechny sledované balíčky"
-  label_work_package_watchers: "Sledující"
   label_workflow: "Pracovní vrstva"
   label_workflow_plural: "Pracovní vrstvy"
   label_workflow_summary: "Souhrn"
@@ -1653,11 +1638,6 @@ cs:
     few: "%{count} otevřených"
     many: "%{count} otevřených"
     other: "%{count} otevřených"
-  label_x_open_work_packages_abbr_on_total:
-    one: "1 otevřený / %{total}"
-    few: "%{count} otevřených / %{total}"
-    many: "%{count} otevřených / %{total}"
-    other: "%{count} otevřených / %{total}"
   label_x_projects:
     one: "1 projekt"
     few: "%{count} projektů"

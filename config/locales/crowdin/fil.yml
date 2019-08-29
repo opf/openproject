@@ -208,15 +208,6 @@ fil:
     move:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: 'Ang bulk na paglipat/kopya ay hindi suportado sa mga work packages mula sa iba''t ibang mga proyekto'
-    list_simple:
-      assigned:
-        no_results_title_text: Sa kasalukuyan ay walang mga work packages na nakatala sa akin.
-      reported:
-        no_results_title_text: Sa kasalukuyan ay walang mga work packages na aking na-ireport.
-      responsible:
-        no_results_title_text: There are currently no work packages that I am accountable for.
-      watched:
-        no_results_title_text: Sa kasalukuyan ay walang mga work packages na aking tinatanaw.
     summary:
       reports:
         category:
@@ -1332,7 +1323,6 @@ fil:
   label_member_new: "Bagong miyembro"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Mga miyembro"
-  label_view_all_members: "Tingnan ang lahat na mga miyembro"
   label_menu_item_name: "Pangalan ng pagpipiliang aytem"
   label_message: "Mensahe"
   label_message_last: "Huling mensahe"
@@ -1598,11 +1588,6 @@ fil:
   label_work_package_updated: "Naka-update na work package"
   label_work_package_tracking: "Ang pagtra-track ng work package"
   label_work_package_view_all: "Tanawin lahat ang mga package"
-  label_work_package_view_all_assigned_to_me: "Tanawin lahat ang mga work package nakatalaga sa akin"
-  label_work_package_view_all_reported_by_me: "Tanawin lahat ang mga work package inuulat sa akin"
-  label_work_package_view_all_responsible_for: "View all work packages that I am accountable for"
-  label_work_package_view_all_watched: "Tanawin lahat ang mga binabantayang work package"
-  label_work_package_watchers: "Manonood"
   label_workflow: "Daloy ng trabaho"
   label_workflow_plural: "Daloy ng trabaho"
   label_workflow_summary: "Buod"
@@ -1615,9 +1600,6 @@ fil:
   label_x_open_work_packages_abbr:
     one: "Isa ang bukas"
     other: "%{count} ang bukas"
-  label_x_open_work_packages_abbr_on_total:
-    one: "Isa ang bukas / %{total}"
-    other: "%{count} bukas / %{total}"
   label_x_projects:
     one: "Isang proyekto"
     other: "%{count} mga proyekto"

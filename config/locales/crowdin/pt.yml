@@ -208,15 +208,6 @@ pt:
     move:
       no_common_statuses_exists: "Não há nenhum status disponível para todos os pacotes de trabalho selecionados. O seu status não pode ser alterado."
       unsupported_for_multiple_projects: 'Mover/copiar em massa não é suportado por pacotes de trabalho de vários projetos'
-    list_simple:
-      assigned:
-        no_results_title_text: Atualmente, não existem pacotes de trabalho atribuídos para mim.
-      reported:
-        no_results_title_text: Atualmente, não existem pacotes de trabalho que eu comuniquei.
-      responsible:
-        no_results_title_text: Atualmente, não existem pacotes de trabalho pelos quais sou responsável.
-      watched:
-        no_results_title_text: Atualmente, não existem pacotes de trabalho que eu estou a vigiar.
     summary:
       reports:
         category:
@@ -1332,7 +1323,6 @@ pt:
   label_member_new: "Novo Membro"
   label_member_all_admin: "(Todas as funções devidas ao status do administrador)"
   label_member_plural: "Membros"
-  label_view_all_members: "Ver todos os membros"
   label_menu_item_name: "Nome do item de menu"
   label_message: "Mensagem"
   label_message_last: "Última mensagem"
@@ -1598,11 +1588,6 @@ pt:
   label_work_package_updated: "Tarefa atualizada"
   label_work_package_tracking: "Controle de pacote de trabalho"
   label_work_package_view_all: "Ver todas as tarefas"
-  label_work_package_view_all_assigned_to_me: "Mostrar todos os pacotes de trabalho que me estão atribuídos"
-  label_work_package_view_all_reported_by_me: "Mostrar todos os pacotes de trabalho reportados por mim"
-  label_work_package_view_all_responsible_for: "Ver todos os pacotes de trabalho pelos quais eu sou responsável"
-  label_work_package_view_all_watched: "Mostrar todos os pacotes de trabalho observados"
-  label_work_package_watchers: "Observadores"
   label_workflow: "Fluxo de trabalho"
   label_workflow_plural: "Fluxos de Trabalho"
   label_workflow_summary: "Resumo"
@@ -1615,9 +1600,6 @@ pt:
   label_x_open_work_packages_abbr:
     one: "Um aberto"
     other: "%{count} abertos"
-  label_x_open_work_packages_abbr_on_total:
-    one: "Um aberto / %{total}"
-    other: "%{count} abertos / %{total}"
   label_x_projects:
     one: "1 projeto"
     other: "%{count} projetos"

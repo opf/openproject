@@ -206,15 +206,6 @@ id:
     move:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: 'Bulk move/copy is not supported for work packages from multiple projects'
-    list_simple:
-      assigned:
-        no_results_title_text: There are currently no work packages assigned to me.
-      reported:
-        no_results_title_text: There are currently no work packages that I have reported.
-      responsible:
-        no_results_title_text: There are currently no work packages that I am accountable for.
-      watched:
-        no_results_title_text: There are currently no work packages that I am watching.
     summary:
       reports:
         category:
@@ -1315,7 +1306,6 @@ id:
   label_member_new: "Member baru"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Member"
-  label_view_all_members: "View all members"
   label_menu_item_name: "Nama item menu"
   label_message: "Message"
   label_message_last: "Pesan terakhir"
@@ -1581,11 +1571,6 @@ id:
   label_work_package_updated: "Paket-Penugasan telah diupdate"
   label_work_package_tracking: "Tracking Paket-Penugasan"
   label_work_package_view_all: "Lihat semua Paket-Penugasan"
-  label_work_package_view_all_assigned_to_me: "Lihat semua Paket-Penugasan yang ditugaskan pada saya"
-  label_work_package_view_all_reported_by_me: "Lihat semua Paket-Penugasan yang telah saya laporkan"
-  label_work_package_view_all_responsible_for: "View all work packages that I am accountable for"
-  label_work_package_view_all_watched: "Lihat semua Paket-Penugasan yang telah diakses"
-  label_work_package_watchers: "Pemantau"
   label_workflow: "Workflow"
   label_workflow_plural: "Alur kerja"
   label_workflow_summary: "Ringkasan"
@@ -1595,8 +1580,6 @@ id:
     other: "%{count} komentar"
   label_x_open_work_packages_abbr:
     other: "%{count} terbuka"
-  label_x_open_work_packages_abbr_on_total:
-    other: "%{count} open / %{total}"
   label_x_projects:
     other: "%{count} proyek"
   label_year: "Tahun"

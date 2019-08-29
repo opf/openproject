@@ -208,15 +208,6 @@ sv:
     move:
       no_common_statuses_exists: "Det finns ingen status för alla valda arbetspaket. Deras status kan inte ändras."
       unsupported_for_multiple_projects: 'Att flytta/kopiera i bulk stöds inte för arbetspaket från flera projekt'
-    list_simple:
-      assigned:
-        no_results_title_text: Jag har inte tilldelats några arbetspaket.
-      reported:
-        no_results_title_text: Jag har inte rapporterat några arbetspaket.
-      responsible:
-        no_results_title_text: There are currently no work packages that I am accountable for.
-      watched:
-        no_results_title_text: Jag bevakar inte några arbetspaket.
     summary:
       reports:
         category:
@@ -1332,7 +1323,6 @@ sv:
   label_member_new: "Ny medlem"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Medlemmar"
-  label_view_all_members: "Visa alla medlemmar"
   label_menu_item_name: "Namn på menyalternativ"
   label_message: "Meddelande"
   label_message_last: "Senaste meddelandet"
@@ -1598,11 +1588,6 @@ sv:
   label_work_package_updated: "Arbetspaketet uppdaterat"
   label_work_package_tracking: "Arbetspaketsspårning"
   label_work_package_view_all: "Visa alla arbetspaket"
-  label_work_package_view_all_assigned_to_me: "Visa alla arbetspaket som tilldelats till mig"
-  label_work_package_view_all_reported_by_me: "Visa alla arbetspaket som rapporterats av mig"
-  label_work_package_view_all_responsible_for: "View all work packages that I am accountable for"
-  label_work_package_view_all_watched: "Visa alla bevakade arbetspaket"
-  label_work_package_watchers: "Bevakare"
   label_workflow: "Arbetsflöde"
   label_workflow_plural: "Arbetsflöden"
   label_workflow_summary: "Sammanfattning"
@@ -1615,9 +1600,6 @@ sv:
   label_x_open_work_packages_abbr:
     one: "en öppen"
     other: "%{count} öppnade"
-  label_x_open_work_packages_abbr_on_total:
-    one: "1 öppen/%{total}"
-    other: "%{count} öppna/%{total}"
   label_x_projects:
     one: "Ett projekt"
     other: "%{count} projekt"
