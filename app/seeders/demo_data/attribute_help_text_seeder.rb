@@ -1,5 +1,7 @@
 #-- encoding: UTF-8
+
 #-- copyright
+
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
@@ -25,16 +27,42 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
-class DemoDataSeeder < CompositeSeeder
-  def data_seeder_classes
-    [
-      DemoData::GroupSeeder,
-      DemoData::AttributeHelpTextSeeder,
-      DemoData::ProjectSeeder
-    ]
-  end
+module DemoData
+  class AttributeHelpTextSeeder < Seeder
+    attr_accessor :user
+    include ::DemoData::References
 
-  def namespace
-    'DemoData'
+    def initialize
+      self.user = User.admin.first
+    end
+
+    def seed_data!
+      print '    ↳ Creating attribute help texts'
+
+      seed_attribute_help_texts
+
+      puts
+    end
+
+    private
+
+    def seed_attribute_help_texts
+      help_texts = demo_data_for('attribute_help_texts')
+      if help_texts.present?
+        help_texts.each do |help_text_attr|
+          print '.'
+          create_attribute_help_text help_text_attr
+        end
+      end
+    end
+
+    def create_attribute_help_text help_text_attr
+      help_text_attr[:type] = AttributeHelpText::WorkPackage
+
+      attribute_help_text = AttributeHelpText.new help_text_attr
+      #attribute_help_text = AttributeHelpText.new {"AttributeHelpText::WorkPackage" }
+      #attribute_help_text = AttributeHelpText.new AttributeHelpText::WorkPackage, help_text_attr[:attribute], help_text_attr[:help_text]
+      attribute_help_text.save
+    end
   end
 end
