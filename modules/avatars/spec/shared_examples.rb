@@ -6,7 +6,7 @@ shared_examples_for "an action checked for required login" do
     end
 
     it "should be success" do
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 
