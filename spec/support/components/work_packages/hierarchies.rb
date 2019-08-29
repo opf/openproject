@@ -32,6 +32,12 @@ module Components
       include Capybara::DSL
       include RSpec::Matchers
 
+      attr_reader :context_menu
+
+      def initialize
+        @context_menu = ::Components::WorkPackages::ContextMenu.new
+      end
+
       def enable_hierarchy
         ::Components::WorkPackages::TableConfigurationModal.do_and_save do |modal|
           modal.open_and_set_display_mode :hierarchy
@@ -66,6 +72,28 @@ module Components
 
       def expect_mode_disabled
         expect(page).to have_selector('.wp-table--table-header .icon-no-hierarchy')
+      end
+
+      def expect_indent(work_package, indent: true, outdent: true)
+        context_menu.open_for work_package
+
+        if indent
+          context_menu.expect_options ['Indent hierarchy']
+        end
+
+        if outdent
+          context_menu.expect_options ['Outdent hierarchy']
+        end
+      end
+
+      def indent!(work_package)
+        context_menu.open_for work_package
+        context_menu.choose 'Indent hierarchy'
+      end
+
+      def outdent!(work_package)
+        context_menu.open_for work_package
+        context_menu.choose 'Outdent hierarchy'
       end
 
       def expect_leaf_at(*work_packages)

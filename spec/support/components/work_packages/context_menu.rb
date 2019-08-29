@@ -33,6 +33,10 @@ module Components
       include RSpec::Matchers
 
       def open_for(work_package, list_view = true)
+        # Close
+        find('body').send_keys :escape
+        sleep 0.5
+
         if list_view
           find(".wp-row-#{work_package.id}-table").right_click
         else

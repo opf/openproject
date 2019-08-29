@@ -31,15 +31,18 @@ import {PathHelperService} from "core-app/modules/common/path-helper/path-helper
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 import {HookService} from "core-app/modules/plugins/hook-service";
 import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
+import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import {WorkPackageViewHierarchyIdentationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service";
 
 export type WorkPackageAction = {
   text:string;
   key:string;
   icon?:string;
   indexBy?:(actions:WorkPackageAction[]) => number,
-  link:string;
+  link?:string;
   href?:string;
-}
+};
 
 @Injectable()
 export class WorkPackageContextMenuHelperService {
@@ -74,13 +77,16 @@ export class WorkPackageContextMenuHelperService {
   constructor(private HookService:HookService,
               private UrlParamsHelper:UrlParamsHelperService,
               private wpTableTimeline:WorkPackageViewTimelineService,
+              private wpTableIndent:WorkPackageViewHierarchyIdentationService,
               private PathHelper:PathHelperService) {
   }
 
   public getPermittedActionLinks(workPackage:WorkPackageResource, permittedActionConstants:any, allowSplitScreenActions:boolean):WorkPackageAction[] {
-    let singularPermittedActions: any[] = [];
+    let singularPermittedActions:any[] = [];
 
     let allowedActions = this.getAllowedActions(workPackage, permittedActionConstants);
+
+    allowedActions = allowedActions.concat(this.getAllowedParentActions(workPackage));
 
     allowedActions = allowedActions.concat(this.getAllowedRelationActions(workPackage, allowSplitScreenActions));
 
@@ -89,7 +95,7 @@ export class WorkPackageContextMenuHelperService {
         key: allowedAction.key,
         text: allowedAction.text,
         icon: allowedAction.icon,
-        link: workPackage[allowedAction.link].href
+        link: allowedAction.link ? workPackage[allowedAction.link].href : undefined
       });
     });
 
@@ -97,10 +103,10 @@ export class WorkPackageContextMenuHelperService {
   }
 
   public getIntersectOfPermittedActions(workPackages:any) {
-    let bulkPermittedActions: any = [];
+    let bulkPermittedActions:any = [];
 
-    let permittedActions = _.filter(this.BULK_ACTIONS, (action: any) => {
-      return _.every(workPackages, (workPackage: WorkPackageResource) => {
+    let permittedActions = _.filter(this.BULK_ACTIONS, (action:any) => {
+      return _.every(workPackages, (workPackage:WorkPackageResource) => {
         return this.getAllowedActions(workPackage, [action]).length >= 1;
       });
     });
@@ -118,7 +124,7 @@ export class WorkPackageContextMenuHelperService {
 
   public getBulkActionLink(action:any, workPackages:any) {
     let workPackageIdParams = {
-      'ids[]': workPackages.map(function (wp: any) {
+      'ids[]': workPackages.map(function(wp:any) {
         return wp.id;
       })
     };
@@ -132,10 +138,10 @@ export class WorkPackageContextMenuHelperService {
   }
 
   private getAllowedActions(workPackage:WorkPackageResource, actions:WorkPackageAction[]):WorkPackageAction[] {
-    let allowedActions: WorkPackageAction[] = [];
+    let allowedActions:WorkPackageAction[] = [];
 
     _.each(actions, (action) => {
-      if (workPackage.hasOwnProperty(action.link)) {
+      if (action.link && workPackage.hasOwnProperty(action.link)) {
         action.text = action.text || I18n.t('js.button_' + action.key);
         allowedActions.push(action);
       }
@@ -144,15 +150,39 @@ export class WorkPackageContextMenuHelperService {
     _.each(this.HookService.call('workPackageTableContextMenu'), (action) => {
       if (workPackage.hasOwnProperty(action.link)) {
         let index = action.indexBy ? action.indexBy(allowedActions) : allowedActions.length;
-        allowedActions.splice(index, 0, action)
+        allowedActions.splice(index, 0, action);
       }
     });
 
     return allowedActions;
   }
 
+  private getAllowedParentActions(workPackage:WorkPackageResource) {
+    let actions:WorkPackageAction[] = [];
+
+    // Can only outdent this item if it has ancestors
+    if (this.wpTableIndent.canOutdent(workPackage)) {
+      actions.push({
+        key: 'hierarchy-outdent',
+        icon: 'icon-paragraph-left',
+        text: I18n.t("js.relation_buttons.hierarchy_outdent")
+      });
+    }
+
+    // Can only indent if not first and immediate predecessor is not the parent
+    if (this.wpTableIndent.canIndent(workPackage)) {
+      actions.push({
+        key: 'hierarchy-indent',
+        icon: 'icon-paragraph-right',
+        text: I18n.t("js.relation_buttons.hierarchy_indent")
+      });
+    }
+
+    return actions;
+  }
+
   private getAllowedRelationActions(workPackage:WorkPackageResource, allowSplitScreenActions:boolean) {
-    let allowedActions: WorkPackageAction[] = [];
+    let allowedActions:WorkPackageAction[] = [];
 
     if (workPackage.addRelation && this.wpTableTimeline.isVisible) {
       allowedActions.push({

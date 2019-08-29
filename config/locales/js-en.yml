@@ -508,6 +508,8 @@ en:
       set_parent: "Set parent"
       change_parent: "Change parent"
       remove_parent: "Remove parent"
+      hierarchy_indent: "Indent hierarchy"
+      hierarchy_outdent: "Outdent hierarchy"
       group_by_wp_type: "Group by work package type"
       group_by_relation_type: "Group by relation type"
       add_parent: "Add existing parent"

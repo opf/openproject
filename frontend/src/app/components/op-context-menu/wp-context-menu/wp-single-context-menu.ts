@@ -55,7 +55,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
         break;
 
       default:
-        window.location.href = link;
+        window.location.href = link!;
         break;
     }
   }
