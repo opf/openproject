@@ -33,7 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% OpenProject::Plugins::AuthPlugin.providers.each do |pro| %>
   <%
-    opts = {}
+    opts = { script_name: OpenProject::Configuration.rails_relative_url_root }
 
     if params['back_url']
       opts[:origin] = params['back_url']
