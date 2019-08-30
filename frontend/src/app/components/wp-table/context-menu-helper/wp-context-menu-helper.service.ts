@@ -34,6 +34,7 @@ import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/rou
 import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {WorkPackageViewHierarchyIdentationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service";
+import {WorkPackageViewDisplayRepresentationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 
 export type WorkPackageAction = {
   text:string;
@@ -76,8 +77,9 @@ export class WorkPackageContextMenuHelperService {
 
   constructor(private HookService:HookService,
               private UrlParamsHelper:UrlParamsHelperService,
-              private wpTableTimeline:WorkPackageViewTimelineService,
-              private wpTableIndent:WorkPackageViewHierarchyIdentationService,
+              private wpViewRepresentation:WorkPackageViewDisplayRepresentationService,
+              private wpViewTimeline:WorkPackageViewTimelineService,
+              private wpViewIndent:WorkPackageViewHierarchyIdentationService,
               private PathHelper:PathHelperService) {
   }
 
@@ -160,8 +162,13 @@ export class WorkPackageContextMenuHelperService {
   private getAllowedParentActions(workPackage:WorkPackageResource) {
     let actions:WorkPackageAction[] = [];
 
+    // Do not add these actions unless we're in the table
+    if (!this.wpViewRepresentation.isList) {
+      return [];
+    }
+
     // Can only outdent this item if it has ancestors
-    if (this.wpTableIndent.canOutdent(workPackage)) {
+    if (this.wpViewIndent.canOutdent(workPackage)) {
       actions.push({
         key: 'hierarchy-outdent',
         icon: 'icon-paragraph-left',
@@ -170,7 +177,7 @@ export class WorkPackageContextMenuHelperService {
     }
 
     // Can only indent if not first and immediate predecessor is not the parent
-    if (this.wpTableIndent.canIndent(workPackage)) {
+    if (this.wpViewIndent.canIndent(workPackage)) {
       actions.push({
         key: 'hierarchy-indent',
         icon: 'icon-paragraph-right',
@@ -184,7 +191,7 @@ export class WorkPackageContextMenuHelperService {
   private getAllowedRelationActions(workPackage:WorkPackageResource, allowSplitScreenActions:boolean) {
     let allowedActions:WorkPackageAction[] = [];
 
-    if (workPackage.addRelation && this.wpTableTimeline.isVisible) {
+    if (workPackage.addRelation && this.wpViewTimeline.isVisible) {
       allowedActions.push({
         key: "relation-precedes",
         text: I18n.t("js.relation_buttons.add_predecessor"),

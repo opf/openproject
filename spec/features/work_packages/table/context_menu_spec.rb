@@ -20,7 +20,7 @@ describe 'Work package table context menu', js: true do
 
     # Open context menu
     menu.expect_closed
-    menu.open_for(work_package, list_view)
+    menu.open_for(work_package)
   end
 
   shared_examples_for 'provides a context menu' do
@@ -98,7 +98,7 @@ describe 'Work package table context menu', js: true do
         # Select all WPs
         find('body').send_keys [:control, 'a']
 
-        menu.open_for(work_package, list_view)
+        menu.open_for(work_package)
         menu.expect_options ['Open details view', 'Open fullscreen view',
                              'Bulk edit', 'Bulk copy', 'Bulk change of project', 'Bulk delete']
       end

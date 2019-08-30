@@ -6,41 +6,34 @@ describe 'Work Package table hierarchy and sorting', js: true do
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
+  let(:representation) { ::Components::WorkPackages::DisplayRepresentation.new }
   let(:sort_by) { ::Components::WorkPackages::SortBy.new }
 
   let!(:wp_root) do
     FactoryBot.create :work_package,
                       project: project,
-                      subject: 'Parent',
-                      start_date: Date.today - 10.days,
-                      due_date: Date.today
+                      subject: 'Parent'
   end
 
   let!(:wp_child1) do
     FactoryBot.create :work_package,
                       project: project,
                       parent: wp_root,
-                      subject: 'Child at end',
-                      start_date: Date.today - 2.days,
-                      due_date: Date.today
+                      subject: 'WP child 1'
   end
 
   let!(:wp_child2) do
     FactoryBot.create :work_package,
                       project: project,
                       parent: wp_root,
-                      subject: 'Middle child',
-                      start_date: Date.today - 5.days,
-                      due_date: Date.today - 3.days
+                      subject: 'WP child 2'
   end
 
   let!(:wp_child3) do
     FactoryBot.create :work_package,
                       project: project,
                       parent: wp_root,
-                      subject: 'Child at beginning',
-                      start_date: Date.today - 10.days,
-                      due_date: Date.today - 9.days
+                      subject: 'WP child 3'
   end
 
   before do
@@ -79,5 +72,19 @@ describe 'Work Package table hierarchy and sorting', js: true do
 
     wp_child3.reload
     expect(wp_child3.parent).to eq(wp_child2)
+  end
+
+  it 'does not show indentation context in card view' do
+    wp_table.visit!
+    wp_table.expect_work_package_listed(wp_root, wp_child1, wp_child2, wp_child3)
+
+    representation.switch_to_card_layout
+    expect(page).to have_selector('.wp-card', count: 4)
+
+    # Expect indent-able for none
+    hierarchy.expect_indent(wp_root, indent: false, outdent: false)
+    hierarchy.expect_indent(wp_child1, indent: false, outdent: false)
+    hierarchy.expect_indent(wp_child2, indent: false, outdent: false)
+    hierarchy.expect_indent(wp_child3, indent: false, outdent: false)
   end
 end
