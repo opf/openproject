@@ -29,6 +29,7 @@ en:
   seeders:
     standard:
       demo_data:
+<<<<<<< HEAD
         attribute_help_texts:
           - attribute_name: 'assignee'
             help_text: |
@@ -41,8 +42,22 @@ en:
           - type: :default_type_bug
             description: |
               ### Steps to reproduce
+        global_queries:
+          - name: My cool query
+            status: open
+            timeline: false
+            sort_by: id
+            hidden: true
+            is_public: false
+        type_configuration:
+          - type: :default_type_bug
+            description: |
+              ### Steps to reproduce
 
               ### Actual behavior
+            form_configuration:
+              - group_name: Custom query
+                query_name: My cool query
         groups:
           - name: 'Project Admins'
             projects:

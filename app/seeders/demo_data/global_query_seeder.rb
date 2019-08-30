@@ -29,8 +29,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 module DemoData
   class GlobalQuerySeeder < Seeder
-    def initialize
-    end
+    def initialize; end
 
     def seed_data!
       print '    ↳ Creating global queries'
