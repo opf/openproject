@@ -66,6 +66,15 @@ export class WorkPackageViewDisplayRepresentationService extends WorkPackageQuer
     return this.lastUpdatedState.getValueOr(null);
   }
 
+  public get isList():boolean {
+    const current = this.current
+    return !current || current === wpDisplayListRepresentation;
+  }
+
+  public get isCards():boolean {
+    return this.current === wpDisplayCardRepresentation;
+  }
+
   public setDisplayRepresentation(representation:string) {
     this.update(representation);
   }

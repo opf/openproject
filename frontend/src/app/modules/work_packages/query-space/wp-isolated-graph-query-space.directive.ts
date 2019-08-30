@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Directive, ElementRef, Injector} from '@angular/core';
+import {Directive} from '@angular/core';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {OpTableActionsService} from "core-components/wp-table/table-actions/table-actions.service";
 import {WorkPackageViewRelationColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
@@ -60,6 +60,7 @@ import {PortalCleanupService} from "core-app/modules/fields/display/display-port
 import {TableDragActionsRegistryService} from "core-components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
 import {IsolatedGraphQuerySpace} from "core-app/modules/work_packages/query-space/isolated-graph-query-space";
 import {WorkPackageIsolatedQuerySpaceDirective} from "core-app/modules/work_packages/query-space/wp-isolated-query-space.directive";
+import {WorkPackageViewHierarchyIdentationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service";
 
 export const WpIsolatedGraphQuerySpaceProviders = [
   // Open the isolated space first, order is important here
@@ -83,6 +84,7 @@ export const WpIsolatedGraphQuerySpaceProviders = [
   WorkPackageViewFocusService,
   WorkPackageViewHighlightingService,
   WorkPackageService,
+  WorkPackageViewHierarchyIdentationService,
   WorkPackageRelationsHierarchyService,
   WorkPackageFiltersService,
   WorkPackageContextMenuHelperService,

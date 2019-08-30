@@ -133,7 +133,7 @@ describe 'Moving a work package through Rails view', js: true do
       let(:current_user) { mover }
 
       it 'does allow to move' do
-        context_menu.open_for work_package, false
+        context_menu.open_for work_package
         context_menu.expect_options ['Bulk change of project']
       end
     end
@@ -142,7 +142,7 @@ describe 'Moving a work package through Rails view', js: true do
       let(:current_user) { dev }
 
       it 'does not allow to move' do
-        context_menu.open_for work_package, false
+        context_menu.open_for work_package
         context_menu.expect_no_options ['Bulk change of project']
       end
     end

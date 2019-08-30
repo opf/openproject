@@ -65,11 +65,11 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
         break;
 
       case 'edit':
-        this.editSelectedWorkPackages(link);
+        this.editSelectedWorkPackages(link!);
         break;
 
       case 'copy':
-        this.copySelectedWorkPackages(link);
+        this.copySelectedWorkPackages(link!);
         break;
 
       case 'relation-new-child':
@@ -77,18 +77,18 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
         break;
 
       default:
-        window.location.href = link;
+        window.location.href = link!;
         break;
     }
   }
 
   private deleteSelectedWorkPackages() {
-    var selected = this.getSelectedWorkPackages();
+    let selected = this.getSelectedWorkPackages();
     this.opModalService.show(WpDestroyModal, this.injector, { workPackages: selected });
   }
 
   private editSelectedWorkPackages(link:any) {
-    var selected = this.getSelectedWorkPackages();
+    let selected = this.getSelectedWorkPackages();
 
     if (selected.length > 1) {
       window.location.href = link;
@@ -97,14 +97,14 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
   }
 
   private copySelectedWorkPackages(link:any) {
-    var selected = this.getSelectedWorkPackages();
+    let selected = this.getSelectedWorkPackages();
 
     if (selected.length > 1) {
       window.location.href = link;
       return;
     }
 
-    var params = {
+    let params = {
       copiedFromWorkPackageId: selected[0].id
     };
 

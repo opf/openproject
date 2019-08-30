@@ -32,12 +32,17 @@ module Components
       include Capybara::DSL
       include RSpec::Matchers
 
-      def open_for(work_package, list_view = true)
-        if list_view
-          find(".wp-row-#{work_package.id}-table").right_click
+      def open_for(work_package)
+        # Close
+        find('body').send_keys :escape
+        sleep 0.5
+
+        if page.has_selector?('#wp-view-toggle-button', text: 'Cards')
+          page.find(".wp-card-#{work_package.id}").right_click
         else
-          find(".wp-card-#{work_package.id}").right_click
+          page.find(".wp-row-#{work_package.id}-table").right_click
         end
+
         expect_open
       end
 

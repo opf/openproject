@@ -63,6 +63,7 @@ import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routin
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
 import {WorkPackageCardViewService} from "core-components/wp-card-view/services/wp-card-view.service";
 import {WorkPackageViewDisplayRepresentationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
+import {WorkPackageViewHierarchyIdentationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service";
 
 /**
  * Directive to open a work package query 'space', an isolated injector hierarchy
@@ -96,6 +97,7 @@ import {WorkPackageViewDisplayRepresentationService} from "core-app/modules/work
   WorkPackageViewHighlightingService,
   WorkPackageViewDisplayRepresentationService,
   WorkPackageViewOrderService,
+  WorkPackageViewHierarchyIdentationService,
   CausedUpdatesService,
 
   WorkPackageService,
