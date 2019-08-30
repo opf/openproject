@@ -140,7 +140,12 @@ You are now ready to migrate from MySQL to PostgreSQL. The OpenProject packages 
 ```
 sudo openproject run ./docker/mysql-to-postgres/bin/migrate-mysql-to-postgres
 ```
+Make sure you stopped openproject service, otherwise you will get the following error:
+```
+ERROR:  database "openproject" is being accessed by other users
 
+DETAIL:  There is 1 other session using the database.
+```
 This might take a while depending on current installation size.
 
 ## Optional: Uninstall MySQL
