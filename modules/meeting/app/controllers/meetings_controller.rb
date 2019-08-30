@@ -39,9 +39,7 @@ class MeetingsController < ApplicationController
     tomorrows_meetings_count = scope.from_tomorrow.count
     @page_of_today = 1 + tomorrows_meetings_count / per_page_param
 
-    page = params['page'] ?
-             page_param :
-             @page_of_today
+    page = params['page'] ? page_param : @page_of_today
 
     @meetings = scope.with_users_by_date
                 .page(page)
@@ -78,8 +76,7 @@ class MeetingsController < ApplicationController
     end
   end
 
-  def new
-  end
+  def new; end
 
   current_menu_item :new do
     :meetings
@@ -98,8 +95,7 @@ class MeetingsController < ApplicationController
     redirect_to action: 'index', project_id: @project
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     @meeting.participants_attributes = @converted_params.delete(:participants_attributes)
@@ -155,7 +151,8 @@ class MeetingsController < ApplicationController
     @converted_params[:participants_attributes].each { |p| p.reverse_merge! attended: false, invited: false }
   end
 
-private
+  private
+
   def meeting_params
     params.require(:meeting).permit(:title, :location, :start_time, :duration, :start_date, :start_time_hour,
       participants_attributes: [:email, :name, :invited, :attended, :user, :user_id, :meeting, :id])

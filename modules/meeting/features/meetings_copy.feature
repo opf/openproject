@@ -47,15 +47,6 @@ Feature: Copy meetings
               | duration   | 1.5                 |
               | start_time | 2013-03-27 18:55:00 |
 
-  Scenario: Navigate to a meeting page with permission to create meetings
-      Given the role "user" may have the following rights:
-            | view_meetings   |
-            | create_meetings |
-       When I am already logged in as "alice"
-        And I go to the Meetings page for the project called "dingens"
-        And I click on "Alices Meeting"
-       Then I should see "Copy" within ".meeting--main-toolbar"
-
   Scenario: Navigate to a meeting copy page
       Given the role "user" may have the following rights:
             | view_meetings   |
@@ -63,7 +54,8 @@ Feature: Copy meetings
        When I am already logged in as "alice"
         And I go to the Meetings page for the project called "dingens"
         And I click on "Alices Meeting"
-        And I click on "Copy"
+       Then I should see "Copy" within ".meeting--main-toolbar"
+       When I click on "Copy"
        Then the "meeting[title]" field should contain "Alices Meeting"
         And the "meeting[location]" field should contain "CZI"
         And the "meeting[duration]" field should contain "1.5"

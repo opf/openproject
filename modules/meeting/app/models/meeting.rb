@@ -47,7 +47,7 @@ class Meeting < ActiveRecord::Base
                      date_column: "#{table_name}.created_at"
 
   acts_as_journalized
-  acts_as_event title: Proc.new {|o|
+  acts_as_event title: Proc.new { |o|
     "#{l :label_meeting}: #{o.title} \
                  #{format_date o.start_time} \
                  #{format_time o.start_time, false}-#{format_time o.end_time, false})"
@@ -138,9 +138,13 @@ class Meeting < ActiveRecord::Base
   def copy(attrs)
     copy = dup
 
+    # Called simply to initialize the value
+    copy.start_date
+    copy.start_time_hour
+
     copy.author = attrs.delete(:author)
     copy.attributes = attrs
-    copy.send(:set_initial_values)
+    copy.set_initial_values
 
     copy.participants.clear
     copy.participants_attributes = participants.collect(&:copy_attributes)
