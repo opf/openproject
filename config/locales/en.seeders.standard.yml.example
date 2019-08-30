@@ -29,6 +29,14 @@ en:
   seeders:
     standard:
       demo_data:
+        attribute_help_texts:
+          - attribute_name: 'assignee'
+            help_text: |
+              ### Tasks of an assignee
+
+              * Doing the job
+              * Tracking the time
+              * Update ticket status
         groups:
           - name: 'Project Admins'
             projects:
