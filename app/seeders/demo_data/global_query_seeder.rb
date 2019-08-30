@@ -1,5 +1,7 @@
 #-- encoding: UTF-8
+
 #-- copyright
+
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
@@ -25,17 +27,25 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
-class DemoDataSeeder < CompositeSeeder
-  def data_seeder_classes
-    [
-      DemoData::GroupSeeder,
-      DemoData::AttributeHelpTextSeeder,
-      DemoData::GlobalQuerySeeder,
-      DemoData::ProjectSeeder
-    ]
-  end
+module DemoData
+  class GlobalQuerySeeder < Seeder
+    def initialize
+    end
 
-  def namespace
-    'DemoData'
+    def seed_data!
+      print '    ↳ Creating global queries'
+
+      seed_global_queries
+
+      puts
+    end
+
+    private
+
+    def seed_global_queries
+      Array(demo_data_for('global_queries')).each do |config|
+        DemoData::QueryBuilder.new(config, nil).create!
+      end
+    end
   end
 end
