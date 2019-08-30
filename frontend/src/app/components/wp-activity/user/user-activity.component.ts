@@ -47,6 +47,7 @@ import {CommentService} from "core-components/wp-activity/comment-service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageCommentFieldHandler} from "core-components/work-packages/work-package-comment/work-package-comment-field-handler";
 import {ViewPointOriginal} from "core-app/modules/bcf/bcf-wp-single-view/bcf-wp-single-view.component";
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'user-activity',
@@ -88,6 +89,7 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
 
   constructor(readonly elementRef:ElementRef,
               readonly injector:Injector,
+              readonly sanitization:DomSanitizer,
               readonly PathHelper:PathHelperService,
               readonly wpLinkedActivities:WorkPackagesActivityService,
               readonly commentService:CommentService,
@@ -146,7 +148,7 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   }
 
   public get postedComment() {
-    return this.activity.comment.html;
+    return this.sanitization.bypassSecurityTrustHtml(this.activity.comment.html);
   }
 
   public ngAfterViewInit() {

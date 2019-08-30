@@ -68,6 +68,12 @@ module Pages
       raise NotImplementedError
     end
 
+    def expect_comment(text)
+      retry_block do
+        page.find('.user-comment .message', text: text)
+      end
+    end
+
     def expect_hidden_field(attribute)
       page.within(container) do
         expect(page).to have_no_selector(".inplace-edit.#{attribute}")
