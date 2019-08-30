@@ -7,7 +7,7 @@ fil:
     recommended: 'recommended'
     not_recommended: 'not recommended'
     no_viewpoints: 'No viewpoints'
-    experimental_badge: "Experimental"
+    new_badge: "Bago"
     exceptions:
       file_invalid: "BCF file invalid"
     x_bcf_issues:
@@ -58,3 +58,5 @@ fil:
   attributes:
     bcf_thumbnail: "BCF snapshot"
   project_module_bcf: "BCF"
+  permission_view_linked_issues: "View BCF issues"
+  permission_manage_bcf: "Import and manage BCF issues"

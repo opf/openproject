@@ -7,7 +7,7 @@ pt-BR:
     recommended: 'recomendado'
     not_recommended: 'não recomendado'
     no_viewpoints: 'Sem pontos de vista'
-    experimental_badge: "Experimental"
+    new_badge: "Novo"
     exceptions:
       file_invalid: "Arquivo BCF inválido"
     x_bcf_issues:
@@ -58,3 +58,5 @@ pt-BR:
   attributes:
     bcf_thumbnail: "Instantâneo BCF"
   project_module_bcf: "BCF"
+  permission_view_linked_issues: "View BCF issues"
+  permission_manage_bcf: "Import and manage BCF issues"

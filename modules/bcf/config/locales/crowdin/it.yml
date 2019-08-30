@@ -7,7 +7,7 @@ it:
     recommended: 'consigliato'
     not_recommended: 'non consigliato'
     no_viewpoints: 'Nessun punto di vista'
-    experimental_badge: "Sperimentale"
+    new_badge: "Nuovo"
     exceptions:
       file_invalid: "File BCF non valido"
     x_bcf_issues:
@@ -58,3 +58,5 @@ it:
   attributes:
     bcf_thumbnail: "BCF snapshot"
   project_module_bcf: "BCF"
+  permission_view_linked_issues: "View BCF issues"
+  permission_manage_bcf: "Import and manage BCF issues"

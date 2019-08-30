@@ -7,7 +7,7 @@ tr:
     recommended: 'Tavsiye edilen'
     not_recommended: 'tavsiye edilmez'
     no_viewpoints: 'Bakış açısı yok'
-    experimental_badge: "Deneysel"
+    new_badge: "Yeni"
     exceptions:
       file_invalid: "BCF dosyası geçersiz"
     x_bcf_issues:
@@ -58,3 +58,5 @@ tr:
   attributes:
     bcf_thumbnail: "BCF görüntüsü"
   project_module_bcf: "BCF"
+  permission_view_linked_issues: "View BCF issues"
+  permission_manage_bcf: "Import and manage BCF issues"

@@ -7,7 +7,7 @@ ru:
     recommended: 'рекомендуется'
     not_recommended: 'не рекомендуется'
     no_viewpoints: 'Нет точек просмотра'
-    experimental_badge: "Экспериментально"
+    new_badge: "Новое"
     exceptions:
       file_invalid: "Неверный файл BCF"
     x_bcf_issues:
@@ -60,3 +60,5 @@ ru:
   attributes:
     bcf_thumbnail: "Снимок BCF"
   project_module_bcf: "BCF"
+  permission_view_linked_issues: "View BCF issues"
+  permission_manage_bcf: "Import and manage BCF issues"
