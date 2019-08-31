@@ -445,6 +445,8 @@ ar:
       set_parent: "Set parent"
       change_parent: "تغيير الوالد"
       remove_parent: "إزالة والد"
+      hierarchy_indent: "Indent hierarchy"
+      hierarchy_outdent: "Outdent hierarchy"
       group_by_wp_type: "تجميع حسب نوع حزمة العمل"
       group_by_relation_type: "تصنيف حسب نوع العلاقة"
       add_parent: "إضافة والد موجود مسبقًا"

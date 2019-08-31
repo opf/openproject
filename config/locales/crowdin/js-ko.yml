@@ -445,6 +445,8 @@ ko:
       set_parent: "부모 설정"
       change_parent: "부모 변경"
       remove_parent: "부모 제거"
+      hierarchy_indent: "Indent hierarchy"
+      hierarchy_outdent: "Outdent hierarchy"
       group_by_wp_type: "작업 패키지 유형별 그룹화"
       group_by_relation_type: "관계 유형별 그룹화"
       add_parent: "기존 부모 추가"

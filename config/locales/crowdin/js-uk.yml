@@ -445,6 +445,8 @@ uk:
       set_parent: "Встановити батьківську"
       change_parent: "Змінити батьківський об'єкт"
       remove_parent: "Видалити джерела"
+      hierarchy_indent: "Indent hierarchy"
+      hierarchy_outdent: "Outdent hierarchy"
       group_by_wp_type: "Група за типом робочого пакета"
       group_by_relation_type: "Група за типом відношення"
       add_parent: "Додати існуюче джерело"

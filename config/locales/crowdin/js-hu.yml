@@ -444,6 +444,8 @@ hu:
       set_parent: "Set parent"
       change_parent: "Szülő módosítása"
       remove_parent: "Szülő eltávolítása"
+      hierarchy_indent: "Indent hierarchy"
+      hierarchy_outdent: "Outdent hierarchy"
       group_by_wp_type: "Rendezés feladatcsoport típusai szerint"
       group_by_relation_type: "Rendezés kapcsolati típusok szerint"
       add_parent: "Meglévő szülő kapcsolat hozzáadása"

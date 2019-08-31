@@ -445,6 +445,8 @@ sk:
       set_parent: "Nastaviť nadradenú položku"
       change_parent: "Zmeniť nadradený objekt"
       remove_parent: "Odstrániť nadradený"
+      hierarchy_indent: "Indent hierarchy"
+      hierarchy_outdent: "Outdent hierarchy"
       group_by_wp_type: "Zoskupiť podľa typu pracovného balíčka"
       group_by_relation_type: "Zoskupiť podľa typu vzťahu"
       add_parent: "Pridať existujúci nadradený"

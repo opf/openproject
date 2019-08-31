@@ -445,6 +445,8 @@ pl:
       set_parent: "Ustaw element nadrzędny"
       change_parent: "Zmień nadrzędny"
       remove_parent: "Usuń nadrzędny"
+      hierarchy_indent: "Indent hierarchy"
+      hierarchy_outdent: "Outdent hierarchy"
       group_by_wp_type: "Grupuj wg typu zadań"
       group_by_relation_type: "Grupuj wg typu relacji"
       add_parent: "Dodaj do istniejącego nadrzędnego"

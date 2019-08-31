@@ -444,6 +444,8 @@ sv:
       set_parent: "Set parent"
       change_parent: "Ändra överordnad"
       remove_parent: "Ta bort förälder"
+      hierarchy_indent: "Indent hierarchy"
+      hierarchy_outdent: "Outdent hierarchy"
       group_by_wp_type: "Gruppera efter arbetspakettyp"
       group_by_relation_type: "Gruppera efter relationstyp"
       add_parent: "Lägga till befintlig förälder"

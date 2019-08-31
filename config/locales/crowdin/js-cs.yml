@@ -445,6 +445,8 @@ cs:
       set_parent: "Nastavit nadřazený"
       change_parent: "Změnit nadřazený"
       remove_parent: "Odstranit nadřazený"
+      hierarchy_indent: "Indent hierarchy"
+      hierarchy_outdent: "Outdent hierarchy"
       group_by_wp_type: "Seskupit podle typu pracovního balíčku"
       group_by_relation_type: "Seskupit podle typu vztahu"
       add_parent: "Přidat existujícího rodiče"

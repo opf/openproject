@@ -445,6 +445,8 @@ fil:
       set_parent: "Set parent"
       change_parent: "Palitan ng magulang"
       remove_parent: "Alisin ang magulang"
+      hierarchy_indent: "Indent hierarchy"
+      hierarchy_outdent: "Outdent hierarchy"
       group_by_wp_type: "Grupo sa pamamagitan ng uri ng work package"
       group_by_relation_type: "Grupo sa pamamagitan ng uri ng pakikipag-ugnayan"
       add_parent: "Magdagdag ng umiiral na magulang"

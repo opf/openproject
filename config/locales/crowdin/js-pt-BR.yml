@@ -444,6 +444,8 @@ pt-BR:
       set_parent: "Definir pai"
       change_parent: "Alterar pai"
       remove_parent: "Remover pai"
+      hierarchy_indent: "Indent hierarchy"
+      hierarchy_outdent: "Outdent hierarchy"
       group_by_wp_type: "Agrupar por tipo de pacote de trabalho"
       group_by_relation_type: "Agrupar por tipo de relação"
       add_parent: "Adicionar pai existente"

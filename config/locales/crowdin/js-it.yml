@@ -445,6 +445,8 @@ it:
       set_parent: "Imposta genitore"
       change_parent: "Cambia genitore"
       remove_parent: "Rimuovi genitore"
+      hierarchy_indent: "Indent hierarchy"
+      hierarchy_outdent: "Outdent hierarchy"
       group_by_wp_type: "Raggruppa per tipo di macro-attività"
       group_by_relation_type: "Raggruppa per tipo di relazione"
       add_parent: "Aggiungi genitore esistente"

@@ -445,6 +445,8 @@ nl:
       set_parent: "Stel bovenliggend in"
       change_parent: "Wijzig bovenliggende pagina"
       remove_parent: "Verwijder bovenliggende map"
+      hierarchy_indent: "Indent hierarchy"
+      hierarchy_outdent: "Outdent hierarchy"
       group_by_wp_type: "Groep per werkpakkettype"
       group_by_relation_type: "Groep per relatietype"
       add_parent: "Voeg bestaande ouder toe"

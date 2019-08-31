@@ -448,6 +448,8 @@ ja:
       set_parent: "親を設定"
       change_parent: "親タスクの変更"
       remove_parent: "親関係を削除"
+      hierarchy_indent: "Indent hierarchy"
+      hierarchy_outdent: "Outdent hierarchy"
       group_by_wp_type: "ワークパッケージタイプのグループ"
       group_by_relation_type: "関係タイプのグループ"
       add_parent: "既存の親関係を追加する"

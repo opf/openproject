@@ -445,6 +445,8 @@ fi:
       set_parent: "Set parent"
       change_parent: "Vaihda pääkohdetta"
       remove_parent: "Poista ylätaso"
+      hierarchy_indent: "Indent hierarchy"
+      hierarchy_outdent: "Outdent hierarchy"
       group_by_wp_type: "Ryhmittele työpaketin tyypin mukaan"
       group_by_relation_type: "Ryhmittele suhteen tyypin mukaan"
       add_parent: "Lisää olemassaoleva ylätaso"

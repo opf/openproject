@@ -445,6 +445,8 @@ fr:
       set_parent: "Définir parent"
       change_parent: "Changer le parent"
       remove_parent: "Supprimer le parent"
+      hierarchy_indent: "Indent hierarchy"
+      hierarchy_outdent: "Outdent hierarchy"
       group_by_wp_type: "Grouper par type de lot de travaux"
       group_by_relation_type: "Grouper par type de relation"
       add_parent: "Ajouter un parent existant"

@@ -445,6 +445,8 @@ es:
       set_parent: "Establecer elemento primario"
       change_parent: "Cambiar padre"
       remove_parent: "Eliminar padre"
+      hierarchy_indent: "Indent hierarchy"
+      hierarchy_outdent: "Outdent hierarchy"
       group_by_wp_type: "Agrupar por tipo de paquete de trabajo"
       group_by_relation_type: "Grupo por tipo de relación"
       add_parent: "Añadir padre existente"

@@ -444,6 +444,8 @@ zh-TW:
       set_parent: "設置父級"
       change_parent: "改變上層"
       remove_parent: "移除上一層"
+      hierarchy_indent: "Indent hierarchy"
+      hierarchy_outdent: "Outdent hierarchy"
       group_by_wp_type: "按工作包類型分組"
       group_by_relation_type: "按關聯類型分組"
       add_parent: "增加現有的上一層"

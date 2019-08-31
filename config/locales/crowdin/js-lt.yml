@@ -445,6 +445,8 @@ lt:
       set_parent: "Priskirti tėvą"
       change_parent: "Keisti pirmtaką"
       remove_parent: "Pašalinti tėvą"
+      hierarchy_indent: "Indent hierarchy"
+      hierarchy_outdent: "Outdent hierarchy"
       group_by_wp_type: "Grupuoti pagal darbų paketo tipą"
       group_by_relation_type: "Grupuoti pagal ryšio tipą"
       add_parent: "Pridėti jau esamą tėvą"

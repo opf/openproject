@@ -444,6 +444,8 @@ de:
       set_parent: "Übergeordnetes Arbeitspaket festlegen"
       change_parent: "Übergeordnetes Arbeitspaket ändern"
       remove_parent: "Übergeordnetes Arbeitspaket entfernen"
+      hierarchy_indent: "Indent hierarchy"
+      hierarchy_outdent: "Outdent hierarchy"
       group_by_wp_type: "Nach Arbeitspaket-Typ gruppieren"
       group_by_relation_type: "Nach Relations-Typ gruppieren"
       add_parent: "Übergeordnetes Arbeitspaket setzen"
