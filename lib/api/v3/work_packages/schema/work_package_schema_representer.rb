@@ -302,11 +302,12 @@ module API
           end
 
           def form_config_attribute_representation(group)
-            cache_keys = ['wp_schema_attribute_group', group.key,
+            cache_keys = ['wp_schema_attribute_group',
+                          group.key,
                           I18n.locale,
                           represented.project,
                           represented.type,
-                          represented.available_custom_fields]
+                          represented.available_custom_fields.sort_by(&:id)]
 
             OpenProject::Cache.fetch(OpenProject::Cache::CacheKey.expand(cache_keys.flatten.compact)) do
               ::JSON::parse(::API::V3::WorkPackages::Schema::FormConfigurations::AttributeRepresenter
