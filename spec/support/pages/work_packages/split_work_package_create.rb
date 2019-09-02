@@ -31,13 +31,10 @@ require 'support/pages/work_packages/abstract_work_package_create'
 
 module Pages
   class SplitWorkPackageCreate < AbstractWorkPackageCreate
-    attr_reader :project
-
     def initialize(project:, original_work_package: nil, parent_work_package: nil)
-      @project = project
-
       super(original_work_package: original_work_package,
-            parent_work_package: parent_work_package)
+            parent_work_package: parent_work_package,
+            project: project)
     end
 
     def container

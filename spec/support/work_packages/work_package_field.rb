@@ -93,7 +93,8 @@ class WorkPackageField
   end
 
   def expect_inactive!
-    expect(field_container).to have_no_selector("#{field_type}")
+    expect(field_container).to have_selector(display_selector, wait: 10)
+    expect(field_container).to have_no_selector(field_type)
   end
 
   def expect_enabled!

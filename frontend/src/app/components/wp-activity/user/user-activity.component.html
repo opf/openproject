@@ -43,7 +43,7 @@
   <img *ngIf="bcfSnapshot"
        [src]="PathHelper.attachmentDownloadPath(bcfSnapshot.id, bcfSnapshot.file_name)"
        class="activity-thumbnail">
-  <div class="user-comment" [ngClass]="{ 'wiki': !inEdit }">
+  <div class="user-comment" >
     <div *ngIf="inEdit" class="inplace-edit">
       <div class="user-comment--form inplace-edit--write-value">
         <edit-form-portal [changesetInput]="changeset"
@@ -52,9 +52,12 @@
         </edit-form-portal>
       </div>
     </div>
-    <span *ngIf="!inEdit && (isComment || isBcfComment)"
+    <div *ngIf="!inEdit && (isComment || isBcfComment)"
           class="message"
-          [innerHtml]="postedComment"></span>
+          [ngClass]="{ 'wiki': !inEdit }"
+          [innerHtml]="postedComment">
+
+    </div>
     <ul class="work-package-details-activities-messages" *ngIf="!isInitial">
       <li *ngFor="let detail of details">
         <span class="message" [innerHtml]="detail"></span>

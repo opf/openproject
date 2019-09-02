@@ -27,6 +27,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+require 'task_list/filter'
 
 module OpenProject::TextFormatting::Formats::Markdown
   class Formatter < OpenProject::TextFormatting::Formats::BaseFormatter
@@ -53,6 +54,7 @@ module OpenProject::TextFormatting::Formats::Markdown
       [
         :markdown,
         :sanitization,
+        ::TaskList::Filter,
         :table_of_contents,
         :macro,
         :pattern_matcher,
