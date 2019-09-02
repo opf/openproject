@@ -27,13 +27,18 @@
 //++
 
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+
 import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
 import {
   ErrorResource,
   v3ErrorIdentifierMultipleErrors
 } from 'core-app/modules/hal/resources/error-resource';
 
-export class FormResource extends HalResource {
+export interface FormResourceLinks<T = HalResource> {
+  commit(payload:any):Promise<T>;
+}
+
+export class FormResource<T = HalResource> extends HalResource {
 
   public schema:SchemaResource;
   public validationErrors:{ [attribute:string]:ErrorResource };
@@ -58,3 +63,5 @@ export class FormResource extends HalResource {
     return resource;
   }
 }
+
+export interface FormResource extends FormResourceLinks {}

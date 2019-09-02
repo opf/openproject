@@ -54,8 +54,6 @@ export class WorkPackageStatusButtonComponent implements OnInit, OnDestroy {
 
   constructor(readonly I18n:I18nService,
               readonly cdRef:ChangeDetectorRef,
-              readonly wpCacheService:WorkPackageCacheService,
-              readonly schemaCacheService:SchemaCacheService,
               @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService) {
   }
 

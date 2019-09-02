@@ -56,18 +56,12 @@ export class WorkPackageChangeset extends EditChangeset<WorkPackageResource> {
   public wpActivity:WorkPackagesActivityService = this.injector.get(WorkPackagesActivityService);
   public halResourceService:HalResourceService = this.injector.get(HalResourceService);
 
-  // The changeset to be applied to the work package
-  // private changes:{ [attribute:string]:any } = {};
   public inFlight:boolean = false;
-
-  // The current editing resource
-  public editingResource:WorkPackageResource|null;
 
   private wpFormPromise:Promise<FormResource>|null;
 
   public reset(key:string) {
     delete this.changes[key];
-    this.buildResource();
   }
 
   public isChanged(attribute:string) {
@@ -78,6 +72,7 @@ export class WorkPackageChangeset extends EditChangeset<WorkPackageResource> {
   public clear() {
     this.changes = {};
     this.resetForm();
+    this.buildResource();
   }
 
   /**
@@ -90,7 +85,7 @@ export class WorkPackageChangeset extends EditChangeset<WorkPackageResource> {
     });
   }
 
-  public resetForm() {
+  private resetForm() {
     this.form = null;
   }
 
@@ -116,7 +111,7 @@ export class WorkPackageChangeset extends EditChangeset<WorkPackageResource> {
   /**
    * Update the form resource from the API.
    */
-  public updateForm():Promise<FormResource> {
+  public updateForm():Promise<FormResource<WorkPackageResource>> {
     let payload = this.buildPayloadFromChanges();
 
     if (!this.wpFormPromise) {
@@ -124,7 +119,6 @@ export class WorkPackageChangeset extends EditChangeset<WorkPackageResource> {
         .update(payload)
         .then((form:FormResource) => {
           this.form = form;
-          this.rebuildDefaults(form.payload);
 
           this.buildResource();
 
@@ -180,12 +174,11 @@ export class WorkPackageChangeset extends EditChangeset<WorkPackageResource> {
                 if (this.resource.parent) {
                   this.wpCacheService.loadWorkPackage(this.resource.parent.id.toString(), true);
                 }
-                this.editingResource = null;
                 this.clear();
                 resolve(this.resource);
               });
             })
-            .catch(error => {
+            .catch((error:any) => {
               // Update the resource anyway
               this.buildResource();
               reject(error);
@@ -201,27 +194,12 @@ export class WorkPackageChangeset extends EditChangeset<WorkPackageResource> {
   }
 
   /**
-   * Rebuild default attributes we know might change
-   * Will only apply for new work packages.
-   */
-  private rebuildDefaults(payload:HalResource) {
-    if (!this.resource.isNew) {
-      return;
-    }
-
-    // Take over the description from the form
-    // Either it's the same as our changeset or it was set by
-    // a default type value.
-    this.setValue('description', payload.description);
-  }
-
-  /**
    * Merge the current changes into the payload resource.
    *
    * @param {FormResource} form
    * @return {any}
    */
-  private mergeWithPayload(plainPayload:any) {
+  private applyChanges(plainPayload:any) {
     // Fall back to the last known state of the work package should the form not be loaded.
     let reference = this.resource.$source;
     if (this.form) {
@@ -269,12 +247,17 @@ export class WorkPackageChangeset extends EditChangeset<WorkPackageResource> {
         .attachments
         .elements
         .map((a:HalResource) => { return { href: a.href }; });
+
+      // Explicitly delete the description if it was not set by the user.
+      // if it was set by the user, #applyChanges will set it again.
+      // Otherwise, the backend will set it for us.
+      delete payload.description;
     } else {
       // Otherwise, simply use the bare minimum, which is the lock version.
       payload = this.minimalPayload;
     }
 
-    return this.mergeWithPayload(payload);
+    return this.applyChanges(payload);
   }
 
   private get minimalPayload() {
@@ -301,10 +284,10 @@ export class WorkPackageChangeset extends EditChangeset<WorkPackageResource> {
     }
 
     if (isArray && isArrayType) {
-      var links:{ href:string }[] = [];
+      let links:{ href:string }[] = [];
 
       if (val) {
-        var elements = (val.forEach && val) || val.elements;
+        let elements = (val.forEach && val) || val.elements;
 
         elements.forEach((link:{ href:string }) => {
           if (link.href) {
@@ -318,15 +301,6 @@ export class WorkPackageChangeset extends EditChangeset<WorkPackageResource> {
       return {href: _.get(val, 'href', null)};
     }
   }
-
-  /**
-   * Get the best schema currently available, either the default WP schema (must exist).
-   * If loaded, return the form schema, which provides better information on writable status
-   * and contains available values.
-   */
-  //public get schema():SchemaResource {
-  //  return (this.form || this.resource).schema;
-  //}
 
   /**
    * Check whether the given attribute is writable.
@@ -352,18 +326,45 @@ export class WorkPackageChangeset extends EditChangeset<WorkPackageResource> {
   }
 
   private buildResource() {
-    if (this.empty) {
-      this.editingResource = null;
-      this.wpEditing.updateValue(this.resource.id!, this);
+    let payload = this.sourceFromResourceAndForm();
+
+    if (!payload) {
       return;
     }
 
-    let payload:any = { ... this.resource.$source };
+    const resource = this.halResourceService.createHalResourceOfType('WorkPackage', this.applyChanges(payload));
 
-    const resource = this.halResourceService.createHalResourceOfType('WorkPackage', this.mergeWithPayload(payload));
+    if (resource.isNew && this.form) {
+      resource.initializeNewResource(this.form);
+    }
 
+    if (resource.isNew) {
+      resource.attachments = this.resource.attachments;
+    }
     resource.overriddenSchema = this.schema;
-    this.editingResource = (resource as WorkPackageResource);
+
+    resource.__initialized_at = this.resource.__initialized_at;
+
+    this.resource = (resource as WorkPackageResource);
     this.wpEditing.updateValue(this.resource.id!, this);
+  }
+
+  /**
+   * Constructs the source from a combination of the resource
+   * and the form payload. The payload takes precedences.
+   * That way, values, that stem from the backend take precedence.
+   */
+  private sourceFromResourceAndForm() {
+    if (!this.wpCacheService.state(this.resource.id!).value) {
+      return null;
+    }
+    let payload =  _.merge({},
+                           this.wpCacheService.state(this.resource.id!).value!.$source);
+
+    if (this.form) {
+      _.merge(payload, this.form.payload.$source);
+    }
+
+    return payload;
   }
 }

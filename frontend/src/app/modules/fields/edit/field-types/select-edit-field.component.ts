@@ -160,13 +160,13 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   public onOpen() {
     setTimeout(() => {
       jQuery(this.hiddenOverflowContainer).addClass('-hidden-overflow');
-    }, 1000)
+    }, 1000);
   }
 
   public onClose() {
     setTimeout(() => {
       jQuery(this.hiddenOverflowContainer).removeClass('-hidden-overflow');
-    }, 1000)
+    }, 1000);
   }
 
   public onChange(value:HalResource) {

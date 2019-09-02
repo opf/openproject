@@ -25,7 +25,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, OnInit, ViewChild} from "@angular/core";
+import {Component, OnInit, ViewChild, ChangeDetectionStrategy} from "@angular/core";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 import {OpCkeditorComponent} from "core-app/modules/common/ckeditor/op-ckeditor.component";
@@ -53,7 +53,8 @@ export const formattableFieldTemplate = `
 `;
 
 @Component({
-  template: formattableFieldTemplate
+  template: formattableFieldTemplate,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FormattableEditFieldComponent extends EditFieldComponent implements OnInit {
   public readonly field = this;
@@ -94,7 +95,11 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   }
 
   public onContentChange(value:string) {
-    this.rawValue = value;
+    // Have the guard clause to avoid the text being set
+    // in the changeset when no actual change has taken place.
+    if (this.rawValue !== value) {
+      this.rawValue = value;
+    }
   }
 
   public handleUserSubmit() {
@@ -125,6 +130,8 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   public reset() {
     if (this.editor && this.editor.initialized) {
       this.editor.content = this.rawValue;
+
+      this.cdRef.markForCheck();
     }
   }
 
