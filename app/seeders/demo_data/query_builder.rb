@@ -118,6 +118,7 @@ module DemoData
       set_status_filter! filters
       set_version_filter! filters
       set_type_filter! filters
+      set_parent_filter! filters
 
       filters
     end
@@ -146,6 +147,15 @@ module DemoData
         filters[:type_id] = {
           operator: "=",
           values: types.map(&:id).map(&:to_s)
+        }
+      end
+    end
+
+    def set_parent_filter!(filters)
+      if parent_filter_value = config[:parent].presence
+        filters[:parent] = {
+          operator: "=",
+          values: [parent_filter_value]
         }
       end
     end
