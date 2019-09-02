@@ -154,7 +154,7 @@ module Type::Attributes
   end
 
   ##
-  # Get all applicale work package attributes
+  # Get all applicable work package attributes
   def work_package_attributes(merge_date: true)
     all_attributes = self.class.all_work_package_form_attributes(merge_date: merge_date)
 
