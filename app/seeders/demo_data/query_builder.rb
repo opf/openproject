@@ -49,10 +49,10 @@ module DemoData
 
     def base_attributes
       {
-        project: project,
         name: config[:name],
         user: User.admin.first,
-        is_public: true,
+        is_public: config[:is_public] != false,
+        hidden: config[:hidden] == true,
         show_hierarchies: config[:hierarchy] == true,
         timeline_visible: config[:timeline] == true
       }
@@ -61,6 +61,7 @@ module DemoData
     def create_query
       attr = base_attributes
 
+      set_project! attr
       set_columns! attr
       set_sort_by! attr
       set_group_by! attr
@@ -79,6 +80,10 @@ module DemoData
         name: SecureRandom.uuid,
         title: query.name
       )
+    end
+
+    def set_project!(attr)
+      attr[:project] = project unless project.nil?
     end
 
     def set_columns!(attr)
@@ -113,6 +118,7 @@ module DemoData
       set_status_filter! filters
       set_version_filter! filters
       set_type_filter! filters
+      set_parent_filter! filters
 
       filters
     end
@@ -141,6 +147,15 @@ module DemoData
         filters[:type_id] = {
           operator: "=",
           values: types.map(&:id).map(&:to_s)
+        }
+      end
+    end
+
+    def set_parent_filter!(filters)
+      if parent_filter_value = config[:parent].presence
+        filters[:parent] = {
+          operator: "=",
+          values: [parent_filter_value]
         }
       end
     end

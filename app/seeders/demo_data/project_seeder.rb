@@ -69,6 +69,9 @@ module DemoData
       puts ' ↳ Assign groups to projects'
       set_groups
 
+      puts ' ↳ Update form configuration with global queries'
+      set_form_configuration
+
       puts ' ↳ Updating settings'
       seed_settings
     end
@@ -126,6 +129,12 @@ module DemoData
 
     def set_groups
       DemoData::GroupSeeder.new.add_projects_to_groups
+    end
+
+    def set_form_configuration
+      Type.all.each do |type|
+        BasicData::TypeSeeder.new.set_attribute_groups_for_type(type)
+      end
     end
 
     def set_types(project, key)
