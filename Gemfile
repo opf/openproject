@@ -34,8 +34,8 @@ gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-import', '~> 0.28.1'
 gem 'activerecord-session_store', '~> 1.1.0'
-gem 'rails', '~> 5.2.2.1'
-gem 'responders', '~> 2.4'
+gem 'rails', git: 'https://github.com/rails/rails', ref: '6-0-stable'
+gem 'responders', '~> 3.0'
 
 gem 'rdoc', '>= 2.4.2'
 
@@ -50,7 +50,8 @@ gem 'warden-basic_auth', '~> 0.2.1'
 
 gem 'will_paginate', '~> 3.1.7'
 
-gem 'friendly_id', '~> 5.2.1'
+# Replace once friendly_id release supports rails 6
+gem 'friendly_id', git: 'https://github.com/norman/friendly_id', ref: '67422c04e1bfed4207b2a04826bc67ec0e231ce7'
 
 gem 'acts_as_list', '~> 0.9.9'
 gem 'acts_as_tree', '~> 2.8.0'
@@ -107,7 +108,7 @@ gem 'multi_json', '~> 1.13.1'
 gem 'oj', '~> 3.7.0'
 
 gem 'daemons'
-gem 'delayed_job_active_record', '~> 4.1.1'
+gem 'delayed_job_active_record', '~> 4.1.4'
 
 gem 'rack-protection', '~> 2.0.0'
 
@@ -177,7 +178,7 @@ gem 'aws-sdk-core', '~> 3.46.0'
 # File upload via fog + screenshots on travis
 gem 'aws-sdk-s3', '~> 1.30.1'
 
-gem 'openproject-token', '~> 1.0.1'
+gem 'openproject-token', '~> 1.0.2'
 
 gem 'plaintext', '~> 0.3.2'
 
@@ -202,7 +203,7 @@ group :test do
   gem 'test-prof', '~> 0.7.3'
 
   gem 'cucumber', '~> 3.1.0'
-  gem 'cucumber-rails', '~> 1.6.0', require: false
+  gem 'cucumber-rails', '~> 1.8.0', require: false
   gem 'database_cleaner', '~> 1.6'
   gem 'rack_session_access'
   gem 'rspec', '~> 3.8.0'

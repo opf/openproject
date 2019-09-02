@@ -79,7 +79,7 @@ shared_examples_for 'project contract' do
     let(:project_identifier) { nil }
 
     it 'is invalid' do
-      expect_valid(false, identifier: %i(blank too_short))
+      expect_valid(false, identifier: %i(blank))
     end
   end
 
