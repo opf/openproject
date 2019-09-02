@@ -29,7 +29,6 @@ en:
   seeders:
     standard:
       demo_data:
-<<<<<<< HEAD
         attribute_help_texts:
           - attribute_name: 'assignee'
             help_text: |
