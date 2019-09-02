@@ -9,11 +9,11 @@ keywords: agile boards
 
 XX
 
-| Feature                                                      | Documentation for |
-| ------------------------------------------------------------ | ----------------- |
-| [Project concept and initiation](Project concept and initiation) |                   |
-|                                                              |                   |
-|                                                              |                   |
-|                                                              |                   |
-|                                                              |                   |
+| Feature | Documentation for |
+| ------- | ----------------- |
+|         |                   |
+|         |                   |
+|         |                   |
+|         |                   |
+|         |                   |
 

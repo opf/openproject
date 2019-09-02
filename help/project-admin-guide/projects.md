@@ -23,6 +23,7 @@ Your projects can be available publicly or internally. OpenProject does not limi
 | [Archive a project](#archive-a-project)                      | Find out how to archive completed projects.                  |
 | [Delete a project](#delete-a-project)                        | How to delete a project?                                     |
 | [Create a project template](#create-a-project-template)      | You can create a project template and use it for future projects. |
+| Project overarching reports                                  | How to create project overarching reports?                   |
 
 ## Select a project
 
@@ -159,3 +160,18 @@ Set up everything that you want to have available for next projects.
 - ...
 
 [Copy the project](#copy-a-project) template if you want to start a new project and give the project a new name.
+
+## How to create project overarching reports?
+
+Often you need to see more than one project in your lists and want to create project overarching reports.
+
+Click on the **Modules** icon with the dots in the header navigation. These are the project overarching modules in OpenProject.![overarching-modules](overarching-modules.png) 
+
+Select Work packages from the drop down menu. Now, you will see all work packages in the projects where you have the required [permissions](.system-admin-guide/#permissions).
+
+You can group by project by clicking in the header of the work package list next to project and select Group by.
+
+![project-overarching-report](project-overarching-report.gif)
+
+In the project overarching list, you can search, filter, group by, sort, highlight and save views the same way as in the project specific work package list.
+
