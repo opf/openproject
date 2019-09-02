@@ -35,6 +35,26 @@ en:
       default_status_resolved: Resolved
       default_priority_critical: Critical
       demo_data:
+        global_queries:
+          - name: "Embedded table: Children"
+            parent: '{id}'
+            timeline: false
+            sort_by: id
+            hidden: true
+            is_public: false
+            columns:
+              - type
+              - id
+              - subject
+              - status
+              - assigned_to
+              - priority
+              - project
+        type_configuration:
+          - type: :default_type_phase
+            form_configuration:
+              - group_name: "Children"
+                query_name: "Embedded table: Children"
         groups:
           - name: Architects
           - name: BIM Coordinators
