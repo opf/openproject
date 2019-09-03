@@ -207,7 +207,7 @@ describe 'Activity tab', js: true, selenium: true do
         comment_field.click_and_type_slowly "References r#{revision.revision}"
         comment_field.submit_by_click
 
-        work_package_page.expect_comment "References r#{revision.revision}"
+        work_package_page.expect_comment text: "References r#{revision.revision}"
       end
     end
 

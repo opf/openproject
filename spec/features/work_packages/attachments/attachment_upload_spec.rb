@@ -73,7 +73,7 @@ describe 'Upload attachment to work package', js: true do
           editor.click_and_type_slowly 'this is a comment!1'
           comment_field.submit_by_click
 
-          wp_page.expect_comment 'this is a comment!1'
+          wp_page.expect_comment text: 'this is a comment!1'
         end
       end
     end

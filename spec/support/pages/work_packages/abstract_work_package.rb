@@ -68,9 +68,13 @@ module Pages
       raise NotImplementedError
     end
 
-    def expect_comment(text)
+    def expect_comment(**args)
+      subselector = args.delete(:subselector)
+
       retry_block do
-        page.find('.user-comment .message', text: text)
+        unless page.has_selector?(".user-comment .message #{subselector}".strip, **args)
+          raise "Failed to find comment with #{args.inspect}. Retrying."
+        end
       end
     end
 
