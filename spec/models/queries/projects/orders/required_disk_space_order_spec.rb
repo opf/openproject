@@ -28,54 +28,31 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::BaseOrder
-  include ActiveModel::Validations
+require 'spec_helper'
 
-  VALID_DIRECTIONS = %i(asc desc).freeze
-
-  def self.i18n_scope
-    :activerecord
+describe Queries::Projects::Orders::RequiredDiskSpaceOrder, type: :model do
+  let(:instance) do
+    described_class.new('').tap do |i|
+      i.direction = direction
+    end
   end
+  let(:direction) { :asc }
 
-  validates :direction, inclusion: { in: VALID_DIRECTIONS }
+  describe '#scope' do
+    context 'with a valid direction' do
+      it 'orders by the disk space' do
+        expect(instance.scope.to_sql)
+          .to eql(Project.order(Arel.sql(Project.required_disk_space_sum).asc).to_sql)
+      end
+    end
 
-  class_attribute :model
-  attr_accessor :direction,
-                :attribute
+    context 'with an invalid direction' do
+      let(:direction) { 'bogus' }
 
-  def initialize(attribute)
-    self.attribute = attribute
-  end
-
-  def self.key
-    raise NotImplementedError
-  end
-
-  def scope
-    scope = order
-    scope = scope.joins(joins) if joins
-    scope
-  end
-
-  def name
-    attribute
-  end
-
-  private
-
-  def order
-    model.order(name => direction)
-  end
-
-  def joins
-    nil
-  end
-
-  def with_raise_on_invalid
-    if VALID_DIRECTIONS.include?(direction)
-      yield
-    else
-      raise ArgumentError, "Only one of #{VALID_DIRECTIONS} allowed. #{direction} is provided."
+      it 'raises an error' do
+        expect { instance.scope }
+          .to raise_error(ArgumentError)
+      end
     end
   end
 end
