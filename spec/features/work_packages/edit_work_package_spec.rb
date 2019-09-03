@@ -214,7 +214,7 @@ describe 'edit work package', js: true do
     wp_page.save_comment
 
     wp_page.expect_notification(message: 'The comment was successfully added.')
-    wp_page.expect_comment 'hallo welt'
+    wp_page.expect_comment text: 'hallo welt'
   end
 
   it 'updates the presented custom fields based on the selected type' do
