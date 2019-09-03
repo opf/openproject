@@ -174,7 +174,7 @@ class AccountController < ApplicationController
     elsif token.expired?
       send_activation_email! Token::Invitation.create!(user: token.user)
 
-      flash[:warning] = I18n.t :warning_registration_token_expired, email: token.user.mail
+      flash[:warning] = I18n.t :warning_registration_token_expired, email: (token.user&.mail || token.user_id)
     end
 
     redirect_to home_url
