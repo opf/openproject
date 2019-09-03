@@ -155,27 +155,23 @@ class AccountController < ApplicationController
   def activate
     token = ::Token::Invitation.find_by_plaintext_value(params[:token])
 
-    if token.nil? || token.expired? || token.user.nil?
+    if token.nil? || token.user.nil?
+      invalid_token_and_redirect
+    elsif token.expired?
       handle_expired_token token
     elsif token.user.invited?
       activate_by_invite_token token
     elsif Setting.self_registration?
       activate_self_registered token
     else
-      flash[:error] = I18n.t(:notice_account_invalid_token)
-
-      redirect_to home_url
+      invalid_token_and_redirect
     end
   end
 
   def handle_expired_token(token)
-    if token.nil?
-      flash[:error] = I18n.t :notice_account_invalid_token
-    elsif token.expired?
-      send_activation_email! Token::Invitation.create!(user: token.user)
+    send_activation_email! Token::Invitation.create!(user: token.user)
 
-      flash[:warning] = I18n.t :warning_registration_token_expired, email: (token.user&.mail || token.user_id)
-    end
+    flash[:warning] = I18n.t :warning_registration_token_expired, email: token.user.mail
 
     redirect_to home_url
   end
@@ -208,15 +204,9 @@ class AccountController < ApplicationController
   end
 
   def activate_by_invite_token(token)
-    if token.nil? || token.expired? || !token.user.invited?
-      flash[:error] = I18n.t(:notice_account_invalid_token)
+    return if enforce_activation_user_limit(user: token.user)
 
-      redirect_to home_url
-    else
-      return if enforce_activation_user_limit(user: token.user)
-
-      activate_invited token
-    end
+    activate_invited token
   end
 
   def activate_invited(token)
@@ -358,13 +348,11 @@ class AccountController < ApplicationController
       end
 
       redirect_to direct_login_provider_url(ps)
-    else
-      if Setting.login_required?
-        error = user.active? || flash[:error]
-        instructions = error ? :after_error : :after_registration
+    elsif Setting.login_required?
+      error = user.active? || flash[:error]
+      instructions = error ? :after_error : :after_registration
 
-        render :exit, locals: { instructions: instructions }
-      end
+      render :exit, locals: { instructions: instructions }
     end
   end
 
@@ -530,8 +518,8 @@ class AccountController < ApplicationController
       flash[:notice] = I18n.t(:notice_account_register_done)
 
       redirect_to action: 'login'
-    else
-      yield if block_given?
+    elsif block_given?
+      yield
     end
   end
 
@@ -553,8 +541,8 @@ class AccountController < ApplicationController
       stages = authentication_stages after_activation: true
 
       run_registration_stages stages, user, opts
-    else
-      yield if block_given?
+    elsif block_given?
+      yield
     end
   end
 
@@ -594,8 +582,8 @@ class AccountController < ApplicationController
         UserMailer.account_activation_requested(admin, user).deliver_now
       end
       account_pending
-    else
-      yield if block_given?
+    elsif block_given?
+      yield
     end
   end
 
@@ -651,5 +639,11 @@ class AccountController < ApplicationController
     # request can have security implications regarding CSRF. See handle_unverified_request
     # for more information.
     head 410 if api_request?
+  end
+
+  def invalid_token_and_redirect
+    flash[:error] = I18n.t(:notice_account_invalid_token)
+
+    redirect_to home_url
   end
 end
