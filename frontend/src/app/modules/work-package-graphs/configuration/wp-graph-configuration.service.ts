@@ -152,7 +152,7 @@ export class WpGraphConfigurationService {
     let queryTabs = this.configuration.queries.map((query) => {
       return {
         name: query.id as string,
-        title: this.I18n.t('js.chart.tabs.dataset', { number: 1 }),
+        title: this.I18n.t('js.work_packages.query.filters'),
         componentClass: WpGraphConfigurationFiltersTab
       };
     });

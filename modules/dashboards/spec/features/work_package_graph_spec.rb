@@ -111,7 +111,7 @@ describe 'Arbitrary WorkPackage query graph widget dashboard', type: :feature, j
       # User has the ability to modify the query
 
       filter_area.configure_wp_table
-      modal.switch_to('Dataset 1')
+      modal.switch_to('Filters')
       filters.expect_filter_count(2)
       filters.add_filter_by('Type', 'is', type.name)
       modal.save
@@ -132,7 +132,7 @@ describe 'Arbitrary WorkPackage query graph widget dashboard', type: :feature, j
       dashboard_page.visit!
 
       filter_area.configure_wp_table
-      modal.switch_to('Dataset 1')
+      modal.switch_to('Filters')
 
       filters.expect_filter_count(3)
 

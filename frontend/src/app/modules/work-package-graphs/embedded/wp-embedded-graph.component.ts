@@ -25,6 +25,7 @@ export class WorkPackageEmbeddedGraphComponent {
   public configuration:WorkPackageTableConfiguration;
   public error:string|null = null;
 
+  public chartHeight = '100%';
   public chartLabels:string[] = [];
   public chartData:any = [];
   public chartOptions:ChartOptions;
@@ -65,6 +66,8 @@ export class WorkPackageEmbeddedGraphComponent {
         return label;
       }
     });
+
+    this.setHeight();
 
     // keep the array in order to update the labels
     this.chartLabels.length = 0;
@@ -109,5 +112,29 @@ export class WorkPackageEmbeddedGraphComponent {
     }
 
     this.chartOptions = Object.assign({}, defaults, chartTypeDefaults, this.inputChartOptions);
+  }
+
+  private setHeight() {
+    if (this.chartType === 'horizontalBar' && this.datasets && this.datasets[0]) {
+      let labels:string[] = [];
+      this.datasets.forEach(d => d.groups!.forEach(g => {
+        if (!labels.includes(g.value)) {
+          labels.push(g.value);
+        }
+      }));
+      let height = labels.length * 40;
+
+      if (this.datasets.length > 1) {
+        // make some more room for the legend
+        height += 40;
+      }
+
+      // some minimum height e.g. for the labels
+      height += 30;
+
+      this.chartHeight = `${height}px`;
+    } else {
+      this.chartHeight = '100%';
+    }
   }
 }
