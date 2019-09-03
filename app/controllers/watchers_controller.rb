@@ -28,9 +28,9 @@
 #++
 
 class WatchersController < ApplicationController
-  before_action :find_watched_by_object, except: [:destroy]
+  before_action :find_watched_by_object
   before_action :find_project
-  before_action :require_login, :check_project_privacy, only: [:watch, :unwatch]
+  before_action :require_login, :check_project_privacy, only: %i[watch unwatch]
 
   def watch
     if @watched.respond_to?(:visible?) && !@watched.visible?(User.current)

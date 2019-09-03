@@ -131,7 +131,8 @@ module Redmine
 
         # Removes user from the watchers list
         def remove_watcher(user)
-          return nil unless user && user.is_a?(User)
+          return nil unless user&.is_a?(User)
+
           watchers_to_delete = watchers.find_all { |watcher| watcher.user == user }
           watchers_to_delete.each(&:delete)
           watchers.reload
