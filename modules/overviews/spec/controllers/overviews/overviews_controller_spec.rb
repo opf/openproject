@@ -41,7 +41,7 @@ describe Overviews::OverviewsController, type: :controller do
         permission_project == project &&
           (permissions.include?(permission) ||
           [{ controller: 'overviews/overviews', action: 'show' },
-           { controller: '/work_packages', action: 'index' }].include?(permission))
+           { controller: '/news', action: 'index' }].include?(permission))
       end
     end
   end
@@ -65,14 +65,14 @@ describe Overviews::OverviewsController, type: :controller do
   describe '#show' do
     context 'with jump parameter' do
       it 'redirects to active tab' do
-        get :show, params: { project_id: project.id, jump: 'work_packages' }
+        get :show, params: { project_id: project.id, jump: 'news' }
 
         expect(response)
-          .to redirect_to main_app_routes.project_work_packages_path(project)
+          .to redirect_to main_app_routes.project_news_index_path(project)
       end
 
       it 'ignores inactive/unpermitted module' do
-        get :show, params: { project_id: project.id, jump: 'news' }
+        get :show, params: { project_id: project.id, jump: 'work_packages' }
 
         expect(response)
           .to be_successful
