@@ -54,27 +54,24 @@ module API
 
         self_link title_getter: ->(*) { nil }
 
-        link :updateImmediately do
-          next unless write_allowed?
-
+        link :updateImmediately,
+             cache_if: -> { write_allowed? } do
           {
             href: api_v3_paths.grid(represented.id),
             method: :patch
           }
         end
 
-        link :update do
-          next unless write_allowed?
-
+        link :update,
+             cache_if: -> { write_allowed? } do
           {
             href: api_v3_paths.grid_form(represented.id),
             method: :post
           }
         end
 
-        link :delete do
-          next unless delete_allowed?
-
+        link :delete,
+             cache_if: -> { delete_allowed? } do
           {
             href: api_v3_paths.grid(represented.id),
             method: :delete

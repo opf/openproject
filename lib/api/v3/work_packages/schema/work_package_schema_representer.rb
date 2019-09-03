@@ -41,7 +41,7 @@ module API
           include API::Caching::CachedRepresenter
           cached_representer key_parts: %i[project type],
                              dependencies: -> {
-                               User.current.roles_for_project(represented.project).map(&:permissions).sort +
+                               User.current.roles_for_project(represented.project).map(&:permissions).flatten.uniq.sort +
                                  [Setting.work_package_done_ratio]
                              }
 
@@ -302,11 +302,12 @@ module API
           end
 
           def form_config_attribute_representation(group)
-            cache_keys = ['wp_schema_attribute_group', group.key,
+            cache_keys = ['wp_schema_attribute_group',
+                          group.key,
                           I18n.locale,
                           represented.project,
                           represented.type,
-                          represented.available_custom_fields]
+                          represented.available_custom_fields.sort_by(&:id)]
 
             OpenProject::Cache.fetch(OpenProject::Cache::CacheKey.expand(cache_keys.flatten.compact)) do
               ::JSON::parse(::API::V3::WorkPackages::Schema::FormConfigurations::AttributeRepresenter
