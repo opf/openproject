@@ -38,6 +38,8 @@ class Queries::Projects::Orders::LatestActivityAtOrder < Queries::BaseOrder
   private
 
   def order
-    model.order("activity.latest_activity_at #{direction}")
+    with_raise_on_invalid do
+      model.order(Arel.sql("activity.latest_activity_at").send(direction))
+    end
   end
 end

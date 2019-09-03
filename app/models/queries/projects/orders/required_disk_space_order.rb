@@ -38,8 +38,9 @@ class Queries::Projects::Orders::RequiredDiskSpaceOrder < Queries::BaseOrder
   private
 
   def order
-    attribute = Project.required_disk_space_sum
-
-    model.order("#{attribute} #{direction}")
+    with_raise_on_invalid do
+      attribute = Project.required_disk_space_sum
+      model.order(Arel.sql(attribute).send(direction))
+    end
   end
 end
