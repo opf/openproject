@@ -103,11 +103,18 @@ export class DragAndDropTransformer {
           .catch(() => false);
       },
       onCloned: (clone:HTMLElement, original:HTMLElement) => {
-        // Maintain widths from original
-        Array.from(original.children).forEach((source:HTMLElement, index:number) => {
-          const target = clone.children.item(index) as HTMLElement;
-          target.style.width = source.offsetWidth + "px";
-        });
+        // Replace clone with one TD of the subject
+        const wpId:string = original.dataset.workPackageId!;
+        const workPackage = this.states.workPackages.get(wpId).value!;
+
+        const colspan = clone.children.length;
+        const td = document.createElement('td');
+        td.textContent = workPackage.subjectWithId();
+        td.colSpan = colspan;
+        td.classList.add('wp-table--cell-td', 'subject');
+
+        clone.style.maxWidth = '500px';
+        clone.innerHTML = td.outerHTML;
       },
       onShadowInserted: (el:HTMLElement) => {
         if (!this.browserDetector.isEdge) {
