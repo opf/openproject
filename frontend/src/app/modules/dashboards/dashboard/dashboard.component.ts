@@ -3,13 +3,13 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {Title} from '@angular/platform-browser';
 import {GridInitializationService} from "core-app/modules/grids/grid/initialization.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {GridResource} from "core-app/modules/hal/resources/grid-resource";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {GridPageComponent} from "core-app/modules/grids/grid/page/grid-page.component";
 
 @Component({
   selector: 'dashboard',
   templateUrl: '../../grids/grid/page/grid-page.component.html',
+  styleUrls: ['../../grids/grid/page/grid-page.component.sass'],
 })
 export class DashboardComponent extends GridPageComponent {
   constructor(readonly gridInitialization:GridInitializationService,
