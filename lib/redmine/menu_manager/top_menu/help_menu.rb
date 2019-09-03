@@ -31,11 +31,12 @@ require 'open_project/static/links'
 
 module Redmine::MenuManager::TopMenu::HelpMenu
   def render_help_top_menu_node(item = help_menu_item)
-    cache_key = OpenProject::Cache::CacheKey.key('help_top_menu_node',
-                                                 OpenProject::Static::Links.links,
-                                                 I18n.locale,
-                                                 OpenProject::Static::Links.help_link)
-    Rails.cache.fetch(cache_key) do
+    cache_key = ['help_top_menu_node',
+                 OpenProject::Static::Links.links,
+                 I18n.locale,
+                 OpenProject::Static::Links.help_link]
+
+    OpenProject::Cache.fetch(cache_key) do
       if OpenProject::Static::Links.help_link_overridden?
         render_menu_node(item)
         content_tag('li', render_single_menu_node(item), class: 'help-menu--overridden-link')
