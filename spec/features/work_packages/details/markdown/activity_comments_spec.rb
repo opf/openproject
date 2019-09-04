@@ -3,7 +3,7 @@ require 'spec_helper'
 require 'features/work_packages/shared_contexts'
 require 'features/work_packages/details/inplace_editor/shared_examples'
 
-describe 'activity comments', js: true do
+describe 'activity comments', js: true, with_mail: false do
   let(:project) { FactoryBot.create :project, is_public: true }
   let!(:work_package) do
     FactoryBot.create(:work_package,
@@ -108,13 +108,13 @@ describe 'activity comments', js: true do
 
       describe 'with an existing comment' do
         it 'allows to edit an existing comment' do
-          # Insert new text, need to do this separately.
-          ['Comment with', ' ',  '*', '*', 'bold text', '*', '*'].each do |key|
+          # Insert new text, need to do this separately.''
+          ['Comment with', ' ', '*', '*', 'bold text', '*', '*', ' ', 'in it'].each do |key|
             comment_field.input_element.send_keys key
           end
           comment_field.submit_by_click
 
-          wp_page.expect_comment text: 'Comment with bold text'
+          wp_page.expect_comment text: 'Comment with bold text in it'
           wp_page.expect_comment text: 'bold text', subselector: 'strong'
 
           # Hover the new activity
@@ -132,12 +132,12 @@ describe 'activity comments', js: true do
           # Insert new text, need to do this separately.
           edit.input_element.click
 
-          [:enter, 'Comment with', ' ',  '_', 'italic text', '_', ' '].each do |key|
+          [:enter, 'Comment with', ' ',  '_', 'italic text', '_', ' ', 'in it'].each do |key|
             edit.input_element.send_keys key
           end
 
           edit.submit_by_click
-          wp_page.expect_comment text: 'Comment with italic text'
+          wp_page.expect_comment text: 'Comment with italic text in it'
           wp_page.expect_comment text: 'italic text', subselector: 'em'
         end
       end
