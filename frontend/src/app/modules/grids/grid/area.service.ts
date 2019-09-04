@@ -39,7 +39,7 @@ export class GridAreaService {
     return this.resource;
   }
 
-  public setMousedOverArea(area:GridArea) {
+  public setMousedOverArea(area:GridArea|null) {
     this.mousedOverArea = area;
   }
 
