@@ -32,7 +32,7 @@ import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {
   WorkPackageViewDisplayRepresentationService,
   wpDisplayCardRepresentation,
-  wpDisplayListRepresentation
+  wpDisplayListRepresentation, wpDisplayRepresentation
 } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
@@ -79,7 +79,7 @@ export class WorkPackageViewToggleButton implements OnInit, OnDestroy {
     statesCombined.pipe(
       untilComponentDestroyed(this)
     ).subscribe(([display, timelines]) => {
-      this.detectView();
+      this.detectView(display, timelines.visible);
       this.cdRef.detectChanges();
     });
   }
@@ -88,15 +88,16 @@ export class WorkPackageViewToggleButton implements OnInit, OnDestroy {
     // Nothing to do
   }
 
-  public detectView() {
-    if (this.wpDisplayRepresentationService.current !== wpDisplayCardRepresentation) {
-      if (this.wpTableTimeline.isVisible) {
-        this.view = 'timeline';
-      } else {
-        this.view = wpDisplayListRepresentation;
-      }
-    } else {
+  public detectView(display:string|null, timelineVisible:boolean) {
+    if (display === wpDisplayCardRepresentation) {
       this.view = wpDisplayCardRepresentation;
+      return;
+    }
+
+    if (timelineVisible) {
+      this.view = 'timeline';
+    } else {
+      this.view = wpDisplayListRepresentation;
     }
   }
 }

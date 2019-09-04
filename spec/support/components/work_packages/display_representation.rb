@@ -49,6 +49,10 @@ module Components
         select_view 'Gantt'
       end
 
+      def expect_state(text)
+        expect(page).to have_selector('#wp-view-toggle-button', text: text, wait: 10)
+      end
+
       private
 
       def expect_button(forbidden_text)
