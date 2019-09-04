@@ -48,8 +48,8 @@ en:
                 - identifier: 'custom_text'
                   start_row: 2
                   end_row: 4
-                  start_column: 2
-                  end_column: 3
+                  start_column: 1
+                  end_column: 2
                   options:
                     name: 'Getting started'
                     text: |
