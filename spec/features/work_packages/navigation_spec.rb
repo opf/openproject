@@ -34,6 +34,7 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
   let(:work_package) { FactoryBot.build(:work_package, project: project) }
   let(:global_html_title) { ::Components::HtmlTitle.new }
   let(:project_html_title) { ::Components::HtmlTitle.new project }
+  let(:wp_display) { ::Components::WorkPackages::DisplayRepresentation.new }
   let(:wp_title_segment) do
     "#{work_package.type.name}: #{work_package.subject} (##{work_package.id})"
   end
@@ -185,5 +186,19 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
 
     full_page = ::Pages::FullWorkPackage.new work_package, work_package.project
     full_page.ensure_page_loaded
+  end
+
+  scenario 'moving back from gantt to "All open" (Regression #30921)' do
+    wp_table = Pages::WorkPackagesTable.new project
+    wp_table.visit!
+
+    # Switch to gantt view
+    wp_display.expect_state 'Table'
+    wp_display.switch_to_gantt_layout
+    wp_display.expect_state 'Gantt'
+
+    # Click on All open
+    find('.wp-query-menu--item-link', text: 'All open').click
+    wp_display.expect_state 'Table'
   end
 end
