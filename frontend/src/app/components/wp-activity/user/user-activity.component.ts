@@ -47,7 +47,8 @@ import {CommentService} from "core-components/wp-activity/comment-service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageCommentFieldHandler} from "core-components/work-packages/work-package-comment/work-package-comment-field-handler";
 import {ViewPointOriginal} from "core-app/modules/bcf/bcf-wp-single-view/bcf-wp-single-view.component";
-import {DomSanitizer} from "@angular/platform-browser";
+import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 @Component({
   selector: 'user-activity',
@@ -56,7 +57,7 @@ import {DomSanitizer} from "@angular/platform-browser";
 })
 export class UserActivityComponent extends WorkPackageCommentFieldHandler implements OnInit, AfterViewInit {
   @Input() public workPackage:WorkPackageResource;
-  @Input() public activity:any;
+  @Input() public activity:HalResource;
   @Input() public activityNo:number;
   @Input() public activityLabel:string;
   @Input() public isInitial:boolean;
@@ -74,6 +75,7 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   public details:any[] = [];
   public isComment:boolean;
   public isBcfComment:boolean;
+  public postedComment:SafeHtml;
   public bcfSnapshot:ViewPointOriginal;
 
   public focused = false;
@@ -104,6 +106,7 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   public ngOnInit() {
     super.ngOnInit();
 
+    this.updateCommentText();
     this.isComment = this.activity._type === 'Activity::Comment';
     this.isBcfComment = this.activity._type === 'Activity::BcfComment';
     if (this.isBcfComment && _.get(this.activity.bcfComment,  'viewpoint.snapshot')) {
@@ -147,10 +150,6 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
     return !((this.isComment || this.isBcfComment) && this.focussing());
   }
 
-  public get postedComment() {
-    return this.sanitization.bypassSecurityTrustHtml(this.activity.comment.html);
-  }
-
   public ngAfterViewInit() {
     if (window.location.hash === 'activity-' + this.activityNo) {
       this.elementRef.nativeElement.scrollIntoView(true);
@@ -175,7 +174,9 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   public async updateComment() {
     await this.onSubmit();
     return this.commentService.updateComment(this.activity, this.rawComment || '')
-      .then(() => {
+      .then((newActivity:HalResource) => {
+        this.activity = newActivity;
+        this.updateCommentText();
         this.wpLinkedActivities.require(this.workPackage, true);
         this.wpCacheService.updateWorkPackage(this.workPackage);
         this.deactivate(true);
@@ -202,7 +203,7 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   }
 
   public quotedText(rawComment:string) {
-    var quoted = rawComment.split('\n')
+    let quoted = rawComment.split('\n')
       .map(function(line:string) {
         return '\n> ' + line;
       })
@@ -220,5 +221,9 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
     if (focus) {
       this.focusEditIcon();
     }
+  }
+
+  private updateCommentText() {
+    this.postedComment = this.sanitization.bypassSecurityTrustHtml(this.activity.comment.html);
   }
 }
