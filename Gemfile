@@ -55,7 +55,7 @@ gem 'friendly_id', '~> 5.2.1'
 gem 'acts_as_list', '~> 0.9.9'
 gem 'acts_as_tree', '~> 2.9.0'
 gem 'awesome_nested_set', '~> 3.2.0'
-gem 'rubytree', git: 'https://github.com/dr0verride/RubyTree.git', ref: '06f53ee'
+gem 'rubytree', '~> 1.0.0'
 gem 'typed_dag', '~> 2.0.2'
 
 gem 'addressable', '~> 2.6.0'
