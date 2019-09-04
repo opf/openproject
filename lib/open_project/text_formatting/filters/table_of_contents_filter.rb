@@ -117,9 +117,13 @@ module OpenProject::TextFormatting
       end
 
       def process!
-        return if headings.empty?
+        result[:toc] =
+          if headings.empty?
+            I18n.t(:label_wiki_toc_empty)
+          else
+            content_tag(:ul, render_nested(nil), class: 'toc')
+          end
 
-        result[:toc] = content_tag(:ul, render_nested(nil), class: 'toc')
       rescue StandardError => e
         Rails.logger.error { "Failed to render table of contents: #{e} #{e.message}" }
       end
