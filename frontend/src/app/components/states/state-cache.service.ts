@@ -108,7 +108,10 @@ export abstract class StateCacheService<T> {
 
     // Refresh when stale or being forced
     if (this.stale(state) || force) {
-      this.load(id).then(wp => state.putValue(wp));
+      return this.load(id).then(wp => {
+        state.putValue(wp);
+        return wp;
+      });
     }
 
     return state.valuesPromise() as Promise<T>;

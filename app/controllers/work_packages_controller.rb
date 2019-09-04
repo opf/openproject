@@ -140,7 +140,7 @@ class WorkPackagesController < ApplicationController
   end
 
   def authorize_on_work_package
-    deny_access unless work_package
+    deny_access(not_found: true) unless work_package
   end
 
   def protect_from_unauthorized_export
