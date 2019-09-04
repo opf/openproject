@@ -20,7 +20,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe VariableCostObject, type: :model do
-  let(:cost_object) { FactoryBot.build(:variable_cost_object) }
+  let(:cost_object) { FactoryBot.build(:variable_cost_object, project: project) }
   let(:type) { FactoryBot.create(:type_feature) }
   let(:project) { FactoryBot.create(:project_with_types) }
   let(:user) { FactoryBot.create(:user) }
@@ -50,7 +50,7 @@ describe VariableCostObject, type: :model do
   end
 
   describe 'destroy' do
-    let(:work_package) { FactoryBot.create(:work_package) }
+    let(:work_package) { FactoryBot.create(:work_package, project: project) }
 
     before do
       cost_object.author = user
