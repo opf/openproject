@@ -58,7 +58,7 @@ gem 'awesome_nested_set', '~> 3.2.0'
 gem 'rubytree', '~> 1.0.0'
 gem 'typed_dag', '~> 2.0.2'
 
-gem 'addressable', '~> 2.6.0'
+gem 'addressable', '~> 2.7.0'
 
 # Provide timezone info for TZInfo used by AR
 gem 'tzinfo-data', '~> 1.2018.9'
