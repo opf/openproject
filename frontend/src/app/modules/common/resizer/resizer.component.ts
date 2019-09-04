@@ -31,6 +31,7 @@ export class ResizerComponent implements OnDestroy {
 
   @Input() customHandler = false;
   @Input() cursorClass = 'nwse-resize';
+  @Input() resizerClass = 'resizer';
 
   ngOnDestroy() {
     this.removeEventListener();

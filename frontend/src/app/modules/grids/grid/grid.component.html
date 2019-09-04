@@ -33,6 +33,7 @@
       </ndc-dynamic>
     </div>
     <resizer *ngIf="resize.isResizable"
+             [resizerClass]="'grid--resizer'"
              (end)="resize.end(area, $event)"
              (start)="resize.start(area)"
              (move)="resize.moving($event)">

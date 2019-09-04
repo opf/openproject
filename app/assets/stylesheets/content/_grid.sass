@@ -60,13 +60,6 @@ $grid--widget-padding: 20px
     &.-column
       width: $grid--gap-width
 
-  .resizer
-    margin-top: 0
-    margin-left: auto
-    margin-right: -$grid--widget-padding
-    margin-bottom: -$grid--widget-padding
-    position: relative
-
   .cdk-drag-handle
     cursor: grab
     float: left
@@ -80,6 +73,19 @@ $grid--widget-padding: 20px
 
   icon-triggered-context-menu
     visibility: hidden
+
+.grid--resizer
+  margin-top: 0
+  margin-left: auto
+  margin-right: -$grid--widget-padding
+  margin-bottom: -$grid--widget-padding
+  position: relative
+  opacity: 0
+
+  .grid--area.-widgeted:hover &
+    opacity: 1
+    // only placed here to achieve precendence
+    border-bottom-color: $widget-box-block-border-color
 
 .grid--area-drag-handle
   margin-left: -19px
