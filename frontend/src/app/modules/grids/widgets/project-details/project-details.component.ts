@@ -53,9 +53,13 @@ export const emptyPlaceholder = '-';
   ]
 })
 export class WidgetProjectDetailsComponent extends AbstractWidgetComponent implements OnInit {
-  public customFieldsMap:Array<DisplayField> = [];
-
   @ViewChild('contentContainer', { static: true }) readonly contentContainer:ElementRef;
+
+  public noFields = false;
+
+  public text = {
+    noResults: this.i18n.t('js.grid.widgets.project_details.no_results'),
+  };
 
   constructor(protected readonly i18n:I18nService,
               protected readonly injector:Injector,
@@ -87,12 +91,18 @@ export class WidgetProjectDetailsComponent extends AbstractWidgetComponent imple
     return this.projectCache.require(this.currentProject.id as string);
   }
 
+  public get isLoaded() {
+    return this.projectCache.state(this.currentProject.id as string).value;
+  }
+
   private loadProjectSchema() {
     return this.projectDm.schema();
   }
 
   private renderCFs(project:ProjectResource, schema:SchemaResource) {
     const cfFields = this.collectFieldsForCfs(project, schema);
+
+    this.noFields = cfFields.length === 0;
 
     this.sortFieldsLexicographically(cfFields);
     this.renderFields(cfFields);

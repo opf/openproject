@@ -8,6 +8,10 @@
   </widget-menu>
 </widget-header>
 
-<div class="grid--widget-content"
-     #contentContainer>
+<div class="grid--widget-content">
+  <div #contentContainer>
+  </div>
+  <no-results *ngIf="noFields"
+              [title]="text.noResults">
+  </no-results>
 </div>
