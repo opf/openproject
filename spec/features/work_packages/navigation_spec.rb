@@ -40,7 +40,7 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
   end
 
   let!(:query) do
-    query              = FactoryBot.build(:query, user: user, project: project)
+    query = FactoryBot.build(:query, user: user, project: project)
     query.column_names = %w(id subject)
     query.name = "My fancy query"
 
@@ -203,6 +203,11 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
 
     # Click on All open
     find('.wp-query-menu--item-link', text: 'All open').click
-    wp_display.expect_state 'Table'
+   
+    if OpenProject::Configuration.bim?
+      wp_display.expect_state 'Cards'
+    else
+      wp_display.expect_state 'Table'
+    end
   end
 end
