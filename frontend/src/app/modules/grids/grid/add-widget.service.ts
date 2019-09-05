@@ -10,9 +10,12 @@ import {GridDragAndDropService} from "core-app/modules/grids/grid/drag-and-drop.
 import {GridResizeService} from "core-app/modules/grids/grid/resize.service";
 import {GridMoveService} from "core-app/modules/grids/grid/move.service";
 import {GridGap} from "core-app/modules/grids/areas/grid-gap";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Injectable()
 export class GridAddWidgetService {
+
+  text = { add: this.i18n.t('js.grid.add_widget') };
 
   constructor(readonly opModalService:OpModalService,
               readonly injector:Injector,
@@ -20,7 +23,8 @@ export class GridAddWidgetService {
               readonly layout:GridAreaService,
               readonly drag:GridDragAndDropService,
               readonly move:GridMoveService,
-              readonly resize:GridResizeService) {
+              readonly resize:GridResizeService,
+              readonly i18n:I18nService) {
   }
 
   public isAddable(area:GridArea) {
@@ -48,6 +52,10 @@ export class GridAddWidgetService {
       .catch(() => {
         // user didn't select a widget
       });
+  }
+
+  public get addText() {
+    return this.text.add;
   }
 
   private select(area:GridArea) {

@@ -58,6 +58,7 @@
        (cdkDropListEntered)="drag.entered($event)"
        [cdkDropListConnectedTo]="layout.gridAreaIds">
     <div class="grid--widget-add"
+         [title]="add.addText"
          (click)="add.widget(area)">
     </div>
   </div>
@@ -74,6 +75,7 @@
        [id]="gap.guid"
        (mouseover)="layout.setMousedOverArea(gap)">
     <div class="grid--widget-add -gap"
+         [title]="add.addText"
          (click)="add.widget(gap, layout.schema)">
     </div>
   </div>

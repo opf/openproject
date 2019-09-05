@@ -1,8 +1,7 @@
 en:
   js:
     grid:
-      add_modal:
-        choose_widget: 'Choose widget'
+      add_widget: 'Add widget'
       remove: 'Remove widget'
       widgets:
         custom_text:
