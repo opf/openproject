@@ -132,29 +132,18 @@ export class WidgetProjectDetailsComponent extends AbstractWidgetComponent imple
     this.contentContainer.nativeElement.innerHTML = '';
 
     fields.forEach(field => {
-      this.contentContainer.nativeElement.appendChild(this.displayKeyValue(field));
+      this.renderKeyValue(field);
     });
   }
 
-  private displayKeyValue(field:DisplayField) {
-    const container = this.containerElement();
-
-    container.appendChild(this.labelElement(field));
-    container.appendChild(this.valueElement(field));
-
-    return container;
-  }
-
-  private containerElement() {
-    const container = document.createElement('div');
-    container.classList.add('attributes-key-value');
-
-    return container;
+  private renderKeyValue(field:DisplayField) {
+    this.contentContainer.nativeElement.appendChild(this.labelElement(field));
+    this.contentContainer.nativeElement.appendChild(this.valueElement(field));
   }
 
   private labelElement(field:DisplayField) {
     const label = document.createElement('div');
-    label.classList.add('attributes-key-value--key');
+    label.classList.add('attributes-map--key');
     label.innerText = field.label;
 
     return label;
@@ -162,7 +151,7 @@ export class WidgetProjectDetailsComponent extends AbstractWidgetComponent imple
 
   private valueElement(field:DisplayField) {
     const value = document.createElement('div');
-    value.classList.add('attributes-key-value--value-container');
+    value.classList.add('attributes-map--value');
     field.render(value, this.getText(field));
 
     return value;
