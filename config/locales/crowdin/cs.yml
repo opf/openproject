@@ -1589,6 +1589,7 @@ cs:
   label_wiki_content_added: "Přidána stránka wiki"
   label_wiki_content_updated: "Wiki stránka aktualizována"
   label_wiki_toc: "Obsah"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "Nezobrazovat tuto wiki stránku v menu projektu"
   label_wiki_edit: "Wiki editace"
   label_wiki_edit_plural: "Wiki editována"

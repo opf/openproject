@@ -58,5 +58,5 @@ de:
   attributes:
     bcf_thumbnail: "BCF-Snapshot"
   project_module_bcf: "BCF"
-  permission_view_linked_issues: "View BCF issues"
-  permission_manage_bcf: "Import and manage BCF issues"
+  permission_view_linked_issues: "BCF-Fälle anzeigen"
+  permission_manage_bcf: "BCF-Fälle importieren und verwalten"

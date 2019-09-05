@@ -1589,6 +1589,7 @@ sk:
   label_wiki_content_added: "Wikistránka bola pridaná"
   label_wiki_content_updated: "Wikistránka bola aktualizovaná"
   label_wiki_toc: "Obsah"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "Nezobrazovať túto wikistránku v navigácií projektu"
   label_wiki_edit: "Wiki úprava"
   label_wiki_edit_plural: "Wiki úpravy"

@@ -1540,6 +1540,7 @@ zh-CN:
   label_wiki_content_added: "添加 Wiki 页面"
   label_wiki_content_updated: "更新 Wiki 页面"
   label_wiki_toc: "目录"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "在项目导航中不显示此 wiki 页面"
   label_wiki_edit: "Wiki 编辑"
   label_wiki_edit_plural: "Wiki 编辑"

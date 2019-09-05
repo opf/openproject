@@ -1556,6 +1556,7 @@ pt-BR:
   label_wiki_content_added: "Página wiki adicionada"
   label_wiki_content_updated: "Página wiki atualizada"
   label_wiki_toc: "Tabela de conteúdos"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "Não mostrar esta página wiki na navegação do projeto"
   label_wiki_edit: "Editar wiki"
   label_wiki_edit_plural: "Edições de wiki"

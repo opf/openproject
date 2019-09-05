@@ -1539,6 +1539,7 @@ ja:
   label_wiki_content_added: "Wikiページが追加されました。"
   label_wiki_content_updated: "Wikiページが更新されました。"
   label_wiki_toc: "目次"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "プロジェクトのメニューでこのWikiページを非表示"
   label_wiki_edit: "Wikiの編集"
   label_wiki_edit_plural: "Wikiの編集"

@@ -1557,6 +1557,7 @@ bg:
   label_wiki_content_added: "Wiki страница добавена"
   label_wiki_content_updated: "Wiki страница обновена"
   label_wiki_toc: "Таблица на съдържанието"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "Не показвай този wikipage в проектната навигация"
   label_wiki_edit: "Редактиране на Wiki"
   label_wiki_edit_plural: "Wiki редакции"

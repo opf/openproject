@@ -1621,6 +1621,7 @@ ar:
   label_wiki_content_added: "تم إضافة صفحة wiki"
   label_wiki_content_updated: "تم تحديث صفحة wiki"
   label_wiki_toc: "جدول المحتويات"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "عدم عرض صفحة الwiki هذه في مشروع التنقل"
   label_wiki_edit: "تعديل wiki"
   label_wiki_edit_plural: "تعديلات wiki"

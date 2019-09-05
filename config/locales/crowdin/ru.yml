@@ -1589,6 +1589,7 @@ ru:
   label_wiki_content_added: "Wiki-страница добавлена"
   label_wiki_content_updated: "Wiki-страница обновлена"
   label_wiki_toc: "Содержание"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "Не показывать эту Wiki-страницу в навигации по проектам"
   label_wiki_edit: "Редактировать Wiki"
   label_wiki_edit_plural: "Wiki редактируется"

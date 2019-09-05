@@ -1557,6 +1557,7 @@ sv:
   label_wiki_content_added: "Wiki-sidan tillagd"
   label_wiki_content_updated: "Wiki-sidan uppdaterad"
   label_wiki_toc: "Innehållsförteckning"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "Visa inte denna wiki-sida i projektets meny"
   label_wiki_edit: "Wiki redigering"
   label_wiki_edit_plural: "Wiki redigeringar"

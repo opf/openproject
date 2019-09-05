@@ -1540,6 +1540,7 @@ id:
   label_wiki_content_added: "Halaman Wiki ditambahkan"
   label_wiki_content_updated: "Halaman Wiki diupdate"
   label_wiki_toc: "Daftar isi"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "Sembunyikan halaman Wiki ini dalam navigasi Project"
   label_wiki_edit: "Edit Wiki"
   label_wiki_edit_plural: "Wiki edit"

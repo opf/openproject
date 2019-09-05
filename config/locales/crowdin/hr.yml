@@ -1573,6 +1573,7 @@ hr:
   label_wiki_content_added: "Wiki stranica dodana"
   label_wiki_content_updated: "Wiki stranica ažurirana"
   label_wiki_toc: "Kazalo sadržaja"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "Ne prikazuj ovu wiki stranicu u izborniku projekta"
   label_wiki_edit: "Uređivanje wiki stranice"
   label_wiki_edit_plural: "Uređivanje wiki stranica"

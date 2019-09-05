@@ -1589,6 +1589,7 @@ lt:
   label_wiki_content_added: "Wiki puslapis pridėtas"
   label_wiki_content_updated: "Wiki puslapis atnaujintas"
   label_wiki_toc: "Turinys"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "Nerodyti šio wiki puslapio projekto navigacijoje"
   label_wiki_edit: "Wiki redagavimas"
   label_wiki_edit_plural: "Wiki redagavimai"

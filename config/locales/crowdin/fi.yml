@@ -1557,6 +1557,7 @@ fi:
   label_wiki_content_added: "Wiki-sivu lisätty"
   label_wiki_content_updated: "Wiki-sivu päivitetty"
   label_wiki_toc: "Sisällysluettelo"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "Älä näytä tätä Wiki-sivua projektin navigoinnissa"
   label_wiki_edit: "Wikin muokkaus"
   label_wiki_edit_plural: "Wiki muokkaukset"

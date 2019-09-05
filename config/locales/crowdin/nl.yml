@@ -1557,6 +1557,7 @@ nl:
   label_wiki_content_added: "Wiki-pagina toegevoegd"
   label_wiki_content_updated: "Wiki-pagina bijgewerkt"
   label_wiki_toc: "Inhoudsopgave"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "Deze wiki pagina niet weergeven in projectnavigatie"
   label_wiki_edit: "Wiki bewerken"
   label_wiki_edit_plural: "Wiki bewerkingen"

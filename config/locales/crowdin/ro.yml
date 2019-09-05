@@ -1573,6 +1573,7 @@ ro:
   label_wiki_content_added: "Pagină wiki adăugată"
   label_wiki_content_updated: "Pagină wiki actualizată"
   label_wiki_toc: "Cuprins"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "Pagină wiki ascunsă în navigarea proiectului"
   label_wiki_edit: "Editare wiki"
   label_wiki_edit_plural: "Modificări wiki"

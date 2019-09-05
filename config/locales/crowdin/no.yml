@@ -1557,6 +1557,7 @@
   label_wiki_content_added: "Wiki-side lagt til"
   label_wiki_content_updated: "Wiki-side oppdatert"
   label_wiki_toc: "Innholdsfortegnelse"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "Ikke vis denne wiki-siden i prosjektmenyen"
   label_wiki_edit: "Wiki-redigering"
   label_wiki_edit_plural: "Wiki-redigeringer"
