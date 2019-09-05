@@ -22,6 +22,7 @@ export class GridAreaService {
   public widgetAreas:GridWidgetArea[];
   public gridAreaIds:string[];
   public mousedOverArea:GridArea|null;
+  public helpMode = false;
 
   constructor (private gridDm:GridDmService) { }
 
@@ -40,7 +41,6 @@ export class GridAreaService {
   }
 
   public setMousedOverArea(area:GridArea|null) {
-    console.log(area);
     this.mousedOverArea = area;
   }
 
@@ -115,6 +115,14 @@ export class GridAreaService {
 
   public get isNewlyCreated() {
     return moment(moment.utc()).diff(moment(this.resource.createdAt), 'seconds') < 20;
+  }
+
+  public get inHelpMode() {
+    return this.helpMode;
+  }
+
+  public toggleHelpMode() {
+    this.helpMode = !this.helpMode;
   }
 
   private saveGrid(resource:GridWidgetResource|any, schema?:SchemaResource) {

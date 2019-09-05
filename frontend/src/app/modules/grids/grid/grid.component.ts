@@ -25,17 +25,18 @@ export interface WidgetRegistration {
   properties?:any;
 }
 
+export const GRID_PROVIDERS = [
+  GridAreaService,
+  GridMoveService,
+  GridDragAndDropService,
+  GridResizeService,
+  GridAddWidgetService,
+  GridRemoveWidgetService
+];
+
 @Component({
   templateUrl: './grid.component.html',
-  selector: 'grid',
-  providers: [
-    GridAreaService,
-    GridMoveService,
-    GridDragAndDropService,
-    GridResizeService,
-    GridAddWidgetService,
-    GridRemoveWidgetService
-  ]
+  selector: 'grid'
 })
 export class GridComponent implements OnDestroy, OnInit {
   public uiWidgets:ComponentRef<any>[] = [];

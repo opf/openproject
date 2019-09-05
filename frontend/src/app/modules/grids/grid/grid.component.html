@@ -45,7 +45,8 @@
        class="grid--area"
        [ngClass] = "{'-drop-target': drag.currentlyDragging,
                      '-resize-target': resize.isTarget(area),
-                     '-addable': add.isAddable(area)}"
+                     '-addable': add.isAddable(area),
+                     '-help-mode': layout.inHelpMode}"
        [style.grid-row-start]="area.gridStartRow"
        [style.grid-row-end]="area.gridEndRow"
        [style.grid-column-start]="area.gridStartColumn"
@@ -66,6 +67,7 @@
   <div *ngFor="let gap of layout.gridGaps; trackBy: identifyGridArea;"
        class="grid--area -gap"
        [ngClass] = "{'-addable': add.isAddable(gap),
+                     '-help-mode': layout.inHelpMode,
                      '-row': gap.isRow,
                      '-column': gap.isColumn}"
        [style.grid-row-start]="gap.gridStartRow"

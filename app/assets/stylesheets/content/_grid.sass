@@ -192,10 +192,12 @@ $grid--widget-padding: 20px
     &:before
       font-size: 0.75rem
 
-  .grid--area.-addable:hover &
+  .grid--area.-addable:hover &, .grid--area.-addable.-help-mode &
     opacity: 1
     transition: opacity 1s ease
-    transition-delay: 0.5s
+
+  .grid--area.-addable:hover &
+    transition-delay: 0.3s
 
 .grid--widget-remove
   float: right

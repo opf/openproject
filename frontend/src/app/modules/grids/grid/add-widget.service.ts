@@ -30,7 +30,7 @@ export class GridAddWidgetService {
   public isAddable(area:GridArea) {
     return !this.drag.currentlyDragging &&
       !this.resize.currentlyResizing &&
-      (this.layout.mousedOverArea === area || this.layout.isSingleCell || this.layout.isNewlyCreated) &&
+      (this.layout.mousedOverArea === area || this.layout.isSingleCell || this.layout.isNewlyCreated || this.layout.inHelpMode) &&
       this.isAllowed;
   }
 
@@ -117,7 +117,7 @@ export class GridAddWidgetService {
     this.layout.rebuildAndPersist();
   }
 
-  private get isAllowed() {
+  public get isAllowed() {
     return this.layout.gridResource.updateImmediately;
   }
 }
