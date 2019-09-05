@@ -108,6 +108,7 @@ describe ::OpenProject::Bcf::BcfXml::IssueReader do
     let(:bcf_issue) { subject.extract! }
 
     it 'WP start date gets initialized with BCF CreationDate' do
+      expect(bcf_issue.uuid).to eql("63E78882-7C6A-4BF7-8982-FC478AFB9C97")
       expect(bcf_issue.work_package.start_date).to eql(subject.extractor.creation_date.to_date)
     end
   end

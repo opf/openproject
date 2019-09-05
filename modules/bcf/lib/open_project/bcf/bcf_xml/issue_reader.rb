@@ -319,7 +319,7 @@ module OpenProject::Bcf::BcfXml
         .joins(:work_package)
         .where(uuid: topic_uuid, 'work_packages.project_id': @project.id)
         .references(:work_package).first ||
-        ::Bcf::Issue.new
+        ::Bcf::Issue.new(uuid: topic_uuid)
     end
 
     ##
