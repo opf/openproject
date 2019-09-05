@@ -21,6 +21,7 @@ en:
           no_results: 'Nothing new to report.'
         project_description:
           title: 'Project description'
+          no_results: 'No description has been written yet.'
         project_details:
           title: 'Project details'
         subprojects:

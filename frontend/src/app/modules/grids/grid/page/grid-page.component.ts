@@ -12,14 +12,14 @@ export abstract class GridPageComponent implements OnInit {
   public text = { title: this.i18n.t(`js.${this.i18nNamespace()}.label`),
                   html_title: this.i18n.t(`js.${this.i18nNamespace()}.label`) };
 
-  protected constructor(readonly gridInitialization:GridInitializationService,
-                        // not used in the base class but will be used throughout the subclasses
-                        readonly pathHelper:PathHelperService,
-                        readonly currentProject:CurrentProjectService,
-                        readonly i18n:I18nService,
-                        readonly title:Title,
-                        readonly addWidget:GridAddWidgetService,
-                        readonly areas:GridAreaService) {}
+  constructor(readonly gridInitialization:GridInitializationService,
+              // not used in the base class but will be used throughout the subclasses
+              readonly pathHelper:PathHelperService,
+              readonly currentProject:CurrentProjectService,
+              readonly i18n:I18nService,
+              readonly title:Title,
+              readonly addWidget:GridAddWidgetService,
+              readonly areas:GridAreaService) {}
 
   public grid:GridResource;
 
