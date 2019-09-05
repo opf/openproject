@@ -39,6 +39,11 @@ module Pages
       end
     end
 
+    def expect_no_help_mode
+      expect(page)
+        .to have_no_selector('.toolbar-item .icon-add')
+    end
+
     def expect_unable_to_add_widget(row_number, column_number, location, name = nil)
       if name
         expect_specific_widget_unaddable(row_number, column_number, location, name)

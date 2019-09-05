@@ -7,6 +7,7 @@
     <ul class="toolbar-items">
       <li class="toolbar-item">
         <button class="button"
+                *ngIf="addWidget.isAllowed"
                 [title]="addWidget.addText"
                 (click)="areas.toggleHelpMode()"
                 [ngClass]="{'-active': areas.inHelpMode}">

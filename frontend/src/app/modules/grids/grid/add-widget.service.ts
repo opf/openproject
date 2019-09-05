@@ -118,6 +118,6 @@ export class GridAddWidgetService {
   }
 
   public get isAllowed() {
-    return this.layout.gridResource.updateImmediately;
+    return this.layout.gridResource && this.layout.gridResource.updateImmediately;
   }
 }
