@@ -33,7 +33,7 @@ module Pages
     def add_widget(row_number, column_number, location, name)
       within_add_widget_modal(row_number, column_number, location) do
         expect(page)
-          .to have_content(I18n.t('js.grid.add_modal.choose_widget'))
+          .to have_content(I18n.t('js.grid.add_widget'))
 
         page.find('.grid--addable-widget', text: Regexp.new("^#{name}$")).click
       end
@@ -83,7 +83,7 @@ module Pages
     def expect_specific_widget_unaddable(row_number, column_number, location, name)
       within_add_widget_modal(row_number, column_number, location) do
         expect(page)
-          .to have_content(I18n.t('js.grid.add_modal.choose_widget'))
+          .to have_content(I18n.t('js.grid.add_widget'))
 
         expect(page)
           .not_to have_selector('.grid--addable-widget', text: Regexp.new("^#{name}$"))
