@@ -206,6 +206,12 @@ PATH
       prawn (~> 2.2)
 
 PATH
+  remote: modules/recaptcha
+  specs:
+    openproject-recaptcha (1.0.0)
+      recaptcha (~> 5.1.0)
+
+PATH
   remote: modules/reporting_engine
   specs:
     reporting_engine (1.0.0)
@@ -716,6 +722,8 @@ GEM
     rake (12.3.2)
     rbtree (0.4.2)
     rdoc (6.1.1)
+    recaptcha (5.1.0)
+      json
     redcarpet (3.4.0)
     reform (2.2.4)
       disposable (>= 0.4.1)
@@ -984,6 +992,7 @@ DEPENDENCIES
   openproject-meeting!
   openproject-openid_connect!
   openproject-pdf_export!
+  openproject-recaptcha!
   openproject-reporting!
   openproject-token (~> 1.0.1)
   openproject-translations!
