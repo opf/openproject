@@ -52,16 +52,12 @@
        [style.grid-column-end]="area.gridEndColumn"
        cdkDropList
        [id]="area.guid"
-       (mouseenter)="layout.setMousedOverArea(area)"
-       (mouseleave)="layout.setMousedOverArea(null)"
+       (mouseover)="layout.setMousedOverArea(area)"
        [cdkDropListData]="area"
        (cdkDropListDropped)="drag.drop($event)"
        (cdkDropListEntered)="drag.entered($event)"
        [cdkDropListConnectedTo]="layout.gridAreaIds">
     <div class="grid--widget-add"
-         *ngIf="add.isAddable(area)"
-         (mouseenter)="layout.setMousedOverArea(area)"
-         (mouseleave)="layout.setMousedOverArea(null)"
          (click)="add.widget(area)">
     </div>
   </div>
@@ -76,12 +72,8 @@
        [style.grid-column-start]="gap.gridStartColumn"
        [style.grid-column-end]="gap.gridEndColumn"
        [id]="gap.guid"
-       (mouseleave)="layout.setMousedOverArea(null)"
-       (mouseenter)="layout.setMousedOverArea(gap)">
+       (mouseover)="layout.setMousedOverArea(gap)">
     <div class="grid--widget-add -gap"
-         *ngIf="add.isAddable(gap)"
-         (mouseenter)="layout.setMousedOverArea(gap)"
-         (mouseleave)="layout.setMousedOverArea(null)"
          (click)="add.widget(gap, layout.schema)">
     </div>
   </div>

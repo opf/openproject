@@ -40,6 +40,7 @@ export class GridAreaService {
   }
 
   public setMousedOverArea(area:GridArea|null) {
+    console.log(area);
     this.mousedOverArea = area;
   }
 
