@@ -92,6 +92,7 @@ import {OpenprojectWorkPackageGraphsModule} from "core-app/modules/work-package-
 import {WpPreviewModal} from "core-components/modals/preview-modal/wp-preview-modal/wp-preview.modal";
 import {PreviewTriggerService} from "core-app/globals/global-listeners/preview-trigger.service";
 import {OpenprojectOverviewModule} from "core-app/modules/overview/openproject-overview.module";
+import {OpenprojectMyPageModule} from "core-app/modules/my-page/openproject-my-page.module";
 
 @NgModule({
   imports: [
@@ -129,6 +130,9 @@ import {OpenprojectOverviewModule} from "core-app/modules/overview/openproject-o
 
     // Overview
     OpenprojectOverviewModule,
+
+    // MyPage
+    OpenprojectMyPageModule,
 
     // Global Search
     OpenprojectGlobalSearchModule,

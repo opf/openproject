@@ -6,13 +6,16 @@ import {PathHelperService} from "core-app/modules/common/path-helper/path-helper
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
 import {GridAddWidgetService} from "core-app/modules/grids/grid/add-widget.service";
 import {GridAreaService} from "core-app/modules/grids/grid/area.service";
+import {CurrentProjectService} from "core-components/projects/current-project.service";
 
 export abstract class GridPageComponent implements OnInit {
   public text = { title: this.i18n.t(`js.${this.i18nNamespace()}.label`),
                   html_title: this.i18n.t(`js.${this.i18nNamespace()}.label`) };
 
   protected constructor(readonly gridInitialization:GridInitializationService,
+                        // not used in the base class but will be used throughout the subclasses
                         readonly pathHelper:PathHelperService,
+                        readonly currentProject:CurrentProjectService,
                         readonly i18n:I18nService,
                         readonly title:Title,
                         readonly addWidget:GridAddWidgetService,

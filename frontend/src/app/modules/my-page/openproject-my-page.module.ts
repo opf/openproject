@@ -28,36 +28,21 @@
 
 import {NgModule} from '@angular/core';
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
-import {Ng2StateDeclaration, UIRouter, UIRouterModule} from "@uirouter/angular";
-import {DashboardComponent} from "core-app/modules/dashboards/dashboard/dashboard.component";
+import {Ng2StateDeclaration, UIRouterModule} from "@uirouter/angular";
 import {OpenprojectGridsModule} from "core-app/modules/grids/openproject-grids.module";
+import {MyPageComponent} from "core-app/modules/my-page/my-page.component";
 
-const menuItemClass = 'dashboards-menu-item';
-
-export const DASHBOARDS_ROUTES:Ng2StateDeclaration[] = [
+export const MY_PAGE_ROUTES:Ng2StateDeclaration[] = [
   {
-    name: 'dashboards',
-    parent: 'root',
-    // The trailing slash is important
-    // cf., https://community.openproject.com/wp/29754
-    url: '/dashboards/',
+    name: 'my_page',
+    url: '/my/page',
+    component: MyPageComponent,
     data: {
-      bodyClasses: 'router--dashboards-view-base',
-      menuItem: menuItemClass
-    },
-    component: DashboardComponent
-  }
+      bodyClasses: 'router--work-packages-my-page',
+      parent: 'work-packages'
+    }
+  },
 ];
-
-export function uiRouterDashboardsConfiguration(uiRouter:UIRouter) {
-  // Ensure boards/ are being redirected correctly
-  // cf., https://community.openproject.com/wp/29754
-  uiRouter.urlService.rules
-    .when(
-      new RegExp("^/projects/(.*)/dashboards$"),
-      match => `/projects/${match[1]}/dashboards/`
-    );
-}
 
 @NgModule({
   imports: [
@@ -65,20 +50,15 @@ export function uiRouterDashboardsConfiguration(uiRouter:UIRouter) {
 
     OpenprojectGridsModule,
 
-    // Routes for /dashboards
-    UIRouterModule.forChild({
-      states: DASHBOARDS_ROUTES,
-      config: uiRouterDashboardsConfiguration
-    }),
-  ],
-  providers: [
+    // Routes for my_page
+    UIRouterModule.forChild({ states: MY_PAGE_ROUTES }),
   ],
   declarations: [
-    DashboardComponent
+    MyPageComponent
   ],
   entryComponents: [
   ]
 })
-export class OpenprojectDashboardsModule {
+export class OpenprojectMyPageModule {
 }
 
