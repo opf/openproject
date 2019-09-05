@@ -263,7 +263,7 @@ group :development, :test do
   gem 'pry-stack_explorer', '~> 0.4.9.2'
 end
 
-gem 'bootsnap', '~> 1.3.2', require: false
+gem 'bootsnap', '~> 1.4.5', require: false
 
 # API gems
 gem 'grape', '~> 1.2.3'
