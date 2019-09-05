@@ -230,7 +230,7 @@ group :test do
   gem 'shoulda-matchers', '~> 3.1', require: nil
   gem 'simplecov', '~> 0.16.0', require: false
 
-  gem 'parallel_tests', '~> 2.27.1'
+  gem 'parallel_tests', '~> 2.29.2'
 end
 
 group :ldap do
