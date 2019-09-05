@@ -484,7 +484,7 @@ GEM
       rack-accept
       virtus (>= 1.0.0)
     gravatar_image_tag (1.2.0)
-    hashdiff (0.3.8)
+    hashdiff (1.0.0)
     hashery (2.1.2)
     hashie (3.6.0)
     html-pipeline (2.8.3)
@@ -768,7 +768,7 @@ GEM
       json (~> 2.1)
       structured_warnings (~> 0.3)
     rubyzip (1.2.2)
-    safe_yaml (1.0.4)
+    safe_yaml (1.0.5)
     sanitize (5.0.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.8.0)
@@ -865,10 +865,10 @@ GEM
     webfinger (1.1.0)
       activesupport
       httpclient (>= 2.4)
-    webmock (3.5.1)
+    webmock (3.7.2)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
-      hashdiff
+      hashdiff (>= 0.4.0, < 2.0.0)
     websocket-driver (0.7.0)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.3)
@@ -1035,7 +1035,7 @@ DEPENDENCIES
   unicorn-worker-killer
   warden (~> 1.2)
   warden-basic_auth (~> 0.2.1)
-  webmock (~> 3.5.0)
+  webmock (~> 3.7.2)
   will_paginate (~> 3.1.7)
 
 RUBY VERSION
