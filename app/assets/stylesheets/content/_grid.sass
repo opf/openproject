@@ -75,17 +75,21 @@ $grid--widget-padding: 20px
     visibility: hidden
 
 .grid--resizer
-  margin-top: 0
-  margin-left: auto
-  margin-right: -$grid--widget-padding
-  margin-bottom: -$grid--widget-padding
   position: relative
+  height: $grid--widget-padding
+  margin-bottom: -$grid--widget-padding
+  color: #888
+  cursor: nwse-resize
   opacity: 0
+
+  i
+    position: absolute
+    bottom: 0
+    right: -$grid--widget-padding
+    padding: 0 3px 3px 0
 
   .grid--area.-widgeted:hover &
     opacity: 1
-    // only placed here to achieve precendence
-    border-bottom-color: $widget-box-block-border-color
 
 .grid--area-drag-handle
   margin-left: -19px

@@ -33,10 +33,15 @@
       </ndc-dynamic>
     </div>
     <resizer *ngIf="resize.isResizable"
-             [resizerClass]="'grid--resizer'"
+             [customHandler]="true"
              (end)="resize.end(area, $event)"
              (start)="resize.start(area)"
              (move)="resize.moving($event)">
+      <div class="grid--resizer">
+        <i class="icon-resizer-bottom-right"
+           aria-hidden="true">
+        </i>
+      </div>
     </resizer>
   </div>
 
