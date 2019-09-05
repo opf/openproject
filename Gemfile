@@ -278,7 +278,7 @@ platforms :mri, :mingw, :x64_mingw do
   end
 
   # Support application loading when no database exists yet.
-  gem 'activerecord-nulldb-adapter', '~> 0.3.9'
+  gem 'activerecord-nulldb-adapter', '~> 0.4.0'
 end
 
 group :opf_plugins do
