@@ -45,12 +45,14 @@ $grid--widget-padding: 20px
 
   &.-placeholder
     pointer-events: none
+    z-index: 30
 
   &.-dragged
     display: none
 
   &.-undragged
     pointer-events: none
+    background: #EEEEEE
 
   &.-gap
     &.-row
@@ -73,6 +75,11 @@ $grid--widget-padding: 20px
 
   icon-triggered-context-menu
     visibility: hidden
+
+  &.-drop-target
+    border: 1px solid $secondary-color
+    z-index: 20
+    background: transparent
 
 .grid--resizer
   position: relative
