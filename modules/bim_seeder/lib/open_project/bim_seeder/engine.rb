@@ -14,5 +14,7 @@ module OpenProject::BimSeeder
 
     patches [:RootSeeder]
     patch_with_namespace :DemoData, :QueryBuilder
+    patch_with_namespace :DemoData, :ProjectSeeder
+    patch_with_namespace :DemoData, :WorkPackageSeeder
   end
 end

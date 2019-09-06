@@ -58,8 +58,15 @@ module DemoData
 
       work_packages_data.each do |attributes|
         print '.'
-        create_work_package attributes
+        create_or_update_work_package(attributes)
       end
+    end
+
+    # Decides what to do with work package seed data.
+    # The default here is to create the work package.
+    # Modules may patch this method.
+    def create_or_update_work_package(attributes)
+      create_work_package(attributes)
     end
 
     def create_work_package(attributes)
