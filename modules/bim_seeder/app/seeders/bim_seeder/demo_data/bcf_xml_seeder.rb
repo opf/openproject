@@ -3,7 +3,7 @@
 #-- copyright
 
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2019 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,27 +29,32 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 module BimSeeder
-  module BasicData
-    class StatusSeeder < ::BasicData::StatusSeeder
-      def data
-        color_names = [
-          'red-9', # new
-          'yellow-3', # in progress
-          'green-3', # resolved
-          'green-9' # closed
-        ]
+  module DemoData
+    class BcfXmlSeeder < ::Seeder
+      attr_reader :project, :key
 
-        # When selecting for an array of values, implicit order is applied
-        # so we need to restore values by their name.
-        colors_by_name = Color.where(name: color_names).index_by(&:name)
-        colors = color_names.collect { |name| colors_by_name[name].id }
+      def initialize(project, key)
+        @project = project
+        @key = key
+      end
 
-        [
-          { name: I18n.t(:default_status_new),              color_id: colors[0],  is_closed: false, is_default: true,  position: 1 },
-          { name: I18n.t(:default_status_in_progress),      color_id: colors[1],  is_closed: false, is_default: false, position: 2 },
-          { name: I18n.t('seeders.bim.default_status_resolved'),         color_id: colors[2], is_closed: false, is_default: false, position: 3 },
-          { name: I18n.t(:default_status_closed),           color_id: colors[3], is_closed: true, is_default: false, position: 4 },
-        ]
+      def seed_data!
+        filename = project_data_for(key, 'bcf_xml_file')
+        return unless filename.present?
+
+        user = User.admin.first
+
+        print '    ↳ Import BCF XML file'
+
+        import_options = {
+          invalid_people_action: 'anonymize',
+          unknown_mails_action:  'anonymize',
+          non_members_action:    'anonymize'
+        }
+
+        bcf_xml_file = File.new(File.join(Rails.root, 'modules/bim_seeder/files', filename))
+        importer = ::OpenProject::Bcf::BcfXml::Importer.new(bcf_xml_file, project, current_user: user)
+        importer.import!(import_options).flatten
       end
     end
   end
