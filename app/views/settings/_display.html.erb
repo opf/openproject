@@ -27,7 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= styled_form_tag({action: 'edit', tab: 'display'}) do %>
+<%= styled_form_tag(main_app.url_for({action: 'edit', tab: 'display'})) do %>
 
   <section class="form--section">
     <div class="form--field" id="setting_available_languages"><%= setting_multiselect :available_languages, all_lang_options_for_select(false) %></div>
@@ -53,7 +53,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <div style="float:right">
   <%= link_to t(:label_force_user_language_to_default),
-              { controller: '/admin', action: 'force_user_language' },
+              main_app.url_for(main_app.url_for({ controller: '/admin', action: 'force_user_language' })),
               method: :post %>
 </div>
 

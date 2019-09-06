@@ -31,7 +31,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%= labelled_tabular_form_for @content,
                               as: :content,
-                              url: create_project_wiki_index_path(project_id: @project),
+                              url: main_app.create_project_wiki_index_pathproject_id: @project),
                               html: { method: :post, multipart: true, id: 'wiki_form' } do |f| %>
 
   <%= render partial: 'page_form', locals: {f: f}  %>

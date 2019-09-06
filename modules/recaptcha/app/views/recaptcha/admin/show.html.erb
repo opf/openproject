@@ -3,7 +3,7 @@
 <%= breadcrumb_toolbar t('recaptcha.label_recaptcha') %>
 
 <section class="admin--edit-section">
-  <%= styled_form_tag({ action: :update },
+  <%= styled_form_tag(main_app.url_for({ action: :update }),
                       method: :post,
                       id: 'update-recaptcha-settings-form') do %>
     <fieldset class="form--fieldset">

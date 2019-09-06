@@ -2,7 +2,7 @@
 <%= augmented_collapsible_section initiallyExpanded: !@current_token.present?,
                                   title: title do %>
   <%= labelled_tabular_form_for @token,
-               url: { action: :create },
+               url: main_app.url_for({ action: :create }),
                html: { class: 'token-form form -vertical' },
                method: :post do |f|%>
 
@@ -20,6 +20,6 @@
 
     <div class="form--space"></div>
     <%= styled_button_tag t(:button_save), id: 'token-submit-button', class: '-highlight -with-icon icon-checkmark' %>
-    <%= link_to t(:button_cancel), { action: :show }, class: 'button' %>
+    <%= link_to t(:button_cancel), main_app.url_for({ action: :show }), class: 'button' %>
   <% end %>
 <% end %>

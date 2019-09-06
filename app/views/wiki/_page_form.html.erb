@@ -44,7 +44,7 @@
 <%= f.button t(:button_save), class: 'button -highlight -with-icon icon-checkmark' %>
 
 <%= link_to t(:button_cancel),
-            { controller: '/wiki', action: 'show', project_id: @project, id: (@page.new_record? ? nil : @page) },
+            main_app.url_for(main_app.url_for({ controller: '/wiki', action: 'show', project_id: @project, id: (@page.new_record? ? nil : @page) })),
             data: { confirm: t(:text_are_you_sure) },
             class: 'button' %>
 

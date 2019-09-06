@@ -2,7 +2,7 @@
 <%= toolbar title: t('bcf.bcf_xml.import_title') %>
 
 <p><%= t('bcf.bcf_xml.import.num_issues_found', x_bcf_issues: t('bcf.x_bcf_issues', count: @listing.count)) %></p>
-<%= form_tag({ action: :perform_import }, multipart: true, method: :post) do %>
+<%= form_tag(main_app.url_for({ action: :perform_import }), multipart: true, method: :post) do %>
   <%= render 'import_options_hidden_fields' %>
 
   <% @listing.each do |entry| %>

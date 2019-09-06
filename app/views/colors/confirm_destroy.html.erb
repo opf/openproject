@@ -28,7 +28,7 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 <%= toolbar title: @color.name %>
 <%= labelled_tabular_form_for @color,
-            url: color_url(@color),
+            url: main_app.color_url(@color),
             html: {method: 'delete'},
             as: :color do |f| %>
 
@@ -48,5 +48,5 @@ See docs/COPYRIGHT.rdoc for more details.
   </fieldset>
 
   <%= submit_tag l(:button_delete), class: 'button -highlight' %>
-  <%= link_to l(:button_cancel), colors_path, class: 'button' %>
+  <%= link_to l(:button_cancel), main_app.colors_path, class: 'button' %>
 <% end %>

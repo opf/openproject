@@ -6,7 +6,7 @@
 
 <%= labelled_tabular_form_for @group,
                               as: :synchronized_group,
-                              url: { action: :create } do |f| %>
+                              url: main_app.url_for({ action: :create }) do |f| %>
 
   <fieldset class="form--fieldset">
     <legend class="form--fieldset-legend"><%= @group.class.human_attribute_name 'auth_source'  %></legend>

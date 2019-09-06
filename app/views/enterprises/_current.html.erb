@@ -39,7 +39,7 @@
   </div>
 </div>
 
-<%= form_tag({ action: :destroy },
+<%= form_tag(main_app.url_for({ action: :destroy }),
              method: :delete) do %>
   <confirm-form-submit></confirm-form-submit>
   <%= styled_button_tag t(:button_delete), type: 'submit', class: '-with-icon icon-delete' %>

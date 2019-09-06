@@ -349,7 +349,7 @@ module OpenProject
               fileaction = $1
               filepath = $2
               p = scm_encode('UTF-8', @path_encoding, filepath)
-              files << { action: fileaction, path: p }
+              files << main_app.url_for({ action: fileaction, path: p })
             elsif (parsing_descr == 1 || parsing_descr == 2) &&
                   (line =~ /^:\d+\s+\d+\s+[0-9a-f.]+\s+[0-9a-f.]+\s+(\w)\d+\s+(\S+)\t(.+)$/)
 
@@ -357,7 +357,7 @@ module OpenProject
               fileaction = $1
               filepath = $3
               p = scm_encode('UTF-8', @path_encoding, filepath)
-              files << { action: fileaction, path: p }
+              files << main_app.url_for({ action: fileaction, path: p })
             elsif (parsing_descr == 1) && line.chomp.to_s == ''
               parsing_descr = 2
             elsif parsing_descr == 1

@@ -56,7 +56,7 @@
     <strong><%= t 'two_factor_authentication.backup_codes.generate.regenerate_warning' %></strong>
   </p>
 
-  <%= password_confirmation_form_tag({ controller: 'two_factor_authentication/my/backup_codes', action: :create },
+  <%= password_confirmation_form_tag(main_app.url_for({ controller: 'two_factor_authentication/my/backup_codes', action: :create }),
                                      method: :post,
                                      id: 'two_factor_backup_codes_form',
                                      class: 'form--inline') do

@@ -422,7 +422,7 @@ describe WikiController, type: :controller do
         get :export, params: { project_id: 'ecookbook' }
 
         it { is_expected.to respond_with :redirect }
-        it { is_expected.to redirect_to('wiki index') { { action: 'show', project_id: @project, id: nil } } }
+        it { is_expected.to redirect_to('wiki index') { main_app.url_for({ action: 'show', project_id: @project, id: nil }) } }
       end
     end
   end

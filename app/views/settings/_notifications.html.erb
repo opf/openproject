@@ -27,7 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% if @deliveries %>
-  <%= styled_form_tag({action: 'edit', tab: 'notifications'}) do %>
+  <%= styled_form_tag(main_app.url_for({action: 'edit', tab: 'notifications'})) do %>
     <section class="form--section">
       <div class="form--field"><%= setting_text_field :mail_from, size: 60, container_class: '-middle' %></div>
       <div class="form--field"><%= setting_check_box :bcc_recipients %></div>
@@ -77,7 +77,7 @@ See docs/COPYRIGHT.rdoc for more details.
     <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
     <div style="float:none;display:inline-block;font-weight:bold;">
       <%= link_to t(:label_send_test_email),
-                  { controller: '/admin', action: 'test_email' },
+                  main_app.url_for(main_app.url_for({ controller: '/admin', action: 'test_email' })),
                   method: :post %>
     </div>
   <% end %>

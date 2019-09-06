@@ -30,7 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <% end %>
 
 <costs-subform item-count="<%= @rates.count %>">
-<%= labelled_tabular_form_for @user, url: {action: 'update', project_id: @project}, method: :put do |f| %>
+<%= labelled_tabular_form_for @user, url: main_app.url_for({action: 'update', project_id: @project}), method: :put do |f| %>
   <%= back_url_hidden_field_tag %>
   <%= error_messages_for 'user' %>
   <%- @rates.each do |rate| -%>

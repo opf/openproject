@@ -32,13 +32,13 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%= toolbar title: h(@page.title) do %>
   <li class="toolbar-item">
-    <%= link_to({action: 'edit', id: @page}, class: 'button', accesskey: accesskey(:edit)) do %>
+    <%= link_to(main_app.url_for({action: 'edit', id: @page}), class: 'button', accesskey: accesskey(:edit)) do %>
       <%= op_icon('button--icon icon-edit') %>
       <span class="button--text"><%= t(:button_edit) %></span>
     <% end %>
   </li>
   <li class="toolbar-item">
-    <%= link_to({action: 'history', id: @page}, class: 'button') do %>
+    <%= link_to(main_app.url_for({action: 'history', id: @page}), class: 'button') do %>
       <%= op_icon('button--icon icon-wiki') %>
       <span class="button--text"><%= t(:label_history) %></span>
     <% end %>

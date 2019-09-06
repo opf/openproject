@@ -29,7 +29,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= breadcrumb_toolbar @group.name do %>
   <% if current_user.admin? %>
     <li class="toolbar-item">
-      <%= link_to edit_group_path(@group),
+      <%= link_to main_app.edit_group_path@group),
                   class: 'button' do %>
         <%= op_icon('button--icon icon-edit') %>
         <span class="button--text"><%= t(:button_edit) %></span>

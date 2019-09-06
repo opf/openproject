@@ -36,7 +36,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%= labelled_tabular_form_for @attribute_help_text,
                               as: 'attribute_help_text',
-                              url: { action: :update },
+                              url: main_app.url_for({ action: :update }),
                               html: {id: 'attribute_help_text_form'} do |f| %>
   <%= render partial: 'form', locals: { f: f, editing: true } %>
   <%= hidden_field_tag 'attribute_scope', @attribute_help_text.attribute_scope %>

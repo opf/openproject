@@ -38,6 +38,6 @@ See docs/COPYRIGHT.rdoc for more details.
     </div>
   </section>
   <%= styled_submit_tag l(:button_apply), class: '-highlight' %>
-  <%= link_to l(:button_cancel), { controller: '/enumerations', action: 'index' },
+  <%= link_to l(:button_cancel), main_app.url_for({ controller: '/enumerations', action: 'index' }),
       class: 'button' %>
 <% end %>

@@ -29,7 +29,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <% breadcrumb_paths(*(@page.ancestors.reverse.collect { |parent| link_to h(parent.breadcrumb_title), {id: parent, project_id: parent.project}} + [h(@page.breadcrumb_title)] )) %>
 <%= toolbar title: h(@page.title) do %>
   <li class="toolbar-item">
-    <%= link_to({action: 'history', id: @page}, class: 'button') do %>
+    <%= link_to(main_app.url_for({action: 'history', id: @page}), class: 'button') do %>
       <%= op_icon('button--icon icon-wiki') %>
       <span class="button--text"><%= t(:label_history) %></span>
     <% end %>

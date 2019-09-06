@@ -89,7 +89,7 @@ See docs/COPYRIGHT.rdoc for more details.
                 <td><%= I18n.t('my_account.access_tokens.indefinite_expiration') %></td>
                 <td>
                   <%= link_to l(:button_reset),
-                              { action: 'generate_rss_key' },
+                              main_app.url_for({ action: 'generate_rss_key' }),
                               method: :post,
                               class: 'icon icon-delete' %>
                 </td>
@@ -101,7 +101,7 @@ See docs/COPYRIGHT.rdoc for more details.
                 <td></td>
                 <td>
                   <%= link_to l(:button_generate),
-                              { action: 'generate_rss_key' },
+                              main_app.url_for({ action: 'generate_rss_key' }),
                               method: :post,
                               class: 'icon icon-key' %>
                   </a>
@@ -121,7 +121,7 @@ See docs/COPYRIGHT.rdoc for more details.
                 <td><%= I18n.t('my_account.access_tokens.indefinite_expiration') %></td>
                 <td>
                   <%= link_to l(:button_reset),
-                              { action: 'generate_api_key' },
+                              main_app.url_for({ action: 'generate_api_key' }),
                               method: :post,
                               class: 'icon icon-delete' %>
                 </td>
@@ -133,7 +133,7 @@ See docs/COPYRIGHT.rdoc for more details.
                 <td></td>
                 <td>
                   <%= link_to l(:button_generate),
-                              { action: 'generate_api_key' },
+                              main_app.url_for({ action: 'generate_api_key' }),
                               method: :post,
                               class: 'icon icon-key' %>
                   </a>

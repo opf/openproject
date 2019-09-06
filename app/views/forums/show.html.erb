@@ -31,7 +31,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <% if authorize_for('messages', 'new') %>
     <h2><%= link_to h(@forum.name), project_forum_path(@project, @forum) %> &#187; <%= t(:label_message_new) %></h2>
     <%= labelled_tabular_form_for Message.new(project: @project),
-                                  url: forum_topics_path(@forum),
+                                  url: main_app.forum_topics_path(@forum),
                                   html: {multipart: true,
                                          id: 'message-form',
                                          class: 'form'} do |f| %>
@@ -112,11 +112,11 @@ See docs/COPYRIGHT.rdoc for more details.
               <% if message.locked? %>
                 <%= op_icon('icon-locked', title: I18n.t('js.label_board_locked')) %>
               <% end %>
-              <%= link_to message.subject, topic_path(message) %>
+              <%= link_to message.subject, main_app.topic_path(message) %>
             </td>
             <td class="author">
               <% if message.author %>
-                <%= link_to message.author.name, user_path(message.author) %>
+                <%= link_to message.author.name, main_app.user_path(message.author) %>
               <% end %>
             </td>
             <td class="created_on">

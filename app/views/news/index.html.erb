@@ -34,7 +34,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= toolbar title: l(:label_news_plural) do %>
   <% if managable %>
     <li class="toolbar-item">
-      <%= link_to new_project_news_path(@project),
+      <%= link_to main_app.new_project_news_path(@project),
           { class: 'button -alt-highlight',
             id: 'new_news_link',
             aria: {label: t(:label_news_new)},
@@ -50,7 +50,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <% @newss.each do |news| %>
    <div class="news">
     <h3 class="news--header"><%= avatar(news.author) %><%= link_to_project(news.project) + ': ' unless news.project == @project %>
-      <%= link_to h(news.title), news_path(news) %>
+      <%= link_to h(news.title), main_app.news_path(news) %>
       <%= "(#{l(:label_x_comments, count: news.comments_count)})" if news.comments_count > 0 %></h3>
     <p class="author additional-information"><%= authoring news.created_on, news.author %></p>
     <div class="wiki">
@@ -60,7 +60,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <% end %>
 <% else %>
   <% if managable %>
-    <%= no_results_box(action_url:     new_project_news_path(@project),
+    <%= no_results_box(action_url:     main_app.new_project_news_path@project),
                        display_action: true) %>
   <% else %>
     <%= no_results_box %>

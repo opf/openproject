@@ -40,7 +40,7 @@ describe TimeEntries::ReportsController, type: :controller do
     assert_response :success
     assert_template 'time_entries/reports/show'
     assert_select 'form',
-                  attributes: { action: '/projects/ecookbook/time_entries/report', id: 'query_form' }
+                  attributes: main_app.url_for({ action: '/projects/ecookbook/time_entries/report', id: 'query_form' })
   end
 
   it 'should report all projects' do
@@ -48,7 +48,7 @@ describe TimeEntries::ReportsController, type: :controller do
     assert_response :success
     assert_template 'time_entries/reports/show'
     assert_select 'form',
-                  attributes: { action: '/time_entries/report', id: 'query_form' }
+                  attributes: main_app.url_for({ action: '/time_entries/report', id: 'query_form' })
   end
 
   it 'should report all projects denied' do
@@ -124,7 +124,7 @@ describe TimeEntries::ReportsController, type: :controller do
     refute_nil assigns(:total_hours)
     assert_equal '154.25', '%.2f' % assigns(:total_hours)
     assert_select 'form',
-                  attributes: { action: work_package_time_entries_report_path(1), id: 'query_form' }
+                  attributes: main_app.url_for({ action: work_package_time_entries_report_path(1), id: 'query_form' })
   end
 
   it 'should report custom field criteria' do

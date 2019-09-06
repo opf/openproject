@@ -28,7 +28,7 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <div class="modal-wrapper--content">
-  <%= labelled_tabular_form_for current_user, url: { action: 'user_settings', controller: 'onboarding' }, html: { id: 'user-form' } do |f| %>
+  <%= labelled_tabular_form_for current_user, url: main_app.url_for({ action: 'user_settings', controller: 'onboarding' }), html: { id: 'user-form' } do |f| %>
       <div class="onboarding--start-modal">
         <div class="onboarding--top-menu op-modal--modal-header">
           <%= homescreen_user_avatar %>

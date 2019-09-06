@@ -10,7 +10,7 @@
 <% html_title l(:field_otp) %>
 <% breadcrumb_paths(l(:field_otp)) %>
 <div id="login-form" class="form -bordered">
-  <%= styled_form_tag({ action: :confirm_otp }, { :autocomplete => "off", :id => 'submit_otp' }) do %>
+  <%= styled_form_tag(main_app.url_for({ action: :confirm_otp }), { :autocomplete => "off", :id => 'submit_otp' }) do %>
     <h2><%= t 'two_factor_authentication.label_two_factor_authentication' %></h2>
       <% identifier = @used_device.request_2fa_identifier(@strategy.channel) %>
       <p><%= raw I18n.t('two_factor_authentication.devices.request_2fa', device_name: identifier) %></p>
@@ -43,7 +43,7 @@
   <% end %>
   <div id="resend_otp_container" style="display: none">
     <% if resend_supported %>
-      <%= styled_form_tag({action: :retry }, autocomplete: 'off', id: 'resend_otp') do %>
+      <%= styled_form_tag(main_app.url_for({action: :retry }), autocomplete: 'off', id: 'resend_otp') do %>
         <%= hidden_field_tag 'use_device', @service.device.id %>
         <hr />
         <div class="resend-header"><%= l(:text_send_otp_again) %></div>
@@ -66,7 +66,7 @@
         <% @active_devices.each do |device| %>
           <% next if device.id == @used_device.id %>
           <li>
-            <%= form_tag({ action: :retry }, method: :post) do %>
+            <%= form_tag(main_app.url_for({ action: :retry }), method: :post) do %>
               <%= hidden_field_tag 'use_device', device.id %>
               <%= submit_tag device.redacted_identifier, class: 'button--link' %>
             <% end %>
@@ -77,7 +77,7 @@
     <% if has_backup_codes %>
       <ul>
         <li>
-          <%= link_to(t('two_factor_authentication.login.enter_backup_code_title'), { action: :enter_backup_code }) %>
+          <%= link_to(t('two_factor_authentication.login.enter_backup_code_title'), main_app.url_for({ action: :enter_backup_code })) %>
           </a>
         </li>
       </ul>

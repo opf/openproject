@@ -137,7 +137,7 @@ class MessagesController < ApplicationController
     redirect_target = if @message.parent.nil?
                         { controller: '/forums', action: 'show', project_id: @project, id: @forum }
                       else
-                        { action: 'show', id: @message.parent, r: @message }
+                        main_app.url_for({ action: 'show', id: @message.parent, r: @message })
                       end
 
     redirect_to redirect_target

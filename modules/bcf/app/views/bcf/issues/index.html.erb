@@ -6,7 +6,7 @@
 
   </li>
     <li class="toolbar-item">
-      <%= link_to({ action: 'upload' },
+      <%= link_to(main_app.url_for({ action: 'upload' }),
                 title: I18n.t(:label_import),
                 class: 'button import-bcf-button') do %>
         <%= op_icon('button--icon icon-import') %>

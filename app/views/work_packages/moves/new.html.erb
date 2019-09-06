@@ -42,7 +42,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <% end -%>
 </ul>
 
-<%= styled_form_tag({action: 'create'},
+<%= styled_form_tag(main_app.url_for({action: 'create'}),
                     id: 'move_form',
                     data: { 'refresh-url': url_for(action: 'new'), 'input-selector': '#new_project_id' },
                     class: '-wide-labels augment--refresh-on-form-changes') do %>

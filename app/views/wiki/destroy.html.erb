@@ -45,6 +45,6 @@ See docs/COPYRIGHT.rdoc for more details.
   </div>
   <%= submit_tag t(:button_apply), class: 'button -highlight' %>
   <%= link_to t(:button_cancel),
-      { controller: '/wiki', action: 'show', project_id: @project, id: @page },
+      main_app.url_for(main_app.url_for({ controller: '/wiki', action: 'show', project_id: @project, id: @page })),
       class: 'button' %>
 <% end %>

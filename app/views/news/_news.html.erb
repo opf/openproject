@@ -28,7 +28,7 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 <div class="news">
   <%= link_to_project(news.project) + ': ' unless @project %>
-  <h4 class='overview'><%= link_to h(news.title), news_path(news) %></h4>
+  <h4 class='overview'><%= link_to h(news.title), main_app.news_pathnews) %></h4>
   <p class="author additional-information"><%= authoring news.created_on, news.author %></p>
   <div class="comment">
     <% if news.summary.present? %>

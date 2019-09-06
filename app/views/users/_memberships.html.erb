@@ -78,7 +78,7 @@ See docs/COPYRIGHT.rdoc for more details.
                       <%=h membership.roles.sort.collect(&:to_s).join(', ') %>
                     </span>
                     <%= labelled_tabular_form_for(:membership,
-                                                  url: user_membership_path(user_id: @user, id: membership),
+                                                  url: main_app.user_membership_path(user_id: @user, id: membership),
                                                   html: { id: "member-#{membership.id}-roles-form",
                                                           class: "member-#{membership.id}--edit-toggle-item",
                                                           style: 'display:none;'},
@@ -111,7 +111,7 @@ See docs/COPYRIGHT.rdoc for more details.
                                          class: "member-#{membership.id}--edit-toggle-item user-memberships--edit-button",
                                          title: t(:button_edit) %>
                     <%= link_to(icon_wrapper('icon icon-remove', t(:button_remove)),
-                                user_membership_path(user_id: @user, id: membership),
+                                main_app.user_membership_path(user_id: @user, id: membership),
                                 method: :delete,
                                 title: t(:button_remove)) if membership.deletable? %>
                   </td>
@@ -129,7 +129,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <div class="grid-content">
     <% if projects.any? %>
       <%= labelled_tabular_form_for(:membership,
-                                    url: user_memberships_path(user_id: @user),
+                                    url: main_app.user_memberships_path(user_id: @user),
                                     html: {id: "new_project_membership"}) do %>
         <fieldset class="form--fieldset">
           <legend class="form--fieldset-legend"><%=l(:label_project_new)%></legend>

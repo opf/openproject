@@ -28,8 +28,8 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% breadcrumb_paths(
-  link_to(t(:label_forum_plural), project_forums_path(@project)),
-  link_to(h(@forum.name), project_forum_path(@project, @forum)))
+  link_to(t(:label_forum_plural), main_app.project_forums_path(@project)),
+  link_to(h(@forum.name), main_app.project_forum_path(@project, @forum)))
 %>
 <% title avatar(@topic.author) + h(@topic.subject) %>
 <%= toolbar title: title do %>
@@ -38,7 +38,7 @@ See docs/COPYRIGHT.rdoc for more details.
     </li>
     <li class="toolbar-item">
       <% if !@topic.locked? && authorize_for('messages', 'reply') %>
-          <%= link_to({ action: 'quote', id: @topic }, class: 'boards--quote-button button') do %>
+          <%= link_to(main_app.url_for({ action: 'quote', id: @topic }), class: 'boards--quote-button button') do %>
               <%= op_icon('button--icon icon-quote') %>
               <span class="button--text"><%= t(:button_quote) %></span>
           <% end %>
@@ -54,7 +54,7 @@ See docs/COPYRIGHT.rdoc for more details.
     </li>
     <li class="toolbar-item">
       <% if @message.destroyable_by?(User.current) %>
-          <%= link_to(topic_path(@topic), method: :delete, data: { confirm: t(:text_are_you_sure) }, class: 'button') do %>
+          <%= link_to(main_app.topic_path(@topic), method: :delete, data: { confirm: t(:text_are_you_sure) }, class: 'button') do %>
               <%= op_icon('button--icon icon-delete') %>
               <span class="button--text"><%= t(:button_delete) %></span>
           <% end %>
@@ -81,17 +81,17 @@ See docs/COPYRIGHT.rdoc for more details.
       <div class="comment" id="<%= "message-#{message.id}" %>">
         <div class="contextual">
           <%= link_to(icon_wrapper('icon-context icon-quote', t(:button_quote)),
-                    { action: 'quote', id: message },
+                    main_app.url_for({ action: 'quote', id: message }),
                     title: t(:button_quote),
                     class: 'boards--quote-button no-decoration-on-hover',
                     alt: t(:button_quote)) if !@topic.locked? && authorize_for('messages', 'reply') %>
           <%= link_to(icon_wrapper('icon-context icon-edit', t(:button_edit)),
-                    { action: 'edit', id: message },
+                    main_app.url_for({ action: 'edit', id: message }),
                     title: t(:button_edit),
                     class: 'no-decoration-on-hover',
                     alt: t(:button_edit)) if message.editable_by?(User.current) %>
           <%= link_to(icon_wrapper('icon-context icon-delete', t(:button_delete)),
-                    { action: 'destroy', id: message},
+                    main_app.url_for({ action: 'destroy', id: message}),
                     method: :delete,
                     data: { confirm: t(:text_are_you_sure) },
                     title: t(:button_delete),
@@ -100,7 +100,7 @@ See docs/COPYRIGHT.rdoc for more details.
         </div>
         <h4 class="author additional-information">
           <%= avatar(message.author) %>
-          <%= link_to h(message.subject), topic_path(@topic,
+          <%= link_to h(message.subject), main_app.topic_path(@topic,
                                                    r: message,
                                                    anchor: "message-#{message.id}") %>
           -
@@ -127,7 +127,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
       <%= labelled_tabular_form_for @reply,
                                     as: :reply,
-                                    url: reply_to_topic_path(@topic),
+                                    url: main_app.reply_to_topic_path(@topic),
                                     html: { multipart: true,
                                             id: 'message-form',
                                             class: 'form' } do |f| %>

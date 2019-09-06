@@ -34,7 +34,7 @@ module Statuses
 
     def sort
       reorder_links 'status',
-                    { action: 'update', id: status },
+                    main_app.url_for({ action: 'update', id: status }),
                     method: :patch
     end
 

@@ -30,7 +30,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= toolbar title: "#{avatar(@news.author)}  #{h @news.title}".html_safe do %>
   <% if User.current.allowed_to?(:manage_news, @project) %>
     <li class="toolbar-item">
-      <%= link_to(edit_news_path(@news),
+      <%= link_to(main_app.edit_news_path(@news),
         accesskey: accesskey(:edit),
         class: 'button edit-news-button') do %>
         <%= op_icon('button--icon icon-edit') %>
@@ -44,7 +44,7 @@ See docs/COPYRIGHT.rdoc for more details.
   </li>
   <% if User.current.allowed_to?(:manage_news, @project) %>
     <li class="toolbar-item">
-      <%= link_to(news_path(@news),
+      <%= link_to(main_app.news_path(@news),
         data: { confirm: l(:text_are_you_sure) },
         method: :delete,
         class: 'button') do %>

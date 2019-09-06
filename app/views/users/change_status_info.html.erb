@@ -30,7 +30,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <% local_assigns[:additional_breadcrumb] = @user.name %>
 
 <% new_status =  t("user.#{@status_change}") %>
-<%= labelled_tabular_form_for :user, url: change_status_user_path(@user, @status_change => '1'), html: { method: :post, class: 'form' } do %>
+<%= labelled_tabular_form_for :user, url: main_app.change_status_user_path@user, @status_change => '1'), html: { method: :post, class: 'form' } do %>
     <section class="form--section">
       <h3 class="form--section-title">
         <%= @user.name %>:

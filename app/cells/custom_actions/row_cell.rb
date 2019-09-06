@@ -12,7 +12,7 @@ module CustomActions
     end
 
     def sort
-      reorder_links('custom_action', { action: 'update', id: action }, method: :put)
+      reorder_links('custom_action', main_app.url_for({ action: 'update', id: action }), method: :put)
     end
 
     def button_links

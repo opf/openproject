@@ -81,7 +81,7 @@ See docs/COPYRIGHT.rdoc for more details.
         <% for forum in @forums %>
           <tr>
             <td class="-no-ellipsis">
-              <%= link_to h(forum.name), { action: 'show', id: forum }, class: "forum"  %><br />
+              <%= link_to h(forum.name), main_app.url_for({ action: 'show', id: forum }), class: "forum"  %><br />
               <%= format_text(forum.description) %>
             </td>
             <td><%= forum.topics_count %></td>
@@ -101,9 +101,9 @@ See docs/COPYRIGHT.rdoc for more details.
   </div>
 </div>
 <%= other_formats_links do |f| %>
-  <%= f.link_to 'Atom', url: { controller: '/activities', action: 'index', id: @project, show_messages: 1, key: User.current.rss_key } %>
+  <%= f.link_to 'Atom', url: main_app.url_for(main_app.url_for({ controller: '/activities', action: 'index', id: @project, show_messages: 1, key: User.current.rss_key })) %>
 <% end %>
 
 <% content_for :header_tags do %>
-  <%= auto_discovery_link_tag(:atom, { controller: '/activities', action: 'index', id: @project, format: 'atom', show_messages: 1, key: User.current.rss_key }) %>
+  <%= auto_discovery_link_tag(:atom, main_app.url_for(main_app.url_for({ controller: '/activities', action: 'index', id: @project, format: 'atom', show_messages: 1, key: User.current.rss_key }))) %>
 <% end %>

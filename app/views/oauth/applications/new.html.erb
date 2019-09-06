@@ -31,7 +31,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= breadcrumb_toolbar(t('oauth.application.new')) %>
 
 <%= labelled_tabular_form_for @application,
-                              url: { action: "create" },
+                              url: main_app.url_for({ action: "create" }),
                               html: { class: nil, autocomplete: 'off' },
                               as: :application do |f| %>
 

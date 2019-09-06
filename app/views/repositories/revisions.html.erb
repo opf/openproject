@@ -27,7 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <%= toolbar title: l(:label_revision_plural) do %>
-  <%= form_tag({ action: 'revision', id: @project }, { method: :get }) do %>
+  <%= form_tag(main_app.url_for({ action: 'revision', id: @project }), { method: :get }) do %>
     <li class="toolbar-item">
       <%= label_tag :rev, l(:label_revision), class: 'hidden-for-sighted' %>
       <%= text_field_tag :rev, @rev, size: 8, placeholder: l(:label_revision) %>

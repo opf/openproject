@@ -1,6 +1,6 @@
 <% html_title(t(:label_administration), t('ldap_groups.synchronized_groups.destroy.title')) -%>
 
-<%= styled_form_tag({ action: :destroy, ldap_group_id: @group.id },
+<%= styled_form_tag(main_app.url_for({ action: :destroy, ldap_group_id: @group.id }),
                     class: 'danger-zone',
                     method: :delete) do %>
   <section class="form--section">
@@ -26,7 +26,7 @@
         concat content_tag :span, t(:button_delete), class: 'button--text'
       end %>
       <%= link_to t(:button_cancel),
-                  { action: :index },
+                  main_app.url_for({ action: :index }),
                   title: t(:button_cancel),
                   class: 'button -with-icon icon-cancel' %>
     </div>

@@ -7,7 +7,7 @@
 <%= toolbar title: t('two_factor_authentication.devices.add_new') %>
 
 <%= labelled_tabular_form_for @device,
-                              url: { action: :register },
+                              url: main_app.url_for({ action: :register }),
                               html: { class: nil, autocomplete: 'off' },
                               as: :device do |f| %>
 

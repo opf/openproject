@@ -40,6 +40,12 @@ module Overviews
       end
     end
 
+    initializer "overviews.url_helpers" do
+      ActiveSupport.on_load(:action_controller) do
+        helper Rails.application.routes.url_helpers
+      end
+    end
+
     initializer 'overviews.conversion' do
       require Rails.root.join('config', 'constants', 'ar_to_api_conversions')
 

@@ -2,7 +2,7 @@
 
 <%= error_messages_for @group %>
 
-<%= breadcrumb_toolbar(link_to(t('ldap_groups.synchronized_groups.plural'), { action: :index}), h(@group.entry)) %>
+<%= breadcrumb_toolbar(link_to(t('ldap_groups.synchronized_groups.plural'), main_app.url_for({ action: :index})), h(@group.entry)) %>
 <section class="admin--edit-section">
     <div class="attributes-key-value">
       <div class="attributes-key-value--key"><%= @group.class.human_attribute_name('entry') %></div>

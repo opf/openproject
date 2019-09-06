@@ -23,8 +23,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <h2><%= t(:label_log_costs) %></h2>
 
 <% url = @cost_entry.new_record? ?
-          { action: 'create', project_id: @project.id } :
-          { action: 'update', id: @cost_entry } %>
+          main_app.url_for({ action: 'create', project_id: @project.id }) :
+          main_app.url_for({ action: 'update', id: @cost_entry }) %>
 
 <% method = @cost_entry.new_record? ?
             :post :

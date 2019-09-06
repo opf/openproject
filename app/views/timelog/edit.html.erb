@@ -30,7 +30,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= toolbar title: t(:label_spent_time) %>
 <%= labelled_tabular_form_for [@time_entry.project, @time_entry], as: :time_entry do |f| %>
   <%= error_messages_for_contract @time_entry, @errors %>
-  <%= back_url_hidden_field_tag %>
+  <%= main_app.back_url_hidden_field_tag %>
 
   <div class="form--field">
     <%= f.text_field :work_package_id, size: 6, container_class: '-xslim' %>

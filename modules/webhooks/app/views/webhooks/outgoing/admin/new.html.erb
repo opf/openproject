@@ -12,12 +12,12 @@
 <%= error_messages_for @webhook %>
 
 <%= labelled_tabular_form_for @webhook,
-                              url: { action: :create },
+                              url: main_app.url_for({ action: :create }),
                               as: 'webhook',
                               html: { class: 'form', autocomplete: 'off' } do |f| %>
   <%= render partial: "form", locals: { f: f, webhook: @webhook } %>
   <p>
     <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-checkmark' %>
-    <%= link_to t(:button_cancel), { action: :index }, class: 'button' %>
+    <%= link_to t(:button_cancel), main_app.url_for({ action: :index }), class: 'button' %>
   </p>
 <% end %>

@@ -71,7 +71,7 @@ See docs/COPYRIGHT.rdoc for more details.
                     <td class="roles">
                       <span id="member-<%= membership.id %>-roles"><%=h membership.roles.sort.collect(&:to_s).join(', ') %></span>
                       <%= labelled_tabular_form_for(:membership,
-                                                    url: membership_of_group_path(@group, membership),
+                                                    url: main_app.membership_of_group_path(@group, membership),
                                                     method: :put,
                                                     html: {
                                                       id: "member-#{membership.id}-roles-form",
@@ -99,7 +99,7 @@ See docs/COPYRIGHT.rdoc for more details.
                       <%= link_to_function icon_wrapper('icon icon-edit', t(:button_edit)),
                                            "jQuery('#member-#{membership.id}-roles').hide(); jQuery('#member-#{membership.id}-roles-form').show();" do %>
                       <% end %>
-                      <%= link_to l(:button_remove), membership_of_group_path(@group, membership),
+                      <%= link_to l(:button_remove), main_app.membership_of_group_path(@group, membership),
                                            method: :delete,
                                            class: 'icon icon-remove' %>
                     </td>
@@ -116,7 +116,7 @@ See docs/COPYRIGHT.rdoc for more details.
   </div>
   <div class="grid-content">
     <% if projects.any? %>
-      <%= styled_form_tag(memberships_of_group_path(@group), method: :post) do %>
+      <%= styled_form_tag(main_app.memberships_of_group_path(@group), method: :post) do %>
          <fieldset class="form--fieldset add-membership-form-fieldset">
             <legend class="form--fieldset-legend"><%=l(:label_project_new)%></legend>
             <%= label_tag "new_membership_project_id", l(:description_choose_project), class: "hidden-for-sighted" %>

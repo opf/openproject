@@ -32,7 +32,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= breadcrumb_toolbar(edit_label) %>
 
 <%= labelled_tabular_form_for @application,
-                              url: { action: "update" },
+                              url: main_app.url_for({ action: "update" }),
                               html: { class: nil, autocomplete: 'off' },
                               as: :application do |f| %>
   <%= render partial: 'form', locals: { f: f } %>

@@ -35,7 +35,7 @@ See docs/COPYRIGHT.rdoc for more details.
       opts[:origin] = params['back_url']
     end
   %>
-  <a href="<%= omniauth_start_path(:developer, opts) %>" class="auth-provider auth-provider-developer button">
+  <a href="<%= main_app.omniauth_start_path(:developer, opts) %>" class="auth-provider auth-provider-developer button">
     <span class="auth-provider-name">Omniauth Developer</span>
   </a>
 <% end %>

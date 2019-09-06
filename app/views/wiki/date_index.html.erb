@@ -40,14 +40,14 @@ See docs/COPYRIGHT.rdoc for more details.
   <h3><%= format_date(date) %></h3>
   <ul>
     <% @pages_by_date[date].each do |page| %>
-      <li><%= link_to page.title, project_wiki_path(page.project, page) %></li>
+      <li><%= link_to page.title, main_app.project_wiki_pathpage.project, page) %></li>
     <% end %>
   </ul>
 <% end %>
 <% if @pages.any? %>
   <%= other_formats_links do |f| %>
     <%= f.link_to 'Atom', url: {controller: '/activities', action: 'index', show_wiki_edits: 1, key: User.current.rss_key} %>
-    <%= f.link_to('HTML', url: {action: 'export'}) if User.current.allowed_to?(:export_wiki_pages, @project) %>
+    <%= f.link_to('HTML', url: main_app.url_for({action: 'export'})) if User.current.allowed_to?(:export_wiki_pages, @project) %>
   <% end %>
 <% end %>
 <% content_for :header_tags do %>

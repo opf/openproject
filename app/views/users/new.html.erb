@@ -33,7 +33,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <% local_assigns[:additional_breadcrumb] = l(:label_user_new) %>
 <%= render partial: 'toolbar', locals: { new_user: true } %>
 <%= labelled_tabular_form_for @user,
-                              url: { action: "create" },
+                              url: main_app.url_for({ action: "create" }),
                               html: { class: nil, autocomplete: 'off' },
                               as: :user do |f| %>
   <%= render partial: 'simple_form', locals: { f: f, auth_sources: @auth_sources, user: @user } %>

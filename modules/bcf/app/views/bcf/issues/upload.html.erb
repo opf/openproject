@@ -1,6 +1,6 @@
 <%= toolbar title: t('bcf.bcf_xml.import_title') %>
 
-<%= form_tag({ action: :prepare_import }, multipart: true, method: :post) do %>
+<%= form_tag(main_app.url_for({ action: :prepare_import }), multipart: true, method: :post) do %>
 
   <div class="form--field">
     <%= styled_label_tag 'bcf_file', t('bcf.bcf_xml.xml_file') %>

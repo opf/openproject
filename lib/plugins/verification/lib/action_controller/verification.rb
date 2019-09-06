@@ -23,7 +23,7 @@ module ActionController #:nodoc:
     #     # settings action will be redirected to in current controller
     #     # if verification fails.
     #     verify params: "admin_privileges", only: :update_post,
-    #            redirect_to: { action: "settings" }
+    #            redirect_to: main_app.url_for({ action: "settings" })
     #
     #     # Disallow a post from being updated if there was no information
     #     # submitted with the post, and if there is no active post in the

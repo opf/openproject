@@ -29,7 +29,7 @@ module Enumerations
     end
 
     def sort
-      reorder_links('enumeration', { action: 'update', id: enumeration }, method: :put)
+      reorder_links('enumeration', main_app.url_for({ action: 'update', id: enumeration }), method: :put)
     end
 
     def button_links

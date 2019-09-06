@@ -33,7 +33,7 @@ See docs/COPYRIGHT.rdoc for more details.
     </legend>
     <div class="form--fieldset-control">
       <span class="form--fieldset-control-container">
-        <%= link_to_if_authorized({ controller: '/versions', action: 'new', project_id: @project },
+        <%= link_to_if_authorized(main_app.url_for(main_app.url_for({ controller: '/versions', action: 'new', project_id: @project })),
                                   { aria: { label: t(:label_version_new) },
                                     title: t(:label_version_new) }) do %>
           <%= op_icon('icon-add icon-small') %>
@@ -144,11 +144,11 @@ See docs/COPYRIGHT.rdoc for more details.
                 <td class="buttons">
                   <% if version.project == @project %>
                     <%= link_to_if_authorized '',
-                                              { controller: '/versions', action: 'edit', id: version },
+                                              main_app.url_for(main_app.url_for({ controller: '/versions', action: 'edit', id: version })),
                                               class: 'icon icon-edit',
                                               title: t(:button_edit) %>
                     <%= link_to_if_authorized '',
-                                              { controller: '/versions', action: 'destroy', id: version },
+                                              main_app.url_for({ controller: '/versions', action: 'destroy', id: version }),
                                               data: { confirm: l(:text_are_you_sure) },
                                               method: :delete,
                                               class: 'icon icon-delete',
@@ -163,7 +163,7 @@ See docs/COPYRIGHT.rdoc for more details.
       </div>
     </div>
     <div class="generic-table--action-buttons">
-      <%= link_to_if_authorized({ controller: '/versions', action: 'new', project_id: @project },
+      <%= link_to_if_authorized(main_app.url_for({ controller: '/versions', action: 'new', project_id: @project }),
                                 { class: 'button -alt-highlight',
                                   aria: {label: t(:label_version_new)},
                                   title: t(:label_version_new)}) do %>

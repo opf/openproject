@@ -130,8 +130,8 @@ class CostObjectsController < ApplicationController
       render_attachment_warning_if_needed(@cost_object)
 
       flash[:notice] = t(:notice_successful_create)
-      redirect_to(params[:continue] ? { action: 'new' } :
-                      { action: 'show', id: @cost_object })
+      redirect_to(params[:continue] ? main_app.url_for({ action: 'new' }) :
+                      main_app.url_for({ action: 'show', id: @cost_object }))
       return
     else
       render action: 'new', layout: !request.xhr?
@@ -166,7 +166,7 @@ class CostObjectsController < ApplicationController
       render_attachment_warning_if_needed(@cost_object)
 
       flash[:notice] = t(:notice_successful_update)
-      redirect_to(params[:back_to] || { action: 'show', id: @cost_object })
+      redirect_to(params[:back_to] || main_app.url_for({ action: 'show', id: @cost_object }))
     else
       render action: 'edit'
     end

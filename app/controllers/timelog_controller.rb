@@ -131,7 +131,7 @@ class TimelogController < ApplicationController
       respond_to do |format|
         format.html do
           flash[:notice] = l(:notice_successful_delete)
-          redirect_back fallback_location: { action: 'index', project_id: @time_entry.project }
+          redirect_back fallback_location: main_app.url_for({ action: 'index', project_id: @time_entry.project })
         end
         format.json do
           render json: { text: l(:notice_successful_delete) }
@@ -141,7 +141,7 @@ class TimelogController < ApplicationController
       respond_to do |format|
         format.html do
           flash[:error] = l(:notice_unable_delete_time_entry)
-          redirect_back fallback_location: { action: 'index', project_id: @time_entry.project }
+          redirect_back fallback_location: main_app.url_for({ action: 'index', project_id: @time_entry.project })
         end
         format.json do
           render json: { isError: true, text: l(:notice_unable_delete_time_entry) }

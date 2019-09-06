@@ -60,7 +60,7 @@ describe TimelogController, type: :controller do
     assert_response :success
     assert_template 'edit'
     # Default activity selected
-    assert_select 'form', attributes: { action: '/projects/ecookbook/time_entries/2' }
+    assert_select 'form', attributes: main_app.url_for({ action: '/projects/ecookbook/time_entries/2' })
   end
 
   it 'should get edit with an existing time entry with inactive activity' do
