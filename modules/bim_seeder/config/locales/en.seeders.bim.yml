@@ -135,6 +135,9 @@ en:
                   - type
                   - status
                   - assigned_to
+            boards:
+              bcf:
+                name: "Simple drag'n drop workflow"
             work_packages: []
           demo-planning-constructing-project:
             name: (Demo) Planning & constructing
