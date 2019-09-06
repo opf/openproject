@@ -104,7 +104,8 @@ module DemoData
         description:   attributes[:description],
         status:        find_status(attributes),
         type:          find_type(attributes),
-        priority:      find_priority(attributes) || IssuePriority.default
+        priority:      find_priority(attributes) || IssuePriority.default,
+        parent:        WorkPackage.find_by(subject: attributes[:parent])
       }
     end
 
