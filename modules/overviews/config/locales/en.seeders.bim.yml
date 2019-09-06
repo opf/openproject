@@ -30,7 +30,7 @@ en:
     bim:
       demo_data:
         projects:
-          demo-project:
+          demo-construction-project:
             project-overview:
               row_count: 4
               column_count: 2
@@ -55,16 +55,15 @@ en:
                     text: |
                       We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
-                      Discover the most important features with our [Guided Tour](%{base_url}/projects/demo-project/work_packages/?start_onboarding_tour=true).
+                      Discover the most important features with our [Guided Tour](%{base_url}/projects/demo-construction-project/work_packages/?start_onboarding_tour=true).
 
                       _Try the following steps:_
 
-                      1. *Invite new members to your project*: &rightarrow; Go to [Members](%{base_url}/projects/demo-project/members) in the project navigation.
-                      2. *View the work in your project*: &rightarrow; Go to [Work packages](%{base_url}/projects/demo-project/work_packages) in the project navigation.
-                      3. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create](%{base_url}/projects/demo-project/work_packages/new).
-                      4. *Create and update a project plan*: &rightarrow; Go to [Project plan](%{base_url}/projects/demo-project/work_packages?query_id=##query.id:"Project plan") in the project navigation.
-                      5. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules](%{base_url}/projects/demo-project/settings/modules).
-                      6. *Complete your tasks in the project*: &rightarrow; Go to [Work packages &rightarrow; Tasks](%{base_url}/projects/demo-project/work_packages/details/##wp.id:"Edit a work package"/overview?query_id=##query.id:"Tasks").
+                      1. *Invite new members to your project*: &rightarrow; Go to [Members](%{base_url}/projects/demo-construction-project/members) in the project navigation.
+                      2. *View the work in your project*: &rightarrow; Go to [Work packages](%{base_url}/projects/demo-construction-project/work_packages) in the project navigation.
+                      3. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create](%{base_url}/projects/demo-construction-project/work_packages/new).
+                      4. *Create and update a project plan*: &rightarrow; Go to [Project plan](%{base_url}/projects/demo-construction-project/work_packages?query_id=##query.id:"Project plan") in the project navigation.
+                      5. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules](%{base_url}/projects/demo-construction-project/settings/modules).
 
                       Here you will find our [User Guides](https://www.openproject.org/help/).
                       Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
