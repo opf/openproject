@@ -1154,37 +1154,38 @@ en:
                 :duration: 3
                 :parent: Issue management, first cycle
               - :start: 98
-                :bcf_issue_uuid: 03d1536b-e444-4900-921e-57405142ba82
-                :assigned_to: Planners
-                :duration: 0
+                :bcf_issue_uuid: 73def76d-939d-404c-9bd0-581399f92714
+                :duration: 8
                 :parent: Issue management, construction phase
               - :start: 98
-                :bcf_issue_uuid: 64880305-5c13-4045-9946-fd43441bf063
-                :assigned_to: BIM Modellers
-                :duration: 4
+                :bcf_issue_uuid: b5105e2e-add1-4d48-abb9-ce51fcea3bdd
+                :duration: 8
                 :parent: Issue management, construction phase
               - :start: 98
-                :bcf_issue_uuid: d9c283eb-aac5-4b64-8228-c00d57efe609
-                :assigned_to: Planners
-                :duration: 0
+                :bcf_issue_uuid: 99f03fde-4c74-4a8f-940a-c741738ab073
+                :duration: 2
                 :parent: Issue management, construction phase
-              - :start: 98
-                :bcf_issue_uuid: 1b47968c-86df-4e79-8ffd-f4928ddb1834
-                :assigned_to: Planners
-                :duration: 12
+              - :start: 111
+                :bcf_issue_uuid: af1de642-6d08-489b-8056-ca4c383e0617
+                :duration: 8
                 :parent: Issue management, construction phase
-              - :start: 153
-                :bcf_issue_uuid: 9eb55008-516e-4b37-94d9-482e0a24c00d
-                :assigned_to: Planners
-                :duration: 26
+              - :start: 114
+                :bcf_issue_uuid: e6276745-3d58-4d40-80fb-6de5cb05077e
+                :duration: 8
                 :parent: Issue management, construction phase
-              - :start: 154
-                :bcf_issue_uuid: 33a15f8b-971c-4c82-853e-ec1eec552101
-                :assigned_to: Planners
-                :duration: 4
+              - :start: 149
+                :bcf_issue_uuid: efd7be98-1a64-4a35-ad4c-51b8881d79ed
+                :duration: 8
                 :parent: Issue management, construction phase
-              - :start: 182
-                :bcf_issue_uuid: d54db43e-7a1e-44fd-8f2c-0a3b8752b54f
-                :assigned_to: Planners
-                :duration: 4
+              - :start: 152
+                :bcf_issue_uuid: f689bfd4-ec09-45ca-bbe3-7d1d0f5d9933
+                :duration: 21
+                :parent: Issue management, construction phase
+              - :start: 178
+                :bcf_issue_uuid: 3746180f-ba1e-4ea0-a0fb-6ee69ccabd85
+                :duration: 8
+                :parent: Issue management, construction phase
+              - :start: 178
+                :bcf_issue_uuid: 2adbdbb4-bb60-4250-b8af-3cd786437814
+                :duration: 8
                 :parent: Issue management, construction phase
