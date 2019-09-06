@@ -28,6 +28,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-MyPage::Engine.routes.draw do
-  root to: 'angular#no_menu'
+OpenProject::Application.routes.draw do
+  get '/my/page', to: 'my_page/angular#no_menu'
 end

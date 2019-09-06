@@ -29,8 +29,7 @@
 require 'spec_helper'
 
 describe Overviews::OverviewsController, type: :controller do
-  routes { Overviews::Engine.routes }
-
+  
   let(:permissions) do
     %i(view_project)
   end
