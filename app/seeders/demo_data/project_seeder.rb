@@ -188,8 +188,20 @@ module DemoData
           identifier: project_identifier(key),
           description: project_description(key),
           enabled_module_names: project_modules(key),
-          types: project_types
+          types: project_types,
+          parent_id: parent_project_id(key)
         }
+      end
+
+      def parent_project_id(key)
+        parent_project(key).try(:id)
+      end
+
+      def parent_project(key)
+        identifier = project_data_for(key, 'parent')
+        return nil unless identifier.present?
+
+        Project.find_by(identifier: identifier)
       end
 
       def project_name(key)
