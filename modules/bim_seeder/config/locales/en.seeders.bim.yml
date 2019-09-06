@@ -82,7 +82,7 @@ en:
             identifier: demo-construction-project
             description: >
               **This is a demo project**. You can edit the description in
-              the [Project settings -> Description](%{base_url}/projects/demo-project/settings).
+              the [Project settings -> Description](%{base_url}/projects/demo-construction-project/settings).
             timeline:
               name: Timeline
             modules:
@@ -133,13 +133,13 @@ en:
                   - status
                   - assigned_to
             work_packages: []
-          demo-planning-construction-project:
+          demo-planning-constructing-project:
             name: (Demo) Planning & constructing
-            identifier: demo-planning-construction-project
+            identifier: demo-planning-constructing-project
             parent: demo-construction-project
             description: >
               **This is a demo project**. You can edit the description in
-              the [Project settings -> Description](%{base_url}/projects/demo-planning-construction-project/settings).
+              the [Project settings -> Description](%{base_url}/projects/demo-planning-constructing-project/settings).
             timeline:
               name: Timeline
             modules:
@@ -567,9 +567,9 @@ en:
               - :start: 14
                 :subject: Project kick off creating BIM model
                 :description: |-
-                  The project Kick off initializes the start of the project in your company. Everybody being part of this project should be invited to the kick off for a first briefing.
+                  The project Kickoff initializes the start of the project in your company. The whole project team should be invited to the Kickoff for a first briefing.
 
-                  The next step could be checking out the timetable and adjusting the appointments, by looking at the [Gantt chart](https://bcf.openproject-edge.com/projects/creating-bim-model/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
+                  The next step could be to check out the timetable and adjusting the appointments, by looking at the [Gantt chart](https://bcf.openproject-edge.com/projects/creating-bim-model/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
                 :status: default_status_new
                 :type: default_type_milestone
                 :assigned_to: BIM Managers
@@ -609,7 +609,7 @@ en:
                     :description: |-
                       # Goal
 
-                      *   A BIM execution plan shall be defined according to the exchange requirements specifications (ERS)
+                      *   A BIM execution plan will be defined according to the exchange requirements specifications (ERS)
                       *   All team members and partners have a plan on how to reach each of the project goals
 
                       # Description
@@ -721,12 +721,12 @@ en:
                     :description: |-
                       # Goal
 
-                      *   Having a foundation for developing the own model/ offering answers
-                      *   Using the external model to develop the own model
+                      *   Having a foundation for developing the internal model/ offering answers
+                      *   Using the external model to develop the internal model
 
                       # Description
 
-                      *   The external model will be referenced in the BIM platform, thus used for modelling the own model
+                      *   The external model will be referenced in the BIM platform, thus used for modelling the internal model
                       *   ...
                     :status: default_status_new
                     :type: default_type_task
@@ -905,7 +905,7 @@ en:
 
                       ## Description
 
-                      *   The kick-off on the construction site includes an introduction to the model
+                      *   The Kickoff on the construction site includes an introduction to the model
                       *   All the objects should have the information needed for the assigned tasks. If not, data enrichment of the model needs to be done
                       *   ...
                     :status: default_status_new
@@ -957,13 +957,13 @@ en:
                   ## Goal
 
                   *   The BIM model will be used for the Facility Management
-                  *   The model provides all the relevant information for commissioning and operating the building 
+                  *   The model provides all the relevant information for commissioning and operating the building
                   *   ...
 
                   ## Description
 
                   *   The model contains the relevant information for the facility manager
-                  *   The model can be used for the operting system of the building
+                  *   The model can be used for the operating system of the building
                   *   ...
                 :status: default_status_new
                 :type: default_type_milestone
@@ -983,10 +983,10 @@ en:
           demo-bcf-management-project:
             name: (Demo) BCF management
             identifier: demo-bcf-management-project
-            parent: demo-planning-construction-project
+            parent: demo-bim-project
             description: >
               **This is a demo project for BCF**. You can edit the description in
-              the [Project settings -> Description](%{base_url}/projects/demo-bcf-project/settings).
+              the [Project settings -> Description](%{base_url}/projects/demo-bcf-management-project/settings).
             timeline:
               name: Timeline
             modules:
