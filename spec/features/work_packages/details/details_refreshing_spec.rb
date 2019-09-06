@@ -47,7 +47,7 @@ describe 'Work package table refreshing due to split view', js: true do
 
     wp_table.expect_work_package_listed work_package
     page.within wp_table.row(work_package) do
-      expect(page).to have_selector('.wp-table--drag-and-drop-handle.icon-toggle', visible: :all)
+      expect(page).to have_selector('.wp-table--drag-and-drop-handle.icon-drag-handle', visible: :all)
     end
   end
 end
