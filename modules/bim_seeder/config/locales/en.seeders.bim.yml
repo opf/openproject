@@ -67,9 +67,12 @@ en:
         welcome:
           title: "Welcome to OpenProject BIM Edition!"
           text: |
-            Checkout the demo project to get started with some demo data we have prepared for you.
+            Checkout the demo projects to get started with some examples.
 
-            * [Demo project](%{base_url}/projects/demo-project): to get an overview about classical project management.
+            * [(Demo) Construction project](%{base_url}/projects/demo-construction-project): Planning, BIM process, BCF management, and constructing, all at a glance.
+                * [(Demo) Construction project](%{base_url}/projects/demo-planning-constructing-project): Classical planning and construction management.
+                * [(Demo) Construction project](%{base_url}/projects/demo-bim-project): BIM process and coordination.
+                    * [(Demo) Construction project](%{base_url}/projects/demo-bcf-management-project): BCF management.
 
             Also, you can create a blank [new project](%{base_url}/projects/new).
 
