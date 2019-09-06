@@ -43,6 +43,10 @@ export class GridDragAndDropService {
     return this.currentlyDragging && this.draggedArea!.guid === area.guid;
   }
 
+  public isPassive(area:GridWidgetArea) {
+    return this.currentlyDragging && !this.isDragged(area);
+  }
+
   public get isDraggable() {
     return this.layout.isEditable;
   }
