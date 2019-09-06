@@ -61,7 +61,8 @@
               </div>
           <% elsif %i(date_property).include?(action.type) %>
             <div class="form--field-container">
-              <%= tag 'custom-date-action-admin', data: { 'field-value': action.values.first&.iso8601, 'field-name': input_name } %>
+              <% date = action.values.first %>
+              <%= tag 'custom-date-action-admin', data: { 'field-value': date.try(:iso8601) || date, 'field-name': input_name } %>
             </div>
           <% elsif %i(string_property text_property).include?(action.type) %>
             <div class="form--field-container">
