@@ -11,9 +11,7 @@ module OpenProject::BimSeeder::Patches::WorkPackageSeederPatch
 
         start_date = calculate_start_date(attributes[:start])
         due_date = calculate_due_date(start_date, attributes[:duration])
-
-
-
+        
         work_package = find_bcf_issue(uuid)
 
         work_package.update_columns(created_at: Time.now,
