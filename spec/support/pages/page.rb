@@ -90,6 +90,8 @@ module Pages
         expect(page).to have_selector(".notification-box.-#{type}", text: message, wait: 20)
       elsif type == :error
         expect(page).to have_selector(".errorExplanation", text: message)
+      elsif type == :success
+        expect(page).to have_selector(".flash.notice", text: message)
       else
         raise NotImplementedError
       end

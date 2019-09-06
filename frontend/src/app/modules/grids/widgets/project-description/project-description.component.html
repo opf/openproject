@@ -8,5 +8,11 @@
   </widget-menu>
 </widget-header>
 
-<div class="grid--widget-content"
-     [innerHTML]="description" ></div>
+<div class="grid--widget-content">
+  <div *ngIf="hasDescription"
+       [innerHTML]="description">
+  </div>
+  <no-results *ngIf="!hasDescription && isLoaded"
+              [title]="text.noResults">
+  </no-results>
+</div>

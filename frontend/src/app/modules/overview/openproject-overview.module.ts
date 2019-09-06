@@ -28,8 +28,7 @@
 
 import {NgModule} from '@angular/core';
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
-import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
-import {Ng2StateDeclaration, UIRouter, UIRouterModule, Transition} from "@uirouter/angular";
+import {Ng2StateDeclaration, UIRouter, UIRouterModule} from "@uirouter/angular";
 import {OpenprojectGridsModule} from "core-app/modules/grids/openproject-grids.module";
 import {OverviewComponent} from "core-app/modules/overview/overview.component";
 
@@ -63,7 +62,6 @@ export function uiRouterOverviewConfiguration(uiRouter:UIRouter) {
 @NgModule({
   imports: [
     OpenprojectCommonModule,
-    OpenprojectWorkPackagesModule,
 
     OpenprojectGridsModule,
 

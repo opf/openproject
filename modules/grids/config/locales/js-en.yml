@@ -1,8 +1,7 @@
 en:
   js:
     grid:
-      add_modal:
-        choose_widget: 'Choose widget'
+      add_widget: 'Add widget'
       remove: 'Remove widget'
       widgets:
         custom_text:
@@ -22,8 +21,10 @@ en:
           no_results: 'Nothing new to report.'
         project_description:
           title: 'Project description'
+          no_results: 'No description has been written yet.'
         project_details:
           title: 'Project details'
+          no_results: 'No custom fields have been defined for projects.'
         subprojects:
           title: 'Subprojects'
           no_results: 'No subprojects.'

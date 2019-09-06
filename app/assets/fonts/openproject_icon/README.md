@@ -17,7 +17,7 @@ Since it seldomly changes, it is only rebuilt manually and on demand.
 
 ## Rebuilding
 
-To rebuild the font (e.g., after changing icons in the source `svg` directory), use the node script `generate.js`.
+To rebuild the font (e.g., after changing icons in the source `app/assets/fonts/openproject_icon/src` directory), use the node script `generate.js`.
 
 ```
 $ cd app/assets/fonts/openproject_icon

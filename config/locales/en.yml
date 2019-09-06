@@ -197,8 +197,6 @@ en:
     index:
       no_results_title_text: There is currently no news to report.
       no_results_content_text: Add a news item
-    my_page:
-      no_results_title_text: Nothing new to report.
 
   users:
     memberships:
@@ -1415,7 +1413,6 @@ en:
   label_move_work_package: "Move work package"
   label_my_account: "My account"
   label_my_account_data: "My account data"
-  label_my_page: "My page"
   label_my_projects: "My projects"
   label_my_queries: "My custom queries"
   label_never: "Never"

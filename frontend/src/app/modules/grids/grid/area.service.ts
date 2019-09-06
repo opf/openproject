@@ -22,6 +22,7 @@ export class GridAreaService {
   public widgetAreas:GridWidgetArea[];
   public gridAreaIds:string[];
   public mousedOverArea:GridArea|null;
+  public helpMode = false;
 
   constructor (private gridDm:GridDmService) { }
 
@@ -31,6 +32,8 @@ export class GridAreaService {
 
     this.numRows = this.resource.rowCount;
     this.numColumns = this.resource.columnCount;
+
+    this.helpMode = this.isNewlyCreated;
 
     this.buildAreas(true);
   }
@@ -112,8 +115,16 @@ export class GridAreaService {
     return this.numRows === 1 && this.numColumns === 1 && this.widgetResources.length === 0;
   }
 
-  public get isNewlyCreated() {
+  private get isNewlyCreated() {
     return moment(moment.utc()).diff(moment(this.resource.createdAt), 'seconds') < 20;
+  }
+
+  public get inHelpMode() {
+    return this.helpMode;
+  }
+
+  public toggleHelpMode() {
+    this.helpMode = !this.helpMode;
   }
 
   private saveGrid(resource:GridWidgetResource|any, schema?:SchemaResource) {

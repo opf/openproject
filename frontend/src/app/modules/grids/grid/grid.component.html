@@ -33,9 +33,15 @@
       </ndc-dynamic>
     </div>
     <resizer *ngIf="resize.isResizable"
+             [customHandler]="true"
              (end)="resize.end(area, $event)"
              (start)="resize.start(area)"
              (move)="resize.moving($event)">
+      <div class="grid--resizer">
+        <i class="icon-resizer-bottom-right"
+           aria-hidden="true">
+        </i>
+      </div>
     </resizer>
   </div>
 
@@ -44,23 +50,21 @@
        class="grid--area"
        [ngClass] = "{'-drop-target': drag.currentlyDragging,
                      '-resize-target': resize.isTarget(area),
-                     '-addable': add.isAddable(area)}"
+                     '-addable': add.isAddable(area),
+                     '-help-mode': layout.inHelpMode}"
        [style.grid-row-start]="area.gridStartRow"
        [style.grid-row-end]="area.gridEndRow"
        [style.grid-column-start]="area.gridStartColumn"
        [style.grid-column-end]="area.gridEndColumn"
        cdkDropList
        [id]="area.guid"
-       (mouseenter)="layout.setMousedOverArea(area)"
-       (mouseleave)="layout.setMousedOverArea(null)"
+       (mouseover)="layout.setMousedOverArea(area)"
        [cdkDropListData]="area"
        (cdkDropListDropped)="drag.drop($event)"
        (cdkDropListEntered)="drag.entered($event)"
        [cdkDropListConnectedTo]="layout.gridAreaIds">
     <div class="grid--widget-add"
-         *ngIf="add.isAddable(area)"
-         (mouseenter)="layout.setMousedOverArea(area)"
-         (mouseleave)="layout.setMousedOverArea(null)"
+         [title]="add.addText"
          (click)="add.widget(area)">
     </div>
   </div>
@@ -68,6 +72,7 @@
   <div *ngFor="let gap of layout.gridGaps; trackBy: identifyGridArea;"
        class="grid--area -gap"
        [ngClass] = "{'-addable': add.isAddable(gap),
+                     '-help-mode': layout.inHelpMode,
                      '-row': gap.isRow,
                      '-column': gap.isColumn}"
        [style.grid-row-start]="gap.gridStartRow"
@@ -75,12 +80,9 @@
        [style.grid-column-start]="gap.gridStartColumn"
        [style.grid-column-end]="gap.gridEndColumn"
        [id]="gap.guid"
-       (mouseleave)="layout.setMousedOverArea(null)"
-       (mouseenter)="layout.setMousedOverArea(gap)">
+       (mouseover)="layout.setMousedOverArea(gap)">
     <div class="grid--widget-add -gap"
-         *ngIf="add.isAddable(gap)"
-         (mouseenter)="layout.setMousedOverArea(gap)"
-         (mouseleave)="layout.setMousedOverArea(null)"
+         [title]="add.addText"
          (click)="add.widget(gap, layout.schema)">
     </div>
   </div>

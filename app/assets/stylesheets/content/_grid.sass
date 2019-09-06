@@ -60,13 +60,6 @@ $grid--widget-padding: 20px
     &.-column
       width: $grid--gap-width
 
-  .resizer
-    margin-top: 0
-    margin-left: auto
-    margin-right: -$grid--widget-padding
-    margin-bottom: -$grid--widget-padding
-    position: relative
-
   .cdk-drag-handle
     cursor: grab
     float: left
@@ -80,6 +73,23 @@ $grid--widget-padding: 20px
 
   icon-triggered-context-menu
     visibility: hidden
+
+.grid--resizer
+  position: relative
+  height: $grid--widget-padding
+  margin-bottom: -$grid--widget-padding
+  color: #888
+  cursor: nwse-resize
+  opacity: 0
+
+  i
+    position: absolute
+    bottom: 0
+    right: -$grid--widget-padding
+    padding: 0 3px 3px 0
+
+  .grid--area.-widgeted:hover &
+    opacity: 1
 
 .grid--area-drag-handle
   margin-left: -19px
@@ -167,6 +177,7 @@ $grid--widget-padding: 20px
   padding: 15px
   background-color: $gray
   border-radius: 50%
+  opacity: 0
 
   &:before
     @include icon-font-common
@@ -184,6 +195,13 @@ $grid--widget-padding: 20px
 
     &:before
       font-size: 0.75rem
+
+  .grid--area.-addable:hover &, .grid--area.-addable.-help-mode &
+    opacity: 1
+    transition: opacity 1s ease
+
+  .grid--area.-addable:hover &
+    transition-delay: 0.3s
 
 .grid--widget-remove
   float: right
