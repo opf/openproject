@@ -4,8 +4,6 @@ require 'open_project/plugins'
 
 module Dashboards
   class Engine < ::Rails::Engine
-    isolate_namespace Dashboards
-
     engine_name :dashboards
 
     include OpenProject::Plugins::ActsAsOpEngine
@@ -13,12 +11,11 @@ module Dashboards
     initializer 'dashboards.menu' do
       ::Redmine::MenuManager.map(:project_menu) do |menu|
         menu.push(:dashboards,
-                  { controller: 'dashboards/dashboards', action: 'show' },
+                  { controller: '/dashboards/dashboards', action: 'show' },
                   caption: :'dashboards.label',
                   after: :work_packages,
                   before: :calendar,
                   param: :project_id,
-                  engine: :project_dashboards,
                   icon: 'icon2 icon-status',
                   badge: 'dashboards.menu_badge')
       end

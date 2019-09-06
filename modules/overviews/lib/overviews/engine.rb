@@ -1,7 +1,5 @@
 module Overviews
   class Engine < ::Rails::Engine
-    isolate_namespace Overviews
-
     engine_name :overviews
 
     include OpenProject::Plugins::ActsAsOpEngine
@@ -9,11 +7,10 @@ module Overviews
     initializer 'overviews.menu' do
       ::Redmine::MenuManager.map(:project_menu) do |menu|
         menu.push(:overview,
-                  { controller: 'overviews/overviews', action: 'show' },
+                  { controller: '/overviews/overviews', action: 'show' },
                   caption: :'overviews.label',
                   param: :project_id,
                   first: true,
-                  engine: :project_overview,
                   icon: 'icon2 icon-info1')
       end
     end
