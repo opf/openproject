@@ -198,7 +198,7 @@ class Project < ActiveRecord::Base
     visible.like(query)
   end
 
-  # end timelines
+  # TODO: move into SetAttributesService
   def initialize(attributes = nil)
     super
 
@@ -312,6 +312,7 @@ class Project < ActiveRecord::Base
     cond
   end
 
+  # TODO: Move into ArchiveService
   # Archives the project and its descendants
   def archive
     # Check that there is no issue of a non descendant project that is assigned
@@ -332,6 +333,7 @@ class Project < ActiveRecord::Base
     true
   end
 
+  # TODO: Move into UnarchiveService
   # Unarchives the project
   # All its ancestors must be active
   def unarchive
@@ -340,6 +342,7 @@ class Project < ActiveRecord::Base
     update_attribute :status, STATUS_ACTIVE
   end
 
+  # TODO: Move into contract
   # Returns an array of projects the project can be moved to
   # by the current user
   def allowed_parents
@@ -356,6 +359,7 @@ class Project < ActiveRecord::Base
     @allowed_parents
   end
 
+  # TODO: Move into contract
   def allowed_parent?(p)
     p = guarantee_project_or_nil_or_false(p)
     return false if p == false # have to explicitly check for false
@@ -478,6 +482,7 @@ class Project < ActiveRecord::Base
     end
   end
 
+  # TODO: Move into DeleteService
   # Deletes all project's members
   def delete_all_members
     me = Member.table_name
@@ -543,6 +548,7 @@ class Project < ActiveRecord::Base
     name
   end
 
+  # TODO: Move into helper
   # Returns a short description of the projects (first lines)
   def short_description(length = 255)
     unless description.present?
@@ -574,6 +580,7 @@ class Project < ActiveRecord::Base
     active? && !due_date.nil? && (due_date < Date.today)
   end
 
+  # TODO: Can be deleted?
   # Returns the percent completed for this project, based on the
   # progress on it's versions.
   def completed_percent(options = { include_subprojects: false })
@@ -698,7 +705,7 @@ class Project < ActiveRecord::Base
     project_tree(projects) do |project, level|
       element = {
         project: project,
-        level:   level
+        level: level
       }
 
       element.merge!(yield(project)) if block_given?
