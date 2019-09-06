@@ -1063,6 +1063,9 @@ en:
                   - type
                   - status
                   - assigned_to
+            boards:
+              bcf:
+                name: "BCF issues"
             bcf_xml_file: "seed.bcfzip"
             work_packages:
               - :start: 73
