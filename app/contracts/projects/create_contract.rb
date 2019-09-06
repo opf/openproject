@@ -30,8 +30,8 @@ module Projects
   class CreateContract < BaseContract
     private
 
-    def manage_permission
-      :add_project
+    def validate_user_allowed_to_manage
+      errors.add :base, :error_unauthorized unless user.allowed_to_globally?(:add_project)
     end
   end
 end

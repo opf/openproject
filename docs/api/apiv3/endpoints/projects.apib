@@ -233,6 +233,76 @@ Returns a collection of projects. The collection can be filtered via query param
 
     [Projects][]
 
+## Create project [POST]
+
+Creates a new project, applying the attributes provided in the body.
+
+You can use the form and schema to be retrieve the valid attribute values and by that be guided towards successful creation.
+
++ Request Create project
+
+    + Body
+
+            {
+              "identifier": "new_project_identifier",
+              "name": "New project name",
+              "customField35": "Text custom field value"
+              "_links": {
+                "customField12": {
+                  "href": "/api/v3/users/5"
+                }
+              }
+            }
+
++ Response 201
+
+    [Project][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** add project which is a global permission
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
++ Response 422 (application/hal+json)
+
+    Returned if:
+
+    * a constraint for a property was violated (`PropertyConstraintViolation`)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "Name can't be blank.",
+                "_embedded": {
+                    "details": {
+                        "attribute": "name"
+                    }
+                }
+            }
+
 ## Projects schema [/api/v3/projects/schemas]
 
 + Model

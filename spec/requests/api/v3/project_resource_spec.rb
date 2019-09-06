@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Project resource' do
+describe 'API v3 Project resource', type: :request, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -205,6 +205,107 @@ describe 'API v3 Project resource' do
             .to be_json_eql(other_project.id.to_json)
             .at_path('_embedded/elements/0/id')
         end
+      end
+    end
+  end
+
+  describe '#post /projects' do
+    let(:current_user) do
+      FactoryBot.create(:user).tap do |u|
+        u.global_roles << global_role
+      end
+    end
+    let(:global_role) do
+      FactoryBot.create(:global_role, permissions: permissions)
+    end
+    let(:permissions) { [:add_project] }
+    let(:path) { api_v3_paths.projects }
+    let(:body) do
+      {
+        identifier: 'new_project_identifier',
+        name: 'Project name'
+      }.to_json
+    end
+
+    before do
+      login_as current_user
+
+      post path, body
+    end
+
+    it 'responds with 201 CREATED' do
+      expect(last_response.status).to eq(201)
+    end
+
+    it 'creates a project' do
+      expect(Project.count)
+        .to eql(1)
+    end
+
+    it 'returns the created project' do
+      expect(last_response.body)
+        .to be_json_eql('Project'.to_json)
+        .at_path('_type')
+      expect(last_response.body)
+        .to be_json_eql('Project name'.to_json)
+        .at_path('name')
+    end
+
+    context 'with a custom field' do
+      let(:body) do
+        {
+          identifier: 'new_project_identifier',
+          name: 'Project name',
+          "customField#{custom_field.id}": {
+            "raw": "CF text"
+          }
+        }.to_json
+      end
+
+      it 'sets the cf value' do
+        expect(last_response.body)
+          .to be_json_eql("CF text".to_json)
+          .at_path("customField#{custom_field.id}/raw")
+      end
+    end
+
+    context 'without permission to create projects' do
+      let(:permissions) { [] }
+
+      it 'responds with 403' do
+        expect(last_response.status).to eq(403)
+      end
+
+      it 'creates no project' do
+        expect(Project.count)
+          .to eql(0)
+      end
+    end
+
+    context 'with faulty params' do
+      let(:body) do
+        {
+          identifier: 'some_identifier'
+        }.to_json
+      end
+
+      it 'responds with 422' do
+        expect(last_response.status).to eq(422)
+      end
+
+      it 'creates no project' do
+        expect(Project.count)
+          .to eql(0)
+      end
+
+      it 'denotes the error' do
+        expect(last_response.body)
+          .to be_json_eql('Error'.to_json)
+          .at_path('_type')
+
+        expect(last_response.body)
+          .to be_json_eql("Name can't be blank.".to_json)
+          .at_path('message')
       end
     end
   end

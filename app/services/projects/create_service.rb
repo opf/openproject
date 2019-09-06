@@ -1,6 +1,8 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2019 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,30 +25,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-require_relative './shared_contract_examples'
-
-describe Projects::CreateContract do
-  it_behaves_like 'project contract' do
-    let(:project) do
-      Project.new(name: project_name,
-                  identifier: project_identifier,
-                  description: project_description,
-                  status: project_status,
-                  is_public: project_public,
-                  parent: project_parent)
-    end
-    let(:permissions) { [:add_project] }
-    let!(:allowed_to) do
-      allow(current_user)
-        .to receive(:allowed_to_globally?) do |permission|
-          permissions.include?(permission)
-        end
-    end
-
-    subject(:contract) { described_class.new(project, current_user) }
+module Projects
+  class CreateService < ::BaseServices::Create
   end
 end

@@ -37,6 +37,9 @@ module API
                                                           scope: -> { Project.visible(User.current).includes(:enabled_modules) })
                                                      .mount
 
+          post &::API::V3::Utilities::Endpoints::Create.new(model: Project)
+                                                       .mount
+
           mount ::API::V3::Projects::Schemas::ProjectSchemaAPI
 
           params do

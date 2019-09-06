@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,27 +28,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-require_relative './shared_contract_examples'
-
-describe Projects::CreateContract do
-  it_behaves_like 'project contract' do
-    let(:project) do
-      Project.new(name: project_name,
-                  identifier: project_identifier,
-                  description: project_description,
-                  status: project_status,
-                  is_public: project_public,
-                  parent: project_parent)
+module API
+  module V3
+    module Projects
+      class ProjectPayloadRepresenter < ProjectRepresenter
+        include ::API::Utilities::PayloadRepresenter
+      end
     end
-    let(:permissions) { [:add_project] }
-    let!(:allowed_to) do
-      allow(current_user)
-        .to receive(:allowed_to_globally?) do |permission|
-          permissions.include?(permission)
-        end
-    end
-
-    subject(:contract) { described_class.new(project, current_user) }
   end
 end

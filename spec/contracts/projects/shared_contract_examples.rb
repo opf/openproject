@@ -30,11 +30,12 @@ require 'spec_helper'
 
 shared_examples_for 'project contract' do
   let(:current_user) do
-    FactoryBot.build_stubbed(:user) do |user|
-      allow(user)
-        .to receive(:allowed_to?) do |permission, permission_project|
-        permissions.include?(permission) && project == permission_project
-      end
+    FactoryBot.build_stubbed(:user)
+  end
+  let!(:allowed_to) do
+    allow(current_user)
+      .to receive(:allowed_to?) do |permission, permission_project|
+      permissions.include?(permission) && project == permission_project
     end
   end
   let(:project_name) { 'Project name' }
