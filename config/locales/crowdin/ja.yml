@@ -147,8 +147,6 @@ ja:
     index:
       no_results_title_text: 現在、報告するニュースはありません。
       no_results_content_text: ニュース項目を追加
-    my_page:
-      no_results_title_text: 新しい報告はありません。
   users:
     memberships:
       no_results_title_text: このユーザは現在プロジェクトのメンバーではありません。
@@ -1326,7 +1324,6 @@ ja:
   label_move_work_package: "作業項目を移動"
   label_my_account: "個人設定"
   label_my_account_data: "アカウントのデータ"
-  label_my_page: "個人ページ"
   label_my_projects: "参加しているプロジェクト"
   label_my_queries: "個人のクエリ"
   label_never: "なし"

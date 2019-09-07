@@ -147,8 +147,6 @@ tr:
     index:
       no_results_title_text: Şu anda rapor edilecek bir haber yok.
       no_results_content_text: Haber öğesi ekle
-    my_page:
-      no_results_title_text: Rapor için yeni birşey bulunamadı.
   users:
     memberships:
       no_results_title_text: Bu kullanıcı şuan için bir proje üyesi değil.
@@ -1344,7 +1342,6 @@ tr:
   label_move_work_package: "İş paketini taşı"
   label_my_account: "Hesabım"
   label_my_account_data: "Hesap verilerim"
-  label_my_page: "Benim sayfam"
   label_my_projects: "Projelerim"
   label_my_queries: "Özel sorgularım"
   label_never: "Hiçbir zaman"

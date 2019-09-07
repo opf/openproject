@@ -147,8 +147,6 @@ zh-TW:
     index:
       no_results_title_text: 目前沒有新消息報告
       no_results_content_text: 新增一個消息
-    my_page:
-      no_results_title_text: 沒有新的消息可以報告
   users:
     memberships:
       no_results_title_text: 這個使用者目前不是任何專案的成員
@@ -1328,7 +1326,6 @@ zh-TW:
   label_move_work_package: "移動工作項目"
   label_my_account: "我的帳號"
   label_my_account_data: "我的帳號資料"
-  label_my_page: "我的首頁"
   label_my_projects: "我的專案"
   label_my_queries: "我的自訂查詢"
   label_never: "永不"

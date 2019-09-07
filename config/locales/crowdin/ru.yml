@@ -147,8 +147,6 @@ ru:
     index:
       no_results_title_text: На данный момент новостей для отчета нет.
       no_results_content_text: Добавить новость
-    my_page:
-      no_results_title_text: Ничего нового для отчета.
   users:
     memberships:
       no_results_title_text: Этот пользователь в данный момент в проекте не участвует.
@@ -1376,7 +1374,6 @@ ru:
   label_move_work_package: "Переместить пакет работ"
   label_my_account: "Моя учетная запись"
   label_my_account_data: "Данные моей учетной записи"
-  label_my_page: "Моя страница"
   label_my_projects: "Мои проекты"
   label_my_queries: "Мои пользовательские запросы"
   label_never: "Никогда"

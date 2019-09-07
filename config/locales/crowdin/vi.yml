@@ -147,8 +147,6 @@ vi:
     index:
       no_results_title_text: Hiện không có tin tức báo cáo.
       no_results_content_text: Thêm một mục tin tức
-    my_page:
-      no_results_title_text: Không có gì mới để báo cáo.
   users:
     memberships:
       no_results_title_text: Người dùng này không phải là thành viên của dự án.
@@ -1328,7 +1326,6 @@ vi:
   label_move_work_package: "Di chuyển work package"
   label_my_account: "Tài khoản của tôi"
   label_my_account_data: "Dữ liệu tài khoản của tôi"
-  label_my_page: "Trang của tôi"
   label_my_projects: "Dự án của tôi"
   label_my_queries: "Các truy vấn tùy biến của tôi"
   label_never: "Never"

@@ -147,8 +147,6 @@ ca:
     index:
       no_results_title_text: Actualment no hi ha cap novetat per a informar.
       no_results_content_text: Afegir una notícia
-    my_page:
-      no_results_title_text: Res de nou a informar.
   users:
     memberships:
       no_results_title_text: Aquest usuari no és actualment membre de cap projecte.
@@ -1344,7 +1342,6 @@ ca:
   label_move_work_package: "Moure el paquet de treball"
   label_my_account: "El meu compte"
   label_my_account_data: "Dades del meu compte"
-  label_my_page: "La meva pàgina"
   label_my_projects: "Els meus projectes"
   label_my_queries: "Les meves consultes personalitzades"
   label_never: "Mai"

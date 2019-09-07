@@ -147,8 +147,6 @@ pt-BR:
     index:
       no_results_title_text: Atualmente, não há notícias para reportar.
       no_results_content_text: Adicionar um item de notícias
-    my_page:
-      no_results_title_text: Nada de novo para relatar.
   users:
     memberships:
       no_results_title_text: Atualmente, este usuário não é um membro de um projeto.
@@ -1343,7 +1341,6 @@ pt-BR:
   label_move_work_package: "Mover pacote de trabalho"
   label_my_account: "Minha conta"
   label_my_account_data: "Dados da minha conta"
-  label_my_page: "Minha página"
   label_my_projects: "Meus projetos"
   label_my_queries: "Minhas consultas personalizadas"
   label_never: "Nunca"

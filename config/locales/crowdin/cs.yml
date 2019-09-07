@@ -147,8 +147,6 @@ cs:
     index:
       no_results_title_text: V současné době neexistují žádné zprávy k zobrazení.
       no_results_content_text: Přidat příspěvek
-    my_page:
-      no_results_title_text: Žádné novinky.
   users:
     memberships:
       no_results_title_text: Tento uživatel není v současné době členem projektu.
@@ -1376,7 +1374,6 @@ cs:
   label_move_work_package: "Přesunout pracovní balíček"
   label_my_account: "Můj účet"
   label_my_account_data: "My account data"
-  label_my_page: "Moje stránka"
   label_my_projects: "Moje projekty"
   label_my_queries: "Moje vlastní dotazy"
   label_never: "Nikdy"

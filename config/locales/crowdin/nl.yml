@@ -147,8 +147,6 @@ nl:
     index:
       no_results_title_text: Er is momenteel geen nieuws om te rapporteren.
       no_results_content_text: Voeg een nieuwsitem toe
-    my_page:
-      no_results_title_text: Niets nieuws om te rapporteren.
   users:
     memberships:
       no_results_title_text: Deze gebruiker is momenteel geen lid van een project.
@@ -1344,7 +1342,6 @@ nl:
   label_move_work_package: "Verplaatsen werkpakket"
   label_my_account: "Mijn gegevens"
   label_my_account_data: "Mijn accountgegevens"
-  label_my_page: "Mijn pagina"
   label_my_projects: "Mijn projecten"
   label_my_queries: "Mijn aangepaste query 's"
   label_never: "Nooit"

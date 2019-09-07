@@ -147,8 +147,6 @@ sv:
     index:
       no_results_title_text: Det finns för närvarande inget att rapportera.
       no_results_content_text: Lägg till nyhet
-    my_page:
-      no_results_title_text: Inget nytt att rapportera.
   users:
     memberships:
       no_results_title_text: Denna användare är för närvarande inte medlem i något projekt.
@@ -1344,7 +1342,6 @@ sv:
   label_move_work_package: "Flytta arbetspaket"
   label_my_account: "Mitt konto"
   label_my_account_data: "Min kontoinformation"
-  label_my_page: "Min sida"
   label_my_projects: "Mina projekt"
   label_my_queries: "Min anpassade frågor"
   label_never: "Aldrig"

@@ -147,8 +147,6 @@ lt:
     index:
       no_results_title_text: Nėra jokių naujienų.
       no_results_content_text: Pridėti kaip naujieną
-    my_page:
-      no_results_title_text: Nėra jokių ataskaitų.
   users:
     memberships:
       no_results_title_text: Šis vartotojas šiuo metu nėra projekto narys.
@@ -1376,7 +1374,6 @@ lt:
   label_move_work_package: "Perkelti darbų paketą"
   label_my_account: "Mano paskyra"
   label_my_account_data: "Mano paskyros duomenys"
-  label_my_page: "Mano puslapis"
   label_my_projects: "Mano projektai"
   label_my_queries: "Mano sukurtos užklausos"
   label_never: "Niekada"

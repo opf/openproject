@@ -147,8 +147,6 @@ pl:
     index:
       no_results_title_text: Nie ma jeszcze żadnych wiadomości do wyświetlenia.
       no_results_content_text: Dodaj nowy element
-    my_page:
-      no_results_title_text: Utwórz nowy raport.
   users:
     memberships:
       no_results_title_text: Użytkownik jeszcze nie jest członkiem projektu.
@@ -1376,7 +1374,6 @@ pl:
   label_move_work_package: "Przenieś pakiet roboczy"
   label_my_account: "Moje konto"
   label_my_account_data: "Moje dane konta"
-  label_my_page: "Moja strona"
   label_my_projects: "Moje projekty"
   label_my_queries: "Moje zapytania niestandardowe"
   label_never: "Nigdy"

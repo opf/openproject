@@ -147,8 +147,6 @@ ro:
     index:
       no_results_title_text: În acest moment nu există știri de raportat.
       no_results_content_text: Adăugare știre nouă
-    my_page:
-      no_results_title_text: Nimic nou de raportat.
   users:
     memberships:
       no_results_title_text: Acest utilizator nu este în acest moment participant în vreun proiect.
@@ -1360,7 +1358,6 @@ ro:
   label_move_work_package: "Mutare pachet de lucru"
   label_my_account: "Contul meu"
   label_my_account_data: "Datele din contul meu"
-  label_my_page: "Pagina mea"
   label_my_projects: "Proiectele mele"
   label_my_queries: "Interogările mele"
   label_never: "Niciodată"
