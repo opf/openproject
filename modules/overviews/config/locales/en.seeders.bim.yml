@@ -249,7 +249,7 @@ en:
                       3.  _Load your BCF files:_ → Go to [BCF → Import.](%{base_url}/projects/demo-bcf-management-project/issues/upload)
                       4.  _Create and update a Gantt chart:_ → Go to [Gantt chart](%{base_url}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22days%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D) in the project navigation.
                       5.  _Activate further modules:_ → Go to [Project settings → Modules.](%{base_url}/projects/demo-bcf-management-project/settings/modules)
-                      6.  _Work with your BCF issues in the new Boards view:_ → Go to [Boards → Choose](%{base_url}/projects/demo-bcf-management-project/boards).
+                      6.  _You love the agile approach? Create a board:_ → Go to [Boards](%{base_url}/projects/demo-bcf-management-project/boards).
 
                       Here you will find our [User Guides](https://www.openproject.org/help/).
                       Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
