@@ -11,7 +11,7 @@ $grid--widget-padding: 20px
 .grid--container
   @include grid--commons
 
-.grid--area
+.grid--area, .cdk-drag-preview
   overflow: hidden
   min-height: 30px
 
@@ -241,3 +241,9 @@ $grid--widget-padding: 20px
   &:last-of-type
     border-bottom: none
 
+.cdk-drag-preview
+  background: white
+  padding: $grid--widget-padding
+  @include widget-box--style
+  margin-left: -$grid--widget-padding
+  margin-top: -$grid--widget-padding
