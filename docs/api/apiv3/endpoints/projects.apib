@@ -428,6 +428,299 @@ You can use the form and schema to be retrieve the valid attribute values and by
 
     [Projects schema][]
 
+## Project create form [/api/v3/project/form]
+
+This endpoint returns a form allowing a guided creation of new projects.
+
+For more details and all possible responses see the general specification of [Forms](#forms).
+
+## Project create form [POST]
+
++ Request Create project form
+
+    + Body
+
+            {
+              "identifier": "new_project_identifier",
+              "name": "New project name",
+              "customField35": "Text custom field value"
+            }
+
++ Response 200 (application/hal+json)
+
+    + Body
+
+            {
+                "_type": "Form",
+                "_embedded": {
+                    "payload": {
+                        "identifier": "new_project_identifier",
+                        "name": "New project name",
+                        "status": "active",
+                        "public": false,
+                        "description": {
+                            "format": "markdown",
+                            "raw": null,
+                            "html": ""
+                        },
+                        "customField30": null,
+                        "customField34": null,
+                        "customField35": "Text custom field value",
+                        "customField41": {
+                            "format": "markdown",
+                            "raw": "",
+                            "html": ""
+                        },
+                        "customField42": null,
+                        "_links": {
+                            "customField26": {
+                                "href": null,
+                                "title": null
+                            },
+                            "customField31": {
+                                "href": null,
+                                "title": null
+                            }
+                        }
+                    },
+                    "schema": {
+                        "_type": "Schema",
+                        "_dependencies": [],
+                        "id": {
+                            "type": "Integer",
+                            "name": "ID",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": false
+                        },
+                        "name": {
+                            "type": "String",
+                            "name": "Name",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": true,
+                            "minLength": 1,
+                            "maxLength": 255
+                        },
+                        "identifier": {
+                            "type": "String",
+                            "name": "Identifier",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": true,
+                            "minLength": 1,
+                            "maxLength": 100
+                        },
+                        "description": {
+                            "type": "Formattable",
+                            "name": "Description",
+                            "required": false,
+                            "hasDefault": false,
+                            "writable": true
+                        },
+                        "public": {
+                            "type": "Boolean",
+                            "name": "Public",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": true
+                        },
+                        "status": {
+                            "type": "String",
+                            "name": "Status",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": true,
+                            "visibility": "default",
+                            "_embedded": {
+                                "allowedValues": [
+                                    "active",
+                                    "archived"
+                                ]
+                            },
+                            "_links": {}
+                        },
+                        "createdAt": {
+                            "type": "DateTime",
+                            "name": "Created on",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": false
+                        },
+                        "updatedAt": {
+                            "type": "DateTime",
+                            "name": "Updated on",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": false
+                        },
+                        "customField26": {
+                            "type": "User",
+                            "name": "Project user",
+                            "required": false,
+                            "hasDefault": false,
+                            "writable": true,
+                            "visibility": "default",
+                            "_links": {
+                                "allowedValues": {
+                                    "href": "/api/v3/principals?filters=%5B%7B%22status%22%3A%7B%22operator%22%3A%22%21%22%2C%22values%22%3A%5B%220%22%2C%223%22%5D%7D%7D%2C%7B%22type%22%3A%7B%22operator%22%3A%22%3D%22%2C%22values%22%3A%5B%22User%22%5D%7D%7D%2C%7B%22member%22%3A%7B%22operator%22%3A%22%3D%22%2C%22values%22%3A%5B%22%22%5D%7D%7D%5D&pageSize=0"
+                                }
+                            }
+                        },
+                        "customField30": {
+                            "type": "Integer",
+                            "name": "some project cf",
+                            "required": false,
+                            "hasDefault": false,
+                            "writable": true,
+                            "visibility": "default"
+                        },
+                        "customField31": {
+                            "type": "CustomOption",
+                            "name": "list project cf",
+                            "required": false,
+                            "hasDefault": false,
+                            "writable": true,
+                            "visibility": "default",
+                            "_embedded": {
+                                "allowedValues": [
+                                    {
+                                        "_type": "CustomOption",
+                                        "id": 513,
+                                        "value": "abc",
+                                        "_links": {
+                                            "self": {
+                                                "href": "/api/v3/custom_options/513",
+                                                "title": "abc"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "_type": "CustomOption",
+                                        "id": 514,
+                                        "value": "def",
+                                        "_links": {
+                                            "self": {
+                                                "href": "/api/v3/custom_options/514",
+                                                "title": "def"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "_type": "CustomOption",
+                                        "id": 515,
+                                        "value": "ghi",
+                                        "_links": {
+                                            "self": {
+                                                "href": "/api/v3/custom_options/515",
+                                                "title": "ghi"
+                                            }
+                                        }
+                                    }
+                                ]
+                            },
+                            "_links": {
+                                "allowedValues": [
+                                    {
+                                        "href": "/api/v3/custom_options/513",
+                                        "title": "abc"
+                                    },
+                                    {
+                                        "href": "/api/v3/custom_options/514",
+                                        "title": "def"
+                                    },
+                                    {
+                                        "href": "/api/v3/custom_options/515",
+                                        "title": "ghi"
+                                    }
+                                ]
+                            }
+                        },
+                        "customField34": {
+                            "type": "Boolean",
+                            "name": "Bool Project CF",
+                            "required": false,
+                            "hasDefault": false,
+                            "writable": true,
+                            "visibility": "default"
+                        },
+                        "customField35": {
+                            "type": "String",
+                            "name": "text project cf",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": true,
+                            "visibility": "default"
+                        },
+                        "customField41": {
+                            "type": "Formattable",
+                            "name": "Long text project cf",
+                            "required": false,
+                            "hasDefault": false,
+                            "writable": true,
+                            "visibility": "default"
+                        },
+                        "customField42": {
+                            "type": "Date",
+                            "name": "Date project cf",
+                            "required": false,
+                            "hasDefault": false,
+                            "writable": true,
+                            "visibility": "default"
+                        },
+                        "_links": {}
+                    },
+                    "validationErrors": {
+                        "identifier": {
+                            "_type": "Error",
+                            "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                            "message": "Identifier has already been taken.",
+                            "_embedded": {
+                                "details": {
+                                    "attribute": "identifier"
+                                }
+                            }
+                        }
+                    }
+                },
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/projects/form",
+                        "method": "post"
+                    },
+                    "validate": {
+                        "href": "/api/v3/projects/form",
+                        "method": "post"
+                    }
+                }
+            }
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** add project which is a global permission
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
 ## Projects by version [/api/v3/versions/{id}/projects]
 
 + Model

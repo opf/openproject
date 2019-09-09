@@ -142,12 +142,28 @@ shared_examples_for 'project contract' do
       end
     end
 
-    context 'for a custom field' do
+    context 'for a list custom field' do
       let(:custom_field) { FactoryBot.build_stubbed(:list_project_custom_field) }
 
       it 'is the list of custom field values' do
         expect(subject.assignable_custom_field_values(custom_field))
           .to eql custom_field.possible_values
+      end
+    end
+
+    context 'for a version custom field' do
+      let(:custom_field) { FactoryBot.build_stubbed(:version_project_custom_field) }
+      let(:versions) { double('versions') }
+
+      before do
+        allow(project)
+          .to receive(:assignable_versions)
+          .and_return(versions)
+      end
+
+      it 'is the list of versions for the project' do
+        expect(subject.assignable_custom_field_values(custom_field))
+          .to eql versions
       end
     end
   end

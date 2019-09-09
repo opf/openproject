@@ -140,7 +140,7 @@ module API
 
         def inject_version_schema(custom_field)
           @class.schema_with_allowed_collection property_name(custom_field.id),
-                                                type: 'Version',
+                                                type: resource_type(custom_field),
                                                 name_source: ->(*) { custom_field.name },
                                                 values_callback: ->(*) {
                                                   represented
@@ -158,10 +158,8 @@ module API
         end
 
         def inject_user_schema(custom_field)
-          type = custom_field.multi_value? ? "[]User" : "User"
-
           @class.schema_with_allowed_link property_name(custom_field.id),
-                                          type: type,
+                                          type: resource_type(custom_field),
                                           writable: true,
                                           name_source: ->(*) { custom_field.name },
                                           required: custom_field.is_required,
@@ -169,11 +167,9 @@ module API
         end
 
         def inject_list_schema(custom_field)
-          type = custom_field.multi_value ? "[]CustomOption" : "CustomOption"
-
           @class.schema_with_allowed_collection(
             property_name(custom_field.id),
-            type: type,
+            type: resource_type(custom_field),
             name_source: ->(*) { custom_field.name },
             values_callback: list_schemas_values_callback(custom_field),
             value_representer: CustomOptions::CustomOptionRepresenter,
@@ -183,13 +179,13 @@ module API
           )
         end
 
-        def inject_basic_schema(custom_field)
+        def inject_basic_schema(custom_field, writable: true)
           @class.schema property_name(custom_field.id),
-                        type: TYPE_MAP[custom_field.field_format],
+                        type: resource_type(custom_field),
                         name_source: ->(*) { custom_field.name },
                         required: custom_field.is_required,
                         has_default: custom_field.default_value.present?,
-                        writable: true,
+                        writable: writable,
                         min_length: cf_min_length(custom_field),
                         max_length: cf_max_length(custom_field),
                         regular_expression: cf_regexp(custom_field)
@@ -301,11 +297,17 @@ module API
           # for now we ASSUME that every customized that has a
           # user custom field, will also define a project...
           ->(*) {
+            project_id_value = if represented.respond_to?(:model) && represented.model.is_a?(Project)
+                                 represented.id
+                               else
+                                 represented.project_id.to_s
+                               end
+
             params = [{ status: { operator: '!',
                                   values: [Principal::STATUSES[:builtin].to_s,
                                            Principal::STATUSES[:locked].to_s] } },
                       { type: { operator: '=', values: ['User'] } },
-                      { member: { operator: '=', values: [represented.project_id.to_s] } }]
+                      { member: { operator: '=', values: [project_id_value.to_s] } }]
 
             query = CGI.escape(::JSON.dump(params))
 
@@ -314,11 +316,11 @@ module API
         end
 
         def cf_min_length(custom_field)
-          custom_field.min_length if custom_field.min_length > 0
+          custom_field.min_length if custom_field.min_length.positive?
         end
 
         def cf_max_length(custom_field)
-          custom_field.max_length if custom_field.max_length > 0
+          custom_field.max_length if custom_field.max_length.positive?
         end
 
         def cf_regexp(custom_field)
@@ -341,6 +343,16 @@ module API
         def representer_class(custom_field)
           REPRESENTER_MAP[custom_field.field_format]
             .constantize
+        end
+
+        def resource_type(custom_field)
+          type = TYPE_MAP[custom_field.field_format]
+
+          if custom_field.multi_value?
+            "[]#{type}"
+          else
+            type
+          end
         end
 
         module RepresenterClass

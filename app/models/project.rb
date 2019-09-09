@@ -435,26 +435,19 @@ class Project < ActiveRecord::Base
 
   # Returns a scope of the Versions on subprojects
   def rolled_up_versions
-    @rolled_up_versions ||=
-      Version.includes(:project)
-      .where(["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status = #{STATUS_ACTIVE}", lft, rgt])
-      .references(:projects)
+    shared_versions_base_scope
+      .merge(Project.active)
+      .where(projects: { id: self_and_descendants.select(:id) })
   end
 
   # Returns a scope of the Versions used by the project
   def shared_versions
     @shared_versions ||= begin
-      r = root? ? self : root
-
-      Version.includes(:project)
-      .where("#{Project.table_name}.id = #{id}" +
-                                    " OR (#{Project.table_name}.status = #{Project::STATUS_ACTIVE} AND (" +
-                                          " #{Version.table_name}.sharing = 'system'" +
-                                          " OR (#{Project.table_name}.lft >= #{r.lft} AND #{Project.table_name}.rgt <= #{r.rgt} AND #{Version.table_name}.sharing = 'tree')" +
-                                          " OR (#{Project.table_name}.lft < #{lft} AND #{Project.table_name}.rgt > #{rgt} AND #{Version.table_name}.sharing IN ('hierarchy', 'descendants'))" +
-                                          " OR (#{Project.table_name}.lft > #{lft} AND #{Project.table_name}.rgt < #{rgt} AND #{Version.table_name}.sharing = 'hierarchy')" +
-                                          '))')
-      .references(:projects)
+      if persisted?
+        shared_versions_on_persisted
+      else
+        shared_versions_by_system
+      end
     end
   end
 
@@ -804,5 +797,47 @@ class Project < ActiveRecord::Base
 
       p
     end
+  end
+
+  def shared_versions_on_persisted
+    shared_versions_base_scope
+      .where(projects: { id: id })
+      .or(shared_versions_by_system)
+      .or(shared_versions_by_tree)
+      .or(shared_versions_by_hierarchy_or_descendants)
+      .or(shared_versions_by_hierarchy)
+  end
+
+  def shared_versions_by_tree
+    r = root? ? self : root
+
+    shared_versions_base_scope
+      .merge(Project.active)
+      .where(projects: { id: r.self_and_descendants.select(:id) })
+      .where(sharing: 'tree')
+  end
+
+  def shared_versions_by_hierarchy_or_descendants
+    shared_versions_base_scope
+      .merge(Project.active)
+      .where(projects: { id: ancestors.select(:id) })
+      .where(sharing: %w(hierarchy descendants))
+  end
+
+  def shared_versions_by_hierarchy
+    rolled_up_versions
+      .where(sharing: 'hierarchy')
+  end
+
+  def shared_versions_by_system
+    shared_versions_base_scope
+      .merge(Project.active)
+      .where(sharing: 'system')
+  end
+
+  def shared_versions_base_scope
+    Version
+      .includes(:project)
+      .references(:projects)
   end
 end

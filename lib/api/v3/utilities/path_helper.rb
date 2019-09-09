@@ -209,10 +209,7 @@ module API
             alias :issue_priority :priority
           end
 
-          index :project
-          show :project
-          schema :project
-
+          resources :project
           resources :query
 
           def self.query_default

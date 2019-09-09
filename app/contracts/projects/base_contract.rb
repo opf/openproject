@@ -30,7 +30,8 @@
 
 module Projects
   class BaseContract < ::ModelContract
-    include AssignableValuesContract
+    include Concerns::AssignableValuesContract
+    include Concerns::AssignableCustomFieldValues
 
     attribute :name
     attribute :identifier
@@ -60,16 +61,16 @@ module Projects
       Project.statuses.keys
     end
 
-    def assignable_custom_field_values(custom_field)
-      custom_field.possible_values
-    end
-
     def available_custom_fields
       if user.admin?
         model.available_custom_fields
       else
         model.available_custom_fields.select(&:visible?)
       end
+    end
+
+    def assignable_versions
+      model.assignable_versions
     end
 
     private

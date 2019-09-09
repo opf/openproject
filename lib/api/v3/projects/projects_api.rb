@@ -41,6 +41,7 @@ module API
                                                        .mount
 
           mount ::API::V3::Projects::Schemas::ProjectSchemaAPI
+          mount ::API::V3::Projects::CreateFormAPI
 
           params do
             requires :id, desc: 'Project id'
