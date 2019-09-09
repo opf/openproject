@@ -1010,21 +1010,6 @@ en:
             categories:
               - Category 1 (to be changed in Project settings)
             queries:
-              - name: All BCF issues
-                status: open
-                bcf_issue_associated: true
-                columns:
-                  - id
-                  - subject
-                  - bcf_thumbnail
-                  - type
-                  - status
-                  - assigned_to
-                  - updated_at
-                  - author
-                  - start_date
-                  - due_date
-                sort_by: updated_at
               - name: Issues
                 status: open
                 type: 'seeders.bim.default_type_issue'
