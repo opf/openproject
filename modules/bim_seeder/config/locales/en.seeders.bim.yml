@@ -1013,15 +1013,19 @@ en:
               - name: Issues
                 status: open
                 type: 'seeders.bim.default_type_issue'
+                display_representation: card
               - name: Clashes
                 status: open
                 type: 'seeders.bim.default_type_clash'
+                display_representation: card
               - name: Requests
                 status: open
                 type: 'seeders.bim.default_type_request'
+                display_representation: card
               - name: Remarks
                 status: open
                 type: 'seeders.bim.default_type_remark'
+                display_representation: card
               - name: Project plan
                 status: open
                 timeline: true
