@@ -70,7 +70,7 @@ describe 'Custom text widget on my page', type: :feature, js: true do
     custom_text_widget.expect_to_span(1, 1, 2, 2)
 
     within custom_text_widget.area do
-      find('.inplace-editing--trigger-container').click
+      find('.inplace-editing--container').click
 
       field.set_value('My own little text')
       field.save!
@@ -78,7 +78,7 @@ describe 'Custom text widget on my page', type: :feature, js: true do
       expect(page)
         .to have_selector('.wp-edit-field--display-field', text: 'My own little text')
 
-      find('.inplace-editing--trigger-container').click
+      find('.inplace-editing--container').click
 
       field.set_value('My new text')
       field.cancel_by_click
@@ -87,7 +87,7 @@ describe 'Custom text widget on my page', type: :feature, js: true do
         .to have_selector('.wp-edit-field--display-field', text: 'My own little text')
 
       # adding an image
-      find('.inplace-editing--trigger-container').click
+      find('.inplace-editing--container').click
 
       sleep(0.1)
     end

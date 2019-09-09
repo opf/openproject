@@ -1,5 +1,5 @@
 import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
-import {Component, ChangeDetectionStrategy, Injector, OnInit, OnDestroy, SimpleChanges, ChangeDetectorRef} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Injector, OnInit, OnDestroy, SimpleChanges, ChangeDetectorRef, ElementRef, ViewChild} from '@angular/core';
 import {CustomTextEditFieldService} from "core-app/modules/grids/widgets/custom-text/custom-text-edit-field.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
@@ -18,6 +18,8 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 export class WidgetCustomTextComponent extends AbstractWidgetComponent implements OnInit, OnDestroy {
   protected currentRawText:string;
   public customText:SafeHtml;
+
+  @ViewChild('displayContainer', { static: false }) readonly displayContainer:ElementRef;
 
   constructor (protected i18n:I18nService,
                protected injector:Injector,
@@ -55,7 +57,12 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
     }
   }
 
-  public activate() {
+  public activate(event:MouseEvent) {
+    // Prevent opening the edit mode if a link was clicked
+    if (this.clickedElementIsLinkWithinDisplayContainer(event)) {
+      return;
+    }
+
     // load the attachments so that they are displayed in the list;
     this.resource.grid.updateAttachments();
 
@@ -67,7 +74,7 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
   }
 
   public get inplaceEditClasses() {
-    let classes = 'inplace-editing--container wp-edit-field--display-field';
+    let classes = 'inplace-editing--container wp-edit-field--display-field wp-table--cell-span -editable';
 
     if (this.textEmpty) {
       classes += ' -placeholder';
@@ -112,5 +119,9 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
 
   private memorizeCustomText() {
     this.customText = this.sanitization.bypassSecurityTrustHtml(this.handler.htmlText);
+  }
+
+  private clickedElementIsLinkWithinDisplayContainer(event:any) {
+    return this.displayContainer.nativeElement.contains(event.target.closest('a,macro'));
   }
 }
