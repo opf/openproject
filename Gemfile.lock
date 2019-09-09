@@ -813,7 +813,7 @@ GEM
     sys-filesystem (1.2.0)
       ffi
     temple (0.8.0)
-    test-prof (0.7.3)
+    test-prof (0.7.5)
     thin (1.7.2)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0, >= 1.0.4)
