@@ -18,9 +18,6 @@ $grid--widget-padding: 20px
   &.-drop-target
     background-color: $gray-light
 
-  &.-resize-target
-    z-index: 1000
-
   &.-widgeted
     z-index: 10
     @include widget-box--style
@@ -36,6 +33,7 @@ $grid--widget-padding: 20px
   &.-resizing
     border: 1px solid $primary-color
     z-index: 100
+    pointer-events: none
 
   &.-addable
     display: flex
@@ -45,12 +43,15 @@ $grid--widget-padding: 20px
 
   &.-placeholder
     pointer-events: none
+    z-index: 30
 
   &.-dragged
     display: none
 
-  &.-undragged
+  &.-passive
     pointer-events: none
+    background: #EEEEEE
+    opacity: 0.5
 
   &.-gap
     &.-row
@@ -73,6 +74,17 @@ $grid--widget-padding: 20px
 
   icon-triggered-context-menu
     visibility: hidden
+
+  &.-drop-target, &.-resize-target
+    border-width: 1px
+    border-style: solid
+    border-color: $secondary-color
+    transition: border-color 0.5s ease
+    z-index: 20
+    background: transparent
+
+  &.-resize-target
+    z-index: 1000
 
 .grid--resizer
   position: relative
