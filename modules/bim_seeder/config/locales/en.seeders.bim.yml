@@ -109,8 +109,15 @@ en:
               - name: Project plan
                 status: open
                 timeline: true
-                sort_by: id
+                sort_by: start_date
                 hierarchy: true
+                columns:
+                  - id
+                  - type
+                  - status
+                  - subject
+                  - start_date
+                  - due_date
               - name: Milestones
                 status: open
                 type: :default_type_milestone
@@ -122,7 +129,7 @@ en:
                   - subject
                   - start_date
                   - due_date
-                sort_by: id
+                sort_by: start_date
               - name: Tasks
                 status: open
                 type: :default_type_task
@@ -169,8 +176,15 @@ en:
               - name: Project plan
                 status: open
                 timeline: true
-                sort_by: id
+                sort_by: start_date
                 hierarchy: true
+                columns:
+                  - id
+                  - type
+                  - status
+                  - subject
+                  - start_date
+                  - due_date
               - name: Milestones
                 status: open
                 type: :default_type_milestone
@@ -182,7 +196,7 @@ en:
                   - subject
                   - start_date
                   - due_date
-                sort_by: id
+                sort_by: start_date
               - name: Tasks
                 status: open
                 type: :default_type_task
@@ -543,8 +557,15 @@ en:
               - name: Project plan
                 status: open
                 timeline: true
-                sort_by: id
+                sort_by: start_date
                 hierarchy: true
+                columns:
+                  - id
+                  - type
+                  - status
+                  - subject
+                  - start_date
+                  - due_date
               - name: Milestones
                 status: open
                 type: :default_type_milestone
@@ -556,7 +577,7 @@ en:
                   - subject
                   - start_date
                   - due_date
-                sort_by: id
+                sort_by: start_date
               - name: Tasks
                 status: open
                 type: :default_type_task
@@ -1031,6 +1052,13 @@ en:
                 timeline: true
                 sort_by: start_date
                 hierarchy: true
+                columns:
+                  - id
+                  - type
+                  - status
+                  - subject
+                  - start_date
+                  - due_date
               - name: Milestones
                 status: open
                 type: :default_type_milestone
