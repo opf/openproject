@@ -175,7 +175,7 @@ module API
           schemas = schema_pairs.map do |project, type, available_custom_fields|
             # This hack preloads the custom fields for a project so that they do not have to be
             # loaded again later on
-            project.instance_variable_set(:'@all_work_package_custom_fields', available_custom_fields)
+            project.instance_variable_set(:'@all_work_package_custom_fields', all_cfs_of_project[project.id])
 
             Schema::TypedWorkPackageSchema.new(project: project, type: type, custom_fields: available_custom_fields)
           end
@@ -197,6 +197,13 @@ module API
           represented
             .map { |work_package| [work_package.project, work_package.type, work_package.available_custom_fields] }
             .uniq
+        end
+
+        def all_cfs_of_project
+          @all_cfs_of_project ||= represented
+                                  .group_by(&:project_id)
+                                  .map { |id, wps| [id, wps.map(&:available_custom_fields).flatten.uniq] }
+                                  .to_h
         end
 
         def paged_models(models)

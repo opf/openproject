@@ -304,7 +304,6 @@ module API
           def form_config_attribute_representation(group)
             cache_keys = ['wp_schema_attribute_group',
                           group.key,
-                          group.attributes,
                           I18n.locale,
                           represented.project,
                           represented.type,
