@@ -228,7 +228,6 @@ group :test do
   gem 'equivalent-xml', '~> 0.6'
   gem 'json_spec', '~> 1.1.4'
   gem 'shoulda-matchers', '~> 3.1', require: nil
-  gem 'simplecov', '~> 0.16.0', require: false
 
   gem 'parallel_tests', '~> 2.29.2'
 end

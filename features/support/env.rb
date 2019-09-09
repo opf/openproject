@@ -34,11 +34,6 @@
 # instead of editing this one. Cucumber will automatically load all features/**/*.rb
 # files.
 
-if ENV['COVERAGE']
-  require 'simplecov'
-  SimpleCov.start 'rails'
-end
-
 require 'cucumber/rails'
 require 'cucumber/rspec/doubles'
 require 'capybara-screenshot/cucumber'
