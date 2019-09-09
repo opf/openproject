@@ -265,6 +265,13 @@ group :development, :test do
   gem 'pry-rails', '~> 0.3.6'
   gem 'pry-rescue', '~> 1.5.0'
   gem 'pry-stack_explorer', '~> 0.4.9.2'
+
+  # Dangerfile scanner on travis and locally
+  gem 'danger', '~> 6.0.9'
+
+  # Brakeman scanner
+  gem 'brakeman', '~> 4.6.1'
+  gem 'danger-brakeman'
 end
 
 gem 'bootsnap', '~> 1.3.2', require: false
