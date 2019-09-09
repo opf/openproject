@@ -783,8 +783,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    secure_headers (6.0.0)
-      useragent (>= 0.15.0)
+    secure_headers (6.1.1)
     selenium-webdriver (3.141.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.2, >= 1.2.2)
@@ -847,7 +846,6 @@ GEM
     unicorn-worker-killer (0.4.4)
       get_process_mem (~> 0)
       unicorn (>= 4, < 6)
-    useragent (0.16.10)
     validate_email (0.1.6)
       activemodel (>= 3.0)
       mail (>= 2.2.5)
@@ -1014,7 +1012,7 @@ DEPENDENCIES
   rubytree (~> 1.0.0)
   sanitize (~> 5.0.0)
   sassc-rails (~> 2.1.0)
-  secure_headers (~> 6.0.0)
+  secure_headers (~> 6.1.1)
   selenium-webdriver (~> 3.14)
   semantic (~> 1.6.1)
   shoulda-context (~> 1.2)
