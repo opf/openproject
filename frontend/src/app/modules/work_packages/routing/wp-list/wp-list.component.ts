@@ -36,6 +36,7 @@ import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
 import {BcfDetectorService} from "core-app/modules/bcf/helper/bcf-detector.service";
 import {wpDisplayCardRepresentation} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
+import {WorkPackageTableConfigurationObject} from "core-components/wp-table/wp-table-configuration";
 
 @Component({
   selector: 'wp-list',
@@ -88,6 +89,9 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
 
   private readonly titleService:OpTitleService = this.injector.get(OpTitleService);
   private readonly bcfDetectorService:BcfDetectorService = this.injector.get(BcfDetectorService);
+  public readonly wpTableConfiguration:WorkPackageTableConfigurationObject = {
+    dragAndDropEnabled: true
+  };
 
   ngOnInit() {
     super.ngOnInit();
