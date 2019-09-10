@@ -76,7 +76,11 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
 
         field.set_value('My own little text')
         field.save!
+      end
 
+      dashboard_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+
+      within custom_text_widget.area do
         expect(page)
           .to have_selector('.wp-edit-field--display-field', text: 'My own little text')
 
@@ -87,7 +91,11 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
 
         expect(page)
           .to have_selector('.wp-edit-field--display-field', text: 'My own little text')
+      end
 
+      dashboard_page.expect_no_notification message: I18n.t('js.notice_successful_update')
+
+      within custom_text_widget.area do
         # adding an image
         find('.inplace-editing--container').click
 
@@ -103,7 +111,11 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
         expect(page).to have_no_selector('notifications-upload-progress')
 
         field.save!
+      end
 
+      dashboard_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+
+      within custom_text_widget.area do
         expect(page)
           .to have_selector('#content img', count: 1)
 

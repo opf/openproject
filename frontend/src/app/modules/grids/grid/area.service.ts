@@ -8,6 +8,8 @@ import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-res
 import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 import {WidgetChangeset} from "core-app/modules/grids/widgets/widget-changeset";
 import * as moment from 'moment';
+import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Injectable()
 export class GridAreaService {
@@ -24,7 +26,9 @@ export class GridAreaService {
   public mousedOverArea:GridArea|null;
   public helpMode = false;
 
-  constructor (private gridDm:GridDmService) { }
+  constructor (private gridDm:GridDmService,
+               private notification:NotificationsService,
+               private i18n:I18nService) { }
 
   public set gridResource(value:GridResource) {
     this.resource = value;
@@ -133,6 +137,7 @@ export class GridAreaService {
       .update(resource, schema)
       .then(updatedGrid => {
         this.assignAreasWidget(updatedGrid);
+        this.notification.addSuccess(this.i18n.t('js.notice_successful_update'));
       });
   }
 

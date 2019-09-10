@@ -107,6 +107,8 @@ describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, 
       columns.assume_opened
       columns.remove 'Subject'
 
+      my_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+
       expect(filter_area.area)
         .to have_selector('.id', text: type_work_package.id)
 
@@ -124,6 +126,8 @@ describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, 
         input.set('My WP Filter')
         input.native.send_keys(:return)
       end
+
+      my_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
 
       sleep(1)
 
