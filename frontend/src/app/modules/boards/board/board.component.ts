@@ -106,6 +106,7 @@ export class BoardComponent implements OnInit, OnDestroy {
         .save(board)
         .then(board => {
           this.inFlight = false;
+          board.sortWidgets();
           return board;
         })
         .catch((error) => {
