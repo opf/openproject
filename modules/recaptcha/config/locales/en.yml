@@ -4,7 +4,7 @@ en:
     label_recaptcha: "reCAPTCHA"
     button_please_wait: 'Please wait ...'
     verify_account: "Verify your account"
-    error_captcha: "You're account could not be verified. Please contact an administrator."
+    error_captcha: "Your account could not be verified. Please contact an administrator."
     settings:
       website_key: 'Website key'
       website_key_text: 'Enter the website key you created on the reCAPTCHA admin console for this domain.'
