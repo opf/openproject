@@ -20,6 +20,11 @@ export class DragDropHandleRenderPass {
   }
 
   public render() {
+    if (!this.table.configuration.dragAndDropEnabled) {
+      return;
+    }
+
+
     this.wpTableOrder.withLoadedPositions().then((positions:QueryOrder) => {
       this.tablePass.renderedOrder.forEach((row:RowRenderInfo, position:number) => {
         // We only care for rows that are natural work packages and are not relation sub-rows
