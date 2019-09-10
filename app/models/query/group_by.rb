@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -32,7 +33,7 @@ module ::Query::Grouping
   def work_package_count_by_group
     @work_package_count_by_group ||= begin
       if query.grouped?
-        r = groups_grouped_by_column
+        r = group_counts_by_group
 
         transform_group_keys(r)
       end
@@ -45,33 +46,58 @@ module ::Query::Grouping
     work_package_count_by_group[group]
   end
 
-  def groups_grouped_by_column
-    # Rails will raise an (unexpected) RecordNotFound if there's only a nil group value
-    WorkPackage
-      .group(query.group_by_statement)
+  private
+
+  def group_counts_by_group
+    work_packages_with_includes_for_count
+      .group(group_by_for_count)
       .visible
-      .includes(all_includes)
-      .joins(all_filter_joins)
       .references(:statuses, :projects)
       .where(query.statement)
-      .count
-  rescue ActiveRecord::RecordNotFound
-    { nil => work_package_count }
+      .order(order_for_count)
+      .pluck(pluck_for_count)
+      .to_h
+  end
+
+  def work_packages_with_includes_for_count
+    WorkPackage
+      .includes(all_includes)
+      .joins(all_filter_joins)
+  end
+
+  def group_by_for_count
+    Array(query.group_by_statement).map { |statement| Arel.sql(statement) } +
+      [Arel.sql(group_by_sort(false))]
+  end
+
+  def pluck_for_count
+    Array(query.group_by_statement).map { |statement| Arel.sql(statement) } +
+      [Arel.sql('COUNT(DISTINCT "work_packages"."id")')]
+  end
+
+  def order_for_count
+    Arel.sql(group_by_sort)
   end
 
   def transform_group_keys(groups)
-    column = query.group_by_column
-
-    if column.is_a?(Queries::WorkPackages::Columns::CustomFieldColumn) && column.custom_field.list?
-      transform_list_group_by_keys(column.custom_field, groups)
-    elsif column.is_a?(Queries::WorkPackages::Columns::CustomFieldColumn)
-      transform_custom_field_keys(column.custom_field, groups)
+    if query.group_by_column.is_a?(Queries::WorkPackages::Columns::CustomFieldColumn)
+      transform_custom_field_keys(groups)
     else
-      groups
+      transform_property_keys(groups)
     end
   end
 
-  def transform_list_group_by_keys(custom_field, groups)
+  def transform_custom_field_keys(groups)
+    custom_field = query.group_by_column.custom_field
+
+    if custom_field.list?
+      transform_list_custom_field_keys(custom_field, groups)
+    else
+      transform_single_custom_field_keys(custom_field, groups)
+    end
+  end
+
+  def transform_list_custom_field_keys(custom_field, groups)
     options = custom_options_for_keys(custom_field, groups)
 
     groups.transform_keys do |key|
@@ -96,25 +122,52 @@ module ::Query::Grouping
     custom_field.custom_options.find(keys.flatten.uniq).group_by { |o| o.id.to_s }
   end
 
-  def transform_custom_field_keys(custom_field, groups)
+  def transform_single_custom_field_keys(custom_field, groups)
     groups.transform_keys { |key| custom_field.cast_value(key) }
   end
+
+  def transform_property_keys(groups)
+    association = WorkPackage.reflect_on_all_associations.detect { |a| a.name == query.group_by_column.name.to_sym }
+
+    if association
+      transform_association_property_keys(association, groups)
+    else
+      groups
+    end
+  end
+
+  def transform_association_property_keys(association, groups)
+    ar_keys = association.class_name.constantize.find(groups.keys)
+
+    groups.map do |key, value|
+      [ar_keys.detect { |ar_key| ar_key.id == key }, value]
+    end.to_h
+  end
+
   # Returns the SQL sort order that should be prepended for grouping
-  def group_by_sort_order
+  def group_by_sort(order = true)
     if query.grouped? && (column = query.group_by_column)
       aliases = include_aliases
 
       Array(column.sortable).map do |s|
-        aliased_group_by_sort_order(s, order_for_group_by(column), aliases[column.name])
-      end.join(',')
+        direction = order ? order_for_group_by(column) : nil
+
+        aliased_group_by_sort_order(aliases[column.name], s, direction)
+      end.join(', ')
     end
   end
 
-  def aliased_group_by_sort_order(sortable, order, alias_name)
-    if alias_name
-      "#{alias_name}.#{sortable} #{order}"
+  def aliased_group_by_sort_order(alias_name, sortable, order = nil)
+    column = if alias_name
+               "#{alias_name}.#{sortable}"
+             else
+               sortable
+             end
+
+    if order
+      column + " #{order}"
     else
-      "#{sortable} #{order}"
+      column
     end
   end
 

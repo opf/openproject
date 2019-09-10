@@ -34,14 +34,7 @@ describe ::Query::Results, type: :model, with_mail: false do
                      show_hierarchies: false
   end
   let(:query_results) do
-    ::Query::Results.new query,
-                         include: %i(
-                           assigned_to
-                           type
-                           priority
-                           category
-                           fixed_version
-                         )
+    ::Query::Results.new query
   end
   let(:project_1) { FactoryBot.create :project }
   let(:role_pm) do
@@ -79,6 +72,22 @@ describe ::Query::Results, type: :model, with_mail: false do
                        group_by: group_by,
                        project: project_1
     end
+    let(:type_1) do
+      FactoryBot.create(:type)
+    end
+    let(:type_2) do
+      FactoryBot.create(:type)
+    end
+    let(:work_package1) do
+      FactoryBot.create(:work_package,
+                        type: type_1,
+                        project: project_1)
+    end
+    let(:work_package2) do
+      FactoryBot.create(:work_package,
+                        type: type_2,
+                        project: project_1)
+    end
 
     context 'grouping by responsible' do
       let(:group_by) { 'responsible' }
@@ -101,8 +110,39 @@ describe ::Query::Results, type: :model, with_mail: false do
     end
 
     context 'grouping by type' do
-      it 'returns the groups sorted by type`s position`' do
+      let(:group_by) { 'type' }
 
+      before do
+        work_package1
+        work_package2
+
+        login_as(user_1)
+      end
+
+      it 'returns the groups sorted by type`s position' do
+        type_1.update_column(:position, 1)
+        type_2.update_column(:position, 2)
+
+        result = query_results.work_package_count_by_group
+
+        expect(result.length)
+          .to eql 2
+
+        expect(result.keys.map(&:id))
+          .to eql [type_1.id, type_2.id]
+
+        type_1.update_column(:position, 2)
+        type_2.update_column(:position, 1)
+
+        new_results = ::Query::Results.new(query)
+
+        result = new_results.work_package_count_by_group
+
+        expect(result.length)
+          .to eql 2
+
+        expect(result.keys.map(&:id))
+          .to eql [type_2.id, type_1.id]
       end
     end
 
@@ -113,6 +153,7 @@ describe ::Query::Results, type: :model, with_mail: false do
                           is_filter: true,
                           multi_value: true).tap do |cf|
           work_package1.type.custom_fields << cf
+          work_package2.type.custom_fields << cf
         end
       end
       let(:first_value) do
@@ -121,20 +162,10 @@ describe ::Query::Results, type: :model, with_mail: false do
       let(:last_value) do
         custom_field.custom_options.last
       end
-
-      let(:work_package1) do
-        FactoryBot.create(:work_package,
-                          project: project_1)
-      end
-      let(:work_package2) do
-        FactoryBot.create(:work_package,
-                          type: work_package1.type,
-                          project: project_1)
-      end
       let(:group_by) { "cf_#{custom_field.id}" }
 
       before do
-        allow(User).to receive(:current).and_return(user_1)
+        login_as(user_1)
 
         work_package1.send(:"custom_field_#{custom_field.id}=", first_value)
         work_package1.save!
@@ -144,15 +175,106 @@ describe ::Query::Results, type: :model, with_mail: false do
       end
 
       it 'yields no error but rather returns the result' do
-        expect { query.results.work_package_count_by_group }.not_to raise_error
+        expect { query_results.work_package_count_by_group }.not_to raise_error
 
-        group_count = query.results.work_package_count_by_group
+        group_count = query_results.work_package_count_by_group
         expected_groups = [[first_value], [first_value, last_value]]
 
         group_count.each do |key, count|
           expect(count).to eql 1
           expect(expected_groups.any? { |group| group & key == key & group }).to be_truthy
         end
+      end
+    end
+
+    context 'grouping by int custom field' do
+      let!(:custom_field) do
+        FactoryBot.create(:int_wp_custom_field, is_for_all: true, is_filter: true)
+      end
+
+      let(:group_by) { "cf_#{custom_field.id}" }
+
+      before do
+        login_as(user_1)
+
+        wp_p1[0].type.custom_fields << custom_field
+        project_1.work_package_custom_fields << custom_field
+
+        wp_p1[0].update_attribute(:"custom_field_#{custom_field.id}", 42)
+        wp_p1[0].save
+        wp_p1[1].update_attribute(:"custom_field_#{custom_field.id}", 42)
+        wp_p1[1].save
+      end
+
+      it 'returns a hash of counts by value' do
+        expect(query_results.work_package_count_by_group).to eql(42 => 2, nil => 1)
+      end
+    end
+
+    context 'grouping by user custom field' do
+      let!(:custom_field) do
+        FactoryBot.create(:user_wp_custom_field, is_for_all: true, is_filter: true)
+      end
+
+      let(:group_by) { "cf_#{custom_field.id}" }
+
+      before do
+        login_as(user_1)
+
+        wp_p1[0].type.custom_fields << custom_field
+        project_1.work_package_custom_fields << custom_field
+      end
+
+      it 'returns nil as user custom fields are not groupable' do
+        expect(query_results.work_package_count_by_group).to be_nil
+      end
+    end
+
+    context 'grouping by bool custom field' do
+      let!(:custom_field) do
+        FactoryBot.create(:bool_wp_custom_field, is_for_all: true, is_filter: true)
+      end
+
+      let(:group_by) { "cf_#{custom_field.id}" }
+
+      before do
+        login_as(user_1)
+
+        wp_p1[0].type.custom_fields << custom_field
+        project_1.work_package_custom_fields << custom_field
+
+        wp_p1[0].update_attribute(:"custom_field_#{custom_field.id}", true)
+        wp_p1[0].save
+        wp_p1[1].update_attribute(:"custom_field_#{custom_field.id}", true)
+        wp_p1[1].save
+      end
+
+      it 'returns a hash of counts by value' do
+        expect(query_results.work_package_count_by_group).to eql(true => 2, nil => 1)
+      end
+    end
+
+    context 'grouping by date custom field' do
+      let!(:custom_field) do
+        FactoryBot.create(:date_wp_custom_field, is_for_all: true, is_filter: true)
+      end
+
+      let(:group_by) { "cf_#{custom_field.id}" }
+
+      before do
+        login_as(user_1)
+
+        wp_p1[0].type.custom_fields << custom_field
+        project_1.work_package_custom_fields << custom_field
+
+        wp_p1[0].update_attribute(:"custom_field_#{custom_field.id}", Date.today)
+        wp_p1[0].save
+        wp_p1[1].update_attribute(:"custom_field_#{custom_field.id}", Date.today)
+        wp_p1[1].save
+      end
+
+      it 'returns a hash of counts by value' do
+        expect(query_results.work_package_count_by_group).to eql(Date.today => 2, nil => 1)
       end
     end
   end
@@ -640,33 +762,6 @@ describe ::Query::Results, type: :model, with_mail: false do
         end
 
         it_behaves_like 'is empty'
-      end
-    end
-  end
-
-  context 'when grouping by custom field' do
-    let!(:custom_field) do
-      FactoryBot.create(:int_wp_custom_field, is_for_all: true, is_filter: true)
-    end
-
-    before do
-      allow(User).to receive(:current).and_return(user_1)
-
-      wp_p1[0].type.custom_fields << custom_field
-      project_1.work_package_custom_fields << custom_field
-
-      wp_p1[0].update_attribute(:"custom_field_#{custom_field.id}", 42)
-      wp_p1[0].save
-      wp_p1[1].update_attribute(:"custom_field_#{custom_field.id}", 42)
-      wp_p1[1].save
-
-      query.project = project_1
-      query.group_by = "cf_#{custom_field.id}"
-    end
-
-    describe '#work_package_count_by_group' do
-      it 'returns a hash of counts by value' do
-        expect(query.results.work_package_count_by_group).to eql(42 => 2, nil => 1)
       end
     end
   end
