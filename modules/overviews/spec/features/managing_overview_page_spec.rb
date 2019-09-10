@@ -95,10 +95,14 @@ describe 'Overview page managing', type: :feature, js: true, with_mail: false do
     # within top-right area, add an additional widget
     overview_page.add_widget(1, 1, :row, 'Work packages table')
 
+    overview_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+
     table_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(5)')
     table_area.expect_to_span(1, 1, 2, 2)
 
     table_area.resize_to(2, 2)
+
+    overview_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
 
     # Resizing leads to the calendar area now spanning a larger area
     table_area.expect_to_span(1, 1, 2, 3)
