@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::Query::Results, type: :model do
+describe ::Query::Results, type: :model, with_mail: false do
   let(:query) do
     FactoryBot.build :query,
                      show_hierarchies: false
@@ -41,8 +41,7 @@ describe ::Query::Results, type: :model do
                            priority
                            category
                            fixed_version
-                         ),
-                         order: 'work_packages.root_id DESC, work_packages.lft ASC'
+                         )
   end
   let(:project_1) { FactoryBot.create :project }
   let(:role_pm) do
@@ -77,10 +76,11 @@ describe ::Query::Results, type: :model do
     let(:query) do
       FactoryBot.build :query,
                        show_hierarchies: false,
-                       group_by: group_by
+                       group_by: group_by,
+                       project: project_1
     end
 
-    context 'when grouping by responsible' do
+    context 'grouping by responsible' do
       let(:group_by) { 'responsible' }
 
       it 'should produce a valid SQL statement' do
@@ -88,7 +88,7 @@ describe ::Query::Results, type: :model do
       end
     end
 
-    context 'when grouping and filtering by text' do
+    context 'grouping and filtering by text' do
       let(:group_by) { 'responsible' }
 
       before do
@@ -97,6 +97,62 @@ describe ::Query::Results, type: :model do
 
       it 'should produce a valid SQL statement (Regression #29598)' do
         expect { query_results.work_package_count_by_group }.not_to raise_error
+      end
+    end
+
+    context 'grouping by type' do
+      it 'returns the groups sorted by type`s position`' do
+
+      end
+    end
+
+    context 'grouping by list custom field and filtering for it at the same time' do
+      let!(:custom_field) do
+        FactoryBot.create(:list_wp_custom_field,
+                          is_for_all: true,
+                          is_filter: true,
+                          multi_value: true).tap do |cf|
+          work_package1.type.custom_fields << cf
+        end
+      end
+      let(:first_value) do
+        custom_field.custom_options.first
+      end
+      let(:last_value) do
+        custom_field.custom_options.last
+      end
+
+      let(:work_package1) do
+        FactoryBot.create(:work_package,
+                          project: project_1)
+      end
+      let(:work_package2) do
+        FactoryBot.create(:work_package,
+                          type: work_package1.type,
+                          project: project_1)
+      end
+      let(:group_by) { "cf_#{custom_field.id}" }
+
+      before do
+        allow(User).to receive(:current).and_return(user_1)
+
+        work_package1.send(:"custom_field_#{custom_field.id}=", first_value)
+        work_package1.save!
+        work_package2.send(:"custom_field_#{custom_field.id}=", [first_value,
+                                                                 last_value])
+        work_package2.save!
+      end
+
+      it 'yields no error but rather returns the result' do
+        expect { query.results.work_package_count_by_group }.not_to raise_error
+
+        group_count = query.results.work_package_count_by_group
+        expected_groups = [[first_value], [first_value, last_value]]
+
+        group_count.each do |key, count|
+          expect(count).to eql 1
+          expect(expected_groups.any? { |group| group & key == key & group }).to be_truthy
+        end
       end
     end
   end
@@ -611,60 +667,6 @@ describe ::Query::Results, type: :model do
     describe '#work_package_count_by_group' do
       it 'returns a hash of counts by value' do
         expect(query.results.work_package_count_by_group).to eql(42 => 2, nil => 1)
-      end
-    end
-  end
-
-  context 'when grouping by list custom field and filtering for it at the same time' do
-    let!(:custom_field) do
-      FactoryBot.create(:list_wp_custom_field,
-                        is_for_all: true,
-                        is_filter: true,
-                        multi_value: true).tap do |cf|
-        work_package1.type.custom_fields << cf
-      end
-    end
-    let(:first_value) do
-      custom_field.custom_options.first
-    end
-    let(:last_value) do
-      custom_field.custom_options.last
-    end
-
-    let(:work_package1) do
-      FactoryBot.create(:work_package,
-                        project: project_1)
-    end
-    let(:work_package2) do
-      FactoryBot.create(:work_package,
-                        type: work_package1.type,
-                        project: project_1)
-    end
-
-    before do
-      allow(User).to receive(:current).and_return(user_1)
-
-      query.group_by = "cf_#{custom_field.id}"
-      query.project = project_1
-
-      work_package1.send(:"custom_field_#{custom_field.id}=", first_value)
-      work_package1.save!
-      work_package2.send(:"custom_field_#{custom_field.id}=", [first_value,
-                                                               last_value])
-      work_package2.save!
-    end
-
-    describe '#work_package_count_by_group' do
-      it 'yields no error but rather returns the result' do
-        expect { query.results.work_package_count_by_group }.not_to raise_error
-
-        group_count = query.results.work_package_count_by_group
-        expected_groups = [[first_value], [first_value, last_value]]
-
-        group_count.each do |key, count|
-          expect(count).to eql 1
-          expect(expected_groups.any? { |group| group & key == key & group }).to be_truthy
-        end
       end
     end
   end
