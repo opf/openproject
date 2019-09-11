@@ -1552,7 +1552,7 @@ de:
   label_wiki_content_added: "Die Wiki-Seite wurde erfolgreich hinzugefügt."
   label_wiki_content_updated: "Die Wiki-Seite wurde erfolgreich aktualisiert."
   label_wiki_toc: "Inhaltsverzeichnis"
-  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
+  label_wiki_toc_empty: "Inhaltsverzeichnis ist leer, da keine Überschriften vorhanden sind."
   label_wiki_dont_show_menu_item: "Wikiseite nicht in der Projektnavigation anzeigen"
   label_wiki_edit: "Wiki-Bearbeitung"
   label_wiki_edit_plural: "Wiki-Bearbeitungen"

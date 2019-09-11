@@ -1554,7 +1554,7 @@ tr:
   label_wiki_content_added: "Viki sayfası eklendi"
   label_wiki_content_updated: "Viki sayfası güncellendi"
   label_wiki_toc: "İçindekiler Tablosu"
-  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
+  label_wiki_toc_empty: "Başlık mevcut olmadığı için İçindekiler boştur."
   label_wiki_dont_show_menu_item: "Bu wiki sayfasını proje gezinme bölümünde gösterme"
   label_wiki_edit: "Wiki Düzenle"
   label_wiki_edit_plural: "Wiki Düzenle"
