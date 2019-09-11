@@ -92,7 +92,7 @@ export class GridComponent implements OnDestroy, OnInit {
   public get gridColumnStyle() {
     let style = '';
     for (let i = 0; i < this.layout.numColumns; i++) {
-      style += '20px 1fr ';
+      style += `20px calc((100% - 20px * ${this.layout.numColumns + 1}) / ${this.layout.numColumns}) `;
     }
 
     style += '20px';
