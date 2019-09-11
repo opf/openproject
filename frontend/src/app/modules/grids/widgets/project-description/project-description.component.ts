@@ -61,7 +61,9 @@ export class WidgetProjectDescriptionComponent extends AbstractWidgetComponent i
     this
       .loadCurrentProject()
       .then(project => {
-        this.description = this.sanitization.bypassSecurityTrustHtml(project.description.html);
+        if (project.description.html.length) {
+          this.description = this.sanitization.bypassSecurityTrustHtml(project.description.html);
+        }
         this.cdr.detectChanges();
       });
   }
