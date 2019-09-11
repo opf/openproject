@@ -1,0 +1,50 @@
+ja:
+  js:
+    grid:
+      add_widget: 'Add widget'
+      remove: 'Remove widget'
+      widgets:
+        custom_text:
+          title: 'カスタムテキスト'
+        documents:
+          title: 'ドキュメント'
+          no_results: 'まだドキュメントはありません。'
+        members:
+          title: 'メンバー'
+          no_results: 'No visible members.'
+          view_all_members: 'すべてのメンバーを表示'
+          add: 'メンバー'
+          too_many: 'Displaying %{count} of %{total} members.'
+        news:
+          title: 'ニュース'
+          at: '日時'
+          no_results: '新しい報告はありません。'
+        project_description:
+          title: 'プロジェクトの説明'
+          no_results: 'No description has been written yet.'
+        project_details:
+          title: 'プロジェクトの詳細'
+          no_results: 'No custom fields have been defined for projects.'
+        subprojects:
+          title: '子プロジェクト'
+          no_results: 'No subprojects.'
+        time_entries_list:
+          title: '経過時間(過去7日)'
+          no_results: '過去7日間の時間エントリはありません。'
+        work_packages_accountable:
+          title: "責任者である作業項目"
+        work_packages_assigned:
+          title: '担当している作業項目'
+        work_packages_created:
+          title: '自分が作成した作業項目'
+        work_packages_watched:
+          title: '自分が見た作業項目'
+        work_packages_table:
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
+        work_packages_calendar:
+          title: 'カレンダー'
+        work_packages_overview:
+          title: 'Work packages overview'
+          placeholder: 'Click to edit ...'

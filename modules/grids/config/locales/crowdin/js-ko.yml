@@ -1,0 +1,50 @@
+ko:
+  js:
+    grid:
+      add_widget: 'Add widget'
+      remove: 'Remove widget'
+      widgets:
+        custom_text:
+          title: '사용자 지정 텍스트'
+        documents:
+          title: '문서'
+          no_results: '아직 문서가 없습니다.'
+        members:
+          title: '멤버'
+          no_results: 'No visible members.'
+          view_all_members: '모든 회원 보기'
+          add: '멤버'
+          too_many: 'Displaying %{count} of %{total} members.'
+        news:
+          title: '뉴스'
+          at: '-'
+          no_results: '새로 보고할 것이 없음'
+        project_description:
+          title: '프로젝트 설명'
+          no_results: 'No description has been written yet.'
+        project_details:
+          title: '프로젝트 세부 정보'
+          no_results: 'No custom fields have been defined for projects.'
+        subprojects:
+          title: '하위 프로젝트'
+          no_results: 'No subprojects.'
+        time_entries_list:
+          title: '경과 시간(지난 7 일)'
+          no_results: '지난 7일간 시간 엔트리가 없습니다.'
+        work_packages_accountable:
+          title: "내가 담당하는 작업 패키지"
+        work_packages_assigned:
+          title: '내게 할당된 작업 패키지'
+        work_packages_created:
+          title: '내가 만든 작업 패키지'
+        work_packages_watched:
+          title: '내가 본 작업 패키지'
+        work_packages_table:
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
+        work_packages_calendar:
+          title: '달력'
+        work_packages_overview:
+          title: 'Work packages overview'
+          placeholder: 'Click to edit ...'

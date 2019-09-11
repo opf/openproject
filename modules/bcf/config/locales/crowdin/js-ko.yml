@@ -1,0 +1,5 @@
+ko:
+  js:
+    bcf:
+      import: '가져오기'
+      export: '내보내기'
