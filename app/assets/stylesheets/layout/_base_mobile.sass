@@ -27,10 +27,11 @@
 //++
 
 @include breakpoint(680px down)
-  body
-    overflow: auto !important
-    overflow-y: scroll /* has to be scroll, not auto */
+  body, html
+    position: relative
+    overflow: hidden
     -webkit-overflow-scrolling: touch
+    height: 100%
 
   #main-menu ~ #content-wrapper
     padding: 15px

@@ -87,15 +87,25 @@ module Components
         editable.all('figure').each do |figure|
           # Locate image within figure
           # Click on image to show figcaption
-          img = figure.find('img')
-          img.click
-          sleep 0.5
+          figure.find('img')
 
-          # Locate figcaption to create comment
-          figcaption = figure.find('figcaption')
-          figcaption.click
-          figcaption.send_keys(caption)
-          sleep 0.5
+          # Click the figure
+          retry_block do
+            figure.click
+            sleep 1
+
+            # Locate figcaption to create comment
+            figcaption = figure.find('figcaption')
+
+            # Insert the caption with JS to circumvent chrome error
+            script = <<-JS
+              arguments[0].textContent = '' + arguments[1]
+            JS
+            page.execute_script(script, figcaption.native, caption)
+
+            # Expect caption set
+            figure.find('figcaption', text: caption)
+          end
         end
       end
     end
