@@ -100,7 +100,25 @@ describe Projects::UpdateService, type: :model do
         .to eql project
     end
 
-    context 'when the SetAttributeService is unsuccessful' do
+    context 'if the identifier is altered' do
+      let(:call_attributes) { { identifier: 'Some identifier' } }
+
+      before do
+        allow(project)
+          .to receive(:saved_change_to_identifier?)
+          .and_return(true)
+      end
+
+      it 'sends the notification' do
+        expect(OpenProject::Notifications)
+          .to receive(:send)
+          .with('project_renamed', project: project)
+
+        subject
+      end
+    end
+
+    context 'if the SetAttributeService is unsuccessful' do
       let(:set_attributes_success) { false }
 
       it 'is unsuccessful' do
@@ -126,7 +144,7 @@ describe Projects::UpdateService, type: :model do
       end
     end
 
-    context 'when the project is invalid' do
+    context 'if the project is invalid' do
       let(:project_valid) { false }
 
       it 'is unsuccessful' do

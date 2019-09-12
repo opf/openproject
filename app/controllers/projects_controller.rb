@@ -117,12 +117,14 @@ class ProjectsController < ApplicationController
   end
 
   def update_identifier
-    @project.attributes = permitted_params.project
+    service_call = Projects::UpdateService
+                   .new(user: current_user,
+                        model: @project)
+                   .call(permitted_params.project)
 
-    if @project.save
+    if service_call.success?
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to settings_project_path(@project)
-      OpenProject::Notifications.send('project_renamed', project: @project)
     else
       render action: 'identifier'
     end
