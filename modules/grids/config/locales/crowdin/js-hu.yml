@@ -21,7 +21,7 @@ hu:
           no_results: 'Semmi új jelenteni való.'
         project_description:
           title: 'Projekt leírása'
-          no_results: 'No description has been written yet.'
+          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
         project_details:
           title: 'Projekt részletei'
           no_results: 'No custom fields have been defined for projects.'

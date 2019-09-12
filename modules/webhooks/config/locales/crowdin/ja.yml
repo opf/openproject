@@ -2,13 +2,13 @@ ja:
   activerecord:
     attributes:
       webhooks/webhook:
-        url: 'Payload URL'
-        secret: 'Signature secret'
-        events: 'Events'
+        url: 'ペイロード URL'
+        secret: '署名シークレット'
+        events: 'イベント'
         projects: '有効なプロジェクト'
       webhooks/log:
-        event_name: 'Event name'
-        url: 'Payload URL'
+        event_name: 'イベント名'
+        url: 'ペイロード URL'
         response_code: 'Response code'
         response_body: 'Response'
     models:

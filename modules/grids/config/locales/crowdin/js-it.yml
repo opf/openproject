@@ -21,7 +21,7 @@ it:
           no_results: 'Niente di nuovo da segnalare.'
         project_description:
           title: 'Descrizione del progetto'
-          no_results: 'No description has been written yet.'
+          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
         project_details:
           title: 'Dettagli del progetto'
           no_results: 'No custom fields have been defined for projects.'

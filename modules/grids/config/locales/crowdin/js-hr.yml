@@ -21,7 +21,7 @@ hr:
           no_results: 'Nema promjena za izvjestiti.'
         project_description:
           title: 'Opis projekta'
-          no_results: 'No description has been written yet.'
+          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
         project_details:
           title: 'Detalji o projektu'
           no_results: 'No custom fields have been defined for projects.'

@@ -21,7 +21,7 @@ tr:
           no_results: 'Rapor için yeni birşey bulunamadı.'
         project_description:
           title: 'Proje tanımı'
-          no_results: 'Henüz bir açıklama yazılmadı.'
+          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
         project_details:
           title: 'Proje detayları'
           no_results: 'Projeler için özel alan tanımlanmadı.'

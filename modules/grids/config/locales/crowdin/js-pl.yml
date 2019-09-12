@@ -21,7 +21,7 @@ pl:
           no_results: 'Utwórz nowy raport.'
         project_description:
           title: 'Opis projektu'
-          no_results: 'No description has been written yet.'
+          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
         project_details:
           title: 'Szczegóły Projektu'
           no_results: 'No custom fields have been defined for projects.'

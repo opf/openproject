@@ -1,8 +1,8 @@
 ja:
   js:
     grid:
-      add_widget: 'Add widget'
-      remove: 'Remove widget'
+      add_widget: 'ウィジェットを追加'
+      remove: 'ウィジェットを削除'
       widgets:
         custom_text:
           title: 'カスタムテキスト'
@@ -11,23 +11,23 @@ ja:
           no_results: 'まだドキュメントはありません。'
         members:
           title: 'メンバー'
-          no_results: 'No visible members.'
+          no_results: '表示するメンバーはありません。'
           view_all_members: 'すべてのメンバーを表示'
           add: 'メンバー'
-          too_many: 'Displaying %{count} of %{total} members.'
+          too_many: '%{count} / %{total} メンバーを表示しています。'
         news:
           title: 'ニュース'
           at: '日時'
           no_results: '新しい報告はありません。'
         project_description:
           title: 'プロジェクトの説明'
-          no_results: 'No description has been written yet.'
+          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
         project_details:
           title: 'プロジェクトの詳細'
-          no_results: 'No custom fields have been defined for projects.'
+          no_results: 'プロジェクトにカスタムフィールドが定義されていません。'
         subprojects:
           title: '子プロジェクト'
-          no_results: 'No subprojects.'
+          no_results: '子プロジェクトはありません。'
         time_entries_list:
           title: '経過時間(過去7日)'
           no_results: '過去7日間の時間エントリはありません。'
@@ -40,11 +40,11 @@ ja:
         work_packages_watched:
           title: '自分が見た作業項目'
         work_packages_table:
-          title: 'Work packages table'
+          title: '作業項目のテーブル'
         work_packages_graph:
-          title: 'Work packages graph'
+          title: '作業項目のグラフ'
         work_packages_calendar:
           title: 'カレンダー'
         work_packages_overview:
-          title: 'Work packages overview'
-          placeholder: 'Click to edit ...'
+          title: '作業項目の概要'
+          placeholder: 'クリックして編集 ...'

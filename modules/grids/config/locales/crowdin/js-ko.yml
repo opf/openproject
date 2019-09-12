@@ -21,7 +21,7 @@ ko:
           no_results: '새로 보고할 것이 없음'
         project_description:
           title: '프로젝트 설명'
-          no_results: 'No description has been written yet.'
+          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
         project_details:
           title: '프로젝트 세부 정보'
           no_results: 'No custom fields have been defined for projects.'

@@ -21,7 +21,7 @@ cs:
           no_results: 'Žádné novinky.'
         project_description:
           title: 'Popis projektu'
-          no_results: 'No description has been written yet.'
+          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
         project_details:
           title: 'Detaily projektu'
           no_results: 'No custom fields have been defined for projects.'

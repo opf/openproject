@@ -21,7 +21,7 @@ vi:
           no_results: 'Không có gì mới để báo cáo.'
         project_description:
           title: 'Project description'
-          no_results: 'No description has been written yet.'
+          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
         project_details:
           title: 'Project details'
           no_results: 'No custom fields have been defined for projects.'
