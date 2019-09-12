@@ -21,7 +21,7 @@ zh-CN:
           no_results: '没有新消息报告。'
         project_description:
           title: '项目描述'
-          no_results: 'No description has been written yet.'
+          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
         project_details:
           title: '项目详细信息'
           no_results: 'No custom fields have been defined for projects.'

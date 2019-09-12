@@ -21,7 +21,7 @@ ar:
           no_results: 'لا شيء جديد للتقرير.'
         project_description:
           title: 'وصف المشروع'
-          no_results: 'No description has been written yet.'
+          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
         project_details:
           title: 'تفاصيل المشروع'
           no_results: 'No custom fields have been defined for projects.'

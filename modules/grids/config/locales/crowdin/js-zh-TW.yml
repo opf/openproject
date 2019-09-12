@@ -21,7 +21,7 @@ zh-TW:
           no_results: '沒有新的消息可以報告'
         project_description:
           title: '專案描述'
-          no_results: 'No description has been written yet.'
+          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
         project_details:
           title: '專案詳細資訊'
           no_results: 'No custom fields have been defined for projects.'

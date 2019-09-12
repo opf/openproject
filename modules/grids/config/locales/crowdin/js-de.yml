@@ -21,7 +21,7 @@ de:
           no_results: 'Nichts Neues zu berichten.'
         project_description:
           title: 'Projektbeschreibung'
-          no_results: 'Keine Beschreibung vorhanden.'
+          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
         project_details:
           title: 'Projektdetails'
           no_results: 'Für Projekte wurden keine benutzerdefinierten Felder definiert.'

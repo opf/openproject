@@ -21,7 +21,7 @@ ru:
           no_results: 'Ничего нового для отчета.'
         project_description:
           title: 'Описание проекта'
-          no_results: 'No description has been written yet.'
+          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
         project_details:
           title: 'Детали проекта'
           no_results: 'No custom fields have been defined for projects.'
