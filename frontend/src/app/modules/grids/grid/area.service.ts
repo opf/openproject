@@ -37,8 +37,6 @@ export class GridAreaService {
     this.numRows = this.resource.rowCount;
     this.numColumns = this.resource.columnCount;
 
-    this.helpMode = this.isNewlyCreated;
-
     this.buildAreas(true);
   }
 
@@ -119,12 +117,8 @@ export class GridAreaService {
     return this.numRows === 1 && this.numColumns === 1 && this.widgetResources.length === 0;
   }
 
-  private get isNewlyCreated() {
-    return moment(moment.utc()).diff(moment(this.resource.createdAt), 'seconds') < 20;
-  }
-
   public get inHelpMode() {
-    return this.helpMode;
+    return this.helpMode || this.isSingleCell;
   }
 
   public toggleHelpMode() {
