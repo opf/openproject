@@ -173,8 +173,7 @@ describe 'Arbitrary WorkPackage query table widget dashboard', type: :feature, j
         .not_to have_selector('.subject', text: other_project_work_package.subject)
 
       within filter_area.area do
-        expect(find('.editable-toolbar-title--input').value)
-          .to eql('My WP Filter')
+        expect(page).to have_field('editable-toolbar-title', with: 'My WP Filter', wait: 10)
       end
     end
   end
