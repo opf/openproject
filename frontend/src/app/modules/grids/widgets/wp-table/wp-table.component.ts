@@ -71,6 +71,10 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent {
     });
   }
 
+  public get widgetName() {
+    return this.resource.options.name as string;
+  }
+
   public static get identifier():string {
     return 'work_packages_table';
   }

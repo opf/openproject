@@ -13,7 +13,7 @@ export abstract class AbstractWidgetComponent {
 
   @Output() resourceChanged = new EventEmitter<WidgetChangeset>();
 
-  public get widgetName() {
+  public get widgetName():string {
     let fallback = this.resource.options.name;
     let widgetIdentifier = this.resource.identifier;
     return this.i18n.t(
