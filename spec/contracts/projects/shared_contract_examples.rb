@@ -44,13 +44,40 @@ shared_examples_for 'project contract' do
   let(:project_status) { Project::STATUS_ACTIVE }
   let(:project_public) { true }
   let(:project_parent) do
-    FactoryBot.build_stubbed(:project).tap do |p|
-      allow(p)
-        .to receive(:visible?)
-        .and_return(parent_visible)
-    end
+    FactoryBot.build_stubbed(:project)
   end
-  let(:parent_visible) { true }
+  let(:parent_assignable) { true }
+  let!(:assignable_parents) do
+    assignable_parents_scope = double('assignable parents scope')
+    assignable_parents = double('assignable parents')
+
+    allow(Project)
+      .to receive(:allowed_to)
+      .with(current_user, :add_subprojects)
+      .and_return assignable_parents_scope
+
+    allow(assignable_parents_scope)
+      .to receive(:where)
+      .and_return(assignable_parents_scope)
+
+    allow(assignable_parents_scope)
+      .to receive(:not)
+      .with(id: project.self_and_descendants)
+      .and_return(assignable_parents)
+
+    if project_parent
+      allow(assignable_parents)
+        .to receive(:where)
+        .with(id: project_parent.id)
+        .and_return(assignable_parents_scope)
+
+      allow(assignable_parents_scope)
+        .to receive(:exists?)
+        .and_return(parent_assignable)
+    end
+
+    assignable_parents
+  end
 
   def expect_valid(valid, symbols = {})
     expect(contract.validate).to eq(valid)
@@ -96,8 +123,8 @@ shared_examples_for 'project contract' do
     it_behaves_like 'is valid'
   end
 
-  context 'if the parent is invisible to the user' do
-    let(:parent_visible) { false }
+  context 'if the parent is not in the set of assignable_parents' do
+    let(:parent_assignable) { false }
 
     it 'is invalid' do
       expect_valid(false, parent: %i(does_not_exist))
@@ -122,16 +149,13 @@ shared_examples_for 'project contract' do
 
   describe 'assignable_values' do
     context 'for project' do
-      let(:visible_projects) { double('visible projects') }
       before do
-        allow(Project)
-          .to receive(:visible)
-          .and_return(visible_projects)
+        assignable_parents
       end
 
-      it 'is the list of visible projects' do
-        expect(subject.assignable_values(:parent, current_user))
-          .to eql visible_projects
+      it 'returns all projects the user has the add_subprojects permissions for' do
+        expect(contract.assignable_parents)
+          .to eql assignable_parents
       end
     end
 

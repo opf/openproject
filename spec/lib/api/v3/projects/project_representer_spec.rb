@@ -33,6 +33,7 @@ describe ::API::V3::Projects::ProjectRepresenter do
 
   let(:project) do
     FactoryBot.build_stubbed(:project,
+                             parent: parent_project,
                              description: 'some description').tap do |p|
       allow(p)
         .to receive(:available_custom_fields)
@@ -48,6 +49,7 @@ describe ::API::V3::Projects::ProjectRepresenter do
         .and_return(version_custom_value)
     end
   end
+  let(:parent_project) { FactoryBot.build_stubbed(:project) }
   let(:representer) { described_class.create(project, current_user: user) }
 
   let(:user) do
@@ -149,10 +151,11 @@ describe ::API::V3::Projects::ProjectRepresenter do
 
     describe '_links' do
       it { is_expected.to have_json_type(Object).at_path('_links') }
-      it 'should link to self' do
+
+      it 'links to self' do
         expect(subject).to have_json_path('_links/self/href')
       end
-      it 'should have a title for link to self' do
+      it 'has a title for link to self' do
         expect(subject).to have_json_path('_links/self/title')
       end
 
@@ -179,6 +182,31 @@ describe ::API::V3::Projects::ProjectRepresenter do
 
           it_behaves_like 'has no link' do
             let(:link) { 'createWorkPackageImmediate' }
+          end
+        end
+      end
+
+      describe 'parent' do
+        before do
+          allow(parent_project)
+            .to receive(:visible?)
+            .and_return(visible)
+        end
+        let(:visible) { true }
+
+        it_behaves_like 'has a titled link' do
+          let(:link) { 'parent' }
+          let(:href) { api_v3_paths.project(parent_project.id) }
+          let(:title) { parent_project.name }
+        end
+
+        context 'if lacking the permissions to see the parent' do
+          let(:visible) { false }
+
+          it_behaves_like 'has a titled link' do
+            let(:link) { 'parent' }
+            let(:href) { nil }
+            let(:title) { nil }
           end
         end
       end

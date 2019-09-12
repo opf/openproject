@@ -17,6 +17,7 @@
 | versions     | Versions available in this project   | Collection | not null    | READ                 | **Permission**: view work packages or manage versions |
 | memberships  | Memberships in the  project          | Collection | not null    | READ                 | **Permission**: view members                          |
 | workPackages | Work Packages of this project        | Collection | not null    | READ                 |                                                       |
+| parent       | Parent project of the project        | Project    |             | READ/WRITE           | **Permission** edit project
 
 Depending on custom fields defined for projects, additional links might exist.
 
@@ -24,12 +25,12 @@ Depending on custom fields defined for projects, additional links might exist.
 
 | Property    | Description                                               | Type        | Constraints            | Supported operations |
 | :---------: | -------------                                             | ----        | -----------            | -------------------- |
-| id          | Projects's id                                             | Integer     | x > 0                  | READ                 |
-| identifier  |                                                           | String      |                        | READ                 |
-| name        |                                                           | String      |                        | READ                 |
-| status      | The project's status                                      | String      | 'active' or 'archived' | READ                 |
-| public      | Indicates whether the project is accessible for everybody | Boolean     |                        | READ                 |
-| description |                                                           | Formattable |                        | READ                 |
+| id          | Projects's id                                             | Integer     | x > 0                  | READ/WRITE           |
+| identifier  |                                                           | String      |                        | READ/WRITE           |
+| name        |                                                           | String      |                        | READ/WRITE           |
+| status      | The project's status                                      | String      | 'active' or 'archived' | READ/WRITE           |
+| public      | Indicates whether the project is accessible for everybody | Boolean     |                        | READ/WRITE           |
+| description |                                                           | Formattable |                        | READ/WRITE           |
 | createdAt   | Time of creation                                          | DateTime    |                        | READ                 |
 | updatedAt   | Time of the most recent change to the project             | DateTime    |                        | READ                 |
 
@@ -74,6 +75,9 @@ Depending on custom fields defined for projects, additional properties might exi
                         "href": "/api/v3/users/315",
                         "method": "A user"
                     },
+                    "projects": {
+                      "href": "/api/v3/projects/123"
+                    }
                 },
                 "id": 1,
                 "identifier": "project_identifier",
@@ -204,7 +208,7 @@ Updates the given project by applying the attributes provided in the body.
                 }
             }
 
-## Projects [/api/v3/projects{?filters}]
+## Projects [/api/v3/projects{?filters,sortBy}]
 
 + Model
     + Body
@@ -240,6 +244,9 @@ Updates the given project by applying the attributes provided in the body.
                       },
                       "versions": {
                         "href": "/api/v3/projects/6/versions"
+                      },
+                      "projects": {
+                        "href": "/api/v3/projects/123"
                       }
                     },
                     "id": 6,
@@ -276,6 +283,9 @@ Updates the given project by applying the attributes provided in the body.
                       },
                       "versions": {
                         "href": "/api/v3/projects/14/versions"
+                      },
+                      "projects": {
+                        "href": null
                       }
                     },
                     "id": 14,
@@ -314,6 +324,15 @@ Returns a collection of projects. The collection can be filtered via query param
       + type_id: based on the types active in a project.
       + id: based on projects' id.
     There might also be additional filters based on the custom fields that have been configured.
+    + sortBy (optional, string, `[["id", "asc"]]`) ... JSON specifying sort criteria.
+    Currently supported orders are:
+      + id
+      + name
+      + created_on
+      + is_public
+      + latest_activity_at
+      + required_disk_space
+    There might also be additional orders based on the custom fields that have been configured.
 
 
 + Response 200 (application/hal+json)
@@ -337,6 +356,9 @@ You can use the form and schema to be retrieve the valid attribute values and by
               "_links": {
                 "customField12": {
                   "href": "/api/v3/users/5"
+                },
+                "parent": {
+                  "href": "/api/v3/projects/6"
                 }
               }
             }
@@ -441,6 +463,15 @@ You can use the form and schema to be retrieve the valid attribute values and by
                     "type": "String",
                     "name": "Status",
                     "required": true,
+                    "hasDefault": false,
+                    "writable": true,
+                    "visibility": "default",
+                    "_links": {}
+                },
+                "parent": {
+                    "type": "Project",
+                    "name": "Subproject of",
+                    "required": false,
                     "hasDefault": false,
                     "writable": true,
                     "visibility": "default",
@@ -567,6 +598,9 @@ For more details and all possible responses see the general specification of [Fo
                             "customField31": {
                                 "href": null,
                                 "title": null
+                            },
+                            "parent": {
+                                "href": null
                             }
                         }
                     },
@@ -626,6 +660,19 @@ For more details and all possible responses see the general specification of [Fo
                                 ]
                             },
                             "_links": {}
+                        },
+                        "parent": {
+                            "type": "Project",
+                            "name": "Subproject of",
+                            "required": false,
+                            "hasDefault": false,
+                            "writable": true,
+                            "visibility": "default",
+                            "_links": {
+                                "allowedValues": {
+                                    "href": "/api/v3/projects/available_parent_projects"
+                                }
+                            }
                         },
                         "createdAt": {
                             "type": "DateTime",
@@ -861,6 +908,9 @@ For more details and all possible responses see the general specification of [Fo
                             "customField31": {
                                 "href": null,
                                 "title": null
+                            },
+                            "parent": {
+                                "href": "/api/v3/projects/45"
                             }
                         }
                     },
@@ -920,6 +970,19 @@ For more details and all possible responses see the general specification of [Fo
                                 ]
                             },
                             "_links": {}
+                        },
+                        "parent": {
+                            "type": "Project",
+                            "name": "Subproject of",
+                            "required": false,
+                            "hasDefault": false,
+                            "writable": true,
+                            "visibility": "default",
+                            "_links": {
+                                "allowedValues": {
+                                    "href": "/api/v3/projects/available_parent_projects?of=123"
+                                }
+                            }
                         },
                         "createdAt": {
                             "type": "DateTime",
@@ -1093,6 +1156,140 @@ For more details and all possible responses see the general specification of [Fo
     Returned if the client does not have sufficient permissions.
 
     **Required permission:** edit projects in the project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
+## Available parent project candidates [/api/v3/projects/available_parent_projects{?filters,of,sortBy}]
+
++ Model
+    + Body
+
+            {
+              "_links": {
+                "self": {
+                  "href": "/api/v3/projects/available_parent_projects?of=123"
+                }
+              },
+              "_type": "Collection",
+              "total": 2,
+              "count": 2,
+              "_embedded": {
+                "elements": [
+                  {
+                    "_type": "Project",
+                    "_links": {
+                      "self": {
+                        "href": "/api/v3/projects/6",
+                        "title": "A project"
+                      },
+                      "createWorkPackage": {
+                        "href": "/api/v3/projects/6/work_packages/form",
+                        "method": "post"
+                      },
+                      "createWorkPackageImmediate": {
+                        "href": "/api/v3/projects/6/work_packages",
+                        "method": "post"
+                      },
+                      "categories": {
+                        "href": "/api/v3/projects/6/categories"
+                      },
+                      "versions": {
+                        "href": "/api/v3/projects/6/versions"
+                      }
+                    },
+                    "id": 6,
+                    "identifier": "a_project",
+                    "name": "A project",
+                    "status": "active",
+                    "public": false,
+                    "description": {
+                        "format": "markdown",
+                        "raw": "Lorem **ipsum** dolor sit amet",
+                        "html": "<p>Lorem <strong>ipsum</strong> dolor sit amet</p>"
+                    },
+                    "createdAt": "2015-07-06T13:28:14+00:00",
+                    "updatedAt": "2015-10-01T09:55:02+00:00",
+                    "type": "Customer Project"
+                  },
+                  {
+                    "_type": "Project",
+                    "_links": {
+                      "self": {
+                        "href": "/api/v3/projects/14",
+                        "title": "Another project"
+                      },
+                      "createWorkPackage": {
+                        "href": "/api/v3/projects/14/work_packages/form",
+                        "method": "post"
+                      },
+                      "createWorkPackageImmediate": {
+                        "href": "/api/v3/projects/14/work_packages",
+                        "method": "post"
+                      },
+                      "categories": {
+                        "href": "/api/v3/projects/14/categories"
+                      },
+                      "versions": {
+                        "href": "/api/v3/projects/14/versions"
+                      }
+                    },
+                    "id": 14,
+                    "identifier": "another_project",
+                    "name": "Another project",
+                    "status": "archived",
+                    "public": true,
+                    "description": {
+                        "format": "markdown",
+                        "raw": "",
+                        "html": ""
+                    },
+                    "createdAt": "2016-02-29T12:50:20+00:00",
+                    "updatedAt": "2016-02-29T12:50:20+00:00",
+                    "type": null
+                  }]
+                }
+              }
+            }
+
+## List available parent project candidates [GET]
+
+Lists projects which can become parent to another project. Only sound candidates are returned.
+For instance a project cannot become parent of itself or it's children.
+
+To specify the project for which a parent is queried for, the `of` parameter can be provided. If no `of`
+parameter is provided, a new project is assumed. Then, the check for the hierarchy is omitted as a new project cannot be
+part of a hierarchy yet.
+
+Candidates can be filtered. Most commonly one will want to filter by name or identifier.
+You can do this through the `filters` parameter which works just like the work package index.
+
+For instance to find all parent candidates with "rollout" in their name:
+
+```
+?filters=[{"name_and_identifier":{"operator":"~","values":["rollout"]}}]
+```
+
++ Parameters
+    + filters (optional, string, `[{ "ancestor": { "operator": "=", "values": ['1'] }" }]`) ... JSON specifying filter conditions.
+    + of (optional, number or identifier, `123` ... The id or identifier of the project the parent candidate is determined for
+    + sortBy (optional, string, `[["id", "asc"]]`) ... JSON specifying sort criteria.
+    Accepts the same format as returned by the [queries](#queries) endpoint and allows all the filters and sortBy supported by the project list end point.
+
++ Response 200 (application/hal+json)
+
+    [Available parent project candidates][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** edit project in a project or the global add project permission
 
     + Body
 

@@ -43,6 +43,8 @@ module API
           mount ::API::V3::Projects::Schemas::ProjectSchemaAPI
           mount ::API::V3::Projects::CreateFormAPI
 
+          mount API::V3::Projects::AvailableParentsAPI
+
           params do
             requires :id, desc: 'Project id'
           end

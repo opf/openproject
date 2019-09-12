@@ -210,6 +210,11 @@ module API
           end
 
           resources :project
+
+          def self.projects_available_parents
+            "#{projects}/available_parent_projects"
+          end
+
           resources :query
 
           def self.query_default

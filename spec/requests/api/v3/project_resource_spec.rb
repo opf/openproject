@@ -58,6 +58,19 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
 
   describe '#get /projects/:id' do
     let(:get_path) { api_v3_paths.project project.id }
+    let!(:parent_project) do
+      FactoryBot.create(:project, is_public: false).tap do |p|
+        project.parent = p
+        project.save!
+      end
+    end
+    let!(:parent_memberships) do
+      FactoryBot.create(:member,
+                        user: current_user,
+                        project: parent_project,
+                        roles: [FactoryBot.create(:role, permissions: [])])
+    end
+
     subject(:response) do
       get get_path
 
@@ -72,6 +85,12 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       it 'responds with the correct project' do
         expect(subject.body).to include_json('Project'.to_json).at_path('_type')
         expect(subject.body).to be_json_eql(project.identifier.to_json).at_path('identifier')
+      end
+
+      it 'links to the parent project' do
+        expect(subject.body)
+          .to be_json_eql(api_v3_paths.project(parent_project.id).to_json)
+          .at_path('_links/parent/href')
       end
 
       it 'includes custom fields' do
@@ -105,6 +124,17 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
         it_behaves_like 'not found' do
           let(:id) { another_project.id.to_s }
           let(:type) { 'Project' }
+        end
+      end
+
+      context 'not being allowed to see the parent project' do
+        let!(:parent_memberships) do
+        end
+
+        it 'has no path to the parent' do
+          expect(subject.body)
+            .to be_json_eql(nil.to_json)
+            .at_path('_links/parent/href')
         end
       end
     end

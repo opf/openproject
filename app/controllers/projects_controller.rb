@@ -69,6 +69,7 @@ class ProjectsController < ApplicationController
 
   def new
     assign_default_create_variables
+    @project = Project.new
 
     render layout: 'no_menu'
   end
@@ -268,9 +269,9 @@ class ProjectsController < ApplicationController
   end
 
   def assign_default_create_variables
-    @issue_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
+    @wp_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
     @types = ::Type.all
-    @project = Project.new
+
     @project.parent = Project.find(params[:parent_id]) if params[:parent_id]
     @project.attributes = permitted_params.project if params[:project].present?
   end

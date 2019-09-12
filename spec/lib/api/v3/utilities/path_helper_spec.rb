@@ -239,6 +239,12 @@ describe ::API::V3::Utilities::PathHelper do
 
   describe 'projects paths' do
     it_behaves_like 'resource', :project
+
+    describe '#projects_available_parents' do
+      subject { helper.projects_available_parents }
+
+      it_behaves_like 'api v3 path', '/projects/available_parent_projects'
+    end
   end
 
   describe 'query paths' do
