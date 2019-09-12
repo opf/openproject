@@ -65,10 +65,6 @@ module API
               get do
                 project = find_project
 
-                authorize_any(%i[view_linked_issues view_work_packages], projects: [project]) do
-                  raise ::API::Errors::NotFound.new
-                end
-
                 authorize(:view_linked_issues, context: project) do
                   raise API::Errors::NotFound.new
                 end
@@ -96,7 +92,7 @@ module API
                                                                       current_user: User.current)
                   importer.import!(import_options)
                 rescue StandardError => e
-                  raise API::Errors::InternalError.new e.message
+                  raise API::Errors::InternalError.new(e.message)
                 ensure
                   file.delete
                 end

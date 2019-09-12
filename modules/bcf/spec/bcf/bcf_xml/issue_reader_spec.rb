@@ -87,14 +87,16 @@ describe ::OpenProject::Bcf::BcfXml::IssueReader do
       .new(absolute_file_path, entry_stream)
   end
   let(:entry_stream) { StringIO.new(markup) }
+  let(:import_options) { OpenProject::Bcf::BcfXml::Importer::DEFAULT_IMPORT_OPTIONS }
+  let(:aggregations) { OpenProject::Bcf::BcfXml::Aggregations.new([], project) }
 
   subject do
     described_class.new(project,
                         nil,
                         entry,
                         current_user: bcf_manager,
-                        import_options: {},
-                        aggregations: OpenProject::Bcf::BcfXml::Aggregations.new([], project))
+                        import_options: import_options,
+                        aggregations: aggregations)
   end
 
   before do
@@ -107,9 +109,52 @@ describe ::OpenProject::Bcf::BcfXml::IssueReader do
   context 'on initial import' do
     let(:bcf_issue) { subject.extract! }
 
-    it 'WP start date gets initialized with BCF CreationDate' do
-      expect(bcf_issue.uuid).to eql("63E78882-7C6A-4BF7-8982-FC478AFB9C97")
-      expect(bcf_issue.work_package.start_date).to eql(subject.extractor.creation_date.to_date)
+    context 'with happy path, everything has a match' do
+      it 'WP start date gets initialized with BCF CreationDate' do
+        expect(bcf_issue.work_package.start_date).to eql(subject.extractor.creation_date.to_date)
+      end
+
+      it 'BCF::Issue get initialized with the GUID form the XML file' do
+        expect(bcf_issue.uuid).to eql("63E78882-7C6A-4BF7-8982-FC478AFB9C97")
+      end
+    end
+
+    context 'Topic does not provide any title, status, type or priority' do
+      let(:markup) do
+        <<-MARKUP
+        <Markup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+          <Topic Guid="63E78882-7C6A-4BF7-8982-FC478AFB9C97">
+            <Title></Title>
+            <CreationDate>2015-06-21T12:00:00Z</CreationDate>
+            <ModifiedDate>2015-04-21T12:00:00Z</ModifiedDate>
+            <CreationAuthor>mike@example.com</CreationAuthor>
+          </Topic>
+        </Markup>
+        MARKUP
+      end
+
+      context 'with no import options provided' do
+        let(:aggregations) do
+          Struct
+            .new(:unknown_statuses, :unknown_types, :unknown_priorities)
+            .new([nil], [nil], [nil])
+        end
+
+        let(:bcf_issue) { subject.extract! }
+
+        it 'sets a status' do
+          expect(bcf_issue.work_package.status).to eql(Status.default)
+        end
+
+        it 'sets a type' do
+          expect(bcf_issue.work_package.type).to eql(type)
+        end
+
+        it 'ignores missing priority' do
+          # as it gets set automatically when creating new work packages.
+          expect(bcf_issue.work_package.priority).to eql(priority)
+        end
+      end
     end
   end
 
