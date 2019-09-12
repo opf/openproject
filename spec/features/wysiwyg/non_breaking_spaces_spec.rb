@@ -45,13 +45,7 @@ describe 'Wysiwyg &nbsp; behavior',
       end
 
       it 'can insert strong formatting with nbsp' do
-        editor.in_editor do |container, editable|
-
-          editor.click_and_type_slowly 'some text '
-          container.find('.ck-button', visible: :all, text: 'Bold').click
-
-          editor.click_and_type_slowly 'with bold '
-        end
+        editor.click_and_type_slowly 'some text ', [:control, 'b'], 'with bold'
 
         # Save wiki page
         click_on 'Save'

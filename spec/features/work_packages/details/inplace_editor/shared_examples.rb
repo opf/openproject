@@ -150,6 +150,9 @@ shared_examples 'a principal autocomplete field' do
       expect(page).to have_selector('.mention-list-item', text: mentioned_group.name)
       expect(page).not_to have_selector('.mention-list-item', text: user.name)
 
+      # Close the autocompleter
+      field.input_element.send_keys :escape
+
       field.input_element.set('', fill_options: { clear: :backspace })
       field.input_element.send_keys(" @Laura Fo")
       expect(page).to have_selector('.mention-list-item', text: mentioned_user.name)

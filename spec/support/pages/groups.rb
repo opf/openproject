@@ -27,6 +27,7 @@
 #++
 
 require 'support/pages/page'
+require 'support/components/ng_select_autocomplete_helpers'
 
 module Pages
   class Groups < Page
