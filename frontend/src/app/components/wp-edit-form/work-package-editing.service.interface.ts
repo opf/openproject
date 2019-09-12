@@ -38,6 +38,7 @@ export const IWorkPackageEditingServiceToken = new InjectionToken<IWorkPackageEd
  */
 export interface IWorkPackageEditingService {
   updateValue(id:string, changeset:any):void;
+  stopEditing(id:string):void;
   changesetFor(wp:WorkPackageResource):WorkPackageChangeset;
 }
 

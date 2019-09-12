@@ -175,6 +175,7 @@ export class WorkPackageChangeset extends EditChangeset<WorkPackageResource> {
                   this.wpCacheService.loadWorkPackage(this.resource.parent.id.toString(), true);
                 }
                 this.clear();
+                this.wpEditing.stopEditing(this.resource.id!);
                 resolve(this.resource);
               });
             })
