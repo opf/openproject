@@ -96,7 +96,7 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
   }
 
   public get textEmpty() {
-    return !this.customText;
+    return !this.currentRawText.length;
   }
 
   public get isTextEditable() {
