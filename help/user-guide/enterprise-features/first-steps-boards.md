@@ -1,66 +1,37 @@
 ---
 title: Agile Boards
-description: Create and manage flexible agile issue Boards in OpenProject
+description: How to get started with Boards for Scrum and Agile Project Management.
 robots: index, follow
 keywords: agile boards
 ---
 
-# Agile Boards
+# Boards for Agile Project Management (Premium feature)
 
-Agile boards for Scrum or Kanban support teams with agile project management.
-You can create multiple boards with lists and cards on it to visually organize your work, just like with sticky notes. You get a quick overview of the status and important tasks within your projects.
-You can create lists with cards on it and move the cards around with drag and drop: within one list to prioritize or to another list to change certain attributes. 
+Boards support agile project management methodologies, such as Scrum or Kanban.
 
-| Feature                                   | Documentation for              |
-| ----------------------------------------- | ------------------------------ |
-| [Create a new board](#create-a-new-board) | How to create new agile board. |
-|                                           |                                |
-|                                           |                                |
-|                                           |                                |
-|                                           |                                |
+Boards can be for anything you would like to keep track of within your projects: Tasks to be done, Bugs to be fixed, Things to be reviewed,  Features to be developed, Risks to be monitored, Ideas to be spread,  anything!
 
-## Create a new board
+| Feature                                                      | Documentation for                                            |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [Create new Boards](#create-a-new-board)                     | How to create new agile board.                               |
+| [Basic board and Action board](#basic-board-and-action-board) | What is the difference between Basic boards and Action boards. |
+| [Give the board a title](#give-the-board-a-title)            | How to name a board.                                         |
+| [Add lists to your board](#add-lists-to-your-board)          | How to add lists to a board.                                 |
+| [Remove lists](#remove-lists)                                | How to remove lists from a board.                            |
+| [Add cards to a list](#add-cards-to-a-list)                  | How to add cards to a list in a board.                       |
+| [Update cards](https://www.openproject.org/step-by-step-guide-boards-for-scrum-and-agile-project-management/#update-cards) | How to update cards.                                         |
+| [Remove cards](#remove-cards)                                | How to remove cards.                                         |
+| [Manage boards](#manage-boards)                              | How to manage permissions for boards.                        |
 
-To create a new agile board, navigate to the **Boards** module within the project navigation. 
+## Agile Boards in OpenProject
 
-You will see a list of already existing boards.
-
-To create a new board, click on the green **+ Board** button to create a new agile board in your project.
-
-![create-board](create-board.png)
-
-In the popup window, choose which kind of board you want to create. You have the option to create a **Basic board** or an **Action board**.
-
-**Basic boards**
-
-Basic boards are boards that are very flexible. You can freely create any kind of lists and add your work packages to the lists, order them within a list or add them to another list. Changes between the lists (columns of a board) do not make any changes to the work package attributes itself.
-
-VS
-
-**Action board**
-
-The action boards can be created for different action attributes for the lists. Lists are filtered on a single attribute, e.g. Status or Version. Moving work packages between lists will update this respective  attribute of the work package.
-
-Boards  can be for anything you would like to keep track of within your  projects: Tasks to be done, Bugs to be fixed, Things to be reviewed,  Features to be developed, Risks to be monitored, Ideas to be spread,  anything!
-The new Boards are tightly integrated with all other project management functionalities in OpenProject, i.e. [work packages](https://www.openproject.org/collaboration-software-features/task-management-software/) or [Gantt charts](https://www.openproject.org/collaboration-software-features/timeline-project-management/).  This makes it so easy and practical to include the Boards in your daily  project management routines and to gain a much quicker overview of  important topics in your project.
+The new Boards are tightly integrated with all other project management functionalities in OpenProject, i.e. [work packages](#work-pages) or [Gantt charts](#gantt-charts).  This makes it so easy and practical to include the Boards in your daily  project management routines and to gain a much quicker overview of  important topics in your project.
 
  	![OpenProject Boards](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2019/05/OpenProject-Boards_Overview-1024x614.png) 
 
 ## Step-by-Step Guide to get started with Boards
 
-[1. Create new Boards](https://www.openproject.org/step-by-step-guide-boards-for-scrum-and-agile-project-management/#create-new)
-[2. Basic board and Action board](https://www.openproject.org/step-by-step-guide-boards-for-scrum-and-agile-project-management/#basic-action-board)
-
-[3. Give the board a title](https://www.openproject.org/step-by-step-guide-boards-for-scrum-and-agile-project-management/#board-title)
-[4. Add lists to your board](https://www.openproject.org/step-by-step-guide-boards-for-scrum-and-agile-project-management/#board-lists)
-
-[5. Add cards to a list](https://www.openproject.org/step-by-step-guide-boards-for-scrum-and-agile-project-management/#add-cards)
-[6. Update cards](https://www.openproject.org/step-by-step-guide-boards-for-scrum-and-agile-project-management/#update-cards)
-
-[7. Remove cards](https://www.openproject.org/step-by-step-guide-boards-for-scrum-and-agile-project-management/#remove-cards)
-[8. Manage boards](https://www.openproject.org/step-by-step-guide-boards-for-scrum-and-agile-project-management/#manage-boards)
-
-### 1. Create a new Board
+### Create a new Board
 
 You can create as many flexible boards in a project as you need and  configure them to your needs. First, you need to create a new Boards  view. 
 If you haven't done so yet, [activate the Boards module](https://www.openproject.org/help/activate-deactivate-modules/) within your project. Also, we recommend to verify [Roles and Permissions](https://www.openproject.org/help/administration/manage-roles-permissions/) within your system's Administration.
@@ -69,7 +40,7 @@ Click on the green **+Board** button to create a new Board view.
 
  	![Creat new OpenProject Boards](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2019/05/OpenProject-Boards_create-new-1024x302.png) 
 
-### 2. Choose between Basic board and Action board
+### Choose between Basic board and Action board
 
 Next, you need to choose if you want to create a Basic board or an Action board.
 
@@ -79,13 +50,13 @@ Next, you need to choose if you want to create a Basic board or an Action board.
 
  	![OpenProject_Basic-board_Action-board](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2019/05/OpenProject-Boards_create-form-1024x401.png) 
 
-### 3. Give the board a title
+### Give the board a title
 
 Choose a meaningful title for your Board so that it is clear, e.g. for other team members, what you want to do.
 
  	![OpenProject_Boards-title](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2019/05/OpenProject-Boards_title-1024x205.png) 
 
-### 4. Add lists to your board
+### Add lists to your board
 
 **Lists** usually represent a **status workflow**, a **version**, or **anything** that you would like to track within your project. You can add as many lists that you need to a Board.
 
@@ -103,11 +74,13 @@ Click **+ add list** to add lists to your board.
 
  	![OpenProject-Boards_add-boards-lists](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2019/05/OpenProject-Boards_add-boards-lists-1024x380.png) 
 
+### Remove lists
+
 To remove lists, click on the three dots next to a list's title, and select **Delete list**.
 
  	![OpenProject-Boards_delete-lists](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2019/05/OpenProject-Boards_delete-lists.png) 
 
-### 5. Add cards to a list
+### Add cards to a list
 
 You can add cards to a list. Cards represent a [work package](https://www.openproject.org/help/work-packages/) in OpenProject. They can be any kind of work within a project, e.g. a Task, a Bug, a Feature, a Risk, anything.
 
@@ -122,7 +95,7 @@ Click **+** under the lists' title to add a card: create a new card or choose an
 
  	![OpenProject-Boards_create-cards](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2019/05/OpenProject-Boards_create-cards.png) 
 
-### 6. Update cards
+### Update cards
 
 You can update cards in the following ways:
 
@@ -138,7 +111,7 @@ A **double click on a card** will open the **details view.** The **arrow** on to
 
  	![OpenProject-Boards_card-details](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2019/05/OpenProject-Boards_card-details-1024x709.png) 
 
-### 7. Remove cards
+### Remove cards
 
 To remove a card from a **Basic board** hover over the card and press the **X**.
 
@@ -146,7 +119,7 @@ To remove a card from a **Basic board** hover over the card and press the **X**.
 
 Cards from **Actions boards** will be removed automatically from a list as soon as the respective attribute (e.g. Status) is changed.
 
-### 8. Manage boards
+### Manage boards
 
 To **create new** boards, **open existing** boards, or **delete** boards, navigate to the main Boards menu item.
 
@@ -155,6 +128,3 @@ To **create new** boards, **open existing** boards, or **delete** boards, naviga
 Verify and **update roles and permissions for boards** in the system's Administration.
 
  	![OpenProject-Boards_manage-permissions](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2019/05/OpenProject-Boards_manage-permissions-1024x461.png) 
-
-## 
-
