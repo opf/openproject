@@ -41,7 +41,7 @@ export class WidgetProjectDescriptionComponent extends AbstractWidgetComponent i
   public description:SafeHtml;
 
   public text = {
-    noResults: this.i18n.t('js.grid.widgets.project_description.no_results'),
+    noResults: this.i18n.t('js.grid.widgets.project_description.no_results')
   };
 
   constructor(protected readonly i18n:I18nService,
