@@ -309,4 +309,112 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       end
     end
   end
+
+  describe '#patch /projects/:id' do
+    let(:current_user) do
+      FactoryBot.create(:user,
+                        member_in_project: project,
+                        member_with_permissions: permissions)
+    end
+    let(:permissions) { [:edit_project] }
+    let(:path) { api_v3_paths.project(project.id) }
+    let(:body) do
+      {
+        identifier: 'new_project_identifier',
+        name: 'Project name'
+      }
+    end
+
+    before do
+      login_as current_user
+
+      patch path, body.to_json
+    end
+
+    it 'responds with 200 OK' do
+      expect(last_response.status).to eq(200)
+    end
+
+    it 'alters the project' do
+      project.reload
+
+      expect(project.name)
+        .to eql(body[:name])
+
+      expect(project.identifier)
+        .to eql(body[:identifier])
+    end
+
+    it 'returns the updated project' do
+      expect(last_response.body)
+        .to be_json_eql('Project'.to_json)
+        .at_path('_type')
+      expect(last_response.body)
+        .to be_json_eql(body[:name].to_json)
+        .at_path('name')
+    end
+
+    context 'with a custom field' do
+      let(:body) do
+        {
+          "customField#{custom_field.id}": {
+            "raw": "CF text"
+          }
+        }
+      end
+
+      it 'responds with 200 OK' do
+        expect(last_response.status).to eq(200)
+      end
+
+      it 'sets the cf value' do
+        expect(project.reload.send("custom_field_#{custom_field.id}"))
+          .to eql("CF text")
+      end
+    end
+
+    context 'without permission to create projects' do
+      let(:permissions) { [] }
+
+      it 'responds with 403' do
+        expect(last_response.status).to eq(403)
+      end
+
+      it 'does not change the project' do
+        attributes_before = project.attributes
+
+        expect(project.reload.name)
+          .to eql(attributes_before['name'])
+      end
+    end
+
+    context 'with faulty params' do
+      let(:body) do
+        {
+          name: nil
+        }
+      end
+
+      it 'responds with 422' do
+        expect(last_response.status).to eq(422)
+      end
+
+      it 'does not change the project' do
+        attributes_before = project.attributes
+
+        expect(project.reload.name)
+          .to eql(attributes_before['name'])
+      end
+
+      it 'denotes the error' do
+        expect(last_response.body)
+          .to be_json_eql('Error'.to_json)
+          .at_path('_type')
+
+        expect(last_response.body)
+          .to be_json_eql("Name can't be blank.".to_json)
+          .at_path('message')
+      end
+    end
+  end
 end

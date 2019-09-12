@@ -117,6 +117,93 @@ Depending on custom fields defined for projects, additional properties might exi
                 "message": "The specified project does not exist."
             }
 
+## Update Project [PATCH]
+
+Updates the given project by applying the attributes provided in the body.
+
++ Parameters
+    + id (required, integer, `1`) ... Project id
+
++ Request Update project
+
+    + Body
+
+            {
+                "name": "A new project name",
+                "_links": {
+                    "customField35": {
+                        "href": "/api/v3/users/3"
+                    }
+                }
+            }
+
++ Response 200
+
+    [Project][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** edit project for the project to be altered
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the project does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view project
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of
+    a version. That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The requested resource could not be found."
+            }
+
++ Response 422 (application/hal+json)
+
+    Returned if:
+
+    * a constraint for a property was violated (`PropertyConstraintViolation`)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "Name can't be blank.",
+                "_embedded": {
+                    "details": {
+                        "attribute": "name"
+                    }
+                }
+            }
+
 ## Projects [/api/v3/projects{?filters}]
 
 + Model

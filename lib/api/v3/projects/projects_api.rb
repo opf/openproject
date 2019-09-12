@@ -56,6 +56,7 @@ module API
             end
 
             get &::API::V3::Utilities::Endpoints::Show.new(model: Project).mount
+            patch &::API::V3::Utilities::Endpoints::Update.new(model: Project).mount
 
             mount ::API::V3::Projects::UpdateFormAPI
 
