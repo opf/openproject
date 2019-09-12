@@ -19,7 +19,7 @@ They can be displayed on the main project overview page.
 | [Watch news](#watch-a-news-entry)           | How to add yourself as a watcher to a news entry? |
 | [Edit a news entry](#edi-a-news-entry)      | How to edit an existing news entry?               |
 | [Add a news entry](#add-a-news-entry)       | How to create a new news entry?                   |
-| [Delete a news entry](#delete-a news-entry) | How to delete a news entry?                       |
+| [Delete a news entry](#delete-a-news-entry) | How to delete a news entry?                       |
 
 ## Comment on news
 
