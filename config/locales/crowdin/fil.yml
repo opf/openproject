@@ -147,8 +147,6 @@ fil:
     index:
       no_results_title_text: Sa kasalukuyan ay walang mga balita para ma-ireport.
       no_results_content_text: Magdagdag ng bagong news item
-    my_page:
-      no_results_title_text: Walang bago para ireport.
   users:
     memberships:
       no_results_title_text: Ang user na ito ay kasalukuyang hindi myembro ng proyekto.
@@ -1344,7 +1342,6 @@ fil:
   label_move_work_package: "Ilipat ang work package"
   label_my_account: "Ang aking akwant"
   label_my_account_data: "Ang data ng aking akwant"
-  label_my_page: "Ang aking pahina"
   label_my_projects: "Ang mga aking proyekto"
   label_my_queries: "Ang mga aking custom query"
   label_never: "Hindi kailanman"
@@ -1557,6 +1554,7 @@ fil:
   label_wiki_content_added: "Ang idinagdag na wiking pahina"
   label_wiki_content_updated: "Naka-update na wiking pahina"
   label_wiki_toc: "Talaan ng Nilalamn"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "Huwag ipakita ang wikipage na ito sa oroject nabigasyon"
   label_wiki_edit: "I-edit ang wiki"
   label_wiki_edit_plural: "I-edit ang mga wiki"

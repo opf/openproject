@@ -51,7 +51,7 @@ export class OpModalService {
         !this.opening &&
         this.active.closeOnOutsideClick &&
         !this.portalHostElement.contains(evt.target as Element)) {
-        this.close(evt);
+        this.close();
       }
     });
 
@@ -107,18 +107,13 @@ export class OpModalService {
   /**
    * Closes currently open modal window
    */
-  public close(evt?:JQuery.TriggeredEvent) {
+  public close() {
     // Detach any component currently in the portal
     if (this.active && this.active.onClose()) {
       this.active.closingEvent.emit(this.active);
       this.bodyPortalHost.detach();
       this.portalHostElement.style.display = 'none';
       this.active = null;
-
-      if (evt) {
-        evt.preventDefault();
-        evt.stopPropagation();
-      }
     }
   }
 

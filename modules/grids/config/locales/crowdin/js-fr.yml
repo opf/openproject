@@ -1,0 +1,50 @@
+fr:
+  js:
+    grid:
+      add_widget: 'Add widget'
+      remove: 'Remove widget'
+      widgets:
+        custom_text:
+          title: 'Texte personnalisé'
+        documents:
+          title: 'Documents'
+          no_results: 'Encore aucun document.'
+        members:
+          title: 'Membres'
+          no_results: 'No visible members.'
+          view_all_members: 'Afficher tous les membres'
+          add: 'Membre'
+          too_many: 'Displaying %{count} of %{total} members.'
+        news:
+          title: 'Actualités'
+          at: 'à'
+          no_results: 'Rien de nouveau à signaler.'
+        project_description:
+          title: 'Description du projet'
+          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
+        project_details:
+          title: 'Détails du projet'
+          no_results: 'No custom fields have been defined for projects.'
+        subprojects:
+          title: 'Sous-projets'
+          no_results: 'No subprojects.'
+        time_entries_list:
+          title: 'Temps passé (7 derniers jours)'
+          no_results: 'Aucune entrée de temps pour les 7 derniers jours.'
+        work_packages_accountable:
+          title: "Lots de Travaux dont je suis responsable"
+        work_packages_assigned:
+          title: 'Lots de Travaux m''étant assignés'
+        work_packages_created:
+          title: 'Lots de travaux que j''ai créés'
+        work_packages_watched:
+          title: 'Lots de travaux que j''ai observés'
+        work_packages_table:
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
+        work_packages_calendar:
+          title: 'Calendrier'
+        work_packages_overview:
+          title: 'Work packages overview'
+          placeholder: 'Click to edit ...'

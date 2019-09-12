@@ -77,6 +77,12 @@ module OpenProject
         array self['blacklisted_routes']
       end
 
+      ##
+      # Whether we're running a bim edition
+      def bim?
+        ENV['OPENPROJECT_EDITION'] == 'bim'
+      end
+
 
       def available_file_uploaders
         uploaders = {

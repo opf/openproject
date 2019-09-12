@@ -218,7 +218,7 @@ group :test do
   gem 'capybara', '~> 3.13.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
-  gem 'chromedriver-helper', '~> 2.1.0'
+  gem 'webdrivers', '~> 4.1.2', require: false
   gem 'selenium-webdriver', '~> 3.14'
 
   gem 'fuubar', '~> 2.3.2'
@@ -260,6 +260,13 @@ group :development, :test do
   gem 'pry-rails', '~> 0.3.6'
   gem 'pry-rescue', '~> 1.5.0'
   gem 'pry-stack_explorer', '~> 0.4.9.2'
+
+  # Dangerfile scanner on travis and locally
+  gem 'danger', '~> 6.0.9'
+
+  # Brakeman scanner
+  gem 'brakeman', '~> 4.6.1'
+  gem 'danger-brakeman'
 end
 
 gem 'bootsnap', '~> 1.4.5', require: false

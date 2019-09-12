@@ -32,7 +32,7 @@ rvm:
   - 2.6.1
 
 sudo: required
-dist: trusty
+dist: xenial
 
 cache:
   bundler: true
@@ -76,6 +76,9 @@ jobs:
     - stage: prepare cache
       name: 'Prepare cache'
       script:
+        # Run the dangerfile
+        - bundle exec danger --fail-on-errors=true || travis_terminate 1;
+        # Set up caching
         - bash script/ci/db_setup.sh
         - bash script/ci/cache_prepare.sh
     - stage: test

@@ -32,15 +32,19 @@ See docs/COPYRIGHT.rdoc for more details.
      tabindex="0"
      role="alert">
   <div class="notification-box--content">
-  <% if content_for?(:error_details) %>
-    <p>
-      <strong><%= error_message %></strong>
-    </p>
-    <p>
-      <%= content_for :error_details %>
-    </p>
-  <% else %>
-    <%= error_message %>
-  <% end %>
+    <% if content_for?(:error_details) %>
+      <p>
+        <strong><%= error_message %></strong>
+      </p>
+      <p>
+        <%= content_for :error_details %>
+      </p>
+    <% else %>
+      <%= error_message %>
+    <% end %>
   </div>
+
+  <span class="close-handler" role="button" tabindex="0" aria-label="{{ ::I18n.t('js.close_popup_title') }}">
+    <%= op_icon('icon-close') %>
+  </span>
 </div>

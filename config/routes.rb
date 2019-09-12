@@ -140,8 +140,6 @@ OpenProject::Application.routes.draw do
     end
   end
 
-  mount Dashboards::Engine, at: 'projects/:project_id/dashboards', as: :project_dashboards
-
   get '(projects/:project_id)/search' => 'search#index', as: 'search'
 
   # only providing routes for journals when there are multiple subclasses of journals
@@ -341,9 +339,6 @@ OpenProject::Application.routes.draw do
     end
   end
 
-  # has to be after the route definitions for project
-  mount Overviews::Engine, at: 'projects/:project_id', as: :project_overview
-
   scope 'admin' do
     resource :announcements, only: %i[edit update]
     constraints(Enterprise) do
@@ -529,8 +524,6 @@ OpenProject::Application.routes.draw do
     match '/deletion_info' => 'users#deletion_info', via: :get, as: 'delete_my_account_info'
     match '/oauth/revoke_application/:application_id' => 'oauth/grants#revoke_application', via: :post, as: 'revoke_my_oauth_application'
   end
-
-  mount MyPage::Engine, at: "/my/page"
 
   scope controller: 'my' do
     get '/my/password', action: 'password'

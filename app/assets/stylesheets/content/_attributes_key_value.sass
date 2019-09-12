@@ -31,49 +31,63 @@
   flex-wrap: wrap
   font-size: 0.875rem
 
-  .attributes-key-value--key
-    @extend .form--label
-    display: flex
-    flex: 1 0 35%
-    max-width: 35%
-    margin-bottom: 0.1875rem
-    padding: 0.375rem 0
-    font-weight: bold
-    // Ensure that the text is shortened while the help icon will be displayed
-    > wp-replacement-label
-      @include text-shortener
-      flex: 0 1 auto
+.attributes-key-value--key
+  @extend .form--label
+  display: flex
+  flex: 1 0 35%
+  max-width: 35%
+  margin-bottom: 0.1875rem
+  padding: 0.375rem 0
+  font-weight: bold
+  // Ensure that the text is shortened while the help icon will be displayed
+  > wp-replacement-label
+    @include text-shortener
+    flex: 0 1 auto
 
-    &.-minimal
-      @include text-shortener
-      flex: 0 1 auto
+.attributes-key-value--value-container
+  display: flex
+  flex: 1 0 65%
+  max-width: 65%
+  margin-bottom: 0.1875rem
+  align-self: center
 
-  .attributes-key-value--value-container
-    display: flex
-    flex: 1 0 65%
-    max-width: 65%
-    margin-bottom: 0.1875rem
-    align-self: center
+  p
+    font-size: $form-label-fontsize
+    word-wrap: break-word
 
-    p
-      font-size: $form-label-fontsize
-      word-wrap: break-word
+  &.not-editable
+    padding: 6px
 
-    &.not-editable
-      padding: 6px
+.attributes-key-value--value-separator
+  margin: 0px 4px
 
-    &.-minimal
-      wp-edit-field
-        flex-basis: 90px
-      .wp-inline-edit--field
-        width: 90px
+  &:after
+    display: inline
+    content: '-'
 
-  .attributes-key-value--value-separator
-    margin: 0px 4px
+.attributes-key-value--value
+  @include grid-visible-overflow
 
-    &:after
-      display: inline
-      content: '-'
+// Alternative implementation to the one above.
+// It's main advantage is that it can act on the whole of the key/value-pairs.
+// It can e.g. determine the width of the widest label and by that align all key value pairs equally.
 
-  .attributes-key-value--value
-    @include grid-visible-overflow
+.attributes-map
+  display: grid
+  grid-template-columns: 1fr 4fr
+  grid-auto-rows: auto
+  grid-gap: 1rem
+
+  &.-minimal-keys
+    grid-template-columns: max-content 4fr
+
+.attributes-map--key
+  @include text-shortener
+  font-weight: bold
+
+  .attributes-map.-minimal-keys &
+    max-width: 200px
+
+.attributes-map--value
+  // empty for now but it makes sense to also have it present in the style declaration IMO
+  zoom: 1

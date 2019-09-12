@@ -147,8 +147,6 @@ de:
     index:
       no_results_title_text: Es gibt aktuell keine Neuigkeiten.
       no_results_content_text: Neuigkeit hinzufügen
-    my_page:
-      no_results_title_text: Nichts Neues zu berichten.
   users:
     memberships:
       no_results_title_text: Dieser Nutzer ist derzeit in keinem Projekt Mitglied.
@@ -1342,7 +1340,6 @@ de:
   label_move_work_package: "Arbeitspaket verschieben"
   label_my_account: "Mein Konto"
   label_my_account_data: "Meine Kontodaten"
-  label_my_page: "Meine Seite"
   label_my_projects: "Meine Projekte"
   label_my_queries: "Meine Berichte"
   label_never: "Nie"
@@ -1555,6 +1552,7 @@ de:
   label_wiki_content_added: "Die Wiki-Seite wurde erfolgreich hinzugefügt."
   label_wiki_content_updated: "Die Wiki-Seite wurde erfolgreich aktualisiert."
   label_wiki_toc: "Inhaltsverzeichnis"
+  label_wiki_toc_empty: "Inhaltsverzeichnis ist leer, da keine Überschriften vorhanden sind."
   label_wiki_dont_show_menu_item: "Wikiseite nicht in der Projektnavigation anzeigen"
   label_wiki_edit: "Wiki-Bearbeitung"
   label_wiki_edit_plural: "Wiki-Bearbeitungen"

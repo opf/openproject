@@ -147,8 +147,6 @@ hu:
     index:
       no_results_title_text: Nincs megjeleníthető hír.
       no_results_content_text: Hír hozzáadása
-    my_page:
-      no_results_title_text: Semmi új jelenteni való.
   users:
     memberships:
       no_results_title_text: Ez a felhasználó jelenleg nem tagja egy projektnek sem.
@@ -1342,7 +1340,6 @@ hu:
   label_move_work_package: "A munkacsomag mozgatása"
   label_my_account: "Saját fiókom"
   label_my_account_data: "Az én fiók adataim"
-  label_my_page: "Az én oldalam"
   label_my_projects: "Az én projektjeim"
   label_my_queries: "Az én egyéni lekérdezéseim"
   label_never: "Soha"
@@ -1555,6 +1552,7 @@ hu:
   label_wiki_content_added: "Wiki oldal hozzáadva"
   label_wiki_content_updated: "Wiki oldal frissítve"
   label_wiki_toc: "Tartalomjegyzék"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "Nem mutasd meg ezt a wikioldalt a projekt navigáció közben"
   label_wiki_edit: "Wiki szerkesztés"
   label_wiki_edit_plural: "Wiki szerkesztések"

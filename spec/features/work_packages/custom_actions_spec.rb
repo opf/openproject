@@ -455,4 +455,30 @@ describe 'Custom actions', type: :feature, js: true do
 
     wp_page.expect_notification type: :error, message: I18n.t('api_v3.errors.code_409')
   end
+
+  scenario 'editing a current date custom action (Regression #30949)' do
+    # create custom action 'Unassign'
+    index_ca_page.visit!
+
+    new_ca_page = index_ca_page.new
+
+    retry_block do
+      new_ca_page.visit!
+      new_ca_page.set_name('Current date')
+      new_ca_page.set_description('Sets the current date')
+      new_ca_page.add_action('Date', 'Current date')
+    end
+
+    new_ca_page.create
+
+    index_ca_page.expect_current_path
+    index_ca_page.expect_listed('Current date')
+
+    date_action = CustomAction.last
+    expect(date_action.actions.length).to eq(1)
+    expect(date_action.conditions.length).to eq(0)
+
+    edit_page = index_ca_page.edit('Current date')
+    expect(page).to have_select('custom_action_actions_date', selected: 'Current date')
+  end
 end

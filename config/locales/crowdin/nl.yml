@@ -147,8 +147,6 @@ nl:
     index:
       no_results_title_text: Er is momenteel geen nieuws om te rapporteren.
       no_results_content_text: Voeg een nieuwsitem toe
-    my_page:
-      no_results_title_text: Niets nieuws om te rapporteren.
   users:
     memberships:
       no_results_title_text: Deze gebruiker is momenteel geen lid van een project.
@@ -1344,7 +1342,6 @@ nl:
   label_move_work_package: "Verplaatsen werkpakket"
   label_my_account: "Mijn gegevens"
   label_my_account_data: "Mijn accountgegevens"
-  label_my_page: "Mijn pagina"
   label_my_projects: "Mijn projecten"
   label_my_queries: "Mijn aangepaste query 's"
   label_never: "Nooit"
@@ -1557,6 +1554,7 @@ nl:
   label_wiki_content_added: "Wiki-pagina toegevoegd"
   label_wiki_content_updated: "Wiki-pagina bijgewerkt"
   label_wiki_toc: "Inhoudsopgave"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "Deze wiki pagina niet weergeven in projectnavigatie"
   label_wiki_edit: "Wiki bewerken"
   label_wiki_edit_plural: "Wiki bewerkingen"

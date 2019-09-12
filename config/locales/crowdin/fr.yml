@@ -147,8 +147,6 @@ fr:
     index:
       no_results_title_text: Il n'y a actuellement aucune actualité à publier.
       no_results_content_text: Ajouter une actualité
-    my_page:
-      no_results_title_text: Rien de nouveau à signaler.
   users:
     memberships:
       no_results_title_text: Cet utilisateur n'est membre d'aucun projet pour le moment.
@@ -1343,7 +1341,6 @@ fr:
   label_move_work_package: "Déplacer le Lot de Travaux"
   label_my_account: "Mon compte"
   label_my_account_data: "Info sur mon compte"
-  label_my_page: "Ma page"
   label_my_projects: "Mes projets"
   label_my_queries: "Mes requêtes personnalisées"
   label_never: "Jamais"
@@ -1556,6 +1553,7 @@ fr:
   label_wiki_content_added: "Page wiki ajoutée"
   label_wiki_content_updated: "Page wiki mise à jour"
   label_wiki_toc: "Table des matières"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "Ne pas afficher cette page wiki dans le menu de navigation du projet"
   label_wiki_edit: "Modification wiki"
   label_wiki_edit_plural: "Modifications wiki"

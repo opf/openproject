@@ -147,8 +147,6 @@ hr:
     index:
       no_results_title_text: Nema novih vijesti.
       no_results_content_text: Nova vijest
-    my_page:
-      no_results_title_text: Nema promjena za izvjestiti.
   users:
     memberships:
       no_results_title_text: Korisnik trenutno nije član projekta.
@@ -1360,7 +1358,6 @@ hr:
   label_move_work_package: "Premjesti radni paket"
   label_my_account: "Moj korisnički račun"
   label_my_account_data: "Moji korisnički podaci"
-  label_my_page: "Moja stranica"
   label_my_projects: "Moji projekati"
   label_my_queries: "Moji prilagođeni upiti"
   label_never: "Nikad"
@@ -1573,6 +1570,7 @@ hr:
   label_wiki_content_added: "Wiki stranica dodana"
   label_wiki_content_updated: "Wiki stranica ažurirana"
   label_wiki_toc: "Kazalo sadržaja"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "Ne prikazuj ovu wiki stranicu u izborniku projekta"
   label_wiki_edit: "Uređivanje wiki stranice"
   label_wiki_edit_plural: "Uređivanje wiki stranica"

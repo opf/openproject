@@ -73,6 +73,7 @@ describe 'Read only mode when user lacks edit permission on dashboard', type: :f
 
   it 'can not modify the dashboard but can still use it' do
     dashboard_page.expect_unable_to_add_widget(dashboard.row_count, dashboard.column_count, :row)
+    dashboard_page.expect_no_help_mode
 
     table_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
 

@@ -51,8 +51,8 @@ describe WorkPackagesController, type: :controller do
         call_action
       end
 
-      it 'should render a 403' do
-        expect(response.response_code).to be === 403
+      it 'should render a 404' do
+        expect(response.response_code).to be === 404
       end
     end
 

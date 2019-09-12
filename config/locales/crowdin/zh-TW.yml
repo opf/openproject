@@ -105,7 +105,7 @@ zh-TW:
       no_results_title_text: 目前沒有專案在這個群組
   incoming_mails:
     ignore_filenames: >
-      Specify a list of names to ignore when processing attachments for incoming mails (e.g., signatures or icons). Enter one filename per line.
+      請列出從郵箱下載文檔時需要忽視的的名稱（比如：簽名或頭像）。請把檔案名稱分別列入每個各一行。
   projects:
     delete:
       scheduled: "刪除已經排程並且會在背景執行。你將會收到結果通知。"
@@ -147,8 +147,6 @@ zh-TW:
     index:
       no_results_title_text: 目前沒有新消息報告
       no_results_content_text: 新增一個消息
-    my_page:
-      no_results_title_text: 沒有新的消息可以報告
   users:
     memberships:
       no_results_title_text: 這個使用者目前不是任何專案的成員
@@ -203,7 +201,7 @@ zh-TW:
     x_descendants:
       other: '%{count} 個子工作項目'
     bulk:
-      could_not_be_saved: "The following work packages could not be saved:"
+      could_not_be_saved: "以下文檔無法被保存"
     move:
       no_common_statuses_exists: "被選取的工作項目沒有可用的狀態。他們的狀態不可以變更。"
       unsupported_for_multiple_projects: '工作項目不支援從多個專案的大區塊的移動/複製'
@@ -305,7 +303,7 @@ zh-TW:
         encoded_token: "Enterprise support token"
         active_user_count_restriction: "最大活動使用者數"
       grids/grid:
-        page: "Page"
+        page: "頁面"
         row_count: "Number of rows"
         column_count: "Number of columns"
         widgets: "Widgets"
@@ -1328,7 +1326,6 @@ zh-TW:
   label_move_work_package: "移動工作項目"
   label_my_account: "我的帳號"
   label_my_account_data: "我的帳號資料"
-  label_my_page: "我的首頁"
   label_my_projects: "我的專案"
   label_my_queries: "我的自訂查詢"
   label_never: "永不"
@@ -1541,6 +1538,7 @@ zh-TW:
   label_wiki_content_added: "維基頁面已新增"
   label_wiki_content_updated: "維基頁面已更新"
   label_wiki_toc: "目錄"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "不要在專案導覽呈現這個 wiki 頁面"
   label_wiki_edit: "Wiki 編輯"
   label_wiki_edit_plural: "Wiki 編輯"

@@ -1,0 +1,5 @@
+tr:
+  js:
+    bcf:
+      import: 'İçeri Aktar'
+      export: 'Dışarı aktar'

@@ -1,0 +1,50 @@
+zh-CN:
+  js:
+    grid:
+      add_widget: 'Add widget'
+      remove: 'Remove widget'
+      widgets:
+        custom_text:
+          title: '自定义文本'
+        documents:
+          title: '文档'
+          no_results: '没有文档。'
+        members:
+          title: '成员'
+          no_results: 'No visible members.'
+          view_all_members: '查看所有成员'
+          add: '成员'
+          too_many: 'Displaying %{count} of %{total} members.'
+        news:
+          title: '新闻'
+          at: '位置：'
+          no_results: '没有新消息报告。'
+        project_description:
+          title: '项目描述'
+          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
+        project_details:
+          title: '项目详细信息'
+          no_results: 'No custom fields have been defined for projects.'
+        subprojects:
+          title: '子项目'
+          no_results: 'No subprojects.'
+        time_entries_list:
+          title: '花费时间 (最近 7天)'
+          no_results: '过去7天没有时间记录。'
+        work_packages_accountable:
+          title: "我负责的工作包"
+        work_packages_assigned:
+          title: '分配给我的工作包'
+        work_packages_created:
+          title: '我创建的工作包'
+        work_packages_watched:
+          title: '由我汇报的工作包'
+        work_packages_table:
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
+        work_packages_calendar:
+          title: '日历'
+        work_packages_overview:
+          title: 'Work packages overview'
+          placeholder: 'Click to edit ...'

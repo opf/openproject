@@ -1,12 +1,18 @@
 <widget-header
   [name]="widgetName"
-  [icon]="'flag'"
-  (onRenamed)="renameWidget($event)">
+  icon="flag"
+  [editable]="false">
 
   <widget-menu
       [resource]="resource">
   </widget-menu>
 </widget-header>
 
-<div class="grid--widget-content"
-     [innerHTML]="description" ></div>
+<div class="grid--widget-content">
+  <div *ngIf="hasDescription"
+       [innerHTML]="description">
+  </div>
+  <no-results *ngIf="!hasDescription && isLoaded"
+              [description]="text.noResults">
+  </no-results>
+</div>

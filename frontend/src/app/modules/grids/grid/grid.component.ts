@@ -25,17 +25,18 @@ export interface WidgetRegistration {
   properties?:any;
 }
 
+export const GRID_PROVIDERS = [
+  GridAreaService,
+  GridMoveService,
+  GridDragAndDropService,
+  GridResizeService,
+  GridAddWidgetService,
+  GridRemoveWidgetService
+];
+
 @Component({
   templateUrl: './grid.component.html',
-  selector: 'grid',
-  providers: [
-    GridAreaService,
-    GridMoveService,
-    GridDragAndDropService,
-    GridResizeService,
-    GridAddWidgetService,
-    GridRemoveWidgetService
-  ]
+  selector: 'grid'
 })
 export class GridComponent implements OnDestroy, OnInit {
   public uiWidgets:ComponentRef<any>[] = [];
@@ -91,7 +92,7 @@ export class GridComponent implements OnDestroy, OnInit {
   public get gridColumnStyle() {
     let style = '';
     for (let i = 0; i < this.layout.numColumns; i++) {
-      style += '20px 1fr ';
+      style += `20px calc((100% - 20px * ${this.layout.numColumns + 1}) / ${this.layout.numColumns}) `;
     }
 
     style += '20px';

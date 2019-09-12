@@ -5,7 +5,7 @@ de:
         position: "Position"
         remaining_hours: "Verbleibende Stunden"
         remaining_time: "Verbleibende Stunden"
-        story_points: "Story Punkte js"
+        story_points: "Story Punkte"
         backlogs_work_package_type: "Backlog Typ"
     errors:
       models:
@@ -55,8 +55,8 @@ de:
     remaining_hours_ideal: "Verbleibende Stunden (ideal)"
     show_burndown_chart: "Burndown-Chart"
     story: "Story"
-    story_points: "Story Punkte js"
-    story_points_ideal: "Story Points (ideal)"
+    story_points: "Story Punkte"
+    story_points_ideal: "Story Punkte (ideal)"
     task: "Aufgabe"
     task_color: "Farbe für Aufgaben"
     unassigned: "Nicht zugewiesen"

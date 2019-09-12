@@ -9,7 +9,8 @@
 </widget-header>
 
 <ng-template #text>
-  <span class="inplace-edit--read-value -default">
+  <span #displayContainer
+        class="inplace-edit--read-value -default">
     <span
         *ngIf="!textEmpty"
         [innerHTML]="customText"></span>
@@ -33,17 +34,15 @@
     </attachments>
 
     <div *ngIf="!active"
-         class="inplace-edit--read">
-      <accessible-by-keyboard
-          *ngIf="isTextEditable"
-          class="inplace-editing--trigger-container"
-          [spanClass]="inplaceEditClasses"
-          [linkClass]="'inplace-editing--trigger-link'"
-          (execute)="activate()">
+         class="inplace-edit--read -no-label"
+         [ngClass]="{'wp-edit-field--container': isTextEditable}">
+      <div *ngIf="isTextEditable"
+           (accessibleClick)="activate($event)"
+           [accessibleClickStopEvent]="false"
+           [ngClass]="inplaceEditClasses">
 
         <ng-container *ngTemplateOutlet="text"></ng-container>
-      </accessible-by-keyboard>
-
+      </div>
 
       <ng-container *ngIf="!isTextEditable">
         <ng-container *ngTemplateOutlet="text"></ng-container>

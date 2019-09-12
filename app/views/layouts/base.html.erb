@@ -72,7 +72,9 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= include_frontend_assets %>
 
   <%# Render CSS highlighting %>
-  <%= stylesheet_link_tag "/highlighting/styles/#{highlight_css_version_tag}", skip_pipeline: true %>
+  <%= stylesheet_link_tag "/highlighting/styles/#{highlight_css_version_tag}",
+                          media: :all,
+                          skip_pipeline: true %>
 
   <%= javascript_include_tag 'application' %>
   <%= javascript_include_tag "locales/#{I18n.locale}" %>

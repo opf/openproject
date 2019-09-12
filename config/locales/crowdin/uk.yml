@@ -147,8 +147,6 @@ uk:
     index:
       no_results_title_text: Наразі немає жодної новини.
       no_results_content_text: Додати новину
-    my_page:
-      no_results_title_text: Нічого нового для звітування.
   users:
     memberships:
       no_results_title_text: Цей користувач наразі не є учасником проекту.
@@ -1376,7 +1374,6 @@ uk:
   label_move_work_package: "Перемістити робочий пакет"
   label_my_account: "Мій обліковий запис"
   label_my_account_data: "Мої дані облікового запису"
-  label_my_page: "Моя сторінка"
   label_my_projects: "Мої проекти"
   label_my_queries: "Мої збережені запити"
   label_never: "Ніколи"
@@ -1589,6 +1586,7 @@ uk:
   label_wiki_content_added: "Додано сторінку Wiki"
   label_wiki_content_updated: "Сторінка Wiki оновлена"
   label_wiki_toc: "Зміст"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "Не показувати це wikipage в навігації проекту"
   label_wiki_edit: "Редагування Wiki"
   label_wiki_edit_plural: "Редагування Wiki"

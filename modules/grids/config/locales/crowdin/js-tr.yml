@@ -1,0 +1,50 @@
+tr:
+  js:
+    grid:
+      add_widget: 'Widget ekleyin'
+      remove: 'Widget''ı kaldır'
+      widgets:
+        custom_text:
+          title: 'Özel metin'
+        documents:
+          title: 'Belgeler'
+          no_results: 'Henüz belge yok.'
+        members:
+          title: 'Üyeler'
+          no_results: 'Görünür üye yok.'
+          view_all_members: 'Tüm üyeleri göster'
+          add: 'Üye'
+          too_many: '%{total} üyelerin %{count} sayısını gösteriliyor.'
+        news:
+          title: 'Haberler'
+          at: 'en'
+          no_results: 'Rapor için yeni birşey bulunamadı.'
+        project_description:
+          title: 'Proje tanımı'
+          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
+        project_details:
+          title: 'Proje detayları'
+          no_results: 'Projeler için özel alan tanımlanmadı.'
+        subprojects:
+          title: 'Alt Projeler'
+          no_results: 'Alt proje yok.'
+        time_entries_list:
+          title: 'Harcanan zaman (son 7 gün)'
+          no_results: 'Son 7 güne zaman girişi yok.'
+        work_packages_accountable:
+          title: "Sorumlusu olduğum iş paketleri"
+        work_packages_assigned:
+          title: 'Bana atanan iş paketleri'
+        work_packages_created:
+          title: 'Oluşturduğum iş paketleri'
+        work_packages_watched:
+          title: 'İzlediğim iş paketleri'
+        work_packages_table:
+          title: 'İş paketleri tablosu'
+        work_packages_graph:
+          title: 'İş paketleri grafiği'
+        work_packages_calendar:
+          title: 'Takvim'
+        work_packages_overview:
+          title: 'İş paketlerine genel bakış'
+          placeholder: 'Düzenlemek için tıkla ...'

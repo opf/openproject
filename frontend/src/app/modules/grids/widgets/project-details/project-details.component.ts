@@ -53,9 +53,13 @@ export const emptyPlaceholder = '-';
   ]
 })
 export class WidgetProjectDetailsComponent extends AbstractWidgetComponent implements OnInit {
-  public customFieldsMap:Array<DisplayField> = [];
-
   @ViewChild('contentContainer', { static: true }) readonly contentContainer:ElementRef;
+
+  public noFields = false;
+
+  public text = {
+    noResults: this.i18n.t('js.grid.widgets.project_details.no_results'),
+  };
 
   constructor(protected readonly i18n:I18nService,
               protected readonly injector:Injector,
@@ -87,12 +91,18 @@ export class WidgetProjectDetailsComponent extends AbstractWidgetComponent imple
     return this.projectCache.require(this.currentProject.id as string);
   }
 
+  public get isLoaded() {
+    return this.projectCache.state(this.currentProject.id as string).value;
+  }
+
   private loadProjectSchema() {
     return this.projectDm.schema();
   }
 
   private renderCFs(project:ProjectResource, schema:SchemaResource) {
     const cfFields = this.collectFieldsForCfs(project, schema);
+
+    this.noFields = cfFields.length === 0;
 
     this.sortFieldsLexicographically(cfFields);
     this.renderFields(cfFields);
@@ -122,29 +132,18 @@ export class WidgetProjectDetailsComponent extends AbstractWidgetComponent imple
     this.contentContainer.nativeElement.innerHTML = '';
 
     fields.forEach(field => {
-      this.contentContainer.nativeElement.appendChild(this.displayKeyValue(field));
+      this.renderKeyValue(field);
     });
   }
 
-  private displayKeyValue(field:DisplayField) {
-    const container = this.containerElement();
-
-    container.appendChild(this.labelElement(field));
-    container.appendChild(this.valueElement(field));
-
-    return container;
-  }
-
-  private containerElement() {
-    const container = document.createElement('div');
-    container.classList.add('attributes-key-value');
-
-    return container;
+  private renderKeyValue(field:DisplayField) {
+    this.contentContainer.nativeElement.appendChild(this.labelElement(field));
+    this.contentContainer.nativeElement.appendChild(this.valueElement(field));
   }
 
   private labelElement(field:DisplayField) {
     const label = document.createElement('div');
-    label.classList.add('attributes-key-value--key');
+    label.classList.add('attributes-map--key');
     label.innerText = field.label;
 
     return label;
@@ -152,7 +151,7 @@ export class WidgetProjectDetailsComponent extends AbstractWidgetComponent imple
 
   private valueElement(field:DisplayField) {
     const value = document.createElement('div');
-    value.classList.add('attributes-key-value--value-container');
+    value.classList.add('attributes-map--value');
     field.render(value, this.getText(field));
 
     return value;

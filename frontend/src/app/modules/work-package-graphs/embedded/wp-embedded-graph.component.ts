@@ -130,7 +130,7 @@ export class WorkPackageEmbeddedGraphComponent {
       }
 
       // some minimum height e.g. for the labels
-      height += 30;
+      height += 40;
 
       this.chartHeight = `${height}px`;
     } else {

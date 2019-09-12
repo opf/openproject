@@ -147,8 +147,6 @@ pl:
     index:
       no_results_title_text: Nie ma jeszcze żadnych wiadomości do wyświetlenia.
       no_results_content_text: Dodaj nowy element
-    my_page:
-      no_results_title_text: Utwórz nowy raport.
   users:
     memberships:
       no_results_title_text: Użytkownik jeszcze nie jest członkiem projektu.
@@ -1376,7 +1374,6 @@ pl:
   label_move_work_package: "Przenieś pakiet roboczy"
   label_my_account: "Moje konto"
   label_my_account_data: "Moje dane konta"
-  label_my_page: "Moja strona"
   label_my_projects: "Moje projekty"
   label_my_queries: "Moje zapytania niestandardowe"
   label_never: "Nigdy"
@@ -1589,6 +1586,7 @@ pl:
   label_wiki_content_added: "Dodano stronę wiki"
   label_wiki_content_updated: "Zaktualizowano stronę wiki"
   label_wiki_toc: "Spis treści"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "Nie pokazuj tej strony wiki  w nawigacji projektu"
   label_wiki_edit: "Edycja wiki"
   label_wiki_edit_plural: "Edycja wiki"

@@ -147,8 +147,6 @@ bg:
     index:
       no_results_title_text: Няма новини за докладване.
       no_results_content_text: Добави новина
-    my_page:
-      no_results_title_text: Нищо ново за отчитане.
   users:
     memberships:
       no_results_title_text: Този потребител в момента не е член на проекта.
@@ -1344,7 +1342,6 @@ bg:
   label_move_work_package: "Премести работен пакет"
   label_my_account: "Моят профил"
   label_my_account_data: "Данни за моят акаунт"
-  label_my_page: "Моята страница"
   label_my_projects: "Моите проекти"
   label_my_queries: "Моите потребителски заявки"
   label_never: "Никога"
@@ -1557,6 +1554,7 @@ bg:
   label_wiki_content_added: "Wiki страница добавена"
   label_wiki_content_updated: "Wiki страница обновена"
   label_wiki_toc: "Таблица на съдържанието"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "Не показвай този wikipage в проектната навигация"
   label_wiki_edit: "Редактиране на Wiki"
   label_wiki_edit_plural: "Wiki редакции"

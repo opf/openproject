@@ -40,7 +40,7 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
   end
 
   let!(:query) do
-    query              = FactoryBot.build(:query, user: user, project: project)
+    query = FactoryBot.build(:query, user: user, project: project)
     query.column_names = %w(id subject)
     query.name = "My fancy query"
 
@@ -144,12 +144,16 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
     full_work_package.ensure_page_loaded
   end
 
-  scenario 'show 404 upon wrong url' do
-    visit '/work_packages/0'
+  scenario 'loading an unknown work package ID' do
+    visit '/work_packages/999999999'
 
-    expect(page).to have_selector('.errorExplanation',
-                                  text: I18n.t('notice_not_authorized'))
+    page404 = ::Pages::Page.new
+    page404.expect_notification type: :error, message: I18n.t(:notice_file_not_found)
+
+    visit "/projects/#{project.identifier}/work_packages/999999999"
+    page404.expect_and_dismiss_notification type: :error, message: I18n.t('api_v3.errors.code_404')
   end
+
 
   # Regression #29994
   scenario 'access the work package views directly from a non-angular view' do
@@ -199,6 +203,11 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
 
     # Click on All open
     find('.wp-query-menu--item-link', text: 'All open').click
-    wp_display.expect_state 'Table'
+   
+    if OpenProject::Configuration.bim?
+      wp_display.expect_state 'Cards'
+    else
+      wp_display.expect_state 'Table'
+    end
   end
 end

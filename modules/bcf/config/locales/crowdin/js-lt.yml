@@ -1,0 +1,5 @@
+lt:
+  js:
+    bcf:
+      import: 'Import'
+      export: 'Eksportuoti'

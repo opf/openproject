@@ -41,7 +41,7 @@ import {WorkPackageViewHierarchyIdentationService} from "core-app/modules/work_p
 import SpyObj = jasmine.SpyObj;
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 
-fdescribe('WorkPackageViewIndentation service', function() {
+describe('WorkPackageViewIndentation service', function() {
   let service:WorkPackageViewHierarchyIdentationService;
   let states:States;
   let querySpace:IsolatedQuerySpace;

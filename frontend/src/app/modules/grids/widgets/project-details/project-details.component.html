@@ -1,13 +1,18 @@
 <widget-header
     [name]="widgetName"
-    [icon]="'flag'"
-    (onRenamed)="renameWidget($event)">
+    [icon]="'info1'"
+    [editable]="false">
 
   <widget-menu
       [resource]="resource">
   </widget-menu>
 </widget-header>
 
-<div class="grid--widget-content"
-     #contentContainer>
+<div class="grid--widget-content">
+  <div class="attributes-map"
+       #contentContainer>
+  </div>
+  <no-results *ngIf="noFields"
+              [title]="text.noResults">
+  </no-results>
 </div>

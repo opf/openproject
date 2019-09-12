@@ -147,8 +147,6 @@ fi:
     index:
       no_results_title_text: Tällä hetkellä ei ole uutisia.
       no_results_content_text: Lisää uutinen
-    my_page:
-      no_results_title_text: Ei mitään uutta raportoitavaksi.
   users:
     memberships:
       no_results_title_text: Tämä käyttäjä ei ole projektin jäsen.
@@ -1344,7 +1342,6 @@ fi:
   label_move_work_package: "Siirrä työpaketti"
   label_my_account: "Oma tili"
   label_my_account_data: "Tilini tiedot"
-  label_my_page: "Oma sivu"
   label_my_projects: "Omat projektit"
   label_my_queries: "Omat hakuni"
   label_never: "Never"
@@ -1557,6 +1554,7 @@ fi:
   label_wiki_content_added: "Wiki-sivu lisätty"
   label_wiki_content_updated: "Wiki-sivu päivitetty"
   label_wiki_toc: "Sisällysluettelo"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "Älä näytä tätä Wiki-sivua projektin navigoinnissa"
   label_wiki_edit: "Wikin muokkaus"
   label_wiki_edit_plural: "Wiki muokkaukset"

@@ -1,0 +1,5 @@
+id:
+  js:
+    bcf:
+      import: 'Impor'
+      export: 'Ekspor'

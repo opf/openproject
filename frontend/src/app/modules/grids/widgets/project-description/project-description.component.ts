@@ -31,17 +31,23 @@ import {AbstractWidgetComponent} from "app/modules/grids/widgets/abstract-widget
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {ProjectCacheService} from "core-components/projects/project-cache.service";
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   templateUrl: './project-description.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WidgetProjectDescriptionComponent extends AbstractWidgetComponent implements OnInit {
-  public description:string;
+  public description:SafeHtml;
+
+  public text = {
+    noResults: this.i18n.t('js.grid.widgets.project_description.no_results')
+  };
 
   constructor(protected readonly i18n:I18nService,
               protected readonly injector:Injector,
               protected readonly projectCache:ProjectCacheService,
+              protected readonly sanitization:DomSanitizer,
               protected readonly currentProject:CurrentProjectService,
               protected readonly cdr:ChangeDetectorRef) {
     super(i18n, injector);
@@ -55,9 +61,19 @@ export class WidgetProjectDescriptionComponent extends AbstractWidgetComponent i
     this
       .loadCurrentProject()
       .then(project => {
-        this.description = project.description.html;
+        if (project.description.html.length) {
+          this.description = this.sanitization.bypassSecurityTrustHtml(project.description.html);
+        }
         this.cdr.detectChanges();
       });
+  }
+
+  public get hasDescription() {
+    return this.isLoaded && this.description;
+  }
+
+  public get isLoaded() {
+    return this.projectCache.state(this.currentProject.id as string).value;
   }
 
   private loadCurrentProject() {

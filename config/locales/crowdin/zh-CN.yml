@@ -147,8 +147,6 @@ zh-CN:
     index:
       no_results_title_text: 目前没有消息报告。
       no_results_content_text: 添加新闻项
-    my_page:
-      no_results_title_text: 没有新消息报告。
   users:
     memberships:
       no_results_title_text: 该用户当前不是项目的成员。
@@ -1327,7 +1325,6 @@ zh-CN:
   label_move_work_package: "移动工作包"
   label_my_account: "我的账户"
   label_my_account_data: "我的账户数据"
-  label_my_page: "我的页面"
   label_my_projects: "我的项目"
   label_my_queries: "我的自定义查询"
   label_never: "永不"
@@ -1540,6 +1537,7 @@ zh-CN:
   label_wiki_content_added: "添加 Wiki 页面"
   label_wiki_content_updated: "更新 Wiki 页面"
   label_wiki_toc: "目录"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "在项目导航中不显示此 wiki 页面"
   label_wiki_edit: "Wiki 编辑"
   label_wiki_edit_plural: "Wiki 编辑"

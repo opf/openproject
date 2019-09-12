@@ -147,8 +147,6 @@ ru:
     index:
       no_results_title_text: На данный момент новостей для отчета нет.
       no_results_content_text: Добавить новость
-    my_page:
-      no_results_title_text: Ничего нового для отчета.
   users:
     memberships:
       no_results_title_text: Этот пользователь в данный момент в проекте не участвует.
@@ -1376,7 +1374,6 @@ ru:
   label_move_work_package: "Переместить пакет работ"
   label_my_account: "Моя учетная запись"
   label_my_account_data: "Данные моей учетной записи"
-  label_my_page: "Моя страница"
   label_my_projects: "Мои проекты"
   label_my_queries: "Мои пользовательские запросы"
   label_never: "Никогда"
@@ -1589,6 +1586,7 @@ ru:
   label_wiki_content_added: "Wiki-страница добавлена"
   label_wiki_content_updated: "Wiki-страница обновлена"
   label_wiki_toc: "Содержание"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "Не показывать эту Wiki-страницу в навигации по проектам"
   label_wiki_edit: "Редактировать Wiki"
   label_wiki_edit_plural: "Wiki редактируется"

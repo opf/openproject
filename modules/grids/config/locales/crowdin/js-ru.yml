@@ -1,0 +1,50 @@
+ru:
+  js:
+    grid:
+      add_widget: 'Add widget'
+      remove: 'Удалить виджет'
+      widgets:
+        custom_text:
+          title: 'Пользовательский текст'
+        documents:
+          title: 'Документы'
+          no_results: 'Документов пока нет.'
+        members:
+          title: 'Участники'
+          no_results: 'Нет видимых участников.'
+          view_all_members: 'Просмотреть всех участников'
+          add: 'Участник'
+          too_many: 'Отображается %{count} из %{total} участников.'
+        news:
+          title: 'Новости'
+          at: 'на'
+          no_results: 'Ничего нового для отчета.'
+        project_description:
+          title: 'Описание проекта'
+          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
+        project_details:
+          title: 'Детали проекта'
+          no_results: 'No custom fields have been defined for projects.'
+        subprojects:
+          title: 'Подпроекты'
+          no_results: 'Подпроектов нет.'
+        time_entries_list:
+          title: 'Затраченное время (за последние 7 дней)'
+          no_results: 'Нет записей о входах за последние 7 дней.'
+        work_packages_accountable:
+          title: "Пакеты работ, в которых я подотчетен"
+        work_packages_assigned:
+          title: 'Переданные мне пакеты работ'
+        work_packages_created:
+          title: 'Пакеты работ, созданные мной'
+        work_packages_watched:
+          title: 'Пакеты работ, просмотренные мной'
+        work_packages_table:
+          title: 'Таблица пакетов работ'
+        work_packages_graph:
+          title: 'График пакетов работ'
+        work_packages_calendar:
+          title: 'Календарь'
+        work_packages_overview:
+          title: 'Обзор пакетов работ'
+          placeholder: 'Щелкнуть для изменения ...'

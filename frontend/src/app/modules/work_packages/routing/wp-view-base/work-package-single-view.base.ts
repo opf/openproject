@@ -43,6 +43,7 @@ import {
   IWorkPackageEditingService,
   IWorkPackageEditingServiceToken
 } from "core-components/wp-edit-form/work-package-editing.service.interface";
+import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 
 export class WorkPackageSingleViewBase implements OnDestroy {
 
@@ -53,6 +54,7 @@ export class WorkPackageSingleViewBase implements OnDestroy {
   public PathHelper:PathHelperService = this.injector.get(PathHelperService);
   protected wpEditing:IWorkPackageEditingService = this.injector.get(IWorkPackageEditingServiceToken);
   protected wpTableFocus:WorkPackageViewFocusService = this.injector.get(WorkPackageViewFocusService);
+  protected wpNotifications:WorkPackageNotificationService = this.injector.get(WorkPackageNotificationService);
   protected projectCacheService:ProjectCacheService = this.injector.get(ProjectCacheService);
   protected authorisationService:AuthorisationService = this.injector.get(AuthorisationService);
   protected cdRef:ChangeDetectorRef = this.injector.get(ChangeDetectorRef);
@@ -82,7 +84,13 @@ export class WorkPackageSingleViewBase implements OnDestroy {
    * Needs to be run explicitly by descendants.
    */
   protected observeWorkPackage() {
-    this.wpCacheService.loadWorkPackage(this.workPackageId).values$()
+    /** Require the work package once to ensure we're displaying errors */
+    this.wpCacheService.require(this.workPackageId)
+      .catch((error) => this.wpNotifications.handleRawError(error));
+
+    /** Stream updates of the work package */
+    this.wpCacheService.state(this.workPackageId)
+      .values$()
       .pipe(
         takeUntil(componentDestroyed(this))
       )

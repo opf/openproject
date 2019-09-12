@@ -147,8 +147,6 @@ it:
     index:
       no_results_title_text: Al momento non c'è nessuna notizia da segnalare.
       no_results_content_text: Aggiungi una notizia
-    my_page:
-      no_results_title_text: Niente di nuovo da segnalare.
   users:
     memberships:
       no_results_title_text: Questo utente non è attualmente membro di alcun progetto.
@@ -1343,7 +1341,6 @@ it:
   label_move_work_package: "Sposta la macro-attività"
   label_my_account: "Il mio account"
   label_my_account_data: "I miei dati dell'account"
-  label_my_page: "La mia pagina"
   label_my_projects: "I miei progetti"
   label_my_queries: "Le mie query personalizzate"
   label_never: "Mai"
@@ -1556,6 +1553,7 @@ it:
   label_wiki_content_added: "Pagina wiki aggiunta"
   label_wiki_content_updated: "Pagina wiki aggiornata"
   label_wiki_toc: "Sommario"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "Non mostrare questa pagina wiki nella navigazione del progetto"
   label_wiki_edit: "Modifica wiki"
   label_wiki_edit_plural: "Modifiche wiki"

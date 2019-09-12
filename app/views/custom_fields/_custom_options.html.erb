@@ -80,7 +80,7 @@ See docs/COPYRIGHT.rdoc for more details.
           <%= f.fields_for :custom_options, custom_option do |co_f| %>
             <tr class="dragula-element custom-option-row">
               <td>
-                <span class="dragula-handle icon icon-table icon-toggle"></span>
+                <span class="dragula-handle icon icon-table icon-drag-handle"></span>
                 <%= co_f.hidden_field :id, class: 'custom-option-id' %>
                 <%= co_f.text_field :value,
                                     container_class: 'custom-option-value',

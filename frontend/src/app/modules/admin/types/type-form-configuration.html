@@ -63,7 +63,7 @@
         <div *ngFor="let inactive_attribute of inactives"
              class="type-form-conf-attribute"
              [attr.data-key]="inactive_attribute.key">
-          <span class="attribute-handle icon-toggle"></span>
+          <span class="attribute-handle icon-drag-handle"></span>
           <span class="attribute-name">
               {{ inactive_attribute.translation }}
             <span *ngIf="inactive_attribute.is_cf"

@@ -11,7 +11,9 @@ module Components
       end
 
       def resize_to(row, column)
-        area.find('.resizer').drag_to self.class.of(row * 2, column * 2).area
+        area.hover
+
+        area.find('.grid--resizer').drag_to self.class.of(row * 2, column * 2).area
       end
 
       def open_menu

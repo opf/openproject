@@ -36,12 +36,9 @@ class ::Query::Results
   include ::Query::Sums
   include Redmine::I18n
 
-  attr_accessor :options,
-                :query
+  attr_accessor :query
 
-  # Valid options are :order, :include, :conditions
-  def initialize(query, options = {})
-    self.options = options
+  def initialize(query)
     self.query = query
   end
 
@@ -60,7 +57,6 @@ class ::Query::Results
   def work_packages
     work_package_scope
       .where(query.statement)
-      .where(options[:conditions])
       .includes(all_includes)
       .joins(all_joins)
       .order(order_option)
@@ -78,7 +74,6 @@ class ::Query::Results
   def versions
     scope = Version
             .visible
-            .where(options[:conditions])
 
     if query.project
       scope.where(query.project_limiting_filter.where)
@@ -88,7 +83,7 @@ class ::Query::Results
   end
 
   def order_option
-    order_option = [group_by_sort_order].reject(&:blank?).join(', ')
+    order_option = [group_by_sort].reject(&:blank?).join(', ')
 
     if order_option.blank?
       nil
@@ -107,8 +102,7 @@ class ::Query::Results
 
   def all_includes
     (%i(status project) +
-      includes_for_columns(include_columns) +
-      (options[:include] || [])).uniq
+      includes_for_columns(include_columns)).uniq
   end
 
   def all_joins

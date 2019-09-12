@@ -93,9 +93,17 @@ describe 'activity comments', js: true, with_mail: false do
       describe 'autocomplete' do
         describe 'work packages' do
           let!(:wp2) { FactoryBot.create(:work_package, project: project, subject: 'AutoFoo') }
-          it 'autocompletes the other work package' do
+
+          it 'can move to the work package by click (Regression #30928)' do
             comment_field.input_element.send_keys("##{wp2.id}")
             expect(page).to have_selector('.mention-list-item', text: wp2.to_s.strip)
+
+            comment_field.submit_by_click
+            page.find('#activity-2 a.issue', text: wp2.id).click
+
+            other_wp_page = ::Pages::FullWorkPackage.new wp2
+            other_wp_page.ensure_page_loaded
+            other_wp_page.edit_field(:subject).expect_text 'AutoFoo'
           end
         end
 

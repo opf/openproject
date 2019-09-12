@@ -72,24 +72,32 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
       custom_text_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
 
       within custom_text_widget.area do
-        find('.inplace-editing--trigger-container').click
+        find('.inplace-editing--container ').click
 
         field.set_value('My own little text')
         field.save!
+      end
 
+      dashboard_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+
+      within custom_text_widget.area do
         expect(page)
           .to have_selector('.wp-edit-field--display-field', text: 'My own little text')
 
-        find('.inplace-editing--trigger-container').click
+        find('.inplace-editing--container').click
 
         field.set_value('My new text')
         field.cancel_by_click
 
         expect(page)
           .to have_selector('.wp-edit-field--display-field', text: 'My own little text')
+      end
 
+      dashboard_page.expect_no_notification message: I18n.t('js.notice_successful_update')
+
+      within custom_text_widget.area do
         # adding an image
-        find('.inplace-editing--trigger-container').click
+        find('.inplace-editing--container').click
 
         sleep(0.1)
       end
@@ -103,7 +111,11 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
         expect(page).to have_no_selector('notifications-upload-progress')
 
         field.save!
+      end
 
+      dashboard_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+
+      within custom_text_widget.area do
         expect(page)
           .to have_selector('#content img', count: 1)
 
@@ -134,7 +146,7 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
           .to have_content(dashboard.widgets.first.options[:text])
 
         expect(page)
-          .to have_no_selector('.inplace-editing--trigger-container')
+          .to have_no_selector('.inplace-editing--container')
       end
     end
   end

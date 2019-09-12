@@ -21,7 +21,7 @@ ja:
     button_back_to_list_view: "リスト表示に戻る"
     button_cancel: "キャンセル"
     button_close: "閉じる"
-    button_change_project: "Change project"
+    button_change_project: "プロジェクトの変更"
     button_check_all: "全てを選択"
     button_configure-form: "フォームを設定"
     button_confirm: "確認"
@@ -42,8 +42,8 @@ ja:
     button_open_details: "詳細表示を開く"
     button_close_details: "詳細表示を閉じる"
     button_open_fullscreen: "全画面表示を開く"
-    button_show_cards: "Show card view"
-    button_show_list: "Show list view"
+    button_show_cards: "カードビュー表示"
+    button_show_list: "リストビュー表示"
     button_quote: "引用"
     button_save: "保存"
     button_settings: "設定"
@@ -53,7 +53,7 @@ ja:
     button_export-atom: "Atomをダウンロード"
     calendar:
       title: 'カレンダー'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
+      too_many: '光景で %{count} の作業項目がありますが %{max} のみ表示されます。'
     card:
       add_new: '新規カード追加'
       highlighting:
@@ -64,22 +64,22 @@ ja:
       browser_error: "お使いのブラウザーでは、クリップボードへのコピーをサポートしていません。手動で選択したテキストをコピーしてください。"
       copied_successful: "正常にクリップボードにコピーしました!"
     chart:
-      type: 'Chart type'
-      axis_criteria: 'Axis criteria'
-      modal_title: 'Work package graph configuration'
+      type: 'グラフの種類'
+      axis_criteria: '座標条件'
+      modal_title: '作業項目グラフの設定'
       types:
-        line: 'Line'
-        horizontal_bar: 'Horizontal bar'
-        bar: 'Bar'
-        pie: 'Pie'
-        doughnut: 'Doughnut'
-        radar: 'Radar'
-        polar_area: 'Polar area'
+        line: '線'
+        horizontal_bar: '横棒'
+        bar: '棒'
+        pie: '円'
+        doughnut: 'ドーナツ'
+        radar: 'レーダー'
+        polar_area: '鶏頭図'
       tabs:
         graph_settings: '概要'
-        dataset: 'Dataset %{number}'
+        dataset: 'データセット %{number}'
       errors:
-        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
+        could_not_load: 'グラフを表示するデータを読み込みできませんでした。 必要な権限が不足している可能性があります。'
     description_available_columns: "利用できる項目"
     description_current_position: "現在の位置: "
     description_select_work_package: "作業項目を選択 #%{id}"
@@ -139,7 +139,7 @@ ja:
         drag_to_activate: "ここからフィールドをドラッグして、有効にします"
         add_group: "属性グループを追加する"
         add_table: "関連する作業項目のテーブルを追加する"
-        edit_query: 'Edit query'
+        edit_query: 'クエリの編集'
         new_group: '新規グループ'
         reset_to_defaults: 'デフォルトに戻す'
     custom_actions:
@@ -250,7 +250,6 @@ ja:
     label_menu_collapse: "折りたたむ"
     label_menu_expand: "展開する"
     label_more_than_ago: "今日より○日前以前"
-    label_my_page: "個人ページ"
     label_next: "次へ"
     label_no_color: "色なし"
     label_no_data: "表示できるデータがありません。"
@@ -297,10 +296,10 @@ ja:
     label_total_progress: "%{percent}% 進行状況"
     label_total_amount: "合計: %{amount}"
     label_updated_on: "更新日時"
-    label_value_derived_from_children: "(value derived from children)"
+    label_value_derived_from_children: "(子から派生した値)"
     label_warning: "注意"
     label_work_package: "ワーク パッケージ"
-    label_work_package_plural: "ワークパッケージ"
+    label_work_package_plural: "作業項目"
     label_watch: "ウォッチする"
     label_watch_work_package: "作業項目をウォッチ"
     label_watcher_added_successfully: "ウォッチャーが正常に追加されました ！"
@@ -333,7 +332,7 @@ ja:
     label_wait: "構成をお待ちください..."
     label_upload_counter: "%{count}ファイルの中に%{done}が完了"
     label_validation_error: "次のエラーのために作業項目を保存できませんでした:"
-    label_view_has_changed: "This view has unsaved changes. Click to save them."
+    label_view_has_changed: "このビューには未保存の変更があります。 クリックすると保存します。"
     help_texts:
       show_modal: 'テキスト入力属性のヘルプを表示'
     onboarding:
@@ -448,8 +447,8 @@ ja:
       set_parent: "親を設定"
       change_parent: "親タスクの変更"
       remove_parent: "親関係を削除"
-      hierarchy_indent: "Indent hierarchy"
-      hierarchy_outdent: "Outdent hierarchy"
+      hierarchy_indent: "階層のインデント"
+      hierarchy_outdent: "階層のアウトデント"
       group_by_wp_type: "ワークパッケージタイプのグループ"
       group_by_relation_type: "関係タイプのグループ"
       add_parent: "既存の親関係を追加する"
@@ -575,7 +574,7 @@ ja:
       image: "画像"
     work_packages:
       bulk_actions:
-        move: 'Bulk change of project'
+        move: 'プロジェクトの一括変更'
         edit: '一括編集'
         copy: '一括コピー'
         delete: '一括削除'
@@ -607,7 +606,7 @@ ja:
       message_successful_show_in_fullscreen: "クリックすると全画面表示でこの作業項目を開きます。"
       message_view_spent_time: "このワークパッケージに費やした時間を表示する"
       message_work_package_read_only: "作業項目はこの状態でロックされています。 ステータス以外の属性は変更できません。"
-      message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
+      message_work_package_status_blocked: "ステータスがクローズでクローズされたバージョンが割り当てられているため、作業項目のステータスは書き込みできません。"
       no_value: "値なし"
       placeholder_filter_by_text: "件名、説明、コメント、..."
       inline_create:
@@ -634,7 +633,7 @@ ja:
         title: 表示できる作業項目がありません。
         description: 作業項目が作成されていないかすべての作業項目が除外されています。
       limited_results: >
-        There are %{total} total work packages, but only %{count} can be shown in manual sorting mode. Please reduce the results by filtering.
+        合計 %{total} の作業パッケージがありますが、手動並び替えモードで表示できるのは %{count} だけです。 フィルタリングして結果を減らしてください。
       property_groups:
         details: "詳細"
         people: "人"
@@ -694,9 +693,9 @@ ja:
         confirm_edit_cancel: "このビューの名前の編集をキャンセルしてもよろしいですか？ タイトルは以前の値に戻されます。"
         click_to_edit_query_name: "クリックすると、このビューのタイトルを編集できます。"
         rename_query_placeholder: "このビューの名前"
-        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        star_text: "このビューをお気に入りとしてマークし、左側の保存済みビューサイドバーに追加します。"
         public_text: >
-          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+          このビューを公開して、他のユーザーがビューにアクセスできるようにします。 「公開ビューの管理」権限を持つユーザーが、公開クエリを変更または削除できます。 これは、そのビューでの作業項目の結果の可視性に影響を与えないため、ユーザーの権限に応じて、異なる結果が表示される場合があります。
         errors:
           unretrievable_query: "URLからビューを取得できません"
           not_found: "そのようなビューはありません"
@@ -731,10 +730,10 @@ ja:
           priority: '優先度'
           type: '種別'
         sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
+          description: '作業項目を並び替えるモードを選択:'
+          automatic: '自動'
+          manually: '手動'
+          warning: '自動並び替えモードをアクティブにすると、以前のソートが失われます。'
         columns_help_text: "テーブルビューに列を追加または削除するには上記の入力を使用します。列をドラッグ＆ドロップして並べ替えることができます。"
         upsale:
           attribute_highlighting: '全体から目立つように特定の作業項目が必要ですか？'
@@ -826,7 +825,7 @@ ja:
       child_work_packages:
         other: "%{count} の子ワークパッケージ"
       hour:
-        other: "%{count} h"
+        other: "%{count} 時間"
     zen_mode:
       button_activate: 'マナーモードをアクティブにする'
       button_deactivate: 'マナーモードを非アクティブにする'
@@ -841,6 +840,6 @@ ja:
         project_and_subprojects: "すべてのプロジェクトで"
         search_for: "検索対象"
     views:
-      card: 'Cards'
-      list: 'Table'
+      card: 'カード'
+      list: '表'
       timeline: 'ガント'

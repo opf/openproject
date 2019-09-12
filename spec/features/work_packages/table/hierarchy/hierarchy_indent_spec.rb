@@ -87,4 +87,38 @@ describe 'Work Package table hierarchy and sorting', js: true do
     hierarchy.expect_indent(wp_child2, indent: false, outdent: false)
     hierarchy.expect_indent(wp_child3, indent: false, outdent: false)
   end
+
+  it 'can edit a work package, then indent, and then edit again (Regression #30994)' do
+    wp_table.visit!
+    wp_table.expect_work_package_listed(wp_root, wp_child1, wp_child2, wp_child3)
+    hierarchy.expect_hierarchy_at(wp_root)
+    hierarchy.expect_leaf_at(wp_child1, wp_child2, wp_child3)
+
+    subject = wp_table.edit_field(wp_child3, :subject)
+    subject.update 'First edit'
+    wp_table.expect_and_dismiss_notification message: 'Successful update.'
+
+    # Wait a bit before moving
+    sleep 2
+
+    # Indent last child
+    hierarchy.indent! wp_child3
+    wp_table.expect_and_dismiss_notification message: 'Successful update.'
+
+    # Expect changed
+    hierarchy.expect_hierarchy_at(wp_root, wp_child2)
+    hierarchy.expect_leaf_at(wp_child1, wp_child3)
+
+    # Wait a bit again
+    sleep 2
+
+    subject = wp_table.edit_field(wp_child3, :subject)
+    subject.update 'Second edit'
+    wp_table.expect_and_dismiss_notification message: 'Successful update.'
+
+    sleep 2
+    wp_child3.reload
+    expect(wp_child3.subject).to eq 'Second edit'
+    expect(wp_child3.parent).to eq wp_child2
+  end
 end

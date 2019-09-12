@@ -147,8 +147,6 @@ ko:
     index:
       no_results_title_text: 보고할 소식이 없습니다.
       no_results_content_text: 소식 항목 추가
-    my_page:
-      no_results_title_text: 새로 보고할 것이 없음
   users:
     memberships:
       no_results_title_text: 이 사용자는 프로젝트의 멤버가 아닙니다.
@@ -1327,7 +1325,6 @@ ko:
   label_move_work_package: "작업 패키지 이동"
   label_my_account: "내 계정"
   label_my_account_data: "내 계정 데이터"
-  label_my_page: "내 페이지"
   label_my_projects: "내 프로젝트"
   label_my_queries: "내 사용자 지정 쿼리"
   label_never: "사용 안 함"
@@ -1540,6 +1537,7 @@ ko:
   label_wiki_content_added: "위키 페이지 추가됨"
   label_wiki_content_updated: "위키 페이지 업데이트됨"
   label_wiki_toc: "목차"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "프로젝트 탐색에 이 위키 페이지 표시 안 함"
   label_wiki_edit: "위키 편집"
   label_wiki_edit_plural: "위키 편집"

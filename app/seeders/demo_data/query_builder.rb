@@ -66,6 +66,7 @@ module DemoData
       set_sort_by! attr
       set_group_by! attr
       set_filters! attr
+      set_display_representation! attr
 
       query = Query.create! attr
 
@@ -84,6 +85,10 @@ module DemoData
 
     def set_project!(attr)
       attr[:project] = project unless project.nil?
+    end
+
+    def set_display_representation!(attr)
+      attr[:display_representation] = config[:display_representation] unless config[:display_representation].nil?
     end
 
     def set_columns!(attr)

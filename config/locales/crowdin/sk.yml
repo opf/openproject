@@ -147,8 +147,6 @@ sk:
     index:
       no_results_title_text: V súčasnosti nie sú žiadne novinky pre nahlásenie.
       no_results_content_text: Pridať novinku
-    my_page:
-      no_results_title_text: Nič nové pre nahlásenie.
   users:
     memberships:
       no_results_title_text: Tento používateľ nie je v súčasnosti členom projektu.
@@ -1376,7 +1374,6 @@ sk:
   label_move_work_package: "Premiestniť pracovný balíček"
   label_my_account: "Môj účet"
   label_my_account_data: "Moje prihlasovacie parametre"
-  label_my_page: "Moja stránka"
   label_my_projects: "Moje projekty"
   label_my_queries: "Moje vlastné dopyty"
   label_never: "Nikdy"
@@ -1589,6 +1586,7 @@ sk:
   label_wiki_content_added: "Wikistránka bola pridaná"
   label_wiki_content_updated: "Wikistránka bola aktualizovaná"
   label_wiki_toc: "Obsah"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "Nezobrazovať túto wikistránku v navigácií projektu"
   label_wiki_edit: "Wiki úprava"
   label_wiki_edit_plural: "Wiki úpravy"

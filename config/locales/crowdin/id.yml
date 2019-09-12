@@ -147,8 +147,6 @@ id:
     index:
       no_results_title_text: There is currently no news to report.
       no_results_content_text: Add a news item
-    my_page:
-      no_results_title_text: Nothing new to report.
   users:
     memberships:
       no_results_title_text: This user is currently not a member of a project.
@@ -1327,7 +1325,6 @@ id:
   label_move_work_package: "Pindahkan Paket-Penugasan"
   label_my_account: "Akun saya"
   label_my_account_data: "Data akun saya"
-  label_my_page: "My Homepage"
   label_my_projects: "Project saya"
   label_my_queries: "Query kustom saya"
   label_never: "Never"
@@ -1540,6 +1537,7 @@ id:
   label_wiki_content_added: "Halaman Wiki ditambahkan"
   label_wiki_content_updated: "Halaman Wiki diupdate"
   label_wiki_toc: "Daftar isi"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "Sembunyikan halaman Wiki ini dalam navigasi Project"
   label_wiki_edit: "Edit Wiki"
   label_wiki_edit_plural: "Wiki edit"

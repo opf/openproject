@@ -93,8 +93,8 @@ export class BoardComponent implements OnInit, OnDestroy {
     unnamedBoard: this.I18n.t('js.boards.label_unnamed_board'),
     loadingError: 'No such board found',
     addList: this.I18n.t('js.boards.add_list'),
-    upsaleBoards: this.I18n.t('js.boards.upsale.boards'),
-    upsaleCheckOutLink: this.I18n.t('js.boards.upsale.check_out_link'),
+    upsaleBoards: this.I18n.t('js.boards.upsale.teaser_text'),
+    upsaleCheckOutLink: this.I18n.t('js.work_packages.table_configuration.upsale.check_out_link'),
     unnamed_list: this.I18n.t('js.boards.label_unnamed_list'),
   };
 
@@ -106,6 +106,7 @@ export class BoardComponent implements OnInit, OnDestroy {
         .save(board)
         .then(board => {
           this.inFlight = false;
+          board.sortWidgets();
           return board;
         })
         .catch((error) => {

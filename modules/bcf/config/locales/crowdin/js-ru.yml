@@ -1,0 +1,5 @@
+ru:
+  js:
+    bcf:
+      import: 'Импорт'
+      export: 'Экспорт'

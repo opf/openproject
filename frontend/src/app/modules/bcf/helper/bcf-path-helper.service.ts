@@ -38,9 +38,9 @@ export class BcfPathHelperService {
     return this.pathHelper.projectPath(projectIdentifier) + '/issues/upload';
   }
 
-  public projectExportIssuesPath(projectIdentifier:string, queryProps:any = null) {
-    if (queryProps) {
-      return this.pathHelper.projectPath(projectIdentifier) + '/work_packages.bcf?query_props=' + queryProps;
+  public projectExportIssuesPath(projectIdentifier:string, filters:string|null) {
+    if (filters) {
+      return this.pathHelper.projectPath(projectIdentifier) + '/work_packages.bcf?filters=' + filters;
     } else {
       return this.pathHelper.projectPath(projectIdentifier) + '/work_packages.bcf';
     }

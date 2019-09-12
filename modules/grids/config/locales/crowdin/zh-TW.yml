@@ -2,7 +2,7 @@ zh-TW:
   activerecord:
     attributes:
       grids/grid:
-        page: "Page"
+        page: "頁面"
         row_count: "Number of rows"
         column_count: "Number of columns"
         widgets: "Widgets"

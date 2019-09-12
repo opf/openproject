@@ -37,6 +37,7 @@ import {GridAreaService} from "core-app/modules/grids/grid/area.service";
 })
 export class WidgetHeaderComponent {
   @Input() name:string;
+  @Input() editable:boolean = true;
   @Input() icon:string;
   @Output() onRenamed = new EventEmitter<string>();
 
@@ -53,6 +54,6 @@ export class WidgetHeaderComponent {
   }
 
   public get isRenameable() {
-    return this.layout.isEditable;
+    return this.editable && this.layout.isEditable;
   }
 }

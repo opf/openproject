@@ -29,7 +29,6 @@
 import {NgModule, APP_INITIALIZER, Injector} from '@angular/core';
 import {DynamicModule} from 'ng-dynamic-component';
 import {HookService} from "core-app/modules/plugins/hook-service";
-import {MyPageComponent} from "core-components/routing/my-page/my-page.component";
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
@@ -41,7 +40,7 @@ import {GridWidgetsService} from "core-app/modules/grids/widgets/widgets.service
 import {GridComponent} from "core-app/modules/grids/grid/grid.component";
 import {AddGridWidgetModal} from "core-app/modules/grids/widgets/add/add.modal";
 import {OpenprojectCalendarModule} from "core-app/modules/calendar/openproject-calendar.module";
-import {Ng2StateDeclaration, UIRouterModule} from '@uirouter/angular';
+import {UIRouterModule} from '@uirouter/angular';
 import {WidgetDocumentsComponent} from "core-app/modules/grids/widgets/documents/documents.component";
 import {WidgetNewsComponent} from "core-app/modules/grids/widgets/news/news.component";
 import {WidgetWpTableComponent} from "core-app/modules/grids/widgets/wp-table/wp-table.component";
@@ -64,19 +63,6 @@ import {WidgetTimeEntriesProjectComponent} from "core-app/modules/grids/widgets/
 import {WidgetSubprojectsComponent} from "core-app/modules/grids/widgets/subprojects/subprojects.component";
 import {OpenprojectAttachmentsModule} from "core-app/modules/attachments/openproject-attachments.module";
 import {WidgetMembersComponent} from "core-app/modules/grids/widgets/members/members.component";
-
-export const GRID_ROUTES:Ng2StateDeclaration[] = [
-  {
-    name: 'my_page',
-    url: '/my/page',
-    component: MyPageComponent,
-    data: {
-      bodyClasses: 'router--work-packages-my-page',
-      parent: 'work-packages'
-    }
-  },
-];
-
 
 @NgModule({
   imports: [
@@ -109,8 +95,6 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
     // Support for inline editig fields
     OpenprojectFieldsModule,
 
-    // Routes for grid pages
-    UIRouterModule.forChild({ states: GRID_ROUTES }),
   ],
   providers: [
     {
@@ -149,15 +133,9 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
     AddGridWidgetModal,
 
     WidgetHeaderComponent,
-
-    // MyPage
-    MyPageComponent,
   ],
   entryComponents: [
     AddGridWidgetModal,
-
-    // MyPage
-    MyPageComponent,
   ],
   exports: [
     GridComponent

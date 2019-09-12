@@ -69,12 +69,16 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
     const wpId = oldReference.id!;
     const workPackage = this.wpCacheService.state(wpId).getValueOr(oldReference);
     const state = this.multiState.get(wpId);
+    let changeset = state.value;
 
-    if (state.isPristine()) {
-      state.putValue(new WorkPackageChangeset(this.injector, workPackage));
+    // If there is no changeset, or
+    // If there is an empty one for a older work package reference
+    // build a new changeset
+    if (!changeset || (changeset.empty && changeset.resource.lockVersion < workPackage.lockVersion)) {
+      changeset = new WorkPackageChangeset(this.injector, workPackage)
+      state.putValue(changeset);
+      return changeset;
     }
-
-    const changeset = state.value!;
 
     return changeset;
   }
@@ -109,10 +113,7 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
   }
 
   public stopEditing(workPackageId:string) {
-    const state = this.multiState.get(workPackageId);
-    if (state && state.value) {
-      state.value.clear();
-    }
+    this.multiState.get(workPackageId).clear();
   }
 
   protected load(id:string) {

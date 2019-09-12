@@ -46,7 +46,12 @@ export abstract class OpModalComponent implements OnInit, OnDestroy {
   }
 
   public closeMe(evt?:JQuery.TriggeredEvent) {
-    this.service.close(evt);
+    this.service.close();
+
+    if (evt) {
+      evt.stopPropagation();
+      evt.preventDefault();
+    }
   }
 
   public onOpen(modalElement:JQuery) {

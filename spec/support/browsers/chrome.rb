@@ -1,5 +1,10 @@
-# Force the latest version of chromedriver using the chromedriver-helper gem
-Chromedriver.set_version "2.44"
+# Force the latest version of chromedriver using the webdriver gem
+require 'webdrivers/chromedriver'
+
+if ENV['CI']
+  ::Webdrivers.logger.level = :DEBUG
+  ::Webdrivers::Chromedriver.update
+end
 
 def register_chrome_headless(language)
   name = :"chrome_headless_#{language}"

@@ -147,8 +147,6 @@ da:
     index:
       no_results_title_text: There is currently no news to report.
       no_results_content_text: Add a news item
-    my_page:
-      no_results_title_text: Nothing new to report.
   users:
     memberships:
       no_results_title_text: This user is currently not a member of a project.
@@ -1344,7 +1342,6 @@ da:
   label_move_work_package: "Flyt arbejdspakke"
   label_my_account: "Min konto"
   label_my_account_data: "Mine kontodata"
-  label_my_page: "Min side"
   label_my_projects: "Mine projekter"
   label_my_queries: "Mine selvvalgte forespørgsler"
   label_never: "Aldrig"
@@ -1557,6 +1554,7 @@ da:
   label_wiki_content_added: "Wikiside tilføjet"
   label_wiki_content_updated: "Wikiside opdateret"
   label_wiki_toc: "Indholdsfortegnelse"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "Vis ikke denne wikipage i projektnavigationen"
   label_wiki_edit: "Wiki-redigering"
   label_wiki_edit_plural: "Wiki-redigeringer"

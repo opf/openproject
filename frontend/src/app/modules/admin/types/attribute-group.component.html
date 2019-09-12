@@ -1,6 +1,6 @@
 <div class="type-form-conf-group">
   <div class="group-head">
-    <span class="group-handle icon-toggle"></span>
+    <span class="group-handle icon-drag-handle"></span>
     <group-edit-in-place
         [name]="group.name"
         (onValueChange)="rename($event)"
@@ -12,7 +12,7 @@
     <div *ngFor="let attribute of group.attributes"
          class="type-form-conf-attribute"
          [attr.data-key]="attribute.key">
-      <span class="attribute-handle icon-toggle"></span>
+      <span class="attribute-handle icon-drag-handle"></span>
       <span class="attribute-name">
         {{ attribute.translation }}
         <span class="attribute-cf-label"

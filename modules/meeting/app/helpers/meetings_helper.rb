@@ -20,11 +20,16 @@
 
 module MeetingsHelper
   def format_participant_list(participants)
-    participants.sort.map { |p| link_to_user p.user }.join('; ').html_safe
+    if participants.any?
+      participants.sort.map { |p| link_to_user p.user }.join('; ').html_safe
+    else
+      t('placeholders.default')
+    end
   end
 
   def render_meeting_journal(model, journal, options = {})
     return '' if journal.initial?
+
     journal_content = render_journal_details(journal, :label_updated_time_by, model, options)
     content_tag 'div', journal_content,  id: "change-#{journal.id}", class: 'journal'
   end

@@ -12,7 +12,7 @@ import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-w
 })
 export class AddGridWidgetModal extends OpModalComponent {
 
-  text = { title: this.i18n.t('js.grid.add_modal.choose_widget'),
+  text = { title: this.i18n.t('js.grid.add_widget'),
            close_popup: this.i18n.t('js.button_close') };
 
   public chosenWidget:WidgetRegistration;

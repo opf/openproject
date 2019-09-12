@@ -28,7 +28,6 @@
 
 import {NgModule} from '@angular/core';
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
-import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
 import {Ng2StateDeclaration, UIRouter, UIRouterModule} from "@uirouter/angular";
 import {DashboardComponent} from "core-app/modules/dashboards/dashboard/dashboard.component";
 import {OpenprojectGridsModule} from "core-app/modules/grids/openproject-grids.module";
@@ -63,14 +62,10 @@ export function uiRouterDashboardsConfiguration(uiRouter:UIRouter) {
 @NgModule({
   imports: [
     OpenprojectCommonModule,
-    OpenprojectWorkPackagesModule,
 
     OpenprojectGridsModule,
 
-    // Dynamic Module for actions
-    //DynamicModule.withComponents([VersionBoardHeaderComponent]),
-
-    // Routes for /boards
+    // Routes for /dashboards
     UIRouterModule.forChild({
       states: DASHBOARDS_ROUTES,
       config: uiRouterDashboardsConfiguration

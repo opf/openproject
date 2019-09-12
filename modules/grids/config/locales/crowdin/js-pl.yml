@@ -1,0 +1,50 @@
+pl:
+  js:
+    grid:
+      add_widget: 'Add widget'
+      remove: 'Remove widget'
+      widgets:
+        custom_text:
+          title: 'Tekst niestandardowy/użytkownika'
+        documents:
+          title: 'Dokumenty'
+          no_results: 'Nie ma jeszcze dokumentów.'
+        members:
+          title: 'Członkowie'
+          no_results: 'No visible members.'
+          view_all_members: 'Zobacz wszystkich członków'
+          add: 'Członek'
+          too_many: 'Displaying %{count} of %{total} members.'
+        news:
+          title: 'Aktualności'
+          at: 'w'
+          no_results: 'Utwórz nowy raport.'
+        project_description:
+          title: 'Opis projektu'
+          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
+        project_details:
+          title: 'Szczegóły Projektu'
+          no_results: 'No custom fields have been defined for projects.'
+        subprojects:
+          title: 'Podprojekty'
+          no_results: 'No subprojects.'
+        time_entries_list:
+          title: 'Poświęcony czas (ostatnie 7 dni)'
+          no_results: 'Brak zarejestrowanego czasu pracy w ostatnich 7 dniach.'
+        work_packages_accountable:
+          title: "Pakiety robocze, za które odpowiadam"
+        work_packages_assigned:
+          title: 'Zadania przypisane do mnie'
+        work_packages_created:
+          title: 'Pakiety robocze stworzone przeze mnie'
+        work_packages_watched:
+          title: 'Pakiety robocze obserwowane przeze mnie'
+        work_packages_table:
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
+        work_packages_calendar:
+          title: 'Kalendarz'
+        work_packages_overview:
+          title: 'Work packages overview'
+          placeholder: 'Click to edit ...'

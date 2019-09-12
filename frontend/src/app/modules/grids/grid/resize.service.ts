@@ -69,8 +69,16 @@ export class GridResizeService {
     return this.placeholderArea && this.targetIds.includes(areaId);
   }
 
+  public isResized(area:GridWidgetArea) {
+    return this.resizedArea && this.resizedArea.guid === area.guid;
+  }
+
+  public isPassive(area:GridWidgetArea) {
+    return this.currentlyResizing && !this.isResized(area);
+  }
+
   public get currentlyResizing() {
-    return this.placeholderArea;
+    return !!this.resizedArea;
   }
 
   public get isResizable() {

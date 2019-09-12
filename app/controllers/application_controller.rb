@@ -295,11 +295,16 @@ class ApplicationController < ActionController::Base
 
   def require_admin
     return unless require_login
+
     render_403 unless User.current.admin?
   end
 
-  def deny_access
-    User.current.logged? ? render_403 : require_login
+  def deny_access(not_found: false)
+    if User.current.logged?
+      not_found ? render_404 : render_403
+    else
+      require_login
+    end
   end
 
   # Authorize the user for the requested action

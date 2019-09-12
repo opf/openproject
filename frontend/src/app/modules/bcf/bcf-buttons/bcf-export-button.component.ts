@@ -36,28 +36,33 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
 import {StateService} from "@uirouter/core";
+import {WorkPackageStaticQueriesService} from "core-components/wp-query-select/wp-static-queries.service";
 
 @Component({
   template: `
-    <a [title]="text.export" class="button import-bcf-button" (click)="handleClick()">
+    <a [title]="text.export"
+       class="button export-bcf-button"
+       download
+       [attr.href]="exportLink">
       <op-icon icon-classes="button--icon icon-export"></op-icon>
       <span class="button--text"> {{text.export}} </span>
     </a>
   `,
   selector: 'bcf-export-button',
 })
-export class BcfExportButtonComponent implements OnInit, OnDestroy{
+export class BcfExportButtonComponent implements OnInit, OnDestroy {
   public text = {
     export: this.I18n.t('js.bcf.export')
   };
   public query:QueryResource;
+  public exportLink:string;
 
   constructor(readonly I18n:I18nService,
               readonly currentProject:CurrentProjectService,
               readonly bcfPathHelper:BcfPathHelperService,
               readonly querySpace:IsolatedQuerySpace,
               readonly queryUrlParamsHelper:UrlParamsHelperService,
-              public readonly state:StateService,) {
+              readonly state:StateService) {
   }
 
   ngOnInit() {
@@ -68,19 +73,18 @@ export class BcfExportButtonComponent implements OnInit, OnDestroy{
       )
       .subscribe((query) => {
         this.query = query;
+
+        let projectIdentifier = this.currentProject.identifier;
+        let filters = this.queryUrlParamsHelper.buildV3GetFilters(this.query.filters);
+        this.exportLink = this.bcfPathHelper.projectExportIssuesPath(
+          projectIdentifier!,
+          JSON.stringify(filters)
+        );
       });
   }
 
   ngOnDestroy() {
     // Nothing to do
-  }
-
-  public handleClick() {
-    var projectIdentifier = this.currentProject.identifier;
-    if (projectIdentifier) {
-      var url = this.bcfPathHelper.projectExportIssuesPath(projectIdentifier, this.queryUrlParamsHelper.encodeQueryJsonParams(this.query));
-      window.location.href = url;
-    }
   }
 }
 

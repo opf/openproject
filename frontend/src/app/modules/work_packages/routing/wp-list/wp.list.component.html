@@ -79,6 +79,7 @@
       <!-- TABLE + TIMELINE horizontal split -->
       <wp-table *ngIf="tableInformationLoaded && showListView"
                 [projectIdentifier]="projectIdentifier"
+                [configuration]="wpTableConfiguration"
                 class="work-packages-split-view--tabletimeline-content"></wp-table>
 
       <!-- GRID representation of the WP -->

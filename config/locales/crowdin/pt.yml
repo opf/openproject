@@ -147,8 +147,6 @@ pt:
     index:
       no_results_title_text: Atualmente, não existem notícias para comunicar.
       no_results_content_text: Adicione um item de notícias
-    my_page:
-      no_results_title_text: Nada de novo no relatório.
   users:
     memberships:
       no_results_title_text: Este utilizador atualmente não é um membro de um projeto.
@@ -1344,7 +1342,6 @@ pt:
   label_move_work_package: "Mover tarefa"
   label_my_account: "A minha conta"
   label_my_account_data: "Dados da minha conta"
-  label_my_page: "A minha página"
   label_my_projects: "Os meus projetos"
   label_my_queries: "As minhas consultas personalizadas"
   label_never: "Nunca"
@@ -1557,6 +1554,7 @@ pt:
   label_wiki_content_added: "Página wiki adicionada"
   label_wiki_content_updated: "Página wiki atualizada"
   label_wiki_toc: "Tabela de conteúdos"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "Não mostrar esta página wiki na navegação do projecto"
   label_wiki_edit: "Editar wiki"
   label_wiki_edit_plural: "Edições de wiki"
