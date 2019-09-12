@@ -57,6 +57,8 @@ module API
 
             get &::API::V3::Utilities::Endpoints::Show.new(model: Project).mount
 
+            mount ::API::V3::Projects::UpdateFormAPI
+
             mount API::V3::Projects::AvailableAssigneesAPI
             mount API::V3::Projects::AvailableResponsiblesAPI
             mount API::V3::WorkPackages::WorkPackagesByProjectAPI
