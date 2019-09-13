@@ -150,8 +150,7 @@ describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, 
         .to have_no_selector('.id', text: other_type_work_package.id)
 
       within filter_area.area do
-        expect(find('.editable-toolbar-title--input').value)
-          .to eql('My WP Filter')
+        expect(page).to have_field('editable-toolbar-title', with: 'My WP Filter', wait: 10)
       end
     end
   end

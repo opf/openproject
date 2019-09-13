@@ -54,7 +54,7 @@ module API
 
           post &::API::V3::Utilities::Endpoints::Create.new(model: ::Grids::Grid).mount
 
-          mount CreateFormAPI
+          mount ::API::V3::Grids::CreateFormAPI
           mount ::API::V3::Grids::Schemas::GridSchemaAPI
 
           route_param :id, type: Integer, desc: 'Grid ID' do
@@ -105,7 +105,7 @@ module API
                                                             .mount
               delete &::API::V3::Utilities::Endpoints::Delete.new(model: ::Grids::Grid).mount
 
-              mount UpdateFormAPI
+              mount ::API::V3::Grids::UpdateFormAPI
             end
           end
         end

@@ -58,9 +58,10 @@ class Role < ActiveRecord::Base
 
   acts_as_list
 
-  validates_presence_of :name
-  validates_uniqueness_of :name
-  validates_length_of :name, maximum: 30
+  validates :name,
+            presence: true,
+            length: { maximum: 30 },
+            uniqueness: { case_sensitive: true }
 
   def self.givable
     where(builtin: NON_BUILTIN)

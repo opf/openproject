@@ -153,21 +153,25 @@ class Project < ActiveRecord::Base
                 author: nil,
                 datetime: :created_on
 
-  validates_presence_of :name, :identifier
+  validates :name,
+            presence: true,
+            length: { maximum: 255 }
   # TODO: we temporarily disable this validation because it leads to failed tests
   # it implicitly assumes a db:seed-created standard type to be present and currently
   # neither development nor deployment setups are prepared for this
   # validates_presence_of :types
-  validates_uniqueness_of :identifier
+  validates :identifier,
+            presence: true,
+            uniqueness: { case_sensitive: true },
+            length: { maximum: IDENTIFIER_MAX_LENGTH },
+            exclusion: RESERVED_IDENTIFIERS
+
   validates_associated :repository, :wiki
-  validates_length_of :name, maximum: 255
-  validates_length_of :identifier, in: 1..IDENTIFIER_MAX_LENGTH
   # starts with lower-case letter, a-z, 0-9, dashes and underscores afterwards
   validates :identifier,
             format: { with: /\A[a-z][a-z0-9\-_]*\z/ },
             if: ->(p) { p.identifier_changed? }
   # reserved words
-  validates_exclusion_of :identifier, in: RESERVED_IDENTIFIERS
 
   friendly_id :identifier, use: :finders
 
@@ -178,7 +182,7 @@ class Project < ActiveRecord::Base
     where(["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s])
   }
   scope :public_projects, -> { where(is_public: true) }
-  scope :visible, ->(user = User.current) { Project.visible_by(user) }
+  scope :visible, ->(user = User.current) { merge(Project.visible_by(user)) }
   scope :newest, -> { order(created_on: :desc) }
 
   def visible?(user = User.current)

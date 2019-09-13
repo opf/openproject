@@ -32,17 +32,16 @@ class AuthSource < ActiveRecord::Base
 
   has_many :users
 
-  validates_presence_of :name
-  validates_uniqueness_of :name
-  validates_length_of :name, maximum: 60
+  validates :name,
+            uniqueness: { case_sensitive: false },
+            length: { maximum: 60 }
 
   def self.unique_attribute
     :name
   end
   prepend ::Mixins::UniqueFinder
 
-  def authenticate(_login, _password)
-  end
+  def authenticate(_login, _password); end
 
   def find_user(_login)
     raise "subclass repsonsiblity"

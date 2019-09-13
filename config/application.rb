@@ -150,6 +150,10 @@ module OpenProject
     # Use SHA-1 instead of MD5 to generate non-sensitive digests, such as the ETag header.
     Rails.application.config.active_support.use_sha1_digests = true
 
+    # This option is not backwards compatible with earlier Rails versions.
+    # It's best enabled when your entire app is migrated and stable on 6.0.
+    Rails.application.config.action_dispatch.use_cookies_with_metadata = true
+
     # Make `form_with` generate id attributes for any generated HTML tags.
     # Rails.application.config.action_view.form_with_generates_ids = true
 
@@ -176,6 +180,9 @@ module OpenProject
     config.active_job.queue_adapter = :delayed_job
 
     config.action_controller.asset_host = OpenProject::Configuration::AssetHost.value
+
+    # Return false instead of self when enqueuing is aborted from a callback.
+    # Rails.application.config.active_job.return_false_on_aborted_enqueue = true
 
     config.log_level = OpenProject::Configuration['log_level'].to_sym
 

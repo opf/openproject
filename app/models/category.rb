@@ -32,9 +32,9 @@ class Category < ActiveRecord::Base
   belongs_to :assigned_to, class_name: 'Principal', foreign_key: 'assigned_to_id'
   has_many :work_packages, foreign_key: 'category_id', dependent: :nullify
 
-  validates_presence_of :name
-  validates_uniqueness_of :name, scope: [:project_id]
-  validates_length_of :name, maximum: 255
+  validates :name,
+            uniqueness: { scope: [:project_id], case_sensitive: true },
+            length: { maximum: 255 }
 
   # validates that assignee is member of the issue category's project
   validates_each :assigned_to_id do |record, attr, value|

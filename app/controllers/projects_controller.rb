@@ -242,14 +242,10 @@ class ProjectsController < ApplicationController
     @query = ParamsToQueryService.new(Project, current_user).call(params)
 
     # Set default filter on status no filter is provided.
-    if !params[:filters]
-      @query.where('status', '=', Project::STATUS_ACTIVE.to_s)
-    end
+    @query.where('status', '=', Project::STATUS_ACTIVE.to_s) unless params[:filters]
 
     # Order lft if no order is provided.
-    if !params[:sortBy]
-      @query.order(lft: :asc)
-    end
+    @query.order(lft: :asc) unless params[:sortBy]
 
     @query
   end
@@ -283,21 +279,18 @@ class ProjectsController < ApplicationController
   end
 
   def load_projects(query)
-    projects = query
-               .results
-               .with_required_storage
-               .with_latest_activity
-               .includes(:custom_values, :enabled_modules)
-               .page(page_param)
-               .per_page(per_page_param)
-
-    filter_projects_by_permission projects
+    filter_projects_by_permission(query.results)
+      .with_required_storage
+      .with_latest_activity
+      .includes(:custom_values, :enabled_modules)
+      .paginate(page: page_param, per_page: per_page_param)
   end
 
   # Validates parent_id param according to user's permissions
   # TODO: move it to Project model in a validation that depends on User.current
   def validate_parent_id
     return true if User.current.admin?
+
     parent_id = permitted_params.project && params[:project][:parent_id]
     if parent_id || @project.new_record?
       parent = parent_id.blank? ? nil : Project.find_by(id: parent_id.to_i)

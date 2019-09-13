@@ -14,6 +14,5 @@ Gem::Specification.new do |s|
   s.test_files = Dir["spec/**/*"]
 
   s.add_dependency 'activerecord-import'
-  s.add_dependency 'rails', '~> 5'
   s.add_dependency 'rubyzip', '~> 1.2'
 end
