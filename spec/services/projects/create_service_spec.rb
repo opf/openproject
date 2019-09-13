@@ -79,6 +79,7 @@ describe Projects::CreateService, type: :model do
       .to receive(:call)
       .and_return(set_attributes_result)
   end
+  let(:new_project_role) { FactoryBot.build_stubbed(:role) }
 
   describe 'call' do
     subject { instance.call(call_attributes) }
@@ -105,7 +106,32 @@ describe Projects::CreateService, type: :model do
         .to eql created_project
     end
 
-    context 'when the SetAttributeService is unsuccessful' do
+    it 'adds the current user to the project' do
+      allow(Role)
+        .to receive(:in_new_project)
+        .and_return(new_project_role)
+
+      expect(created_project)
+        .to receive(:add_member!)
+        .with(user, new_project_role)
+
+      subject
+    end
+
+    context 'current user is admin' do
+      it 'does not add the user to the project' do
+        allow(user)
+          .to receive(:admin?)
+          .and_return(true)
+
+        expect(created_project)
+          .not_to receive(:add_member!)
+
+        subject
+      end
+    end
+
+    context 'if the SetAttributeService is unsuccessful' do
       let(:set_attributes_success) { false }
 
       it 'is unsuccessful' do

@@ -32,13 +32,13 @@ describe Changeset, type: :model do
   let(:email) { 'bob@bobbit.org' }
 
   with_virtual_subversion_repository do
-    let(:changeset) {
+    let(:changeset) do
       FactoryBot.build(:changeset,
                        repository: repository,
                        revision: '1',
                        committer: email,
                        comments: 'Initial commit')
-    }
+    end
   end
 
   shared_examples_for 'valid changeset' do
@@ -82,13 +82,13 @@ describe Changeset, type: :model do
   describe 'stripping commit' do
     let(:comment) { 'This is a looooooooooooooong comment' + (' ' * 80 + "\n") * 5 }
     with_virtual_subversion_repository do
-      let(:changeset) {
+      let(:changeset) do
         FactoryBot.build(:changeset,
                          repository: repository,
                          revision: '1',
                          committer: email,
                          comments: comment)
-      }
+      end
     end
 
     it 'should for changeset comments strip' do
@@ -157,14 +157,18 @@ describe Changeset, type: :model do
     let(:comments) { "Some fix made, fixes ##{work_package.id} and fixes ##{other_work_package.id}" }
 
     with_virtual_subversion_repository do
-      let!(:work_package) { FactoryBot.create :work_package, project: repository.project, status: open_status }
-      let(:changeset) {
+      let!(:work_package) do
+        FactoryBot.create :work_package,
+                          project: repository.project,
+                          status: open_status
+      end
+      let(:changeset) do
         FactoryBot.create(:changeset,
                           repository: repository,
                           revision: '123',
                           committer: user.login,
                           comments: comments)
-      }
+      end
     end
 
     before do

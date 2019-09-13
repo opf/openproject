@@ -29,69 +29,15 @@
 #++
 
 module BaseServices
-  class Create
-    include Concerns::Contracted
-    include Shared::ServiceContext
-
-    attr_reader :user
-
-    def initialize(user:, contract_class: nil)
-      @user = user
-      self.contract_class = contract_class || default_contract_class
-    end
-
-    def call(params)
-      in_context(false) do
-        create(params)
-      end
-    end
-
+  class Create < Write
     private
 
-    def create(params)
-      attributes_call = set_attributes(params)
-
-      if attributes_call.success? &&
-         !attributes_call.result.save
-        attributes_call.errors = attributes_call.result.errors
-        attributes_call.success = false
-      else
-        after_save(attributes_call)
-      end
-
-      attributes_call
-    end
-
-    def set_attributes(params)
-      attributes_service_class
-        .new(user: user,
-             model: new_instance(params),
-             contract_class: contract_class)
-        .call(params)
-    end
-
-    def after_save(_attributes_call)
-      # nothing for now but subclasses can override
-    end
-
-    def new_instance(_params)
+    def instance(_params)
       instance_class.new
     end
 
     def default_contract_class
       "#{namespace}::CreateContract".constantize
-    end
-
-    def attributes_service_class
-      "#{namespace}::SetAttributesService".constantize
-    end
-
-    def instance_class
-      namespace.singularize.constantize
-    end
-
-    def namespace
-      self.class.name.deconstantize
     end
   end
 end

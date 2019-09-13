@@ -30,5 +30,8 @@
 
 module Projects
   class CreateService < ::BaseServices::Create
+    def after_save(attributes_call)
+      attributes_call.result.add_member!(user, Role.in_new_project) unless user.admin?
+    end
   end
 end

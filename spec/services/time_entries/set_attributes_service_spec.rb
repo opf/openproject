@@ -191,20 +191,6 @@ describe TimeEntries::SetAttributesService, type: :model do
     end
   end
 
-  context 'with an invalid time_entry' do
-    let(:time_entry_valid) { false }
-
-    it 'returns failure' do
-      is_expected
-        .not_to be_success
-    end
-
-    it "returns the time_entry's errors" do
-      expect(subject.errors)
-        .to eql(time_entry_instance.errors)
-    end
-  end
-
   context 'with a system activity' do
     let!(:system_activity) { FactoryBot.build_stubbed(:time_entry_activity) }
     let(:params) do

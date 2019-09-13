@@ -82,7 +82,7 @@ describe ::API::V3::WorkPackages::CreateProjectFormAPI do
   end
 
   describe 'with all minimum parameters' do
-    let(:type) { project.types.default.first }
+    let(:type) { project.types.first }
     let(:parameters) do
       {
         _links: {

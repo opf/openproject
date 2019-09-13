@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -198,25 +199,6 @@ class Project < ActiveRecord::Base
     visible.like(query)
   end
 
-  # TODO: move into SetAttributesService
-  def initialize(attributes = nil)
-    super
-
-    initialized = (attributes || {}).stringify_keys
-    if !initialized.key?('identifier') && Setting.sequential_project_identifiers?
-      self.identifier = Project.next_identifier
-    end
-    if !initialized.key?('is_public')
-      self.is_public = Setting.default_projects_public?
-    end
-    if !initialized.key?('enabled_module_names')
-      self.enabled_module_names = Setting.default_projects_modules
-    end
-    if !initialized.key?('types') && !initialized.key?('type_ids')
-      self.types = ::Type.default
-    end
-  end
-
   def possible_members(criteria, limit)
     Principal.active_or_registered.like(criteria).not_in_project(self).limit(limit)
   end
@@ -273,7 +255,7 @@ class Project < ActiveRecord::Base
       create_time_entry_activity_if_needed(activity_hash)
     else
       activity = project.time_entry_activities.find_by(id: id.to_i)
-      activity.update_attributes(activity_hash) if activity
+      activity&.update(activity_hash)
     end
   end
 
@@ -340,71 +322,6 @@ class Project < ActiveRecord::Base
     return false if ancestors.detect { |a| !a.active? }
 
     update_attribute :status, STATUS_ACTIVE
-  end
-
-  # TODO: Move into contract
-  # Returns an array of projects the project can be moved to
-  # by the current user
-  def allowed_parents
-    return @allowed_parents if @allowed_parents
-
-    @allowed_parents = Project.allowed_to(User.current, :add_subprojects)
-    @allowed_parents = @allowed_parents - self_and_descendants
-    if User.current.allowed_to?(:add_project, nil, global: true) || (!new_record? && parent.nil?)
-      @allowed_parents << nil
-    end
-    unless parent.nil? || @allowed_parents.empty? || @allowed_parents.include?(parent)
-      @allowed_parents << parent
-    end
-    @allowed_parents
-  end
-
-  # TODO: Move into contract
-  def allowed_parent?(p)
-    p = guarantee_project_or_nil_or_false(p)
-    return false if p == false # have to explicitly check for false
-
-    !((p.nil? && persisted? && allowed_parents.empty?) ||
-      (p.present? && allowed_parents.exclude?(p)))
-  end
-
-  # Sets the parent of the project with authorization check
-  def set_allowed_parent!(p)
-    set_parent!(p) if allowed_parent?(p)
-  end
-
-  # Sets the parent of the project
-  # Argument can be either a Project, a String, a Fixnum or nil
-  def set_parent!(p)
-    p = guarantee_project_or_nil_or_false(p)
-    return false if p == false # have to explicitly check for false
-
-    if p == parent && !p.nil?
-      # Nothing to do
-      true
-    elsif p.nil? || (p.active? && move_possible?(p))
-      # Insert the project so that target's children or root projects stay alphabetically sorted
-      sibs = (p.nil? ? self.class.roots : p.children)
-      to_be_inserted_before = sibs.detect { |c| c.name.to_s.downcase > name.to_s.downcase }
-      if to_be_inserted_before
-        move_to_left_of(to_be_inserted_before)
-      elsif p.nil?
-        if sibs.empty?
-          # move_to_root adds the project in first (ie. left) position
-          move_to_root
-        else
-          move_to_right_of(sibs.last) unless self == sibs.last
-        end
-      else
-        # move_to_child_of adds the project in last (ie.right) position
-        move_to_child_of(p)
-      end
-      WorkPackage.update_versions_from_hierarchy_change(self)
-      true
-    else
-      # Can not move to the given target
-      false
-    end
   end
 
   def types_used_by_work_packages
@@ -541,57 +458,6 @@ class Project < ActiveRecord::Base
     name
   end
 
-  # TODO: Move into helper
-  # Returns a short description of the projects (first lines)
-  def short_description(length = 255)
-    unless description.present?
-      return ''
-    end
-
-    description.gsub(/\A(.{#{length}}[^\n\r]*).*\z/m, '\1...').strip
-  end
-
-  # The earliest start date of a project, based on it's issues and versions
-  def start_date
-    [
-      work_packages.minimum('start_date'),
-      shared_versions.map(&:effective_date),
-      shared_versions.map(&:start_date)
-    ].flatten.compact.min
-  end
-
-  # The latest finish date of an issue or version
-  def due_date
-    [
-      work_packages.maximum('due_date'),
-      shared_versions.map(&:effective_date),
-      shared_versions.map { |v| v.fixed_issues.maximum('due_date') }
-    ].flatten.compact.max
-  end
-
-  def overdue?
-    active? && !due_date.nil? && (due_date < Date.today)
-  end
-
-  # TODO: Can be deleted?
-  # Returns the percent completed for this project, based on the
-  # progress on it's versions.
-  def completed_percent(options = { include_subprojects: false })
-    if options.delete(:include_subprojects)
-      total = self_and_descendants.map(&:completed_percent).sum
-
-      total / self_and_descendants.count
-    else
-      if versions.count > 0
-        total = versions.map(&:completed_percent).sum
-
-        total / versions.count
-      else
-        100
-      end
-    end
-  end
-
   # Return true if this project is allowed to do the specified action.
   # action can be:
   # * a parameter-like Hash (eg. controller: '/projects', action: 'edit')
@@ -610,7 +476,7 @@ class Project < ActiveRecord::Base
   end
 
   def enabled_module_names=(module_names)
-    if module_names && module_names.is_a?(Array)
+    if module_names&.is_a?(Array)
       module_names = module_names.map(&:to_s).reject(&:blank?)
       self.enabled_modules = module_names.map { |name| enabled_modules.detect { |mod| mod.name == name } || EnabledModule.new(name: name) }
     else
@@ -674,7 +540,7 @@ class Project < ActiveRecord::Base
     end
 
     # at the end the root level must be sorted as well
-    result.sort_by { |h| h[:project].name.downcase if h[:project].name }
+    result.sort_by { |h| h[:project].name&.downcase }
   end
 
   def self.project_tree_from_hierarchy(projects_hierarchy, level, &block)

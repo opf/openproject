@@ -32,7 +32,7 @@ require 'spec_helper'
 describe ::Type, type: :model do
   let(:type) { FactoryBot.build(:type) }
   let(:type2) { FactoryBot.build(:type) }
-  let(:project) { FactoryBot.build(:project) }
+  let(:project) { FactoryBot.build(:project, no_types: true) }
 
   describe '.enabled_in(project)' do
     before do

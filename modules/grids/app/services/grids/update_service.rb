@@ -31,13 +31,13 @@
 class Grids::UpdateService < ::BaseServices::Update
   protected
 
-  def update(attributes)
+  def write(attributes)
     set_type_for_error_message(attributes.delete(:scope))
 
     super
   end
 
-  def after_save
+  def after_save(*)
     model.touch if only_widgets_updated?
   end
 

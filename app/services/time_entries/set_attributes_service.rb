@@ -44,7 +44,7 @@ module TimeEntries
       use_project_activity(model)
     end
 
-    def set_default_attributes
+    def set_default_attributes(*)
       set_default_user
       set_default_activity
       set_default_hours

@@ -134,7 +134,7 @@ describe Role, type: :model do
     end
   end
 
-  describe '#givable' do
+  describe '.givable' do
     before do
       # this should not be necessary once Role (in a membership) and GlobalRole have
       # a common ancestor class, e.g. Role (a new one)
@@ -147,5 +147,52 @@ describe Role, type: :model do
 
     it { expect(Role.givable.size).to eq(1) }
     it { expect(Role.givable[0]).to eql @mem_role1 }
+  end
+
+  describe '.in_new_project' do
+    let!(:ungivable_role) { FactoryBot.create(:role, builtin: Role::BUILTIN_NON_MEMBER) }
+    let!(:second_role) do
+      FactoryBot.create(:role).tap do |r|
+        r.update_column(:position, 100)
+      end
+    end
+    let!(:first_role) do
+      FactoryBot.create(:role).tap do |r|
+        r.update_column(:position, 1)
+      end
+    end
+
+    context 'without a specified role' do
+      it 'returns the first role (by position)' do
+        expect(Role.in_new_project)
+          .to eql first_role
+      end
+    end
+
+    context 'with a specified role' do
+      before do
+        allow(Setting)
+          .to receive(:new_project_user_role_id)
+          .and_return(second_role.id.to_s)
+      end
+
+      it 'returns that role' do
+        expect(Role.in_new_project)
+          .to eql second_role
+      end
+    end
+
+    context 'with a specified role but that one is faulty (e.g. does not exist any more)' do
+      before do
+        allow(Setting)
+          .to receive(:new_project_user_role_id)
+          .and_return("-1")
+      end
+
+      it 'returns the first role (by position)' do
+        expect(Role.in_new_project)
+          .to eql first_role
+      end
+    end
   end
 end

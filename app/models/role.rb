@@ -170,6 +170,13 @@ class Role < ActiveRecord::Base
     paginate_scope! givable.like(search), options
   end
 
+  def self.in_new_project
+    givable
+      .except(:order)
+      .order(Arel.sql("COALESCE(#{Setting.new_project_user_role_id.to_i} = id, false) DESC, position"))
+      .first
+  end
+
   private
 
   def allowed_permissions

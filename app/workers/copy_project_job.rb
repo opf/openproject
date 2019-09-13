@@ -49,19 +49,18 @@ class CopyProjectJob < ApplicationJob
     User.current = user
     target_project_name = target_project_params[:name]
 
-    target_project, errors = with_locale_for(user) {
+    target_project, errors = with_locale_for(user) do
       create_project_copy(source_project,
                           target_project_params,
                           associations_to_copy,
                           send_mails)
-    }
+    end
 
     if target_project
       ProjectMailer.copy_project_succeeded(user, source_project, target_project, errors).deliver_now
     else
       ProjectMailer.copy_project_failed(user, source_project, target_project_name, errors).deliver_now
     end
-
   rescue StandardError => e
     logger.error { "Failed to finish copy project job: #{e} #{e.message}" }
     errors = [I18n.t('copy_project.failed_internal')]
@@ -86,14 +85,15 @@ class CopyProjectJob < ApplicationJob
     errors         = []
 
     ProjectMailer.with_deliveries(send_mails) do
-      parent_id = target_project_params[:parent_id]
-
       target_project = Project.copy_attributes(source_project)
-      target_project.attributes = target_project_params
 
-      if validate_parent_id(target_project, parent_id) && target_project.save
-        target_project.set_allowed_parent!(parent_id) if parent_id
+      service_call = Projects::SetAttributesService
+                     .new(user: user,
+                          model: target_project,
+                          contract_class: Projects::CreateContract)
+                     .call(target_project_params)
 
+      if service_call.success? && target_project.save
         target_project.copy_associations(source_project, only: associations_to_copy)
 
         # Project was created
@@ -108,7 +108,7 @@ class CopyProjectJob < ApplicationJob
           end
         end
       else
-        errors         = target_project.errors.full_messages
+        errors         = service_call.errors.merge(target_project.errors).full_messages
         target_project = nil
         logger.error("Copying project fails with validation errors: #{errors.join("\n")}")
       end
@@ -125,24 +125,6 @@ class CopyProjectJob < ApplicationJob
     end
 
     return target_project, errors
-  end
-
-  # Validates parent_id param according to user's permissions
-  # TODO: move it to Project model in a validation that depends on User.current
-  def validate_parent_id(project, parent_id)
-    return true if User.current.admin?
-
-    if parent_id || project.new_record?
-      parent = parent_id.blank? ? nil : Project.find_by(id: parent_id.to_i)
-
-      unless project.allowed_parents.include?(parent)
-        project.errors.add :parent_id, :invalid
-
-        return false
-      end
-    end
-
-    true
   end
 
   def logger

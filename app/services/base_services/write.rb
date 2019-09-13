@@ -29,22 +29,70 @@
 #++
 
 module BaseServices
-  class Update < Write
-    attr_reader :model
+  class Write
+    include Concerns::Contracted
+    include Shared::ServiceContext
 
-    def initialize(user:, model:, contract_class: nil)
-      @model = model
-      super(user: user, contract_class: contract_class)
+    attr_reader :user
+
+    def initialize(user:, contract_class: nil)
+      @user = user
+      self.contract_class = contract_class || default_contract_class
+    end
+
+    def call(params)
+      in_context(false) do
+        write(params)
+      end
     end
 
     private
 
+    def write(params)
+      attributes_call = set_attributes(params)
+
+      if attributes_call.failure?
+        # nothing to do
+      elsif !attributes_call.result.save
+        attributes_call.errors = attributes_call.result.errors
+        attributes_call.success = false
+      else
+        after_save(attributes_call)
+      end
+
+      attributes_call
+    end
+
+    def set_attributes(params)
+      attributes_service_class
+        .new(user: user,
+             model: instance(params),
+             contract_class: contract_class)
+        .call(params)
+    end
+
+    def after_save(_attributes_call)
+      # nothing for now but subclasses can override
+    end
+
     def instance(_params)
-      model
+      raise NotImplementedError
     end
 
     def default_contract_class
-      "#{namespace}::UpdateContract".constantize
+      raise NotImplementedError
+    end
+
+    def attributes_service_class
+      "#{namespace}::SetAttributesService".constantize
+    end
+
+    def instance_class
+      namespace.singularize.constantize
+    end
+
+    def namespace
+      self.class.name.deconstantize
     end
   end
 end

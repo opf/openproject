@@ -287,4 +287,21 @@ module ProjectsHelper
   def sorted_by_lft?
     @sort_criteria.first_key == 'lft'
   end
+
+  def allowed_parent_projects(project)
+    if project.persisted?
+      Projects::UpdateContract
+    else
+      Projects::CreateContract
+    end.new(project, current_user)
+       .assignable_parents
+  end
+
+  def short_project_description(project, length = 255)
+    unless project.description.present?
+      return ''
+    end
+
+    project.description.gsub(/\A(.{#{length}}[^\n\r]*).*\z/m, '\1...').strip
+  end
 end

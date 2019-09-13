@@ -56,11 +56,7 @@ class ProjectsController < ApplicationController
     @projects = load_projects query
     @custom_fields = ProjectCustomField.visible(User.current)
 
-    respond_to do |format|
-      format.html do
-        render layout: 'no_menu'
-      end
-    end
+    render layout: 'no_menu'
   end
 
   current_menu_item :index do
@@ -69,7 +65,12 @@ class ProjectsController < ApplicationController
 
   def new
     assign_default_create_variables
+
     @project = Project.new
+
+    Projects::SetAttributesService
+      .new(user: current_user, model: @project, contract_class: EmptyContract)
+      .call({})
 
     render layout: 'no_menu'
   end
@@ -79,41 +80,34 @@ class ProjectsController < ApplicationController
   end
 
   def create
-    assign_default_create_variables
+    call_result = Projects::CreateService
+                  .new(user: current_user)
+                  .call(permitted_params.project)
 
-    if validate_parent_id && @project.save
-      @project.set_allowed_parent!(params['project']['parent_id']) if params['project'].has_key?('parent_id')
-      add_current_user_to_project_if_not_admin(@project)
-      respond_to do |format|
-        format.html do
-          flash[:notice] = l(:notice_successful_create)
-          redirect_work_packages_or_overview
-        end
-      end
+    @project = call_result.result
+
+    if call_result.success?
+      flash[:notice] = t(:notice_successful_create)
+      redirect_work_packages_or_overview
     else
-      respond_to do |format|
-        format.html { render action: 'new', layout: 'no_menu' }
-      end
+      @errors = call_result.errors
+      assign_default_create_variables
+
+      render action: 'new', layout: 'no_menu'
     end
   end
 
   def update
     @altered_project = Project.find(@project.id)
 
-    # TODO: move the validation into the contract
-    #       move setting the allowed parents to the service
-    service = Projects::UpdateService
-              .new(user: current_user,
-                   model: @altered_project)
+    service_call = Projects::UpdateService
+                   .new(user: current_user,
+                        model: @altered_project)
+                   .call(permitted_params.project)
 
-    if validate_parent_id && service.call(permitted_params.project).success?
-      if params['project'].has_key?('parent_id')
-        @altered_project.set_allowed_parent!(params['project']['parent_id'])
-      end
-      flash[:notice] = l(:notice_successful_update)
-      OpenProject::Notifications.send('project_updated', project: @altered_project)
-    end
+    @errors = service_call.errors
 
+    flash[:notice] = l(:notice_successful_update) if service_call.success?
     redirect_to settings_project_path(@altered_project)
   end
 
@@ -231,17 +225,6 @@ class ProjectsController < ApplicationController
     @project = nil
   end
 
-  def add_current_user_to_project_if_not_admin(project)
-    unless User.current.admin?
-      r = Role.givable.find_by(id: Setting.new_project_user_role_id.to_i) || Role.givable.first
-      m = Member.new do |member|
-        member.principal = User.current
-        member.role_ids = [r].map(&:id) # member.roles = [r] fails, this works
-      end
-      project.members << m
-    end
-  end
-
   def load_query
     @query = ParamsToQueryService.new(Project, current_user).call(params)
 
@@ -271,9 +254,6 @@ class ProjectsController < ApplicationController
   def assign_default_create_variables
     @wp_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
     @types = ::Type.all
-
-    @project.parent = Project.find(params[:parent_id]) if params[:parent_id]
-    @project.attributes = permitted_params.project if params[:project].present?
   end
 
   protected
@@ -296,21 +276,6 @@ class ProjectsController < ApplicationController
                .per_page(per_page_param)
 
     filter_projects_by_permission projects
-  end
-
-  # Validates parent_id param according to user's permissions
-  # TODO: move it to Project model in a validation that depends on User.current
-  def validate_parent_id
-    return true if User.current.admin?
-    parent_id = permitted_params.project && params[:project][:parent_id]
-    if parent_id || @project.new_record?
-      parent = parent_id.blank? ? nil : Project.find_by(id: parent_id.to_i)
-      unless @project.allowed_parents.include?(parent)
-        @project.errors.add :parent_id, :invalid
-        return false
-      end
-    end
-    true
   end
 
   def update_demo_project_settings(project, value)

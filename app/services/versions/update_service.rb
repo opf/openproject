@@ -32,7 +32,7 @@ module Versions
   class UpdateService < ::BaseServices::Update
     private
 
-    def after_save
+    def after_save(*)
       model.touch if only_custom_values_updated?
       update_wps_from_sharing_change if model.saved_change_to_sharing?
     end

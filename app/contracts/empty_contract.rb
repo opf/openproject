@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2019 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,10 +28,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Roles
-  class SetAttributesService < ::BaseServices::SetAttributes
-    def set_default_attributes(*)
-      model.permissions = Role.non_member.permissions if model.permissions.nil? || model.permissions.empty?
-    end
+class EmptyContract
+  def initialize(*); end
+
+  def validate
+    true
   end
 end

@@ -294,8 +294,8 @@ module API
         end
 
         def allowed_users_href_callback
-          # for now we ASSUME that every customized that has a
-          # user custom field, will also define a project...
+          static_filters = allowed_users_static_filters
+
           ->(*) {
             project_id_value = if represented.respond_to?(:model) && represented.model.is_a?(Project)
                                  represented.id
@@ -303,15 +303,9 @@ module API
                                  represented.project_id.to_s
                                end
 
-            params = [{ status: { operator: '!',
-                                  values: [Principal::STATUSES[:builtin].to_s,
-                                           Principal::STATUSES[:locked].to_s] } },
-                      { type: { operator: '=', values: ['User'] } },
-                      { member: { operator: '=', values: [project_id_value.to_s] } }]
+            filters = static_filters << { member: { operator: '=', values: [project_id_value.to_s] } }
 
-            query = CGI.escape(::JSON.dump(params))
-
-            "#{api_v3_paths.principals}?filters=#{query}&pageSize=0"
+            api_v3_paths.path_for(:principals, filters: filters, page_size: 0)
           }
         end
 
@@ -353,6 +347,13 @@ module API
           else
             type
           end
+        end
+
+        def allowed_users_static_filters
+          [{ status: { operator: '!',
+                       values: [Principal::STATUSES[:builtin].to_s,
+                                Principal::STATUSES[:locked].to_s] } },
+           { type: { operator: '=', values: ['User'] } }]
         end
 
         module RepresenterClass

@@ -43,20 +43,10 @@ describe WorkPackages::SetAttributesService, type: :model do
     wp.type = FactoryBot.build_stubbed(:type)
     wp.send(:clear_changes_information)
 
-    allow(wp)
-      .to receive(:valid?)
-      .and_return(work_package_valid)
-
     wp
   end
   let(:new_work_package) do
-    wp = WorkPackage.new
-
-    allow(wp)
-      .to receive(:valid?)
-      .and_return(work_package_valid)
-
-    wp
+    WorkPackage.new
   end
   let(:contract_class) { WorkPackages::UpdateContract }
   let(:mock_contract) do
@@ -72,7 +62,6 @@ describe WorkPackages::SetAttributesService, type: :model do
     mock
   end
   let(:contract_valid) { true }
-  let(:work_package_valid) { true }
   let(:instance) do
     described_class.new(user: user,
                         model: work_package,
@@ -123,26 +112,6 @@ describe WorkPackages::SetAttributesService, type: :model do
           subject
 
           expect(subject.errors).to eql mock_contract_instance.errors
-        end
-      end
-
-      context 'when the work package is invalid' do
-        let(:work_package_valid) { false }
-
-        it 'is unsuccessful' do
-          expect(subject.success?).to be_falsey
-        end
-
-        it 'leaves the value unchanged' do
-          subject
-
-          expect(work_package.changed?).to be_truthy
-        end
-
-        it "exposes the work_packages's errors" do
-          subject
-
-          expect(subject.errors).to eql work_package.errors
         end
       end
     end
@@ -318,7 +287,6 @@ describe WorkPackages::SetAttributesService, type: :model do
         let(:call_attributes) { attributes }
         let(:attributes) { { start_date: Date.today - 5.days } }
         let(:contract_valid) { true }
-        let(:work_package_valid) { true }
         subject { instance.call(call_attributes) }
 
         it 'is successful' do

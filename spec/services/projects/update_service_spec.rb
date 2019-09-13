@@ -100,19 +100,46 @@ describe Projects::UpdateService, type: :model do
         .to eql project
     end
 
+    it 'sends an update notification' do
+      expect(OpenProject::Notifications)
+        .to receive(:send)
+        .with('project_updated', project: project)
+
+      subject
+    end
+
     context 'if the identifier is altered' do
       let(:call_attributes) { { identifier: 'Some identifier' } }
 
       before do
         allow(project)
-          .to receive(:saved_change_to_identifier?)
-          .and_return(true)
+          .to receive(:changes)
+          .and_return('identifier' => %w(lorem ipsum))
       end
 
       it 'sends the notification' do
         expect(OpenProject::Notifications)
           .to receive(:send)
+          .with('project_updated', project: project)
+        expect(OpenProject::Notifications)
+          .to receive(:send)
           .with('project_renamed', project: project)
+
+        subject
+      end
+    end
+
+    context 'if the parent is altered' do
+      before do
+        allow(project)
+          .to receive(:changes)
+          .and_return('parent_id' => [nil, 5])
+      end
+
+      it 'updates the versions associated with the work packages' do
+        expect(WorkPackage)
+          .to receive(:update_versions_from_hierarchy_change)
+          .with(project)
 
         subject
       end
