@@ -138,7 +138,7 @@ ca:
   label_valid_from: "Valid from"
   label_variable_cost_object: "Variable rate based budget"
   label_view_all_cost_objects: "View all budgets"
-  label_yes: "Si"
+  label_yes: "Sí"
   notice_cost_object_conflict: "WorkPackages must be of the same project."
   notice_no_cost_objects_available: "No budgets available."
   notice_something_wrong: "Something went wrong. Please try again."

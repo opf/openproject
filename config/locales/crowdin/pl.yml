@@ -609,7 +609,7 @@ pl:
       wiki: "Wiki"
       wiki_page: "Strona wiki"
       workflow: "Przepływ pracy"
-      work_package: "Pakiet roboczy"
+      work_package: "Zadanie"
       'doorkeeper/application': "Aplikacje OAuth"
   errors:
     header_invalid_fields: "Wystąpił problem z następującymi polami:"
@@ -626,7 +626,7 @@ pl:
     base: "Błąd ogólny:"
     blocks_ids: "Identyfikatory zablokowanych pakietów roboczych"
     category: "Kategoria"
-    comment: "Typ kosztu"
+    comment: "Komentarz"
     comments: "Komentarz"
     content: "Zawartość"
     color: "Kolor"
@@ -1054,7 +1054,7 @@ pl:
   general_csv_encoding: "UTF-8"
   general_csv_separator: "."
   general_first_day_of_week: "7"
-  general_lang_name: "Polski"
+  general_lang_name: "Angielski"
   general_pdf_encoding: "ISO-8859-2"
   general_text_no: "nie"
   general_text_yes: "tak"
@@ -1246,7 +1246,7 @@ pl:
   label_duplicated_by: "Powielone przez"
   label_duplicate: "duplikat"
   label_duplicates: "Duplikaty"
-  label_edit: "Edytuj"
+  label_edit: "Edycja"
   label_enable_multi_select: "Włącz wybór wielokrotny"
   label_enabled_project_custom_fields: 'Aktywne pola niestandardowe'
   label_enabled_project_modules: 'Aktywne moduły'
@@ -1340,7 +1340,7 @@ pl:
   label_loading: "Ładowanie..."
   label_lock_user: 'Zablokuj użytkownika'
   label_logged_as: "Zalogowany jako"
-  label_login: "Logowanie"
+  label_login: "Zaloguj"
   label_custom_logo: "Własne logo"
   label_custom_favicon: "Własny favicon"
   label_custom_touch_icon: "Własny touch icon"
@@ -2591,8 +2591,8 @@ pl:
       none_given: "Żadnym aplikacjom OAuth nie udzielono dostępu do tego konta użytkownika."
     x_active_tokens:
       one: 'jeden aktywny token'
-      few: '%{count} aktywnych tokenów'
-      many: '%{count} aktywnych tokenów'
+      few: '%{count} aktywne tokeny'
+      many: '%{count} active token'
       other: '%{count} aktywnych tokenów'
     flows:
       authorization_code: "Przepływ Kod autoryzacji"

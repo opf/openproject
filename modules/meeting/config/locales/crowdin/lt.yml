@@ -16,7 +16,7 @@ lt:
       meeting_agenda: "Dienotvarkė"
       meeting_minutes: "Minutės"
   description_attended: "būtinai dalyvavo"
-  description_invite: "pakviesta"
+  description_invite: "pakviestas"
   events:
     meeting: Pasitarimas redaguotas
     meeting_agenda: Pasitarimo darbotvarkė redaguota

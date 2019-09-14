@@ -83,7 +83,7 @@ sv:
   caption_show_locked: "Visa låst typer"
   cost_objects_title: "Budgetar"
   label_cost_type_plural: "Kostnadstyper"
-  currency_delimiter: " "
+  currency_delimiter: ";"
   currency_separator: ","
   description_date_for_new_rate: "Datum för nytt timpris"
   events:
@@ -106,7 +106,7 @@ sv:
   label_currency: "Valuta"
   label_currency_format: "Formatet för valuta"
   label_current_default_rate: "Nuvarande standardtimpris"
-  label_date_on: "den"
+  label_date_on: "på"
   label_deleted_cost_types: "Borttagna kostnadstyper"
   label_locked_cost_types: "Låsta kostnadstyper"
   label_deliverable: "Budget"

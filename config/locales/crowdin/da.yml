@@ -697,7 +697,7 @@ da:
   button_generate: "Generér"
   button_list: "Liste"
   button_lock: "Lås"
-  button_log_time: "Registrér tid"
+  button_log_time: "Tidsregistrering"
   button_login: "Log ind"
   button_move: "Flyt"
   button_move_and_follow: "Flyt og følg"
@@ -1214,7 +1214,7 @@ da:
   label_duplicated_by: "duplikeret gennem"
   label_duplicate: "duplicate"
   label_duplicates: "dubletter"
-  label_edit: "Redigér"
+  label_edit: "Rediger"
   label_enable_multi_select: "Vælg multivalg"
   label_enabled_project_custom_fields: 'Aktiverede brugerdefinerede felter'
   label_enabled_project_modules: 'Aktiverede moduler'

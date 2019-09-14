@@ -16,7 +16,7 @@ ar:
       meeting_agenda: "جدول الأعمال"
       meeting_minutes: "محضر الجلسة"
   description_attended: "حَضَر"
-  description_invite: "دعا"
+  description_invite: "مدعوّ"
   events:
     meeting: تحرير الاجتماع
     meeting_agenda: تحرير جدول أعمال الاجتماع
@@ -31,14 +31,14 @@ ar:
   label_meeting_edit: "تحرير الاجتماع"
   label_meeting_agenda: "جدول الأعمال"
   label_meeting_minutes: "محضر الجلسة"
-  label_meeting_close: "مُغلق"
+  label_meeting_close: "أغلِق"
   label_meeting_open: "مفتوح"
   label_meeting_agenda_close: "أغلِق جدول الأعمال للبدء في محضر الجلسة"
   label_meeting_date_time: "التاريخ/الوقت"
   label_meeting_diff: "الاختلاف"
   label_notify: "إرسال للمراجعة"
   label_icalendar: "إرسال iCalendar"
-  label_version: "النسخة"
+  label_version: "الإصدار"
   label_time_zone: "المنطقة الزمنية"
   label_start_date: "تاريخ البدء"
   notice_successful_notification: "تم إرسال الإشعار بنجاح"

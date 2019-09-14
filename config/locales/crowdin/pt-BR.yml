@@ -610,7 +610,7 @@ pt-BR:
     updated: "Atualizado: %{title}"
   attributes:
     active: "Ativo"
-    assigned_to: "Atribuição"
+    assigned_to: "Atribuído para"
     assignee: "Atribuído para"
     attachments: "Anexos"
     author: "Autor"
@@ -696,7 +696,7 @@ pt-BR:
   button_generate: "Gerar"
   button_list: "Lista"
   button_lock: "Bloquear"
-  button_log_time: "Registrar tempo"
+  button_log_time: "Registro de tempo"
   button_login: "Fazer login"
   button_move: "Mover"
   button_move_and_follow: "Mover e seguir"
@@ -2263,7 +2263,7 @@ pt-BR:
         date: "data"
         default: "padrão"
       column:
-        assigned_to: "Atribuição"
+        assigned_to: "Atribuído para"
         type: "Tipo"
         due_date: "Data de término"
         name: "Nome"

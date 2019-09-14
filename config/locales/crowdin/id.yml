@@ -692,7 +692,7 @@ id:
   button_generate: "Generate"
   button_list: "List"
   button_lock: "Lock"
-  button_log_time: "Log waktu"
+  button_log_time: "Catatan waktu"
   button_login: "Login"
   button_move: "Pindahkan"
   button_move_and_follow: "Pindahkan dan amati"

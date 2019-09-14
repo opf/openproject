@@ -1,6 +1,6 @@
 hu:
   button_save_as: "Mentés másként..."
-  comments: "Megjegyzés"
+  comments: "Vélemény"
   cost_reports_title: "Költség jelentések"
   label_cost_report: "Költség jelentés"
   description_drill_down: "Részletek megjelenítése"
@@ -25,7 +25,7 @@ hu:
   label_money: "Készpénz érték"
   label_month_reporting: "Hónap (eltöltött)"
   label_new_report: "Új költség-jelentés"
-  label_open: "nyitva"
+  label_open: "nyitott"
   label_operator: "Operátor"
   label_private_report_plural: "Privát költség jelentések"
   label_progress_bar_explanation: "Jelentés létrehozása..."

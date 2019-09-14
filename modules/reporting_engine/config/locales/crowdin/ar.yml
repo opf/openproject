@@ -3,7 +3,7 @@ ar:
   label_click_to_edit: "اضغط للتعديل."
   label_columns: "الأعمدة"
   label_count: "العد"
-  label_filter: "عامل التصفية"
+  label_filter: "فلترة"
   label_filter_add: "إضافة عامل تصفية"
   label_filter_plural: "عوامل التصفية"
   label_greater: ">"

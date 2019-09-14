@@ -232,7 +232,7 @@ zh-CN:
     label_filesize: "大小"
     label_greater_or_equal: ">="
     label_group: '组'
-    label_group_by: "分组按照"
+    label_group_by: "分组依据"
     label_hide_attributes: "隐藏显示"
     label_hide_column: "隐藏列"
     label_hide_project_menu: "折叠项目菜单"
@@ -676,7 +676,7 @@ zh-CN:
       query:
         column_names: "列"
         group_by: "汇总结果根据"
-        group: "分组按照"
+        group: "分组依据"
         group_by_disabled_by_hierarchy: "分组依据已禁用，因为层次结构模式处于活动状态。"
         hierarchy_disabled_by_group_by: "层次结构模式已禁用，因为结果依据 %{column} 分组。"
         sort_ascending: "升序排序"

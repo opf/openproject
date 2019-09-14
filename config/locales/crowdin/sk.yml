@@ -1554,7 +1554,7 @@ sk:
   label_used_by: "Používané"
   label_used_by_types: "Používa sa podľa typov"
   label_used_in_projects: "Použité v projektoch"
-  label_user: "Užívateľ"
+  label_user: "Užívateľ(ka)"
   label_user_and_permission: "Users & Permissions"
   label_user_named: "Užívateľ %{name}"
   label_user_activity: "Aktivita používateľa %{value}"
@@ -2594,8 +2594,8 @@ sk:
       none_given: "Žiadnym aplikáciám OAuth nebol udelený prístup k vášmu používateľskému účtu."
     x_active_tokens:
       one: 'one active token'
-      few: '%{count} aktívne tokeny'
-      many: '%{count} aktívne tokeny'
+      few: '%{count} aktívnych tokenov'
+      many: '%{count} aktívnych tokenov'
       other: '%{count} aktívne tokeny'
     flows:
       authorization_code: "Tok autorizácie"

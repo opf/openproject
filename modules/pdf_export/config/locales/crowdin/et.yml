@@ -6,7 +6,7 @@ et:
   label_export_card_configuration_new: "Uus eksportimise kaardi seadistus"
   label_export_card_configuration: "Eksportimise kaardi seadistus"
   label_export_card_configuration_plural: "Eksportimise kaardi seadistused"
-  label_export_card_activate: "Aktiveeri"
+  label_export_card_activate: "Aktiveerimine"
   label_export_card_deactivate: "Desaktiveeri"
   notice_export_card_configuration_activated: "Seaded on aktiveeritud"
   notice_export_card_configuration_deactivated: "Seaded on deaktiveeritud"
@@ -20,7 +20,7 @@ et:
   export_config_per_page: "Lehekülje kohta"
   export_config_page_size: "Lehekülje suurus"
   export_config_orientation: "Suund"
-  export_config_rows: "Ridasid"
+  export_config_rows: "Read"
   activerecord:
     attributes:
       export_card_configuration:

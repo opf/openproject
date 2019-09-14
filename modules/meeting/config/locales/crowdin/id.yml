@@ -16,7 +16,7 @@ id:
       meeting_agenda: "Agenda"
       meeting_minutes: "Laporan"
   description_attended: "hadir"
-  description_invite: "diundang"
+  description_invite: "invited"
   events:
     meeting: Rapat diedit
     meeting_agenda: Agenda rapat diedit
@@ -39,8 +39,8 @@ id:
   label_notify: "Kirim untuk ulasan"
   label_icalendar: "Kirim iCalendar"
   label_version: "Versi"
-  label_time_zone: "Zona waktu"
-  label_start_date: "Tanggal mulai"
+  label_time_zone: "Time Zone"
+  label_start_date: "Tanggal start"
   notice_successful_notification: "Berhasil mengirim notifikasi"
   notice_timezone_missing: Tidak ada zona waktu yang ditetapkan sehingga diasumsikan %{zone}. Untuk memilih zona waktu, silakan mengeklik di sini.
   permission_create_meetings: "Membuat rapat"

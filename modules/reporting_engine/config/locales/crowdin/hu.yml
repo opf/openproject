@@ -5,7 +5,7 @@ hu:
   label_count: "Darabszám"
   label_filter: "Szűrő"
   label_filter_add: "Szűrő hozzáadása"
-  label_filter_plural: "Szűrők"
+  label_filter_plural: "Szürő"
   label_greater: ">"
   label_group_by: "Csoportosítás"
   label_group_by_add: "Csoportosítási tulajdonság hozzáadása"
