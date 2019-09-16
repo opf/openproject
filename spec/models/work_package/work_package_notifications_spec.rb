@@ -72,7 +72,7 @@ describe WorkPackage, type: :model do
 
     describe 'after update' do
       before do
-        work_package.update_attributes subject: 'the wind of change'
+        work_package.update subject: 'the wind of change'
       end
 
       it "are sent to the work package's author" do
