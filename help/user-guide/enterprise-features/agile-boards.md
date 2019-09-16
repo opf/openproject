@@ -1,8 +1,4 @@
 ---
-
-
-
-
 title: Agile Boards
 description: How to get started with Boards for Scrum and Agile Project Management.
 robots: index, follow
@@ -29,7 +25,7 @@ Boards can be for anything you would like to keep track of within your projects:
 | [Add lists to your board](#add-lists-to-your-board)          | How to add lists to a board.                                 |
 | [Remove lists](#remove-lists)                                | How to remove lists from a board.                            |
 | [Add cards to a list](#add-cards-to-a-list)                  | How to add cards to a list in a board.                       |
-| [Update cards](https://www.openproject.org/step-by-step-guide-boards-for-scrum-and-agile-project-management/#update-cards) | How to update cards.                                         |
+| [Update cards](#update-cards)                                | How to update cards.                                         |
 | [Remove cards](#remove-cards)                                | How to remove cards.                                         |
 | [Manage boards](#manage-boards)                              | How to manage permissions for boards.                        |
 
