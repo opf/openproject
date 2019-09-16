@@ -46,6 +46,8 @@ describe 'OpenID Connect', type: :rails_request do
   end
 
   before do
+    allow(EnterpriseToken).to receive(:show_banners?).and_return(false)
+
     # The redirect will include an authorisation code.
     # Since we don't actually get a valid code in the test we will stub the resulting AccessToken.
     allow_any_instance_of(OpenIDConnect::Client).to receive(:access_token!) do
@@ -137,7 +139,7 @@ describe 'OpenID Connect', type: :rails_request do
   end
 
   context 'provider configuration through the settings' do
-    it 'should make providers that have been configured through settings available without requiring a restart' do
+    before do
       allow(Setting).to receive(:plugin_openproject_openid_connect).and_return(
         'providers' => {
           'google' => {
@@ -150,7 +152,16 @@ describe 'OpenID Connect', type: :rails_request do
           }
         }
       )
+    end
 
+    it 'will show no option unless EE' do
+      allow(EnterpriseToken).to receive(:show_banners?).and_return(true)
+      get '/login'
+      expect(response.body).not_to match /Google/i
+      expect(response.body).not_to match /Azure/i
+    end
+
+    it 'should make providers that have been configured through settings available without requiring a restart' do
       get '/login'
       expect(response.body).to match /Google/i
       expect(response.body).to match /Azure/i

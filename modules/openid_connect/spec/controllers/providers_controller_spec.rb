@@ -16,6 +16,7 @@ require 'spec_helper'
 
 describe ::OpenIDConnect::ProvidersController, type: :controller do
   let(:user) { FactoryBot.build_stubbed :admin }
+  let(:ee) { true }
 
   let(:valid_params) do
     {
@@ -27,6 +28,17 @@ describe ::OpenIDConnect::ProvidersController, type: :controller do
 
   before do
     login_as user
+    allow(EnterpriseToken).to receive(:show_banners?).and_return(!ee)
+  end
+
+  context 'when not ee' do
+    let(:ee) { false }
+
+    it 'renders upsale' do
+      get :index
+      expect(response.status).to eq 200
+      expect(response).to render_template 'openid_connect/providers/upsale'
+    end
   end
 
   context 'when not admin' do
