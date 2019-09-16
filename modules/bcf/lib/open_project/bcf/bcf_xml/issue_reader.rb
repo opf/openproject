@@ -399,7 +399,7 @@ module OpenProject::Bcf::BcfXml
     end
 
     def update_journal_attributes(bcf_comment, comment_data)
-      bcf_comment.journal.update_attributes(notes: comment_data[:comment],
+      bcf_comment.journal.update(notes: comment_data[:comment],
                                             created_at: comment_data[:modified_date])
       bcf_comment.journal.save
     end

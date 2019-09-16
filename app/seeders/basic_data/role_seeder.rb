@@ -35,7 +35,7 @@ module BasicData
         end
 
         builtin_roles.each do |attributes|
-          Role.find_by!(name: attributes[:name]).update_attributes(attributes)
+          Role.find_by!(name: attributes[:name]).update(attributes)
         end
       end
     end

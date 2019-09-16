@@ -122,7 +122,7 @@ describe 'Projects index page',
 
     feature 'for admins' do
       before do
-        project.update_attributes(created_on: 7.days.ago)
+        project.update(created_on: 7.days.ago)
 
         news
       end
@@ -632,7 +632,7 @@ describe 'Projects index page',
       # Remove public projects from the default list for these scenarios.
       public_project.update_attribute :status, Project::STATUS_ARCHIVED
 
-      project.update_attributes(created_on: 7.days.ago)
+      project.update(created_on: 7.days.ago)
 
       news
     end
