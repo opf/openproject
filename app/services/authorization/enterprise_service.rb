@@ -43,7 +43,8 @@ class Authorization::EnterpriseService
                        conditional_highlighting
                        readonly_work_packages
                        attachment_filters
-                       board_view).freeze
+                       board_view
+                       grid_widget_wp_graph).freeze
 
   def initialize(token)
     self.token = token
