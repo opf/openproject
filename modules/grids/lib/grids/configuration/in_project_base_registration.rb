@@ -22,6 +22,11 @@ module Grids::Configuration
         user.allowed_to?(:manage_public_queries, project)
     }
 
+    queries_permission_and_ee_lambda = ->(user, project) {
+      save_or_manage_queries_lambda.call(user, project) &&
+        EnterpriseToken.allows_to?(:grid_widget_wp_graph)
+    }
+
     view_work_packages_lambda = ->(user, project) {
       user.allowed_to?(:view_work_packages, project)
     }
@@ -37,7 +42,7 @@ module Grids::Configuration
     widget_strategy 'work_packages_graph' do
       after_destroy remove_query_lambda
 
-      allowed save_or_manage_queries_lambda
+      allowed queries_permission_and_ee_lambda
 
       options_representer '::API::V3::Grids::Widgets::ChartOptionsRepresenter'
     end
