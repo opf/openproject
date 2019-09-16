@@ -47,11 +47,22 @@ module OpenProject::Plugins
     end
 
     def self.providers_for(strategy)
-      strategies[strategy_key(strategy)].map(&:call).flatten.map(&:to_hash)
+      filtered_strategies strategies[strategy_key(strategy)].map(&:call).flatten.map(&:to_hash)
     end
 
     def self.providers
-      strategies.values.flatten.map(&:call).flatten.map(&:to_hash)
+      filtered_strategies strategies.values.flatten.map(&:call).flatten.map(&:to_hash)
+    end
+
+    def self.filtered_strategies(options)
+      options.select do |provider|
+        name = provider[:name]&.to_s
+        next true if !EnterpriseToken.show_banners? || name == 'developer'
+
+        warn_unavailable(name)
+
+        false
+      end
     end
 
     def self.strategy_key(strategy)
@@ -66,11 +77,19 @@ module OpenProject::Plugins
 
       [camelization, name].compact.first.underscore.to_sym
     end
+
+    def self.warn_unavailable(name)
+      RequestStore.fetch("warn_unavailable_auth_#{name}") do
+        Rails.logger.warn { "OmniAuth SSO strategy #{name} is only available for Enterprise Editions." }
+        true
+      end
+    end
   end
 
   class ProviderBuilder
     def strategy(strategy, &providers)
       key = AuthPlugin.strategy_key(strategy)
+
       if AuthPlugin.strategies.include? key
         AuthPlugin.strategies[key] << providers
       else

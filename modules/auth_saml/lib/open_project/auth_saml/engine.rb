@@ -33,6 +33,7 @@ module OpenProject
       register_auth_providers do
         settings = Rails.root.join('config', 'plugins', 'auth_saml', 'settings.yml')
         if settings.exist?
+          Rails.logger.info("[auth_saml] Registering saml integration from 'config/plugins/auth_saml/settings.yml'")
           providers = YAML::load(File.open(settings)).symbolize_keys
           strategy :saml do
             providers.values.map do |h|
@@ -45,8 +46,6 @@ module OpenProject
               h.symbolize_keys
             end
           end
-        else
-          Rails.logger.warn("[auth_saml] Missing settings from '#{settings}', skipping omniauth registration.")
         end
       end
     end
