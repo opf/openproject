@@ -27,9 +27,9 @@ The current month is automatically selected. You can change the  date range betw
 
 Hovering over one item displays more information to a work package, such as the type, status, start and finish date, assignee and priority, as well as the project to which the work package belongs.
 
-![calendar](C:\Users\BirtheLindenthal\AppData\Roaming\Typora\typora-user-images\1568636119913.png)
+Click on one item to open the work package details or to edit an item.
 
-
+![calendar](1568639577828.png)
 
 ## Filters in calendar
 
@@ -41,7 +41,7 @@ To add another filter criteria, select the drop down next to **+ Add filter** an
 
 The number of different filter criteria is displayed on the filter button.
 
-![filter-calendar](G:\Meine Ablage\Marketing\Website\Hilfe\Screenshots\filter-calendar.png)
+![filter-calendar](filter-calendar.png)
 
 You can also display the calendar on the dashboard in the [project overview page](#project-overview).
 
@@ -53,7 +53,7 @@ Click the **Activate zen mode** button on the top of the calendar.
 
 Click Excape (Esc) to leave the Zen mode.
 
-![zen-calendar](G:\Meine Ablage\Marketing\Website\Hilfe\Screenshots\zen-calendar.png)
+![zen-calendar](zen-calendar.png)
 
 ## Project overarching calendar
 
@@ -63,7 +63,7 @@ Open the filter and select subproject as filter criteria.
 
 Choose the sub-projects which you also want to display in the calendar view.
 
-![subproject-calendar](G:\Meine Ablage\Marketing\Website\Hilfe\Screenshots\subproject-calendar.png)
+![subproject-calendar](subproject-calendar.png)
 
 It is not possible to add work packages from projects which are not in a project hierarchy.
 

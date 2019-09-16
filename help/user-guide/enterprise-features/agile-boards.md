@@ -92,16 +92,16 @@ To remove lists, click on the three dots next to a list's title, and select **De
 
 You can add cards to a list. Cards represent a [work package](https://www.openproject.org/help/work-packages/) in OpenProject. They can be any kind of work within a project, e.g. a Task, a Bug, a Feature, a Risk, anything.
 
- 	![OpenProject-Boards_cards](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2019/05/OpenProject-Boards_cards-1024x559.png) 
+![OpenProject-Boards_cards](OpenProject-Boards_cards-1568639967764.png) 
 
 Click **+** under the lists' title to add a card: create a new card or choose an existing work package and add it as a card to your list.
 
- 	![OpenProject-Boards_add-cards](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2019/05/OpenProject-Boards_add-cards.png) 
+ ![OpenProject-Boards_add-cards](OpenProject-Boards_add-cards-1568640084027.png)
 
 **Add new card**: enter a title and click Enter.
 **Add existing**: enter an existing title or an ID and click Enter.
 
- 	![OpenProject-Boards_create-cards](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2019/05/OpenProject-Boards_create-cards.png) 
+![OpenProject-Boards_create-cards](OpenProject-Boards_create-cards-1568640108117.png)
 
 ### Update cards
 
@@ -109,21 +109,21 @@ You can update cards in the following ways:
 
 **Move cards with drag and drop** within a list or to a new list. Remember: moving cards to another list in an Action board will update their attributes, e.g. Status.
 
- 	![OpenProject-Boards_update-cards](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2019/05/OpenProject-Boards_update-cards-1024x443.png) 
+![OpenProject-Boards_update-cards](OpenProject-Boards_update-cards-1568640157240.png) 
 
 **Update status** in a Basic board directly in the card.
 
- 	![OpenProject-Boards_update-status](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2019/05/OpenProject-Boards_update-status.png) 
+ ![OpenProject-Boards_update-status](OpenProject-Boards_update-status-1568640175105.png)
 
 A **double click on a card** will open the **details view.** The **arrow** on top will bring you back to the boards view.
 
- 	![OpenProject-Boards_card-details](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2019/05/OpenProject-Boards_card-details-1024x709.png) 
+ ![OpenProject-Boards_card-details](OpenProject-Boards_card-details-1568640191629.png)
 
 ### Remove cards
 
 To remove a card from a **Basic board** hover over the card and press the **X**.
 
- 	![OpenProject-Boards_remove-cards](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2019/05/OpenProject-Boards_remove-cards.png) 
+ ![OpenProject-Boards_remove-cards](OpenProject-Boards_remove-cards-1568640218366.png)
 
 Cards from **Actions boards** will be removed automatically from a list as soon as the respective attribute (e.g. Status) is changed.
 
@@ -131,8 +131,8 @@ Cards from **Actions boards** will be removed automatically from a list as soon 
 
 To **create new** boards, **open existing** boards, or **delete** boards, navigate to the main Boards menu item.
 
- 	![OpenProject-manage-boards](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2019/05/OpenProject-manage-boards-1024x221.png) 
+ ![OpenProject-manage-boards](OpenProject-manage-boards-1568640234856.png)
 
 Verify and **update roles and permissions for boards** in the system's Administration.
 
- 	![OpenProject-Boards_manage-permissions](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2019/05/OpenProject-Boards_manage-permissions-1024x461.png) 
+ ![OpenProject-Boards_manage-permissions](OpenProject-Boards_manage-permissions-1568640266543.png)
