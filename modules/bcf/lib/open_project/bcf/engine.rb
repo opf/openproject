@@ -70,6 +70,7 @@ module OpenProject::Bcf
     patches %i[WorkPackage Type Journal]
 
     patch_with_namespace :BasicData, :SettingSeeder
+    patch_with_namespace :BasicData, :RoleSeeder
     patch_with_namespace :API, :V3, :Activities, :ActivityRepresenter
     patch_with_namespace :Journal, :AggregatedJournal
     patch_with_namespace :API, :V3, :Activities, :ActivitiesSharedHelpers
