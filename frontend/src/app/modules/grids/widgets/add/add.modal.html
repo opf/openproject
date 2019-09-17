@@ -21,5 +21,11 @@
            class="grid--addable-widget" >
       </div>
     </div>
+
+    <enterprise-banner *ngIf="eeShowBanners"
+                       [linkMessage]="text.upsale_link"
+                       [textMessage]="text.upsale_text"
+                       opReferrer="grids#add-widget">
+    </enterprise-banner>
   </div>
 </div>
