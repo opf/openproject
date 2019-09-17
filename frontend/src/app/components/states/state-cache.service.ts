@@ -108,10 +108,9 @@ export abstract class StateCacheService<T> {
 
     // Refresh when stale or being forced
     if (this.stale(state) || force) {
-      return this.load(id).then(wp => {
-        state.putValue(wp);
-        return wp;
-      });
+      let promise = this.load(id);
+      state.clearAndPutFromPromise(promise);
+      return promise;
     }
 
     return state.valuesPromise() as Promise<T>;
@@ -167,6 +166,11 @@ export abstract class StateCacheService<T> {
    * @return {boolean}
    */
   protected stale(state:InputState<T>):boolean {
+    // If there is an active request that is still pending
+    if (state.hasActivePromiseRequest()) {
+      return false;
+    }
+
     return state.isPristine() || state.isValueOlderThan(this.cacheDurationInMs);
   }
 

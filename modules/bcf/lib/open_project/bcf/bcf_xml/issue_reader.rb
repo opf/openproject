@@ -63,7 +63,7 @@ module OpenProject::Bcf::BcfXml
     ##
     # Handle unknown types during import
     def treat_unknown_types
-      if aggregations.unknown_types.any?
+      if aggregations.unknown_types.present?
         if import_options[:unknown_types_action] == 'use_default'
           replace_type_with(::Type.default.first&.name)
         elsif import_options[:unknown_types_action] == 'chose' && import_options[:unknown_types_chose_ids].any?
@@ -83,7 +83,7 @@ module OpenProject::Bcf::BcfXml
     ##
     # Handle unknown statuses during import
     def treat_unknown_statuses
-      if aggregations.unknown_statuses.any?
+      if aggregations.unknown_statuses.present?
         if import_options[:unknown_statuses_action] == 'use_default'
           replace_status_with(::Status.default&.name)
         elsif import_options[:unknown_statuses_action] == 'chose' && import_options[:unknown_statuses_chose_ids].any?
@@ -103,7 +103,7 @@ module OpenProject::Bcf::BcfXml
     ##
     # Handle unknown priorities during import
     def treat_unknown_priorities
-      if aggregations.unknown_priorities.any?
+      if aggregations.unknown_priorities.present?
         if import_options[:unknown_priorities_action] == 'use_default'
           # NOP The 'use_default' case gets already covered by OP.
         elsif import_options[:unknown_priorities_action] == 'chose' && import_options[:unknown_priorities_chose_ids].any?

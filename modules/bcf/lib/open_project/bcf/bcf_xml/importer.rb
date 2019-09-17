@@ -45,7 +45,7 @@ module OpenProject::Bcf::BcfXml
     def import!(options = {})
       options = DEFAULT_IMPORT_OPTIONS.merge(options)
       Zip::File.open(@file) do |zip|
-        apply_import_replacements(options)
+        create_or_add_missing_members(options)
 
         # Extract all topics of the zip and save them
         synchronize_topics(zip, options)
@@ -62,7 +62,7 @@ module OpenProject::Bcf::BcfXml
 
     private
 
-    def apply_import_replacements(options)
+    def create_or_add_missing_members(options)
       treat_invalid_people(options)
       treat_unknown_mails(options)
       treat_non_members(options)
@@ -157,6 +157,7 @@ module OpenProject::Bcf::BcfXml
                                   current_user: current_user,
                                   import_options: import_options,
                                   aggregations: aggregations).extract!
+
           if issue.errors.blank?
             issue.save
           end

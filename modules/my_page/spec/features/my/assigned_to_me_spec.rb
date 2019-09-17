@@ -175,6 +175,9 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
 
     # exists as default
     assigned_area.expect_to_exist
+
+    sleep(0.5)
+
     assigned_area.resize_to(1, 2)
 
     sleep(0.1)

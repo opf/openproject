@@ -85,12 +85,15 @@ describe 'Arbitrary WorkPackage query graph widget dashboard', type: :feature, j
   let(:dashboard_page) do
     Pages::Dashboard.new(project)
   end
+  let(:enterprise_edition) { true }
 
   let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
   let(:filters) { ::Components::WorkPackages::TableConfiguration::Filters.new }
   let(:general) { ::Components::WorkPackages::TableConfiguration::GraphGeneral.new }
 
   before do
+    with_enterprise_token(enterprise_edition ? :grid_widget_wp_graph : nil)
+
     login_as user
 
     dashboard_page.visit!
@@ -106,7 +109,7 @@ describe 'Arbitrary WorkPackage query graph widget dashboard', type: :feature, j
 
       filter_area.expect_to_span(1, 1, 2, 2)
 
-      sleep(0.1)
+      sleep(0.5)
 
       # User has the ability to modify the query
 
@@ -147,6 +150,14 @@ describe 'Arbitrary WorkPackage query graph widget dashboard', type: :feature, j
 
     it 'cannot add the widget' do
       dashboard_page.expect_unable_to_add_widget(1, 1, :within, "Work packages graph")
+    end
+  end
+
+  context 'without an enterprise edition' do
+    let(:enterprise_edition) { false }
+
+    it 'cannot add the widget' do
+      dashboard_page.expect_unable_to_add_widget(1, 2, :within, "Work packages graph")
     end
   end
 end

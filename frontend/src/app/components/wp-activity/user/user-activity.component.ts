@@ -158,6 +158,7 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
 
   public activate() {
     super.activate(this.activity.comment.raw);
+    this.cdRef.detectChanges();
   }
 
   public handleUserSubmit() {
