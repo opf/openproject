@@ -14,6 +14,7 @@ import {DragAndDropHelpers} from "core-app/modules/common/drag-and-drop/drag-and
 import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
 import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
+import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 
 export class DragAndDropTransformer {
 
@@ -25,6 +26,7 @@ export class DragAndDropTransformer {
   private readonly wpTableSortBy = this.injector.get(WorkPackageViewSortByService);
   private readonly wpTableOrder = this.injector.get(WorkPackageViewOrderService);
   private readonly browserDetector = this.injector.get(BrowserDetector);
+  private readonly wpCacheService = this.injector.get(WorkPackageCacheService);
 
   private readonly dragActionRegistry = this.injector.get(TableDragActionsRegistryService);
 
@@ -132,10 +134,10 @@ export class DragAndDropTransformer {
   /**
    * Update current rendered order
    */
-  private updateRenderedOrder(order:string[]) {
+  private async updateRenderedOrder(order:string[]) {
     order = _.uniq(order);
 
-    const mappedOrder = order.map(id => this.states.workPackages.get(id).value!);
+    const mappedOrder = await Promise.all(order.map(id => this.wpCacheService.require(id)));
 
     /** Re-render the table */
     this.table.initialSetup(mappedOrder);
