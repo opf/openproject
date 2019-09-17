@@ -447,4 +447,108 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       end
     end
   end
+
+  describe '#delete /api/v3/projects/:id' do
+    let(:path) { api_v3_paths.project(project.id) }
+    let(:setup) { }
+
+    before do
+      login_as current_user
+
+      setup
+
+      delete path
+    end
+
+    subject { last_response }
+
+    context 'with required permissions (admin)' do
+      let(:current_user) { FactoryBot.create(:admin) }
+
+      it 'responds with HTTP No Content' do
+        expect(subject.status).to eq 204
+      end
+
+      it 'deletes the project' do
+        expect(Project.exists?(project.id)).to be_falsey
+      end
+
+      context 'for a project with work packages' do
+        let(:work_package) { FactoryBot.create(:work_package, project: project) }
+        let(:setup) { work_package }
+
+        it 'deletes the work packages' do
+          expect(WorkPackage.exists?(work_package.id)).to be_falsey
+        end
+      end
+
+      context 'for a project with members' do
+        let(:member) do
+          FactoryBot.create(:member,
+                            project: project,
+                            principal: current_user,
+                            roles: [FactoryBot.create(:role)])
+        end
+        let(:member_role) { member.member_roles.first }
+        let(:setup) do
+          member
+          member_role
+        end
+
+        it 'deletes the member' do
+          expect(Member.exists?(member.id)).to be_falsey
+        end
+
+        it 'deletes the MemberRole' do
+          expect(MemberRole.exists?(member_role.id)).to be_falsey
+        end
+      end
+
+      context 'for a project with a forum' do
+        let(:forum) do
+          FactoryBot.create(:forum,
+                            project: project)
+        end
+        let(:setup) do
+          forum
+        end
+
+        it 'deletes the forum' do
+          expect(Forum.exists?(forum.id)).to be_falsey
+        end
+      end
+
+      context 'for a non-existent project' do
+        let(:path) { api_v3_paths.project 0 }
+
+        it_behaves_like 'not found' do
+          let(:id) { 0 }
+          let(:type) { 'Project' }
+        end
+      end
+
+      context 'for a project which has a version foreign work packages refer to' do
+        let(:version) { FactoryBot.create(:version, project: project) }
+        let(:work_package) { FactoryBot.create(:work_package, fixed_version: version) }
+
+        let(:setup) { work_package }
+
+        it 'responds with 422' do
+          expect(subject.status).to eq 422
+        end
+
+        it 'explains the error' do
+          expect(subject.body)
+            .to be_json_eql(I18n.t(:'activerecord.errors.models.project.foreign_wps_reference_version').to_json)
+            .at_path('message')
+        end
+      end
+    end
+
+    context 'without required permissions' do
+      it 'responds with 403' do
+        expect(subject.status).to eq 403
+      end
+    end
+  end
 end

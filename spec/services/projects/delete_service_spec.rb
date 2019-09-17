@@ -28,82 +28,49 @@
 
 require 'spec_helper'
 
-describe ::Projects::DeleteProjectService, type: :model do
+describe ::Projects::DeleteService, type: :model do
   let(:user) { FactoryBot.build_stubbed(:admin) }
   let(:project) { FactoryBot.build_stubbed(:project) }
 
-  let(:instance) { described_class.new(user: user, project: project) }
-  let(:params) {  }
+  let(:instance) { described_class.new(user: user, model: project) }
 
-  subject { instance.call(params) }
+  subject { instance.call }
 
-  context 'when delayed' do
-    let(:params) { { delayed: true } }
+  context 'if authorized' do
+    it 'destroys the project and sends a success mail' do
+      expect(project).not_to receive(:archive)
+      expect(project).to receive(:destroy).and_return true
 
-    context 'when authorized' do
-      it 'archives the project and creates a delayed job' do
-        expect(project).to receive(:archive)
-        
-        expect(::Projects::DeleteProjectJob)
-          .to receive(:new)
-          .with(user_id: user.id, project_id: project.id)
-          .and_call_original
+      expect(ProjectMailer)
+        .to receive_message_chain(:delete_project_completed, :deliver_now)
 
-        expect(subject).to be_success
-      end
+      expect(::Projects::DeleteProjectJob)
+        .not_to receive(:new)
+
+      expect(subject).to be_success
     end
 
-    context 'when not authorized' do
-      let(:user) { FactoryBot.build_stubbed(:user) }
+    it 'sends a message on destroy failure' do
+      expect(project).to receive(:destroy).and_return false
 
-      it 'returns an error' do
-        expect(::Projects::DeleteProjectJob)
-          .not_to receive(:new)
+      expect(ProjectMailer)
+        .to receive_message_chain(:delete_project_failed, :deliver_now)
 
-        expect(subject).to be_failure
-      end
+      expect(::Projects::DeleteProjectJob)
+        .not_to receive(:new)
+
+      expect(subject).to be_failure
     end
   end
 
-  context 'when not delayed' do
-    let(:params) { { delayed: false } }
+  context 'if not authorized' do
+    let(:user) { FactoryBot.build_stubbed(:user) }
 
-    context 'when authorized' do
-      it 'destroys the project and sends a success mail' do
-        expect(project).not_to receive(:archive)
-        expect(project).to receive(:destroy).and_return true
+    it 'returns an error' do
+      expect(::Projects::DeleteProjectJob)
+        .not_to receive(:new)
 
-        expect(ProjectMailer)
-          .to receive_message_chain(:delete_project_completed, :deliver_now)
-
-        expect(::Projects::DeleteProjectJob)
-          .not_to receive(:new)
-
-        expect(subject).to be_success
-      end
-
-      it 'sends a message on destroy failure' do
-        expect(project).to receive(:destroy).and_return false
-
-        expect(ProjectMailer)
-          .to receive_message_chain(:delete_project_failed, :deliver_now)
-
-        expect(::Projects::DeleteProjectJob)
-          .not_to receive(:new)
-
-        expect(subject).to be_failure
-      end
-    end
-
-    context 'when not authorized' do
-      let(:user) { FactoryBot.build_stubbed(:user) }
-
-      it 'returns an error' do
-        expect(::Projects::DeleteProjectJob)
-          .not_to receive(:new)
-
-        expect(subject).to be_failure
-      end
+      expect(subject).to be_failure
     end
   end
 end

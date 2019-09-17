@@ -98,7 +98,7 @@ describe Project, type: :model do
 
   it 'should members should be active users' do
     Project.all.each do |project|
-      assert_nil project.members.detect { |m| !(m.user.is_a?(User) && m.user.active?) }
+      assert_nil project.members.detect { |m| !(m.principal.is_a?(User) && m.principal.active?) }
     end
   end
 
@@ -106,98 +106,6 @@ describe Project, type: :model do
     Project.all.each do |project|
       assert_nil project.users.detect { |u| !(u.is_a?(User) && u.active?) }
     end
-  end
-
-  it 'should archive' do
-    user = @ecookbook.members.first.user
-    @ecookbook.archive
-    @ecookbook.reload
-
-    assert !@ecookbook.active?
-    assert @ecookbook.archived?
-    assert !user.projects.include?(@ecookbook)
-    # Subproject are also archived
-    assert !@ecookbook.children.empty?
-    assert @ecookbook.descendants.active.empty?
-  end
-
-  it 'should archive should fail if versions are used by non descendant projects' do
-    # Assign an issue of a project to a version of a child project
-    WorkPackage.find(4).update_attribute :fixed_version_id, 4
-
-    assert_no_difference "Project.where('status = #{Project::STATUS_ARCHIVED}').count" do
-      assert_equal false, @ecookbook.archive
-    end
-    @ecookbook.reload
-    assert @ecookbook.active?
-  end
-
-  it 'should unarchive' do
-    user = @ecookbook.members.first.user
-    @ecookbook.archive
-    # A subproject of an archived project can not be unarchived
-    assert !@ecookbook_sub1.unarchive
-
-    # Unarchive project
-    assert @ecookbook.unarchive
-    @ecookbook.reload
-    assert @ecookbook.active?
-    assert !@ecookbook.archived?
-    assert user.projects.include?(@ecookbook)
-    # Subproject can now be unarchived
-    @ecookbook_sub1.reload
-    assert @ecookbook_sub1.unarchive
-  end
-
-  # fails because @ecookbook.issues[5 und 6].destroy fails
-  # because ActiveRecord::StaleObjectError
-  it 'should destroy' do
-    # 2 active members
-    assert_equal 2, @ecookbook.members.size
-    # and 1 is locked
-    assert_equal 3, Member.where(['project_id = ?', @ecookbook.id]).size
-    # some forums
-    assert @ecookbook.forums.any?
-
-    @ecookbook.destroy
-    # make sure that the project non longer exists
-    assert_raises(ActiveRecord::RecordNotFound) do Project.find(@ecookbook.id) end
-    # make sure related data was removed
-    assert_equal 0, Member.where(project_id: @ecookbook.id).count
-    assert_equal 0, Forum.where(project_id: @ecookbook.id).count
-    assert_equal 0, WorkPackage.where(project_id: @ecookbook.id).count
-  end
-
-  it 'should destroying root projects should clear data' do
-    Journal.destroy_all
-    WorkPackage.all.each(&:recreate_initial_journal!)
-
-    Project.roots.each(&:destroy)
-
-    assert_equal 0, Project.count, "Projects were not deleted: #{Project.all.inspect}"
-    assert_equal 0, Member.count, "Members were not deleted: #{Member.all.inspect}"
-    assert_equal 0, MemberRole.count
-    assert_equal 0, WorkPackage.count
-    assert_equal 0, Journal.count, "Journals were not deleted: #{Journal.all.inspect}"
-    assert_equal 0, EnabledModule.count
-    assert_equal 0, Category.count
-    assert_equal 0, Relation.count
-    assert_equal 0, Forum.count
-    assert_equal 0, Message.count
-    assert_equal 0, News.count
-    assert_equal 0, Query.where('project_id IS NOT NULL').count
-    assert_equal 0, Repository.count
-    assert_equal 0, Changeset.count
-    assert_equal 0, Change.count
-    assert_equal 0, Comment.count
-    assert_equal 0, TimeEntry.count
-    assert_equal 0, Version.count
-    assert_equal 0, Watcher.count
-    assert_equal 0, Wiki.count
-    assert_equal 0, WikiPage.count
-    assert_equal 0, WikiContent.count
-    assert_equal 0, Project.connection.select_all('SELECT * FROM custom_fields_projects').to_a.size
-    assert_equal 0, CustomValue.where(customized_type: ['Project', 'Issue', 'TimeEntry', 'Version']).count
   end
 
   it 'should parent' do
@@ -258,7 +166,10 @@ describe Project, type: :model do
     parent.types = ::Type.find([1, 2])
     child = parent.children.find(3)
     child.types = ::Type.find([1, 3])
-    parent.children.each(&:archive)
+    parent.children.each do |child|
+      child.archived!
+      child.children.each(&:archived!)
+    end
 
     assert_equal [1, 2], parent.rolled_up_types.map(&:id)
   end
@@ -334,7 +245,7 @@ describe Project, type: :model do
   it 'should shared versions should ignore archived subprojects' do
     parent = Project.find(1)
     child = parent.children.find(3)
-    child.archive
+    child.archived!
     parent.reload
 
     assert_equal [1, 2, 3], parent.version_ids.sort

@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2019 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,42 +25,38 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Versions
-  class UpdateService < ::BaseServices::Update
-    private
+require 'spec_helper'
 
-    def after_perform(service_call)
-      model.touch if only_custom_values_updated?
-      update_wps_from_sharing_change if model.saved_change_to_sharing?
-      service_call
+describe Projects::ArchiveContract do
+  let(:project) { FactoryBot.build_stubbed(:project) }
+
+  subject(:contract) { described_class.new(project, current_user) }
+
+  def expect_valid(valid, symbols = {})
+    expect(contract.validate).to eq(valid)
+
+    symbols.each do |key, arr|
+      expect(contract.errors.symbols_for(key)).to match_array arr
     end
+  end
 
-    # Update the issue's fixed versions. Used if a version's sharing changes.
-    def update_wps_from_sharing_change
-      if no_valid_version_before_or_now? ||
-         sharing_now_less_broad?
-        WorkPackage.update_versions_from_sharing_change model
-      end
+  context 'when user is admin' do
+    let(:current_user) { FactoryBot.build_stubbed :admin }
+
+    it 'is valid' do
+      expect_valid(true)
     end
+  end
 
-    def only_custom_values_updated?
-      !model.saved_changes? && model.custom_values.any?(&:saved_changes?)
-    end
+  context 'when user is not admin' do
+    let(:current_user) { FactoryBot.build_stubbed :user }
+    let(:permissions) { [] }
 
-    def no_valid_version_before_or_now?
-      version_sharings.index(model.sharing_before_last_save).nil? ||
-        version_sharings.index(model.sharing).nil?
-    end
-
-    def sharing_now_less_broad?
-      version_sharings.index(model.sharing_before_last_save) > version_sharings.index(model.sharing)
-    end
-
-    def version_sharings
-      Version::VERSION_SHARINGS
+    it 'is invalid' do
+      expect_valid(false, base: %i(error_unauthorized))
     end
   end
 end

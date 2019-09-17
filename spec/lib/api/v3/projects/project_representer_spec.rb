@@ -169,7 +169,7 @@ describe ::API::V3::Projects::ProjectRepresenter do
 
           it 'has the correct path to create a work package' do
             is_expected.to be_json_eql(api_v3_paths.work_packages_by_project(project.id).to_json)
-              .at_path('_links/createWorkPackageImmediate/href')
+              .at_path('_links/createWorkPackageImmediately/href')
           end
         end
 
@@ -181,7 +181,7 @@ describe ::API::V3::Projects::ProjectRepresenter do
           end
 
           it_behaves_like 'has no link' do
-            let(:link) { 'createWorkPackageImmediate' }
+            let(:link) { 'createWorkPackageImmediately' }
           end
         end
       end
@@ -331,6 +331,67 @@ describe ::API::V3::Projects::ProjectRepresenter do
             is_expected
               .to be_json_eql(api_v3_paths.version(version.id).to_json)
                     .at_path("_links/customField#{version_custom_field.id}/href")
+          end
+        end
+      end
+
+      describe 'update' do
+        context 'for a user having the edit_project permission' do
+          let(:permissions) { [:edit_project] }
+
+          it_behaves_like 'has an untitled link' do
+            let(:link) { 'update' }
+            let(:href) { api_v3_paths.project_form project.id }
+          end
+        end
+
+        context 'for a user lacking the edit_project permission' do
+          let(:permissions) { [] }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'update' }
+          end
+        end
+      end
+
+      describe 'updateImmediately' do
+        context 'for a user having the edit_project permission' do
+          let(:permissions) { [:edit_project] }
+
+          it_behaves_like 'has an untitled link' do
+            let(:link) { 'updateImmediately' }
+            let(:href) { api_v3_paths.project project.id }
+          end
+        end
+
+        context 'for a user lacking the edit_project permission' do
+          let(:permissions) { [] }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'updateImmediately' }
+          end
+        end
+      end
+
+      describe 'delete' do
+        context 'for a user being admin' do
+          before do
+            allow(user)
+              .to receive(:admin?)
+              .and_return(true)
+          end
+
+          it_behaves_like 'has an untitled link' do
+            let(:link) { 'delete' }
+            let(:href) { api_v3_paths.project project.id }
+          end
+        end
+
+        context 'for a non admin user' do
+          let(:permissions) { [] }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'delete' }
           end
         end
       end

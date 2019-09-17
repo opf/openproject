@@ -50,7 +50,7 @@ module API
           }
         end
 
-        link :createWorkPackageImmediate,
+        link :createWorkPackageImmediately,
              cache_if: -> { current_user_allowed_to(:add_work_packages, context: represented) } do
           {
             href: api_v3_paths.work_packages_by_project(represented.id),
@@ -92,6 +92,34 @@ module API
                  current_user_allowed_to(:manage_types, context: represented)
              } do
           { href: api_v3_paths.types_by_project(represented.id) }
+        end
+
+        link :update,
+             cache_if: -> {
+               current_user_allowed_to(:edit_project, context: represented)
+             } do
+          {
+            href: api_v3_paths.project_form(represented.id),
+            method: :post
+          }
+        end
+
+        link :updateImmediately,
+             cache_if: -> {
+               current_user_allowed_to(:edit_project, context: represented)
+             } do
+          {
+            href: api_v3_paths.project(represented.id),
+            method: :patch
+          }
+        end
+
+        link :delete,
+             cache_if: -> { current_user.admin? } do
+          {
+            href: api_v3_paths.project(represented.id),
+            method: :delete
+          }
         end
 
         associated_resource :parent,

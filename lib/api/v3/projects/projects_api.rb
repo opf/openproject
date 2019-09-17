@@ -26,8 +26,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/projects/project_representer'
-
 module API
   module V3
     module Projects
@@ -59,6 +57,9 @@ module API
 
             get &::API::V3::Utilities::Endpoints::Show.new(model: Project).mount
             patch &::API::V3::Utilities::Endpoints::Update.new(model: Project).mount
+            delete &::API::V3::Utilities::Endpoints::Delete.new(model: Project,
+                                                                process_service: ::Projects::ScheduleDeletionService)
+                                                           .mount
 
             mount ::API::V3::Projects::UpdateFormAPI
 

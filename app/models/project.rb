@@ -172,9 +172,6 @@ class Project < ActiveRecord::Base
 
   friendly_id :identifier, use: :finders
 
-  before_destroy :delete_all_members
-  before_destroy :destroy_all_work_packages
-
   scope :has_module, ->(mod) {
     where(["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s])
   }
@@ -294,48 +291,19 @@ class Project < ActiveRecord::Base
     cond
   end
 
-  # TODO: Move into ArchiveService
-  # Archives the project and its descendants
-  def archive
-    # Check that there is no issue of a non descendant project that is assigned
-    # to one of the project or descendant versions
-    v_ids = self_and_descendants.map(&:version_ids).flatten
-    if v_ids.any? && WorkPackage.includes(:project)
-                     .where(["(#{Project.table_name}.lft < ? OR #{Project.table_name}.rgt > ?)" +
-                        " AND #{WorkPackage.table_name}.fixed_version_id IN (?)", lft, rgt, v_ids])
-                     .references(:projects)
-                     .first
-      return false
-    end
-
-    Project.transaction do
-      archive!
-    end
-
-    true
-  end
-
-  # TODO: Move into UnarchiveService
-  # Unarchives the project
-  # All its ancestors must be active
-  def unarchive
-    return false if ancestors.detect { |a| !a.active? }
-
-    update_attribute :status, STATUS_ACTIVE
-  end
-
   def types_used_by_work_packages
     ::Type.where(id: WorkPackage.where(project_id: project.id)
                                 .select(:type_id)
                                 .distinct)
   end
 
-  # Returns an array of the types used by the project and its active sub projects
+  # Returns a scope of the types used by the project and its active sub projects
   def rolled_up_types
-    @rolled_up_types ||=
-      ::Type.joins(:projects)
+    ::Type
+      .joins(:projects)
       .select("DISTINCT #{::Type.table_name}.*")
-      .where(["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status = #{STATUS_ACTIVE}", lft, rgt])
+      .where(projects: { id: self_and_descendants.select(:id) })
+      .merge(Project.active)
       .order("#{::Type.table_name}.position")
   end
 
@@ -389,25 +357,6 @@ class Project < ActiveRecord::Base
         h[r] << m.principal
       end
       h
-    end
-  end
-
-  # TODO: Move into DeleteService
-  # Deletes all project's members
-  def delete_all_members
-    me = Member.table_name
-    mr = MemberRole.table_name
-    self.class.connection.delete("DELETE FROM #{mr} WHERE #{mr}.member_id IN (SELECT #{me}.id FROM #{me} WHERE #{me}.project_id = #{id})")
-    Member.where(project_id: id).destroy_all
-  end
-
-  def destroy_all_work_packages
-    work_packages.each do |wp|
-      begin
-        wp.reload
-        wp.destroy
-      rescue ActiveRecord::RecordNotFound => e
-      end
     end
   end
 
@@ -627,14 +576,6 @@ class Project < ActiveRecord::Base
     end
   end
 
-  # Archives subprojects recursively
-  def archive!
-    children.each do |subproject|
-      subproject.send :archive!
-    end
-    update_attribute :status, STATUS_ARCHIVED
-  end
-
   def self.possible_principles_condition
     condition = if Setting.work_package_group_assignment?
                   ["(#{Principal.table_name}.type=? OR #{Principal.table_name}.type=?)", 'User', 'Group']
@@ -651,19 +592,6 @@ class Project < ActiveRecord::Base
   end
 
   protected
-
-  def guarantee_project_or_nil_or_false(p)
-    if p.is_a?(Project)
-      p
-    elsif p.to_s.blank?
-      nil
-    else
-      p = Project.find_by(id: p)
-      return false unless p
-
-      p
-    end
-  end
 
   def shared_versions_on_persisted
     shared_versions_base_scope

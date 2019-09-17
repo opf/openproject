@@ -204,7 +204,7 @@ describe Project, type: :model do
     it 'should only check active projects' do
       subproject = FactoryBot.create(:project, parent: project)
       FactoryBot.create(:version, project: subproject)
-      subproject.archive
+      subproject.archived!
 
       project.reload
 

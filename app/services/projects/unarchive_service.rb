@@ -28,57 +28,28 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module BaseServices
-  class Write < BaseContracted
+module Projects
+  class UnarchiveService < ::BaseServices::BaseContracted
+    include Concerns::Contracted
+
+    def initialize(user:, model:, contract_class: Projects::UnarchiveContract)
+      super(user: user, contract_class: contract_class)
+      self.model = model
+    end
+
     private
 
-    def persist(service_result)
-      service_result = super(service_result)
+    attr_accessor :model
 
-      unless service_result.result.save
-        service_result.errors = service_result.result.errors
-        service_result.success = false
-      end
+    def persist(service_call)
+      activate_project(model)
 
-      service_result
+      service_call
     end
 
-    # Validations are already handled in the SetAttributesService
-    # and thus we do not have to validate again.
-    def validate_contract(service_result)
-      service_result
-    end
-
-    def before_perform(params)
-      set_attributes(params)
-    end
-
-    def set_attributes(params)
-      attributes_service_class
-        .new(user: user,
-             model: instance(params),
-             contract_class: contract_class)
-        .call(params)
-    end
-
-    def attributes_service_class
-      "#{namespace}::SetAttributesService".constantize
-    end
-
-    def instance(_params)
-      raise NotImplementedError
-    end
-
-    def default_contract_class
-      raise NotImplementedError
-    end
-
-    def namespace
-      self.class.name.deconstantize
-    end
-
-    def instance_class
-      namespace.singularize.constantize
+    def activate_project(project)
+      # we do not care for validations
+      project.update_column(:status, Project::STATUS_ACTIVE)
     end
   end
 end

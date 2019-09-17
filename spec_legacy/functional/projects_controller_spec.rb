@@ -372,7 +372,7 @@ describe ProjectsController, type: :controller do
 
   it 'should unarchive' do
     session[:user_id] = 1 # admin
-    Project.find(1).archive
+    Project.find(1).archived!
     put :unarchive, params: { id: 1 }
     assert_redirected_to '/projects'
     assert Project.find(1).active?

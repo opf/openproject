@@ -44,11 +44,13 @@ module Projects
       ret
     end
 
-    def after_save(*)
+    def after_perform(service_call)
       touch_on_custom_values_update
       notify_on_identifier_renamed
       send_update_notification
       update_wp_versions_on_parent_change
+
+      service_call
     end
 
     def touch_on_custom_values_update

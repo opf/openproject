@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2019 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,42 +25,34 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Versions
-  class UpdateService < ::BaseServices::Update
+##
+# Schedules the deletion of a project if allowed. As the deletion can be
+# a lengthy process, the project is archived first
+#
+module Projects
+  class ScheduleDeletionService < ::BaseServices::BaseContracted
+    attr_accessor :model
+
+    def initialize(user:, model:, contract_class: ::Projects::DeleteContract)
+      super(user: user, contract_class: contract_class)
+      self.model = model
+    end
+
     private
 
-    def after_perform(service_call)
-      model.touch if only_custom_values_updated?
-      update_wps_from_sharing_change if model.saved_change_to_sharing?
-      service_call
+    def before_perform(_params)
+      Projects::ArchiveService
+        .new(user: user, model: model)
+        .call
     end
 
-    # Update the issue's fixed versions. Used if a version's sharing changes.
-    def update_wps_from_sharing_change
-      if no_valid_version_before_or_now? ||
-         sharing_now_less_broad?
-        WorkPackage.update_versions_from_sharing_change model
-      end
-    end
-
-    def only_custom_values_updated?
-      !model.saved_changes? && model.custom_values.any?(&:saved_changes?)
-    end
-
-    def no_valid_version_before_or_now?
-      version_sharings.index(model.sharing_before_last_save).nil? ||
-        version_sharings.index(model.sharing).nil?
-    end
-
-    def sharing_now_less_broad?
-      version_sharings.index(model.sharing_before_last_save) > version_sharings.index(model.sharing)
-    end
-
-    def version_sharings
-      Version::VERSION_SHARINGS
+    def persist(call)
+      Delayed::Job.enqueue DeleteProjectJob.new(user_id: user.id, project_id: model.id),
+                           priority: ::ApplicationJob.priority_number(:low)
+      call
     end
   end
 end

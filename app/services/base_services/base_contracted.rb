@@ -29,56 +29,63 @@
 #++
 
 module BaseServices
-  class Write < BaseContracted
+  class BaseContracted
+    include Concerns::Contracted
+    include Shared::ServiceContext
+
+    attr_reader :user
+
+    def initialize(user:, contract_class: nil)
+      @user = user
+      self.contract_class = contract_class || default_contract_class
+    end
+
+    def call(params = nil)
+      in_context(false) do
+        perform(params)
+      end
+    end
+
     private
 
-    def persist(service_result)
-      service_result = super(service_result)
+    def perform(params)
+      service_call = before_perform(params)
 
-      unless service_result.result.save
-        service_result.errors = service_result.result.errors
-        service_result.success = false
+      service_call = validate_contract(service_call) if service_call.success?
+      service_call = persist(service_call) if service_call.success?
+      service_call = after_perform(service_call) if service_call.success?
+
+      service_call
+    end
+
+    def before_perform(_params)
+      ServiceResult.new(success: true, result: model)
+    end
+
+    def validate_contract(call)
+      success, errors = validate(model, user)
+
+      unless success
+        call.success = false
+        call.errors = errors
       end
 
-      service_result
+      call
     end
 
-    # Validations are already handled in the SetAttributesService
-    # and thus we do not have to validate again.
-    def validate_contract(service_result)
-      service_result
+    def after_perform(call)
+      # nothing for now but subclasses can override
+      call
     end
+    alias_method :after_save, :after_perform
 
-    def before_perform(params)
-      set_attributes(params)
-    end
-
-    def set_attributes(params)
-      attributes_service_class
-        .new(user: user,
-             model: instance(params),
-             contract_class: contract_class)
-        .call(params)
-    end
-
-    def attributes_service_class
-      "#{namespace}::SetAttributesService".constantize
-    end
-
-    def instance(_params)
-      raise NotImplementedError
+    def persist(call)
+      # nothing for now but subclasses can override
+      call
     end
 
     def default_contract_class
       raise NotImplementedError
-    end
-
-    def namespace
-      self.class.name.deconstantize
-    end
-
-    def instance_class
-      namespace.singularize.constantize
     end
   end
 end

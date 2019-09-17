@@ -29,48 +29,48 @@
 #++
 
 module Projects
-  class DeleteProjectService
-    attr_accessor :user, :project
-    include Concerns::Contracted
-
-    def initialize(user:, project:)
-      self.user = user
-      self.project = project
-      self.contract_class = ::Projects::DeleteContract
-    end
-
-    ##
-    # Deletes the given user if allowed.
-    #
-    # @return True if the project deletion has been initiated, false otherwise.
-    def call(delayed: true)
-      result, errors = validate_and_yield(project, user) { delete_or_schedule_deletion(delayed) }
-      ServiceResult.new(success: result, errors: errors)
+  class DeleteService < ::BaseServices::Delete
+    def call(*)
+      super.tap do |service_call|
+        notify(service_call.success?)
+      end
     end
 
     private
 
-    def delete_or_schedule_deletion(delayed)
-      if delayed
-        # Archive the project
-        project.archive
-        Delayed::Job.enqueue DeleteProjectJob.new(user_id: user.id, project_id: project.id),
-                             priority: ::ApplicationJob.priority_number(:low)
-        true
-      else
-        delete_project!
+    def before_perform(*)
+      OpenProject::Notifications.send('project_deletion_imminent', project: @project_to_destroy)
+
+      delete_all_members
+      destroy_all_work_packages
+
+      super
+    end
+
+    # Deletes all project's members
+    def delete_all_members
+      MemberRole
+        .includes(:member)
+        .where(members: { project_id: model.id })
+        .delete_all
+
+      Member.where(project_id: model.id).destroy_all
+    end
+
+    def destroy_all_work_packages
+      model.work_packages.each do |wp|
+        wp.reload
+        wp.destroy
+      rescue ActiveRecord::RecordNotFound
+        # Everything fine, we wanted to delete it anyway
       end
     end
 
-    def delete_project!
-      OpenProject::Notifications.send('project_deletion_imminent', project: @project_to_destroy)
-
-      if project.destroy
-        ProjectMailer.delete_project_completed(project, user: user).deliver_now
-        true
+    def notify(success)
+      if success
+        ProjectMailer.delete_project_completed(model, user: user).deliver_now
       else
-        ProjectMailer.delete_project_failed(project, user: user).deliver_now
-        false
+        ProjectMailer.delete_project_failed(model, user: user).deliver_now
       end
     end
   end

@@ -107,7 +107,7 @@ class ProjectsController < ApplicationController
 
     @errors = service_call.errors
 
-    flash[:notice] = l(:notice_successful_update) if service_call.success?
+    flash[:notice] = t(:notice_successful_update) if service_call.success?
     redirect_to settings_project_path(@altered_project)
   end
 
@@ -158,35 +158,26 @@ class ProjectsController < ApplicationController
   end
 
   def archive
-    projects_url = url_for(controller: '/projects', action: 'index', status: params[:status])
-    if @project.archive
-      redirect_to projects_url
-    else
-      flash[:error] = I18n.t(:error_can_not_archive_project)
-      redirect_back fallback_location: projects_url
-    end
-
-    update_demo_project_settings @project, false
+    change_status_action(:archive)
   end
 
   def unarchive
-    @project.unarchive if !@project.active?
-    redirect_to(url_for(controller: '/projects', action: 'index', status: params[:status]))
-    update_demo_project_settings @project, true
+    change_status_action(:unarchive)
   end
 
   # Delete @project
   def destroy
-    service = ::Projects::DeleteProjectService.new(user: current_user, project: @project)
-    call = service.call(delayed: true)
+    service_call = ::Projects::ScheduleDeletionService
+                   .new(user: current_user, model: @project)
+                   .call
 
-    if call.success?
+    if service_call.success?
       flash[:notice] = I18n.t('projects.delete.scheduled')
     else
-      flash[:error] = I18n.t('projects.delete.schedule_failed', errors: call.errors.full_messages.join("\n"))
+      flash[:error] = I18n.t('projects.delete.schedule_failed', errors: service_call.errors.full_messages.join("\n"))
     end
 
-    redirect_to controller: 'projects', action: 'index'
+    redirect_to project_path_with_status
     update_demo_project_settings @project, false
   end
 
@@ -215,6 +206,26 @@ class ProjectsController < ApplicationController
     render_404
   end
 
+  def change_status_action(status)
+    service_call = change_status(status)
+
+    if service_call.success?
+      update_demo_project_settings @project, status == :archive
+      redirect_to(project_path_with_status)
+    else
+      flash[:error] = t(:"error_can_not_#{status}_project",
+                        errors: service_call.errors.full_messages.join(', '))
+      redirect_back fallback_location: project_path_with_status
+    end
+  end
+
+  def change_status(status)
+    "Projects::#{status.to_s.camelcase}Service"
+      .constantize
+      .new(user: current_user, model: @project)
+      .call
+  end
+
   def redirect_work_packages_or_overview
     return if redirect_to_project_menu_item(@project, :work_packages)
 
@@ -223,6 +234,12 @@ class ProjectsController < ApplicationController
 
   def hide_project_in_layout
     @project = nil
+  end
+
+  def project_path_with_status
+    acceptable_params = params.permit(:status).to_h.compact.select { |_, v| v.present? }
+
+    projects_path(acceptable_params)
   end
 
   def load_query
