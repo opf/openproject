@@ -21,7 +21,7 @@ ja:
           no_results: '新しい報告はありません。'
         project_description:
           title: 'プロジェクトの説明'
-          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
+          no_results: "説明はまだ記載されていません。 1つは「プロジェクト設定」で入力できます。"
         project_details:
           title: 'プロジェクトの詳細'
           no_results: 'プロジェクトにカスタムフィールドが定義されていません。'
