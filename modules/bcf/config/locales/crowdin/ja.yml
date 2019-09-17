@@ -1,61 +1,61 @@
 ja:
   bcf:
     label_bcf: 'BCF'
-    label_imported_failed: 'Failed imports of BCF topics'
-    label_imported_successfully: 'Successfully imported BCF topics'
-    issues: "Issues"
-    recommended: 'recommended'
-    not_recommended: 'not recommended'
-    no_viewpoints: 'No viewpoints'
+    label_imported_failed: 'BCFトピックのインポートに失敗しました'
+    label_imported_successfully: 'BCFトピックを正常にインポートしました'
+    issues: "チケット"
+    recommended: '推奨'
+    not_recommended: '非推奨'
+    no_viewpoints: 'ビューポイントはありません'
     new_badge: "新しく作成"
     exceptions:
-      file_invalid: "BCF file invalid"
+      file_invalid: "BCFファイルが無効"
     x_bcf_issues:
-      other: '%{count} BCF issues'
+      other: '%{count} BCFチケット'
     bcf_xml:
-      xml_file: 'BCF XML File'
+      xml_file: 'BCF XML ファイル'
       import_title: 'インポート'
       export: '外部出力'
-      import_update_comment: '(Updated in BCF import)'
-      import_failed: 'Cannot import BCF file: %{error}'
-      import_successful: 'Imported %{count} BCF issues'
-      import_canceled: 'BCF-XML import canceled.'
-      type_not_active: "The issue type is not activated for this project."
+      import_update_comment: '(BCF インポートで更新済)'
+      import_failed: 'BCF ファイルをインポートできません: %{error}'
+      import_successful: '%{count} BCF チケットをインポートしました'
+      import_canceled: 'BCF-XML インポートをキャンセルしました。'
+      type_not_active: "チケットの形式がこのプロジェクトで有効になっていません。"
       import:
-        num_issues_found: '%{x_bcf_issues} are contained in the BCF-XML file, their details are listed below.'
-        button_prepare: 'Prepare import'
-        button_perform_import: 'Confirm import'
-        button_proceed: 'Proceed'
-        button_back_to_list: 'Back to list'
-        no_permission_to_add_members: 'You do not have sufficient permissions to add them as members to the project.'
-        contact_project_admin: 'Contact your project admin to add them as members and start this import again.'
-        continue_anyways: 'Do you want to proceed and finish the import anyways?'
-        description: "Provide a BCF-XML v2.1 file to import into this project. You can examine its contents before performing the import."
-        invalid_types_found: 'Invalid topic type names found'
-        invalid_statuses_found: 'Invalid status names found'
-        invalid_priorities_found: 'Invalid priority names found'
-        invalid_emails_found: 'Invalid email addresses found'
-        unknown_emails_found: 'Unknown email addresses found'
-        unknown_property: 'Unknown property'
-        non_members_found: 'Non project members found'
-        import_types_as: 'Set all these types to'
-        import_statuses_as: 'Set all these statuses to'
-        import_priorities_as: 'Set all these priorities to'
-        invite_as_members_with_role: 'Invite them as members to the project "%{project}" with role'
-        add_as_members_with_role: 'Add them as members to the project "%{project}" with role'
-        no_type_provided: 'No type provided'
-        no_status_provided: 'No status provided'
-        no_priority_provided: 'No priority provided'
-        perform_description: "Do you want to import or update the issues listed above?"
-        replace_with_system_user: 'Replace them with "System" user'
-        import_as_system_user: 'Import them as "System" user.'
+        num_issues_found: '%{x_bcf_issues} は BCF-XML ファイルに含まれています。詳細は下に一覧表示されます。'
+        button_prepare: 'インポートの準備'
+        button_perform_import: 'インポートの確認'
+        button_proceed: '続行'
+        button_back_to_list: 'リストに戻る'
+        no_permission_to_add_members: 'プロジェクトにメンバーとして追加するための十分な権限がありません。'
+        contact_project_admin: 'プロジェクト管理者に連絡してメンバーとして追加し、このインポートをもう一度開始してください。'
+        continue_anyways: 'とにかく続行してインポートを完了しますか?'
+        description: "BCF-XML v2.1 ファイルをこのプロジェクトにインポートします。インポートを実行する前に内容を確認することができます。"
+        invalid_types_found: '無効なトピックタイプ名が見つかりました'
+        invalid_statuses_found: '無効なステータス名が見つかりました'
+        invalid_priorities_found: '無効な優先度名が見つかりました'
+        invalid_emails_found: '無効なメールアドレスが見つかりました'
+        unknown_emails_found: '不明なメールアドレスが見つかりました'
+        unknown_property: '不明な優先度'
+        non_members_found: '非プロジェクトメンバーが見つかりました'
+        import_types_as: 'これらすべてのタイプを次に設定'
+        import_statuses_as: 'これらすべてのステータスを次に設定'
+        import_priorities_as: 'これらすべての優先度を次に設定'
+        invite_as_members_with_role: '次の役割で、プロジェクト "%{project}" のメンバーとして招待します'
+        add_as_members_with_role: '次の役割で、プロジェクト "%{project}" のメンバーとして追加します'
+        no_type_provided: 'タイプが入力されていません'
+        no_status_provided: 'ステータスが入力されていません'
+        no_priority_provided: '優先度が入力されていません'
+        perform_description: "上に一覧表示されたチケットをインポートまたは更新しますか?"
+        replace_with_system_user: 'それらを "システム" ユーザーに置き換え'
+        import_as_system_user: 'それらを "システム" ユーザーとしてインポート'
         what_to_do: "どれかを選択して下さい。"
-        work_package_has_newer_changes: "Outdated! This topic was not updated as the latest changes on the server were newer than the \"ModifiedDate\" of the imported topic. However, comments to the topic were imported."
+        work_package_has_newer_changes: "期限切れです! サーバー上の前回の変更がインポートされたトピックの「更新日付」よりも新しいため、このトピックは更新されませんでした。 ただし、トピックへのコメントはインポートされました。"
   export:
     format:
       bcf: "BCF-XML"
   attributes:
-    bcf_thumbnail: "BCF snapshot"
+    bcf_thumbnail: "BCF スナップショット"
   project_module_bcf: "BCF"
-  permission_view_linked_issues: "View BCF issues"
-  permission_manage_bcf: "Import and manage BCF issues"
+  permission_view_linked_issues: "BCF チケットを表示"
+  permission_manage_bcf: "BCF チケットのインポートと管理"
