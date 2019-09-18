@@ -27,4 +27,10 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<%= content_for :header_tags do %>
+  <%= nonced_javascript_tag do %>
+    <%= include_gon(need_tag: false) -%>
+  <% end %>
+<% end -%>
+
 <openproject-base></openproject-base>
