@@ -35,6 +35,7 @@ import {HighlightingMode} from "core-components/wp-fast-table/builders/highlight
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
 import {WorkPackageCardDragAndDropService} from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";
+import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
 
 @Component({
   selector: 'wp-grid',
@@ -63,6 +64,7 @@ export class WorkPackagesGridComponent {
 
   constructor(readonly wpTableHighlight:WorkPackageViewHighlightingService,
               readonly wpTableSortBy:WorkPackageViewSortByService,
+              readonly wpList:WorkPackagesListService,
               readonly querySpace:IsolatedQuerySpace,
               readonly cdRef:ChangeDetectorRef) {
   }
@@ -86,6 +88,9 @@ export class WorkPackagesGridComponent {
   }
 
   public switchToManualSorting() {
-    this.wpTableSortBy.switchToManualSorting();
+    let query = this.querySpace.query.value;
+    if (query && this.wpTableSortBy.switchToManualSorting(query)) {
+      this.wpList.save(query);
+    }
   }
 }
