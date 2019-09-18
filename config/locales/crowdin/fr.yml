@@ -90,7 +90,7 @@ fr:
   concatenation:
     single: 'ou'
   deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
+    time_entries: "Cette vue de saisie des temps est remplacée par le module 'Rapports de coûts'. Cette vue ne prend désormais en charge que l'exportation des informations de saisie des temps en format csv. Pour un filtrage interactif, veuillez activer le module 'Rapports de coûts' dans les paramètres du projet."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -1027,7 +1027,7 @@ fr:
   general_text_yes: "oui"
   general_text_No: "Non"
   general_text_Yes: "Oui"
-  general_text_true: "true"
+  general_text_true: "vrai"
   general_text_false: "faux"
   gui_validation_error: "une erreur"
   gui_validation_error_plural: "%{count} erreurs"
@@ -1522,7 +1522,7 @@ fr:
   label_used_by_types: "Utilisé par types"
   label_used_in_projects: "Utilisé dans les projets"
   label_user: "Utilisateur"
-  label_user_and_permission: "Users & Permissions"
+  label_user_and_permission: "Utilisateurs & droits"
   label_user_named: "Utilisateur %{name}"
   label_user_activity: "Activité de %{value}"
   label_user_anonymous: "Anonyme"
@@ -1535,7 +1535,7 @@ fr:
   label_user_new: "Nouvel utilisateur"
   label_user_plural: "Utilisateurs"
   label_user_search: "Recherche d'Utilisateurs"
-  label_user_settings: "User settings"
+  label_user_settings: "Paramètres de l'utilisateur"
   label_version_new: "Nouvelle version"
   label_version_plural: "Versions"
   label_version_sharing_descendants: "Avec sous-projets"
@@ -1553,7 +1553,7 @@ fr:
   label_wiki_content_added: "Page wiki ajoutée"
   label_wiki_content_updated: "Page wiki mise à jour"
   label_wiki_toc: "Table des matières"
-  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
+  label_wiki_toc_empty: "La table des matières est vide car aucun titre n'est présent."
   label_wiki_dont_show_menu_item: "Ne pas afficher cette page wiki dans le menu de navigation du projet"
   label_wiki_edit: "Modification wiki"
   label_wiki_edit_plural: "Modifications wiki"
@@ -1640,7 +1640,7 @@ fr:
     legacy_warning:
       timeline: 'Cette ancienne macro de ligne du temps a été supprimée ou n''est plus disponible. Vous pouvez remplacer la fonctionnalité par une macro de tableau intégrée.'
     include_wiki_page:
-      removed: 'The macro does no longer exist.'
+      removed: 'La commande n''existe plus.'
     wiki_child_pages:
       errors:
         page_not_found: "Impossible de trouver la page wiki \"%{name}\"."
@@ -2016,7 +2016,7 @@ fr:
   setting_feeds_limit: "Limite du contenu du flux"
   setting_file_max_size_displayed: "Taille maximale de l'affichage du fichers texte inline"
   setting_host_name: "Nom d'hôte"
-  setting_invitation_expiration_days: "Activation email expires after"
+  setting_invitation_expiration_days: "L'émail d’activation expire après"
   setting_work_package_done_ratio: "Calculer le taux d'avancement du lot de travaux avec"
   setting_work_package_done_ratio_field: "Utiliser le champ Lot de Travaux"
   setting_work_package_done_ratio_status: "Utiliser le statut des Lots de Travaux"

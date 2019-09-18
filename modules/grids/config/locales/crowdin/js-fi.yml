@@ -3,6 +3,9 @@ fi:
     grid:
       add_widget: 'Add widget'
       remove: 'Remove widget'
+      upsale:
+        text: "Some widgets, like the work package graph widget, are only available in the "
+        link: 'enterprise edition.'
       widgets:
         custom_text:
           title: 'Mukautettu teksti'
