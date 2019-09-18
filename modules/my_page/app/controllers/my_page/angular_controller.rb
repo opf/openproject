@@ -30,8 +30,10 @@
 
 class MyPage::AngularController < ::ApplicationController
   before_action :require_login
+  include OpenProject::ClientPreferenceExtractor
 
   def no_menu
+    gon.settings = client_preferences
     render layout: 'no_menu'
   end
 end
