@@ -299,6 +299,11 @@ fieldset.form--fieldset
   margin-bottom: 0.825rem
   line-height: 2
 
+  // Extend the overflow: visible from form-field
+  // to the container because it's duplicated there.
+  &.-visible-overflow .form--field-container
+    overflow: visible
+
   &.-vertical,
   .form.-vertical &
     @include grid-orient(vertical)

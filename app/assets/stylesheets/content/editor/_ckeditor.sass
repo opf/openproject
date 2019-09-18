@@ -80,19 +80,21 @@ ckeditor-augmented-textarea .op-ckeditor--wrapper
 
   .document-editor__toolbar
     position: sticky
-    top: 0
+    top: 0px
     z-index: 1
+
+    // Adjust top offset to match if globally
+    // scrolling (content-wrapper)
+    .ckeditor--content-scrollable &,
+    .form--field.-visible-overflow &
+      top: -10px
 
   .ck.ck-toolbar.ck-rounded-corners
     border-bottom-left-radius: 0
     border-bottom-right-radius: 0
 
   .document-editor__editable-container
-    // Ensure max-height is set to allow stickiness
-    // in global scrolling pages (forums e.g.)
-    max-height: 75vh
     overflow-y: auto
-
     border: 1px solid var(--ck-color-base-border)
     border-top: none
     border-radius: var(--ck-border-radius)

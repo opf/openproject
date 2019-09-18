@@ -40,7 +40,7 @@ See docs/COPYRIGHT.rdoc for more details.
       <%= f.select :attribute_name, selectable_attributes(@attribute_help_text), container_class: '-middle' %>
     <% end %>
   </div>
-  <div class="form--field -required">
+  <div class="form--field -required -visible-overflow">
     <%= f.text_area :help_text, cols: 100, rows: 20, class: 'wiki-edit', with_text_formatting: true %>
   </div>
 </section>
