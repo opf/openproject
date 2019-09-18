@@ -101,6 +101,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
   public async add(order:string[], wpId:string, toIndex:number = -1):Promise<string[]> {
     if (toIndex === -1) {
       order.push(wpId);
+      toIndex = order.length - 1;
     } else {
       order.splice(toIndex, 0, wpId);
     }
