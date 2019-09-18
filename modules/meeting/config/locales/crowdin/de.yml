@@ -32,7 +32,7 @@ de:
   label_meeting_agenda: "Agenda"
   label_meeting_minutes: "Protokoll"
   label_meeting_close: "Schließen"
-  label_meeting_open: "Offene"
+  label_meeting_open: "Öffnen"
   label_meeting_agenda_close: "Agenda schließen um mit dem Protokoll zu beginnen"
   label_meeting_date_time: "Datum/Uhrzeit"
   label_meeting_diff: "Differenz"
@@ -40,7 +40,7 @@ de:
   label_icalendar: "ICalendar senden"
   label_version: "Version"
   label_time_zone: "Zeitzone"
-  label_start_date: "Anfangstermin"
+  label_start_date: "Beginn"
   notice_successful_notification: "Benachrichtigung erfolgreich gesendet"
   notice_timezone_missing: Keine Zeitzone eingestellt und daher %{zone} angenommen. Um Ihre Zeitzone einzustellen, klicken Sie bitte hier.
   permission_create_meetings: "Besprechungen erstellen"

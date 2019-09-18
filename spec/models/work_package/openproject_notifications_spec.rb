@@ -67,7 +67,7 @@ describe WorkPackage, type: :model do
 
         journal_ids.clear
 
-        work_package.update subject: 'the wind of change'
+        work_package.update_attributes subject: 'the wind of change'
       end
 
       it "are triggered" do

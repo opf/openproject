@@ -36,10 +36,10 @@ module Components
     def confirm_flow_with(password, should_fail: false)
       expect_open
 
-      expect(submit_button).to be_disabled
+      expect(submit_button[:disabled]).to be_truthy
       fill_in 'request_for_confirmation_password', with: password
 
-      expect(submit_button).not_to be_disabled
+      expect(submit_button[:disabled]).to be_falsey
       submit(should_fail)
     end
 

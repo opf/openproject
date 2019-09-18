@@ -16,7 +16,7 @@ ro:
       meeting_agenda: "Agendă"
       meeting_minutes: "Concluzii"
   description_attended: "a participat"
-  description_invite: "invitat"
+  description_invite: "a fost invitat"
   events:
     meeting: Întâlnire editată
     meeting_agenda: Agenda întâlnirii a fost actualizată

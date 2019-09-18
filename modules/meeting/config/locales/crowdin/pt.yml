@@ -16,7 +16,7 @@ pt:
       meeting_agenda: "Agenda"
       meeting_minutes: "Minutos"
   description_attended: "participantes"
-  description_invite: "convidado"
+  description_invite: "convidados"
   events:
     meeting: Reunião editada
     meeting_agenda: Agenda de reunião editada

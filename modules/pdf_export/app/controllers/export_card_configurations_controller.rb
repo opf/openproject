@@ -58,7 +58,7 @@ class ExportCardConfigurationsController < ApplicationController
     if cannot_update_default
       flash[:error] = l(:error_can_not_change_name_of_default_configuration)
       render "edit"
-    elsif @config.update(export_card_configurations_params)
+    elsif @config.update_attributes(export_card_configurations_params)
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'index'
     else

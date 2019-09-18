@@ -38,14 +38,14 @@ FactoryBot.define do
       name { 'Non member' }
       builtin { Role::BUILTIN_NON_MEMBER }
       assignable { false }
-      initialize_with { Role.where(name: name).first_or_initialize }
+      initialize_with { Role.find_or_create_by(name: name) }
     end
 
     factory :anonymous_role do
       name { 'Anonymous' }
       builtin { Role::BUILTIN_ANONYMOUS }
       assignable { false }
-      initialize_with { Role.where(name: name).first_or_initialize }
+      initialize_with { Role.find_or_create_by(name: name) }
     end
 
     factory :existing_role do

@@ -29,12 +29,11 @@
 
 module OpenProject::TextFormatting::Formats
   class BaseFormatter
-    attr_reader :context,
-                :pipeline
+    attr_reader :options, :project
 
-    def initialize(context)
-      @context = context
-      @pipeline = HTML::Pipeline.new(located_filters, context)
+    def initialize(options)
+      @options = options
+      @project = options[:project]
     end
 
     def to_html(text)

@@ -9,7 +9,7 @@
     document_category:
       documentation: Dokumentasjon
       specification: Spesifikasjon
-      other: Øvrig
+      other: Andre
   documents:
     label_attachment_author: "Attachment author"
   label_document_added: "Dokument lagt til"

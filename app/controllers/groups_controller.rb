@@ -97,7 +97,7 @@ class GroupsController < ApplicationController
     @group = Group.includes(:users).find(params[:id])
 
     respond_to do |format|
-      if @group.update(permitted_params.group)
+      if @group.update_attributes(permitted_params.group)
         flash[:notice] = l(:notice_successful_update)
         format.html do redirect_to(groups_path) end
         format.xml  do head :ok end

@@ -198,9 +198,9 @@ it:
     label_ascending: "Crescente"
     label_author: "Autore: %{user}"
     label_between: "tra"
-    label_board: "Scheda"
+    label_board: "Tabellone"
     label_board_locked: "Chiuso"
-    label_board_plural: "Schede"
+    label_board_plural: "Tabelloni"
     label_board_sticky: "In evidenza"
     label_create: "Crea"
     label_create_work_package: "Crea una nuova macro-attività"
@@ -385,7 +385,7 @@ it:
       click_to_switch_context: 'Apri questa macro-attività nel progetto.'
       autocompleter:
         label: 'Autocompletamento del progetto'
-    text_are_you_sure: "Sei sicuro?"
+    text_are_you_sure: "Sei sicuro/a?"
     types:
       attribute_groups:
         error_duplicate_group_name: "Il nome %{group} è usato più di una volta. I nomi dei gruppi devono essere univoci."
@@ -827,7 +827,7 @@ it:
         other: "%{count} macro-attività subordinate"
       hour:
         one: "1 o"
-        other: "%{count} h"
+        other: "%{count} o"
     zen_mode:
       button_activate: 'Attiva modalità zen'
       button_deactivate: 'Disattiva modalità zen'

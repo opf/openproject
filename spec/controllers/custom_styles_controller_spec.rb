@@ -119,7 +119,7 @@ describe CustomStylesController, type: :controller do
         with_enterprise_token(:define_custom_style)
 
         expect(CustomStyle).to receive(:current).and_return(custom_style)
-        expect(custom_style).to receive(:update).and_return(valid)
+        expect(custom_style).to receive(:update_attributes).and_return(valid)
 
         post :update, params: params
       end

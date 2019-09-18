@@ -154,7 +154,7 @@ sk:
       cookie_removed: 'All remembered 2FA sessions have been removed.'
       dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
   field_phone: "Mobilný telefón"
-  field_otp: "Jednorázové heslo"
+  field_otp: "Jednorazové heslo"
   notice_account_otp_invalid: "Neplatné jednorazové heslo."
   notice_account_otp_expired: "Doba platnosti jednorázového hesla vypršala."
   notice_developer_strategy_otp: "Developer strategy generated the following one-time password: %{token} (Channel: %{channel})"

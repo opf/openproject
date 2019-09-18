@@ -2,7 +2,7 @@ pl:
   activerecord:
     attributes:
       cost_entry:
-        work_package: "Zadanie"
+        work_package: "Zestaw zadań"
         overridden_costs: "Koszty zastąpione"
         spent: "Wydatki"
         spent_on: "Data"
@@ -18,7 +18,7 @@ pl:
         status: "Status"
         subject: "Temat"
         type: "Jednostki"
-        updated_on: "Aktualizacja"
+        updated_on: "Zaktualizowano"
       cost_type:
         unit: "Nazwa jednostki"
         unit_plural: "Liczba mnoga jednostki"
@@ -53,7 +53,7 @@ pl:
           nullify_is_not_valid_for_cost_entries: "Pozycje kosztów nie mogą być przypisane do projektu."
   attributes:
     budget: "Planowane koszty"
-    comment: "Komentarz"
+    comment: "Typ kosztu"
     cost_object: "Budżet"
     cost_type: "Jednostki"
     costs: "Koszty"
@@ -70,7 +70,7 @@ pl:
   button_log_costs: "Rejestruj koszty jednostkowe"
   button_log_time: "Rejestruj czas pracy"
   caption_booked_on_project: "Zarezerwowano na projekt"
-  caption_default: "Domyślnie"
+  caption_default: "Domyślny"
   caption_default_rate_history_for: "Domyślna stawka historii dla %{user}"
   caption_labor: "Praca"
   caption_labor_costs: "Rzeczywiste koszty pracy"
@@ -85,8 +85,8 @@ pl:
   caption_show_locked: "Pokaż zamknięte typy kosztów"
   cost_objects_title: "Budżetowanie"
   label_cost_type_plural: "Rodzaje kosztów"
-  currency_delimiter: "."
-  currency_separator: ","
+  currency_delimiter: ","
+  currency_separator: "."
   description_date_for_new_rate: "Data nowej stawki"
   events:
     cost_object: "Budżet edytowany"
@@ -108,14 +108,14 @@ pl:
   label_currency: "Waluta"
   label_currency_format: "Format waluty"
   label_current_default_rate: "Aktualne stawki domyślne"
-  label_date_on: "wł"
+  label_date_on: "na"
   label_deleted_cost_types: "Usunięte typy kosztów"
   label_locked_cost_types: "Zablokowane typy kosztów"
   label_deliverable: "Budżet"
   label_display_cost_entries: "Pokaż koszty jednostkowe"
   label_display_time_entries: "Wyświetl zgłoszone godziny"
   label_display_types: "Wyświetl typy"
-  label_edit: "Edycja"
+  label_edit: "Edytuj"
   label_fixed_cost_object: "Poprawiony budżet"
   label_fixed_date: "Przypisana data"
   label_generic_user: "Ogólne informacje"
@@ -172,4 +172,4 @@ pl:
   text_warning_hidden_elements: "Niektóre wpisy mogą zostać wyłączone ze zbioru."
   week: "tydzień"
   js:
-    text_are_you_sure: "Jesteś pewien?"
+    text_are_you_sure: "Jesteś pewny?"

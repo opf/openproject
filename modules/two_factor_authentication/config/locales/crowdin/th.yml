@@ -2,7 +2,7 @@ th:
   activerecord:
     attributes:
       two_factor_authentication/device:
-        identifier: 'รหัส'
+        identifier: 'Identifier'
         default: 'ค่าตั้งต้น'
       two_factor_authentication/device/sms:
         phone_number: "หมายเลขโทรศัพท์"

@@ -30,7 +30,7 @@ ja:
     notice_pwd_confirmation: "これらの設定を変更するにはパスワードを確認する必要があります。"
     label_device_type: "デバイスタイプ"
     label_default_device: "規定の2FAデバイス"
-    label_device: "2FAデバイス"
+    label_device: "2ファクターデバイス"
     label_devices: "2FAデバイス"
     label_one_time_password: 'ワンタイムパスワード'
     label_2fa_enabled: '2要素認証が有効です'
@@ -138,7 +138,7 @@ ja:
     restdt:
       delivery_failed_with_code: 'トークンの配信に失敗しました。 (エラーコード %{code})'
     strategies:
-      totp: '認証システムアプリケーション'
+      totp: '認証システム アプリケーション'
       sns: 'Amazon SNS'
       resdt: 'SMS Rest API'
     mobile_transmit_notification: "ワンタイムパスワードが携帯電話に送信されました。"

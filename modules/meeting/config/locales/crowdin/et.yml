@@ -3,7 +3,7 @@ et:
     attributes:
       meeting:
         location: "Asukoht"
-        duration: "kestus"
+        duration: "Kestus"
         participants: "Osalejad"
         participants_attended: "Osavõtjad"
         participants_invited: "Kutsutud"
@@ -32,7 +32,7 @@ et:
   label_meeting_agenda: "Päevakava"
   label_meeting_minutes: "Minutit"
   label_meeting_close: "Sulge"
-  label_meeting_open: "Avatud"
+  label_meeting_open: "Ava"
   label_meeting_agenda_close: "Close the agenda to begin the Minutes"
   label_meeting_date_time: "Kuupäev/kellaaeg"
   label_meeting_diff: "Erinevus"

@@ -51,7 +51,7 @@ nl:
           nullify_is_not_valid_for_cost_entries: "Cost entries can not be assigned to a project."
   attributes:
     budget: "Planned costs"
-    comment: "Commentaar"
+    comment: "Reactie"
     cost_object: "Budget"
     cost_type: "Cost type"
     costs: "Costs"

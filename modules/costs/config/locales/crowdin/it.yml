@@ -2,7 +2,7 @@ it:
   activerecord:
     attributes:
       cost_entry:
-        work_package: "Macro-attività"
+        work_package: "Macro-attività (work package)"
         overridden_costs: "Costi eccedenti"
         spent: "Trascorso"
         spent_on: "Data"
@@ -57,7 +57,7 @@ it:
     costs: "Costi"
     current_rate: "Tariffa attuale"
     hours: "Ore"
-    units: "Unità di misura"
+    units: "Unità"
     valid_from: "Valido dal"
   button_add_budget_item: "Aggiungi costi pianificati"
   button_add_cost_object: "Aggiungi bilancio"
@@ -66,7 +66,7 @@ it:
   button_cancel_edit_budget: "Annulla modifica budget"
   button_cancel_edit_costs: "Annulla modifica dei costi"
   button_log_costs: "Registra unità di costo"
-  button_log_time: "Registra l'orario effettuato"
+  button_log_time: "Registra tempi"
   caption_booked_on_project: "Prenotato su progetto"
   caption_default: "Predefinito"
   caption_default_rate_history_for: "Cronologia tariffe predefinite per %{user}"
@@ -170,4 +170,4 @@ it:
   text_warning_hidden_elements: "Alcune voci potrebbero essere state escluse dall'aggregazione."
   week: "settimana"
   js:
-    text_are_you_sure: "Sei sicuro?"
+    text_are_you_sure: "Sei sicuro/a?"

@@ -95,7 +95,7 @@ es:
   label_backlog: "Backlog"
   label_backlogs: "Backlogs"
   label_backlogs_unconfigured: "Todavía no ha configurado backlogs. Por favor, visite %{administration} > %{plugins}, luego haga clic en el enlace de %{configure} para este plugin. Cuando haya establecido los campos, vuelva a esta página para empezar a usar la herramienta."
-  label_blocks_ids: "Identificadores de paquetes bloqueados"
+  label_blocks_ids: "ID de los paquetes de trabajo bloqueados"
   label_burndown: "Burndown"
   label_column_in_backlog: "Columna en backlog"
   label_hours: "horas"

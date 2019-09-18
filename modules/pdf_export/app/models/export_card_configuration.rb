@@ -108,12 +108,12 @@ class ExportCardConfiguration < ActiveRecord::Base
   end
 
   def activate
-    self.update!({active: true})
+    self.update_attributes!({active: true})
   end
 
   def deactivate
     if !self.is_default?
-      self.update!({active: false})
+      self.update_attributes!({active: false})
     else
       false
     end

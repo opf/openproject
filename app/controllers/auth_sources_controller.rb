@@ -66,7 +66,7 @@ class AuthSourcesController < ApplicationController
     updated = permitted_params.auth_source
     updated.delete :account_password if updated[:account_password].blank?
 
-    if @auth_source.update updated
+    if @auth_source.update_attributes updated
       flash[:notice] = l(:notice_successful_update)
       redirect_to action: 'index'
     else

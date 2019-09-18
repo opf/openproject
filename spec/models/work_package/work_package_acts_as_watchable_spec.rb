@@ -60,7 +60,7 @@ describe WorkPackage, type: :model do
     end
 
     it 'sends one delayed mail notification for each watcher recipient' do
-      work_package.update description: 'Any new description'
+      work_package.update_attributes description: 'Any new description'
     end
   end
 end

@@ -10,7 +10,7 @@ et:
   information_restricted_depending_on_permission: "Depending on your permissions this page might contain restricted information."
   label_click_to_edit: "Muutmiseks kliki."
   label_closed: "suletud"
-  label_columns: "Väljad"
+  label_columns: "Veerud"
   label_cost_entry_attributes: "Cost entry attributes"
   label_days_ago: "during the last days"
   label_entry: "Cost entry"

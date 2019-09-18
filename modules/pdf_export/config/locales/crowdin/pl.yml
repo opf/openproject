@@ -20,7 +20,7 @@ pl:
   export_config_per_page: "Na stronie"
   export_config_page_size: "Rozmiar strony"
   export_config_orientation: "Orientacja"
-  export_config_rows: "Wiersze"
+  export_config_rows: "Skrypt YAML"
   activerecord:
     attributes:
       export_card_configuration:

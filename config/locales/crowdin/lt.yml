@@ -705,7 +705,7 @@ lt:
   button_generate: "Generuoti"
   button_list: "Sąrašas"
   button_lock: "Užrakinti"
-  button_log_time: "Registruoti laiką"
+  button_log_time: "Vesti į žurnalą laiką"
   button_login: "Prisijungti"
   button_move: "Perkelti"
   button_move_and_follow: "Perkelti ir sekti"
