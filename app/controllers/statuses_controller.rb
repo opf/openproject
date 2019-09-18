@@ -66,7 +66,7 @@ class StatusesController < ApplicationController
   verify method: :patch, only: :update, render: { nothing: true, status: :method_not_allowed }
   def update
     @status = Status.find(params[:id])
-    if @status.update_attributes(permitted_params.status)
+    if @status.update(permitted_params.status)
       flash[:notice] = l(:notice_successful_update)
       redirect_to action: 'index'
     else

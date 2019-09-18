@@ -122,7 +122,7 @@ describe 'Projects index page',
 
     feature 'for admins' do
       before do
-        project.update_attributes(created_on: 7.days.ago)
+        project.update(created_on: 7.days.ago)
 
         news
       end
@@ -539,10 +539,10 @@ describe 'Projects index page',
         cf_filter = page.find("li[filter-name='cf_#{list_custom_field.id}']")
         within(cf_filter) do
           # Initial filter is a 'single select'
-          expect(cf_filter.find(:select, 'value')[:multiple]).to be_falsey
+          expect(cf_filter.find(:select, 'value')).not_to be_multiple
           click_on 'Toggle multiselect'
           # switching to multiselect keeps the current selection
-          expect(cf_filter.find(:select, 'value')[:multiple]).to be_truthy
+          expect(cf_filter.find(:select, 'value')).to be_multiple
           expect(cf_filter).to have_select('value', selected: list_custom_field.possible_values[2].value)
 
           select list_custom_field.possible_values[3].value, from: 'value'
@@ -553,7 +553,7 @@ describe 'Projects index page',
         cf_filter = page.find("li[filter-name='cf_#{list_custom_field.id}']")
         within(cf_filter) do
           # Query has two values for that filter, so it shoud show a 'multi select'.
-          expect(cf_filter.find(:select, 'value')[:multiple]).to be_truthy
+          expect(cf_filter.find(:select, 'value')).to be_multiple
           expect(cf_filter)
             .to have_select('value',
                             selected: [list_custom_field.possible_values[2].value,
@@ -564,7 +564,7 @@ describe 'Projects index page',
           unselect list_custom_field.possible_values[2].value, from: 'value'
 
           click_on 'Toggle multiselect'
-          expect(cf_filter.find(:select, 'value')[:multiple]).to be_falsey
+          expect(cf_filter.find(:select, 'value')).not_to be_multiple
           expect(cf_filter).to have_select('value', selected: list_custom_field.possible_values[1].value)
           expect(cf_filter).to_not have_select('value', selected: list_custom_field.possible_values[3].value)
         end
@@ -574,7 +574,7 @@ describe 'Projects index page',
         cf_filter = page.find("li[filter-name='cf_#{list_custom_field.id}']")
         within(cf_filter) do
           # Query has one value for that filter, so it should show a 'single select'.
-          expect(cf_filter.find(:select, 'value')[:multiple]).to be_falsey
+          expect(cf_filter.find(:select, 'value')).not_to be_multiple
         end
 
         # CF date filter work (at least for one operator)
@@ -632,7 +632,7 @@ describe 'Projects index page',
       # Remove public projects from the default list for these scenarios.
       public_project.update_attribute :status, Project::STATUS_ARCHIVED
 
-      project.update_attributes(created_on: 7.days.ago)
+      project.update(created_on: 7.days.ago)
 
       news
     end

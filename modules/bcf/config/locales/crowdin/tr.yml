@@ -16,7 +16,7 @@ tr:
     bcf_xml:
       xml_file: 'BCF XML Dosyası'
       import_title: 'İçeri Aktar'
-      export: 'ihracat'
+      export: 'Dışarı aktar'
       import_update_comment: '(BCF ithalatında güncellendi)'
       import_failed: 'BCF dosyası alınamıyor: %{error}'
       import_successful: 'İçe aktarılan %{count} BCF sorunları'

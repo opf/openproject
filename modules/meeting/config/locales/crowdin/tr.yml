@@ -16,7 +16,7 @@ tr:
       meeting_agenda: "Ajanda"
       meeting_minutes: "Dakika"
   description_attended: "katıldı"
-  description_invite: "davet et"
+  description_invite: "davet"
   events:
     meeting: Toplantı düzenlendi
     meeting_agenda: Düzenlenen toplantı gündem
@@ -39,8 +39,8 @@ tr:
   label_notify: "Gözden geçirilmek üzere gönder"
   label_icalendar: "Takvime gönder"
   label_version: "Sürüm"
-  label_time_zone: "Saat dilim"
-  label_start_date: "Başlama tarihi"
+  label_time_zone: "Zaman dilimi"
+  label_start_date: "Başlangıç tarihi"
   notice_successful_notification: "Bildirim başarıyla gönderildi"
   notice_timezone_missing: Saat dilimi ayarlanmadı ve %{zone} kabul edildi. Saat dilimini seçmek için lütfen buraya tıklayın.
   permission_create_meetings: "Toplantı oluşturma"

@@ -613,7 +613,7 @@ zh-CN:
     base: "一般错误："
     blocks_ids: "被工作包屏蔽的IDs"
     category: "类别"
-    comment: "注释"
+    comment: "评论"
     comments: "评论"
     content: "内容"
     color: "颜色"

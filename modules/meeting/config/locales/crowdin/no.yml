@@ -31,7 +31,7 @@
   label_meeting_edit: "Redigere møte"
   label_meeting_agenda: "Saksliste"
   label_meeting_minutes: "Referat"
-  label_meeting_close: "Afslutt"
+  label_meeting_close: "Lukk"
   label_meeting_open: "Åpne"
   label_meeting_agenda_close: "Lukk sakslisten for å begynne referatet"
   label_meeting_date_time: "Dato/klokkeslett"

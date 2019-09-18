@@ -2,10 +2,10 @@ fr:
   activerecord:
     attributes:
       cost_entry:
-        work_package: "Lot de Travaux"
+        work_package: "Lot de travaux"
         overridden_costs: "Coûts outrepassés"
         spent: "Consommé"
-        spent_on: "Date"
+        spent_on: "date"
       cost_object:
         author: "Auteur"
         available: "Disponible"
@@ -68,7 +68,7 @@ fr:
   button_log_costs: "Consigner coûts unitaires"
   button_log_time: "Consigner temps"
   caption_booked_on_project: "Réservé pour le projet"
-  caption_default: "Défaut"
+  caption_default: "défaut"
   caption_default_rate_history_for: "Historique des tarifs par défaut pour %{user}"
   caption_labor: "Main d'œuvre"
   caption_labor_costs: "Coûts de main d'œuvre réels"
@@ -83,7 +83,7 @@ fr:
   caption_show_locked: "Afficher les types verrouillés"
   cost_objects_title: "Budgets"
   label_cost_type_plural: "Types de coûts"
-  currency_delimiter: " "
+  currency_delimiter: "."
   currency_separator: ","
   description_date_for_new_rate: "Date pour le nouveau tarif"
   events:

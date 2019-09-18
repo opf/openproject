@@ -32,7 +32,7 @@ pt-BR:
   label_meeting_agenda: "Agenda"
   label_meeting_minutes: "Atas"
   label_meeting_close: "Fechar"
-  label_meeting_open: "Abrir"
+  label_meeting_open: "Aberto"
   label_meeting_agenda_close: "Fechar a agenda para iniciar a Ata"
   label_meeting_date_time: "Data/Horário"
   label_meeting_diff: "Diferenças"

@@ -349,7 +349,7 @@ pt-BR:
           overview: "Gerencie seu trabalho na visão de <b>Backlogs</b>.<br> À direita você possui o Backlog do produto ou um Backlog de Bug, à esquerda você terá sprints respectivos. Aqui você pode criar <b>épicos, histórias de usuários e bugs</b>, priorizar através de arrastar e soltar e adicioná-los a um sprint."
           task_board_arrow: 'Para visualizar seu <b>Quadro de tarefas</b>, abra o menu suspenso de Sprint...'
           task_board_select: '... e selecione <b>Quadro de tarefas</b>.'
-          task_board: "O <b>Quadro de tarefas</b> visualiza o progresso do sprint. Adicione novas tarefas ou impedimentos com o + ícone ao lado de uma história de usuário. Arrastando e soltando você pode atualizar a situação."
+          task_board: "O <b>Quadro de tarefas</b> visualiza o progresso do sprint. Adicione novas tarefas ou impedimentos com o + ícone ao lado de uma história de usuário. Arrastando e soltando você pode atualizar o status."
         boards:
           overview: 'Gerencie seu trabalho através de uma visão intuitiva de <b>Quadros</b>.'
           lists: 'Você pode criar várias listas (colunas) dentro de uma visão de um quadro, por exemplo, para criar um quadro KANBAN.'
@@ -358,7 +358,7 @@ pt-BR:
         wp:
           toggler: "Agora vamos dar uma olhada na seção <b>Pacotes de trabalho</b>, que lhe fornece uma visão mais detalhada do seu trabalho."
           list: 'Esta é a lista de <b>Pacotes de trabalho</b> com o trabalho importante dentro de seu projeto, tais como tarefas, recursos, marcos, bugs e muito mais. <br>Você pode criar ou editar um pacote de trabalho diretamente dentro desta lista. Para ver seus detalhes você pode clicar duas vezes em uma linha.'
-          full_view: 'Nos <b>detalhes do pacote de trabalho</b> você encontra todas as informações pertinentes, tais como descrição, situação e prioridade, atividades, dependências ou comentários.'
+          full_view: 'Nos <b>detalhes do pacote de trabalho</b> você encontra todas as informações pertinentes, tais como descrição, estado e prioridade, atividades, dependências ou comentários.'
           back_button: 'Com a seta você pode navegar de volta para a lista de pacotes de trabalho.'
           create_button: 'O botão <b>Criar</b> irá adicionar um novo pacote de trabalho ao seu projeto.'
           timeline_button: 'Você pode ativar o <b>gráfico de Gantt</b> para criar uma linha do tempo para o seu projeto.'
@@ -482,13 +482,13 @@ pt-BR:
         other: "Você pode selecionar somente {{limit}} itens"
     project_menu_details: "Detalhes"
     sort:
-      sorted_asc: 'Ordenação crescente aplicada, '
+      sorted_asc: 'Classificação crescente aplicada, '
       sorted_dsc: 'Ordenação decrescente aplicada, '
-      sorted_no: 'Sem ordenação aplicada, '
-      sorting_disabled: 'ordenação está desativada'
-      activate_asc: 'ative para aplicar ordenação decrescente'
+      sorted_no: 'Sem classificação aplicada, '
+      sorting_disabled: 'a classificação está desativada'
+      activate_asc: 'ative para aplicar uma classificação crescente'
       activate_dsc: 'ative para aplicar ordenação decrescente'
-      activate_no: 'ative para remover a ordenação'
+      activate_no: 'ative para remover a classificação'
     text_work_packages_destroy_confirmation: "Tem certeza que deseja excluir o(s) pacote(s) de trabalho selecionado(s)?"
     text_query_destroy_confirmation: "Tem certeza que deseja excluir a visão selecionada?"
     text_attachment_destroy_confirmation: "Tem certeza de que deseja excluir o anexo?"
@@ -638,7 +638,7 @@ pt-BR:
         estimatesAndTime: "Estimativas e Tempo"
         other: "Outro"
       properties:
-        assignee: "Atribuição"
+        assignee: "Atribuído para"
         author: "Autor"
         createdAt: "Criado em"
         description: "Descrição"
@@ -652,7 +652,7 @@ pt-BR:
         projectName: "Projeto"
         responsible: "Responsável"
         startDate: "Data de início"
-        status: "Situação"
+        status: "Status"
         subject: "Assunto"
         title: "Título"
         type: "Tipo"
@@ -724,7 +724,7 @@ pt-BR:
           inline: 'Atributo(s) destacado(s)'
           inline_all: 'Todos atributos'
           entire_row_by: 'Toda linha por'
-          status: 'Situação'
+          status: 'Status'
           priority: 'Prioridade'
           type: 'Tipo'
         sorting_mode:

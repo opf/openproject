@@ -3,7 +3,7 @@ zh-CN:
     attributes:
       meeting:
         location: "地点"
-        duration: "时长"
+        duration: "持续时间"
         participants: "参加者"
         participants_attended: "出席者"
         participants_invited: "受邀者"
@@ -31,8 +31,8 @@ zh-CN:
   label_meeting_edit: "编辑会议"
   label_meeting_agenda: "议程"
   label_meeting_minutes: "会议记录"
-  label_meeting_close: "结束"
-  label_meeting_open: "开始"
+  label_meeting_close: "关闭"
+  label_meeting_open: "打开"
   label_meeting_agenda_close: "确定议程以开始会议记录"
   label_meeting_date_time: "日期/时间"
   label_meeting_diff: "比较"

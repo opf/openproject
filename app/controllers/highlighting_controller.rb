@@ -46,7 +46,7 @@ class HighlightingController < ApplicationController
   private
 
   def determine_freshness
-    @max_updated_at = helpers.highlight_css_updated_at || Time.now.iso8601
+    @max_updated_at = helpers.highlight_css_updated_at.to_s || Time.now.iso8601
     @highlight_version_tag = helpers.highlight_css_version_tag(@max_updated_at)
   end
 end

@@ -3,7 +3,7 @@ fr:
   label_click_to_edit: "Cliquez pour modifier."
   label_columns: "Colonnes"
   label_count: "Décompte"
-  label_filter: "Filtre"
+  label_filter: "Filtrer"
   label_filter_add: "Ajouter un filtre"
   label_filter_plural: "Filtres"
   label_greater: ">"

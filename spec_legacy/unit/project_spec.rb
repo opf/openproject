@@ -131,7 +131,7 @@ describe Project, type: :model do
 
   it 'should members should be active users' do
     Project.all.each do |project|
-      assert_nil project.members.detect { |m| !(m.user.is_a?(User) && m.user.active?) }
+      assert_nil project.members.detect { |m| !(m.principal.is_a?(User) && m.principal.active?) }
     end
   end
 
@@ -142,7 +142,7 @@ describe Project, type: :model do
   end
 
   it 'should archive' do
-    user = @ecookbook.members.first.user
+    user = @ecookbook.members.first.principal
     @ecookbook.archive
     @ecookbook.reload
 
@@ -166,7 +166,7 @@ describe Project, type: :model do
   end
 
   it 'should unarchive' do
-    user = @ecookbook.members.first.user
+    user = @ecookbook.members.first.principal
     @ecookbook.archive
     # A subproject of an archived project can not be unarchived
     assert !@ecookbook_sub1.unarchive

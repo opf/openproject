@@ -76,7 +76,7 @@ class ColorsController < ApplicationController
   def update
     @color = Color.find(params[:id])
 
-    if @color.update_attributes(permitted_params.color)
+    if @color.update(permitted_params.color)
       flash[:notice] = l(:notice_successful_update)
       redirect_to colors_path
     else

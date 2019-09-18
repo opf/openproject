@@ -63,18 +63,18 @@ describe Enumeration, type: :model do
   end
 
   it 'should update default' do
-    @default_enumeration.update_attributes(name: 'Changed', is_default: true)
+    @default_enumeration.update(name: 'Changed', is_default: true)
     assert_equal @default_enumeration, Enumeration.default
   end
 
   it 'should update default to non default' do
-    @default_enumeration.update_attributes(name: 'Changed', is_default: false)
+    @default_enumeration.update(name: 'Changed', is_default: false)
     assert_nil Enumeration.default
   end
 
   it 'should change default' do
     e = Enumeration.find_by(name: @default_enumeration.name)
-    e.update_attributes(name: 'Changed Enumeration', is_default: true)
+    e.update(name: 'Changed Enumeration', is_default: true)
     assert_equal e, Enumeration.default
   end
 

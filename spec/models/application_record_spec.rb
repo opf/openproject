@@ -18,7 +18,7 @@ describe ApplicationRecord, type: :model do
 
     def expect_matched_date(postgres_time, rails_time)
       # Rails uses timestamp without timezone for timestamp columns
-      postgres_utc_iso8601 = Time.zone.parse(postgres_time).iso8601
+      postgres_utc_iso8601 = Time.zone.parse(postgres_time.to_s).iso8601
       rails_utc_iso8601 = rails_time.iso8601
 
       expect(postgres_utc_iso8601).to eq(rails_utc_iso8601)

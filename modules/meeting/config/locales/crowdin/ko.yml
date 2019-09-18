@@ -40,7 +40,7 @@ ko:
   label_icalendar: "iCalendar 보내기"
   label_version: "버전"
   label_time_zone: "표준 시간대"
-  label_start_date: "시작일"
+  label_start_date: "시작 날짜"
   notice_successful_notification: "알림이 전송됨"
   notice_timezone_missing: 표준 시간대가 설정되지 않았으며 %{zone}(으)로 간주됩니다. 해당 표준 시간대를 선택하려면 여기를 클릭하세요.
   permission_create_meetings: "미팅 생성"
