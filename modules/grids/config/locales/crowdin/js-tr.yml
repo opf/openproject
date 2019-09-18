@@ -3,6 +3,9 @@ tr:
     grid:
       add_widget: 'Widget ekleyin'
       remove: 'Widget''ı kaldır'
+      upsale:
+        text: "Some widgets, like the work package graph widget, are only available in the "
+        link: 'enterprise edition.'
       widgets:
         custom_text:
           title: 'Özel metin'

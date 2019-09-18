@@ -20,7 +20,7 @@ fr:
     button_back_to_list_view: "Retour à la liste"
     button_cancel: "Annuler"
     button_close: "Fermer"
-    button_change_project: "Change project"
+    button_change_project: "Changer de projet"
     button_check_all: "Tout cocher"
     button_configure-form: "Configurer le formulaire"
     button_confirm: "Confirmer"
@@ -41,8 +41,8 @@ fr:
     button_open_details: "Ouvrir la vue détaillée"
     button_close_details: "Fermer la vue détaillée"
     button_open_fullscreen: "Ouvrir l'affichage plein écran"
-    button_show_cards: "Show card view"
-    button_show_list: "Show list view"
+    button_show_cards: "Afficher la vue carte"
+    button_show_list: "Afficher la vue liste"
     button_quote: "Citer"
     button_save: "Enregistrer"
     button_settings: "Paramètres"
@@ -52,7 +52,7 @@ fr:
     button_export-atom: "Télécharger Atom"
     calendar:
       title: 'Calendrier'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
+      too_many: 'Il y a %{count} de paquets de travail au total, mais seulement %{max} peut être affiché.'
     card:
       add_new: 'Ajouter une nouvelle carte'
       highlighting:
@@ -63,22 +63,22 @@ fr:
       browser_error: "Votre navigateur ne prend pas en charge la copie dans le presse-papier. Veuillez copier manuellement le texte sélectionné."
       copied_successful: "Copié avec succès vers le presse-papier !"
     chart:
-      type: 'Chart type'
-      axis_criteria: 'Axis criteria'
-      modal_title: 'Work package graph configuration'
+      type: 'Type de graphique'
+      axis_criteria: 'Critères de l''axe'
+      modal_title: 'Configuration du graphique des lots de travaux'
       types:
-        line: 'Line'
-        horizontal_bar: 'Horizontal bar'
-        bar: 'Bar'
-        pie: 'Pie'
-        doughnut: 'Doughnut'
+        line: 'Ligne'
+        horizontal_bar: 'Barre horizontale'
+        bar: 'Barre'
+        pie: 'Camembert'
+        doughnut: 'Anneau'
         radar: 'Radar'
         polar_area: 'Polar area'
       tabs:
         graph_settings: 'Général'
-        dataset: 'Dataset %{number}'
+        dataset: 'Ensemble de données %{number}%'
       errors:
-        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
+        could_not_load: 'Les données à afficher le graphique n''ont pas pu être chargées. Les permissions nécessaires peuvent être manquantes.'
     description_available_columns: "Colonnes disponibles"
     description_current_position: "Vous êtes ici :"
     description_select_work_package: "Sélectionner le lot de travaux #%{id}"
@@ -138,7 +138,7 @@ fr:
         drag_to_activate: "Faites glisser les champs ici pour les activer"
         add_group: "Ajouter un groupe d’attributs"
         add_table: "Ajouter un tableau des lots de travaux associés"
-        edit_query: 'Edit query'
+        edit_query: 'Modifier la requête'
         new_group: 'Nouveau groupe'
         reset_to_defaults: 'Rétablir les valeurs par défaut'
     custom_actions:
@@ -331,7 +331,7 @@ fr:
     label_wait: "Veuillez patienter pendant la configuration…"
     label_upload_counter: "%{done} fichiers sur %{count} finis"
     label_validation_error: "Le lot de travaux n'a pas pu être enregistré en raison des erreurs suivantes :"
-    label_view_has_changed: "This view has unsaved changes. Click to save them."
+    label_view_has_changed: "Cette vue a des changements non sauvegardés. Cliquez pour les enregistrer."
     help_texts:
       show_modal: 'Afficher l’aide de l’attribut de saisie de texte'
     onboarding:
@@ -573,7 +573,7 @@ fr:
       image: "Image"
     work_packages:
       bulk_actions:
-        move: 'Bulk change of project'
+        move: 'Changement de projet en bloc'
         edit: 'Édition en bloc'
         copy: 'Copier en bloc'
         delete: 'Supprimer en bloc'
@@ -632,7 +632,7 @@ fr:
         title: Aucun lot de travaux à afficher.
         description: Soit aucun n'a été créé, soit tous les lots de travaux sont filtrés.
       limited_results: >
-        There are %{total} total work packages, but only %{count} can be shown in manual sorting mode. Please reduce the results by filtering.
+        Il y a %{total} total des lots de travail, mais seul %{count} peut être affiché en mode tri manuel. Veuillez réduire les résultats en filtrant.
       property_groups:
         details: "Détails"
         people: "Participants"
@@ -692,9 +692,9 @@ fr:
         confirm_edit_cancel: "Êtes-vous sûr de vouloir annuler la modification du nom de cette vue ? Le titre sera redéfini selon la valeur précédente."
         click_to_edit_query_name: "Cliquez ici pour modifier le titre de cette présentation."
         rename_query_placeholder: "Nom de cette vue"
-        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        star_text: "Marquez cette vue comme favorite et ajoutez-la à la barre latérale des vues enregistrées sur la gauche."
         public_text: >
-          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+          Publier cette vue, permet aux autres utilisateurs d'accéder à votre vue. Les utilisateurs ayant l'autorisation de 'Gérer les vues publiques' peuvent modifier ou supprimer une requête publique. Cela n'affecte pas la visibilité des résultats des lots de travaux dans cette vue et, selon leurs permissions, les utilisateurs peuvent voir des résultats différents.
         errors:
           unretrievable_query: "Impossible de récupérer la vue par l'URL"
           not_found: "Cette vue n'existe pas"
@@ -729,10 +729,10 @@ fr:
           priority: 'Priorité'
           type: 'Type'
         sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
+          description: 'Choisissez le mode pour trier vos lots de travaux :'
+          automatic: 'Automatique'
+          manually: 'Manuellement'
+          warning: 'Vous perdrez votre tri précédent lors de l''activation du mode de tri automatique.'
         columns_help_text: "Utilisez l’entrée ci-dessus pour ajouter ou supprimer des colonnes à votre vue du tableau. Vous pouvez déplacer les colonnes par glisser/déposer pour les réorganiser."
         upsale:
           attribute_highlighting: 'Vous avez besoin de lots de travaux qui sortent du lot ?'
@@ -842,6 +842,6 @@ fr:
         project_and_subprojects: "et tous les sous-projets"
         search_for: "Rechercher"
     views:
-      card: 'Cards'
-      list: 'Table'
+      card: 'Cartes'
+      list: 'Tableau'
       timeline: 'Gantt'

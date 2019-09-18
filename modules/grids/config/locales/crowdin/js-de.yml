@@ -3,6 +3,9 @@ de:
     grid:
       add_widget: 'Widget hinzufügen'
       remove: 'Widget entfernen'
+      upsale:
+        text: "Some widgets, like the work package graph widget, are only available in the "
+        link: 'enterprise edition.'
       widgets:
         custom_text:
           title: 'Benutzerdefinierter Text'
