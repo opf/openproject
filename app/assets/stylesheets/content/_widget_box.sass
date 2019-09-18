@@ -64,7 +64,7 @@ $widget-box--enumeration-width: 20px
   .widget-box
     position: relative
     @include widget-box--style
-    padding: 10px 20px 30px 20px
+    padding: 20px
     min-height: 250px
     word-wrap: break-word
     overflow: hidden
@@ -79,18 +79,6 @@ $widget-box--enumeration-width: 20px
       padding: 0
       border: 0
 
-    .widget-box--header
-      font-weight: bold
-      font-size: 1.25rem
-      border: none
-
-      .widget-box--header-title
-        vertical-align: middle
-      .icon:before,
-      .icon-context:before
-        display: inline-block
-        padding-top: 0
-        vertical-align: middle
 
     .widget-box--enumeration
       margin-left: 1.5rem
@@ -119,6 +107,30 @@ $widget-box--enumeration-width: 20px
       max-height: 100px
       margin-left: auto
       margin-right: auto
+
+.widget-box--header
+  font-weight: bold
+  font-size: 1.25rem
+  display: flex
+
+.widget-box--header-title
+  vertical-align: middle
+  margin-bottom: 0
+  flex-grow: 1
+  align-self: center
+
+  .widget-box--header-icon + &
+    padding-left: 5px
+
+  // Ensure style for read-only widget headers
+  .editable-toolbar-title--fixed
+    color: #5F5F5F
+    font-size: 20px
+    font-weight: normal
+
+.widget-box--header-icon
+  align-self: center
+  line-height: 28px
 
 .widget-box--additional-info
   font-style: italic

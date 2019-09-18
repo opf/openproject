@@ -1,7 +1,5 @@
-<h3 class="widget-box--header">
-  <%= op_icon('icon-context icon-group') %>
-  <span class="widget-box--header-title"><%= l(:label_user_plural) %></span>
-</h3>
+<%= render 'homescreen/blocks/header', icon: 'group', title: t(:label_user_plural) %>
+
 <p class="widget-box--additional-info"><%= l('homescreen.additional.users') %></p>
 
 <% unless @newest_users.empty? %>

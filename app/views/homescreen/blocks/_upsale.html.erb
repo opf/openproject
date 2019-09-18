@@ -1,7 +1,4 @@
-<h3 class="widget-box--header">
-  <%= op_icon('icon-context icon-cart') %>
-  <span class="widget-box--header-title"><%= t('homescreen.blocks.upsale.title') %></span>
-</h3>
+<%= render 'homescreen/blocks/header', icon: 'cart', title: t('homescreen.blocks.upsale.title') %>
 
 <%= image_tag "enterprise_edition.png", class: "widget-box--teaser-image" %>
 

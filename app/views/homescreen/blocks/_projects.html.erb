@@ -1,7 +1,4 @@
-<h3 class="widget-box--header">
-  <%= op_icon('icon-context icon-projects') %>
-  <span class="widget-box--header-title"><%= l(:label_project_plural) %></span>
-</h3>
+<%= render 'homescreen/blocks/header', icon: 'projects', title: t(:label_project_plural) %>
 
 <% if @newest_projects.empty? %>
   <p class="widget-box--additional-info">
