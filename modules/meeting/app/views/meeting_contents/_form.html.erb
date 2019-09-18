@@ -24,17 +24,18 @@ See doc/COPYRIGHT.md for more details.
 
   <% resource = ::API::V3::MeetingContents::MeetingContentRepresenter.new(content, current_user: current_user, embed_links: true) %>
 
-  <p>
-    <%=
-      f.text_area(
-        :text,
-        class: 'wiki-edit wiki-toolbar',
-        resource: resource,
-        label_options: { class: 'hidden-for-sighted' },
-        with_text_formatting: true
-      )
-    %>
-  </p>
+  <div class="form--field -no-label -visible-overflow">
+      <%=
+        f.text_area(
+            :text,
+            class: 'wiki-edit wiki-toolbar',
+            no_label: true,
+            resource: resource,
+            label_options: { class: 'hidden-for-sighted' },
+            with_text_formatting: true
+        )
+      %>
+  </div>
   <%= f.hidden_field :lock_version %>
   <% path = send("preview_#{content_type}_path", content.meeting) %>
 
