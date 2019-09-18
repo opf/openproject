@@ -171,6 +171,63 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
     end
   end
 
+  describe 'with a saved query and positions increasing from zero' do
+    let(:query) do
+      FactoryBot.create(:query, user: user, project: project, show_hierarchies: false).tap do |q|
+        q.sort_criteria = [[:manual_sorting, 'asc']]
+        q.save!
+      end
+    end
+    let!(:status) { FactoryBot.create :default_status }
+    let!(:priority) { FactoryBot.create :default_priority }
+
+    before do
+      ::OrderedWorkPackage.create(query: query, work_package: work_package_1, position: 0)
+      ::OrderedWorkPackage.create(query: query, work_package: work_package_2, position: 1)
+      ::OrderedWorkPackage.create(query: query, work_package: work_package_3, position: 2)
+      ::OrderedWorkPackage.create(query: query, work_package: work_package_4, position: 3)
+    end
+
+    it 'can inline create a work package and it is positioned to the bottom (Regression #31078)' do
+      wp_table.visit_query query
+      wp_table.expect_work_package_order work_package_1, work_package_2, work_package_3, work_package_4
+
+      wp_table.click_inline_create
+      subject_field = wp_table.edit_field(nil, :subject)
+      subject_field.expect_active!
+
+      # Save the WP
+      subject_field.set_value 'Foobar!'
+      subject_field.submit_by_enter
+
+      wp_table.expect_and_dismiss_notification(
+        message: 'Successful creation. Click here to open this work package in fullscreen view.'
+      )
+
+      wp_table.expect_work_package_subject 'Foobar!'
+
+      inline_created = WorkPackage.last
+      expect(inline_created.subject).to eq 'Foobar!'
+
+      # Wait until the order was saved, this might take a few moments
+      retry_block do
+        order = ::OrderedWorkPackage.find_by(query: query, work_package: inline_created)
+
+        unless order&.position == 8195
+          raise "Expected order of #{inline_created.id} to be 8195. Was: #{order&.position}. Retrying"
+        end
+      end
+
+      wp_table.expect_work_package_order work_package_1, work_package_2, work_package_3, work_package_4, inline_created
+
+      # Revisit the query
+      wp_table.visit_query query
+
+      # Expect same order
+      wp_table.expect_work_package_order work_package_1, work_package_2, work_package_3, work_package_4, inline_created
+    end
+  end
+
   describe 'flat mode' do
     before do
       wp_table.visit!
