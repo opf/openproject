@@ -42,6 +42,7 @@ export class WorkPackageSplitViewToolbarComponent {
     button_more: this.I18n.t('js.button_more')
   }
 
+  // some comment to trigger change
 constructor(readonly I18n:I18nService,
             @Inject(IWorkPackageEditingServiceToken) readonly wpEditing:WorkPackageEditingService) {}
 }
