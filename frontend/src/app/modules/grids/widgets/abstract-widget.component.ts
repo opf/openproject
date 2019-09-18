@@ -14,12 +14,7 @@ export abstract class AbstractWidgetComponent {
   @Output() resourceChanged = new EventEmitter<WidgetChangeset>();
 
   public get widgetName():string {
-    let fallback = this.resource.options.name;
-    let widgetIdentifier = this.resource.identifier;
-    return this.i18n.t(
-      `js.grid.widgets.${widgetIdentifier}.title`,
-      { defaultValue: fallback }
-    );
+    return this.resource.options.name as string;
   }
 
   public renameWidget(name:string) {

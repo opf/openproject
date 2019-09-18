@@ -156,8 +156,12 @@ describe 'Arbitrary WorkPackage query graph widget dashboard', type: :feature, j
   context 'without an enterprise edition' do
     let(:enterprise_edition) { false }
 
-    it 'cannot add the widget' do
-      dashboard_page.expect_unable_to_add_widget(1, 2, :within, "Work packages graph")
+    it 'cannot add the widget and receives an enterprise edition notice' do
+      dashboard_page.expect_add_widget_enterprise_edition_notice(1, 2, :within)
+
+      # At this point the add widget modal is open
+      expect(page)
+        .not_to have_content("Work packages graph")
     end
   end
 end

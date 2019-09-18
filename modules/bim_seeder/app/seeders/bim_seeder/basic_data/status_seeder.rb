@@ -33,10 +33,10 @@ module BimSeeder
     class StatusSeeder < ::BasicData::StatusSeeder
       def data
         color_names = [
-          'red-9', # new
-          'yellow-3', # in progress
+          'blue-6', # new
+          'orange-6', # in progress
           'green-3', # resolved
-          'green-9' # closed
+          'gray-3' # closed
         ]
 
         # When selecting for an array of values, implicit order is applied
