@@ -1,7 +1,4 @@
-<h3 class="widget-box--header">
-  <%= op_icon('icon-context icon-news') %>
-  <span class="widget-box--header-title"><%= l(:label_news_latest) %></span>
-</h3>
+<%= render 'homescreen/blocks/header', icon: 'news', title: t(:label_news_latest) %>
 
 <% unless @news.empty? %>
   <ul class="widget-box--arrow-links">

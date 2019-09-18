@@ -41,12 +41,6 @@ module HomescreenHelper
   end
 
   ##
-  # Returns the user avatar or a default image
-  def homescreen_user_avatar
-    op_icon('icon-context icon-user')
-  end
-
-  ##
   # Render a static link defined in OpenProject::Static::Links
   def static_link_to(key)
     link = OpenProject::Static::Links.links[key]

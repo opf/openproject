@@ -1,7 +1,4 @@
-<h3 class="widget-box--header">
-  <%= homescreen_user_avatar %>
-  <span class="widget-box--header-title"><%= l(:label_my_account) %></span>
-</h3>
+<%= render 'homescreen/blocks/header', icon: 'user', title: t('label_my_account') %>
 
 <ul class="widget-box--arrow-links">
   <li>
