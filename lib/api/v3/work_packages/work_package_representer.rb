@@ -105,7 +105,7 @@ module API
         link :copy,
              cache_if: -> { current_user_allowed_to(:add_work_packages, context: represented.project) } do
 
-          next if represented.new_record?
+          next if represented.new_record? || !can_be_copied?
 
           {
             href: work_package_path(represented, 'copy'),
@@ -593,6 +593,12 @@ module API
 
         def load_complete_model(model)
           ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper.wrap_one(model, current_user)
+        end
+
+        # Check if the represented work package can be copied.
+        # This method might get patched by modules.
+        def can_be_copied?
+          true
         end
       end
     end
