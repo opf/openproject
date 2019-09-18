@@ -258,6 +258,27 @@ describe Query, type: :model do
     assert q.has_column?(c)
   end
 
+  it 'should groupable columns should include custom fields' do
+    q = Query.new name: '_'
+    assert q.groupable_columns.detect { |c| c.is_a? Queries::WorkPackages::Columns::CustomFieldColumn }
+  end
+
+  it 'should grouped with valid column' do
+    q = Query.new(group_by: 'status', name: '_')
+    assert q.grouped?
+    refute_nil q.group_by_column
+    assert_equal :status, q.group_by_column.name
+    refute_nil q.group_by_statement
+    assert_equal 'status', q.group_by_statement
+  end
+
+  it 'should grouped with invalid column' do
+    q = Query.new(group_by: 'foo', name: '_')
+    assert !q.grouped?
+    assert_nil q.group_by_column
+    assert_nil q.group_by_statement
+  end
+
   it 'should default sort' do
     q = Query.new name: '_'
     assert_equal [], q.sort_criteria
@@ -324,6 +345,50 @@ describe Query, type: :model do
     values = issues.map { |i| begin; Kernel.Float(i.custom_value_for(c.custom_field).to_s); rescue; nil; end }.compact
     assert !values.empty?
     assert_equal values.sort, values
+  end
+
+  it 'should invalid query should raise query statement invalid error' do
+    q = Query.new name: '_'
+    assert_raises ActiveRecord::StatementInvalid do
+      q.results(conditions: 'foo = 1').work_packages.to_a
+    end
+  end
+
+  it 'should issue count by association group' do
+    q = Query.new(name: '_',
+                  group_by: 'assigned_to',
+                  show_hierarchies: false)
+
+    count_by_group = q.results.work_package_count_by_group
+    assert_kind_of Hash, count_by_group
+    assert_equal %w(NilClass User), count_by_group.keys.map { |k| k.class.name }.uniq.sort
+    assert_equal %w(Integer), count_by_group.values.map { |k| k.class.name }.uniq
+    assert count_by_group.has_key?(User.find(3))
+  end
+
+  it 'should issue count by list custom field group' do
+    q = Query.new(name: '_',
+                  group_by: 'cf_1',
+                  show_hierarchies: false)
+
+    count_by_group = q.results.work_package_count_by_group
+    assert_kind_of Hash, count_by_group
+    expect(count_by_group.keys.map { |k| k.class.name }.uniq)
+      .to match_array(%w(CustomOption NilClass))
+    assert_equal %w(Integer), count_by_group.values.map { |k| k.class.name }.uniq
+    expect(count_by_group.any? { |k, v| k.is_a?(CustomOption) && k.id == 1 && v == 1 })
+      .to be_truthy
+  end
+
+  it 'should issue count by date custom field group' do
+    q = Query.new(name: '_',
+                  group_by: 'cf_8',
+                  show_hierarchies: false)
+
+    count_by_group = q.results.work_package_count_by_group
+    assert_kind_of Hash, count_by_group
+    assert_equal %w(Date NilClass), count_by_group.keys.map { |k| k.class.name }.uniq.sort
+    assert_equal %w(Integer), count_by_group.values.map { |k| k.class.name }.uniq
   end
 
   context '#filter_for' do

@@ -8,7 +8,7 @@ tr:
   enumeration:
     document_category:
       documentation: Belgeleme
-      specification: Özellik
+      specification: Şartname
       other: Diğer
   documents:
     label_attachment_author: "Ek yazar"

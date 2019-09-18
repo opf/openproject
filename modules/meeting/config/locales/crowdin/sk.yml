@@ -16,7 +16,7 @@ sk:
       meeting_agenda: "Agenda"
       meeting_minutes: "Zápisnica"
   description_attended: "sa zúčastnil"
-  description_invite: "pozvaný"
+  description_invite: "pozvaní"
   events:
     meeting: Stretnutie upravené
     meeting_agenda: Agenda stretnutia upravená
@@ -32,7 +32,7 @@ sk:
   label_meeting_agenda: "Agenda"
   label_meeting_minutes: "Zápisnica"
   label_meeting_close: "Zatvoriť"
-  label_meeting_open: "Otvorené"
+  label_meeting_open: "Otvoriť"
   label_meeting_agenda_close: "Uzavrieť agendu za účelom začatia logu stretnutia"
   label_meeting_date_time: "Dátum/čas"
   label_meeting_diff: "Rozdieľ"

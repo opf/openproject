@@ -2,7 +2,7 @@ nl:
   activerecord:
     attributes:
       two_factor_authentication/device:
-        identifier: 'Identifier'
+        identifier: 'ID'
         default: 'Gebruik als standaard'
       two_factor_authentication/device/sms:
         phone_number: "Telefoonnummer"

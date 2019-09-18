@@ -130,7 +130,7 @@ uk:
   project_module_backlogs: "Backlogs"
   rb_label_copy_tasks: "Копіювання робочих пакетів"
   rb_label_copy_tasks_all: "Всі"
-  rb_label_copy_tasks_none: "Жодного"
+  rb_label_copy_tasks_none: "Нічого"
   rb_label_copy_tasks_open: "Відкрити"
   rb_label_link_to_original: "Включіть посилання на оригінальну історію"
   remaining_hours: "залишилися години"

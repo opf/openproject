@@ -31,13 +31,9 @@
 module OpenProject::TextFormatting
   module Filters
     class SanitizationFilter < HTML::Pipeline::SanitizationFilter
-      def context
-        super.merge(whitelist: WHITELIST.merge(
-          elements: WHITELIST[:elements] + ['macro'],
-          # Whitelist class and data-* attributes on all macros
-          attributes: WHITELIST[:attributes].merge('macro' => ['class', :data])
-        ))
-      end
+      WHITELIST[:elements] << 'macro'
+      # Whitelist class and data-* attributes on all macros
+      WHITELIST[:attributes].merge!('macro' => ['class', :data])
     end
   end
 end

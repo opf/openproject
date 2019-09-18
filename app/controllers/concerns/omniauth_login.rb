@@ -167,7 +167,7 @@ module Concerns::OmniauthLogin
     return if handle_omniauth_registration_expired(auth)
 
     fill_user_fields_from_omniauth(user, auth)
-    user.update(permitted_params.user_register_via_omniauth)
+    user.update_attributes(permitted_params.user_register_via_omniauth)
 
     opts = {
       omni_auth_hash: auth

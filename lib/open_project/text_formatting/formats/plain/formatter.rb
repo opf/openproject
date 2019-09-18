@@ -31,6 +31,14 @@
 module OpenProject::TextFormatting::Formats
   module Plain
     class Formatter < OpenProject::TextFormatting::Formats::BaseFormatter
+      attr_reader :context,
+                  :pipeline
+
+      def initialize(context)
+        @context = context
+        @pipeline = HTML::Pipeline.new(located_filters, context)
+      end
+
       def to_html(text)
         pipeline.to_html(text, context).html_safe
       end

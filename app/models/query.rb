@@ -188,7 +188,6 @@ class Query < ActiveRecord::Base
 
   def add_short_filter(field, expression)
     return unless expression
-
     parms = expression.scan(/\A(o|c|!\*|!|\*)?(.*)\z/).first
     add_filter field, (parms[0] || '='), [parms[1] || '']
   end
@@ -373,8 +372,9 @@ class Query < ActiveRecord::Base
   end
 
   # Returns the result set
-  def results
-    Results.new(self)
+  # Valid options are :order, :include, :conditions
+  def results(options = {})
+    Results.new(self, options)
   end
 
   # Returns the journals

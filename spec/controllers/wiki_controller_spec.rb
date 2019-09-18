@@ -241,7 +241,7 @@ describe WikiController, type: :controller do
 
       @anon = User.anonymous.nil? ? FactoryBot.create(:anonymous) : User.anonymous
 
-      Role.anonymous.update name: I18n.t(:default_role_anonymous),
+      Role.anonymous.update_attributes name: I18n.t(:default_role_anonymous),
                                        permissions: [:view_wiki_pages]
 
       allow(User).to receive(:current).and_return @user

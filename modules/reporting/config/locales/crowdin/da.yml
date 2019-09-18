@@ -25,7 +25,7 @@ da:
   label_money: "Kontantværdi"
   label_month_reporting: "Måned (Brugt)"
   label_new_report: "Ny omkostningsrapport"
-  label_open: "åbn"
+  label_open: "åben"
   label_operator: "Operator"
   label_private_report_plural: "Privat omkostningsrapporter"
   label_progress_bar_explanation: "Genererer rapport..."

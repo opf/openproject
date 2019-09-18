@@ -224,7 +224,7 @@ class WikiController < ApplicationController
           existing_identifier: item.name)
 
         redirect_to_show
-      elsif @page.update(attributes)
+      elsif @page.update_attributes(attributes)
         flash[:notice] = t(:notice_successful_update)
         redirect_to_show
       end

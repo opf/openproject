@@ -35,13 +35,11 @@ class MenuItem < ActiveRecord::Base
 
   serialize :options, Hash
 
-  validates :title,
-            presence: true,
-            uniqueness: { scope: %i[navigatable_id type], case_sensitive: true }
+  validates_presence_of :title
+  validates_uniqueness_of :title, scope: [:navigatable_id, :type]
 
-  validates :name,
-            presence: true,
-            uniqueness: { scope: %i[navigatable_id parent_id], case_sensitive: true }
+  validates_presence_of :name
+  validates_uniqueness_of :name, scope: [:navigatable_id, :parent_id]
 
   def setting
     if new_record?

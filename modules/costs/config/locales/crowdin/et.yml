@@ -12,7 +12,7 @@ et:
         budget: "Planeeritud"
         budget_ratio: "Kasutatud (suhe)"
         created_on: "Loodud"
-        description: "Teave"
+        description: "Kirjeldus"
         fixed_date: "Fikseeritud kuupäev"
         spent: "Kulutatud"
         status: "Olek"

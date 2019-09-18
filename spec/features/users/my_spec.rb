@@ -35,10 +35,10 @@ describe 'my',
   let(:user_password) { 'bob' * 4 }
   let(:user) do
     FactoryBot.create(:user,
-                      mail: 'old@mail.com',
-                      login: 'bob',
-                      password: user_password,
-                      password_confirmation: user_password)
+                       mail: 'old@mail.com',
+                       login: 'bob',
+                       password: user_password,
+                       password_confirmation: user_password)
   end
 
   ##
@@ -98,11 +98,11 @@ describe 'my',
         end
 
         context 'as admin' do
-          let(:user) do
+          let(:user) {
             FactoryBot.create :admin,
-                              password: user_password,
-                              password_confirmation: user_password
-          end
+                               password: user_password,
+                               password_confirmation: user_password
+          }
 
           it 'requires the password' do
             dialog.confirm_flow_with(user_password)
