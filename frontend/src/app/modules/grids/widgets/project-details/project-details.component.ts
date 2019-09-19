@@ -75,6 +75,10 @@ export class WidgetProjectDetailsComponent extends AbstractWidgetComponent imple
     this.loadAndRender();
   }
 
+  public get isEditable() {
+    return false;
+  }
+
   private loadAndRender() {
     Promise.all(
         [this.loadCurrentProject(),

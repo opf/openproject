@@ -60,6 +60,10 @@ export class WidgetMembersComponent extends AbstractWidgetComponent implements O
       });
   }
 
+  public get isEditable() {
+    return false;
+  }
+
   public userPath(user:UserResource) {
     return this.pathHelper.userPath(user.id!);
   }
