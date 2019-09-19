@@ -4,8 +4,8 @@ ja:
       add_widget: 'ウィジェットを追加'
       remove: 'ウィジェットを削除'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the "
-        link: 'enterprise edition.'
+        text: "作業項目グラフウィジェットなどの一部のウィジェットは、次のみ利用可能です "
+        link: 'エンタープライズ版。'
       widgets:
         custom_text:
           title: 'カスタムテキスト'

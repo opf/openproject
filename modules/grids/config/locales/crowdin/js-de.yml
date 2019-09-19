@@ -4,8 +4,8 @@ de:
       add_widget: 'Widget hinzufügen'
       remove: 'Widget entfernen'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the "
-        link: 'enterprise edition.'
+        text: "Einige Widgets, wie das Arbeitspaket-Graph-Widget, sind nur verfügbar in der"
+        link: 'Enterprise-Edition.'
       widgets:
         custom_text:
           title: 'Benutzerdefinierter Text'
@@ -24,7 +24,7 @@ de:
           no_results: 'Nichts Neues zu berichten.'
         project_description:
           title: 'Projektbeschreibung'
-          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
+          no_results: "Noch keine Beschreibung festgelegt. Sie kann in den 'Projekteinstellungen' erstellt werden."
         project_details:
           title: 'Projektdetails'
           no_results: 'Für Projekte wurden keine benutzerdefinierten Felder definiert.'
