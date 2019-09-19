@@ -14,13 +14,32 @@ export abstract class AbstractWidgetComponent {
   @Output() resourceChanged = new EventEmitter<WidgetChangeset>();
 
   public get widgetName():string {
-    return this.resource.options.name as string;
+    let editableName = this.resource.options.name as string;
+    let widgetIdentifier = this.resource.identifier;
+
+    if (this.isEditable) {
+      return editableName;
+    } else {
+      return this.i18n.t(
+        `js.grid.widgets.${widgetIdentifier}.title`,
+        { defaultValue: editableName }
+      );
+    }
   }
 
   public renameWidget(name:string) {
     let changeset = this.setChangesetOptions({ name: name });
 
     this.resourceChanged.emit(changeset);
+  }
+
+  /**
+   * By default, all widget titles are editable by the user.
+   * We arbitrarily restrict this for some resources however,
+   * whose component classes will set this to false.
+   */
+  public get isEditable() {
+    return true;
   }
 
   constructor(protected i18n:I18nService,

@@ -15,6 +15,8 @@ import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routin
 import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
 import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
+import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
+import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
 
 export class DragAndDropTransformer {
 
@@ -27,6 +29,7 @@ export class DragAndDropTransformer {
   private readonly wpTableOrder = this.injector.get(WorkPackageViewOrderService);
   private readonly browserDetector = this.injector.get(BrowserDetector);
   private readonly wpCacheService = this.injector.get(WorkPackageCacheService);
+  private readonly wpListService = this.injector.get(WorkPackagesListService);
 
   private readonly dragActionRegistry = this.injector.get(TableDragActionsRegistryService);
 
@@ -75,7 +78,12 @@ export class DragAndDropTransformer {
           await this.actionService.handleDrop(workPackage, el);
           this.updateRenderedOrder(newOrder);
           this.actionService.onNewOrder(newOrder);
-          this.wpTableSortBy.switchToManualSorting();
+
+          // Save the query when switching to manual
+          let query = this.querySpace.query.value;
+          if (query && this.wpTableSortBy.switchToManualSorting(query)) {
+            await this.wpListService.save(query);
+          }
         } catch (e) {
           this.wpNotifications.handleRawError(e);
 

@@ -51,6 +51,10 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
       });
   }
 
+  public get isEditable() {
+    return false;
+  }
+
   public newsPath(news:NewsResource) {
     return this.pathHelper.newsPath(news.id!);
   }

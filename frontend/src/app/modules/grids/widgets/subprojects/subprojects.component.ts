@@ -42,6 +42,10 @@ export class WidgetSubprojectsComponent extends AbstractWidgetComponent implemen
       });
   }
 
+  public get isEditable() {
+    return false;
+  }
+
   public projectPath(project:ProjectResource) {
     return this.pathHelper.projectPath(project.identifier);
   }

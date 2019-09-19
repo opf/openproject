@@ -73,7 +73,7 @@ See docs/COPYRIGHT.rdoc for more details.
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= t(:setting_welcome_text) %></legend>
       <div class="form--field"><%= setting_text_field :welcome_title, size: 30, container_class: '-wide' %></div>
-      <div class="form--field">
+      <div class="form--field -visible-overflow">
         <%= setting_text_area :welcome_text,
                               cols: 60,
                               rows: 5,

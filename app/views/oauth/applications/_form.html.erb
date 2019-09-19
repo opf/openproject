@@ -58,10 +58,10 @@ See docs/COPYRIGHT.rdoc for more details.
             authorization_code_flow_link: static_link_to(:oauth_authorization_code_flow))  %>
     </p>
 
-    <div class="form--field">
+    <div class="form--field -visible-overflow">
       <label class="form--label"> <%= t('doorkeeper.application.client_credentials_user_id') %>
       </label>
-      <div class="form--field-container -visible-overflow">
+      <div class="form--field-container">
         <div class="form--text-field-container -middle">
           <%= f.hidden_field :client_credentials_user_id,  value: @application.client_credentials_user_id %>
           <user-autocompleter data-allow-empty="true"

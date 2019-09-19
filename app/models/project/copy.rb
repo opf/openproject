@@ -45,7 +45,7 @@ module Project::Copy
       with_model(project) do |project|
         # Clear enabled modules
         self.enabled_modules = []
-        self.enabled_module_names = project.enabled_module_names
+        self.enabled_module_names = project.enabled_module_names - %w[repository]
         self.types = project.types
         self.work_package_custom_fields = project.work_package_custom_fields
         self.custom_field_values = project.custom_value_attributes

@@ -21,7 +21,7 @@
        <%= "style=\"display:none\"" unless lang == current_language.to_s %>
        class="lang-select lang-for-<%= name %>"
   >
-    <div class="form--field">
+    <div class="form--field -visible-overflow">
       <%= styled_label_tag "settings[#{name}][#{lang}]", t("setting_#{name}") %>
       <div class="form--field-container">
         <%=

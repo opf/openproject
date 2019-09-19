@@ -159,7 +159,17 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
       (this.inputField.nativeElement as HTMLInputElement).blur();
     }
 
+    // Avoid double saving
+    if (this.inFlight) {
+      return;
+    }
+
+    this.inFlight = true;
+
     this.emitSave(this.selectedTitle);
+
+    // Unset in-flight after some delay not to trigger the blur
+    setTimeout(() => this.inFlight = false, 100);
   }
 
   public get isEmpty():boolean {

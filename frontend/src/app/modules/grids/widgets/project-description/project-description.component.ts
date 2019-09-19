@@ -57,6 +57,10 @@ export class WidgetProjectDescriptionComponent extends AbstractWidgetComponent i
     this.setDescription();
   }
 
+  public get isEditable() {
+    return false;
+  }
+
   private setDescription() {
     this
       .loadCurrentProject()
