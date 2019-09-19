@@ -3,7 +3,7 @@ de:
     label_recaptcha: "reCAPTCHA"
     button_please_wait: 'Bitte warten ...'
     verify_account: "Verifizieren Sie Ihr Konto"
-    error_captcha: "Your account could not be verified. Please contact an administrator."
+    error_captcha: "Ihr Account konnte nicht verifiziert werden. Bitte kontaktieren Sie einen Administrator."
     settings:
       website_key: 'Website-Schlüssel'
       website_key_text: 'Geben Sie den Webseitenschlüssel ein, den Sie auf der reCAPTCHA Admin-Konsole für diese Domain erstellt haben.'

@@ -631,7 +631,7 @@ de:
         title: Keine Arbeitspakete anzuzeigen.
         description: Es wurden entweder keine Arbeitspakete erzeugt oder alle Arbeitspakete wurden ausgefiltert.
       limited_results: >
-        Es gibt %{total} komplette Arbeitspakete, aber nur %{count} können im manuellen Sortiermodus angezeigt werden. Bitte reduzieren Sie die Ergebnisse durch Filtern.
+        Es gibt insgesamt %{total} Arbeitspakete, aber nur %{count} können im manuellen Sortiermodus angezeigt werden. Bitte reduzieren Sie die Ergebnisse durch Filtern.
       property_groups:
         details: "Details"
         people: "Personen"
