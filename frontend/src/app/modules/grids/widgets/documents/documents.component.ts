@@ -44,6 +44,10 @@ export class WidgetDocumentsComponent extends AbstractWidgetComponent implements
       });
   }
 
+  public get isEditable() {
+    return false;
+  }
+
   public documentPath(document:DocumentResource) {
     return `${this.pathHelper.appBasePath}/documents/${document.id}`;
   }
