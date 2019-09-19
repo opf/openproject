@@ -118,6 +118,46 @@ describe CopyProjectJob, type: :model do
     end
   end
 
+  describe 'project has an invalid repository' do
+    let(:admin) { FactoryBot.create(:admin) }
+    let(:source_project) do
+      project = FactoryBot.create(:project)
+
+      # add invalid repo
+      repository = Repository::Git.new scm_type: :existing, project: project
+      repository.save!(validate: false)
+      project.reload
+      project
+    end
+
+    let(:copy_job) {
+      CopyProjectJob.new user_id: admin.id,
+                         source_project_id: source_project.id,
+                         target_project_params: params,
+                         associations_to_copy: [:work_packages]
+    } # send mails
+    let(:params) { { name: 'Copy', identifier: 'copy' } }
+
+    before do
+      allow(User).to receive(:current).and_return(admin)
+    end
+
+    it 'saves without the repository' do
+      expect(source_project).not_to be_valid
+
+      copied_project, errors = copy_job.send(:create_project_copy,
+                                             source_project,
+                                             params,
+                                             [:work_packages], # associations
+                                             false)
+
+      expect(errors).to be_empty
+      expect(copied_project).to be_valid
+      expect(copied_project.repository).to be_nil
+      expect(copied_project.enabled_module_names).not_to include 'repository'
+    end
+  end
+
   describe 'copy project fails with internal error' do
     let(:admin) { FactoryBot.create(:admin) }
     let(:source_project) { FactoryBot.create(:project) }

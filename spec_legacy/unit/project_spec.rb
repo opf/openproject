@@ -650,7 +650,7 @@ describe Project, type: :model do
 
     # Duplicated attributes
     assert_equal source_project.description, copied_project.description
-    assert_equal source_project.enabled_module_names.sort, copied_project.enabled_module_names.sort
+    assert_equal (source_project.enabled_module_names.sort - %w[repository]), copied_project.enabled_module_names.sort
     assert_equal source_project.types, copied_project.types
 
     # Default attributes

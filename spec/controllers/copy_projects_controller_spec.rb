@@ -112,7 +112,7 @@ describe CopyProjectsController, type: :controller do
 
     it 'copied project enables modules of source project' do
       expect(Project.order(:id).last.enabled_modules.map(&:name))
-        .to match_array(project.enabled_modules.map(&:name))
+        .to match_array(project.enabled_modules.map(&:name) - %w[repository])
     end
 
     it_behaves_like 'successful copy' do
