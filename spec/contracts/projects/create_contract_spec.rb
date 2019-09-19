@@ -40,6 +40,12 @@ describe Projects::CreateContract do
                   parent: project_parent)
     end
     let(:permissions) { [:add_project] }
+    let!(:allowed_to) do
+      allow(current_user)
+        .to receive(:allowed_to_globally?) do |permission|
+          permissions.include?(permission)
+        end
+    end
 
     subject(:contract) { described_class.new(project, current_user) }
   end

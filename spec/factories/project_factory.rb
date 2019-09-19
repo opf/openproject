@@ -39,16 +39,14 @@ FactoryBot.define do
     created_on { Time.now }
     updated_on { Time.now }
     enabled_module_names { OpenProject::AccessControl.available_project_modules }
+    is_public { false }
 
     callback(:after_build) do |project, evaluator|
       disabled_modules = Array(evaluator.disable_modules)
       project.enabled_module_names = project.enabled_module_names - disabled_modules
-    end
 
-    callback(:before_create) do |project, evaluator|
-      unless evaluator.no_types ||
-             ::Type.where(is_standard: true).count > 0
-        project.types << FactoryBot.build(:type_standard)
+      if !evaluator.no_types && project.types.empty?
+        project.types << (::Type.where(is_standard: true).first || FactoryBot.build(:type_standard))
       end
     end
 

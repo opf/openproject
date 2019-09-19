@@ -44,7 +44,7 @@ class ProjectSettingsController < ApplicationController
   end
 
   def settings_custom_fields
-    @issue_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
+    @wp_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
   end
 
   def settings_repository

@@ -552,6 +552,8 @@ en:
               invalid_values: "A value is invalid."
               id_filter_required: "An 'id' filter is required."
         project:
+          archived_ancestor: 'The project has an archived ancestor.'
+          foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
             types:
               in_use_by_work_packages: "still in use by work packages: %{types}"
@@ -1003,7 +1005,7 @@ en:
   enumeration_reported_project_statuses: "Reported project status"
 
   error_auth_source_sso_failed: "Single Sign-On (SSO) for user '%{value}' failed"
-  error_can_not_archive_project: "This project cannot be archived: There is at least one work package assigned to a version defined in this project."
+  error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Unable to delete entry"
   error_can_not_delete_custom_field: "Unable to delete custom field"
   error_can_not_delete_type: "This type contains work packages and cannot be deleted."
@@ -1012,6 +1014,7 @@ en:
   error_can_not_remove_role: "This role is in use and cannot be deleted."
   error_can_not_reopen_work_package_on_closed_version: "A work package assigned to a closed version cannot be reopened"
   error_can_not_find_all_resources: "Could not find all related resources to this request."
+  error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Please choose a user and a role."
   error_code: "Error %{code}"
   error_cookie_missing: 'The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without.'

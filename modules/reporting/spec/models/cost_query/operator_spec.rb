@@ -40,10 +40,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     end
 
     def create_project(options = {})
-      parent = options.delete :parent
-      p = FactoryBot.create(:project, options)
-      p.set_parent! parent if parent
-      p
+      FactoryBot.create(:project, options)
     end
 
     it "does =" do

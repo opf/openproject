@@ -36,16 +36,18 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
   let(:self_link) { '/a/self/link' }
   let(:embedded) { true }
   let(:new_record) { true }
+  let(:model_id) { 1 }
   let(:custom_field) do
     FactoryBot.build_stubbed(:int_project_custom_field)
   end
   let(:allowed_status) { ['some status'] }
   let(:contract) do
     contract = double('contract')
+    model = double('project')
 
     allow(contract)
       .to receive(:writable?) do |attribute|
-      writable = %w(name identifier description is_public status)
+      writable = %w(name identifier description is_public status parent)
 
       writable.include?(attribute.to_s)
     end
@@ -58,6 +60,18 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
       .to receive(:assignable_values)
       .with(:status, current_user)
       .and_return(allowed_status)
+
+    allow(contract)
+      .to receive(:model)
+      .and_return(model)
+
+    allow(model)
+      .to receive(:new_record?)
+      .and_return(new_record)
+
+    allow(model)
+      .to receive(:id)
+      .and_return(model_id)
 
     contract
   end
@@ -210,6 +224,62 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
         let(:name) { custom_field.name }
         let(:required) { false }
         let(:writable) { true }
+      end
+    end
+
+    describe 'parent' do
+      let(:path) { 'parent' }
+
+      context 'if having a new record' do
+        it_behaves_like 'has basic schema properties' do
+          let(:type) { 'Project' }
+          let(:name) { Project.human_attribute_name('parent') }
+          let(:required) { false }
+          let(:writable) { true }
+        end
+
+        context 'if embedding' do
+          let(:embedded) { true }
+
+          it_behaves_like 'links to allowed values via collection link' do
+            let(:href) do
+              api_v3_paths.projects_available_parents
+            end
+          end
+        end
+
+        context 'if not embedding' do
+          let(:embedded) { false }
+
+          it_behaves_like 'does not link to allowed values'
+        end
+      end
+
+      context 'if having a persisted record' do
+        let(:new_record) { false }
+
+        it_behaves_like 'has basic schema properties' do
+          let(:type) { 'Project' }
+          let(:name) { Project.human_attribute_name('parent') }
+          let(:required) { false }
+          let(:writable) { true }
+        end
+
+        context 'if embedding' do
+          let(:embedded) { true }
+
+          it_behaves_like 'links to allowed values via collection link' do
+            let(:href) do
+              api_v3_paths.projects_available_parents + "?of=#{model_id}"
+            end
+          end
+        end
+
+        context 'if not embedding' do
+          let(:embedded) { false }
+
+          it_behaves_like 'does not link to allowed values'
+        end
       end
     end
 

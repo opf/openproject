@@ -32,7 +32,6 @@ describe 'Projects index page',
          type: :feature,
          js: true,
          with_settings: { login_required?: false } do
-
   let!(:admin) { FactoryBot.create :admin }
 
   let!(:manager)   { FactoryBot.create :role, name: 'Manager' }
@@ -619,7 +618,7 @@ describe 'Projects index page',
                         member_in_project: parent_project,
                         member_through_role: can_add_subprojects_role)
     end
-    let!(:simple_member) do
+    let(:simple_member) do
       FactoryBot.create(:user,
                         member_in_project: parent_project,
                         member_through_role: developer)

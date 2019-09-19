@@ -34,6 +34,7 @@ module API
   module V3
     module Projects
       class ProjectRepresenter < ::API::Decorators::Single
+        include API::Decorators::LinkedResource
         include API::Decorators::DateProperty
         include ::API::Caching::CachedRepresenter
         include API::Decorators::FormattableProperty
@@ -49,7 +50,7 @@ module API
           }
         end
 
-        link :createWorkPackageImmediate,
+        link :createWorkPackageImmediately,
              cache_if: -> { current_user_allowed_to(:add_work_packages, context: represented) } do
           {
             href: api_v3_paths.work_packages_by_project(represented.id),
@@ -92,6 +93,52 @@ module API
              } do
           { href: api_v3_paths.types_by_project(represented.id) }
         end
+
+        link :update,
+             cache_if: -> {
+               current_user_allowed_to(:edit_project, context: represented)
+             } do
+          {
+            href: api_v3_paths.project_form(represented.id),
+            method: :post
+          }
+        end
+
+        link :updateImmediately,
+             cache_if: -> {
+               current_user_allowed_to(:edit_project, context: represented)
+             } do
+          {
+            href: api_v3_paths.project(represented.id),
+            method: :patch
+          }
+        end
+
+        link :delete,
+             cache_if: -> { current_user.admin? } do
+          {
+            href: api_v3_paths.project(represented.id),
+            method: :delete
+          }
+        end
+
+        associated_resource :parent,
+                            v3_path: :project,
+                            representer: ::API::V3::Projects::ProjectRepresenter,
+                            uncacheable_link: true,
+                            link: ->(*) {
+                              if represented.parent&.visible?
+                                {
+                                  href: api_v3_paths.project(represented.parent.id),
+                                  title: represented.parent.name
+                                }
+                              else
+                                {
+                                  href: nil,
+                                  title: nil
+                                }
+                              end
+                            }
 
         property :id
         property :identifier

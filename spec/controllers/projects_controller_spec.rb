@@ -181,9 +181,8 @@ describe ProjectsController, type: :controller do
 
       before do
         allow(Project).to receive(:find).and_return(project)
-        expect_any_instance_of(::Projects::DeleteProjectService)
+        expect_any_instance_of(::Projects::ScheduleDeletionService)
           .to receive(:call)
-          .with(delayed: true)
           .and_return service_result
       end
 

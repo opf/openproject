@@ -27,38 +27,29 @@
 #++
 
 module BaseServices
-  class Delete
-    include ::Shared::ServiceContext
-    include ::Concerns::Contracted
-
-    attr_accessor :user,
-                  :model,
-                  :contract_class
+  class Delete < BaseContracted
+    attr_accessor :model
 
     def initialize(user:, model:, contract_class: nil)
-      self.user = user
       self.model = model
-      self.contract_class = contract_class || default_contract
+      super(user: user, contract_class: contract_class)
     end
 
-    def call
-      in_context(false) do
-        delete
+    def persist(service_result)
+      service_result = super(service_result)
+
+      unless service_result.result.destroy
+        service_result.errors = service_result.result.errors
+        service_result.success = false
       end
-    end
 
-    def default_contract
-      "#{model.class.name.demodulize.pluralize}::DeleteContract".constantize
+      service_result
     end
 
     protected
 
-    def delete
-      result, errors = validate_and_yield(model, user) do
-        model.destroy
-      end
-
-      ServiceResult.new(success: result, result: model, errors: errors)
+    def default_contract_class
+      "#{model.class.name.demodulize.pluralize}::DeleteContract".constantize
     end
   end
 end

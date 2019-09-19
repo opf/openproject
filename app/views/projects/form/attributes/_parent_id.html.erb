@@ -27,14 +27,17 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% project = form.object %>
+<%
+  project = form.object
+  allowed_parents = allowed_parent_projects(project).to_a
+%>
 
-<% unless project.allowed_parents.compact.empty? %>
+<% unless allowed_parents.empty? %>
   <div class="form--field">
     <%= form.select :parent_id,
-                    project_tree_options_for_select(project.allowed_parents.compact,
+                    project_tree_options_for_select(allowed_parents,
                                                     selected: project.parent),
-                    include_blank: project.allowed_parents.include?(nil),
+                    include_blank: true,
                     container_class: '-wide' %>
   </div>
 <% end %>

@@ -71,7 +71,9 @@ module Concerns::Contracted
 
     def validate(object, user)
       validate_and_yield(object, user) do
-        object.valid?
+        # No object validation is necessary at this point
+        # as object.valid? is already called in the contract
+        true
       end
     end
   end

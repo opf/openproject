@@ -65,6 +65,19 @@ module API
           schema_with_allowed_string_collection :status,
                                                 type: 'String'
 
+          schema_with_allowed_link :parent,
+                                   type: 'Project',
+                                   required: false,
+                                   href_callback: ->(*) {
+                                     query_props = if represented.model.new_record?
+                                                     ''
+                                                   else
+                                                     "?of=#{represented.model.id}"
+                                                   end
+
+                                     api_v3_paths.projects_available_parents + query_props
+                                   }
+
           schema :created_at,
                  type: 'DateTime',
                  visibility: false

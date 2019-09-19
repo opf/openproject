@@ -239,7 +239,8 @@ describe ProjectsController, type: :controller do
         assert_response :success
         project = assigns(:project)
         assert_kind_of Project, project
-        refute_empty project.errors[:parent_id]
+        errors = assigns(:errors)
+        refute_empty errors[:parent]
       end
     end
 
@@ -281,7 +282,9 @@ describe ProjectsController, type: :controller do
         assert_response :success
         project = assigns(:project)
         assert_kind_of Project, project
-        refute_empty project.errors[:parent_id]
+        errors = assigns(:errors)
+        expect(errors.symbols_for(:base))
+          .to match_array [:error_unauthorized]
       end
 
       it 'should fail with unauthorized parent_id' do
@@ -302,7 +305,8 @@ describe ProjectsController, type: :controller do
         assert_response :success
         project = assigns(:project)
         assert_kind_of Project, project
-        refute_empty project.errors[:parent_id]
+        errors = assigns(:errors)
+        refute_empty errors[:parent]
       end
     end
   end
@@ -368,7 +372,7 @@ describe ProjectsController, type: :controller do
 
   it 'should unarchive' do
     session[:user_id] = 1 # admin
-    Project.find(1).archive
+    Project.find(1).archived!
     put :unarchive, params: { id: 1 }
     assert_redirected_to '/projects'
     assert Project.find(1).active?

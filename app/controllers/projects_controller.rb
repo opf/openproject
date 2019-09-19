@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -55,11 +56,7 @@ class ProjectsController < ApplicationController
     @projects = load_projects query
     @custom_fields = ProjectCustomField.visible(User.current)
 
-    respond_to do |format|
-      format.html do
-        render layout: 'no_menu'
-      end
-    end
+    render layout: 'no_menu'
   end
 
   current_menu_item :index do
@@ -69,6 +66,12 @@ class ProjectsController < ApplicationController
   def new
     assign_default_create_variables
 
+    @project = Project.new
+
+    Projects::SetAttributesService
+      .new(user: current_user, model: @project, contract_class: EmptyContract)
+      .call({})
+
     render layout: 'no_menu'
   end
 
@@ -77,51 +80,46 @@ class ProjectsController < ApplicationController
   end
 
   def create
-    assign_default_create_variables
+    call_result = Projects::CreateService
+                  .new(user: current_user)
+                  .call(permitted_params.project)
 
-    if validate_parent_id && @project.save
-      @project.set_allowed_parent!(params['project']['parent_id']) if params['project'].has_key?('parent_id')
-      add_current_user_to_project_if_not_admin(@project)
-      respond_to do |format|
-        format.html do
-          flash[:notice] = l(:notice_successful_create)
-          redirect_work_packages_or_overview
-        end
-      end
+    @project = call_result.result
+
+    if call_result.success?
+      flash[:notice] = t(:notice_successful_create)
+      redirect_work_packages_or_overview
     else
-      respond_to do |format|
-        format.html { render action: 'new', layout: 'no_menu' }
-      end
+      @errors = call_result.errors
+      assign_default_create_variables
+
+      render action: 'new', layout: 'no_menu'
     end
   end
 
   def update
     @altered_project = Project.find(@project.id)
 
-    # TODO: move the validation into the contract
-    #       move setting the allowed parents to the service
-    service = Projects::UpdateService
-              .new(user: current_user,
-                   model: @altered_project)
+    service_call = Projects::UpdateService
+                   .new(user: current_user,
+                        model: @altered_project)
+                   .call(permitted_params.project)
 
-    if validate_parent_id && service.call(permitted_params.project).success?
-      if params['project'].has_key?('parent_id')
-        @altered_project.set_allowed_parent!(params['project']['parent_id'])
-      end
-      flash[:notice] = l(:notice_successful_update)
-      OpenProject::Notifications.send('project_updated', project: @altered_project)
-    end
+    @errors = service_call.errors
 
+    flash[:notice] = t(:notice_successful_update) if service_call.success?
     redirect_to settings_project_path(@altered_project)
   end
 
   def update_identifier
-    @project.attributes = permitted_params.project
+    service_call = Projects::UpdateService
+                   .new(user: current_user,
+                        model: @project)
+                   .call(permitted_params.project)
 
-    if @project.save
+    if service_call.success?
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to settings_project_path(@project)
-      OpenProject::Notifications.send('project_renamed', project: @project)
     else
       render action: 'identifier'
     end
@@ -160,35 +158,26 @@ class ProjectsController < ApplicationController
   end
 
   def archive
-    projects_url = url_for(controller: '/projects', action: 'index', status: params[:status])
-    if @project.archive
-      redirect_to projects_url
-    else
-      flash[:error] = I18n.t(:error_can_not_archive_project)
-      redirect_back fallback_location: projects_url
-    end
-
-    update_demo_project_settings @project, false
+    change_status_action(:archive)
   end
 
   def unarchive
-    @project.unarchive if !@project.active?
-    redirect_to(url_for(controller: '/projects', action: 'index', status: params[:status]))
-    update_demo_project_settings @project, true
+    change_status_action(:unarchive)
   end
 
   # Delete @project
   def destroy
-    service = ::Projects::DeleteProjectService.new(user: current_user, project: @project)
-    call = service.call(delayed: true)
+    service_call = ::Projects::ScheduleDeletionService
+                   .new(user: current_user, model: @project)
+                   .call
 
-    if call.success?
+    if service_call.success?
       flash[:notice] = I18n.t('projects.delete.scheduled')
     else
-      flash[:error] = I18n.t('projects.delete.schedule_failed', errors: call.errors.full_messages.join("\n"))
+      flash[:error] = I18n.t('projects.delete.schedule_failed', errors: service_call.errors.full_messages.join("\n"))
     end
 
-    redirect_to controller: 'projects', action: 'index'
+    redirect_to project_path_with_status
     update_demo_project_settings @project, false
   end
 
@@ -217,6 +206,26 @@ class ProjectsController < ApplicationController
     render_404
   end
 
+  def change_status_action(status)
+    service_call = change_status(status)
+
+    if service_call.success?
+      update_demo_project_settings @project, status == :archive
+      redirect_to(project_path_with_status)
+    else
+      flash[:error] = t(:"error_can_not_#{status}_project",
+                        errors: service_call.errors.full_messages.join(', '))
+      redirect_back fallback_location: project_path_with_status
+    end
+  end
+
+  def change_status(status)
+    "Projects::#{status.to_s.camelcase}Service"
+      .constantize
+      .new(user: current_user, model: @project)
+      .call
+  end
+
   def redirect_work_packages_or_overview
     return if redirect_to_project_menu_item(@project, :work_packages)
 
@@ -227,15 +236,10 @@ class ProjectsController < ApplicationController
     @project = nil
   end
 
-  def add_current_user_to_project_if_not_admin(project)
-    unless User.current.admin?
-      r = Role.givable.find_by(id: Setting.new_project_user_role_id.to_i) || Role.givable.first
-      m = Member.new do |member|
-        member.principal = User.current
-        member.role_ids = [r].map(&:id) # member.roles = [r] fails, this works
-      end
-      project.members << m
-    end
+  def project_path_with_status
+    acceptable_params = params.permit(:status).to_h.compact.select { |_, v| v.present? }
+
+    projects_path(acceptable_params)
   end
 
   def load_query
@@ -265,11 +269,8 @@ class ProjectsController < ApplicationController
   end
 
   def assign_default_create_variables
-    @issue_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
+    @wp_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
     @types = ::Type.all
-    @project = Project.new
-    @project.parent = Project.find(params[:parent_id]) if params[:parent_id]
-    @project.attributes = permitted_params.project if params[:project].present?
   end
 
   protected
@@ -292,21 +293,6 @@ class ProjectsController < ApplicationController
                .per_page(per_page_param)
 
     filter_projects_by_permission projects
-  end
-
-  # Validates parent_id param according to user's permissions
-  # TODO: move it to Project model in a validation that depends on User.current
-  def validate_parent_id
-    return true if User.current.admin?
-    parent_id = permitted_params.project && params[:project][:parent_id]
-    if parent_id || @project.new_record?
-      parent = parent_id.blank? ? nil : Project.find_by(id: parent_id.to_i)
-      unless @project.allowed_parents.include?(parent)
-        @project.errors.add :parent_id, :invalid
-        return false
-      end
-    end
-    true
   end
 
   def update_demo_project_settings(project, value)

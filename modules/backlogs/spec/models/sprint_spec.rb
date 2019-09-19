@@ -229,7 +229,8 @@ describe Sprint, type: :model do
 
       describe 'WITH the version beeing shared from a parent project' do
         before(:each) do
-          project.set_parent!(@other_project)
+          project.update(parent: @other_project)
+          project.reload
           @version = FactoryBot.create(:sprint, name: 'descended', project: @other_project, sharing: 'descendants')
         end
 
@@ -240,9 +241,9 @@ describe Sprint, type: :model do
       describe 'WITH the version beeing shared within the tree' do
         before(:each) do
           @parent_project = FactoryBot.create(:project)
-          # Setting the parent has to be in this order, don't know why yet
-          @other_project.set_parent!(@parent_project)
-          project.set_parent!(@parent_project)
+          @other_project.update(parent: @parent_project)
+          project.update(parent: @parent_project)
+          project.reload
           @version = FactoryBot.create(:sprint, name: 'treed', project: @other_project, sharing: 'tree')
         end
 
@@ -252,8 +253,8 @@ describe Sprint, type: :model do
 
       describe 'WITH the version beeing shared within the tree' do
         before(:each) do
-          @descendant_project = FactoryBot.create(:project)
-          @descendant_project.set_parent!(project)
+          @descendant_project = FactoryBot.create(:project, parent: project)
+          project.reload
           @version = FactoryBot.create(:sprint, name: 'hierar', project: @descendant_project, sharing: 'hierarchy')
         end
 

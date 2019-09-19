@@ -211,4 +211,13 @@ describe ProjectsHelper, type: :helper do
       end
     end
   end
+
+  context '#short_project_description' do
+    let(:project) { FactoryBot.build_stubbed(:project, description: ('Abcd ' * 5 + "\n") * 11) }
+
+    it 'returns shortened description' do
+      expect(helper.short_project_description(project))
+        .to eql((('Abcd ' * 5 + "\n") * 10)[0..-2] + '...')
+    end
+  end
 end

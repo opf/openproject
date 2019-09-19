@@ -33,6 +33,8 @@ module API
       module Schema
         class SpecificWorkPackageSchema < BaseWorkPackageSchema
           attr_reader :work_package
+          include ::Concerns::AssignableCustomFieldValues
+          include ::Concerns::AssignableValuesContract
 
           def initialize(work_package:)
             @work_package = work_package
@@ -45,34 +47,6 @@ module API
                    :milestone?,
                    :available_custom_fields,
                    to: :@work_package
-
-          def assignable_values(property, current_user)
-            case property
-            when :status
-              assignable_statuses_for(current_user)
-            when :type
-              if project.nil?
-                Type.includes(:color)
-              else
-                project.types.includes(:color)
-              end
-            when :version
-              @work_package.try(:assignable_versions) if project
-            when :priority
-              IssuePriority.active
-            when :category
-              project.categories if project.respond_to?(:categories)
-            end
-          end
-
-          def assignable_custom_field_values(custom_field)
-            case custom_field.field_format
-            when 'list'
-              custom_field.possible_values
-            when 'version'
-              assignable_values(:version, nil)
-            end
-          end
 
           def no_caching?
             true
@@ -94,7 +68,27 @@ module API
             end
           end
 
-          def assignable_statuses_for(user)
+          def assignable_categories
+            project.categories if project.respond_to?(:categories)
+          end
+
+          def assignable_priorities
+            IssuePriority.active
+          end
+
+          def assignable_versions
+            @work_package.try(:assignable_versions) if project
+          end
+
+          def assignable_types
+            if project.nil?
+              Type.includes(:color)
+            else
+              project.types.includes(:color)
+            end
+          end
+
+          def assignable_statuses
             status_origin = @work_package
 
             # do not allow to skip statuses without intermediately saving the work package
@@ -105,7 +99,7 @@ module API
               status_origin.status = Status.find_by(id: @work_package.status_id_was)
             end
 
-            status_origin.new_statuses_allowed_to(user)
+            status_origin.new_statuses_allowed_to(User.current)
           end
         end
       end

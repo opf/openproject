@@ -33,7 +33,7 @@ class Roles::CreateService < ::BaseServices::Create
 
   private
 
-  def create(params)
+  def perform(params)
     copy_workflow_id = params.delete(:copy_workflow_from)
 
     super_call = super
@@ -47,7 +47,7 @@ class Roles::CreateService < ::BaseServices::Create
     super_call
   end
 
-  def new_instance(params)
+  def instance(params)
     if params.delete(:global_role)
       GlobalRole.new
     else

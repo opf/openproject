@@ -91,7 +91,7 @@ See docs/COPYRIGHT.rdoc for more details.
         </thead>
         <tbody>
           <% projects_with_levels_order_sensitive(@projects) do |project, level| %>
-            <tr class="basics context-menu--reveal <%= project_css_classes(project) %> <%= level > 0 ? "idnt idnt-#{level}" : nil %> <%= params[:expand] == 'all' && project.short_description.present? ? '-no-highlighting -expanded' : '' %>">
+            <tr class="basics context-menu--reveal <%= project_css_classes(project) %> <%= level > 0 ? "idnt idnt-#{level}" : nil %> <%= params[:expand] == 'all' && short_project_description(project).present? ? '-no-highlighting -expanded' : '' %>">
               <td></td>
               <td class="name project--hierarchy <%= project.archived? ? 'archived' : '' %>">
                 <i class="projects-table--hierarchy-icon"></i>
@@ -146,7 +146,7 @@ See docs/COPYRIGHT.rdoc for more details.
                 <td></td>
                 <td colspan="<%= @custom_fields.size + (User.current.admin? ? 6 : 3) %>" class="project--hierarchy">
                   <div class="description-container">
-                    <span class="wiki"><%= format_text(project.short_description(255), project: project) %></span>
+                    <span class="wiki"><%= format_text(short_project_description(project), project: project) %></span>
                   </div>
                 </td>
               </tr>

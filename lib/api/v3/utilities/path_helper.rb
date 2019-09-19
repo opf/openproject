@@ -209,9 +209,11 @@ module API
             alias :issue_priority :priority
           end
 
-          index :project
-          show :project
-          schema :project
+          resources :project
+
+          def self.projects_available_parents
+            "#{projects}/available_parent_projects"
+          end
 
           resources :query
 
@@ -421,10 +423,11 @@ module API
             "#{project(project_id)}/work_packages"
           end
 
-          def self.path_for(path, filters: nil, sort_by: nil)
+          def self.path_for(path, filters: nil, sort_by: nil, page_size: nil)
             query_params = {
               filters: filters&.to_json,
-              sortBy: sort_by&.to_json
+              sortBy: sort_by&.to_json,
+              pageSize: page_size
             }.reject { |_, v| v.blank? }
 
             if query_params.any?

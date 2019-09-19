@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Project resource' do
+describe 'API v3 Project resource', type: :request, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -58,6 +58,19 @@ describe 'API v3 Project resource' do
 
   describe '#get /projects/:id' do
     let(:get_path) { api_v3_paths.project project.id }
+    let!(:parent_project) do
+      FactoryBot.create(:project, is_public: false).tap do |p|
+        project.parent = p
+        project.save!
+      end
+    end
+    let!(:parent_memberships) do
+      FactoryBot.create(:member,
+                        user: current_user,
+                        project: parent_project,
+                        roles: [FactoryBot.create(:role, permissions: [])])
+    end
+
     subject(:response) do
       get get_path
 
@@ -72,6 +85,12 @@ describe 'API v3 Project resource' do
       it 'responds with the correct project' do
         expect(subject.body).to include_json('Project'.to_json).at_path('_type')
         expect(subject.body).to be_json_eql(project.identifier.to_json).at_path('identifier')
+      end
+
+      it 'links to the parent project' do
+        expect(subject.body)
+          .to be_json_eql(api_v3_paths.project(parent_project.id).to_json)
+          .at_path('_links/parent/href')
       end
 
       it 'includes custom fields' do
@@ -105,6 +124,17 @@ describe 'API v3 Project resource' do
         it_behaves_like 'not found' do
           let(:id) { another_project.id.to_s }
           let(:type) { 'Project' }
+        end
+      end
+
+      context 'not being allowed to see the parent project' do
+        let!(:parent_memberships) do
+        end
+
+        it 'has no path to the parent' do
+          expect(subject.body)
+            .to be_json_eql(nil.to_json)
+            .at_path('_links/parent/href')
         end
       end
     end
@@ -205,6 +235,319 @@ describe 'API v3 Project resource' do
             .to be_json_eql(other_project.id.to_json)
             .at_path('_embedded/elements/0/id')
         end
+      end
+    end
+  end
+
+  describe '#post /projects' do
+    let(:current_user) do
+      FactoryBot.create(:user).tap do |u|
+        u.global_roles << global_role
+      end
+    end
+    let(:global_role) do
+      FactoryBot.create(:global_role, permissions: permissions)
+    end
+    let(:permissions) { [:add_project] }
+    let(:path) { api_v3_paths.projects }
+    let(:body) do
+      {
+        identifier: 'new_project_identifier',
+        name: 'Project name'
+      }.to_json
+    end
+
+    before do
+      login_as current_user
+
+      post path, body
+    end
+
+    it 'responds with 201 CREATED' do
+      expect(last_response.status).to eq(201)
+    end
+
+    it 'creates a project' do
+      expect(Project.count)
+        .to eql(1)
+    end
+
+    it 'returns the created project' do
+      expect(last_response.body)
+        .to be_json_eql('Project'.to_json)
+        .at_path('_type')
+      expect(last_response.body)
+        .to be_json_eql('Project name'.to_json)
+        .at_path('name')
+    end
+
+    context 'with a custom field' do
+      let(:body) do
+        {
+          identifier: 'new_project_identifier',
+          name: 'Project name',
+          "customField#{custom_field.id}": {
+            "raw": "CF text"
+          }
+        }.to_json
+      end
+
+      it 'sets the cf value' do
+        expect(last_response.body)
+          .to be_json_eql("CF text".to_json)
+          .at_path("customField#{custom_field.id}/raw")
+      end
+    end
+
+    context 'without permission to create projects' do
+      let(:permissions) { [] }
+
+      it 'responds with 403' do
+        expect(last_response.status).to eq(403)
+      end
+
+      it 'creates no project' do
+        expect(Project.count)
+          .to eql(0)
+      end
+    end
+
+    context 'with faulty params' do
+      let(:body) do
+        {
+          identifier: 'some_identifier'
+        }.to_json
+      end
+
+      it 'responds with 422' do
+        expect(last_response.status).to eq(422)
+      end
+
+      it 'creates no project' do
+        expect(Project.count)
+          .to eql(0)
+      end
+
+      it 'denotes the error' do
+        expect(last_response.body)
+          .to be_json_eql('Error'.to_json)
+          .at_path('_type')
+
+        expect(last_response.body)
+          .to be_json_eql("Name can't be blank.".to_json)
+          .at_path('message')
+      end
+    end
+  end
+
+  describe '#patch /projects/:id' do
+    let(:current_user) do
+      FactoryBot.create(:user,
+                        member_in_project: project,
+                        member_with_permissions: permissions)
+    end
+    let(:permissions) { [:edit_project] }
+    let(:path) { api_v3_paths.project(project.id) }
+    let(:body) do
+      {
+        identifier: 'new_project_identifier',
+        name: 'Project name'
+      }
+    end
+
+    before do
+      login_as current_user
+
+      patch path, body.to_json
+    end
+
+    it 'responds with 200 OK' do
+      expect(last_response.status).to eq(200)
+    end
+
+    it 'alters the project' do
+      project.reload
+
+      expect(project.name)
+        .to eql(body[:name])
+
+      expect(project.identifier)
+        .to eql(body[:identifier])
+    end
+
+    it 'returns the updated project' do
+      expect(last_response.body)
+        .to be_json_eql('Project'.to_json)
+        .at_path('_type')
+      expect(last_response.body)
+        .to be_json_eql(body[:name].to_json)
+        .at_path('name')
+    end
+
+    context 'with a custom field' do
+      let(:body) do
+        {
+          "customField#{custom_field.id}": {
+            "raw": "CF text"
+          }
+        }
+      end
+
+      it 'responds with 200 OK' do
+        expect(last_response.status).to eq(200)
+      end
+
+      it 'sets the cf value' do
+        expect(project.reload.send("custom_field_#{custom_field.id}"))
+          .to eql("CF text")
+      end
+    end
+
+    context 'without permission to create projects' do
+      let(:permissions) { [] }
+
+      it 'responds with 403' do
+        expect(last_response.status).to eq(403)
+      end
+
+      it 'does not change the project' do
+        attributes_before = project.attributes
+
+        expect(project.reload.name)
+          .to eql(attributes_before['name'])
+      end
+    end
+
+    context 'with faulty params' do
+      let(:body) do
+        {
+          name: nil
+        }
+      end
+
+      it 'responds with 422' do
+        expect(last_response.status).to eq(422)
+      end
+
+      it 'does not change the project' do
+        attributes_before = project.attributes
+
+        expect(project.reload.name)
+          .to eql(attributes_before['name'])
+      end
+
+      it 'denotes the error' do
+        expect(last_response.body)
+          .to be_json_eql('Error'.to_json)
+          .at_path('_type')
+
+        expect(last_response.body)
+          .to be_json_eql("Name can't be blank.".to_json)
+          .at_path('message')
+      end
+    end
+  end
+
+  describe '#delete /api/v3/projects/:id' do
+    let(:path) { api_v3_paths.project(project.id) }
+    let(:setup) { }
+
+    before do
+      login_as current_user
+
+      setup
+
+      delete path
+    end
+
+    subject { last_response }
+
+    context 'with required permissions (admin)' do
+      let(:current_user) { FactoryBot.create(:admin) }
+
+      it 'responds with HTTP No Content' do
+        expect(subject.status).to eq 204
+      end
+
+      it 'deletes the project' do
+        expect(Project.exists?(project.id)).to be_falsey
+      end
+
+      context 'for a project with work packages' do
+        let(:work_package) { FactoryBot.create(:work_package, project: project) }
+        let(:setup) { work_package }
+
+        it 'deletes the work packages' do
+          expect(WorkPackage.exists?(work_package.id)).to be_falsey
+        end
+      end
+
+      context 'for a project with members' do
+        let(:member) do
+          FactoryBot.create(:member,
+                            project: project,
+                            principal: current_user,
+                            roles: [FactoryBot.create(:role)])
+        end
+        let(:member_role) { member.member_roles.first }
+        let(:setup) do
+          member
+          member_role
+        end
+
+        it 'deletes the member' do
+          expect(Member.exists?(member.id)).to be_falsey
+        end
+
+        it 'deletes the MemberRole' do
+          expect(MemberRole.exists?(member_role.id)).to be_falsey
+        end
+      end
+
+      context 'for a project with a forum' do
+        let(:forum) do
+          FactoryBot.create(:forum,
+                            project: project)
+        end
+        let(:setup) do
+          forum
+        end
+
+        it 'deletes the forum' do
+          expect(Forum.exists?(forum.id)).to be_falsey
+        end
+      end
+
+      context 'for a non-existent project' do
+        let(:path) { api_v3_paths.project 0 }
+
+        it_behaves_like 'not found' do
+          let(:id) { 0 }
+          let(:type) { 'Project' }
+        end
+      end
+
+      context 'for a project which has a version foreign work packages refer to' do
+        let(:version) { FactoryBot.create(:version, project: project) }
+        let(:work_package) { FactoryBot.create(:work_package, fixed_version: version) }
+
+        let(:setup) { work_package }
+
+        it 'responds with 422' do
+          expect(subject.status).to eq 422
+        end
+
+        it 'explains the error' do
+          expect(subject.body)
+            .to be_json_eql(I18n.t(:'activerecord.errors.models.project.foreign_wps_reference_version').to_json)
+            .at_path('message')
+        end
+      end
+    end
+
+    context 'without required permissions' do
+      it 'responds with 403' do
+        expect(subject.status).to eq 403
       end
     end
   end

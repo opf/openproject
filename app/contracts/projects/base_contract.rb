@@ -30,7 +30,8 @@
 
 module Projects
   class BaseContract < ::ModelContract
-    include AssignableValuesContract
+    include Concerns::AssignableValuesContract
+    include Concerns::AssignableCustomFieldValues
 
     attribute :name
     attribute :identifier
@@ -41,7 +42,7 @@ module Projects
       validate_status_included
     end
     attribute :parent do
-      validate_parent_visible
+      validate_parent_assignable
     end
 
     attribute_alias :is_public, :public
@@ -53,15 +54,13 @@ module Projects
     end
 
     def assignable_parents
-      Project.visible
+      Project
+        .allowed_to(user, :add_subprojects)
+        .where.not(id: model.self_and_descendants)
     end
 
     def assignable_statuses
       Project.statuses.keys
-    end
-
-    def assignable_custom_field_values(custom_field)
-      custom_field.possible_values
     end
 
     def available_custom_fields
@@ -70,6 +69,10 @@ module Projects
       else
         model.available_custom_fields.select(&:visible?)
       end
+    end
+
+    def assignable_versions
+      model.assignable_versions
     end
 
     private
@@ -84,8 +87,12 @@ module Projects
       end
     end
 
-    def validate_parent_visible
-      errors.add(:parent, :does_not_exist) if model.parent && model.parent_id_changed? && !model.parent.visible?
+    def validate_parent_assignable
+      if model.parent &&
+         model.parent_id_changed? &&
+         !assignable_parents.where(id: parent.id).exists?
+        errors.add(:parent, :does_not_exist)
+      end
     end
 
     def validate_user_allowed_to_manage

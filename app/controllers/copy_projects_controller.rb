@@ -32,24 +32,25 @@ class CopyProjectsController < ApplicationController
   before_action :authorize
 
   def copy
-    @copy_project = project_copy
+    @copy_project = Project.new
+    call = project_copy(@copy_project)
 
-    if @copy_project.valid?
+    if call.success?
       enqueue_copy_job
 
-      flash[:notice] = I18n.t('copy_project.started',
-                              source_project_name: @project.name,
-                              target_project_name: permitted_params.project[:name])
+      copy_started_notice
       redirect_to origin
     else
+      @errors = call.errors
       render action: copy_action
     end
   end
 
   def copy_project
     @copy_project = Project.copy_attributes(@project)
+
     if @copy_project
-      @copy_project.identifier = Project.next_identifier if Setting.sequential_project_identifiers?
+      @errors = project_copy(@copy_project).errors
 
       render action: copy_action
     else
@@ -67,16 +68,12 @@ class CopyProjectsController < ApplicationController
     "copy_from_#{from}"
   end
 
-  def project_copy
-    copy_project = Project.new
-    copy_project.attributes = permitted_params.project
-
-    # cannot use set_allowed_parent! as it requires a persisted project
-    if copy_project.allowed_parent?(params['project']['parent_id'])
-      copy_project.parent_id = params['project']['parent_id']
-    end
-
-    copy_project
+  def project_copy(nucleous)
+    Projects::SetAttributesService
+      .new(user: current_user,
+           model: nucleous,
+           contract_class: Projects::CreateContract)
+      .call(params[:project] ? permitted_params.project : {})
   end
 
   def origin
@@ -99,5 +96,11 @@ class CopyProjectsController < ApplicationController
       .compact
       .with_indifferent_access
       .merge(custom_field_values: @copy_project.custom_value_attributes)
+  end
+
+  def copy_started_notice
+    flash[:notice] = I18n.t('copy_project.started',
+                            source_project_name: @project.name,
+                            target_project_name: permitted_params.project[:name])
   end
 end
