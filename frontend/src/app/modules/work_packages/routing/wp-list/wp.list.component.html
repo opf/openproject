@@ -90,8 +90,11 @@
 
       <!-- Footer -->
       <div class="work-packages-split-view--tabletimeline-footer hide-when-print"
-           *ngIf="tableInformationLoaded && showPagination">
-        <wp-table-pagination></wp-table-pagination>
+           *ngIf="tableInformationLoaded">
+        <wp-table-pagination [showPerPage]="!isManualSortingMode"
+                             [showPageSelections]="!isManualSortingMode"
+                             [infoText]="paginationInfoText">
+        </wp-table-pagination>
       </div>
     </div>
 

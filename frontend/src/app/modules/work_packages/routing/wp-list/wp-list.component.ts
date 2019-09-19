@@ -68,9 +68,6 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
   /** Do we currently have query props ? */
   hasQueryProps:boolean;
 
-  /** Should we show the pagination ? */
-  showPagination = true;
-
   /** Listener callbacks */
   unRegisterTitleListener:Function;
   removeTransitionSubscription:Function;
@@ -120,7 +117,6 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
       // Update the title whenever the query changes
       this.updateTitle(query);
       this.currentQuery = query;
-      this.showPagination = !this.wpTableSortBy.isManualSortingMode;
 
       // Update the visible representation
       if (this.wpDisplayRepresentation.valueFromQuery(query) === wpDisplayCardRepresentation) {
@@ -222,7 +218,20 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
     return this.bcfDetectorService.isBcfActivated;
   }
 
-  protected updateQueryOnParamsChanges() {
+  public get isManualSortingMode() {
+    return this.wpTableSortBy.isManualSortingMode;
+  }
+
+  public get paginationInfoText() {
+    if (this.isManualSortingMode && (this.currentQuery.results.count < this.currentQuery.results.total)) {
+      return I18n.t('js.work_packages.limited_results',
+                    {count: this.currentQuery.results.count});
+    } else {
+      return null;
+    }
+  }
+
+protected updateQueryOnParamsChanges() {
     // Listen for param changes
     this.removeTransitionSubscription = this.$transitions.onSuccess({}, (transition):any => {
       let options = transition.options();
