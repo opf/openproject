@@ -40,6 +40,8 @@ import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.ser
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {OpenProject} from "core-app/globals/openproject";
+import {OpIcon} from "core-app/modules/common/icon/op-icon";
+import {WorkPackageViewSortByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
 
 function setupMocks(paginationService:PaginationService) {
   spyOn(paginationService, 'loadPaginationOptions').and.callFake(() => {
@@ -69,11 +71,13 @@ describe('wpTablePagination Directive', () => {
         HttpClientModule
       ],
       declarations: [
-        WorkPackageTablePaginationComponent
+        WorkPackageTablePaginationComponent,
+        OpIcon
       ],
       providers: [
         States,
         PaginationService,
+        WorkPackageViewSortByService,
         PathHelperService,
         WorkPackageViewPaginationService,
         HalResourceService,
@@ -102,7 +106,6 @@ describe('wpTablePagination Directive', () => {
         app.update();
         fixture.detectChanges();
         expect(pageString(element)).toEqual('(1 - 10/11)');
-
       }));
 
     describe('"next" link', function() {

@@ -48,7 +48,9 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 export class TablePaginationComponent implements OnInit {
   @Input() totalEntries:string;
   @Input() hideForSinglePageResults:boolean = false;
-  @Input() calculatePerPage:boolean = false;
+  @Input() showPerPage:boolean = true;
+  @Input() showPageSelections:boolean = true;
+  @Input() infoText?:string;
   @Output() updateResults = new EventEmitter<PaginationInstance>();
 
   public pagination:PaginationInstance;
@@ -117,7 +119,11 @@ export class TablePaginationComponent implements OnInit {
    */
   public updateCurrentRangeLabel() {
     if (this.pagination.total) {
-      this.currentRange = '(' + this.pagination.getLowerPageBound() + ' - ' + this.pagination.getUpperPageBound(this.pagination.total) + '/' + this.pagination.total + ')';
+      let totalItems = this.pagination.total;
+      let lowerBound = this.pagination.getLowerPageBound();
+      let upperBound = this.pagination.getUpperPageBound(this.pagination.total);
+
+      this.currentRange = '(' + lowerBound + ' - ' + upperBound + '/' + totalItems + ')';
     } else {
       this.currentRange = '(0 - 0/0)';
     }
@@ -129,6 +135,12 @@ export class TablePaginationComponent implements OnInit {
    * @description Defines a list of all pages in numerical order inside the scope
    */
   public updatePageNumbers() {
+    if (!this.showPageSelections) {
+      this.pageNumbers = [];
+      this.postPageNumbers = [];
+      return;
+    }
+
     var maxVisible = this.paginationService.getMaxVisiblePageOptions();
     var truncSize = this.paginationService.getOptionsTruncationSize();
 
@@ -156,7 +168,7 @@ export class TablePaginationComponent implements OnInit {
   }
 
   public showPerPageOptions() {
-    return !this.calculatePerPage &&
+    return this.showPerPage &&
            this.perPageOptions.length > 0 &&
            this.pagination.total > this.perPageOptions[0];
   }

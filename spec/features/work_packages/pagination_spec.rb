@@ -29,11 +29,10 @@
 require 'spec_helper'
 
 RSpec.feature 'Work package pagination', js: true do
-
   let(:admin) { FactoryBot.create(:admin) }
-  let(:project) {
+  let(:project) do
     FactoryBot.create(:project, name: 'project1', identifier: 'project1')
-  }
+  end
 
   shared_examples_for 'paginated work package list' do
     let!(:work_package_1) { FactoryBot.create(:work_package, project: project) }
