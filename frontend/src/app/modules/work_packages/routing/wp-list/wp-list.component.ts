@@ -218,20 +218,7 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
     return this.bcfDetectorService.isBcfActivated;
   }
 
-  public get isManualSortingMode() {
-    return this.wpTableSortBy.isManualSortingMode;
-  }
-
-  public get paginationInfoText() {
-    if (this.isManualSortingMode && (this.currentQuery.results.count < this.currentQuery.results.total)) {
-      return I18n.t('js.work_packages.limited_results',
-                    {count: this.currentQuery.results.count});
-    } else {
-      return null;
-    }
-  }
-
-protected updateQueryOnParamsChanges() {
+  protected updateQueryOnParamsChanges() {
     // Listen for param changes
     this.removeTransitionSubscription = this.$transitions.onSuccess({}, (transition):any => {
       let options = transition.options();
