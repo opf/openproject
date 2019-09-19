@@ -157,14 +157,7 @@ module OpenProject
     def self.version(raw = false)
       @version ||= ActiveRecord::Base.connection.select_value('SELECT version()')
 
-      raw ? @version : @version.match(/\APostgreSQL (\S+)/i)[1]
-    end
-
-    def self.semantic_version(version_string = version)
-      Semantic::Version.new version_string
-    rescue ArgumentError
-      # Cut anything behind the -
-      Semantic::Version.new version_string.gsub(/\-.+$/, '')
+      raw ? @version : @version.match(/\APostgreSQL ([\d\.]+)/i)[1]
     end
 
     def self.numeric_version
@@ -174,7 +167,7 @@ module OpenProject
     # Return if the version of the underlying database engine is capable of TSVECTOR features, needed for full-text
     # search.
     def self.allows_tsv?
-      Gem::Version.new(OpenProject::Database.version) >= Gem::Version.new('9.5')
+      version_matches?
     end
   end
 end
