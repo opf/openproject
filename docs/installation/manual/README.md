@@ -204,7 +204,7 @@ with OpenProject. For more information, see https://github.com/opf/openproject.
 
 ```bash
 [openproject@host] cd ~
-[openproject@host] git clone https://github.com/opf/openproject.git --branch stable/9 --depth 1
+[openproject@host] git clone https://github.com/opf/openproject.git --branch stable/10 --depth 1
 [openproject@host] cd openproject
 # Ensure rubygems is up-to-date for bundler 2
 [openproject@host] gem update --system
