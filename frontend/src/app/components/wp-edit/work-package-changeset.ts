@@ -54,15 +54,18 @@ export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource>
       return this.changeset.get(key);
     }
 
-    // TODO we might need values from the form (default values on type change?)
-    // Default value from the form?
-    // const payloadValue = _.get(this._form, ['payload', key]);
-    // if (payloadValue !== undefined) {
-    //   return payloadValue;
-    // }
-
     // Return whatever is on the base.
     return this.pristineResource[key];
+  }
+
+  /**
+   * Return whether the given value exists,
+   * even if its undefined.
+   *
+   * @param key
+   */
+  public valueExists(key:string):boolean {
+    return this.changeset.contains(key) || this.pristineResource.hasOwnProperty(key);
   }
 
   public setValue(key:string, val:any) {
@@ -148,6 +151,7 @@ export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource>
         .then((form:FormResource) => {
           this.wpFormPromise = null;
           this.form = form;
+          this.setNewDefaults(form);
           this.push();
           return form;
         })
@@ -274,4 +278,27 @@ export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource>
     }
   }
 
+  /**
+   * When changing type or project, new custom fields may be present
+   * that we need to set.
+   */
+  private setNewDefaults(form:FormResource) {
+    _.each(form.payload, (val:unknown, key:string) => {
+      const fieldSchema:IFieldSchema|undefined = this.schema[key];
+      if (!(typeof (fieldSchema) === 'object' && fieldSchema.writable)) {
+        return;
+      }
+
+      // Special handling for taking over the description
+      // to the pristine resource
+      if (key === 'description' && this.pristineResource.isNew) {
+         this.pristineResource.description = val;
+      }
+
+      if (!this.valueExists(key)) {
+        debugLog("Taking over default value from form for " + key);
+        this.setValue(key, val);
+      }
+    });
+  }
 }
