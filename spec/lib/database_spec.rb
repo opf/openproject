@@ -43,22 +43,6 @@ describe OpenProject::Database do
     expect(OpenProject::Database.name).to equal(:postgresql)
   end
 
-  it 'should be able to parse semantic versions' do
-    version = OpenProject::Database.semantic_version '5.7.0'
-    version2 = OpenProject::Database.semantic_version '5.5.60-0+deb8u1'
-
-    expect(version2.major).to eq 5
-    expect(version2 < version).to be_truthy
-
-    version3 = OpenProject::Database.semantic_version '10.1.26-MariaDB-0+deb9u1'
-    expect(version3.major).to eq 10
-
-    version4 = OpenProject::Database.semantic_version '5.7.23-0ubuntu0.16.04.1'
-    expect(version4.major).to eq 5
-    # Cuts the build if its invalid semver
-    expect(version4.build).to be_nil
-  end
-
   it 'should be able to use the helper methods' do
     allow(OpenProject::Database).to receive(:adapter_name).and_return 'PostgresQL'
 
