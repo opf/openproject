@@ -280,20 +280,29 @@ class UserMailer < BaseMailer
     end
   end
 
-  def reminder_mail(user, issues, days)
+  def reminder_mail(user, issues, days, group = nil)
     @issues = issues
     @days   = days
+    @group  = group
 
-    @assigned_issues_url = url_for(controller:     :work_packages,
-                                   action:         :index,
-                                   set_filter:     1,
-                                   assigned_to_id: user.id,
-                                   sort:           'due_date:asc')
+    assigned_to_id = if group
+                       group.id
+                     else
+                       user.id
+                     end
+
+    @assigned_issues_url = url_for(controller: :work_packages,
+                                   action: :index,
+                                   query_props: '{"t":"dueDate:asc","f":[{"n":"status","o":"o","v":[]},{"n":"assignee","o":"=","v":["' + assigned_to_id.to_s + '"]},{"n":"dueDate","o":"<t+","v":["2"]}]}')
 
     open_project_headers 'Type' => 'Issue'
 
     with_locale_for(user) do
-      subject = t(:mail_subject_reminder, count: @issues.size, days: @days)
+      subject = if @group
+                  t(:mail_subject_group_reminder, count: @issues.size, days: @days, group: @group.groupname)
+                else
+                  t(:mail_subject_reminder, count: @issues.size, days: @days)
+                end
       mail to: user.mail, subject: subject
     end
   end
