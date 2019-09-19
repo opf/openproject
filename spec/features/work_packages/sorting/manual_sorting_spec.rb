@@ -228,6 +228,34 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
     end
   end
 
+  describe 'with a saved query that is NOT manually sorted' do
+    let(:query) do
+      FactoryBot.create(:query, user: user, project: project, show_hierarchies: false).tap do |q|
+        q.sort_criteria = [[:id, 'asc']]
+        q.save!
+      end
+    end
+
+    it 'can drag and drop and will save the query' do
+      wp_table.visit_query query
+      wp_table.expect_work_package_order work_package_1, work_package_2, work_package_3, work_package_4
+
+      wp_table.drag_and_drop_work_package from: 1, to: 3
+
+      wp_table.expect_work_package_order work_package_1, work_package_3, work_package_2, work_package_4
+
+      wp_table.expect_and_dismiss_notification message: 'Successful update.'
+
+      retry_block do
+        query.reload
+
+        if query.sort_criteria != [['manual_sorting', 'asc']]
+          raise "Expected sort_criteria to be updated to manual_sorting, was #{query.sort_criteria.inspect}"
+        end
+      end
+    end
+  end
+
   describe 'flat mode' do
     before do
       wp_table.visit!
