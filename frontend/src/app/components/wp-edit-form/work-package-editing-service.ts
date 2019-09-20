@@ -154,6 +154,18 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
     this.clearSome(change.workPackageId);
   }
 
+  /**
+   * Create a new changeset for the given work package, discarding any previous changeset that might exist
+   * @param workPackage
+   * @param form
+   */
+  public edit(workPackage:WorkPackageResource, form?:FormResource):WorkPackageChangeset {
+    const state = this.multiState.get(workPackage.id!);
+    const changeset = new WorkPackageChangeset(workPackage, state, form);
+
+    state.putValue(changeset);
+    return changeset;
+  }
 
   /**
    * Start or continue editing the work package with a given edit context
@@ -161,7 +173,7 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
    * @param {form:FormResource} Initialize with an existing form
    * @return {WorkPackageChangeset} Change object to work on
    */
-  public changeFor(fallback:WorkPackageResource, form?:FormResource):WorkPackageChangeset {
+  public changeFor(fallback:WorkPackageResource):WorkPackageChangeset {
     const state = this.multiState.get(fallback.id!);
     const workPackage = this.wpCacheService.state(fallback.id!).getValueOr(fallback);
     let changeset = state.value;
@@ -170,9 +182,7 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
     // If there is an empty one for a older work package reference
     // build a new changeset
     if (!changeset || (changeset.isEmpty() && changeset.pristineResource.lockVersion < workPackage.lockVersion)) {
-      changeset = new WorkPackageChangeset(workPackage, state, form)
-      state.putValue(changeset);
-      return changeset;
+      return this.edit(workPackage);
     }
 
     const change = state.value!;

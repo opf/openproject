@@ -97,7 +97,7 @@ export class WorkPackageCreateService implements OnDestroy {
     let wp = this.halResourceService.createHalResourceOfType<WorkPackageResource>('WorkPackage', form.payload.$plain());
     wp.initializeNewResource(form);
 
-    const change = this.wpEditing.changeFor(wp, form);
+    const change = this.wpEditing.edit(wp, form);
 
     // Call work package initialization hook
     this.hooks.call('workPackageNewInitialization', change);
@@ -128,7 +128,7 @@ export class WorkPackageCreateService implements OnDestroy {
 
     wp.initializeNewResource(form);
 
-    return this.wpEditing.changeFor(wp, form);
+    return this.wpEditing.edit(wp, form);
   }
 
 

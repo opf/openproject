@@ -74,14 +74,14 @@ export abstract class ResourceChangeset<T extends HalResource|{ [key:string]:unk
    */
   public value(key:string) {
     if (this.isOverridden(key)) {
-      return this.changes[key];
+      return this.changeset.get(key);
     } else {
       return this.pristineResource[key];
     }
   }
 
   public setValue(key:string, val:any) {
-    this.changes[key] = val;
+    this.changeset.set(key, val);
   }
 
   public getSchemaName(attribute:string):string {
