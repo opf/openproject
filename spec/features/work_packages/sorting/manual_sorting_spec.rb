@@ -52,6 +52,7 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
   let(:sort_by) { ::Components::WorkPackages::SortBy.new }
   let(:hierarchies) { ::Components::WorkPackages::Hierarchies.new }
   let(:dialog) { ::Components::ConfirmationDialog.new }
+  let(:pagination) { ::Components::TablePagination.new }
 
   def expect_query_order(query, expected)
     retry_block do
@@ -100,9 +101,12 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
         raise "Query was not yet saved." unless query.name == 'My sorted query'
       end
 
-
       # Expect sorted 1 and 2, the rest is not positioned
       expect_query_order(query, [work_package_1, work_package_4].map(&:id))
+
+      # Pagination information is shown but no per page options
+      pagination.expect_range(1, 4, 4)
+      pagination.expect_no_per_page_options
     end
 
     it 'can drag an element into a hierarchy' do
@@ -253,6 +257,9 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
           raise "Expected sort_criteria to be updated to manual_sorting, was #{query.sort_criteria.inspect}"
         end
       end
+
+      pagination.expect_range(1, 4, 4)
+      pagination.expect_no_per_page_options
     end
   end
 
@@ -296,6 +303,9 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
       query = Query.last
       expect(query.name).to eq 'Manual sorted query'
       expect_query_order(query, [work_package_1.id, work_package_3.id, work_package_2.id])
+
+      pagination.expect_range(1, 4, 4)
+      pagination.expect_no_per_page_options
     end
 
     it 'does not loose the current order when switching to manual sorting' do

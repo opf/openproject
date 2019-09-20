@@ -639,8 +639,7 @@ ar:
       no_results:
         title: لا يوجد مجموعات عمل لعرضها.
         description: إما أنه لا يوجد ما تم إنشاؤه أو أن جميع مجموعات العمل قد تمت فلترتها.
-      limited_results: >
-        There are %{total} total work packages, but only %{count} can be shown in manual sorting mode. Please reduce the results by filtering.
+      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering.
       property_groups:
         details: "تفاصيل"
         people: "الناس"

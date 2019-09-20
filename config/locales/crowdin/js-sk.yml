@@ -635,8 +635,7 @@ sk:
       no_results:
         title: Žiadne pracovné balíčky na zobrazenie.
         description: Nevytvorili sa žiadne alebo všetky pracovné balíky sú odfiltrované.
-      limited_results: >
-        There are %{total} total work packages, but only %{count} can be shown in manual sorting mode. Please reduce the results by filtering.
+      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering.
       property_groups:
         details: "Podrobnosti"
         people: "Ľudia"

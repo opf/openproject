@@ -158,15 +158,13 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   }
 
   public onOpen() {
-    setTimeout(() => {
-      jQuery(this.hiddenOverflowContainer).addClass('-hidden-overflow');
-    }, 1000);
+    jQuery(this.hiddenOverflowContainer).one('scroll', () => {
+      this._autocompleterComponent.closeSelect();
+    });
   }
 
   public onClose() {
-    setTimeout(() => {
-      jQuery(this.hiddenOverflowContainer).removeClass('-hidden-overflow');
-    }, 1000);
+    // Nothing to do
   }
 
   public onChange(value:HalResource) {

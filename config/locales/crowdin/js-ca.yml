@@ -631,8 +631,7 @@ ca:
       no_results:
         title: Cap paquet de treball a visualitzar.
         description: No se n'ha creat cap o tots els paquets de treball s'han filtrat.
-      limited_results: >
-        There are %{total} total work packages, but only %{count} can be shown in manual sorting mode. Please reduce the results by filtering.
+      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering.
       property_groups:
         details: "Detalls"
         people: "Persones"

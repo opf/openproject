@@ -26,6 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
+$advanced-filters--label-size: 20%
+$advanced-filters--operator-size: 20%
+$advanced-filters--values-size: 25%
+$advanced-filters--values-and-operator-size: 45%
+$advanced-filters--close-icon-size: 50px
+$advanced-filters--grid-gap: 10px
+
 .advanced-filters--container
   @extend %filters--container
   padding: 1rem
@@ -45,19 +52,20 @@
     z-index: 2
 
 .advanced-filters--filters
-  list-style-type:  none
-  margin:           20px 0 0 0
+  list-style-type: none
+  margin: 20px 0 0 0
 
-  > li:not(.advanced-filters--controls)
+  > .advanced-filters--filter
     display: grid
     // Filters will not span the whole width,
     // but have an orientation to the left side
-    grid-template-columns: 20% 20% 25% 50px
-    grid-gap: 10px
+    grid-template-columns: $advanced-filters--label-size $advanced-filters--operator-size $advanced-filters--values-size $advanced-filters--close-icon-size
+    grid-grap: $advanced-filters--grid-gap
     align-items: center
     margin-bottom: 10px
+
     &.--without-operator
-      grid-template-columns: 20% 45% 50px
+      grid-template-columns: $advanced-filters--label-size $advanced-filters--values-and-operator-size $advanced-filters--close-icon-size
 
   .advanced-filters--filter-name,
   .advanced-filters--add-filter-label
@@ -71,6 +79,11 @@
       @include form--input-field-mixin--small
       @include form--input-field-mixin--narrow
       flex: 0 0 auto
+
+.advanced-filters--add-filter
+  display: grid
+  grid-template-columns: $advanced-filters--label-size $advanced-filters--values-and-operator-size $advanced-filters--close-icon-size
+  grid-grap: $advanced-filters--grid-gap
 
 // The type="text" is required to be more specific
 .advanced-filters--text-field[type="text"],
@@ -96,6 +109,7 @@
 
   a
     display: block
+
     &:hover
       text-decoration: none
 

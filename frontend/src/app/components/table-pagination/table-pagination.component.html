@@ -2,7 +2,7 @@
   <nav class="pagination--pages">
     <ul class="pagination--items">
 
-      <li [hidden]="pagination.page == 1" class="pagination--item">
+      <li [hidden]="pagination.page == 1 || !showPageSelections" class="pagination--item">
         <a (accessibleClick)="showPage(pagination.page - 1)"
            rel="prev start"
            [attr.aria-label]="text.label_previous"
@@ -67,6 +67,14 @@
               tabindex="0"
               class="hidden-for-sighted"
               [textContent]="text.no_other_page"></span>
+      </li>
+
+      <li class="pagination--info"
+          *ngIf="infoText">
+        <op-icon icon-classes="icon-info1 icon-context"></op-icon>
+        <span [textContent]="infoText">
+
+        </span>
       </li>
     </ul>
   </nav>

@@ -33,6 +33,11 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {IPaginationOptions, PaginationService} from 'core-components/table-pagination/pagination-service';
 import {WorkPackageViewPaginationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service";
 import {WorkPackageViewPagination} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-pagination";
+import {WorkPackageViewSortByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
+import {wpDisplayCardRepresentation} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { combineLatest } from 'rxjs';
+import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
 
 @Component({
   templateUrl: '../../table-pagination/table-pagination.component.html',
@@ -44,6 +49,8 @@ export class WorkPackageTablePaginationComponent extends TablePaginationComponen
   constructor(protected paginationService:PaginationService,
               protected cdRef:ChangeDetectorRef,
               protected wpTablePagination:WorkPackageViewPaginationService,
+              readonly querySpace:IsolatedQuerySpace,
+              readonly wpTableSortBy:WorkPackageViewSortByService,
               readonly I18n:I18nService) {
     super(paginationService, cdRef, I18n);
 
@@ -66,6 +73,19 @@ export class WorkPackageTablePaginationComponent extends TablePaginationComponen
         this.pagination = wpPagination.current;
         this.update();
     });
+
+    // hide/show pagination options depending on the sort mode
+    combineLatest([
+      this.querySpace.query.values$(),
+      this.wpTableSortBy.live$()
+    ]).pipe(
+      untilComponentDestroyed(this)
+    ).subscribe(([query, sort]) => {
+      this.showPerPage = this.showPageSelections = !this.isManualSortingMode;
+      this.infoText = this.paginationInfoText(query.results);
+
+      this.update();
+    });
   }
 
   ngOnDestroy():void {
@@ -79,5 +99,18 @@ export class WorkPackageTablePaginationComponent extends TablePaginationComponen
 
   public showPage(pageNumber:number) {
     this.wpTablePagination.updateFromObject({page: pageNumber});
+  }
+
+  private get isManualSortingMode() {
+    return this.wpTableSortBy.isManualSortingMode;
+  }
+
+  public paginationInfoText(work_packages:WorkPackageCollectionResource) {
+    if (this.isManualSortingMode && (work_packages.count < work_packages.total)) {
+      return I18n.t('js.work_packages.limited_results',
+        {count: work_packages.count});
+    } else {
+      return undefined;
+    }
   }
 }

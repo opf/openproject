@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,35 +25,32 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-require 'spec_helper'
 
-describe OpenProject::Database do
-  before do
-    described_class.instance_variable_set(:@version, nil)
-  end
+module Components
+  class TablePagination
+    include Capybara::DSL
+    include RSpec::Matchers
 
-  after do
-    described_class.instance_variable_set(:@version, nil)
-  end
+    def expect_range(from, to, total)
+      within_pagination do
+        expect(page)
+          .to have_selector('.pagination--range', text: "(#{from} - #{to}/#{total})")
+      end
+    end
 
-  it 'should return the correct identifier' do
-    allow(OpenProject::Database).to receive(:adapter_name).and_return 'PostgresQL'
+    def expect_no_per_page_options
+      within_pagination do
+        expect(page)
+          .to have_no_selector('.pagination--options')
+      end
+    end
 
-    expect(OpenProject::Database.name).to equal(:postgresql)
-  end
+    protected
 
-  it 'should be able to use the helper methods' do
-    allow(OpenProject::Database).to receive(:adapter_name).and_return 'PostgresQL'
-
-    expect(OpenProject::Database.postgresql?).to equal(true)
-  end
-
-  it 'should return a version string for PostgreSQL' do
-    allow(OpenProject::Database).to receive(:adapter_name).and_return 'PostgreSQL'
-    raw_version = 'PostgreSQL 8.3.11 on x86_64-pc-linux-gnu, compiled by GCC gcc-4.3.real (Debian 4.3.2-1.1) 4.3.2'
-    allow(ActiveRecord::Base.connection).to receive(:select_value).and_return raw_version
-
-    expect(OpenProject::Database.version).to eq('8.3.11')
-    expect(OpenProject::Database.version(true)).to eq(raw_version)
+    def within_pagination
+      within('.pagination') do
+        yield
+      end
+    end
   end
 end

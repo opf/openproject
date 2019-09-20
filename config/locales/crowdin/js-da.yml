@@ -630,8 +630,7 @@ da:
       no_results:
         title: No work packages to display.
         description: Either none have been created or all work packages are filtered out.
-      limited_results: >
-        There are %{total} total work packages, but only %{count} can be shown in manual sorting mode. Please reduce the results by filtering.
+      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering.
       property_groups:
         details: "Detaljer"
         people: "Personer"
