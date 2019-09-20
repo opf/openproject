@@ -40,9 +40,11 @@ class Status < ActiveRecord::Base
 
   before_destroy :delete_workflows
 
-  validates_presence_of :name
-  validates_uniqueness_of :name
-  validates_length_of :name, maximum: 30
+  validates :name,
+            presence: true,
+            uniqueness: { case_sensitive: false },
+            length: { maximum: 30 }
+
   validates_inclusion_of :default_done_ratio, in: 0..100, allow_nil: true
 
   after_save :unmark_old_default_value, if: :is_default?

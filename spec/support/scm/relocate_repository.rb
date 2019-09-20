@@ -27,7 +27,7 @@ shared_examples_for 'repository can be relocated' do |vendor|
       expect(Dir.exists?(repository.managed_repository_path)).to be true
 
       # Rename the project
-      project.update_attributes!(identifier: 'somenewidentifier')
+      project.update!(identifier: 'somenewidentifier')
       repository.reload
 
       job.perform

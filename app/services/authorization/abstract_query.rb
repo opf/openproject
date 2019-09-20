@@ -34,7 +34,8 @@ class Authorization::AbstractQuery
   def self.query(*args)
     arel = transformed_query(*args)
 
-    model.joins(joins(arel))
+    model.unscoped
+         .joins(joins(arel))
          .where(wheres(arel))
          .distinct
   end

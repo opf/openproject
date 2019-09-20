@@ -415,7 +415,9 @@ describe OpenProject::Configuration do
   end
 
   describe '.configure_cache' do
-    let(:application_config) { Rails::Application::Configuration.new }
+    let(:application_config) do
+      Rails::Application::Configuration.new Rails.root
+    end
 
     after do
       # reload configuration to isolate specs

@@ -26,7 +26,7 @@ module OpenProject
           # Don't allow unsetting admin if user is already admin
           attributes.delete(:admin) if user.admin?
 
-          user.update_attributes attributes
+          user.update attributes
         end
       end
 

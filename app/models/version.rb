@@ -39,9 +39,10 @@ class Version < ActiveRecord::Base
   VERSION_STATUSES = %w(open locked closed).freeze
   VERSION_SHARINGS = %w(none descendants hierarchy tree system).freeze
 
-  validates_presence_of :name
-  validates_uniqueness_of :name, scope: [:project_id]
-  validates_length_of :name, maximum: 60
+  validates :name,
+            presence: true,
+            uniqueness: { scope: [:project_id], case_sensitive: true }
+
   validates_format_of :effective_date, with: /\A\d{4}-\d{2}-\d{2}\z/, message: :not_a_date, allow_nil: true
   validates_format_of :start_date, with: /\A\d{4}-\d{2}-\d{2}\z/, message: :not_a_date, allow_nil: true
   validates_inclusion_of :status, in: VERSION_STATUSES

@@ -31,7 +31,7 @@
 def aggregate_mocked_settings(example, settings)
   # We have to manually check parent groups for with_settings:,
   # since they are being ignored otherwise
-  example.example_group.parents.each do |parent|
+  example.example_group.module_parents.each do |parent|
     if parent.respond_to?(:metadata) && parent.metadata[:with_settings]
       settings.reverse_merge!(parent.metadata[:with_settings])
     end
