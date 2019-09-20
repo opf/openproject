@@ -65,6 +65,6 @@ class DangerZone
 
   ##
   def disabled?
-    !!danger_button[:disabled]
+    danger_button.disabled?
   end
 end

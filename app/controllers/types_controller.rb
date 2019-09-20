@@ -101,7 +101,7 @@ class TypesController < ApplicationController
   def move
     @type = ::Type.find(params[:id])
 
-    if @type.update_attributes(permitted_params.type_move)
+    if @type.update(permitted_params.type_move)
       flash[:notice] = l(:notice_successful_update)
     else
       flash.now[:error] = t('type_could_not_be_saved')

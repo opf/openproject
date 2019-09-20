@@ -109,14 +109,18 @@ module Redmine
         # because while they have the right to be added as watchers having
         # them pop up in every project would be weird.
         def possible_watcher_users
-          users = User
-                  .active_or_registered
+          # In rails 6, for reasons I did not look into, a different sql is produced
+          # when issuing
+          #   User.active_or_registered.allowed_members(self.class.acts_as_watchable_permission, project)
+          # compared to
+          #   User.allowed_members(self.class.acts_as_watchable_permission, project).active_or_registered
+          scope = if project.is_public?
+                    User.allowed(self.class.acts_as_watchable_permission, project)
+                  else
+                    User.allowed_members(self.class.acts_as_watchable_permission, project)
+                  end
 
-          if project.is_public?
-            users.allowed(self.class.acts_as_watchable_permission, project)
-          else
-            users.allowed_members(self.class.acts_as_watchable_permission, project)
-          end
+          scope.active_or_registered
         end
 
         # Returns an array of users that are proposed as watchers

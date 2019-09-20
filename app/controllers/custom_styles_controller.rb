@@ -53,7 +53,7 @@ class CustomStylesController < ApplicationController
 
   def update
     @custom_style = CustomStyle.current
-    if @custom_style.update_attributes(custom_style_params)
+    if @custom_style.update(custom_style_params)
       redirect_to custom_style_path
     else
       flash[:error] = @custom_style.errors.full_messages

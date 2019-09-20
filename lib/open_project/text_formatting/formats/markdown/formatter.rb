@@ -31,14 +31,6 @@ require 'task_list/filter'
 
 module OpenProject::TextFormatting::Formats::Markdown
   class Formatter < OpenProject::TextFormatting::Formats::BaseFormatter
-    attr_reader :context,
-                :pipeline
-
-    def initialize(context)
-      @context = context
-      @pipeline = ::HTML::Pipeline.new(located_filters, context)
-    end
-
     def to_html(text)
       result = pipeline.call(text, context)
       output = result[:output].to_s

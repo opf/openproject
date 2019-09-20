@@ -52,7 +52,7 @@ describe 'Projects#destroy',
   it 'can destroy the project' do
     # Confirm the deletion
     danger_zone.confirm_with(project.identifier)
-    expect(danger_zone.disabled?).to be false
+    expect(danger_zone).not_to be_disabled
     danger_zone.danger_button.click
 
     expect(page).to have_selector '.flash.notice', text: I18n.t('projects.delete.scheduled')

@@ -48,7 +48,7 @@ Given /^the [pP]roject(?: "([^\"]+?)")? uses the following types:$/ do |project,
     type
   }
 
-  project.update_attributes type_ids: types.map(&:id).map(&:to_s)
+  project.update type_ids: types.map(&:id).map(&:to_s)
 end
 
 Then(/^I should see the following fields:$/) do |table|

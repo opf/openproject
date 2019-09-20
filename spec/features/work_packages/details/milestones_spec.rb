@@ -1,15 +1,14 @@
 require 'spec_helper'
 
 describe 'Milestones full screen v iew', js: true do
-
   let(:type) { FactoryBot.create :type, is_milestone: true }
   let(:project) { FactoryBot.create(:project, types: [type]) }
-  let!(:work_package) {
+  let!(:work_package) do
     FactoryBot.create(:work_package,
                       project: project,
                       type: type,
                       subject: 'Foobar')
-  }
+  end
 
   let(:wp_page) { ::Pages::FullWorkPackage.new(work_package, project) }
   let(:button) { find('.add-work-package', wait: 5) }
@@ -29,7 +28,7 @@ describe 'Milestones full screen v iew', js: true do
     end
 
     it 'shows the button as enabled' do
-      expect(button['disabled']).to be_falsey
+      expect(button).not_to be_disabled
 
       button.click
       expect(page).to have_selector('.menu-item', text: type.name.upcase)
