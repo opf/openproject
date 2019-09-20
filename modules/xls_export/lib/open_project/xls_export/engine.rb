@@ -8,8 +8,7 @@ module OpenProject::XlsExport
              author_url: 'http://openproject.com/',
              bundled: true
 
-    patches %i[Queries::WorkPackages::Columns::WorkPackageColumn]
-    # disabled since not yet migrated: :CostReportsController
+    patches %i[Queries::WorkPackages::Columns::WorkPackageColumn CostReportsController]
 
     extend_api_response(:v3, :work_packages, :work_package_collection) do
       require_relative 'patches/api/v3/export_formats'
@@ -20,8 +19,7 @@ module OpenProject::XlsExport
     initializer 'xls_export.register_hooks' do
       # don't use require_dependency to not reload hooks in development mode
 
-      # disabled since not yet migrated
-      # require 'open_project/xls_export/hooks/cost_report_hook.rb'
+      require 'open_project/xls_export/hooks/cost_report_hook.rb'
 
       require 'open_project/xls_export/hooks/work_package_hook.rb'
     end
