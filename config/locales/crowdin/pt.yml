@@ -481,6 +481,8 @@ pt:
               invalid_values: "Um valor é inválido."
               id_filter_required: "É necessário um filtro de \"id\"."
         project:
+          archived_ancestor: 'The project has an archived ancestor.'
+          foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
             types:
               in_use_by_work_packages: "ainda em uso por pacotes de trabalho: %{types}"
@@ -944,7 +946,7 @@ pt:
   enumeration_system_activity: "Atividade do sistema"
   enumeration_reported_project_statuses: "Estado do projeto reportado"
   error_auth_source_sso_failed: "Single Sign-On (SSO) para o utilizador '%{value}' falhou"
-  error_can_not_archive_project: "Este projeto não pode ser arquivado: há pelo menos um pacote de trabalho atribuído a uma versão definida neste projeto."
+  error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Não é possível apagar a entrada"
   error_can_not_delete_custom_field: "Não é possível eliminar o campo personalizado"
   error_can_not_delete_type: "Este tipo contém pacotes de trabalho e não pode ser apagado."
@@ -953,6 +955,7 @@ pt:
   error_can_not_remove_role: "Esta função já está a ser utilizada e não pode ser eliminada."
   error_can_not_reopen_work_package_on_closed_version: "Uma tarefa atribuída a uma versão fechada não pode ser reaberta"
   error_can_not_find_all_resources: "Não foi possível encontrar todos os recursos relacionados a esta solicitação."
+  error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Por favor, escolha um utilizador e uma função."
   error_code: "Erro %{code}"
   error_cookie_missing: 'O cookie OpenProject está em falta. Por favor, certifique-se de que os cookies estão habilitados, uma vez que esta aplicação não funcionará corretamente sem eles.'
@@ -1659,12 +1662,14 @@ pt:
   mail_body_lost_password: "Para alterar a sua senha, clique na seguinte hiperligação:"
   mail_body_register: "Para ativar a sua conta, clique no link a seguir:"
   mail_body_reminder: "%{count} pacote(s) de trabalho que lhe estão atribuídos têm prazo de término nos próximos %{days} dias:"
+  mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
   mail_body_wiki_content_added: "A página Wiki '%{id}' foi adicionada por %{author}."
   mail_body_wiki_content_updated: "A página Wiki '%{id}' foi atualizada por %{author}."
   mail_subject_account_activation_request: "Pedido de ativação da conta %{value}"
   mail_subject_lost_password: "A sua senha %{value}"
   mail_subject_register: "Ativação de conta de %{value}"
   mail_subject_reminder: "Tem %{count} pacote(s) de trabalho para entregar nos próximos %{days} dias"
+  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "'%{id}' wiki foi adicionada"
   mail_subject_wiki_content_updated: "A página Wiki '%{id}' foi atualizada"
   mail_user_activation_limit_reached:

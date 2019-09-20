@@ -483,6 +483,8 @@ pl:
               invalid_values: "Wartość jest nieprawidłowa."
               id_filter_required: "Filtr 'id' jest wymagany."
         project:
+          archived_ancestor: 'The project has an archived ancestor.'
+          foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
             types:
               in_use_by_work_packages: "nadal w użyciu przez Zestawy zadań: %{types}"
@@ -976,7 +978,7 @@ pl:
   enumeration_system_activity: "Aktywność systemu"
   enumeration_reported_project_statuses: "Status zgłoszonego projektu"
   error_auth_source_sso_failed: "Pojedyncze logowanie (SSO) dla użytkownika '%{value}' nie powiodło się"
-  error_can_not_archive_project: "Tego projektu nie można zarchiwizować: do wersji zdefiniowanej w tym projekcie jest przypisany co najmniej jeden pakiet roboczy."
+  error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Nie można usunąć wpisu"
   error_can_not_delete_custom_field: "Nie można usunąć pola niestandardowego"
   error_can_not_delete_type: "Ten typ zawiera pakiety robocze i nie może zostać usunięty."
@@ -985,6 +987,7 @@ pl:
   error_can_not_remove_role: "Ta Rola jest używana i nie można jej usunąć."
   error_can_not_reopen_work_package_on_closed_version: "Nie można otworzyć pakietu roboczego przypisanego do zamkniętej wersji"
   error_can_not_find_all_resources: "Nie można znaleźć wszystkich zasobów związanych z tym żądaniem."
+  error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Wybierz użytkownika i rolę."
   error_code: "Błąd %{code}"
   error_cookie_missing: 'Brakuje pliku cookie OpenProject. Upewnij się, że obsługa plików cookie jest włączona, ponieważ bez tego aplikacja nie będzie funkcjonować prawidłowo.'
@@ -1699,12 +1702,14 @@ pl:
   mail_body_lost_password: "Aby zmienić hasło, kliknij na poniższy link:"
   mail_body_register: "Aby aktywować swoje konto, kliknij na poniższy link:"
   mail_body_reminder: "Termin wykonania %{count} pakietów roboczych przypisanych do Ciebie kończy się w ciągu %{days} dni:"
+  mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
   mail_body_wiki_content_added: "The '%{id}' wiki page has been added by %{author}."
   mail_body_wiki_content_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} account activation request"
   mail_subject_lost_password: "Twoje hasło do %{value}"
   mail_subject_register: "Your %{value} account activation"
   mail_subject_reminder: "Termin wykonania %{count} pakietów roboczych kończy się w ciągu %{days} dni"
+  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
   mail_user_activation_limit_reached:

@@ -481,6 +481,8 @@ es:
               invalid_values: "El valor no es válido."
               id_filter_required: "Se requiere el filtro 'id'."
         project:
+          archived_ancestor: 'The project has an archived ancestor.'
+          foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
             types:
               in_use_by_work_packages: "todavia en uso por los paquetes de trabajo: %{types}"
@@ -944,7 +946,7 @@ es:
   enumeration_system_activity: "Actividad del sistema"
   enumeration_reported_project_statuses: "Estatus del proyecto reportado"
   error_auth_source_sso_failed: "El intento de inicio de sesión único (SSO) para el usuario “%{value}” falló"
-  error_can_not_archive_project: "Este proyecto no se puede archivar porque hay como mínimo un paquete de trabajo asignado a una versión definida en este proyecto."
+  error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "No se puede eliminar la entrada"
   error_can_not_delete_custom_field: "Imposible eliminar el campo seleccionado"
   error_can_not_delete_type: "Este tipo contiene paquetes de trabajo y no se puede eliminar."
@@ -953,6 +955,7 @@ es:
   error_can_not_remove_role: "Este rol esta en uso y no puede ser eliminado"
   error_can_not_reopen_work_package_on_closed_version: "No se puede volver a abrir un paquete de trabajo asignado a una versión cerrada"
   error_can_not_find_all_resources: "No se encontraron todos los recursos relacionados con esta solicitud."
+  error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Por favor elige un usuario y un rol."
   error_code: "Error %{code}"
   error_cookie_missing: 'No se encuentra la cookie de OpenProject. Por favor asegúrese de que las cookies están habilitadas, ya que sin ellas esta aplicación no funcionará correctamente.'
@@ -1659,12 +1662,14 @@ es:
   mail_body_lost_password: "Para cambiar su contraseña, haga clic en el siguiente enlace:"
   mail_body_register: "Para activar su cuenta, haga clic en el siguiente enlace:"
   mail_body_reminder: "%{count} paquete(s) de trabajo que le fueron asignados vencen en los próximos %{days}:"
+  mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
   mail_body_wiki_content_added: "La página wiki de '%{id}' ha sido añadida por %{author}."
   mail_body_wiki_content_updated: "La página wiki de '%{id}' ha sido actualizada por %{author}."
   mail_subject_account_activation_request: "solicitud de activación de cuenta de %{value}"
   mail_subject_lost_password: "Su contraseña %{value}"
   mail_subject_register: "La activación de la cuenta %{value}"
   mail_subject_reminder: "%{count} paquete(s) de trabajo pendientes en los siguientes %{days} dias"
+  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "'%{id}' wiki página ha sido agregada"
   mail_subject_wiki_content_updated: "'%{id}' wiki página ha sido actualizada"
   mail_user_activation_limit_reached:

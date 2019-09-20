@@ -482,6 +482,8 @@ hr:
               invalid_values: "Vrijednost nije valjana."
               id_filter_required: "An 'id' filter is required."
         project:
+          archived_ancestor: 'The project has an archived ancestor.'
+          foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
             types:
               in_use_by_work_packages: "još uvijek u uporabi od strane radnih paketa: %{types}"
@@ -960,7 +962,7 @@ hr:
   enumeration_system_activity: "Aktivnost sustava"
   enumeration_reported_project_statuses: "Priopćeni statusi projekta"
   error_auth_source_sso_failed: "Single Sign-On (SSO) for user '%{value}' failed"
-  error_can_not_archive_project: "This project cannot be archived: There is at least one work package assigned to a version defined in this project."
+  error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Unable to delete entry"
   error_can_not_delete_custom_field: "Nije moguće izbrisati prilagođeno polje"
   error_can_not_delete_type: "Ovaj tip sadrži radni paket i ne može biti izbrisan."
@@ -969,6 +971,7 @@ hr:
   error_can_not_remove_role: "Ova rola se koristi i ne može biti izbrisana."
   error_can_not_reopen_work_package_on_closed_version: "Dodijeljeni radni paket zaključenoj verziji ne može biti ponovno otvoren"
   error_can_not_find_all_resources: "Could not find all related resources to this request."
+  error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Molim Vas odaberite korisnika i rolu."
   error_code: "Error %{code}"
   error_cookie_missing: 'The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without.'
@@ -1679,12 +1682,14 @@ hr:
   mail_body_lost_password: "Da bi ste promijenili lozinku, molimo vas odaberite sljedeću poveznicu:"
   mail_body_register: "Da bi ste aktivirali vaš korisnički račun, molim vas odaberite sljedeću poveznicu:"
   mail_body_reminder: "%{count} radni paket(i) koji je dodijeljeni vama, ima krajnji rok u sljedećih %{days} dana:"
+  mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
   mail_body_wiki_content_added: "'%{id}' wiki stranicu je dodao korisnik %{author}."
   mail_body_wiki_content_updated: "'%{id}' wiki stranicu je ažurirao korisnik %{author}."
   mail_subject_account_activation_request: "%{value} zahtjev za aktivacijom korisničkog računa"
   mail_subject_lost_password: "Vaša %{value} lozinka"
   mail_subject_register: "Vaša %{value} aktivacija korisničkog računa"
   mail_subject_reminder: "%{count} radni paket(i) koji ima krajnji rok u sljedećih %{days} dana"
+  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "'%{id}' wiki stranica je dodana"
   mail_subject_wiki_content_updated: "'%{id}' wiki stranica je ažurirana"
   mail_user_activation_limit_reached:

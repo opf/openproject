@@ -481,6 +481,8 @@ fil:
               invalid_values: "Ang halaga ay hindi balido."
               id_filter_required: "Isang'id' filter ay kinakailangan."
         project:
+          archived_ancestor: 'The project has an archived ancestor.'
+          foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
             types:
               in_use_by_work_packages: "ginagamit pa sa mga work packages: %{types}"
@@ -944,7 +946,7 @@ fil:
   enumeration_system_activity: "Sistema ng aktibidad"
   enumeration_reported_project_statuses: "Estado ng inuulat na proyekto"
   error_auth_source_sso_failed: "Single Sign-On (SSO) para sa gumagamit ng '%{value}' ay nabigo"
-  error_can_not_archive_project: "This project cannot be archived: There is at least one work package assigned to a version defined in this project."
+  error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Hindi mabura na entry"
   error_can_not_delete_custom_field: "Hindi mabura ang custom field"
   error_can_not_delete_type: "Itong uri ay naglalaman ng mga work package at hindi pwedeng burahin."
@@ -953,6 +955,7 @@ fil:
   error_can_not_remove_role: "Itong tungkulin ay ginamit pa at hindi pwedeng burahin."
   error_can_not_reopen_work_package_on_closed_version: "Ang work package ay nakatalaga sa isinarang bersyon na hindi pwede buksan muli"
   error_can_not_find_all_resources: "Could not find all related resources to this request."
+  error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Mangyaring pumili ng gumagamit at tungkulin."
   error_code: "Error %{code}"
   error_cookie_missing: 'Ang OpenProject cookie ay nawawala. Mangyaring siguraduhin na ang mga cookie ay pinagana, bilang aplikasyon na ito ay hindi gumagana ng maayos na hindi kasama ang.'
@@ -1659,12 +1662,14 @@ fil:
   mail_body_lost_password: "Upang baguhin ang iyong password, pindutin ang mga sumusunod na link:"
   mail_body_register: "Upang i-aktibo ang iyong akwant, pindutin ang sumusunod na link:"
   mail_body_reminder: "%{count} work package na nakatakaga sa iyo ay dapat isumite sa mga sumusunod na %{days} araw:"
+  mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
   mail_body_wiki_content_added: "Ang '%{id}' wiking pahina ay naidagdag sa %{author}."
   mail_body_wiki_content_updated: "Ang '%{id}' wiking pahina ay na i-update sa %{author}."
   mail_subject_account_activation_request: "%{value} kahilingan ng akwant aktibasyon"
   mail_subject_lost_password: "Ang iyong %{value} password"
   mail_subject_register: "Ang iyong %{value} akwant aktibasyon"
   mail_subject_reminder: "%{count} work package dahil sa susunod na mga %{days} araw"
+  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "Ang '%{id}' wikin pahina ay naidagdag"
   mail_subject_wiki_content_updated: "'%{id}' wiking pahina ay naka-update na"
   mail_user_activation_limit_reached:

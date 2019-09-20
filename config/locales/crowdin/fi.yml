@@ -481,6 +481,8 @@ fi:
               invalid_values: "Virheellinen arvo."
               id_filter_required: "An 'id' filter is required."
         project:
+          archived_ancestor: 'The project has an archived ancestor.'
+          foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
             types:
               in_use_by_work_packages: "edelleen käytössä työpaketeissa: %{types}"
@@ -944,7 +946,7 @@ fi:
   enumeration_system_activity: "Järjestelmän toiminta"
   enumeration_reported_project_statuses: "Reported project status"
   error_auth_source_sso_failed: "Single Sign-On (SSO) for user '%{value}' failed"
-  error_can_not_archive_project: "This project cannot be archived: There is at least one work package assigned to a version defined in this project."
+  error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Unable to delete entry"
   error_can_not_delete_custom_field: "Mukautettua kenttää ei voi poistaa"
   error_can_not_delete_type: "Tämä tyyppinen työ sisältää pakettia ja ei voi poistaa."
@@ -953,6 +955,7 @@ fi:
   error_can_not_remove_role: "Tämä rooli on käytössä joten sitä ei voida poistaa."
   error_can_not_reopen_work_package_on_closed_version: "Työn paketti määritetty suljettu versio ei voi avata uudelleen"
   error_can_not_find_all_resources: "Could not find all related resources to this request."
+  error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Please choose a user and a role."
   error_code: "Error %{code}"
   error_cookie_missing: 'OpenProject evästeen puuttuu. Varmista, että evästeet ovat käytössä, koska tämä sovellus ei toimi oikein ilman evästeitä.'
@@ -1659,12 +1662,14 @@ fi:
   mail_body_lost_password: "Vaihtaaksesi salasanasi, napsauta seuraavaa linkkiä:"
   mail_body_register: "Aktivoidaksesi tilisi, napsauta seuraavaa linkkiä:"
   mail_body_reminder: "%{count} sinulle nimettyä tapahtuma(a) erääntyy %{days} päivä sisään:"
+  mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
   mail_body_wiki_content_added: "'%{id}' wiki-sivu on lisätty %{author}."
   mail_body_wiki_content_updated: "'%{id}' wiki-sivu on päivitetty %{author}."
   mail_subject_account_activation_request: "%{value} tilin aktivointipyyntö"
   mail_subject_lost_password: "Sinun %{value} salasanasi"
   mail_subject_register: "%{value} tilin aktivointi"
   mail_subject_reminder: "%{count} tapahtuma(a) erääntyy %{days} lähipäivinä"
+  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "'%{id}' wiki-sivu on poistettu"
   mail_subject_wiki_content_updated: "'%{id}' Wiki-sivu on päivitetty"
   mail_user_activation_limit_reached:

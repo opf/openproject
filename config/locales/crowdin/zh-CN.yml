@@ -479,6 +479,8 @@ zh-CN:
               invalid_values: "值无效。"
               id_filter_required: "“id”筛选器为必填字段。"
         project:
+          archived_ancestor: 'The project has an archived ancestor.'
+          foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
             types:
               in_use_by_work_packages: "仍在使用的工作包: %{types}"
@@ -927,7 +929,7 @@ zh-CN:
   enumeration_system_activity: "系统活动"
   enumeration_reported_project_statuses: "报告的项目状态"
   error_auth_source_sso_failed: "用户 \"%{value}\" 的单次登录 (SSO) 失败"
-  error_can_not_archive_project: "无法归档这个项目: 有至少一个工作包被分配到了这个项目中定义的版本。"
+  error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "无法删除条目"
   error_can_not_delete_custom_field: "无法删除自定义字段"
   error_can_not_delete_type: "这种类型包含工作包，不能被删除。"
@@ -936,6 +938,7 @@ zh-CN:
   error_can_not_remove_role: "该角色正在使用，无法删除。"
   error_can_not_reopen_work_package_on_closed_version: "不能重新打开一个已经分配给已关闭版本的工作包"
   error_can_not_find_all_resources: "无法找到与请求相关的所有资源。"
+  error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "请选择用户和角色。"
   error_code: "错误 %{code}"
   error_cookie_missing: 'OpenProject cookie 丢失。请确保已启用 cookie，因为如果不启用，此应用程序将无法正常运行。'
@@ -1638,12 +1641,14 @@ zh-CN:
   mail_body_lost_password: "若要更改你的密码，请单击下面的链接："
   mail_body_register: "若要激活您的帐户，请单击下面的链接："
   mail_body_reminder: "%{count} 个分配给您的工作包将在 %{days} 天后到期："
+  mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
   mail_body_wiki_content_added: "'%{id}' wiki页面已经由%{author} 添加。"
   mail_body_wiki_content_updated: "'%{id}' wiki页面已经由%{author} 更新。"
   mail_subject_account_activation_request: "%{value} 帐户激活请求"
   mail_subject_lost_password: "你的 %{value} 密码"
   mail_subject_register: "您的%{value}帐户激活"
   mail_subject_reminder: "%{count} 个工作包在 %{days} 天内到期"
+  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "'%{id}' wiki页面已添加"
   mail_subject_wiki_content_updated: "'%{id}' wiki页面已更新"
   mail_user_activation_limit_reached:

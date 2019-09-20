@@ -481,6 +481,8 @@ ca:
               invalid_values: "A value is invalid."
               id_filter_required: "An 'id' filter is required."
         project:
+          archived_ancestor: 'The project has an archived ancestor.'
+          foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
             types:
               in_use_by_work_packages: "encara en ús pels paquets de treball: %{types}"
@@ -944,7 +946,7 @@ ca:
   enumeration_system_activity: "Activitat del sistema"
   enumeration_reported_project_statuses: "Estats de projecte notificats"
   error_auth_source_sso_failed: "Single Sign-On (SSO) for user '%{value}' failed"
-  error_can_not_archive_project: "This project cannot be archived: There is at least one work package assigned to a version defined in this project."
+  error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Unable to delete entry"
   error_can_not_delete_custom_field: "No s'ha pogut suprimir el camp personalitat"
   error_can_not_delete_type: "Aquest tipus conté paquets de treball i no es pot suprimir."
@@ -953,6 +955,7 @@ ca:
   error_can_not_remove_role: "Aquest rol s'està utilitzant i no es pot suprimir."
   error_can_not_reopen_work_package_on_closed_version: "Un paquet de treball assignat a una versió tancada no es pot reobrir"
   error_can_not_find_all_resources: "Could not find all related resources to this request."
+  error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Trieu un usuari i un rol."
   error_code: "Error %{code}"
   error_cookie_missing: 'La cookie d''OpenProject no s''ha trobat. Assegureu-vos que les cookies estan habilitades, ja que aquesta aplicació no pot funcionar correctament sense.'
@@ -1659,12 +1662,14 @@ ca:
   mail_body_lost_password: "Per a canviar la contrasenya, feu clic en l'enllaç següent:"
   mail_body_register: "Per a activar el compte, feu clic en l'enllaç següent:"
   mail_body_reminder: "%{count} paquet(s) de treball que teniu assignats venceran en els propers %{days} dies:"
+  mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
   mail_body_wiki_content_added: "En %{author} ha afegit la pàgina wiki «%{id}»."
   mail_body_wiki_content_updated: "L'autor %{author} ha actualitzat la pàgina wiki «%{id}»."
   mail_subject_account_activation_request: "Sol·licitud d'activació del compte de %{value}"
   mail_subject_lost_password: "La vostra contrasenya %{value}"
   mail_subject_register: "L'activació del compte %{value}"
   mail_subject_reminder: "%{count} paquet(s) de treball pendents en els següents %{days} dies"
+  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "S'ha afegit la pàgina wiki «%{id}»"
   mail_subject_wiki_content_updated: "S'ha actualitzat la pàgina wiki «%{id}»"
   mail_user_activation_limit_reached:
