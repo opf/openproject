@@ -629,8 +629,7 @@ ko:
       no_results:
         title: 표시할 작업 패키지가 없습니다.
         description: 만든 작업 패키지가 없거나 모든 작업 패키지가 필터링에서 제외되었습니다.
-      limited_results: >
-        There are %{total} total work packages, but only %{count} can be shown in manual sorting mode. Please reduce the results by filtering.
+      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering.
       property_groups:
         details: "세부 정보"
         people: "사용자"

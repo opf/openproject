@@ -629,8 +629,7 @@ zh-CN:
       no_results:
         title: 没有要显示的工作包。
         description: 没有已创建的工作包或所有工作包都被筛选排除。
-      limited_results: >
-        There are %{total} total work packages, but only %{count} can be shown in manual sorting mode. Please reduce the results by filtering.
+      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering.
       property_groups:
         details: "详细信息"
         people: "人员"

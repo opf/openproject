@@ -631,8 +631,7 @@ tr:
       no_results:
         title: Görüntülecek bir iş paketi bulunmuyor.
         description: Ya hiç iş paketi oluşturulmamış, ya da tüm iş paketeri filtrelenmiş.
-      limited_results: >
-        %{total} toplam iş paketi var, ancak manuel sıralama modunda sadece %{count} gösterilebilir. Lütfen sonuçları filtreleyerek azaltın.
+      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering.
       property_groups:
         details: "Detaylar"
         people: "Kişiler"

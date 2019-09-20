@@ -631,8 +631,7 @@ pt:
       no_results:
         title: Não há pacotes de trabalho para exibir.
         description: Ou não foram criados ou todos os pacotes de trabalho estão filtrados.
-      limited_results: >
-        There are %{total} total work packages, but only %{count} can be shown in manual sorting mode. Please reduce the results by filtering.
+      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering.
       property_groups:
         details: "Detalhes"
         people: "Pessoas"

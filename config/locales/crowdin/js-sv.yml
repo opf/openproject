@@ -630,8 +630,7 @@ sv:
       no_results:
         title: Inga arbetspaket att visa.
         description: Antingen finns det inga arbetspaket eller så har alla filtrerats bort.
-      limited_results: >
-        There are %{total} total work packages, but only %{count} can be shown in manual sorting mode. Please reduce the results by filtering.
+      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering.
       property_groups:
         details: "Detaljer"
         people: "Personer"
