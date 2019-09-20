@@ -180,7 +180,7 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
 
     assigned_area.resize_to(1, 2)
 
-    sleep(0.1)
+    my_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
 
     assigned_area.expect_to_span(1, 1, 2, 3)
     # has been moved down by resizing
