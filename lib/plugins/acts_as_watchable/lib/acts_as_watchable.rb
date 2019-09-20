@@ -130,7 +130,7 @@ module Redmine
 
         # Adds user as a watcher
         def add_watcher(user)
-          watchers << Watcher.new(user: user, watchable: self)
+          watchers << Watcher.new(user: user, watchable: self) unless watchers.map(&:user_id).include?(user.id)
         end
 
         # Removes user from the watchers list
