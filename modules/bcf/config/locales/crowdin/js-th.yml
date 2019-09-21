@@ -1,5 +1,0 @@
-th:
-  js:
-    bcf:
-      import: 'Import'
-      export: 'Export'

@@ -632,7 +632,7 @@ ja:
       no_results:
         title: 表示できる作業項目がありません。
         description: 作業項目が作成されていないかすべての作業項目が除外されています。
-      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering.
+      limited_results: 手動並び替えモードで表示できるのは %{count} の作業項目だけです。 フィルタリングして結果を減らしてください。
       property_groups:
         details: "詳細"
         people: "人"

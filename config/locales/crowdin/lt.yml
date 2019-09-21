@@ -90,7 +90,7 @@ lt:
   concatenation:
     single: 'arba'
   deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
+    time_entries: "Šis laiko įrašų rodinys permuštas „Kaštų ataskaitos“ modulio. Šis rodinys dabar palaiko tik laiko įrašų eksportą į csv. Interaktyviam filtravimui prašome projekto nustatymuose aktyvuoti „Kaštų ataskaitų“ modulį."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -1060,7 +1060,7 @@ lt:
   general_text_yes: "taip"
   general_text_No: "Ne"
   general_text_Yes: "Taip"
-  general_text_true: "true"
+  general_text_true: "taip"
   general_text_false: "netiesa"
   gui_validation_error: "1 klaida"
   gui_validation_error_plural: "%{count} klaidos (-a, -ų)"
@@ -1555,7 +1555,7 @@ lt:
   label_used_by_types: "Naudojama šių tipų"
   label_used_in_projects: "Naudojama šių projektų"
   label_user: "Vartotojas"
-  label_user_and_permission: "Users & Permissions"
+  label_user_and_permission: "Naudotojai ir leidimai"
   label_user_named: "User %{name}"
   label_user_activity: "%{value} veikla"
   label_user_anonymous: "Anonimas"
@@ -1568,7 +1568,7 @@ lt:
   label_user_new: "Naujas vartotojas"
   label_user_plural: "Vartotojai"
   label_user_search: "Ieškoti vartotojo"
-  label_user_settings: "User settings"
+  label_user_settings: "Naudotojo nustatymai"
   label_version_new: "Nauja versija"
   label_version_plural: "Versijos"
   label_version_sharing_descendants: "Su sub-projektais"
@@ -1586,7 +1586,7 @@ lt:
   label_wiki_content_added: "Wiki puslapis pridėtas"
   label_wiki_content_updated: "Wiki puslapis atnaujintas"
   label_wiki_toc: "Turinys"
-  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
+  label_wiki_toc_empty: "Turinys tuščias arba nėra jokių antraščių."
   label_wiki_dont_show_menu_item: "Nerodyti šio wiki puslapio projekto navigacijoje"
   label_wiki_edit: "Wiki redagavimas"
   label_wiki_edit_plural: "Wiki redagavimai"
@@ -1681,7 +1681,7 @@ lt:
     legacy_warning:
       timeline: 'This legacy timeline macro has been removed and is no longer available. You can replace the functionality with an embedded table macro.'
     include_wiki_page:
-      removed: 'The macro does no longer exist.'
+      removed: 'Makro nebėra.'
     wiki_child_pages:
       errors:
         page_not_found: "Cannot find the wiki page '%{name}'."
@@ -2051,13 +2051,13 @@ lt:
   setting_display_subprojects_work_packages: "Pagal nutylėjimą rodyti sub-projektų darbų paketus pagrindiniuose projektuose."
   setting_emails_footer: "El. laiškų poraštė"
   setting_emails_header: "El. laiškų antraštė"
-  setting_email_login: "Use email as login"
+  setting_email_login: "Naudokite e-paštą prisijungimui"
   setting_enabled_scm: "Įgalinti SCM"
   setting_feeds_enabled: "Leisti naujienų kanalus"
   setting_feeds_limit: "Naujienų kanalų turinio limitas"
   setting_file_max_size_displayed: "Maksimalus tekstinių failų dydis rodomas vienoje eilutėje"
   setting_host_name: "Šeimininko vardas"
-  setting_invitation_expiration_days: "Activation email expires after"
+  setting_invitation_expiration_days: "Aktyvavimo laiško galiojimas baigiasi po"
   setting_work_package_done_ratio: "Skaičiuoti darbų paketo atlikimo santykį su"
   setting_work_package_done_ratio_field: "Naudoti darbų paketo laukelį"
   setting_work_package_done_ratio_status: "Naudoti darbų paketo būseną"
@@ -2414,7 +2414,7 @@ lt:
     Siunčia naują pakvietimo laišką su nauju atpažinimo ženklu su mintimi, kad seno ženklo atpažinimo laikas baigėsi arba vartotojas negavo originalaus laiško. Taip pat gali būti naudojamas aktyviems vartotojams, kad jie pasirinktų naują autentifikavimo metodą. Kai naudojama aktyviems vartotojams, jų būsena pasikeičia į „pakviestas“.
   tooltip:
     setting_email_login: >
-      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
+      Įjungus naudotojas negalės pasirinkti prisijungimo vardą registracijos metu. Jų nurodytas e-pašto adresas veiks kaip prisijungimas. Administratorius galės atskirai pakeisti prisijungimo vardą.
   queries:
     apply_filter: Pritaikyti iš anksto sukonfigūruotą filtrą
   top_menu:
