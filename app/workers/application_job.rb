@@ -26,7 +26,9 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class ApplicationJob
+require 'active_job'
+
+class ApplicationJob < ::ActiveJob::Base
 
   ##
   # Return a priority number on the given payload
@@ -48,7 +50,7 @@ class ApplicationJob
   end
 
   module Setup
-    def perform
+    def perform(*args)
       before_perform!
       with_clean_request_store { super }
     end
