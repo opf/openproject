@@ -20,7 +20,7 @@ lt:
     button_back_to_list_view: "Atgal į sąrašo peržiūrą"
     button_cancel: "Atšaukti"
     button_close: "Uždaryti"
-    button_change_project: "Change project"
+    button_change_project: "Keisti projektą"
     button_check_all: "Žymėti visus"
     button_configure-form: "Konfigūruoti formą"
     button_confirm: "Patvirtinti"
@@ -41,8 +41,8 @@ lt:
     button_open_details: "Atidaryti detalesnį vaizdą"
     button_close_details: "Uždaryti detalų vaizdavimą"
     button_open_fullscreen: "Atidaryti viso ekrano rodinį"
-    button_show_cards: "Show card view"
-    button_show_list: "Show list view"
+    button_show_cards: "Rodyti kortelių rodinį"
+    button_show_list: "Rodyti sąrašo rodinį"
     button_quote: "Cituoti"
     button_save: "Išsaugoti"
     button_settings: "Nustatymai"
@@ -52,7 +52,7 @@ lt:
     button_export-atom: "Parsiųsti Atom"
     calendar:
       title: 'Kalendorius'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
+      too_many: 'Iš viso yra %{count} darbo paketų, bet tik %{max} gali būti rodomi.'
     card:
       add_new: 'Add new card'
       highlighting:
@@ -63,22 +63,22 @@ lt:
       browser_error: "Your browser doesn't support copying to clipboard. Please copy the selected text manually."
       copied_successful: "Sucessfully copied to clipboard!"
     chart:
-      type: 'Chart type'
-      axis_criteria: 'Axis criteria'
-      modal_title: 'Work package graph configuration'
+      type: 'Grafiko tipas'
+      axis_criteria: 'Ašies kriterijus'
+      modal_title: 'Darbo paketo grafo konfigūracija'
       types:
-        line: 'Line'
-        horizontal_bar: 'Horizontal bar'
+        line: 'Linija'
+        horizontal_bar: 'Horizontali juosta'
         bar: 'Bar'
-        pie: 'Pie'
-        doughnut: 'Doughnut'
-        radar: 'Radar'
+        pie: 'Pyragas'
+        doughnut: 'Spurga'
+        radar: 'Radaras'
         polar_area: 'Polar area'
       tabs:
         graph_settings: 'Bendra'
-        dataset: 'Dataset %{number}'
+        dataset: 'Duomenų aibė %{number}'
       errors:
-        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
+        could_not_load: 'Nepavyko įkelti duomenų rodymui. Galbūt trūksta reikiamų teisių.'
     description_available_columns: "Galimi stulpeliai"
     description_current_position: "You are here: "
     description_select_work_package: "Pasirinkite darbų paketą #%{id}"
@@ -138,7 +138,7 @@ lt:
         drag_to_activate: "Vilkite laukelius iš čia, kad juos aktyvuotumėte"
         add_group: "Add attribute group"
         add_table: "Add table of related work packages"
-        edit_query: 'Edit query'
+        edit_query: 'Keisti užklausą'
         new_group: 'Nauja grupė'
         reset_to_defaults: 'Atkurti į numatytuosius'
     custom_actions:
@@ -331,7 +331,7 @@ lt:
     label_wait: "Vyksta konfigūracija. Palaukite..."
     label_upload_counter: "%{done} iš %{count} failų sudoroti"
     label_validation_error: "Darbų paketas negali būti įrašyti dėl šių klaidų:"
-    label_view_has_changed: "This view has unsaved changes. Click to save them."
+    label_view_has_changed: "Šiame rodinyje yra neįrašytų pakeitimų. Spauskite, kad juos įrašytumėte."
     help_texts:
       show_modal: 'Rodyti atributo pagalbos teksto įrašą'
     onboarding:
@@ -577,7 +577,7 @@ lt:
       image: "Paveikslėlis"
     work_packages:
       bulk_actions:
-        move: 'Bulk change of project'
+        move: 'Masinis projekto pakeitimas'
         edit: 'Masinis redagavimas'
         copy: 'Masinis kopijavimas'
         delete: 'Masinis trynimas'
@@ -635,7 +635,7 @@ lt:
       no_results:
         title: Nėra rodytinų darbų paketų.
         description: Arba nebuvo niekas sukurta, arba visi darbų paketai buvo išfiltruoti.
-      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering.
+      limited_results: Rankinio rikiavimo režime gali būti rodomi tik %{count} darbo paketai. Prašome sumažinti rezultatų skaičių filtruojant.
       property_groups:
         details: "Detali informacija"
         people: "Žmonės"
@@ -695,9 +695,9 @@ lt:
         confirm_edit_cancel: "Ar tikrai norite atšaukti pavadinimo pakeitimus? Pavadinimas bus atstatytas į prieš tai buvusį tekstą."
         click_to_edit_query_name: "Paspauskite norėdami keisti vaizdo pavadinimą."
         rename_query_placeholder: "Vaizdo pavadinimas"
-        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        star_text: "Pažymėti šį rodinį kaip mėgstamiausią ir pridėti į įrašytų rodinių dėklą kairėje."
         public_text: >
-          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+          Publikuoti šį rodinį, leidžiant kitiems naudotojams prieigą prie jūsų rodinio. Naudotojai su teise „Valdyti viešus rodinius“ galės keisti ar išimti viešą užklausą. Tai neįtakoja darbo paketo rezultatų matomumo rodinyje ir priklausomai nuo teisių, naudotojai gali matyti kitokius rezultatus.
         errors:
           unretrievable_query: "Nepavyksta gauti vaizdo iš URL"
           not_found: "Nėra tokio vaizdo"
@@ -732,10 +732,10 @@ lt:
           priority: 'Pirmenybė'
           type: 'Tipas'
         sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
+          description: 'Parinkite režimą, kuriuo pradėti jūsų Darbo paketus:'
+          automatic: 'Automatinis'
+          manually: 'Rankinis'
+          warning: 'Aktyvuojant automatinį rikiavimo režimą jūs prarasite savo ankstesnį rikiavimą.'
         columns_help_text: "Aukščiau esančioje įvedimo eilutėje pridėkite ar išmeskite stulpelius iš lentelės vaizdo. Galite pele perkelti stulpelius, jei reikalinga kita jų tvarka."
         upsale:
           attribute_highlighting: 'Reikia išskirti tam tikrus darbo paketus iš didelės masės?'
@@ -851,6 +851,6 @@ lt:
         project_and_subprojects: "and all subprojects"
         search_for: "Search for"
     views:
-      card: 'Cards'
-      list: 'Table'
+      card: 'Kortelės'
+      list: 'Stalas'
       timeline: 'Gantt'

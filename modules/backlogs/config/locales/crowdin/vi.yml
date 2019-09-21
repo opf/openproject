@@ -116,7 +116,7 @@ vi:
   label_stories_tasks: "Stories/Tasks"
   label_task_board: "Task board"
   label_version_setting: "Các phiên bản"
-  label_version: '0886055830 '
+  label_version: 'Phiên bản'
   label_webcal: "Webcal Feed"
   label_wiki: "Wiki"
   permission_view_master_backlog: "View master backlog"

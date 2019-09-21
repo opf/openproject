@@ -1,13 +1,13 @@
 lt:
-  export_to_excel: "Export as Excel spreadsheet"
-  print_with_description: "Print preview with description"
+  export_to_excel: "Eksportuoti kaip Excel skaičiuoklę"
+  print_with_description: "Spausdinimo peržiūra su aprašymu"
   sentence_separator_or: "arba"
-  different_formats: Different formats
+  different_formats: Skirtingi formatai
   export:
     format:
       xls: "XLS"
-      xls_with_descriptions: "XLS with descriptions"
-      xls_with_relations: "XLS with relations"
+      xls_with_descriptions: "XLS su aprašymais"
+      xls_with_relations: "XLS su ryšiais"
   xls_export:
-    child_of: child of
-    parent_of: parent of
+    child_of: vaikas
+    parent_of: tėvas

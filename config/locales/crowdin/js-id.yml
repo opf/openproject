@@ -24,7 +24,7 @@ id:
     button_check_all: "Cek semua"
     button_configure-form: "Mengkonfigurasi formulir"
     button_confirm: "Konfirmasi"
-    button_continue: "Lanjut"
+    button_continue: "Lanjutkan"
     button_copy: "Salin"
     button_custom-fields: "Isian kustom"
     button_delete: "Hapus"
@@ -232,7 +232,7 @@ id:
     label_filesize: "Size"
     label_greater_or_equal: ">="
     label_group: 'Grup'
-    label_group_by: "Grup oleh"
+    label_group_by: "Pengelompokan"
     label_hide_attributes: "Show less"
     label_hide_column: "Sembunyikan kolom"
     label_hide_project_menu: "Collapse project menu"
@@ -385,7 +385,7 @@ id:
       click_to_switch_context: 'Buka paket kerja ini dalam proyek tersebut.'
       autocompleter:
         label: 'Penyelesaian Proyek secara otomatis'
-    text_are_you_sure: "Apakah anda yakin?"
+    text_are_you_sure: "Anda yakin?"
     types:
       attribute_groups:
         error_duplicate_group_name: "Nama %{group} digunakan lebih dari satu kali. Nama grup harus unik."
@@ -675,7 +675,7 @@ id:
       query:
         column_names: "Kolom"
         group_by: "Group"
-        group: "Grup oleh"
+        group: "Pengelompokan"
         group_by_disabled_by_hierarchy: "Pengelompokan dengan, dinonaktifkan sehubungan dengan modus hirarki menjadi aktif."
         hierarchy_disabled_by_group_by: "Modus hirarki dinonaktifkan sehubungan dengan hasil yang dikelompokkan menurut %{column}."
         sort_ascending: "Urutkan askending"

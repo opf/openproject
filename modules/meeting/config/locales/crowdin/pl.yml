@@ -16,7 +16,7 @@ pl:
       meeting_agenda: "Plan spotkania"
       meeting_minutes: "Protokół ze spotkania"
   description_attended: "Obecny"
-  description_invite: "Zaproszony"
+  description_invite: "zaproszony"
   events:
     meeting: Spotkanie zmienione
     meeting_agenda: Zmieniono plan spotkania

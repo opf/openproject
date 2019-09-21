@@ -2,7 +2,7 @@ tr:
   error_can_not_delete_export_card_configuration: "Konfigürasyon Silinemedi."
   error_can_not_change_name_of_default_configuration: "Standart ayarların adı değiştirilemez."
   label_backlogs_export_card_config_select: "Dışa aktarım Kart Ayarı Seçin"
-  label_backlogs_export_card_export: "Dışa Aktar"
+  label_backlogs_export_card_export: "Dışarı aktar"
   label_export_card_configuration_new: "Yeni Dışa aktarım Kart Ayarı"
   label_export_card_configuration: "Dışa aktarım Kart Ayarı"
   label_export_card_configuration_plural: "Dışa aktarım Kart Ayarları"

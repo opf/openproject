@@ -1,8 +1,8 @@
 lt:
   js:
     grid:
-      add_widget: 'Add widget'
-      remove: 'Remove widget'
+      add_widget: 'Pridėti valdiklį'
+      remove: 'Išimti valdiklį'
       upsale:
         text: "Some widgets, like the work package graph widget, are only available in the "
         link: 'enterprise edition.'
@@ -14,23 +14,23 @@ lt:
           no_results: 'No documents yet.'
         members:
           title: 'Nariai'
-          no_results: 'No visible members.'
+          no_results: 'Nėra matomų narių.'
           view_all_members: 'Rodyti visus narius'
           add: 'Narys'
-          too_many: 'Displaying %{count} of %{total} members.'
+          too_many: 'Rodomi %{count} iš %{total} narių.'
         news:
           title: 'Naujienos'
           at: 'at'
           no_results: 'Nėra jokių ataskaitų.'
         project_description:
           title: 'Projekto aprašymas'
-          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
+          no_results: "Dar neįrašytas aprašymas. Jį galima nurodyti „Projekto nustatymuose“."
         project_details:
           title: 'Projekto ypatybės'
-          no_results: 'No custom fields have been defined for projects.'
+          no_results: 'Projektui nenurodyti savi laukai.'
         subprojects:
           title: 'Sub-projektai'
-          no_results: 'No subprojects.'
+          no_results: 'Nėra su-projektų.'
         time_entries_list:
           title: 'Spent time (last 7 days)'
           no_results: 'No time entries for the last 7 days.'
@@ -43,11 +43,11 @@ lt:
         work_packages_watched:
           title: 'Work packages watched by me'
         work_packages_table:
-          title: 'Work packages table'
+          title: 'Darbo paketų lentelė'
         work_packages_graph:
-          title: 'Work packages graph'
+          title: 'Darbo paketų grafas'
         work_packages_calendar:
           title: 'Kalendorius'
         work_packages_overview:
-          title: 'Work packages overview'
-          placeholder: 'Click to edit ...'
+          title: 'Darbo paketų peržiūra'
+          placeholder: 'Spauskite keitimui...'

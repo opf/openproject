@@ -32,7 +32,7 @@ hr:
   label_meeting_agenda: "Dnevni red"
   label_meeting_minutes: "Minute"
   label_meeting_close: "Zatvori"
-  label_meeting_open: "Otvori"
+  label_meeting_open: "Otvoren"
   label_meeting_agenda_close: "Zatvorite dnevni red, da bi započeli s Minutama"
   label_meeting_date_time: "Datum/vrijeme"
   label_meeting_diff: "Razl"

@@ -444,7 +444,7 @@ it:
         too_long: "è troppo lungo (il massimo è %{count} caratteri)."
         too_short: "è troppo breve (il minimo è %{count} caratteri)."
         unchangeable: "non può essere modificato."
-        unremovable: "non può essere rimosso."
+        unremovable: "impossibile rimuovere."
         wrong_length: "è della lunghezza sbagliata (dovrebbe essere %{count} caratteri)."
       models:
         custom_field:
@@ -698,7 +698,7 @@ it:
   button_generate: "Genera"
   button_list: "Elenca"
   button_lock: "Blocca"
-  button_log_time: "Registra tempi"
+  button_log_time: "Registra l'orario effettuato"
   button_login: "Accedi"
   button_move: "Sposta"
   button_move_and_follow: "Sposta e segui"

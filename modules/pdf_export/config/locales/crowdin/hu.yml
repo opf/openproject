@@ -6,7 +6,7 @@ hu:
   label_export_card_configuration_new: "Új export kártya elrendezés"
   label_export_card_configuration: "Export kártya elrendezés"
   label_export_card_configuration_plural: "Export kártya elrendezések"
-  label_export_card_activate: "Aktiválás"
+  label_export_card_activate: "Aktivál"
   label_export_card_deactivate: "Deaktiválás"
   notice_export_card_configuration_activated: "Beállítás sikeresen aktiválva"
   notice_export_card_configuration_deactivated: "Beállítás sikeresen deaktiválva"

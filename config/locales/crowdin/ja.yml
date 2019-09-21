@@ -397,7 +397,7 @@ ja:
       'doorkeeper/application':
         uid: "クライアントID"
         secret: "秘密鍵"
-        owner: "所有者"
+        owner: "オーナー"
         redirect_uri: "リダイレクトURI"
         client_credentials_user_id: "クライアント資格情報ユーザーID"
         scopes: "範囲"
@@ -672,7 +672,7 @@ ja:
   button_change_password: "パスワードの変更"
   button_check_all: "全てを選択"
   button_clear: "クリア"
-  button_click_to_reveal: "明らかにするためにクリック"
+  button_click_to_reveal: "クリックして明らかにする"
   button_close: '閉じる'
   button_collapse_all: "全てを折りたたむ"
   button_configure: "設定"

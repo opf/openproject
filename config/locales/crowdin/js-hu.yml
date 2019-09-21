@@ -227,11 +227,11 @@ hu:
     label_expand_all: "Az összes kibontása"
     label_expand_project_menu: "Project menü kibontása"
     label_export: "Exportálás"
-    label_filename: "File"
+    label_filename: "Fájl"
     label_filesize: "Méret"
     label_greater_or_equal: ">="
     label_group: 'Csoport'
-    label_group_by: "Csoportosítás a következők szerint"
+    label_group_by: "Csoportosítás"
     label_hide_attributes: "Kevesebb mutatása"
     label_hide_column: "Oszlop elrejtése"
     label_hide_project_menu: "Projekt menü összecsukás"
@@ -676,7 +676,7 @@ hu:
       query:
         column_names: "Oszlopok"
         group_by: "Csoport szintű eredmények"
-        group: "Csoportosítás a következők szerint"
+        group: "Csoportosítás"
         group_by_disabled_by_hierarchy: "A csoportosítás le van tiltva, mivel a hierarchia mód aktív."
         hierarchy_disabled_by_group_by: "A hierarchia mód le van tiltva az eredmények csoportosítása e-szerint %{column}."
         sort_ascending: "Növekvő sorrend"

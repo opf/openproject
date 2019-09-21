@@ -25,7 +25,7 @@ nl:
   label_money: "Cash waarde"
   label_month_reporting: "Maand (kosten)"
   label_new_report: "Nieuwe kostenrapport"
-  label_open: "open"
+  label_open: "Open"
   label_operator: "Operator"
   label_private_report_plural: "Privé kostenrapporten"
   label_progress_bar_explanation: "Rapport aan het genereren..."

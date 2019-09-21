@@ -8,4 +8,4 @@ lt:
   label_no_assignable_role: Jokia globali rolė nėra prieinama šiam priskyrimui
   label_global: Globali
   seeders:
-    default_role_project_creator: 'Project creator'
+    default_role_project_creator: 'Projekto autorius'

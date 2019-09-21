@@ -24,7 +24,7 @@ pl:
     button_check_all: "Zaznacz wszystko"
     button_configure-form: "Skonfiguruj formularz"
     button_confirm: "Potwierdź"
-    button_continue: "Kontynuuj"
+    button_continue: "Dalej"
     button_copy: "Kopiuj"
     button_custom-fields: "Pola niestandardowe"
     button_delete: "Usuń"
@@ -385,7 +385,7 @@ pl:
       click_to_switch_context: 'Otwórz ten pakiet roboczy w tym projekcie.'
       autocompleter:
         label: 'Autouzupełnianie projektu'
-    text_are_you_sure: "Jesteś pewny?"
+    text_are_you_sure: "Jesteś pewien?"
     types:
       attribute_groups:
         error_duplicate_group_name: "Nazwa  %{group} jest użyta więcej niż raz. Nazwy grup muszą być unikalne."

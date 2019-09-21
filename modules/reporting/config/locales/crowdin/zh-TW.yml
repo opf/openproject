@@ -10,7 +10,7 @@ zh-TW:
   information_restricted_depending_on_permission: "根據您的許可權, 此頁可能包含受限資訊。"
   label_click_to_edit: "按一下編輯"
   label_closed: "已關閉"
-  label_columns: "欄位"
+  label_columns: "欄"
   label_cost_entry_attributes: "成本項屬性"
   label_days_ago: "在最後的日子裡"
   label_entry: "成本項"

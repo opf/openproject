@@ -9,7 +9,7 @@ hr:
   description_remove_filter: "Ukloni filter"
   information_restricted_depending_on_permission: "Ovisno o vašim pravima, ova stranica će prikazati ogranićene informacije."
   label_click_to_edit: "Kliknite za uređivanje."
-  label_closed: "zaključeno"
+  label_closed: "zaključen"
   label_columns: "Stupci"
   label_cost_entry_attributes: "Atributi ulaznog troška"
   label_days_ago: "tijekom posljednjih dana"

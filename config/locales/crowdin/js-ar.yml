@@ -232,7 +232,7 @@ ar:
     label_filesize: "حجم"
     label_greater_or_equal: "=<"
     label_group: 'مجموعة'
-    label_group_by: "تصنيف حسب"
+    label_group_by: "مجموعة من"
     label_hide_attributes: "أظهِر أقل"
     label_hide_column: "إخفاء العمود"
     label_hide_project_menu: "Collapse project menu"
@@ -685,7 +685,7 @@ ar:
       query:
         column_names: "الأعمدة"
         group_by: "نتائج المجموعة حسب"
-        group: "تصنيف حسب"
+        group: "مجموعة من"
         group_by_disabled_by_hierarchy: "Group by is disabled due to the hierarchy mode being active."
         hierarchy_disabled_by_group_by: "Hierarchy mode is disabled due to results being grouped by %{column}."
         sort_ascending: "ترتيب تصاعدي"

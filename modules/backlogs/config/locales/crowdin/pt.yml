@@ -104,7 +104,7 @@ pt:
   label_not_prioritized: "não priorizada"
   label_points: "pontos"
   label_points_burn_down: "Abaixo"
-  label_points_burn_up: "Acima"
+  label_points_burn_up: "Cima"
   label_product_backlog: "repositório de produto"
   label_select_all: "Seleccionar todos"
   label_sprint_backlog: "repositório de sprint"

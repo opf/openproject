@@ -5,7 +5,7 @@ fi:
         work_package: "Työpaketti"
         overridden_costs: "Ohitetut kustannukset"
         spent: "Käytetty"
-        spent_on: "Päivämäärä"
+        spent_on: "Päivä"
       cost_object:
         author: "Tekijä"
         available: "Saatavilla"
