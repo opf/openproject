@@ -478,8 +478,8 @@ ja:
               invalid_values: "値が無効です。"
               id_filter_required: "'Id' のフィルターが必要です。"
         project:
-          archived_ancestor: 'The project has an archived ancestor.'
-          foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
+          archived_ancestor: 'プロジェクトの祖先がアーカイブされています。'
+          foreign_wps_reference_version: '子孫でないプロジェクトの作業項目が、プロジェクトまたはその子孫のバージョンを参照しています。'
           attributes:
             types:
               in_use_by_work_packages: "まだ作業項目によって使用されています: %{types}"
@@ -928,7 +928,7 @@ ja:
   enumeration_system_activity: "システム作業分類"
   enumeration_reported_project_statuses: "報告されるプロジェクト進捗状況"
   error_auth_source_sso_failed: "ユーザー '%{value}' のシングルサインオン (SSO) に失敗しました"
-  error_can_not_archive_project: "This project cannot be archived: %{errors}"
+  error_can_not_archive_project: "このプロジェクトはアーカイブできません: %{errors}"
   error_can_not_delete_entry: "エントリを削除できません"
   error_can_not_delete_custom_field: "カスタムフィールドを削除できません。"
   error_can_not_delete_type: "この型の作業項目が存在しています。削除できません。"
@@ -937,7 +937,7 @@ ja:
   error_can_not_remove_role: "このロールは使用されています。削除できません。"
   error_can_not_reopen_work_package_on_closed_version: "終了したバージョンにひも付けされた作業項目は再度開けません。"
   error_can_not_find_all_resources: "この要求に、すべての関連リソースを見つけられませんでした。"
-  error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
+  error_can_not_unarchive_project: "このプロジェクトはアーカイブを戻すことができません: %{errors}"
   error_check_user_and_role: "ユーザーとロールを選択してください。"
   error_code: "エラー %{code}"
   error_cookie_missing: 'OpenProject のcookieが見つかりません。cookieが有効であることを確認してください。そうしないとこのアプリケーションは正しく動作しません。'
@@ -1640,14 +1640,14 @@ ja:
   mail_body_lost_password: "パスワードを変更するには、以下のリンクをクリックしてください:"
   mail_body_register: "アカウント登録を完了するには、以下のリンクをクリックしてください:"
   mail_body_reminder: "担当している%{count}件の作業項目が%{days}日内に予定日になっています："
-  mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
+  mail_body_group_reminder: "グループ \"%{group}\" に割り当てられた%{count}件の作業項目が%{days}日内に期限が到来します："
   mail_body_wiki_content_added: "%{author}によってWikiページ'%{id}'が追加されました。"
   mail_body_wiki_content_updated: "%{author}によってWikiページ'%{id}'が更新されました。"
   mail_subject_account_activation_request: "%{value} アカウントの承認要求"
   mail_subject_lost_password: "%{value} パスワード再発行"
   mail_subject_register: "%{value} アカウント登録の確認"
   mail_subject_reminder: "%{count}件の作業項目が%{days}日内に予定日になっています"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
+  mail_subject_group_reminder: "グループ \"%{group}\" の%{count}件の作業項目が%{days}日内に期限が到来します"
   mail_subject_wiki_content_added: "Wikiページ'%{id}'が追加されました"
   mail_subject_wiki_content_updated: "Wikiページ'%{id}'が更新されました"
   mail_user_activation_limit_reached:
