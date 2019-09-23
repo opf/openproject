@@ -28,47 +28,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
+class Project::Status < ActiveRecord::Base
+  belongs_to :project
 
-module API
-  module V3
-    module UserPreferences
-      class UserPreferencesRepresenter < ::API::Decorators::Single
-        link :self do
-          {
-            href: api_v3_paths.my_preferences
-          }
-        end
+  validates :project,
+            presence: true,
+            uniqueness: true
 
-        link :user do
-          {
-            href: api_v3_paths.user(represented.user.id),
-            title: represented.user.name
-          }
-        end
-
-        link :updateImmediately do
-          {
-            href: api_v3_paths.my_preferences,
-            method: :patch
-          }
-        end
-
-        property :hide_mail
-        property :time_zone,
-                 getter: -> (*) { canonical_time_zone },
-                 render_nil: true
-
-        property :warn_on_leaving_unsaved
-        property :comments_in_reverse_order,
-                 as: :commentSortDescending
-        property :auto_hide_popups
-
-        def _type
-          'UserPreferences'
-        end
-      end
-    end
-  end
+  enum code: %i[on_track at_risk off_track]
 end
