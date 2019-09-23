@@ -65,7 +65,7 @@ export abstract class EditFieldComponent extends Field implements OnInit, OnDest
 
   constructor(readonly I18n:I18nService,
               readonly elementRef:ElementRef,
-              @Inject(OpEditingPortalChangesetToken) protected change:WorkPackageChangeset,
+              @Inject(OpEditingPortalChangesetToken) protected change:ResourceChangeset<HalResource>,
               @Inject(OpEditingPortalSchemaToken) public schema:IFieldSchema,
               @Inject(OpEditingPortalHandlerToken) readonly handler:EditFieldHandler,
               readonly cdRef:ChangeDetectorRef,

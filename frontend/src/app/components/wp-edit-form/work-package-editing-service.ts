@@ -39,8 +39,8 @@ import {Subject} from "rxjs";
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
 import {ChangeMap} from "core-app/modules/fields/changeset/changeset";
 
-class WPChangesStates extends StatesGroup {
-  name = 'WP-Changesets';
+class ChangesetStates extends StatesGroup {
+  name = 'Changesets';
 
   changesets = multiInput<WorkPackageChangeset>();
 
@@ -94,7 +94,7 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
   public comittedChanges = new Subject<WorkPackageChangesetCommit>();
 
   /** State group of changes to wrap */
-  private stateGroup = new WPChangesStates();
+  private stateGroup = new ChangesetStates();
 
   constructor(readonly injector:Injector,
               readonly wpActivity:WorkPackagesActivityService,
@@ -151,7 +151,7 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
    */
   public reset(change:WorkPackageChangeset) {
     change.clear();
-    this.clearSome(change.workPackageId);
+    this.clearSome(change.id);
   }
 
   /**
