@@ -1,0 +1,19 @@
+<ng-container>
+  <div *ngIf="error" class="notification-box -error">
+    <div class="notification-box--content">
+      <p>
+        <strong [textContent]="text.errorTitle"></strong>
+        <br/>
+        <span [textContent]="error"></span>
+      </p>
+    </div>
+  </div>
+
+  <div class="op-ckeditor-source-element document-editor" #opCkeditorReplacementContainer>
+    <div class="document-editor__toolbar"></div>
+    <div class="document-editor__editable-container">
+      <div class="document-editor__editable">
+      </div>
+    </div>
+  </div>
+</ng-container>

@@ -1,0 +1,350 @@
+/*
+  BLOCK LIST
+  ----------
+
+  A generic list component that can accomodate a variety of styles and controls.
+
+  Features:
+   - Icons
+   - Labels
+   - Chevrons
+   - Text fields
+   - Dropdown menus
+   - Checkbox/radio inputs
+*/
+
+/// @Foundation.settings
+// Block List
+$blocklist-background: #fff !default;
+$blocklist-fullbleed: true !default;
+$blocklist-fontsize: 1rem !default;
+
+$blocklist-item-padding: 0.8rem 1rem !default;
+$blocklist-item-color: isitlight($blocklist-background, #000, #fff) !default;
+$blocklist-item-background-hover: smartscale($blocklist-background, 4.5%) !default;
+$blocklist-item-color-disabled: #999 !default;
+$blocklist-item-border: 1px solid smartscale($blocklist-background, 18.5%) !default;
+
+$blocklist-item-label-color: scale-color($blocklist-item-color, $lightness: 60%) !default;
+$blocklist-item-icon-size: 0.8 !default;
+
+$blocklist-header-fontsize: 0.8em !default;
+$blocklist-header-color: smartscale($blocklist-item-color, 40%) !default;
+$blocklist-header-uppercase: true;
+
+$blocklist-check-icons: true !default;
+///
+
+/*
+  Adds styles for a block list container.
+
+  $font-size: global font size for the list.
+  $full-bleed: when "true", the margins of the list invert to line it up with the edge of a padded element.
+*/
+%block-list-container {
+  margin-bottom: 1rem;
+  line-height: 1;
+  user-select: none;
+
+  &, ul {
+    list-style-type: none;
+  }
+  ul {
+    margin-left: 0;
+  }
+}
+@mixin block-list-container(
+  $font-size: $blocklist-fontsize,
+  $full-bleed: $blocklist-fullbleed
+) {
+  @extend %block-list-container;
+  font-size: $font-size;
+
+  @if $full-bleed {
+    margin-left: -$global-padding;
+    margin-right: -$global-padding;
+  }
+}
+
+/*
+  Styles block list headers on the selector you include this mixin in (normally a <header>).
+
+  $color - color of the header.
+  $font-size - font size of the header.
+  $offset - left margin to add to the header, to line it up with the list items.
+*/
+@mixin block-list-header(
+  $color: $blocklist-header-color,
+  $font-size: $blocklist-header-fontsize,
+  $uppercase: $blocklist-header-uppercase,
+  $offset: get-side($blocklist-item-padding, left)
+) {
+  margin-top: 1em;
+  color: $color;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+  margin-left: $offset;
+  font-size: $font-size;
+  cursor: default;
+  @if $uppercase { text-transform: uppercase; }
+}
+
+/*
+  Styles block list items on the selector you include this mixin in (normally an <li>).
+
+  $color - color of items.
+  $color-hover - color of items on hover.
+  $background - background of items.
+  $background-hover - background of items on hover.
+  $border - border between items.
+  $padding - padding on items.
+*/
+@mixin block-list-item(
+  $color: $blocklist-item-color,
+  $color-hover: $blocklist-item-color,
+  $color-disabled: $blocklist-item-color-disabled,
+  $background: transparent,
+  $background-hover: $blocklist-item-background-hover,
+  $border: $blocklist-item-border,
+  $padding: $blocklist-item-padding
+) {
+  position: relative;
+
+  @if hasvalue($border) {
+    border-bottom: $border;
+    &:first-child {
+      border-top: $border;
+    }
+  }
+
+  // Inner elements share the same basic styles
+  > a, > span, > label {
+    display: block;
+    padding: $padding;
+    padding-left: get-side($padding, left);
+    color: $color;
+    line-height: 1;
+  }
+  > span {
+    cursor: default;
+  }
+  > a, > label {
+    cursor: pointer;
+
+    &:hover {
+      color: $color-hover;
+    }
+  }
+  > a, > label, select {
+    &:hover {
+      background: $background-hover;
+    }
+  }
+
+  // Coloring classes
+  &.caution > a {
+    &, &:hover { color: $alert-color; }
+  }
+  &.disabled > a {
+    cursor: default;
+    &, &:hover { color: $color-disabled; }
+    &:hover { background: transparent; }
+  }
+}
+
+/*
+  Adds label styles to the class you include this mixin in.
+
+  $color - color of the label.
+  $left-class - extra class to flip the orientation of the label.
+  $left-padding - left padding to use for left-hand labels.
+*/
+@mixin block-list-label(
+  $color: $blocklist-item-label-color,
+  $left-class: 'left',
+  $left-padding: get-side($blocklist-item-padding, top)
+) {
+  display: inline-block;
+  float: right;
+  padding: 0;
+  color: $color;
+  pointer-events: none;
+
+  &.#{$left-class} {
+    margin-left: $left-padding;
+    float: none;
+  }
+}
+
+/*
+  Adds support for chevrons, which appear on the right-hand side of the item.
+
+  $color - color of the chevron.
+  $padding - include the global padding of block list items here.
+*/
+@mixin block-list-chevron(
+  $color: $blocklist-header-color,
+  $padding: $blocklist-item-padding,
+  $label-class: 'block-list-label'
+) {
+  // Chevrons are a pseudo-element
+  &::after {
+    content: '\203A';
+    display: block;
+    position: absolute;
+    right: get-side($padding, right);
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: bold;
+    color: $color;
+    font-size: 2em;
+  }
+
+  // Labels next to links move over to make room for the chevron
+  // TODO: this selector needs to be customiable, but adding a setting just for it might be weird
+  .#{$label-class} {
+    padding-right: get-side($padding, right) * 1.5;
+  }
+}
+
+/*
+  Adds icon styles. Call this mixin on a block list container.
+
+  $size - size of the icon as a percentage (decimal) of the list item's height.
+  $item-selector - overrides the 'li' selector used for list items.
+*/
+@mixin block-list-icons(
+  $size: $blocklist-item-icon-size,
+  $item-selector: 'li'
+) {
+  // PH - need a better solution
+  $item-height:
+    $blocklist-fontsize
+    + get-side($blocklist-item-padding, top)
+    + get-side($blocklist-item-padding, top);
+
+  $icon-height: $item-height * $blocklist-item-icon-size;
+  $icon-offset: ($item-height - $icon-height) / 2;
+
+  #{$item-selector} {
+    > a, > span, > label {
+      padding-left: (get-side($blocklist-item-padding, left) * 2) + $blocklist-item-icon-size;
+    }
+    img, .iconic {
+      position: absolute;
+      top: $icon-offset;
+      left: $icon-offset;
+      width: $icon-height;
+      height: $icon-height;
+      border-radius: 8px;
+      pointer-events: none;
+    }
+  }
+}
+
+/*
+  Adds support for text fields, select menus, and checkbox/radio groups in block lists.
+
+  $color - color of select menu arrow.
+  $background-hover - color of select menu when hovered over.
+  $padding - include the global padding of block list items here.
+  $dropdown-class - class to use for list items that contain a dropdown.
+  $switch-class - class to use for switches inside list items.
+*/
+@mixin block-list-inputs(
+  $color: $blocklist-item-color,
+  $background: $blocklist-background,
+  $background-hover: $blocklist-item-background-hover,
+  $padding: $blocklist-item-padding,
+  $icons: $blocklist-check-icons,
+  $dropdown-class: 'with-dropdown',
+  $switch-class: 'switch'
+) {
+  // Text fields
+  #{$text-input-selectors} {
+    margin: 0;
+    border: 0;
+    line-height: 1;
+    height: auto;
+    padding: $padding;
+    color: inherit;
+
+    &:hover, &:focus {
+      border: 0;
+    }
+  }
+
+  // Multiple select
+  li > input[type="checkbox"], li > input[type="radio"] {
+    position: absolute;
+    left: -9999px;
+
+    & + label {
+      display: block;
+      font-size: $blocklist-fontsize;
+      margin: 0;
+    }
+
+    @if $icons == true {
+      &:checked + label {
+        &::before {
+          @include image-checkmark($color);
+          content: '';
+          background-size: 100% 100%;
+          width: 1.5em;
+          height: 1.5em;
+          color: $primary-color;
+          float: right;
+          pointer-events: none;
+          margin-top: -0.25em;
+        }
+      }
+    }
+  }
+
+  // Dropdowns
+  .#{$dropdown-class} {
+    color: inherit;
+
+    select {
+      // Reset pesky <select> styles
+      -webkit-appearance: none;
+         -moz-appearance: none;
+      outline: 0;
+      background: 0;
+      border: 0;
+      height: auto;
+      padding: $padding;
+      margin: 0;
+      font-size: 1em; // Same size as its parent
+      line-height: 1;
+      color: inherit;
+      background-color: transparent;
+    }
+  }
+
+  // Switches
+  .#{$switch-class} {
+    position: absolute;
+    top: 50%;
+    right: get-side($padding, right);
+    transform: translateY(-50%);
+  }
+}
+
+@include exports(block-list) {
+  .block-list {
+    @include block-list-container;
+    @include block-list-inputs;
+
+    &.with-icons { @include block-list-icons; }
+    header       { @include block-list-header; }
+
+    li {
+      @include block-list-item;
+
+      &.with-chevron    { @include block-list-chevron; }
+      .block-list-label { @include block-list-label; }
+    }
+  }
+}

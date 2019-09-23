@@ -1,0 +1,16 @@
+<div id="div-values-{{filter.name}}">
+  <select [(ngModel)]="value"
+          [focus]="shouldFocus"
+          class="advanced-filters--select-field"
+          id="values-{{filter.name}}"
+          name="v[{{filter.name}}]" >
+    <option value=""
+            disabled
+            [textContent]="text.placeholder"
+            *ngIf="hasNoValue">
+    </option>
+    <option *ngFor="let value of availableOptions"
+            [textContent]="text[value]"
+            [ngValue]="value"></option>
+  </select>
+</div>

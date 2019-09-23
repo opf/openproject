@@ -1,0 +1,65 @@
+<widget-header
+    [name]="widgetName"
+    icon="group"
+    [editable]="isEditable">
+
+  <widget-menu
+      [resource]="resource">
+  </widget-menu>
+</widget-header>
+
+<div class="grid--widget-content">
+  <no-results *ngIf="noMembers"
+              [title]="text.noResults">
+  </no-results>
+  <div class="attributes-map -minimal-keys">
+    <ng-container *ngFor="let usersByRole of usersByRole">
+      <div class="attributes-map--key">
+        {{usersByRole.role.name}}
+      </div>
+
+      <div class="attributes-map--value">
+          <span *ngFor="let principal of usersByRole.users; let last = last">
+
+            <ng-container *ngIf="isGroup(principal)">
+              {{userName(principal)}}
+            </ng-container>
+            <ng-container *ngIf="!isGroup(principal)">
+              <user-avatar [user]="principal"
+                           data-class-list="avatar avatar-mini -spaced">
+              </user-avatar>
+              <a [href]="userPath(principal)"
+                 [textContent]="userName(principal)">
+              </a>
+            </ng-container>
+
+            <ng-container *ngIf="!last">, </ng-container>
+          </span>
+      </div>
+    </ng-container>
+  </div>
+  <div *ngIf="moreMembers"
+       class="members-widget--notification">
+    {{moreMembersText}}
+  </div>
+</div>
+
+<div class="grid--widget-footer">
+  <a *ngIf="membersAddable"
+     [href]="projectMembershipsPath + '?show_add_members=true'"
+     class="button -alt-highlight">
+    <i class="button--icon icon-add" aria-hidden="true"></i>
+    <span class="button--text"
+          [textContent]="text.add">
+    </span>
+  </a>
+
+  <a *ngIf="!noMembers"
+     [href]="projectMembershipsPath"
+     class="button -highlight-inverted">
+    <i class="button--icon icon-group" aria-hidden="true"></i>
+    <span class="button--text"
+          [textContent]="text.viewAll">
+    </span>
+  </a>
+</div>

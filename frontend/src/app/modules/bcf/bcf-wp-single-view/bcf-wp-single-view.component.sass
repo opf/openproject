@@ -1,0 +1,28 @@
+.bcf--viewpoints
+  clear: both
+
+  ngx-gallery
+    background: var(--gray-lighter)
+    padding: 5px
+
+.bcf--snapshot-preview
+  display: block
+  width: 100%
+  margin-bottom: 5px
+  float: left
+  &.-tiny
+    display: inline-block
+    float: initial
+    width: initial
+    height: 100px
+    margin-right: 5px
+    img
+      height: 100px
+
+
+ngx-gallery /deep/
+  .ngx-gallery-arrow
+    color: var(--content-link-color)
+
+  .ngx-gallery-arrow.ngx-gallery-disabled
+    display: none

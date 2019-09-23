@@ -1,0 +1,79 @@
+<div>
+  <enterprise-banner class="ee-attribute-highlighting-upsale"
+                     *ngIf="eeShowBanners"
+                     [linkMessage]="text.upsaleCheckOutLink"
+                     [textMessage]="text.upsaleAttributeHighlighting"
+                     opReferrer="wp-attribute-highlighting#attribute-highlighting">
+  </enterprise-banner>
+  <form>
+    <p [textContent]="text.highlighting_mode.description"></p>
+    <div class="form--field -full-width">
+      <div class="form--field-container">
+        <label class="option-label -multi-line">
+          <input type="radio"
+                 [attr.disabled]="disabledValue(eeShowBanners)"
+                 [(ngModel)]="highlightingMode"
+                 (change)="updateMode($event.target.value)"
+                 value="inline"
+                 name="highlighting_mode_switch">
+          <span [textContent]="text.highlighting_mode.inline"></span>&nbsp;
+        </label>
+
+        <ng-select #highlightedAttributesNgSelect
+                   [items]="availableInlineHighlightedAttributes"
+                   [(ngModel)]="selectedAttributes"
+                   [multiple]="true"
+                   [disabled]="highlightingMode !== 'inline'"
+                   [clearable]="false"
+                   [closeOnSelect]="false"
+                   (open)="onOpen(highlightedAttributesNgSelect)"
+                   (change)="updateHighlightingAttributes($event)"
+                   class="-multi-select"
+                   bindLabel="name"
+                   name="highlighting_attributes"
+                   appendTo="body">
+        </ng-select>
+      </div>
+    </div>
+    <div class="form--field -full-width">
+      <div class="form--field-container">
+        <label class="option-label">
+          <input type="radio"
+                 [attr.disabled]="disabledValue(eeShowBanners)"
+                 [(ngModel)]="entireRowMode"
+                 (change)="updateMode('entire-row')"
+                 [value]="true"
+                 name="entire_row_switch">
+          <span [textContent]="text.highlighting_mode.entire_row_by"></span>
+        </label>
+
+        <ng-select #rowHighlightNgSelect
+                   [items]="availableRowHighlightedAttributes"
+                   [(ngModel)]="lastEntireRowAttribute"
+                   [disabled]="disabledValue(eeShowBanners)"
+                   [clearable]="false"
+                   (open)="onOpen(rowHighlightNgSelect)"
+                   (change)="updateMode($event.value)"
+                   bindLabel="name"
+                   bindValue="value"
+                   name="selected_attribute"
+                   appendTo="body"
+                   id="selected_attribute">
+        </ng-select>
+      </div>
+    </div>
+    <div class="form--field -full-width">
+      <div class="form--field-container">
+        <label class="option-label">
+          <input type="radio"
+                 [attr.disabled]="disabledValue(eeShowBanners)"
+                 [(ngModel)]="highlightingMode"
+                 (change)="updateMode($event.target.value)"
+                 value="none"
+                 name="highlighting_mode_switch">
+          <span [textContent]="text.highlighting_mode.none"></span>
+        </label>
+      </div>
+    </div>
+  </form>
+</div>

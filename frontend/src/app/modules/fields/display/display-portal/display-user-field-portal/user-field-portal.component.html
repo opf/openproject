@@ -1,0 +1,8 @@
+<span [ngClass]="{'-multi-line': multiLines}"
+      *ngFor="let user of users; let last = last">
+    <user-avatar [user]="user"
+                 data-class-list="avatar-medium">
+    </user-avatar>
+    <span [textContent]="user.name"></span>
+    <span *ngIf="!multiLines && !last">, </span>
+</span>

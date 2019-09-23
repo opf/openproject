@@ -1,0 +1,105 @@
+.timeline-element.bar
+  position: relative
+  height: 1em
+  border-radius: 2px
+  float: left
+  z-index: 0
+
+  .bar-label
+    overflow: hidden
+    padding: 0 0 0 5px
+    white-space: nowrap
+
+  .leftHandle
+    position: absolute
+    left: 0
+    top: 0
+    width: 20px
+    max-width: 20%
+    height: 100%
+
+  .rightHandle
+    position: absolute
+    right: 0
+    top: 0
+    width: 20px
+    max-width: 20%
+    height: 100%
+
+  &:hover .timeline-element--bg:not(.-clamp-style)
+    &~.leftHandle,
+    &~.rightHandle
+      background-color: rgba(1, 1, 1, 0.2)
+
+  &.-editable
+    cursor: ew-resize
+
+    .leftHandle
+      cursor: col-resize
+
+    .rightHandle
+      cursor: col-resize
+
+.timeline-element--bg
+  width: 100%
+  height: 100%
+  @include varprop(background-color, timeline--type-fallback-color)
+
+  &.-readonly
+    cursor: not-allowed !important
+
+    &~.leftHandle
+      cursor: not-allowed !important
+
+    &~.rightHandle
+      cursor: not-allowed !important
+
+.active-selection-mode
+
+  .timeline-element.bar.selection-start
+    background: orange !important
+    cursor: not-allowed !important
+
+  .timeline-element.bar:hover
+    background: #ffd975 !important
+
+  .timeline-element.bar
+    border: 1px solid orange !important
+    cursor: pointer !important
+
+    background: linear-gradient(270deg, #eeeeee, #bbbbbb)
+    background-size: 400% 400%
+    -webkit-animation: AnimationName 4s ease infinite
+    -moz-animation: AnimationName 4s ease infinite
+    animation: AnimationName 4s ease infinite
+
+    @-webkit-keyframes AnimationName
+      0%
+        background-position: 0% 50%
+      50%
+        background-position: 100% 50%
+      100%
+        background-position: 0% 50%
+
+    @-moz-keyframes AnimationName
+      0%
+        background-position: 0% 50%
+      50%
+        background-position: 100% 50%
+      100%
+        background-position: 0% 50%
+
+    @keyframes AnimationName
+      0%
+        background-position: 0% 50%
+      50%
+        background-position: 100% 50%
+      100%
+        background-position: 0% 50%
+
+    .leftHandle
+      cursor: pointer !important
+
+    .rightHandle
+      cursor: pointer !important
+

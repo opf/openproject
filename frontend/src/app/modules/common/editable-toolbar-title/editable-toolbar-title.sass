@@ -1,0 +1,21 @@
+.editable-toolbar-title--container
+  display: flex
+  align-items: center
+
+.editable-toolbar-title--fixed
+  padding: 0
+  cursor: default
+
+.editable-toolbar-title--save
+  span:before
+    color: #5F5F5F
+
+  &:hover span:before
+    color: darken(#5F5F5F, 20%)
+
+.editable-toolbar-title--input
+  padding-left: 5px
+  color: #5F5F5F
+
+  &.-changed
+    font-style: italic

@@ -1,0 +1,139 @@
+# Group Principals
+
+Principals are the superclass of groups and users.
+
+## Linked Properties
+
+See [user](#users) and [group](#groups)
+
+## Local Properties
+
+See [user](#users) and [group](#groups)
+
+## Principals [/api/v3/principals{?filters}]
+
++ Model
+    + Body
+
+            {
+              "_type": "Collection",
+              "total": 3,
+              "count": 3,
+              "_embedded": {
+                "elements": [
+                  {
+                    "_type": "User",
+                    "id": 4,
+                    "login": "Eliza92778",
+                    "admin": false,
+                    "firstName": "Danika",
+                    "lastName": "O'Keefe",
+                    "name": "Danika O'Keefe",
+                    "email": "jackie@dicki.org",
+                    "avatar": "https://example.org/users/4/avatar",
+                    "createdAt": "2015-03-20T12:57:02Z",
+                    "updatedAt": "2015-06-16T15:28:14Z",
+                    "status": "active",
+                    "identityUrl": null,
+                    "_links": {
+                      "self": {
+                        "href": "/api/v3/users/4",
+                        "title": "Danika O'Keefe"
+                      },
+                      "showUser": {
+                        "href": "/users/4",
+                        "type": "text/html"
+                      },
+                      "updateImmediately": {
+                        "href": "/api/v3/users/4",
+                        "title": "Update Eliza92778",
+                        "method": "patch"
+                      },
+                      "lock": {
+                        "href": "/api/v3/users/4/lock",
+                        "title": "Set lock on Eliza92778",
+                        "method": "post"
+                      },
+                      "delete": {
+                        "href": "/api/v3/users/4",
+                        "title": "Delete Eliza92778",
+                        "method": "delete"
+                      }
+                    }
+                  },
+                  {
+                    "_type": "User",
+                    "id": 2,
+                    "login": "Sebastian9686",
+                    "admin": false,
+                    "firstName": "Peggie",
+                    "lastName": "Feeney",
+                    "name": "Peggie Feeney",
+                    "email": null,
+                    "avatar": "https://example.org/users/4/avatar",
+                    "createdAt": "2015-03-20T12:56:55Z",
+                    "updatedAt": "2015-03-20T12:56:55Z",
+                    "status": "active",
+                    "identityUrl": null,
+                    "_links": {
+                      "self": {
+                        "href": "/api/v3/users/2",
+                        "title": "Peggie Feeney"
+                      },
+                      "showUser": {
+                        "href": "/users/2",
+                        "type": "text/html"
+                      },
+                      "updateImmediately": {
+                        "href": "/api/v3/users/2",
+                        "title": "Update Sebastian9686",
+                        "method": "patch"
+                      },
+                      "lock": {
+                        "href": "/api/v3/users/2/lock",
+                        "title": "Set lock on Sebastian9686",
+                        "method": "post"
+                      },
+                      "delete": {
+                        "href": "/api/v3/users/2",
+                        "title": "Delete Sebastian9686",
+                        "method": "delete"
+                      }
+                    }
+                  },
+                  {
+                      "_type": "Group",
+                      "id": 9,
+                      "name": "The group",
+                      "createdAt": "2015-09-23T11:06:36Z",
+                      "updatedAt": "2015-09-23T11:06:36Z",
+                      "_links": {
+                          "self": {
+                              "href": "/api/v3/groups/9",
+                              "title": "The group"
+                          }
+                      }
+                  }
+                ]
+              },
+              "_links": {
+                "self": {
+                  "href": "/api/v3/principals"
+                }
+              }
+            }
+
+## List principals [GET]
+
+List all principals. The client can choose to filter the principals similar to how work packages are filtered. In addition to the provided filters, the server will reduce the result set to only contain principals who are members in projects the client is allowed to see.
+
++ Parameters
+    + filters (optional, string, `[{ "type": { "operator": "=", "values": ["User"] }" }]`) ... JSON specifying filter conditions.
+    Accepts the same format as returned by the [queries](#queries) endpoint.
+    Currently supported filters are:
+      + type: filters principals by their type (*User*, *Group*).
+      + member: filters principals by the projects they are members in.
+
++ Response 200 (application/hal+json)
+
+    [Principals][]

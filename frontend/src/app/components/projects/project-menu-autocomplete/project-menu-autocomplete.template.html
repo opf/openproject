@@ -1,0 +1,14 @@
+<div class="dropdown dropdown-relative project-search-results" id="project_autocompletion_wrapper">
+  <div class="project-menu-autocomplete--wrapper">
+    <div class="project-menu-autocomplete--input-container">
+      <label for="project_autocompletion_input" class="hidden-for-sighted" [textContent]="text.label"></label>
+      <input type="text"
+             id="project_autocompletion_input"
+             name="project_autocompletion_input"
+             class="ui-autocomplete--input project-menu-autocomplete--input"
+             [attr.placeholder]="loadingText">
+      <i class="project-menu-autocomplete--search-icon icon-search"></i>
+    </div>
+    <p class="project-menu-autocomplete--no-results" hidden [textContent]="text.no_results"></p>
+  </div>
+</div>

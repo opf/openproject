@@ -1,0 +1,242 @@
+$grid--gap-width: 20px
+$grid--header-width: 20px
+
+$grid--widget-padding: 20px
+
+@import openproject/mixins
+
+@mixin grid--commons
+  display: grid
+
+.grid--container
+  @include grid--commons
+
+.grid--area, .cdk-drag-preview
+  overflow: hidden
+  min-height: 30px
+
+  &.-drop-target
+    background-color: $gray-light
+
+  &.-widgeted
+    z-index: 10
+    @include widget-box--style
+    margin: 0
+    padding: $grid--widget-padding
+
+    .widget-box
+      min-height: 200px
+
+    &:hover icon-triggered-context-menu
+      visibility: visible
+
+  &.-resizing
+    border: 1px dashed $primary-color
+    z-index: 1000
+    pointer-events: none
+
+  &.-addable
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+
+  &.-placeholder
+    pointer-events: none
+    z-index: 30
+
+  &.-dragged
+    display: none
+
+  &.-passive
+    pointer-events: none
+    background: #EEEEEE
+    opacity: 0.5
+
+  &.-gap
+    &.-row
+      height: $grid--gap-width
+      min-height: $grid--gap-width
+
+    &.-column
+      width: $grid--gap-width
+
+  .cdk-drag-handle
+    cursor: grab
+    float: left
+    padding-top: 5px
+
+  .widget-box--header
+    display: flex
+
+  icon-triggered-context-menu
+    visibility: hidden
+
+  &.-drop-target, &.-resize-target
+    border-width: 1px
+    border-style: solid
+    border-color: $secondary-color
+    transition: border-color 0.5s ease
+    z-index: 20
+    background: transparent
+
+  &.-resize-target
+    z-index: 1000
+
+.grid--resizer
+  position: relative
+  height: $grid--widget-padding
+  margin-bottom: -$grid--widget-padding
+  color: #888
+  cursor: nwse-resize
+  opacity: 0
+
+  i
+    position: absolute
+    bottom: 0
+    right: -$grid--widget-padding
+    padding: 0 3px 3px 0
+
+  .grid--area.-widgeted:hover &
+    opacity: 1
+
+.grid--area-drag-handle
+  margin-left: -19px
+  padding-right: 1px
+  margin-top: 3px
+  opacity: 0
+  cursor: grab
+
+  &:before
+    padding: 0
+    color: #888
+
+  .grid--area.-widgeted:hover &
+    opacity: 1
+
+.grid--area-content
+  height: 100%
+
+  ng-component, widget-wp-graph
+    display: flex
+    flex-direction: column
+    height: 100%
+
+  input[type="text"].toolbar--editable-toolbar
+    font-weight: normal
+
+.grid--widget-content
+  height: 100%
+  overflow-x: auto
+  overflow-y: auto
+
+  &.-no-overflow
+    overflow-x: hidden
+    overflow-y: hidden
+    display: block
+
+  // styles specific to the custom-text widget
+  &.-custom-text
+    a.inplace-editing--trigger-link
+      color: inherit
+      text-decoration: none
+
+    .op-ckeditor--wrapper
+      margin-bottom: 0
+
+    .ck-editor__top
+      position: sticky
+      top: 0
+
+    .inplace-edit--controls
+      position: initial
+
+      i
+        float: initial
+        padding: 0
+
+    edit-field-controls
+      display: flex
+      position: sticky
+      bottom: 0
+      justify-content: flex-end
+
+    .textarea-wrapper
+      margin-bottom: 0
+
+.grid--widget-limited-text
+  max-height: 5rem
+  position: relative
+  overflow: hidden
+
+  &:before
+    content: ''
+    width: 100%
+    height: 100%
+    position: absolute
+    left: 0
+    top: 0
+    background: linear-gradient(to bottom, rgba($body-background, 0) 60%, rgba($body-background, 1))
+
+.grid--widget-add
+  padding: 15px
+  background-color: $gray
+  border-radius: 50%
+  opacity: 0
+
+  &:before
+    @include icon-font-common
+    @include icon-mixin-add
+
+  &.-gap
+    width: 100%
+    height: 100%
+    display: flex
+    justify-content: center
+    align-items: center
+    padding: 0
+    border-radius: initial
+    border: 1px solid #FFFFFF
+
+    &:before
+      font-size: 0.75rem
+
+  .grid--area.-addable:hover &, .grid--area.-addable.-help-mode &
+    opacity: 1
+    transition: opacity 1s ease
+
+  .grid--area.-addable:hover &
+    transition-delay: 0.3s
+
+.grid--widget-remove
+  float: right
+  margin-top: -10px
+  margin-right: -10px
+  cursor: pointer
+
+  &:before
+    @include icon-font-common
+    @include icon-mixin-remove
+    font-size: 0.75em
+
+.grid--addable-widget
+  min-width: 400px
+  padding: 20px 5px
+  border-bottom: 1px solid $gray
+  cursor: pointer
+  background: none
+  transition: background 4s ease
+
+  &:hover
+    background: $gray-light
+    transition: background 1s ease
+
+  &:last-of-type
+    border-bottom: none
+
+.cdk-drag-preview
+  background: white
+  padding: $grid--widget-padding
+  @include widget-box--style
+  margin-left: -$grid--widget-padding
+  margin-top: -$grid--widget-padding

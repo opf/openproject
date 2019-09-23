@@ -1,0 +1,90 @@
+<%#-- copyright
+OpenProject Backlogs Plugin
+
+Copyright (C)2013-2014 the OpenProject Foundation (OPF)
+Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
+Copyright (C)2010-2011 friflaj
+Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns
+Copyright (C)2009-2010 Mark Maglana
+Copyright (C)2009 Joe Heck, Nate Lowrie
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License version 3.
+
+OpenProject Backlogs is a derivative work based on ChiliProject Backlogs.
+The copyright follows:
+Copyright (C) 2010-2011 - Emiliano Heyns, Mark Maglana, friflaj
+Copyright (C) 2011 - Jens Ulferts, Gregor Schmidt - Finn GmbH - Berlin, Germany
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% work_package = issue %>
+
+<% if work_package.is_story? && params[:copy_from] %>
+  <div id="backlogs-attributes" class="attributes">
+    <div class="form--field">
+      <%= styled_label_tag :link_to_original, l(:rb_label_link_to_original) %>
+      <span class="form--field-container">
+        <%= styled_check_box_tag('link_to_original',
+                                 params[:copy_from],
+                                 true, label: l(:rb_label_link_to_original)) %>
+      </span>
+    </div>
+
+    <div class="form--grouping" role="group" aria-labelledby="copy-tasks-label">
+      <div id="copy_tasks_label"
+           class="form--grouping-label">
+        <%= l(:rb_label_copy_tasks) %>
+      </div>
+      <div class="form--grouping-row">
+        <div class="form--field">
+          <span class="form--field-container -vertical">
+            <span class="form--radio-button-container">
+              <label class="form--label">
+                <%= radio_button_tag('copy_tasks',
+                                     'open:' + params[:copy_from],
+                                     true,
+                                     { id: 'copy_tasks_open' }) %>
+                <%= l(:rb_label_copy_tasks_open) %>
+              </label>
+            </span>
+            <span class="form--radio-button-container">
+              <label class="form--label">
+                <%= radio_button_tag('copy_tasks',
+                                     'none',
+                                     false,
+                                     { id: 'copy_tasks_none' }) %>
+                <%= l(:rb_label_copy_tasks_none) %>
+              </label>
+            </span>
+            <span class="form--radio-button-container">
+              <label class="form--label">
+                <%= radio_button_tag('copy_tasks',
+                                     'all:' + params[:copy_from],
+                                     false,
+                                     { id: 'copy_tasks_all' }) %>
+                <%= l(:rb_label_copy_tasks_all) %>
+              </label>
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

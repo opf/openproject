@@ -1,0 +1,36 @@
+# Group String Objects
+
+## Linked Properties
+|  Link         | Description               | Type          | Constraints | Supported operations |
+|:-------------:|-------------------------- | ------------- | ----------- | -------------------- |
+| self          | This string object        | StringObject  | not null    | READ                 |
+
+## Local Properties
+| Property         | Description                                    | Type     | Constraints | Supported operations |
+|:----------------:| ---------------------------------------------- | -------- | ----------- | -------------------- |
+| value            | The value of the string                        | String   |             | READ                 |
+
+String objects are a linkable representation of strings. They merely serve the purpose of making links to strings possible,
+e.g. to be able to provide `allowedValues` for a string typed property.
+
+## String Object [/api/v3/string_objects?value={value}]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/string_objects?value=Foo" }
+                },
+                "_type": "StringObject",
+                "value": "Foo"
+            }
+
+## View String Object [GET]
+
++ Parameters
+    + value (required, string, `Foo`) ... The string value being resolved
+
++ Response 200 (application/hal+json)
+
+    [String Object][]

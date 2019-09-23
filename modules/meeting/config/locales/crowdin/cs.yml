@@ -1,0 +1,64 @@
+cs:
+  activerecord:
+    attributes:
+      meeting:
+        location: "Místo"
+        duration: "Doba trvání"
+        participants: "Účastníci"
+        participants_attended: "Účastníci"
+        participants_invited: "Pozvaní"
+        start_time: "Čas"
+        start_time_hour: "Čas začátku"
+    errors:
+      messages:
+        invalid_time_format: "is not a valid time. Required format: HH:MM"
+    models:
+      meeting_agenda: "Agenda"
+      meeting_minutes: "Zápis"
+  description_attended: "zúčastněn"
+  description_invite: "invited"
+  events:
+    meeting: Meeting edited
+    meeting_agenda: Meeting agenda edited
+    meeting_agenda_closed: Meeting agenda closed
+    meeting_agenda_opened: Meeting agenda opened
+    meeting_minutes: Meeting minutes edited
+    meeting_minutes_created: Meeting minutes created
+  error_notification_with_errors: "Failed to send notification. The following recipients could not be notified: %{recipients}"
+  label_meeting: "Schůzka"
+  label_meeting_plural: "Schůzky"
+  label_meeting_new: "Nová schůzka"
+  label_meeting_edit: "Upravit schůzku"
+  label_meeting_agenda: "Agenda"
+  label_meeting_minutes: "Zápis"
+  label_meeting_close: "Zavřít"
+  label_meeting_open: "Open"
+  label_meeting_agenda_close: "Uzavřete agendu pro vytvoření zápisu"
+  label_meeting_date_time: "Datum/Čas"
+  label_meeting_diff: "Rozdíl"
+  label_notify: "Send for review"
+  label_icalendar: "Send iCalendar"
+  label_version: "Verze"
+  label_time_zone: "Časové pásmo"
+  label_start_date: "Datum zahájení"
+  notice_successful_notification: "Notification sent successfully"
+  notice_timezone_missing: No time zone is set and %{zone} is assumed. To choose your time zone, please click here.
+  permission_create_meetings: "Create meetings"
+  permission_edit_meetings: "Edit meetings"
+  permission_delete_meetings: "Delete meetings"
+  permission_view_meetings: "View meetings"
+  permission_create_meeting_agendas: "Manage agendas"
+  permission_close_meeting_agendas: "Close agendas"
+  permission_send_meeting_agendas_notification: "Send review notification for agendas"
+  permission_create_meeting_minutes: "Manage minutes"
+  permission_send_meeting_minutes_notification: "Send review notification for minutes"
+  project_module_meetings: "Schůzky"
+  text_duration_in_hours: "Duration in hours"
+  text_in_hours: "in hours"
+  text_meeting_agenda_for_meeting: 'agenda for the meeting "%{meeting}"'
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting?"
+  text_meeting_agenda_open_are_you_sure: "Unsaved content in the minutes will be lost! Continue?"
+  text_meeting_minutes_for_meeting: 'minutes for the meeting "%{meeting}"'
+  text_review_meeting_agenda: "%{author} has put the %{link} up for review."
+  text_review_meeting_minutes: "%{author} has put the %{link} up for review."
+  text_notificiation_invited: "This mail contains an ics entry for the meeting below:"

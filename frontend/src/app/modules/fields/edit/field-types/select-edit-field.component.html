@@ -1,0 +1,12 @@
+<ndc-dynamic [ndcDynamicComponent]="autocompleterComponent()"
+             [ndcDynamicInputs]="{ availableValues: valueOptions,
+                                   appendTo: appendTo,
+                                   model: selectedOption ? selectedOption : '',
+                                   required: required,
+                                   disabled: inFlight,
+                                   id: handler.htmlId,
+                                   createAllowed: false,
+                                   finishedLoading: true,
+                                   classes: 'wp-inline-edit--field ' + handler.fieldName }"
+             [ndcDynamicOutputs]="referenceOutputs">
+</ndc-dynamic>

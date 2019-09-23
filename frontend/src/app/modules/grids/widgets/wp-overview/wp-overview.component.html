@@ -1,0 +1,14 @@
+<widget-header
+    [name]="widgetName"
+    [icon]="'calendar'"
+    (onRenamed)="renameWidget($event)">
+
+  <widget-menu
+      [resource]="resource">
+  </widget-menu>
+</widget-header>
+
+<wp-overview-graph
+    class='grid--widget-content'
+    [groupBy]="'type'">
+</wp-overview-graph>

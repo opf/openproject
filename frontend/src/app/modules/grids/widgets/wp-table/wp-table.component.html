@@ -1,0 +1,15 @@
+<widget-header
+    [name]="widgetName"
+    [icon]="'view-timeline'"
+    (onRenamed)="renameWidget($event)">
+
+
+  <widget-wp-table-menu
+      [resource]="resource">
+  </widget-wp-table-menu>
+</widget-header>
+
+<wp-embedded-table [queryId]="queryId"
+                   [configuration]="configuration"
+                   *ngIf="queryId">
+</wp-embedded-table>

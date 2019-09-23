@@ -1,0 +1,35 @@
+<div class="form--field">
+  <div class="form--field-container -vertical">
+    <label class="form--label-with-check-box">
+      <div class="form--check-box-container">
+        <input type="checkbox"
+               name="is_public"
+               id="show-public"
+               [ngModel]="isPublic"
+               (ngModelChange)="updatePublic($event)"
+               [disabled]="!canPublish"
+               class="form--check-box" />
+      </div>
+      {{ text.visibleForOthers }}
+    </label>
+    <div class="form--field-instructions -no-margin" [textContent]="text.visibleForOthersText"></div>
+  </div>
+</div>
+
+<div class="form--field">
+  <div class="form--field-container -vertical">
+    <label class="form--label-with-check-box">
+      <div class="form--check-box-container">
+        <input type="checkbox"
+               name="show_in_menu"
+               id="show-in-menu"
+               [ngModel]="isStarred"
+               (ngModelChange)="updateStarred($event)"
+               [disabled]="!canStar"
+               class="form--check-box" />
+      </div>
+      {{ text.showInMenu }}
+    </label>
+    <div class="form--field-instructions -no-margin" [textContent]="text.showInMenuText"></div>
+  </div>
+</div>

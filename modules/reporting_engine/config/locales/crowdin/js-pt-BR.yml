@@ -1,0 +1,5 @@
+pt-BR:
+  js:
+    reporting_engine:
+      label_remove: "Excluir"
+      label_response_error: "Ocorreu um erro na manipulação da consulta."

@@ -1,0 +1,21 @@
+<div class="wp-status-button"
+     [ngClass]="containerClass"
+     [attr.title]="buttonTitle"
+     *ngIf="status">
+  <button class="button"
+          [ngClass]="statusHighlightClass"
+          [disabled]="isDisabled"
+          [attr.aria-label]="text.explanation"
+          wpStatusDropdown
+          [wpStatusDropdown-workPackage]="workPackage">
+
+    <span *ngIf="workPackage.isReadonly"
+          class="button--text">
+      <op-icon icon-classes="button--icon icon-locked"></op-icon>
+    </span>
+    <span class="button--text"
+          aria-hidden="true"
+          [textContent]="status.name"></span>
+    <op-icon icon-classes="button--icon icon-small icon-pulldown"></op-icon>
+  </button>
+</div>

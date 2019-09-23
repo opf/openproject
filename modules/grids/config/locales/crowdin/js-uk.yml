@@ -1,0 +1,53 @@
+uk:
+  js:
+    grid:
+      add_widget: 'Add widget'
+      remove: 'Remove widget'
+      upsale:
+        text: "Some widgets, like the work package graph widget, are only available in the "
+        link: 'enterprise edition.'
+      widgets:
+        custom_text:
+          title: 'Текстовий блок'
+        documents:
+          title: 'Документи'
+          no_results: 'Ще немає документів.'
+        members:
+          title: 'Учасники'
+          no_results: 'No visible members.'
+          view_all_members: 'Переглянути всіх учасників'
+          add: 'Учасник'
+          too_many: 'Displaying %{count} of %{total} members.'
+        news:
+          title: 'Новини'
+          at: 'на'
+          no_results: 'Нічого нового для звітування.'
+        project_description:
+          title: 'Опис проекту'
+          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
+        project_details:
+          title: 'Деталі проекту'
+          no_results: 'No custom fields have been defined for projects.'
+        subprojects:
+          title: 'Підпроекти'
+          no_results: 'No subprojects.'
+        time_entries_list:
+          title: 'Витрачений час (останні 7 днів)'
+          no_results: 'Немає записів часу за останні 7 днів.'
+        work_packages_accountable:
+          title: "Робочі пакети, за які я відповідаю"
+        work_packages_assigned:
+          title: 'Робочі пакети призначені мені'
+        work_packages_created:
+          title: 'Пакети робіт створені мною'
+        work_packages_watched:
+          title: 'Пакети робіт переглянуті мною'
+        work_packages_table:
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
+        work_packages_calendar:
+          title: 'Календар'
+        work_packages_overview:
+          title: 'Work packages overview'
+          placeholder: 'Click to edit ...'

@@ -1,0 +1,79 @@
+$board-list-max-width: 300px
+
+// Let board list span whole screen
+.router--boards-full-view
+  #content-wrapper
+    padding-bottom: 0
+    padding-left: 0
+  #content
+    height: 100%
+
+.boards-list--container
+  display: flex
+  flex-direction: row
+  flex-wrap: nowrap
+  flex-grow: 1
+
+  // Make it scrollable
+  padding-bottom: 5px
+  overflow-y: auto
+
+
+.boards-list--item
+  flex: 0 0 $board-list-max-width
+  max-width: $board-list-max-width
+  position: relative
+
+  &:first-of-type
+    margin-left: 5px
+
+.board--header-container
+  display: flex
+  align-items: flex-start
+  margin-bottom: 0
+  margin-left: 20px
+
+.boards-list-item-handle
+  position: absolute
+  font-size: 14px
+  left: 0
+  top: 18px
+  z-index: 100
+  opacity: 0
+  cursor: grab
+
+  .board--container.-free &
+    top: 13px
+
+  &:before
+    padding: 0
+    color: var(--light-gray)
+
+  .boards-list--item:hover &
+    opacity: 1
+
+.boards-list--add-item
+  flex: 0 0 auto
+  // Same height as board list header
+  height: 42px
+  line-height: 42px
+  margin: 5px 0 0 15px
+  font-size: 14px
+  cursor: pointer
+  color: var(--gray-dark)
+
+  .board--container.-free &
+    margin-top: 0
+
+  &:hover
+    color: var(--body-font-color)
+
+.board--container
+  position: relative
+  display: flex
+  flex-direction: column
+  height: 100%
+
+.boards-filters-container .advanced-filters--container
+  margin-bottom: 1rem
+  margin-left: 20px

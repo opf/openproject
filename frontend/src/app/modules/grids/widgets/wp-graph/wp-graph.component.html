@@ -1,0 +1,16 @@
+<widget-header
+    [name]="widgetName"
+    [icon]="'chart2'"
+    (onRenamed)="renameWidget($event)">
+
+  <widget-wp-graph-menu
+      [resource]="resource"
+      (onConfigured)="updateGraph($event)">
+  </widget-wp-graph-menu>
+</widget-header>
+
+<wp-embedded-graph class='grid--widget-content'
+                   [datasets]="datasets"
+                   [chartType]="chartType"
+                   *ngIf="datasets.length > 0">
+</wp-embedded-graph>

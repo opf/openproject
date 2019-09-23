@@ -1,0 +1,3 @@
+APP_NAME="_APP_NAME_"
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+55 * * * * root ${APP_NAME} run rake -s openproject:cron:hourly >> /var/log/${APP_NAME}/cron-hourly.log 2>&1

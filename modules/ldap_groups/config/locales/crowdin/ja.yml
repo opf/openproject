@@ -1,0 +1,32 @@
+ja:
+  activerecord:
+    attributes:
+      ldap_groups/synchronized_group:
+        entry: '識別子の入力'
+        auth_source: 'LDAP 接続'
+    models:
+      ldap_groups/synchronized_group: '同期済 LDAP グループ'
+  ldap_groups:
+    label_menu_item: 'LDAP グループの同期'
+    label_group_key: 'LDAP グループ フィルターキー'
+    settings:
+      group_key: 'LDAP グループ属性'
+      group_key_text: 'LDAP 属性名はグループを識別するために使用されます'
+      group_base: 'LDAP グループベース'
+      group_base_text: 'LDAP グループベースはグループのエントリーを検索するために使用されます。'
+    synchronized_groups:
+      add_new: '同期済 LDAP グループを追加'
+      destroy:
+        title: '同期済グループ %{name} を削除'
+        confirmation: "続行すると、同期済グループ %{name} と、それを通じて同期された %{users_count} ユーザーがすべて削除されます。"
+        info: "注: OpenProject グループ自体と、この LDAP 同期外で追加されたメンバーは削除されません。"
+        verification: "削除を確認するため、グループの名前 %{name} を入力してください。"
+      no_results: '同期されたグループが見つかりません。'
+      no_members: 'このグループはまだ同期済のメンバーがありません。'
+      plural: '同期済 LDAP グループ'
+      singular: '同期済 LDAP グループ'
+      form:
+        auth_source_text: '使用する LDAP 認証モードを選択してください。'
+        entry_text: 'LDAP グループ識別子を定義してください。'
+        group_text: 'LDAP グループのメンバーを同期する既存の OpenProject グループを選択'
+

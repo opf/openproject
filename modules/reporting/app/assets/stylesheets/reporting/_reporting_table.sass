@@ -1,0 +1,112 @@
+#result-table
+  margin: 10px 0
+  overflow-x: auto
+
+  // -------------------------- Normal (generic) table --------------------------
+  .generic-table--results-container tfoot
+    td
+      width: 150px
+    .generic-table--footer-outer
+      width: inherit
+
+  // -------------------------- Special table --------------------------
+  .report
+    text-align:       center
+    border-collapse:  collapse
+    border:           solid 1px #ccc !important
+    width:            auto !important
+
+    td, th
+      min-width:        90px
+      white-space:      nowrap
+
+    td
+      border: dotted 1px #ddd
+      color: #666
+      text-align: center
+      padding: 0 8px 0 8px
+      line-height: 2rem
+      vertical-align: middle
+
+    tbody th, tbody td, .inner
+      max-width: 300px
+      white-space: normal !important
+
+    td:hover
+      color: #000
+      outline: #ccc 1px solid
+      outline-offset: 1px
+
+    td.empty:hover
+      outline: none
+
+    th
+      border: solid 1px #ccc
+      background-color: #e3e3e3
+      text-align: center
+      font-size: 0.875rem
+      line-height: 34px
+      padding: 0 8px 0 8px
+
+    .odd th.inner
+      background-color: #e8e8e8
+
+    .even th.inner
+      background-color: #e3e3e3
+
+    th.inner
+      border: solid 1px #ccc
+      background-color: #efefef
+      text-align: right
+
+    .odd td.inner
+      background-color: #e8e8e8
+
+    .even td.inner
+      background-color: #e3e3e3
+
+    tr:hover .inner,
+    tr:hover .bottom,
+    tr:hover .empty,
+    tr:hover .right
+      background-color: #f5f5c5 !important
+
+    .top
+      border-top-style: solid
+      border-top-color: #ccc
+
+    .bottom
+      border-bottom-style: solid
+      border-bottom-color: #ccc
+
+    td.penultimate
+      border-right-style: solid
+
+    thead .inner, tfoot .inner
+      text-align: right
+      padding-right: 5px
+
+    .result
+      font-size: 120%
+      text-align: right
+
+    .thead tr:hover .inner, tfoot tr:hover .inner
+      background-color: #efefef
+
+    .left
+      text-align: left !important
+      padding-left: 5px
+
+    .right
+      text-align: right !important
+      padding-right: 5px
+
+td .drill_down, th .drill_down
+  font-size: 8px
+  display: block
+  float: right
+  font-weight: bold
+  visibility: hidden
+
+td:hover .drill_down, th:hover .drill_down
+  visibility: visible

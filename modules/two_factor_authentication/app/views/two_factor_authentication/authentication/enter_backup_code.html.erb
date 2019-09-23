@@ -1,0 +1,22 @@
+<% content_for :header_tags do %>
+  <%= javascript_include_tag('two_factor_authentication/two_factor_authentication.js') %>
+  <%= stylesheet_link_tag('two_factor_authentication/two_factor_authentication.css') %>
+<% end %>
+
+<% html_title l(:field_otp) %>
+<% breadcrumb_paths(l(:field_otp)) %>
+<div id="login-form" class="form -bordered">
+  <%= styled_form_tag({ action: :verify_backup_code }, { :autocomplete => "off", :id => 'submit_backup_code' }) do %>
+    <h2><%= t 'two_factor_authentication.login.enter_backup_code_title' %></h2>
+    <p><%= I18n.t('two_factor_authentication.login.enter_backup_code_text') %></p>
+    <hr class="form--separator">
+    <div class="form--field -required -wide-label">
+      <%= styled_label_tag 'backup_code', t('two_factor_authentication.backup_codes.singular') %>
+      <div class="form--field-container">
+        <%= styled_text_field_tag 'backup_code', nil, required: true, autocomplete: 'off', size: 20, maxlength: 20, tabindex: 1, focus: true  %>
+      </div>
+    </div>
+      <input type="submit" name="login" value="<%=l(:button_submit)%>" class="button -highlight" tabindex="2" />
+  <% end %>
+  </div>
+</div>

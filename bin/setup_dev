@@ -1,0 +1,32 @@
+#!/bin/bash
+#
+# Deletes bundled javascript assets and rebuilds them.
+# Useful for when your frontend doesn't work (jQuery not defined etc.) for seemingly no reason at all.
+
+yell() { echo -e "$0: $*" >&2; }
+die() { yell "$*"; exit 1; }
+try() { eval "$@" || die "\n\nFailed to run '$*', check log/setup_dev.log for more information."; }
+
+printf "Clearing previous bundle ... "
+rm -rf app/assets/javascripts/bundles/*
+rm -f log/setup_dev.log
+echo "done."
+
+printf "Bundling rails dependencies ... "
+try 'bundle install >> log/setup_dev.log'
+echo "done."
+
+echo "Installing node_modules ... "
+try 'npm install --no-shrinkwrap >> log/setup_dev.log'
+
+echo "Linking plugin modules"
+try 'bundle exec rake openproject:plugins:register_frontend >> log/setup_dev.log'
+
+echo "---------------------------------------"
+echo "Done. Now start the following services"
+echo '- Rails server `RAILS_ENV=development ./bin/rails s`'
+echo '- Angular CLI: `npm run serve`'
+echo ""
+echo 'You can also run `foreman start -f Procfile.dev` to run all the above on a single terminal.'
+
+

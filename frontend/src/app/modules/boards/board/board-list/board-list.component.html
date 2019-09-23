@@ -1,0 +1,71 @@
+<div #loadingIndicator
+     [attr.data-query-name]="listName"
+     class="board-list--container loading-indicator--location"
+     [ngClass]="{ '-action-list': board.isAction }">
+  <ng-container *ngIf="query">
+
+    <div *ngIf="board.isAction"
+         class="board-list--action-bar"
+         [ngClass]="actionResourceClass">
+    </div>
+
+    <div class="board-list--header">
+      <ndc-dynamic *ngIf="headerComponent"
+                   [ndcDynamicComponent]="headerComponent"
+                   [ndcDynamicInputs]="{ resource: actionResource }">
+      </ndc-dynamic>
+      <editable-toolbar-title *ngIf="!headerComponent"
+                              [title]="query.name"
+                              [smallHeader]="true"
+                              [inFlight]="inFlight"
+                              (onSave)="renameQuery(query, $event)"
+                              [editable]="canRename"
+                              [initialFocus]="initiallyFocused"
+                              class="-small">
+      </editable-toolbar-title>
+
+      <board-list-menu class="board-list--menu"
+                       [board]="board"
+                       (onRemove)="deleteList()">
+      </board-list-menu>
+    </div>
+
+    <div class="board-list--query-container drop-zone"
+         [ngClass]="{ '-with-create-button': board.isAction || showAddButton }">
+      <div class="board-list--button-container">
+        <button [title]="text.addCard"
+                *ngIf="board.isAction"
+                (accessibleClick)="addNewCard()"
+                [disabled]="!showAddButton"
+                class="board-list--add-button board-list--card-add-button button">
+          <op-icon icon-classes="icon-{{buttonPlaceholder ? buttonPlaceholder.icon : 'add'}}"></op-icon>
+          <span *ngIf="buttonPlaceholder"> {{ buttonPlaceholder.text }} </span>
+        </button>
+        <button [title]="text.addCard"
+                *ngIf="!board.isAction && showAddButton"
+                class="board-list--add-button board-list--card-dropdown-button button"
+                addCardDropdown>
+          <op-icon icon-classes="icon-small icon-add"></op-icon>
+        </button>
+      </div>
+
+      <wp-card-view [dragOutOfHandler]="canDragOutOfHandler"
+                    [dragInto]="canDragInto"
+                    [workPackageAddedHandler]="workPackageAddedHandler"
+                    [cardsRemovable]="board.isFree && canDragOutOf"
+                    [highlightingMode]="board.highlightingMode"
+                    [showStatusButton]="showCardStatusButton()">
+
+      </wp-card-view>
+    </div>
+  </ng-container>
+  <div class="notification-box -error" *ngIf="loadingError">
+    <p>
+      <span [textContent]="errorMessage"></span>
+      &ngsp;
+      <a role="button" (accessibleClick)="onRemove.emit()">
+        <span [textContent]="text.click_to_remove"></span>
+      </a>
+    </p>
+  </div>
+</div>

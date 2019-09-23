@@ -1,0 +1,21 @@
+#!/bin/bash -e
+
+HOST="${HOST:=127.0.0.1}"
+PORT="${PORT:=8080}"
+RAILS_ENV="${RAILS_ENV:="development"}"
+
+USE_PUMA="${USE_PUMA:="false"}"
+
+if [ "$RAILS_ENV" = "production" ] && [ "$USE_PUMA" = "true" ]; then
+	# @TODO Add apache config to serve the assets. Until then we have Puma serve
+	#       them which is slower. This is ok if an asset host is used (SaaS).
+	#       But for self-hosted installations we may want to fix that.
+	#       Passenger does include a config to have nginx serve the assets.
+	export OPENPROJECT_ENABLE__INTERNAL__ASSETS__SERVER=true
+fi
+
+if [ "$USE_PUMA" = "true" ]; then
+  bundle exec rails server puma -b $HOST -p $PORT
+else
+  bundle exec unicorn --config-file config/unicorn.rb --host $HOST --port $PORT --env $RAILS_ENV
+fi

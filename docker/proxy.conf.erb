@@ -1,0 +1,11 @@
+<VirtualHost *:80>
+  ServerName <%= ENV.fetch('SERVER_NAME') { "_default_" } %>
+  DocumentRoot <%= ENV.fetch('APP_PATH') %>/public
+
+  ProxyRequests off
+
+  <Location />
+    ProxyPass http://127.0.0.1:8080/ retry=0
+    ProxyPassReverse http://127.0.0.1:8080/
+  </Location>
+</VirtualHost>

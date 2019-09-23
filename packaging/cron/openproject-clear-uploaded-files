@@ -1,0 +1,3 @@
+APP_NAME="_APP_NAME_"
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+0 23 * * 5 root ${APP_NAME} run rake -s attachments:clear >> /var/log/${APP_NAME}/cron-clear-uploaded-files.log 2>&1

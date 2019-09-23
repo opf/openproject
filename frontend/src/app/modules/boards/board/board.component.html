@@ -1,0 +1,97 @@
+<div *ngIf="board"
+     [ngClass]="{ '-editable': board.editable, '-free' : board.isFree}"
+     class="board--container">
+
+  <ng-container wp-isolated-query-space>
+    <div class="toolbar-container -editable">
+      <div id="toolbar">
+        <div class="title-container board--header-container">
+          <div class="wp-show--back-button hide-when-print">
+            <accessible-by-keyboard (execute)="goBack()"
+                                    linkClass="board--back-button button">
+              <op-icon icon-classes="button--icon icon-back-up"></op-icon>
+            </accessible-by-keyboard>
+          </div>
+
+          <editable-toolbar-title [title]="board.name"
+                                  [inFlight]="inFlight"
+                                  [initialFocus]="isNew"
+                                  (onSave)="saveWithNameAndFilters(board, $event)"
+                                  [editable]="board.editable"
+                                  [showSaveCondition]="!!state.params.query_props">
+          </editable-toolbar-title>
+
+          <ul class="toolbar-items"
+              *ngIf="showBoardListView()">
+
+            <li class="toolbar-item hidden-for-mobile">
+              <wp-filter-button>
+              </wp-filter-button>
+            </li>
+
+            <li class="toolbar-item hidden-for-mobile">
+              <zen-mode-toggle-button></zen-mode-toggle-button>
+            </li>
+            <li *ngIf="board.editable"
+                class="toolbar-item hidden-for-mobile">
+              <button title="{{ text.button_more }}"
+                      class="button last board--settings-dropdown toolbar-icon"
+                      boardsToolbarMenu
+                      [boardsToolbarMenu-resource]="board">
+                <op-icon icon-classes="button--icon icon-show-more"></op-icon>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="boards-filters-container">
+      <board-filter [board]="board"
+                    [filters]="filters"
+                    (onFiltersChanged)="updateFilters($event)"></board-filter>
+    </div>
+
+  </ng-container>
+
+  <div class="boards-list--container"
+       #container
+       *ngIf="showBoardListView()"
+       cdkDropList
+       [cdkDropListDisabled]="!board.editable"
+       cdkDropListOrientation="horizontal"
+       (cdkDropListDropped)="moveList(board, $event)"
+       >
+    <div *ngFor="let queryWidget of board.queries; trackBy:trackByQueryId"
+         class="boards-list--item"
+         wp-isolated-query-space
+         cdkDrag
+         vsDragScroll
+         [cdkDragData]="queryWidget"
+         [vsDragScrollContainer]="_container">
+      <span *ngIf="board.editable"
+            class="boards-list-item-handle icon icon-drag-handle"
+            cdkDragHandle></span>
+      <board-list [resource]="queryWidget"
+                  [board]="board"
+                  (onRemove)="removeList(board, queryWidget)"
+                  [filters]="filters"></board-list>
+    </div>
+
+    <div class="boards-list--add-item -no-text-select"
+         *ngIf="board.editable"
+         (click)="addList(board)">
+      <div class="boards-list--add-item-text">
+        <op-icon icon-classes="icon-add icon-context"></op-icon>
+        <span [textContent]="text.addList"></span>
+      </div>
+    </div>
+  </div>
+
+  <enterprise-banner *ngIf="!showBoardListView()"
+                     [leftMargin]="true"
+                     [linkMessage]="text.upsaleCheckOutLink"
+                     [textMessage]="text.upsaleBoards"
+                     [opReferrer]="opReferrer(board)">
+  </enterprise-banner>
+</div>

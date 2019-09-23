@@ -1,0 +1,53 @@
+hu:
+  js:
+    grid:
+      add_widget: 'Add widget'
+      remove: 'Remove widget'
+      upsale:
+        text: "Some widgets, like the work package graph widget, are only available in the "
+        link: 'enterprise edition.'
+      widgets:
+        custom_text:
+          title: 'Egyéni szöveg'
+        documents:
+          title: 'Dokumentumok'
+          no_results: 'Még nincs dokumentum.'
+        members:
+          title: 'Tagok'
+          no_results: 'No visible members.'
+          view_all_members: 'Az összes tag megtekintése'
+          add: 'Tag'
+          too_many: 'Displaying %{count} of %{total} members.'
+        news:
+          title: 'Hírek'
+          at: '-kor'
+          no_results: 'Semmi új jelenteni való.'
+        project_description:
+          title: 'Projekt leírása'
+          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
+        project_details:
+          title: 'Projekt részletei'
+          no_results: 'No custom fields have been defined for projects.'
+        subprojects:
+          title: 'Alprojektek'
+          no_results: 'No subprojects.'
+        time_entries_list:
+          title: 'Eltöltött idő (elmúlt 7 nap)'
+          no_results: 'Az elmúlt 7 napra nincs bejegyzés.'
+        work_packages_accountable:
+          title: "Feladatcsoportok, amelyért én vagyok a felelős"
+        work_packages_assigned:
+          title: 'Magamhoz rendelt feladatcsoportok'
+        work_packages_created:
+          title: 'Általam készített munkacsomagok'
+        work_packages_watched:
+          title: 'Megfigyelt munkacsomagok'
+        work_packages_table:
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
+        work_packages_calendar:
+          title: 'Naptár'
+        work_packages_overview:
+          title: 'Work packages overview'
+          placeholder: 'Click to edit ...'

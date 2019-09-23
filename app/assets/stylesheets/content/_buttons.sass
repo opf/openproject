@@ -1,0 +1,170 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See docs/COPYRIGHT.rdoc for more details.
+//++
+
+.button,
+a.button
+  @extend %button
+  @include button-size(medium)
+  @include button-expand(false)
+  @include button-style($button--background-color, $button--background-hover-color, $button--font-color, $button-style)
+  border: 1px solid $button--border-color
+
+  transition-property: background, border
+  transition-duration: 0.25s
+  transition-timing-function: ease-out
+
+  &:disabled,
+  &.-disabled
+    @include button-disabled
+
+  &:hover
+    text-decoration: none
+
+  &.-with-icon
+    &::before
+      padding: 0 $button--text-icon-spacing 0 0
+
+  &.-danger
+    background: $content-form-danger-zone-bg-color
+    color: $content-form-danger-zone-font-color
+    border-color: $content-form-danger-zone-bg-color
+    &.icon:before,
+    &.icon-context:before
+      color: $content-form-danger-zone-font-color
+      padding-left: 0px
+
+  &.-highlight
+    @include button-style($button--highlight-background-color, $button--highlight-background-hover-color, $button--highlight-font-color, $button-style)
+    @include button-style(var(--button--highlight-background-color), var(--button--highlight-background-hover-color), $button--highlight-font-color, $button-style)
+    @include varprop(border-color, button--highlight-background-color)
+
+    &:hover, &:focus
+      @include varprop(border-color, button--highlight-background-hover-color)
+
+  &.-highlight-inverted
+    @include button-style($body-background, darken($body-background, 5), $content-link-color, $button-style)
+    @include button-style($body-background, darken($body-background, 5), var(--content-link-color), $button-style)
+    @include varprop(border-color, content-link-color)
+
+
+  &.-alt-highlight
+    @include button-style($button--alt-highlight-background-color, $button--alt-highlight-background-hover-color, $button--alt-highlight-font-color, $button-style)
+    @include button-style(var(--button--alt-highlight-background-color), var(--button--alt-highlight-background-hover-color), $button--alt-highlight-font-color, $button-style)
+    @include varprop(border-color, button--alt-highlight-background-color)
+
+    &:hover, &:focus
+      @include varprop(border-color, button--alt-highlight-background-hover-color)
+
+  &.-active
+    @include button-style($button--active-background-color, $button--active-background-color, $button--active-font-color, $button-style)
+    @include varprop(border-color, button--active-border-color)
+    box-shadow: 0 0 3px $button--active-border-color inset
+
+
+  &.-transparent
+    @include button-style($background: $button--font-color, $style: hollow)
+    border-color: transparent
+
+    &:hover, &:focus
+      @include varprop(border-color, button--border-color)
+
+    &.-active
+      background: $button--active-background-color
+
+      &:hover, &:focus
+        border-color: $button--active-border-color
+
+  &.-tiny
+    @include button-size(tiny)
+
+  &.-small
+    @include button-size(small)
+
+  &.-large
+    @include button-size(large)
+
+  &.-expand
+    @include button-expand
+
+  &.-round
+    border-radius: 2em
+
+  &.-narrow
+    margin-bottom: 0em
+    margin-right: 0.25rem
+    padding: 0.3128em 0.55555em
+
+.button--icon
+  @include icon-common
+
+.button--icon + .button--text,
+.button--text + .button--icon,
+.op-icon--wrapper + .button--text,
+.button--text + .op-icon--wrapper
+  margin: 0 0 0 $button--text-icon-spacing
+
+// Hack as Lato font on Win Chrome draws about a pixel too highligh
+html.-browser-windows.-browser-chrome
+  .button--text,
+  .button--icon
+    vertical-align: -1px
+
+.button--dropdown-indicator
+  @include icon-common
+  padding: 0 0 0 3px
+  font-size: rem-calc(13px)
+  @extend .icon-small
+  @extend .icon-pulldown
+
+// hack around the old markup (icon class applied on <a>)
+// which is used for toolbar-items to add space after icons inside buttons
+.toolbar-item
+  .button[class*='icon-']
+    &:before
+      margin-right: $button--text-icon-spacing
+
+// Button class to use as a link-like submit button
+.button--link
+  @include varprop(color, content-link-color)
+  background: none
+  border: none
+  padding: 0 1px
+
+  &.-expand
+    @include button-expand
+
+  &:visited, &:active
+    @include varprop(color, content-link-color)
+
+  &:hover
+    text-decoration: underline
+
+  &:disabled, &:disabled:hover
+    cursor: not-allowed
+    background: none
+    color: $gray-dark

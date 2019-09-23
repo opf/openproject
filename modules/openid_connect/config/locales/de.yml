@@ -1,0 +1,20 @@
+de:
+  logout_warning: >
+    Sie wurden ausgeloggt. Inhalte von Formularen, die sie abschicken möchten,
+    können verloren gehen. Bitte [loggen Sie sich wieder ein].
+  activemodel:
+    attributes:
+      openid_connect/provider:
+        name: Name
+        display_name: Angezeigter Name
+        identifier: Identifier
+        secret: Secret
+        scope: Scope
+  openid_connect:
+    menu_title: OpenID-Provider
+    providers:
+      label_add_new: Einen neuen OpenID-Provider hinzufügen
+      label_edit: OpenID-Provider %{name} bearbeiten
+      no_results_table: Es wurden noch keine OpenID-Provider konfiguriert.
+      plural: OpenID-Provider
+      singular: OpenID-Provider

@@ -1,0 +1,92 @@
+<form name="modalSortingForm">
+  <div id="modal-sorting"
+       class="modal-content-container loading-indicator--location"
+       data-indicator-name="sorting-modal">
+
+    <p [textContent]="text.sorting_mode.description"></p>
+    <div class="form--field -full-width">
+      <div class="form--field-container">
+        <label class="option-label">
+          <input type="radio"
+                 [(ngModel)]="sortingMode"
+                 (change)="updateSortingMode($event.target.value)"
+                 name="sorting_mode_switch"
+                 value="manual">
+          {{ text.sorting_mode.manually }}
+        </label>
+      </div>
+    </div><div class="form--field -full-width">
+      <div class="form--field-container">
+        <label class="option-label">
+          <input type="radio"
+                 [(ngModel)]="sortingMode"
+                 (change)="updateSortingMode($event.target.value)"
+                 name="sorting_mode_switch"
+                 value="automatic">
+          {{ text.sorting_mode.automatic }}
+        </label>
+      </div>
+      <div class="form--field-instructions">
+        {{ text.sorting_mode.warning }}
+      </div>
+    </div>
+
+    <ng-container *ngIf="sortingMode === 'automatic'">
+      <div class="form--row modal-sorting-row-{{index}}"
+           *ngFor="let sort of sortationObjects; let index = index">
+        <div class="form--field -full-width">
+          <label
+            for="modal-sorting-attribute-{{index}}"
+            [textContent]="text['sort_criteria_' + index]"
+            class="form--label hidden-for-sighted">
+          </label>
+          <div class="form--field-container">
+            <div class="form--select-container">
+              <select
+                id="modal-sorting-attribute-{{index}}"
+                name="modal-sorting-attribute-{{index}}"
+                (change)="updateSelection(sort, $event.target.value)"
+                class="form--select">
+                <option *ngIf="!!sort.column.href"
+                        [textContent]="sort.column.name"
+                        [value]="sort.column.href"
+                        selected></option>
+
+                <!--
+                TODO:
+                The option element below used this code:
+                  [selected]="sort.column.href === null"
+
+                However, the Angular template compiler wrongly complains about the comparison.
+                https://github.com/angular/angular/issues/18754
+
+                Since the explicit null comparision is safer than `!sort.column.href` the code
+                should be reverted to the old version once the bug is fixed.
+                -->
+                <option [textContent]="emptyColumn.name"
+                        [value]="emptyColumn.href"
+                        [selected]="!sort.column.href"></option>
+
+                <option *ngFor="let column of availableColumns"
+                        [textContent]="column.name"
+                        [value]="column.href"></option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="form--field -full-width">
+          <div class="form--field-container">
+            <label class="option-label" *ngFor="let availableDirection of availableDirections">
+              <input type="radio"
+                     [(ngModel)]="sort.direction"
+                     [value]="availableDirection.$href"
+                     [textContent]="availableDirection.name"
+                     name="modal-sorting-attribute-{{index}}--sort-direction">
+              {{ availableDirection.name }}
+            </label>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</form>

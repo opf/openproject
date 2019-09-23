@@ -1,0 +1,32 @@
+pt-BR:
+  activerecord:
+    attributes:
+      ldap_groups/synchronized_group:
+        entry: 'Identificador de entrada'
+        auth_source: 'Conexão LDAP'
+    models:
+      ldap_groups/synchronized_group: 'Grupo LDAP sincronizado'
+  ldap_groups:
+    label_menu_item: 'Sincronização de grupo LDAP'
+    label_group_key: 'Chave de filtro de grupo LDAP'
+    settings:
+      group_key: 'Atributo de grupo LDAP'
+      group_key_text: 'O nome do atributo LDAP usado para identificar os grupos.'
+      group_base: 'Base do grupo LDAP'
+      group_base_text: 'Base do grupo LDAP usada para procurar por entradas de grupo.'
+    synchronized_groups:
+      add_new: 'Adicionar grupo LDAP sincronizado'
+      destroy:
+        title: 'Remover grupo sincronizado %{name}'
+        confirmation: "Se você continuar, o grupo sincronizado %{name} e todos os %{users_count} usuários sincronizados por meio dele serão removidos."
+        info: "Nota: O próprio grupo OpenProject e membros adicionados fora desta sincronização LDAP não serão removidos."
+        verification: "Digite o nome do grupo %{name} para verificar a exclusão."
+      no_results: 'Nenhum grupo sincronizado encontrado.'
+      no_members: 'Este grupo ainda não tem membros sincronizados.'
+      plural: 'Grupos LDAP sincronizados'
+      singular: 'Grupo LDAP sincronizado'
+      form:
+        auth_source_text: 'Selecione qual modo de autenticação LDAP é usado.'
+        entry_text: 'Defina o identificador do grupo LDAP.'
+        group_text: 'Selecione um grupo existente no OpenProject para que seja sincronizado com membros do grupo LDAP'
+

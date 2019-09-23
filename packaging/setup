@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# Set RELEASE_DATE for the application
+date +%F > config/RELEASE_DATE
+
+# Copy default database.yml
+cp -f packaging/conf/database.yml config/database.yml
+
+cp -f packaging/conf/configuration.yml config/configuration.yml
+sed -i "s|config.public_file_server.enabled = false|config.public_file_server.enabled = true|" config/environments/production.rb
+
+# Specific npmrc used for packaging
+cp -f packaging/.npmrc .npmrc
+
+# replace every occurrence of _APP_NAME_ with the corresponding application name we're packaging
+find packaging/ -type f -print0 | xargs -0 sed -i "s|_APP_NAME_|${APP_NAME}|"

@@ -1,0 +1,31 @@
+<div *ngIf="editable"
+     (focusout)="saveWhenFocusOutside($event)"
+     class="editable-toolbar-title--container">
+  <a *ngIf="showSave"
+     role="link"
+     class="editable-toolbar-title--save"
+     (accessibleClick)="save($event, true)"
+     [attr.aria-label]="text.query_has_changed_click_to_save"
+     [attr.title]="text.query_has_changed_click_to_save">
+    <span aria-hidden="true" class="icon icon-save"></span>
+  </a>
+  <input #editableTitleInput
+         type="text"
+         aria-required="true"
+         [attr.name]="selectableTitleIdentifier"
+         [focus]="this.initialFocus || undefined"
+         (focus)="onFocus($event)"
+         (keydown.escape)="reset($event)"
+         (keydown.enter)="save($event)"
+         [attr.placeholder]="text.input_placeholder"
+         [attr.title]="text.input_title"
+         [(ngModel)]="selectedTitle"
+         [disabled]="inFlight"
+         [ngClass]="{ '-error': isEmpty, '-changed': showSave }"
+         class="editable-toolbar-title--input -border-on-hover-only toolbar--editable-toolbar ellipsis"/>
+</div>
+<h2 *ngIf="!editable"
+    [attr.title]="selectedTitle"
+    [ngClass]="{ '-disabled': disabled, '-small': smallHeader }"
+    class="editable-toolbar-title--fixed"> {{ selectedTitle | slice:0:50 }}
+</h2>

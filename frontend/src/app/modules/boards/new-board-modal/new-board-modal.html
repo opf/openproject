@@ -1,0 +1,54 @@
+<div class="op-modal--portal confirm-form-submit--modal  ngdialog-theme-openproject">
+  <div class="op-modal--modal-container confirm-dialog--modal loading-indicator--location"
+       data-indicator-name="modal"
+       tabindex="0">
+    <div class="op-modal--modal-header">
+      <a class="op-modal--modal-close-button" *ngIf="showClose">
+        <i
+            class="icon-close"
+            (click)="closeMe($event)"
+            [attr.title]="text.close_popup">
+        </i>
+      </a>
+    </div>
+
+    <div class="ngdialog-body op-modal--modal-body">
+      <section class="new-board--section">
+        <h3 [textContent]="text.free_board"></h3>
+        <p [textContent]="text.free_board_text"></p>
+
+        <button class="button"
+                [disabled]="inFlight"
+                (accessibleClick)="createFree()">
+          <op-icon icon-classes="icon4 icon-add"></op-icon>
+          <span [textContent]="text.free_board"></span>
+        </button>
+      </section>
+      <section class="new-board--section">
+        <h3 [textContent]="text.action_board"></h3>
+        <p [textContent]="text.action_board_text"></p>
+
+        <div class="form--field">
+          <div class="form--field-container">
+            <div class="form--select-container -slim">
+              <label class="form--label" for="new_board_action_select" [textContent]="text.select_attribute"></label>
+              <select #actionAttributeSelect
+                      name="new_board_action_select"
+                      id="new_board_action_select"
+                      class="new-board--action-select">
+                <option *ngFor="let item of available" [value]="item.attribute" [textContent]="item.text"></option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <button class="button"
+                [disabled]="inFlight"
+                (accessibleClick)="createAction()">
+          <op-icon icon-classes="icon4 icon-add"></op-icon>
+          <span [textContent]="text.action_board"></span>
+        </button>
+      </section>
+    </div>
+  </div>
+</div>

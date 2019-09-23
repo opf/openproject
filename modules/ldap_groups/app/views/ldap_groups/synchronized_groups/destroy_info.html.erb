@@ -1,0 +1,35 @@
+<% html_title(t(:label_administration), t('ldap_groups.synchronized_groups.destroy.title')) -%>
+
+<%= styled_form_tag({ action: :destroy, ldap_group_id: @group.id },
+                    class: 'danger-zone',
+                    method: :delete) do %>
+  <section class="form--section">
+    <h3 class="form--section-title">
+      <%= t('ldap_groups.synchronized_groups.destroy.title', name: @group.entry) %>
+    </h3>
+    <p>
+    </p>
+    <p class="danger-zone--warning">
+      <span class="icon icon-info2"></span>
+      <%= l('ldap_groups.synchronized_groups.destroy.confirmation', name: @group.entry, users_count: @group.users.count)%>
+    </p>
+    <p>
+      <span><%= l('ldap_groups.synchronized_groups.destroy.info')%></span>
+      <br/>
+      <%= t('ldap_groups.synchronized_groups.destroy.verification',
+            name: "<em class=\"danger-zone--expected-value\">#{h(@group.entry)}</em>").html_safe %>
+    </p>
+    <div class="danger-zone--verification">
+      <input type="text"></input>
+      <%= styled_button_tag title: t(:button_delete), class: '-highlight', disabled: true do
+        concat content_tag :i, '', class: 'button--icon icon-delete'
+        concat content_tag :span, t(:button_delete), class: 'button--text'
+      end %>
+      <%= link_to t(:button_cancel),
+                  { action: :index },
+                  title: t(:button_cancel),
+                  class: 'button -with-icon icon-cancel' %>
+    </div>
+  </section>
+<% end %>
+

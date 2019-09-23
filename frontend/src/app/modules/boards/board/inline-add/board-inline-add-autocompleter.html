@@ -1,0 +1,16 @@
+<ng-select ngClass="wp-inline-create--reference-autocompleter"
+           [items]="results$ | async"
+           [appendTo]="appendToContainer"
+           [multiple]="false"
+           [loading]="isLoading"
+           [typeahead]="searchInput$"
+           [closeOnSelect]="false"
+           (close)="cancel()"
+           (change)="addWorkPackageToQuery($event)">
+  <ng-template ng-label-tmp let-item="item">
+    {{item.type.name }} #{{ item.id }} {{ item.subject }}
+  </ng-template>
+  <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+    {{item.type.name }} #{{ item.id }} {{ item.subject }}
+  </ng-template>
+</ng-select>

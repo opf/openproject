@@ -1,0 +1,124 @@
+@import "helpers"
+
+// search bar has a min-width of 160px and should adapt to every screen size
+$search-input-width: calc(160px + 3vw)
+$search-input-width-expanded: calc(160px + 13vw)
+$search-input-height: 30px
+
+.top-menu-search
+  display: flex
+  align-items: center
+  position: relative
+  height: var(--header-height)
+  line-height: var(--header-height)
+  margin: 0 15px
+
+  .top-menu-search--back-button
+    display: none
+
+  .top-menu-search--button
+    position: absolute
+    right: 2px
+    font-size: var(--header-item-font-size)
+    color: var(--header-item-font-color)
+    &:hover
+      text-decoration: none
+    &.-input-focused
+      color: var(--header-search-field-font-color)
+
+  .top-menu-search--loading
+    top: var(--header-height) - 11px  // display directly under ng-input field
+    height: 46px                // ng-option height + 1px border
+    z-index: 1051
+
+  #global-search-input
+    width: $search-input-width
+    font-size: 0.9rem
+    -webkit-transition: width 0.2s ease-in-out
+    transition: width 0.2s ease-in-out
+    &::-ms-clear
+      margin-right: 5px
+      width: 20px
+
+    .ng-select-container
+      background: transparent
+      border-color: var(--header-item-font-color)
+
+    .ng-arrow-wrapper
+      display: none
+
+    .ng-clear-wrapper
+      color: var(--header-item-font-color)
+      top: 1px
+      width: 30px
+      right: 25px
+      text-align: center
+
+    .ng-input
+      top: 0
+      input
+        color: var(--header-item-font-color)
+        height: $search-input-height
+        cursor: text
+
+    .ng-placeholder
+      color: var(--header-item-font-color)
+
+    &.-expanded
+      width: $search-input-width-expanded
+      background: white
+      border-radius: 4px
+      color: var(--header-search-field-font-color)
+
+      .ng-placeholder,
+      .ng-clear-wrapper,
+      input
+        color: var(--header-search-field-font-color)
+
+      .scroll-host
+        @include styled-scroll-bar
+        max-height: 80vh
+        height: auto
+
+        .ng-option
+          border-bottom: 1px solid #EAEAEA
+          white-space: normal
+          padding: 5px 10px
+          &:last-child
+            border-bottom: none
+          &.ng-option-marked
+            background-color: var(--drop-down-hover-bg-color)
+            color: var(--header-drop-down-item-font-hover-color)
+          &.ng-option-disabled
+            display: none
+          &.ng-option-selected
+            background-color: var(--drop-down-selected-bg-color)
+            color: var(--header-drop-down-item-font-hover-color)
+
+.global-search--wp-id
+  color: var(--gray-dark)
+  font-size: 13px
+  white-space: nowrap
+
+
+.top-menu-search--input
+  // Fix position of the spinner
+  .ng-spinner-loader
+    position: relative
+    right: 14px
+
+.global-search--option-wrapper
+  padding: 5px 5px
+  line-height: 25px
+  min-height: 35px  // line-height + padding
+  word-break: break-word
+
+.global-search--project-scope
+  position: absolute
+  right: 7px
+  border: 1px solid var(--button--border-color)
+  font-size: 13px
+  background: var(--button--background-color)
+  border-radius: 2px
+  padding: 0 4px
+  color: var(--body-font-color)

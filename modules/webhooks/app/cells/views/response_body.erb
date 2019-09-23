@@ -1,0 +1,28 @@
+<section data-augmented-model-wrapper>
+  <a class="modal-wrapper--activation-link" title="<%= log_entry.class.human_attribute_name('response_body') %>">
+    <%= op_icon('icon-info1') %>
+    <%= t(:button_show) %>
+  </a>
+  <div style="display: none" class="modal-wrapper--content  ngdialog-theme-openproject">
+    <div class="webhooks--response-body-modal">
+        <div class="modal--header">
+          <h2><%= log_entry.class.human_attribute_name('response_body') %></h2>
+        </div>
+        <div class="ngdialog-body modal--main -inner-scroll">
+          <h2>Headers</h2>
+          <pre class="webhooks--response-headers" ><%- log_entry.response_headers.each do |k,v| -%><strong><%= k -%></strong>:  <span><%= v -%></span><br/><%- end -%></pre>
+          <hr/>
+          <h2>Response body</h2>
+          <pre class="webhooks--response-body">
+            <%= log_entry.response_body %>
+          </pre>
+        </div>
+        <div class="modal--footer">
+          <button class="button dynamic-content-modal--close-button button"
+                  title="<%= t(:button_close) %>">
+            <%= t(:button_close)%>
+          </button>
+        </div>
+      </div>
+  </div>
+</section>

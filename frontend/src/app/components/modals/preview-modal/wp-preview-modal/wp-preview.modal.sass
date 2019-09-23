@@ -1,0 +1,36 @@
+@import "helpers"
+
+.preview-modal--container
+  position: absolute
+  z-index: 5000
+  min-width: 200px
+  max-width: 400px
+  min-height: 100px
+  max-height: 300px
+  background: white
+  padding: 15px
+  border: 1px solid lightgrey
+  border-radius: 3px
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5)
+
+  display: grid
+  grid-template: auto auto auto / auto auto 1fr 1fr
+  grid-column-gap: 5px
+  grid-row-gap: 10px
+  grid-template-areas: "type subject subject subject" "author author author author" "status status . assignee"
+
+.status
+  grid-area: status
+  padding: 0px 10px
+
+.type
+  grid-area: type
+
+.author
+  grid-area: author
+
+.subject
+  grid-area: subject
+
+.assignee
+  grid-area: assignee

@@ -1,0 +1,155 @@
+
+$wp-query-menu-search-container-height: 35px
+
+// Wrap in global ID due to specificity issues
+// from main_menu.sass :/
+#querySelectDropdown
+  .wp-query-menu--search-ul
+    +allow-vertical-scrolling
+    -ms-overflow-style: -ms-autohiding-scrollbar
+    left: 0 !important
+    top: 0 !important
+    width: 100% !important
+    padding-top: 10px !important
+    max-height: 100%
+    background: none
+    z-index: 0 // Prevent overlapping with project select dropdown (https://community.openproject.com/wp/28175)
+
+    @include styled-scroll-bar
+
+
+  .wp-query-menu--results-container
+    padding-top: 5px
+    height: calc(100% - #{$wp-query-menu-search-container-height})
+
+    // Firefox needs more left padding for whatever reason
+    html.-browser-firefox &
+      padding-left: 10px
+
+  .wp-query-menu--no-results-container
+    display: block
+    padding: 15px 15px 0
+    display: inline-block
+    width: 100%
+    white-space: normal
+    font-size: $main-menu-font-size
+
+  .wp-query-menu--search-container
+    padding-top: 10px
+    overflow: hidden
+    @include varprop(color, main-menu-font-color)
+
+    // Specific fix for Firefox
+    body.-browser-firefox &
+      padding-right: 14px
+
+    .ui-state-active
+      background: none !important
+      color: inherit !important
+
+    .ui-autocomplete--category
+      width: 100%
+      padding-left: 33px
+      line-height: $menu-item-line-height
+      height: $menu-item-line-height
+      font-weight: normal
+      text-transform: uppercase
+      // border-bottom: 1px solid $main-menu-border-color
+      font-size: 0.7rem
+      @include varprop(color, main-menu-fieldset-header-color)
+      cursor: pointer
+
+      &:hover
+        @include varprop(background, main-menu-bg-hover-background)
+
+  // The actual search input
+  .wp-query-menu--search-bar
+    height: $wp-query-menu-search-container-height
+    position: relative
+    margin: 0 10px
+    min-width: 55px
+
+  // Category collapsible links
+  .wp-query-menu--category-icon
+    @include icon-font-common
+    // Overridden due to main menu :/
+    padding: initial
+    font-size: 0.6rem
+    line-height: $menu-item-line-height
+    height: $menu-item-line-height
+    margin: 0px 12px
+    position: absolute
+    color: $main-menu-fieldset-header-color
+    z-index: 1
+    border: none
+    background: initial
+
+    &::before
+      @include icon-mixin-arrow-up1
+
+    &.-collapsed
+      &::before
+        @include icon-mixin-arrow-down1
+
+  // Add space above the category headings
+  .wp-query-menu--category-toggle
+    margin-top: 10px
+    &:nth-child(1), &:nth-child(2)
+      margin-top: 0px
+
+  // Single result element wrapper
+  .wp-query-menu--item
+    display: block !important
+    height: 30px !important
+    border-radius: 3px
+
+    &.-hidden
+      display: none !important
+
+    &.selected
+      .wp-query-menu--item-link
+        @include varprop(background, main-menu-bg-selected-background)
+        @include varprop(color, main-menu-selected-font-color)
+
+        &:hover
+          @include varprop(color, main-menu-font-color)
+
+  // Link within element wrapper
+  .wp-query-menu--item-link
+    @include text-shortener
+    @include varprop(color, main-menu-font-color)
+    padding: 0px 2px 0px 33px !important
+    margin: 0
+    line-height: 30px
+    height: 30px !important
+
+    &:hover, &:focus, &:active
+      @include varprop(background, main-menu-bg-hover-background)
+      @include varprop(color, main-menu-hover-font-color)
+
+  // Rule complexed for specificity issues
+  input[type="text"].wp-query-menu--search-input
+    @include varprop(color, main-menu-font-color)
+    width: 100%
+    height: 35px
+    border: 1px solid rgba(231, 231, 231, 0.15)
+    border-radius: 3px
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15)
+    background-color: rgba(0, 0, 0, 0.15)
+    padding: 0px 30px 0px 10px
+
+    // Hide the little x to remove input where exists + supported
+    &::-webkit-search-cancel-button
+      display: none
+    &::placeholder,
+    &::-webkit-input-placeholder
+      @include varprop(color, main-menu-font-color)
+      opacity: 0.5
+      @include text-shortener
+
+  .wp-query-menu--search-icon
+    position: absolute
+    top:   5px
+    right: 10px
+    @include varprop(color, main-menu-font-color)
+    opacity: 0.5

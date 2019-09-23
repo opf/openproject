@@ -1,0 +1,65 @@
+// -------------------- Media print specific styles --------------------
+@media print
+  // -------------------- ALL pages --------------------
+  .hide-when-print,
+  #top-menu,
+  #header,
+  #main-menu,
+  #sidebar,
+  #footer,
+  #breadcrumb,
+  .contextual,
+  .other-formats,
+  .toolbar-items,
+  .ui-helper-hidden-accessible,
+  .tabs,
+  #wiki_add_attachment
+    display: none !important
+
+  .notification-box:not(.show-when-print)
+    display: none !important
+
+  #main
+    background: #fff
+    // This counters 'overflow: auto' active in the non print version
+    // which will lead to only the first page being printed on some pages.
+    // For whatever reasons, all the pages are displayed in the print rendering emulation
+    // regardless of the overflow.
+    overflow: initial
+
+  #content-wrapper
+    width: 99%
+    margin: 0
+    border: 0
+    background: #fff
+    overflow: visible !important
+
+  #content-wrapper.hidden-navigation,
+  #content.hidden-navigation
+    width: 99% !important
+    margin-left: 0 !important
+
+  .autoscroll
+    overflow-x: visible
+
+  table.list
+    margin-top: 0.5em
+
+    th, td
+      border: 1px solid #aaa
+
+  // Show dot highlight in print
+  // even when bg not enabled
+  // not supported in all browsers
+  [class^="__hl_"],
+  [class*=" __hl_"]
+    color-adjust: exact
+    -webkit-print-color-adjust: exact
+
+  // Sizes from user agent stylesheet
+  h1
+    font-size: 2em
+  h2
+    font-size: 1.5em
+  h3
+    font-size: 1.17em

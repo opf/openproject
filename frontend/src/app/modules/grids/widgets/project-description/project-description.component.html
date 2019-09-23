@@ -1,0 +1,18 @@
+<widget-header
+  [name]="widgetName"
+  icon="flag"
+  [editable]="isEditable">
+
+  <widget-menu
+      [resource]="resource">
+  </widget-menu>
+</widget-header>
+
+<div class="grid--widget-content">
+  <div *ngIf="hasDescription"
+       [innerHTML]="description">
+  </div>
+  <no-results *ngIf="!hasDescription && isLoaded"
+              [description]="text.noResults">
+  </no-results>
+</div>

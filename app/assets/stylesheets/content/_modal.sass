@@ -1,0 +1,195 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See docs/COPYRIGHT.rdoc for more details.
+//++
+
+$ng-modal-padding: 3em
+$ng-modal-background: $body-background
+$ng-modal-close-color: $light-gray
+$ng-modal-image-height: 135px
+$ng-modal-image-width: $ng-modal-image-height
+$modal-header-height: $header-height
+$modal-footer-height: $modal-header-height
+
+// The portal element of a modal element
+// ( = the outer element should span the entire view )
+.op-modal--portal
+  // overlay
+  position: fixed
+  left: 0
+  top: 0
+  right: 0
+  bottom: 0
+  background: rgba(0, 0, 0, 0.75)
+  text-align: left
+  z-index: 9000
+
+  // Center modal content vertically and horizontally
+  display: flex
+  align-items: center
+  justify-content: center
+
+// The inner modal element containing header, body, and footer
+// This is placed within --portal
+.op-modal--modal-container
+  transition: opacity 0.25s ease
+  background: $ng-modal-background
+  position: relative
+  padding: $ng-modal-padding / 2
+  min-width: 200px
+  max-width: 60vw
+  overflow-y: auto
+
+  @include styled-scroll-bar
+
+  &.-wide
+    min-width: 75vw
+    min-height: 40vh
+
+  &.-slim
+    min-width: 25vw
+    min-height: 20vh
+
+.op-modal--modal-header
+  padding: 0
+
+.op-modal--modal-body
+  margin: 1em 0
+  padding: 0 1.5rem
+  max-height: calc(100vh - #{$modal-header-height} - #{$modal-footer-height})
+  overflow: auto
+  @include styled-scroll-bar
+
+  &.-formattable
+    p:last-of-type
+      margin-bottom: 0px
+
+.op-modal--modal-footer
+  margin: 1em 0
+  padding: 0 1.5rem
+
+  button:last-of-type
+    margin-right: 0
+
+.op-modal--modal-close-button
+  position: absolute
+  top: 0.75rem
+  right: 0.75rem
+  cursor: pointer
+  @include varprop(color, body-font-color)
+  &:hover
+    text-decoration: none
+    @include varprop(color, content-link-color)
+
+// Highlighted modal style matching header menu
+.op-modal--modal-container.-highlight
+  padding: 0
+
+  // Overridden header styles
+  .op-modal--modal-header
+    display: flex
+    align-items: center
+    height: $modal-header-height
+    padding: 0 45px 0 1.5rem
+    border-bottom-style: solid
+    @include varprop(background-color, header-bg-color)
+    @include varprop(border-bottom-width, header-border-bottom-width)
+    @include varprop(border-bottom-color, header-border-bottom-color)
+
+    *
+      @include varprop(color, header-item-font-color)
+      height: $modal-header-height
+      line-height: $modal-header-height
+
+    h2, h3
+      @include text-shortener
+
+  .op-modal--modal-close-button
+    right: 10px
+    top: 0
+    @include varprop(line-height, modal-header-height)
+    @include varprop(color, header-item-font-color)
+
+  .avatar,
+  .icon-context
+    margin-right: 0.5rem
+
+// Specific styles for columns-modal
+.columns-modal--content
+  margin-bottom: 15px
+  label
+    display: inline
+    padding-right: 30px
+  .select2-search-choice-close
+    top: 3px
+
+.ee-relation-columns-upsale
+  margin-top: -0.7rem
+  padding-bottom: 1rem
+
+// Specific styles for export-modal
+ul.export-options
+  display: flex
+  flex-wrap: wrap
+  margin: 0
+  padding: 20px 0
+  list-style-type: none
+  li
+    flex: 1 1 calc(33% - 40px)  // line break after third element
+    margin: 20px
+    text-align: center
+    a
+      cursor: pointer
+      text-decoration: none
+      color: $body-font-color
+      font-weight: normal
+      overflow-wrap: break-word
+      word-wrap: break-word
+      &:hover, &:active
+        text-decoration: none
+        color: $body-font-color
+      span.export-label
+        display: block
+        padding: 10px 0 0 0
+
+// Legacy styles for jQuery UI modal
+.ui-dialog.ui-widget
+  overflow: visible
+
+// remove iframe border explicitly because Firefox does add it for some reason
+#modalIframe
+  border: 0
+
+// Hide modal content forwarded from rails
+// for the dynamic modal
+.modal-wrapper--content
+  display: none
+
+
+@include breakpoint(680px down)
+  .wp-table--configuration-modal,
+  .op-modal--modal-container
+    width: 90vw

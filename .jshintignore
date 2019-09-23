@@ -1,0 +1,5 @@
+app/assets/javascripts/date-de-DE.js
+app/assets/javascripts/date-en-US.js
+app/assets/javascripts/jquery_noconflict.js
+app/assets/javascripts/project/**/*
+app/assets/javascripts/lib/**/*

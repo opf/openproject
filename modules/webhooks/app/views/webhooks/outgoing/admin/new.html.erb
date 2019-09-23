@@ -1,0 +1,23 @@
+
+<%= render partial: 'header_tags' %>
+<% html_title(t(:label_administration), t('webhooks.outgoing.label_add_new')) -%>
+<% local_assigns[:additional_breadcrumb] = [
+  link_to(t('webhooks.plural'), admin_outgoing_webhooks_path),
+  t('webhooks.outgoing.label_add_new')
+  ]
+%>
+
+<%= toolbar title: t('webhooks.outgoing.label_add_new') %>
+
+<%= error_messages_for @webhook %>
+
+<%= labelled_tabular_form_for @webhook,
+                              url: { action: :create },
+                              as: 'webhook',
+                              html: { class: 'form', autocomplete: 'off' } do |f| %>
+  <%= render partial: "form", locals: { f: f, webhook: @webhook } %>
+  <p>
+    <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-checkmark' %>
+    <%= link_to t(:button_cancel), { action: :index }, class: 'button' %>
+  </p>
+<% end %>

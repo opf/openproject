@@ -1,0 +1,41 @@
+<widget-header
+    [name]="widgetName"
+    icon="news"
+    [editable]="isEditable">
+
+  <widget-menu
+      [resource]="resource">
+  </widget-menu>
+</widget-header>
+
+<div class="grid--widget-content">
+  <no-results *ngIf="noEntries"
+             [title]="text.noResults">
+  </no-results>
+  <ul class="widget-box--arrow-links">
+    <li class="-widget-box--arrow-multiline" *ngFor="let news of entries">
+      <div>
+        <user-avatar *ngIf="news.author"
+                     [user]="news.author"
+                     data-class-list="avatar avatar-medium -spaced">
+        </user-avatar>
+        <a [href]="newsProjectPath(news)"
+           [textContent]="newsProjectName(news)">
+        </a>:
+        <a [href]="newsPath(news)"
+           [textContent]="news.title">
+        </a>
+
+        <p *ngIf="news.author"
+           class="widget-box--additional-info">
+          {{text.createdBy}}
+          <a [href]="newsAuthorPath(news)"
+             [textContent]="newsAuthorName(news)">
+          </a>
+          {{text.at}}
+          {{newsCreated(news)}}
+        </p>
+      </div>
+    </li>
+  </ul>
+</div>

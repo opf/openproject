@@ -1,0 +1,62 @@
+it:
+  bcf:
+    label_bcf: 'BCF'
+    label_imported_failed: 'Importazione di argomenti BCF non riuscita'
+    label_imported_successfully: 'Argomenti BCF importati con successo'
+    issues: "Problemi"
+    recommended: 'consigliato'
+    not_recommended: 'non consigliato'
+    no_viewpoints: 'Nessun punto di vista'
+    new_badge: "Nuovo"
+    exceptions:
+      file_invalid: "File BCF non valido"
+    x_bcf_issues:
+      one: 'Un problema BCF'
+      other: '%{count} Problemi BCF'
+    bcf_xml:
+      xml_file: 'File XML BCF'
+      import_title: 'Importazione'
+      export: 'Esporta'
+      import_update_comment: '(Aggiornato nell''importazione BCF)'
+      import_failed: 'Impossibile importare il file BCF: %{error}'
+      import_successful: 'Problemi BCF %{count} importati'
+      import_canceled: 'Importazione BCF-XML annullata.'
+      type_not_active: "Il tipo di problema non è attivato per questo progetto."
+      import:
+        num_issues_found: '%{x_bcf_issues} sono contenuti nel file BCF-XML, i loro dettagli sono elencati di seguito.'
+        button_prepare: 'Prepara l''importazione'
+        button_perform_import: 'Conferma importazione'
+        button_proceed: 'Procedere'
+        button_back_to_list: 'Torna alla lista'
+        no_permission_to_add_members: 'Non hai i permessi sufficienti per aggiungerli come membri al progetto.'
+        contact_project_admin: 'Contatta l''amministratore del progetto per aggiungerli come membri e ricomincia questa importazione.'
+        continue_anyways: 'Do you want to proceed and finish the import anyways?'
+        description: "Provide a BCF-XML v2.1 file to import into this project. You can examine its contents before performing the import."
+        invalid_types_found: 'Trovati nomi di tipo di argomento non validi'
+        invalid_statuses_found: 'Trovati nomi di stato non validi'
+        invalid_priorities_found: 'Trovati nomi di priorità non validi'
+        invalid_emails_found: 'Indirizzi email non validi trovati'
+        unknown_emails_found: 'Indirizzi email sconosciuti trovati'
+        unknown_property: 'Proprietà sconosciuta'
+        non_members_found: 'Non project members found'
+        import_types_as: 'Set all these types to'
+        import_statuses_as: 'Set all these statuses to'
+        import_priorities_as: 'Set all these priorities to'
+        invite_as_members_with_role: 'Invite them as members to the project "%{project}" with role'
+        add_as_members_with_role: 'Add them as members to the project "%{project}" with role'
+        no_type_provided: 'Nessun tipo fornito'
+        no_status_provided: 'Nessuno stato fornito'
+        no_priority_provided: 'Nessuna priorità fornita'
+        perform_description: "Do you want to import or update the issues listed above?"
+        replace_with_system_user: 'Replace them with "System" user'
+        import_as_system_user: 'Import them as "System" user.'
+        what_to_do: "Cosa vuoi fare?"
+        work_package_has_newer_changes: "Outdated! This topic was not updated as the latest changes on the server were newer than the \"ModifiedDate\" of the imported topic. However, comments to the topic were imported."
+  export:
+    format:
+      bcf: "BCF-XML"
+  attributes:
+    bcf_thumbnail: "BCF snapshot"
+  project_module_bcf: "BCF"
+  permission_view_linked_issues: "View BCF issues"
+  permission_manage_bcf: "Import and manage BCF issues"

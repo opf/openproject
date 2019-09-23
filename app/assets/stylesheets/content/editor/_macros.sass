@@ -1,0 +1,30 @@
+// Legacy macro rendering
+macro.legacy-macro
+  background: $nm-color-warning-background
+  border: 2px dashed $nm-color-warning-border
+  padding: 10px 5px
+  line-height: 3rem
+
+.ck-widget.macro,
+macro.macro-placeholder
+  border: 2px dashed #ccc
+  min-height: 50px
+  display: flex
+  justify-content: center
+  align-items: center
+  color: #575757
+  background: #f8f8f8
+
+  .macro-value
+    font-style: italic
+    color: $gray-dark
+
+// Unavailable macros
+macro.macro-unavailable
+  @extend %error-placeholder
+  background: $nm-color-error-background
+  border-style: dashed
+  border-width: rem-calc(1)
+  border-color: $nm-color-error-border
+  padding: $nm-box-padding
+  box-shadow: rem-calc(1px 2px 3px) rgba(0, 0, 0, 0.2)

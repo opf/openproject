@@ -1,0 +1,225 @@
+# Group News
+
+News are articles written by users in order to inform other users of important information.
+
+## Actions
+
+None yet
+
+## Linked Properties
+| Link          | Description                          | Type           | Constraints           | Supported operations | Condition                                 |
+| :-----------: | -------------------------------------| -------------  | --------------------- | -------------------- | ----------------------------------------- |
+| self          | This news                            | News           | not null              | READ                 |                                           |
+| project       | The project the news is situated in  | Project        | not null              | READ / WRITE         |                                           |
+| author        | The user having created the news     | User           | not null              | READ                 |                                           |
+
+## Local Properties
+
+| Property     | Description                                               | Type     | Constraints                                          | Supported operations | Condition                                                   |
+| :----------: | --------------------------------------------------------- | -------- | ---------------------------------------------------- | -------------------- | ----------------------------------------------------------- |
+| id           | News' id                                                  | Integer  | x > 0                                                | READ                 |                                                             |
+| title        | The headline of the news                                  | String   | max 60 characters                                    | READ                 |                                                             |
+| summary      | A short summary                                           | String   | max 255 characters                                   | READ                 |                                                             |
+| description  | The main body of the news with all the details            | String   |                                                      | READ                 |                                                             |
+| createdAt    | The time the news was created at                          | DateTime |                                                      | READ                 |                                                             |
+
+## News [/api/v3/news/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "News",
+                "id": 1,
+                "title": "asperiores possimus nam doloribus ab",
+                "summary": "Celebrer spiculum colo viscus claustrum atque. Id nulla culpa sumptus. Comparo crapula depopulo demonstro.",
+                "description": {
+                    "format": "markdown",
+                    "raw": "Videlicet deserunt aequitas cognatus. Concedo quia est quia pariatur vorago vallum. Calco autem atavus accusamus conscendo cornu ulterius. Tam patria ago consectetur ventito sustineo nihil caecus. Supra officiis eos velociter somniculosus tonsor qui. Suffragium aduro arguo angustus cogito quia tolero vulnus. Supplanto sortitus cresco apud vestrum qui.",
+                    "html": "<p>Videlicet deserunt aequitas cognatus. Concedo quia est quia pariatur vorago vallum. Calco autem atavus accusamus conscendo cornu ulterius. Tam patria ago consectetur ventito sustineo nihil caecus. Supra officiis eos velociter somniculosus tonsor qui. Suffragium aduro arguo angustus cogito quia tolero vulnus. Supplanto sortitus cresco apud vestrum qui.</p>"
+                },
+                "createdAt": "2015-03-20T12:57:01Z",
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/news/1",
+                        "title": "asperiores possimus nam doloribus ab"
+                    },
+                    "project": {
+                        "href": "/api/v3/projects/1",
+                        "title": "A project"
+                    },
+                    "author": {
+                        "href": "/api/v3/users/2",
+                        "title": "Peggie Feeney"
+                    }
+                },
+                "_embedded": {
+                    "project": {
+                        "_type": "Project",
+                        <-- omitted for brevity -->
+                        }
+                    },
+                    "author": {
+                        "_type": "User",
+                        <-- omitted for brevity -->
+                    }
+                }
+            }
+
+## View news [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... news id
+
++ Response 200 (application/hal+json)
+
+    [News][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the news does not exist or if the user does not have permission to view it.
+
+    **Required permission** being member of the project the news belongs to
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The requested resource could not be found."
+            }
+
+
+
+## List of News [/api/v3/news{?offset,pageSize,filters,sortBy}]
+
++ Model
+    + Body
+
+            {
+                "_type": "Collection",
+                "total": 78,
+                "count": 2,
+                "pageSize": 2,
+                "offset": 1,
+                "_embedded": {
+                    "elements": [
+                        {
+                            "_type": "News",
+                            "id": 1,
+                            "title": "asperiores possimus nam doloribus ab",
+                            "summary": "Celebrer spiculum colo viscus claustrum atque. Id nulla culpa sumptus. Comparo crapula depopulo demonstro.",
+                            "description": {
+                                "format": "markdown",
+                                "raw": "Videlicet deserunt aequitas cognatus. Concedo quia est quia pariatur vorago vallum. Calco autem atavus accusamus conscendo cornu ulterius. Tam patria ago consectetur ventito sustineo nihil caecus. Supra officiis eos velociter somniculosus tonsor qui. Suffragium aduro arguo angustus cogito quia tolero vulnus. Supplanto sortitus cresco apud vestrum qui.",
+                                "html": "<p>Videlicet deserunt aequitas cognatus. Concedo quia est quia pariatur vorago vallum. Calco autem atavus accusamus conscendo cornu ulterius. Tam patria ago consectetur ventito sustineo nihil caecus. Supra officiis eos velociter somniculosus tonsor qui. Suffragium aduro arguo angustus cogito quia tolero vulnus. Supplanto sortitus cresco apud vestrum qui.</p>"
+                            },
+                            "createdAt": "2015-03-20T12:57:01Z",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/news/1",
+                                    "title": "asperiores possimus nam doloribus ab"
+                                },
+                                "project": {
+                                    "href": "/api/v3/projects/1",
+                                    "title": "Seeded Project"
+                                },
+                                "author": {
+                                    "href": "/api/v3/users/2",
+                                    "title": "Peggie Feeney"
+                                }
+                            }
+                        },
+                        {
+                            "_type": "News",
+                            "id": 2,
+                            "title": "terminatio tutamen. Officia adeptio sp",
+                            "summary": "Consequatur sequi surculus creo tui aequitas.",
+                            "description": {
+                                "format": "markdown",
+                                "raw": "Amicitia alius cattus voluntarius. Virgo viduo terminatio tutamen. Officia adeptio spectaculum atavus nisi cum concido bis. Harum caecus auxilium sol theatrum eaque consequatur. Omnis aeger suus adipisci cicuta. Cur delicate alias curto cursim atqui talio fugiat.",
+                                "html": "<p>Amicitia alius cattus voluntarius. Virgo viduo terminatio tutamen. Officia adeptio spectaculum atavus nisi cum concido bis. Harum caecus auxilium sol theatrum eaque consequatur. Omnis aeger suus adipisci cicuta. Cur delicate alias curto cursim atqui talio fugiat.</p>"
+                            },
+                            "createdAt": "2015-03-20T12:57:01Z",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/news/2",
+                                    "title": "terminatio tutamen. Officia adeptio sp"
+                                },
+                                "project": {
+                                    "href": "/api/v3/projects/1",
+                                    "title": "Seeded Project"
+                                },
+                                "author": {
+                                    "href": "/api/v3/users/2",
+                                    "title": "Peggie Feeney"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/news?offset=1&pageSize=2"
+                    },
+                    "jumpTo": {
+                        "href": "/api/v3/news?offset=%7Boffset%7D&pageSize=2",
+                        "templated": true
+                    },
+                    "changeSize": {
+                        "href": "/api/v3/news?offset=1&pageSize=%7Bsize%7D",
+                        "templated": true
+                    },
+                    "nextByOffset": {
+                        "href": "/api/v3/news?offset=2&pageSize=2"
+                    }
+                }
+            }
+
+## List News [GET]
+
+Lists news. The news returned depend on the provided parameters and also on the requesting user's permissions.
+
++ Parameters
+    + offset = `1` (optional, integer, `25`) ... Page number inside the requested collection.
+
+    + pageSize (optional, integer, `25`) ... Number of elements to display per page.
+
+    + sortBy (optional, string, `[["created_at", "asc"]]`) ... JSON specifying sort criteria.
+    Accepts the same format as returned by the [queries](#queries) endpoint. Currently supported sorts are:
+      + id: Sort by primary key
+      + created_on: Sort by news creation datetime
+
+    + filters (optional, string, `[{ "project_id": { "operator": "=", "values": ["1", "2"] } }]`) ... JSON specifying filter conditions.
+    Accepts the same format as returned by the [queries](#queries) endpoint. Currently supported filters are:
+      + project_id: Filter news by project
+
++ Response 200 (application/hal+json)
+
+    [List of News][]
+
++ Response 400 (application/hal+json)
+
+    Returned if the client sends invalid request parameters e.g. filters
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidQuery",
+                "message": [
+                  "Filters Invalid filter does not exist."
+                ]
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client is not logged in and login is required.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to view this resource."
+            }

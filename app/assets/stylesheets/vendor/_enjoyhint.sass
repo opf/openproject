@@ -1,0 +1,232 @@
+@mixin onboarding-button-styles
+  color: white
+  border: 2px solid
+  @include varprop(border-color, alternative-color)
+  @include varprop(background, alternative-color)
+  -webkit-box-sizing: content-box
+  box-sizing: content-box
+  -webkit-transition: background-color 0.3s cubic-bezier(0, 0, 0, 0), color 0.3s cubic-bezier(0, 0, 0, 0), width 0.3s cubic-bezier(0, 0, 0, 0), border-width 0.3s cubic-bezier(0, 0, 0, 0), border-color 0.3s cubic-bezier(0, 0, 0, 0)
+  -moz-transition: background-color 0.3s cubic-bezier(0, 0, 0, 0), color 0.3s cubic-bezier(0, 0, 0, 0), width 0.3s cubic-bezier(0, 0, 0, 0), border-width 0.3s cubic-bezier(0, 0, 0, 0), border-color 0.3s cubic-bezier(0, 0, 0, 0)
+  -o-transition: background-color 0.3s cubic-bezier(0, 0, 0, 0), color 0.3s cubic-bezier(0, 0, 0, 0), width 0.3s cubic-bezier(0, 0, 0, 0), border-width 0.3s cubic-bezier(0, 0, 0, 0), border-color 0.3s cubic-bezier(0, 0, 0, 0)
+  transition: background-color 0.3s cubic-bezier(0, 0, 0, 0), color 0.3s cubic-bezier(0, 0, 0, 0), width 0.3s cubic-bezier(0, 0, 0, 0), border-width 0.3s cubic-bezier(0, 0, 0, 0), border-color 0.3s cubic-bezier(0, 0, 0, 0)
+  &:hover
+    @include varprop(border-color, button--alt-highlight-background-hover-color)
+    @include varprop(background, button--alt-highlight-background-hover-color)
+  &:active
+    @include varprop(border-color, button--alt-highlight-background-hover-color)
+    @include varprop(background, button--alt-highlight-background-hover-color)
+    -webkit-transition: none
+    -moz-transition: none
+    -o-transition: none
+    transition: none
+
+.enjoyhint
+  position: fixed
+  width: 100%
+  height: 100%
+  top: 0
+  left: 0
+  z-index: 1010
+  pointer-events: all
+  overflow: hidden
+
+.enjoyhint_hide
+  display: none
+
+.enjoyhint_disable_events
+  position: absolute
+  width: 2000px
+  height: 1500px
+  z-index: 1011
+  pointer-events: all
+
+.enjoyhint_next_btn, .enjoyhint_skip_btn
+  -webkit-box-sizing: content-box
+  min-width: 100px
+  height: 40px
+  font: normal normal normal 17px/40px "Advent Pro", Helvetica, sans-serif
+  cursor: pointer
+  margin: 0 auto
+  letter-spacing: 1px
+  text-align: center
+  padding: 0 5px
+
+.enjoyhint_close_btn, .enjoyhint_next_btn, .enjoyhint_skip_btn
+  z-index: 1012
+  pointer-events: all
+  -o-text-overflow: clip
+  text-overflow: clip
+  -moz-box-sizing: content-box
+  font-weight: bold
+  @include onboarding-button-styles
+
+.enjoyhint_next_btn
+  position: absolute
+  -webkit-border-radius: 40px
+  border-radius: 40px
+
+
+.enjoyhint_skip_btn
+  position: fixed
+  -webkit-border-radius: 40px
+  border-radius: 40px
+
+.enjoyhint_close_btn
+  display: inline-block
+  position: absolute
+  width: .3em
+  height: .3em
+  border: none
+  -webkit-border-radius: 1em
+  border-radius: 1em
+  font: 400 8em/normal Arial, Helvetica, sans-serif
+  &::after
+    -webkit-box-sizing: content-box
+    -moz-box-sizing: content-box
+    box-sizing: content-box
+    width: 73%
+    height: 2px
+    top: 46%
+    left: 15%
+    -webkit-transform: rotateZ(-45deg)
+    transform: rotateZ(-45deg)
+    position: absolute
+    content: ""
+    border: none
+    font: 400 100%/normal Arial, Helvetica, sans-serif
+    color: rgba(0, 0, 0, 1)
+    background: #fff
+    text-shadow: none
+    -o-text-overflow: clip
+    text-overflow: clip
+    display: inline-block
+  &::before
+    -webkit-box-sizing: content-box
+    width: 73%
+    height: 2px
+    position: absolute
+    content: ""
+    border: none
+    font: 400 100%/normal Arial, Helvetica, sans-serif
+    color: rgba(0, 0, 0, 1)
+    background: #fff
+    text-shadow: none
+    -o-text-overflow: clip
+    text-overflow: clip
+    display: inline-block
+    -moz-box-sizing: content-box
+    box-sizing: content-box
+    top: 48%
+    left: 14%
+    -webkit-transform: rotateZ(45deg)
+    transform: rotateZ(45deg)
+
+.enjoyhint_btn
+  width: 150px
+  height: 40px
+  cursor: pointer
+  margin: 0 auto
+  -webkit-border-radius: 40px
+  border-radius: 40px
+  font: normal normal normal 17px/40px "Advent Pro", Helvetica, sans-serif
+  text-align: center
+  -o-text-overflow: clip
+  text-overflow: clip
+  letter-spacing: 1px
+  @include onboarding-button-styles
+
+.enjoyhint_btn-transparent
+  background: transparent
+  @include varprop(color, alternative-color)
+  &:hover
+    color: white
+  &:active
+    color: white
+
+#kinetic_container, .enjoyhint_canvas
+  width: 100%
+  height: 100%
+  position: absolute
+
+.enjoyhint_svg_wrapper
+  width: 100%
+  height: 100%
+  position: absolute
+  svg
+    width: 100%
+    height: 100%
+    position: absolute
+
+.enjoyhint_btn
+  &:hover
+    color: rgba(255, 255, 255, 1)
+    @include varprop(background, button--alt-highlight-background-hover-color)
+  &:active
+    border: 2px solid rgba(33, 224, 163, 1)
+    background: rgba(33, 224, 163, 1)
+    -webkit-transition: none
+    -moz-transition: none
+    -o-transition: none
+    transition: none
+
+.enjoyhint div.canvas-container
+  position: absolute
+
+.enjoyhint_canvas
+  z-index: 100
+  pointer-events: none
+
+#kinetic_container
+  pointer-events: none
+  top: 0
+  left: 0
+
+.enjoyhint_svg_wrapper
+  top: 0
+  left: 0
+  z-index: 100
+  -webkit-transition: opacity 0.4s cubic-bezier(0.42, 0, 0.58, 1)
+  -moz-transition: opacity 0.4s cubic-bezier(0.42, 0, 0.58, 1)
+  transition: opacity 0.4s cubic-bezier(0.42, 0, 0.58, 1)
+  svg
+    top: 0
+    left: 0
+
+.-dark .enjoyhint_svg_wrapper path
+  stroke: rgb(0, 0, 0) !important
+
+.-hidden-arrow .enjoyhint_svg_wrapper path
+  display: none !important
+
+.enjoyhint_svg_transparent
+  .enjoy_hint_label, .enjoyhint_svg_wrapper
+    opacity: 0
+
+.enjoy_hint_label
+  position: absolute
+  color: #fff
+  z-index: 107
+  font-size: 22px
+  font-family: casino_handregular, Arial
+  -webkit-transition: opacity 0.4s cubic-bezier(0.42, 0, 0.58, 1)
+  -moz-transition: opacity 0.4s cubic-bezier(0.42, 0, 0.58, 1)
+  transition: opacity 0.4s cubic-bezier(0.42, 0, 0.58, 1)
+  display: inline-block
+  min-width: 200px
+  text-align: center
+  max-width: 80%
+  line-height: 28px
+
+.-dark .enjoy_hint_label
+  background-color: rgba(0, 0, 0, 0.75)
+  padding: 10px 25px
+  -webkit-border-radius: 40px
+  -moz-border-radius: 40px
+  border-radius: 40px
+
+div.kineticjs-content
+  position: absolute !important
+
+.enjoyhint-tutorial .-clickable
+  pointer-events: none
+

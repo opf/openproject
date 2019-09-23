@@ -1,0 +1,5 @@
+sk:
+  js:
+    reporting_engine:
+      label_remove: "Odstrániť"
+      label_response_error: "Počas spracovania dotazu nastala chyba."

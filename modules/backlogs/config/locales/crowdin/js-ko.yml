@@ -1,0 +1,6 @@
+ko:
+  js:
+    work_packages:
+      properties:
+        storyPoints: "스토리 포인트"
+        remainingTime: "남은 시간"

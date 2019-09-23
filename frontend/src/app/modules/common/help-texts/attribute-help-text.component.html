@@ -1,0 +1,7 @@
+<accessible-by-keyboard (execute)="handleClick()"
+                        *ngIf="exists"
+                        [linkAriaLabel]="text.open_dialog"
+                        linkClass="icon help-text--entry help-text--for-{{ attribute }}">
+  <op-icon icon-classes="icon icon-help1"></op-icon>
+  {{ additionalLabel }}
+</accessible-by-keyboard>

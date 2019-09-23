@@ -1,0 +1,389 @@
+# Work Packages - [Details Pane] - Activities
+
+```
+<div class='work-package-details-activities-list'>
+  <div class='work-package-details-activities-activity'>
+    <h3 class='activity-date -with-toggler'>
+      <span class='activity-date--label'>March 19, 2014</span>
+      <a href="" class="activity-comments--toggler button -small -transparent">
+        <span>Show activities with comments only</span>
+      </a>
+    </h3>
+    <div class='work-package-details-activities-activity-contents'>
+      <img alt='Avatar' class='avatar' src='https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg' title='OpenProject Admin'>
+      <span class='user'>
+        <a href='/users/1' name=''>OpenProject Admin</a>
+      </span>
+      <span class='date'>
+        updated on
+        <span  title='03/19/2014 4:38 PM'>
+          <span  title=''>03/19/2014</span>
+          <span  title=''>4:38 PM</span>
+        </span>
+      </span>
+      <div class='comments-number'>
+        <span>
+          <a href='#1' name='1'>#1</a>
+        </span>
+        <div class='comments-icons ng-hide'>
+          <i class='icon-quote action-icon'></i>
+          <i class='icon-edit action-icon'></i>
+        </div>
+      </div>
+      <div class="user-comment wiki">
+        <span class='comment wiki'>
+          <span class='message ng-hide'></span>
+        </span>
+        <ul class='work-package-details-activities-messages'>
+          <li>
+            <span class='message'>
+              <strong>Custom Integer</strong>
+              changed from
+              <i title='12442234'>12442234</i>
+              to
+              <i title='34'>34</i>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class='work-package-details-activities-activity'>
+    <h3 class='activity-date'>
+      <span class='activity-date--label'>April 30, 2014</span>
+    </h3>
+    <div class='work-package-details-activities-activity-contents'>
+      <img alt='Avatar' class='avatar' src='https://s3.amazonaws.com/uifaces/faces/twitter/_shahedk/128.jpg' title='OpenProject Admin'>
+      <span class='user'>
+        <a href='/users/1' name=''>OpenProject Admin</a>
+      </span>
+      <span class='date'>
+        updated on
+        <span  title='04/30/2014 9:40 AM'>
+          <span  title=''>04/30/2014</span>
+          <span  title=''>9:40 AM</span>
+        </span>
+      </span>
+      <div class='comments-number'>
+        <span>
+          <a href='#2' name='2'>#2</a>
+        </span>
+        <div class='comments-icons ng-hide'>
+          <i class='icon-quote action-icon'></i>
+          <i class='icon-edit action-icon'></i>
+        </div>
+      </div>
+      <div class="user-comment wiki">
+        <span class='comment wiki'>
+          <span class='message ng-hide'></span>
+        </span>
+        <ul class='work-package-details-activities-messages'>
+          <li>
+            <span class='message'>
+              <strong>Type</strong>
+              changed from
+              <i title='Support'>Support</i>
+              to
+              <i title='Bug'>Bug</i>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class='work-package-details-activities-activity'>
+    <h3 class='activity-date'>
+      <span class='activity-date--label'>July 11, 2014</span>
+    </h3>
+    <div class='work-package-details-activities-activity-contents'>
+      <img alt='Avatar' class='avatar' src='https://s3.amazonaws.com/uifaces/faces/twitter/ateneupopular/128.jpg' title='OpenProject Admin'>
+      <span class='user'>
+        <a href='/users/1' name=''>OpenProject Admin</a>
+      </span>
+      <span class='date'>
+        updated on
+        <span  title='07/11/2014 4:27 PM'>
+          <span  title=''>07/11/2014</span>
+          <span  title=''>4:27 PM</span>
+        </span>
+      </span>
+      <div class='comments-number'>
+        <span>
+          <a href='#3' name='3'>#3</a>
+        </span>
+        <div class='comments-icons ng-hide'>
+          <i class='icon-quote action-icon'></i>
+          <i class='icon-edit action-icon'></i>
+        </div>
+      </div>
+      <div class="user-comment wiki">
+        <span class='comment wiki'>
+          <span class='message'>
+            <p>This is an example wiki text.</p>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class='work-package-details-activities-activity'>
+    <div class='work-package-details-activities-activity-contents'>
+      <img alt='Avatar' class='avatar' src='https://s3.amazonaws.com/uifaces/faces/twitter/jamesslock/128.jpg' title='OpenProject Admin'>
+      <span class='user'>
+        <a href='/users/1' name=''>OpenProject Admin</a>
+      </span>
+      <span class='date'>
+        updated on
+        <span  title='07/11/2014 4:27 PM'>
+          <span  title=''>07/11/2014</span>
+          <span  title=''>4:27 PM</span>
+        </span>
+      </span>
+      <div class='comments-number'>
+        <span>
+          <a href='#4' name='4'>#4</a>
+        </span>
+        <div class='comments-icons ng-hide'>
+          <i class='icon-quote action-icon'></i>
+          <i class='icon-edit action-icon'></i>
+        </div>
+      </div>
+      <div class="user-comment wiki">
+        <span class='comment wiki'>
+          <span class='message ng-hide'></span>
+        </span>
+        <ul class='work-package-details-activities-messages'>
+          <li>
+            <span class='message'>
+              <strong>Description</strong>
+              set (<a class='description-details' href='/journals/5520/diff/description'>Details</a>)
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class='work-package-details-activities-activity'>
+    <h3 class='activity-date'>
+      <span class='activity-date--label'>August 21, 2014</span>
+    </h3>
+    <div class='work-package-details-activities-activity-contents'>
+      <img alt='Avatar' class='avatar' src='https://s3.amazonaws.com/uifaces/faces/twitter/5key/128.jpg' title='OpenProject Admin'>
+      <span class='user'>
+        <a href='/users/1' name=''>OpenProject Admin</a>
+      </span>
+      <span class='date'>
+        updated on
+        <span  title='08/21/2014 11:03 AM'>
+          <span  title=''>08/21/2014</span>
+          <span  title=''>11:03 AM</span>
+        </span>
+      </span>
+      <div class='comments-number'>
+        <span>
+          <a href='#5' name='5'>#5</a>
+        </span>
+        <div class='comments-icons ng-hide'>
+          <i class='icon-quote action-icon'></i>
+          <i class='icon-edit action-icon'></i>
+        </div>
+      </div>
+      <div class="user-comment wiki">
+        <span class='comment wiki'>
+          <span class='message ng-hide'></span>
+        </span>
+        <ul class='work-package-details-activities-messages'>
+          <li>
+            <span class='message'>
+              <strong>Parent</strong>
+              set to
+              <i title='molestias officia beatae aut et sunt ut labore'>molestias officia beatae aut et sunt ut labore</i>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class='work-package-details-activities-activity'>
+    <div class='work-package-details-activities-activity-contents'>
+      <img alt='Avatar' class='avatar' src='https://s3.amazonaws.com/uifaces/faces/twitter/nikkitaftw/128.jpg' title='OpenProject Admin'>
+      <span class='user'>
+        <a href='/users/1' name=''>OpenProject Admin</a>
+      </span>
+      <span class='date'>
+        updated on
+        <span  title='08/21/2014 11:05 AM'>
+          <span  title=''>08/21/2014</span>
+          <span  title=''>11:05 AM</span>
+        </span>
+      </span>
+      <div class='comments-number'>
+        <span>
+          <a href='#6' name='6'>#6</a>
+        </span>
+        <div class='comments-icons ng-hide'>
+          <i class='icon-quote action-icon'></i>
+          <i class='icon-edit action-icon'></i>
+        </div>
+      </div>
+      <div class="user-comment wiki">
+        <span class='comment wiki'>
+          <span class='message ng-hide'></span>
+        </span>
+        <ul class='work-package-details-activities-messages'>
+          <li>
+            <span class='message'>
+              <strong>Parent</strong>
+              deleted (<strike>
+                <i title='molestias officia beatae aut et sunt ut labore'>molestias officia beatae aut et sunt ut labore</i>
+              </strike>)
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class='work-package-details-activities-activity'>
+    <h3 class='activity-date'>
+      <span class='activity-date--label'>September 2, 2014</span>
+    </h3>
+    <div class='work-package-details-activities-activity-contents'>
+      <img alt='Avatar' class='avatar' src='https://s3.amazonaws.com/uifaces/faces/twitter/manugamero/128.jpg' title='OpenProject Admin'>
+      <span class='user'>
+        <a href='/users/1' name=''>OpenProject Admin</a>
+      </span>
+      <span class='date'>
+        updated on
+        <span  title='09/02/2014 8:50 AM'>
+          <span  title=''>09/02/2014</span>
+          <span  title=''>8:50 AM</span>
+        </span>
+      </span>
+      <div class='comments-number'>
+        <span>
+          <a href='#12' name='12'>#12</a>
+        </span>
+        <div class='comments-icons ng-hide'>
+          <i class='icon-quote action-icon'></i>
+          <i class='icon-edit action-icon'></i>
+        </div>
+      </div>
+      <div class="user-comment wiki">
+        <span class='comment wiki'>
+          <span class='message ng-hide'></span>
+        </span>
+        <ul class='work-package-details-activities-messages'>
+          <li>
+            <span class='message'>
+              <strong>Subject</strong>
+              changed from
+              <i title='Nothing important'>Nothing important</i>
+              to
+              <i title='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed felis metus, lobortis eget nisi id, scelerisque sagittis eros. Duis eget tempor risus, id sagittis nisi. In accumsan sapien sed scelerisque mattis. Sed bibendum condimentum magna eget vestibulum. Etiam bibendum, justo vitae efficitur placerat, justo lorem bibendum eros, et mattis diam diam eget urna. Aenean id magna pharetra, auctor dui ut, ultrices turpis. Duis eu massa non libero dictum vestibulum et consectetur diam. Sed varius nisl leo, vitae auctor velit imperdiet in. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse at odio lorem. In at iaculis dui, a convallis nibh. Vivamus rhoncus arcu quis purus euismod rutrum. Morbi a metus vitae metus finibus venenatis.'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed felis metus, lobortis eget nisi id, scelerisque sagittis eros. Duis eget tempor risus, id sagittis nisi. In accumsan sapien sed scelerisque mattis. Sed bibendum condimentum magna eget vestibulum. Etiam bibendum, justo vitae efficitur placerat, justo lorem bibendum eros, et mattis diam diam eget urna. Aenean id magna pharetra, auctor dui ut, ultrices turpis. Duis eu massa non libero dictum vestibulum et consectetur diam. Sed varius nisl leo, vitae auctor velit imperdiet in. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse at odio lorem. In at iaculis dui, a convallis nibh. Vivamus rhoncus arcu quis purus euismod rutrum. Morbi a metus vitae metus finibus venenatis.</i>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class='work-package-details-activities-activity'>
+    <div class='work-package-details-activities-activity-contents'>
+      <img alt='Avatar' class='avatar' src='https://s3.amazonaws.com/uifaces/faces/twitter/raquelwilson/128.jpg' title='OpenProject Admin'>
+      <span class='user'>
+        <a href='/users/1' name=''>OpenProject Admin</a>
+      </span>
+      <span class='date'>
+        updated on
+        <span  title='09/02/2014 8:51 AM'>
+          <span  title=''>09/02/2014</span>
+          <span  title=''>8:51 AM</span>
+        </span>
+      </span>
+      <div class='comments-number'>
+        <span>
+          <a href='#13' name='13'>#13</a>
+        </span>
+        <div class='comments-icons ng-hide'>
+          <i class='icon-quote action-icon'></i>
+          <i class='icon-edit action-icon'></i>
+        </div>
+      </div>
+      <div class="user-comment wiki">
+        <span class='comment wiki'>
+          <span class='message ng-hide'></span>
+        </span>
+        <ul class='work-package-details-activities-messages'>
+          <li>
+            <span class='message'>
+              <strong>Custom User</strong>
+              set to
+              <i title='Zena Labadie'>Zena Labadie</i>
+            </span>
+          </li>
+          <li>
+            <span class='message'>
+              <strong>Custom Description</strong>
+              changed from
+              <i title='QUAS'>QUAS</i>
+              to
+              <i title='QUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUAS  QUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUAS'>QUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUAS  QUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUASQUAS</i>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class='work-package-details-activities-activity'>
+    <h3 class='activity-date'>
+      <span class='activity-date--label'>September 12, 2014</span>
+    </h3>
+    <div class='work-package-details-activities-activity-contents'>
+      <img alt='Avatar' class='avatar' src='https://s3.amazonaws.com/uifaces/faces/twitter/teeragit/128.jpg' title='OpenProject Admin'>
+      <span class='user'>
+        <a href='/users/1' name=''>OpenProject Admin</a>
+      </span>
+      <span class='date'>
+        updated on
+        <span  title='09/12/2014 8:49 AM'>
+          <span  title=''>09/12/2014</span>
+          <span  title=''>8:49 AM</span>
+        </span>
+      </span>
+      <div class='comments-number'>
+        <span>
+          <a href='#14' name='14'>#14</a>
+        </span>
+        <div class='comments-icons ng-hide'>
+          <i class='icon-quote action-icon'></i>
+          <i class='icon-edit action-icon'></i>
+        </div>
+      </div>
+      <div class="user-comment wiki">
+        <span class='comment wiki'>
+          <span class='message ng-hide'></span>
+        </span>
+        <ul class='work-package-details-activities-messages'>
+          <li>
+            <span class='message'>
+              <strong>Description</strong>
+              changed (<a class='description-details' href='/journals/5543/diff/description'>Details</a>)
+            </span>
+          </li>
+          <li>
+            <span class='message'>
+              <strong>Assignee</strong>
+              set to
+              <i title='Deron Feil'>Deron Feil</i>
+            </span>
+          </li>
+          <li>
+            <span class='message'>
+              <strong>Responsible</strong>
+              set to
+              <i title='Zena Labadie'>Zena Labadie</i>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+```

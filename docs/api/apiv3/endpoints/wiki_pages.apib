@@ -1,0 +1,86 @@
+# Group Wiki Pages
+
+Represents an individual page in a project's wiki.
+
+*This resource is currently a stub*
+
+## Actions
+
+| Link                | Description                                                          | Condition                                                                                                                        |
+|:-------------------:|----------------------------------------------------------------------| ---------------------------------------                                                                                          |
+| addAttachment       | Attach a file to the wiki page                                       | **Permission**: edit wiki page      |
+
+## Linked Properties
+
+| Property         | Description                                            | Type        | Constraints    | Supported operations |
+| :--------------: | ------------------------------------------------------ | ----------- | -------------- | -------------------- |
+| self             | This wiki page                                         | WikiPage    | not null       | READ                 |
+| attachments      | The files attached to this wiki page                   | Collection  |                | READ                 |
+| project          | The project the wiki page belongs to                   | Project     | not null       | READ                 |
+
+## Local Properties
+
+| Property         | Description                                 | Type                  | Constraints                          | Supported operations |
+| :--------------: | ------------------------------------------- | -----------           | ------------------------------------ | -------------------- |
+| id               | Identifier of this wiki page                | Integer               | x > 0                                | READ                 |
+| title            | The wiki page's title                       | String                | not null                             | READ                 |
+
+## Wiki Page [/api/v3/wiki_pages/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "WikiPage",
+                "id": 72,
+                "title": "A wiki page with a name",
+                "_embedded": {
+                    "project": {
+                        "_type": "Project",
+                        "id": 12,
+                          <-- abbreviated -->
+                        }
+                    }
+                },
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/wiki_pages/72"
+                    },
+                    "attachments": {
+                        "href": "/api/v3/wiki_pages/72/attachments"
+                    },
+                    "addAttachment": {
+                        "href": "/api/v3/wiki_pages/72/attachments",
+                        "method": "post"
+                    },
+                    "project": {
+                        "href": "/api/v3/projects/12",
+                        "title": "some project"
+                    }
+                }
+            }
+
+## View Wiki Page [GET]
+
+Retrieve an individual wiki page as identified by the id parameter
+
++ Parameters
+    + id (required, integer, `1`) ... Wiki page identifier
+
++ Response 200 (application/hal+json)
+
+    [Wiki Page][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the wiki page does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** view wiki page in the page's project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The requested resource could not be found."
+            }

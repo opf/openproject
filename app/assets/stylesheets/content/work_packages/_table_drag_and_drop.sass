@@ -1,0 +1,35 @@
+//
+// Drag & Drop styles for the table
+//
+.wp--row.gu-mirror
+  border: 1px solid $table-row-border-color
+  border-radius: 5px
+  background: white !important
+
+  // Add some padding to avoid overlapping
+  // The subject with the cursor
+  padding-left: 20px
+
+  // Align the items correctly since
+  // we're no longer in a table context
+  display: flex
+  align-items: center
+
+// Hide the context menu button outside mobile
+html:not(.-browser-mobile)
+  .wp-table-context-menu-icon,
+  .wp-table--drag-and-drop-handle
+    // Hide from viewers, but allow to be focused
+    opacity: 0
+    display: inline-block
+    height: calc(#{$table-timeline--row-height} - 1px)
+    line-height: calc(#{$table-timeline--row-height} - 1px)
+
+
+  .issue:hover .wp-table-context-menu-icon,
+  .issue:hover .wp-table--drag-and-drop-handle,
+  .wp-table--context-menu-td:focus,
+  .wp-table-context-menu-icon:focus
+    // Hide by default
+    opacity: 100
+

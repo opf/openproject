@@ -1,0 +1,11 @@
+pl:
+  error_can_not_be_assigned: Rola nie może być przypisana do tego użytkownika
+  global_roles: Role ogólne
+  label_role_type: Typ
+  label_member_role: Rola projektu
+  label_global_role: Globalna rola
+  label_not_changeable: (niezmienialne)
+  label_no_assignable_role: Brak dostępnej roli do przydzielenia
+  label_global: Globalna
+  seeders:
+    default_role_project_creator: 'Twórca projektu'

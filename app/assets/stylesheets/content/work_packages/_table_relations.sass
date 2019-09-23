@@ -1,0 +1,48 @@
+body
+  .wp-table--relations-aditional-row,
+  .wp-table--relation-cell-td.-expanded
+    background: $table-row-relations-row-background-color
+
+  .wp-table--relation-cell-td.-expanded
+    border-bottom: 1px solid $table-row-relations-row-background-color
+
+
+// Show the correct icon for the current expansion state
+.wp-table--relation-indicator
+  @include icon-common
+  @extend .icon-arrow-down1
+  font-size: 0.6rem
+  cursor: pointer
+
+  .wp-table--relation-cell-td.-expanded &
+    @extend .icon-arrow-up1
+
+// Add some margin between badge and indicator
+.wp-table--relation-count.-border-only
+  margin-right: 5px
+  background: white
+
+// Override default left-align of cells
+.wp-table--relation-cell-td,
+  text-align: center !important
+
+// Fix padding on additional row/id field
+// since we don't have the edit-span's padding here
+.relation-row--id-cell
+  padding-left: 5px !important
+
+// Style the relation label
+.relation-row--type-label
+  background: white
+  padding: 2px
+  border: 1px solid $gray
+  border-radius: 5px
+  margin-right: 5px
+  font-size: 0.7rem
+
+.relation-row--type
+  cursor: default
+
+// Reduce padding of relations icon in relation columns
+.relations-header--icon:before
+  padding: 0 2px 0 0

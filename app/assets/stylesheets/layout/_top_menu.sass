@@ -1,0 +1,262 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See docs/COPYRIGHT.rdoc for more details.
+//++
+
+$hamburger-right: -3px
+$hamburger-width: 50px
+
+%top-menu-hover-styles
+  @include varprop(background, header-item-bg-hover-color)
+  @include varprop(color, header-item-font-hover-color)
+  @include varprop(border-bottom-width, header-border-bottom-width)
+  @include varprop(border-bottom-color, header-border-bottom-color)
+  border-bottom-style: solid
+
+%top-menu-link-styles
+  display: block
+  height: $header-height
+  line-height: $header-height
+  zoom: 1
+  @include varprop(color, header-item-font-color)
+  @include varprop(font-size, header-item-font-size)
+  text-decoration: none
+  padding: 0 15px
+  &:hover
+    @extend %top-menu-hover-styles
+
+#logo
+  width: 230px
+  @include varprop(height, header-height)
+  position: absolute
+  left: calc(50% - 230px / 2)
+
+  .home-link
+    margin-top: 12px
+    display: block
+    height: 30px
+    background: $header-home-link-bg
+    text-indent: -9999em
+    background-position: center
+    background-size: contain
+    background-repeat: no-repeat
+
+#top-menu
+  @include varprop(background-color, header-bg-color)
+  height: $header-height
+  padding: 0
+  z-index: 22
+  border-bottom-style: solid
+  @include varprop(border-bottom-width, header-border-bottom-width)
+  @include varprop(border-bottom-color, header-border-bottom-color)
+  .menu_root
+    margin: 0
+    padding: 0
+    float: left
+    height: $header-height
+    border-top: 0
+    flex: 1 1 auto
+  li.drop-down,
+  li.top-menu--login,
+  li.help-menu--overridden-link
+    float: left
+    list-style-type: none
+    white-space: nowrap
+    position: relative
+    z-index: 5
+    padding: 0
+    > a
+      @extend %top-menu-link-styles
+
+      &:hover .icon-help:before
+        @include varprop(border-color, header-item-font-hover-color)
+
+    > ul
+      min-width: 270px
+      padding: 6px 0
+      border: 1px solid $header-drop-down-border-color
+      border-top: 0
+      background-color: $header-drop-down-bg-color
+      max-height: calc(100vh - #{$header-height})
+      overflow-y: auto
+      overflow-x: hidden
+
+      @include styled-scroll-bar
+
+      li
+        float: none
+    > ul.drop-down--projects
+      width: 400px
+      left: 0px
+
+  li.drop-down.open
+    .button--dropdown-indicator:before
+      @include icon-mixin-pulldown-up
+
+  li.last-child > ul,
+  .drop-down--help,
+  .drop-down--modules
+    left: auto
+    right: 0
+
+  .drop-down--projects
+    > li
+      &:nth-last-child(2)
+        margin-bottom: 6px
+
+  .drop-down--help
+    .form--separator
+      margin-bottom: 10px
+      &+ li
+        margin-bottom: 5px
+    .drop-down--help-headline
+      padding-left: 10px
+      font-size: 12px
+      color: $gray-dark
+      text-transform: uppercase
+
+  #loggedas
+    float: right
+    margin-right: 0.5em
+    color: #fff
+  #nav-login-content
+    width: 506px
+    position: relative
+    position-top: 44px
+    float: right
+    background: #FFFFFF
+    border: 0 solid #194E60
+    border-top: 0
+    line-height: 19px
+    padding: 15px 10px 15px 15px
+    @include default-font(#555555, 13px)
+
+    a
+      display: inline
+      padding: 0
+      font-weight: normal
+    table td
+      padding: 3px
+
+  .skip-navigation-link:focus
+    top: 40px
+    left: 260px
+    @include varprop(color, font-color-on-primary)
+
+#quick-search
+  float: right
+
+#top-menu-items
+  padding-top: 0
+  display: flex
+  align-items: center
+  .top-menu-items-right
+    display: flex
+
+#header
+  .chzn-container .chzn-results .highlighted
+    background-color:  #24b3e7
+
+.account-nav
+  display: block
+  li
+    a
+      @include text-shortener
+      display: block
+      padding: 0 9px 0
+
+#account-nav-left
+  .drop-down
+    // Half viewport width minus half logo.
+    max-width: calc((100vW/2) - 115px - #{$hamburger-width + $hamburger-right})
+    .nosidebar &
+      max-width: calc((100vW/2) - 115px)
+  #projects-menu
+    font-weight: bold
+    padding-left: 6px
+    .nosidebar &
+      padding-left: 15px
+
+    .button--dropdown-text
+      @include text-shortener
+      // Half viewport width minus half logo minus margins.
+      max-width: calc((100vW/2) - 115px - 50px - #{$hamburger-width + $hamburger-right})
+      .nosidebar &
+        max-width: calc((100vW/2) - 115px - 50px)
+
+    &:after
+      position: absolute
+      right: 15px
+      top: calc(50% - 10px / 2)
+
+#top-menu #account-nav-left .menu-drop-down-container
+  overflow: hidden
+
+#account-nav-right
+  display: flex
+  .last-child
+    .avatar
+      // To accommodate the padding of the help icon which exists because of the circle
+      margin-top: -5px
+    .avatar-default
+      border: 1px solid
+      @include varprop(border-color, header-item-font-color)
+
+  .icon-help:before
+    border-width: 2px
+    border-style: solid
+    @include varprop(border-color, header-item-font-color)
+    border-radius: 50%
+    width: 26px
+    height: 26px
+    display: inline-block
+
+  .icon-user
+    font-size: 18px
+  [class*="icon-"]:before
+    padding: 0.25rem
+
+
+#main-menu-toggle
+  display: block
+  width: $hamburger-width
+  height: $header-height-mobile
+  float: left
+  text-align: center
+  margin-right: $hamburger-right
+  > a
+    @extend %top-menu-link-styles
+
+  .nosidebar &
+    display: none
+
+@media only screen and (max-width: 18.75rem)
+  #logo
+    max-width: 170px
+
+@media only screen and (max-width: 1210px)
+  #logo
+    display: none

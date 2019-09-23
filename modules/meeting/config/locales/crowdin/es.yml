@@ -1,0 +1,64 @@
+es:
+  activerecord:
+    attributes:
+      meeting:
+        location: "Ubicación"
+        duration: "Duración"
+        participants: "Participantes"
+        participants_attended: "Asistentes"
+        participants_invited: "Invitados"
+        start_time: "Tiempo"
+        start_time_hour: "Hora de inicio"
+    errors:
+      messages:
+        invalid_time_format: "no es una hora válida. Formato requerido: HH:MM"
+    models:
+      meeting_agenda: "Agenda"
+      meeting_minutes: "Minutos"
+  description_attended: "ha asistido"
+  description_invite: "invitado"
+  events:
+    meeting: Reunión editada
+    meeting_agenda: Agenda de reuniones editada
+    meeting_agenda_closed: Agenda de reuniones cerrada
+    meeting_agenda_opened: Agenda de reuniones abierta
+    meeting_minutes: Minutos de reuniones editados
+    meeting_minutes_created: Minutos de reuniones creados
+  error_notification_with_errors: "Error al enviar la notificación. Los siguientes destinatarios no han sido notificados: %{recipients}"
+  label_meeting: "Reunión"
+  label_meeting_plural: "Reuniones"
+  label_meeting_new: "Nueva reunión"
+  label_meeting_edit: "Editar reunión"
+  label_meeting_agenda: "Agenda"
+  label_meeting_minutes: "Minutos"
+  label_meeting_close: "Cerrar"
+  label_meeting_open: "Abrir"
+  label_meeting_agenda_close: "Cerrar la agenda para comenzar los minutos"
+  label_meeting_date_time: "Fecha/hora"
+  label_meeting_diff: "Diferencia"
+  label_notify: "Enviar para revisión"
+  label_icalendar: "Enviar iCalendar"
+  label_version: "Versión"
+  label_time_zone: "Zona horaria"
+  label_start_date: "Fecha de inicio"
+  notice_successful_notification: "Notificación enviada correctamente"
+  notice_timezone_missing: No se ha establecido zona horaria y se asume %{zone}. Para elegir su zona horaria, por favor, haga clic aquí.
+  permission_create_meetings: "Crear reuniones"
+  permission_edit_meetings: "Editar reuniones"
+  permission_delete_meetings: "Eliminar reuniones"
+  permission_view_meetings: "Ver reuniones"
+  permission_create_meeting_agendas: "Gestionar agendas"
+  permission_close_meeting_agendas: "Cerrar agendas"
+  permission_send_meeting_agendas_notification: "Enviar notificaciones de revisión para las agendas"
+  permission_create_meeting_minutes: "Gestionar minutos"
+  permission_send_meeting_minutes_notification: "Enviar notificaciones de revisión para los minutos"
+  project_module_meetings: "Reuniones"
+  text_duration_in_hours: "Duración en horas"
+  text_in_hours: "en horas"
+  text_meeting_agenda_for_meeting: 'agenda para la reunión "%{meeting}"'
+  text_meeting_closing_are_you_sure: "¿Está seguro que desea cerrar la reunión?"
+  text_meeting_agenda_open_are_you_sure: "¡El contenido no guardado de los minutos se perderá! ¿Continuar?"
+  text_meeting_minutes_for_meeting: 'minutos para la reunión "%{meeting}"'
+  text_review_meeting_agenda: "%{author} ha puesto el %{link} para revisión."
+  text_review_meeting_minutes: "%{author} ha puesto el %{link} para revisión."
+  text_notificiation_invited: "El correo electrónico contiene una entrada ics para la reunión siguiente:"

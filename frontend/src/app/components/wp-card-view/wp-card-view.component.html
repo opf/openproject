@@ -1,0 +1,87 @@
+<div #container
+     [ngClass]="'wp-cards-container -' + orientation">
+  <div *ngIf="inReference"
+       class="wp-inline-create--reference-container">
+    <ndc-dynamic [ndcDynamicComponent]="referenceClass"
+                 [ndcDynamicInjector]="injector"
+                 [ndcDynamicOutputs]="referenceOutputs">
+    </ndc-dynamic>
+  </div>
+
+  <div class="wp-card"
+       *ngFor="let wp of workPackages; trackBy:trackByHref"
+       [attr.data-is-new]="wp.isNew || undefined"
+       [attr.data-work-package-id]="wp.id"
+       [attr.data-class-identifier]="classIdentifier(wp)"
+       [ngClass]="cardClasses(wp)">
+
+    <div class="wp-card--highlighting"
+        [ngClass]="cardHighlightingClass(wp)">
+    </div>
+
+    <div class="wp-card--inline-buttons">
+      <a class="wp-card--inline-cancel-button -no-decoration"
+         *ngIf="wp.isNew || cardsRemovable"
+         [ngClass]="{ '-show': wp.isNew }"
+         [title]="text.removeCard"
+         (accessibleClick)="removeCard(wp)">
+        <op-icon icon-classes="icon icon-close"></op-icon>
+      </a>
+
+      <a class="-no-decoration"
+         *ngIf="!wp.isNew && showInfoButton"
+         [title]="text.detailsView"
+         (accessibleClick)="openSplitScreen(wp)">
+        <op-icon icon-classes="icon icon-info2"></op-icon>
+      </a>
+    </div>
+
+    <wp-edit-field-group [workPackage]="wp"
+                         [inEditMode]="wp.isNew"
+                         *ngIf="wp.isNew">
+      <div class="wp-card--content -new">
+        <wp-edit-field [workPackageId]="wp.id"
+                       [wrapperClasses]="'work-packages--type-selector'"
+                       [fieldName]="'type'"
+                       class="wp-card--type">
+        </wp-edit-field>
+        <wp-edit-field [workPackageId]="wp.id"
+                       fieldName="subject"
+                       class="wp-card--subject -bold">
+        </wp-edit-field>
+      </div>
+    </wp-edit-field-group>
+
+    <img *ngIf="this.bcfSnapshotPath(wp)" [src]="this.bcfSnapshotPath(wp)" class="wp-card--cover-image">
+
+    <div *ngIf="!wp.isNew"
+         class="wp-card--content">
+      <span [textContent]="wpTypeAttribute(wp)"
+          class="wp-card--type"
+          [ngClass]="typeHighlightingClass(wp)"></span>
+      <a uiSref="work-packages.show"
+         [uiParams]="{workPackageId: wp.id}"
+         class="wp-card--id"
+         [ngClass]="uiStateLinkClass">
+        #{{wp.id}}
+      </a>
+      <span [textContent]="wpSubject(wp)"
+            class="wp-card--subject"></span>
+      <wp-status-button *ngIf="showStatusButton"
+                        [workPackage]="wp"
+                        class="wp-card--status">
+      </wp-status-button>
+      <user-avatar *ngIf="wp.assignee"
+                   [user]="wp.assignee"
+                   data-class-list="avatar-mini"
+                   class="wp-card--assignee">
+      </user-avatar>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="showEmptyResultsBox && isResultEmpty">
+  <no-results [title]="text.noResults.title" [description]="text.noResults.description"></no-results>
+</div>
+
+

@@ -1,0 +1,80 @@
+<%#-- copyright
+OpenProject Backlogs Plugin
+
+Copyright (C)2013-2014 the OpenProject Foundation (OPF)
+Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
+Copyright (C)2010-2011 friflaj
+Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns
+Copyright (C)2009-2010 Mark Maglana
+Copyright (C)2009 Joe Heck, Nate Lowrie
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License version 3.
+
+OpenProject Backlogs is a derivative work based on ChiliProject Backlogs.
+The copyright follows:
+Copyright (C) 2010-2011 - Emiliano Heyns, Mark Maglana, friflaj
+Copyright (C) 2011 - Jens Ulferts, Gregor Schmidt - Finn GmbH - Berlin, Germany
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% content_for :header_tags do %>
+  <%= render :partial => 'shared/backlogs_header' %>
+  <%= stylesheet_link_tag 'backlogs/master_backlog.css' %>
+<% end %>
+
+<div class='contextual'></div>
+<% html_title l(:label_backlogs) %>
+
+<%= toolbar title: t(:label_backlogs) do %>
+    <li class="toolbar-item">
+      <%= link_to_if_authorized({ controller: '/versions', action: 'new', project_id: @project },
+                                { class: 'button -alt-highlight',
+                                  aria: { label: t(:label_version_new) },
+                                  title: t(:label_version_new) }) do %>
+          <%= op_icon('button--icon icon-add') %>
+          <span class="button--text"><%= t('activerecord.models.version') %></span>
+      <% end %>
+    </li>
+<% end %>
+
+<% if (@owner_backlogs.empty? && @sprint_backlogs.empty?) %>
+  <%= no_results_box action_url: new_project_version_path(@project),
+                     display_action: authorize_for('versions', 'new'),
+                     custom_title: t(:backlogs_empty_title),
+                     custom_action_text: t(:backlogs_empty_action_text)
+
+  %>
+<% end %>
+
+<div id="rb">
+  <div id="backlogs_container" class="clearfix">
+    <div id="owner_backlogs_container">
+      <%= render :partial => 'backlog', :collection => @owner_backlogs %>
+    </div>
+    <div id="sprint_backlogs_container">
+      <%= render :partial => 'backlog', :collection => @sprint_backlogs %>
+    </div>
+  </div>
+
+  <div id="helpers">
+    <%= render :partial => "rb_stories/helpers" %>
+    <div id="last_updated"><%= date_string_with_milliseconds(@last_update, 0.001) %></div>
+  </div>
+</div>

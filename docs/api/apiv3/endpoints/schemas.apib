@@ -1,0 +1,205 @@
+# Group Schemas
+
+The schema provides more detailed information about the properties of a resource.
+The schema is represented by a dictionary containing names of resource properties as keys
+and objects describing the corresponding property as values.
+These objects are called **field schema** and form the core of the schema representation,
+each of them can contain its own `_links` and `_embedded` section.
+
+
+## Linked Properties
+
+| Link                | Description                              | Type          | Nullable | Supported operations |
+|:-------------------:| ---------------------------------------- | ------------- | -------- | -------------------- |
+| self                | This schema                              | Schema        |          | READ                 |
+
+## Local Properties
+
+| Property            | Description                                                                        | Type             |
+| :-----------------: | ---------------------------------------------------------------------------------- | ---------------- |
+| _dependencies       | A list of dependencies between one propertie's value and another property          | SchemaDependency |
+
+The `_dependencies` property contains the list of dependencies that exist between the value selected for one of the properites of the described resource and the resoure's structure. Depending on the value, additional properties might exist or properties might have other values allowed to be assigned. See [SchemaDependency](#schema-dependencies) for more information.
+
+# Field schema
+
+## Linked Properties
+
+| Property             | Description                                                    | Conditions                                           |
+| :--------------:     | -------------------------------------------------------------- | ---------------------------------------------        |
+| allowedValues        | List of resources that are assignable by the current user.     | Will not exist if `allowedValuesSchemas` is present. |
+| allowedValuesSchemas | Link to schemas furhter describing the property.               | Will not exist if `allowedValues` is present.        |
+
+The `allowedValues` can either contain a list of canonical links or just a single link to a collection resource.
+This is an optimization to allow efficient handling of both small resource lists (that can be enumerated inline) and large
+resource lists (requiring one or more separate requests).
+
+The `allowedValuesSchemas` will on rare occasions (e.g. for a [Query](#query)) replace `allowedValues`. This is done when there is no fixed set of allowed values. Instead, the allowed values will have to follow a schema, or one of a list of schemas, in its own right.
+
+Only one of the links (`allowedValues`, `allowedValuesSchemas`) will exist for any given property.
+
+## Local Properties
+
+| Property          | Description                                                                        | Type     | Default |
+|:-----------------:| ---------------------------------------------------------------------------------- | -------- | ------- |
+| name              | Human readable name of the property as it could be displayed in a UI               | String   |         |
+| type              | The data type of the properties values                                             | MetaType |         |
+| minLength         | The value of the property must at least contain the specified amount of characters | Integer  | 0       |
+| maxLength         | The value of the property must at most contain the specified amount of characters  | Integer  | ∞       |
+| regularExpression | The value of the property must match the given regular expression (if not null)    | String   | null    |
+| required          | If true this property is not nullable                                              | Boolean  | true    |
+| writable          | If false it is not allowed to **change** the properties value                      | Boolean  | true    |
+
+All of the above properties that do not have a default value *must* be present in the schema.
+For properties that have a default value, the client can assume the default value, if the property is missing.
+
+Note that regular expressions used in the API follow the rules of [Ruby Regular Expressions](http://www.ruby-doc.org/core-2.2.6/Regexp.html).
+
+# Schema Dependencies
+
+A SchemaDependency describes the dependencies between a value chosen for a resource's property and the resource's structure. By that, additional properties or changes in a property are described. A SchemaDependency will never describe a property to disappear, only to appear. As such it always provides additional information. For a property that is depending on another propertie's value, this can result in not being listed in the resource's schema itself at all. This will be the case if the existence of the a property as a whole will be dependent. If only one of the aspects (e.g. *writable*) of the property changes with the selected value, the property itself will already be listed in the schema, but it will lack the dependent aspect.
+
+Given that SchemaDependencies will only add information, and the content type of JSON, a client should be able to join the two objects, the schema and the dependency, into one object easily.
+
+SchemaDependencies are always embedded inside a Schema's `_dependencies` attribute. As such, they are not independently existing resources. Consequently, they do not have a `self` reference.
+
+## Linked Properties
+
+| Link                | Description                              | Type          | Nullable | Supported operations |
+|:-------------------:| ---------------------------------------- | ------------- | -------- | -------------------- |
+
+A SchemaDependency does not have any links.
+
+## Local Properties
+
+| Property            | Description                                                                        | Type             |
+| :-----------------: | ---------------------------------------------------------------------------------- | ---------------- |
+| on                  | The name of the property on which the dependency exists                            | string           |
+| dependencies        | The additions to a schema grouped by the value of the depending property           | object           |
+
+The following excerpt examplifies the objects that can be found as a value of the `dependencies` property:
+
+```
+{
+  "_type": "SchemaDependency",
+  "on": "someProperty",
+  "dependencies": {
+    "1": {
+      "loremIpsum": {
+        "type": "User",
+        "name": "Lorem ipsum",
+        "required": true,
+        "hasDefault": false,
+        "writable": true,
+        "_links": {
+          "allowedValues": {
+            "href": "/api/v3/some/path/to/users"
+          }
+        }
+      }
+    },
+    "2": {
+      "loremIpsum": {
+        "type": "User",
+        "name": "Lorem ipsum",
+        "required": true,
+        "hasDefault": false,
+        "writable": true,
+        "_links": {
+          "allowedValues": {
+            "href": "/api/v3/a/totally/different/path/to/other/users"
+          }
+        }
+      }
+    },
+    "3": {
+      "loremIpsum": {
+        "type": "User",
+        "name": "Lorem ipsum",
+        "required": true,
+        "hasDefault": false,
+        "writable": false
+      }
+    },
+    "4": {}
+  }
+}
+```
+
+Given the example above, the client has to add the property `loremIpsum` to the schema if the depending property is `1`, `2` or `3`. If it is `4` the property does not exist. The property will not be writable if the value is `3`. The values allowed to be set differ between having `1` or `2` selected for the depending property.
+
+Because of the limitation of JSON objects, all keys will be strings, even when the depending value is actually someting different (e.g. Integer, Date). This is also true for resources in which case the url of the resource is used as the key.
+
+## Example Schema [/api/v3/example/schema]
+
++ Model
+    + Body
+
+            {
+                "_type": "Schema",
+                "_dependencies": [],
+                "_links": {
+                    "self": { "href": "/api/v3/example/schema" }
+                },
+
+                "lockVersion": {
+                    "name": "Resource Version",
+                    "type": "Integer",
+                    "writable": false
+                },
+                "subject": {
+                    "name": "Subject",
+                    "type": "String",
+                    "minLength": 1,
+                    "maxLength": 255
+                },
+                "status": {
+                    "_links": {
+                        "allowedValues": [
+                            { "href": "/api/v3/statuses/1", "title": "New" },
+                            { "href": "/api/v3/statuses/2", "title": "Closed" }
+                        ]
+                    },
+
+                    "name": "Status",
+                    "type": "Status",
+
+                    "_embedded": {
+                        "allowedValues": [
+                            {
+                                "_links": { "self": { "href": "/api/v3/statuses/1" } },
+                                "_type": "Status",
+                                "id": 1,
+                                "name": "New",
+                                "position": 1,
+                                "isDefault": true,
+                                "isClosed": false,
+                                "defaultDoneRatio": 0,
+                                "createdAt": "2014-05-21T08:51:20Z",
+                                "updatedAt": "2014-05-21T09:12:00Z"
+                            },
+                            {
+                                "_links": { "self": { "href": "/api/v3/statuses/2" } },
+                                "_type": "Status",
+                                "id": 2,
+                                "name": "Closed",
+                                "position": 2,
+                                "isDefault": false,
+                                "isClosed": true,
+                                "defaultDoneRatio": 100,
+                                "createdAt": "2014-05-21T08:51:20Z",
+                                "updatedAt": "2014-05-21T09:12:00Z"
+                            }
+                        ]
+                    }
+                }
+            }
+
+## view the schema [GET]
+
+This is an example of how a schema might look like. Note that this endpoint does not exist in the actual implementation.
+
++ Response 200 (application/hal+json)
+
+    [Example Schema][]
+

@@ -1,0 +1,53 @@
+lt:
+  js:
+    grid:
+      add_widget: 'Pridėti valdiklį'
+      remove: 'Išimti valdiklį'
+      upsale:
+        text: "Some widgets, like the work package graph widget, are only available in the "
+        link: 'enterprise edition.'
+      widgets:
+        custom_text:
+          title: 'Pritaikytas tekstas'
+        documents:
+          title: 'Dokumentai'
+          no_results: 'No documents yet.'
+        members:
+          title: 'Nariai'
+          no_results: 'Nėra matomų narių.'
+          view_all_members: 'Rodyti visus narius'
+          add: 'Narys'
+          too_many: 'Rodomi %{count} iš %{total} narių.'
+        news:
+          title: 'Naujienos'
+          at: 'at'
+          no_results: 'Nėra jokių ataskaitų.'
+        project_description:
+          title: 'Projekto aprašymas'
+          no_results: "Dar neįrašytas aprašymas. Jį galima nurodyti „Projekto nustatymuose“."
+        project_details:
+          title: 'Projekto ypatybės'
+          no_results: 'Projektui nenurodyti savi laukai.'
+        subprojects:
+          title: 'Sub-projektai'
+          no_results: 'Nėra su-projektų.'
+        time_entries_list:
+          title: 'Spent time (last 7 days)'
+          no_results: 'No time entries for the last 7 days.'
+        work_packages_accountable:
+          title: "Work packages I am accountable for"
+        work_packages_assigned:
+          title: 'Man priskirti darbų paketai'
+        work_packages_created:
+          title: 'Work packages created by me'
+        work_packages_watched:
+          title: 'Work packages watched by me'
+        work_packages_table:
+          title: 'Darbo paketų lentelė'
+        work_packages_graph:
+          title: 'Darbo paketų grafas'
+        work_packages_calendar:
+          title: 'Kalendorius'
+        work_packages_overview:
+          title: 'Darbo paketų peržiūra'
+          placeholder: 'Spauskite keitimui...'

@@ -1,0 +1,423 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See docs/COPYRIGHT.rdoc for more details.
+//++
+
+$toggler-width: 40px
+$menu-item-line-height: 30px
+
+@mixin main-menu-hover
+  @include varprop(background, main-menu-bg-hover-background)
+  @include varprop(color, main-menu-hover-font-color)
+
+@mixin main-menu-selected
+  @include varprop(background, main-menu-bg-selected-background)
+  @include varprop(color, main-menu-selected-font-color)
+
+.main-menu
+  @include varprop(width, main-menu-width)
+  @include varprop(min-width, main-menu-width)
+  overflow-x: hidden
+  border-right-style: solid
+  @include varprop(border-right-width, main-menu-border-width)
+  @include varprop(border-right-color, main-menu-border-color)
+  @include varprop(background-color, main-menu-bg-color)
+
+  #menu-sidebar
+    +allow-vertical-scrolling
+    height: calc(100vh - #{$header-height})
+    position: relative
+    @include styled-scroll-bar
+
+    // Fixed heights to allow inner scrolling
+    .menu_root.closed,
+    .menu_root > li.open,
+    wp-query-select,
+    .wp-query-menu--container,
+    .wp-query-menu--search-container,
+    .main-menu--children > li.partial:only-child
+      height: 100%
+
+    .main-menu--children > li.partial
+      height: initial
+
+    .main-menu--children
+      height: calc(100% - (#{$main-menu-item-height} + 10px)) // 10px spacing
+      overflow: auto
+      @include styled-scroll-bar
+
+  ul
+    margin: 0
+    padding: 0
+
+    // -------------------- ALL menu items ---------------------------
+    li
+      float: none
+      list-style-type: none
+      margin: 0
+      padding: 0
+      white-space: nowrap
+      position: relative
+      min-height: 23px
+
+      &.ng-leave
+        @include animation(0.5s fade-out)
+
+      [class*="-menu-item"]
+        display: flex
+        align-items: center
+
+    // -------------------- MAIN menu items ---------------------------
+    li a
+      // work around due to dom manipulation on document: ready:
+      // this isn't scoped to .main-item-wrapper to avoid flickering
+      padding-left: 11px
+      &.toggler
+        // explicitly reset to zero to avoid selector precedence problems
+        padding-left: 0
+    .main-menu--children li a
+      // children have no icon so we need to push them right.
+      padding-left: 32px
+
+  a
+    text-decoration: none
+    line-height: $main-menu-item-height
+    display: block
+    position: relative
+    height: $main-menu-item-height
+    @include varprop(color, main-menu-font-color)
+    font-family: $body-font-family
+    font-weight: normal
+    font-size: $main-menu-font-size
+    font-style: normal
+    &:hover
+      text-decoration: none
+
+  .toggler
+    width: $toggler-width
+    height: $main-menu-item-height
+    text-align: center
+    overflow: hidden
+
+  .toggle-follow
+    position: absolute
+    width: 140px
+  .icon-time
+    background: none
+    padding: 0
+
+$arrow-left-width: 40px
+
+.main-item-wrapper
+  display: flex
+
+
+  .toggler:hover
+    @include main-menu-hover
+
+  a
+    &.selected, &.selected + a
+      @include main-menu-selected
+
+      &:hover
+        @include main-menu-hover
+
+    &:hover, &:focus , &:active
+      @include main-menu-hover
+
+      &~ .toggler
+        @include main-menu-hover
+
+  a:not(.toggler)
+    @extend .small-12
+
+  a:not(:only-child):first-of-type
+    flex: 0 0 calc(100% - 40px)
+    max-width: calc(100% - 40px)
+
+// -------------------- CHILD menu items ---------------------------
+.main-menu--children
+  display: none
+  padding-top: 10px
+  padding-bottom: 10px
+  padding: 0
+  width: 100%
+  &.unattached
+    border-top: 1px solid #ddd
+  li
+    &.partial
+      padding-bottom: 10px
+
+      // resetting styles in partials.
+      background: initial
+      &:hover,
+      li,
+      li:hover
+        background: initial
+        a:not(.main-menu--children-sub-item)
+          padding: initial
+
+    &:hover
+      // simultaneously hover all menu item anchor tags
+      > a
+        @include varprop(color, main-menu-bg-hover-background)
+
+    > a
+      &.selected, &.selected
+        @include main-menu-selected
+      &:hover, &:focus , &:active
+        @include main-menu-hover
+
+.main-menu--children-menu-header
+  padding: 10px 10px 0 10px
+  height: calc(#{$main-menu-item-height} + 10px)
+
+.main-menu--arrow-left-to-project
+  display: inline-block
+  width: $arrow-left-width
+  float: left
+  border-radius: 3px
+  padding-left: 14px
+  padding-right: 14px
+  width: 40px
+  &:hover, &:focus, &:active
+    @include main-menu-hover
+
+a.main-menu--parent-node
+  display: inline-block
+  padding: 0px 11px 0 11px
+  font-size: $main-menu-font-size
+  font-weight: 700
+  width: calc(100% - #{$arrow-left-width})
+  height: $main-menu-item-height
+  line-height: $main-menu-item-height
+  border-radius: 3px
+  @include varprop(color, main-menu-font-color)
+  &:hover, &:focus, &:active
+    @include main-menu-hover
+
+// logic for showing either parent or child menu
+.main-menu
+  ul.menu_root
+    &.closed
+      li
+        display: none
+      > li.open
+        display: list-item
+
+        .main-item-wrapper
+          display: none
+
+        // Avoid that the original menu item is shortly shown before it is overwritten by
+        // the parent menu entry with the toggler
+        [class*="-menu-item"] .icon2,
+        [class*="-menu-item"] .icon2 ~ .menu-item--title
+          visibility: hidden
+
+        .main-menu--children
+          display: block
+          li
+            display: list-item
+    &.open
+      > li
+        display: list-item
+        .main-menu--children-menu-header
+          display: none
+
+.hidden-navigation
+  .main-menu
+    width: $main-menu-folded-width
+    min-width: $main-menu-folded-width
+    ul
+      &.menu_root
+        > li
+          .main-item-wrapper
+            a:not(:only-child)
+              @extend .small-12
+
+          .ellipsis
+            text-overflow: clip
+            -o-text-overflow: clip
+            -ms-text-overflow: clip
+          .toggler
+            display: none
+
+  #sidebar,
+  .main-menu--children
+    display: none
+
+#sidebar
+  margin: 30px 0 0 0
+  padding: 0 17px 0 17px
+  width: auto
+  @include varprop(color, main-menu-sidebar-font-color)
+  font-family: $body-font-family
+  font-style: normal
+
+  h3
+    display: block
+    border: none
+    @include varprop(color, main-menu-sidebar-h3-color)
+    font-weight: normal
+    font-size: $main-menu-sidebar-h3-font-size
+    margin: 30px 0 8px 0
+    padding: 10px 0 0 0
+
+    text-transform: uppercase
+
+  > h3:first-child
+    margin-top: 0
+
+  a, a:link
+    @include varprop(color, main-menu-sidebar-link-color)
+    display: inline
+    position: static
+    text-decoration: underline
+
+  a:hover
+    text-decoration: underline
+
+  label
+    @include varprop(color, main-menu-sidebar-font-color)
+    @include text-shortener
+    max-width: 80%
+    vertical-align: top
+
+  ul
+    border: none
+    overflow-x: hidden
+    li
+      border: none
+    li a
+      padding: 0
+
+  &.-hidden
+    display: none
+
+.menu-wiki-pages-tree
+  height: 100%
+  overflow: auto
+  border-top: $main-menu-border-width solid $main-menu-border-color
+  padding-top: 7px
+  padding-left: 7px
+  padding-right: 7px
+
+  @include styled-scroll-bar
+
+.main-menu--segment-header
+  @include varprop(color, main-menu-fieldset-header-color)
+  text-transform: uppercase
+  padding-left: $hierarchy-span-width
+  font-size: 0.7rem
+
+.main-menu--resizer
+  background: none
+  height: 100vh
+  width: 18px
+  position: fixed
+  top: 0px
+  border-left-width: 2px
+  border-left-style: solid
+  border-left-color: transparent
+  left: calc(#{$main-menu-width} - 2px)
+  left: calc(var(--main-menu-width) - 2px)
+  vertical-align: middle
+  z-index: 1
+  cursor: col-resize
+  &:hover
+    @include varprop(border-left-color, main-menu-resizer-color)
+    .main-menu--navigation-toggler
+      opacity: 1
+      i:before
+        @include varprop(color, main-menu-navigation-toggler-font-hover-color)
+
+  &.show
+    left: $main-menu-folded-width
+
+.main-menu--navigation-toggler
+  .hidden-navigation &
+    text-align: right
+    opacity: 0
+    cursor: col-resize
+    &:hover
+      @include varprop(color, main-menu-navigation-toggler-font-hover-color)
+      i:before
+        @include icon-mixin-arrow-right2
+    i:before
+      @include icon-mixin-arrow-right2
+
+  position: absolute
+  top: 0
+  height: 40px
+  text-align: left
+  margin-top: 50vh
+  margin-left: -14px
+  padding: 0
+  // Center toggle icon vertically. The element is higher than it looks like.
+  line-height: 38px
+  i
+    display: inline-block
+    width: 30px
+    cursor: pointer
+    line-height: 40px
+    &:before
+      color: $light-gray
+      padding-right: 0
+      padding-left: 2px
+  &:hover
+    @include varprop(color, main-menu-navigation-toggler-font-hover-color)
+    font-size: 11px
+    i:before
+      padding-left: 0
+      @include icon-mixin-arrow-left2
+
+#main-menu ul ul.main-menu--children ul.pages-hierarchy
+  .tree-menu--hierarchy-indicator
+    @include varprop(color, main-menu-font-color)
+  .tree-menu--item
+    &.-selected
+      @include varprop(background, main-menu-bg-selected-background)
+      .tree-menu--title
+        @include varprop(color, main-menu-selected-font-color)
+    &:hover
+      @include varprop(background, main-menu-bg-hover-background)
+      .tree-menu--title
+        @include varprop(color, main-menu-hover-font-color)
+        text-decoration: none
+
+
+
+// Badges for menu items such as "EXPERIMENTAL" or "BETA"
+$badge_offset: 4px
+
+.main-item--badge
+  font-size: 10px
+  position: relative
+  top: -$badge_offset
+  text-transform: uppercase
+  margin-left: 5px
+  font-weight: bold
+  font-style: italic

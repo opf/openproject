@@ -1,0 +1,29 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2014 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.md for more details.
+#++
+
+de:
+  github_integration:
+    pull_request_opened_comment: >
+      **PR Geöffnet:** "Pull request %{pr_number} “%{pr_title}”":%{pr_url} in "%{repository}":%{repository_url}
+      wurde von "%{github_user}":%{github_user_url} geöffnet.
+    pull_request_closed_comment: >
+      **PR Geschlossen:** "Pull request %{pr_number} “%{pr_title}”":%{pr_url} in "%{repository}":%{repository_url}
+      wurde von "%{github_user}":%{github_user_url} geschlossen.
+    pull_request_merged_comment: >
+      **PR Merged:** "Pull request %{pr_number} “%{pr_title}”":%{pr_url} in "%{repository}":%{repository_url}
+      wurde von "%{github_user}":%{github_user_url} gemerged.
+    pull_request_referenced_comment: >
+      **Referenziert in PR:** ""%{github_user}":%{github_user_url} hat dieses Arbeitspaket in
+      Pull Request %{pr_number} “%{pr_title}”":%{pr_url} in "%{repository}":%{repository_url}
+      referenziert.

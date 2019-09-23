@@ -1,0 +1,6 @@
+sk:
+  js:
+    work_packages:
+      properties:
+        storyPoints: "História bodov"
+        remainingTime: "Zvyšné hodiny"

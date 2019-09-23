@@ -1,0 +1,5 @@
+ro:
+  js:
+    bcf:
+      import: 'Import'
+      export: 'Exportare'

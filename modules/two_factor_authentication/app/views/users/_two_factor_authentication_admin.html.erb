@@ -1,0 +1,59 @@
+<% devices = @user.otp_devices.reload %>
+<% default_device = @user.otp_devices.get_default %>
+
+<section class="admin--edit-section">
+    <%= cell ::Components::OnOffStatusCell,
+             is_on: default_device.present?,
+             on_text: t('two_factor_authentication.label_2fa_enabled'),
+             on_description: t('two_factor_authentication.admin.text_2fa_enabled'),
+             off_text: t('two_factor_authentication.label_2fa_disabled'),
+             off_description: t('two_factor_authentication.admin.text_2fa_disabled') %>
+</section>
+
+<section class="admin--edit-section">
+<% if default_device.present? %>
+    <div class="attributes-key-value">
+      <div class="attributes-key-value--key"><%= t('two_factor_authentication.label_default_device') %></div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value">
+          <span><%= default_device.identifier %></span>
+        </div>
+      </div>
+      <% if default_device.phone_number.present? %>
+          <div class="attributes-key-value--key"><%= ::TwoFactorAuthentication::Device::Sms.human_attribute_name(:phone_number) %></div>
+          <div class="attributes-key-value--value-container">
+            <div class="attributes-key-value--value">
+              <span><%= default_device.phone_number %></span>
+            </div>
+          </div>
+      <% end %>
+    </div>
+<% end %>
+</section>
+
+<section class="admin--edit-section">
+  <%= toolbar title: t('two_factor_authentication.label_devices') do %>
+      <% unless devices.empty? %>
+        <li class="toolbar-item">
+          <%= link_to delete_all_user_2fa_devices_path(@user),
+                      method: :post,
+                      data: { confirm: t('two_factor_authentication.admin.delete_all_are_you_sure') },
+                      class: "button -danger" do %>
+            <%= op_icon 'button--icon icon-delete' %>
+            <span class="button--text"><%= t 'two_factor_authentication.admin.button_delete_all_devices' %></span>
+          <% end %>
+        </li>
+      <% end %>
+      <% if ::OpenProject::TwoFactorAuthentication::TokenStrategyManager.admin_register_sms_strategy.present? %>
+      <li class="toolbar-item">
+        <%= link_to new_user_2fa_device_path(@user, type: :sms), class: 'button -alt-highlight' do %>
+            <%= op_icon 'button--icon icon-add' %>
+            <span class="button--text"><%= t 'two_factor_authentication.admin.button_register_mobile_phone_for_user' %></span>
+        <% end %>
+      </li>
+      <% end %>
+  <% end %>
+
+  <%= cell ::TwoFactorAuthentication::Devices::TableCell, devices, admin_table: true || @user != User.current %>
+  </div>
+</section>

@@ -1,0 +1,34 @@
+<div class="op-modal--portal  loading-indicator--location"
+     data-indicator-name="modal">
+  <div class="op-modal--modal-container attribute-help-text--modal" tabindex="0">
+    <div class="op-modal--modal-header">
+      <a class="op-modal--modal-close-button">
+        <i
+          class="icon-close"
+          (accessibleClick)="closeMe($event)"
+          [attr.title]="text.close">
+        </i>
+      </a>
+    </div>
+
+    <h3>
+      <span class="icon-context icon-help1"></span>
+      <span class="ellipsis" [textContent]="helpText.attributeCaption"></span>
+    </h3>
+
+    <div class="op-modal--modal-body -formattable"
+         tabindex="0"
+         [innerHtml]="helpText.helpText.html">
+    </div>
+
+    <div class="modal--form-actions">
+      <a class="help-text--edit-button button"
+         *ngIf="helpText.editText"
+         [attr.href]="helpTextLink"
+         [attr.title]="text.edit">
+        <op-icon icon-classes="button--icon icon-edit"></op-icon>
+        <span class="button--text" [textContent]="text.edit"></span>
+      </a>
+    </div>
+  </div>
+</div>

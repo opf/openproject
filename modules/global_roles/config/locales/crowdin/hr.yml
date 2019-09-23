@@ -1,0 +1,11 @@
+hr:
+  error_can_not_be_assigned: Rola ne može biti dodijeljena ovom korisniku
+  global_roles: Globalne role
+  label_role_type: Tip
+  label_member_role: Projekt role
+  label_global_role: Globalne role
+  label_not_changeable: (ne promijenjiv)
+  label_no_assignable_role: Nema dostupnih globalnih rola za ovaj zadatak
+  label_global: Globalne
+  seeders:
+    default_role_project_creator: 'Project creator'

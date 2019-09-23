@@ -1,0 +1,5 @@
+#!/bin/bash
+set -e
+
+[ -f /etc/apache2/sites-enabled/openproject.conf ] || erb -r time $APP_PATH/docker/proxy.conf.erb > /etc/apache2/sites-enabled/openproject.conf
+exec /usr/sbin/apache2ctl -DFOREGROUND

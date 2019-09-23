@@ -1,0 +1,12 @@
+ru:
+  js:
+    work_packages:
+      property_groups:
+        costs: "Расходы"
+      properties:
+        costObject: "Бюджет"
+        overallCosts: "Общие расходы"
+        spentUnits: "Затраченное количество"
+    button_log_costs: "Журналировать расходы на единицу"
+    label_hour: "час"
+    label_hours: "часы"

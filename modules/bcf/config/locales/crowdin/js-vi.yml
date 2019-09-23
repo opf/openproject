@@ -1,0 +1,5 @@
+vi:
+  js:
+    bcf:
+      import: 'Import'
+      export: 'Xuất'

@@ -1,0 +1,32 @@
+lt:
+  activerecord:
+    attributes:
+      ldap_groups/synchronized_group:
+        entry: 'Įrašo identifikatorius'
+        auth_source: 'LDAP jungtis'
+    models:
+      ldap_groups/synchronized_group: 'Sinchronizuota LDAP grupė'
+  ldap_groups:
+    label_menu_item: 'LDAP grupės sinchronizacija'
+    label_group_key: 'LDAP grupės filtro raktas'
+    settings:
+      group_key: 'LDAP grupės atributas'
+      group_key_text: 'LDAP atributo vardas, naudojamas identifikuoti grupes.'
+      group_base: 'LDAP grupės bazė'
+      group_base_text: 'LDAP grupės bazė ieškant grupės įrašų.'
+    synchronized_groups:
+      add_new: 'Pridėti sinchronizuotą LDAP grupę'
+      destroy:
+        title: 'Išimti sinchronizuotą grupę %{name}'
+        confirmation: "Jei tęsite, sinchronizuota grupė %{name} ir visi %{users_count} per ją sinchronizuotų naudotojų bus pašalinti."
+        info: "Pastaba: OpenProject grupė pati ir nariai, pridėti už šios LDAP sinchronizacijos, nebus pašalinti."
+        verification: "Įveskite grupės pavadinimą %{name}, kad patvirtintumėte naikinimą."
+      no_results: 'Nerasta sinchronizacijos grupių.'
+      no_members: 'Grupė dar neturi sinchronizacijos narių.'
+      plural: 'Sinchronizuotos LDAP grupės'
+      singular: 'Sinchronizuota LDAP grupė'
+      form:
+        auth_source_text: 'Parinkite, kuris naudojamas LDAP autentikacijos režimas.'
+        entry_text: 'Nustatykite LDAP grupės identifikatorių.'
+        group_text: 'Parinkite esamą OpenProject grupę, su kuria būtų sinchronizuojami LDAP grupės nariai'
+

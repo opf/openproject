@@ -1,0 +1,21 @@
+<div class="columns-modal--content select2-modal-content">
+  <label
+    [textContent]="text.selectedColumns"
+    class="hidden-for-sighted">
+  </label>
+
+  <ng-container>
+    <input #select2Columns
+           type="hidden" />
+    <div>
+      <p class="form--inline-instructions" [textContent]="text.columnsHelp"></p>
+    </div>
+  </ng-container>
+</div>
+
+<enterprise-banner class="ee-relation-columns-upsale"
+                   *ngIf="eeShowBanners"
+                   [linkMessage]="text.upsaleCheckOutLink"
+                   [textMessage]="text.upsaleRelationColumns"
+                   opReferrer="wp-list-columns#relations">
+</enterprise-banner>

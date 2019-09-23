@@ -1,0 +1,206 @@
+#-- copyright
+# OpenProject Costs Plugin
+#
+# Copyright (C) 2009 - 2014 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# version 3.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#++
+
+---
+en:
+  activerecord:
+    attributes:
+      cost_entry:
+        work_package: "Work package"
+        overridden_costs: "Overridden costs"
+        spent: "Spent"
+        spent_on: "Date"
+      cost_object:
+        author: "Author"
+        available: "Available"
+        budget: "Planned"
+        budget_ratio: "Spent (ratio)"
+        created_on: "Created on"
+        description: "Description"
+        fixed_date: "Fixed date"
+        spent: "Spent"
+        status: "Status"
+        subject: "Subject"
+        type: "Cost type"
+        updated_on: "Updated on"
+      cost_type:
+        unit: "Unit name"
+        unit_plural: "Pluralized unit name"
+      work_package:
+        costs_by_type: "Spent units"
+        cost_object_subject: "Budget title"
+        labor_costs: "Labor costs"
+        material_costs: "Unit costs"
+        overall_costs: "Overall costs"
+        spent_costs: "Spent costs"
+        spent_units: "Spent units"
+      rate:
+        rate: "Rate"
+      user:
+        default_rates: "Default rates"
+      variable_cost_object:
+        labor_budget: "Planned labor costs"
+        material_budget: "Planned unit costs"
+    models:
+      cost_object: "Budget"
+      cost_type:
+        one: "Cost type"
+        other: "Cost types"
+      material_budget_item: "Unit"
+      rate: "Rate"
+    errors:
+      models:
+        work_package:
+          is_not_a_valid_target_for_cost_entries: "Work package #%{id} is not a valid target for reassigning the cost entries."
+          nullify_is_not_valid_for_cost_entries: "Cost entries can not be assigned to a project."
+  attributes:
+    budget: "Planned costs"
+    comment: "Comment"
+    cost_object: "Budget"
+    cost_type: "Cost type"
+    costs: "Costs"
+    current_rate: "Current rate"
+    hours: "Hours"
+    units: "Units"
+    valid_from: "Valid from"
+
+  button_add_budget_item: "Add planned costs"
+  button_add_cost_object: "Add budget"
+  button_add_cost_type: "Add cost type"
+  button_add_rate: "Add rate"
+  button_cancel_edit_budget: "Cancel editing budget"
+  button_cancel_edit_costs: "Cancel editing costs"
+  button_log_costs: "Log unit costs"
+  button_log_time: "Log time"
+
+  caption_booked_on_project: "Booked on project"
+  caption_default: "Default"
+  caption_default_rate_history_for: "Default rate history for %{user}"
+  caption_labor: "Labor"
+  caption_labor_costs: "Actual labor costs"
+  caption_locked_on: "Locked on"
+  caption_material_costs: "Actual unit costs"
+  caption_materials: "Units"
+  caption_rate_history: "Rate history"
+  caption_rate_history_for: "Rate history for %{user}"
+  caption_rate_history_for_project: "Rate history for %{user} in project %{project}"
+  caption_save_rate: "Save rate"
+  caption_set_rate: "Set current rate"
+  caption_show_locked: "Show locked types"
+  cost_objects_title: "Budgets"
+  label_cost_type_plural: "Cost types"
+  currency_delimiter: ","
+  currency_separator: "."
+
+  description_date_for_new_rate: "Date for new rate"
+
+  events:
+    cost_object: "Budget edited"
+
+  group_by_others: "not in any group"
+
+  help_click_to_edit: "Click here to edit."
+  help_currency_format: "Format of displayed currency values. %n is replaced with the currency value, %u ist replaced with the currency unit."
+  help_override_rate: "Enter a value here to override the default rate."
+
+  label_between: "between"
+  label_cost_filter_add: "Add cost entry filter"
+  label_costlog: "Logged unit costs"
+  label_cost_object: "Budget"
+  label_cost_object_id: "Budget #%{id}"
+  label_cost_object_new: "New budget"
+  label_cost_object_plural: "Budgets"
+  label_cost_plural: "Costs"
+  label_cost_report: "Cost report"
+  label_cost_type_specific: "Budget #%{id}: %{name}"
+  label_cost_type_plural: "Cost types"
+  label_costs_per_page: "Costs per page"
+  label_currency: "Currency"
+  label_currency_format: "Format of currency"
+  label_current_default_rate: "Current default rate"
+  label_date_on: "on"
+  label_deleted_cost_types: "Deleted cost types"
+  label_locked_cost_types: "Locked cost types"
+  label_deliverable: "Budget"
+  label_display_cost_entries: "Display unit costs"
+  label_display_time_entries: "Display reported hours"
+  label_display_types: "Display types"
+  label_edit: "Edit"
+  label_fixed_cost_object: "Fixed budget"
+  label_fixed_date: "Fixed date"
+  label_generic_user: "Generic user"
+  label_greater_or_equal: ">="
+  label_group_by: "Group by"
+  label_group_by_add: "Add grouping field"
+  label_hourly_rate: "Hourly rate"
+  label_include_deleted: "Include deleted"
+  label_work_package_filter_add: "Add work package filter"
+  label_kind: "Type"
+  label_less_or_equal: "<="
+  label_log_costs: "Log unit costs"
+  label_no: "No"
+  label_option_plural: "Options"
+  label_overall_costs: "Overall costs"
+  label_rate: "Rate"
+  label_rate_plural: "Rates"
+  label_status_finished: "Finished"
+  label_units: "Cost units"
+  label_user: "User"
+  label_until: "until"
+  label_valid_from: "Valid from"
+  label_variable_cost_object: "Variable rate based budget"
+  label_view_all_cost_objects: "View all budgets"
+  label_yes: "Yes"
+
+  notice_cost_object_conflict: "WorkPackages must be of the same project."
+  notice_no_cost_objects_available: "No budgets available."
+  notice_something_wrong: "Something went wrong. Please try again."
+  notice_successful_restore: "Successful restore."
+  notice_successful_lock: "Locked successfully."
+  notice_cost_logged_successfully: 'Unit cost logged successfully.'
+
+  permission_edit_cost_entries: "Edit booked unit costs"
+  permission_edit_cost_objects: "Edit budgets"
+  permission_edit_own_cost_entries: "Edit own booked unit costs"
+  permission_edit_hourly_rates: "Edit hourly rates"
+  permission_edit_own_hourly_rate: "Edit own hourly rates"
+  permission_edit_rates: "Edit rates"
+  permission_log_costs: "Book unit costs"
+  permission_log_own_costs: "Book unit costs for oneself"
+  permission_view_cost_entries: "View booked costs"
+  permission_view_cost_objects: "View budgets"
+  permission_view_cost_rates: "View cost rates"
+  permission_view_hourly_rates: "View all hourly rates"
+  permission_view_own_cost_entries: "View own booked costs"
+  permission_view_own_hourly_rate: "View own hourly rate"
+  permission_view_own_time_entries: "View own spent time"
+  project_module_costs_module: "Budgets"
+
+  text_assign_time_and_cost_entries_to_project: "Assign reported hours and costs to the project"
+  text_cost_object_change_type_confirmation: "Are you sure? This operation will destroy information of the specific budget type."
+  text_destroy_cost_entries_question: "%{cost_entries} were reported on the work packages you are about to delete. What do you want to do ?"
+  text_destroy_time_and_cost_entries: "Delete reported hours and costs"
+  text_destroy_time_and_cost_entries_question: "%{hours} hours, %{cost_entries} were reported on the work packages you are about to delete. What do you want to do ?"
+  text_reassign_time_and_cost_entries: "Reassign reported hours and costs to this work package:"
+  text_warning_hidden_elements: "Some entries may have been excluded from the aggregation."
+
+  week: "week"
+
+  js:
+    text_are_you_sure: "Are you sure?"

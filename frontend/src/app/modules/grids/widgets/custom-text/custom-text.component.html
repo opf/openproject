@@ -1,0 +1,52 @@
+<widget-header
+    [name]="widgetName"
+    [icon]="'quote'"
+    (onRenamed)="renameWidget($event)">
+
+  <widget-menu
+      [resource]="resource">
+  </widget-menu>
+</widget-header>
+
+<ng-template #text>
+  <span #displayContainer
+        class="inplace-edit--read-value -default">
+    <span
+        *ngIf="!textEmpty"
+        [innerHTML]="customText"></span>
+    <span
+        *ngIf="textEmpty"
+        [innerHTML]="placeholderText"></span>
+  </span>
+</ng-template>
+
+<div class="grid--widget-content -custom-text">
+  <div class="wp-edit-field inplace-edit">
+    <edit-form-portal *ngIf="active"
+                      [schemaInput]="schema"
+                      [changesetInput]="changeset"
+                      [editFieldHandler]="handler">
+    </edit-form-portal>
+    <attachments *ngIf="active"
+                 [resource]="resource.grid"
+                 [selfDestroy]="true"
+                 data-allow-uploading="true">
+    </attachments>
+
+    <div *ngIf="!active"
+         class="inplace-edit--read -no-label"
+         [ngClass]="{'wp-edit-field--container': isTextEditable}">
+      <div *ngIf="isTextEditable"
+           (accessibleClick)="activate($event)"
+           [accessibleClickStopEvent]="false"
+           [ngClass]="inplaceEditClasses">
+
+        <ng-container *ngTemplateOutlet="text"></ng-container>
+      </div>
+
+      <ng-container *ngIf="!isTextEditable">
+        <ng-container *ngTemplateOutlet="text"></ng-container>
+      </ng-container>
+    </div>
+  </div>
+</div>
