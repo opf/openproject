@@ -1,6 +1,6 @@
-# OpenProject 8.x to OpenProject 9.x Debian/Ubuntu Upgrade Guide (Manual installation)
+# OpenProject 9.x to OpenProject 10.x Debian/Ubuntu Upgrade Guide (Manual installation)
 
-OpenProject 9.x is being released at https://github.com/opf/openproject under the branch `stable/9`.
+OpenProject 10.x is being released at https://github.com/opf/openproject under the branch `stable/10`.
 Follow the following steps to perform the upgrade:
 
 First, perform a backup for your current environment
@@ -12,7 +12,7 @@ First, perform a backup for your current environment
 ```
 
 Depending on from what version you're upgrading, you may need to add the correct remote
-Then, check out the stable version of OpenProject 9.x.
+Then, check out the stable version of OpenProject 10.x.
 
 ```bash
 [openproject@debian]# cd /home/openproject/openproject
@@ -25,13 +25,13 @@ If this returns anything, update the remote to the correct URL.
 [openproject@debian]# git remote set-url origin https://github.com/opf/openproject.git
 ```
 
-Then, refresh that origin and checkout the stable/9 branch.
+Then, refresh that origin and checkout the stable/10 branch.
 
 ```bash
-[openproject@debian]# git fetch && git checkout stable/9
+[openproject@debian]# git fetch && git checkout stable/10
 ```
 
-After upgrading the installation files, you need to migrate the installation to OpenProject 9.0 with the following steps:
+After upgrading the installation files, you need to migrate the installation to OpenProject 10.0 with the following steps:
 
 ```bash
 [openproject@debian]# cd /home/openproject/openproject
@@ -42,20 +42,20 @@ After upgrading the installation files, you need to migrate the installation to 
 [openproject@debian]# touch tmp/restart.txt
 ```
 
-After performing these steps, the server should be running OpenProject 9.0.x.
+After performing these steps, the server should be running OpenProject 10.0.x.
 
 
 ## Upgrade notes
 
-These following points are some known issues around the update to 9.0.
+These following points are some known issues around the update to 10.0.
 It does not contain the entire list of changes.
 
-To see all changes, [please browse the release notes](https://www.openproject.org/release-notes/openproject-9-0-0/).
+To see all changes, [please browse the release notes](https://www.openproject.org/release-notes/openproject-10-0-0/).
 
-### MySQL is being deprecated
+### MySQL support dropped
 
-OpenProject 9.0. is deprecating MySQL support. You can expect full MySQL support for the course of 9.0 releases, but we
-are likely going to be dropping MySQL completely in one of the following releases.
+OpenProject 10.0 has dropped MySQL support. For more information regarding motivation behind this and migration steps, please see https://www.openproject.org/deprecating-mysql-support/
+In this post, you will find documentation for a mostly-automated migration script to PostgreSQL to help you get up and running with PostgreSQL.
 
 For more information regarding motivation behind this and migration steps, please see https://www.openproject.org/deprecating-mysql-support/
 In this post, you will find documentation for a mostly-automated migration script to PostgreSQL to help you get up and running with PostgreSQL.

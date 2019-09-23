@@ -17,6 +17,7 @@ provide any official support for them.
 | :------------------------------ | :----------- | :---------- |
 | CentOS/RHEL 7.x                 | centos-7     | systemd     |
 | Debian 9 Stretch                | debian-9     | systemd     |
+| Debian 10 Stretch               | debian-10    | systemd     |
 | Suse Linux Enterprise Server 12 | sles-12      | sysvinit    |
 | Ubuntu 16.04 Xenial Xerus       | ubuntu-16.04 | upstart     |
 | Ubuntu 18.04 Bionic Beaver      | ubuntu-18.04 | systemd     |
