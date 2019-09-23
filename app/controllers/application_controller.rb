@@ -447,7 +447,7 @@ class ApplicationController < ActionController::Base
   # on the project.
   def check_project_privacy
     if @project && @project.active?
-      if @project.is_public? || User.current.member_of?(@project) || User.current.admin?
+      if @project.public? || User.current.member_of?(@project) || User.current.admin?
         true
       else
         User.current.logged? ? render_403 : require_login

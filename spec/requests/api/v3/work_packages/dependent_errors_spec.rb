@@ -53,7 +53,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
   end
 
   let(:project) do
-    FactoryBot.create(:project, identifier: 'deperr', is_public: false).tap do |project|
+    FactoryBot.create(:project, identifier: 'deperr', public: false).tap do |project|
       project.types << type
     end
   end

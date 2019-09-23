@@ -65,7 +65,7 @@ See docs/COPYRIGHT.rdoc for more details.
           <tr>
             <%= render partial: 'hierarchy_header' %>
             <%= projects_sort_header_tag('name', caption: Project.human_attribute_name(:name), param: :json) %>
-            <%= projects_sort_header_tag('is_public', caption: Project.human_attribute_name(:is_public), param: :json) %>
+            <%= projects_sort_header_tag('public', caption: Project.human_attribute_name(:public), param: :json) %>
             <% if EnterpriseToken.allows_to?(:custom_fields_in_projects_list) %>
               <% @custom_fields.each do |custom_field| %>
                 <%= sort_header_tag("cf_#{custom_field.id}", caption: custom_field.name, param: :json) %>
@@ -100,7 +100,7 @@ See docs/COPYRIGHT.rdoc for more details.
                 <% end %>
                 <%= link_to_project(project, {}, {}, false) %>
               </td>
-              <td><%= checked_image project.is_public? %></td>
+              <td><%= checked_image project.public? %></td>
               <% if EnterpriseToken.allows_to?(:custom_fields_in_projects_list) %>
                 <% @custom_fields.each do |custom_field| %>
                   <td class="format-<%= custom_field.field_format %>">

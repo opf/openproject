@@ -89,7 +89,7 @@ class WorkPackage < ActiveRecord::Base
       .where(statuses: { is_closed: false })
   }
 
-  scope :with_status_closed, ->() {
+  scope :with_status_closed, -> {
     includes(:status)
       .where(statuses: { is_closed: true })
   }
@@ -100,7 +100,7 @@ class WorkPackage < ActiveRecord::Base
 
   scope :on_active_project, -> {
     includes(:status, :project, :type)
-      .where(projects: { status: Project::STATUS_ACTIVE })
+      .where(projects: { active: true })
   }
 
   scope :without_version, -> {

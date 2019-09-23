@@ -57,7 +57,7 @@ module API
                  visibility: false,
                  required: false
 
-          schema :is_public,
+          schema :public,
                  as: :public,
                  type: 'Boolean',
                  visibility: false

@@ -14,8 +14,8 @@ require 'spec_helper'
 describe User, 'allowed to' do
   let(:user) { member.principal }
   let(:anonymous) { FactoryBot.build(:anonymous) }
-  let(:project) { FactoryBot.build(:project, is_public: false) }
-  let(:project2) { FactoryBot.build(:project, is_public: false) }
+  let(:project) { FactoryBot.build(:project, public: false) }
+  let(:project2) { FactoryBot.build(:project, public: false) }
   let(:role) { FactoryBot.build(:role) }
   let(:role2) { FactoryBot.build(:role) }
   let(:anonymous_role) { FactoryBot.build(:anonymous_role) }

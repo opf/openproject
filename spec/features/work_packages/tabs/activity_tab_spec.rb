@@ -11,7 +11,7 @@ describe 'Activity tab', js: true, selenium: true do
     note_journal.update(created_at: at, user: attributes[:user])
   end
 
-  let(:project) { FactoryBot.create :project_with_types, is_public: true }
+  let(:project) { FactoryBot.create :project_with_types, public: true }
   let!(:work_package) do
     work_package = FactoryBot.create(:work_package,
                                      project: project,

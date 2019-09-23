@@ -30,7 +30,7 @@ require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
 describe 'Query selection', type: :feature do
-  let(:project) { FactoryBot.create :project, identifier: 'test_project', is_public: false }
+  let(:project) { FactoryBot.create :project, identifier: 'test_project', public: false }
   let(:role) { FactoryBot.create :role, permissions: [:view_work_packages] }
   let(:current_user) do
     FactoryBot.create :user, member_in_project: project,
@@ -43,7 +43,7 @@ describe 'Query selection', type: :feature do
 
 
   let(:query) do
-    FactoryBot.build(:query, project: project, is_public: true).tap do |query|
+    FactoryBot.build(:query, project: project, public: true).tap do |query|
       query.filters.clear
       query.add_filter('assigned_to_id', '=', ['me'])
       query.add_filter('done_ratio', '>=', [10])
@@ -91,7 +91,7 @@ describe 'Query selection', type: :feature do
 
   context 'when the selected query is changed' do
     let(:query2) do
-      FactoryBot.create(:query, project: project, is_public: true)
+      FactoryBot.create(:query, project: project, public: true)
     end
 
     before do

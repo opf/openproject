@@ -30,7 +30,7 @@ require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
 describe 'Work package query summary item', type: :feature, js: true do
-  let(:project) { FactoryBot.create :project, identifier: 'test_project', is_public: false }
+  let(:project) { FactoryBot.create :project, identifier: 'test_project', public: false }
   let(:role) { FactoryBot.create :role, permissions: [:view_work_packages] }
   let(:work_package) { FactoryBot.create :work_package, project: project }
   let(:wp_page) { ::Pages::WorkPackagesTable.new project }

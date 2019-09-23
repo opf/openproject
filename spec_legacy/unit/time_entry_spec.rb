@@ -99,7 +99,7 @@ describe TimeEntry, type: :model do
   context '#earliest_date_for_project' do
     before do
       User.current = nil
-      @public_project = FactoryBot.create(:project, is_public: true)
+      @public_project = FactoryBot.create(:project, public: true)
       @issue = FactoryBot.create(:work_package, project: @public_project)
       FactoryBot.create(:time_entry, spent_on: '2010-01-01',
                           work_package: @issue,
@@ -122,7 +122,7 @@ describe TimeEntry, type: :model do
   context '#latest_date_for_project' do
     before do
       User.current = nil
-      @public_project = FactoryBot.create(:project, is_public: true)
+      @public_project = FactoryBot.create(:project, public: true)
       @issue = FactoryBot.create(:work_package, project: @public_project)
       FactoryBot.create(:time_entry, spent_on: '2010-01-01',
                           work_package: @issue,

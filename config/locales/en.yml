@@ -729,6 +729,7 @@ en:
     password: "Password"
     priority: "Priority"
     project: "Project"
+    public: "Public"
     responsible: "Accountable"
     role: "Role"
     roles: "Roles"

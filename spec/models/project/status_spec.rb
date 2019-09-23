@@ -31,18 +31,18 @@ require 'spec_helper'
 describe Project::Status, type: :model do
   let(:project) { FactoryBot.create(:project) }
 
-  let(:description) { 'some description' }
+  let(:explanation) { 'some explanation' }
   let(:code) { :on_track }
-  let(:instance) { described_class.new description: description, code: code, project: project }
+  let(:instance) { described_class.new explanation: explanation, code: code, project: project }
 
-  describe 'description' do
-    it 'stores a description' do
+  describe 'explanation' do
+    it 'stores an explanation' do
       instance.save
 
       instance.reload
 
-      expect(instance.description)
-        .to eql description
+      expect(instance.explanation)
+        .to eql explanation
     end
   end
 
@@ -78,7 +78,7 @@ describe Project::Status, type: :model do
     end
 
     it 'cannot be one already having a status' do
-      described_class.create! description: 'some other description', code: :off_track, project: project
+      described_class.create! explanation: 'some other explanation', code: :off_track, project: project
 
       expect(instance)
         .to be_invalid

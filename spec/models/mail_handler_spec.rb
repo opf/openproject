@@ -32,8 +32,8 @@ DEVELOPER_PERMISSIONS = [:view_messages, :delete_own_messages, :edit_own_message
 
 describe MailHandler, type: :model do
   let(:anno_user) { User.anonymous }
-  let(:project) { FactoryBot.create(:valid_project, identifier: 'onlinestore', name: 'OnlineStore', is_public: false) }
-  let(:public_project) { FactoryBot.create(:valid_project, identifier: 'onlinestore', name: 'OnlineStore', is_public: true) }
+  let(:project) { FactoryBot.create(:valid_project, identifier: 'onlinestore', name: 'OnlineStore', public: false) }
+  let(:public_project) { FactoryBot.create(:valid_project, identifier: 'onlinestore', name: 'OnlineStore', public: true) }
   let(:priority_low) { FactoryBot.create(:priority_low, is_default: true) }
 
   before do
@@ -52,7 +52,7 @@ describe MailHandler, type: :model do
   describe '#receive' do
     it 'should add a work_package by create user on public project' do
       Role.non_member.update_attribute :permissions, [:add_work_packages]
-      project.update_attribute :is_public, true
+      project.update_attribute :public, true
       expect do
         work_package = submit_email('ticket_by_unknown_user.eml', issue: { project: 'onlinestore' }, unknown_user: 'create')
         work_package_created(work_package)
@@ -196,7 +196,7 @@ describe MailHandler, type: :model do
       it 'should add a work_package with category' do
         allow(Setting).to receive(:default_language).and_return('en')
         Role.non_member.update_attribute :permissions, [:add_work_packages]
-        project.update_attribute :is_public, true
+        project.update_attribute :public, true
 
         work_package = submit_email 'ticket_with_category.eml',
                                     issue: { project: 'onlinestore' },

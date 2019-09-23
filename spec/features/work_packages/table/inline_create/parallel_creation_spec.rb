@@ -19,8 +19,8 @@ describe 'Parallel work package creation spec', js: true do
                       role: role
   end
 
-  let!(:project) { FactoryBot.create(:project, is_public: true) }
-  let!(:priority) { FactoryBot.create :priority, is_default: true }
+  let!(:project) { FactoryBot.create(:project, public: true) }
+  let!(:priority) { FactoryBot.create :priority, default: true }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
 
   before do

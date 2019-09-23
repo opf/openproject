@@ -65,7 +65,7 @@ describe SystemUser, type: :model do
   end
 
   describe '#run_given' do
-    let(:project) { FactoryBot.create(:project_with_types, is_public: false) }
+    let(:project) { FactoryBot.create(:project_with_types, public: false) }
     let(:user) { FactoryBot.build(:user) }
     let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
     let(:member) {

@@ -34,7 +34,7 @@ describe 'API v3 Work package form resource', type: :request do
   include Capybara::RSpecMatchers
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryBot.create(:project, is_public: false) }
+  let(:project) { FactoryBot.create(:project, public: false) }
   let(:work_package) { FactoryBot.create(:work_package, project: project) }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:authorized_user) do

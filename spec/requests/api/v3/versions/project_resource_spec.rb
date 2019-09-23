@@ -44,10 +44,10 @@ describe "API v3 version's projects resource" do
   end
   let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
   let(:role_without_permissions) { FactoryBot.create(:role, permissions: []) }
-  let(:project) { FactoryBot.create(:project, is_public: false) }
-  let(:project2) { FactoryBot.create(:project, is_public: false) }
-  let(:project3) { FactoryBot.create(:project, is_public: false) }
-  let(:project4) { FactoryBot.create(:project, is_public: false) }
+  let(:project) { FactoryBot.create(:project, public: false) }
+  let(:project2) { FactoryBot.create(:project, public: false) }
+  let(:project3) { FactoryBot.create(:project, public: false) }
+  let(:project4) { FactoryBot.create(:project, public: false) }
   let(:version) { FactoryBot.create(:version, project: project, sharing: 'system') }
 
   subject(:response) { last_response }

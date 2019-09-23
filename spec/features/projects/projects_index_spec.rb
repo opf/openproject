@@ -49,7 +49,7 @@ describe 'Projects index page',
     project = FactoryBot.create(:project,
                                 name: 'Public project',
                                 identifier: 'public-project',
-                                is_public: true)
+                                public: true)
     project.custom_field_values = { invisible_custom_field.id => 'Secret CF' }
     project.save
     project
@@ -629,7 +629,7 @@ describe 'Projects index page',
       Role.non_member
 
       # Remove public projects from the default list for these scenarios.
-      public_project.update_attribute :status, Project::STATUS_ARCHIVED
+      public_project.update(active: false)
 
       project.update(created_on: 7.days.ago)
 

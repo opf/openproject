@@ -49,7 +49,7 @@ module Projects
 
     def activate_project(project)
       # we do not care for validations
-      project.update_column(:status, Project::STATUS_ACTIVE)
+      project.update_column(:active, true)
     end
   end
 end

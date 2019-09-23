@@ -21,8 +21,8 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe TimeEntry, type: :model do
   include Cost::PluginSpecHelper
-  let(:project) { FactoryBot.create(:project_with_types, is_public: false) }
-  let(:project2) { FactoryBot.create(:project_with_types, is_public: false) }
+  let(:project) { FactoryBot.create(:project_with_types, public: false) }
+  let(:project2) { FactoryBot.create(:project_with_types, public: false) }
   let(:work_package) {
     FactoryBot.create(:work_package, project: project,
                                       type: project.types.first,

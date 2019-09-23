@@ -26,16 +26,16 @@ Depending on custom fields defined for projects, additional links might exist.
 
 ## Local Properties
 
-| Property    | Description                                               | Type        | Constraints            | Supported operations |
-| :---------: | -------------                                             | ----        | -----------            | -------------------- |
-| id          | Projects's id                                             | Integer     | x > 0                  | READ/WRITE           |
-| identifier  |                                                           | String      |                        | READ/WRITE           |
-| name        |                                                           | String      |                        | READ/WRITE           |
-| status      | The project's status                                      | String      | 'active' or 'archived' | READ/WRITE           |
-| public      | Indicates whether the project is accessible for everybody | Boolean     |                        | READ/WRITE           |
-| description |                                                           | Formattable |                        | READ/WRITE           |
-| createdAt   | Time of creation                                          | DateTime    |                        | READ                 |
-| updatedAt   | Time of the most recent change to the project             | DateTime    |                        | READ                 |
+| Property    | Description                                                             | Type        | Constraints  | Supported operations |
+| :---------: | -------------                                                           | ----        | -----------  | -------------------- |
+| id          | Projects's id                                                           | Integer     | x > 0        | READ/WRITE           |
+| identifier  |                                                                         | String      |              | READ/WRITE           |
+| name        |                                                                         | String      |              | READ/WRITE           |
+| active      | Indicates whether the project is currently active or already archived   | Boolean     |              | READ/WRITE           |
+| public      | Indicates whether the project is accessible for everybody               | Boolean     |              | READ/WRITE           |
+| description |                                                                         | Formattable |              | READ/WRITE           |
+| createdAt   | Time of creation                                                        | DateTime    |              | READ                 |
+| updatedAt   | Time of the most recent change to the project                           | DateTime    |              | READ                 |
 
 Depending on custom fields defined for projects, additional properties might exist.
 
@@ -85,7 +85,7 @@ Depending on custom fields defined for projects, additional properties might exi
                 "id": 1,
                 "identifier": "project_identifier",
                 "name": "Project example",
-                "status": active,
+                "active": true,
                 "public": false,
                 "description": {
                     "format": "markdown",
@@ -317,7 +317,7 @@ the project scheduled for deletion, it is archived at once.
                     "id": 6,
                     "identifier": "a_project",
                     "name": "A project",
-                    "status": "active",
+                    "active": true,
                     "public": false,
                     "description": {
                         "format": "markdown",
@@ -356,7 +356,7 @@ the project scheduled for deletion, it is archived at once.
                     "id": 14,
                     "identifier": "another_project",
                     "name": "Another project",
-                    "status": "archived",
+                    "active": false,
                     "public": true,
                     "description": {
                         "format": "markdown",
@@ -379,7 +379,7 @@ Returns a collection of projects. The collection can be filtered via query param
     + filters (optional, string, `[{ "ancestor": { "operator": "=", "values": ['1'] }" }]`) ... JSON specifying filter conditions.
     Accepts the same format as returned by the [queries](#queries) endpoint.
     Currently supported filters are:
-      + status: based on the status of the project
+      + active: based on the active property of the project
       + ancestor: filters projects by their ancestor. A project is not considered to be it's own ancestor.
       + created_on: based on the time the project was created
       + latest_activity_at: based on the time the last activity was registered on a project.
@@ -394,7 +394,7 @@ Returns a collection of projects. The collection can be filtered via query param
       + id
       + name
       + created_on
-      + is_public
+      + public
       + latest_activity_at
       + required_disk_space
     There might also be additional orders based on the custom fields that have been configured.
@@ -524,14 +524,12 @@ You can use the form and schema to be retrieve the valid attribute values and by
                     "hasDefault": false,
                     "writable": true
                 },
-                "status": {
-                    "type": "String",
-                    "name": "Status",
+                "active": {
+                    "type": "Boolean",
+                    "name": "Active",
                     "required": true,
-                    "hasDefault": false,
-                    "writable": true,
-                    "visibility": "default",
-                    "_links": {}
+                    "hasDefault": true,
+                    "writable": true
                 },
                 "parent": {
                     "type": "Project",
@@ -639,7 +637,7 @@ For more details and all possible responses see the general specification of [Fo
                     "payload": {
                         "identifier": "new_project_identifier",
                         "name": "New project name",
-                        "status": "active",
+                        "active": true,
                         "public": false,
                         "description": {
                             "format": "markdown",
@@ -711,20 +709,12 @@ For more details and all possible responses see the general specification of [Fo
                             "hasDefault": false,
                             "writable": true
                         },
-                        "status": {
-                            "type": "String",
-                            "name": "Status",
+                        "active": {
+                            "type": "Boolean",
+                            "name": "Active",
                             "required": true,
-                            "hasDefault": false,
-                            "writable": true,
-                            "visibility": "default",
-                            "_embedded": {
-                                "allowedValues": [
-                                    "active",
-                                    "archived"
-                                ]
-                            },
-                            "_links": {}
+                            "hasDefault": true,
+                            "writable": true
                         },
                         "parent": {
                             "type": "Project",
@@ -949,7 +939,7 @@ For more details and all possible responses see the general specification of [Fo
                     "payload": {
                         "identifier": "new_project_identifier",
                         "name": "New project name",
-                        "status": "active",
+                        "active": true,
                         "public": false,
                         "description": {
                             "format": "markdown",
@@ -1021,20 +1011,12 @@ For more details and all possible responses see the general specification of [Fo
                             "hasDefault": false,
                             "writable": true
                         },
-                        "status": {
-                            "type": "String",
-                            "name": "Status",
+                        "active": {
+                            "type": "Boolean",
+                            "name": "Active",
                             "required": true,
-                            "hasDefault": false,
+                            "hasDefault": true,
                             "writable": true,
-                            "visibility": "default",
-                            "_embedded": {
-                                "allowedValues": [
-                                    "active",
-                                    "archived"
-                                ]
-                            },
-                            "_links": {}
                         },
                         "parent": {
                             "type": "Project",
@@ -1271,7 +1253,7 @@ For more details and all possible responses see the general specification of [Fo
                     "id": 6,
                     "identifier": "a_project",
                     "name": "A project",
-                    "status": "active",
+                    "active": true,
                     "public": false,
                     "description": {
                         "format": "markdown",
@@ -1307,7 +1289,7 @@ For more details and all possible responses see the general specification of [Fo
                     "id": 14,
                     "identifier": "another_project",
                     "name": "Another project",
-                    "status": "archived",
+                    "active": false,
                     "public": true,
                     "description": {
                         "format": "markdown",

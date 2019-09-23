@@ -44,7 +44,7 @@ module OpenProject
           .includes(:status, :assigned_to, :project, :type)
           .where("#{Status.table_name}.is_closed = false AND #{WorkPackage.table_name}.due_date <= ?", due_date)
           .where("#{WorkPackage.table_name}.assigned_to_id IS NOT NULL")
-          .where("#{Project.table_name}.status = #{Project::STATUS_ACTIVE}")
+          .where("#{Project.table_name}.active = #{true}")
 
         if user_ids.any?
           scope = scope.where("#{WorkPackage.table_name}.assigned_to_id IN (?)", user_ids)

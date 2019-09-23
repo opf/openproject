@@ -167,8 +167,10 @@ describe Project, type: :model do
     child = parent.children.find(3)
     child.types = ::Type.find([1, 3])
     parent.children.each do |child|
-      child.archived!
-      child.children.each(&:archived!)
+      child.update(active: false)
+      child.children.each do |grand_child|
+        grand_child.update(active: false)
+      end
     end
 
     assert_equal [1, 2], parent.rolled_up_types.map(&:id)
@@ -245,7 +247,7 @@ describe Project, type: :model do
   it 'should shared versions should ignore archived subprojects' do
     parent = Project.find(1)
     child = parent.children.find(3)
-    child.archived!
+    child.update(active: false)
     parent.reload
 
     assert_equal [1, 2, 3], parent.version_ids.sort
@@ -321,7 +323,7 @@ describe Project, type: :model do
     assert_equal source_project.types, copied_project.types
 
     # Default attributes
-    assert_equal "active", copied_project.status
+    assert copied_project.active
   end
 
   it 'should activities should use the system activities' do

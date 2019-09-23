@@ -143,17 +143,14 @@ module API
         property :id
         property :identifier
         property :name
-        property :status
-        property :is_public,
-                 as: :public
+        property :active
+        property :public
 
         formattable_property :description
 
-        date_time_property :created_on,
-                           as: 'createdAt'
+        date_time_property :created_at
 
-        date_time_property :updated_on,
-                           as: 'updatedAt'
+        date_time_property :updated_at
 
         def _type
           'Project'

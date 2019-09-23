@@ -58,11 +58,11 @@ describe Projects::UpdateService, 'integration', type: :model do
       end
 
       it 'touches the project after saving' do
-        former_updated_at = Project.pluck(:updated_on).first
+        former_updated_at = Project.pluck(:updated_at).first
 
         service_result
 
-        later_updated_at = Project.pluck(:updated_on).first
+        later_updated_at = Project.pluck(:updated_at).first
 
         expect(former_updated_at)
           .not_to eql later_updated_at

@@ -36,16 +36,13 @@ module Projects
     attribute :name
     attribute :identifier
     attribute :description
-    attribute :is_public
-    attribute :status do
-      validate_status_not_nil
-      validate_status_included
+    attribute :public
+    attribute :active do
+      validate_active_present
     end
     attribute :parent do
       validate_parent_assignable
     end
-
-    attribute_alias :is_public, :public
 
     def validate
       validate_user_allowed_to_manage
@@ -57,10 +54,6 @@ module Projects
       Project
         .allowed_to(user, :add_subprojects)
         .where.not(id: model.self_and_descendants)
-    end
-
-    def assignable_statuses
-      Project.statuses.keys
     end
 
     def available_custom_fields
@@ -77,21 +70,17 @@ module Projects
 
     private
 
-    def validate_status_not_nil
-      errors.add(:status, :blank) if model.status.nil?
-    end
-
-    def validate_status_included
-      if model.status.present? && !assignable_statuses.include?(model.status)
-        errors.add(:status, :inclusion)
-      end
-    end
-
     def validate_parent_assignable
       if model.parent &&
          model.parent_id_changed? &&
          !assignable_parents.where(id: parent.id).exists?
         errors.add(:parent, :does_not_exist)
+      end
+    end
+
+    def validate_active_present
+      if model.active.nil?
+        errors.add(:active, :blank)
       end
     end
 

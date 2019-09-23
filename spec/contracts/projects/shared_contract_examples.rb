@@ -41,7 +41,7 @@ shared_examples_for 'project contract' do
   let(:project_name) { 'Project name' }
   let(:project_identifier) { 'project_identifier' }
   let(:project_description) { 'Project description' }
-  let(:project_status) { Project::STATUS_ACTIVE }
+  let(:project_active) { true }
   let(:project_public) { true }
   let(:project_parent) do
     FactoryBot.build_stubbed(:project)
@@ -132,10 +132,10 @@ shared_examples_for 'project contract' do
   end
 
   context 'if the status is nil' do
-    let(:project_status) { nil }
+    let(:project_active) { nil }
 
     it 'is invalid' do
-      expect_valid(false, status: %i(blank))
+      expect_valid(false, active: %i(blank))
     end
   end
 
@@ -156,13 +156,6 @@ shared_examples_for 'project contract' do
       it 'returns all projects the user has the add_subprojects permissions for' do
         expect(contract.assignable_parents)
           .to eql assignable_parents
-      end
-    end
-
-    context 'for status' do
-      it 'is a list of all available status' do
-        expect(subject.assignable_values(:status, current_user))
-          .to eql Project.statuses.keys
       end
     end
 

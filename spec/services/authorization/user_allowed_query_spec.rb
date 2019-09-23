@@ -32,8 +32,8 @@ describe Authorization::UserAllowedQuery do
   describe '.query' do
     let(:user) { member.principal }
     let(:anonymous) { FactoryBot.build(:anonymous) }
-    let(:project) { FactoryBot.build(:project, is_public: false) }
-    let(:project2) { FactoryBot.build(:project, is_public: false) }
+    let(:project) { FactoryBot.build(:project, public: false) }
+    let(:project2) { FactoryBot.build(:project, public: false) }
     let(:role) { FactoryBot.build(:role) }
     let(:role2) { FactoryBot.build(:role) }
     let(:anonymous_role) { FactoryBot.build(:anonymous_role) }
@@ -136,7 +136,7 @@ describe Authorization::UserAllowedQuery do
         role.add_permission! action
         role.save!
 
-        project.is_public = true
+        project.public = true
         project.save!
 
         member.project = project2
@@ -152,7 +152,7 @@ describe Authorization::UserAllowedQuery do
              w/o the user being member in the project
              w/ the non member role having the necessary permission' do
       before do
-        project.is_public = true
+        project.public = true
 
         non_member = Role.non_member
         non_member.add_permission! action
@@ -170,7 +170,7 @@ describe Authorization::UserAllowedQuery do
              w/o the user being member in the project
              w/ the anonymous role having the necessary permission' do
       before do
-        project.is_public = true
+        project.public = true
 
         anonymous_role = Role.anonymous
         anonymous_role.add_permission! action
@@ -188,7 +188,7 @@ describe Authorization::UserAllowedQuery do
              w/o the user being member in the project
              w/ the non member role having another permission' do
       before do
-        project.is_public = true
+        project.public = true
 
         non_member = Role.non_member
         non_member.add_permission! other_action
@@ -223,7 +223,7 @@ describe Authorization::UserAllowedQuery do
              w/o the role having the necessary permission
              w/ the non member role having the permission' do
       before do
-        project.is_public = true
+        project.public = true
         project.save
 
         role.add_permission! other_action
@@ -257,7 +257,7 @@ describe Authorization::UserAllowedQuery do
              w/o the role having the permission
              w/ the permission being public' do
       before do
-        project.is_public = true
+        project.public = true
         project.save
       end
 
@@ -314,7 +314,7 @@ describe Authorization::UserAllowedQuery do
         role.add_permission! action
         member.save!
 
-        project.update_attribute(:status, Project::STATUS_ARCHIVED)
+        project.update(active: false)
       end
 
       it 'should be empty' do

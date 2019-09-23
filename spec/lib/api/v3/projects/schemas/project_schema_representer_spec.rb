@@ -47,7 +47,7 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
 
     allow(contract)
       .to receive(:writable?) do |attribute|
-      writable = %w(name identifier description is_public status parent)
+      writable = %w(name identifier description public status parent)
 
       writable.include?(attribute.to_s)
     end
@@ -158,7 +158,7 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
 
       it_behaves_like 'has basic schema properties' do
         let(:type) { 'Boolean' }
-        let(:name) { I18n.t('attributes.is_public') }
+        let(:name) { I18n.t('attributes.public') }
         let(:required) { true }
         let(:writable) { true }
       end

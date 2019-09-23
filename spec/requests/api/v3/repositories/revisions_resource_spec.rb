@@ -45,7 +45,7 @@ describe 'API v3 Revisions resource', type: :request do
     FactoryBot.create(:repository_subversion, project: project)
   }
   let(:project) {
-    FactoryBot.create(:project, identifier: 'test_project', is_public: false)
+    FactoryBot.create(:project, identifier: 'test_project', public: false)
   }
   let(:role) {
     FactoryBot.create(:role,

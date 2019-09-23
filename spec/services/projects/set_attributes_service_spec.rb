@@ -155,24 +155,24 @@ describe Projects::SetAttributesService, type: :model do
         end
       end
 
-      context 'is_public default value', with_settings: { default_projects_public: true } do
+      context 'public default value', with_settings: { default_projects_public: true } do
         context 'with a value for is_public provided' do
           let(:call_attributes) do
             {
-              is_public: false
+              public: false
             }
           end
 
-          it 'does not alter the is_public value' do
-            expect(subject.result.is_public)
-              .to be_falsey
+          it 'does not alter the public value' do
+            expect(subject.result)
+              .not_to be_public
           end
         end
 
-        context 'with no value for is_public provided' do
+        context 'with no value for public provided' do
           it 'sets uses the default value' do
-            expect(subject.result.is_public)
-              .to be_truthy
+            expect(subject.result)
+              .to be_public
           end
         end
       end

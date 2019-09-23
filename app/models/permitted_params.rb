@@ -294,7 +294,7 @@ class PermittedParams
   def project
     whitelist = params.require(:project).permit(:name,
                                                 :description,
-                                                :is_public,
+                                                :public,
                                                 :responsible_id,
                                                 :identifier,
                                                 :project_type_id,

@@ -88,7 +88,7 @@ class Authorization::UserAllowedQuery < Authorization::AbstractUserQuery
   def self.roles_member_roles_join(project)
     id_equal = roles_table[:id].eq(member_roles_table[:role_id])
 
-    if project.is_public?
+    if project.public?
       member_or_public_project_condition(id_equal)
     else
       id_equal

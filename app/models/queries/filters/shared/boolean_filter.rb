@@ -28,23 +28,19 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Projects::Filters::ActiveOrArchivedFilter < Queries::Projects::Filters::ProjectFilter
-  def type
-    :list_all
-  end
-
-  def self.key
-    :status
-  end
-
-  def human_name
-    I18n.t('query_fields.active_or_archived')
-  end
-
+module Queries::Filters::Shared::BooleanFilter
   def allowed_values
     [
-      [I18n.t(:status_active), Project::STATUS_ACTIVE.to_s],
-      [I18n.t(:status_archived), Project::STATUS_ARCHIVED.to_s]
+      [I18n.t(:general_text_yes), OpenProject::Database::DB_VALUE_TRUE],
+      [I18n.t(:general_text_no), OpenProject::Database::DB_VALUE_FALSE]
     ]
+  end
+
+  def type
+    :list
+  end
+
+  def type_strategy
+    @type_strategy ||= ::Queries::Filters::Strategies::BooleanList.new self
   end
 end

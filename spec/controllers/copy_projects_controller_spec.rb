@@ -32,15 +32,15 @@ describe CopyProjectsController, type: :controller do
   let(:current_user) { FactoryBot.create(:admin) }
   let(:redirect_path) { "/projects/#{project.id}/settings" }
   let(:permission) { :copy_projects }
-  let(:project) { FactoryBot.create(:project_with_types, is_public: false) }
-  let(:copy_project_params) {
+  let(:project) { FactoryBot.create(:project_with_types, public: false) }
+  let(:copy_project_params) do
     {
       'description' => 'Some pretty description',
       'enabled_module_names' => ['work_package_tracking', 'boards', ''],
-      'is_public' => project.is_public,
+      'public' => project.public,
       'type_ids' => project.types.map(&:id)
     }
-  }
+  end
 
   before do
     allow(User).to receive(:current).and_return current_user
@@ -70,10 +70,10 @@ describe CopyProjectsController, type: :controller do
   end
 
   describe 'copy_from_settings without name and identifier' do
-    before {
+    before do
       post 'copy',
            params: { id: project.id, project: copy_project_params }
-    }
+    end
 
     it { expect(response).to render_template('copy_from_settings') }
     it 'should display error validation messages' do
@@ -137,7 +137,7 @@ describe CopyProjectsController, type: :controller do
     end
 
     let(:permission) { [:copy_projects, :add_project] }
-    let(:project) { FactoryBot.create(:project, is_public: false) }
+    let(:project) { FactoryBot.create(:project, public: false) }
 
     it_should_behave_like 'a controller action which needs project permissions'
   end

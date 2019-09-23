@@ -37,10 +37,10 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
     FactoryBot.create(:user, member_in_project: project, member_through_role: role)
   end
   let(:project) do
-    FactoryBot.create(:project, is_public: false)
+    FactoryBot.create(:project, public: false)
   end
   let(:other_project) do
-    FactoryBot.create(:project, is_public: false)
+    FactoryBot.create(:project, public: false)
   end
   let(:role) { FactoryBot.create(:role) }
   let(:custom_field) do
@@ -59,7 +59,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
   describe '#get /projects/:id' do
     let(:get_path) { api_v3_paths.project project.id }
     let!(:parent_project) do
-      FactoryBot.create(:project, is_public: false).tap do |p|
+      FactoryBot.create(:project, public: false).tap do |p|
         project.parent = p
         project.save!
       end
@@ -172,7 +172,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       let(:projects) { [project, other_project, parent_project] }
 
       let(:parent_project) do
-        parent_project = FactoryBot.create(:project, is_public: false)
+        parent_project = FactoryBot.create(:project, public: false)
 
         project.update_attribute(:parent_id, parent_project.id)
 

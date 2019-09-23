@@ -39,7 +39,7 @@ describe 'API v3 Revisions by work package resource', type: :request do
                        member_in_project: project,
                        member_through_role: role)
   }
-  let(:project) { FactoryBot.create(:project, is_public: false) }
+  let(:project) { FactoryBot.create(:project, public: false) }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:permissions) { [:view_work_packages, :view_changesets] }
   let(:repository) { FactoryBot.create(:repository_subversion, project: project) }

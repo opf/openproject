@@ -47,7 +47,7 @@ en:
             timeline: false
             sort_by: id
             hidden: true
-            is_public: false
+            public: false
         type_configuration:
           - type: :default_type_bug
             description: |

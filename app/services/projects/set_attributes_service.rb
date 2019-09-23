@@ -36,7 +36,7 @@ module Projects
       attribute_keys = attributes.keys.map(&:to_s)
 
       set_default_identifier(attribute_keys.include?('identifier'))
-      set_default_is_public(attribute_keys.include?('is_public'))
+      set_default_public(attribute_keys.include?('public'))
       set_default_module_names(attribute_keys.include?('enabled_module_names'))
       set_default_types(attribute_keys.include?('types') || attribute_keys.include?('type_ids'))
     end
@@ -47,8 +47,8 @@ module Projects
       end
     end
 
-    def set_default_is_public(provided)
-      model.is_public = Setting.default_projects_public? unless provided
+    def set_default_public(provided)
+      model.public = Setting.default_projects_public? unless provided
     end
 
     def set_default_module_names(provided)
