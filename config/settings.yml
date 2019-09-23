@@ -57,8 +57,6 @@ smtp_user_name:
   default: ""
 smtp_password:
   default: ""
-smtp_domain:
-  default: "example.com"
 additional_footer_content:
   default: ''
 # The instance name
