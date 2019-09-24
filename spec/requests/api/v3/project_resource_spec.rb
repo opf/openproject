@@ -107,7 +107,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       it 'includes the project status' do
         expect(subject.body)
           .to be_json_eql(project_status.explanation.to_json)
-          .at_path("status/explanation")
+          .at_path("status/explanation/raw")
 
         expect(subject.body)
           .to be_json_eql(project_status.code.to_json)

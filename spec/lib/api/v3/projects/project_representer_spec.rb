@@ -120,16 +120,28 @@ describe ::API::V3::Projects::ProjectRepresenter do
       end
 
       context 'status' do
-        it 'includes the project status explanation' do
-          expect(subject)
-            .to be_json_eql(status.explanation.to_json)
-            .at_path('status/explanation')
+        it_behaves_like 'formattable property', :'status/explanation' do
+          let(:value) { status.explanation }
         end
 
         it 'includes the project status code' do
           expect(subject)
             .to be_json_eql(status.code.to_json)
             .at_path('status/code')
+        end
+
+        context 'if the status is nil' do
+          let(:status) { nil }
+
+          it_behaves_like 'formattable property', :'status/explanation' do
+            let(:value) { nil }
+          end
+
+          it 'includes the project status code' do
+            expect(subject)
+              .to be_json_eql(nil.to_json)
+              .at_path('status/code')
+          end
         end
       end
 
@@ -442,6 +454,13 @@ describe ::API::V3::Projects::ProjectRepresenter do
 
         it 'changes when the project is updated' do
           project.updated_at = Time.now + 20.seconds
+
+          expect(representer.json_cache_key)
+            .not_to eql former_cache_key
+        end
+
+        it 'changes when the project status is updated' do
+          project.status.updated_at = Time.now + 20.seconds
 
           expect(representer.json_cache_key)
             .not_to eql former_cache_key

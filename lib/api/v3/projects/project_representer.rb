@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -39,6 +40,8 @@ module API
         include ::API::Caching::CachedRepresenter
         include API::Decorators::FormattableProperty
         extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
+
+        cached_representer key_parts: %i(status)
 
         self_link
 
@@ -152,10 +155,13 @@ module API
 
         date_time_property :updated_at
 
-        property :status do
-          property :explanation
-          property :code
-        end
+        property :status,
+                 render_nil: true,
+                 exec_context: :decorator,
+                 getter: ->(*) {
+                   ::API::V3::Projects::Status::ProjectStatusRepresenter.create(represented.status || Project::Status.new,
+                                                                                current_user: current_user)
+                 }
 
         def _type
           'Project'
