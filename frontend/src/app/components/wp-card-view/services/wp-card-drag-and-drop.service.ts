@@ -59,9 +59,9 @@ export class WorkPackageCardDragAndDropService {
       scrollContainers: [this.cardView.container.nativeElement],
       moves: (card:HTMLElement) => {
         const wpId:string = card.dataset.workPackageId!;
-        const workPackage = this.states.workPackages.get(wpId).value!;
+        const workPackage = this.states.workPackages.get(wpId).value;
 
-        return this.cardView.canDragOutOf(workPackage) && !card.dataset.isNew;
+        return !!workPackage && this.cardView.canDragOutOf(workPackage) && !card.dataset.isNew;
       },
       accepts: () => this.cardView.dragInto,
       onMoved: async (card:HTMLElement) => {
@@ -83,7 +83,7 @@ export class WorkPackageCardDragAndDropService {
         const wpId:string = card.dataset.workPackageId!;
         const toIndex = DragAndDropHelpers.findIndex(card);
 
-        const workPackage = this.states.workPackages.get(wpId).value!;
+        const workPackage = await this.wpCacheService.require(wpId);
         const result = await this.addWorkPackageToQuery(workPackage, toIndex);
 
         if (card.parentElement) {
