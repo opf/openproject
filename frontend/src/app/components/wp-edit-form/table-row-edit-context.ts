@@ -32,7 +32,7 @@ import {States} from '../states.service';
 import {CellBuilder, editCellContainer, tdClassName} from '../wp-fast-table/builders/cell-builder';
 import {WorkPackageEditContext} from './work-package-edit-context';
 import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
-import {WorkPackageEditForm} from './work-package-edit-form';
+import {WorkPackageEditForm} from '../../modules/fields/edit/edit-form/work-package-edit-form';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 import {WorkPackageTable} from 'core-components/wp-fast-table/wp-fast-table';
 import {WorkPackageEditingPortalService} from "core-app/modules/fields/edit/editing-portal/wp-editing-portal-service";

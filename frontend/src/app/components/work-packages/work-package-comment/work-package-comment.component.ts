@@ -28,7 +28,7 @@
 
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
-import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
+import {WorkPackageNotificationService} from '../../../modules/hal/services/wp-notification.service';
 import {WorkPackageCacheService} from '../work-package-cache.service';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";

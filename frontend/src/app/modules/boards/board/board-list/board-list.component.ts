@@ -38,7 +38,7 @@ import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-r
 import {WorkPackageFilterValues} from "core-components/wp-edit-form/work-package-filter-values";
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
-import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+import {WorkPackageNotificationService} from "core-app/modules/hal/services/wp-notification.service";
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
 import {BoardActionService} from "core-app/modules/boards/board/board-actions/board-action.service";
 import {ComponentType} from "@angular/cdk/portal";

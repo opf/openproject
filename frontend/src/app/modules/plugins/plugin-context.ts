@@ -16,7 +16,7 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
 import {EditFieldService} from "core-app/modules/fields/edit/edit-field.service";
-import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+import {WorkPackageNotificationService} from "core-app/modules/hal/services/wp-notification.service";
 import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/op-file-upload.service";
 import {EditorMacrosService} from "core-components/modals/editor/editor-macros.service";
 import {HTMLSanitizeService} from "../common/html-sanitize/html-sanitize.service";

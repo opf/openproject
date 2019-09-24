@@ -17,7 +17,7 @@ import {debugLog} from "core-app/helpers/debug_output";
  * Provides access to:
  *  - The projected resource with all changes applied as properties
  */
-export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; }> {
+export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } = HalResource> {
   /** Maintain a single change set while editing */
   protected changeset = new Changeset();
 

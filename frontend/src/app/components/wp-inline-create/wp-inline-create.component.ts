@@ -41,7 +41,7 @@ import {AuthorisationService} from 'core-app/modules/common/model-auth/model-aut
 import {WorkPackageViewFocusService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import {filter} from 'rxjs/operators';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageEditForm} from '../wp-edit-form/work-package-edit-form';
+import {WorkPackageEditForm} from '../../modules/fields/edit/edit-form/work-package-edit-form';
 import {onClickOrEnter} from '../wp-fast-table/handlers/click-or-enter-handler';
 import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
 import {WorkPackageCreateService} from '../wp-new/wp-create.service';

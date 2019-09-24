@@ -1,7 +1,7 @@
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
-import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
+import {WorkPackageNotificationService} from '../../../modules/hal/services/wp-notification.service';
 import {WorkPackageRelationsService} from '../wp-relations.service';
 import {Component, ElementRef, Inject, Input, ViewChild} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";

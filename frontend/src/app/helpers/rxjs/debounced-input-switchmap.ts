@@ -11,7 +11,7 @@ import {
   tap
 } from "rxjs/operators";
 import {RequestSwitchmapHandler} from "core-app/helpers/rxjs/request-switchmap";
-import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+import {WorkPackageNotificationService} from "core-app/modules/hal/services/wp-notification.service";
 
 export type RequestErrorHandler = (error:unknown) => void;
 

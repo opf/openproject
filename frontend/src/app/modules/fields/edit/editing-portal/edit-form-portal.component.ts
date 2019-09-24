@@ -18,7 +18,6 @@ import {
 import {createLocalInjector} from "core-app/modules/fields/edit/editing-portal/edit-form-portal.injector";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {EditFieldService, IEditFieldType} from "core-app/modules/fields/edit/edit-field.service";
-import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
@@ -28,13 +27,13 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 })
 export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() schemaInput:IFieldSchema;
-  @Input() changeInput:WorkPackageChangeset;
+  @Input() changeInput:ResourceChangeset;
   @Input() editFieldHandler:EditFieldHandler;
   @Output() public onEditFieldReady = new EventEmitter<void>();
 
   public handler:EditFieldHandler;
   public schema:IFieldSchema;
-  public change:WorkPackageChangeset;
+  public change:ResourceChangeset;
   public fieldInjector:Injector;
 
   public componentClass:IEditFieldType;
@@ -55,7 +54,7 @@ export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit
     } else {
       this.handler = this.injector.get<EditFieldHandler>(OpEditingPortalHandlerToken);
       this.schema = this.injector.get<IFieldSchema>(OpEditingPortalSchemaToken);
-      this.change = this.injector.get<WorkPackageChangeset>(OpEditingPortalChangesetToken);
+      this.change = this.injector.get<ResourceChangeset>(OpEditingPortalChangesetToken);
     }
 
     this.componentClass = this.editField.getClassFor(this.handler.fieldName, this.schema.type);

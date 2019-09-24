@@ -30,7 +30,7 @@
 import {Component, HostListener, Input, Inject} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
-import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
+import {WorkPackageNotificationService} from 'core-app/modules/hal/services/wp-notification.service';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {CustomActionResource} from 'core-app/modules/hal/resources/custom-action-resource';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';

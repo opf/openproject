@@ -51,7 +51,7 @@ import {NgSelectComponent} from "@ng-select/ng-select";
 import {Observable, of} from "rxjs";
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import {map} from "rxjs/internal/operators";
-import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+import {WorkPackageNotificationService} from "core-app/modules/hal/services/wp-notification.service";
 import {DebouncedRequestSwitchmap, errorNotificationHandler} from "core-app/helpers/rxjs/debounced-input-switchmap";
 import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
 

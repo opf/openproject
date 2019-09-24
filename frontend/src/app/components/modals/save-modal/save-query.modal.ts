@@ -27,7 +27,7 @@
 //++
 
 import {States} from '../../states.service';
-import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
+import {WorkPackageNotificationService} from '../../../modules/hal/services/wp-notification.service';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {OpModalComponent} from "core-components/op-modals/op-modal.component";

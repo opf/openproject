@@ -2,7 +2,7 @@
  * A CDK portal implementation to wrap wp-edit-fields in non-angular contexts.
  */
 import {WorkPackageEditFieldHandler} from "core-components/wp-edit-form/work-package-edit-field-handler";
-import {WorkPackageEditForm} from "core-components/wp-edit-form/work-package-edit-form";
+import {WorkPackageEditForm} from "core-app/modules/fields/edit/edit-form/work-package-edit-form";
 import {ApplicationRef, ComponentFactoryResolver, Injectable, Injector} from "@angular/core";
 import {ComponentPortal, DomPortalOutlet} from "@angular/cdk/portal";
 import {EditFormPortalComponent} from "core-app/modules/fields/edit/editing-portal/edit-form-portal.component";

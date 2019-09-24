@@ -28,7 +28,7 @@
 
 import {Injectable} from "@angular/core";
 import {HttpClient} from '@angular/common/http';
-import {WorkPackageNotificationService} from "core-app/components/wp-edit/wp-notification.service";
+import {WorkPackageNotificationService} from "core-app/modules/hal/services/wp-notification.service";
 
 @Injectable()
 export class CostBudgetSubformAugmentService {

@@ -38,6 +38,7 @@ import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 import {Subject} from "rxjs";
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
 import {ChangeMap} from "core-app/modules/fields/changeset/changeset";
+import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
 
 class ChangesetStates extends StatesGroup {
   name = 'Changesets';
@@ -103,7 +104,7 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
     super();
   }
 
-  public async save(change:WorkPackageChangeset):Promise<WorkPackageChangesetCommit> {
+  public async save(change:ResourceChangeset):Promise<WorkPackageChangesetCommit> {
     change.inFlight = true;
 
     // TODO remove? const wasNew = change.pristineResource.isNew;
@@ -173,7 +174,7 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
    * @param {form:FormResource} Initialize with an existing form
    * @return {WorkPackageChangeset} Change object to work on
    */
-  public changeFor(fallback:WorkPackageResource):WorkPackageChangeset {
+  public changeFor(fallback:WorkPackageResource):ResourceChangeset {
     const state = this.multiState.get(fallback.id!);
     const workPackage = this.wpCacheService.state(fallback.id!).getValueOr(fallback);
     let changeset = state.value;

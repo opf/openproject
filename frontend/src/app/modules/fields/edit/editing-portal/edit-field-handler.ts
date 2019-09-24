@@ -135,6 +135,8 @@ export abstract class EditFieldHandler {
    */
   public abstract onFocusOut():void;
 
+  public abstract setErrors(newErrors:string[]):void;
+
   public get formattableEditorType() {
     return 'constrained';
   }

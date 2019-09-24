@@ -27,7 +27,7 @@
 // ++
 
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageEditForm} from './work-package-edit-form';
+import {WorkPackageEditForm} from '../../modules/fields/edit/edit-form/work-package-edit-form';
 import {WorkPackageEditContext} from './work-package-edit-context';
 import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';

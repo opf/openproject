@@ -132,7 +132,7 @@ import {WorkPackageCacheService} from 'core-components/work-packages/work-packag
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
-import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
+import {WorkPackageNotificationService} from 'core-app/modules/hal/services/wp-notification.service';
 import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';

@@ -50,7 +50,7 @@ import {WorkPackageTimelineCellsRenderer} from "core-components/wp-table/timelin
 import {States} from "core-components/states.service";
 import {WorkPackagesTableController} from "core-components/wp-table/wp-table.directive";
 import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
-import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+import {WorkPackageNotificationService} from "core-app/modules/hal/services/wp-notification.service";
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
 import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
 import {WorkPackageTimelineState} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-timeline";

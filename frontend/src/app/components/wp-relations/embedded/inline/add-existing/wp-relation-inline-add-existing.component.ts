@@ -31,7 +31,7 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
 import {WorkPackageInlineCreateComponent} from "core-components/wp-inline-create/wp-inline-create.component";
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
-import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+import {WorkPackageNotificationService} from "core-app/modules/hal/services/wp-notification.service";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {WpRelationInlineCreateServiceInterface} from "core-components/wp-relations/embedded/wp-relation-inline-create.service.interface";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";

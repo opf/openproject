@@ -40,7 +40,7 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {Observable, of, Subject} from "rxjs";
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from "rxjs/operators";
-import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+import {WorkPackageNotificationService} from "core-app/modules/hal/services/wp-notification.service";
 import {NgSelectComponent} from "@ng-select/ng-select";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";

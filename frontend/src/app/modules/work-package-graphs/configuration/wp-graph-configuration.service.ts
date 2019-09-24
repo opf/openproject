@@ -7,7 +7,7 @@ import {WpGraphConfigurationFiltersTab} from "core-app/modules/work-package-grap
 import {ChartType} from 'chart.js';
 import {QueryFormDmService} from "core-app/modules/hal/dm-services/query-form-dm.service";
 import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
-import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+import {WorkPackageNotificationService} from "core-app/modules/hal/services/wp-notification.service";
 import {StateService} from '@uirouter/core';
 import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
 import {

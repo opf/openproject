@@ -27,15 +27,15 @@
 // ++
 
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageEditForm} from './work-package-edit-form';
-import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
+import {WorkPackageEditFieldHandler} from 'core-components/wp-edit-form/work-package-edit-field-handler';
 import {IFieldSchema} from "core-app/modules/fields/field.base";
+import {EditForm} from "core-app/modules/fields/edit/edit-form/edit-form";
 
-export interface WorkPackageEditContext {
+export interface EditContext {
   /**
    * Activate the field, returning the element and associated field handler
    */
-  activateField(form:WorkPackageEditForm, schema:IFieldSchema, fieldName:string, errors:string[]):Promise<WorkPackageEditFieldHandler>;
+  activateField(form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[]):Promise<WorkPackageEditFieldHandler>;
 
   /**
    * Show this required field. E.g., add the necessary column

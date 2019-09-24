@@ -28,7 +28,7 @@
 
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
+import {WorkPackageNotificationService} from 'core-app/modules/hal/services/wp-notification.service';
 import {States} from '../../states.service';
 import {StateService} from '@uirouter/core';
 import {Injectable} from '@angular/core';

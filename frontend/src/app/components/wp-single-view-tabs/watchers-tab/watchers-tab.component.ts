@@ -32,7 +32,7 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
-import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
+import {WorkPackageNotificationService} from 'core-app/modules/hal/services/wp-notification.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';

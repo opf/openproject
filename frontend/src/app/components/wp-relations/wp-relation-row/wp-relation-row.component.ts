@@ -1,5 +1,5 @@
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
-import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
+import {WorkPackageNotificationService} from '../../../modules/hal/services/wp-notification.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageRelationsService} from '../wp-relations.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';

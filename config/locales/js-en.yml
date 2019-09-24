@@ -212,6 +212,14 @@ en:
     general_text_No: "No"
     general_text_Yes: "Yes"
 
+    hal:
+      error:
+        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
+        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        format:
+          date: "%{attribute} is no valid date - YYYY-MM-DD expected."
+        general: "An error has occurred."
+
     homescreen:
       blocks:
         new_features:
@@ -660,12 +668,6 @@ en:
       description_enter_text: "Enter text"
       description_options_hide: "Hide options"
       description_options_show: "Show options"
-      error:
-        update_conflict_refresh: "Click here to refresh the work package and update to the newest version."
-        edit_prohibited: "Editing %{attribute} is blocked for this work package. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
-        format:
-          date: "%{attribute} is no valid date - YYYY-MM-DD expected."
-        general: "An error has occurred."
       edit_attribute: "%{attribute} - Edit"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Enable multiselect"

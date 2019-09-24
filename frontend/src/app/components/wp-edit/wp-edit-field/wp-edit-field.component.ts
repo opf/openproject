@@ -28,7 +28,7 @@
 
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
-import {WorkPackageNotificationService} from '../wp-notification.service';
+import {WorkPackageNotificationService} from '../../../modules/hal/services/wp-notification.service';
 import {States} from '../../states.service';
 import {
   displayClassName,

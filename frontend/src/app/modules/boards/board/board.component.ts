@@ -27,7 +27,7 @@ import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
 import {RequestSwitchmap} from "core-app/helpers/rxjs/request-switchmap";
 import {from, Subscription} from "rxjs";
 import {BoardFilterComponent} from "core-app/modules/boards/board/board-filter/board-filter.component";
-import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+import {WorkPackageNotificationService} from "core-app/modules/hal/services/wp-notification.service";
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
 import {QueryUpdatedService} from "core-app/modules/boards/board/query-updated/query-updated.service";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";

@@ -34,7 +34,7 @@ import {States} from 'core-components/states.service';
 import {TypeDmService} from 'core-app/modules/hal/dm-services/type-dm.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
-import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
+import {WorkPackageNotificationService} from 'core-app/modules/hal/services/wp-notification.service';
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';

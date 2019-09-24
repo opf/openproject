@@ -37,7 +37,7 @@ import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/w
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {WorkPackageRelationQueryBase} from "core-components/wp-relations/embedded/wp-relation-query.base";
 import {WpRelationInlineCreateService} from "core-components/wp-relations/embedded/relations/wp-relation-inline-create.service";
-import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+import {WorkPackageNotificationService} from "core-app/modules/hal/services/wp-notification.service";
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
 import {filter} from "rxjs/operators";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";

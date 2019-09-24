@@ -31,10 +31,10 @@ import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edi
 import {WorkPackageEditFieldComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.component';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from '../states.service';
-import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
+import {WorkPackageNotificationService} from '../../modules/hal/services/wp-notification.service';
 import {Injector} from '@angular/core';
 import {WorkPackageEditContext} from 'core-components/wp-edit-form/work-package-edit-context';
-import {WorkPackageEditForm} from 'core-components/wp-edit-form/work-package-edit-form';
+import {WorkPackageEditForm} from 'core-app/modules/fields/edit/edit-form/work-package-edit-form';
 import {WorkPackageEditFieldHandler} from 'core-components/wp-edit-form/work-package-edit-field-handler';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 import {WorkPackageEditingPortalService} from "core-app/modules/fields/edit/editing-portal/wp-editing-portal-service";

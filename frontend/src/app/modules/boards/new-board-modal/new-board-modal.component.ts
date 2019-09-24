@@ -37,7 +37,7 @@ import {BoardService} from "core-app/modules/boards/board/board.service";
 import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
-import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+import {WorkPackageNotificationService} from "core-app/modules/hal/services/wp-notification.service";
 
 @Component({
   templateUrl: './new-board-modal.html'

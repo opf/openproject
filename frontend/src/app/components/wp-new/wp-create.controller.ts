@@ -42,7 +42,7 @@ import {States} from '../states.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {RootResource} from 'core-app/modules/hal/resources/root-resource';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
-import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
+import {WorkPackageNotificationService} from '../../modules/hal/services/wp-notification.service';
 import {WorkPackageCreateService} from './wp-create.service';
 import {takeUntil} from 'rxjs/operators';
 import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';

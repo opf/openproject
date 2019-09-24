@@ -32,14 +32,14 @@ import {StateService} from '@uirouter/core';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {Injectable} from '@angular/core';
 import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
-import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
+import {INotification, NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 @Injectable()
-export class WorkPackageNotificationService {
+export class HalResourceNotificationService {
   constructor(readonly I18n:I18nService,
               protected $state:StateService,
               protected wpCacheService:WorkPackageCacheService,
@@ -48,14 +48,14 @@ export class WorkPackageNotificationService {
               protected loadingIndicator:LoadingIndicatorService) {
   }
 
-  public showSave(workPackage:WorkPackageResource, isCreate:boolean = false) {
+  public showSave(resource:HalResource, isCreate:boolean = false) {
     var message:any = {
       message: this.I18n.t('js.notice_successful_' + (isCreate ? 'create' : 'update')),
     };
 
-    // Don't show the 'Show in full screen' link  if we're there already
-    if (!this.$state.includes('work-packages.show')) {
-      message.link = this.showInFullScreenLink(workPackage);
+    // ToDo: Move to its own service
+    if (resource instanceof WorkPackageResource) {
+      this.addWorkPackageFullscreenLink(message, resource as WorkPackageResource);
     }
 
     this.NotificationsService.addSuccess(message);
@@ -69,21 +69,21 @@ export class WorkPackageNotificationService {
    * - String error messages
    *
    * @param response
-   * @param workPackage
+   * @param resource
    */
-  public handleRawError(response:unknown, workPackage?:WorkPackageResource) {
-    console.error("Handling error message %O for work package %O", response, workPackage);
+  public handleRawError(response:unknown, resource?:HalResource) {
+    console.error("Handling error message %O for work package %O", response, resource);
 
     // Some transformation may already have returned the error as a HAL resource,
     // which we will forward to handleErrorResponse
     if (response instanceof ErrorResource) {
-      return this.handleErrorResponse(response, workPackage);
+      return this.handleErrorResponse(response, resource);
     }
 
     const errorBody = this.retrieveError(response);
 
     if (errorBody instanceof HalResource) {
-      return this.handleErrorResponse(errorBody, workPackage);
+      return this.handleErrorResponse(errorBody, resource);
     }
 
     if (typeof(response) === 'string') {
@@ -134,20 +134,20 @@ export class WorkPackageNotificationService {
     return errorBody;
   }
 
-  protected handleErrorResponse(errorResource:any, workPackage?:WorkPackageResource) {
+  protected handleErrorResponse(errorResource:any, resource?:HalResource) {
     if (!(errorResource instanceof ErrorResource)) {
       return this.showGeneralError(errorResource);
     }
 
-    if (workPackage) {
-      return this.showError(errorResource, workPackage);
+    if (resource) {
+      return this.showError(errorResource, resource);
     }
 
     this.showApiErrorMessages(errorResource);
   }
 
-  public showError(errorResource:any, workPackage:WorkPackageResource) {
-    this.showCustomError(errorResource, workPackage) || this.showApiErrorMessages(errorResource);
+  public showError(errorResource:any, resource:HalResource) {
+    this.showCustomError(errorResource, resource) || this.showApiErrorMessages(errorResource);
   }
 
   public showGeneralError(message?:unknown) {
@@ -162,32 +162,31 @@ export class WorkPackageNotificationService {
 
   public showEditingBlockedError(attribute:string) {
     this.NotificationsService.addError(this.I18n.t(
-      'js.work_packages.error.edit_prohibited',
+      'js.hal.error.edit_prohibited',
       { attribute: attribute }
     ));
   }
 
-  private showCustomError(errorResource:any, workPackage:WorkPackageResource) {
+  private showCustomError(errorResource:any, resource:HalResource) {
     if (errorResource.errorIdentifier === 'urn:openproject-org:api:v3:errors:UpdateConflict') {
       this.NotificationsService.addError({
         message: errorResource.message,
         type: 'error',
         link: {
-          text: this.I18n.t('js.work_packages.error.update_conflict_refresh'),
-          target: () => this.wpCacheService.require(workPackage.id!, true)
+          text: this.I18n.t('js.hal.error.update_conflict_refresh'),
+          // ToDo: Remove Work Package dependency
+          target: () => this.wpCacheService.require(resource.id!, true)
         }
       });
-
 
       return true;
     }
 
-
     if (errorResource.errorIdentifier === 'urn:openproject-org:api:v3:errors:PropertyFormatError') {
 
-      let attributeName = workPackage.schema[errorResource.details.attribute].name;
-      let attributeType = workPackage.schema[errorResource.details.attribute].type.toLowerCase();
-      let i18nString = 'js.work_packages.error.format.' + attributeType;
+      let attributeName = resource.schema[errorResource.details.attribute].name;
+      let attributeType = resource.schema[errorResource.details.attribute].type.toLowerCase();
+      let i18nString = 'js.hal.error.format.' + attributeType;
 
       if (this.I18n.lookup(i18nString) === undefined) {
         return false;
@@ -214,11 +213,18 @@ export class WorkPackageNotificationService {
     return true;
   }
 
-  private showInFullScreenLink(workPackage:WorkPackageResource) {
+  private addWorkPackageFullscreenLink(message:INotification, resource:WorkPackageResource) {
+    // Don't show the 'Show in full screen' link  if we're there already
+    if (!this.$state.includes('work-packages.show')) {
+      message.link = this.showInFullScreenLink(resource);
+    }
+  }
+
+  private showInFullScreenLink(resource:HalResource) {
     return {
       target: () => {
         this.loadingIndicator.table.promise =
-          this.$state.go('work-packages.show.activity', { workPackageId: workPackage.id });
+          this.$state.go('work-packages.show.activity', { workPackageId: resource.id });
       },
       text: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen')
     };
