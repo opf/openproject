@@ -74,12 +74,12 @@
 
 .attributes-map
   display: grid
-  grid-template-columns: 1fr 4fr
+  grid-template-columns: 1fr 2fr
   grid-auto-rows: auto
   grid-gap: 1rem
 
   &.-minimal-keys
-    grid-template-columns: max-content 4fr
+    grid-template-columns: max-content 2fr
 
 .attributes-map--key
   @include text-shortener
@@ -91,3 +91,5 @@
 .attributes-map--value
   // empty for now but it makes sense to also have it present in the style declaration IMO
   zoom: 1
+  @include text-shortener
+  white-space: normal
