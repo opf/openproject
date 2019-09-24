@@ -18,7 +18,7 @@ import {
 } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
 import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
-import {WorkPackageNotificationService} from "core-app/modules/hal/services/wp-notification.service";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 import {ComponentType} from "@angular/cdk/portal";
@@ -63,7 +63,7 @@ export class WpGraphConfigurationModalComponent extends OpModalComponent impleme
               readonly componentFactoryResolver:ComponentFactoryResolver,
               readonly loadingIndicator:LoadingIndicatorService,
               readonly queryFormDm:QueryFormDmService,
-              readonly halNotifications:HalResourceNotificationService,
+              readonly halNotification:HalResourceNotificationService,
               readonly cdRef:ChangeDetectorRef,
               readonly ConfigurationService:ConfigurationService,
               readonly elementRef:ElementRef,

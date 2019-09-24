@@ -28,7 +28,7 @@
 
 import {WorkPackagesListService} from '../../wp-list/wp-list.service';
 import {States} from '../../states.service';
-import {WorkPackageNotificationService} from '../../../modules/hal/services/wp-notification.service';
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {OpModalComponent} from "core-components/op-modals/op-modal.component";
@@ -66,7 +66,7 @@ export class QuerySharingModal extends OpModalComponent implements OnInit {
               readonly querySpace:IsolatedQuerySpace,
               readonly cdRef:ChangeDetectorRef,
               readonly wpListService:WorkPackagesListService,
-              readonly halNotifications:HalResourceNotificationService,
+              readonly halNotification:HalResourceNotificationService,
               readonly notificationsService:NotificationsService) {
     super(locals, cdRef, elementRef);
   }

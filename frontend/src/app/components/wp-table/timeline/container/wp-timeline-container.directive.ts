@@ -50,7 +50,7 @@ import {WorkPackageTimelineCellsRenderer} from "core-components/wp-table/timelin
 import {States} from "core-components/states.service";
 import {WorkPackagesTableController} from "core-components/wp-table/wp-table.directive";
 import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
-import {WorkPackageNotificationService} from "core-app/modules/hal/services/wp-notification.service";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
 import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
 import {WorkPackageTimelineState} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-timeline";
@@ -58,7 +58,7 @@ import {WorkPackageTimelineCell} from "core-components/wp-table/timeline/cells/w
 import {selectorTimelineSide} from "core-components/wp-table/wp-table-scroll-sync";
 import {debugLog, timeOutput} from "core-app/helpers/debug_output";
 import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
-import {HalEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
+import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 
 @Component({
   selector: 'wp-timeline-container',
@@ -100,7 +100,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
               public wpTableDirective:WorkPackagesTableController,
               private NotificationsService:NotificationsService,
               private wpTableTimeline:WorkPackageViewTimelineService,
-              private halNotifications:HalResourceNotificationService,
+              private halNotification:HalResourceNotificationService,
               private wpRelations:WorkPackageRelationsService,
               private wpTableHierarchies:WorkPackageViewHierarchiesService,
               private wpEvents:HalEventsService,
@@ -271,7 +271,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
             relationType: 'follows'
           });
         })
-        .catch((error:any) => this.halNotificationsService.handleRawError(error, end));
+        .catch((error:any) => this.halNotification.handleRawError(error, end));
     });
   }
 
@@ -286,7 +286,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
             relationType: 'precedes'
           });
         })
-        .catch((error:any) => this.halNotificationsService.handleRawError(error, end));
+        .catch((error:any) => this.halNotification.handleRawError(error, end));
     });
   }
 

@@ -40,7 +40,7 @@ import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
 import {States} from 'core-components/states.service';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
-import {WorkPackageNotificationService} from 'core-app/modules/hal/services/wp-notification.service';
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {Attachable} from 'core-app/modules/hal/resources/mixins/attachable-mixin';
@@ -130,8 +130,8 @@ export class WorkPackageBaseResource extends HalResource {
   readonly wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
   readonly schemaCacheService:SchemaCacheService = this.injector.get(SchemaCacheService);
   readonly NotificationsService:NotificationsService = this.injector.get(NotificationsService);
-  readonly halNotifications:HalResourceNotificationService = this.injector.get(
-    WorkPackageNotificationService);
+  readonly halNotification:HalResourceNotificationService = this.injector.get(
+    HalResourceNotificationService);
   readonly pathHelper:PathHelperService = this.injector.get(PathHelperService);
   readonly opFileUpload:OpenProjectFileUploadService = this.injector.get(OpenProjectFileUploadService);
 

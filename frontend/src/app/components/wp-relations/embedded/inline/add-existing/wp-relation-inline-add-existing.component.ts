@@ -31,7 +31,7 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
 import {WorkPackageInlineCreateComponent} from "core-components/wp-inline-create/wp-inline-create.component";
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
-import {WorkPackageNotificationService} from "core-app/modules/hal/services/wp-notification.service";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {WpRelationInlineCreateServiceInterface} from "core-components/wp-relations/embedded/wp-relation-inline-create.service.interface";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
@@ -39,7 +39,7 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
 import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
 import {RelationResource} from "core-app/modules/hal/resources/relation-resource";
-import {HalEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
+import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 
 @Component({
   templateUrl: './wp-relation-inline-add-existing.component.html'
@@ -58,7 +58,7 @@ export class WpRelationInlineAddExistingComponent {
               @Inject(WorkPackageInlineCreateService) protected readonly wpInlineCreate:WpRelationInlineCreateServiceInterface,
               protected wpCacheService:WorkPackageCacheService,
               protected wpRelations:WorkPackageRelationsService,
-              protected halNotifications:HalResourceNotificationService,
+              protected halNotification:HalResourceNotificationService,
               protected wpEvents:HalEventsService,
               protected urlParamsHelper:UrlParamsHelperService,
               protected querySpace:IsolatedQuerySpace,
@@ -88,7 +88,7 @@ export class WpRelationInlineAddExistingComponent {
         this.cancel();
       })
       .catch((err:any) => {
-        this.halNotificationsService.handleRawError(err, this.workPackage);
+        this.halNotification.handleRawError(err, this.workPackage);
         this.isDisabled = false;
         this.cancel();
       });

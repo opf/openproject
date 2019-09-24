@@ -32,7 +32,7 @@ import {NotificationsService} from 'core-app/modules/common/notifications/notifi
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {input, InputState} from 'reactivestates';
-import {WorkPackageNotificationService} from '../../modules/hal/services/wp-notification.service';
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {Subject} from "rxjs";
 
 @Injectable()
@@ -44,7 +44,7 @@ export class CommentService {
 
   constructor(
     readonly I18n:I18nService,
-    private halNotifications:HalResourceNotificationService,
+    private halNotification:HalResourceNotificationService,
     private NotificationsService:NotificationsService) {
   }
 
@@ -78,7 +78,7 @@ export class CommentService {
   }
 
   private errorAndReject(error:HalResource, workPackage?:WorkPackageResource) {
-    this.halNotificationsService.handleRawError(error, workPackage);
+    this.halNotification.handleRawError(error, workPackage);
 
     // returning a reject will enable to correctly work with subsequent then/catch handlers.
     return Promise.reject(error);

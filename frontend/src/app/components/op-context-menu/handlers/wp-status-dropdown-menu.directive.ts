@@ -31,14 +31,14 @@ import {OPContextMenuService} from "core-components/op-context-menu/op-context-m
 import {Directive, ElementRef, Inject, Input} from "@angular/core";
 import {OpContextMenuTrigger} from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
-import {WorkPackageNotificationService} from "core-app/modules/hal/services/wp-notification.service";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
-import {HalEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
+import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 
 @Directive({
   selector: '[wpStatusDropdown]'
@@ -49,7 +49,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
   constructor(readonly elementRef:ElementRef,
               readonly opContextMenu:OPContextMenuService,
               readonly $state:StateService,
-              protected halNotifications:HalResourceNotificationService,
+              protected halNotification:HalResourceNotificationService,
               protected wpEditing:WorkPackageEditingService,
               protected notificationService:NotificationsService,
               protected I18n:I18nService,
@@ -89,7 +89,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
       this.wpEditing
         .save(change)
         .then(() => {
-          this.halNotificationsService.showSave(this.workPackage);
+          this.halNotification.showSave(this.workPackage);
           this.wpEvents.push(this.workPackage, { eventType: 'updated' });
         });
     }

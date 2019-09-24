@@ -27,7 +27,7 @@ import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
 import {RequestSwitchmap} from "core-app/helpers/rxjs/request-switchmap";
 import {from, Subscription} from "rxjs";
 import {BoardFilterComponent} from "core-app/modules/boards/board/board-filter/board-filter.component";
-import {WorkPackageNotificationService} from "core-app/modules/hal/services/wp-notification.service";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
 import {QueryUpdatedService} from "core-app/modules/boards/board/query-updated/query-updated.service";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
@@ -123,7 +123,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   constructor(public readonly state:StateService,
               private readonly I18n:I18nService,
               private readonly notifications:NotificationsService,
-              private readonly halNotifications:HalResourceNotificationService,
+              private readonly halNotification:HalResourceNotificationService,
               private readonly BoardList:BoardListsService,
               private readonly opModalService:OpModalService,
               private readonly injector:Injector,
@@ -151,7 +151,7 @@ export class BoardComponent implements OnInit, OnDestroy {
           this.BoardCache.update(board);
           this.notifications.addSuccess(this.text.updateSuccessful);
         },
-        (error:unknown) => this.halNotifications.handleRawError(error)
+        (error:unknown) => this.halNotification.handleRawError(error)
       );
 
     this.BoardCache

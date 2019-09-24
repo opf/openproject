@@ -5,7 +5,7 @@ import {WorkPackageEditingService} from "core-components/wp-edit-form/work-packa
 import {rowGroupClassName} from "core-components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
 import {locatePredecessorBySelector} from "core-components/wp-fast-table/helpers/wp-table-row-helpers";
 import {groupIdentifier} from "core-components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers";
-import {WorkPackageNotificationService} from "core-app/modules/hal/services/wp-notification.service";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 
 export class GroupByDragActionService extends TableDragActionService {
 
@@ -32,7 +32,7 @@ export class GroupByDragActionService extends TableDragActionService {
     changeset.projectedResource[this.groupedAttribute!] = groupedValue;
     return this.wpEditing
       .save(changeset)
-      .catch(e => this.halNotifications.handleRawError(e, workPackage));
+      .catch(e => this.halNotification.handleRawError(e, workPackage));
   }
 
   private getValueForGroup(el:HTMLElement):unknown|null {

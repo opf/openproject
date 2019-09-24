@@ -38,7 +38,7 @@ import {OpenProjectFileUploadService} from 'core-components/api/op-file-upload/o
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {States} from 'core-components/states.service';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
-import {WorkPackageNotificationService} from 'core-app/modules/hal/services/wp-notification.service';
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {take, takeWhile} from 'rxjs/operators';
 import {WorkPackageCreateService} from '../wp-new/wp-create.service';
 import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
@@ -66,7 +66,7 @@ describe('WorkPackageCacheService', () => {
         {provide: WorkPackageResource, useValue: {}},
         {provide: WorkPackageCreateService, useValue: {}},
         {provide: NotificationsService, useValue: {}},
-        {provide: WorkPackageNotificationService, useValue: {}},
+        {provide: HalResourceNotificationService, useValue: {}},
         {provide: OpenProjectFileUploadService, useValue: {}}
       ]
     });

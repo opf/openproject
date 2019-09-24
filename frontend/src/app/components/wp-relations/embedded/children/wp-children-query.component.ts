@@ -43,7 +43,7 @@ import {WorkPackageCacheService} from "core-components/work-packages/work-packag
 import {filter} from "rxjs/operators";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {GroupDescriptor} from "core-components/work-packages/wp-single-view/wp-single-view.component";
-import {HalEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
+import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 
 @Component({
   selector: 'wp-children-query',

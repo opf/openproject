@@ -71,7 +71,7 @@ export class VersionAutocompleterComponent extends CreateAutocompleterComponent 
               readonly currentProject:CurrentProjectService,
               readonly pathHelper:PathHelperService,
               readonly versionDm:VersionDmService,
-              readonly halNotifications:HalResourceNotificationService) {
+              readonly halNotification:HalResourceNotificationService) {
     super(I18n, currentProject, pathHelper);
   }
 
@@ -111,7 +111,7 @@ export class VersionAutocompleterComponent extends CreateAutocompleterComponent 
       })
       .catch(error =>  {
         this.createAutocompleter.closeSelect();
-        this.halNotifications.handleRawError(error);
+        this.halNotification.handleRawError(error);
       });
   }
 

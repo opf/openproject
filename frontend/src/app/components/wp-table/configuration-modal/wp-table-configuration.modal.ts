@@ -24,7 +24,7 @@ import {WorkPackageStatesInitializationService} from 'core-components/wp-list/wp
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resource';
 import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
-import {WorkPackageNotificationService} from "core-app/modules/hal/services/wp-notification.service";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 import {ComponentType} from "@angular/cdk/portal";
@@ -80,7 +80,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
               readonly querySpace:IsolatedQuerySpace,
               readonly queryFormDm:QueryFormDmService,
               readonly wpStatesInitialization:WorkPackageStatesInitializationService,
-              readonly halNotifications:HalResourceNotificationService,
+              readonly halNotification:HalResourceNotificationService,
               readonly wpTableColumns:WorkPackageViewColumnsService,
               readonly cdRef:ChangeDetectorRef,
               readonly ConfigurationService:ConfigurationService,
@@ -155,6 +155,6 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
 
           return form;
         })
-      .catch((error) => this.halNotificationsService.handleRawError(error));
+      .catch((error) => this.halNotification.handleRawError(error));
   }
 }

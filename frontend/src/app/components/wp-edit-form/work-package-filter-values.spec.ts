@@ -33,7 +33,7 @@ import {Injector} from "@angular/core";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 import {WorkPackageFilterValues} from "core-components/wp-edit-form/work-package-filter-values";
-import {WorkPackageNotificationService} from "core-app/modules/hal/services/wp-notification.service";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackagesActivityService} from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
 import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
@@ -51,7 +51,7 @@ import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator
 import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/op-file-upload.service";
 import {HookService} from "core-app/modules/plugins/hook-service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {HalEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
+import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {TimezoneService} from "core-components/datetime/timezone.service";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 
@@ -87,7 +87,7 @@ describe('WorkPackageFilterValues', () => {
         WorkPackageDmService,
         HalResourceService,
         NotificationsService,
-        WorkPackageNotificationService,
+        HalResourceNotificationService,
         SchemaCacheService,
         WorkPackageCacheService,
         WorkPackageCreateService,

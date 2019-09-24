@@ -40,7 +40,7 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {from, Observable, of, Subject} from "rxjs";
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from "rxjs/operators";
-import {WorkPackageNotificationService} from "core-app/modules/hal/services/wp-notification.service";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {NgSelectComponent} from "@ng-select/ng-select";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
@@ -94,7 +94,7 @@ export class WorkPackageRelationsAutocomplete implements AfterContentInit {
 
   constructor(private readonly querySpace:IsolatedQuerySpace,
               private readonly pathHelper:PathHelperService,
-              private readonly halNotifications:HalResourceNotificationService,
+              private readonly halNotification:HalResourceNotificationService,
               private readonly CurrentProject:CurrentProjectService,
               private readonly halResourceService:HalResourceService,
               private readonly schemaCacheService:SchemaCacheService,
@@ -152,7 +152,7 @@ export class WorkPackageRelationsAutocomplete implements AfterContentInit {
     .pipe(
         map(collection => collection.elements),
         catchError((error:unknown) => {
-          this.halNotificationsService.handleRawError(error);
+          this.halNotification.handleRawError(error);
           return of([]);
         }),
         tap(() => this.isLoading = false)

@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
 import {StateService} from '@uirouter/core';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
@@ -54,8 +53,8 @@ export class HalResourceNotificationService {
     };
 
     // ToDo: Move to its own service
-    if (resource instanceof WorkPackageResource) {
-      this.addWorkPackageFullscreenLink(message, resource as WorkPackageResource);
+    if (resource.type === 'WorkPackage') {
+      this.addWorkPackageFullscreenLink(message, resource as any);
     }
 
     this.NotificationsService.addSuccess(message);

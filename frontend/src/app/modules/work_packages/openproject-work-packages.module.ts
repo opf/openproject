@@ -132,7 +132,7 @@ import {WorkPackageCacheService} from 'core-components/work-packages/work-packag
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
-import {WorkPackageNotificationService} from 'core-app/modules/hal/services/wp-notification.service';
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
@@ -159,7 +159,7 @@ import {WorkPackageIsolatedGraphQuerySpaceDirective} from "core-app/modules/work
 import {WorkPackageViewToggleButton} from "core-components/wp-buttons/wp-view-toggle-button/work-package-view-toggle-button.component";
 import {WorkPackagesGridComponent} from "core-components/wp-grid/wp-grid.component";
 import {WorkPackageViewDropdownMenuDirective} from "core-components/op-context-menu/handlers/wp-view-dropdown-menu.directive";
-import {HalEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
+import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
 
@@ -210,7 +210,6 @@ import {WorkPackageEditingService} from "core-components/wp-edit-form/work-packa
     SchemaCacheService,
 
     KeepTabService,
-    WorkPackageNotificationService,
     WorkPackageDmService,
 
     WorkPackagesActivityService,

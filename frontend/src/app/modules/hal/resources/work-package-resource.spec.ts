@@ -34,7 +34,7 @@ import {States} from 'core-components/states.service';
 import {TypeDmService} from 'core-app/modules/hal/dm-services/type-dm.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
-import {WorkPackageNotificationService} from 'core-app/modules/hal/services/wp-notification.service';
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
@@ -52,7 +52,7 @@ describe('WorkPackage', () => {
   let injector:Injector;
   let wpCacheService:WorkPackageCacheService;
   let notificationsService:NotificationsService;
-  let halNotifications:HalResourceNotificationService;
+  let halNotification:HalResourceNotificationService;
 
   let source:any;
   let workPackage:WorkPackageResource;
@@ -75,7 +75,7 @@ describe('WorkPackage', () => {
         WorkPackageCacheService,
         NotificationsService,
         ConfigurationService,
-        WorkPackageNotificationService,
+        HalResourceNotificationService,
         OpenProjectFileUploadService,
         LoadingIndicatorService,
         PathHelperService,
@@ -92,7 +92,7 @@ describe('WorkPackage', () => {
         injector = TestBed.get(Injector);
         wpCacheService = injector.get(WorkPackageCacheService);
         notificationsService = injector.get(NotificationsService);
-        halNotifications = injector.get(WorkPackageNotificationService);
+        halNotification = injector.get(HalResourceNotificationService);
 
         halResourceService.registerResource('WorkPackage', { cls: WorkPackageResource });
       });

@@ -38,7 +38,7 @@ import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-r
 import {WorkPackageFilterValues} from "core-components/wp-edit-form/work-package-filter-values";
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
-import {WorkPackageNotificationService} from "core-app/modules/hal/services/wp-notification.service";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
 import {BoardActionService} from "core-app/modules/boards/board/board-actions/board-action.service";
 import {ComponentType} from "@angular/cdk/portal";
@@ -126,7 +126,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
               private readonly boardCache:BoardCacheService,
               private readonly notifications:NotificationsService,
               private readonly querySpace:IsolatedQuerySpace,
-              private readonly wpNotificationService:WorkPackageNotificationService,
+              private readonly halNotification:HalResourceNotificationService,
               private readonly wpStatesInitialization:WorkPackageStatesInitializationService,
               private readonly authorisationService:AuthorisationService,
               private readonly wpInlineCreate:WorkPackageInlineCreateService,
@@ -352,7 +352,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     observable
       .subscribe(
         query => this.wpStatesInitialization.updateQuerySpace(query, query.results),
-        error => this.loadingError = this.halNotificationservice.retrieveErrorMessage(error)
+        error => this.loadingError = this.halNotification.retrieveErrorMessage(error)
       );
   }
 

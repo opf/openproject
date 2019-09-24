@@ -32,7 +32,7 @@ import {Subscription} from 'rxjs';
 import {States} from 'core-components/states.service';
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
-import {HalEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
+import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
@@ -46,7 +46,7 @@ export class EditForm {
   // Injections
   public states:States = this.injector.get(States);
   public wpEditing = this.injector.get(WorkPackageEditingService);
-  public halNotificationsService = this.injector.get(HalResourceNotificationService);
+  public halNotification = this.injector.get(HalResourceNotificationService);
   public wpEvents = this.injector.get(HalEventsService);
 
   // All current active (open) edit fields
@@ -112,7 +112,7 @@ export class EditForm {
     return this.loadFieldSchema(fieldName, noWarnings)
       .then((schema:IFieldSchema) => {
         if (!schema.writable && !noWarnings) {
-          this.halNotificationsService.showEditingBlockedError(schema.name || fieldName);
+          this.halNotification.showEditingBlockedError(schema.name || fieldName);
           return Promise.reject();
         }
 
@@ -176,13 +176,13 @@ export class EditForm {
 
           resolve(result.workPackage);
 
-          this.halNotificationsService.showSave(result.workPackage, result.wasNew);
+          this.halNotification.showSave(result.workPackage, result.wasNew);
           this.editMode = false;
           this.editContext.onSaved(result.wasNew, result.workPackage);
           this.wpEvents.push(result.workPackage, { eventType: 'updated' });
         })
         .catch((error:ErrorResource|Object) => {
-          this.halNotificationsService.handleRawError(error, this.resource);
+          this.halNotification.handleRawError(error, this.resource);
 
           if (error instanceof ErrorResource) {
             this.handleSubmissionErrors(error);
@@ -306,13 +306,13 @@ export class EditForm {
         // Look up whether we're actually editable
         const fieldSchema = form.schema[schemaName];
         if (!fieldSchema.writable && !noWarnings) {
-          this.halNotificationsService.showEditingBlockedError(fieldSchema.name || fieldName);
+          this.halNotification.showEditingBlockedError(fieldSchema.name || fieldName);
           this.closeEditFields([fieldName]);
         }
       })
       .catch((error:any) => {
         console.error('Failed to build edit field: %o', error);
-        this.halNotificationsService.handleRawError(error, this.resource);
+        this.halNotification.handleRawError(error, this.resource);
         this.closeEditFields([fieldName]);
       });
   }
@@ -330,7 +330,7 @@ export class EditForm {
       })
       .catch((error) => {
         console.error('Failed to render edit field:' + error);
-        this.halNotificationsService.handleRawError(error);
+        this.halNotification.handleRawError(error);
       });
   }
 }

@@ -28,7 +28,7 @@
 
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
-import {WorkPackageNotificationService} from '../../../modules/hal/services/wp-notification.service';
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageCacheService} from '../work-package-cache.service';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
@@ -83,7 +83,7 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
               protected ConfigurationService:ConfigurationService,
               protected loadingIndicator:LoadingIndicatorService,
               protected wpCacheService:WorkPackageCacheService,
-              protected halNotifications:HalResourceNotificationService,
+              protected halNotification:HalResourceNotificationService,
               protected NotificationsService:NotificationsService,
               protected cdRef:ChangeDetectorRef,
               protected I18n:I18nService) {
@@ -164,7 +164,7 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
       .catch((error:any) => {
         this.inFlight = false;
         if (error instanceof ErrorResource) {
-          this.halNotificationsService.showError(error, this.workPackage);
+          this.halNotification.showError(error, this.workPackage);
         }
         else {
           this.NotificationsService.addError(this.I18n.t('js.work_packages.comment_send_failed'));

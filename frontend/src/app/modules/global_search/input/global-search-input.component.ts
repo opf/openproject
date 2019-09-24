@@ -51,7 +51,7 @@ import {NgSelectComponent} from "@ng-select/ng-select";
 import {Observable, of} from "rxjs";
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import {map} from "rxjs/internal/operators";
-import {WorkPackageNotificationService} from "core-app/modules/hal/services/wp-notification.service";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {DebouncedRequestSwitchmap, errorNotificationHandler} from "core-app/helpers/rxjs/debounced-input-switchmap";
 import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
 
@@ -83,7 +83,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   /** Keep a switchmap for search term and loading state */
   public requests = new DebouncedRequestSwitchmap<string, SearchResultItem>(
     (searchTerm:string) => this.autocompleteWorkPackages(searchTerm),
-    errorNotificationHandler(this.wpNotification)
+    errorNotificationHandler(this.halNotification)
   );
 
   /** Remember the current value */
@@ -108,7 +108,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
               readonly currentProjectService:CurrentProjectService,
               readonly deviceService:DeviceService,
               readonly cdRef:ChangeDetectorRef,
-              readonly wpNotification:WorkPackageNotificationService) {
+              readonly halNotification:HalResourceNotificationService) {
   }
 
   ngOnInit() {

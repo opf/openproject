@@ -30,13 +30,13 @@
 import {Component, HostListener, Input, Inject} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
-import {WorkPackageNotificationService} from 'core-app/modules/hal/services/wp-notification.service';
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {CustomActionResource} from 'core-app/modules/hal/resources/custom-action-resource';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
-import {HalEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
+import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 
 @Component({
   selector: 'wp-custom-action',
@@ -51,7 +51,7 @@ export class WpCustomActionComponent {
               private wpCacheService:WorkPackageCacheService,
               private wpSchemaCacheService:SchemaCacheService,
               private wpActivity:WorkPackagesActivityService,
-              private halNotifications:HalResourceNotificationService,
+              private halNotification:HalResourceNotificationService,
               private wpEditing:WorkPackageEditingService,
               private wpEvents:HalEventsService) {
   }
@@ -77,7 +77,7 @@ export class WpCustomActionComponent {
     this.halResourceService.post<WorkPackageResource>(this.action.href + '/execute', payload)
       .toPromise()
       .then((savedWp:WorkPackageResource) => {
-        this.halNotificationsService.showSave(savedWp, false);
+        this.halNotification.showSave(savedWp, false);
         this.workPackage = savedWp;
         this.wpActivity.clear(this.workPackage.id!);
         // Loading the schema might be necessary in cases where the button switches
@@ -88,7 +88,7 @@ export class WpCustomActionComponent {
           this.wpEvents.push(savedWp, { eventType: "updated" });
         });
       }).catch((errorResource:any) => {
-        this.halNotificationsService.handleRawError(errorResource, this.workPackage);
+        this.halNotification.handleRawError(errorResource, this.workPackage);
       });
   }
 

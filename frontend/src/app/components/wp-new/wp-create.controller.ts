@@ -42,7 +42,7 @@ import {States} from '../states.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {RootResource} from 'core-app/modules/hal/resources/root-resource';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
-import {WorkPackageNotificationService} from '../../modules/hal/services/wp-notification.service';
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageCreateService} from './wp-create.service';
 import {takeUntil} from 'rxjs/operators';
 import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
@@ -74,7 +74,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
               readonly titleService:OpTitleService,
               readonly injector:Injector,
               readonly currentUser:CurrentUserService,
-              protected halNotifications:HalResourceNotificationService,
+              protected halNotification:HalResourceNotificationService,
               protected states:States,
               protected wpCreate:WorkPackageCreateService,
               protected wpTableFilters:WorkPackageViewFiltersService,
@@ -123,7 +123,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
               window.location.href = url.toString();
             }
           });
-          this.halNotificationsService.handleRawError(error);
+          this.halNotification.handleRawError(error);
         }
       });
   }

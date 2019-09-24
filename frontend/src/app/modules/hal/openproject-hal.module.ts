@@ -53,6 +53,8 @@ import {StatusDmService} from "core-app/modules/hal/dm-services/status-dm.servic
 import {VersionDmService} from "core-app/modules/hal/dm-services/version-dm.service";
 import {QueryOrderDmService} from "core-app/modules/hal/dm-services/query-order-dm.service";
 import {MembershipDmService} from "core-app/modules/hal/dm-services/membership-dm.service";
+import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 
 @NgModule({
   imports: [
@@ -82,6 +84,9 @@ import {MembershipDmService} from "core-app/modules/hal/dm-services/membership-d
     UserDmService,
     StatusDmService,
     VersionDmService,
+
+    HalResourceNotificationService,
+    HalEventsService,
   ]
 })
 export class OpenprojectHalModule { }

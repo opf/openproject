@@ -29,7 +29,7 @@
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {AttachmentCollectionResource} from 'core-app/modules/hal/resources/attachment-collection-resource';
 import {OpenProjectFileUploadService, UploadFile} from 'core-components/api/op-file-upload/op-file-upload.service';
-import {WorkPackageNotificationService} from 'core-app/modules/hal/services/wp-notification.service';
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {HttpErrorResponse} from "@angular/common/http";
@@ -41,7 +41,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
     public attachments:AttachmentCollectionResource;
 
     private NotificationsService:NotificationsService;
-    private halNotifications:HalResourceNotificationService;
+    private halNotification:HalResourceNotificationService;
     private opFileUpload:OpenProjectFileUploadService;
     private pathHelper:PathHelperService;
 
@@ -101,7 +101,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
             }
           })
           .catch((error:any) => {
-            this.halNotificationsService.handleRawError(error, this as any);
+            this.halNotification.handleRawError(error, this as any);
             this.attachments.elements.push(attachment);
           });
       }
@@ -147,7 +147,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
             message = error.error;
           }
 
-          this.halNotificationsService.handleRawError(message);
+          this.halNotification.handleRawError(message);
           return message || I18n.t('js.error.internal');
         });
     }
@@ -166,7 +166,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
 
     public $initialize(source:any) {
       this.NotificationsService = this.injector.get(NotificationsService);
-      this.halNotificationsService = this.injector.get( WorkPackageNotificationService);
+      this.halNotification = this.injector.get( HalResourceNotificationService);
       this.opFileUpload = this.injector.get(OpenProjectFileUploadService);
       this.pathHelper = this.injector.get(PathHelperService);
 

@@ -16,7 +16,7 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
 import {EditFieldService} from "core-app/modules/fields/edit/edit-field.service";
-import {WorkPackageNotificationService} from "core-app/modules/hal/services/wp-notification.service";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/op-file-upload.service";
 import {EditorMacrosService} from "core-components/modals/editor/editor-macros.service";
 import {HTMLSanitizeService} from "../common/html-sanitize/html-sanitize.service";
@@ -47,7 +47,6 @@ export class OpenProjectPluginContext {
     hooks: this.injector.get<HookService>(HookService),
     i18n: this.injector.get<I18nService>(I18nService),
     notifications: this.injector.get<NotificationsService>(NotificationsService),
-    wpNotifications: this.injector.get<WorkPackageNotificationService>(WorkPackageNotificationService),
     opModalService: this.injector.get<OpModalService>(OpModalService),
     opFileUpload: this.injector.get<OpenProjectFileUploadService>(OpenProjectFileUploadService),
     helpTextDm: this.injector.get<HelpTextDmService>(HelpTextDmService),

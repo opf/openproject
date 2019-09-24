@@ -39,7 +39,7 @@ import {SingleViewEditContext} from '../../wp-edit-form/single-view-edit-context
 import {WorkPackageEditForm} from '../../../modules/fields/edit/edit-form/work-package-edit-form';
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageNotificationService} from '../../../modules/hal/services/wp-notification.service';
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageCreateService} from './../../wp-new/wp-create.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
@@ -62,7 +62,7 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
               protected injector:Injector,
               protected wpCreate:WorkPackageCreateService,
               protected wpEditing:WorkPackageEditingService,
-              protected halNotifications:HalResourceNotificationService,
+              protected halNotification:HalResourceNotificationService,
               protected wpTableSelection:WorkPackageViewSelectionService,
               protected wpTableFocus:WorkPackageViewFocusService,
               protected $transitions:TransitionService,
@@ -183,7 +183,7 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
       this.$state.go(this.successState, {workPackageId: savedWorkPackage.id})
         .then(() => {
           this.wpTableFocus.updateFocus(savedWorkPackage.id!);
-          this.halNotificationsService.showSave(savedWorkPackage, isInitial);
+          this.halNotification.showSave(savedWorkPackage, isInitial);
         });
     }
   }

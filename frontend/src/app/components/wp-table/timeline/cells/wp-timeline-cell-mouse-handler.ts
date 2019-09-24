@@ -29,7 +29,7 @@
 import {Injector} from '@angular/core';
 import * as moment from 'moment';
 import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
-import {WorkPackageNotificationService} from '../../../../modules/hal/services/wp-notification.service';
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import {RenderInfo} from '../wp-timeline';
 import {TimelineCellRenderer} from './timeline-cell-renderer';
@@ -40,7 +40,7 @@ import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {WorkPackageEditingService} from 'core-app/components/wp-edit-form/work-package-editing-service';
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
-import {HalEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
+import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import Moment = moment.Moment;
 
 export const classNameBar = 'bar';
@@ -56,7 +56,7 @@ export function registerWorkPackageMouseHandler(this:void,
                                                 wpCacheService:WorkPackageCacheService,
                                                 wpEditing:WorkPackageEditingService,
                                                 wpEvents:HalEventsService,
-                                                halNotifications:HalResourceNotificationService,
+                                                halNotification:HalResourceNotificationService,
                                                 loadingIndicator:LoadingIndicatorService,
                                                 cell:HTMLElement,
                                                 bar:HTMLDivElement,
@@ -247,7 +247,7 @@ export function registerWorkPackageMouseHandler(this:void,
 
     return loadingIndicator.table.promise = wpEditing.save(change)
       .then((result) => {
-        halNotifications.showSave(result.workPackage);
+        halNotification.showSave(result.workPackage);
         const ids = _.map(querySpace.rendered.value!, row => row.workPackageId);
         loadingIndicator.table.promise =
           queryDm.loadIdsUpdatedSince(ids, updatedAt).then(workPackageCollection => {
@@ -257,7 +257,7 @@ export function registerWorkPackageMouseHandler(this:void,
           });
       })
       .catch((error) => {
-        halNotifications.handleRawError(error, renderInfo.workPackage);
+        halNotification.handleRawError(error, renderInfo.workPackage);
       });
   }
 }

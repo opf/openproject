@@ -40,7 +40,8 @@ import {WorkPackageCacheService} from "core-components/work-packages/work-packag
 import {States} from "core-components/states.service";
 import {KeepTabService} from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
-import {WorkPackageNotificationService} from "core-app/modules/hal/services/wp-notification.service";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
+
 export class WorkPackageSingleViewBase implements OnDestroy {
 
   public wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
@@ -50,7 +51,7 @@ export class WorkPackageSingleViewBase implements OnDestroy {
   public PathHelper:PathHelperService = this.injector.get(PathHelperService);
   protected wpEditing:WorkPackageEditingService = this.injector.get(WorkPackageEditingService);
   protected wpTableFocus:WorkPackageViewFocusService = this.injector.get(WorkPackageViewFocusService);
-  protected halNotifications:HalResourceNotificationService = this.injector.get(WorkPackageNotificationService);
+  protected halNotification:HalResourceNotificationService = this.injector.get(HalResourceNotificationService);
   protected projectCacheService:ProjectCacheService = this.injector.get(ProjectCacheService);
   protected authorisationService:AuthorisationService = this.injector.get(AuthorisationService);
   protected cdRef:ChangeDetectorRef = this.injector.get(ChangeDetectorRef);
@@ -82,7 +83,7 @@ export class WorkPackageSingleViewBase implements OnDestroy {
   protected observeWorkPackage() {
     /** Require the work package once to ensure we're displaying errors */
     this.wpCacheService.require(this.workPackageId)
-      .catch((error) => this.halNotifications.handleRawError(error));
+      .catch((error) => this.halNotification.handleRawError(error));
 
     /** Stream updates of the work package */
     this.wpCacheService.state(this.workPackageId)

@@ -28,7 +28,7 @@
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from '../../../states.service';
 import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
-import {WorkPackageNotificationService} from '../../../../modules/hal/services/wp-notification.service';
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import {RenderInfo} from '../wp-timeline';
 import {TimelineCellRenderer} from './timeline-cell-renderer';
@@ -37,7 +37,7 @@ import {registerWorkPackageMouseHandler} from './wp-timeline-cell-mouse-handler'
 import {Injector} from '@angular/core';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {WorkPackageEditingService} from 'core-app/components/wp-edit-form/work-package-editing-service';
-import {HalEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
+import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 
 export const classNameLeftLabel = 'labelLeft';
 export const classNameRightContainer = 'containerRight';
@@ -65,7 +65,7 @@ export class WorkPackageTimelineCell {
   readonly wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
   readonly wpEditing:WorkPackageEditingService = this.injector.get(WorkPackageEditingService);
   readonly wpEvents:HalEventsService = this.injector.get(HalEventsService);
-  readonly halNotifications:HalResourceNotificationService = this.injector.get(WorkPackageNotificationService);
+  readonly halNotification:HalResourceNotificationService = this.injector.get(HalResourceNotificationService);
   readonly states:States = this.injector.get(States);
   readonly loadingIndicator:LoadingIndicatorService = this.injector.get(LoadingIndicatorService);
 
@@ -163,7 +163,7 @@ export class WorkPackageTimelineCell {
         this.wpCacheService,
         this.wpEditing,
         this.wpEvents,
-        this.halNotificationsService,
+        this.halNotification,
         this.loadingIndicator,
         cell[0],
         this.wpElement,

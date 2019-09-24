@@ -1,5 +1,5 @@
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
-import {WorkPackageNotificationService} from '../../../modules/hal/services/wp-notification.service';
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageRelationsService} from '../wp-relations.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
@@ -7,7 +7,7 @@ import {RelationResource} from 'core-app/modules/hal/resources/relation-resource
 import {ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {HalEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
+import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 
 
 @Component({
@@ -56,7 +56,7 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
   };
 
   constructor(protected wpCacheService:WorkPackageCacheService,
-              protected halNotifications:HalResourceNotificationService,
+              protected halNotification:HalResourceNotificationService,
               protected wpRelations:WorkPackageRelationsService,
               protected wpEvents:HalEventsService,
               protected I18n:I18nService,
@@ -130,7 +130,7 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
         this.relation = savedRelation;
         this.relatedWorkPackage.relatedBy = savedRelation;
         this.userInputs.showDescriptionEditForm = false;
-        this.halNotificationsService.showSave(this.relatedWorkPackage);
+        this.halNotification.showSave(this.relatedWorkPackage);
         this.cdRef.detectChanges();
       });
   }
@@ -156,14 +156,14 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
       this.relation,
       this.selectedRelationType.name)
       .then((savedRelation:RelationResource) => {
-        this.halNotificationsService.showSave(this.relatedWorkPackage);
+        this.halNotification.showSave(this.relatedWorkPackage);
         this.relatedWorkPackage.relatedBy = savedRelation;
         this.relation = savedRelation;
 
         this.userInputs.showRelationTypesForm = false;
         this.cdRef.detectChanges();
       })
-      .catch((error:any) => this.halNotificationsService.handleRawError(error, this.workPackage));
+      .catch((error:any) => this.halNotification.handleRawError(error, this.workPackage));
   }
 
   public toggleUserDescriptionForm() {
@@ -180,9 +180,9 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
         });
 
         this.wpCacheService.updateWorkPackage(this.relatedWorkPackage);
-        this.halNotificationsService.showSave(this.relatedWorkPackage);
+        this.halNotification.showSave(this.relatedWorkPackage);
       })
-      .catch((err:any) => this.halNotificationsService.handleRawError(err,
+      .catch((err:any) => this.halNotification.handleRawError(err,
         this.relatedWorkPackage));
   }
 }

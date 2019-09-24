@@ -31,7 +31,7 @@ import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edi
 import {WorkPackageEditFieldComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.component';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from '../states.service';
-import {WorkPackageNotificationService} from '../../modules/hal/services/wp-notification.service';
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {Injector} from '@angular/core';
 import {WorkPackageEditContext} from 'core-components/wp-edit-form/work-package-edit-context';
 import {WorkPackageEditForm} from 'core-app/modules/fields/edit/edit-form/work-package-edit-form';
@@ -47,7 +47,7 @@ export class SingleViewEditContext implements WorkPackageEditContext {
   public states:States = this.injector.get(States);
   public FocusHelper:FocusHelperService = this.injector.get(FocusHelperService);
   public $state:StateService = this.injector.get(StateService);
-  public halNotifications:HalResourceNotificationService = this.injector.get(WorkPackageNotificationService);
+  public halNotification:HalResourceNotificationService = this.injector.get(HalResourceNotificationService);
   public wpEditingPortalService:WorkPackageEditingPortalService = this.injector.get(WorkPackageEditingPortalService);
   protected wpTableSelection:WorkPackageViewSelectionService = this.injector.get(WorkPackageViewSelectionService);
 

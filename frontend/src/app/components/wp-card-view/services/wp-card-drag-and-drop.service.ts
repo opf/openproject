@@ -3,7 +3,7 @@ import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-r
 import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import {States} from "core-components/states.service";
 import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
-import {WorkPackageNotificationService} from "core-app/modules/hal/services/wp-notification.service";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
@@ -28,7 +28,7 @@ export class WorkPackageCardDragAndDropService {
                      readonly injector:Injector,
                      readonly reorderService:WorkPackageViewOrderService,
                      readonly wpCreate:WorkPackageCreateService,
-                     readonly halNotifications:HalResourceNotificationService,
+                     readonly halNotification:HalResourceNotificationService,
                      readonly currentProject:CurrentProjectService,
                      readonly wpInlineCreate:WorkPackageInlineCreateService) {
 
@@ -160,7 +160,7 @@ export class WorkPackageCardDragAndDropService {
       this.updateOrder(newOrder);
       return true;
     } catch (e) {
-      this.halNotifications.handleRawError(e, workPackage);
+      this.halNotification.handleRawError(e, workPackage);
     }
 
     return false;

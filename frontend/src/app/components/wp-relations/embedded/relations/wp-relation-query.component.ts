@@ -37,12 +37,12 @@ import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/w
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {WorkPackageRelationQueryBase} from "core-components/wp-relations/embedded/wp-relation-query.base";
 import {WpRelationInlineCreateService} from "core-components/wp-relations/embedded/relations/wp-relation-inline-create.service";
-import {WorkPackageNotificationService} from "core-app/modules/hal/services/wp-notification.service";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
 import {filter} from "rxjs/operators";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {GroupDescriptor} from "core-components/work-packages/wp-single-view/wp-single-view.component";
-import {HalEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
+import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 
 @Component({
   selector: 'wp-relation-query',
@@ -65,7 +65,7 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
         this.embeddedTable.loadingIndicator = this.wpRelations.require(relatedTo.id!)
           .then(() => this.wpInlineCreate.remove(this.workPackage, relatedTo))
           .then(() => this.refreshTable())
-          .catch((error) => this.halNotifications.handleRawError(error, this.workPackage));
+          .catch((error) => this.halNotification.handleRawError(error, this.workPackage));
       },
       (child:WorkPackageResource) => !!child.changeParent
     )
@@ -76,7 +76,7 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
               protected readonly wpRelations:WorkPackageRelationsService,
               protected readonly wpEvents:HalEventsService,
               protected readonly queryUrlParamsHelper:UrlParamsHelperService,
-              protected readonly halNotifications:HalResourceNotificationService,
+              protected readonly halNotification:HalResourceNotificationService,
               protected readonly I18n:I18nService) {
     super(queryUrlParamsHelper);
   }
@@ -119,7 +119,7 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
           relationType: this.getRelationTypeFromQuery()
         });
       })
-      .catch(error => this.halNotifications.handleRawError(error, this.workPackage));
+      .catch(error => this.halNotification.handleRawError(error, this.workPackage));
   }
 
   private getRelationTypeFromQuery() {
