@@ -40,7 +40,7 @@ import {filter} from "rxjs/operators";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
-import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
+import {HalEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
 
 @Injectable()
 export class WorkPackageCreateService implements OnDestroy {
@@ -56,7 +56,7 @@ export class WorkPackageCreateService implements OnDestroy {
               protected readonly querySpace:IsolatedQuerySpace,
               protected wpEditing:WorkPackageEditingService,
               protected workPackageDmService:WorkPackageDmService,
-              protected readonly wpEvents:WorkPackageEventsService) {
+              protected readonly wpEvents:HalEventsService) {
 
   this.wpEditing
       .comittedChanges
@@ -73,7 +73,7 @@ export class WorkPackageCreateService implements OnDestroy {
 
   protected newWorkPackageCreated(wp:WorkPackageResource) {
     this.form = undefined;
-    this.wpEvents.push({ type: 'created', id: wp.id! });
+    this.wpEvents.push(wp, { eventType: 'created' });
     this.newWorkPackageCreatedSubject.next(wp);
   }
 

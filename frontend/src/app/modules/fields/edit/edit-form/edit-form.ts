@@ -32,7 +32,7 @@ import {Subscription} from 'rxjs';
 import {States} from 'core-components/states.service';
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
-import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
+import {HalEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
 import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
@@ -47,7 +47,7 @@ export class EditForm {
   public states:States = this.injector.get(States);
   public wpEditing = this.injector.get(WorkPackageEditingService);
   public halNotificationsService = this.injector.get(HalResourceNotificationService);
-  public wpEvents = this.injector.get(WorkPackageEventsService);
+  public wpEvents = this.injector.get(HalEventsService);
 
   // All current active (open) edit fields
   public activeFields:{ [fieldName:string]:EditFieldHandler } = {};
@@ -179,7 +179,7 @@ export class EditForm {
           this.halNotificationsService.showSave(result.workPackage, result.wasNew);
           this.editMode = false;
           this.editContext.onSaved(result.wasNew, result.workPackage);
-          this.wpEvents.push({ type: 'updated', id: result.workPackage.id! });
+          this.wpEvents.push(result.workPackage, { eventType: 'updated' });
         })
         .catch((error:ErrorResource|Object) => {
           this.halNotificationsService.handleRawError(error, this.resource);

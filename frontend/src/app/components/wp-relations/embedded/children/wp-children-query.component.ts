@@ -43,7 +43,7 @@ import {WorkPackageCacheService} from "core-components/work-packages/work-packag
 import {filter} from "rxjs/operators";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {GroupDescriptor} from "core-components/work-packages/wp-single-view/wp-single-view.component";
-import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
+import {HalEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
 
 @Component({
   selector: 'wp-children-query',
@@ -74,7 +74,7 @@ export class WorkPackageChildrenQueryComponent extends WorkPackageRelationQueryB
   constructor(protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
               protected PathHelper:PathHelperService,
               protected wpInlineCreate:WorkPackageInlineCreateService,
-              protected wpEvents:WorkPackageEventsService,
+              protected wpEvents:HalEventsService,
               protected wpCacheService:WorkPackageCacheService,
               protected queryUrlParamsHelper:UrlParamsHelperService,
               readonly I18n:I18nService) {
@@ -92,9 +92,8 @@ export class WorkPackageChildrenQueryComponent extends WorkPackageRelationQueryB
     this.wpInlineCreate.newInlineWorkPackageCreated
       .pipe(untilComponentDestroyed(this))
       .subscribe((toId:string) => {
-        this.wpEvents.push({
-          type: 'association',
-          id: this.workPackage.id!,
+        this.wpEvents.push(this.workPackage, {
+          eventType: 'association',
           relatedWorkPackage: toId,
           relationType: 'child'
         });

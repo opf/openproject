@@ -38,7 +38,7 @@ import {CollectionResource} from 'core-app/modules/hal/resources/collection-reso
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
-import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
+import {HalEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
 
 @Directive({
   selector: '[wpStatusDropdown]'
@@ -53,7 +53,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
               protected wpEditing:WorkPackageEditingService,
               protected notificationService:NotificationsService,
               protected I18n:I18nService,
-              protected wpEvents:WorkPackageEventsService) {
+              protected wpEvents:HalEventsService) {
 
     super(elementRef, opContextMenu);
   }
@@ -90,7 +90,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
         .save(change)
         .then(() => {
           this.wpNotificationsService.showSave(this.workPackage);
-          this.wpEvents.push({ type: 'updated', id: this.workPackage.id! });
+          this.wpEvents.push(this.workPackage, { eventType: 'updated' });
         });
     }
   }

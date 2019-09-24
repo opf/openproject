@@ -159,7 +159,7 @@ import {WorkPackageIsolatedGraphQuerySpaceDirective} from "core-app/modules/work
 import {WorkPackageViewToggleButton} from "core-components/wp-buttons/wp-view-toggle-button/work-package-view-toggle-button.component";
 import {WorkPackagesGridComponent} from "core-components/wp-grid/wp-grid.component";
 import {WorkPackageViewDropdownMenuDirective} from "core-components/op-context-menu/handlers/wp-view-dropdown-menu.directive";
-import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
+import {HalEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
 import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
 
@@ -218,7 +218,7 @@ import {WorkPackageEditingService} from "core-components/wp-edit-form/work-packa
     WorkPackageWatchersService,
 
     QueryFormDmService,
-    WorkPackageEventsService,
+    HalEventsService,
   ],
   declarations: [
     // Routing

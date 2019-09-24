@@ -51,7 +51,7 @@ import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator
 import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/op-file-upload.service";
 import {HookService} from "core-app/modules/plugins/hook-service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
+import {HalEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
 import {TimezoneService} from "core-components/datetime/timezone.service";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 
@@ -76,7 +76,7 @@ describe('WorkPackageFilterValues', () => {
         I18nService,
         States,
         IsolatedQuerySpace,
-        WorkPackageEventsService,
+        HalEventsService,
         TimezoneService,
         PathHelperService,
         ConfigurationService,

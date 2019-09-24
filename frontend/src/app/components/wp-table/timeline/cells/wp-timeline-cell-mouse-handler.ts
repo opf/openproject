@@ -40,7 +40,7 @@ import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {WorkPackageEditingService} from 'core-app/components/wp-edit-form/work-package-editing-service';
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
-import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
+import {HalEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
 import Moment = moment.Moment;
 
 export const classNameBar = 'bar';
@@ -55,7 +55,7 @@ export function registerWorkPackageMouseHandler(this:void,
                                                 workPackageTimeline:WorkPackageTimelineTableController,
                                                 wpCacheService:WorkPackageCacheService,
                                                 wpEditing:WorkPackageEditingService,
-                                                wpEvents:WorkPackageEventsService,
+                                                wpEvents:HalEventsService,
                                                 wpNotificationsService:WorkPackageNotificationService,
                                                 loadingIndicator:LoadingIndicatorService,
                                                 cell:HTMLElement,
@@ -253,7 +253,7 @@ export function registerWorkPackageMouseHandler(this:void,
           queryDm.loadIdsUpdatedSince(ids, updatedAt).then(workPackageCollection => {
             wpCacheService.updateWorkPackageList(workPackageCollection.elements);
 
-            wpEvents.push({ type: 'updated', id: result.workPackage.id! });
+            wpEvents.push(result.workPackage, { eventType: 'updated' });
           });
       })
       .catch((error) => {

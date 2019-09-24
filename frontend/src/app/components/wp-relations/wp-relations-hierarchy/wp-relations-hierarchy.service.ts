@@ -33,13 +33,13 @@ import {States} from '../../states.service';
 import {StateService} from '@uirouter/core';
 import {Injectable} from '@angular/core';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
+import {HalEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
 
 @Injectable()
 export class WorkPackageRelationsHierarchyService {
   constructor(protected $state:StateService,
               protected states:States,
-              protected wpEvents:WorkPackageEventsService,
+              protected wpEvents:HalEventsService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected pathHelper:PathHelperService,
               protected wpCacheService:WorkPackageCacheService) {
@@ -70,9 +70,8 @@ export class WorkPackageRelationsHierarchyService {
       .then((wp:WorkPackageResource) => {
         this.wpCacheService.updateWorkPackage(wp);
         this.wpNotificationsService.showSave(wp);
-        this.wpEvents.push({
-          type: 'association',
-          id: workPackage.id!,
+        this.wpEvents.push(workPackage, {
+          eventType: 'association',
           relatedWorkPackage: parentId,
           relationType: 'parent'
         });
@@ -96,9 +95,8 @@ export class WorkPackageRelationsHierarchyService {
         return this.changeParent(wpToBecomeChild!, workPackage.id!)
           .then(wp => {
             this.wpCacheService.loadWorkPackage(workPackage.id!, true);
-            this.wpEvents.push({
-              type: 'association',
-              id: workPackage.id!,
+            this.wpEvents.push(workPackage, {
+              eventType: 'association',
               relatedWorkPackage: wpToBecomeChild!.id!,
               relationType: 'child'
             });

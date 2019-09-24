@@ -58,7 +58,7 @@ import {WorkPackageTimelineCell} from "core-components/wp-table/timeline/cells/w
 import {selectorTimelineSide} from "core-components/wp-table/wp-table-scroll-sync";
 import {debugLog, timeOutput} from "core-app/helpers/debug_output";
 import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
-import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
+import {HalEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
 
 @Component({
   selector: 'wp-timeline-container',
@@ -103,7 +103,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
               private wpNotificationsService:WorkPackageNotificationService,
               private wpRelations:WorkPackageRelationsService,
               private wpTableHierarchies:WorkPackageViewHierarchiesService,
-              private wpEvents:WorkPackageEventsService,
+              private wpEvents:HalEventsService,
               readonly I18n:I18nService) {
   }
 
@@ -265,9 +265,8 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       this.wpRelations
         .addCommonRelation(start.id!, 'follows', end.id!)
         .then(() => {
-          this.wpEvents.push({
-            type: 'association',
-            id: start.id!,
+          this.wpEvents.push(start, {
+            eventType: 'association',
             relatedWorkPackage: end.id!,
             relationType: 'follows'
           });
@@ -281,9 +280,8 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       this.wpRelations
         .addCommonRelation(start.id!, 'precedes', end.id!)
         .then(() => {
-          this.wpEvents.push({
-            type: 'association',
-            id: start.id!,
+          this.wpEvents.push(start, {
+            eventType: 'association',
             relatedWorkPackage: end.id!,
             relationType: 'precedes'
           });

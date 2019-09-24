@@ -7,7 +7,7 @@ import {RelationResource} from 'core-app/modules/hal/resources/relation-resource
 import {ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
+import {HalEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
 
 
 @Component({
@@ -58,7 +58,7 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
   constructor(protected wpCacheService:WorkPackageCacheService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected wpRelations:WorkPackageRelationsService,
-              protected wpEvents:WorkPackageEventsService,
+              protected wpEvents:HalEventsService,
               protected I18n:I18nService,
               protected cdRef:ChangeDetectorRef,
               protected PathHelper:PathHelperService) {
@@ -173,9 +173,8 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
   public removeRelation() {
     this.wpRelations.removeRelation(this.relation)
       .then(() => {
-        this.wpEvents.push({
-          type: 'association',
-          id: this.workPackage.id!,
+        this.wpEvents.push(this.workPackage, {
+          eventType: 'association',
           relatedWorkPackage: null,
           relationType: this.relation.normalizedType(this.workPackage)
         });

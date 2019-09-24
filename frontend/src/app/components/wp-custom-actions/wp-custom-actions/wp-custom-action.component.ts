@@ -36,7 +36,7 @@ import {CustomActionResource} from 'core-app/modules/hal/resources/custom-action
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
-import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
+import {HalEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
 
 @Component({
   selector: 'wp-custom-action',
@@ -53,7 +53,7 @@ export class WpCustomActionComponent {
               private wpActivity:WorkPackagesActivityService,
               private wpNotificationsService:WorkPackageNotificationService,
               private wpEditing:WorkPackageEditingService,
-              private wpEvents:WorkPackageEventsService) {
+              private wpEvents:HalEventsService) {
   }
 
   private fetchAction() {
@@ -85,7 +85,7 @@ export class WpCustomActionComponent {
         this.wpSchemaCacheService.ensureLoaded(savedWp).then(() => {
           this.wpCacheService.updateWorkPackage(savedWp, true);
           this.wpEditing.stopEditing(savedWp.id!);
-          this.wpEvents.push({ type: "updated", id: savedWp.id! });
+          this.wpEvents.push(savedWp, { eventType: "updated" });
         });
       }).catch((errorResource:any) => {
         this.wpNotificationsService.handleRawError(errorResource, this.workPackage);

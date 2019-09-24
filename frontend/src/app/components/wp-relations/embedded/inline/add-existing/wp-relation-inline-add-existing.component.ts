@@ -39,7 +39,7 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
 import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
 import {RelationResource} from "core-app/modules/hal/resources/relation-resource";
-import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
+import {HalEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
 
 @Component({
   templateUrl: './wp-relation-inline-add-existing.component.html'
@@ -59,7 +59,7 @@ export class WpRelationInlineAddExistingComponent {
               protected wpCacheService:WorkPackageCacheService,
               protected wpRelations:WorkPackageRelationsService,
               protected wpNotificationsService:WorkPackageNotificationService,
-              protected wpEvents:WorkPackageEventsService,
+              protected wpEvents:HalEventsService,
               protected urlParamsHelper:UrlParamsHelperService,
               protected querySpace:IsolatedQuerySpace,
               protected readonly I18n:I18nService) {
@@ -77,9 +77,8 @@ export class WpRelationInlineAddExistingComponent {
       .then(() => {
         this.wpCacheService.loadWorkPackage(this.workPackage.id!, true);
 
-        this.wpEvents.push({
-          type: 'association',
-          id: this.workPackage.id!,
+        this.wpEvents.push(this.workPackage, {
+          eventType: 'association',
           relatedWorkPackage: newRelationId,
           relationType: this.relationType,
         });

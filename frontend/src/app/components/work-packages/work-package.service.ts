@@ -34,8 +34,8 @@ import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {
-  WorkPackageDeletedEvent,
-  WorkPackageEventsService
+  HalDeletedEvent,
+  HalEventsService
 } from "core-app/modules/work_packages/events/work-package-events.service";
 
 @Injectable()
@@ -51,7 +51,7 @@ export class WorkPackageService {
               private readonly UrlParamsHelper:UrlParamsHelperService,
               private readonly NotificationsService:NotificationsService,
               private readonly I18n:I18nService,
-              private readonly wpEvents:WorkPackageEventsService) {
+              private readonly wpEvents:HalEventsService) {
   }
 
   public performBulkDelete(ids:string[], defaultHandling:boolean) {
@@ -67,7 +67,7 @@ export class WorkPackageService {
         .then(() => {
           this.NotificationsService.addSuccess(this.text.successful_delete);
 
-          ids.forEach(id => this.wpEvents.push({ type: 'deleted', id: id } as WorkPackageDeletedEvent));
+          ids.forEach(id => this.wpEvents.push({type:'WorkPackage', id: id}, { eventType: 'deleted'} as HalDeletedEvent));
 
           if (this.$state.includes('**.list.details.**')
             && ids.indexOf(this.$state.params.workPackageId) > -1) {

@@ -53,8 +53,8 @@ import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp
 import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import {WorkPackageViewDisplayRepresentationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 import {
-  WorkPackageEvent,
-  WorkPackageEventsService
+  HalEvent,
+  HalEventsService
 } from "core-app/modules/work_packages/events/work-package-events.service";
 
 export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
@@ -83,7 +83,7 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
   readonly wpStatesInitialization:WorkPackageStatesInitializationService = this.injector.get(WorkPackageStatesInitializationService);
   readonly cdRef:ChangeDetectorRef = this.injector.get(ChangeDetectorRef);
   readonly wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService = this.injector.get(WorkPackageViewDisplayRepresentationService);
-  readonly wpEvents:WorkPackageEventsService = this.injector.get(WorkPackageEventsService);
+  readonly wpEvents:HalEventsService = this.injector.get(HalEventsService);
 
   constructor(protected injector:Injector) {
   }
@@ -168,9 +168,9 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
       .aggregated$()
       .pipe(
         untilComponentDestroyed(this),
-        filter((events:WorkPackageEvent[]) => this.filterRefreshEvents(events))
+        filter((events:HalEvent[]) => this.filterRefreshEvents(events))
       )
-      .subscribe((events:WorkPackageEvent[]) => {
+      .subscribe((events:HalEvent[]) => {
         this.refresh(false, false);
       });
   }
@@ -193,11 +193,11 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
 
   /**
    * Filter the given work package events for something interesting
-   * @param events WorkPackageEvent[]
+   * @param events HalEvent[]
    *
    * @return {boolean} whether any of these events should trigger the view reloading
    */
-  protected filterRefreshEvents(events:WorkPackageEvent[]):boolean {
+  protected filterRefreshEvents(events:HalEvent[]):boolean {
     let rendered = new Set(this.querySpace.renderedWorkPackageIds.getValueOr([]));
 
     for (let i = 0; i < events.length; i++) {
