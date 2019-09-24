@@ -47,7 +47,7 @@ export class SingleViewEditContext implements WorkPackageEditContext {
   public states:States = this.injector.get(States);
   public FocusHelper:FocusHelperService = this.injector.get(FocusHelperService);
   public $state:StateService = this.injector.get(StateService);
-  public wpNotificationsService:WorkPackageNotificationService = this.injector.get(WorkPackageNotificationService);
+  public halNotifications:HalResourceNotificationService = this.injector.get(WorkPackageNotificationService);
   public wpEditingPortalService:WorkPackageEditingPortalService = this.injector.get(WorkPackageEditingPortalService);
   protected wpTableSelection:WorkPackageViewSelectionService = this.injector.get(WorkPackageViewSelectionService);
 

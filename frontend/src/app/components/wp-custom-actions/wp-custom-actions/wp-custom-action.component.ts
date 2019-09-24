@@ -51,7 +51,7 @@ export class WpCustomActionComponent {
               private wpCacheService:WorkPackageCacheService,
               private wpSchemaCacheService:SchemaCacheService,
               private wpActivity:WorkPackagesActivityService,
-              private wpNotificationsService:WorkPackageNotificationService,
+              private halNotifications:HalResourceNotificationService,
               private wpEditing:WorkPackageEditingService,
               private wpEvents:HalEventsService) {
   }
@@ -77,7 +77,7 @@ export class WpCustomActionComponent {
     this.halResourceService.post<WorkPackageResource>(this.action.href + '/execute', payload)
       .toPromise()
       .then((savedWp:WorkPackageResource) => {
-        this.wpNotificationsService.showSave(savedWp, false);
+        this.halNotificationsService.showSave(savedWp, false);
         this.workPackage = savedWp;
         this.wpActivity.clear(this.workPackage.id!);
         // Loading the schema might be necessary in cases where the button switches
@@ -88,7 +88,7 @@ export class WpCustomActionComponent {
           this.wpEvents.push(savedWp, { eventType: "updated" });
         });
       }).catch((errorResource:any) => {
-        this.wpNotificationsService.handleRawError(errorResource, this.workPackage);
+        this.halNotificationsService.handleRawError(errorResource, this.workPackage);
       });
   }
 

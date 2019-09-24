@@ -72,7 +72,7 @@ export class NewBoardModalComponent extends OpModalComponent {
               readonly boardService:BoardService,
               readonly boardActions:BoardActionsRegistryService,
               readonly boardCache:BoardCacheService,
-              readonly wpNotifications:WorkPackageNotificationService,
+              readonly halNotifications:HalResourceNotificationService,
               readonly loadingIndicatorService:LoadingIndicatorService,
               readonly I18n:I18nService) {
 
@@ -100,7 +100,7 @@ export class NewBoardModalComponent extends OpModalComponent {
       })
       .catch((error:unknown) => {
         this.inFlight = false;
-        this.wpNotifications.handleRawError(error);
+        this.halNotifications.handleRawError(error);
       });
   }
 }

@@ -84,7 +84,7 @@ export class WorkPackageEditFieldComponent implements OnInit, OnDestroy {
   constructor(protected states:States,
               protected injector:Injector,
               protected elementRef:ElementRef,
-              protected wpNotificationsService:WorkPackageNotificationService,
+              protected halNotifications:HalResourceNotificationService,
               protected ConfigurationService:ConfigurationService,
               protected opContextMenu:OPContextMenuService,
               protected wpEditing:WorkPackageEditingService,

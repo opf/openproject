@@ -49,7 +49,7 @@ export class WorkPackageEditForm {
   public states:States = this.injector.get(States);
   public wpCacheService = this.injector.get(WorkPackageCacheService);
   public wpEditing = this.injector.get(WorkPackageEditingService);
-  public wpNotificationsService = this.injector.get(WorkPackageNotificationService);
+  public halNotifications = this.injector.get(WorkPackageNotificationService);
   public wpEvents = this.injector.get(HalEventsService);
 
   // All current active (open) edit fields
@@ -113,7 +113,7 @@ export class WorkPackageEditForm {
     return this.loadFieldSchema(fieldName, noWarnings)
       .then((schema:IFieldSchema) => {
         if (!schema.writable && !noWarnings) {
-          this.wpNotificationsService.showEditingBlockedError(schema.name || fieldName);
+          this.halNotificationsService.showEditingBlockedError(schema.name || fieldName);
           return Promise.reject();
         }
 
@@ -177,12 +177,12 @@ export class WorkPackageEditForm {
 
           resolve(result.workPackage);
 
-          this.wpNotificationsService.showSave(result.workPackage, result.wasNew);
+          this.halNotificationsService.showSave(result.workPackage, result.wasNew);
           this.editMode = false;
           this.editContext.onSaved(result.wasNew, result.workPackage);
         })
         .catch((error:ErrorResource|Object) => {
-          this.wpNotificationsService.handleRawError(error, this.workPackage);
+          this.halNotificationsService.handleRawError(error, this.workPackage);
 
           if (error instanceof ErrorResource) {
             this.handleSubmissionErrors(error);
@@ -302,13 +302,13 @@ export class WorkPackageEditForm {
         // Look up whether we're actually editable
         const fieldSchema = form.schema[schemaName];
         if (!fieldSchema.writable && !noWarnings) {
-          this.wpNotificationsService.showEditingBlockedError(fieldSchema.name || fieldName);
+          this.halNotificationsService.showEditingBlockedError(fieldSchema.name || fieldName);
           this.closeEditFields([fieldName]);
         }
       })
       .catch((error:any) => {
         console.error('Failed to build edit field: %o', error);
-        this.wpNotificationsService.handleRawError(error, this.workPackage);
+        this.halNotificationsService.handleRawError(error, this.workPackage);
         this.closeEditFields([fieldName]);
       });
   }
@@ -326,7 +326,7 @@ export class WorkPackageEditForm {
       })
       .catch((error) => {
         console.error('Failed to render edit field:' + error);
-        this.wpNotificationsService.handleRawError(error);
+        this.halNotificationsService.handleRawError(error);
       });
   }
 }

@@ -40,7 +40,7 @@ export class WorkPackageRelationsHierarchyService {
   constructor(protected $state:StateService,
               protected states:States,
               protected wpEvents:HalEventsService,
-              protected wpNotificationsService:WorkPackageNotificationService,
+              protected halNotifications:HalResourceNotificationService,
               protected pathHelper:PathHelperService,
               protected wpCacheService:WorkPackageCacheService) {
 
@@ -69,7 +69,7 @@ export class WorkPackageRelationsHierarchyService {
       .changeParent(payload)
       .then((wp:WorkPackageResource) => {
         this.wpCacheService.updateWorkPackage(wp);
-        this.wpNotificationsService.showSave(wp);
+        this.halNotificationsService.showSave(wp);
         this.wpEvents.push(workPackage, {
           eventType: 'association',
           relatedWorkPackage: parentId,
@@ -79,7 +79,7 @@ export class WorkPackageRelationsHierarchyService {
         return wp;
       })
       .catch((error) => {
-        this.wpNotificationsService.handleRawError(error, workPackage);
+        this.halNotificationsService.handleRawError(error, workPackage);
         return Promise.reject(error);
       });
   }
@@ -139,7 +139,7 @@ export class WorkPackageRelationsHierarchyService {
         this.wpCacheService.updateWorkPackage(wp);
       })
         .catch((error) => {
-          this.wpNotificationsService.handleRawError(error, childWorkPackage);
+          this.halNotificationsService.handleRawError(error, childWorkPackage);
           return Promise.reject(error);
         });
     });

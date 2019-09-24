@@ -65,7 +65,7 @@ export class WorkPackageTimelineCell {
   readonly wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
   readonly wpEditing:WorkPackageEditingService = this.injector.get(WorkPackageEditingService);
   readonly wpEvents:HalEventsService = this.injector.get(HalEventsService);
-  readonly wpNotificationsService:WorkPackageNotificationService = this.injector.get(WorkPackageNotificationService);
+  readonly halNotifications:HalResourceNotificationService = this.injector.get(WorkPackageNotificationService);
   readonly states:States = this.injector.get(States);
   readonly loadingIndicator:LoadingIndicatorService = this.injector.get(LoadingIndicatorService);
 
@@ -163,7 +163,7 @@ export class WorkPackageTimelineCell {
         this.wpCacheService,
         this.wpEditing,
         this.wpEvents,
-        this.wpNotificationsService,
+        this.halNotificationsService,
         this.loadingIndicator,
         cell[0],
         this.wpElement,

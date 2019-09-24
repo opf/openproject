@@ -26,7 +26,7 @@ export class WpGraphConfigurationService {
   constructor(readonly I18n:I18nService,
               readonly queryFormDm:QueryFormDmService,
               protected readonly queryDm:QueryDmService,
-              readonly wpNotificationsService:WorkPackageNotificationService,
+              readonly halNotifications:HalResourceNotificationService,
               readonly currentProject:CurrentProjectService) {
   }
 
@@ -168,7 +168,7 @@ export class WpGraphConfigurationService {
           .then((form:QueryFormResource) => {
             this._forms[query.id as string] = form;
           })
-          .catch((error) => this.wpNotificationsService.handleRawError(error));
+          .catch((error) => this.halNotificationsService.handleRawError(error));
       });
 
       this._formsPromise = Promise.all(formPromises);

@@ -62,7 +62,7 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
               protected injector:Injector,
               protected wpCreate:WorkPackageCreateService,
               protected wpEditing:WorkPackageEditingService,
-              protected wpNotificationsService:WorkPackageNotificationService,
+              protected halNotifications:HalResourceNotificationService,
               protected wpTableSelection:WorkPackageViewSelectionService,
               protected wpTableFocus:WorkPackageViewFocusService,
               protected $transitions:TransitionService,
@@ -183,7 +183,7 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
       this.$state.go(this.successState, {workPackageId: savedWorkPackage.id})
         .then(() => {
           this.wpTableFocus.updateFocus(savedWorkPackage.id!);
-          this.wpNotificationsService.showSave(savedWorkPackage, isInitial);
+          this.halNotificationsService.showSave(savedWorkPackage, isInitial);
         });
     }
   }

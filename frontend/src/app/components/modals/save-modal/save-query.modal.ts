@@ -67,7 +67,7 @@ export class SaveQueryModal extends OpModalComponent {
               readonly states:States,
               readonly querySpace:IsolatedQuerySpace,
               readonly wpListService:WorkPackagesListService,
-              readonly wpNotificationsService:WorkPackageNotificationService,
+              readonly halNotifications:HalResourceNotificationService,
               readonly cdRef:ChangeDetectorRef,
               readonly notificationsService:NotificationsService) {
     super(locals, cdRef, elementRef);
@@ -105,7 +105,7 @@ export class SaveQueryModal extends OpModalComponent {
         this.closeMe($event);
         return Promise.resolve(true);
       })
-      .catch((error:any) => this.wpNotificationsService.handleRawError(error))
+      .catch((error:any) => this.halNotificationsService.handleRawError(error))
       .then(() => this.isBusy = false); // Same as .finally()
   }
 }

@@ -56,7 +56,7 @@ export function registerWorkPackageMouseHandler(this:void,
                                                 wpCacheService:WorkPackageCacheService,
                                                 wpEditing:WorkPackageEditingService,
                                                 wpEvents:HalEventsService,
-                                                wpNotificationsService:WorkPackageNotificationService,
+                                                halNotifications:HalResourceNotificationService,
                                                 loadingIndicator:LoadingIndicatorService,
                                                 cell:HTMLElement,
                                                 bar:HTMLDivElement,
@@ -247,7 +247,7 @@ export function registerWorkPackageMouseHandler(this:void,
 
     return loadingIndicator.table.promise = wpEditing.save(change)
       .then((result) => {
-        wpNotificationsService.showSave(result.workPackage);
+        halNotifications.showSave(result.workPackage);
         const ids = _.map(querySpace.rendered.value!, row => row.workPackageId);
         loadingIndicator.table.promise =
           queryDm.loadIdsUpdatedSince(ids, updatedAt).then(workPackageCollection => {
@@ -257,7 +257,7 @@ export function registerWorkPackageMouseHandler(this:void,
           });
       })
       .catch((error) => {
-        wpNotificationsService.handleRawError(error, renderInfo.workPackage);
+        halNotifications.handleRawError(error, renderInfo.workPackage);
       });
   }
 }

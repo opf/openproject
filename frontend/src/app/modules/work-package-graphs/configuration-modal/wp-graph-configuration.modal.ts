@@ -63,7 +63,7 @@ export class WpGraphConfigurationModalComponent extends OpModalComponent impleme
               readonly componentFactoryResolver:ComponentFactoryResolver,
               readonly loadingIndicator:LoadingIndicatorService,
               readonly queryFormDm:QueryFormDmService,
-              readonly wpNotificationsService:WorkPackageNotificationService,
+              readonly halNotifications:HalResourceNotificationService,
               readonly cdRef:ChangeDetectorRef,
               readonly ConfigurationService:ConfigurationService,
               readonly elementRef:ElementRef,

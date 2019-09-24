@@ -56,7 +56,7 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
   };
 
   constructor(protected wpCacheService:WorkPackageCacheService,
-              protected wpNotificationsService:WorkPackageNotificationService,
+              protected halNotifications:HalResourceNotificationService,
               protected wpRelations:WorkPackageRelationsService,
               protected wpEvents:HalEventsService,
               protected I18n:I18nService,
@@ -130,7 +130,7 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
         this.relation = savedRelation;
         this.relatedWorkPackage.relatedBy = savedRelation;
         this.userInputs.showDescriptionEditForm = false;
-        this.wpNotificationsService.showSave(this.relatedWorkPackage);
+        this.halNotificationsService.showSave(this.relatedWorkPackage);
         this.cdRef.detectChanges();
       });
   }
@@ -156,14 +156,14 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
       this.relation,
       this.selectedRelationType.name)
       .then((savedRelation:RelationResource) => {
-        this.wpNotificationsService.showSave(this.relatedWorkPackage);
+        this.halNotificationsService.showSave(this.relatedWorkPackage);
         this.relatedWorkPackage.relatedBy = savedRelation;
         this.relation = savedRelation;
 
         this.userInputs.showRelationTypesForm = false;
         this.cdRef.detectChanges();
       })
-      .catch((error:any) => this.wpNotificationsService.handleRawError(error, this.workPackage));
+      .catch((error:any) => this.halNotificationsService.handleRawError(error, this.workPackage));
   }
 
   public toggleUserDescriptionForm() {
@@ -180,9 +180,9 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
         });
 
         this.wpCacheService.updateWorkPackage(this.relatedWorkPackage);
-        this.wpNotificationsService.showSave(this.relatedWorkPackage);
+        this.halNotificationsService.showSave(this.relatedWorkPackage);
       })
-      .catch((err:any) => this.wpNotificationsService.handleRawError(err,
+      .catch((err:any) => this.halNotificationsService.handleRawError(err,
         this.relatedWorkPackage));
   }
 }

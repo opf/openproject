@@ -28,7 +28,7 @@ export class WorkPackageCardDragAndDropService {
                      readonly injector:Injector,
                      readonly reorderService:WorkPackageViewOrderService,
                      readonly wpCreate:WorkPackageCreateService,
-                     readonly wpNotifications:WorkPackageNotificationService,
+                     readonly halNotifications:HalResourceNotificationService,
                      readonly currentProject:CurrentProjectService,
                      readonly wpInlineCreate:WorkPackageInlineCreateService) {
 
@@ -160,7 +160,7 @@ export class WorkPackageCardDragAndDropService {
       this.updateOrder(newOrder);
       return true;
     } catch (e) {
-      this.wpNotifications.handleRawError(e, workPackage);
+      this.halNotifications.handleRawError(e, workPackage);
     }
 
     return false;

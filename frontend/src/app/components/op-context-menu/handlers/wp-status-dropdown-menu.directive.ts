@@ -49,7 +49,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
   constructor(readonly elementRef:ElementRef,
               readonly opContextMenu:OPContextMenuService,
               readonly $state:StateService,
-              protected wpNotificationsService:WorkPackageNotificationService,
+              protected halNotifications:HalResourceNotificationService,
               protected wpEditing:WorkPackageEditingService,
               protected notificationService:NotificationsService,
               protected I18n:I18nService,
@@ -89,7 +89,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
       this.wpEditing
         .save(change)
         .then(() => {
-          this.wpNotificationsService.showSave(this.workPackage);
+          this.halNotificationsService.showSave(this.workPackage);
           this.wpEvents.push(this.workPackage, { eventType: 'updated' });
         });
     }

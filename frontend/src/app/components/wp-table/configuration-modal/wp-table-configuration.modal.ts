@@ -80,7 +80,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
               readonly querySpace:IsolatedQuerySpace,
               readonly queryFormDm:QueryFormDmService,
               readonly wpStatesInitialization:WorkPackageStatesInitializationService,
-              readonly wpNotificationsService:WorkPackageNotificationService,
+              readonly halNotifications:HalResourceNotificationService,
               readonly wpTableColumns:WorkPackageViewColumnsService,
               readonly cdRef:ChangeDetectorRef,
               readonly ConfigurationService:ConfigurationService,
@@ -155,6 +155,6 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
 
           return form;
         })
-      .catch((error) => this.wpNotificationsService.handleRawError(error));
+      .catch((error) => this.halNotificationsService.handleRawError(error));
   }
 }

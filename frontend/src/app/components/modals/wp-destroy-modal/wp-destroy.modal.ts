@@ -76,7 +76,7 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
               readonly states:States,
               readonly wpTableFocus:WorkPackageViewFocusService,
               readonly wpListService:WorkPackagesListService,
-              readonly wpNotificationsService:WorkPackageNotificationService,
+              readonly halNotifications:HalResourceNotificationService,
               readonly notificationsService:NotificationsService,
               readonly backRoutingService:BackRoutingService) {
     super(locals, cdRef, elementRef);

@@ -33,7 +33,7 @@ import {WorkPackageNotificationService} from "core-app/modules/hal/services/wp-n
 @Injectable()
 export class CostBudgetSubformAugmentService {
 
-  constructor(private wpNotifications:WorkPackageNotificationService,
+  constructor(private halNotifications:HalResourceNotificationService,
               private http:HttpClient) {
   }
 
@@ -87,7 +87,7 @@ export class CostBudgetSubformAugmentService {
             jQuery('#' + selector).html(val);
           });
         },
-        (error:any) => this.wpNotifications.handleRawError(error)
+        (error:any) => this.halNotifications.handleRawError(error)
       );
   }
 

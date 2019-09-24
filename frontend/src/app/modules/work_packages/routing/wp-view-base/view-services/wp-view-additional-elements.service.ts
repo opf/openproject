@@ -43,7 +43,7 @@ export class WorkPackageViewAdditionalElementsService {
   constructor(readonly querySpace:IsolatedQuerySpace,
               readonly wpTableHierarchies:WorkPackageViewHierarchiesService,
               readonly wpTableColumns:WorkPackageViewColumnsService,
-              readonly wpNotificationsService:WorkPackageNotificationService,
+              readonly halNotifications:HalResourceNotificationService,
               readonly halResourceService:HalResourceService,
               readonly wpCacheService:WorkPackageCacheService,
               readonly wpRelations:WorkPackageRelationsService) {
@@ -66,7 +66,7 @@ export class WorkPackageViewAdditionalElementsService {
       })
       .catch((e) => {
         this.querySpace.additionalRequiredWorkPackages.putValue(null, 'Failure loading required work packages');
-        this.wpNotificationsService.handleRawError(e);
+        this.halNotificationsService.handleRawError(e);
       });
   }
 

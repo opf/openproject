@@ -53,7 +53,7 @@ export class WorkPackageBreadcrumbParentComponent {
   public constructor(
     protected readonly I18n:I18nService,
     protected readonly wpRelationsHierarchy:WorkPackageRelationsHierarchyService,
-    protected readonly wpNotifications:WorkPackageNotificationService
+    protected readonly halNotifications:HalResourceNotificationService
     ) {
   }
 
@@ -87,7 +87,7 @@ export class WorkPackageBreadcrumbParentComponent {
     this.isSaving = true;
     this.wpRelationsHierarchy.changeParent(this.workPackage, newParentId)
       .catch((error:any) => {
-        this.wpNotifications.handleRawError(error, this.workPackage);
+        this.halNotifications.handleRawError(error, this.workPackage);
       })
       .then(() => this.isSaving = false); // Behaves as .finally()
   }

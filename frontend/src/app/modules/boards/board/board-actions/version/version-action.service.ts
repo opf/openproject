@@ -29,7 +29,7 @@ export class BoardVersionActionService implements BoardActionService {
               protected versionDm:VersionDmService,
               protected versionCache:VersionCacheService,
               protected currentProject:CurrentProjectService,
-              protected wpNotifications:WorkPackageNotificationService,
+              protected halNotifications:HalResourceNotificationService,
               protected state:StateService,
               protected formCache:FormsCacheService,
               protected pathHelper:PathHelperService) {
@@ -188,7 +188,7 @@ export class BoardVersionActionService implements BoardActionService {
         this.versionCache.updateValue(version.id!, version);
         this.state.go('.', {}, { reload: true });
       })
-      .catch(error => this.wpNotifications.handleRawError(error));
+      .catch(error => this.halNotifications.handleRawError(error));
   }
 
   private buildItemsForVersion(version:VersionResource):OpContextMenuItem[] {

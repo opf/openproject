@@ -99,7 +99,7 @@ export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
               readonly I18n:I18nService,
               readonly wpCreate:WorkPackageCreateService,
               readonly wpInlineCreate:WorkPackageInlineCreateService,
-              readonly wpNotifications:WorkPackageNotificationService,
+              readonly halNotifications:HalResourceNotificationService,
               readonly authorisationService:AuthorisationService,
               readonly causedUpdates:CausedUpdatesService,
               readonly cdRef:ChangeDetectorRef,

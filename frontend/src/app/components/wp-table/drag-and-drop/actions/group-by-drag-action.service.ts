@@ -32,7 +32,7 @@ export class GroupByDragActionService extends TableDragActionService {
     changeset.projectedResource[this.groupedAttribute!] = groupedValue;
     return this.wpEditing
       .save(changeset)
-      .catch(e => this.wpNotifications.handleRawError(e, workPackage));
+      .catch(e => this.halNotifications.handleRawError(e, workPackage));
   }
 
   private getValueForGroup(el:HTMLElement):unknown|null {

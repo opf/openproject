@@ -83,7 +83,7 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
               protected ConfigurationService:ConfigurationService,
               protected loadingIndicator:LoadingIndicatorService,
               protected wpCacheService:WorkPackageCacheService,
-              protected wpNotificationsService:WorkPackageNotificationService,
+              protected halNotifications:HalResourceNotificationService,
               protected NotificationsService:NotificationsService,
               protected cdRef:ChangeDetectorRef,
               protected I18n:I18nService) {
@@ -164,7 +164,7 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
       .catch((error:any) => {
         this.inFlight = false;
         if (error instanceof ErrorResource) {
-          this.wpNotificationsService.showError(error, this.workPackage);
+          this.halNotificationsService.showError(error, this.workPackage);
         }
         else {
           this.NotificationsService.addError(this.I18n.t('js.work_packages.comment_send_failed'));

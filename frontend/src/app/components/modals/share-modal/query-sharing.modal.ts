@@ -66,7 +66,7 @@ export class QuerySharingModal extends OpModalComponent implements OnInit {
               readonly querySpace:IsolatedQuerySpace,
               readonly cdRef:ChangeDetectorRef,
               readonly wpListService:WorkPackagesListService,
-              readonly wpNotificationsService:WorkPackageNotificationService,
+              readonly halNotifications:HalResourceNotificationService,
               readonly notificationsService:NotificationsService) {
     super(locals, cdRef, elementRef);
   }

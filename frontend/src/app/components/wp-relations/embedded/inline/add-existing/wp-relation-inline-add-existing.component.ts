@@ -58,7 +58,7 @@ export class WpRelationInlineAddExistingComponent {
               @Inject(WorkPackageInlineCreateService) protected readonly wpInlineCreate:WpRelationInlineCreateServiceInterface,
               protected wpCacheService:WorkPackageCacheService,
               protected wpRelations:WorkPackageRelationsService,
-              protected wpNotificationsService:WorkPackageNotificationService,
+              protected halNotifications:HalResourceNotificationService,
               protected wpEvents:HalEventsService,
               protected urlParamsHelper:UrlParamsHelperService,
               protected querySpace:IsolatedQuerySpace,
@@ -88,7 +88,7 @@ export class WpRelationInlineAddExistingComponent {
         this.cancel();
       })
       .catch((err:any) => {
-        this.wpNotificationsService.handleRawError(err, this.workPackage);
+        this.halNotificationsService.handleRawError(err, this.workPackage);
         this.isDisabled = false;
         this.cancel();
       });

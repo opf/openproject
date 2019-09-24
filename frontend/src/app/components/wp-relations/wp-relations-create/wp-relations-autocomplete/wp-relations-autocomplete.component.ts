@@ -94,7 +94,7 @@ export class WorkPackageRelationsAutocomplete implements AfterContentInit {
 
   constructor(private readonly querySpace:IsolatedQuerySpace,
               private readonly pathHelper:PathHelperService,
-              private readonly wpNotificationsService:WorkPackageNotificationService,
+              private readonly halNotifications:HalResourceNotificationService,
               private readonly CurrentProject:CurrentProjectService,
               private readonly halResourceService:HalResourceService,
               private readonly schemaCacheService:SchemaCacheService,
@@ -152,7 +152,7 @@ export class WorkPackageRelationsAutocomplete implements AfterContentInit {
     .pipe(
         map(collection => collection.elements),
         catchError((error:unknown) => {
-          this.wpNotificationsService.handleRawError(error);
+          this.halNotificationsService.handleRawError(error);
           return of([]);
         }),
         tap(() => this.isLoading = false)

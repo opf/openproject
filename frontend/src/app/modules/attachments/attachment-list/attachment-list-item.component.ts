@@ -53,7 +53,7 @@ export class AttachmentListItemComponent {
     removeFile: (arg:any) => this.I18n.t('js.label_remove_file', arg)
   };
 
-  constructor(protected wpNotificationsService:WorkPackageNotificationService,
+  constructor(protected halNotifications:HalResourceNotificationService,
               readonly I18n:I18nService,
               readonly states:States,
               readonly pathHelper:PathHelperService) {

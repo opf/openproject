@@ -85,7 +85,7 @@ export class DragAndDropTransformer {
             await this.wpListService.save(query);
           }
         } catch (e) {
-          this.wpNotifications.handleRawError(e);
+          this.halNotifications.handleRawError(e);
 
           // Restore element in from container
           DragAndDropHelpers.reinsert(el, el.dataset.sourceIndex || -1, source);

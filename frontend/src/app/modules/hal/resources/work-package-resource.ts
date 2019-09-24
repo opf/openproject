@@ -130,7 +130,7 @@ export class WorkPackageBaseResource extends HalResource {
   readonly wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
   readonly schemaCacheService:SchemaCacheService = this.injector.get(SchemaCacheService);
   readonly NotificationsService:NotificationsService = this.injector.get(NotificationsService);
-  readonly wpNotificationsService:WorkPackageNotificationService = this.injector.get(
+  readonly halNotifications:HalResourceNotificationService = this.injector.get(
     WorkPackageNotificationService);
   readonly pathHelper:PathHelperService = this.injector.get(PathHelperService);
   readonly opFileUpload:OpenProjectFileUploadService = this.injector.get(OpenProjectFileUploadService);

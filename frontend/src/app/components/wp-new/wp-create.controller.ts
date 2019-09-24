@@ -74,7 +74,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
               readonly titleService:OpTitleService,
               readonly injector:Injector,
               readonly currentUser:CurrentUserService,
-              protected wpNotificationsService:WorkPackageNotificationService,
+              protected halNotifications:HalResourceNotificationService,
               protected states:States,
               protected wpCreate:WorkPackageCreateService,
               protected wpTableFilters:WorkPackageViewFiltersService,
@@ -123,7 +123,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
               window.location.href = url.toString();
             }
           });
-          this.wpNotificationsService.handleRawError(error);
+          this.halNotificationsService.handleRawError(error);
         }
       });
   }

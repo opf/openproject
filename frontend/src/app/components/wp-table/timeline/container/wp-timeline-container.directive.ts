@@ -100,7 +100,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
               public wpTableDirective:WorkPackagesTableController,
               private NotificationsService:NotificationsService,
               private wpTableTimeline:WorkPackageViewTimelineService,
-              private wpNotificationsService:WorkPackageNotificationService,
+              private halNotifications:HalResourceNotificationService,
               private wpRelations:WorkPackageRelationsService,
               private wpTableHierarchies:WorkPackageViewHierarchiesService,
               private wpEvents:HalEventsService,
@@ -271,7 +271,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
             relationType: 'follows'
           });
         })
-        .catch((error:any) => this.wpNotificationsService.handleRawError(error, end));
+        .catch((error:any) => this.halNotificationsService.handleRawError(error, end));
     });
   }
 
@@ -286,7 +286,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
             relationType: 'precedes'
           });
         })
-        .catch((error:any) => this.wpNotificationsService.handleRawError(error, end));
+        .catch((error:any) => this.halNotificationsService.handleRawError(error, end));
     });
   }
 

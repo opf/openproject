@@ -123,7 +123,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   constructor(public readonly state:StateService,
               private readonly I18n:I18nService,
               private readonly notifications:NotificationsService,
-              private readonly wpNotifications:WorkPackageNotificationService,
+              private readonly halNotifications:HalResourceNotificationService,
               private readonly BoardList:BoardListsService,
               private readonly opModalService:OpModalService,
               private readonly injector:Injector,
@@ -151,7 +151,7 @@ export class BoardComponent implements OnInit, OnDestroy {
           this.BoardCache.update(board);
           this.notifications.addSuccess(this.text.updateSuccessful);
         },
-        (error:unknown) => this.wpNotifications.handleRawError(error)
+        (error:unknown) => this.halNotifications.handleRawError(error)
       );
 
     this.BoardCache

@@ -52,7 +52,7 @@ describe('WorkPackage', () => {
   let injector:Injector;
   let wpCacheService:WorkPackageCacheService;
   let notificationsService:NotificationsService;
-  let wpNotificationsService:WorkPackageNotificationService;
+  let halNotifications:HalResourceNotificationService;
 
   let source:any;
   let workPackage:WorkPackageResource;
@@ -92,7 +92,7 @@ describe('WorkPackage', () => {
         injector = TestBed.get(Injector);
         wpCacheService = injector.get(WorkPackageCacheService);
         notificationsService = injector.get(NotificationsService);
-        wpNotificationsService = injector.get(WorkPackageNotificationService);
+        halNotifications = injector.get(WorkPackageNotificationService);
 
         halResourceService.registerResource('WorkPackage', { cls: WorkPackageResource });
       });
@@ -193,7 +193,7 @@ describe('WorkPackage', () => {
           attachment.delete = jasmine.createSpy('delete')
             .and.returnValue(Promise.reject({ foo: 'bar'}));
 
-          errorStub = spyOn(wpNotificationsService, 'handleRawError');
+          errorStub = spyOn(halNotifications, 'handleRawError');
         });
 
         it('should call the handleRawError notification', (done) => {

@@ -41,7 +41,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
     public attachments:AttachmentCollectionResource;
 
     private NotificationsService:NotificationsService;
-    private wpNotificationsService:WorkPackageNotificationService;
+    private halNotifications:HalResourceNotificationService;
     private opFileUpload:OpenProjectFileUploadService;
     private pathHelper:PathHelperService;
 
@@ -101,7 +101,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
             }
           })
           .catch((error:any) => {
-            this.wpNotificationsService.handleRawError(error, this as any);
+            this.halNotificationsService.handleRawError(error, this as any);
             this.attachments.elements.push(attachment);
           });
       }
@@ -147,7 +147,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
             message = error.error;
           }
 
-          this.wpNotificationsService.handleRawError(message);
+          this.halNotificationsService.handleRawError(message);
           return message || I18n.t('js.error.internal');
         });
     }
@@ -166,7 +166,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
 
     public $initialize(source:any) {
       this.NotificationsService = this.injector.get(NotificationsService);
-      this.wpNotificationsService = this.injector.get( WorkPackageNotificationService);
+      this.halNotificationsService = this.injector.get( WorkPackageNotificationService);
       this.opFileUpload = this.injector.get(OpenProjectFileUploadService);
       this.pathHelper = this.injector.get(PathHelperService);
 

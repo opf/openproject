@@ -65,7 +65,7 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
         this.embeddedTable.loadingIndicator = this.wpRelations.require(relatedTo.id!)
           .then(() => this.wpInlineCreate.remove(this.workPackage, relatedTo))
           .then(() => this.refreshTable())
-          .catch((error) => this.wpNotifications.handleRawError(error, this.workPackage));
+          .catch((error) => this.halNotifications.handleRawError(error, this.workPackage));
       },
       (child:WorkPackageResource) => !!child.changeParent
     )
@@ -76,7 +76,7 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
               protected readonly wpRelations:WorkPackageRelationsService,
               protected readonly wpEvents:HalEventsService,
               protected readonly queryUrlParamsHelper:UrlParamsHelperService,
-              protected readonly wpNotifications:WorkPackageNotificationService,
+              protected readonly halNotifications:HalResourceNotificationService,
               protected readonly I18n:I18nService) {
     super(queryUrlParamsHelper);
   }
@@ -119,7 +119,7 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
           relationType: this.getRelationTypeFromQuery()
         });
       })
-      .catch(error => this.wpNotifications.handleRawError(error, this.workPackage));
+      .catch(error => this.halNotifications.handleRawError(error, this.workPackage));
   }
 
   private getRelationTypeFromQuery() {

@@ -29,7 +29,7 @@ export class WorkPackageRelationsCreateComponent {
 
   constructor(readonly I18n:I18nService,
               protected wpRelations:WorkPackageRelationsService,
-              protected wpNotificationsService:WorkPackageNotificationService,
+              protected halNotifications:HalResourceNotificationService,
               protected wpEvents:HalEventsService,
               protected wpCacheService:WorkPackageCacheService) {
   }
@@ -64,11 +64,11 @@ export class WorkPackageRelationsCreateComponent {
           relatedWorkPackage: relation.id!,
           relationType: this.selectedRelationType
         });
-        this.wpNotificationsService.showSave(this.workPackage);
+        this.halNotificationsService.showSave(this.workPackage);
         this.toggleRelationsCreateForm();
       })
       .catch(err => {
-        this.wpNotificationsService.handleRawError(err, this.workPackage);
+        this.halNotificationsService.handleRawError(err, this.workPackage);
         this.toggleRelationsCreateForm();
       });
   }
