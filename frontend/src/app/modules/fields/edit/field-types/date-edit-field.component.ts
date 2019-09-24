@@ -85,6 +85,7 @@ export class DateEditFieldComponent extends EditFieldComponent {
     const isDueDate = this.name === 'dueDate';
 
     if (isDueDate) {
+      // ToDo: Work package specific
       return this.resource.startDate;
     }
 

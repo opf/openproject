@@ -129,6 +129,10 @@ export class HalResource {
     this.$source.id = val;
   }
 
+  public get isNew():boolean {
+    return this.id === 'new';
+  }
+
   public get persisted() {
     return !!(this.id && this.id !== 'new');
   }

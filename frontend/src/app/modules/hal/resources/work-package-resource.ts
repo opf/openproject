@@ -169,10 +169,6 @@ export class WorkPackageBaseResource extends HalResource {
     return `${subject}${id}`;
   }
 
-  public get isNew():boolean {
-    return this.id === 'new';
-  }
-
   public get isMilestone():boolean {
     return this.schema.hasOwnProperty('date');
   }

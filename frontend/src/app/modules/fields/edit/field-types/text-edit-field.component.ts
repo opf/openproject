@@ -44,5 +44,6 @@ import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.compon
   `
 })
 export class TextEditFieldComponent extends EditFieldComponent {
+  // ToDo: Work package specific
   public shouldFocus = this.name === 'subject';
 }
