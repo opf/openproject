@@ -58,12 +58,16 @@ module API
                  required: false
 
           schema :public,
-                 as: :public,
                  type: 'Boolean',
                  visibility: false
 
-          schema_with_allowed_string_collection :status,
-                                                type: 'String'
+          schema :active,
+                 type: 'Boolean',
+                 visibility: false
+
+          schema :status,
+                 type: 'ProjectStatus',
+                 visibility: false
 
           schema_with_allowed_link :parent,
                                    type: 'Project',
