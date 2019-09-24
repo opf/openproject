@@ -37,7 +37,10 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
     FactoryBot.create(:user, member_in_project: project, member_through_role: role)
   end
   let(:project) do
-    FactoryBot.create(:project, public: false)
+    FactoryBot.create(:project, public: false, status: project_status)
+  end
+  let(:project_status) do
+    FactoryBot.create(:project_status)
   end
   let(:other_project) do
     FactoryBot.create(:project, public: false)
@@ -99,6 +102,16 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
         expect(subject.body)
           .to be_json_eql(custom_value.value.to_json)
           .at_path("customField#{custom_field.id}/raw")
+      end
+
+      it 'includes the project status' do
+        expect(subject.body)
+          .to be_json_eql(project_status.explanation.to_json)
+          .at_path("status/explanation")
+
+        expect(subject.body)
+          .to be_json_eql(project_status.code.to_json)
+          .at_path("status/code")
       end
 
       context 'requesting nonexistent project' do

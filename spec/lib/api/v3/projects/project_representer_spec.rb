@@ -120,6 +120,17 @@ describe ::API::V3::Projects::ProjectRepresenter do
       end
 
       context 'status' do
+        it 'includes the project status explanation' do
+          expect(subject)
+            .to be_json_eql(status.explanation.to_json)
+            .at_path('status/explanation')
+        end
+
+        it 'includes the project status code' do
+          expect(subject)
+            .to be_json_eql(status.code.to_json)
+            .at_path('status/code')
+        end
       end
 
       it_behaves_like 'has UTC ISO 8601 date and time' do

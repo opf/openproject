@@ -152,6 +152,11 @@ module API
 
         date_time_property :updated_at
 
+        property :status do
+          property :explanation
+          property :code
+        end
+
         def _type
           'Project'
         end
