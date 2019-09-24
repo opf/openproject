@@ -182,7 +182,7 @@ describe Project, type: :model do
     end
 
     it 'is destroyed along with the project' do
-      status = project.create_status description: 'some description'
+      status = project.create_status explanation: 'some description'
 
       project.destroy!
 

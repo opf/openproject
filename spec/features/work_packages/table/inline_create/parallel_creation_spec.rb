@@ -20,7 +20,7 @@ describe 'Parallel work package creation spec', js: true do
   end
 
   let!(:project) { FactoryBot.create(:project, public: true) }
-  let!(:priority) { FactoryBot.create :priority, default: true }
+  let!(:priority) { FactoryBot.create :priority, is_default: true }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
 
   before do

@@ -40,7 +40,7 @@ describe Burndown, type: :model do
     story.reload
     story.send(attribute, value)
     story.save!
-    story.current_journal.update_attribute(:created_at, day)
+    story.current_journal.update(created_at: day)
   end
 
   let(:user) { @user ||= FactoryBot.create(:user) }
@@ -55,8 +55,8 @@ describe Burndown, type: :model do
     unless @project
       @project = FactoryBot.build(:project)
       @project.members = [FactoryBot.build(:member, principal: user,
-                                                     project: @project,
-                                                     roles: [role])]
+                                                    project: @project,
+                                                    roles: [role])]
       @project.versions << version
     end
     @project
@@ -81,10 +81,10 @@ describe Burndown, type: :model do
 
     [issue_open, issue_closed, issue_resolved].permutation(2).each do |transition|
       FactoryBot.create(:workflow,
-                         old_status: transition[0],
-                         new_status: transition[1],
-                         role: role,
-                         type_id: type_feature.id)
+                        old_status: transition[0],
+                        new_status: transition[1],
+                        role: role,
+                        type_id: type_feature.id)
     end
   end
 

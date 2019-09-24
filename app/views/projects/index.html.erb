@@ -73,7 +73,7 @@ See docs/COPYRIGHT.rdoc for more details.
             <% end %>
             <% if User.current.admin? %>
               <%= projects_sort_header_tag('required_disk_space', caption: I18n.t(:label_required_disk_storage), param: :json) %>
-              <%= projects_sort_header_tag('created_on', caption: Project.human_attribute_name(:created_on), param: :json) %>
+              <%= projects_sort_header_tag('created_at', caption: Project.human_attribute_name(:created_at), param: :json) %>
               <%= projects_sort_header_tag('latest_activity_at', caption: Project.human_attribute_name(:latest_activity_at), param: :json) %>
             <% end %>
             <th class="-right">
@@ -116,7 +116,7 @@ See docs/COPYRIGHT.rdoc for more details.
               <% end %>
               <% if User.current.admin? %>
                 <td><%= number_to_human_size(project.required_disk_space, precision: 2) if project.required_disk_space.to_i > 0 %></td>
-                <td><%= format_date(project.created_on) %></td>
+                <td><%= format_date(project.created_at) %></td>
                 <td><%= format_date(project.latest_activity_at) %></td>
               <% end %>
               <td class="buttons">

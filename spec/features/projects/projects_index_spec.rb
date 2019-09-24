@@ -121,7 +121,7 @@ describe 'Projects index page',
 
     feature 'for admins' do
       before do
-        project.update(created_on: 7.days.ago)
+        project.update(created_at: 7.days.ago)
 
         news
       end
@@ -152,7 +152,7 @@ describe 'Projects index page',
           expect(page)
             .to have_selector('th', text: 'CREATED ON')
           expect(page)
-            .to have_selector('td', text: project.created_on.strftime('%m/%d/%Y'))
+            .to have_selector('td', text: project.created_at.strftime('%m/%d/%Y'))
           expect(page)
             .to have_selector('th', text: 'LATEST ACTIVITY AT')
           expect(page)
@@ -315,12 +315,11 @@ describe 'Projects index page',
         load_and_open_filters admin
 
         # value selection defaults to "active"'
-        expect(page).to have_selector('li[filter-name="status"]')
+        expect(page).to have_selector('li[filter-name="active"]')
 
         # Filter has three operators 'all', 'active' and 'archived'
-        expect(page.find('li[filter-name="status"] select[name="operator"] option[value="*"]')).to have_text('all')
-        expect(page.find('li[filter-name="status"] select[name="operator"] option[value="="]')).to have_text('is')
-        expect(page.find('li[filter-name="status"] select[name="operator"] option[value="!"]')).to have_text('is not')
+        expect(page.find('li[filter-name="active"] select[name="operator"] option[value="="]')).to have_text('is')
+        expect(page.find('li[filter-name="active"] select[name="operator"] option[value="!"]')).to have_text('is not')
 
         expect(page).to have_text(parent_project.name)
         expect(page).to have_text(child_project.name)
@@ -347,7 +346,7 @@ describe 'Projects index page',
 
         load_and_open_filters admin
 
-        projects_page.filter_by_status('archived')
+        projects_page.filter_by_active('no')
 
         expect(page).to have_text("ARCHIVED #{parent_project.name}")
         expect(page).to have_text("ARCHIVED #{child_project.name}")
@@ -373,7 +372,7 @@ describe 'Projects index page',
 
         load_and_open_filters admin
 
-        projects_page.filter_by_status('active')
+        projects_page.filter_by_active('yes')
 
         expect(page).to have_text(parent_project.name)
         expect(page).to have_no_text(child_project.name)
@@ -397,7 +396,7 @@ describe 'Projects index page',
       let!(:project_created_on_today) do
         project = FactoryBot.create(:project,
                                     name: 'Created today project',
-                                    created_on: DateTime.now)
+                                    created_at: DateTime.now)
         project.custom_field_values = { list_custom_field.id => list_custom_field.possible_values[2],
                                         date_custom_field.id => '2011-11-11' }
         project.save!
@@ -406,17 +405,17 @@ describe 'Projects index page',
       let!(:project_created_on_this_week) do
         FactoryBot.create(:project,
                           name: 'Created on this week project',
-                          created_on: datetime_of_this_week)
+                          created_at: datetime_of_this_week)
       end
       let!(:project_created_on_six_days_ago) do
         FactoryBot.create(:project,
                           name: 'Created on six days ago project',
-                          created_on: DateTime.now - 6.days)
+                          created_at: DateTime.now - 6.days)
       end
       let!(:project_created_on_fixed_date) do
         FactoryBot.create(:project,
                           name: 'Created on fixed date project',
-                          created_on: fixed_datetime)
+                          created_at: fixed_datetime)
       end
       let!(:todays_wp) do
         # This WP should trigger a change to the project's 'latest activity at' DateTime
@@ -433,7 +432,7 @@ describe 'Projects index page',
 
       scenario 'selecting operator' do
         # created on 'today' shows projects that were created today
-        projects_page.set_filter('created_on',
+        projects_page.set_filter('created_at',
                                  'Created on',
                                  'today')
 
@@ -444,9 +443,9 @@ describe 'Projects index page',
         expect(page).to_not have_text(project_created_on_fixed_date.name)
 
         # created on 'this week' shows projects that were created within the last seven days
-        remove_filter('created_on')
+        remove_filter('created_at')
 
-        projects_page.set_filter('created_on',
+        projects_page.set_filter('created_at',
                                  'Created on',
                                  'this week')
 
@@ -457,9 +456,9 @@ describe 'Projects index page',
         expect(page).to_not have_text(project_created_on_fixed_date.name)
 
         # created on 'on' shows projects that were created within the last seven days
-        remove_filter('created_on')
+        remove_filter('created_at')
 
-        projects_page.set_filter('created_on',
+        projects_page.set_filter('created_at',
                                  'Created on',
                                  'on',
                                  ['2017-11-11'])
@@ -471,9 +470,9 @@ describe 'Projects index page',
         expect(page).to_not have_text(project_created_on_this_week.name)
 
         # created on 'less than days ago'
-        remove_filter('created_on')
+        remove_filter('created_at')
 
-        projects_page.set_filter('created_on',
+        projects_page.set_filter('created_at',
                                  'Created on',
                                  'less than days ago',
                                  ['1'])
@@ -484,9 +483,9 @@ describe 'Projects index page',
         expect(page).to_not have_text(project_created_on_fixed_date.name)
 
         # created on 'more than days ago'
-        remove_filter('created_on')
+        remove_filter('created_at')
 
-        projects_page.set_filter('created_on',
+        projects_page.set_filter('created_at',
                                  'Created on',
                                  'more than days ago',
                                  ['1'])
@@ -497,9 +496,9 @@ describe 'Projects index page',
         expect(page).to_not have_text(project_created_on_today.name)
 
         # created on 'between'
-        remove_filter('created_on')
+        remove_filter('created_at')
 
-        projects_page.set_filter('created_on',
+        projects_page.set_filter('created_at',
                                  'Created on',
                                  'between',
                                  ['2017-11-10', '2017-11-12'])
@@ -510,7 +509,7 @@ describe 'Projects index page',
         expect(page).to_not have_text(project_created_on_today.name)
 
         # Latest activity at 'today'. This spot check would fail if the data does not get collected from multiple tables
-        remove_filter('created_on')
+        remove_filter('created_at')
 
         projects_page.set_filter('latest_activity_at',
                                  'Latest activity at',
@@ -631,7 +630,7 @@ describe 'Projects index page',
       # Remove public projects from the default list for these scenarios.
       public_project.update(active: false)
 
-      project.update(created_on: 7.days.ago)
+      project.update(created_at: 7.days.ago)
 
       news
     end
@@ -692,7 +691,7 @@ describe 'Projects index page',
         expect(page)
           .to have_no_selector('th', text: 'CREATED ON')
         expect(page)
-          .to have_no_selector('td', text: project.created_on.strftime('%m/%d/%Y'))
+          .to have_no_selector('td', text: project.created_at.strftime('%m/%d/%Y'))
         expect(page)
           .to have_no_selector('th', text: 'LATEST ACTIVITY AT')
         expect(page)

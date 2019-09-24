@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Projects::Filters::CreatedOnFilter < Queries::Projects::Filters::ProjectFilter
+class Queries::Projects::Filters::CreatedAtFilter < Queries::Projects::Filters::ProjectFilter
   def type
     :datetime_past
   end

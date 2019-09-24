@@ -30,12 +30,12 @@
 
 require 'spec_helper'
 
-describe Queries::Projects::Filters::CreatedOnFilter, type: :model do
+describe Queries::Projects::Filters::CreatedAtFilter, type: :model do
   it_behaves_like 'basic query filter' do
-    let(:class_key) { :created_on }
+    let(:class_key) { :created_at }
     let(:type) { :datetime_past }
     let(:model) { Project }
-    let(:attribute) { :created_on }
+    let(:attribute) { :created_at }
     let(:values) { ['3'] }
     let(:admin) { FactoryBot.build_stubbed(:admin) }
     let(:user) { FactoryBot.build_stubbed(:user) }

@@ -34,16 +34,15 @@ describe 'Query selection', type: :feature do
   let(:role) { FactoryBot.create :role, permissions: [:view_work_packages] }
   let(:current_user) do
     FactoryBot.create :user, member_in_project: project,
-                              member_through_role: role
+                             member_through_role: role
   end
 
   let(:default_status) { FactoryBot.create(:default_status) }
   let(:wp_page) { ::Pages::WorkPackagesTable.new project }
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
-
   let(:query) do
-    FactoryBot.build(:query, project: project, public: true).tap do |query|
+    FactoryBot.build(:query, project: project, is_public: true).tap do |query|
       query.filters.clear
       query.add_filter('assigned_to_id', '=', ['me'])
       query.add_filter('done_ratio', '>=', [10])
@@ -91,7 +90,7 @@ describe 'Query selection', type: :feature do
 
   context 'when the selected query is changed' do
     let(:query2) do
-      FactoryBot.create(:query, project: project, public: true)
+      FactoryBot.create(:query, project: project, is_public: true)
     end
 
     before do

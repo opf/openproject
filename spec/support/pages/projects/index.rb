@@ -40,9 +40,9 @@ module Pages
         expect(rows.map(&:text)).to eq(users.map(&:login))
       end
 
-      def filter_by_status(value)
-        set_filter('status',
-                   'Active or archived',
+      def filter_by_active(value)
+        set_filter('active',
+                   'Active',
                    'is',
                    [value])
 
@@ -61,17 +61,17 @@ module Pages
           case name
           when 'name_and_identifier'
             set_name_and_identifier_filter(values)
-          when 'status'
-            set_status_filter(values)
-          when 'created_on'
-            set_created_on_filter(human_operator, values)
+          when 'active'
+            set_active_filter(values)
+          when 'created_at'
+            set_created_at_filter(human_operator, values)
           when /cf_[\d]+/
             set_custom_field_filter(selected_filter, human_operator, values)
           end
         end
       end
 
-      def set_status_filter(values)
+      def set_active_filter(values)
         if values.size == 1
           select values.first, from: 'value'
         end
@@ -81,7 +81,7 @@ module Pages
         fill_in 'value', with: values.first
       end
 
-      def set_created_on_filter(human_operator, values)
+      def set_created_at_filter(human_operator, values)
         case human_operator
         when 'on', 'less than days ago', 'more than days ago', 'days ago'
           fill_in 'value', with: values.first
