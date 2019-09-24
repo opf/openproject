@@ -156,10 +156,6 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
   public ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
 
-    if (this.workPackage.attachments) {
-      this.workPackage.attachments.updateElements();
-    }
-
     // Whenever the resource context changes in any way,
     // update the visible fields.
     this.resourceContextChange
