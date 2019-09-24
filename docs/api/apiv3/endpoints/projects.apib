@@ -1,5 +1,9 @@
 # Group Projects
 
+Projects are containers structuring the information (e.g. work packages, wikis) into smaller groups. They can be used in a classic project management approach but also when structuring work by departments.
+
+As containers, they also control behaviour of the elements within them. One of the most important aspects of this is that projects limit permissions by having members with a certain permission set (roles) assigned to them.
+
 ## Actions
 
 | Link                         | Description                                                          | Condition                         |
@@ -26,18 +30,38 @@ Depending on custom fields defined for projects, additional links might exist.
 
 ## Local Properties
 
-| Property    | Description                                                             | Type        | Constraints  | Supported operations |
-| :---------: | -------------                                                           | ----        | -----------  | -------------------- |
-| id          | Projects's id                                                           | Integer     | x > 0        | READ/WRITE           |
-| identifier  |                                                                         | String      |              | READ/WRITE           |
-| name        |                                                                         | String      |              | READ/WRITE           |
-| active      | Indicates whether the project is currently active or already archived   | Boolean     |              | READ/WRITE           |
-| public      | Indicates whether the project is accessible for everybody               | Boolean     |              | READ/WRITE           |
-| description |                                                                         | Formattable |              | READ/WRITE           |
-| createdAt   | Time of creation                                                        | DateTime    |              | READ                 |
-| updatedAt   | Time of the most recent change to the project                           | DateTime    |              | READ                 |
+| Property    | Description                                                                                        | Type              | Constraints  | Supported operations |
+| :---------: | -------------                                                                                      | ----              | -----------  | -------------------- |
+| id          | Projects's id                                                                                      | Integer           | x > 0        | READ/WRITE           |
+| identifier  |                                                                                                    | String            |              | READ/WRITE           |
+| name        |                                                                                                    | String            |              | READ/WRITE           |
+| active      | Indicates whether the project is currently active or already archived                              | Boolean           |              | READ/WRITE           |
+| status      | Denotes the status of the project, so wether the project is on track, at risk is having trouble.   | ProjectStatus     |              | READ/WRITE           |
+| public      | Indicates whether the project is accessible for everybody                                          | Boolean           |              | READ/WRITE           |
+| description |                                                                                                    | Formattable       |              | READ/WRITE           |
+| createdAt   | Time of creation                                                                                   | DateTime          |              | READ                 |
+| updatedAt   | Time of the most recent change to the project                                                      | DateTime          |              | READ                 |
 
 Depending on custom fields defined for projects, additional properties might exist.
+
+### Project Status
+
+A `ProjectStatus` denotes the state a project is in. As such, it represents the assessment of the responsible person whether a project is:
+* on track
+* at risk
+* off track
+
+This assessment is represented by the `code` property. The options are fixed values that cannot be changed.
+
+To explain the assumption, a text property called `explanation` is also available which is a formattable and in wich the person can enter arbitrary text.
+
+#### Local Properties
+
+| Property    | Description                                                              | Type              | Constraints                           | Supported operations |
+| :---------: | -------------                                                            | ----              | -----------                           | -------------------- |
+| code        | The coded status, a project is in                                        | String            | "on track", "at risk" or "off track"  | READ/WRITE           |
+| explanation | A text detailing and explaining why the project has the reported status  | Formattable       |                                       | READ/WRITE           |
+
 
 ## Project [/api/v3/projects/{id}]
 
@@ -87,6 +111,14 @@ Depending on custom fields defined for projects, additional properties might exi
                 "name": "Project example",
                 "active": true,
                 "public": false,
+                "status": {
+                    "code": "on track",
+                    "explanation": {
+                        "format": "markdown",
+                        "raw": "Everything **fine**",
+                        "html": "<p>Everything <strong>fine</strong></p>"
+                    }
+                },
                 "description": {
                     "format": "markdown",
                     "raw": "Lorem **ipsum** dolor sit amet",
@@ -137,6 +169,9 @@ Updates the given project by applying the attributes provided in the body.
 
             {
                 "name": "A new project name",
+                "status": {
+                    "code": "at risk"
+                }
                 "_links": {
                     "customField35": {
                         "href": "/api/v3/users/3"
@@ -318,6 +353,14 @@ the project scheduled for deletion, it is archived at once.
                     "identifier": "a_project",
                     "name": "A project",
                     "active": true,
+                    "status": {
+                        "code": "on track",
+                        "explanation": {
+                            "format": "markdown",
+                            "raw": "Everything **fine**",
+                            "html": "<p>Everything <strong>fine</strong></p>"
+                        }
+                    },
                     "public": false,
                     "description": {
                         "format": "markdown",
@@ -357,6 +400,14 @@ the project scheduled for deletion, it is archived at once.
                     "identifier": "another_project",
                     "name": "Another project",
                     "active": false,
+                    "status": {
+                        "code": "off track",
+                        "explanation": {
+                            "format": "markdown",
+                            "raw": "Uh **oh**",
+                            "html": "<p>Uh <strong>oh</strong></p>"
+                        }
+                    },
                     "public": true,
                     "description": {
                         "format": "markdown",
@@ -417,7 +468,15 @@ You can use the form and schema to be retrieve the valid attribute values and by
             {
               "identifier": "new_project_identifier",
               "name": "New project name",
-              "customField35": "Text custom field value"
+              "customField35": "Text custom field value",
+              "status": {
+                  "code": "on track",
+                  "explanation": {
+                      "format": "markdown",
+                      "raw": "Everything **fine**",
+                      "html": "<p>Everything <strong>fine</strong></p>"
+                  }
+              },
               "_links": {
                 "customField12": {
                   "href": "/api/v3/users/5"
@@ -527,6 +586,13 @@ You can use the form and schema to be retrieve the valid attribute values and by
                 "active": {
                     "type": "Boolean",
                     "name": "Active",
+                    "required": true,
+                    "hasDefault": true,
+                    "writable": true
+                },
+                "status": {
+                    "type": "ProjectStatus",
+                    "name": "Status",
                     "required": true,
                     "hasDefault": true,
                     "writable": true
@@ -653,6 +719,14 @@ For more details and all possible responses see the general specification of [Fo
                             "html": ""
                         },
                         "customField42": null,
+                        "status": {
+                            "code": null,
+                            "explanation": {
+                                "format": "markdown",
+                                "raw": null,
+                                "html": "<p></p>"
+                            }
+                        },
                         "_links": {
                             "customField26": {
                                 "href": null,
@@ -712,6 +786,13 @@ For more details and all possible responses see the general specification of [Fo
                         "active": {
                             "type": "Boolean",
                             "name": "Active",
+                            "required": true,
+                            "hasDefault": true,
+                            "writable": true
+                        },
+                        "status": {
+                            "type": "ProjectStatus",
+                            "name": "Status",
                             "required": true,
                             "hasDefault": true,
                             "writable": true
@@ -955,6 +1036,14 @@ For more details and all possible responses see the general specification of [Fo
                             "html": ""
                         },
                         "customField42": null,
+                        "status": {
+                            "code": "at risk",
+                            "explanation": {
+                                "format": "markdown",
+                                "raw": "There is some risk of failure",
+                                "html": "<p>There is some risk of failure</p>"
+                            }
+                        },
                         "_links": {
                             "customField26": {
                                 "href": null,
@@ -1014,6 +1103,13 @@ For more details and all possible responses see the general specification of [Fo
                         "active": {
                             "type": "Boolean",
                             "name": "Active",
+                            "required": true,
+                            "hasDefault": true,
+                            "writable": true,
+                        },
+                        "status": {
+                            "type": "ProjectStatus",
+                            "name": "Status",
                             "required": true,
                             "hasDefault": true,
                             "writable": true,
@@ -1254,6 +1350,14 @@ For more details and all possible responses see the general specification of [Fo
                     "identifier": "a_project",
                     "name": "A project",
                     "active": true,
+                    "status": {
+                        "code": "on track",
+                        "explanation": {
+                            "format": "markdown",
+                            "raw": "Everything **fine**",
+                            "html": "<p>Everything <strong>fine</strong></p>"
+                        }
+                    },
                     "public": false,
                     "description": {
                         "format": "markdown",
@@ -1289,7 +1393,15 @@ For more details and all possible responses see the general specification of [Fo
                     "id": 14,
                     "identifier": "another_project",
                     "name": "Another project",
-                    "active": false,
+                    "active": true,
+                    "status": {
+                        "code": "on track",
+                        "explanation": {
+                            "format": "markdown",
+                            "raw": "Everything super **fine**",
+                            "html": "<p>Everything super <strong>fine</strong></p>"
+                        }
+                    },
                     "public": true,
                     "description": {
                         "format": "markdown",
@@ -1382,6 +1494,15 @@ For instance to find all parent candidates with "rollout" in their name:
                                 "format": "markdown",
                                 "raw": "Lorem **ipsum** dolor sit amet",
                                 "html": "<p>Lorem <strong>ipsum</strong> dolor sit amet</p>"
+                            },
+                            "active": true,
+                            "status": {
+                                "code": "on track",
+                                "explanation": {
+                                    "format": "markdown",
+                                    "raw": "Everything **fine**",
+                                    "html": "<p>Everything <strong>fine</strong></p>"
+                                }
                             },
                             "createdAt": "2014-05-21T08:51:20Z",
                             "updatedAt": "2014-05-21T08:51:20Z"
