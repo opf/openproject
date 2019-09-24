@@ -1,0 +1,29 @@
+<widget-header
+    [name]="widgetName"
+    [icon]="'info1'"
+    [editable]="isEditable">
+
+  <widget-menu
+      [resource]="resource">
+  </widget-menu>
+</widget-header>
+
+<div class="grid--widget-content">
+  <div class="content-grid">
+    <div class="left-column">
+      <div class="traffic-lights">
+        <div class="light" [ngClass]="{'-active':currentStatusCode === 'off_track'}">
+          <div class="bulb -red" [attr.title]="availableStatuses['off_track']"></div>
+        </div>
+        <div class="light" [ngClass]="{'-active':currentStatusCode === 'at_risk'}" >
+          <div class="bulb -yellow" [attr.title]="availableStatuses['at_risk']"></div>
+        </div>
+        <div class="light" [ngClass]="{'-active':currentStatusCode === 'on_track'}">
+          <div class="bulb -green -active" [attr.title]="availableStatuses['on_track']"></div>
+        </div>
+      </div>
+      <div class="current-status" [innerHtml]="availableStatuses[currentStatusCode]"></div>
+    </div>
+    <div class="right-column" [innerHtml]="explanation"></div>
+  </div>
+</div>

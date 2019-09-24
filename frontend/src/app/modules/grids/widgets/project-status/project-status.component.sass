@@ -1,0 +1,83 @@
+.traffic-lights
+  width: 40px
+  height: 100px
+  padding: 5px
+  border: 1px solid gray
+  border-radius: 2px
+
+.light
+  width: 30px
+  height: 30px
+  padding: 5px
+  &:hover,
+  &.-active
+    padding: 0px
+    animation-name: shrink-padding
+    animation-duration: 200ms
+  &.-active
+    .-green
+      background-color: green
+    .-yellow
+      background-color: orange
+    .-red
+      background-color: red
+
+.bulb
+  width: 20px
+  height: 20px
+  border-radius: 50%
+  border-width: 1px
+  border-style: solid
+  &.-green
+    border-color: green
+  &.-yellow
+    border-color: orange
+  &.-red
+    border-color: red
+
+.light
+  &:hover,
+  &.-active
+    .bulb
+      width: 30px
+      height: 30px
+      border-width: 4px
+      animation-name: increase-size
+      animation-duration: 200ms
+
+.current-status
+  margin-top: 10px
+
+.content-grid
+  display: flex
+  flex-direction: row
+  width: 100%
+
+.left-column
+  flex: 1
+  flex-direction: column
+  flex-basis: content
+  max-width: 100px
+  padding-right: 20px
+
+.right-column
+  flex: 2
+  flex-direction: column
+
+@keyframes shrink-padding
+  from
+    padding: 5px
+  to
+    padding: 0px
+
+@keyframes increase-size
+  from
+    width: 20px
+    height: 20px
+    border-width: 1px
+    background-color: transparent
+  to
+    width: 30px
+    height: 30px
+    border-width: 4px
+    background-color: transparent

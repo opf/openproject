@@ -9,7 +9,7 @@ module Overviews
 
     defaults -> {
       {
-        row_count: 2,
+        row_count: 3,
         column_count: 2,
         widgets: [
           {
@@ -20,6 +20,16 @@ module Overviews
             end_column: 2,
             options: {
               name: I18n.t('js.grid.widgets.project_description.title')
+            }
+          },
+          {
+            identifier: 'project_status',
+            start_row: 1,
+            end_row: 2,
+            start_column: 2,
+            end_column: 3,
+            options: {
+              name: I18n.t('js.grid.widgets.project_status.title')
             }
           },
           {
@@ -34,9 +44,9 @@ module Overviews
           },
           {
             identifier: 'work_packages_overview',
-            start_row: 1,
-            end_row: 2,
-            start_column: 2,
+            start_row: 3,
+            end_row: 4,
+            start_column: 1,
             end_column: 3,
             options: {
               name: I18n.t('js.grid.widgets.work_packages_overview.title')
