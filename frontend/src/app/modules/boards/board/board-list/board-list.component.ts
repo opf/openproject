@@ -36,7 +36,6 @@ import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
 import {BoardService} from "app/modules/boards/board/board.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {WorkPackageFilterValues} from "core-components/wp-edit-form/work-package-filter-values";
-import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
@@ -132,7 +131,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
               private readonly authorisationService:AuthorisationService,
               private readonly wpInlineCreate:WorkPackageInlineCreateService,
               protected readonly injector:Injector,
-              @Inject(IWorkPackageEditingServiceToken) private readonly wpEditing:WorkPackageEditingService,
+              private readonly wpEditing:WorkPackageEditingService,
               private readonly loadingIndicator:LoadingIndicatorService,
               private readonly wpCacheService:WorkPackageCacheService,
               private readonly boardService:BoardService,
@@ -316,7 +315,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
    */
   private addWorkPackage(workPackage:WorkPackageResource) {
     let query = this.querySpace.query.value!;
-    const changeset = this.wpEditing.changesetFor(workPackage);
+    const changeset = this.wpEditing.changeFor(workPackage);
 
     // Ensure attribute remains writable in the form
     const actionAttribute = this.board.actionAttribute;
@@ -330,12 +329,12 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     const filter = new WorkPackageFilterValues(this.injector, changeset, query.filters);
     filter.applyDefaultsFromFilters();
 
-    if (changeset.empty) {
+    if (changeset.isEmpty()) {
       // Ensure work package and its schema is loaded
       return this.wpCacheService.updateWorkPackage(workPackage);
     } else {
       // Save changes to the work package, which reloads it as well
-      return changeset.save();
+      return this.wpEditing.save(changeset);
     }
   }
 

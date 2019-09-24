@@ -19,7 +19,6 @@ import {QueryColumn} from "app/components/wp-query/query-column";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
-import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
@@ -98,7 +97,7 @@ export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
               readonly injector:Injector,
               readonly $state:StateService,
               readonly I18n:I18nService,
-              @Inject(IWorkPackageCreateServiceToken) readonly wpCreate:WorkPackageCreateService,
+              readonly wpCreate:WorkPackageCreateService,
               readonly wpInlineCreate:WorkPackageInlineCreateService,
               readonly wpNotifications:WorkPackageNotificationService,
               readonly authorisationService:AuthorisationService,

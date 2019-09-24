@@ -36,6 +36,7 @@ import {TimelineMilestoneCellRenderer} from './timeline-milestone-cell-renderer'
 import {registerWorkPackageMouseHandler} from './wp-timeline-cell-mouse-handler';
 import {Injector} from '@angular/core';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
+import {WorkPackageEditingService} from 'core-app/components/wp-edit-form/work-package-editing-service';
 import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
 
 export const classNameLeftLabel = 'labelLeft';
@@ -62,6 +63,7 @@ export class WorkPackageCellLabels {
 
 export class WorkPackageTimelineCell {
   readonly wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
+  readonly wpEditing:WorkPackageEditingService = this.injector.get(WorkPackageEditingService);
   readonly wpEvents:WorkPackageEventsService = this.injector.get(WorkPackageEventsService);
   readonly wpNotificationsService:WorkPackageNotificationService = this.injector.get(WorkPackageNotificationService);
   readonly states:States = this.injector.get(States);
@@ -159,6 +161,7 @@ export class WorkPackageTimelineCell {
         () => this.latestRenderInfo,
         this.workPackageTimeline,
         this.wpCacheService,
+        this.wpEditing,
         this.wpEvents,
         this.wpNotificationsService,
         this.loadingIndicator,

@@ -34,10 +34,12 @@ import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/a
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {CommentService} from "core-components/wp-activity/comment-service";
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ContentChild,
   ElementRef,
-  Inject, Injector,
+  Injector,
   Input,
   OnDestroy,
   OnInit,
@@ -49,11 +51,11 @@ import {ConfigurationService} from "core-app/modules/common/config/configuration
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {WorkPackageChangeset} from "core-components/wp-edit-form/work-package-changeset";
 import {WorkPackageCommentFieldHandler} from "core-components/work-packages/work-package-comment/work-package-comment-field-handler";
 
 @Component({
   selector: 'work-package-comment',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './work-package-comment.component.html'
 })
 export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler implements OnInit, OnDestroy {
@@ -73,7 +75,6 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
   public inFlight = false;
   public canAddComment:boolean;
   public showAbove:boolean;
-  public changeset:WorkPackageChangeset;
 
   constructor(protected elementRef:ElementRef,
               protected injector:Injector,
@@ -84,6 +85,7 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
               protected wpCacheService:WorkPackageCacheService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected NotificationsService:NotificationsService,
+              protected cdRef:ChangeDetectorRef,
               protected I18n:I18nService) {
     super(elementRef, injector);
   }
@@ -131,11 +133,14 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
     if (!this.showAbove) {
       this.scrollToBottom();
     }
+
+    this.cdRef.detectChanges();
   }
 
   public deactivate(focus:boolean) {
     focus && this.focus();
-    this.inEdit = false;
+    this.active = false;
+    this.cdRef.detectChanges();
   }
 
   public async handleUserSubmit() {
@@ -148,7 +153,7 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
     let indicator = this.loadingIndicator.wpDetails;
     return indicator.promise = this.commentService.createComment(this.workPackage, this.commentValue)
       .then(() => {
-        this.inEdit = false;
+        this.active = false;
         this.NotificationsService.addSuccess(this.I18n.t('js.work_packages.comment_added'));
 
         this.wpLinkedActivities.require(this.workPackage, true);

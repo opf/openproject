@@ -54,6 +54,7 @@ import {WikiPageResource} from "core-app/modules/hal/resources/wiki-page-resourc
 import {MeetingContentResource} from "core-app/modules/hal/resources/meeting-content-resource";
 import {PostResource} from "core-app/modules/hal/resources/post-resource";
 import {StatusResource} from "core-app/modules/hal/resources/status-resource";
+import {AttachmentCollectionResource} from "core-app/modules/hal/resources/attachment-collection-resource";
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
 import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
@@ -124,6 +125,9 @@ const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInter
   WorkPackageCollection: {
     cls: WorkPackageCollectionResource
   },
+  AttachmentCollection: {
+    cls: AttachmentCollectionResource
+  },
   Query: {
     cls: QueryResource,
     attrTypes: {
@@ -131,7 +135,16 @@ const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInter
     }
   },
   Form: {
-    cls: FormResource
+    cls: FormResource,
+    attrTypes: {
+      payload: 'FormPayload'
+    }
+  },
+  FormPayload: {
+    cls: HalResource,
+    attrTypes: {
+      attachments: 'AttachmentsCollection'
+    }
   },
   QueryFilterInstance: {
     cls: QueryFilterInstanceResource,

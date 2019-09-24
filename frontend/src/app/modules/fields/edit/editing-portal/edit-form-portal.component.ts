@@ -17,9 +17,9 @@ import {
 } from "core-app/modules/fields/edit/edit-field.component";
 import {createLocalInjector} from "core-app/modules/fields/edit/editing-portal/edit-form-portal.injector";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
-import {WorkPackageChangeset} from "core-components/wp-edit-form/work-package-changeset";
 import {EditFieldService, IEditFieldType} from "core-app/modules/fields/edit/edit-field.service";
-import {EditChangeset} from "core-app/modules/fields/changeset/edit-changeset";
+import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
+import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 @Component({
@@ -28,13 +28,13 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 })
 export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() schemaInput:IFieldSchema;
-  @Input() changesetInput:EditChangeset<HalResource|{ [key:string]:unknown; }>;
+  @Input() changeInput:WorkPackageChangeset;
   @Input() editFieldHandler:EditFieldHandler;
   @Output() public onEditFieldReady = new EventEmitter<void>();
 
   public handler:EditFieldHandler;
   public schema:IFieldSchema;
-  public changeset:EditChangeset<HalResource|{ [key:string]:unknown; }>;
+  public change:WorkPackageChangeset;
   public fieldInjector:Injector;
 
   public componentClass:IEditFieldType;
@@ -50,16 +50,16 @@ export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit
     if (this.editFieldHandler && this.schemaInput) {
       this.handler = this.editFieldHandler;
       this.schema = this.schemaInput;
-      this.changeset = this.changesetInput;
+      this.change = this.changeInput;
 
     } else {
       this.handler = this.injector.get<EditFieldHandler>(OpEditingPortalHandlerToken);
       this.schema = this.injector.get<IFieldSchema>(OpEditingPortalSchemaToken);
-      this.changeset = this.injector.get<EditChangeset<HalResource|{ [key:string]:unknown; }>>(OpEditingPortalChangesetToken);
+      this.change = this.injector.get<WorkPackageChangeset>(OpEditingPortalChangesetToken);
     }
 
     this.componentClass = this.editField.getClassFor(this.handler.fieldName, this.schema.type);
-    this.fieldInjector = createLocalInjector(this.injector, this.changeset, this.handler, this.schema);
+    this.fieldInjector = createLocalInjector(this.injector, this.change, this.handler, this.schema);
   }
 
   ngOnDestroy() {

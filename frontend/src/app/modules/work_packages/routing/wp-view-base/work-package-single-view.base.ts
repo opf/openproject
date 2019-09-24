@@ -39,12 +39,8 @@ import {AuthorisationService} from "core-app/modules/common/model-auth/model-aut
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {States} from "core-components/states.service";
 import {KeepTabService} from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
-import {
-  IWorkPackageEditingService,
-  IWorkPackageEditingServiceToken
-} from "core-components/wp-edit-form/work-package-editing.service.interface";
+import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
-
 export class WorkPackageSingleViewBase implements OnDestroy {
 
   public wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
@@ -52,7 +48,7 @@ export class WorkPackageSingleViewBase implements OnDestroy {
   public I18n:I18nService = this.injector.get(I18nService);
   public keepTab:KeepTabService = this.injector.get(KeepTabService);
   public PathHelper:PathHelperService = this.injector.get(PathHelperService);
-  protected wpEditing:IWorkPackageEditingService = this.injector.get(IWorkPackageEditingServiceToken);
+  protected wpEditing:WorkPackageEditingService = this.injector.get(WorkPackageEditingService);
   protected wpTableFocus:WorkPackageViewFocusService = this.injector.get(WorkPackageViewFocusService);
   protected wpNotifications:WorkPackageNotificationService = this.injector.get(WorkPackageNotificationService);
   protected projectCacheService:ProjectCacheService = this.injector.get(ProjectCacheService);

@@ -75,7 +75,7 @@ export class SingleViewEditContext implements WorkPackageEditContext {
 
   public async reset(workPackage:WorkPackageResource, fieldName:string, focus:boolean = false) {
     const ctrl = await this.fieldCtrl(fieldName);
-    ctrl.reset(workPackage);
+    ctrl.reset();
     ctrl.deactivate(focus);
   }
 

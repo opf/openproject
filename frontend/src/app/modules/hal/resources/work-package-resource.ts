@@ -80,7 +80,7 @@ export interface WorkPackageResourceLinks extends WorkPackageResourceEmbedded {
 
   addChild(child:HalResource):Promise<any>;
 
-  addComment(comment:{ comment:string }, headers?:any):Promise<any>;
+  addComment(comment:unknown, headers?:any):Promise<any>;
 
   addRelation(relation:any):Promise<any>;
 
@@ -121,7 +121,7 @@ export class WorkPackageBaseResource extends HalResource {
   public activities:CollectionResource;
   public attachments:AttachmentCollectionResource;
 
-  public overriddenSchema?:SchemaResource;
+  public overriddenSchema:SchemaResource|undefined = undefined;
   public __initialized_at:Number;
 
   readonly I18n:I18nService = this.injector.get(I18nService);

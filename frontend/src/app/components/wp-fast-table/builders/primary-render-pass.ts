@@ -8,9 +8,6 @@ import {WorkPackageTable} from '../wp-fast-table';
 import {RelationRenderInfo, RelationsRenderPass} from './relations/relations-render-pass';
 import {SingleRowBuilder} from './rows/single-row-builder';
 import {TimelineRenderPass} from './timeline/timeline-render-pass';
-import {
-  IWorkPackageEditingServiceToken
-} from "../../wp-edit-form/work-package-editing.service.interface";
 import {HighlightingRenderPass} from "core-components/wp-fast-table/builders/highlighting/row-highlight-render-pass";
 import {DragDropHandleRenderPass} from "core-components/wp-fast-table/builders/drag-and-drop/drag-drop-handle-render-pass";
 import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
@@ -39,7 +36,7 @@ export interface RowRenderInfo {
 
 export abstract class PrimaryRenderPass {
 
-  protected readonly wpEditing:WorkPackageEditingService = this.injector.get<WorkPackageEditingService>(IWorkPackageEditingServiceToken);
+  protected readonly wpEditing:WorkPackageEditingService = this.injector.get(WorkPackageEditingService);
   protected readonly states:States = this.injector.get(States);
   protected readonly I18n:I18nService = this.injector.get(I18nService);
 

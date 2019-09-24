@@ -48,10 +48,10 @@ export class CommentService {
     private NotificationsService:NotificationsService) {
   }
 
-  public createComment(workPackage:WorkPackageResource, comment:string) {
+  public createComment(workPackage:WorkPackageResource, comment:{ raw:string }) {
     return workPackage.addComment(
-      {comment: comment},
-      {'Content-Type': 'application/json; charset=UTF-8'}
+      { comment: comment },
+      { 'Content-Type': 'application/json; charset=UTF-8' }
     )
       .catch((error:any) => this.errorAndReject(error, workPackage));
   }
@@ -60,14 +60,14 @@ export class CommentService {
     const options = {
       ajax: {
         method: 'PATCH',
-        data: JSON.stringify({comment: comment}),
+        data: JSON.stringify({ comment: comment }),
         contentType: 'application/json; charset=utf-8'
       }
     };
 
     return activity.update(
-      {comment: comment},
-      {'Content-Type': 'application/json; charset=UTF-8'}
+      { comment: comment },
+      { 'Content-Type': 'application/json; charset=UTF-8' }
     ).then((activity:HalResource) => {
       this.NotificationsService.addSuccess(
         this.I18n.t('js.work_packages.comment_updated')

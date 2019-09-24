@@ -100,7 +100,7 @@ export class GridAreaService {
   public saveWidgetChangeset(changeset:WidgetChangeset) {
     let payload = this.gridDm.extractPayload(this.resource, this.schema);
 
-    let payloadWidget = payload.widgets.find((w:any) => w.id === changeset.resource.id);
+    let payloadWidget = payload.widgets.find((w:any) => w.id === changeset.pristineResource.id);
     Object.assign(payloadWidget, changeset.changes);
 
     // Adding the id so that the url can be deduced
