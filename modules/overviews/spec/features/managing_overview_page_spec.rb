@@ -73,17 +73,20 @@ describe 'Overview page managing', type: :feature, js: true, with_mail: false do
 
   it 'renders the default view, allows altering and saving' do
     description_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
-    details_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
-    overview_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(3)')
-    members_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(4)')
+    status_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
+    details_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(3)')
+    overview_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(4)')
+    members_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(5)')
 
     description_area.expect_to_exist
+    status_area.expect_to_exist
     details_area.expect_to_exist
     overview_area.expect_to_exist
     members_area.expect_to_exist
     description_area.expect_to_span(1, 1, 2, 2)
+    status_area.expect_to_span(1, 2, 2, 3)
     details_area.expect_to_span(2, 1, 3, 2)
-    overview_area.expect_to_span(1, 2, 2, 3)
+    overview_area.expect_to_span(3, 1, 4, 3)
     members_area.expect_to_span(2, 2, 3, 3)
 
     # The widgets load their respective contents
@@ -92,12 +95,12 @@ describe 'Overview page managing', type: :feature, js: true, with_mail: false do
         .to have_content('My custom description')
     end
 
-    # within top-right area, add an additional widget
+    # within top-left area, add an additional widget
     overview_page.add_widget(1, 1, :row, 'Work packages table')
 
     overview_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
 
-    table_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(5)')
+    table_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(6)')
     table_area.expect_to_span(1, 1, 2, 2)
 
     table_area.resize_to(2, 2)
@@ -122,9 +125,10 @@ describe 'Overview page managing', type: :feature, js: true, with_mail: false do
 
     ## Because of the added column and the resizing the other widgets have moved down
     description_area.expect_to_span(2, 1, 3, 2)
+    status_area.expect_to_span(1, 2, 3, 3)
     details_area.expect_to_span(3, 1, 4, 2)
-    overview_area.expect_to_span(2, 2, 4, 3)
-    members_area.expect_to_span(4, 2, 5, 3)
-    table_area.expect_to_span(1, 1, 2, 3)
+    overview_area.expect_to_span(4, 1, 5, 3)
+    members_area.expect_to_span(3, 2, 4, 3)
+    table_area.expect_to_span(1, 1, 2, 2)
   end
 end
