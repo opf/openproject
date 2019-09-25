@@ -194,6 +194,14 @@
       .wp-inline-edit--field
         height: 34px
 
+      // Style edit field to look like the display field.
+      // Thus we avoid a visual jump when editing the subject.
+      &.-active input
+        height: 36px
+        line-height: 36px
+        padding: 5px 0 5px 5px
+        font-size: 20px
+
   > .toolbar-container
     margin: 10px 0 5px 0
     padding-right: 15px
