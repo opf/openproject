@@ -11,6 +11,7 @@ import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/w
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
 import {DragAndDropHelpers} from "core-app/modules/common/drag-and-drop/drag-and-drop.helpers";
 import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card-view.component";
+import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 
 @Injectable()
 export class WorkPackageCardDragAndDropService {
@@ -30,6 +31,7 @@ export class WorkPackageCardDragAndDropService {
                      readonly reorderService:WorkPackageViewOrderService,
                      @Inject(IWorkPackageCreateServiceToken) readonly wpCreate:WorkPackageCreateService,
                      readonly wpNotifications:WorkPackageNotificationService,
+                     readonly wpCacheService:WorkPackageCacheService,
                      readonly currentProject:CurrentProjectService,
                      readonly wpInlineCreate:WorkPackageInlineCreateService) {
 
@@ -57,9 +59,9 @@ export class WorkPackageCardDragAndDropService {
       scrollContainers: [this.cardView.container.nativeElement],
       moves: (card:HTMLElement) => {
         const wpId:string = card.dataset.workPackageId!;
-        const workPackage = this.states.workPackages.get(wpId).value!;
+        const workPackage = this.states.workPackages.get(wpId).value;
 
-        return this.cardView.canDragOutOf(workPackage) && !card.dataset.isNew;
+        return !!workPackage && this.cardView.canDragOutOf(workPackage) && !card.dataset.isNew;
       },
       accepts: () => this.cardView.dragInto,
       onMoved: async (card:HTMLElement) => {
@@ -81,10 +83,12 @@ export class WorkPackageCardDragAndDropService {
         const wpId:string = card.dataset.workPackageId!;
         const toIndex = DragAndDropHelpers.findIndex(card);
 
-        const workPackage = this.states.workPackages.get(wpId).value!;
+        const workPackage = await this.wpCacheService.require(wpId);
         const result = await this.addWorkPackageToQuery(workPackage, toIndex);
 
-        card.parentElement!.removeChild(card);
+        if (card.parentElement) {
+          card.parentElement.removeChild(card);
+        }
 
         return result;
       }
@@ -134,8 +138,12 @@ export class WorkPackageCardDragAndDropService {
   private updateOrder(newOrder:string[]) {
     newOrder = _.uniq(newOrder);
 
-    this.workPackages = newOrder.map(id => this.states.workPackages.get(id).value!);
-    this.cardView.cdRef.detectChanges();
+    Promise
+      .all(newOrder.map(id => this.wpCacheService.require(id)))
+      .then((workPackages:WorkPackageResource[]) => {
+        this.workPackages = workPackages;
+        this.cardView.cdRef.detectChanges();
+      });
   }
 
   /**
