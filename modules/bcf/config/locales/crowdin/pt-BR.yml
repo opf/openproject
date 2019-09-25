@@ -58,5 +58,5 @@ pt-BR:
   attributes:
     bcf_thumbnail: "Instantâneo BCF"
   project_module_bcf: "BCF"
-  permission_view_linked_issues: "View BCF issues"
-  permission_manage_bcf: "Import and manage BCF issues"
+  permission_view_linked_issues: "Visualizar problemas do BCF"
+  permission_manage_bcf: "Importar e gerenciar problemas do BCF"

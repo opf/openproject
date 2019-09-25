@@ -1,5 +1,5 @@
 pt:
   dashboards:
-    label: 'Dashboards'
+    label: 'Painéis de controlo'
     menu_badge: 'Alpha'
-  project_module_dashboards: 'Dashboards'
+  project_module_dashboards: 'Painéis de controlo'

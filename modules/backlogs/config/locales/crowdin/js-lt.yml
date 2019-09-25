@@ -2,5 +2,5 @@ lt:
   js:
     work_packages:
       properties:
-        storyPoints: "Story Points"
+        storyPoints: "Istorijos taškai"
         remainingTime: "Liko valandų"

@@ -17,7 +17,7 @@ lt:
       other: '%{count} BCF issues'
     bcf_xml:
       xml_file: 'BCF XML File'
-      import_title: 'Import'
+      import_title: 'Importuoti'
       export: 'Eksportuoti'
       import_update_comment: '(Updated in BCF import)'
       import_failed: 'Cannot import BCF file: %{error}'
@@ -26,13 +26,13 @@ lt:
       type_not_active: "The issue type is not activated for this project."
       import:
         num_issues_found: '%{x_bcf_issues} are contained in the BCF-XML file, their details are listed below.'
-        button_prepare: 'Prepare import'
-        button_perform_import: 'Confirm import'
-        button_proceed: 'Proceed'
-        button_back_to_list: 'Back to list'
-        no_permission_to_add_members: 'You do not have sufficient permissions to add them as members to the project.'
-        contact_project_admin: 'Contact your project admin to add them as members and start this import again.'
-        continue_anyways: 'Do you want to proceed and finish the import anyways?'
+        button_prepare: 'Paruošti importą'
+        button_perform_import: 'Patvirtinti importą'
+        button_proceed: 'Tęsti'
+        button_back_to_list: 'Atgal į sąrašą'
+        no_permission_to_add_members: 'Jūs neturite teisių pridėti juos kaip projekto narius.'
+        contact_project_admin: 'Susisiekite su projekto administratoriumi, kad jie būtų pridėti kaip nariai, tada pakartokite importą.'
+        continue_anyways: 'Ar norite tęsti ir vis tiek baigti importą?'
         description: "Provide a BCF-XML v2.1 file to import into this project. You can examine its contents before performing the import."
         invalid_types_found: 'Invalid topic type names found'
         invalid_statuses_found: 'Invalid status names found'
