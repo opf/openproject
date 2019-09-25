@@ -74,6 +74,7 @@ export class BoardService {
     this.reorderWidgets(board);
     return this.boardDm.save(board)
       .then(board => {
+        board.sortWidgets();
         this.boardCache.update(board);
         return board;
       });
