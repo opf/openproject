@@ -11,7 +11,7 @@ export class GroupByDragActionService extends TableDragActionService {
 
   private wpTableGroupBy = this.injector.get(WorkPackageViewGroupByService);
   private wpEditing = this.injector.get<WorkPackageEditingService>(WorkPackageEditingService);
-  private wpNotifications = this.injector.get(WorkPackageNotificationService);
+  private halNotification = this.injector.get(HalResourceNotificationService);
 
   public get applies() {
     return this.wpTableGroupBy.isEnabled;

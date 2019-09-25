@@ -27,8 +27,6 @@
 // ++
 
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageEditForm} from '../../modules/fields/edit/edit-form/work-package-edit-form';
-import {WorkPackageEditContext} from './work-package-edit-context';
 import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
@@ -41,6 +39,8 @@ import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.compon
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {Subject} from 'rxjs';
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {EditForm} from "core-app/modules/fields/edit/edit-form/edit-form";
+import {EditContext} from "core-app/modules/fields/edit/edit-form/edit-context";
 
 export class WorkPackageEditFieldHandler extends EditFieldHandler {
   // Injections
@@ -49,7 +49,7 @@ export class WorkPackageEditFieldHandler extends EditFieldHandler {
   readonly I18n:I18nService = this.injector.get(I18nService);
 
   // Other fields
-  public editContext:WorkPackageEditContext;
+  public editContext:EditContext;
 
   // Reference to the active component, if any
   public componentInstance:EditFieldComponent;
@@ -61,7 +61,7 @@ export class WorkPackageEditFieldHandler extends EditFieldHandler {
   public errors:string[];
 
   constructor(public injector:Injector,
-              public form:WorkPackageEditForm,
+              public form:EditForm,
               public fieldName:string,
               public schema:IFieldSchema,
               public element:HTMLElement,
@@ -92,7 +92,7 @@ export class WorkPackageEditFieldHandler extends EditFieldHandler {
     return this.form.change.inFlight;
   }
 
-  public get context():WorkPackageEditContext {
+  public get context():EditContext {
     return this.form.editContext;
   }
 
@@ -212,7 +212,7 @@ export class WorkPackageEditFieldHandler extends EditFieldHandler {
    * Reference the form's work package
    */
   public get workPackage():WorkPackageResource {
-    return this.form.workPackage;
+    return this.form.resource as WorkPackageResource;
   }
 
   /**

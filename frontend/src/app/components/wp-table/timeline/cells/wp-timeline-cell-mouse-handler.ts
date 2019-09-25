@@ -67,7 +67,7 @@ export function registerWorkPackageMouseHandler(this:void,
   const querySpace:IsolatedQuerySpace = injector.get(IsolatedQuerySpace);
 
   let mouseDownStartDay:number | null = null; // also flag to signal active drag'n'drop
-  renderInfo.change = wpEditing.changeFor(renderInfo.workPackage);
+  renderInfo.change = wpEditing.changeFor(renderInfo.workPackage) as WorkPackageChangeset;
 
   let dateStates:any;
   let placeholderForEmptyCell:HTMLElement;

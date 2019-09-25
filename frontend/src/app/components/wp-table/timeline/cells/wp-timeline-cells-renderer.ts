@@ -35,6 +35,7 @@ import {TimelineMilestoneCellRenderer} from './timeline-milestone-cell-renderer'
 import {WorkPackageTimelineCell} from './wp-timeline-cell';
 import {WorkPackageEditingService} from 'core-app/components/wp-edit-form/work-package-editing-service';
 import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
+import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 
 export class WorkPackageTimelineCellsRenderer {
 
@@ -142,7 +143,7 @@ export class WorkPackageTimelineCellsRenderer {
     return {
       viewParams: this.wpTimeline.viewParameters,
       workPackage: wp,
-      change: this.wpEditing.changeFor(wp)
+      change: this.wpEditing.changeFor(wp) as WorkPackageChangeset
     };
   }
 }

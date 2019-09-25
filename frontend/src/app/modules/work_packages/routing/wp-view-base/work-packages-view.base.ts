@@ -52,10 +52,7 @@ import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service"
 import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";
 import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import {WorkPackageViewDisplayRepresentationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
-import {
-  HalEvent,
-  HalEventsService
-} from "core-app/modules/work_packages/events/work-package-events.service";
+import {HalEvent, HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 
 export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
 
@@ -202,7 +199,7 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
 
     for (let i = 0; i < events.length; i++) {
       const item = events[i];
-      if (rendered.has(item.id) || item.type === 'created') {
+      if (rendered.has(item.id) || item.eventType === 'created') {
         return true;
       }
     }

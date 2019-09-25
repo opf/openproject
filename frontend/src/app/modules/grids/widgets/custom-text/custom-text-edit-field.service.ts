@@ -105,6 +105,10 @@ export class CustomTextEditFieldService extends EditFieldHandler {
     trigger && trigger.focus();
   }
 
+  setErrors(newErrors: string[]): void {
+    // interface
+  }
+
   handleUserKeydown(event:JQuery.TriggeredEvent, onlyCancel?:boolean):void {
     // interface
   }

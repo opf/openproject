@@ -161,7 +161,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
       this.workPackage.attachments.updateElements();
     }
 
-    const change = this.wpEditing.changeFor(this.workPackage);
+    const change = this.wpEditing.changeFor(this.workPackage) as WorkPackageChangeset;
     this.resourceContextChange.next(this.contextFrom(change));
     this.refresh(change);
 

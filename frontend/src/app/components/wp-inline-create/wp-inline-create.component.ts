@@ -41,7 +41,6 @@ import {AuthorisationService} from 'core-app/modules/common/model-auth/model-aut
 import {WorkPackageViewFocusService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import {filter} from 'rxjs/operators';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageEditForm} from '../../modules/fields/edit/edit-form/work-package-edit-form';
 import {onClickOrEnter} from '../wp-fast-table/handlers/click-or-enter-handler';
 import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
 import {WorkPackageCreateService} from '../wp-new/wp-create.service';
@@ -58,6 +57,7 @@ import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/w
 import {Subscription} from 'rxjs';
 import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
+import {EditForm} from "core-app/modules/fields/edit/edit-form/edit-form";
 
 @Component({
   selector: '[wpInlineCreate]',
@@ -81,7 +81,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, AfterViewInit, 
 
   private currentWorkPackage:WorkPackageResource | null;
 
-  private workPackageEditForm:WorkPackageEditForm | undefined;
+  private workPackageEditForm:EditForm | undefined;
 
   private editingSubscription:Subscription|undefined;
 
@@ -265,7 +265,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, AfterViewInit, 
    * @param wp Work package to be rendered
    * @returns The work package form of the row
    */
-  private renderInlineCreateRow(wp:WorkPackageResource):WorkPackageEditForm {
+  private renderInlineCreateRow(wp:WorkPackageResource):EditForm {
     const builder = new InlineCreateRowBuilder(this.injector, this.table);
     const form = this.table.editing.startEditing(wp, builder.classIdentifier(wp));
 

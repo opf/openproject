@@ -47,6 +47,7 @@ import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates
 import {BoardListMenuComponent} from "core-app/modules/boards/board/board-list/board-list-menu.component";
 import {debugLog} from "core-app/helpers/debug_output";
 import {WorkPackageCardDragAndDropService} from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";
+import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 
 export interface DisabledButtonPlaceholder {
   text:string;
@@ -142,8 +143,8 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   ngOnInit():void {
     // Unset the isNew flag
-    this.initiallyFocused = this.resource.isNew;
-    this.resource.isNew = false;
+    this.initiallyFocused = this.resource.isNewWidget;
+    this.resource.isNewWidget = false;
 
     // Update permission on model updates
     this.authorisationService
@@ -315,7 +316,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
    */
   private addWorkPackage(workPackage:WorkPackageResource) {
     let query = this.querySpace.query.value!;
-    const changeset = this.wpEditing.changeFor(workPackage);
+    const changeset = this.wpEditing.changeFor(workPackage) as WorkPackageChangeset;
 
     // Ensure attribute remains writable in the form
     const actionAttribute = this.board.actionAttribute;

@@ -2,7 +2,6 @@ import {Injector} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from '../states.service';
-import {WorkPackageEditForm} from '../../modules/fields/edit/edit-form/work-package-edit-form';
 import {
   commonRowClassName,
   SingleRowBuilder,
@@ -15,6 +14,7 @@ import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/rout
 import {QueryColumn} from "core-components/wp-query/query-column";
 import {wpCellTdClassName} from "core-components/wp-fast-table/builders/cell-builder";
 import {internalContextMenuColumn} from "core-components/wp-fast-table/builders/internal-sort-columns";
+import {EditForm} from "core-app/modules/fields/edit/edit-form/edit-form";
 
 export const inlineCreateRowClassName = 'wp-inline-create-row';
 export const inlineCreateCancelClassName = 'wp-table--cancel-create-link';
@@ -48,7 +48,7 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
     }
   }
 
-  public buildNew(workPackage:WorkPackageResource, form:WorkPackageEditForm):[HTMLElement, boolean] {
+  public buildNew(workPackage:WorkPackageResource, form:EditForm):[HTMLElement, boolean] {
     // Get any existing edit state for this work package
     const [row, hidden] = this.buildEmpty(workPackage);
 

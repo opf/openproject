@@ -131,7 +131,7 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
     change.inFlight = false;
 
     // Complete the change
-    return this.complete(change, savedWp);
+    return this.complete(change as WorkPackageChangeset, savedWp as WorkPackageResource);
   }
 
   /**
@@ -226,7 +226,7 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
   protected load(id:string):Promise<WorkPackageChangeset> {
     return this.wpCacheService.require(id)
       .then((wp:WorkPackageResource) => {
-        return this.changeFor(wp);
+        return this.changeFor(wp) as WorkPackageChangeset;
       });
   }
 

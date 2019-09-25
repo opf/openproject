@@ -178,4 +178,8 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
       setTimeout(() => { scrollableContainer.scrollTop = scrollableContainer.scrollHeight; }, 400);
     }
   }
+
+  setErrors(newErrors: string[]): void {
+    // interface
+  }
 }

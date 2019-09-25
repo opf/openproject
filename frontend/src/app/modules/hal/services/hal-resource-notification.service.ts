@@ -212,7 +212,7 @@ export class HalResourceNotificationService {
     return true;
   }
 
-  private addWorkPackageFullscreenLink(message:INotification, resource:WorkPackageResource) {
+  private addWorkPackageFullscreenLink(message:INotification, resource:HalResource) {
     // Don't show the 'Show in full screen' link  if we're there already
     if (!this.$state.includes('work-packages.show')) {
       message.link = this.showInFullScreenLink(resource);

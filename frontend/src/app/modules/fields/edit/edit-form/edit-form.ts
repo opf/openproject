@@ -99,8 +99,9 @@ export class EditForm {
    *
    * @return {ResourceChangeset}
    */
-  public get change():ResourceChangeset {
-    return this.wpEditing.changeFor(this.resource);
+  public get change():ResourceChangeset<HalResource> {
+      // ToDo: correct type
+    return this.wpEditing.changeFor(this.resource as any);
   }
 
   /**

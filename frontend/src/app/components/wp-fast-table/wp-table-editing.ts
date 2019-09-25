@@ -1,10 +1,10 @@
 import {Injector} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {TableRowEditContext} from '../wp-edit-form/table-row-edit-context';
-import {WorkPackageEditForm} from '../../modules/fields/edit/edit-form/work-package-edit-form';
 import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-service';
 import {WorkPackageTable} from 'core-components/wp-fast-table/wp-fast-table';
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
+import {EditForm} from "core-app/modules/fields/edit/edit-form/edit-form";
 
 export class WorkPackageTableEditingContext {
 
@@ -14,7 +14,7 @@ export class WorkPackageTableEditingContext {
               readonly injector:Injector) {
   }
 
-  public forms:{ [wpId:string]:WorkPackageEditForm } = {};
+  public forms:{ [wpId:string]:EditForm } = {};
 
   public reset() {
     _.each(this.forms, (form) => form.destroy());
@@ -35,7 +35,7 @@ export class WorkPackageTableEditingContext {
     }
   }
 
-  public startEditing(workPackage:WorkPackageResource, classIdentifier:string):WorkPackageEditForm {
+  public startEditing(workPackage:WorkPackageResource, classIdentifier:string):EditForm {
     const wpId = workPackage.id!;
     const existing = this.forms[wpId];
     if (existing) {
@@ -44,7 +44,7 @@ export class WorkPackageTableEditingContext {
 
     // Get any existing edit state for this work package
     const editContext = new TableRowEditContext(this.table, this.injector, wpId, classIdentifier);
-    return this.forms[wpId] = WorkPackageEditForm.createInContext(this.injector, editContext, workPackage, false);
+    return this.forms[wpId] = EditForm.createInContext(this.injector, editContext, workPackage, false);
   }
 }
 

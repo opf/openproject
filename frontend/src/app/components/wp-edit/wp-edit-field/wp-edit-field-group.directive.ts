@@ -36,13 +36,14 @@ import {input} from 'reactivestates';
 import {filter, map, take, takeUntil} from 'rxjs/operators';
 import {States} from '../../states.service';
 import {SingleViewEditContext} from '../../wp-edit-form/single-view-edit-context';
-import {WorkPackageEditForm} from '../../../modules/fields/edit/edit-form/work-package-edit-form';
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageCreateService} from './../../wp-new/wp-create.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import {EditForm} from "core-app/modules/fields/edit/edit-form/edit-form";
+import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 
 @Component({
   selector: 'wp-edit-field-group,[wp-edit-field-group]',
@@ -53,7 +54,7 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
   @Input('successState') successState?:string;
   @Input('inEditMode') initializeEditMode:boolean = false;
 
-  public form:WorkPackageEditForm;
+  public form:EditForm;
   public fields:{ [attribute:string]:WorkPackageEditFieldComponent } = {};
   private registeredFields = input<string[]>();
   private unregisterListener:Function;
@@ -103,7 +104,7 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const context = new SingleViewEditContext(this.injector, this);
-    this.form = WorkPackageEditForm.createInContext(this.injector, context, this.workPackage, this.initializeEditMode);
+    this.form = EditForm.createInContext(this.injector, context, this.workPackage, this.initializeEditMode);
 
     if (this.initializeEditMode) {
       this.start();
@@ -171,7 +172,7 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
     const isInitial = this.workPackage.isNew;
     return this.form
       .submit()
-      .then((savedWorkPackage) => {
+      .then((savedWorkPackage:WorkPackageResource) => {
         this.stopEditingAndLeave(savedWorkPackage, isInitial);
       });
   }

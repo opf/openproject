@@ -33,15 +33,15 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {States} from '../states.service';
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {Injector} from '@angular/core';
-import {WorkPackageEditContext} from 'core-components/wp-edit-form/work-package-edit-context';
-import {WorkPackageEditForm} from 'core-app/modules/fields/edit/edit-form/work-package-edit-form';
 import {WorkPackageEditFieldHandler} from 'core-components/wp-edit-form/work-package-edit-field-handler';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 import {WorkPackageEditingPortalService} from "core-app/modules/fields/edit/editing-portal/wp-editing-portal-service";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import {EditForm} from "core-app/modules/fields/edit/edit-form/edit-form";
+import {EditContext} from "core-app/modules/fields/edit/edit-form/edit-context";
 
-export class SingleViewEditContext implements WorkPackageEditContext {
+export class SingleViewEditContext implements EditContext {
 
   // Injections
   public states:States = this.injector.get(States);
@@ -58,7 +58,7 @@ export class SingleViewEditContext implements WorkPackageEditContext {
               readonly fieldGroup:WorkPackageEditFieldGroupComponent) {
   }
 
-  public async activateField(form:WorkPackageEditForm, schema:IFieldSchema, fieldName:string, errors:string[]):Promise<WorkPackageEditFieldHandler> {
+  public async activateField(form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[]):Promise<WorkPackageEditFieldHandler> {
     return this.fieldCtrl(fieldName).then((ctrl) => {
       ctrl.setActive(true);
       const container = ctrl.editContainer.nativeElement;
