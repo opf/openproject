@@ -27,8 +27,7 @@
 //++
 
 import {Injectable} from '@angular/core';
-import {ConfigurationDmService} from 'core-app/modules/hal/dm-services/configuration-dm.service';
-import {take} from "rxjs/operators";
+import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
 
 export const DEFAULT_PAGINATION_OPTIONS = {
   maxVisiblePageOptions: 6,
@@ -46,35 +45,15 @@ export interface IPaginationOptions {
 export class PaginationService {
   private paginationOptions:IPaginationOptions;
 
-  constructor(private ConfigurationDm:ConfigurationDmService) {
-    const gonPaginationOptions = this.getInitialPageOptions();
-
-    this.paginationOptions = {
-      perPage: this.getCachedPerPage(gonPaginationOptions),
-      perPageOptions: gonPaginationOptions,
-      maxVisiblePageOptions: DEFAULT_PAGINATION_OPTIONS.maxVisiblePageOptions,
-      optionsTruncationSize: DEFAULT_PAGINATION_OPTIONS.optionsTruncationSize
-    };
-  }
-
-  public getInitialPageOptions():number[] {
-    try {
-      return (window as any).gon.settings.pagination.per_page_options;
-    } catch (e) {
-      console.log("Can't load initial page options from gon: " + e);
-      return [];
-    }
+  constructor(private configuration:ConfigurationService) {
+    this.loadPaginationOptions();
   }
 
   public getCachedPerPage(initialPageOptions:number[]):number {
-    const value = window.OpenProject.guardedLocalStorage('pagination.perPage') as string;
+    const value = this.localStoragePerPage;
 
-    if (value !== undefined) {
-      const perPage = parseInt(value, 10);
-
-      if (perPage > 0 && (initialPageOptions.length === 0 || initialPageOptions.indexOf(perPage) !== -1)) {
-        return perPage;
-      }
+    if (value !== null && value > 0 && (initialPageOptions.length === 0 || initialPageOptions.indexOf(value) !== -1)) {
+      return value;
     }
 
     if (initialPageOptions.length > 0) {
@@ -84,12 +63,26 @@ export class PaginationService {
     return 20;
   }
 
+  private get localStoragePerPage() {
+    const value = window.OpenProject.guardedLocalStorage('pagination.perPage') as string;
+
+    if (value !== undefined) {
+      return parseInt(value, 10);
+    } else {
+      return null;
+    }
+  }
+
   public getPaginationOptions() {
     return this.paginationOptions;
   }
 
+  public get isPerPageKnown() {
+    return !!(this.localStoragePerPage || this.paginationOptions);
+  }
+
   public getPerPage() {
-    return this.paginationOptions.perPage;
+    return this.localStoragePerPage || this.paginationOptions.perPage;
   }
 
   public getMaxVisiblePageOptions() {
@@ -114,12 +107,15 @@ export class PaginationService {
   }
 
   public loadPaginationOptions() {
-    return this.ConfigurationDm
-      .load()
-      .toPromise()
-      .then((configuration:any) => {
-      this.setPerPageOptions(configuration.perPageOptions);
-      return this.paginationOptions;
-    });
+    return this.configuration.initialized.then(() => {
+        this.paginationOptions = {
+          perPage: this.getCachedPerPage(this.configuration.perPageOptions),
+          perPageOptions: this.configuration.perPageOptions,
+          maxVisiblePageOptions: DEFAULT_PAGINATION_OPTIONS.maxVisiblePageOptions,
+          optionsTruncationSize: DEFAULT_PAGINATION_OPTIONS.optionsTruncationSize
+        };
+
+        return this.paginationOptions;
+      });
   }
 }

@@ -40,7 +40,6 @@ class TimelogController < ApplicationController
   include CustomFieldsHelper
   include PaginationHelper
   include Concerns::Layout
-  include OpenProject::ClientPreferenceExtractor
 
   menu_item :time_entries
 

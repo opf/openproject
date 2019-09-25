@@ -109,7 +109,7 @@ describe 'Search', type: :feature, js: true do
 
       sleep 1
 
-      expect(current_path).to match /work_packages\/#{target_work_package.id}\//
+      expect(current_path).to eql project_work_package_path(target_work_package.project, target_work_package, state: 'activity')
 
       first_wp = work_packages.first
 
