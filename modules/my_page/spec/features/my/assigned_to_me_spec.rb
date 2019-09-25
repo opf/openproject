@@ -176,16 +176,6 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
     # exists as default
     assigned_area.expect_to_exist
 
-    sleep(0.5)
-
-    assigned_area.resize_to(1, 2)
-
-    my_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
-
-    assigned_area.expect_to_span(1, 1, 2, 3)
-    # has been moved down by resizing
-    created_area.expect_to_span(2, 2, 3, 3)
-
     within assigned_area.area do
       expect(page)
         .to have_selector('.subject', text: assigned_work_package.subject)
@@ -199,5 +189,13 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
       expect(page)
         .to have_selector('.subject', text: assigned_work_package_2.subject)
     end
+
+    assigned_area.resize_to(1, 2)
+
+    my_page.expect_notification(message: I18n.t('js.notice_successful_update'))
+
+    assigned_area.expect_to_span(1, 1, 2, 3)
+    # has been moved down by resizing
+    created_area.expect_to_span(2, 2, 3, 3)
   end
 end
