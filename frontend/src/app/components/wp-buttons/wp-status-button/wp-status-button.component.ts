@@ -27,7 +27,8 @@
 // ++
 
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageEditingService} from 'core-components/wp-edit-form/work-package-editing-service';
+
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {ChangeDetectorRef, Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
@@ -54,12 +55,12 @@ export class WorkPackageStatusButtonComponent implements OnInit, OnDestroy {
   constructor(readonly I18n:I18nService,
               readonly cdRef:ChangeDetectorRef,
               readonly wpCacheService:WorkPackageCacheService,
-              readonly wpEditing:WorkPackageEditingService) {
+              readonly halEditing:HalResourceEditingService) {
   }
 
   ngOnInit() {
-    this.wpEditing
-      .temporaryEditResource(this.workPackage.id!)
+    this.halEditing
+      .temporaryEditResource(this.workPackage)
       .values$()
       .pipe(
         untilComponentDestroyed(this)
@@ -97,7 +98,7 @@ export class WorkPackageStatusButtonComponent implements OnInit, OnDestroy {
   }
 
   public get status():HalResource|undefined {
-    if (!this.wpEditing) {
+    if (!this.halEditing) {
       return;
     }
 
@@ -115,6 +116,6 @@ export class WorkPackageStatusButtonComponent implements OnInit, OnDestroy {
   }
 
   private get changeset() {
-    return this.wpEditing.changeFor(this.workPackage);
+    return this.halEditing.changeFor(this.workPackage);
   }
 }

@@ -30,7 +30,8 @@ import {StateService} from '@uirouter/core';
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 import {Directive, ElementRef, Inject, Input} from "@angular/core";
 import {OpContextMenuTrigger} from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
-import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
+
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
@@ -50,7 +51,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
               readonly opContextMenu:OPContextMenuService,
               readonly $state:StateService,
               protected halNotification:HalResourceNotificationService,
-              protected wpEditing:WorkPackageEditingService,
+              protected halEditing:HalResourceEditingService,
               protected notificationService:NotificationsService,
               protected I18n:I18nService,
               protected wpEvents:HalEventsService) {
@@ -59,7 +60,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
   }
 
   protected open(evt:JQuery.TriggeredEvent) {
-    const change = this.wpEditing.changeFor(this.workPackage);
+    const change = this.halEditing.changeFor(this.workPackage);
 
     change.getForm().then((form:any) => {
       const statuses = form.schema.status.allowedValues;
@@ -82,11 +83,11 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
   }
 
   private updateStatus(status:HalResource) {
-    const change = this.wpEditing.changeFor(this.workPackage);
+    const change = this.halEditing.changeFor(this.workPackage);
     change.projectedResource.status = status;
 
     if (!this.workPackage.isNew) {
-      this.wpEditing
+      this.halEditing
         .save(change)
         .then(() => {
           this.halNotification.showSave(this.workPackage);

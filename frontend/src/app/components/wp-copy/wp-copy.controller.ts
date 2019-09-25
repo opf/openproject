@@ -31,7 +31,8 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {WorkPackageCreateController} from 'core-components/wp-new/wp-create.controller';
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
+
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import {ChangeDetectionStrategy} from "@angular/core";
 
@@ -43,7 +44,7 @@ export class WorkPackageCopyController extends WorkPackageCreateController {
   public copying = true;
 
   private wpRelations:WorkPackageRelationsService = this.injector.get(WorkPackageRelationsService);
-  protected wpEditing:WorkPackageEditingService = this.injector.get(WorkPackageEditingService);
+  protected halEditing:HalResourceEditingService = this.injector.get(HalResourceEditingService);
 
   ngOnInit() {
     super.ngOnInit();
@@ -78,7 +79,7 @@ export class WorkPackageCopyController extends WorkPackageCreateController {
   }
 
   private createCopyFrom(wp:WorkPackageResource) {
-    let sourceChangeset = this.wpEditing.changeFor(wp) as WorkPackageChangeset;
+    let sourceChangeset = this.halEditing.changeFor(wp) as WorkPackageChangeset;
 
     return this.wpCreate
       .copyWorkPackage(sourceChangeset)
@@ -86,7 +87,7 @@ export class WorkPackageCopyController extends WorkPackageCreateController {
         this.__initialized_at = copyChangeset.pristineResource.__initialized_at;
 
         this.wpCacheService.updateWorkPackage(copyChangeset.pristineResource);
-        this.wpEditing.updateValue('new', copyChangeset);
+        this.halEditing.updateValue('new', copyChangeset);
 
         return copyChangeset;
       });

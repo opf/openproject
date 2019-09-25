@@ -35,7 +35,8 @@ import {
   DisplayFieldRenderer,
   editFieldContainerClass
 } from '../../wp-edit-form/display-field-renderer';
-import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
+
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {SelectionHelpers} from '../../../helpers/selection-helpers';
 import {debugLog} from '../../../helpers/debug_output';
 import {
@@ -87,7 +88,7 @@ export class WorkPackageEditFieldComponent implements OnInit, OnDestroy {
               protected halNotification:HalResourceNotificationService,
               protected ConfigurationService:ConfigurationService,
               protected opContextMenu:OPContextMenuService,
-              protected wpEditing:WorkPackageEditingService,
+              protected halEditing:HalResourceEditingService,
               protected wpCacheService:WorkPackageCacheService,
               // Get parent field group from injector
               protected wpEditFieldGroup:WorkPackageEditFieldGroupComponent,
@@ -109,8 +110,8 @@ export class WorkPackageEditFieldComponent implements OnInit, OnDestroy {
     this.$element = jQuery(this.elementRef.nativeElement);
     this.wpEditFieldGroup.register(this);
 
-    this.wpEditing
-      .temporaryEditResource(this.workPackageId)
+    this.halEditing
+      .temporaryEditResource(this.workPackage)
       .values$()
       .pipe(
         untilComponentDestroyed(this)

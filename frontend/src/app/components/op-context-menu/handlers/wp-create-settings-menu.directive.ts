@@ -29,7 +29,8 @@
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 import {Directive, ElementRef, Inject} from "@angular/core";
 import {OpContextMenuTrigger} from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
-import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
+
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {States} from "core-components/states.service";
 import {FormResource} from 'core-app/modules/hal/resources/form-resource';
 
@@ -41,7 +42,7 @@ export class WorkPackageCreateSettingsMenuDirective extends OpContextMenuTrigger
   constructor(readonly elementRef:ElementRef,
               readonly opContextMenu:OPContextMenuService,
               readonly states:States,
-              readonly wpEditing:WorkPackageEditingService) {
+              readonly halEditing:HalResourceEditingService) {
 
     super(elementRef, opContextMenu);
   }
@@ -50,7 +51,7 @@ export class WorkPackageCreateSettingsMenuDirective extends OpContextMenuTrigger
     const wp = this.states.workPackages.get('new').value;
 
     if (wp) {
-      const change = this.wpEditing.changeFor(wp);
+      const change = this.halEditing.changeFor(wp);
       change.getForm().then(
         (loadedForm:FormResource) => {
           this.buildItems(loadedForm);

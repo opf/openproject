@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,24 +24,14 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {Component, Inject, Input} from '@angular/core';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 
-@Component({
-  selector: 'wp-details-toolbar',
-  templateUrl: './wp-details-toolbar.html'
-})
-export class WorkPackageSplitViewToolbarComponent {
-  @Input('workPackage') workPackage:WorkPackageResource;
-
-  public text = {
-    button_more: this.I18n.t('js.button_more')
-  }
-
-constructor(readonly I18n:I18nService,
-            readonly halEditing:HalResourceEditingService) {}
+export function initializeChangesetMap(halResourceEditing:HalResourceEditingService) {
+    return () => {
+        halResourceEditing
+            .addChangeset('WorkPackage', WorkPackageChangeset);
+    };
 }

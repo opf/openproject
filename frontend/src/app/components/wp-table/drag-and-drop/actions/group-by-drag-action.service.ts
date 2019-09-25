@@ -1,7 +1,8 @@
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {TableDragActionService} from "core-components/wp-table/drag-and-drop/actions/table-drag-action.service";
 import {WorkPackageViewGroupByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service";
-import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
+
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {rowGroupClassName} from "core-components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
 import {locatePredecessorBySelector} from "core-components/wp-fast-table/helpers/wp-table-row-helpers";
 import {groupIdentifier} from "core-components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers";
@@ -10,7 +11,7 @@ import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-
 export class GroupByDragActionService extends TableDragActionService {
 
   private wpTableGroupBy = this.injector.get(WorkPackageViewGroupByService);
-  private wpEditing = this.injector.get<WorkPackageEditingService>(WorkPackageEditingService);
+  private halEditing = this.injector.get<HalResourceEditingService>(HalResourceEditingService);
   private halNotification = this.injector.get(HalResourceNotificationService);
 
   public get applies() {
@@ -26,11 +27,11 @@ export class GroupByDragActionService extends TableDragActionService {
   }
 
   public handleDrop(workPackage:WorkPackageResource, el:HTMLElement):Promise<unknown> {
-    const changeset = this.wpEditing.changeFor(workPackage);
+    const changeset = this.halEditing.changeFor(workPackage);
     const groupedValue = this.getValueForGroup(el);
 
     changeset.projectedResource[this.groupedAttribute!] = groupedValue;
-    return this.wpEditing
+    return this.halEditing
       .save(changeset)
       .catch(e => this.halNotification.handleRawError(e, workPackage));
   }

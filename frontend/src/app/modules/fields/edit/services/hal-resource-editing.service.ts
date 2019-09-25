@@ -27,7 +27,7 @@
 // ++
 
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {combine, deriveRaw, multiInput, MultiInputState, State, StatesGroup} from 'reactivestates';
+import {combine, deriveRaw, InputState, multiInput, MultiInputState, State, StatesGroup} from 'reactivestates';
 import {map} from 'rxjs/operators';
 import {Injectable, Injector} from '@angular/core';
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
@@ -55,7 +55,7 @@ class ChangesetStates extends StatesGroup {
  * used to access the previous save and or previous state
  * of the work package (e.g., whether it was new).
  */
-export class ResourceChangesetCommit {
+export class ResourceChangesetCommit<T extends HalResource = HalResource> {
     /**
      * The work package id of the change
      * (This is the new work package ID if +wasNew+ is true.
@@ -65,7 +65,7 @@ export class ResourceChangesetCommit {
     /**
      * The resulting, saved work package.
      */
-    public readonly resource:HalResource;
+    public readonly resource:T;
 
     /** Whether the commit saved an initial work package */
     public readonly wasNew:boolean = false;
@@ -78,7 +78,7 @@ export class ResourceChangesetCommit {
      * @param change The change object that resulted in the save
      * @param saved The returned work package
      */
-    constructor(change:ResourceChangeset, saved:HalResource) {
+    constructor(change:ResourceChangeset<T>, saved:T) {
         this.id = saved.id!.toString();
         this.wasNew = change.pristineResource.isNew;
         this.resource = saved;
@@ -86,22 +86,27 @@ export class ResourceChangesetCommit {
     }
 }
 
+export interface ResourceChangesetClass {
+    new(...args:any[]):ResourceChangeset
+}
 
 @Injectable()
-export class HalResourceEditingService extends StateCacheService<ResourceChangeset> {
+export class HalResourceEditingService<V extends HalResource = HalResource, T extends ResourceChangeset<V> = ResourceChangeset<V>> extends StateCacheService<T> {
 
     /** Committed / saved changes to work packages observable */
-    public comittedChanges = new Subject<ResourceChangesetCommit>();
+    public comittedChanges = new Subject<ResourceChangesetCommit<V>>();
 
     /** State group of changes to wrap */
     private stateGroup = new ChangesetStates();
+
+    public changesets:{[type:string]:ResourceChangesetClass} = {};
 
     constructor(readonly injector:Injector,
                 readonly schemaCache:SchemaCacheService) {
         super();
     }
 
-    public async save(change:ResourceChangeset):Promise<ResourceChangesetCommit> {
+    public async save(change:T):Promise<ResourceChangesetCommit<V>> {
         change.inFlight = true;
 
         // Form the payload we're going to save
@@ -133,8 +138,8 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
      * Mark the given change as completed, notify changes
      * and reset it.
      */
-    private complete(change:ResourceChangeset, saved:HalResource):ResourceChangesetCommit {
-        const commit = new ResourceChangesetCommit(change, saved);
+    private complete(change:T, saved:V):ResourceChangesetCommit<V> {
+        const commit = new ResourceChangesetCommit<V>(change, saved);
         this.comittedChanges.next(commit);
         this.reset(change);
 
@@ -145,7 +150,7 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
      * Reset the given change, either due to cancelling or successful submission.
      * @param change
      */
-    public reset(change:ResourceChangeset) {
+    public reset(change:T) {
         change.clear();
         this.clearSome(change.href);
     }
@@ -155,12 +160,17 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
      * @param resource
      * @param form
      */
-    public edit(resource:HalResource, form?:FormResource):ResourceChangeset {
+    public edit(resource:V, form?:FormResource):T {
         const state = this.multiState.get(resource.href!);
-        const changeset = new ResourceChangeset(resource, state, form);
+        const changeset = this.newChangeset(resource, state, form)
 
         state.putValue(changeset);
         return changeset;
+    }
+
+    protected newChangeset(resource:V, state:InputState<T>, form?:FormResource):T {
+        const cls = this.changesets[resource._type] || ResourceChangeset;
+        return new cls(resource, state, form) as T;
     }
 
     /**
@@ -169,7 +179,7 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
      * @param {form:FormResource} Initialize with an existing form
      * @return {WorkPackageChangeset} Change object to work on
      */
-    public changeFor(fallback:HalResource):ResourceChangeset {
+    public changeFor(fallback:V):T {
         const state = this.multiState.get(fallback.href!);
         let resource = fallback;
         if (fallback.state) {
@@ -202,8 +212,8 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
      *
      * @return {State<WorkPackageResource>}
      */
-    public temporaryEditResource<T extends HalResource = HalResource>(resource:T):State<T> {
-        const combined = combine(resource.state!, this.state(resource.href!) as State<ResourceChangeset<T>>);
+    public temporaryEditResource(resource:V):State<V> {
+        const combined = combine(resource.state!, this.state(resource.href!) as State<T>);
 
         return deriveRaw(combined,
             ($) => $
@@ -223,7 +233,7 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
         this.multiState.get(href).clear();
     }
 
-    protected load(href:string):Promise<ResourceChangeset> {
+    protected load(href:string):Promise<T> {
         // ToDo: Correct return object
        return Promise.reject('Loading not implemented yet.') as any;
     }
@@ -244,8 +254,12 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
         return Promise.all(hrefs.map(href => this.load(href))) as any;
     }
 
-    protected get multiState():MultiInputState<ResourceChangeset> {
-        return this.stateGroup.changesets;
+    protected get multiState():MultiInputState<T> {
+        return this.stateGroup.changesets as MultiInputState<T>;
+    }
+
+    addChangeset(name:string, changeset:ResourceChangesetClass) {
+        this.changesets[name] = changeset;
     }
 }
 

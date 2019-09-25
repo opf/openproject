@@ -36,7 +36,8 @@ import {input} from 'reactivestates';
 import {filter, map, take, takeUntil} from 'rxjs/operators';
 import {States} from '../../states.service';
 import {SingleViewEditContext} from '../../wp-edit-form/single-view-edit-context';
-import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
+
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageCreateService} from './../../wp-new/wp-create.service';
@@ -62,7 +63,7 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
   constructor(protected states:States,
               protected injector:Injector,
               protected wpCreate:WorkPackageCreateService,
-              protected wpEditing:WorkPackageEditingService,
+              protected halEditing:HalResourceEditingService,
               protected halNotification:HalResourceNotificationService,
               protected wpTableSelection:WorkPackageViewSelectionService,
               protected wpTableFocus:WorkPackageViewFocusService,
@@ -160,7 +161,7 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
 
   public stop() {
     this.form.editMode = false;
-    this.wpEditing.stopEditing(this.workPackage.id!);
+    this.halEditing.stopEditing(this.workPackage.id!);
     this.form.destroy();
 
     if (this.workPackage.isNew) {

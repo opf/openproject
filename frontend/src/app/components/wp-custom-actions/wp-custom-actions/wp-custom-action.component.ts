@@ -34,7 +34,8 @@ import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {CustomActionResource} from 'core-app/modules/hal/resources/custom-action-resource';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
-import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
+
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 
@@ -52,7 +53,7 @@ export class WpCustomActionComponent {
               private wpSchemaCacheService:SchemaCacheService,
               private wpActivity:WorkPackagesActivityService,
               private halNotification:HalResourceNotificationService,
-              private wpEditing:WorkPackageEditingService,
+              private halEditing:HalResourceEditingService,
               private wpEvents:HalEventsService) {
   }
 
@@ -84,7 +85,7 @@ export class WpCustomActionComponent {
         // project or type.
         this.wpSchemaCacheService.ensureLoaded(savedWp).then(() => {
           this.wpCacheService.updateWorkPackage(savedWp, true);
-          this.wpEditing.stopEditing(savedWp.id!);
+          this.halEditing.stopEditing(savedWp.id!);
           this.wpEvents.push(savedWp, { eventType: "updated" });
         });
       }).catch((errorResource:any) => {

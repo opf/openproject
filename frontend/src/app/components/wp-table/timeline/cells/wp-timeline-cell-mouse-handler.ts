@@ -38,7 +38,8 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
-import {WorkPackageEditingService} from 'core-app/components/wp-edit-form/work-package-editing-service';
+
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import Moment = moment.Moment;
@@ -54,7 +55,7 @@ export function registerWorkPackageMouseHandler(this:void,
                                                 getRenderInfo:() => RenderInfo,
                                                 workPackageTimeline:WorkPackageTimelineTableController,
                                                 wpCacheService:WorkPackageCacheService,
-                                                wpEditing:WorkPackageEditingService,
+                                                halEditing:HalResourceEditingService,
                                                 wpEvents:HalEventsService,
                                                 halNotification:HalResourceNotificationService,
                                                 loadingIndicator:LoadingIndicatorService,
@@ -67,7 +68,7 @@ export function registerWorkPackageMouseHandler(this:void,
   const querySpace:IsolatedQuerySpace = injector.get(IsolatedQuerySpace);
 
   let mouseDownStartDay:number | null = null; // also flag to signal active drag'n'drop
-  renderInfo.change = wpEditing.changeFor(renderInfo.workPackage) as WorkPackageChangeset;
+  renderInfo.change = halEditing.changeFor(renderInfo.workPackage) as WorkPackageChangeset;
 
   let dateStates:any;
   let placeholderForEmptyCell:HTMLElement;
@@ -245,15 +246,15 @@ export function registerWorkPackageMouseHandler(this:void,
     // Remember the time before saving the work package to know which work packages to update
     const updatedAt = moment().toISOString();
 
-    return loadingIndicator.table.promise = wpEditing.save(change)
+    return loadingIndicator.table.promise = halEditing.save(change)
       .then((result) => {
-        halNotification.showSave(result.workPackage);
+        halNotification.showSave(result.resource);
         const ids = _.map(querySpace.rendered.value!, row => row.workPackageId);
         loadingIndicator.table.promise =
           queryDm.loadIdsUpdatedSince(ids, updatedAt).then(workPackageCollection => {
             wpCacheService.updateWorkPackageList(workPackageCollection.elements);
 
-            wpEvents.push(result.workPackage, { eventType: 'updated' });
+            wpEvents.push(result.resource, { eventType: 'updated' });
           });
       })
       .catch((error) => {

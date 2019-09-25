@@ -31,7 +31,8 @@ import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
 import {Subscription} from 'rxjs';
 import {States} from 'core-components/states.service';
 import {IFieldSchema} from "core-app/modules/fields/field.base";
-import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
+
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
@@ -45,7 +46,7 @@ export const activeFieldClassName = 'wp-inline-edit--field';
 export class EditForm {
   // Injections
   public states:States = this.injector.get(States);
-  public wpEditing = this.injector.get(WorkPackageEditingService);
+  public halEditing = this.injector.get(HalResourceEditingService);
   public halNotification = this.injector.get(HalResourceNotificationService);
   public wpEvents = this.injector.get(HalEventsService);
 
@@ -101,7 +102,7 @@ export class EditForm {
    */
   public get change():ResourceChangeset<HalResource> {
       // ToDo: correct type
-    return this.wpEditing.changeFor(this.resource as any);
+    return this.halEditing.changeFor(this.resource as any);
   }
 
   /**
@@ -170,7 +171,7 @@ export class EditForm {
     await Promise.all(_.map(this.activeFields, (handler:EditFieldHandler) => handler.onSubmit()));
 
     return new Promise<HalResource>((resolve, reject) => {
-      this.wpEditing.save(this.change)
+      this.halEditing.save(this.change)
         .then(result => {
           // Close all current fields
           this.closeEditFields(openFields);

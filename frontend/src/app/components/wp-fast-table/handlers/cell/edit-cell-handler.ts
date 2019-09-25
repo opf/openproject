@@ -2,7 +2,8 @@ import {Injector} from '@angular/core';
 import {debugLog} from '../../../../helpers/debug_output';
 import {States} from '../../../states.service';
 import {cellClassName, editableClassName, readOnlyClassName} from '../../../wp-edit-form/display-field-renderer';
-import {WorkPackageEditingService} from '../../../wp-edit-form/work-package-editing-service';
+
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {tableRowClassName} from '../../builders/rows/single-row-builder';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {ClickOrEnterHandler} from '../click-or-enter-handler';
@@ -13,7 +14,7 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
 
   // Injections
   public states:States = this.injector.get(States);
-  public wpEditing:WorkPackageEditingService = this.injector.get(WorkPackageEditingService);
+  public halEditing:HalResourceEditingService = this.injector.get(HalResourceEditingService);
 
   // Keep a reference to all
 

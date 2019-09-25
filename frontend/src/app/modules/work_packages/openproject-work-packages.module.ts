@@ -161,7 +161,8 @@ import {WorkPackagesGridComponent} from "core-components/wp-grid/wp-grid.compone
 import {WorkPackageViewDropdownMenuDirective} from "core-components/op-context-menu/handlers/wp-view-dropdown-menu.directive";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
-import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
+
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 
 
 @NgModule({

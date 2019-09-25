@@ -36,7 +36,8 @@ import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
 import {BoardService} from "app/modules/boards/board/board.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {WorkPackageFilterValues} from "core-components/wp-edit-form/work-package-filter-values";
-import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
+
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
@@ -132,7 +133,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
               private readonly authorisationService:AuthorisationService,
               private readonly wpInlineCreate:WorkPackageInlineCreateService,
               protected readonly injector:Injector,
-              private readonly wpEditing:WorkPackageEditingService,
+              private readonly halEditing:HalResourceEditingService,
               private readonly loadingIndicator:LoadingIndicatorService,
               private readonly wpCacheService:WorkPackageCacheService,
               private readonly boardService:BoardService,
@@ -316,7 +317,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
    */
   private addWorkPackage(workPackage:WorkPackageResource) {
     let query = this.querySpace.query.value!;
-    const changeset = this.wpEditing.changeFor(workPackage) as WorkPackageChangeset;
+    const changeset = this.halEditing.changeFor(workPackage) as WorkPackageChangeset;
 
     // Ensure attribute remains writable in the form
     const actionAttribute = this.board.actionAttribute;
@@ -335,7 +336,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       return this.wpCacheService.updateWorkPackage(workPackage);
     } else {
       // Save changes to the work package, which reloads it as well
-      return this.wpEditing.save(changeset);
+      return this.halEditing.save(changeset);
     }
   }
 

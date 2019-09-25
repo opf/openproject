@@ -33,7 +33,8 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {HookService} from 'core-app/modules/plugins/hook-service';
 import {WorkPackageFilterValues} from "core-components/wp-edit-form/work-package-filter-values";
-import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
+
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {filter} from "rxjs/operators";
@@ -54,11 +55,11 @@ export class WorkPackageCreateService implements OnDestroy {
               protected wpCacheService:WorkPackageCacheService,
               protected halResourceService:HalResourceService,
               protected readonly querySpace:IsolatedQuerySpace,
-              protected wpEditing:WorkPackageEditingService,
+              protected halEditing:HalResourceEditingService,
               protected workPackageDmService:WorkPackageDmService,
               protected readonly wpEvents:HalEventsService) {
 
-  this.wpEditing
+  this.halEditing
       .comittedChanges
       .pipe(
         untilComponentDestroyed(this),
@@ -97,7 +98,7 @@ export class WorkPackageCreateService implements OnDestroy {
     let wp = this.halResourceService.createHalResourceOfType<WorkPackageResource>('WorkPackage', form.payload.$plain());
     wp.initializeNewResource(form);
 
-    const change = this.wpEditing.edit(wp, form);
+    const change = this.halEditing.edit(wp, form);
 
     // Call work package initialization hook
     this.hooks.call('workPackageNewInitialization', change);
@@ -128,7 +129,7 @@ export class WorkPackageCreateService implements OnDestroy {
 
     wp.initializeNewResource(form);
 
-    return this.wpEditing.edit(wp, form);
+    return this.halEditing.edit(wp, form);
   }
 
 
@@ -141,14 +142,14 @@ export class WorkPackageCreateService implements OnDestroy {
   }
 
   public cancelCreation() {
-    this.wpEditing.stopEditing('new');
+    this.halEditing.stopEditing('new');
     this.wpCacheService.clearSome('new');
     this.form = undefined;
   }
 
   public changesetUpdates$() {
     return this
-      .wpEditing
+      .halEditing
       .state('new')
       .values$();
   }
@@ -161,7 +162,7 @@ export class WorkPackageCreateService implements OnDestroy {
     }
 
     return changePromise.then((change) => {
-      this.wpEditing.updateValue('new', change);
+      this.halEditing.updateValue('new', change);
       this.wpCacheService.updateWorkPackage(change.pristineResource);
 
       return change;
@@ -169,7 +170,7 @@ export class WorkPackageCreateService implements OnDestroy {
   }
 
   protected continueExistingEdit(type?:number) {
-    const change = this.wpEditing.state('new').value;
+    const change = this.halEditing.state('new').value;
     if (change !== undefined) {
       const changeType = change.projectedResource.type;
 
