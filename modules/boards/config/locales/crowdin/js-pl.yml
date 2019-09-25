@@ -1,40 +1,40 @@
 pl:
   js:
     boards:
-      label_unnamed_board: 'Unnamed board'
-      label_unnamed_list: 'Unnamed list'
-      label_board_type: 'Board type'
+      label_unnamed_board: 'Tablica bez nazwy'
+      label_unnamed_list: 'Lista bez nazwy'
+      label_board_type: 'Typ tablicy'
       upsale:
-        teaser_text: 'Improve your agile project management with this flexible Boards view. Create as many boards as you like for anything you would like to keep track of.'
-        upgrade_to_ee_text: 'Boards is an Enterprise feature. Please upgrade to a paid plan.'
-        upgrade: 'Upgrade now'
-        personal_demo: 'Get a personal demo'
+        teaser_text: 'Usprawnij swoje zwinne zarządzanie projektami dzięki temu elastycznemu widokowi Tablice. Twórz tyle tablic, ile chcesz, dla czegokolwiek, co zechcesz śledzić.'
+        upgrade_to_ee_text: 'Tablice to funkcja wersji Enterprise. Przejdź na plan płatny.'
+        upgrade: 'Zmień plan teraz'
+        personal_demo: 'Pobierz osobistą wersję demonstracyjną'
       lists:
         delete: 'Usuń listę'
       version:
-        is_locked: 'Version is locked. No items can be added to this version.'
-        is_closed: 'Version is closed. No items can be added to this version.'
-        close_version: 'Close version'
-        open_version: 'Open version'
-        lock_version: 'Lock version'
-        unlock_version: 'Unlock version'
-        edit_version: 'Edit version'
-        show_version: 'Show version'
+        is_locked: 'Wersja jest zablokowana. Do tej wersji nie można dodać żadnych elementów.'
+        is_closed: 'Wersja jest zamknięta. Do tej wersji nie można dodać żadnych elementów.'
+        close_version: 'Zamknij wersję'
+        open_version: 'Otwórz wersję'
+        lock_version: 'Zablokuj wersję'
+        unlock_version: 'Odblokuj wersję'
+        edit_version: 'Edytuj wersję'
+        show_version: 'Pokaż wersję'
         locked: 'Zablokowany'
         closed: 'Zamknięte'
-      new_board: 'New board'
-      add_list: 'Add list'
-      add_card: 'Add card'
-      error_attribute_not_writable: "Cannot move the work package, %{attribute} is not writable."
-      error_loading_the_list: "Error loading the list: %{error_message}"
+      new_board: 'Nowa tablica'
+      add_list: 'Dodaj listę'
+      add_card: 'Dodaj kartę'
+      error_attribute_not_writable: "Nie można przenieść pakietu roboczego, nie można zapisać %{attribute}."
+      error_loading_the_list: "Błąd podczas ładowania listy: %{error_message}"
       error_permission_missing: "The permission to create public queries is missing"
-      click_to_remove_list: "Click to remove this list"
+      click_to_remove_list: "Kliknij, aby usunąć tę listę"
       board_type:
-        free: 'Basic board'
+        free: 'Tablica podstawowa'
         free_text: >
-          Create a board in which you can freely create lists and order your work packages within. Moving work packages between lists do not change the work package itself.
-        action: 'Action board'
-        action_by_attribute: 'Action board (%{attribute})'
+          Utwórz tablicę, na której możesz dowolnie tworzyć listy i zlecać pakiety robocze. Przenoszenie pakietów roboczych pomiędzy listami nie zmienia samego pakietu roboczego.
+        action: 'Tablica działania'
+        action_by_attribute: 'Tablica działania (%{attribute})'
         action_text: >
           Create a board with filtered lists on a single attribute. Moving work packages to other lists will update their attribute.
         select_attribute: "Action attribute"

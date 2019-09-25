@@ -90,7 +90,7 @@ pt:
   concatenation:
     single: 'ou'
   deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
+    time_entries: "Essa vista de entradas de tempo é substituída pelo módulo 'Relatórios de custo'. Esta visualização agora suporta apenas a exportação de informações de entrada de tempo para csv. Para filtragem interativa, ative o módulo 'Relatórios de custo' nas configurações do projeto."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -270,7 +270,7 @@ pt:
         account: "Conta"
         attr_firstname: "Atributo nome"
         attr_lastname: "Atributo sobrenome"
-        attr_login: "Username attribute"
+        attr_login: "Atributo do Utilizador"
         attr_mail: "Atributo e-mail"
         base_dn: "Base DN"
         host: "Hospedeiro"
@@ -643,7 +643,7 @@ pt:
     is_public: "Público"
     issue: "Pacote de trabalho"
     lastname: "Último nome"
-    login: "Username"
+    login: "Nome do Utilizador"
     mail: "E-mail"
     name: "Nome"
     password: "Senha"
@@ -1028,7 +1028,7 @@ pt:
   general_text_yes: "sim"
   general_text_No: "Não"
   general_text_Yes: "Sim"
-  general_text_true: "true"
+  general_text_true: "verdadeiro"
   general_text_false: "falso"
   gui_validation_error: "1 erro"
   gui_validation_error_plural: "%{count} erros"
@@ -1523,7 +1523,7 @@ pt:
   label_used_by_types: "Utilizado por tipos"
   label_used_in_projects: "Utilizado em projetos"
   label_user: "Utilizador"
-  label_user_and_permission: "Users & Permissions"
+  label_user_and_permission: "Utilizadores e Permissões"
   label_user_named: "Utilizador %{name}"
   label_user_activity: "Atividade de %{value}"
   label_user_anonymous: "Anónimo"
@@ -1536,7 +1536,7 @@ pt:
   label_user_new: "Novo Utilizador"
   label_user_plural: "Utilizadores"
   label_user_search: "Procurar utilizadores"
-  label_user_settings: "User settings"
+  label_user_settings: "Definições do utilizador"
   label_version_new: "Nova versão"
   label_version_plural: "Versões"
   label_version_sharing_descendants: "Com subprojetos"
@@ -1554,7 +1554,7 @@ pt:
   label_wiki_content_added: "Página wiki adicionada"
   label_wiki_content_updated: "Página wiki atualizada"
   label_wiki_toc: "Tabela de conteúdos"
-  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
+  label_wiki_toc_empty: "A Tabela de Conteúdo está vazia, pois nenhum cabeçalho está presente."
   label_wiki_dont_show_menu_item: "Não mostrar esta página wiki na navegação do projecto"
   label_wiki_edit: "Editar wiki"
   label_wiki_edit_plural: "Edições de wiki"
@@ -1641,7 +1641,7 @@ pt:
     legacy_warning:
       timeline: 'Este cronograma macro legacy foi removido e já não está disponível. Pode substituir a funcionalidade com uma macro da tabela incorporada.'
     include_wiki_page:
-      removed: 'The macro does no longer exist.'
+      removed: 'A macro já não existe.'
     wiki_child_pages:
       errors:
         page_not_found: "Não foi possível encontrar a página wiki '%{name}'."
@@ -2009,13 +2009,13 @@ pt:
   setting_display_subprojects_work_packages: "Mostrar os pacotes de trabalho dos sub-projetos nos projetos principais"
   setting_emails_footer: "Rodapé de e-mails"
   setting_emails_header: "Cabeçalho de e-mails"
-  setting_email_login: "Use email as login"
+  setting_email_login: "Utilizar o email como início de sessão"
   setting_enabled_scm: "SCM ativado"
   setting_feeds_enabled: "Permitir Feeds"
   setting_feeds_limit: "Limite de conteúdo feed"
   setting_file_max_size_displayed: "Tamanho máximo de ficheiros de texto exibido inline"
   setting_host_name: "Nome do host"
-  setting_invitation_expiration_days: "Activation email expires after"
+  setting_invitation_expiration_days: "O email de ativação expira após"
   setting_work_package_done_ratio: "Calcular a percentagem de progresso do pacote de trabalho"
   setting_work_package_done_ratio_field: "Utilize o campo de pacote de trabalho"
   setting_work_package_done_ratio_status: "Utilize o estado da tarefa"
@@ -2370,7 +2370,7 @@ pt:
     Envia outra mensagem de correio eletrónico de convite com um novo token, caso o antigo tenha expirado ou o utilizador não tenha recebido a mensagem original. Também pode ser utilizado para utilizadores ativos que escolham um novo método de autenticação. Quando usado com utilizadores ativos, o seu estado passará para "convidado".
   tooltip:
     setting_email_login: >
-      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
+      Se for ativado, o utilizador será incapaz de selecionar o nome de utilizador durante o registo. Em vez disso, deverá utilizar o seuemail como início de sessão. No entanto, um administrador poderá ainda alterar o início de sessão separadamente.
   queries:
     apply_filter: Aplicar filtro pré-configurado
   top_menu:

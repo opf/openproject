@@ -90,7 +90,7 @@ zh-CN:
   concatenation:
     single: '或'
   deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
+    time_entries: "此时间条目视图已由“成本报告”模块取代。现在，此视图仅支持将时间条目信息导出到 csv。要进行交互式筛选，请在项目设置中激活“成本报告”模块。"
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -739,7 +739,7 @@ zh-CN:
   copy_project:
     started: "开始将项目“%{source_project_name}”复制到“%{target_project_name}“。“%{target_project_name}”可用后您将会立即收到电子邮件通知。"
     failed: "无法复制项目 %{source_project_name}"
-    failed_internal: "Copying failed due to an internal error."
+    failed_internal: "由于内部错误，复制失败。"
     succeeded: "创建的项目 %{target_project_name}"
     errors: "错误"
     project_custom_fields: '项目上的自定义字段'
@@ -1011,7 +1011,7 @@ zh-CN:
   general_text_yes: "是"
   general_text_No: "否"
   general_text_Yes: "是"
-  general_text_true: "true"
+  general_text_true: "真"
   general_text_false: "非"
   gui_validation_error: "1 错误"
   gui_validation_error_plural: "%{count} 错误"
@@ -1506,7 +1506,7 @@ zh-CN:
   label_used_by_types: "用于类型"
   label_used_in_projects: "用于项目"
   label_user: "用户"
-  label_user_and_permission: "Users & Permissions"
+  label_user_and_permission: "用户和权限"
   label_user_named: "用户 %{name}"
   label_user_activity: "%{value} 的活动"
   label_user_anonymous: "匿名"
@@ -1537,7 +1537,7 @@ zh-CN:
   label_wiki_content_added: "添加 Wiki 页面"
   label_wiki_content_updated: "更新 Wiki 页面"
   label_wiki_toc: "目录"
-  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
+  label_wiki_toc_empty: "目录为空，因为没有标题。"
   label_wiki_dont_show_menu_item: "在项目导航中不显示此 wiki 页面"
   label_wiki_edit: "Wiki 编辑"
   label_wiki_edit_plural: "Wiki 编辑"
@@ -1620,7 +1620,7 @@ zh-CN:
     legacy_warning:
       timeline: '此旧版时间轴宏已被删除，不再可用。 您可以使用嵌入式表格宏替换该功能。'
     include_wiki_page:
-      removed: 'The macro does no longer exist.'
+      removed: '该宏不再存在。'
     wiki_child_pages:
       errors:
         page_not_found: "无法找到Wiki页“%{name}”。"
@@ -1986,13 +1986,13 @@ zh-CN:
   setting_display_subprojects_work_packages: "默认在主项目上显示子项目工作包"
   setting_emails_footer: "电子邮件页脚"
   setting_emails_header: "电子邮件标头"
-  setting_email_login: "Use email as login"
+  setting_email_login: "使用电子邮件登录"
   setting_enabled_scm: "启用 SCM"
   setting_feeds_enabled: "启用Feeds"
   setting_feeds_limit: "Feed内容限制"
   setting_file_max_size_displayed: "内联显示的文本文件的最大文件大小"
   setting_host_name: "主机名"
-  setting_invitation_expiration_days: "Activation email expires after"
+  setting_invitation_expiration_days: "激活电子邮件将在此时间后过期"
   setting_work_package_done_ratio: "计算工作包完成比率"
   setting_work_package_done_ratio_field: "使用工作包字段"
   setting_work_package_done_ratio_status: "使用工作包状态"
@@ -2156,7 +2156,7 @@ zh-CN:
   text_reassign: "重新分配工作包:"
   text_regexp_info: "例如 ^ [A-Z0-9]+$"
   text_regexp_multiline: '以多行模式应用正则表达式，如 ^---\s+'
-  text_repository_usernames_mapping: "Select or update the OpenProject user mapped to each username found in the repository log.\nUsers with the same OpenProject and repository username or email are automatically mapped."
+  text_repository_usernames_mapping: "选择或更新每个在代码库日志中发现的用户名所映射的 OpenProject 用户。\n与 OpenProject 和代码库用户名或电子邮件相同的用户已被自动更新。"
   text_select_mail_notifications: "选择邮件通知应该被发送的动作。"
   text_status_changed_by_changeset: "被实施在变更集 %{value} 中。"
   text_table_difference_description: "此表单展现了单个%{entries}。您可以先选择多选框，再点击表单下方的按钮来比较两项之间的差异。"
@@ -2346,7 +2346,7 @@ zh-CN:
     旧邀请电子邮件过期或用户未收到之前的电子邮件时，再发送一封邀请电子邮件。也可由活跃用户用于选择新的身份验证方法。活跃用户使用时，状态会更改为“已邀请”。
   tooltip:
     setting_email_login: >
-      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
+      如果启用，用户将无法在注册时选择登录方式。将使用用户指定的电子邮件地址登录。管理员仍然可以单独更改登录方式。
   queries:
     apply_filter: 应用预配置筛选器
   top_menu:

@@ -90,7 +90,7 @@ it:
   concatenation:
     single: 'oppure'
   deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
+    time_entries: "Questa visualizzazione di voci sul tempo è superata dal modulo \"Rapporto Costi\". Questa visualizzazione ora supporta solo l'esportazione di informazioni sulle voci sul tempo in csv. Per usare i filtri in modo interattivo, attiva il modulo \"Rapporto Costi\" nelle impostazioni del progetto."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -1553,7 +1553,7 @@ it:
   label_wiki_content_added: "Pagina wiki aggiunta"
   label_wiki_content_updated: "Pagina wiki aggiornata"
   label_wiki_toc: "Sommario"
-  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
+  label_wiki_toc_empty: "La tabella dei contenuti è vuota in quanto non è presente nessuna intestazione."
   label_wiki_dont_show_menu_item: "Non mostrare questa pagina wiki nella navigazione del progetto"
   label_wiki_edit: "Modifica wiki"
   label_wiki_edit_plural: "Modifiche wiki"
@@ -1640,7 +1640,7 @@ it:
     legacy_warning:
       timeline: 'Questa macro legacy di sequenza temporale è stata rimossa e non è più disponibile. È possibile sostituire la funzionalità con una macro di tabella incorporata.'
     include_wiki_page:
-      removed: 'The macro does no longer exist.'
+      removed: 'La macro non esiste più.'
     wiki_child_pages:
       errors:
         page_not_found: "Impossibile trovare la pagina del wiki \"%{name}\"."

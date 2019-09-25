@@ -20,7 +20,7 @@ zh-CN:
     button_back_to_list_view: "返回列表视图"
     button_cancel: "取消"
     button_close: "关闭"
-    button_change_project: "Change project"
+    button_change_project: "更改项目"
     button_check_all: "全选"
     button_configure-form: "配置表单"
     button_confirm: "确认"
@@ -41,8 +41,8 @@ zh-CN:
     button_open_details: "打开详细信息视图"
     button_close_details: "关闭细节显示"
     button_open_fullscreen: "打开全屏视图"
-    button_show_cards: "Show card view"
-    button_show_list: "Show list view"
+    button_show_cards: "显示卡片视图"
+    button_show_list: "显示列表视图"
     button_quote: "引用"
     button_save: "保存"
     button_settings: "设置"
@@ -52,7 +52,7 @@ zh-CN:
     button_export-atom: "下载原子"
     calendar:
       title: '日历'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
+      too_many: '总共有 %{count} 个工作包，但只能显示 %{max} 个。'
     card:
       add_new: '添加新卡'
       highlighting:
@@ -63,22 +63,22 @@ zh-CN:
       browser_error: "您的浏览器不支持复制到剪贴板，请手动复制选定的文本。"
       copied_successful: "成功复制到剪贴板!"
     chart:
-      type: 'Chart type'
-      axis_criteria: 'Axis criteria'
-      modal_title: 'Work package graph configuration'
+      type: '图表类型'
+      axis_criteria: '轴条件'
+      modal_title: '工作包图配置'
       types:
-        line: 'Line'
-        horizontal_bar: 'Horizontal bar'
-        bar: 'Bar'
-        pie: 'Pie'
-        doughnut: 'Doughnut'
-        radar: 'Radar'
-        polar_area: 'Polar area'
+        line: '线图'
+        horizontal_bar: '水平条形图'
+        bar: '条形'
+        pie: '饼图'
+        doughnut: '圆环图'
+        radar: '雷达图'
+        polar_area: '极地区域图'
       tabs:
         graph_settings: '通用'
-        dataset: 'Dataset %{number}'
+        dataset: '数据集 %{number}'
       errors:
-        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
+        could_not_load: '无法加载用于显示图形的数据。可能缺少必要的权限。'
     description_available_columns: "可用的列"
     description_current_position: "您现在的位置："
     description_select_work_package: "选择工作包 #%{id}"
@@ -138,7 +138,7 @@ zh-CN:
         drag_to_activate: "从此处拖动字段将其激活"
         add_group: "增加属性组"
         add_table: "添加相关工作包表"
-        edit_query: 'Edit query'
+        edit_query: '编辑查询'
         new_group: '新的组'
         reset_to_defaults: '重置为默认值'
     custom_actions:
@@ -331,7 +331,7 @@ zh-CN:
     label_wait: "请等待配置..."
     label_upload_counter: "%{count} 个中的 %{done} 个文件已完成"
     label_validation_error: "由于下列错误，无法保存工作包:"
-    label_view_has_changed: "This view has unsaved changes. Click to save them."
+    label_view_has_changed: "此视图有未保存的更改。单击以保存这些更改。"
     help_texts:
       show_modal: '显示属性帮助文本项'
     onboarding:
@@ -444,8 +444,8 @@ zh-CN:
       set_parent: "设置父级"
       change_parent: "更改父级"
       remove_parent: "删除上一级"
-      hierarchy_indent: "Indent hierarchy"
-      hierarchy_outdent: "Outdent hierarchy"
+      hierarchy_indent: "缩进层次结构"
+      hierarchy_outdent: "减少缩进层次结构"
       group_by_wp_type: "按工作包类型分组"
       group_by_relation_type: "按关系类型分组"
       add_parent: "添加现有的上一级"
@@ -571,7 +571,7 @@ zh-CN:
       image: "图片"
     work_packages:
       bulk_actions:
-        move: 'Bulk change of project'
+        move: '批量更改项目'
         edit: '批量编辑'
         copy: '批量复制'
         delete: '批量删除'
@@ -629,7 +629,7 @@ zh-CN:
       no_results:
         title: 没有要显示的工作包。
         description: 没有已创建的工作包或所有工作包都被筛选排除。
-      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering.
+      limited_results: 手动排序模式下只能显示 %{count} 个工作包。请通过筛选减少结果。
       property_groups:
         details: "详细信息"
         people: "人员"
@@ -689,9 +689,9 @@ zh-CN:
         confirm_edit_cancel: "确定要取消编辑此视图的名称吗？标题将重置为上一个值。"
         click_to_edit_query_name: "单击可以编辑此视图的标题。"
         rename_query_placeholder: "此视图的名称"
-        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        star_text: "将该视图标记为收藏夹，并添加到左侧的已保存视图侧边栏中。"
         public_text: >
-          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+          发布此视图，以允许其他用户访问您的视图。具有“管理公共视图”权限的用户可以修改或删除公共查询。这不会影响工作包结果在该视图中的可见性，并且用户可能会看到不同的结果，具体取决于他们的权限。
         errors:
           unretrievable_query: "无法从 URL 检索视图"
           not_found: "无此视图"
@@ -726,10 +726,10 @@ zh-CN:
           priority: '优先级'
           type: '类型'
         sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
+          description: '选择对您的工作包排序的模式：'
+          automatic: '自动'
+          manually: '手动'
+          warning: '激活自动排序模式时，您将丢失以前的排序结果。'
         columns_help_text: "使用上面的输入向表视图添加或删除列。 您可以拖放列以重新排序它们。"
         upsale:
           attribute_highlighting: '需要特定的工作包以脱颖而出？'
@@ -836,6 +836,6 @@ zh-CN:
         project_and_subprojects: "和所有子项目"
         search_for: "搜索"
     views:
-      card: 'Cards'
-      list: 'Table'
+      card: '卡片'
+      list: '表'
       timeline: '甘特图'

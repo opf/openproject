@@ -1,24 +1,24 @@
 ko:
-  label_avatar: "Avatar"
-  label_avatar_plural: "Avatars"
-  label_current_avatar: "Current Avatar"
-  label_choose_avatar: "Choose Avatar from file"
-  message_avatar_uploaded: "Avatar changed successfully."
-  error_image_upload: "Error saving the image."
-  error_image_size: "The image is too large."
-  button_change_avatar: "Change avatar"
-  are_you_sure_delete_avatar: "Are you sure you want to delete your avatar?"
-  avatar_deleted: "Avatar deleted successfully."
-  unable_to_delete_avatar: "Avatar could not be deleted."
-  wrong_file_format: "Allowed formats are jpg, png, gif"
-  empty_file_error: "Please upload a valid image (jpg, png, gif)"
+  label_avatar: "아바타"
+  label_avatar_plural: "아바타"
+  label_current_avatar: "현재 아바타"
+  label_choose_avatar: "파일에서 아바타 선택"
+  message_avatar_uploaded: "아바타를 변경했습니다."
+  error_image_upload: "이미지를 저장하는 중에 오류가 발생했습니다."
+  error_image_size: "이미지가 너무 큽니다."
+  button_change_avatar: "아바타 변경"
+  are_you_sure_delete_avatar: "아바타를 삭제하시겠습니까?"
+  avatar_deleted: "아바타가 삭제되었습니다."
+  unable_to_delete_avatar: "아바타를 삭제할 수 없습니다."
+  wrong_file_format: "허용된 형식은 jpg, png, gif입니다."
+  empty_file_error: "유효한 이미지(jpg, png, gif)를 업로드하십시오."
   avatars:
-    label_avatar: "Avatar"
-    label_gravatar: 'Gravatar'
-    label_current_avatar: 'Current avatar'
-    label_local_avatar: 'Custom avatar'
+    label_avatar: "아바타"
+    label_gravatar: '그라바타'
+    label_current_avatar: '현재 아바타'
+    label_local_avatar: '사용자 지정 아바타'
     text_current_avatar: |
-      The following image shows the current avatar.
+      다음 이미지는 현재 아바타를 보여줍니다.
     text_upload_instructions: |
       Upload your own custom avatar of 128 by 128 pixels. Larger files will be resized and cropped to match.
       A preview of your avatar will be shown before uploading, once you selected an image.

@@ -23,7 +23,7 @@ lt:
       label_event_resources: Event resources
       events:
         created: "Sukurta"
-        updated: "Updated"
+        updated: "Atnaujinta"
       status:
         enabled: 'Webhook is enabled'
         disabled: 'Webhook is disabled'
@@ -47,10 +47,10 @@ lt:
         project_ids:
           title: 'Įgalinti projektai'
           description: 'Select for which projects this webhook should be executed for.'
-          all: 'All projects'
-          selected: 'Selected projects only'
+          all: 'Visi projektai'
+          selected: 'Tik parinkti projektai'
         selected_project_ids:
-          title: 'Selected projects'
+          title: 'Parinkti projektai'
         secret:
           description: >
             If set, this secret value is used by OpenProject to sign the webhook payload.

@@ -22,11 +22,11 @@ pl:
         info: "Note: The OpenProject group itself and members added outside this LDAP synchronization will not be removed."
         verification: "Enter the group's name %{name} to verify the deletion."
       no_results: 'No synchronized groups found.'
-      no_members: 'This group has no synchronized members yet.'
-      plural: 'Synchronized LDAP groups'
+      no_members: 'Ta grupa nie ma jeszcze synchronizowanych członków.'
+      plural: 'Synchronizowane grupy LDAP'
       singular: 'Synchronized LDAP group'
       form:
-        auth_source_text: 'Select which LDAP authentication mode is used.'
-        entry_text: 'Define the LDAP group identifier.'
-        group_text: 'Select an existing OpenProject group that members of the LDAP group shall be synchronized with'
+        auth_source_text: 'Wybierz tryb uwierzytelniania LDAP, który ma być używany.'
+        entry_text: 'Określ identyfikator grupy LDAP.'
+        group_text: 'Wybierz istniejącą grupę OpenProject, z którą będą synchronizowani członkowie grupy LDAP'
 

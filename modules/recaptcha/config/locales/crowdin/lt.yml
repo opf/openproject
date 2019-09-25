@@ -7,7 +7,7 @@ lt:
     settings:
       website_key: 'Svetainės raktas'
       website_key_text: 'Įveskite svetainės raktą, kurį sukūrėte reCAPTCHA šio domeno administratoriaus konsolėje.'
-      secret_key: 'Secret key'
+      secret_key: 'Slaptas raktas'
       secret_key_text: 'Įveskite slaptą raktą, kurį sukūrėte reCAPTCHA administratoriaus konsolėje.'
       type: 'Naudoti reCAPTCHA'
       type_disabled: 'Išjungti reCAPTCHA'
