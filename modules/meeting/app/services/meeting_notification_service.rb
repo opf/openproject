@@ -19,10 +19,11 @@ class MeetingNotificationService
     do_not_notify_author = meeting.author.pref[:no_self_notified] && !include_author
 
     recipients_with_errors = []
-    meeting.participants.each do |recipient|
+    meeting.participants.includes(:user).each do |recipient|
       begin
         next if recipient.mail == author_mail && do_not_notify_author
-        MeetingMailer.send(action, content, content_type, recipient.mail).deliver_now
+
+        MeetingMailer.send(action, content, content_type, recipient.user).deliver_now
       rescue => e
         Rails.logger.error {
           "Failed to deliver #{action} notification to #{recipient.mail}: #{e.message}"

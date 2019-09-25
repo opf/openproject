@@ -59,7 +59,7 @@ export class AttachmentListComponent implements OnInit, OnChanges, OnDestroy {
     this.$element = jQuery(this.elementRef.nativeElement);
 
     if (this.attachmentsUpdatable) {
-      this.resource.attachments.updateElements();
+      this.resource.updateAttachments();
     }
 
     this.attachments = this.resource.attachments.elements;
@@ -67,7 +67,8 @@ export class AttachmentListComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public setupResourceUpdateListener() {
-    this.states.forResource(this.resource)!.changes$()
+    this.states.forResource(this.resource)!
+      .values$()
       .pipe(
         takeUntil(componentDestroyed(this)),
         filter(newResource => !!newResource)
