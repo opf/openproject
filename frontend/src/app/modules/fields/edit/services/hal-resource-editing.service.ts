@@ -91,7 +91,7 @@ export interface ResourceChangesetClass {
 }
 
 @Injectable()
-export class HalResourceEditingService<V extends HalResource = HalResource, T extends ResourceChangeset<V> = ResourceChangeset<V>> extends StateCacheService<T> {
+export class HalResourceEditingService extends StateCacheService<ResourceChangeset> {
 
     /** Committed / saved changes to work packages observable */
     public comittedChanges = new Subject<ResourceChangesetCommit<V>>();
@@ -106,7 +106,7 @@ export class HalResourceEditingService<V extends HalResource = HalResource, T ex
         super();
     }
 
-    public async save(change:T):Promise<ResourceChangesetCommit<V>> {
+    public async save<V extends HalResource = HalResource, T extends ResourceChangeset = ResourceChangeset<V>>(change:T):Promise<ResourceChangesetCommit<V>> {
         change.inFlight = true;
 
         // Form the payload we're going to save
@@ -138,7 +138,7 @@ export class HalResourceEditingService<V extends HalResource = HalResource, T ex
      * Mark the given change as completed, notify changes
      * and reset it.
      */
-    private complete(change:T, saved:V):ResourceChangesetCommit<V> {
+    private complete<V extends HalResource = HalResource, T extends ResourceChangeset = ResourceChangeset<V>>(change:T, saved:V):ResourceChangesetCommit<V> {
         const commit = new ResourceChangesetCommit<V>(change, saved);
         this.comittedChanges.next(commit);
         this.reset(change);
@@ -150,7 +150,7 @@ export class HalResourceEditingService<V extends HalResource = HalResource, T ex
      * Reset the given change, either due to cancelling or successful submission.
      * @param change
      */
-    public reset(change:T) {
+    public reset<V extends HalResource = HalResource, T extends ResourceChangeset = ResourceChangeset<V>>(change:T) {
         change.clear();
         this.clearSome(change.href);
     }
@@ -160,15 +160,15 @@ export class HalResourceEditingService<V extends HalResource = HalResource, T ex
      * @param resource
      * @param form
      */
-    public edit(resource:V, form?:FormResource):T {
-        const state = this.multiState.get(resource.href!);
+    public edit<V extends HalResource = HalResource, T extends ResourceChangeset = ResourceChangeset<V>>(resource:V, form?:FormResource):T {
+        const state = this.multiState.get(resource.href!) as InputState<T>;
         const changeset = this.newChangeset(resource, state, form)
 
         state.putValue(changeset);
         return changeset;
     }
 
-    protected newChangeset(resource:V, state:InputState<T>, form?:FormResource):T {
+    protected newChangeset<V extends HalResource = HalResource, T extends ResourceChangeset = ResourceChangeset<V>>(resource:V, state:InputState<T>, form?:FormResource):T {
         const cls = this.changesets[resource._type] || ResourceChangeset;
         return new cls(resource, state, form) as T;
     }
@@ -179,8 +179,8 @@ export class HalResourceEditingService<V extends HalResource = HalResource, T ex
      * @param {form:FormResource} Initialize with an existing form
      * @return {WorkPackageChangeset} Change object to work on
      */
-    public changeFor(fallback:V):T {
-        const state = this.multiState.get(fallback.href!);
+    public changeFor<V extends HalResource = HalResource, T extends ResourceChangeset = ResourceChangeset<V>>(fallback:V):T {
+        const state = this.multiState.get(fallback.href!) as InputState<T>;
         let resource = fallback;
         if (fallback.state) {
             resource = fallback.state.getValueOr(fallback);
@@ -212,8 +212,8 @@ export class HalResourceEditingService<V extends HalResource = HalResource, T ex
      *
      * @return {State<WorkPackageResource>}
      */
-    public temporaryEditResource(resource:V):State<V> {
-        const combined = combine(resource.state!, this.state(resource.href!) as State<T>);
+    public temporaryEditResource(resource:HalResource):State<HalResource> {
+        const combined = combine(resource.state!, this.state(resource.href!));
 
         return deriveRaw(combined,
             ($) => $
@@ -233,7 +233,7 @@ export class HalResourceEditingService<V extends HalResource = HalResource, T ex
         this.multiState.get(href).clear();
     }
 
-    protected load(href:string):Promise<T> {
+    protected load(href:string):Promise<ResourceChangeset> {
         // ToDo: Correct return object
        return Promise.reject('Loading not implemented yet.') as any;
     }
@@ -254,8 +254,8 @@ export class HalResourceEditingService<V extends HalResource = HalResource, T ex
         return Promise.all(hrefs.map(href => this.load(href))) as any;
     }
 
-    protected get multiState():MultiInputState<T> {
-        return this.stateGroup.changesets as MultiInputState<T>;
+    protected get multiState():MultiInputState<ResourceChangeset> {
+        return this.stateGroup.changesets;
     }
 
     addChangeset(name:string, changeset:ResourceChangesetClass) {
