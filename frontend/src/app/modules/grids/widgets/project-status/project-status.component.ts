@@ -54,7 +54,7 @@ export const emptyPlaceholder = '-';
 export class WidgetProjectStatusComponent extends AbstractWidgetComponent implements OnInit {
   @ViewChild('contentContainer', { static: true }) readonly contentContainer:ElementRef;
 
-  public currentStatusCode:String = 'not_set';
+  public currentStatusCode:string = 'not_set';
   public explanation:String = '';
   public availableStatuses:any = {
     on_track: this.i18n.t('js.grid.widgets.project_status.on_track'),
@@ -88,7 +88,7 @@ export class WidgetProjectStatusComponent extends AbstractWidgetComponent implem
       .then(([project, schema]) => {
         if (project.status) {
           this.currentStatusCode = project.status.code;
-          this.explanation = project.status.explanation;
+          this.explanation = project.status.explanation.html;
         } else {
           this.currentStatusCode = 'not_set';
           this.explanation = '';
