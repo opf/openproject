@@ -90,7 +90,7 @@ it:
   concatenation:
     single: 'oppure'
   deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
+    time_entries: "Questa visualizzazione di voci sul tempo è superata dal modulo \"Rapporto Costi\". Questa visualizzazione ora supporta solo l'esportazione di informazioni sulle voci sul tempo in csv. Per usare i filtri in modo interattivo, attiva il modulo \"Rapporto Costi\" nelle impostazioni del progetto."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -480,8 +480,8 @@ it:
               invalid_values: "Valore non valido."
               id_filter_required: "Il filtro \"id\" è obbligatorio."
         project:
-          archived_ancestor: 'The project has an archived ancestor.'
-          foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
+          archived_ancestor: 'Il progetto ha un antenato archiviato.'
+          foreign_wps_reference_version: 'Macro-attività in progetti non discendenti contengono riferimenti a versioni del progetto o dei suoi discendenti.'
           attributes:
             types:
               in_use_by_work_packages: "ancora in uso dalla macro-attività: %{types}"
@@ -945,7 +945,7 @@ it:
   enumeration_system_activity: "Attività del sistema"
   enumeration_reported_project_statuses: "Stato di progetto segnalato"
   error_auth_source_sso_failed: "Single Sign-On (SSO) per l'utente '%{value}' non riuscita"
-  error_can_not_archive_project: "This project cannot be archived: %{errors}"
+  error_can_not_archive_project: "Questo progetto non può essere archiviato: %{errors}"
   error_can_not_delete_entry: "Impossibile eliminare la voce"
   error_can_not_delete_custom_field: "Impossibile eliminare il campo personalizzato"
   error_can_not_delete_type: "Questo tipo risulta contenere macro-attività e non può essere eliminato."
@@ -954,7 +954,7 @@ it:
   error_can_not_remove_role: "Questo ruolo è in uso e non può essere eliminato."
   error_can_not_reopen_work_package_on_closed_version: "Una macro-attività assegnata ad una versione chiusa non può essere riaperta"
   error_can_not_find_all_resources: "Impossibile trovare tutte le risorse correlate a questa richiesta."
-  error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
+  error_can_not_unarchive_project: "Questo progetto non può essere estratto: %{errors}"
   error_check_user_and_role: "Si prega di scegliere un utente e un ruolo."
   error_code: "Errore %{code}"
   error_cookie_missing: 'Il cookie di OpenProject è mancante. Prego, verifica che i cookie siano attivati, questa applicazione non funziona correttamente senza.'
@@ -1556,7 +1556,7 @@ it:
   label_wiki_content_added: "Pagina wiki aggiunta"
   label_wiki_content_updated: "Pagina wiki aggiornata"
   label_wiki_toc: "Sommario"
-  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
+  label_wiki_toc_empty: "La tabella dei contenuti è vuota in quanto non è presente nessuna intestazione."
   label_wiki_dont_show_menu_item: "Non mostrare questa pagina wiki nella navigazione del progetto"
   label_wiki_edit: "Modifica wiki"
   label_wiki_edit_plural: "Modifiche wiki"
@@ -1643,7 +1643,7 @@ it:
     legacy_warning:
       timeline: 'Questa macro legacy di sequenza temporale è stata rimossa e non è più disponibile. È possibile sostituire la funzionalità con una macro di tabella incorporata.'
     include_wiki_page:
-      removed: 'The macro does no longer exist.'
+      removed: 'La macro non esiste più.'
     wiki_child_pages:
       errors:
         page_not_found: "Impossibile trovare la pagina del wiki \"%{name}\"."
@@ -1661,14 +1661,14 @@ it:
   mail_body_lost_password: "Per cambiare la password, clicca nel link seguente:"
   mail_body_register: "Per attivare il tuo account, clicca sul seguente link:"
   mail_body_reminder: "%{count} macro-attività a te assegnata/e scadono nei prossimi %{days} giorni:"
-  mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
+  mail_body_group_reminder: "%{count} macro-attività assegnata/e al gruppo \"%{group}\" scadono nei prossimi %{days} giorni:"
   mail_body_wiki_content_added: "La pagina wiki '%{id}' è stata aggiunta da %{author}."
   mail_body_wiki_content_updated: "La pagina wiki '%{id}' è stata aggiornata da %{author}."
   mail_subject_account_activation_request: "%{value} richiesta di attivazione account"
   mail_subject_lost_password: "La tua %{value} password"
   mail_subject_register: "La tua %{value} attivazione dell'account"
   mail_subject_reminder: "%{count} macro-attività in scadenza nei prossimi %{days} giorni"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
+  mail_subject_group_reminder: "Per il gruppo \"%{group}\" ci sono %{count} macro-attività in scadenza nei prossimi %{days} giorni"
   mail_subject_wiki_content_added: "La pagina wiki '%{id}' è stata aggiunta"
   mail_subject_wiki_content_updated: "La pagina wiki '%{id}' è stata aggiornata"
   mail_user_activation_limit_reached:

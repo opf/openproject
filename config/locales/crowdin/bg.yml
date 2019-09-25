@@ -90,7 +90,7 @@ bg:
   concatenation:
     single: 'or'
   deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
+    time_entries: "Този изглед на записи за време се заменя от модула „Отчети за разходите“. Този изглед сега поддържа само експортиране на информация за въвеждане на време в csv. За интерактивно филтриране, моля, активирайте модула „Отчети за разходите“ в настройките на проекта."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -1031,7 +1031,7 @@ bg:
   general_text_yes: "Да"
   general_text_No: "Не"
   general_text_Yes: "Да"
-  general_text_true: "true"
+  general_text_true: "истина"
   general_text_false: "false"
   gui_validation_error: "1 грешка"
   gui_validation_error_plural: "%{count} грешки"
@@ -1526,7 +1526,7 @@ bg:
   label_used_by_types: "Used by types"
   label_used_in_projects: "Used in projects"
   label_user: "Потребител"
-  label_user_and_permission: "Users & Permissions"
+  label_user_and_permission: "Потребители и Права"
   label_user_named: "User %{name}"
   label_user_activity: "дейност на %{value}"
   label_user_anonymous: "Анонимен"
@@ -1539,7 +1539,7 @@ bg:
   label_user_new: "Нов потребител"
   label_user_plural: "Потребители"
   label_user_search: "Търсене на потребител"
-  label_user_settings: "User settings"
+  label_user_settings: "Потребителски настройки"
   label_version_new: "Нова версия"
   label_version_plural: "Версии"
   label_version_sharing_descendants: "С подпроектите"
@@ -1557,7 +1557,7 @@ bg:
   label_wiki_content_added: "Wiki страница добавена"
   label_wiki_content_updated: "Wiki страница обновена"
   label_wiki_toc: "Таблица на съдържанието"
-  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
+  label_wiki_toc_empty: "Съдържанието е празно, тъй като няма заглавия."
   label_wiki_dont_show_menu_item: "Не показвай този wikipage в проектната навигация"
   label_wiki_edit: "Редактиране на Wiki"
   label_wiki_edit_plural: "Wiki редакции"
@@ -1644,7 +1644,7 @@ bg:
     legacy_warning:
       timeline: 'This legacy timeline macro has been removed and is no longer available. You can replace the functionality with an embedded table macro.'
     include_wiki_page:
-      removed: 'The macro does no longer exist.'
+      removed: 'Макросът вече не съществува.'
     wiki_child_pages:
       errors:
         page_not_found: "Cannot find the wiki page '%{name}'."
@@ -2016,13 +2016,13 @@ bg:
   setting_display_subprojects_work_packages: "Display subprojects work packages on main projects by default"
   setting_emails_footer: "Emails footer"
   setting_emails_header: "Emails header"
-  setting_email_login: "Use email as login"
+  setting_email_login: "Използвайте имейла като вход"
   setting_enabled_scm: "Enabled SCM"
   setting_feeds_enabled: "Enable Feeds"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
   setting_host_name: "Име на хост"
-  setting_invitation_expiration_days: "Activation email expires after"
+  setting_invitation_expiration_days: "Имейлът за активиране изтича след"
   setting_work_package_done_ratio: "Calculate the work package done ratio with"
   setting_work_package_done_ratio_field: "Use the work package field"
   setting_work_package_done_ratio_status: "Use the work package status"
@@ -2377,7 +2377,7 @@ bg:
     Sends another invitation email with a fresh token in case the old one expired or the user did not get the original email. Can also be used for active users to choose a new authentication method. When used with active users their status will be changed to 'invited'.
   tooltip:
     setting_email_login: >
-      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
+      Ако е активиран, потребителят няма да може да избере вход по време на регистрацията. Вместо това даденият им имейл адрес ще служи като вход. Администраторът може да промени отделно данните за вход.
   queries:
     apply_filter: Apply preconfigured filter
   top_menu:

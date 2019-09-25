@@ -1,5 +1,5 @@
 lt:
   js:
     bcf:
-      import: 'Import'
+      import: 'Importuoti'
       export: 'Eksportuoti'
