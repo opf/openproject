@@ -40,6 +40,9 @@ import {WorkPackageRelationsHierarchyService} from "core-components/wp-relations
 import {WorkPackageViewHierarchyIdentationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service";
 import SpyObj = jasmine.SpyObj;
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
+import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 
 describe('WorkPackageViewIndentation service', function() {
   let service:WorkPackageViewHierarchyIdentationService;
@@ -51,6 +54,12 @@ describe('WorkPackageViewIndentation service', function() {
   class HierarchyServiceStub {
     get isEnabled() {
       return true;
+    }
+  }
+
+  class WorkPackageCacheServiceStub {
+    require(wpId:string) {
+      return Promise.resolve(states.workPackages.get(wpId).value);
     }
   }
 
@@ -67,6 +76,8 @@ describe('WorkPackageViewIndentation service', function() {
       providers: [
         States,
         IsolatedQuerySpace,
+        WorkPackageCacheService,
+        { provide: WorkPackageCacheService, useClass: WorkPackageCacheServiceStub },
         { provide: WorkPackageViewHierarchiesService, useClass: HierarchyServiceStub },
         { provide: WorkPackageRelationsHierarchyService, useValue: parentServiceSpy  },
         WorkPackageViewHierarchyIdentationService
