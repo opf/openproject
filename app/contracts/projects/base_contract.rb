@@ -43,6 +43,9 @@ module Projects
     attribute :parent do
       validate_parent_assignable
     end
+    attribute :status do
+      validate_status_code_included
+    end
 
     def validate
       validate_user_allowed_to_manage
@@ -86,6 +89,10 @@ module Projects
 
     def validate_user_allowed_to_manage
       errors.add :base, :error_unauthorized unless user.allowed_to?(manage_permission, model)
+    end
+
+    def validate_status_code_included
+      errors.add :status, :inclusion if model.status&.code && !Project::Status.codes.keys.include?(model.status.code.to_s)
     end
 
     def manage_permission

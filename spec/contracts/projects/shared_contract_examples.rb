@@ -43,6 +43,7 @@ shared_examples_for 'project contract' do
   let(:project_description) { 'Project description' }
   let(:project_active) { true }
   let(:project_public) { true }
+  let(:project_status) { FactoryBot.build_stubbed(:project_status) }
   let(:project_parent) do
     FactoryBot.build_stubbed(:project)
   end
@@ -131,11 +132,29 @@ shared_examples_for 'project contract' do
     end
   end
 
-  context 'if the status is nil' do
+  context 'if active is nil' do
     let(:project_active) { nil }
 
     it 'is invalid' do
       expect_valid(false, active: %i(blank))
+    end
+  end
+
+  context 'if status is nil' do
+    let(:project_status) { nil }
+
+    it_behaves_like 'is valid'
+  end
+
+  context 'if status code is invalid' do
+    before do
+      allow(project_status)
+        .to receive(:code)
+        .and_return('bogus')
+    end
+
+    it 'is invalid' do
+      expect_valid(false, status: %i(inclusion))
     end
   end
 

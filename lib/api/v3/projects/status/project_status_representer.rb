@@ -40,7 +40,10 @@ module API
 
           formattable_property :explanation
           property :code,
-                   render_nil: true
+                   render_nil: true,
+                   getter: ->(represented:, **) {
+                     represented.code.to_s.tr('_', ' ') if represented.code
+                   }
         end
       end
     end

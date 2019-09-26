@@ -126,7 +126,7 @@ describe ::API::V3::Projects::ProjectRepresenter do
 
         it 'includes the project status code' do
           expect(subject)
-            .to be_json_eql(status.code.to_json)
+            .to be_json_eql(status.code.tr('_', ' ').to_json)
             .at_path('status/code')
         end
 

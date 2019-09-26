@@ -41,7 +41,8 @@ module API
         include API::Decorators::FormattableProperty
         extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
 
-        cached_representer key_parts: %i(status)
+        cached_representer key_parts: %i(status),
+                           disabled: false
 
         self_link
 
@@ -161,6 +162,15 @@ module API
                  getter: ->(*) {
                    ::API::V3::Projects::Status::ProjectStatusRepresenter.create(represented.status || Project::Status.new,
                                                                                 current_user: current_user)
+                 },
+                 setter: ->(fragment:, **) {
+                   status = fragment.with_indifferent_access.slice(:explanation)
+
+                   if fragment['code']
+                     status[:code] = fragment['code'].strip.tr(' ', '_').underscore.to_sym
+                   end
+
+                   represented.status = status
                  }
 
         def _type
