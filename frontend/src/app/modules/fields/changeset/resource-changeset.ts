@@ -2,7 +2,6 @@ import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {ChangeMap, Changeset} from "core-app/modules/fields/changeset/changeset";
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {InputState} from "reactivestates";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {debugLog} from "core-app/helpers/debug_output";
@@ -28,7 +27,7 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
   public inFlight = false;
 
   /** The projected resource, which will proxy values from the change set */
-  public projectedResource = new Proxy(
+  public projectedResource:T = new Proxy(
     this.pristineResource,
     {
       get: (_, key:string) => this.proxyGet(key),

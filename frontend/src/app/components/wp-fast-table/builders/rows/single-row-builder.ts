@@ -175,7 +175,7 @@ export class SingleRowBuilder {
   }
 
   protected buildEmptyRow(workPackage:WorkPackageResource, row:HTMLTableRowElement):[HTMLTableRowElement, boolean] {
-    const change = this.workPackageTable.editing.change(workPackage.id!);
+    const change = this.workPackageTable.editing.change(workPackage);
     let cells:{ [attribute:string]:JQuery } = {};
 
     if (change && !change.isEmpty()) {

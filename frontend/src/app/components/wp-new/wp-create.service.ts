@@ -34,7 +34,10 @@ import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.ser
 import {HookService} from 'core-app/modules/plugins/hook-service';
 import {WorkPackageFilterValues} from "core-components/wp-edit-form/work-package-filter-values";
 
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import {
+  HalResourceEditingService,
+  ResourceChangesetCommit
+} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {filter} from "rxjs/operators";
@@ -65,7 +68,7 @@ export class WorkPackageCreateService implements OnDestroy {
         untilComponentDestroyed(this),
         filter(commit => commit.wasNew)
       )
-      .subscribe(commit => this.newWorkPackageCreated(commit.workPackage));
+      .subscribe((commit:ResourceChangesetCommit<WorkPackageResource>) => this.newWorkPackageCreated(commit.resource));
   }
 
   ngOnDestroy() {
@@ -161,7 +164,7 @@ export class WorkPackageCreateService implements OnDestroy {
       changePromise = this.createNewWithDefaults(projectIdentifier, type);
     }
 
-    return changePromise.then((change) => {
+    return changePromise.then((change:WorkPackageChangeset) => {
       this.halEditing.updateValue('new', change);
       this.wpCacheService.updateWorkPackage(change.pristineResource);
 

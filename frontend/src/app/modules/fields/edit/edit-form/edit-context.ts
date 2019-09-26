@@ -26,10 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageEditFieldHandler} from 'core-components/wp-edit-form/work-package-edit-field-handler';
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {EditForm} from "core-app/modules/fields/edit/edit-form/edit-form";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 export interface EditContext {
   /**
@@ -45,7 +45,7 @@ export interface EditContext {
   /**
    * Reset the field and re-render the current WPs value.
    */
-  reset(workPackage:WorkPackageResource, fieldName:string, focus?:boolean):void;
+  reset(resource:HalResource, fieldName:string, focus?:boolean):void;
 
   /**
    * Return the first relevant field from the given list of attributes.
@@ -55,5 +55,5 @@ export interface EditContext {
   /**
    * Optional callback when the form is being saved
    */
-  onSaved(isInitial:boolean, savedWorkPackage:WorkPackageResource):void;
+  onSaved(isInitial:boolean, saved:HalResource):void;
 }

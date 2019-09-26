@@ -122,8 +122,6 @@ export class WorkPackageBaseResource extends HalResource {
   public attachments:AttachmentCollectionResource;
 
   public overriddenSchema:SchemaResource|undefined = undefined;
-  public __initialized_at:Number;
-
   readonly I18n:I18nService = this.injector.get(I18nService);
   readonly states:States = this.injector.get(States);
   readonly workPackageDmService = this.injector.get(WorkPackageDmService);
@@ -287,17 +285,6 @@ export class WorkPackageBaseResource extends HalResource {
     this['updateImmediately'] = this.$links.updateImmediately = (payload) => {
       return this.workPackageDmService.createWorkPackage(payload);
     };
-  }
-
-  /**
-   * Retain the internal tracking identifier from the given other work package.
-   * This is due to us needing to identify a work package beyond its actual ID,
-   * because that changes upon saving.
-   *
-   * @param other
-   */
-  public retainFrom(other:WorkPackageResource) {
-    this.__initialized_at = other.__initialized_at;
   }
 
   public $initialize(source:any) {

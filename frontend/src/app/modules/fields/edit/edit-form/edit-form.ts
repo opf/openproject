@@ -176,12 +176,12 @@ export class EditForm {
           // Close all current fields
           this.closeEditFields(openFields);
 
-          resolve(result.workPackage);
+          resolve(result.resource);
 
-          this.halNotification.showSave(result.workPackage, result.wasNew);
+          this.halNotification.showSave(result.resource, result.wasNew);
           this.editMode = false;
-          this.editContext.onSaved(result.wasNew, result.workPackage);
-          this.wpEvents.push(result.workPackage, { eventType: 'updated' });
+          this.editContext.onSaved(result.wasNew, result.resource);
+          this.wpEvents.push(result.resource, { eventType: 'updated' });
         })
         .catch((error:ErrorResource|Object) => {
           this.halNotification.handleRawError(error, this.resource);

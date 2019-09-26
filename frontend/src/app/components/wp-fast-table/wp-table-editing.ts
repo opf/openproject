@@ -22,8 +22,8 @@ export class WorkPackageTableEditingContext {
     this.forms = {};
   }
 
-  public change(workPackageId:string):WorkPackageChangeset | undefined {
-    return this.halEditing.state(workPackageId).value;
+  public change(workPackage:WorkPackageResource):WorkPackageChangeset | undefined {
+    return this.halEditing.typedState<WorkPackageResource, WorkPackageChangeset>(workPackage).value;
   }
 
   public stopEditing(workPackageId:string) {
