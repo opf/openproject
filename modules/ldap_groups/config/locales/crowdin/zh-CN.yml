@@ -12,15 +12,15 @@ zh-CN:
     settings:
       group_key: 'LDAP 组属性'
       group_key_text: '用于识别组的 LDAP 属性名称。'
-      group_base: 'LDAP 组基数'
-      group_base_text: '用于搜索组条目的 LDAP 组基数。'
+      group_base: 'LDAP 组库'
+      group_base_text: '用于搜索组条目的 LDAP 组库。'
     synchronized_groups:
       add_new: '添加同步的 LDAP 组'
       destroy:
-        title: '删除同步组 %{name}'
-        confirmation: "如果您继续，将删除同步组 %{name} 和通过该组同步的全部 %{users_count} 个用户。"
-        info: "注意：OpenProject 组本身以及在 LDAP 同步之外添加的成员将不会被删除。"
-        verification: "输入组名称 %{name} 来验证删除。"
+        title: '移除同步组 %{name}'
+        confirmation: "如果您继续，将移除同步组 %{name} 和通过该组同步的全部 %{users_count} 个用户。"
+        info: "注意：OpenProject 组本身以及在 LDAP 同步之外添加的成员将不会被移除。"
+        verification: "输入组名称 %{name} 以验证删除。"
       no_results: '未找到同步的组。'
       no_members: '此组尚无同步成员。'
       plural: '同步的 LDAP 组'
@@ -28,5 +28,5 @@ zh-CN:
       form:
         auth_source_text: '选择使用哪种 LDAP 身份验证模式。'
         entry_text: '定义 LDAP 组标识符。'
-        group_text: '选择一个 LDAP 组的成员应与其同步的现有 OpenProject 组'
+        group_text: '选择 LDAP 组的成员应与其同步的现有 OpenProject 组'
 

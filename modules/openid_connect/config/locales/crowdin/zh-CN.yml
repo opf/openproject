@@ -1,6 +1,6 @@
 zh-CN:
   logout_warning: >
-    您已注销。您提交的任何表单的内容可能丢失。请[登录]。
+    您已退出。您提交的任何表单的内容可能丢失。请[登录]。
   activemodel:
     attributes:
       openid_connect/provider:
@@ -10,10 +10,10 @@ zh-CN:
         secret: 密钥
         scope: 范围
   openid_connect:
-    menu_title: OpenID 提供者
+    menu_title: OpenID 提供商
     providers:
-      label_add_new: 添加一个新的 OpenID 提供者
-      label_edit: 编辑 OpenID 提供者 %{name}
-      no_results_table: 尚未定义提供者。
-      plural: OpenID 提供者
-      singular: OpenID 提供者
+      label_add_new: 添加一个新的 OpenID 提供商
+      label_edit: 编辑 OpenID 提供商 %{name}
+      no_results_table: 尚未定义提供商。
+      plural: OpenID 提供商
+      singular: OpenID 提供商

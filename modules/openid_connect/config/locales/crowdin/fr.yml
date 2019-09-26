@@ -5,7 +5,7 @@ fr:
     attributes:
       openid_connect/provider:
         name: Nom
-        display_name: Display name
+        display_name: Nom d'affichage
         identifier: Identifiant
         secret: Secret
         scope: Portée

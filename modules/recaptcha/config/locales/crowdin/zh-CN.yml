@@ -1,17 +1,17 @@
 zh-CN:
   recaptcha:
     label_recaptcha: "reCAPTCHA"
-    button_please_wait: 'Please wait ...'
-    verify_account: "Verify your account"
-    error_captcha: "Your account could not be verified. Please contact an administrator."
+    button_please_wait: '请稍候…'
+    verify_account: "验证您的帐户"
+    error_captcha: "您的帐户无法验证。请联系管理员。"
     settings:
-      website_key: 'Website key'
-      website_key_text: 'Enter the website key you created on the reCAPTCHA admin console for this domain.'
+      website_key: '网站密钥'
+      website_key_text: '输入您在 reCAPTCHA 管理控制台上为此域创建的网站密钥。'
       secret_key: '密钥'
-      secret_key_text: 'Enter the secret key you created on the reCAPTCHA admin console.'
-      type: 'Use reCAPTCHA'
-      type_disabled: 'Disable reCAPTCHA'
+      secret_key_text: '输入您在 reCAPTCHA 管理控制台上创建的密钥。'
+      type: '使用 reCAPTCHA'
+      type_disabled: '禁用 reCAPTCHA'
       type_v2: 'reCAPTCHA v2'
       type_v3: 'reCAPTCHA v3'
       recaptcha_description_html: >
-        reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance. If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet. <br/> Please see the following link for more details on reCAPTCHA and their versions, and how to create the website and secret keys: %{recaptcha_link}
+        reCAPTCHA 是一项可为您的 OpenProject 实例启用的 Google 免费服务。如果启用，则在登录时将为尚未验证验证码的所有用户提供一个验证码表单。<br/>请参见以下链接，获取有关 reCAPTCHA 及其版本以及如何创建网站和密钥的更多详细信息：%{recaptcha_link}

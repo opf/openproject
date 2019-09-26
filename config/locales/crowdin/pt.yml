@@ -122,7 +122,7 @@ pt:
         no_results_title_text: Atualmente, não existem atividades disponíveis.
       forums:
         no_results_title_text: Atualmente, não existem fóruns para o projeto.
-        no_results_content_text: Criar novo fórum
+        no_results_content_text: Criar um novo fórum
       categories:
         no_results_title_text: Atualmente, não existem categorias de pacote de trabalho.
         no_results_content_text: Criar uma nova categoria de pacote de trabalho
@@ -974,8 +974,8 @@ pt:
   error_work_package_done_ratios_not_updated: "Percentagens de progresso do pacote de trabalho não foram atualizadas."
   error_work_package_not_found_in_project: "A tarefa não foi encontrada ou não pertence a este projecto"
   error_must_be_project_member: "deve ser membro do projeto"
-  error_migrations_are_pending: "Sua instalação do OpenProject tem migrações de banco de dados pendentes. Você provavelmente esqueceu de executar as migrações depois da sua última atualização. Por favor, verifique o guia de atualização para atualizar sua instalação corretamente."
-  error_migrations_visit_upgrade_guides: "Por favor, visite a nossa documentação do guia de atualização"
+  error_migrations_are_pending: "A sua instalação do OpenProject tem migrações pendentes da base de dados pendentes. Provavelmente esqueceu-se de fazer as migrações após a última atualização. Por favor, verifique o guia de atualização, de forma a atualizar a sua instalação corretamente."
+  error_migrations_visit_upgrade_guides: "Visite a nossa documentação do guia de atualização"
   error_no_default_work_package_status: "Não está definido um estado padrão para os pacotes de trabalho. Verifique a sua configuração (dirija-se a \"Administração -> Estados de pacotes de trabalho\")."
   error_no_type_in_project: "Nenhum tipo está associado a este projecto. Por favor, verifique as configurações do projeto."
   error_omniauth_registration_timed_out: "Esgotou-se o registo através de um provedor de autenticação externa. Por favor, tente novamente."
@@ -1398,7 +1398,7 @@ pt:
   label_planning: "Planeamento"
   label_please_login: "Por favor inicie sessão"
   label_plugins: "Plugins"
-  label_modules_and_plugins: "Módulos e Complementos"
+  label_modules_and_plugins: "Módulos e Plugins"
   label_precedes: "precede"
   label_preferences: "Preferências"
   label_preview: "Pré visualizar"
@@ -1557,7 +1557,7 @@ pt:
   label_wiki_content_added: "Página wiki adicionada"
   label_wiki_content_updated: "Página wiki atualizada"
   label_wiki_toc: "Tabela de conteúdos"
-  label_wiki_toc_empty: "A Tabela de Conteúdo está vazia, pois nenhum cabeçalho está presente."
+  label_wiki_toc_empty: "A Tabela de Conteúdo está vazia, pois não está presente nenhum cabeçalho."
   label_wiki_dont_show_menu_item: "Não mostrar esta página wiki na navegação do projecto"
   label_wiki_edit: "Editar wiki"
   label_wiki_edit_plural: "Edições de wiki"
@@ -2375,7 +2375,7 @@ pt:
     Envia outra mensagem de correio eletrónico de convite com um novo token, caso o antigo tenha expirado ou o utilizador não tenha recebido a mensagem original. Também pode ser utilizado para utilizadores ativos que escolham um novo método de autenticação. Quando usado com utilizadores ativos, o seu estado passará para "convidado".
   tooltip:
     setting_email_login: >
-      Se for ativado, o utilizador será incapaz de selecionar o nome de utilizador durante o registo. Em vez disso, deverá utilizar o seuemail como início de sessão. No entanto, um administrador poderá ainda alterar o início de sessão separadamente.
+      Se estiver ativado, o utilizador não poderá selecionar o nome de utilizador durante o registo. Em vez disso, deverá utilizar o seu email como início de sessão. No entanto, um administrador ainda poderá alterar o início de sessão separadamente.
   queries:
     apply_filter: Aplicar filtro pré-configurado
   top_menu:

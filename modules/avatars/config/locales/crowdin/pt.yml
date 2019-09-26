@@ -20,15 +20,15 @@ pt:
     text_current_avatar: |
       A seguinte imagem mostra o avatar atual.
     text_upload_instructions: |
-      Carregue o seu próprio avatar personalizado de 128 por 128 pixels. Os ficheiros maiores serão redimensionados e cortados para coincidir.
+      Carregue o seu avatar personalizado de 128 por 128 pixels. Os ficheiros maiores serão redimensionados e cortados para coincidir.
       Será mostrada uma visualização do seu avatar antes do carregamento, uma vez que selecionou uma imagem.
     text_change_gravatar_html: 'Para alterar ou adicionar o Gravatar ao seu endereço de email, vá a %{gravatar_url}.'
     text_your_local_avatar: |
-      O OpenProject permite que carregue o seu próprio avatar personalizado.
+      O OpenProject permite que carregue o seu avatar personalizado.
     text_local_avatar_over_gravatar: |
       Se definir um, este avatar personalizado será usado em precedência sobre o gravatar acima.
     text_your_current_gravatar: |
-      O OpenProject usa o seu gravatar caso tenha registado um, ou uma imagem ou ícone padrão caso exista.
+      O OpenProject usa o seu gravatar caso tenha registado algum, ou uma imagem ou ícone padrão caso exista.
       O gravatar atual é o seguinte:
     settings:
       enable_gravatars: 'Ativar Gravatars de utilizadores'
