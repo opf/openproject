@@ -64,8 +64,8 @@ export class DisplayFieldService extends AbstractFieldService<DisplayField, IDis
    * @param {string} context
    * @returns {T}
    */
-  public getField(resource:any, fieldName:string, schema:IFieldSchema, context:DisplayFieldContext):DisplayField {
-    const fieldClass = this.getClassFor(fieldName, schema.type);
+  public getField(resource:HalResource, fieldName:string, schema:IFieldSchema, context:DisplayFieldContext):DisplayField {
+    const fieldClass = this.getSpecificClassFor(resource._type, fieldName, schema.type);
     let instance = new fieldClass(fieldName, context);
     instance.apply(resource, schema);
     return instance;

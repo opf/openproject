@@ -45,6 +45,7 @@ import {HighlightedResourceDisplayField} from "core-app/modules/fields/display/f
 import {TypeDisplayField} from "core-app/modules/fields/display/field-types/type-display-field.module";
 import {UserDisplayField} from "core-app/modules/fields/display/field-types/user-display-field.module";
 import {MultipleUserFieldModule} from "core-app/modules/fields/display/field-types/multiple-user-display-field.module";
+import {WpIdDisplayField} from "core-app/modules/fields/display/field-types/wp-id-display-field.module";
 
 export function initializeCoreDisplayFields(displayFieldService:DisplayFieldService) {
   return () => {
@@ -75,5 +76,8 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
       .addFieldType(SpentTimeDisplayField, 'spentTime', ['spentTime'])
       .addFieldType(IdDisplayField, 'id', ['id'])
       .addFieldType(UserDisplayField, 'user', ['User']);
+
+    displayFieldService
+        .addSpecificFieldType('WorkPackage', WpIdDisplayField, 'id', ['id'])
   };
 }

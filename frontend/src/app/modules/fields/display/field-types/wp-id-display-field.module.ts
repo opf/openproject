@@ -30,29 +30,23 @@ import {DisplayField} from "core-app/modules/fields/display/display-field.module
 import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import {StateService} from '@uirouter/core';
 import {UiStateLinkBuilder} from "core-components/wp-fast-table/builders/ui-state-link-builder";
+import {IdDisplayField} from "core-app/modules/fields/display/field-types/id-display-field.module";
 
-export class IdDisplayField extends DisplayField {
-  public text = {
-    linkTitle: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen')
-  };
-
-  public get value() {
-    if (this.resource.isNew) {
-      return null;
-    }
-    else {
-      return this.resource[this.name];
-    }
-  }
+export class WpIdDisplayField extends IdDisplayField {
+  private $state:StateService = this.$injector.get(StateService);
+  private keepTab:KeepTabService = this.$injector.get(KeepTabService);
+  private uiStateBuilder:UiStateLinkBuilder = new UiStateLinkBuilder(this.$state, this.keepTab);
 
   public render(element:HTMLElement, displayText:string):void {
     if (!this.value) {
       return;
     }
-    element.textContent = displayText;
-  }
+    let link = this.uiStateBuilder.linkToShow(
+      this.value,
+      displayText,
+      this.value
+    );
 
-  public isEmpty():boolean {
-    return false;
+    element.appendChild(link);
   }
 }
