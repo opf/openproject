@@ -1,5 +1,5 @@
 zh-CN:
   dashboards:
-    label: 'Dashboards'
-    menu_badge: 'Alpha'
-  project_module_dashboards: 'Dashboards'
+    label: '仪表板'
+    menu_badge: 'Alpha 版'
+  project_module_dashboards: '仪表板'

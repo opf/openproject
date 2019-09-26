@@ -41,8 +41,8 @@ pt:
     button_open_details: "Abrir visão detalhada"
     button_close_details: "Fechar visão detalhada"
     button_open_fullscreen: "Abrir visão ecrã completo"
-    button_show_cards: "Mostrar vista de cartão"
-    button_show_list: "Mostrar a vista de lista"
+    button_show_cards: "Mostrar vista em cartão"
+    button_show_list: "Mostrar vista em lista"
     button_quote: "Citar"
     button_save: "Guardar"
     button_settings: "Definições"
@@ -78,7 +78,7 @@ pt:
         graph_settings: 'Geral'
         dataset: 'Dataset %{number}'
       errors:
-        could_not_load: 'Os dados para exibir o gráfico não puderam ser carregados. As permissões necessárias podem estar em falta.'
+        could_not_load: 'Não foi possível carregar os dados para exibir o gráfico. Podem estar em falta as permissões necessárias.'
     description_available_columns: "Colunas disponíveis"
     description_current_position: "Você está aqui: "
     description_select_work_package: "Selecionar pacote de trabalho #%{id}"

@@ -7,7 +7,7 @@ pl:
         name: Nazwa
         display_name: Nazwa wyświetlana
         identifier: Identyfikator
-        secret: Sekret
+        secret: Tajny klucz
         scope: Zakres
   openid_connect:
     menu_title: Dostawcy OpenID

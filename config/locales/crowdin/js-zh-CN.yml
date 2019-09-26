@@ -69,7 +69,7 @@ zh-CN:
       types:
         line: '线图'
         horizontal_bar: '水平条形图'
-        bar: '条形'
+        bar: '条形图'
         pie: '饼图'
         doughnut: '圆环图'
         radar: '雷达图'
@@ -78,7 +78,7 @@ zh-CN:
         graph_settings: '通用'
         dataset: '数据集 %{number}'
       errors:
-        could_not_load: '无法加载用于显示图形的数据。可能缺少必要的权限。'
+        could_not_load: '无法加载用于显示图表的数据。可能缺少必要的权限。'
     description_available_columns: "可用的列"
     description_current_position: "您现在的位置："
     description_select_work_package: "选择工作包 #%{id}"
@@ -295,7 +295,7 @@ zh-CN:
     label_total_progress: "%{percent} %总进度"
     label_total_amount: "总计: %{amount}"
     label_updated_on: "更新于"
-    label_value_derived_from_children: "(value derived from children)"
+    label_value_derived_from_children: "（来自子项的值）"
     label_warning: "警告"
     label_work_package: "工作包"
     label_work_package_plural: "工作包"
@@ -331,7 +331,7 @@ zh-CN:
     label_wait: "请等待配置..."
     label_upload_counter: "%{count} 个中的 %{done} 个文件已完成"
     label_validation_error: "由于下列错误，无法保存工作包:"
-    label_view_has_changed: "此视图有未保存的更改。单击以保存这些更改。"
+    label_view_has_changed: "此视图有未保存的变更。单击以保存。"
     help_texts:
       show_modal: '显示属性帮助文本项'
     onboarding:
@@ -603,7 +603,7 @@ zh-CN:
       message_successful_show_in_fullscreen: "单击此处以全屏视图打开此工作包。"
       message_view_spent_time: "显示这个工作包所花费的时间"
       message_work_package_read_only: "工作包被锁定在此状态。除状态外，其他属性均不可更改。"
-      message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
+      message_work_package_status_blocked: "由于处于关闭状态并且分配了关闭版本，因此工作包状态不可写。"
       no_value: "无值"
       placeholder_filter_by_text: "主题, 描述, 评论,..。"
       inline_create:
@@ -689,9 +689,9 @@ zh-CN:
         confirm_edit_cancel: "确定要取消编辑此视图的名称吗？标题将重置为上一个值。"
         click_to_edit_query_name: "单击可以编辑此视图的标题。"
         rename_query_placeholder: "此视图的名称"
-        star_text: "将该视图标记为收藏夹，并添加到左侧的已保存视图侧边栏中。"
+        star_text: "将该视图标记为收藏项，并添加到左侧的已保存视图边栏中。"
         public_text: >
-          发布此视图，以允许其他用户访问您的视图。具有“管理公共视图”权限的用户可以修改或删除公共查询。这不会影响工作包结果在该视图中的可见性，并且用户可能会看到不同的结果，具体取决于他们的权限。
+          发布此视图，以允许其他用户访问您的视图。具有“管理公共视图”权限的用户可以修改或移除公共查询。这不会影响工作包结果在该视图中的可见性，并且用户可能会看到不同的结果，具体取决于他们的权限。
         errors:
           unretrievable_query: "无法从 URL 检索视图"
           not_found: "无此视图"
@@ -821,7 +821,7 @@ zh-CN:
       child_work_packages:
         other: "%{count} 子工作包"
       hour:
-        other: "%{count} h"
+        other: "%{count} 小时"
     zen_mode:
       button_activate: '激活 zen 模式'
       button_deactivate: '取消激活 zen 模式'

@@ -2,7 +2,7 @@ zh-CN:
   bcf:
     label_bcf: 'BCF'
     label_imported_failed: '导入 BCF 主题失败'
-    label_imported_successfully: '成功导入 BCF 主题'
+    label_imported_successfully: '已成功导入 BCF 主题'
     issues: "问题"
     recommended: '推荐'
     not_recommended: '不推荐'
@@ -18,9 +18,9 @@ zh-CN:
       export: '导出'
       import_update_comment: '（在 BCF 导入中更新）'
       import_failed: '无法导入 BCF 文件：%{error}'
-      import_successful: '导入了 %{count} 个 BCF 问题'
+      import_successful: '已导入 %{count} 个 BCF 问题'
       import_canceled: 'BCF-XML 导入已取消。'
-      type_not_active: "此项目未激活问题类型。"
+      type_not_active: "此项目未激活该问题类型。"
       import:
         num_issues_found: '%{x_bcf_issues} 包含在 BCF-XML 文件中，其详细信息在下面列出。'
         button_prepare: '准备导入'
@@ -29,7 +29,7 @@ zh-CN:
         button_back_to_list: '返回列表'
         no_permission_to_add_members: '您没有足够的权限将它们添加为项目的成员。'
         contact_project_admin: '请联系您的项目管理员将它们添加为成员，然后重新开始导入。'
-        continue_anyways: '您是否仍要继续完成导入？'
+        continue_anyways: '仍要继续完成导入？'
         description: "提供一个 BCF-XML v2.1 文件以导入到此项目中。您可以在执行导入之前检查其内容。"
         invalid_types_found: '找到无效的主题类型名称'
         invalid_statuses_found: '找到无效的状态名称'
@@ -41,14 +41,14 @@ zh-CN:
         import_types_as: '将所有这些类型设置为'
         import_statuses_as: '将所有这些状态设置为'
         import_priorities_as: '将所有这些优先级设置为'
-        invite_as_members_with_role: '使用以下角色邀请它们作为项目“%{project}”的成员'
-        add_as_members_with_role: '使用以下角色将它们添加为项目“%{project}”的成员'
+        invite_as_members_with_role: '使用以下角色邀请他们作为项目“%{project}”的成员'
+        add_as_members_with_role: '使用以下角色将他们添加为项目“%{project}”的成员'
         no_type_provided: '未提供类型'
         no_status_provided: '未提供状态'
         no_priority_provided: '未提供优先级'
-        perform_description: "您想要导入或更新上面列出的问题吗？"
-        replace_with_system_user: '用“系统”用户替换它们'
-        import_as_system_user: '将它们导入为“系统”用户。'
+        perform_description: "要导入或更新上面列出的问题吗？"
+        replace_with_system_user: '用“系统”用户替换他们'
+        import_as_system_user: '将他们导入为“系统”用户。'
         what_to_do: "你想做什么？"
         work_package_has_newer_changes: "已过时！此主题未更新，因为服务器上的最新更改比导入主题的“ModifiedDate”更新。但是，已导入该主题的注释。"
   export:

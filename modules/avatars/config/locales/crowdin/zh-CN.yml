@@ -8,8 +8,8 @@ zh-CN:
   error_image_size: "图像太大。"
   button_change_avatar: "更改头像"
   are_you_sure_delete_avatar: "确定要删除头像吗？"
-  avatar_deleted: "头像删除成功。"
-  unable_to_delete_avatar: "头像无法删除。"
+  avatar_deleted: "成功删除头像。"
+  unable_to_delete_avatar: "无法删除头像。"
   wrong_file_format: "允许的格式是 jpg、png、gif"
   empty_file_error: "请上传一张有效的图像（jpg、png、gif）"
   avatars:
@@ -28,7 +28,7 @@ zh-CN:
     text_local_avatar_over_gravatar: |
       如果您设置了一个自定义头像，则此头像将优先于上面的 Gravatar。
     text_your_current_gravatar: |
-      OpenProject 将使用您的 Gravatar（如果已注册）或默认图像或图标（如果存在）。
+      OpenProject 将使用您的 Gravatar（如果已注册）或者默认图像或图标（如果存在）。
       当前头像如下：
     settings:
       enable_gravatars: '启用用户 Gravatar'

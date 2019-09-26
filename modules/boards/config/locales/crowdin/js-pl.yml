@@ -27,7 +27,7 @@ pl:
       add_card: 'Dodaj kartę'
       error_attribute_not_writable: "Nie można przenieść pakietu roboczego, nie można zapisać %{attribute}."
       error_loading_the_list: "Błąd podczas ładowania listy: %{error_message}"
-      error_permission_missing: "The permission to create public queries is missing"
+      error_permission_missing: "Brakuje uprawnienia do tworzenia zapytań publicznych"
       click_to_remove_list: "Kliknij, aby usunąć tę listę"
       board_type:
         free: 'Tablica podstawowa'
@@ -36,10 +36,10 @@ pl:
         action: 'Tablica działania'
         action_by_attribute: 'Tablica działania (%{attribute})'
         action_text: >
-          Create a board with filtered lists on a single attribute. Moving work packages to other lists will update their attribute.
-        select_attribute: "Action attribute"
+          Utwórz tablicę z listami filtrowanymi według jednego atrybutu. Przeniesienie pakietów roboczych na inne listy spowoduje aktualizację ich atrybutu.
+        select_attribute: "Atrybut działania"
       configuration_modal:
-        title: 'Configure this board'
+        title: 'Skonfiguruj tę tablicę'
         display_settings:
-          card_mode: "Display as cards"
-          table_mode: "Display as table"
+          card_mode: "Wyświetlaj jako karty"
+          table_mode: "Wyświetlaj jako tabelę"

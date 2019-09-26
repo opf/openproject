@@ -1,10 +1,10 @@
 ko:
   github_integration:
     pull_request_opened_comment: >
-      **PR Opened:** Pull request %{pr_number} [%{pr_title}](%{pr_url}) for [%{repository}](%{repository_url}) has been opened by [%{github_user}](%{github_user_url}).
+      **PR 열림:** [%{repository}](%{repository_url})에 대한 끌어오기 요청 %{pr_number} [%{pr_title}](%{pr_url})이(가) [%{github_user}](%{github_user_url})님에 의해 열렸습니다.
     pull_request_closed_comment: >
-      **PR Closed:** Pull request %{pr_number} [%{pr_title}](%{pr_url}) for [%{repository}](%{repository_url}) has been closed by [%{github_user}](%{github_user_url}).
+      **PR 닫힘:** [%{repository}](%{repository_url})에 대한 끌어오기 요청 %{pr_number} [%{pr_title}](%{pr_url})이(가) [%{github_user}](%{github_user_url})님에 의해 닫혔습니다.
     pull_request_merged_comment: >
-      **PR Merged:** Pull request %{pr_number} [%{pr_title}](%{pr_url}) for [%{repository}](%{repository_url}) has been merged by [%{github_user}](%{github_user_url}).
+      **PR 병합됨:** [%{repository}](%{repository_url})에 대한 끌어오기 요청 %{pr_number} [%{pr_title}](%{pr_url})이(가) [%{github_user}](%{github_user_url})님에 의해 병합되었습니다.
     pull_request_referenced_comment: >
-      **Referenced in PR:** [%{github_user}](%{github_user_url}) referenced this work package in Pull request %{pr_number} [%{pr_title}](%{pr_url}) on [%{repository}](%{repository_url}).
+      **PR에서 참조됨:** [%{github_user}](%{github_user_url})님이 [%{repository}](%{repository_url})의 끌어오기 요청 %{pr_number} [%{pr_title}](%{pr_url})에서 이 작업 패키지를 참조했습니다.

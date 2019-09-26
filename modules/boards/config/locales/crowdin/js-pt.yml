@@ -5,7 +5,7 @@ pt:
       label_unnamed_list: 'Lista sem nome'
       label_board_type: 'Tipo de quadro'
       upsale:
-        teaser_text: 'Melhore a sua gestão ágil de projetos com esta visualização flexível de Quadros. Crie os quadros que quiser para qualquer coisa que queira acompanhar.'
+        teaser_text: 'Melhore e agilize a sua gestão de projetos com esta visualização flexível de Quadros. Crie os quadros que quiser para qualquer coisa que queira acompanhar.'
         upgrade_to_ee_text: 'Os Quadros são um recurso Empresarial. Por favor atualize para um plano pago.'
         upgrade: 'Atualizar agora'
         personal_demo: 'Obter uma demonstração pessoal'

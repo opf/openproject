@@ -268,7 +268,7 @@ zh-CN:
         account: "帐户"
         attr_firstname: "名字属性"
         attr_lastname: "姓氏属性"
-        attr_login: "Username attribute"
+        attr_login: "用户名属性"
         attr_mail: "电子邮件属性"
         base_dn: "基本 DN"
         host: "主机"
@@ -638,7 +638,7 @@ zh-CN:
     is_public: "公开"
     issue: "工作包"
     lastname: "姓氏"
-    login: "Username"
+    login: "用户名"
     mail: "电子邮件"
     name: "名称"
     password: "密码"
@@ -1986,7 +1986,7 @@ zh-CN:
   setting_display_subprojects_work_packages: "默认在主项目上显示子项目工作包"
   setting_emails_footer: "电子邮件页脚"
   setting_emails_header: "电子邮件标头"
-  setting_email_login: "使用电子邮件登录"
+  setting_email_login: "使用电子邮件作为登录名"
   setting_enabled_scm: "启用 SCM"
   setting_feeds_enabled: "启用Feeds"
   setting_feeds_limit: "Feed内容限制"
@@ -2156,7 +2156,7 @@ zh-CN:
   text_reassign: "重新分配工作包:"
   text_regexp_info: "例如 ^ [A-Z0-9]+$"
   text_regexp_multiline: '以多行模式应用正则表达式，如 ^---\s+'
-  text_repository_usernames_mapping: "选择或更新每个在代码库日志中发现的用户名所映射的 OpenProject 用户。\n与 OpenProject 和代码库用户名或电子邮件相同的用户已被自动更新。"
+  text_repository_usernames_mapping: "选择或更新每个在代码库日志中发现的用户名所映射到的 OpenProject 用户。\n使用相同 OpenProject 和代码库用户名或电子邮件的用户已被自动映射。"
   text_select_mail_notifications: "选择邮件通知应该被发送的动作。"
   text_status_changed_by_changeset: "被实施在变更集 %{value} 中。"
   text_table_difference_description: "此表单展现了单个%{entries}。您可以先选择多选框，再点击表单下方的按钮来比较两项之间的差异。"
@@ -2346,7 +2346,7 @@ zh-CN:
     旧邀请电子邮件过期或用户未收到之前的电子邮件时，再发送一封邀请电子邮件。也可由活跃用户用于选择新的身份验证方法。活跃用户使用时，状态会更改为“已邀请”。
   tooltip:
     setting_email_login: >
-      如果启用，用户将无法在注册时选择登录方式。将使用用户指定的电子邮件地址登录。管理员仍然可以单独更改登录方式。
+      如果启用，用户将无法在注册时选择登录名。将使用用户指定的电子邮件地址作为登录名。管理员仍然可以单独更改登录名。
   queries:
     apply_filter: 应用预配置筛选器
   top_menu:
