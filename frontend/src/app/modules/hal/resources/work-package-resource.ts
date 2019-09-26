@@ -46,6 +46,7 @@ import {NotificationsService} from 'core-app/modules/common/notifications/notifi
 import {Attachable} from 'core-app/modules/hal/resources/mixins/attachable-mixin';
 import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
+import {State} from "reactivestates";
 
 export interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
@@ -335,6 +336,10 @@ export class WorkPackageBaseResource extends HalResource {
     }
 
     return state.value!;
+  }
+
+  public get state() {
+    return this.states.workPackages.get(this.id!) as any;
   }
 
   public get hasOverriddenSchema():boolean {
