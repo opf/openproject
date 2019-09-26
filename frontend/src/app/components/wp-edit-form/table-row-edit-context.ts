@@ -32,7 +32,7 @@ import {States} from '../states.service';
 import {CellBuilder, editCellContainer, tdClassName} from '../wp-fast-table/builders/cell-builder';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 import {WorkPackageTable} from 'core-components/wp-fast-table/wp-fast-table';
-import {WorkPackageEditingPortalService} from "core-app/modules/fields/edit/editing-portal/wp-editing-portal-service";
+import {EditingPortalService} from "core-app/modules/fields/edit/editing-portal/editing-portal-service";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {editModeClassName} from "core-app/modules/fields/edit/edit-field.component";
 import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
@@ -46,7 +46,7 @@ export class TableRowEditContext implements EditContext {
   public wpTableColumns:WorkPackageViewColumnsService = this.injector.get(WorkPackageViewColumnsService);
   public states:States = this.injector.get(States);
   public FocusHelper:FocusHelperService = this.injector.get(FocusHelperService);
-  public wpEditingPortalService:WorkPackageEditingPortalService = this.injector.get(WorkPackageEditingPortalService);
+  public editingPortalService:EditingPortalService = this.injector.get(EditingPortalService);
 
   // other fields
   public successState:string;
@@ -83,7 +83,7 @@ export class TableRowEditContext implements EditContext {
         td.css('max-width', width + 'px');
         td.css('width', width + 'px');
 
-        return this.wpEditingPortalService.create(
+        return this.editingPortalService.create(
           cell,
           this.injector,
           form,

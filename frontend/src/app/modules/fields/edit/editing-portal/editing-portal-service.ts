@@ -13,7 +13,7 @@ import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit
 import {HalResourceEditFieldHandler} from "core-app/modules/fields/edit/field-handler/hal-resource-edit-field-handler";
 
 @Injectable()
-export class WorkPackageEditingPortalService {
+export class EditingPortalService {
 
   constructor(private readonly appRef:ApplicationRef,
               private readonly componentFactoryResolver:ComponentFactoryResolver,

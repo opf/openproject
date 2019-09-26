@@ -41,7 +41,7 @@ import {SelectEditFieldComponent} from "core-app/modules/fields/edit/field-types
 import {FormattableEditFieldComponent} from "core-app/modules/fields/edit/field-types/formattable-edit-field.component";
 import {TextEditFieldComponent} from "core-app/modules/fields/edit/field-types/text-edit-field.component";
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
-import {WorkPackageEditingPortalService} from "core-app/modules/fields/edit/editing-portal/wp-editing-portal-service";
+import {EditingPortalService} from "core-app/modules/fields/edit/editing-portal/editing-portal-service";
 import {EditFormPortalComponent} from "core-app/modules/fields/edit/editing-portal/edit-form-portal.component";
 import {EditFieldControlsComponent,} from "core-app/modules/fields/edit/field-controls/edit-field-controls.component";
 import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-a11y.module";
@@ -67,7 +67,7 @@ import {EditFieldGroupComponent} from "core-app/modules/fields/edit/edit-field-g
     EditFieldGroupComponent,
   ],
   providers: [
-    WorkPackageEditingPortalService,
+    EditingPortalService,
     UserFieldPortalService,
     DisplayFieldService,
     EditFieldService,

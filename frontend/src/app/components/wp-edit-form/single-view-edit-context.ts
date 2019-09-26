@@ -33,7 +33,7 @@ import {States} from '../states.service';
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {Injector} from '@angular/core';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
-import {WorkPackageEditingPortalService} from "core-app/modules/fields/edit/editing-portal/wp-editing-portal-service";
+import {EditingPortalService} from "core-app/modules/fields/edit/editing-portal/editing-portal-service";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {EditForm} from "core-app/modules/fields/edit/edit-form/edit-form";
 import {EditContext} from "core-app/modules/fields/edit/edit-form/edit-context";
@@ -47,7 +47,7 @@ export class SingleViewEditContext implements EditContext {
   public FocusHelper:FocusHelperService = this.injector.get(FocusHelperService);
   public $state:StateService = this.injector.get(StateService);
   public halNotification:HalResourceNotificationService = this.injector.get(HalResourceNotificationService);
-  public wpEditingPortalService:WorkPackageEditingPortalService = this.injector.get(WorkPackageEditingPortalService);
+  public editingPortalService:EditingPortalService = this.injector.get(EditingPortalService);
 
   // other fields
   public successState:string;
@@ -60,7 +60,7 @@ export class SingleViewEditContext implements EditContext {
     return this.fieldCtrl(fieldName).then((ctrl) => {
       ctrl.setActive(true);
       const container = ctrl.editContainer.nativeElement;
-      return this.wpEditingPortalService.create(
+      return this.editingPortalService.create(
         container,
         this.injector,
         form,
