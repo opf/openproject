@@ -27,16 +27,16 @@
 // ++
 
 import {Field, IFieldSchema} from "core-app/modules/fields/field.base";
-import {WorkPackageChangeset} from "core-components/wp-edit-form/work-package-changeset";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {DisplayFieldContext} from "core-app/modules/fields/display/display-field.service";
+import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 
 export const cssClassCustomOption = 'custom-option';
 
 export class DisplayField extends Field {
   public static type:string;
   public mode:string | null = null;
-  public changeset:WorkPackageChangeset|null = null;
+  public activeChange:WorkPackageChangeset|null = null;
 
   protected I18n:I18nService = this.$injector.get(I18nService);
 
@@ -77,8 +77,8 @@ export class DisplayField extends Field {
       return null;
     }
 
-    if (this.changeset) {
-      return this.changeset.value(this.name);
+    if (this.activeChange) {
+      return this.activeChange.projectedResource[this.name];
     }
     else {
       return this.attribute;

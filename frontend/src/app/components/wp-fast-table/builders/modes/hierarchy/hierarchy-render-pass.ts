@@ -1,15 +1,18 @@
 import {Injector} from '@angular/core';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {States} from '../../../../states.service';
-import {ancestorClassIdentifier, hierarchyGroupClass} from '../../../helpers/wp-table-hierarchy-helpers';
-import {WorkPackageTable} from '../../../wp-fast-table';
-import {WorkPackageTableRow} from '../../../wp-table.interfaces';
-import {PrimaryRenderPass, RowRenderInfo} from '../../primary-render-pass';
 import {additionalHierarchyRowClassName, SingleHierarchyRowBuilder} from './single-hierarchy-row-builder';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
+import {PrimaryRenderPass, RowRenderInfo} from "core-components/wp-fast-table/builders/primary-render-pass";
+import {States} from "core-components/states.service";
+import {WorkPackageTable} from "core-components/wp-fast-table/wp-fast-table";
+import {WorkPackageTableRow} from "core-components/wp-fast-table/wp-table.interfaces";
+import {
+  ancestorClassIdentifier,
+  hierarchyGroupClass
+} from "core-components/wp-fast-table/helpers/wp-table-hierarchy-helpers";
 import {WorkPackageViewHierarchies} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-hierarchies";
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
 
 export class HierarchyRenderPass extends PrimaryRenderPass {
 
@@ -172,8 +175,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
 
     // Iterate ancestors
     ancestors.forEach((el:WorkPackageResource, index:number) => {
-      const ancestor = this.states.workPackages.get(el.id!).value!;
-
+      const ancestor = this.states.workPackages.get(el.id!).getValueOr(el);
 
       // If we see the parent the first time,
       // build it as an additional row and insert it into the ancestry

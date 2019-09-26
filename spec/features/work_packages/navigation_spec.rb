@@ -210,4 +210,22 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
       wp_display.expect_state 'Table'
     end
   end
+
+  context 'work package with an attachment' do
+    let!(:attachment) { FactoryBot.build(:attachment, filename: 'attachment-first.pdf') }
+    let!(:wp_with_attachment) do
+      FactoryBot.create :work_package, subject: 'WP attachment A', project: project, attachments: [attachment]
+    end
+
+    it 'will show it when navigating from table to single view' do
+      wp_table = Pages::WorkPackagesTable.new project
+      wp_table.visit!
+
+      wp_table.expect_work_package_listed wp_with_attachment
+      full_view = wp_table.open_full_screen_by_link wp_with_attachment
+
+      full_view.ensure_page_loaded
+      expect(page).to have_selector('.work-package--attachments--filename', text: 'attachment-first.pdf', wait: 10)
+    end
+  end
 end

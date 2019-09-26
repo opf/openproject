@@ -1,13 +1,13 @@
 pt:
-  export_to_excel: "Export as Excel spreadsheet"
-  print_with_description: "Print preview with description"
+  export_to_excel: "Exportar como folha Excel"
+  print_with_description: "Imprimir visualização com descrição"
   sentence_separator_or: "ou"
-  different_formats: Different formats
+  different_formats: Diferentes formatos
   export:
     format:
       xls: "XLS"
-      xls_with_descriptions: "XLS with descriptions"
-      xls_with_relations: "XLS with relations"
+      xls_with_descriptions: "XLS com descrições"
+      xls_with_relations: "XLS com relações"
   xls_export:
-    child_of: child of
-    parent_of: parent of
+    child_of: filho de
+    parent_of: pai de

@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Inject, Injector, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Injector, Input, OnDestroy, OnInit} from '@angular/core';
 import {StateService, Transition, TransitionService} from '@uirouter/core';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {WorkPackageEditFieldComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.component';
@@ -42,8 +42,6 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {WorkPackageNotificationService} from '../wp-notification.service';
 import {WorkPackageCreateService} from './../../wp-new/wp-create.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {IWorkPackageEditingServiceToken} from "../../wp-edit-form/work-package-editing.service.interface";
-import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 
 @Component({
@@ -62,8 +60,8 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
 
   constructor(protected states:States,
               protected injector:Injector,
-              @Inject(IWorkPackageCreateServiceToken) protected wpCreate:WorkPackageCreateService,
-              @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService,
+              protected wpCreate:WorkPackageCreateService,
+              protected wpEditing:WorkPackageEditingService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected wpTableSelection:WorkPackageViewSelectionService,
               protected wpTableFocus:WorkPackageViewFocusService,
@@ -106,14 +104,6 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const context = new SingleViewEditContext(this.injector, this);
     this.form = WorkPackageEditForm.createInContext(this.injector, context, this.workPackage, this.initializeEditMode);
-    this.states.workPackages.get(this.workPackage.id!)
-      .values$()
-      .pipe(
-        takeUntil(componentDestroyed(this)),
-      )
-      .subscribe((wp) => {
-        _.each(this.fields, (ctrl) => this.updateDisplayField(ctrl, wp));
-      });
 
     if (this.initializeEditMode) {
       this.start();
@@ -145,15 +135,10 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
     this.registeredFields.putValue(_.keys(this.fields));
 
     const shouldActivate =
-      (this.editMode && !this.skipField(field) || this.form.activeFields[field.fieldName])
+      (this.editMode && !this.skipField(field) || this.form.activeFields[field.fieldName]);
 
     if (shouldActivate) {
       field.activateOnForm(true);
-    } else {
-      this.states.workPackages
-        .get(this.workPackage.id!)
-        .valuesPromise()
-        .then(wp => this.updateDisplayField(field, wp!));
     }
   }
 
@@ -203,11 +188,6 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
     }
   }
 
-  private updateDisplayField(field:WorkPackageEditFieldComponent, wp:WorkPackageResource) {
-    field.workPackage = wp;
-    field.render();
-  }
-
   private skipField(field:WorkPackageEditFieldComponent) {
     const fieldName = field.fieldName;
 
@@ -219,8 +199,8 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
     }
 
     // Only skip if value present and not changed in changeset
-    const hasDefault = this.workPackage[fieldName]
-    const changed = this.form.changeset.isChanged(fieldName);
+    const hasDefault = this.workPackage[fieldName];
+    const changed = this.form.change.changes[fieldName];
 
     return hasDefault && !changed;
   }

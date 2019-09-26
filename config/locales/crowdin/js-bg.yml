@@ -20,7 +20,7 @@ bg:
     button_back_to_list_view: "Back to list view"
     button_cancel: "Отказ"
     button_close: "Close"
-    button_change_project: "Change project"
+    button_change_project: "Промяна на проект"
     button_check_all: "Избери всички"
     button_configure-form: "Configure form"
     button_confirm: "Confirm"
@@ -41,8 +41,8 @@ bg:
     button_open_details: "Отвори детайлен изглед"
     button_close_details: "Close details view"
     button_open_fullscreen: "Отвори на цял екран"
-    button_show_cards: "Show card view"
-    button_show_list: "Show list view"
+    button_show_cards: "Показване на изглед карта"
+    button_show_list: "Показване на изглед списък"
     button_quote: "Цитат"
     button_save: "Запази"
     button_settings: "Настройки"
@@ -52,7 +52,7 @@ bg:
     button_export-atom: "Свали Atom"
     calendar:
       title: 'Календар'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
+      too_many: 'Общо има %{count} работни пакети, но могат да бъдат показани само %{max}.'
     card:
       add_new: 'Add new card'
       highlighting:
@@ -63,7 +63,7 @@ bg:
       browser_error: "Вашият браузър не поддържа копиране в клипборд. Моля копирайте избрания текст ръчно."
       copied_successful: "Копирането в клипборд е успешно!"
     chart:
-      type: 'Chart type'
+      type: 'Тип на диаграмата'
       axis_criteria: 'Axis criteria'
       modal_title: 'Work package graph configuration'
       types:

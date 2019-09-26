@@ -33,12 +33,13 @@ import {Subscription} from 'rxjs';
 import {States} from '../states.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
-import {WorkPackageChangeset} from './work-package-changeset';
 import {WorkPackageEditContext} from './work-package-edit-context';
 import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
-import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
+import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
+import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
+import {FormResource} from "core-app/modules/hal/resources/form-resource";
 
 export const activeFieldContainerClassName = 'wp-inline-edit--active-field';
 export const activeFieldClassName = 'wp-inline-edit--field';
@@ -47,7 +48,7 @@ export class WorkPackageEditForm {
   // Injections
   public states:States = this.injector.get(States);
   public wpCacheService = this.injector.get(WorkPackageCacheService);
-  public wpEditing = this.injector.get(IWorkPackageEditingServiceToken);
+  public wpEditing = this.injector.get(WorkPackageEditingService);
   public wpNotificationsService = this.injector.get(WorkPackageNotificationService);
   public wpEvents = this.injector.get(WorkPackageEventsService);
 
@@ -94,13 +95,13 @@ export class WorkPackageEditForm {
 
 
   /**
-   * Return the current or a new changeset for the given work package.
-   * This will always return a valid (potentially empty) changeset.
+   * Return the current or a new change object for the given work package.
+   * This will always return a valid (potentially empty) change.
    *
    * @return {WorkPackageChangeset}
    */
-  public get changeset():WorkPackageChangeset {
-    return this.wpEditing.changesetFor(this.workPackage);
+  public get change():WorkPackageChangeset {
+    return this.wpEditing.changeFor(this.workPackage);
   }
 
   /**
@@ -139,7 +140,7 @@ export class WorkPackageEditForm {
    * Activate all fields that are returned in validation errors
    */
   public activateMissingFields() {
-    this.changeset.getForm().then((form:any) => {
+    this.change.getForm().then((form:any) => {
       _.each(form.validationErrors, (val:any, key:string) => {
         if (key === 'id') {
           return;
@@ -154,9 +155,7 @@ export class WorkPackageEditForm {
    * @return {any}
    */
   public async submit():Promise<WorkPackageResource> {
-    const isInitial = this.workPackage.isNew;
-
-    if (this.changeset.empty && !isInitial) {
+    if (this.change.isEmpty() && !this.workPackage.isNew) {
       this.closeEditFields();
       return Promise.resolve(this.workPackage);
     }
@@ -171,17 +170,17 @@ export class WorkPackageEditForm {
     await Promise.all(_.map(this.activeFields, (handler:WorkPackageEditFieldHandler) => handler.onSubmit()));
 
     return new Promise<WorkPackageResource>((resolve, reject) => {
-      this.changeset.save()
-        .then(savedWorkPackage => {
+      this.wpEditing.save(this.change)
+        .then(result => {
           // Close all current fields
           this.closeEditFields(openFields);
 
-          resolve(savedWorkPackage);
+          resolve(result.workPackage);
 
-          this.wpNotificationsService.showSave(savedWorkPackage, isInitial);
+          this.wpNotificationsService.showSave(result.workPackage, result.wasNew);
           this.editMode = false;
-          this.editContext.onSaved(isInitial, savedWorkPackage);
-          this.wpEvents.push({ type: 'updated', id: savedWorkPackage.id! });
+          this.editContext.onSaved(result.wasNew, result.workPackage);
+          this.wpEvents.push({ type: 'updated', id: result.workPackage.id! });
         })
         .catch((error:ErrorResource|Object) => {
           this.wpNotificationsService.handleRawError(error, this.workPackage);
@@ -221,7 +220,7 @@ export class WorkPackageEditForm {
     fields.forEach((name:string) => {
       const handler = this.activeFields[name];
       handler && handler.deactivate();
-      this.changeset.reset(name);
+      this.change.reset(name);
     });
   }
 
@@ -275,11 +274,11 @@ export class WorkPackageEditForm {
    * @param fieldName
    */
   private loadFieldSchema(fieldName:string, noWarnings:boolean = false):Promise<IFieldSchema> {
-    const schemaName = this.changeset.getSchemaName(fieldName);
+    const schemaName = this.workPackage.getSchemaName(fieldName);
 
     return new Promise((resolve, reject) => {
       this.loadFormAndCheck(schemaName, noWarnings);
-      const fieldSchema:IFieldSchema = this.changeset.schema[schemaName];
+      const fieldSchema:IFieldSchema = this.change.schema[schemaName];
 
       if (!fieldSchema) {
         throw new Error();
@@ -295,10 +294,10 @@ export class WorkPackageEditForm {
    * @param noWarnings
    */
   private loadFormAndCheck(fieldName:string, noWarnings:boolean = false) {
-    const schemaName = this.changeset.getSchemaName(fieldName);
+    const schemaName = this.workPackage.getSchemaName(fieldName);
 
     // Ensure the form is being loaded if necessary
-    this.changeset
+    this.change
       .getForm()
       .then((form) => {
         // Look up whether we're actually editable

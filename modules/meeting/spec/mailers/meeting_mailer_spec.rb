@@ -40,7 +40,7 @@ describe MeetingMailer, type: :mailer do
   end
 
   describe 'content_for_review' do
-    let(:mail) { MeetingMailer.content_for_review meeting_agenda, 'agenda', author.mail }
+    let(:mail) { MeetingMailer.content_for_review meeting_agenda, 'agenda', author }
     # this is needed to call module functions from Redmine::I18n
     let(:i18n) do
       class A
@@ -63,6 +63,20 @@ describe MeetingMailer, type: :mailer do
 
     it 'renders the html body' do
       check_meeting_mail_content mail.html_part.body
+    end
+
+    context 'with a recipient with another time zone' do
+      let!(:preference) { FactoryBot.create(:user_preference, user: watcher1, time_zone: 'Asia/Tokyo') }
+      let(:mail) { MeetingMailer.content_for_review meeting_agenda, 'agenda', watcher1 }
+
+      it 'renders the mail with the correcet locale' do
+        expect(mail.text_part.body).to include('Tokyo')
+        expect(mail.text_part.body).to include('GMT+09:00')
+        expect(mail.html_part.body).to include('Tokyo')
+        expect(mail.html_part.body).to include('GMT+09:00')
+        
+        expect(mail.to).to match_array([watcher1.mail])
+      end
     end
   end
 

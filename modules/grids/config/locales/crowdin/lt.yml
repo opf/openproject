@@ -2,13 +2,13 @@ lt:
   activerecord:
     attributes:
       grids/grid:
-        page: "Page"
-        row_count: "Number of rows"
-        column_count: "Number of columns"
-        widgets: "Widgets"
+        page: "Puslapis"
+        row_count: "Eilučių skaičius"
+        column_count: "Stulpelių skaičius"
+        widgets: "Valdikliai"
     errors:
       models:
         grids/grid:
-          overlaps: 'overlap.'
-          outside: 'is outside of the grid.'
-          end_before_start: 'end value needs to be larger than the start value.'
+          overlaps: 'persidengia.'
+          outside: 'yra už tinklelio.'
+          end_before_start: 'pabaigos reikšmė turi būti didesnė už pradžios reikšmę.'

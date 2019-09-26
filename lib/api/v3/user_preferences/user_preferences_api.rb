@@ -40,7 +40,6 @@ module API
           end
 
           after_validation do
-            fail ::API::Errors::Unauthenticated unless current_user.logged?
             @preferences = current_user.pref
           end
 
@@ -49,6 +48,8 @@ module API
           end
 
           patch do
+            fail ::API::Errors::Unauthenticated unless current_user.logged?
+
             representer = represent_preferences
             representer.from_hash(request_body)
 

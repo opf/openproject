@@ -33,9 +33,9 @@ lt:
     button_duplicate: "Dublikuoti"
     button_edit: "Redaguoti"
     button_filter: "Filtras"
-    button_advanced_filter: "Advanced filter"
+    button_advanced_filter: "Sudėtingesnis filtras"
     button_list_view: "Sąrašo rodinys"
-    button_show_view: "Fullscreen view"
+    button_show_view: "Viso ekrano rodinys"
     button_log_time: "Registruoti laiką"
     button_more: "Daugiau"
     button_open_details: "Atidaryti detalesnį vaizdą"
@@ -54,14 +54,14 @@ lt:
       title: 'Kalendorius'
       too_many: 'Iš viso yra %{count} darbo paketų, bet tik %{max} gali būti rodomi.'
     card:
-      add_new: 'Add new card'
+      add_new: 'Pridėti naują kortelę'
       highlighting:
         inline: 'Highlight inline:'
         entire_card_by: 'Entire card by'
-      remove_from_list: 'Remove card from list'
+      remove_from_list: 'Išimti kortelę iš sąrašo'
     clipboard:
-      browser_error: "Your browser doesn't support copying to clipboard. Please copy the selected text manually."
-      copied_successful: "Sucessfully copied to clipboard!"
+      browser_error: "Jūsų naršyklė nepalaiko kopijavimo į iškarpinę. Prašome pažymėtą tekstą nukopijuoti rankiniu būdu."
+      copied_successful: "Sėkmingai nukopijuota į iškarpinę!"
     chart:
       type: 'Grafiko tipas'
       axis_criteria: 'Ašies kriterijus'
@@ -80,7 +80,7 @@ lt:
       errors:
         could_not_load: 'Nepavyko įkelti duomenų rodymui. Galbūt trūksta reikiamų teisių.'
     description_available_columns: "Galimi stulpeliai"
-    description_current_position: "You are here: "
+    description_current_position: "Jūs esate čia: "
     description_select_work_package: "Pasirinkite darbų paketą #%{id}"
     description_selected_columns: "Pasirinkti stulpeliai"
     description_subwork_package: "Darbų paketo vaikas #%{id}"
@@ -109,8 +109,8 @@ lt:
         dropdown:
           macros: 'Makrokomandos'
           chose_macro: 'Pasirinkite makrokomandą'
-        toc: 'Table of contents'
-        toolbar_help: 'Click to select widget and show the toolbar. Double-click to edit widget'
+        toc: 'Turinys'
+        toolbar_help: 'Spauskite, kad parinktum4te valdiklį ir rodytumėte įrankinę. Dvigubas paspaudimas valdiklio redagavimui'
         wiki_page_include:
           button: 'Įterpti kito wiki puslapio turinį'
           text: '[Placeholder] Įterptas wiki puslapis'
@@ -122,13 +122,13 @@ lt:
         work_package_button:
           button: 'Įterpti „sukurti darbų paketą“ mygtuką'
           type: 'Darbų paketo tipas'
-          button_style: 'Use button style'
-          button_style_hint: 'Optional: Check to make macro appear as a button, not as a link.'
-          without_type: 'Create work package'
-          with_type: 'Create work package (Type: %{typename})'
+          button_style: 'Naudoti mygtukų stilių'
+          button_style_hint: 'Pasirinktinai: įjunkite, kad makro būtų rodomas kaip mygtukas, o ne kaip nuoroda.'
+          without_type: 'Kurti darbo paketą'
+          with_type: 'Kurti darbo paketą (Tipas: %{typename})'
         embedded_table:
-          button: 'Embed work package table'
-          text: '[Placeholder] Embedded work package table'
+          button: 'Įterpti darbo paketų lentelę'
+          text: '[Placeholder] Įterpta darbo paketų lentelė'
         embedded_calendar:
           text: '[Placeholder] Įterptinis kalendorius'
     admin:
@@ -136,8 +136,8 @@ lt:
         custom_field: 'Kliento laukelis'
         inactive: 'Neaktyvus'
         drag_to_activate: "Vilkite laukelius iš čia, kad juos aktyvuotumėte"
-        add_group: "Add attribute group"
-        add_table: "Add table of related work packages"
+        add_group: "Pridėti atributų grupę"
+        add_table: "Pridėti susijusių darbų paketų lentelę"
         edit_query: 'Keisti užklausą'
         new_group: 'Nauja grupė'
         reset_to_defaults: 'Atkurti į numatytuosius'
@@ -147,9 +147,9 @@ lt:
         current_date: 'Dabartinė data'
     error:
       internal: "Įvyko vidinė klaida."
-      cannot_save_changes_with_message: "Cannot save your changes due to the following error: %{error}"
-      query_saving: "The view could not be saved."
-      embedded_table_loading: "The embedded view could not be loaded: %{message}"
+      cannot_save_changes_with_message: "Nepavyko įrašyti jūsų pakeitimų dėl šios klaidos: %{error}"
+      query_saving: "Nepavyko įrašyti rodinio."
+      embedded_table_loading: "Nepavyko įkelti įdėti rodinio: %{message}"
     filter:
       description:
         text_open_filter: "Atverkite šį filtrą su 'ALT' ir krypčių klavišais."
@@ -174,20 +174,20 @@ lt:
     homescreen:
       blocks:
         new_features:
-          text_new_features: "Read about new features and product updates."
-          current_new_feature_html: "OpenProject contains a new <b>Boards view</b> for Agile project management. </br> To activate this new feature for your existing projects, please do the following steps: <ul><li>Activate the module Boards within existing projects' settings.</li> <li>Configure your Boards in a project.</li> <li>Verify roles and permissions</li></ul>"
-          image_alt_text: "Board teaser image"
-          learn_about: "Learn more about Agile Boards"
+          text_new_features: "Skaitykite apie naujas savybes ir produkto atnaujinimus."
+          current_new_feature_html: "OpenProject yra naujas <b>Lentų rodinys</b> skirtas Agile projektų valdymui. </br> Norėdami aktyvuoti šią naują savybę esamiems projektams: <ul><li>Aktyvuokite modulį Lentos esamų projektų nustatymuose.</li> <li>Sukonfigūruokite jūsų Lentas projekte.</li> <li>Patikrinkite roles ir teises</li></ul>"
+          image_alt_text: "Lentos iliustracija"
+          learn_about: "Sužinokite daugiau apie Agile Lentas"
     label_activate: "Aktyvuoti"
     label_activity_no: "Veiklos įrašo numeris %{activityNo}"
     label_activity_with_comment_no: "Veiklos įrašo numeris %{activityNo}. Turintis vartotojo komentarą."
-    label_add_column_after: "Add column after"
-    label_add_column_before: "Add column before"
+    label_add_column_after: "Pridėti stulpelį po"
+    label_add_column_before: "Pridėti stulpelį prieš"
     label_add_columns: "Pridėti stulpelių"
     label_add_comment: "Pridėti komentarą"
     label_add_comment_title: "Komentuokite ir įveskite @, kad praneštumėte kitiems žmonėms"
-    label_add_row_after: "Add row after"
-    label_add_row_before: "Add row before"
+    label_add_row_after: "Pridėti eilutę po"
+    label_add_row_before: "Pridėti eilutę prieš"
     label_add_selected_columns: "Pridėti pažymėtus stulpelius"
     label_added_by: "pridėta"
     label_added_time_by: "Pridėta %{author} %{age}"
@@ -198,9 +198,9 @@ lt:
     label_ascending: "Didėjančia tvarka"
     label_author: "Autorius: %{user}"
     label_between: "tarp"
-    label_board: "Board"
+    label_board: "Lenta"
     label_board_locked: "Užrakinta"
-    label_board_plural: "Boards"
+    label_board_plural: "Lentos"
     label_board_sticky: "Lipnus"
     label_create: "Sukurti"
     label_create_work_package: "Sukurti naują darbų paketą"
@@ -226,7 +226,7 @@ lt:
     label_expand: "Išskleisti"
     label_expanded: "išskleistas"
     label_expand_all: "Išskleisti visus"
-    label_expand_project_menu: "Expand project menu"
+    label_expand_project_menu: "Išplėsti projekto meniu"
     label_export: "Eksportuoti"
     label_filename: "Byla"
     label_filesize: "Dydis"
@@ -235,12 +235,12 @@ lt:
     label_group_by: "Grupuoti pagal"
     label_hide_attributes: "Rodyti mažiau"
     label_hide_column: "Slėpti stulpelį"
-    label_hide_project_menu: "Collapse project menu"
+    label_hide_project_menu: "Sutraukti projekto meniu"
     label_in: " "
     label_in_less_than: "mažiau nei"
     label_in_more_than: "daugiau nei"
-    label_import: "Import"
-    label_latest_activity: "Latest activity"
+    label_import: "Importuoti"
+    label_latest_activity: "Paskutinė veikla"
     label_last_updated_on: "Paskiausias atnaujinimas"
     label_less_or_equal: "<="
     label_less_than_ago: "mažiau nei prieš dieną"
@@ -259,7 +259,7 @@ lt:
     label_not_equals: "nėra"
     label_on: "įjungta"
     label_open_menu: "Atidaryti meniu"
-    label_open_context_menu: "Open context menu"
+    label_open_context_menu: "Atverti kontekstinį meniu"
     label_open_work_packages: "atidarytas"
     label_password: "Slaptažodis"
     label_previous: "Ankstesnis"
@@ -268,14 +268,14 @@ lt:
     label_visibility_settings: "Matomumo nustatymai"
     label_quote_comment: "Cituoti šį komentarą"
     label_reset: "Nustatyti iš naujo"
-    label_remove_column: "Remove column"
+    label_remove_column: "Išimti stulpelį"
     label_remove_columns: "Pašalinti pažymėtus stulpelius"
-    label_remove_row: "Remove row"
+    label_remove_row: "Išimti eilutę"
     label_save_as: "Išsaugoti kaip"
     label_select_watcher: "Parinkti stebėtoją..."
     label_selected_filter_list: "Parinkti filtrus"
     label_show_attributes: "Rodyti visus atributus"
-    label_show_in_menu: "Show view in menu"
+    label_show_in_menu: "Rodyti rodinį meniu"
     label_sort_by: "Rūšiuoti pagal"
     label_sorted_by: "surikiuota pagal"
     label_sort_higher: "Perkelti aukštyn"
@@ -293,7 +293,7 @@ lt:
     label_activity_show_only_comments: "Rodyti veiklą tik su komentarais"
     label_activity_show_all: "Rodyti visus atributus"
     label_total_progress: "%{percent} % įvykdyta"
-    label_total_amount: "Total: %{amount}"
+    label_total_amount: "Iš viso: %{amount}"
     label_updated_on: "atnaujintas"
     label_value_derived_from_children: "(value derived from children)"
     label_warning: "Įspėjimas"
@@ -324,7 +324,7 @@ lt:
     label_add_description: "Pridėti %{file} aprašymą"
     label_upload_notification: "Įkeliu failus..."
     label_work_package_upload_notification: "Įkelti failus darbų paketui #%{id}: %{subject}"
-    label_wp_id_added_by: "#%{id} added by %{author}"
+    label_wp_id_added_by: "#%{id} pridėjo %{author}"
     label_files_to_upload: "Šie failai bus įkelti:"
     label_rejected_files: "Negalima įkelti šių failų:"
     label_rejected_files_reason: "Šių failų neįmanoma nusiųsti, nes jų dydis yra didesnis nei %{maximumFilesize}"
@@ -336,7 +336,7 @@ lt:
       show_modal: 'Rodyti atributo pagalbos teksto įrašą'
     onboarding:
       buttons:
-        skip: 'Skip'
+        skip: 'Praleisti'
         next: 'Kitas'
         got_it: 'Supratau'
       steps:
@@ -348,7 +348,7 @@ lt:
         wiki: '<b>Wiki</b>''yje galite dokumentuoti ir dalintis žiniomis su savo komandos nariais.'
         backlogs:
           overview: "Manage your work in the <b>Backlogs</b> view. <br> On the right you have the Product Backlog or a Bug Backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag'n'drop and add them to a sprint."
-          task_board_arrow: 'To see your <b>Task board</b>, open the Sprint drop-down...'
+          task_board_arrow: 'Norėdami matyti jūsų <b>Užduočių lentą</b>, atverkite Sprinto iškrentantį meniu...'
           task_board_select: '... ir pasirinkite <b>Task board</b> elementą.'
           task_board: "<b>Darbo lenta</b> rodo pažangą šiame sprinte. Pridėkite naujas užduotis ar kliūtis spausdami + piktogramą šalia vartotojo istorija. Naudodami drag'n'drop, jūs galite pakeisti būseną."
         boards:
@@ -513,7 +513,7 @@ lt:
       button_deactivate: 'Paslėpti Gantto diagramą'
       cancel: Atšaukti
       change: "Pakeisti planavime"
-      due_date: "Finish date"
+      due_date: "Pabaigos data"
       empty: "(tuščia)"
       error: "Įvyko klaida."
       errors:
@@ -601,7 +601,7 @@ lt:
       label_enable_multi_select: "Įgalinti daugybinį pažymėjimą"
       label_disable_multi_select: "Išjungti daugybinį pažymėjimą"
       label_filter_add: "Pridėti filtrą"
-      label_filter_by_text: "Filter by text"
+      label_filter_by_text: "Filtruoti pagal tekstą"
       label_options: "Nustatymai"
       label_column_multiselect: "Kombinuotas išplečiamojo sąrašo laukas: pasirinkite rodyklių mygtukais, patvirtinkite pasirinkimą su Enter mygtuku, ištrinkite su Backspace"
       message_error_during_bulk_delete: Įvyko klaida bandant naikinti darbų paketą.
@@ -611,7 +611,7 @@ lt:
       message_work_package_read_only: "Šioje būsenoje darbų paketas yra užrakintas. Negali būti keičiamas joks atributas, išskyrus būseną."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
       no_value: "Nenurodytas dydis"
-      placeholder_filter_by_text: "Subject, description, comments, ..."
+      placeholder_filter_by_text: "Tema, aprašymas, komentarai, ..."
       inline_create:
         title: 'Paspauskite čia, kad pridėtumėte į sąrašą naują darbų paketą'
       create:
@@ -647,7 +647,7 @@ lt:
         createdAt: "Sukurta"
         description: "Aprašymas"
         date: "Data"
-        dueDate: "Finish date"
+        dueDate: "Pabaigos data"
         estimatedTime: "Numatyta trukmė"
         spentTime: "Praleista laiko"
         category: "Kategorija"
@@ -664,7 +664,7 @@ lt:
         versionName: "Versija"
         version: "Versija"
       default_queries:
-        latest_activity: "Latest activity"
+        latest_activity: "Paskutinė veikla"
         created_by_me: "Sukūriau pats"
         assigned_to_me: "Priskirti man"
         recently_created: "Neseniai sukurti"
@@ -718,7 +718,7 @@ lt:
         display_settings: 'Rodymo nustatymai'
         default_mode: "Paprastas sąrašas"
         hierarchy_mode: "Hierarchija"
-        hierarchy_hint: "All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed."
+        hierarchy_hint: "Visi filtruoti lentelės rezultatai bus papildyti savo tėvais. Hierarchijas galima išplėsti ir sutraukti."
         display_sums_hint: "Rodyti visų sumuotinų atributų sumas eilutėje lentelės apačioje po rezultatais."
         show_timeline_hint: "Parodyti interaktyvią gantt schemą dešinėje lentelės pusėje. Jūs galite keisti šios schemos plotį stumdydami skyriklį tarp lentelės ir schemos."
         highlighting: 'Paryškinimai'
@@ -819,7 +819,7 @@ lt:
         messages_on_field: 'Šio laukelio reikšmė netinkama: %{messages}'
     error_could_not_resolve_version_name: "Nepavyko nustatyti versijos pavadinimo"
     error_could_not_resolve_user_name: "Nepavyko nustatyti vartotojo vardo"
-    error_attachment_upload: "File failed to upload: %{error}"
+    error_attachment_upload: "Nepavyko įkelti: %{error}"
     error_attachment_upload_permission: "Jūs neturite teisės įkelti failus į šį resursą."
     units:
       workPackage:
@@ -841,15 +841,15 @@ lt:
       button_activate: 'Įjungti Zen režimą'
       button_deactivate: 'Išjungti Zen režimą'
     global_search:
-      all_projects: "In all projects"
+      all_projects: "Visuose projektuose"
       search: "Paieška"
-      close_search: "Close search"
-      current_project: "In this project"
-      current_project_and_all_descendants: "In this project + subprojects"
+      close_search: "Uždaryti paiešką"
+      current_project: "Šiame projekte"
+      current_project_and_all_descendants: "Šiame projekte + subprojektuose"
       title:
-        all_projects: "all projects"
-        project_and_subprojects: "and all subprojects"
-        search_for: "Search for"
+        all_projects: "visi projektai"
+        project_and_subprojects: "ir visi subprojektai"
+        search_for: "Ieškoti"
     views:
       card: 'Kortelės'
       list: 'Stalas'

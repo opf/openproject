@@ -35,7 +35,6 @@ describe 'API v3 UserPreferences resource', type: :request do
 
   let(:user) { FactoryBot.create(:user) }
   let(:preference) { FactoryBot.create(:user_preference, user: user) }
-  let(:representer) { described_class.new(preference, current_user: user) }
   let(:preference_path) { api_v3_paths.my_preferences }
   subject(:response) { last_response }
 
@@ -51,8 +50,13 @@ describe 'API v3 UserPreferences resource', type: :request do
 
     context 'when not logged in' do
       let(:user) { User.anonymous }
-      it 'should respond with 401' do
-        expect(subject.status).to eq(401)
+
+      it 'should respond with 200' do
+        expect(subject.status).to eq(200)
+      end
+
+      it 'should respond with a UserPreferences representer' do
+        expect(subject.body).to be_json_eql('UserPreferences'.to_json).at_path('_type')
       end
     end
 
@@ -60,6 +64,7 @@ describe 'API v3 UserPreferences resource', type: :request do
       it 'should respond with 200' do
         expect(subject.status).to eq(200)
       end
+
       it 'should respond with a UserPreferences representer' do
         expect(subject.body).to be_json_eql('UserPreferences'.to_json).at_path('_type')
       end

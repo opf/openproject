@@ -46,6 +46,7 @@ import {NotificationsService} from 'core-app/modules/common/notifications/notifi
 import {Attachable} from 'core-app/modules/hal/resources/mixins/attachable-mixin';
 import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
+import {InputState} from "reactivestates";
 
 export interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
@@ -80,7 +81,7 @@ export interface WorkPackageResourceLinks extends WorkPackageResourceEmbedded {
 
   addChild(child:HalResource):Promise<any>;
 
-  addComment(comment:{ comment:string }, headers?:any):Promise<any>;
+  addComment(comment:unknown, headers?:any):Promise<any>;
 
   addRelation(relation:any):Promise<any>;
 
@@ -121,7 +122,7 @@ export class WorkPackageBaseResource extends HalResource {
   public activities:CollectionResource;
   public attachments:AttachmentCollectionResource;
 
-  public overriddenSchema?:SchemaResource;
+  public overriddenSchema:SchemaResource|undefined = undefined;
   public __initialized_at:Number;
 
   readonly I18n:I18nService = this.injector.get(I18nService);
@@ -255,22 +256,6 @@ export class WorkPackageBaseResource extends HalResource {
   }
 
   /**
-   * Get updated attachments and activities from the server and inform the cache service
-   * about the update.
-   *
-   * Return a promise that returns the attachments. Reject, if the work package has
-   * no attachments.
-   */
-  public updateAttachments():Promise<HalResource> {
-    return this
-      .updateLinkedResources('activities', 'attachments')
-      .then((resource:any) => {
-        this.wpCacheService.updateWorkPackage(this as any);
-        return resource.attachments;
-      });
-  }
-
-  /**
    * Assign values from the form for a newly created work package resource.
    * @param form
    */
@@ -344,6 +329,13 @@ export class WorkPackageBaseResource extends HalResource {
     }
 
     return state.value!;
+  }
+
+  /**
+   * Return the associated state to this HAL resource, if any.
+   */
+  public get state():InputState<this> {
+    return this.states.workPackages.get(this.id!) as any;
   }
 
   public get hasOverriddenSchema():boolean {

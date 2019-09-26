@@ -9,7 +9,7 @@
       <div class="wp-edit-field inplace-edit">
         <edit-form-portal *ngIf="active"
                           [schemaInput]="schema"
-                          [changesetInput]="changeset"
+                          [changeInput]="change"
                           [editFieldHandler]="handler">
         </edit-form-portal>
         <div *ngIf="!active"

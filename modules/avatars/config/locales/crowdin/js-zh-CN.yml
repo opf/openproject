@@ -3,12 +3,12 @@ zh-CN:
     label_preview: '预览'
     button_update: '更新'
     avatars:
-      label_choose_avatar: "Choose Avatar from file"
-      uploading_avatar: "Uploading your avatar."
+      label_choose_avatar: "从文件中选择头像"
+      uploading_avatar: "上传您的头像。"
       text_upload_instructions: |
-        Upload your own custom avatar of 128 by 128 pixels. Larger files will be resized and cropped to match.
-        A preview of your avatar will be shown before uploading, once you selected an image.
+        上传您自己的自定义头像，大小为 128 × 128 像素。更大的文件将被调整并裁剪以匹配。
+        选择图像后，上传前会显示头像的预览。
       error_image_too_large: "图片太大。"
-      wrong_file_format: "Allowed formats are jpg, png, gif"
-      empty_file_error: "Please upload a valid image (jpg, png, gif)"
+      wrong_file_format: "允许的格式是 jpg、png、gif"
+      empty_file_error: "请上传一张有效的图像（jpg、png、gif）"
 

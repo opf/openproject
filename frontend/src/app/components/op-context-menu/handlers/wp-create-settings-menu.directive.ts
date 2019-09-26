@@ -32,7 +32,6 @@ import {OpContextMenuTrigger} from "core-components/op-context-menu/handlers/op-
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
 import {States} from "core-components/states.service";
 import {FormResource} from 'core-app/modules/hal/resources/form-resource';
-import {IWorkPackageEditingServiceToken} from "../../wp-edit-form/work-package-editing.service.interface";
 
 @Directive({
   selector: '[wpCreateSettingsMenu]'
@@ -42,7 +41,7 @@ export class WorkPackageCreateSettingsMenuDirective extends OpContextMenuTrigger
   constructor(readonly elementRef:ElementRef,
               readonly opContextMenu:OPContextMenuService,
               readonly states:States,
-              @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService) {
+              readonly wpEditing:WorkPackageEditingService) {
 
     super(elementRef, opContextMenu);
   }
@@ -51,8 +50,8 @@ export class WorkPackageCreateSettingsMenuDirective extends OpContextMenuTrigger
     const wp = this.states.workPackages.get('new').value;
 
     if (wp) {
-      const changeset = this.wpEditing.changesetFor(wp);
-      changeset.getForm().then(
+      const change = this.wpEditing.changeFor(wp);
+      change.getForm().then(
         (loadedForm:FormResource) => {
           this.buildItems(loadedForm);
           this.opContextMenu.show(this, evt);

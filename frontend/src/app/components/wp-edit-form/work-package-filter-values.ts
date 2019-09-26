@@ -1,10 +1,10 @@
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {WorkPackageChangeset} from './work-package-changeset';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {CurrentUserService} from "core-components/user/current-user.service";
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {Injector} from '@angular/core';
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
+import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import compareByHrefOrString = AngularTrackingHelpers.compareByHrefOrString;
 
 export class WorkPackageFilterValues {
@@ -13,7 +13,7 @@ export class WorkPackageFilterValues {
   private halResourceService:HalResourceService = this.injector.get(HalResourceService);
 
   constructor(private injector:Injector,
-              private changeset:WorkPackageChangeset,
+              private change:WorkPackageChangeset,
               private filters:QueryFilterInstanceResource[],
               private excluded:string[] = []) {
 
@@ -51,8 +51,7 @@ export class WorkPackageFilterValues {
     let newValue = this.findSpecialValue(value, field) || value;
 
     if (newValue) {
-      this.changeset.setValue(field, newValue);
-      this.changeset.resource[field] = newValue;
+      this.change.projectedResource[field] = newValue;
     }
   }
 
@@ -85,7 +84,7 @@ export class WorkPackageFilterValues {
       return false;
     }
 
-    const current = this.changeset.value(filter.id);
+    const current = this.change.projectedResource[filter.id];
 
     for (let i = 0; i < filter.values.length; i++) {
       if (compareByHrefOrString(current, filter.values[i])) {

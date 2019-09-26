@@ -44,7 +44,7 @@ import {PathHelperService} from "core-app/modules/common/path-helper/path-helper
 
 export class WorkPackageEditFieldHandler extends EditFieldHandler {
   // Injections
-  readonly FocusHelper:FocusHelperService = this.injector.get(FocusHelperService)
+  readonly FocusHelper:FocusHelperService = this.injector.get(FocusHelperService);
   readonly ConfigurationService = this.injector.get(ConfigurationService);
   readonly I18n:I18nService = this.injector.get(I18nService);
 
@@ -89,7 +89,7 @@ export class WorkPackageEditFieldHandler extends EditFieldHandler {
   }
 
   public get inFlight() {
-    return this.form.changeset.inFlight;
+    return this.form.change.inFlight;
   }
 
   public get context():WorkPackageEditContext {
@@ -133,7 +133,7 @@ export class WorkPackageEditFieldHandler extends EditFieldHandler {
    * Handle a user submitting the field (e.g, ng-change)
    */
   public handleUserSubmit():Promise<any> {
-    if (this.form.changeset.inFlight || this.form.editMode) {
+    if (this.inFlight || this.form.editMode) {
       return Promise.resolve();
     }
 
@@ -180,7 +180,7 @@ export class WorkPackageEditFieldHandler extends EditFieldHandler {
    * Cancel any pending changes
    */
   public reset() {
-    this.form.changeset.reset(this.fieldName);
+    this.form.change.reset(this.fieldName);
     this.deactivate(true);
   }
 
@@ -205,7 +205,7 @@ export class WorkPackageEditFieldHandler extends EditFieldHandler {
    * Returns whether the field has been changed
    */
   public isChanged():boolean {
-    return this.form.changeset.isOverridden(this.fieldName);
+    return this.form.change.contains(this.fieldName);
   }
 
   /**
@@ -219,8 +219,7 @@ export class WorkPackageEditFieldHandler extends EditFieldHandler {
    * Reference the current set project
    */
   public get project() {
-    const changeset = this.form.changeset;
-    return changeset.value('project');
+    return this.form.change.projectedResource.project;
   }
 
   /**

@@ -40,14 +40,32 @@ module API
           }
         end
 
+        link :userPreferences do
+          {
+            href: api_v3_paths.my_preferences
+          }
+        end
+
         property :maximum_attachment_file_size,
                  getter: ->(*) { attachment_max_size.to_i.kilobyte }
 
         property :per_page_options,
                  getter: ->(*) { per_page_options_array }
 
+        property :user_preferences,
+                 embedded: true,
+                 exec_context: :decorator,
+                 if: ->(*) {
+                   embed_links
+                 }
+
         def _type
           'Configuration'
+        end
+
+        def user_preferences
+          UserPreferences::UserPreferencesRepresenter.new(current_user.pref,
+                                                          current_user: current_user)
         end
       end
     end

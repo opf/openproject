@@ -83,7 +83,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   }
 
   public get value() {
-    const val = this.changeset.value(this.name);
+    const val = this.resource[this.name];
     return val ? val[0] : val;
   }
 
@@ -93,7 +93,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
    * @returns {any}
    */
   public buildSelectedOption() {
-    const value:HalResource[] = this.changeset.value(this.name);
+    const value:HalResource[] = this.resource[this.name];
     return value ? value.map(val => this.findValueOption(val)) : [];
   }
 
@@ -119,8 +119,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
       return option;
     };
 
-    const value = _.castArray(val).map(el => mapper(el));
-    this.changeset.setValue(this.name, value);
+    this.resource[this.name] = _.castArray(val).map(el => mapper(el));
   }
 
   public onOpen() {
@@ -159,8 +158,8 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   private setValues(availableValues:any[], sortValuesByName:boolean = false) {
     if (sortValuesByName) {
       availableValues.sort(function (a:any, b:any) {
-        var nameA = a.name.toLowerCase();
-        var nameB = b.name.toLowerCase();
+        let nameA = a.name.toLowerCase();
+        let nameB = b.name.toLowerCase();
         return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
       });
     }

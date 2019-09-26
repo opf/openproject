@@ -70,6 +70,7 @@ end
 Redmine::MenuManager.map :account_menu do |menu|
   menu.push :my_page,
             :my_page_path,
+            caption: I18n.t('js.my_page.label'),
             if: Proc.new { User.current.logged? }
   menu.push :my_account,
             { controller: '/my', action: 'account' },

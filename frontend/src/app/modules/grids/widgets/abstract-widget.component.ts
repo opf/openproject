@@ -46,7 +46,7 @@ export abstract class AbstractWidgetComponent {
               protected injector:Injector) { }
 
   protected setChangesetOptions(values:{ [key:string]:unknown; }) {
-    let changeset = new WidgetChangeset(this.injector, this.resource);
+    let changeset = new WidgetChangeset(this.resource);
 
     changeset.setValue('options', Object.assign({}, this.resource.options, values));
 

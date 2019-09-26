@@ -33,6 +33,7 @@ import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notific
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {HttpErrorResponse} from "@angular/common/http";
+import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 
 type Constructor<T = {}> = new (...args:any[]) => T;
 
@@ -109,6 +110,22 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
     }
 
     /**
+     * Get updated attachments and activities from the server and push the state
+     *
+     * Return a promise that returns the attachments. Reject, if the work package has
+     * no attachments.
+     */
+    public updateAttachments():Promise<HalResource> {
+      return this
+        .attachments
+        .updateElements()
+        .then(() => {
+          this.updateState();
+          return this.attachments;
+        });
+    }
+
+    /**
      * Upload the given attachments, update the resource and notify the user.
      * Return an updated AttachmentCollectionResource.
      */
@@ -122,14 +139,11 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
         .then((result:{response:HalResource, uploadUrl:string }[]) => {
           setTimeout(() => this.NotificationsService.remove(notification), 700);
 
-          if (!!this.attachmentsBackend && !this.isNew) {
-            this.updateAttachments();
-          } else {
-            this.attachments.count += result.length;
-            result.forEach(r => {
-              this.attachments.elements.push(r.response);
-            });
-          }
+          this.attachments.count += result.length;
+          result.forEach(r => {
+            this.attachments.elements.push(r.response);
+          });
+          this.updateState();
 
           return result;
         })
@@ -162,6 +176,12 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
       }
 
       return this.opFileUpload.uploadAndMapResponse(href, files);
+    }
+
+    private updateState() {
+      if (this.state) {
+        this.state.putValue(this as any);
+      }
     }
 
     public $initialize(source:any) {

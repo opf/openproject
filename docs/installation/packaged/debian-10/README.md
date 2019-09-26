@@ -10,16 +10,8 @@ Import the PGP key used to sign our packages. Since we're using the _packager.io
 wget -qO- https://dl.packager.io/srv/opf/openproject/key | sudo apt-key add -
 ```
 
-**2. Install apt-https suppport**
 
-Since we only provide https package sources, you may need to install `apt-transport-https` as a preliminary step.
-
-```bash
-apt-get install apt-transport-https
-```
-
-
-**3. Add the OpenProject package source**
+**2. Add the OpenProject package source**
 
 ```
 wget -O /etc/apt/sources.list.d/openproject.list \
@@ -27,7 +19,7 @@ wget -O /etc/apt/sources.list.d/openproject.list \
 ```
 
 
-**4. Install the OpenProject Community Edition package**
+**3. Install the OpenProject Community Edition package**
 
 Using the following commands, apt will check the new package source and install the package and all required dependencies.
 

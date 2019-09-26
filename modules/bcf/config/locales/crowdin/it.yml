@@ -30,33 +30,33 @@ it:
         button_back_to_list: 'Torna alla lista'
         no_permission_to_add_members: 'Non hai i permessi sufficienti per aggiungerli come membri al progetto.'
         contact_project_admin: 'Contatta l''amministratore del progetto per aggiungerli come membri e ricomincia questa importazione.'
-        continue_anyways: 'Do you want to proceed and finish the import anyways?'
-        description: "Provide a BCF-XML v2.1 file to import into this project. You can examine its contents before performing the import."
+        continue_anyways: 'Vuoi procedere e completare comunque l''importazione?'
+        description: "Fornisci un file BCF-XML v2.1 da importare in questo progetto. Puoi esaminarne il contenuto prima di eseguire l'importazione."
         invalid_types_found: 'Trovati nomi di tipo di argomento non validi'
         invalid_statuses_found: 'Trovati nomi di stato non validi'
         invalid_priorities_found: 'Trovati nomi di priorità non validi'
         invalid_emails_found: 'Indirizzi email non validi trovati'
         unknown_emails_found: 'Indirizzi email sconosciuti trovati'
         unknown_property: 'Proprietà sconosciuta'
-        non_members_found: 'Non project members found'
-        import_types_as: 'Set all these types to'
-        import_statuses_as: 'Set all these statuses to'
-        import_priorities_as: 'Set all these priorities to'
-        invite_as_members_with_role: 'Invite them as members to the project "%{project}" with role'
-        add_as_members_with_role: 'Add them as members to the project "%{project}" with role'
+        non_members_found: 'Non sono stati trovati membri del progetto'
+        import_types_as: 'Imposta tutti questi tipi come'
+        import_statuses_as: 'Imposta tutti questi stati come'
+        import_priorities_as: 'Imposta tutte queste priorità come'
+        invite_as_members_with_role: 'Invitali come membri al progetto "%{project}" con ruolo'
+        add_as_members_with_role: 'Aggiungili come membri al progetto "%{project}" con ruolo'
         no_type_provided: 'Nessun tipo fornito'
         no_status_provided: 'Nessuno stato fornito'
         no_priority_provided: 'Nessuna priorità fornita'
-        perform_description: "Do you want to import or update the issues listed above?"
-        replace_with_system_user: 'Replace them with "System" user'
-        import_as_system_user: 'Import them as "System" user.'
+        perform_description: "Vuoi importare o aggiornare i problemi elencati sopra?"
+        replace_with_system_user: 'Sostituiscili con l''utente "Sistema"'
+        import_as_system_user: 'Importali come utente "Sistema".'
         what_to_do: "Cosa vuoi fare?"
-        work_package_has_newer_changes: "Outdated! This topic was not updated as the latest changes on the server were newer than the \"ModifiedDate\" of the imported topic. However, comments to the topic were imported."
+        work_package_has_newer_changes: "Non aggiornato! Questo argomento non è stato aggiornato perché le ultime modifiche sul server sono più recenti della \"Data di modifica\" dell'argomento importato. Tuttavia, i commenti all'argomento sono stati importati."
   export:
     format:
       bcf: "BCF-XML"
   attributes:
-    bcf_thumbnail: "BCF snapshot"
+    bcf_thumbnail: "Snapshot BCF"
   project_module_bcf: "BCF"
-  permission_view_linked_issues: "View BCF issues"
-  permission_manage_bcf: "Import and manage BCF issues"
+  permission_view_linked_issues: "Mostra problemi BCF"
+  permission_manage_bcf: "Importa e gestisci problemi BCF"

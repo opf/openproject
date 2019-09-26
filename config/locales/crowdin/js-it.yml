@@ -20,7 +20,7 @@ it:
     button_back_to_list_view: "Torna alla visualizzazione in lista"
     button_cancel: "Cancella"
     button_close: "Chiuso"
-    button_change_project: "Change project"
+    button_change_project: "Cambia progetto"
     button_check_all: "Seleziona tutti"
     button_configure-form: "Configura modulo"
     button_confirm: "Conferma"
@@ -41,8 +41,8 @@ it:
     button_open_details: "Mostra dettagli"
     button_close_details: "Nascondi dettagli"
     button_open_fullscreen: "Apri la visualizzazione a schermo intero"
-    button_show_cards: "Show card view"
-    button_show_list: "Show list view"
+    button_show_cards: "Mostra la visualizzazione a schede"
+    button_show_list: "Mostra la visualizzazione a elenco"
     button_quote: "Cita"
     button_save: "Salva"
     button_settings: "Impostazioni"
@@ -52,7 +52,7 @@ it:
     button_export-atom: "Scarica Atom"
     calendar:
       title: 'Calendario'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
+      too_many: 'Ci sono %{count} macro-attività in totale, ma solo %{max} può essere mostrata.'
     card:
       add_new: 'Aggiungi una nuova carta'
       highlighting:
@@ -78,7 +78,7 @@ it:
         graph_settings: 'Generale'
         dataset: 'Dataset %{number}'
       errors:
-        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
+        could_not_load: 'I dati per visualizzare il grafico non possono essere caricati. Potrebbero mancare i permessi necessari.'
     description_available_columns: "Colonne disponibili"
     description_current_position: "Sei qui: "
     description_select_work_package: "Seleziona la macro-attività #%{id}"
@@ -331,7 +331,7 @@ it:
     label_wait: "Prego, attendi per la configurazione..."
     label_upload_counter: "%{done} di %{count} file completati"
     label_validation_error: "La macro-attività non può essere salvata a causa dei seguenti errori:"
-    label_view_has_changed: "This view has unsaved changes. Click to save them."
+    label_view_has_changed: "Questa vista ha modifiche non salvate. Clicca per salvarle."
     help_texts:
       show_modal: 'Mostra l''immissione di testo della guida dell''attributo'
     onboarding:
@@ -444,8 +444,8 @@ it:
       set_parent: "Imposta genitore"
       change_parent: "Cambia genitore"
       remove_parent: "Rimuovi genitore"
-      hierarchy_indent: "Indent hierarchy"
-      hierarchy_outdent: "Outdent hierarchy"
+      hierarchy_indent: "Indenta gerarchia"
+      hierarchy_outdent: "Rimuovi indentazione gerarchia"
       group_by_wp_type: "Raggruppa per tipo di macro-attività"
       group_by_relation_type: "Raggruppa per tipo di relazione"
       add_parent: "Aggiungi genitore esistente"
@@ -573,7 +573,7 @@ it:
       image: "Immagine"
     work_packages:
       bulk_actions:
-        move: 'Bulk change of project'
+        move: 'Modifica complessiva del progetto'
         edit: 'Modifica di massa'
         copy: 'Copia di massa'
         delete: 'Eliminazione di massa'
@@ -605,7 +605,7 @@ it:
       message_successful_show_in_fullscreen: "Clicca qui per aprire questa macro-attività in una visualizzazione a schermo intero."
       message_view_spent_time: "Visualizza il tempo speso sulla macro-attività"
       message_work_package_read_only: "Il pacchetto di lavoro è bloccato in questo stato. Nessun attributo eccetto lo stato può essere alterato."
-      message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
+      message_work_package_status_blocked: "Lo stato della macro-attività non è scrivibile a causa dello stato chiuso e della versione chiusa assegnata."
       no_value: "Nessun valore"
       placeholder_filter_by_text: "Oggetto, descrizione, commenti, ..."
       inline_create:
@@ -631,7 +631,7 @@ it:
       no_results:
         title: Nessuna macro-attività da visualizzare.
         description: E' possibile che non ne sia stata creata alcuna o che tutte le macro-attività vengano filtrate.
-      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering.
+      limited_results: Solo %{count} macro-attività possono essere visualizzate nella modalità di ordinamento manuale. Riduci i risultati filtrando.
       property_groups:
         details: "Dettagli"
         people: "Persone"
@@ -691,9 +691,9 @@ it:
         confirm_edit_cancel: "Sei sicuro di voler annullare la modifica del nome di questa vista? Il titolo verrà impostato sul valore precedente."
         click_to_edit_query_name: "Clicca per modificare il titolo della vista."
         rename_query_placeholder: "Nome di questa vista"
-        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        star_text: "Segna questa vista come preferita e aggiungila alla barra laterale delle viste salvate a sinistra."
         public_text: >
-          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+          Pubblica questa vista, consentendo ad altri utenti di accedere alla tua vista. Gli utenti con il permesso "Gestisci viste pubbliche" possono modificare o rimuovere la query pubblica. Questo non influisce sulla visibilità dei risultati della macro-attività in quella vista e gli utenti possono vedere risultati diversi a seconda dei loro permessi.
         errors:
           unretrievable_query: "Impossibile recuperare la vista dall'URL"
           not_found: "La vista non esiste"
@@ -826,7 +826,7 @@ it:
         other: "%{count} macro-attività subordinate"
       hour:
         one: "1 o"
-        other: "%{count} h"
+        other: "%{count} o"
     zen_mode:
       button_activate: 'Attiva modalità zen'
       button_deactivate: 'Disattiva modalità zen'

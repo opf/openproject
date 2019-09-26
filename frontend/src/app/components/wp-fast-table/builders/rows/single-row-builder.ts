@@ -175,14 +175,14 @@ export class SingleRowBuilder {
   }
 
   protected buildEmptyRow(workPackage:WorkPackageResource, row:HTMLTableRowElement):[HTMLTableRowElement, boolean] {
-    const changeset = this.workPackageTable.editing.changeset(workPackage.id!);
+    const change = this.workPackageTable.editing.change(workPackage.id!);
     let cells:{ [attribute:string]:JQuery } = {};
 
-    if (changeset && !changeset.empty) {
+    if (change && !change.isEmpty()) {
       // Try to find an old instance of this row
       const oldRow = locateTableRowByIdentifier(this.classIdentifier(workPackage));
 
-      changeset.changedAttributes.forEach((attribute:string) => {
+      change.changedAttributes.forEach((attribute:string) => {
         cells[attribute] = oldRow.find(`.${wpCellTdClassName}.${attribute}`);
       });
     }

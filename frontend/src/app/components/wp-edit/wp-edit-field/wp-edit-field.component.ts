@@ -55,7 +55,7 @@ import {NotificationsService} from 'core-app/modules/common/notifications/notifi
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {ClickPositionMapper} from "core-app/modules/common/set-click-position/set-click-position";
-import {IWorkPackageEditingServiceToken} from "../../wp-edit-form/work-package-editing.service.interface";
+import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
 @Component({
   selector: 'wp-edit-field',
@@ -87,7 +87,7 @@ export class WorkPackageEditFieldComponent implements OnInit, OnDestroy {
               protected wpNotificationsService:WorkPackageNotificationService,
               protected ConfigurationService:ConfigurationService,
               protected opContextMenu:OPContextMenuService,
-              @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService,
+              protected wpEditing:WorkPackageEditingService,
               protected wpCacheService:WorkPackageCacheService,
               // Get parent field group from injector
               protected wpEditFieldGroup:WorkPackageEditFieldGroupComponent,
@@ -108,6 +108,17 @@ export class WorkPackageEditFieldComponent implements OnInit, OnDestroy {
     this.fieldRenderer = new DisplayFieldRenderer(this.injector, 'single-view', this.displayFieldOptions);
     this.$element = jQuery(this.elementRef.nativeElement);
     this.wpEditFieldGroup.register(this);
+
+    this.wpEditing
+      .temporaryEditResource(this.workPackageId)
+      .values$()
+      .pipe(
+        untilComponentDestroyed(this)
+      )
+      .subscribe(workPackage => {
+        this.workPackage = workPackage;
+        this.render();
+      });
   }
 
   public ngOnDestroy() {
@@ -126,7 +137,7 @@ export class WorkPackageEditFieldComponent implements OnInit, OnDestroy {
   }
 
   public render() {
-    const el = this.fieldRenderer.render(this.resource, this.fieldName, null, this.displayPlaceholder);
+    const el = this.fieldRenderer.render(this.workPackage, this.fieldName, null, this.displayPlaceholder);
     this.displayContainer.nativeElement.innerHTML = '';
     this.displayContainer.nativeElement.appendChild(el);
   }
@@ -141,15 +152,9 @@ export class WorkPackageEditFieldComponent implements OnInit, OnDestroy {
     }
   }
 
-  public get resource() {
-    return this.wpEditing
-      .temporaryEditResource(this.workPackageId)
-      .getValueOr(this.workPackage);
-  }
-
   public get isEditable() {
-    const fieldSchema = this.resource.schema[this.fieldName] as IFieldSchema;
-    return this.resource.isAttributeEditable(this.fieldName) && fieldSchema && fieldSchema.writable;
+    const fieldSchema = this.workPackage.schema[this.fieldName] as IFieldSchema;
+    return this.workPackage.isAttributeEditable(this.fieldName) && fieldSchema && fieldSchema.writable;
   }
 
   public activateIfEditable(event:JQuery.TriggeredEvent) {
@@ -212,10 +217,8 @@ export class WorkPackageEditFieldComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  public reset(workPackage:WorkPackageResource) {
-    this.workPackage = workPackage;
+  public reset() {
     this.render();
-
     this.deactivate();
   }
 
