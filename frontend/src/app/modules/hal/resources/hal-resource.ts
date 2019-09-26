@@ -143,6 +143,20 @@ export class HalResource {
   }
 
   /**
+   * Return whether the work package is editable with the user's permission
+   * on the given work package attribute.
+   *
+   * @param property
+   */
+  public isAttributeEditable(property:string):boolean {
+    const fieldSchema = this.schema[property];
+
+    return this.isEditable &&
+        fieldSchema &&
+        fieldSchema.writable;
+  }
+
+  /**
    * Retain the internal tracking identifier from the given other work package.
    * This is due to us needing to identify a work package beyond its actual ID,
    * because that changes upon saving.

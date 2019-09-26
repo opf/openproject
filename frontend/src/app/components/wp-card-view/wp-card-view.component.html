@@ -40,15 +40,15 @@
                          [inEditMode]="wp.isNew"
                          *ngIf="wp.isNew">
       <div class="wp-card--content -new">
-        <wp-edit-field [workPackage]="wp"
+        <editable-attribute-field [resource]="wp"
                        [wrapperClasses]="'work-packages--type-selector'"
                        [fieldName]="'type'"
                        class="wp-card--type">
-        </wp-edit-field>
-        <wp-edit-field [workPackage]="wp"
+        </editable-attribute-field>
+        <editable-attribute-field [resource]="wp"
                        fieldName="subject"
                        class="wp-card--subject -bold">
-        </wp-edit-field>
+        </editable-attribute-field>
       </div>
     </edit-field-group>
 

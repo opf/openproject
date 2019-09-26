@@ -206,7 +206,7 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
     return this.focused;
   }
 
-  setErrors(newErrors: string[]): void {
+  setErrors(newErrors:string[]):void {
     // interface
   }
 

@@ -26,26 +26,26 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
+import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import {States} from '../../states.service';
+import {States} from 'core-components/states.service';
 import {
   displayClassName,
   DisplayFieldRenderer,
   editFieldContainerClass
-} from '../../wp-edit-form/display-field-renderer';
+} from 'core-components/wp-edit-form/display-field-renderer';
 
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {SelectionHelpers} from '../../../helpers/selection-helpers';
-import {debugLog} from '../../../helpers/debug_output';
+import {SelectionHelpers} from '../../../../helpers/selection-helpers';
+import {debugLog} from '../../../../helpers/debug_output';
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
-  Inject,
   Injector,
-  Input, OnDestroy,
+  Input,
+  OnDestroy,
   OnInit,
   ViewChild
 } from '@angular/core';
@@ -57,15 +57,16 @@ import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {ClickPositionMapper} from "core-app/modules/common/set-click-position/set-click-position";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {EditFieldGroupComponent} from "core-app/modules/fields/edit/edit-field-group.component";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 @Component({
-  selector: 'wp-edit-field',
+  selector: 'editable-attribute-field',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './wp-edit-field.html'
+  templateUrl: './editable-attribute-field.component.html'
 })
-export class WorkPackageEditFieldComponent implements OnInit, OnDestroy {
+export class EditableAttributeFieldComponent implements OnInit, OnDestroy {
   @Input('fieldName') public fieldName:string;
-  @Input('workPackage') public workPackage:WorkPackageResource;
+  @Input('resource') public resource:HalResource;
   @Input('wrapperClasses') public wrapperClasses?:string;
   @Input('displayFieldOptions') public displayFieldOptions:any = {};
   @Input('displayPlaceholder') public displayPlaceholder?:string;
@@ -90,7 +91,7 @@ export class WorkPackageEditFieldComponent implements OnInit, OnDestroy {
               protected halEditing:HalResourceEditingService,
               protected wpCacheService:WorkPackageCacheService,
               // Get parent field group from injector
-              protected wpEditFieldGroup:EditFieldGroupComponent,
+              protected editFieldGroup:EditFieldGroupComponent,
               protected NotificationsService:NotificationsService,
               protected cdRef:ChangeDetectorRef,
               protected I18n:I18nService) {
@@ -107,16 +108,16 @@ export class WorkPackageEditFieldComponent implements OnInit, OnDestroy {
   public ngOnInit() {
     this.fieldRenderer = new DisplayFieldRenderer(this.injector, 'single-view', this.displayFieldOptions);
     this.$element = jQuery(this.elementRef.nativeElement);
-    this.wpEditFieldGroup.register(this);
+    this.editFieldGroup.register(this);
 
     this.halEditing
-      .temporaryEditResource(this.workPackage)
+      .temporaryEditResource(this.resource)
       .values$()
       .pipe(
         untilComponentDestroyed(this)
       )
       .subscribe(workPackage => {
-        this.workPackage = workPackage;
+        this.resource = workPackage;
         this.render();
       });
   }
@@ -137,7 +138,8 @@ export class WorkPackageEditFieldComponent implements OnInit, OnDestroy {
   }
 
   public render() {
-    const el = this.fieldRenderer.render(this.workPackage, this.fieldName, null, this.displayPlaceholder);
+    // ToDO: Correct Type and remove "as any"
+    const el = this.fieldRenderer.render(this.resource as any, this.fieldName, null, this.displayPlaceholder);
     this.displayContainer.nativeElement.innerHTML = '';
     this.displayContainer.nativeElement.appendChild(el);
   }
@@ -153,8 +155,8 @@ export class WorkPackageEditFieldComponent implements OnInit, OnDestroy {
   }
 
   public get isEditable() {
-    const fieldSchema = this.workPackage.schema[this.fieldName] as IFieldSchema;
-    return this.workPackage.isAttributeEditable(this.fieldName) && fieldSchema && fieldSchema.writable;
+    const fieldSchema = this.resource.schema[this.fieldName] as IFieldSchema;
+    return this.resource.isAttributeEditable(this.fieldName) && fieldSchema && fieldSchema.writable;
   }
 
   public activateIfEditable(event:JQuery.TriggeredEvent) {
@@ -181,6 +183,7 @@ export class WorkPackageEditFieldComponent implements OnInit, OnDestroy {
     return false;
   }
 
+  // ToDo: Check once project fields exist
   public overflowingSelector() {
     return this.$element
       .closest('.attributes-group')
@@ -191,7 +194,7 @@ export class WorkPackageEditFieldComponent implements OnInit, OnDestroy {
     // Activate the field
     this.setActive(true);
 
-    return this.wpEditFieldGroup.form
+    return this.editFieldGroup.form
       .activate(this.fieldName, noWarnings)
       .catch(() => this.deactivate(true));
   }

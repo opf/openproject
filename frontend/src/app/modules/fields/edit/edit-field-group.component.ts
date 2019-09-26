@@ -29,7 +29,7 @@
 import {Component, Injector, Input, OnDestroy, OnInit} from '@angular/core';
 import {StateService, Transition, TransitionService} from '@uirouter/core';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {WorkPackageEditFieldComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.component';
+import {EditableAttributeFieldComponent} from 'core-app/modules/fields/edit/field/editable-attribute-field.component';
 import {input} from 'reactivestates';
 import {filter, map, take} from 'rxjs/operators';
 
@@ -47,11 +47,12 @@ import {SingleViewEditContext} from "core-components/wp-edit-form/single-view-ed
 })
 export class EditFieldGroupComponent implements OnInit, OnDestroy {
   @Input('resource') resource:HalResource;
+  // ToDO
   //@Input('successState') successState?:string;
   @Input('inEditMode') initializeEditMode:boolean = false;
 
   public form:EditForm;
-  public fields:{ [attribute:string]:WorkPackageEditFieldComponent } = {};
+  public fields:{ [attribute:string]:EditableAttributeFieldComponent } = {};
   private registeredFields = input<string[]>();
   private unregisterListener:Function;
 
@@ -128,7 +129,7 @@ export class EditFieldGroupComponent implements OnInit, OnDestroy {
     return this.form.editMode;
   }
 
-  public register(field:WorkPackageEditFieldComponent) {
+  public register(field:EditableAttributeFieldComponent) {
     this.fields[field.fieldName] = field;
     this.registeredFields.putValue(_.keys(this.fields));
 
@@ -140,7 +141,7 @@ export class EditFieldGroupComponent implements OnInit, OnDestroy {
     }
   }
 
-  public waitForField(name:string):Promise<WorkPackageEditFieldComponent> {
+  public waitForField(name:string):Promise<EditableAttributeFieldComponent> {
     return this.registeredFields
         .values$()
         .pipe(
@@ -191,7 +192,7 @@ export class EditFieldGroupComponent implements OnInit, OnDestroy {
      */
   }
 
-  private skipField(field:WorkPackageEditFieldComponent) {
+  private skipField(field:EditableAttributeFieldComponent) {
     const fieldName = field.fieldName;
 
     // ToDO: Move to generic service

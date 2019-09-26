@@ -27,7 +27,7 @@
 // ++
 
 import {StateService} from '@uirouter/core';
-import {WorkPackageEditFieldComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.component';
+import {EditableAttributeFieldComponent} from 'core-app/modules/fields/edit/field/editable-attribute-field.component';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from '../states.service';
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
@@ -98,7 +98,7 @@ export class SingleViewEditContext implements EditContext {
     return 'subject';
   }
 
-  private fieldCtrl(name:string):Promise<WorkPackageEditFieldComponent> {
+  private fieldCtrl(name:string):Promise<EditableAttributeFieldComponent> {
     return this.fieldGroup.waitForField(name);
   }
 }

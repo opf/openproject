@@ -67,7 +67,6 @@ import {RevisionActivityComponent} from 'core-components/wp-activity/revision/re
 import {ActivityLinkComponent} from 'core-components/wp-activity/activity-link.component';
 import {WorkPackageActivityTabComponent} from 'core-components/wp-single-view-tabs/activity-panel/activity-tab.component';
 import {OpenprojectAttachmentsModule} from 'core-app/modules/attachments/openproject-attachments.module';
-import {WorkPackageEditFieldComponent} from 'core-app/components/wp-edit/wp-edit-field/wp-edit-field.component';
 import {WpCustomActionComponent} from 'core-components/wp-custom-actions/wp-custom-actions/wp-custom-action.component';
 import {WpCustomActionsComponent} from 'core-components/wp-custom-actions/wp-custom-actions.component';
 import {WorkPackageRelationsCountComponent} from 'core-components/work-packages/wp-relations-count/wp-relations-count.component';
@@ -131,7 +130,6 @@ import {WorkPackageCacheService} from 'core-components/work-packages/work-packag
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
@@ -159,9 +157,6 @@ import {WorkPackageViewToggleButton} from "core-components/wp-buttons/wp-view-to
 import {WorkPackagesGridComponent} from "core-components/wp-grid/wp-grid.component";
 import {WorkPackageViewDropdownMenuDirective} from "core-components/op-context-menu/handlers/wp-view-dropdown-menu.directive";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
-import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
-
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 
 
 @NgModule({
@@ -258,9 +253,6 @@ import {HalResourceEditingService} from "core-app/modules/fields/edit/services/h
     WpResizerDirective,
 
     WorkPackageTableSumsRowController,
-
-    // WP Edit Fields
-    WorkPackageEditFieldComponent,
 
     // Filters
     QueryFiltersComponent,

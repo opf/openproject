@@ -46,7 +46,7 @@ export class ProgressDisplayField extends DisplayField {
     return Math.round(Number(this.value)) || 0;
   }
 
-  public render(element:HTMLElement, displayText:string): void {
+  public render(element:HTMLElement, displayText:string):void {
     element.setAttribute('title', displayText);
     element.innerHTML = `
       <span>

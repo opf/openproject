@@ -45,7 +45,6 @@ import {EditingPortalService} from "core-app/modules/fields/edit/editing-portal/
 import {EditFormPortalComponent} from "core-app/modules/fields/edit/editing-portal/edit-form-portal.component";
 import {EditFieldControlsComponent,} from "core-app/modules/fields/edit/field-controls/edit-field-controls.component";
 import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-a11y.module";
-import {WorkPackageEditFieldComponent} from "core-app/modules/fields/edit/field-types/work-package-edit-field.component";
 import {OpenprojectEditorModule} from 'core-app/modules/editor/openproject-editor.module';
 import {UserFieldPortalComponent} from "core-app/modules/fields/display/display-portal/display-user-field-portal/user-field-portal.component";
 import {UserFieldPortalService} from "core-app/modules/fields/display/display-portal/display-user-field-portal/user-field-portal-service";
@@ -53,6 +52,8 @@ import {SelectAutocompleterRegisterService} from "core-app/modules/fields/edit/f
 import {initializeChangesetMap} from "core-app/modules/fields/changeset/changeset.initializer";
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {EditFieldGroupComponent} from "core-app/modules/fields/edit/edit-field-group.component";
+import {WorkPackageEditFieldComponent} from "core-app/modules/fields/edit/field-types/work-package-edit-field.component";
+import {EditableAttributeFieldComponent} from "core-app/modules/fields/edit/field/editable-attribute-field.component";
 
 @NgModule({
   imports: [
@@ -65,6 +66,7 @@ import {EditFieldGroupComponent} from "core-app/modules/fields/edit/edit-field-g
     EditFormPortalComponent,
     UserFieldPortalComponent,
     EditFieldGroupComponent,
+    EditableAttributeFieldComponent,
   ],
   providers: [
     EditingPortalService,
@@ -91,7 +93,8 @@ import {EditFieldGroupComponent} from "core-app/modules/fields/edit/edit-field-g
     TextEditFieldComponent,
     EditFieldControlsComponent,
     WorkPackageEditFieldComponent,
-    EditFieldGroupComponent
+    EditFieldGroupComponent,
+    EditableAttributeFieldComponent,
   ],
   entryComponents: [
     EditFormPortalComponent,
@@ -106,6 +109,7 @@ import {EditFieldGroupComponent} from "core-app/modules/fields/edit/edit-field-g
     SelectEditFieldComponent,
     TextEditFieldComponent,
     WorkPackageEditFieldComponent,
+    EditableAttributeFieldComponent,
   ]
 })
 export class OpenprojectFieldsModule { }

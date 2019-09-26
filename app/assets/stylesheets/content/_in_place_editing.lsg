@@ -35,13 +35,13 @@
       Custom Field
     </div>
     <div class="attributes-key-value--value-container">
-      <wp-edit-field class="wp-edit-field--text">
+      <editable-attribute-field class="wp-edit-field--text">
         <div class="wp-edit-field--container -small">
           <span title="Editable text field" class="wp-table--cell-span inplace-edit -editable">
             Editable text field
           </span>
         </div>
-      </wp-edit-field>
+      </editable-attribute-field>
     </div>
   </div>
 </div>
@@ -86,7 +86,7 @@
       </div>
     </div>
   </div>
-  <wp-edit-field>
+  <editable-attribute-field>
     <div class="wp-edit-field--container description -no-label">
       <div>
         <span class="wp-table--cell-span inplace-edit -editable">
@@ -100,7 +100,7 @@
         </span>
       </div>
     </div>
-  </wp-edit-field>
+  </editable-attribute-field>
 </div>
 ```
 

@@ -179,7 +179,7 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
     }
   }
 
-  setErrors(newErrors: string[]): void {
+  setErrors(newErrors:string[]):void {
     // interface
   }
 }

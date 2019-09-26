@@ -105,7 +105,7 @@ export class CustomTextEditFieldService extends EditFieldHandler {
     trigger && trigger.focus();
   }
 
-  setErrors(newErrors: string[]): void {
+  setErrors(newErrors:string[]):void {
     // interface
   }
 
