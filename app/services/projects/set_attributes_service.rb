@@ -33,7 +33,7 @@ module Projects
     private
 
     def set_attributes(attributes)
-      status_attributes = attributes.delete(:status)
+      status_attributes = attributes.delete(:status) || {}
 
       ret = super(attributes)
 
