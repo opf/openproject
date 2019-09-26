@@ -26,33 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ResourcesDisplayField} from "./display-resources-field.module";
-import {cssClassCustomOption} from "core-app/modules/fields/display/display-field.module";
+import {ProgressDisplayField} from './progress-display-field.module';
 
-export class MultipleLinesStringObjectsDisplayField extends ResourcesDisplayField {
-
+export class ProgressTextDisplayField extends ProgressDisplayField {
   public render(element:HTMLElement, displayText:string):void {
-    const values = this.value;
-    element.setAttribute('title', displayText);
-    element.textContent = displayText;
-
+    const label = this.percentLabel;
+    element.setAttribute('title', label);
     element.innerHTML = '';
-
-    if (values.length === 0) {
-      this.renderEmpty(element);
-    } else {
-      this.renderValues(values, element);
-    }
-  }
-
-  protected renderValues(values:string[], element:HTMLElement) {
-    values.forEach((value) => {
-      const div = document.createElement('div');
-      div.classList.add(cssClassCustomOption, '-multiple-lines');
-      div.setAttribute('title', value);
-      div.textContent = value;
-
-      element.appendChild(div);
-    });
+    element.textContent = label;
   }
 }

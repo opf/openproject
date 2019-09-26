@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {DurationDisplayField} from './display-duration-field.module';
+import {DurationDisplayField} from './duration-display-field.module';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {ProjectCacheService} from "core-components/projects/project-cache.service";

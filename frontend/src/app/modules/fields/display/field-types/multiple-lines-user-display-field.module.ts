@@ -26,32 +26,34 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {TimezoneService} from 'core-components/datetime/timezone.service';
-import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
-import {HighlightableDisplayField} from "core-app/modules/fields/display/field-types/display-highlightable-field.module";
+import {ResourcesDisplayField} from "./resources-display-field.module";
+import {cssClassCustomOption} from "core-app/modules/fields/display/display-field.module";
+import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
+import {UserFieldPortalService} from "core-app/modules/fields/display/display-portal/display-user-field-portal/user-field-portal-service";
+import {DomPortalOutlet} from "@angular/cdk/portal";
+import {UserResource} from "core-app/modules/hal/resources/user-resource";
 
-export class DateDisplayField extends HighlightableDisplayField {
-  private timezoneService = this.$injector.get(TimezoneService);
+export class MultipleLinesUserFieldModule extends ResourcesDisplayField {
+  public userDisplayPortal = this.$injector.get(UserFieldPortalService);
+  public portalCleanup = this.$injector.get(PortalCleanupService);
+  public outlet:DomPortalOutlet;
 
   public render(element:HTMLElement, displayText:string):void {
-    super.render(element, displayText);
+    const values = this.attribute;
+    element.setAttribute('title', displayText);
+    element.textContent = displayText;
 
-    // Highlight overdue tasks
-    if (this.shouldHighlight && this.canOverdue) {
-      const diff = this.timezoneService.daysFromToday(this.value);
-      element.classList.add(Highlighting.overdueDate(diff));
-    }
-  }
+    element.innerHTML = '';
 
-  public get canOverdue():boolean {
-    return ['dueDate', 'date'].indexOf(this.name) !== -1;
-  }
-
-  public get valueString() {
-    if (this.value) {
-      return this.timezoneService.formattedDate(this.value);
+    if (values.length === 0) {
+      this.renderEmpty(element);
     } else {
-      return '';
+      this.renderValues(values, element);
     }
+  }
+
+  protected renderValues(values:UserResource[], element:HTMLElement) {
+    this.outlet = this.userDisplayPortal.create(element, values, true);
+    this.portalCleanup.add(() => this.outlet.dispose());
   }
 }

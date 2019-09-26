@@ -26,20 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ResourcesDisplayField} from "./display-resources-field.module";
+import {ResourcesDisplayField} from "./resources-display-field.module";
 import {cssClassCustomOption} from "core-app/modules/fields/display/display-field.module";
-import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
-import {UserFieldPortalService} from "core-app/modules/fields/display/display-portal/display-user-field-portal/user-field-portal-service";
-import {DomPortalOutlet} from "@angular/cdk/portal";
-import {UserResource} from "core-app/modules/hal/resources/user-resource";
 
-export class MultipleLinesUserFieldModule extends ResourcesDisplayField {
-  public userDisplayPortal = this.$injector.get(UserFieldPortalService);
-  public portalCleanup = this.$injector.get(PortalCleanupService);
-  public outlet:DomPortalOutlet;
+export class MultipleLinesStringObjectsDisplayField extends ResourcesDisplayField {
 
   public render(element:HTMLElement, displayText:string):void {
-    const values = this.attribute;
+    const values = this.value;
     element.setAttribute('title', displayText);
     element.textContent = displayText;
 
@@ -52,8 +45,14 @@ export class MultipleLinesUserFieldModule extends ResourcesDisplayField {
     }
   }
 
-  protected renderValues(values:UserResource[], element:HTMLElement) {
-    this.outlet = this.userDisplayPortal.create(element, values, true);
-    this.portalCleanup.add(() => this.outlet.dispose());
+  protected renderValues(values:string[], element:HTMLElement) {
+    values.forEach((value) => {
+      const div = document.createElement('div');
+      div.classList.add(cssClassCustomOption, '-multiple-lines');
+      div.setAttribute('title', value);
+      div.textContent = value;
+
+      element.appendChild(div);
+    });
   }
 }

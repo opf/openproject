@@ -48,8 +48,8 @@ Let's take a look at the file structure of the costs folder `frontend/`:
 module
 ├── main.ts
 └── wp-display
-    ├── display-costs-by-type-field.module.ts
-    └── display-currency-field.module.ts
+    ├── costs-by-type-display-field.module.ts
+    └── currency-display-field.module.ts
 ```
 
 The Angular frontend entry point is `frontend/module/main.ts` and should export a `PluginModule` ngModule that looks like the following:

@@ -26,13 +26,33 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ProgressDisplayField} from './display-progress-field.module';
+import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
+import {HighlightableDisplayField} from "core-app/modules/fields/display/field-types/highlightable-display-field.module";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
-export class ProgressTextDisplayField extends ProgressDisplayField {
+export class HighlightedResourceDisplayField extends HighlightableDisplayField {
+
   public render(element:HTMLElement, displayText:string):void {
-    const label = this.percentLabel;
-    element.setAttribute('title', label);
-    element.innerHTML = '';
-    element.textContent = label;
+    super.render(element, displayText);
+
+    if (this.shouldHighlight) {
+      this.addHighlight(element);
+    }
+  }
+
+  public get value() {
+    if (this.schema) {
+      return this.attribute && this.attribute.name;
+    }
+    else {
+      return null;
+    }
+  }
+
+  private addHighlight(element:HTMLElement):void {
+    if (this.attribute instanceof HalResource) {
+      const hlClass = Highlighting.inlineClass(this.name, this.attribute.id!);
+      element.classList.add(hlClass);
+    }
   }
 }

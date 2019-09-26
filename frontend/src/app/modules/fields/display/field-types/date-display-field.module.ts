@@ -26,33 +26,32 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {TimezoneService} from 'core-components/datetime/timezone.service';
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
-import {HighlightableDisplayField} from "core-app/modules/fields/display/field-types/display-highlightable-field.module";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {HighlightableDisplayField} from "core-app/modules/fields/display/field-types/highlightable-display-field.module";
 
-export class HighlightedResourceDisplayField extends HighlightableDisplayField {
+export class DateDisplayField extends HighlightableDisplayField {
+  private timezoneService = this.$injector.get(TimezoneService);
 
   public render(element:HTMLElement, displayText:string):void {
     super.render(element, displayText);
 
-    if (this.shouldHighlight) {
-      this.addHighlight(element);
+    // Highlight overdue tasks
+    if (this.shouldHighlight && this.canOverdue) {
+      const diff = this.timezoneService.daysFromToday(this.value);
+      element.classList.add(Highlighting.overdueDate(diff));
     }
   }
 
-  public get value() {
-    if (this.schema) {
-      return this.attribute && this.attribute.name;
-    }
-    else {
-      return null;
-    }
+  public get canOverdue():boolean {
+    return ['dueDate', 'date'].indexOf(this.name) !== -1;
   }
 
-  private addHighlight(element:HTMLElement):void {
-    if (this.attribute instanceof HalResource) {
-      const hlClass = Highlighting.inlineClass(this.name, this.attribute.id!);
-      element.classList.add(hlClass);
+  public get valueString() {
+    if (this.value) {
+      return this.timezoneService.formattedDate(this.value);
+    } else {
+      return '';
     }
   }
 }
