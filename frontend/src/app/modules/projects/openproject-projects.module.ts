@@ -51,7 +51,7 @@ import {ProjectSingleWidgetComponent} from "core-components/projects/project-sin
     ProjectSingleWidgetComponent,
   ],
   exports: [
-
+    ProjectSingleWidgetComponent,
   ]
 })
 export class OpenprojectProjectsModule {

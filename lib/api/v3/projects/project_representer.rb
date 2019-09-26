@@ -122,6 +122,12 @@ module API
           }
         end
 
+        link :schema do
+          {
+            href: api_v3_paths.projects_schema
+          }
+        end
+
         associated_resource :parent,
                             v3_path: :project,
                             representer: ::API::V3::Projects::ProjectRepresenter,

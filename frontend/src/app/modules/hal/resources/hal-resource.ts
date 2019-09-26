@@ -43,6 +43,8 @@ export interface HalResourceClass<T extends HalResource = HalResource> {
 }
 
 export class HalResource {
+  // TODO this is the source of many issues in the frontend
+  // because it no longer properly type checks stuff
   [attribute:string]:any;
 
   // The API type reported from API
@@ -150,10 +152,7 @@ export class HalResource {
    */
   public isAttributeEditable(property:string):boolean {
     const fieldSchema = this.schema[property];
-
-    return this.isEditable &&
-        fieldSchema &&
-        fieldSchema.writable;
+    return fieldSchema && fieldSchema.writable;
   }
 
   /**

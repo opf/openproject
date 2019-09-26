@@ -248,6 +248,9 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
   }
 
   protected onSaved(saved:HalResource) {
+    if (saved.state) {
+      saved.state.putValue(saved);
+    }
     // ToDo: Move into HalEvents
     /* this.wpActivity.clear(saved.id);
 

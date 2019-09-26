@@ -52,7 +52,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
                           change:ResourceChangeset<T>|null,
                           placeholder = cellEmptyPlaceholder):[DisplayField|null, HTMLSpanElement] {
     const span = document.createElement('span');
-    const schemaName = resource.getSchemaName(name);
+    const schemaName = change ? change.getSchemaName(name) : name;
     const fieldSchema = resource.schema[schemaName];
 
     // If the resource does not have that field, return an empty
@@ -133,7 +133,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
       span.classList.add(placeholderClassName);
     }
 
-    if (field.writable && resource.isAttributeEditable(field.name)) {
+    if (field.writable) {
       span.classList.add(editableClassName);
       span.setAttribute('role', 'button');
     } else {

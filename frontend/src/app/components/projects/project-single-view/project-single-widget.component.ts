@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit} from "@angular/core";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {ProjectCacheService} from "core-components/projects/project-cache.service";
+import {Observable} from "rxjs";
 
 @Component({
   templateUrl: './project-single-widget.component.html',
@@ -9,7 +10,7 @@ import {ProjectCacheService} from "core-components/projects/project-cache.servic
 })
 export class ProjectSingleWidgetComponent implements OnInit {
 
-  public project:any;
+  public project$:Observable<any>;
 
   constructor(private readonly currentProject:CurrentProjectService,
               private projectCache:ProjectCacheService) {
@@ -17,8 +18,6 @@ export class ProjectSingleWidgetComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.projectCache.require(this.currentProject.id!).then((p) => {
-      this.project = p;
-    });
+    this.project$ = this.projectCache.requireAndStream(this.currentProject.id!);
   }
 }

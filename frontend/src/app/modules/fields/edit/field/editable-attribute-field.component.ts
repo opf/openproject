@@ -138,8 +138,7 @@ export class EditableAttributeFieldComponent implements OnInit, OnDestroy {
   }
 
   public render() {
-    // ToDO: Correct Type and remove "as any"
-    const el = this.fieldRenderer.render(this.resource as any, this.fieldName, null, this.displayPlaceholder);
+    const el = this.fieldRenderer.render(this.resource, this.fieldName, null, this.displayPlaceholder);
     this.displayContainer.nativeElement.innerHTML = '';
     this.displayContainer.nativeElement.appendChild(el);
   }

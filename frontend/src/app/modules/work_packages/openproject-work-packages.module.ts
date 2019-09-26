@@ -157,6 +157,7 @@ import {WorkPackageViewToggleButton} from "core-components/wp-buttons/wp-view-to
 import {WorkPackagesGridComponent} from "core-components/wp-grid/wp-grid.component";
 import {WorkPackageViewDropdownMenuDirective} from "core-components/op-context-menu/handlers/wp-view-dropdown-menu.directive";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
+import {OpenprojectProjectsModule} from "core-app/modules/projects/openproject-projects.module";
 
 
 @NgModule({
@@ -171,6 +172,8 @@ import {HalEventsService} from "core-app/modules/hal/services/hal-events.service
     OpenprojectAttachmentsModule,
 
     OpenprojectBcfModule,
+
+    OpenprojectProjectsModule,
 
     // Work package custom actions
     //WpCustomActionsModule,
