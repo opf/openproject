@@ -55,7 +55,7 @@ export class DisplayField extends Field {
   }
 
   public texts = {
-    empty: this.I18n.t('js.work_packages.no_value'),
+    empty: this.I18n.t('js.label_no_value'),
     placeholder: this.I18n.t('js.placeholders.default')
   };
 

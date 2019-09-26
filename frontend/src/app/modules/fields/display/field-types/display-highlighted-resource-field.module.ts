@@ -26,33 +26,33 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ResourcesDisplayField} from "./wp-display-resources-field.module";
-import {cssClassCustomOption} from "core-app/modules/fields/display/display-field.module";
+import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
+import {HighlightableDisplayField} from "core-app/modules/fields/display/field-types/display-highlightable-field.module";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
-export class MultipleLinesStringObjectsDisplayField extends ResourcesDisplayField {
+export class HighlightedResourceDisplayField extends HighlightableDisplayField {
 
   public render(element:HTMLElement, displayText:string):void {
-    const values = this.value;
-    element.setAttribute('title', displayText);
-    element.textContent = displayText;
+    super.render(element, displayText);
 
-    element.innerHTML = '';
-
-    if (values.length === 0) {
-      this.renderEmpty(element);
-    } else {
-      this.renderValues(values, element);
+    if (this.shouldHighlight) {
+      this.addHighlight(element);
     }
   }
 
-  protected renderValues(values:string[], element:HTMLElement) {
-    values.forEach((value) => {
-      const div = document.createElement('div');
-      div.classList.add(cssClassCustomOption, '-multiple-lines');
-      div.setAttribute('title', value);
-      div.textContent = value;
+  public get value() {
+    if (this.schema) {
+      return this.attribute && this.attribute.name;
+    }
+    else {
+      return null;
+    }
+  }
 
-      element.appendChild(div);
-    });
+  private addHighlight(element:HTMLElement):void {
+    if (this.attribute instanceof HalResource) {
+      const hlClass = Highlighting.inlineClass(this.name, this.attribute.id!);
+      element.classList.add(hlClass);
+    }
   }
 }

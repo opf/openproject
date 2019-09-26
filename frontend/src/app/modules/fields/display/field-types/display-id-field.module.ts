@@ -38,8 +38,9 @@ export class IdDisplayField extends DisplayField {
   };
 
   private $state:StateService = this.$injector.get(StateService);
-  private keepTab:KeepTabService = this.$injector.get(KeepTabService);
-  private uiStateBuilder:UiStateLinkBuilder = new UiStateLinkBuilder(this.$state, this.keepTab);
+  // ToDo: Move to WorkPackage specific ID Field?
+//  private keepTab:KeepTabService = this.$injector.get(KeepTabService);
+//  private uiStateBuilder:UiStateLinkBuilder = new UiStateLinkBuilder(this.$state, this.keepTab);
 
   public get value() {
     if (this.resource.isNew) {
@@ -55,13 +56,15 @@ export class IdDisplayField extends DisplayField {
       return;
     }
 
-    let link = this.uiStateBuilder.linkToShow(
+    // ToDo: siehe oben
+   /* let link = this.uiStateBuilder.linkToShow(
       this.value,
       displayText,
       this.value
     );
 
     element.appendChild(link);
+    */
   }
 
   public isEmpty():boolean {

@@ -26,32 +26,33 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {TimezoneService} from 'core-components/datetime/timezone.service';
-import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
-import {HighlightableDisplayField} from "core-app/modules/fields/display/field-types/wp-display-highlightable-field.module";
+import {ResourcesDisplayField} from "./display-resources-field.module";
+import {cssClassCustomOption} from "core-app/modules/fields/display/display-field.module";
 
-export class DateDisplayField extends HighlightableDisplayField {
-  private timezoneService = this.$injector.get(TimezoneService);
+export class MultipleLinesStringObjectsDisplayField extends ResourcesDisplayField {
 
   public render(element:HTMLElement, displayText:string):void {
-    super.render(element, displayText);
+    const values = this.value;
+    element.setAttribute('title', displayText);
+    element.textContent = displayText;
 
-    // Highlight overdue tasks
-    if (this.shouldHighlight && this.canOverdue) {
-      const diff = this.timezoneService.daysFromToday(this.value);
-      element.classList.add(Highlighting.overdueDate(diff));
-    }
-  }
+    element.innerHTML = '';
 
-  public get canOverdue():boolean {
-    return ['dueDate', 'date'].indexOf(this.name) !== -1;
-  }
-
-  public get valueString() {
-    if (this.value) {
-      return this.timezoneService.formattedDate(this.value);
+    if (values.length === 0) {
+      this.renderEmpty(element);
     } else {
-      return '';
+      this.renderValues(values, element);
     }
+  }
+
+  protected renderValues(values:string[], element:HTMLElement) {
+    values.forEach((value) => {
+      const div = document.createElement('div');
+      div.classList.add(cssClassCustomOption, '-multiple-lines');
+      div.setAttribute('title', value);
+      div.textContent = value;
+
+      element.appendChild(div);
+    });
   }
 }

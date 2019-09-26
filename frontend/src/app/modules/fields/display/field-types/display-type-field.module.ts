@@ -26,33 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
-import {HighlightableDisplayField} from "core-app/modules/fields/display/field-types/wp-display-highlightable-field.module";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {HighlightedResourceDisplayField} from "core-app/modules/fields/display/field-types/display-highlighted-resource-field.module";
 
-export class HighlightedResourceDisplayField extends HighlightableDisplayField {
-
-  public render(element:HTMLElement, displayText:string):void {
-    super.render(element, displayText);
-
-    if (this.shouldHighlight) {
-      this.addHighlight(element);
-    }
-  }
-
-  public get value() {
-    if (this.schema) {
-      return this.attribute && this.attribute.name;
-    }
-    else {
-      return null;
-    }
-  }
-
-  private addHighlight(element:HTMLElement):void {
-    if (this.attribute instanceof HalResource) {
-      const hlClass = Highlighting.inlineClass(this.name, this.attribute.id!);
-      element.classList.add(hlClass);
-    }
+export class TypeDisplayField extends HighlightedResourceDisplayField {
+  // Type will always be highlighted
+  public get shouldHighlight() {
+    return true;
   }
 }

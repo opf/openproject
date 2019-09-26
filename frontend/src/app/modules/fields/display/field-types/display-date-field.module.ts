@@ -26,11 +26,32 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {HighlightedResourceDisplayField} from "core-app/modules/fields/display/field-types/wp-display-highlighted-resource-field.module";
+import {TimezoneService} from 'core-components/datetime/timezone.service';
+import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
+import {HighlightableDisplayField} from "core-app/modules/fields/display/field-types/display-highlightable-field.module";
 
-export class TypeDisplayField extends HighlightedResourceDisplayField {
-  // Type will always be highlighted
-  public get shouldHighlight() {
-    return true;
+export class DateDisplayField extends HighlightableDisplayField {
+  private timezoneService = this.$injector.get(TimezoneService);
+
+  public render(element:HTMLElement, displayText:string):void {
+    super.render(element, displayText);
+
+    // Highlight overdue tasks
+    if (this.shouldHighlight && this.canOverdue) {
+      const diff = this.timezoneService.daysFromToday(this.value);
+      element.classList.add(Highlighting.overdueDate(diff));
+    }
+  }
+
+  public get canOverdue():boolean {
+    return ['dueDate', 'date'].indexOf(this.name) !== -1;
+  }
+
+  public get valueString() {
+    if (this.value) {
+      return this.timezoneService.formattedDate(this.value);
+    } else {
+      return '';
+    }
   }
 }

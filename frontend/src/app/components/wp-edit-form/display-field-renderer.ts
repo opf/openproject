@@ -4,10 +4,10 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {DisplayFieldContext, DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
 import {DisplayField} from "core-app/modules/fields/display/display-field.module";
-import {MultipleLinesStringObjectsDisplayField} from "core-app/modules/fields/display/field-types/wp-display-multiple-lines-string-objects-field.module";
-import {ProgressTextDisplayField} from "core-app/modules/fields/display/field-types/wp-display-progress-text-field.module";
+import {MultipleLinesStringObjectsDisplayField} from "core-app/modules/fields/display/field-types/display-multiple-lines-string-objects-field.module";
+import {ProgressTextDisplayField} from "core-app/modules/fields/display/field-types/display-progress-text-field.module";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
-import {MultipleLinesUserFieldModule} from "core-app/modules/fields/display/field-types/wp-display-multiple-lines-user-field.module";
+import {MultipleLinesUserFieldModule} from "core-app/modules/fields/display/field-types/display-multiple-lines-user-field.module";
 
 export const editableClassName = '-editable';
 export const requiredClassName = '-required';

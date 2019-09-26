@@ -307,6 +307,7 @@ en:
     label_no_data: "No data to display"
     label_no_due_date: "no end date"
     label_no_start_date: "no start date"
+    label_no_value: "No value"
     label_none: "none"
     label_not_contains: "doesn't contain"
     label_not_equals: "is not"
@@ -682,7 +683,6 @@ en:
       message_view_spent_time: "Show spent time for this work package"
       message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
-      no_value: "No value"
       placeholder_filter_by_text: "Subject, description, comments, ..."
       inline_create:
        title: 'Click here to add a new work package to this list'

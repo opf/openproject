@@ -26,13 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {DisplayField} from "core-app/modules/fields/display/display-field.module";
-import {WorkPackageViewHighlightingService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
+import {ProgressDisplayField} from './display-progress-field.module';
 
-export class HighlightableDisplayField extends DisplayField {
-  protected readonly wpTableHighlighting:WorkPackageViewHighlightingService = this.$injector.get(WorkPackageViewHighlightingService);
-
-  public get shouldHighlight() {
-    return this.context.options.colorize !== false && (this.context.container !== 'table' || this.wpTableHighlighting.shouldHighlightInline(this.name));
+export class ProgressTextDisplayField extends ProgressDisplayField {
+  public render(element:HTMLElement, displayText:string):void {
+    const label = this.percentLabel;
+    element.setAttribute('title', label);
+    element.innerHTML = '';
+    element.textContent = label;
   }
 }

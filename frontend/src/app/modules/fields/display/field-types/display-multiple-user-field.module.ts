@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ResourcesDisplayField} from "./wp-display-resources-field.module";
+import {ResourcesDisplayField} from "./display-resources-field.module";
 import {cssClassCustomOption} from "core-app/modules/fields/display/display-field.module";
 import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
 import {UserFieldPortalService} from "core-app/modules/fields/display/display-portal/display-user-field-portal/user-field-portal-service";
@@ -37,7 +37,6 @@ export class MultipleUserFieldModule extends ResourcesDisplayField {
   public userDisplayPortal = this.$injector.get(UserFieldPortalService);
   public portalCleanup = this.$injector.get(PortalCleanupService);
   public outlet:DomPortalOutlet;
-
 
   public render(element:HTMLElement, displayText:string):void {
     const names = this.value;
