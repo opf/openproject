@@ -28,9 +28,9 @@
 
 import {Component, Injector, Input} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
 import {FieldDescriptor, GroupDescriptor} from 'core-components/work-packages/wp-single-view/wp-single-view.component';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {EditFieldGroupComponent} from "core-app/modules/fields/edit/edit-field-group.component";
 
 @Component({
   selector: 'wp-attribute-group',
@@ -48,7 +48,7 @@ export class WorkPackageFormAttributeGroupComponent {
   };
 
   constructor(readonly I18n:I18nService,
-              public wpEditFieldGroup:WorkPackageEditFieldGroupComponent,
+              public wpEditFieldGroup:EditFieldGroupComponent,
               protected injector:Injector) {
   }
 

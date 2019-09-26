@@ -30,7 +30,6 @@ import {Injector} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from '../states.service';
 import {CellBuilder, editCellContainer, tdClassName} from '../wp-fast-table/builders/cell-builder';
-import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 import {WorkPackageTable} from 'core-components/wp-fast-table/wp-fast-table';
 import {WorkPackageEditingPortalService} from "core-app/modules/fields/edit/editing-portal/wp-editing-portal-service";
@@ -39,6 +38,7 @@ import {editModeClassName} from "core-app/modules/fields/edit/edit-field.compone
 import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
 import {EditContext} from "core-app/modules/fields/edit/edit-form/edit-context";
 import {EditForm} from "core-app/modules/fields/edit/edit-form/edit-form";
+import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 
 export class TableRowEditContext implements EditContext {
 
@@ -69,7 +69,7 @@ export class TableRowEditContext implements EditContext {
     return this.rowContainer.find(`.${tdClassName}.${fieldName}`).first();
   }
 
-  public activateField(form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[]):Promise<WorkPackageEditFieldHandler> {
+  public activateField(form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[]):Promise<EditFieldHandler> {
     return this.waitForContainer(fieldName)
       .then((cell) => {
 

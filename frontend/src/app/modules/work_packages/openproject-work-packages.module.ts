@@ -73,7 +73,6 @@ import {WpCustomActionsComponent} from 'core-components/wp-custom-actions/wp-cus
 import {WorkPackageRelationsCountComponent} from 'core-components/work-packages/wp-relations-count/wp-relations-count.component';
 import {WorkPackageWatchersCountComponent} from 'core-components/work-packages/wp-relations-count/wp-watchers-count.component';
 import {WorkPackageBreadcrumbComponent} from 'core-components/work-packages/wp-breadcrumb/wp-breadcrumb.component';
-import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
 import {WorkPackageSplitViewToolbarComponent} from 'core-components/wp-details/wp-details-toolbar.component';
 import {WorkPackageWatcherButtonComponent} from 'core-components/work-packages/wp-watcher-button/wp-watcher-button.component';
 import {WorkPackageSubjectComponent} from 'core-components/work-packages/wp-subject/wp-subject.component';
@@ -339,7 +338,6 @@ import {HalResourceEditingService} from "core-app/modules/fields/edit/services/h
     WorkPackageRelationsCountComponent,
     WorkPackageWatchersCountComponent,
     WorkPackageBreadcrumbComponent,
-    WorkPackageEditFieldGroupComponent,
     WorkPackageSplitViewToolbarComponent,
     WorkPackageWatcherButtonComponent,
     WorkPackageSubjectComponent,

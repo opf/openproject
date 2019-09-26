@@ -18,12 +18,12 @@
 
         <wp-edit-field *ngIf="descriptor.field!.isFormattable"
                        class="wp-edit-formattable-field"
-                       [workPackageId]="workPackage.id"
+                       [workPackage]="workPackage"
                        [isDropTarget]="true"
                        [fieldName]="descriptor.name">
         </wp-edit-field>
         <wp-edit-field *ngIf="!descriptor.field.isFormattable"
-                       [workPackageId]="workPackage.id"
+                       [workPackage]="workPackage"
                        [fieldName]="descriptor.name"
                        [ngClass]="descriptor.field!.schema.type === 'String' ? 'wp-edit-field--text' : ''">
         </wp-edit-field>
@@ -40,7 +40,7 @@
         *ngIf="descriptor.multiple"
         class="attributes-key-value--value-container -minimal">
         <wp-edit-field [fieldName]="descriptor.fields[0].name"
-                       [workPackageId]="workPackage.id"
+                       [workPackage]="workPackage"
                        [wrapperClasses]="'-small -shrink'"
                        [displayPlaceholder]="text[descriptor.name][descriptor.fields[0].name]">
         </wp-edit-field>
@@ -48,7 +48,7 @@
         <span class="attributes-key-value--value-separator"></span>
 
         <wp-edit-field [fieldName]="descriptor.fields[1].name"
-                       [workPackageId]="workPackage.id"
+                       [workPackage]="workPackage"
                        [wrapperClasses]="'-small -shrink'"
                        [displayPlaceholder]="text[descriptor.name][descriptor.fields[1].name]">
         </wp-edit-field>

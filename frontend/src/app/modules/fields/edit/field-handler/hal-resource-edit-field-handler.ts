@@ -41,8 +41,9 @@ import {Subject} from 'rxjs';
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {EditForm} from "core-app/modules/fields/edit/edit-form/edit-form";
 import {EditContext} from "core-app/modules/fields/edit/edit-form/edit-context";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
-export class WorkPackageEditFieldHandler extends EditFieldHandler {
+export class HalResourceEditFieldHandler extends EditFieldHandler {
   // Injections
   readonly FocusHelper:FocusHelperService = this.injector.get(FocusHelperService);
   readonly ConfigurationService = this.injector.get(ConfigurationService);
@@ -119,7 +120,7 @@ export class WorkPackageEditFieldHandler extends EditFieldHandler {
 
   public onFocusOut() {
     // In case of inline create or erroneous forms: do not save on focus loss
-    if (this.workPackage.subject && this.withErrors && this.withErrors!.length === 0) {
+    if (this.withErrors && this.withErrors!.length === 0) {
       this.handleUserSubmit();
     }
   }
@@ -191,7 +192,7 @@ export class WorkPackageEditFieldHandler extends EditFieldHandler {
     delete this.form.activeFields[this.fieldName];
     this.onDestroy.next();
     this.onDestroy.complete();
-    this.editContext.reset(this.workPackage, this.fieldName, focus);
+    this.editContext.reset(this.resource, this.fieldName, focus);
   }
 
   /**
@@ -209,10 +210,10 @@ export class WorkPackageEditFieldHandler extends EditFieldHandler {
   }
 
   /**
-   * Reference the form's work package
+   * Reference the form's resource
    */
-  public get workPackage():WorkPackageResource {
-    return this.form.resource as WorkPackageResource;
+  public get resource():HalResource {
+    return this.form.resource;
   }
 
   /**
@@ -226,7 +227,7 @@ export class WorkPackageEditFieldHandler extends EditFieldHandler {
    * Return a unique ID for this edit field
    */
   public get htmlId() {
-    return `wp-${this.workPackage.id}-inline-edit--field-${this.fieldName}`;
+    return `wp-${this.resource.id}-inline-edit--field-${this.fieldName}`;
   }
 
   /**
@@ -254,11 +255,7 @@ export class WorkPackageEditFieldHandler extends EditFieldHandler {
     }
   }
 
-  public previewContext(resource:WorkPackageResource) {
-    if (resource.isNew && resource.project) {
-      return resource.project.href;
-    } else if (!resource.isNew) {
-      return this.pathHelper.api.v3.work_packages.id(resource.id!).path;
-    }
+  public previewContext(resource:HalResource) {
+    return resource.previewPath();
   }
 }

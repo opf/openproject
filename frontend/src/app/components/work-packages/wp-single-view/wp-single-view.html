@@ -3,7 +3,7 @@
      [ngClass]="{'-can-have-columns' : enableTwoColumnLayout }">
   <div class="wp-new--subject-wrapper"
        *ngIf="workPackage.isNew">
-    <wp-edit-field [workPackageId]="workPackage.id"
+    <wp-edit-field [workPackage]="workPackage"
                    [wrapperClasses]="'-no-label'"
                    [fieldName]="'subject'"></wp-edit-field>
   </div>
@@ -51,7 +51,7 @@
                                [attributeScope]="'WorkPackage'"></attribute-help-text>
         </div>
         <div class="attributes-key-value--value-container">
-          <wp-edit-field [workPackageId]="workPackage.id"
+          <wp-edit-field [workPackage]="workPackage"
                          [fieldName]="descriptor.name"></wp-edit-field>
         </div>
       </div>
@@ -84,7 +84,7 @@
     </div>
     <div class="single-attribute work-packages--details--description">
       <wp-edit-field [fieldName]="'description'"
-                     [workPackageId]="workPackage.id"
+                     [workPackage]="workPackage"
                      [isDropTarget]="true"
                      [wrapperClasses]="'-no-label'"
                      [displayPlaceholder]="text.description.placeholder">

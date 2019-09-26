@@ -141,7 +141,7 @@ export abstract class EditFieldHandler {
     return 'constrained';
   }
 
-  public previewContext(resource:HalResource) {
+  public previewContext(resource:HalResource):string|undefined {
     return undefined;
   }
 }

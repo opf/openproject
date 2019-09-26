@@ -27,19 +27,18 @@
 // ++
 
 import {StateService} from '@uirouter/core';
-import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
 import {WorkPackageEditFieldComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.component';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from '../states.service';
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {Injector} from '@angular/core';
-import {WorkPackageEditFieldHandler} from 'core-components/wp-edit-form/work-package-edit-field-handler';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 import {WorkPackageEditingPortalService} from "core-app/modules/fields/edit/editing-portal/wp-editing-portal-service";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
-import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import {EditForm} from "core-app/modules/fields/edit/edit-form/edit-form";
 import {EditContext} from "core-app/modules/fields/edit/edit-form/edit-context";
+import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
+import {EditFieldGroupComponent} from "core-app/modules/fields/edit/edit-field-group.component";
 
 export class SingleViewEditContext implements EditContext {
 
@@ -49,16 +48,15 @@ export class SingleViewEditContext implements EditContext {
   public $state:StateService = this.injector.get(StateService);
   public halNotification:HalResourceNotificationService = this.injector.get(HalResourceNotificationService);
   public wpEditingPortalService:WorkPackageEditingPortalService = this.injector.get(WorkPackageEditingPortalService);
-  protected wpTableSelection:WorkPackageViewSelectionService = this.injector.get(WorkPackageViewSelectionService);
 
   // other fields
   public successState:string;
 
   constructor(readonly injector:Injector,
-              readonly fieldGroup:WorkPackageEditFieldGroupComponent) {
+              readonly fieldGroup:EditFieldGroupComponent) {
   }
 
-  public async activateField(form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[]):Promise<WorkPackageEditFieldHandler> {
+  public async activateField(form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[]):Promise<EditFieldHandler> {
     return this.fieldCtrl(fieldName).then((ctrl) => {
       ctrl.setActive(true);
       const container = ctrl.editContainer.nativeElement;

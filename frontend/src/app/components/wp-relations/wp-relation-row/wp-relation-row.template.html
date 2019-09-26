@@ -42,9 +42,9 @@
     </div>
 
     <div class="grid-content medium-3 collapse wp-relations-status-field">
-      <wp-edit-field-group *ngIf="relatedWorkPackage" [workPackage]="relatedWorkPackage">
-        <wp-edit-field [workPackageId]="relatedWorkPackage.id" fieldName="status"></wp-edit-field>
-      </wp-edit-field-group>
+      <edit-field-group *ngIf="relatedWorkPackage" [resource]="relatedWorkPackage">
+        <wp-edit-field [workPackage]="relatedWorkPackage" fieldName="status"></wp-edit-field>
+      </edit-field-group>
     </div>
 
     <div class="grid-content medium-2 collapse wp-relations-controls-section"

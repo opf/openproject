@@ -49,7 +49,6 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
@@ -57,6 +56,7 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {ClickPositionMapper} from "core-app/modules/common/set-click-position/set-click-position";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {EditFieldGroupComponent} from "core-app/modules/fields/edit/edit-field-group.component";
 
 @Component({
   selector: 'wp-edit-field',
@@ -65,7 +65,7 @@ import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 })
 export class WorkPackageEditFieldComponent implements OnInit, OnDestroy {
   @Input('fieldName') public fieldName:string;
-  @Input('workPackageId') public workPackageId:string;
+  @Input('workPackage') public workPackage:WorkPackageResource;
   @Input('wrapperClasses') public wrapperClasses?:string;
   @Input('displayFieldOptions') public displayFieldOptions:any = {};
   @Input('displayPlaceholder') public displayPlaceholder?:string;
@@ -74,7 +74,6 @@ export class WorkPackageEditFieldComponent implements OnInit, OnDestroy {
   @ViewChild('displayContainer', { static: true }) readonly displayContainer:ElementRef;
   @ViewChild('editContainer', { static: true }) readonly editContainer:ElementRef;
 
-  public workPackage:WorkPackageResource;
   public fieldRenderer:DisplayFieldRenderer;
   public editFieldContainerClass = editFieldContainerClass;
   public active = false;
@@ -91,7 +90,7 @@ export class WorkPackageEditFieldComponent implements OnInit, OnDestroy {
               protected halEditing:HalResourceEditingService,
               protected wpCacheService:WorkPackageCacheService,
               // Get parent field group from injector
-              protected wpEditFieldGroup:WorkPackageEditFieldGroupComponent,
+              protected wpEditFieldGroup:EditFieldGroupComponent,
               protected NotificationsService:NotificationsService,
               protected cdRef:ChangeDetectorRef,
               protected I18n:I18nService) {

@@ -52,6 +52,7 @@ import {UserFieldPortalService} from "core-app/modules/fields/display/display-po
 import {SelectAutocompleterRegisterService} from "core-app/modules/fields/edit/field-types/select-autocompleter-register.service";
 import {initializeChangesetMap} from "core-app/modules/fields/changeset/changeset.initializer";
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import {EditFieldGroupComponent} from "core-app/modules/fields/edit/edit-field-group.component";
 
 @NgModule({
   imports: [
@@ -63,12 +64,14 @@ import {HalResourceEditingService} from "core-app/modules/fields/edit/services/h
     EditFieldControlsComponent,
     EditFormPortalComponent,
     UserFieldPortalComponent,
+    EditFieldGroupComponent,
   ],
   providers: [
     WorkPackageEditingPortalService,
     UserFieldPortalService,
     DisplayFieldService,
     EditFieldService,
+    HalResourceEditingService,
     SelectAutocompleterRegisterService,
     { provide: APP_INITIALIZER, useFactory: initializeCoreEditFields, deps: [EditFieldService, SelectAutocompleterRegisterService], multi: true },
     { provide: APP_INITIALIZER, useFactory: initializeCoreDisplayFields, deps: [DisplayFieldService], multi: true },
@@ -88,6 +91,7 @@ import {HalResourceEditingService} from "core-app/modules/fields/edit/services/h
     TextEditFieldComponent,
     EditFieldControlsComponent,
     WorkPackageEditFieldComponent,
+    EditFieldGroupComponent
   ],
   entryComponents: [
     EditFormPortalComponent,

@@ -26,16 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageEditFieldHandler} from 'core-components/wp-edit-form/work-package-edit-field-handler';
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {EditForm} from "core-app/modules/fields/edit/edit-form/edit-form";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 
 export interface EditContext {
   /**
    * Activate the field, returning the element and associated field handler
    */
-  activateField(form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[]):Promise<WorkPackageEditFieldHandler>;
+  activateField(form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[]):Promise<EditFieldHandler>;
 
   /**
    * Show this required field. E.g., add the necessary column

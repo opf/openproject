@@ -26,36 +26,33 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {OpenprojectCommonModule} from 'core-app/modules/common/openproject-common.module';
+import {OpenprojectFieldsModule} from 'core-app/modules/fields/openproject-fields.module';
+import {NgModule} from '@angular/core';
+import {OpenprojectHalModule} from "core-app/modules/hal/openproject-hal.module";
+import {ProjectSingleWidgetComponent} from "core-components/projects/project-single-view/project-single-widget.component";
 
-import {Component, ElementRef, Input, OnInit} from '@angular/core';
-import {EditFieldGroupComponent} from "core-app/modules/fields/edit/edit-field-group.component";
 
-@Component({
-  selector: 'wp-replacement-label',
-  templateUrl: './wp-replacement-label.html'
+@NgModule({
+  imports: [
+    // Commons
+    OpenprojectCommonModule,
+
+    OpenprojectHalModule,
+    OpenprojectFieldsModule,
+  ],
+  providers: [
+
+  ],
+  declarations: [
+    ProjectSingleWidgetComponent,
+  ],
+  entryComponents: [
+    ProjectSingleWidgetComponent,
+  ],
+  exports: [
+
+  ]
 })
-export class WorkPackageReplacementLabelComponent implements OnInit {
-  @Input('fieldName') public fieldName:string;
-  private $element:JQuery;
-
-  constructor(protected wpEditFieldGroup:EditFieldGroupComponent,
-              protected elementRef:ElementRef) {
-  }
-
-  ngOnInit() {
-    this.$element = jQuery(this.elementRef.nativeElement);
-  }
-
-  public activate(evt:JQuery.TriggeredEvent) {
-    // Skip clicks on help texts
-    const target = jQuery(evt.target);
-    if (target.closest('.help-text--entry').length) {
-      return true;
-    }
-
-    const field = this.wpEditFieldGroup.fields[this.fieldName];
-    field && field.handleUserActivate(null);
-
-    return false;
-  }
+export class OpenprojectProjectsModule {
 }

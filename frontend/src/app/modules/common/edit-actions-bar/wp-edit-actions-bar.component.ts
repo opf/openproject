@@ -28,7 +28,7 @@
 
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Output} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {WorkPackageEditFieldGroupComponent} from "core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive";
+import {EditFieldGroupComponent} from "core-app/modules/fields/edit/edit-field-group.component";
 
 @Component({
   templateUrl: './wp-edit-actions-bar.html',
@@ -47,7 +47,7 @@ export class WorkPackageEditActionsBarComponent {
 
   constructor(private I18n:I18nService,
               private cdRef:ChangeDetectorRef,
-              private wpEditFieldGroup:WorkPackageEditFieldGroupComponent) {
+              private wpEditFieldGroup:EditFieldGroupComponent) {
   }
 
   public set saving(active:boolean) {
@@ -66,7 +66,7 @@ export class WorkPackageEditActionsBarComponent {
 
     this.saving = true;
     this.wpEditFieldGroup
-      .saveWorkPackage()
+      .save()
       .then(() => {
         this.saving = false;
         this.onSave.emit();

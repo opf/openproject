@@ -204,6 +204,14 @@ export class HalResource {
     return null;
   }
 
+  public previewPath():string|undefined {
+    if (this.isNew && this.project) {
+      return this.project.href;
+    }
+
+    return undefined;
+  }
+
   public $load(force = false):Promise<this> {
     if (!this.state) {
       return this.$loadResource(force);

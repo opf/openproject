@@ -186,6 +186,14 @@ export class WorkPackageBaseResource extends HalResource {
     return this.isNew || !!this.$links.update;
   }
 
+  public previewPath() {
+    if (!this.isNew) {
+      return this.pathHelper.api.v3.work_packages.id(this.id!).path;
+    } else {
+      return super.previewPath();
+    }
+  }
+
   /**
    * Return whether the work package is editable with the user's permission
    * on the given work package attribute.
