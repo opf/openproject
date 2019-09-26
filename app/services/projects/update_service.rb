@@ -49,6 +49,7 @@ module Projects
       notify_on_identifier_renamed
       send_update_notification
       update_wp_versions_on_parent_change
+      persist_status
 
       service_call
     end
@@ -75,6 +76,10 @@ module Projects
       return unless memoized_changes['parent_id']
 
       WorkPackage.update_versions_from_hierarchy_change(model)
+    end
+
+    def persist_status
+      model.status.save if model.status.changed?
     end
   end
 end

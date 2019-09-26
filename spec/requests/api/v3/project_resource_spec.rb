@@ -484,7 +484,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       end
     end
 
-    context 'without permission to create projects' do
+    context 'without permission to patch projects' do
       let(:permissions) { [] }
 
       it 'responds with 403' do
@@ -499,7 +499,43 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       end
     end
 
-    context 'with faulty params' do
+    context 'with a status' do
+      let(:body) do
+        {
+          status: {
+            "code": "off track",
+            "explanation": "Some explanation."
+          }
+        }
+      end
+
+      it 'alters the status' do
+        expect(last_response.body)
+          .to be_json_eql(
+            {
+              "code": "off track",
+              "explanation": {
+                "format": "markdown",
+                "html": "<p>Some explanation.</p>",
+                "raw": "Some explanation."
+              }
+            }.to_json
+          )
+          .at_path("status")
+      end
+
+      it 'persists the altered status' do
+        project_status.reload
+
+        expect(project_status.code)
+          .to eql('off_track')
+
+        expect(project_status.explanation)
+          .to eql('Some explanation.')
+      end
+    end
+
+    context 'with faulty name' do
       let(:body) do
         {
           name: nil
@@ -525,6 +561,37 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
         expect(last_response.body)
           .to be_json_eql("Name can't be blank.".to_json)
           .at_path('message')
+      end
+    end
+
+    context 'with a faulty status' do
+      let(:body) do
+        {
+          status: {
+            "code": "bogus"
+          }
+        }
+      end
+
+      it 'responds with 422' do
+        expect(last_response.status).to eq(422)
+      end
+
+      it 'does not change the project status' do
+        code_before = project_status.code
+
+        expect(project_status.reload.code)
+          .to eql(code_before)
+      end
+
+      it 'denotes the error' do
+        expect(last_response.body)
+          .to be_json_eql('Error'.to_json)
+                .at_path('_type')
+
+        expect(last_response.body)
+          .to be_json_eql("Status is not set to one of the allowed values.".to_json)
+                .at_path('message')
       end
     end
   end
