@@ -30,10 +30,15 @@ import {DisplayField} from "core-app/modules/fields/display/display-field.module
 import {WorkPackageViewHighlightingService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
 
 export class HighlightableDisplayField extends DisplayField {
-  // ToDo
- // protected readonly wpTableHighlighting:WorkPackageViewHighlightingService = this.$injector.get(WorkPackageViewHighlightingService);
+
+  /** Optionally test if we can inject highlighting service */
+  protected readonly viewHighlighting:WorkPackageViewHighlightingService = this.$injector.get(WorkPackageViewHighlightingService, null);
 
   public get shouldHighlight() {
-    return this.context.options.colorize !== false && (this.context.container !== 'table'); //|| this.wpTableHighlighting.shouldHighlightInline(this.name));
+    if (this.context.options.colorize === false || this.context.container !== 'table') {
+      return false;
+    }
+
+    return !!this.viewHighlighting && this.viewHighlighting.shouldHighlightInline(this.name);
   }
 }

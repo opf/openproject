@@ -28,18 +28,13 @@
 
 import {DurationDisplayField} from './duration-display-field.module';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {ProjectCacheService} from "core-components/projects/project-cache.service";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 
-export class SpentTimeDisplayField extends DurationDisplayField {
+export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
   public text = {
     linkTitle: this.I18n.t('js.work_packages.message_view_spent_time')
   };
-
-
-  // ToDO: WorkPackage specific field?
-
 
   private PathHelper:PathHelperService = this.$injector.get(PathHelperService);
   private projectCacheService:ProjectCacheService = this.$injector.get(ProjectCacheService);

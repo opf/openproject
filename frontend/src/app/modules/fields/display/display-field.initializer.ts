@@ -39,13 +39,13 @@ import {DateTimeDisplayField} from "core-app/modules/fields/display/field-types/
 import {BooleanDisplayField} from "core-app/modules/fields/display/field-types/boolean-display-field.module";
 import {ProgressDisplayField} from "core-app/modules/fields/display/field-types/progress-display-field.module";
 import {WorkPackageDisplayField} from "core-app/modules/fields/display/field-types/work-package-display-field.module";
-import {SpentTimeDisplayField} from "core-app/modules/fields/display/field-types/spent-time-display-field.module";
+import {WorkPackageSpentTimeDisplayField} from "core-app/modules/fields/display/field-types/wp-spent-time-display-field.module";
 import {IdDisplayField} from "core-app/modules/fields/display/field-types/id-display-field.module";
 import {HighlightedResourceDisplayField} from "core-app/modules/fields/display/field-types/highlighted-resource-display-field.module";
 import {TypeDisplayField} from "core-app/modules/fields/display/field-types/type-display-field.module";
 import {UserDisplayField} from "core-app/modules/fields/display/field-types/user-display-field.module";
 import {MultipleUserFieldModule} from "core-app/modules/fields/display/field-types/multiple-user-display-field.module";
-import {WpIdDisplayField} from "core-app/modules/fields/display/field-types/wp-id-display-field.module";
+import {WorkPackageIdDisplayField} from "core-app/modules/fields/display/field-types/wp-id-display-field.module";
 
 export function initializeCoreDisplayFields(displayFieldService:DisplayFieldService) {
   return () => {
@@ -73,11 +73,11 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
       .addFieldType(BooleanDisplayField, 'boolean', ['Boolean'])
       .addFieldType(ProgressDisplayField, 'progress', ['percentageDone'])
       .addFieldType(WorkPackageDisplayField, 'work_package', ['WorkPackage'])
-      .addFieldType(SpentTimeDisplayField, 'spentTime', ['spentTime'])
       .addFieldType(IdDisplayField, 'id', ['id'])
       .addFieldType(UserDisplayField, 'user', ['User']);
 
     displayFieldService
-        .addSpecificFieldType('WorkPackage', WpIdDisplayField, 'id', ['id'])
+        .addSpecificFieldType('WorkPackage', WorkPackageIdDisplayField, 'id', ['id'])
+        .addSpecificFieldType('workPackage', WorkPackageSpentTimeDisplayField, 'spentTime', ['spentTime'])
   };
 }
