@@ -207,6 +207,21 @@ module ProjectsHelper
     end
   end
 
+  def project_options_for_status(project)
+    contract = if project.new_record?
+                 Projects::CreateContract
+               else
+                 Projects::UpdateContract
+               end
+
+    contract
+      .new(project, current_user)
+      .assignable_status_codes
+      .map do |code|
+      [I18n.t("activerecord.attributes.project/status.codes.#{code}"), code]
+    end
+  end
+
   def shorten_text(text, length)
     text.to_s.gsub(/\A(.{#{length}[^\n\r]*).*\z/m, '\1...').strip
   end

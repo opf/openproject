@@ -27,16 +27,22 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%# locals: form, all_fields, only_required #%>
+<%
+  project = form.object
+  project.build_status unless project.status
+%>
 
-<% form.object.custom_field_values.each do |value| %>
-  <%= form.fields_for_custom_fields :custom_field_values, value do |value_form| %>
-    <% required = value.custom_field.is_required? %>
-    <%# display all fields OR only display required fields OR only display optional fields #%>
-    <% if all_fields || (only_required && required) || (!only_required && !required) %>
-      <div class="form--field custom_field_<%= value.custom_field.id %> <%= required ? '-required' : '' %>">
-        <%= value_form.custom_field(container_class: '-wide', required: required) %>
-      </div>
-    <% end %>
-  <% end %>
+<%= form.fields_for :status, project.status do |status_form| %>
+  <div class="form--field">
+    <%= status_form.select :code,
+                           project_options_for_status(project),
+                           include_blank: true,
+                           container_class: '-wide' %>
+  </div>
+  <div class="form--field">
+    <%= status_form.text_area :explanation,
+                              with_text_formatting: true,
+                              preview_context: project_preview_context(project.status, project),
+                              container_class: '-xxwide' %>
+  </div>
 <% end %>

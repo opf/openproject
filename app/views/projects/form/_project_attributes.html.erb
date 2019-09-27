@@ -48,6 +48,8 @@ See docs/COPYRIGHT.rdoc for more details.
                locals: { form: form } %>
     <%= render partial: "projects/form/attributes/public",
                locals: { form: form } %>
+    <%= render partial: "projects/form/attributes/status",
+               locals: { form: form } %>
     <% unless all_fields %>
       <%= render partial: "customizable/form",
                  locals: { form: form, all_fields: false, only_required: false } %>

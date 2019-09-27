@@ -166,8 +166,12 @@ module API
                  setter: ->(fragment:, **) {
                    status = fragment.with_indifferent_access.slice(:explanation)
 
-                   if fragment['code']
-                     status[:code] = fragment['code'].strip.tr(' ', '_').underscore.to_sym
+                   if fragment.key?('code')
+                     status[:code] = if fragment['code'].nil?
+                                       nil
+                                     else
+                                       fragment['code'].strip.tr(' ', '_').underscore.to_sym
+                                     end
                    end
 
                    represented.status = status

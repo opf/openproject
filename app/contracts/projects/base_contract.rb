@@ -71,6 +71,10 @@ module Projects
       model.assignable_versions
     end
 
+    def assignable_status_codes
+      Project::Status.codes.keys
+    end
+
     private
 
     def validate_parent_assignable

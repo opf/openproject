@@ -93,7 +93,7 @@ describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
           }
         end
 
-        it 'does not set code' do
+        it 'does set code' do
           project = representer.from_hash(hash)
           expect(project.status[:code])
             .to eql :off_track
@@ -103,6 +103,29 @@ describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
           project = representer.from_hash(hash)
           expect(project.status[:explanation])
             .to be_nil
+        end
+      end
+
+      context 'with null for a scope' do
+        let(:hash) do
+          {
+            "status" => {
+              "code" => nil
+            }
+          }
+        end
+
+        it 'does set code to nil' do
+          project = representer.from_hash(hash).to_h
+
+          expect(project)
+            .to be_key(:status)
+
+          expect(project[:status])
+            .to be_key(:code)
+
+          expect(project[:status][:code])
+            .to eql nil
         end
       end
     end

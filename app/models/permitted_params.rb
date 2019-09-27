@@ -162,19 +162,6 @@ class PermittedParams
     p
   end
 
-  def calendar_filter
-    keys =  Query.registered_filters.map(&:key)
-    op_keys = keys_whitelisted_by_list(params["op"], keys)
-    v_keys = keys_whitelisted_by_list(params["v"], keys).map { |f| { f => [] } }
-
-    params.permit(:project_id,
-                  :month,
-                  :year,
-                  f: [],
-                  op: op_keys,
-                  v: v_keys)
-  end
-
   def role
     params.require(:role).permit(*self.class.permitted_attributes[:role])
   end
@@ -299,10 +286,15 @@ class PermittedParams
                                                 :identifier,
                                                 :project_type_id,
                                                 :parent_id,
+                                                status: %i(code explanation),
                                                 custom_fields: [],
                                                 work_package_custom_field_ids: [],
                                                 type_ids: [],
                                                 enabled_module_names: [])
+
+    if whitelist[:status] && whitelist[:status][:code] && whitelist[:status][:code].blank?
+      whitelist[:status][:code] = nil
+    end
 
     whitelist.merge(custom_field_values(:project))
   end
