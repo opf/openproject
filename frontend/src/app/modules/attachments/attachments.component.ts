@@ -42,14 +42,11 @@ import {filter, takeUntil} from 'rxjs/operators';
 })
 export class AttachmentsComponent implements OnInit, OnDestroy {
   @Input('resource') public resource:HalResource;
-  @Input() public selfDestroy:boolean = false;
 
   public $element:JQuery;
   public allowUploading:boolean;
   public destroyImmediately:boolean;
   public text:any;
-  public $formElement:JQuery;
-  public initialAttachments:HalResource[];
 
   constructor(protected elementRef:ElementRef,
               protected I18n:I18nService,
@@ -78,17 +75,11 @@ export class AttachmentsComponent implements OnInit, OnDestroy {
       this.destroyImmediately = true;
     }
 
-    this.setupAttachmentDeletionCallback();
     this.setupResourceUpdateListener();
   }
 
-  public setupAttachmentDeletionCallback() {
-    this.memoizeCurrentAttachments();
-
-    this.$formElement = this.$element.closest('form');
-    this.$formElement.on('submit.attachment-component', () => {
-      this.destroyRemovedAttachments();
-    });
+  ngOnDestroy():void {
+    // nothing to do
   }
 
   public setupResourceUpdateListener() {
@@ -99,44 +90,13 @@ export class AttachmentsComponent implements OnInit, OnDestroy {
       )
       .subscribe((newResource:HalResource) => {
         this.resource = newResource || this.resource;
-
-        if (this.destroyImmediately) {
-          this.destroyRemovedAttachments();
-          this.memoizeCurrentAttachments();
-        }
       });
-  }
-
-  ngOnDestroy() {
-    this.$formElement.off('submit.attachment-component');
   }
 
   // Only show attachment list when allow uploading is set
   // or when at least one attachment exists
   public showAttachments() {
     return this.allowUploading || _.get(this.resource, 'attachments.count', 0) > 0;
-  }
-
-  private destroyRemovedAttachments() {
-    if (this.selfDestroy) {
-      return;
-    }
-
-    let missingAttachments = _.differenceBy(this.initialAttachments,
-      this.resource.attachments.elements,
-      (attachment:HalResource) => attachment.id);
-
-    if (missingAttachments.length) {
-      missingAttachments.forEach((attachment) => {
-        this
-          .resource
-          .removeAttachment(attachment);
-      });
-    }
-  }
-
-  private memoizeCurrentAttachments() {
-    this.initialAttachments = _.clone(this.resource.attachments.elements);
   }
 }
 

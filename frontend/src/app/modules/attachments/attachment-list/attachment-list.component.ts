@@ -42,13 +42,15 @@ import {AngularTrackingHelpers} from "core-components/angular/tracking-functions
 })
 export class AttachmentListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() public resource:HalResource;
-  @Input() public selfDestroy:boolean = false;
+  @Input() public destroyImmediately:boolean = true;
 
   trackByHref = AngularTrackingHelpers.trackByHref;
 
   attachments:HalResource[] = [];
+  public initialAttachments:HalResource[];
 
   public $element:JQuery;
+  public $formElement:JQuery;
 
   constructor(protected elementRef:ElementRef,
               protected states:States,
@@ -64,6 +66,7 @@ export class AttachmentListComponent implements OnInit, OnChanges, OnDestroy {
 
     this.attachments = this.resource.attachments.elements;
     this.setupResourceUpdateListener();
+    this.setupAttachmentDeletionCallback();
   }
 
   public setupResourceUpdateListener() {
@@ -81,7 +84,7 @@ export class AttachmentListComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy():void {
-    // Nothing to do
+    this.$formElement.off('submit.attachment-component');
   }
 
   ngOnChanges() {
@@ -97,6 +100,33 @@ export class AttachmentListComponent implements OnInit, OnChanges, OnDestroy {
 
   private get attachmentsUpdatable() {
     return (this.resource.attachments && this.resource.attachmentsBackend);
+  }
+
+  public setupAttachmentDeletionCallback() {
+    this.memoizeCurrentAttachments();
+
+    this.$formElement = this.$element.closest('form');
+    this.$formElement.on('submit.attachment-component', () => {
+      this.destroyRemovedAttachments();
+    });
+  }
+
+  private destroyRemovedAttachments() {
+    let missingAttachments = _.differenceBy(this.initialAttachments,
+      this.attachments,
+      (attachment:HalResource) => attachment.id);
+
+    if (missingAttachments.length) {
+      missingAttachments.forEach((attachment) => {
+        this
+          .resource
+          .removeAttachment(attachment);
+      });
+    }
+  }
+
+  private memoizeCurrentAttachments() {
+    this.initialAttachments = _.clone(this.resource.attachments.elements);
   }
 }
 
