@@ -127,7 +127,10 @@ module ProjectsHelper
   end
 
   def blacklisted_project_filter?(filter)
-    blacklist = [Queries::Projects::Filters::AncestorFilter]
+    blacklist = [Queries::Projects::Filters::AncestorFilter,
+                 Queries::Projects::Filters::PrincipalFilter,
+                 Queries::Projects::Filters::IdFilter,
+                 Queries::Projects::Filters::ParentFilter]
     blacklist << Queries::Filters::Shared::CustomFields::Base unless EnterpriseToken.allows_to?(:custom_fields_in_projects_list)
 
     blacklist.detect { |clazz| filter.is_a? clazz }
