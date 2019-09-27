@@ -70,6 +70,7 @@ end
 Redmine::MenuManager.map :account_menu do |menu|
   menu.push :my_page,
             :my_page_path,
+            caption: I18n.t('js.my_page.label'),
             if: Proc.new { User.current.logged? }
   menu.push :my_account,
             { controller: '/my', action: 'account' },
@@ -238,7 +239,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :announcements,
             { controller: '/announcements', action: 'edit' },
-            caption: 'Announcement',
+            caption: :label_announcement,
             icon: 'icon2 icon-news'
 
   menu.push :plugins,

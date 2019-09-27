@@ -20,7 +20,7 @@ es:
     button_back_to_list_view: "Volver a la lista"
     button_cancel: "Cancelar"
     button_close: "Cerrar"
-    button_change_project: "Change project"
+    button_change_project: "Cambiar proyecto"
     button_check_all: "Seleccionar Todos"
     button_configure-form: "Configurar formulario"
     button_confirm: "Confirmar"
@@ -41,8 +41,8 @@ es:
     button_open_details: "Abrir vista detallada"
     button_close_details: "Cerrar vista detallada"
     button_open_fullscreen: "Ver pantalla completa"
-    button_show_cards: "Show card view"
-    button_show_list: "Show list view"
+    button_show_cards: "Mostrar vista de tarjeta"
+    button_show_list: "Mostrar vista de lista"
     button_quote: "Comentario"
     button_save: "Guardar"
     button_settings: "Configuración"
@@ -52,7 +52,7 @@ es:
     button_export-atom: "Descargar Atom"
     calendar:
       title: 'Calendario'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
+      too_many: 'Hay %{count} paquetes de trabajo en total, pero solo pueden mostrarse %{max}.'
     card:
       add_new: 'Añadir nueva tarjeta'
       highlighting:
@@ -63,22 +63,22 @@ es:
       browser_error: "Su navegador no soporta copiar al portapapeles. Por favor, copie el texto seleccionado manualmente."
       copied_successful: "¡Copiado correctamente en el portapapeles!"
     chart:
-      type: 'Chart type'
-      axis_criteria: 'Axis criteria'
-      modal_title: 'Work package graph configuration'
+      type: 'Tipo de gráfico'
+      axis_criteria: 'Criterios de eje'
+      modal_title: 'Configuración del gráfico del paquete de trabajo'
       types:
-        line: 'Line'
-        horizontal_bar: 'Horizontal bar'
-        bar: 'Bar'
-        pie: 'Pie'
-        doughnut: 'Doughnut'
-        radar: 'Radar'
-        polar_area: 'Polar area'
+        line: 'Línea'
+        horizontal_bar: 'Barra horizontal'
+        bar: 'Barra'
+        pie: 'Circular'
+        doughnut: 'Anillos'
+        radar: 'Radial'
+        polar_area: 'Área polar'
       tabs:
         graph_settings: 'General'
-        dataset: 'Dataset %{number}'
+        dataset: 'Conjunto de datos %{number}'
       errors:
-        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
+        could_not_load: 'No se pueden cargar los datos necesarios para mostrar el gráfico. Puede que falten los permisos necesarios.'
     description_available_columns: "Columnas disponibles"
     description_current_position: "Usted está aquí: "
     description_select_work_package: "Seleccione el paquete de trabajo #%{id}"
@@ -138,7 +138,7 @@ es:
         drag_to_activate: "Arrastre campos desde aquí para activarlos"
         add_group: "Agregar grupo de atributos"
         add_table: "Agregar tabla de paquetes de trabajo relacionados"
-        edit_query: 'Edit query'
+        edit_query: 'Editar consulta'
         new_group: 'Nuevo grupo'
         reset_to_defaults: 'Restablecer valores predeterminados'
     custom_actions:
@@ -295,7 +295,7 @@ es:
     label_total_progress: "Progreso total: %{percent}%"
     label_total_amount: "Total: %{amount}"
     label_updated_on: "actualizado el"
-    label_value_derived_from_children: "(value derived from children)"
+    label_value_derived_from_children: "(valor derivado del elemento secundario)"
     label_warning: "Alerta"
     label_work_package: "Paquete de trabajo"
     label_work_package_plural: "Paquetes de trabajo"
@@ -331,7 +331,7 @@ es:
     label_wait: "Por favor espere para la configuración..."
     label_upload_counter: "%{done} de %{count} archivos terminados"
     label_validation_error: "El paquete de trabajo no puede ser guardado debido a los errores siguientes:"
-    label_view_has_changed: "This view has unsaved changes. Click to save them."
+    label_view_has_changed: "Esta vista tiene cambios sin guardar. Haga clic para guardarlos."
     help_texts:
       show_modal: 'Mostrar entrada de texto de ayuda para atributo'
     onboarding:
@@ -444,8 +444,8 @@ es:
       set_parent: "Establecer elemento primario"
       change_parent: "Cambiar padre"
       remove_parent: "Eliminar padre"
-      hierarchy_indent: "Indent hierarchy"
-      hierarchy_outdent: "Outdent hierarchy"
+      hierarchy_indent: "Aumentar sangría de jerarquía"
+      hierarchy_outdent: "Anular sangría de jerarquía"
       group_by_wp_type: "Agrupar por tipo de paquete de trabajo"
       group_by_relation_type: "Grupo por tipo de relación"
       add_parent: "Añadir padre existente"
@@ -573,7 +573,7 @@ es:
       image: "Imagen"
     work_packages:
       bulk_actions:
-        move: 'Bulk change of project'
+        move: 'Cambio masivo del proyecto'
         edit: 'Edición en masa'
         copy: 'Copia en masa'
         delete: 'Eliminación en masa'
@@ -605,7 +605,7 @@ es:
       message_successful_show_in_fullscreen: "Haga clic aquí para abrir este paquete de trabajo en la vista de pantalla completa."
       message_view_spent_time: "Mostrar el tiempo invertido en este paquete de trabajo"
       message_work_package_read_only: "El paquete de trabajo está bloqueado en este estado. Excepto el estado, ningún otro atributo se puede modificar."
-      message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
+      message_work_package_status_blocked: "El estado del paquete de trabajo no permite la escritura porque se asignarán el estado cerrado y la versión cerrada."
       no_value: "Sin valor"
       placeholder_filter_by_text: "Asunto, descripción, comentarios, ..."
       inline_create:
@@ -631,7 +631,7 @@ es:
       no_results:
         title: No hay paquetes de trabajo para mostrar.
         description: O bien no se han creado o se filtran todos los paquetes de trabajo.
-      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering.
+      limited_results: En el modo de ordenación manual, solo puede mostrarse un máximo de %{count} paquetes de trabajo. Filtre para reducir el número de resultados.
       property_groups:
         details: "Detalles"
         people: "Participantes"
@@ -691,9 +691,9 @@ es:
         confirm_edit_cancel: "¿Está seguro de que quiere cancelar la edición del nombre de esta vista? El título volverá a establecerse en el valor anterior."
         click_to_edit_query_name: "Haga clic para editar el título de esta vista."
         rename_query_placeholder: "Nombre de la vista"
-        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        star_text: "Marque esta vista como favorita y agréguela a la barra lateral de vistas guardadas de la izquierda."
         public_text: >
-          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+          Publique esta vista para que otros usuarios puedan acceder a esta. Los usuarios con el permiso “Administrar vistas públicas” puede modificar o quitar consultas públicas. Esto no afecta a la visibilidad de los resultados de paquetes de trabajo en esa vista y, según sus permisos, los usuarios pueden ver resultados distintos.
         errors:
           unretrievable_query: "No se puede recuperar la vista de la URL"
           not_found: "No existe la vista"
@@ -728,10 +728,10 @@ es:
           priority: 'Prioridad'
           type: 'Tipo'
         sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
+          description: 'Seleccione el modo de ordenación de los paquetes de trabajo:'
+          automatic: 'Automático'
+          manually: 'Manual'
+          warning: 'Al activar el modo de ordenación automática, se perderá la ordenación actual.'
         columns_help_text: "Use los datos anteriores para agregar o quitar columnas de la vista de tabla. Puede arrastrar y colocar las columnas para cambiar el orden."
         upsale:
           attribute_highlighting: '¿Necesita que algunos paquetes de trabajo destaquen del resto?'
@@ -841,6 +841,6 @@ es:
         project_and_subprojects: "y todos los subproyectos"
         search_for: "Búsqueda por"
     views:
-      card: 'Cards'
-      list: 'Table'
+      card: 'Tarjetas'
+      list: 'Tabla'
       timeline: 'Gantt'

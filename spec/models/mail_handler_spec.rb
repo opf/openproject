@@ -49,7 +49,77 @@ describe MailHandler, type: :model do
     allow(Setting).to receive(:default_language).and_return('en')
   end
 
+  shared_context 'wp_on_given_project' do
+    let(:permissions) { %i[add_work_packages] }
+    let!(:user) do
+      FactoryBot.create(:user,
+                        mail: 'JSmith@somenet.foo',
+                        member_in_project: project,
+                        member_with_permissions: permissions)
+    end
+
+    subject do
+      submit_email('wp_on_given_project.eml')
+    end
+  end
+
+  shared_context 'wp_update_with_quoted_reply_above' do
+    let(:permissions) { %i[edit_work_packages view_work_packages] }
+    let!(:user) do
+      FactoryBot.create(:user,
+                        mail: 'JSmith@somenet.foo',
+                        member_in_project: project,
+                        member_with_permissions: permissions)
+    end
+
+    let!(:work_package) do
+      FactoryBot.create(:work_package, id: 2, project: project)
+    end
+
+    subject do
+      submit_email('wp_update_with_quoted_reply_above.eml')
+    end
+  end
+
+  shared_context 'wp_update_with_multiple_quoted_reply_above' do
+    let(:permissions) { %i[edit_work_packages view_work_packages] }
+    let!(:user) do
+      FactoryBot.create(:user,
+                        mail: 'JSmith@somenet.foo',
+                        member_in_project: project,
+                        member_with_permissions: permissions)
+    end
+
+    let!(:work_package) do
+      FactoryBot.create(:work_package, id: 2, project: project)
+    end
+
+    subject do
+      submit_email('wp_update_with_multiple_quoted_reply_above.eml')
+    end
+  end
+
   describe '#receive' do
+    shared_examples_for 'work package created' do
+      it 'creates the work package' do
+        expect(subject)
+          .to be_a(WorkPackage)
+
+        expect(subject)
+          .to be_persisted
+      end
+    end
+
+    shared_examples_for 'journal created' do
+      it 'creates the journal' do
+        expect(subject)
+          .to be_a(Journal)
+
+        expect(subject)
+          .to be_persisted
+      end
+    end
+
     it 'should add a work_package by create user on public project' do
       Role.non_member.update_attribute :permissions, [:add_work_packages]
       project.update_attribute :is_public, true
@@ -98,6 +168,20 @@ describe MailHandler, type: :model do
       it 'does not create the work_package' do
         expect { subject }
           .not_to(change { WorkPackage.count })
+      end
+    end
+
+    context 'wp with status' do
+      let!(:status) { FactoryBot.create(:status, name: 'Resolved') }
+
+      # This email contains: 'Project: onlinestore' and 'Status: Resolved'
+      include_context 'wp_on_given_project'
+
+      it_behaves_like 'work package created'
+
+      it 'assigns the status to the created work package' do
+        expect(subject.status)
+          .to eql(status)
       end
     end
 
@@ -186,6 +270,102 @@ describe MailHandler, type: :model do
 
             expect(value).to eq option.id.to_s
           end
+        end
+      end
+    end
+
+    context 'truncate emails based on the Setting' do
+      context 'with no setting', with_settings: { mail_handler_body_delimiters: '' } do
+        include_context 'wp_on_given_project'
+
+        it_behaves_like 'work package created'
+
+        it 'adds the entire email into the work_package' do
+          expect(subject.description)
+            .to include('---')
+
+          expect(subject.description)
+            .to include('This paragraph is after the delimiter')
+        end
+      end
+
+      context 'with a single string', with_settings: { mail_handler_body_delimiters: '---' } do
+        include_context 'wp_on_given_project'
+
+        it_behaves_like 'work package created'
+
+        it 'truncates the email at the delimiter for the work package' do
+          expect(subject.description)
+            .to include('This paragraph is before delimiters')
+
+          expect(subject.description)
+            .to include('--- This line starts with a delimiter')
+
+          expect(subject.description)
+            .not_to match(/^---$/)
+
+          expect(subject.description)
+            .not_to include('This paragraph is after the delimiter')
+        end
+      end
+
+      context 'with a single quoted reply (e.g. reply to a OpenProject email notification)',
+              with_settings: { mail_handler_body_delimiters: '--- Reply above. Do not remove this line. ---' } do
+        include_context 'wp_update_with_quoted_reply_above'
+
+        it_behaves_like 'journal created'
+
+        it 'truncates the email at the delimiter with the quoted reply symbols (>)' do
+          expect(subject.notes)
+            .to include('An update to the issue by the sender.')
+
+          expect(subject.notes)
+            .not_to match(Regexp.escape('--- Reply above. Do not remove this line. ---'))
+
+          expect(subject.notes)
+            .not_to include('Looks like the JSON api for projects was missed.')
+        end
+      end
+
+      context 'with multiple quoted replies (e.g. reply to a reply of a Redmine email notification)',
+              with_settings: { mail_handler_body_delimiters: '--- Reply above. Do not remove this line. ---' } do
+        include_context 'wp_update_with_quoted_reply_above'
+
+        it_behaves_like 'journal created'
+
+        it 'truncates the email at the delimiter with the quoted reply symbols (>)' do
+          expect(subject.notes)
+            .to include('An update to the issue by the sender.')
+
+          expect(subject.notes)
+            .not_to match(Regexp.escape('--- Reply above. Do not remove this line. ---'))
+
+          expect(subject.notes)
+            .not_to include('Looks like the JSON api for projects was missed.')
+        end
+      end
+
+      context 'with multiple strings',
+              with_settings: { mail_handler_body_delimiters: "---\nBREAK" } do
+        include_context 'wp_on_given_project'
+
+        it_behaves_like 'work package created'
+
+        it 'truncates the email at the first delimiter found (BREAK)' do
+          expect(subject.description)
+            .to include('This paragraph is before delimiters')
+
+          expect(subject.description)
+            .not_to include('BREAK')
+
+          expect(subject.description)
+            .not_to include('This paragraph is between delimiters')
+
+          expect(subject.description)
+            .not_to match(/^---$/)
+
+          expect(subject.description)
+            .not_to include('This paragraph is after the delimiter')
         end
       end
     end

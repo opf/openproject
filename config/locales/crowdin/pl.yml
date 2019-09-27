@@ -90,7 +90,7 @@ pl:
   concatenation:
     single: 'lub'
   deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
+    time_entries: "Ten widok wpisów czasu jest zastąpiony przez moduł „Raporty kosztów”. Widok ten obsługuje teraz eksportowanie informacji o wpisach czasu jedynie do plików csv. W celu interaktywnego filtrowania należy aktywować moduł „Raporty kosztów” w ustawieniach projektu."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -272,7 +272,7 @@ pl:
         account: "Konto"
         attr_firstname: "Atrybut imię"
         attr_lastname: "Atrybut nazwiska"
-        attr_login: "Username attribute"
+        attr_login: "Atrybut nazwy użytkownika"
         attr_mail: "Atrybut adresu e-mail"
         base_dn: "Bazowa nazwa wyróżniająca"
         host: "Host"
@@ -653,7 +653,7 @@ pl:
     is_public: "Publiczny"
     issue: "Zadanie"
     lastname: "Nazwisko"
-    login: "Username"
+    login: "Nazwa użytkownika"
     mail: "Adres e-mail"
     name: "Nazwa"
     password: "Hasło"
@@ -1042,7 +1042,7 @@ pl:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF with descriptions"
+      pdf_with_descriptions: "PDF z opisami"
       pdf_with_descriptions_and_attachments: "Plik PDF z opisami i załącznikami"
       pdf_with_attachments: "Plik PDF z załącznikami"
   extraction:
@@ -1057,13 +1057,13 @@ pl:
   general_csv_encoding: "UTF-8"
   general_csv_separator: "."
   general_first_day_of_week: "7"
-  general_lang_name: "Angielski"
+  general_lang_name: "Polski"
   general_pdf_encoding: "ISO-8859-2"
   general_text_no: "nie"
   general_text_yes: "tak"
   general_text_No: "Nie"
   general_text_Yes: "Tak"
-  general_text_true: "true"
+  general_text_true: "prawda"
   general_text_false: "fałsz"
   gui_validation_error: "1 błąd"
   gui_validation_error_plural: "%{count} błędy/ów"
@@ -1415,7 +1415,7 @@ pl:
   label_overview: "Przegląd"
   label_page_title: "Tytuł strony"
   label_part_of: "część"
-  label_password_lost: "Forgot your password?"
+  label_password_lost: "Nie pamiętasz hasła?"
   label_password_rule_lowercase: "Małe litery"
   label_password_rule_numeric: "Znaki numeryczne"
   label_password_rule_special: "Znaki specjalne"
@@ -1460,7 +1460,7 @@ pl:
   label_query_plural: "Zapytania niestandardowe"
   label_query_menu_item: "Pozycja menu zapytania"
   label_read: "Czytaj..."
-  label_register: "Create a new account"
+  label_register: "Utwórz nowe konto"
   label_register_with_developer: "Zarejestruj się jako programista"
   label_registered_on: "Zarejestrowany na"
   label_registration_activation_by_email: "aktywacja konta przez e-mail"
@@ -1558,7 +1558,7 @@ pl:
   label_used_by_types: "Używane wg typów"
   label_used_in_projects: "Używane w projektach"
   label_user: "Użytkownik"
-  label_user_and_permission: "Users & Permissions"
+  label_user_and_permission: "Użytkownicy i uprawnienia"
   label_user_named: "Użytkownik %{name}"
   label_user_activity: "Aktywność użytkownika: %{value}"
   label_user_anonymous: "Anonimowy"
@@ -1571,7 +1571,7 @@ pl:
   label_user_new: "Nowy użytkownik"
   label_user_plural: "Użytkownicy"
   label_user_search: "Szukaj użytkownika"
-  label_user_settings: "User settings"
+  label_user_settings: "Ustawienia użytkownika"
   label_version_new: "Nowa wersja"
   label_version_plural: "Wersje"
   label_version_sharing_descendants: "Z podprojektami"
@@ -1589,7 +1589,7 @@ pl:
   label_wiki_content_added: "Dodano stronę wiki"
   label_wiki_content_updated: "Zaktualizowano stronę wiki"
   label_wiki_toc: "Spis treści"
-  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
+  label_wiki_toc_empty: "Spis treści jest pusty, ponieważ nie ma żadnych nagłówków."
   label_wiki_dont_show_menu_item: "Nie pokazuj tej strony wiki  w nawigacji projektu"
   label_wiki_edit: "Edycja wiki"
   label_wiki_edit_plural: "Edycja wiki"
@@ -1684,7 +1684,7 @@ pl:
     legacy_warning:
       timeline: 'To starsze makro osi czasu zostało usunięte i nie jest już dostępne. Funkcję tę można zastąpić makrem tabeli osadzonej.'
     include_wiki_page:
-      removed: 'The macro does no longer exist.'
+      removed: 'To makro już nie istnieje.'
     wiki_child_pages:
       errors:
         page_not_found: "Nie można znaleźć strony wiki %{name}."
@@ -2055,13 +2055,13 @@ pl:
   setting_display_subprojects_work_packages: "Domyślnie wyświetlaj pakiety robocze podprojektów na głównym projekcie"
   setting_emails_footer: "Stopka wiadomości e-mail"
   setting_emails_header: "Nagłówek wiadomości e-mail"
-  setting_email_login: "Use email as login"
+  setting_email_login: "Użyj adresu e-mail jako loginu"
   setting_enabled_scm: "Włączone SCM"
   setting_feeds_enabled: "Włącz kanały"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Maksymalny rozmiar plików tekstowych wyświetlanych w treści"
   setting_host_name: "Nazwa hosta"
-  setting_invitation_expiration_days: "Activation email expires after"
+  setting_invitation_expiration_days: "Ważność aktywacyjnej waidomości e-mail wygasa po"
   setting_work_package_done_ratio: "Oblicz status realizacji pakietu roboczego z"
   setting_work_package_done_ratio_field: "Użyj pola pakietu roboczego"
   setting_work_package_done_ratio_status: "Użyj statusu pakietu roboczego"
@@ -2418,7 +2418,7 @@ pl:
     Wysyła kolejne zaproszenie mailowe ze świeżym tokenem w przypadku, gdy stary wygasł lub gdy użytkownik nie otrzymał pierwszej wiadomości e-mail. Można używać też do wyboru nowej metody uwierzytelniania dla aktywnych użytkowników. Przy użyciu z aktywnymi użytkownikami ich status zmieni się na "zaproszeni".
   tooltip:
     setting_email_login: >
-      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
+      Jeśli włączone, użytkownik nie będzie mógł wybrać loginu podczas rejestracji. Zamiast tego jako identyfikator logowania będzie służyć jego adres e-mail. Administrator może zmienić login oddzielnie.
   queries:
     apply_filter: Zastosuj wstępny filtr
   top_menu:

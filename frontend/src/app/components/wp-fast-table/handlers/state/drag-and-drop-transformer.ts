@@ -65,15 +65,15 @@ export class DragAndDropTransformer {
         }
 
         const wpId:string = el.dataset.workPackageId!;
-        const workPackage = this.states.workPackages.get(wpId).value!;
-        return this.actionService.canPickup(workPackage);
+        const workPackage = this.states.workPackages.get(wpId).value;
+        return !!workPackage && this.actionService.canPickup(workPackage);
       },
       onMoved: async (el:HTMLElement, target:HTMLElement, source:HTMLElement) => {
         const wpId:string = el.dataset.workPackageId!;
-        const workPackage = this.states.workPackages.get(wpId).value!;
         const rowIndex = this.findRowIndex(el);
 
         try {
+          const workPackage = await this.wpCacheService.require(wpId);
           const newOrder = await this.wpTableOrder.move(this.currentOrder, wpId, rowIndex);
           await this.actionService.handleDrop(workPackage, el);
           this.updateRenderedOrder(newOrder);
@@ -96,9 +96,9 @@ export class DragAndDropTransformer {
         const newOrder = this.wpTableOrder.remove(this.currentOrder, wpId);
         this.updateRenderedOrder(newOrder);
       },
-      onAdded: (el:HTMLElement) => {
+      onAdded: async (el:HTMLElement) => {
         const wpId:string = el.dataset.workPackageId!;
-        const workPackage = this.states.workPackages.get(wpId).value!;
+        const workPackage = await this.wpCacheService.require(wpId);
         const rowIndex = this.findRowIndex(el);
 
         return this.actionService
@@ -112,10 +112,10 @@ export class DragAndDropTransformer {
           })
           .catch(() => false);
       },
-      onCloned: (clone:HTMLElement, original:HTMLElement) => {
+      onCloned: async (clone:HTMLElement, original:HTMLElement) => {
         // Replace clone with one TD of the subject
         const wpId:string = original.dataset.workPackageId!;
-        const workPackage = this.states.workPackages.get(wpId).value!;
+        const workPackage = await this.wpCacheService.require(wpId);
 
         const colspan = clone.children.length;
         const td = document.createElement('td');

@@ -20,7 +20,7 @@ ko:
     button_back_to_list_view: "목록으로 돌아가기"
     button_cancel: "취소"
     button_close: "닫기"
-    button_change_project: "Change project"
+    button_change_project: "프로젝트 변경"
     button_check_all: "모두 선택"
     button_configure-form: "구성 양식"
     button_confirm: "확인"
@@ -41,8 +41,8 @@ ko:
     button_open_details: "자세히 보기"
     button_close_details: "디테일 닫기"
     button_open_fullscreen: "전체화면 보기"
-    button_show_cards: "Show card view"
-    button_show_list: "Show list view"
+    button_show_cards: "카드 보기 표시"
+    button_show_list: "목록 보기 표시"
     button_quote: "인용"
     button_save: "저장"
     button_settings: "설정"
@@ -52,7 +52,7 @@ ko:
     button_export-atom: "Atom 다운로드"
     calendar:
       title: '달력'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
+      too_many: '총 %{count}개 작업 패키지가 있지만, %{max}개만 표시할 수 있습니다.'
     card:
       add_new: '새로운 카드를 추가하다'
       highlighting:
@@ -63,22 +63,22 @@ ko:
       browser_error: "브라우저를 클립보드에 복사를 지원 하지 않습니다. 텍스트를 타이핑하여 복사하십시오."
       copied_successful: "클립보드에 성공적으로 복사됨"
     chart:
-      type: 'Chart type'
-      axis_criteria: 'Axis criteria'
-      modal_title: 'Work package graph configuration'
+      type: '차트 유형'
+      axis_criteria: '축 기준'
+      modal_title: '작업 패키지 그래프 구성'
       types:
-        line: 'Line'
-        horizontal_bar: 'Horizontal bar'
-        bar: 'Bar'
-        pie: 'Pie'
-        doughnut: 'Doughnut'
-        radar: 'Radar'
-        polar_area: 'Polar area'
+        line: '라인'
+        horizontal_bar: '가로 막대'
+        bar: '막대'
+        pie: '파이'
+        doughnut: '도넛형'
+        radar: '레이더'
+        polar_area: '극지방'
       tabs:
         graph_settings: '일반'
-        dataset: 'Dataset %{number}'
+        dataset: '데이터 세트 %{number}'
       errors:
-        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
+        could_not_load: '그래프를 표시하기 위한 데이터를 로드할 수 없습니다. 필요한 권한이 부족할 수 있습니다.'
     description_available_columns: "사용 가능한 열"
     description_current_position: "사용자의 위치: "
     description_select_work_package: "작업 패키지 #%{id} 선택"
@@ -138,7 +138,7 @@ ko:
         drag_to_activate: "여기에서 필드를 끌어와서 활성화"
         add_group: "특성 그룹 추가"
         add_table: "관련 작업 패키지의 테이블 추가"
-        edit_query: 'Edit query'
+        edit_query: '쿼리 편집'
         new_group: '새 그룹'
         reset_to_defaults: '기본값으로 초기화'
     custom_actions:
@@ -246,8 +246,8 @@ ko:
     label_less_than_ago: "일 미만 전"
     label_loading: "로드 중..."
     label_me: "나"
-    label_menu_collapse: "collapse"
-    label_menu_expand: "expand"
+    label_menu_collapse: "축소"
+    label_menu_expand: "확장"
     label_more_than_ago: "일 이상 전"
     label_next: "다음"
     label_no_color: "색상 없음"
@@ -295,7 +295,7 @@ ko:
     label_total_progress: "%{percent}% 진행"
     label_total_amount: "합계: %{amount}"
     label_updated_on: "업데이트 :"
-    label_value_derived_from_children: "(value derived from children)"
+    label_value_derived_from_children: "(자식에서 파생된 값)"
     label_warning: "경고"
     label_work_package: "작업 패키지"
     label_work_package_plural: "작업 패키지"
@@ -331,7 +331,7 @@ ko:
     label_wait: "설정 중이므로 기다려 주세요..."
     label_upload_counter: "%{count} 개 파일 중 %{done} 개 파일 완료됨"
     label_validation_error: "다음 오류로 인해 작업 패키지를 저장할 수 없습니다."
-    label_view_has_changed: "This view has unsaved changes. Click to save them."
+    label_view_has_changed: "이 보기에는 저장되지 않은 변경 사항이 있습니다. 클릭하여 저장하십시오."
     help_texts:
       show_modal: '특성 도움말 텍스트 항목 표시'
     onboarding:
@@ -444,8 +444,8 @@ ko:
       set_parent: "부모 설정"
       change_parent: "부모 변경"
       remove_parent: "부모 제거"
-      hierarchy_indent: "Indent hierarchy"
-      hierarchy_outdent: "Outdent hierarchy"
+      hierarchy_indent: "계층 들여쓰기"
+      hierarchy_outdent: "계층 내어쓰기"
       group_by_wp_type: "작업 패키지 유형별 그룹화"
       group_by_relation_type: "관계 유형별 그룹화"
       add_parent: "기존 부모 추가"
@@ -571,7 +571,7 @@ ko:
       image: "이미지"
     work_packages:
       bulk_actions:
-        move: 'Bulk change of project'
+        move: '프로젝트의 일괄 변경'
         edit: '대량 편집'
         copy: '대량 복사'
         delete: '대량 삭제'
@@ -603,7 +603,7 @@ ko:
       message_successful_show_in_fullscreen: "전체 화면 보기에서 이 작업 패키지를 열려면 여기를 클릭하세요."
       message_view_spent_time: "이 작업 패키지에 대해 소비한 시간 표시"
       message_work_package_read_only: "작업 패키지가 이 상태로 잠겨 있습니다. 상태 이외의 특성은 변경할 수 없습니다."
-      message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
+      message_work_package_status_blocked: "닫힌 상태이고 닫힌 버전이 할당되었기 때문에 작업 패키지 상태를 쓸 수 없습니다."
       no_value: "값 없음"
       placeholder_filter_by_text: "제목, 설명, 코멘트, ..."
       inline_create:
@@ -629,7 +629,7 @@ ko:
       no_results:
         title: 표시할 작업 패키지가 없습니다.
         description: 만든 작업 패키지가 없거나 모든 작업 패키지가 필터링에서 제외되었습니다.
-      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering.
+      limited_results: 수동 정렬 모드에서는 %{count}개 작업 패키지만 표시할 수 있습니다. 필터링으로 결과를 줄이십시오.
       property_groups:
         details: "세부 정보"
         people: "사용자"
@@ -689,9 +689,9 @@ ko:
         confirm_edit_cancel: "이 보기 이름 편집을 취소하시겠습니까? 제목이 이전 값으로 다시 설정됩니다."
         click_to_edit_query_name: "이 보기의 제목을 편집하려면 클릭하세요."
         rename_query_placeholder: "이 보기의 이름"
-        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        star_text: "이 보기를 즐겨찾기로 표시하고 왼쪽의 저장된 보기 사이드바에 추가하십시오."
         public_text: >
-          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+          다른 사용자가 이 보기에 액세스할 수 있도록 하려면 이 보기를 게시하십시오. "공용 보기 관리" 권한을 가진 사용자가 공용 쿼리를 수정 또는 제거할 수 있습니다. 이는 해당 보기에서 작업 패키지 결과의 표시 여부에 영향을 주지 않기 때문에 사용자의 권한에 따라 다른 결과가 표시될 수 있습니다.
         errors:
           unretrievable_query: "URL에서 보기를 검색할 수 없음"
           not_found: "해당 보기가 없습니다."
@@ -726,10 +726,10 @@ ko:
           priority: '우선 순위'
           type: '타입'
         sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
+          description: '작업 패키지를 정렬하기 위한 모드 선택:'
+          automatic: '자동'
+          manually: '수동'
+          warning: '자동 정렬 모드를 활성화하면 이전 정렬이 손실됩니다.'
         columns_help_text: "위 입력을 사용하여 테이블 보기에 열을 추가하거나 제거하세요. 열을 끌어다 놓아 순서를 바꿀 수 있습니다."
         upsale:
           attribute_highlighting: '나머지 작업 중에 확연히 두드러지는 특정 작업 패키지가 필요합니까?'
@@ -821,7 +821,7 @@ ko:
       child_work_packages:
         other: "%{count}개의 작업 패키지 자식"
       hour:
-        other: "%{count} h"
+        other: "%{count}시간"
     zen_mode:
       button_activate: 'Zen 모드 활성화'
       button_deactivate: 'Zen 모드 비활성화'
@@ -836,6 +836,6 @@ ko:
         project_and_subprojects: "그리고 모든 하위 프로젝트"
         search_for: "검색:"
     views:
-      card: 'Cards'
-      list: 'Table'
+      card: '카드'
+      list: '테이블'
       timeline: 'Gantt'

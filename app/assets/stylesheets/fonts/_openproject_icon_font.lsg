@@ -202,6 +202,7 @@
 <li><span class="icon icon-show-all-projects"></span>show-all-projects</li>
 <li><span class="icon icon-show-more-horizontal"></span>show-more-horizontal</li>
 <li><span class="icon icon-show-more"></span>show-more</li>
+<li><span class="icon icon-slack"></span>slack</li>
 <li><span class="icon icon-sort-ascending"></span>sort-ascending</li>
 <li><span class="icon icon-sort-by"></span>sort-by</li>
 <li><span class="icon icon-sort-descending"></span>sort-descending</li>

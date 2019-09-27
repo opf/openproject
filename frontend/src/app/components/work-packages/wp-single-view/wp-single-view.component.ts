@@ -158,11 +158,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
   public ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
 
-    if (this.workPackage.attachments) {
-      this.workPackage.attachments.updateElements();
-    }
-
-    const change = this.halEditing.changeFor(this.workPackage) as WorkPackageChangeset;
+    const change = this.halEditing.changeFor<WorkPackageResource, WorkPackageChangeset>(this.workPackage);
     this.resourceContextChange.next(this.contextFrom(change));
     this.refresh(change);
 

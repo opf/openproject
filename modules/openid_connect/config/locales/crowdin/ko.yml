@@ -1,19 +1,19 @@
 ko:
   logout_warning: >
-    You have been logged out. The contents of any form you submit may be lost. Please [log in].
+    로그아웃되었습니다. 제출한 양식의 내용이 손실될 수 있습니다. [로그인]하십시오.
   activemodel:
     attributes:
       openid_connect/provider:
         name: 이름
-        display_name: Display name
+        display_name: 표시 이름
         identifier: 식별자
-        secret: Secret
-        scope: Scope
+        secret: 비밀번호
+        scope: 범위
   openid_connect:
-    menu_title: OpenID providers
+    menu_title: OpenID 공급자
     providers:
-      label_add_new: Add a new OpenID provider
-      label_edit: Edit OpenID provider %{name}
-      no_results_table: No providers have been defined yet.
-      plural: OpenID providers
-      singular: OpenID provider
+      label_add_new: 새로운 OpenID 공급자 추가
+      label_edit: OpenID 공급자 %{name} 편집
+      no_results_table: 아직 정의된 공급자가 없습니다.
+      plural: OpenID 공급자
+      singular: OpenID 공급자

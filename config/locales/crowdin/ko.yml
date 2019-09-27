@@ -90,7 +90,7 @@ ko:
   concatenation:
     single: '또는'
   deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
+    time_entries: "이 시간 항목 보기는 \"비용 보고서 '모듈로 대체됩니다. 현재 이 보기는 시간 항목 정보를 csv로 내보내기만 지원합니다. 대화형 필터링을 사용하려면 프로젝트 설정의 '비용 보고서' 모듈을 활성화하십시오."
   global_search:
     overwritten_tabs:
       wiki_pages: "위키"
@@ -268,7 +268,7 @@ ko:
         account: "계정"
         attr_firstname: "성 속성"
         attr_lastname: "이름 속성"
-        attr_login: "Username attribute"
+        attr_login: "사용자 이름 특성"
         attr_mail: "이메일 속성"
         base_dn: "기본 DN"
         host: "호스트"
@@ -322,7 +322,7 @@ ko:
         latest_activity_at: "다음의 최근 활동"
         parent: "하위 프로젝트"
         queries: "쿼리"
-        types: "종류"
+        types: "유형"
         versions: "버전"
         work_packages: "작업 패키지"
       query:
@@ -479,8 +479,8 @@ ko:
               invalid_values: "유효하지 않은 값입니다."
               id_filter_required: "'id' 필터가 필요합니다."
         project:
-          archived_ancestor: 'The project has an archived ancestor.'
-          foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
+          archived_ancestor: '이 프로젝트에는 보관된 상위 항목이 있습니다.'
+          foreign_wps_reference_version: '하위가 아닌 프로젝트의 작업 패키지는 해당 프로젝트 또는 하위 프로젝트의 버전을 참조합니다.'
           attributes:
             types:
               in_use_by_work_packages: "아직 작업 패키지에 사용됨: %{types}"
@@ -640,7 +640,7 @@ ko:
     is_public: "공용"
     issue: "작업 패키지"
     lastname: "성"
-    login: "Username"
+    login: "사용자 이름"
     mail: "이메일"
     name: "이름"
     password: "암호"
@@ -741,7 +741,7 @@ ko:
   copy_project:
     started: "프로젝트 \"%{source_project_name}\"을(를) \"%{target_project_name}\"(으)로 복사하기 시작했습니다. \"%{target_project_name}\"이(가) 사용 가능하게 되면 메일로 알림이 전송됩니다."
     failed: "프로젝트 %{source_project_name}을(를) 복사할 수 없습니다."
-    failed_internal: "Copying failed due to an internal error."
+    failed_internal: "내부 오류로 인해 복사가 실패했습니다."
     succeeded: "프로젝트 %{target_project_name} 생성함"
     errors: "오류"
     project_custom_fields: '프로젝트의 사용자 지정 필드'
@@ -929,7 +929,7 @@ ko:
   enumeration_system_activity: "시스템 작업"
   enumeration_reported_project_statuses: "보고된 프로젝트 상태"
   error_auth_source_sso_failed: "사용자 '%{value}'에 대한 Single Sign-On(SSO) 실패"
-  error_can_not_archive_project: "This project cannot be archived: %{errors}"
+  error_can_not_archive_project: "이 프로젝트는 보관할 수 없습니다: %{errors}"
   error_can_not_delete_entry: "항목을 삭제할 수 없습니다."
   error_can_not_delete_custom_field: "사용자 지정 필드를 삭제할 수 없습니다."
   error_can_not_delete_type: "이 유형에는 작업 패키지가 포함되어 있으며 삭제할 수 없습니다."
@@ -938,7 +938,7 @@ ko:
   error_can_not_remove_role: "이 역할은 현재 사용 중이며 삭제할 수 없습니다."
   error_can_not_reopen_work_package_on_closed_version: "닫힌 버전에 할당된 작업 패키지는 다시 열 수 없습니다."
   error_can_not_find_all_resources: "이 요청 관련 리소스 일부를 찾을 수 없습니다."
-  error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
+  error_can_not_unarchive_project: "이 프로젝트를 보관 취소할 수 없습니다: %{errors}"
   error_check_user_and_role: "사용자 및 역할을 선택하세요."
   error_code: "오류 %{code}"
   error_cookie_missing: 'OpenProject 쿠키가 없습니다. 이 응용 프로그램은 쿠키 없이 제대로 작동하지 않으므로, 쿠키를 활성화해야 합니다.'
@@ -1014,7 +1014,7 @@ ko:
   general_text_yes: "예"
   general_text_No: "아니요"
   general_text_Yes: "예"
-  general_text_true: "true"
+  general_text_true: "참"
   general_text_false: "false"
   gui_validation_error: "1개 오류"
   gui_validation_error_plural: "%{count}개 오류"
@@ -1498,7 +1498,7 @@ ko:
   label_topic_plural: "항목"
   label_total: "합계"
   label_type_new: "새 유형"
-  label_type_plural: "종류"
+  label_type_plural: "유형"
   label_ui: "사용자 인터페이스"
   label_update_work_package_done_ratios: "작업 패키지 완료 비율 업데이트"
   label_updated_time: "%{value} 전에 업데이트됨"
@@ -1509,7 +1509,7 @@ ko:
   label_used_by_types: "유형별로 사용됨"
   label_used_in_projects: "프로젝트에서 사용됨"
   label_user: "사용자"
-  label_user_and_permission: "Users & Permissions"
+  label_user_and_permission: "사용자 및 권한"
   label_user_named: "사용자 %{name}"
   label_user_activity: "%{value}의 작업"
   label_user_anonymous: "익명"
@@ -1522,7 +1522,7 @@ ko:
   label_user_new: "새 사용자"
   label_user_plural: "사용자"
   label_user_search: "사용자 검색"
-  label_user_settings: "User settings"
+  label_user_settings: "사용자 설정"
   label_version_new: "새 버전"
   label_version_plural: "버전"
   label_version_sharing_descendants: "하위 프로젝트 포함"
@@ -1540,7 +1540,7 @@ ko:
   label_wiki_content_added: "위키 페이지 추가됨"
   label_wiki_content_updated: "위키 페이지 업데이트됨"
   label_wiki_toc: "목차"
-  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
+  label_wiki_toc_empty: "머리글이 없으므로 목차가 비어 있습니다."
   label_wiki_dont_show_menu_item: "프로젝트 탐색에 이 위키 페이지 표시 안 함"
   label_wiki_edit: "위키 편집"
   label_wiki_edit_plural: "위키 편집"
@@ -1623,7 +1623,7 @@ ko:
     legacy_warning:
       timeline: '이 레거시 타임라인 매크로가 제거되었으며 더 이상 사용할 수 없습니다. 포함된 테이블 매크로로 이 기능을 바꿀 수 있습니다.'
     include_wiki_page:
-      removed: 'The macro does no longer exist.'
+      removed: '매크로가 더 이상 존재하지 않습니다.'
     wiki_child_pages:
       errors:
         page_not_found: "위키 페이지 '%{name}'을(를) 찾을 수 없습니다."
@@ -1641,14 +1641,14 @@ ko:
   mail_body_lost_password: "암호를 변경하려면 다음 링크를 클릭하세요."
   mail_body_register: "계정을 활성화하려면 링크를 클릭하세요."
   mail_body_reminder: "사용자에게 할당된 %{count} 작업 패키지가 다음 %{days}일 후 만료됩니다."
-  mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
+  mail_body_group_reminder: "\"%{group}\" 그룹에 할당된 %{count}개 작업 패키지가 향후 %{days}일 후 만료됩니다."
   mail_body_wiki_content_added: "%{author}이(가) '%{id}' 위키 페이지를 추가했습니다."
   mail_body_wiki_content_updated: "%{author}이(가) '%{id}' 위키 페이지를 업데이트했습니다."
   mail_subject_account_activation_request: "%{value} 계정 활성화 요청"
   mail_subject_lost_password: "%{value} 암호"
   mail_subject_register: "%{value} 계정 활성화"
   mail_subject_reminder: "다음 %{days}일 후 만료되는 %{count} 작업 패키지"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
+  mail_subject_group_reminder: "\"%{group}\" 그룹에 대한 향후 %{days}일 후 만료되는 %{count}개 작업 패키지"
   mail_subject_wiki_content_added: "'%{id}' 위키 페이지가 추가되었습니다."
   mail_subject_wiki_content_updated: "'%{id}' 위키 페이지가 업데이트되었습니다."
   mail_user_activation_limit_reached:
@@ -1992,13 +1992,13 @@ ko:
   setting_display_subprojects_work_packages: "기본적으로 기본 프로젝트의 하위 프로젝트 작업 패키지 표시"
   setting_emails_footer: "이메일 바닥글"
   setting_emails_header: "이메일 머리글"
-  setting_email_login: "Use email as login"
+  setting_email_login: "이메일로 로그인하기"
   setting_enabled_scm: "활성화된 SCM"
   setting_feeds_enabled: "피드 사용"
   setting_feeds_limit: "피드 콘텐츠 제한"
   setting_file_max_size_displayed: "인라인에 표시되는 텍스트 파일의 최대 크기"
   setting_host_name: "호스트 이름"
-  setting_invitation_expiration_days: "Activation email expires after"
+  setting_invitation_expiration_days: "활성화 이메일 만료 기간:"
   setting_work_package_done_ratio: "다음으로 작업 패키지 완료 비율 계산"
   setting_work_package_done_ratio_field: "작업 패키지 필드 사용"
   setting_work_package_done_ratio_status: "작업 패키지 상태 사용"
@@ -2352,7 +2352,7 @@ ko:
     이전의 토큰이 만료되거나 사용자가 기존 메일을 받지 않았을 수 있기 때문에 새로운 토큰으로 다른 초대 메일을 보냅니다. 이것은 활성화된 사용자들이 새로운 인증 방식을 선택할 때 사용될 수도 있습니다. 활성화된 사용자들이 사용할 때 그들의 상태는 '초대됨'으로 변경됩니다.
   tooltip:
     setting_email_login: >
-      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
+      활성화된 경우, 사용자는 등록 중에 로그인 방식을 선택할 수 없습니다. 대신 주어진 이메일 주소가 로그인 방식으로 사용됩니다. 관리자는 로그인 방식을 개별적으로 변경할 수 있습니다.
   queries:
     apply_filter: 미리 구성된 필터 적용
   top_menu:
@@ -2502,7 +2502,7 @@ ko:
       instructions:
         name: "애플리케이션 이름입니다. 권한 부여 시 다른 사용자에게 표시됩니다."
         redirect_uri_html: >
-          허용된 URL 인증 사용자로 리디렉션될 수 있습니다. 라인별로 하나의 엔트리가 있습니다. <br/> 데스크톱 애플리케이션을 등록하려면 다음 URL을 사용하세요.
+          허용된 URL 인증 사용자로 리디렉션될 수 있습니다. 라인별로 하나의 항목이 있습니다. <br/> 데스크톱 애플리케이션을 등록하려면 다음 URL을 사용하세요.
         confidential: "클라이언트 비밀번호를 기밀로 유지할 수 있는 위치에서 애플리케이션이 사용되는지 여부를 확인합니다. 네이티브 모바일 앱과 싱글 페이지 앱은 기밀로 간주되지 않습니다."
         client_credential_user_id: "클라이언트가 이 애플리케이션을 사용할 때 가장하기 위한 선택적 사용자 ID입니다. 공용 액세스만 허용하려면 비워두세요."
         register_intro: "OpenProject용 OAuth API 클라이언트 애플리케이션을 개발할 경우 이 양식을 사용하여 모든 사용자가 사용할 수 있도록 등록할 수 있습니다."

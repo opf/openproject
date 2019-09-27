@@ -42,9 +42,9 @@ en:
                   end_column: 3
                   options:
                     name: 'Welcome'
-                    text: '![Teaser](##attachment:"demo_project_teaser.png")'
+                    text: '![Teaser](##attachment:"demo_project_teaser_bim.jpg")'
                   attachments:
-                    - demo_project_teaser.png
+                    - demo_project_teaser_bim.jpg
                 - identifier: 'custom_text'
                   start_row: 2
                   end_row: 4
@@ -106,9 +106,9 @@ en:
                   end_column: 3
                   options:
                     name: 'Welcome'
-                    text: '![Teaser](##attachment:"demo_project_teaser.png")'
+                    text: '![Teaser](##attachment:"demo_project_teaser_bim.jpg")'
                   attachments:
-                    - demo_project_teaser.png
+                    - demo_project_teaser_bim.jpg
                 - identifier: 'custom_text'
                   start_row: 2
                   end_row: 4
@@ -166,9 +166,9 @@ en:
                   end_column: 3
                   options:
                     name: 'Welcome'
-                    text: '![Teaser](##attachment:"demo_project_teaser.png")'
+                    text: '![Teaser](##attachment:"demo_project_teaser_bim.jpg")'
                   attachments:
-                    - demo_project_teaser.png
+                    - demo_project_teaser_bim.jpg
                 - identifier: 'custom_text'
                   start_row: 2
                   end_row: 4
@@ -227,9 +227,9 @@ en:
                   end_column: 3
                   options:
                     name: 'Welcome'
-                    text: '![Teaser](##attachment:"demo_project_teaser.png")'
+                    text: '![Teaser](##attachment:"demo_project_teaser_bim.jpg")'
                   attachments:
-                    - demo_project_teaser.png
+                    - demo_project_teaser_bim.jpg
                 - identifier: 'custom_text'
                   start_row: 2
                   end_row: 4

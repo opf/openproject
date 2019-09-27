@@ -38,8 +38,8 @@ class AdminController < ApplicationController
 
   def index
     @menu_nodes = Redmine::MenuManager.items(:admin_menu).children
-    @menu_nodes.delete_if { |node| node.name === :enterprise } unless OpenProject::Configuration.ee_manager_visible?
     @menu_nodes.delete_if { |node| node.name === :admin_overview }
+    @menu_nodes.delete_if { |node| node.condition && !node.condition.call }
   end
 
   def projects

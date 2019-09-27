@@ -480,8 +480,8 @@ fr:
               invalid_values: "Une valeur est invalide."
               id_filter_required: "Un filtre sur l'id est requis."
         project:
-          archived_ancestor: 'The project has an archived ancestor.'
-          foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
+          archived_ancestor: 'Le projet possède un ancêtre archivé.'
+          foreign_wps_reference_version: 'Les lots de travaux dans les projets non-descendants font référence aux versions du projet ou de ses descendants.'
           attributes:
             types:
               in_use_by_work_packages: "toujours en cours d'utilisation par les lots de travaux : %{types}"
@@ -945,7 +945,7 @@ fr:
   enumeration_system_activity: "Activité du système"
   enumeration_reported_project_statuses: "Statuts de projet signalés"
   error_auth_source_sso_failed: "Single Sign-On (SSO) pour l’utilisateur '%{value}' a échoué"
-  error_can_not_archive_project: "This project cannot be archived: %{errors}"
+  error_can_not_archive_project: "Ce projet ne peut être archivé : %{errors}"
   error_can_not_delete_entry: "Impossible de supprimer l’élément"
   error_can_not_delete_custom_field: "Impossible de supprimer le champ personnalisé"
   error_can_not_delete_type: "Ce type contient des Lots de Travaux et ne peut être supprimé."
@@ -954,7 +954,7 @@ fr:
   error_can_not_remove_role: "Ce rôle est utilisé et ne peut être supprimé."
   error_can_not_reopen_work_package_on_closed_version: "Un lot de travaux assigné à une version fermée ne peut être ré-ouvert"
   error_can_not_find_all_resources: "Impossible de trouver toutes les ressources liées à cette demande."
-  error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
+  error_can_not_unarchive_project: "Ce projet ne peut être désarchivé : %{errors}"
   error_check_user_and_role: "Veuillez choisir un utilisateur et un rôle."
   error_code: "Erreur %{code}"
   error_cookie_missing: 'Le cookie OpenProject est manquant. Assurez-vous que les cookies sont activés, sans quoi cette application ne fonctionnera pas correctement.'
@@ -1661,14 +1661,14 @@ fr:
   mail_body_lost_password: "Pour changer votre mot de passe, cliquez sur le lien suivant:"
   mail_body_register: "Pour activer votre compte, cliquez sur le lien suivant:"
   mail_body_reminder: "%{count} lot(s) de travaux qui vous sont assignés arrivent à échéance dans les %{days} prochains jours:"
-  mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
+  mail_body_group_reminder: "%{count} lot(s) de travaux assigné(s) au groupe \"%{group}\" arrive(nt) à échéance dans %{days} jours :"
   mail_body_wiki_content_added: "La page wiki '%{id}' a été ajouté par %{author}."
   mail_body_wiki_content_updated: "La page wiki '%{id}' a été mise à jour par %{author}."
   mail_subject_account_activation_request: "Requête pour l'activation du compte %{value}"
   mail_subject_lost_password: "Votre mot de passe %{value}"
   mail_subject_register: "Votre activation du compte %{value}"
   mail_subject_reminder: "%{count} lot(s) de travaux à échéance dans les %{days} prochains jours"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
+  mail_subject_group_reminder: "Pour le groupe \"%{group}\", %{count} lot(s) de travaux arrive(nt) à échéance dans %{days} jours"
   mail_subject_wiki_content_added: "Page wiki '%{id}' a été ajouté"
   mail_subject_wiki_content_updated: "Page wiki '%{id}' a été mise à jour"
   mail_user_activation_limit_reached:

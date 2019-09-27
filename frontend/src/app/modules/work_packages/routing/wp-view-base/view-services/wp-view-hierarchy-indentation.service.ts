@@ -7,6 +7,7 @@ import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {WorkPackageRelationsHierarchyService} from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
 import {States} from "core-components/states.service";
+import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 
 @Injectable()
 export class WorkPackageViewHierarchyIdentationService {
@@ -14,6 +15,7 @@ export class WorkPackageViewHierarchyIdentationService {
   constructor(private wpViewHierarchies:WorkPackageViewHierarchiesService,
               private states:States,
               private wpRelationHierarchy:WorkPackageRelationsHierarchyService,
+              private wpCacheService:WorkPackageCacheService,
               private querySpace:IsolatedQuerySpace) {
   }
 
@@ -74,7 +76,7 @@ export class WorkPackageViewHierarchyIdentationService {
    * Try to indent the work package.
    * @return a Promise with the change parent result
    */
-  public indent(workPackage:WorkPackageResource):Promise<unknown> {
+  public async indent(workPackage:WorkPackageResource):Promise<unknown> {
     if (!this.canIndent(workPackage)) {
       return Promise.reject();
     }
@@ -88,7 +90,7 @@ export class WorkPackageViewHierarchyIdentationService {
 
     // If the predecessor is in an ancestor chain.
     // get the first element of the ancestor chain that workPackage is not in
-    const predecessor = this.states.workPackages.get(predecessorId).value!;
+    const predecessor = await this.wpCacheService.require(predecessorId);
 
     const difference = _.difference(predecessor.ancestorIds, workPackage.ancestorIds);
     if (difference && difference.length > 0) {

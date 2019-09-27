@@ -36,6 +36,7 @@ module Redmine
       module ClassMethods
         def acts_as_customizable(options = {})
           return if included_modules.include?(Redmine::Acts::Customizable::InstanceMethods)
+
           cattr_accessor :customizable_options
           self.customizable_options = options
 
@@ -46,11 +47,13 @@ module Redmine
               .order("#{CustomField.table_name}.position")
           }, as: :customized,
              dependent: :delete_all,
-             validate: false
+             validate: false,
+             autosave: true
           validate :validate_custom_values
           send :include, Redmine::Acts::Customizable::InstanceMethods
-          # Save custom values when saving the customized object
-          after_save :save_custom_field_values
+
+          before_save :ensure_custom_values_complete
+          after_save :reset_custom_values_change_tracker
         end
       end
 
@@ -82,7 +85,7 @@ module Redmine
         # Also supports multiple values for a custom field where
         # instead of a single value you'd pass an array.
         def custom_field_values=(values)
-          return nil unless values.is_a?(Hash) && values.any?
+          return unless values.is_a?(Hash) && values.any?
 
           @custom_field_values_changed = true
 
@@ -114,7 +117,7 @@ module Redmine
         def delete_obsolete_custom_values!(existing_custom_values, new_values)
           existing_custom_values.zip(new_values).each_with_index do |(custom_value, new_value), i|
             if new_value.nil?
-              if i == 0
+              if i.zero?
                 # leave the first value but set it to nil as that's the behaviour expected
                 # by the original acts_as_customizable
                 custom_value.value = nil
@@ -195,9 +198,11 @@ module Redmine
           end
         end
 
-        def save_custom_field_values
+        def ensure_custom_values_complete
           self.custom_values = custom_field_values
-          custom_field_values.each(&:save)
+        end
+
+        def reset_custom_values_change_tracker
           @custom_field_values_changed = false
           @custom_field_values = nil
         end

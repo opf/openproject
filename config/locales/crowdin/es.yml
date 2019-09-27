@@ -90,7 +90,7 @@ es:
   concatenation:
     single: 'o bien'
   deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
+    time_entries: "Esta vista de entradas de tiempo se ha reemplazado por el módulo “Informes de costes”. En este momento, esta vista solo permite exportar a CSV información de entradas de tiempo. Para el filtrado interactivo, active el módulo “Informes de costes“ en la configuración del proyecto."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -481,8 +481,8 @@ es:
               invalid_values: "El valor no es válido."
               id_filter_required: "Se requiere el filtro 'id'."
         project:
-          archived_ancestor: 'The project has an archived ancestor.'
-          foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
+          archived_ancestor: 'El proyecto tiene un antecesor archivado.'
+          foreign_wps_reference_version: 'Los paquetes de trabajo en los proyectos no descendientes hacen referencia a versiones del proyecto o a sus descendientes.'
           attributes:
             types:
               in_use_by_work_packages: "todavia en uso por los paquetes de trabajo: %{types}"
@@ -946,7 +946,7 @@ es:
   enumeration_system_activity: "Actividad del sistema"
   enumeration_reported_project_statuses: "Estatus del proyecto reportado"
   error_auth_source_sso_failed: "El intento de inicio de sesión único (SSO) para el usuario “%{value}” falló"
-  error_can_not_archive_project: "This project cannot be archived: %{errors}"
+  error_can_not_archive_project: "Este proyecto no se puede archivar: %{errors}"
   error_can_not_delete_entry: "No se puede eliminar la entrada"
   error_can_not_delete_custom_field: "Imposible eliminar el campo seleccionado"
   error_can_not_delete_type: "Este tipo contiene paquetes de trabajo y no se puede eliminar."
@@ -955,7 +955,7 @@ es:
   error_can_not_remove_role: "Este rol esta en uso y no puede ser eliminado"
   error_can_not_reopen_work_package_on_closed_version: "No se puede volver a abrir un paquete de trabajo asignado a una versión cerrada"
   error_can_not_find_all_resources: "No se encontraron todos los recursos relacionados con esta solicitud."
-  error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
+  error_can_not_unarchive_project: "Este proyecto no se puede recuperar: %{errors}"
   error_check_user_and_role: "Por favor elige un usuario y un rol."
   error_code: "Error %{code}"
   error_cookie_missing: 'No se encuentra la cookie de OpenProject. Por favor asegúrese de que las cookies están habilitadas, ya que sin ellas esta aplicación no funcionará correctamente.'
@@ -1031,7 +1031,7 @@ es:
   general_text_yes: "sí"
   general_text_No: "No"
   general_text_Yes: "Sí"
-  general_text_true: "true"
+  general_text_true: "verdadero"
   general_text_false: "falso"
   gui_validation_error: "1 error"
   gui_validation_error_plural: "errores %{count}"
@@ -1526,7 +1526,7 @@ es:
   label_used_by_types: "Utilizado por tipos"
   label_used_in_projects: "Utilizado en proyectos"
   label_user: "Usuario"
-  label_user_and_permission: "Users & Permissions"
+  label_user_and_permission: "Usuarios y permisos"
   label_user_named: "Usuario %{name}"
   label_user_activity: "Actividad de %{value} "
   label_user_anonymous: "Anónimo"
@@ -1539,7 +1539,7 @@ es:
   label_user_new: "Nuevo usuario"
   label_user_plural: "Usuarios"
   label_user_search: "Búsqueda de usuario"
-  label_user_settings: "User settings"
+  label_user_settings: "Configuración de usuario"
   label_version_new: "Nueva versión"
   label_version_plural: "Versiones"
   label_version_sharing_descendants: "Con subproyectos"
@@ -1557,7 +1557,7 @@ es:
   label_wiki_content_added: "Página wiki añadida"
   label_wiki_content_updated: "Página wiki actualizada"
   label_wiki_toc: "Tabla de contenidos"
-  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
+  label_wiki_toc_empty: "El índice está vacío porque no hay ningún encabezado."
   label_wiki_dont_show_menu_item: "No mostrar esta página wiki en la navegación del proyecto"
   label_wiki_edit: "Editar Wiki"
   label_wiki_edit_plural: "Ediciones Wiki"
@@ -1644,7 +1644,7 @@ es:
     legacy_warning:
       timeline: 'Esta macro de línea de tiempo heredada se ha quitado y ya no está disponible. Puede sustituir la función por una macro de tabla insertada.'
     include_wiki_page:
-      removed: 'The macro does no longer exist.'
+      removed: 'La macro ya no existe.'
     wiki_child_pages:
       errors:
         page_not_found: "No se encuentra la página wiki “%{name}”."
@@ -1662,14 +1662,14 @@ es:
   mail_body_lost_password: "Para cambiar su contraseña, haga clic en el siguiente enlace:"
   mail_body_register: "Para activar su cuenta, haga clic en el siguiente enlace:"
   mail_body_reminder: "%{count} paquete(s) de trabajo que le fueron asignados vencen en los próximos %{days}:"
-  mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
+  mail_body_group_reminder: "%{count} paquete(s) de trabajo asignado(s) al grupo “%{group}” vencerán en los próximos %{days} días:"
   mail_body_wiki_content_added: "La página wiki de '%{id}' ha sido añadida por %{author}."
   mail_body_wiki_content_updated: "La página wiki de '%{id}' ha sido actualizada por %{author}."
   mail_subject_account_activation_request: "solicitud de activación de cuenta de %{value}"
   mail_subject_lost_password: "Su contraseña %{value}"
   mail_subject_register: "La activación de la cuenta %{value}"
   mail_subject_reminder: "%{count} paquete(s) de trabajo pendientes en los siguientes %{days} dias"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
+  mail_subject_group_reminder: "Para el grupo “%{group}”, hay %{count} paquete(s) de trabajo que vencerá(n) en los próximos %{days} días"
   mail_subject_wiki_content_added: "'%{id}' wiki página ha sido agregada"
   mail_subject_wiki_content_updated: "'%{id}' wiki página ha sido actualizada"
   mail_user_activation_limit_reached:
@@ -2022,7 +2022,7 @@ es:
   setting_feeds_limit: "Limite de contenido de feed"
   setting_file_max_size_displayed: "Tamaño máximo de archivos de texto mostrado en linea"
   setting_host_name: "Nombre de host"
-  setting_invitation_expiration_days: "Activation email expires after"
+  setting_invitation_expiration_days: "El correo electrónico de activación caduca después de"
   setting_work_package_done_ratio: "Calcular la relacion de paquete de trabajo hecho con"
   setting_work_package_done_ratio_field: "Usar el campo de paquete de trabajo"
   setting_work_package_done_ratio_status: "Usar el estado del paquete de trabajo"
@@ -2141,7 +2141,7 @@ es:
   text_destroy_with_associated: "Hay objetos adicionales asociados a los paquetes de trabajo que van a ser eliminados. Esos objetos son de los siguientes tipos:"
   text_destroy_what_to_do: "¿Qué quieres hacer?"
   text_diff_truncated: "... Esta diferencia se truncó porque excede el tamaño máximo que puede visualizarse."
-  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/configuration.yml and restart the application to enable them."
+  text_email_delivery_not_configured: "No se ha configurado la entrega de correo electrónico y las notificaciones están deshabilitadas.\nConfigure el servidor SMTP en config/configuration.yml y reinicie la aplicación para habilitarlas."
   text_enumeration_category_reassign_to: "Reasignarlos a este valor:"
   text_enumeration_destroy_question: "%{count} objetos asignados a este valor."
   text_file_repository_writable: "Directorio de adjuntos escribible"
@@ -2242,7 +2242,7 @@ es:
     edit_color: "Editar colores"
     edit_thing: "Editar"
     edit_timeline: "Edición del informe de tiempos %{timeline}"
-    delete_timeline: "Delete timeline report %{timeline}"
+    delete_timeline: "Eliminar el informe de línea de tiempo %{timeline}"
     empty: "(vacío)"
     enable_type_in_project: 'Habilitar tipo "%{type}"'
     end: "Final"
@@ -2259,8 +2259,8 @@ es:
         compare_to_absolute: "El valor de la comparación absoluta "
         planning_element_time_relative_one: "El comienzo para los paquetes de trabajo en un cierto plazo  "
         planning_element_time_relative_two: "Al final de los paquetes de trabajo en un cierto plazo  "
-        planning_element_time_absolute_one: "The start for work packages in a certain timeframe  "
-        planning_element_time_absolute_two: "The end for work packages in a certain timeframe  "
+        planning_element_time_absolute_one: "El inicio de los paquetes de trabajo en un determinado período de tiempo  "
+        planning_element_time_absolute_two: "La finalización de los paquetes de trabajo en un determinado período de tiempo  "
       sort:
         sortation: "Ordenar por"
         alphabet: "alfabeto"

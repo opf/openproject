@@ -480,8 +480,8 @@ pt-BR:
               invalid_values: "Um valor é inválido."
               id_filter_required: "Um filtro de 'id' é necessário."
         project:
-          archived_ancestor: 'The project has an archived ancestor.'
-          foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
+          archived_ancestor: 'O projeto tem um ancestral arquivado.'
+          foreign_wps_reference_version: 'Pacotes de trabalho em versões de referência de projetos não descendentes do projeto ou de seus descendentes.'
           attributes:
             types:
               in_use_by_work_packages: "ainda em uso pelos pacotes de trabalho: %{types}"
@@ -945,7 +945,7 @@ pt-BR:
   enumeration_system_activity: "Atividade do Sistema"
   enumeration_reported_project_statuses: "Situação relatada do projeto"
   error_auth_source_sso_failed: "Single Sign-On (SSO) para o usuário '%{value}' falhou"
-  error_can_not_archive_project: "This project cannot be archived: %{errors}"
+  error_can_not_archive_project: "Este projeto não pode ser arquivado: %{errors}"
   error_can_not_delete_entry: "Não é possível excluir a entrada"
   error_can_not_delete_custom_field: "Não é possível excluir o campo personalizado"
   error_can_not_delete_type: "Este tipo contém pacotes de trabalho e não pode ser excluído."
@@ -954,7 +954,7 @@ pt-BR:
   error_can_not_remove_role: "Este papel está em uso e não pode ser excluído."
   error_can_not_reopen_work_package_on_closed_version: "Um pacote de trabalho atribuído a uma versão fechada não pode ser reaberto"
   error_can_not_find_all_resources: "Não foi possível encontrar todos os recursos relacionados a esta solicitação."
-  error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
+  error_can_not_unarchive_project: "Este projeto não pode ser desarquivado: %{errors}"
   error_check_user_and_role: "Por favor, escolha um usuário e um papel."
   error_code: "Erro %{code}"
   error_cookie_missing: 'Está faltando o cookie do OpenProject. Por favor, certifique-se de que os cookies estão habilitados, sem os quais esta função não funcionará adequadamente.'
@@ -1556,7 +1556,7 @@ pt-BR:
   label_wiki_content_added: "Página wiki adicionada"
   label_wiki_content_updated: "Página wiki atualizada"
   label_wiki_toc: "Tabela de conteúdos"
-  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
+  label_wiki_toc_empty: "A Tabela de Conteúdo está vazia, pois nenhum cabeçalho está presente."
   label_wiki_dont_show_menu_item: "Não mostrar esta página wiki na navegação do projeto"
   label_wiki_edit: "Editar wiki"
   label_wiki_edit_plural: "Edições de wiki"
@@ -1661,14 +1661,14 @@ pt-BR:
   mail_body_lost_password: "Para alterar sua senha, clique no link a seguir:"
   mail_body_register: "Para ativar sua conta, clique no link a seguir:"
   mail_body_reminder: "%{count} pacote(s) de trabalho foram atribuídos a você para os próximos %{days} dias:"
-  mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
+  mail_body_group_reminder: "%{count} pacote(s) de trabalho que estão atribuídos ao grupo \"%{group}\" expiram nos próximos %{days} dias:"
   mail_body_wiki_content_added: "A página wiki '%{id}' foi adicionada por %{author}."
   mail_body_wiki_content_updated: "A página wiki '%{id}' foi atualizada por %{author}."
   mail_subject_account_activation_request: "solicitação de ativação de conta %{value}"
   mail_subject_lost_password: "Sua senha %{value}"
   mail_subject_register: "Sua ativação de conta: %{value}"
   mail_subject_reminder: "%{count} pacote(s) de trabalho finalizam nos próximos %{days} dias:"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
+  mail_subject_group_reminder: "Para o grupo \"%{group}\" %{count} pacote(s) de trabalho expirarão nos próximos %{days} dias"
   mail_subject_wiki_content_added: "página de wiki '%{id}' foi adicionada"
   mail_subject_wiki_content_updated: "página de wiki '%{id}' foi atualizada"
   mail_user_activation_limit_reached:

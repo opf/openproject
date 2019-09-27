@@ -28,12 +28,12 @@ fr:
     text_local_avatar_over_gravatar: |
       Si vous en avez défini un, cet avatar personnalisé sera utilisé à la place du gravatar ci-dessus.
     text_your_current_gravatar: |
-      OpenProject uses your gravatar if you registered one, or a default image or icon if one exists.
-      The current gravatar is as follows:
+      OpenProject utilise votre gravatar si vous en possédez un, ou bien une image ou icône par défaut si celle-ci existe.
+      Le gravatar actuel est le suivant :
     settings:
-      enable_gravatars: 'Enable user gravatars'
+      enable_gravatars: 'Activer les gravatars de l''utilisateur'
       gravatar_default: "Image Gravatar par défaut"
-      enable_local_avatars: 'Enable user custom avatars'
+      enable_local_avatars: 'Activer les avatars personnalisés de l''utilisateur'
 
 
 
