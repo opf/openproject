@@ -47,7 +47,7 @@ export class AttachmentListComponent implements OnInit, OnChanges, OnDestroy {
   trackByHref = AngularTrackingHelpers.trackByHref;
 
   attachments:HalResource[] = [];
-  public initialAttachments:HalResource[];
+  deletedAttachments:HalResource[] = [];
 
   public $element:JQuery;
   public $formElement:JQuery;
@@ -66,7 +66,10 @@ export class AttachmentListComponent implements OnInit, OnChanges, OnDestroy {
 
     this.attachments = this.resource.attachments.elements;
     this.setupResourceUpdateListener();
-    this.setupAttachmentDeletionCallback();
+
+    if (!this.destroyImmediately) {
+      this.setupAttachmentDeletionCallback();
+    }
   }
 
   public setupResourceUpdateListener() {
@@ -84,7 +87,9 @@ export class AttachmentListComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy():void {
-    this.$formElement.off('submit.attachment-component');
+    if (!this.destroyImmediately) {
+      this.$formElement.off('submit.attachment-component');
+    }
   }
 
   ngOnChanges() {
@@ -94,6 +99,7 @@ export class AttachmentListComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public removeAttachment(attachment:HalResource) {
+    this.deletedAttachments.push(attachment);
     this.attachments = this.attachments.filter((el) => el !== attachment);
     this.cdRef.detectChanges();
   }
@@ -103,8 +109,6 @@ export class AttachmentListComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public setupAttachmentDeletionCallback() {
-    this.memoizeCurrentAttachments();
-
     this.$formElement = this.$element.closest('form');
     this.$formElement.on('submit.attachment-component', () => {
       this.destroyRemovedAttachments();
@@ -112,21 +116,11 @@ export class AttachmentListComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private destroyRemovedAttachments() {
-    let missingAttachments = _.differenceBy(this.initialAttachments,
-      this.attachments,
-      (attachment:HalResource) => attachment.id);
-
-    if (missingAttachments.length) {
-      missingAttachments.forEach((attachment) => {
-        this
-          .resource
-          .removeAttachment(attachment);
-      });
-    }
-  }
-
-  private memoizeCurrentAttachments() {
-    this.initialAttachments = _.clone(this.resource.attachments.elements);
+    this.deletedAttachments.forEach((attachment) => {
+      this
+        .resource
+        .removeAttachment(attachment);
+    });
   }
 }
 
