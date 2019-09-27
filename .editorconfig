@@ -2,11 +2,11 @@
 charset = utf-8
 end_of_line = lf
 indent_size = 2
-ij_continuation_indent_size = 4
+ij_continuation_indent_size = 2
 indent_style = space
 insert_final_newline = false
 max_line_length = 120
-tab_width = 4
+tab_width = 2
 ij_formatter_off_tag = @formatter:off
 ij_formatter_on_tag = @formatter:on
 ij_formatter_tags_enabled = false
@@ -229,7 +229,7 @@ ij_continuation_indent_size = 2
 ij_rhtml_keep_indents_on_empty_lines = false
 
 [{*.js,*.cjs}]
-ij_continuation_indent_size = 4
+ij_continuation_indent_size = 2
 ij_javascript_align_imports = false
 ij_javascript_align_multiline_array_initializer_expression = false
 ij_javascript_align_multiline_binary_operation = false
@@ -393,7 +393,7 @@ ij_javascript_wrap_comments = false
 [{*.sht,*.html,*.shtm,*.shtml,*.htm,*.ng}]
 indent_size = 2
 tab_width = 2
-ij_continuation_indent_size = 4
+ij_continuation_indent_size = 2
 ij_html_add_new_line_before_tags = body,div,p,form,h1,h2,h3
 ij_html_align_attributes = true
 ij_html_align_text = false
@@ -477,7 +477,7 @@ ij_ruby_spaces_within_array_initializer_braces = true
 ij_ruby_spaces_within_braces = false
 
 [{version-autocompleter.component.ts,*.ats,*.ts}]
-ij_continuation_indent_size = 4
+ij_continuation_indent_size = 2
 ij_typescript_align_imports = false
 ij_typescript_align_multiline_array_initializer_expression = false
 ij_typescript_align_multiline_binary_operation = false

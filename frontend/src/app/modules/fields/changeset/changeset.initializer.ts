@@ -32,6 +32,6 @@ import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changes
 export function initializeChangesetMap(halResourceEditing:HalResourceEditingService) {
     return () => {
         halResourceEditing
-            .addChangeset('WorkPackage', WorkPackageChangeset);
+            .addChangesetClass('WorkPackage', WorkPackageChangeset);
     };
 }

@@ -47,6 +47,7 @@ import {Attachable} from 'core-app/modules/hal/resources/mixins/attachable-mixin
 import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
 import {InputState} from "reactivestates";
+import {WorkPackagesActivityService} from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
 
 export interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
@@ -125,6 +126,7 @@ export class WorkPackageBaseResource extends HalResource {
   public overriddenSchema:SchemaResource|undefined = undefined;
   readonly I18n:I18nService = this.injector.get(I18nService);
   readonly states:States = this.injector.get(States);
+  readonly wpActivity = this.injector.get(WorkPackagesActivityService);
   readonly workPackageDmService = this.injector.get(WorkPackageDmService);
   readonly wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
   readonly schemaCacheService:SchemaCacheService = this.injector.get(SchemaCacheService);
@@ -327,6 +329,20 @@ export class WorkPackageBaseResource extends HalResource {
    */
   public get state():InputState<this> {
     return this.states.workPackages.get(this.id!) as any;
+  }
+
+  /**
+   * Update the state
+   */
+  public push(newValue:this):void {
+    this.wpActivity.clear(newValue.id!);
+
+    // If there is a parent, its view has to be updated as well
+    if (newValue.parent) {
+        this.wpCacheService.require(newValue.parent.id!, true);
+    }
+
+    this.wpCacheService.updateWorkPackage(newValue as any);
   }
 
   public get hasOverriddenSchema():boolean {

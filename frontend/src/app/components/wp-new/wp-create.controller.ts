@@ -26,15 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Inject,
-  Injectable,
-  Injector,
-  OnDestroy,
-  OnInit
-} from '@angular/core';
+import {ChangeDetectorRef, Injectable, Injector, OnDestroy, OnInit} from '@angular/core';
 import {StateService, Transition} from '@uirouter/core';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
@@ -51,6 +43,8 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CurrentUserService} from "core-app/components/user/current-user.service";
 import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
+import {WorkPackageViewFocusService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 
 @Injectable()
@@ -77,6 +71,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
               protected halNotification:HalResourceNotificationService,
               protected states:States,
               protected wpCreate:WorkPackageCreateService,
+              protected wpViewFocus:WorkPackageViewFocusService,
               protected wpTableFilters:WorkPackageViewFiltersService,
               protected wpCacheService:WorkPackageCacheService,
               protected pathHelper:PathHelperService,
@@ -97,7 +92,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
 
         if (this.stateParams['parent_id']) {
           this.newWorkPackage.parent =
-            { href: this.pathHelper.api.v3.work_packages.id(this.stateParams['parent_id']).path };
+            {href: this.pathHelper.api.v3.work_packages.id(this.stateParams['parent_id']).path};
         }
 
         // Load the parent simply to display the type name :-/
@@ -134,6 +129,18 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
 
   public switchToFullscreen() {
     this.$state.go('work-packages.new', this.$state.params);
+  }
+
+  public onSaved(params:{ savedResource:HalResource, isInitial:boolean }) {
+    let {savedResource, isInitial} = params;
+
+    if (this.successState) {
+      this.$state.go(this.successState, {workPackageId: savedResource.id})
+        .then(() => {
+          this.wpViewFocus.updateFocus(savedResource.id!);
+          this.halNotification.showSave(savedResource, isInitial);
+        });
+    }
   }
 
   protected setTitle() {

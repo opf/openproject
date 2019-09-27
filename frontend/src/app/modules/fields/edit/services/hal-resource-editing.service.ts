@@ -99,7 +99,7 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
   /** State group of changes to wrap */
   private stateGroup = new ChangesetStates();
 
-  public changesets:{ [type:string]:ResourceChangesetClass } = {};
+  public changesetClasses:{ [type:string]:ResourceChangesetClass } = {};
 
   constructor(readonly injector:Injector,
               readonly schemaCache:SchemaCacheService) {
@@ -119,9 +119,6 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
     }
 
     const savedResource = await change.pristineResource.$links.updateImmediately(payload);
-
-    // Ensure the schema is loaded before updating
-    // ToDo: await this.schemaCache.ensureLoaded(savedResource);
 
     // Initialize any potentially new HAL values
     savedResource.retainFrom(change.pristineResource);
@@ -182,13 +179,13 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
   }
 
   protected newChangeset<V extends HalResource, T extends ResourceChangeset<V>>(resource:V, state:InputState<T>, form?:FormResource):T {
-    const cls = this.changesets[resource._type] || ResourceChangeset;
+    const cls = this.changesetClasses[resource._type] || ResourceChangeset;
     return new cls(resource, state, form) as T;
   }
 
   /**
    * Start or continue editing the work package with a given edit context
-   * @param {resource} Work package to edit
+   * @param {resource} Hal resource to edit
    * @param {form:FormResource} Initialize with an existing form
    * @return {ResourceChangeset} Change object to work on
    */
@@ -223,7 +220,7 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
    *  This resource has a read only index signature to make it clear it is NOT
    *  meant for editing.
    *
-   * @return {State<WorkPackageResource>}
+   * @return {State<HalResource>}
    */
   public temporaryEditResource<V extends HalResource, T extends ResourceChangeset<V>>(resource:V):State<V> {
     const combined = combine(resource.state! as State<V>, this.typedState<V, T>(resource) as State<T>);
@@ -247,23 +244,13 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
   }
 
   protected load(href:string):Promise<ResourceChangeset> {
-    // ToDo: Correct return object
-    return Promise.reject('Loading not implemented yet.') as any;
+    return Promise.reject('Loading not applicable for changesets.') as any;
   }
 
   protected onSaved(saved:HalResource) {
     if (saved.state) {
-      saved.state.putValue(saved);
+      saved.push(saved);
     }
-    // ToDo: Move into HalEvents
-    /* this.wpActivity.clear(saved.id);
-
-    // If there is a parent, its view has to be updated as well
-    if (saved.parent) {
-        this.wpCacheService.loadWorkPackage(saved.parent.id.toString(), true);
-    }
-    this.wpCacheService.updateWorkPackage(saved);
-    */
   }
 
   protected loadAll(hrefs:string[]) {
@@ -274,8 +261,8 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
     return this.stateGroup.changesets;
   }
 
-  addChangeset(name:string, changeset:ResourceChangesetClass) {
-    this.changesets[name] = changeset;
+  addChangesetClass(name:string, cls:ResourceChangesetClass) {
+    this.changesetClasses[name] = cls;
   }
 }
 

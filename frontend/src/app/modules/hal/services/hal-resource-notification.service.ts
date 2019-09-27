@@ -29,9 +29,9 @@
 import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
 import {StateService} from '@uirouter/core';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {Injectable} from '@angular/core';
+import {Injectable, Injector} from '@angular/core';
 import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
-import {INotification, NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
+import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
@@ -39,23 +39,21 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 @Injectable()
 export class HalResourceNotificationService {
-  constructor(readonly I18n:I18nService,
-              protected $state:StateService,
-              protected wpCacheService:WorkPackageCacheService,
-              protected halResourceService:HalResourceService,
-              protected NotificationsService:NotificationsService,
-              protected loadingIndicator:LoadingIndicatorService) {
+
+  protected I18n = this.injector.get(I18nService);
+  protected $state = this.injector.get(StateService);
+  protected wpCacheService = this.injector.get(WorkPackageCacheService);
+  protected halResourceService = this.injector.get(HalResourceService);
+  protected NotificationsService = this.injector.get(NotificationsService);
+  protected loadingIndicator = this.injector.get(LoadingIndicatorService);
+
+  constructor(protected injector:Injector) {
   }
 
   public showSave(resource:HalResource, isCreate:boolean = false) {
-    var message:any = {
+    let message:any = {
       message: this.I18n.t('js.notice_successful_' + (isCreate ? 'create' : 'update')),
     };
-
-    // ToDo: Move to its own service
-    if (resource.type === 'WorkPackage') {
-      this.addWorkPackageFullscreenLink(message, resource as any);
-    }
 
     this.NotificationsService.addSuccess(message);
   }
@@ -85,7 +83,7 @@ export class HalResourceNotificationService {
       return this.handleErrorResponse(errorBody, resource);
     }
 
-    if (typeof(response) === 'string') {
+    if (typeof (response) === 'string') {
       this.NotificationsService.addError(response);
       return;
     }
@@ -104,7 +102,7 @@ export class HalResourceNotificationService {
       return error.message;
     }
 
-    if (typeof(error) === 'string') {
+    if (typeof (error) === 'string') {
       return error;
     }
 
@@ -152,7 +150,7 @@ export class HalResourceNotificationService {
   public showGeneralError(message?:unknown) {
     let error = this.I18n.t('js.error.internal');
 
-    if (typeof(message) === 'string' || _.has(message, 'toString')) {
+    if (typeof (message) === 'string' || _.has(message, 'toString')) {
       error += ' ' + (message as any).toString();
     }
 
@@ -162,7 +160,7 @@ export class HalResourceNotificationService {
   public showEditingBlockedError(attribute:string) {
     this.NotificationsService.addError(this.I18n.t(
       'js.hal.error.edit_prohibited',
-      { attribute: attribute }
+      {attribute: attribute}
     ));
   }
 
@@ -192,7 +190,7 @@ export class HalResourceNotificationService {
       }
 
       this.NotificationsService.addError(this.I18n.t(i18nString,
-        { attribute: attributeName }));
+        {attribute: attributeName}));
 
       return true;
     }
@@ -204,28 +202,10 @@ export class HalResourceNotificationService {
 
     if (messages.length > 1) {
       this.NotificationsService.addError('', messages);
-    }
-    else {
+    } else {
       this.NotificationsService.addError(messages[0]);
     }
 
     return true;
-  }
-
-  private addWorkPackageFullscreenLink(message:INotification, resource:HalResource) {
-    // Don't show the 'Show in full screen' link  if we're there already
-    if (!this.$state.includes('work-packages.show')) {
-      message.link = this.showInFullScreenLink(resource);
-    }
-  }
-
-  private showInFullScreenLink(resource:HalResource) {
-    return {
-      target: () => {
-        this.loadingIndicator.table.promise =
-          this.$state.go('work-packages.show.activity', { workPackageId: resource.id });
-      },
-      text: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen')
-    };
   }
 }

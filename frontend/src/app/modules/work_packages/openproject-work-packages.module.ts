@@ -158,6 +158,7 @@ import {WorkPackagesGridComponent} from "core-components/wp-grid/wp-grid.compone
 import {WorkPackageViewDropdownMenuDirective} from "core-components/op-context-menu/handlers/wp-view-dropdown-menu.directive";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {OpenprojectProjectsModule} from "core-app/modules/projects/openproject-projects.module";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 
 @NgModule({
@@ -185,6 +186,9 @@ import {OpenprojectProjectsModule} from "core-app/modules/projects/openproject-p
       deps: [Injector],
       multi: true
     },
+
+    // Notification service
+    WorkPackageNotificationService,
 
     // External query configuration
     ExternalQueryConfigurationService,

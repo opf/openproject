@@ -217,6 +217,15 @@ export class HalResource {
     return null;
   }
 
+  /**
+   * Update the state
+   */
+  public push(newValue:this):void {
+    if (this.state) {
+      this.state.putValue(newValue);
+    }
+  }
+
   public previewPath():string|undefined {
     if (this.isNew && this.project) {
       return this.project.href;

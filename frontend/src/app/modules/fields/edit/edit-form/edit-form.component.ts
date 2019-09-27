@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, Injector, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Injector, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {StateService, Transition, TransitionService} from '@uirouter/core';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {EditableAttributeFieldComponent} from 'core-app/modules/fields/edit/field/editable-attribute-field.component';
@@ -51,9 +51,10 @@ import {EditingPortalService} from "core-app/modules/fields/edit/editing-portal/
 })
 export class EditFormComponent extends EditForm<HalResource> implements OnInit, OnDestroy {
   @Input('resource') resource:HalResource;
-  // ToDO
-  //@Input('successState') successState?:string;
   @Input('inEditMode') initializeEditMode:boolean = false;
+  @Input('skippedFields') skippedFields:string[] = [];
+
+  @Output('onSaved') onSavedEmitter = new EventEmitter<{ savedResource:HalResource, isInitial:boolean }>();
 
   public fields:{ [attribute:string]:EditableAttributeFieldComponent } = {};
   private registeredFields = input<string[]>();
@@ -199,11 +200,6 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
     this.editMode = false;
     this.halEditing.stopEditing(this.resource.id!);
     this.destroy();
-
-    if (this.resource.isNew) {
-      // ToDo
-      // this.wpCreate.cancelCreation();
-    }
   }
 
   public save() {
@@ -217,18 +213,7 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
 
   public stopEditingAndLeave(savedResource:HalResource, isInitial:boolean) {
     this.stop();
-
-    // TodO: Move to generic service
-    /*
-    if (this.successState) {
-      this.$state.go(this.successState, {workPackageId: savedResource.id})
-          .then(() => {
-            this.wpTableFocus.updateFocus(savedResource.id!);
-            this.halNotification.showSave(savedResource, isInitial);
-          });
-    }
-
-     */
+    this.onSavedEmitter.emit({ savedResource, isInitial });
   }
 
   protected focusOnFirstError():void {
@@ -242,16 +227,12 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
   private skipField(field:EditableAttributeFieldComponent) {
     const fieldName = field.fieldName;
 
-    // ToDO: Move to generic service
-    /*
-    const isSkipField = fieldName === 'status' || fieldName === 'type';
+    const isSkipField = this.skippedFields.indexOf(fieldName) !== -1;
 
     // Only skip status or type
     if (!isSkipField) {
       return false;
     }
-
-     */
 
     // Only skip if value present and not changed in changeset
     const hasDefault = this.resource[fieldName];

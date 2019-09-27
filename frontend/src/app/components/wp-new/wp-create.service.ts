@@ -70,6 +70,16 @@ export class WorkPackageCreateService implements OnDestroy {
         filter(commit => commit.wasNew)
       )
       .subscribe((commit:ResourceChangesetCommit<WorkPackageResource>) => this.newWorkPackageCreated(commit.resource));
+
+  this.halEditing
+    .changes$('/api/v3/work_packages/new')
+    .pipe(
+      untilComponentDestroyed(this),
+      filter(changeset => !changeset)
+    )
+    .subscribe(() => {
+      this.reset();
+    });
   }
 
   ngOnDestroy() {
@@ -77,8 +87,8 @@ export class WorkPackageCreateService implements OnDestroy {
   }
 
   protected newWorkPackageCreated(wp:WorkPackageResource) {
-    this.form = undefined;
     this.wpEvents.push(wp, { eventType: 'created' });
+    this.reset();
     this.newWorkPackageCreatedSubject.next(wp);
   }
 
@@ -146,9 +156,8 @@ export class WorkPackageCreateService implements OnDestroy {
   }
 
   public cancelCreation() {
-    this.halEditing.stopEditing('new');
-    this.wpCacheService.clearSome('new');
-    this.form = undefined;
+    this.halEditing.stopEditing('/api/v3/work_packages/new');
+    this.reset();
   }
 
   public changesetUpdates$() {
@@ -171,6 +180,11 @@ export class WorkPackageCreateService implements OnDestroy {
 
       return change;
     });
+  }
+
+  protected reset() {
+    this.wpCacheService.clearSome('new');
+    this.form = undefined;
   }
 
   protected continueExistingEdit(type?:number) {

@@ -3,8 +3,10 @@
   *ngIf="newWorkPackage"
 >
   <edit-form [resource]="newWorkPackage"
-                       [inEditMode]="true">
-    <div class="work-packages--details-content -create-mode">
+             [skippedFields]="['status', 'type']"
+             [inEditMode]="true"
+             (onSaved)="onSaved($event)">
+  <div class="work-packages--details-content -create-mode">
       <div class="work-packages--new-details-header">
         <wp-type-status [workPackage]="newWorkPackage"></wp-type-status>
         <div class="wp--details--switch-fullscreen-wrapper">
