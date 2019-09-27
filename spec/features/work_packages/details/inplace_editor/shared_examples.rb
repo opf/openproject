@@ -153,7 +153,9 @@ shared_examples 'a principal autocomplete field' do
       # Close the autocompleter
       field.input_element.send_keys :escape
 
+      sleep(0.01)
       field.input_element.set('', fill_options: { clear: :backspace })
+      sleep(0.01)
       field.input_element.send_keys(" @Laura Fo")
       expect(page).to have_selector('.mention-list-item', text: mentioned_user.name)
       expect(page).not_to have_selector('.mention-list-item', text: mentioned_group.name)
