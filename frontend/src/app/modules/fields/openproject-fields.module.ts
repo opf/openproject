@@ -51,7 +51,7 @@ import {UserFieldPortalService} from "core-app/modules/fields/display/display-po
 import {SelectAutocompleterRegisterService} from "core-app/modules/fields/edit/field-types/select-autocompleter-register.service";
 import {initializeChangesetMap} from "core-app/modules/fields/changeset/changeset.initializer";
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {EditFieldGroupComponent} from "core-app/modules/fields/edit/edit-field-group.component";
+import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-form.component";
 import {WorkPackageEditFieldComponent} from "core-app/modules/fields/edit/field-types/work-package-edit-field.component";
 import {EditableAttributeFieldComponent} from "core-app/modules/fields/edit/field/editable-attribute-field.component";
 
@@ -65,7 +65,7 @@ import {EditableAttributeFieldComponent} from "core-app/modules/fields/edit/fiel
     EditFieldControlsComponent,
     EditFormPortalComponent,
     UserFieldPortalComponent,
-    EditFieldGroupComponent,
+    EditFormComponent,
     EditableAttributeFieldComponent,
   ],
   providers: [
@@ -93,7 +93,7 @@ import {EditableAttributeFieldComponent} from "core-app/modules/fields/edit/fiel
     TextEditFieldComponent,
     EditFieldControlsComponent,
     WorkPackageEditFieldComponent,
-    EditFieldGroupComponent,
+    EditFormComponent,
     EditableAttributeFieldComponent,
   ],
   entryComponents: [

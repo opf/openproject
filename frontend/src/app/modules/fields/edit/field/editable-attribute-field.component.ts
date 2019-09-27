@@ -56,7 +56,7 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {ClickPositionMapper} from "core-app/modules/common/set-click-position/set-click-position";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {EditFieldGroupComponent} from "core-app/modules/fields/edit/edit-field-group.component";
+import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-form.component";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 @Component({
@@ -91,7 +91,7 @@ export class EditableAttributeFieldComponent implements OnInit, OnDestroy {
               protected halEditing:HalResourceEditingService,
               protected wpCacheService:WorkPackageCacheService,
               // Get parent field group from injector
-              protected editFieldGroup:EditFieldGroupComponent,
+              protected editForm:EditFormComponent,
               protected NotificationsService:NotificationsService,
               protected cdRef:ChangeDetectorRef,
               protected I18n:I18nService) {
@@ -108,7 +108,7 @@ export class EditableAttributeFieldComponent implements OnInit, OnDestroy {
   public ngOnInit() {
     this.fieldRenderer = new DisplayFieldRenderer(this.injector, 'single-view', this.displayFieldOptions);
     this.$element = jQuery(this.elementRef.nativeElement);
-    this.editFieldGroup.register(this);
+    this.editForm.register(this);
 
     this.halEditing
       .temporaryEditResource(this.resource)
@@ -193,7 +193,7 @@ export class EditableAttributeFieldComponent implements OnInit, OnDestroy {
     // Activate the field
     this.setActive(true);
 
-    return this.editFieldGroup.form
+    return this.editForm
       .activate(this.fieldName, noWarnings)
       .catch(() => this.deactivate(true));
   }

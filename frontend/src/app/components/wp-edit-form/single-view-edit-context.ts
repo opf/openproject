@@ -38,7 +38,7 @@ import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {EditForm} from "core-app/modules/fields/edit/edit-form/edit-form";
 import {EditContext} from "core-app/modules/fields/edit/edit-form/edit-context";
 import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
-import {EditFieldGroupComponent} from "core-app/modules/fields/edit/edit-field-group.component";
+import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-form.component";
 
 export class SingleViewEditContext implements EditContext {
 
@@ -53,7 +53,7 @@ export class SingleViewEditContext implements EditContext {
   public successState:string;
 
   constructor(readonly injector:Injector,
-              readonly fieldGroup:EditFieldGroupComponent) {
+              readonly fieldGroup:EditFormComponent) {
   }
 
   public async activateField(form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[]):Promise<EditFieldHandler> {

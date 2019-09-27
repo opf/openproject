@@ -28,7 +28,7 @@
 
 import {Injector} from '@angular/core';
 import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
-import {Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {States} from 'core-components/states.service';
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 
@@ -43,12 +43,12 @@ import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-
 export const activeFieldContainerClassName = 'wp-inline-edit--active-field';
 export const activeFieldClassName = 'wp-inline-edit--field';
 
-export class EditForm {
+export class EditForm<T extends HalResource = HalResource> {
   // Injections
-  public states:States = this.injector.get(States);
-  public halEditing = this.injector.get(HalResourceEditingService);
-  public halNotification = this.injector.get(HalResourceNotificationService);
-  public wpEvents = this.injector.get(HalEventsService);
+  protected readonly states:States = this.injector.get(States);
+  protected readonly halEditing = this.injector.get(HalResourceEditingService);
+  protected readonly halNotification = this.injector.get(HalResourceNotificationService);
+  protected readonly wpEvents = this.injector.get(HalEventsService);
 
   // All current active (open) edit fields
   public activeFields:{ [fieldName:string]:EditFieldHandler } = {};
@@ -59,31 +59,47 @@ export class EditForm {
   // The current edit context to use the form with
   public editContext:EditContext;
 
+  // Reference to the changeset used in this form
+  public resource:T;
+
+  // Whether this form exists in edit mode
+  public editMode:boolean = false;
+
   // Subscribe to changes to the temporary edit form
   protected subscription:Subscription;
 
-  public static createInContext(injector:Injector,
+  public static createInContext<T extends HalResource>(injector:Injector,
                                 editContext:EditContext,
-                                resource:HalResource,
+                                resource$:Observable<T>,
                                 editMode:boolean = false) {
 
-    const form = new EditForm(injector, resource, editMode);
+    const form = new EditForm(injector);
+    form.editMode = editMode;
+    form.subscribeTo(resource$);
+
     form.editContext = editContext;
 
     return form;
   }
 
-  constructor(readonly injector:Injector,
-              public resource:HalResource,
-              public editMode:boolean = false) {
+  constructor(protected injector:Injector) {
+  }
 
-    if (this.resource.state) {
-      this.subscription = this.resource.state
-        .values$()
-        .subscribe((resource:HalResource) => {
+
+  /**
+   * Create a subscription to the given resource
+   *
+   * @param resource$
+   */
+  public subscribeTo(resource$:Observable<T>) {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+
+    this.subscription = resource$
+        .subscribe((resource:T) => {
           this.resource = resource;
         });
-    }
   }
 
   /**
@@ -100,9 +116,8 @@ export class EditForm {
    *
    * @return {ResourceChangeset}
    */
-  public get change():ResourceChangeset<HalResource> {
-      // ToDo: correct type
-    return this.halEditing.changeFor(this.resource as any);
+  public get change():ResourceChangeset<T> {
+    return this.halEditing.changeFor(this.resource);
   }
 
   /**
@@ -155,7 +170,7 @@ export class EditForm {
    * Save the active changeset.
    * @return {any}
    */
-  public async submit():Promise<HalResource> {
+  public async submit():Promise<T> {
     if (this.change.isEmpty() && !this.resource.isNew) {
       this.closeEditFields();
       return Promise.resolve(this.resource);
@@ -170,8 +185,8 @@ export class EditForm {
     // Call onSubmit handlers
     await Promise.all(_.map(this.activeFields, (handler:EditFieldHandler) => handler.onSubmit()));
 
-    return new Promise<HalResource>((resolve, reject) => {
-      this.halEditing.save(this.change)
+    return new Promise<T>((resolve, reject) => {
+      this.halEditing.save<T, ResourceChangeset<T>>(this.change)
         .then(result => {
           // Close all current fields
           this.closeEditFields(openFields);

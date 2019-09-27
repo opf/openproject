@@ -45,6 +45,7 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
+import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
 
 @Injectable()
 export class WorkPackageCreateService implements OnDestroy {
@@ -97,11 +98,11 @@ export class WorkPackageCreateService implements OnDestroy {
     });
   }
 
-  public fromCreateForm(form:FormResource) {
+  public fromCreateForm(form:FormResource):WorkPackageChangeset {
     let wp = this.halResourceService.createHalResourceOfType<WorkPackageResource>('WorkPackage', form.payload.$plain());
     wp.initializeNewResource(form);
 
-    const change = this.halEditing.edit(wp, form);
+    const change = this.halEditing.edit<WorkPackageResource, WorkPackageChangeset>(wp, form);
 
     // Call work package initialization hook
     this.hooks.call('workPackageNewInitialization', change);
@@ -165,7 +166,7 @@ export class WorkPackageCreateService implements OnDestroy {
     }
 
     return changePromise.then((change:WorkPackageChangeset) => {
-      this.halEditing.updateValue('new', change);
+      this.halEditing.updateValue('/api/v3/work_packages/new', change);
       this.wpCacheService.updateWorkPackage(change.pristineResource);
 
       return change;
@@ -173,7 +174,7 @@ export class WorkPackageCreateService implements OnDestroy {
   }
 
   protected continueExistingEdit(type?:number) {
-    const change = this.halEditing.state('new').value;
+    const change = this.halEditing.state('/api/v3/work_packages/new').value as WorkPackageChangeset;
     if (change !== undefined) {
       const changeType = change.projectedResource.type;
 

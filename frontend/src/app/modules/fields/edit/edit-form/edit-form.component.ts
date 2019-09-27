@@ -38,32 +38,31 @@ import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {EditForm} from "core-app/modules/fields/edit/edit-form/edit-form";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {States} from "core-components/states.service";
 import {SingleViewEditContext} from "core-components/wp-edit-form/single-view-edit-context";
 
 @Component({
-  selector: 'edit-field-group,[edit-field-group]',
+  selector: 'edit-form,[edit-form]',
   template: '<ng-content></ng-content>'
 })
-export class EditFieldGroupComponent implements OnInit, OnDestroy {
+export class EditFormComponent extends EditForm implements OnInit, OnDestroy {
   @Input('resource') resource:HalResource;
   // ToDO
   //@Input('successState') successState?:string;
   @Input('inEditMode') initializeEditMode:boolean = false;
 
-  public form:EditForm;
   public fields:{ [attribute:string]:EditableAttributeFieldComponent } = {};
   private registeredFields = input<string[]>();
   private unregisterListener:Function;
 
-  constructor(protected states:States,
-              protected injector:Injector,
+  constructor(protected injector:Injector,
               protected halEditing:HalResourceEditingService,
               protected halNotification:HalResourceNotificationService,
               protected $transitions:TransitionService,
               protected ConfigurationService:ConfigurationService,
               readonly $state:StateService,
               readonly I18n:I18nService) {
+    super(injector);
+
 
     const confirmText = I18n.t('js.work_packages.confirm_edit_cancel');
     const requiresConfirmation = ConfigurationService.warnOnLeavingUnsaved();
@@ -93,12 +92,12 @@ export class EditFieldGroupComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.unregisterListener();
-    this.form.destroy();
+    this.destroy();
   }
 
   ngOnInit() {
-    const context = new SingleViewEditContext(this.injector, this);
-    this.form = EditForm.createInContext(this.injector, context, this.resource, this.initializeEditMode);
+    this.editContext = new SingleViewEditContext(this.injector, this);
+    this.editMode = this.initializeEditMode;
 
     if (this.initializeEditMode) {
       this.start();
@@ -122,11 +121,7 @@ export class EditFieldGroupComponent implements OnInit, OnDestroy {
   }
 
   public get editing():boolean {
-    return this.editMode || this.form.hasActiveFields();
-  }
-
-  public get editMode() {
-    return this.form.editMode;
+    return this.editMode || this.hasActiveFields();
   }
 
   public register(field:EditableAttributeFieldComponent) {
@@ -134,7 +129,7 @@ export class EditFieldGroupComponent implements OnInit, OnDestroy {
     this.registeredFields.putValue(_.keys(this.fields));
 
     const shouldActivate =
-        (this.editMode && !this.skipField(field) || this.form.activeFields[field.fieldName]);
+        (this.editMode && !this.skipField(field) || this.activeFields[field.fieldName]);
 
     if (shouldActivate) {
       field.activateOnForm(true);
@@ -153,13 +148,13 @@ export class EditFieldGroupComponent implements OnInit, OnDestroy {
   }
 
   public start() {
-    _.each(this.fields, ctrl => this.form.activate(ctrl.fieldName));
+    _.each(this.fields, ctrl => this.activate(ctrl.fieldName));
   }
 
   public stop() {
-    this.form.editMode = false;
+    this.editMode = false;
     this.halEditing.stopEditing(this.resource.id!);
-    this.form.destroy();
+    this.destroy();
 
     if (this.resource.isNew) {
       // ToDo
@@ -169,7 +164,7 @@ export class EditFieldGroupComponent implements OnInit, OnDestroy {
 
   public save() {
     const isInitial = this.resource.isNew;
-    return this.form
+    return this
         .submit()
         .then((savedResource:HalResource) => {
           this.stopEditingAndLeave(savedResource, isInitial);
@@ -208,7 +203,7 @@ export class EditFieldGroupComponent implements OnInit, OnDestroy {
 
     // Only skip if value present and not changed in changeset
     const hasDefault = this.resource[fieldName];
-    const changed = this.form.change.changes[fieldName];
+    const changed = this.change.changes[fieldName];
 
     return hasDefault && !changed;
   }

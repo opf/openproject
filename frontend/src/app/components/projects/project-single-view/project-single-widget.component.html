@@ -1,6 +1,6 @@
-<edit-field-group *ngIf="(project$ | async) as project"
+<edit-form *ngIf="(project$ | async) as project"
                   [resource]="project ">
   <editable-attribute-field [resource]="project"
                             fieldName="description"
   ></editable-attribute-field>
-</edit-field-group>
+</edit-form>

@@ -36,7 +36,7 @@
       </a>
     </div>
 
-    <edit-field-group [resource]="wp"
+    <edit-form [resource]="wp"
                          [inEditMode]="wp.isNew"
                          *ngIf="wp.isNew">
       <div class="wp-card--content -new">
@@ -50,7 +50,7 @@
                        class="wp-card--subject -bold">
         </editable-attribute-field>
       </div>
-    </edit-field-group>
+    </edit-form>
 
     <img *ngIf="this.bcfSnapshotPath(wp)" [src]="this.bcfSnapshotPath(wp)" class="wp-card--cover-image">
 

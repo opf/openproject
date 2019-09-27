@@ -2,7 +2,7 @@
   class="work-packages--details work-packages--new"
   *ngIf="newWorkPackage"
 >
-  <edit-field-group [resource]="newWorkPackage"
+  <edit-form [resource]="newWorkPackage"
                        [inEditMode]="true">
     <div class="work-packages--details-content -create-mode">
       <div class="work-packages--new-details-header">
@@ -27,5 +27,5 @@
       <wp-resizer [elementClass]="'work-packages-split-view--details-side'"
                   [localStorageKey]="'openProject-splitViewFlexBasis'"></wp-resizer>
     </div>
-  </edit-field-group>
+  </edit-form>
 </div>

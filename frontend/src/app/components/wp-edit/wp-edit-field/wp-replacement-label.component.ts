@@ -28,7 +28,7 @@
 
 
 import {Component, ElementRef, Input, OnInit} from '@angular/core';
-import {EditFieldGroupComponent} from "core-app/modules/fields/edit/edit-field-group.component";
+import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-form.component";
 
 @Component({
   selector: 'wp-replacement-label',
@@ -38,7 +38,7 @@ export class WorkPackageReplacementLabelComponent implements OnInit {
   @Input('fieldName') public fieldName:string;
   private $element:JQuery;
 
-  constructor(protected wpEditFieldGroup:EditFieldGroupComponent,
+  constructor(protected wpeditForm:EditFormComponent,
               protected elementRef:ElementRef) {
   }
 
@@ -53,7 +53,7 @@ export class WorkPackageReplacementLabelComponent implements OnInit {
       return true;
     }
 
-    const field = this.wpEditFieldGroup.fields[this.fieldName];
+    const field = this.wpeditForm.fields[this.fieldName];
     field && field.handleUserActivate(null);
 
     return false;

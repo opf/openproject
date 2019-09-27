@@ -1,7 +1,7 @@
 <div
     class="work-package--new-state work-packages--new work-packages--show-view toolbar-container"
     *ngIf="newWorkPackage">
-  <edit-field-group [resource]="newWorkPackage"
+  <edit-form [resource]="newWorkPackage"
                        [inEditMode]="true">
     <div class="toolbar">
       <div class="title-container">
@@ -26,5 +26,5 @@
                     [showProject]="copying">
     </wp-single-view>
     <wp-edit-actions-bar (onCancel)="cancelAndBackToList()"></wp-edit-actions-bar>
-  </edit-field-group>
+  </edit-form>
 </div>

@@ -45,7 +45,9 @@ export class WorkPackageTableEditingContext {
 
     // Get any existing edit state for this work package
     const editContext = new TableRowEditContext(this.table, this.injector, wpId, classIdentifier);
-    return this.forms[wpId] = EditForm.createInContext(this.injector, editContext, workPackage, false);
+    const form = EditForm.createInContext(this.injector, editContext, workPackage.state.values$(), false);
+
+    return this.forms[wpId] = form;
   }
 }
 

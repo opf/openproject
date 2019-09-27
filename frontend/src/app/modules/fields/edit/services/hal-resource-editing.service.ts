@@ -165,15 +165,19 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
   }
 
   /**
-   * Create a new changeset for the given work package, discarding any previous changeset that might exist
+   * Create a new changeset for the given work package, discarding any previous changeset that might exist.
+   *
    * @param resource
    * @param form
+   *
+   * @return The state for the created changeset
    */
   public edit<V extends HalResource, T extends ResourceChangeset<V>>(resource:V, form?:FormResource):T {
     const state = this.multiState.get(resource.href!) as InputState<T>;
     const changeset = this.newChangeset(resource, state, form);
 
     state.putValue(changeset);
+
     return changeset;
   }
 
@@ -203,7 +207,7 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
       return changeset;
     }
     if (!changeset || resource.hasOwnProperty('lockVersion') && changeset.pristineResource.lockVersion < resource.lockVersion) {
-      return this.edit(resource);
+      return this.edit<V, T>(resource);
     }
 
     return changeset;

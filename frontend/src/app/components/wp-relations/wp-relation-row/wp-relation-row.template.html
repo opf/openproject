@@ -42,9 +42,9 @@
     </div>
 
     <div class="grid-content medium-3 collapse wp-relations-status-field">
-      <edit-field-group *ngIf="relatedWorkPackage" [resource]="relatedWorkPackage">
+      <edit-form *ngIf="relatedWorkPackage" [resource]="relatedWorkPackage">
         <editable-attribute-field [resource]="relatedWorkPackage" fieldName="status"></editable-attribute-field>
-      </edit-field-group>
+      </edit-form>
     </div>
 
     <div class="grid-content medium-2 collapse wp-relations-controls-section"
