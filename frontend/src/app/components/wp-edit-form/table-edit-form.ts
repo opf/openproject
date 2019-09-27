@@ -27,38 +27,57 @@
 // ++
 
 import {Injector} from '@angular/core';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {States} from '../states.service';
-import {CellBuilder, editCellContainer, tdClassName} from '../wp-fast-table/builders/cell-builder';
-import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
-import {WorkPackageTable} from 'core-components/wp-fast-table/wp-fast-table';
-import {EditingPortalService} from "core-app/modules/fields/edit/editing-portal/editing-portal-service";
+import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
+import {Observable, Subscription} from 'rxjs';
+import {States} from 'core-components/states.service';
 import {IFieldSchema} from "core-app/modules/fields/field.base";
-import {editModeClassName} from "core-app/modules/fields/edit/edit-field.component";
-import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
-import {EditContext} from "core-app/modules/fields/edit/edit-form/edit-context";
-import {EditForm} from "core-app/modules/fields/edit/edit-form/edit-form";
-import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 
-export class TableRowEditContext implements EditContext {
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
+import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
+import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
+import {FocusHelperService} from "core-app/modules/common/focus/focus-helper";
+import {EditingPortalService} from "core-app/modules/fields/edit/editing-portal/editing-portal-service";
+import {CellBuilder, editCellContainer, tdClassName} from "core-components/wp-fast-table/builders/cell-builder";
+import {WorkPackageTable} from "core-components/wp-fast-table/wp-fast-table";
+import {EditForm} from "core-app/modules/fields/edit/edit-form/edit-form";
+import {editModeClassName} from "core-app/modules/fields/edit/edit-field.component";
+import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
+import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
+
+export const activeFieldContainerClassName = 'wp-inline-edit--active-field';
+export const activeFieldClassName = 'wp-inline-edit--field';
+
+export class TableEditForm extends EditForm<WorkPackageResource> {
 
   // Injections
   public wpTableColumns:WorkPackageViewColumnsService = this.injector.get(WorkPackageViewColumnsService);
+  public wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
   public states:States = this.injector.get(States);
   public FocusHelper:FocusHelperService = this.injector.get(FocusHelperService);
   public editingPortalService:EditingPortalService = this.injector.get(EditingPortalService);
 
-  // other fields
-  public successState:string;
-
   // Use cell builder to reset edit fields
   private cellBuilder = new CellBuilder(this.injector);
 
-  constructor(readonly table:WorkPackageTable,
-              readonly injector:Injector,
+  // Subscription
+  private resourceSubscription:Subscription = this.wpCacheService
+      .requireAndStream(this.workPackageId)
+      .subscribe((wp) => this.resource = wp);
+
+  constructor(protected readonly injector:Injector,
+              protected readonly table:WorkPackageTable,
               public workPackageId:string,
               public classIdentifier:string) {
-    // injectorBridge(this);
+    super(injector);
+  }
+
+  destroy() {
+    this.resourceSubscription.unsubscribe();
+    super.destroy();
   }
 
   public findContainer(fieldName:string):JQuery {
@@ -71,37 +90,37 @@ export class TableRowEditContext implements EditContext {
 
   public activateField(form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[]):Promise<EditFieldHandler> {
     return this.waitForContainer(fieldName)
-      .then((cell) => {
+        .then((cell) => {
 
-        // Forcibly set the width since the edit field may otherwise
-        // be given more width. Thereby preserve a minimum width of 150.
-        // To avoid flickering content, the padding is removed, too.
-        const td = this.findCell(fieldName);
-        td.addClass(editModeClassName);
-        var width = parseInt(td.css('width'));
-        width = width > 150 ? width - 10 : 150;
-        td.css('max-width', width + 'px');
-        td.css('width', width + 'px');
+          // Forcibly set the width since the edit field may otherwise
+          // be given more width. Thereby preserve a minimum width of 150.
+          // To avoid flickering content, the padding is removed, too.
+          const td = this.findCell(fieldName);
+          td.addClass(editModeClassName);
+          let width = parseInt(td.css('width'));
+          width = width > 150 ? width - 10 : 150;
+          td.css('max-width', width + 'px');
+          td.css('width', width + 'px');
 
-        return this.editingPortalService.create(
-          cell,
-          this.injector,
-          form,
-          schema,
-          fieldName,
-          errors
-        );
-      });
+          return this.editingPortalService.create(
+              cell,
+              this.injector,
+              form,
+              schema,
+              fieldName,
+              errors
+          );
+        });
   }
 
-  public reset(workPackage:WorkPackageResource, fieldName:string, focus?:boolean) {
+  public reset(fieldName:string, focus?:boolean) {
     const cell = this.findContainer(fieldName);
     const td = this.findCell(fieldName);
 
     if (cell.length) {
       this.findCell(fieldName).css('width', '');
       this.findCell(fieldName).css('max-width', '');
-      this.cellBuilder.refresh(cell[0], workPackage, fieldName);
+      this.cellBuilder.refresh(cell[0], this.resource, fieldName);
       td.removeClass(editModeClassName);
 
       if (focus) {
@@ -115,11 +134,12 @@ export class TableRowEditContext implements EditContext {
     return this.waitForContainer(fieldName);
   }
 
-  public firstField(names:string[]) {
-    return 'subject';
-  }
-
-  public onSaved(isInitial:boolean, savedWorkPackage:WorkPackageResource) {
+  protected focusOnFirstError():void {
+    // Focus the first field that is erroneous
+    jQuery(this.table.tableAndTimelineContainer)
+        .find(`.${activeFieldContainerClassName}.-error .${activeFieldClassName}`)
+        .first()
+        .trigger('focus');
   }
 
   // Ensure the given field is visible.
@@ -140,4 +160,5 @@ export class TableRowEditContext implements EditContext {
   private get rowContainer() {
     return jQuery(this.table.tableAndTimelineContainer).find(`.${this.classIdentifier}-table`);
   }
+
 }

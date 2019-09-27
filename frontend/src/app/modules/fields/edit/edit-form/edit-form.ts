@@ -37,13 +37,13 @@ import {HalEventsService} from "core-app/modules/hal/services/hal-events.service
 import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
-import {EditContext} from "core-app/modules/fields/edit/edit-form/edit-context";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 
 export const activeFieldContainerClassName = 'wp-inline-edit--active-field';
 export const activeFieldClassName = 'wp-inline-edit--field';
 
-export class EditForm<T extends HalResource = HalResource> {
+export abstract class EditForm<T extends HalResource = HalResource> {
+
   // Injections
   protected readonly states:States = this.injector.get(States);
   protected readonly halEditing = this.injector.get(HalResourceEditingService);
@@ -56,9 +56,6 @@ export class EditForm<T extends HalResource = HalResource> {
   // Errors of the last operation (required when adding opening fields afterwards)
   public errorsPerAttribute:{ [fieldName:string]:string[] } = {};
 
-  // The current edit context to use the form with
-  public editContext:EditContext;
-
   // Reference to the changeset used in this form
   public resource:T;
 
@@ -68,39 +65,32 @@ export class EditForm<T extends HalResource = HalResource> {
   // Subscribe to changes to the temporary edit form
   protected subscription:Subscription;
 
-  public static createInContext<T extends HalResource>(injector:Injector,
-                                editContext:EditContext,
-                                resource$:Observable<T>,
-                                editMode:boolean = false) {
-
-    const form = new EditForm(injector);
-    form.editMode = editMode;
-    form.subscribeTo(resource$);
-
-    form.editContext = editContext;
-
-    return form;
+  protected constructor(protected injector:Injector) {
   }
-
-  constructor(protected injector:Injector) {
-  }
-
 
   /**
-   * Create a subscription to the given resource
-   *
-   * @param resource$
+   * Activate the field, returning the element and associated field handler
    */
-  public subscribeTo(resource$:Observable<T>) {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+  protected abstract activateField(form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[]):Promise<EditFieldHandler>;
 
-    this.subscription = resource$
-        .subscribe((resource:T) => {
-          this.resource = resource;
-        });
+  /**
+   * Show this required field. E.g., add the necessary column
+   */
+  protected abstract requireVisible(fieldName:string):Promise<void>;
+
+  /**
+   * Reset the field and re-render the current resource's value
+   */
+  abstract reset(fieldName:string, focus?:boolean):void;
+
+  /**
+   * Optional callback when the form is being saved
+   */
+  protected onSaved(isInitial:boolean, saved:HalResource):void {
+    // Nothing to do for this class
   }
+
+  protected abstract focusOnFirstError():void;
 
   /**
    * Return whether this form has any active fields
@@ -147,7 +137,7 @@ export class EditForm<T extends HalResource = HalResource> {
       return Promise.resolve();
     }
 
-    return this.editContext.requireVisible(fieldName).then(() => {
+    return this.requireVisible(fieldName).then(() => {
       return this.activate(fieldName, true);
     });
   }
@@ -195,7 +185,7 @@ export class EditForm<T extends HalResource = HalResource> {
 
           this.halNotification.showSave(result.resource, result.wasNew);
           this.editMode = false;
-          this.editContext.onSaved(result.wasNew, result.resource);
+          this.onSaved(result.wasNew, result.resource);
           this.wpEvents.push(result.resource, { eventType: 'updated' });
         })
         .catch((error:ErrorResource|Object) => {
@@ -263,7 +253,7 @@ export class EditForm<T extends HalResource = HalResource> {
   private setErrorsForFields(erroneousFields:string[]) {
     // Accumulate errors for the given response
     let promises:Promise<any>[] = erroneousFields.map((fieldName:string) => {
-      return this.editContext.requireVisible(fieldName).then(() => {
+      return this.requireVisible(fieldName).then(() => {
         if (this.activeFields[fieldName]) {
           this.activeFields[fieldName].setErrors(this.errorsPerAttribute[fieldName] || []);
         }
@@ -272,16 +262,9 @@ export class EditForm<T extends HalResource = HalResource> {
       });
     });
 
-    // ToDo: Replace by a real engineers solution ^^
-    //  Make Global so that embedded tables do not interfere
     Promise.all(promises)
       .then(() => {
-        setTimeout(() => {
-          // Focus the first field that is erroneous
-          jQuery(`.${activeFieldContainerClassName}.-error .${activeFieldClassName}`)
-            .first()
-            .focus();
-        });
+        setTimeout(() => this.focusOnFirstError());
       })
       .catch(() => {
         console.error('Failed to activate all erroneous fields.');
@@ -335,7 +318,7 @@ export class EditForm<T extends HalResource = HalResource> {
   }
 
   private renderField(fieldName:string, schema:IFieldSchema):Promise<EditFieldHandler> {
-    const promise:Promise<EditFieldHandler> = this.editContext.activateField(this,
+    const promise:Promise<EditFieldHandler> = this.activateField(this,
       schema,
       fieldName,
       this.errorsPerAttribute[fieldName] || []);

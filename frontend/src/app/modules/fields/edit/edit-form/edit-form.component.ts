@@ -26,25 +26,30 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Injector, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, Injector, Input, OnDestroy, OnInit} from '@angular/core';
 import {StateService, Transition, TransitionService} from '@uirouter/core';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {EditableAttributeFieldComponent} from 'core-app/modules/fields/edit/field/editable-attribute-field.component';
 import {input} from 'reactivestates';
 import {filter, map, take} from 'rxjs/operators';
-
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {EditForm} from "core-app/modules/fields/edit/edit-form/edit-form";
+import {
+  activeFieldClassName,
+  activeFieldContainerClassName,
+  EditForm
+} from "core-app/modules/fields/edit/edit-form/edit-form";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {SingleViewEditContext} from "core-components/wp-edit-form/single-view-edit-context";
+import {IFieldSchema} from "core-app/modules/fields/field.base";
+import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
+import {EditingPortalService} from "core-app/modules/fields/edit/editing-portal/editing-portal-service";
 
 @Component({
   selector: 'edit-form,[edit-form]',
   template: '<ng-content></ng-content>'
 })
-export class EditFormComponent extends EditForm implements OnInit, OnDestroy {
+export class EditFormComponent extends EditForm<HalResource> implements OnInit, OnDestroy {
   @Input('resource') resource:HalResource;
   // ToDO
   //@Input('successState') successState?:string;
@@ -54,13 +59,15 @@ export class EditFormComponent extends EditForm implements OnInit, OnDestroy {
   private registeredFields = input<string[]>();
   private unregisterListener:Function;
 
-  constructor(protected injector:Injector,
-              protected halEditing:HalResourceEditingService,
-              protected halNotification:HalResourceNotificationService,
-              protected $transitions:TransitionService,
-              protected ConfigurationService:ConfigurationService,
-              readonly $state:StateService,
-              readonly I18n:I18nService) {
+  constructor(protected readonly injector:Injector,
+              protected readonly elementRef:ElementRef,
+              protected readonly halEditing:HalResourceEditingService,
+              protected readonly halNotification:HalResourceNotificationService,
+              protected readonly $transitions:TransitionService,
+              protected readonly ConfigurationService:ConfigurationService,
+              protected readonly editingPortalService:EditingPortalService,
+              protected readonly $state:StateService,
+              protected readonly I18n:I18nService) {
     super(injector);
 
 
@@ -96,7 +103,6 @@ export class EditFormComponent extends EditForm implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.editContext = new SingleViewEditContext(this.injector, this);
     this.editMode = this.initializeEditMode;
 
     if (this.initializeEditMode) {
@@ -118,6 +124,44 @@ export class EditFormComponent extends EditForm implements OnInit, OnDestroy {
 
        */
     }
+  }
+
+  public async activateField(form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[]):Promise<EditFieldHandler> {
+    return this.waitForField(fieldName).then((ctrl) => {
+      ctrl.setActive(true);
+      const container = ctrl.editContainer.nativeElement;
+      return this.editingPortalService.create(
+          container,
+          this.injector,
+          form,
+          schema,
+          fieldName,
+          errors
+      );
+    });
+  }
+
+  public async reset(fieldName:string, focus:boolean = false) {
+    const ctrl = await this.waitForField(fieldName);
+    ctrl.reset();
+    ctrl.deactivate(focus);
+  }
+
+  public onSaved(isInitial:boolean, saved:HalResource) {
+    this.stopEditingAndLeave(saved, isInitial);
+  }
+
+  public requireVisible(fieldName:string):Promise<void> {
+    return new Promise<void>((resolve,) => {
+      const interval = setInterval(() => {
+        const field = this.fields[fieldName];
+
+        if (field !== undefined) {
+          clearInterval(interval);
+          resolve();
+        }
+      }, 50);
+    });
   }
 
   public get editing():boolean {
@@ -185,6 +229,14 @@ export class EditFormComponent extends EditForm implements OnInit, OnDestroy {
     }
 
      */
+  }
+
+  protected focusOnFirstError():void {
+    // Focus the first field that is erroneous
+    jQuery(this.elementRef.nativeElement)
+        .find(`.${activeFieldContainerClassName}.-error .${activeFieldClassName}`)
+        .first()
+        .trigger('focus');
   }
 
   private skipField(field:EditableAttributeFieldComponent) {

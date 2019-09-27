@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
@@ -35,12 +34,10 @@ import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 import {ClickPositionMapper} from "core-app/modules/common/set-click-position/set-click-position";
 import {debugLog} from "core-app/helpers/debug_output";
-import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {Subject} from 'rxjs';
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {EditForm} from "core-app/modules/fields/edit/edit-form/edit-form";
-import {EditContext} from "core-app/modules/fields/edit/edit-form/edit-context";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 export class HalResourceEditFieldHandler extends EditFieldHandler {
@@ -48,12 +45,6 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
   readonly FocusHelper:FocusHelperService = this.injector.get(FocusHelperService);
   readonly ConfigurationService = this.injector.get(ConfigurationService);
   readonly I18n:I18nService = this.injector.get(I18nService);
-
-  // Other fields
-  public editContext:EditContext;
-
-  // Reference to the active component, if any
-  public componentInstance:EditFieldComponent;
 
   // Subject to fire when user demanded activation
   public $onUserActivate = new Subject<void>();
@@ -70,7 +61,6 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
               protected withErrors?:string[]) {
 
     super();
-    this.editContext = form.editContext;
 
     if (withErrors !== undefined) {
       this.setErrors(withErrors);
@@ -91,10 +81,6 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
 
   public get inFlight() {
     return this.form.change.inFlight;
-  }
-
-  public get context():EditContext {
-    return this.form.editContext;
   }
 
   public get active() {
@@ -192,7 +178,7 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
     delete this.form.activeFields[this.fieldName];
     this.onDestroy.next();
     this.onDestroy.complete();
-    this.editContext.reset(this.resource, this.fieldName, focus);
+    this.form.reset(this.fieldName, focus);
   }
 
   /**
