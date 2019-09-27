@@ -63,13 +63,13 @@ describe 'Projects custom fields', type: :feature do
     scenario 'allows settings the project boolean CF (regression #26313)', js: true do
       visit settings_project_path(id: project.id)
 
-      # expect CF and description ckeditor
-      expect(page).to have_selector('.op-ckeditor--wrapper', count: 2)
+      # expect CF, description and status description ckeditor
+      expect(page).to have_selector('.op-ckeditor--wrapper', count: 3)
 
       # single hash autocomplete
       editor.insert_link 'http://example.org/link with spaces'
 
-      # Save wiki page
+      # Save project settings
       click_on 'Save'
 
       expect(page).to have_selector('.flash.notice')
