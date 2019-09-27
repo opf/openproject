@@ -54,6 +54,8 @@ To add a comment to a work package, open the [details view](#work-package-full-s
 
 ![comment-work-packages1](comment-work-packages1.png)
 
+### @ notification
+
 You can add a comment or notify team members via [@notification](#notification). They will receive an email about the updates (according to their [email preferences](#email-notification) in the **My account** settings).
 
 **Full-screen view**:

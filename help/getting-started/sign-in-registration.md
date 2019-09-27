@@ -1,8 +1,8 @@
 ---
-title: Login and registration
-description: Find out more about the login and registration in OpenProject. 
+title: Sign in and registration
+description: Find out more about the sign in and registration in OpenProject. 
 robots: index, follow
-keywords: Login OpenProject, registration OpenProject
+keywords: Sign in OpenProject, registration OpenProject
 ---
 
 # Sign in and registration
@@ -19,6 +19,7 @@ Here you will get an overview how to sign in and register to an existing OpenPro
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Sign in with an existing account](#sign-in-with-an-existing-account) | Sign in with an existing account to an OpenProject installation. |
 | [Sign in with Google](#sign-in-with-google)                  | Find out how to sign in with a Google account.               |
+| [Sign in from the OpenProject website](#sign-in-from-the-openproject-website) | Sign in to an existing OpenProject Cloud Edition from the website. |
 | [Create a new account](#create-a-new-account)                | Create a new account for OpenProject.                        |
 | [Reset your password](#reset-your-password)                  | If you forgot your password find out how to reset it.        |
 
@@ -49,6 +50,12 @@ If you have activated Two-factor authentication, please enter your second factor
 Then, you are asked to Create your OpenProject Account.
 
 ![Create-account](1566204388512.png)
+
+## Sign in from the OpenProject website
+
+If you are using the OpenProject Cloud Edition, you can sign in to your installation directly from the OpenProject website.
+
+Please follow the [instructions in our Cloud Edition guide](./cloud-edition-guide/#sign-in).
 
 ## Create a new account
 
