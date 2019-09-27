@@ -137,7 +137,7 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
   }
 
   public requireVisible(fieldName:string):Promise<void> {
-    return new Promise<void>((resolve,) => {
+    return new Promise<void>((resolve, _) => {
       const interval = setInterval(() => {
         const field = this.fields[fieldName];
 

@@ -84,7 +84,7 @@ export class DurationDisplayField extends DisplayField {
 
     span.textContent = displayText;
     span.title = this.valueString;
-    span.classList.add('-actual-value')
+    span.classList.add('-actual-value');
 
     element.appendChild(span);
   }

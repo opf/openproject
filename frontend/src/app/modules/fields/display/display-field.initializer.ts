@@ -78,6 +78,6 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
 
     displayFieldService
         .addSpecificFieldType('WorkPackage', WorkPackageIdDisplayField, 'id', ['id'])
-        .addSpecificFieldType('workPackage', WorkPackageSpentTimeDisplayField, 'spentTime', ['spentTime'])
+        .addSpecificFieldType('WorkPackage', WorkPackageSpentTimeDisplayField, 'spentTime', ['spentTime']);
   };
 }
