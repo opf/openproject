@@ -4,8 +4,8 @@ pl:
       add_widget: 'Dodaj widżet'
       remove: 'Usuń widżet'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the "
-        link: 'enterprise edition.'
+        text: "Niektóre widżety, takie jak widżet wykresu pakietu roboczego, są dostępne jedynie w wersji"
+        link: 'Enterprise Edition.'
       widgets:
         custom_text:
           title: 'Tekst niestandardowy/użytkownika'
