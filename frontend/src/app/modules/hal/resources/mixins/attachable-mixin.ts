@@ -110,7 +110,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
     }
 
     /**
-     * Get updated attachments and activities from the server and push the state
+     * Get updated attachments from the server and push the state
      *
      * Return a promise that returns the attachments. Reject, if the work package has
      * no attachments.
