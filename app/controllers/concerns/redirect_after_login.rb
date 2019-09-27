@@ -33,6 +33,9 @@ module Concerns::RedirectAfterLogin
   def redirect_after_login(user)
     if user.first_login
       user.update_attribute(:first_login, false)
+
+      call_hook :user_first_login, { user: user }
+
       first_login_redirect
     else
       default_redirect
