@@ -32,8 +32,8 @@ See docs/COPYRIGHT.rdoc for more details.
 <% form.object.custom_field_values.each do |value| %>
   <%= form.fields_for_custom_fields :custom_field_values, value do |value_form| %>
     <%# display all fields OR only display required fields OR only display optional fields #%>
+    <% required = value.custom_field.is_required? %>
     <% if all_fields || (only_required && required) || (!only_required && !required) %>
-      <% required = value.custom_field.is_required? %>
       <% container_class = value.custom_field.field_format == 'text' ? '-xxwide' : '-wide' %>
       <div class="form--field custom_field_<%= value.custom_field.id %> <%= required ? '-required' : '' %>">
         <%= value_form.custom_field(container_class: container_class, required: required) %>

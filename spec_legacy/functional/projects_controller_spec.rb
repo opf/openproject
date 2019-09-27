@@ -42,57 +42,7 @@ describe ProjectsController, type: :controller do
     Setting.default_language = 'en'
   end
 
-  it 'should index' do
-    get :index
-    assert_response :success
-    assert_template 'index'
-    refute_nil assigns(:projects)
-
-    assert_select 'ul',
-                  child: {
-                    tag: 'li',
-                    descendant: { tag: 'a', content: 'eCookbook' },
-                    child: {
-                      tag: 'ul',
-                      descendant: {
-                        tag: 'a',
-                        content: 'Child of private child'
-                      }
-                    }
-                  }
-
-    assert_select('a', { content: /Private child of eCookbook/ }, false)
-  end
-
-  context '#index' do
-    context 'by non-admin user without view_time_entries permission' do
-      before do
-        Role.find(2).remove_permission! :view_time_entries
-        Role.non_member.remove_permission! :view_time_entries
-        Role.anonymous.remove_permission! :view_time_entries
-        session[:user_id] = 3
-      end
-      it 'should not show overall spent time link' do
-        get :index
-        assert_template 'index'
-        assert_select('a', { attributes: { href: '/time_entries' } }, false)
-      end
-    end
-  end
-
   context '#new' do
-    context 'by admin user' do
-      before do
-        session[:user_id] = 1
-      end
-
-      it 'should accept get' do
-        get :new
-        assert_response :success
-        assert_template 'new'
-      end
-    end
-
     context 'by non-admin user with add_project permission' do
       before do
         Role.non_member.add_permission! :add_project
