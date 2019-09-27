@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectorRef, Injectable, Injector, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Injectable, Injector, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {StateService, Transition} from '@uirouter/core';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
@@ -45,6 +45,7 @@ import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/rout
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import {WorkPackageViewFocusService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-form.component";
 
 
 @Injectable()
@@ -62,21 +63,22 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
     button_settings: this.I18n.t('js.button_settings')
   };
 
-  constructor(readonly $transition:Transition,
-              readonly $state:StateService,
-              readonly I18n:I18nService,
-              readonly titleService:OpTitleService,
-              readonly injector:Injector,
-              readonly currentUser:CurrentUserService,
-              protected halNotification:HalResourceNotificationService,
-              protected states:States,
-              protected wpCreate:WorkPackageCreateService,
-              protected wpViewFocus:WorkPackageViewFocusService,
-              protected wpTableFilters:WorkPackageViewFiltersService,
-              protected wpCacheService:WorkPackageCacheService,
-              protected pathHelper:PathHelperService,
-              protected cdRef:ChangeDetectorRef,
-              protected RootDm:RootDmService) {
+  @ViewChild(EditFormComponent, { static: false }) private editForm:EditFormComponent|undefined;
+
+  constructor(protected readonly $transition:Transition,
+              protected readonly $state:StateService,
+              protected readonly I18n:I18nService,
+              protected readonly titleService:OpTitleService,
+              protected readonly injector:Injector,
+              protected readonly halNotification:HalResourceNotificationService,
+              protected readonly states:States,
+              protected readonly wpCreate:WorkPackageCreateService,
+              protected readonly wpViewFocus:WorkPackageViewFocusService,
+              protected readonly wpTableFilters:WorkPackageViewFiltersService,
+              protected readonly wpCacheService:WorkPackageCacheService,
+              protected readonly pathHelper:PathHelperService,
+              protected readonly cdRef:ChangeDetectorRef,
+              protected readonly RootDm:RootDmService) {
 
   }
 
@@ -133,6 +135,12 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
 
   public onSaved(params:{ savedResource:HalResource, isInitial:boolean }) {
     let {savedResource, isInitial} = params;
+
+    // Shouldn't this always be true in create controller?
+    // Close all edit fields when saving
+    if (isInitial && this.editForm && this.editForm.editMode) {
+      this.editForm.stop();
+    }
 
     if (this.successState) {
       this.$state.go(this.successState, {workPackageId: savedResource.id})

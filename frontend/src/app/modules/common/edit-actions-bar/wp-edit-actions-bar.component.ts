@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Output} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-form.component";
 
@@ -36,6 +36,8 @@ import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-for
   selector: 'wp-edit-actions-bar',
 })
 export class WorkPackageEditActionsBarComponent {
+  @Input('editForm') public editForm:EditFormComponent;
+
   @Output('onSave') public onSave = new EventEmitter<void>();
   @Output('onCancel') public onCancel = new EventEmitter<void>();
   public _saving:boolean = false;
@@ -46,8 +48,7 @@ export class WorkPackageEditActionsBarComponent {
   };
 
   constructor(private I18n:I18nService,
-              private cdRef:ChangeDetectorRef,
-              private wpeditForm:EditFormComponent) {
+              private cdRef:ChangeDetectorRef) {
   }
 
   public set saving(active:boolean) {
@@ -65,7 +66,7 @@ export class WorkPackageEditActionsBarComponent {
     }
 
     this.saving = true;
-    this.wpeditForm
+    this.editForm
       .save()
       .then(() => {
         this.saving = false;
@@ -77,7 +78,7 @@ export class WorkPackageEditActionsBarComponent {
   }
 
   public cancel():void {
-    this.wpeditForm.stop();
+    this.editForm.stop();
     this.onCancel.emit();
   }
 }

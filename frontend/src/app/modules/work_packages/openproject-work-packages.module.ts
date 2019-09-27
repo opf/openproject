@@ -159,6 +159,7 @@ import {WorkPackageViewDropdownMenuDirective} from "core-components/op-context-m
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {OpenprojectProjectsModule} from "core-app/modules/projects/openproject-projects.module";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import {WorkPackageEditActionsBarComponent} from "core-app/modules/common/edit-actions-bar/wp-edit-actions-bar.component";
 
 
 @NgModule({
@@ -234,6 +235,7 @@ import {WorkPackageNotificationService} from "core-app/modules/work_packages/not
     WorkPackageNewFullViewComponent,
     WorkPackageNewSplitViewComponent,
     WorkPackageTypeStatusComponent,
+    WorkPackageEditActionsBarComponent,
 
     // WP Copy
     WorkPackageCopyFullViewComponent,

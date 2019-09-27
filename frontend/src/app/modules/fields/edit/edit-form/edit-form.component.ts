@@ -109,22 +109,6 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
     if (this.initializeEditMode) {
       this.start();
     }
-
-    // Stop editing whenever a work package was saved
-    if (this.initializeEditMode && this.resource.isNew) {
-      // ToDO: Move to generic service
-      /*
-      this.wpCreate.onNewWorkPackage()
-          .pipe(
-              takeUntil(componentDestroyed(this))
-          )
-          .subscribe((wp:WorkPackageResource) => {
-            this.form.editMode = false;
-            this.stopEditingAndLeave(wp, true);
-          });
-
-       */
-    }
   }
 
   public async activateField(form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[]):Promise<EditFieldHandler> {
