@@ -41,7 +41,7 @@ export class AttachmentListItemComponent {
   @Input() public resource:HalResource;
   @Input() public attachment:any;
   @Input() public index:any;
-  @Input() public selfDestroy?:boolean;
+  @Input() destroyImmediately:boolean = true;
 
   @Output() public removeAttachment = new EventEmitter<void>();
 
@@ -112,7 +112,7 @@ export class AttachmentListItemComponent {
 
     this.removeAttachment.emit();
 
-    if (!!this.selfDestroy) {
+    if (this.destroyImmediately) {
       this
         .resource
         .removeAttachment(this.attachment);
