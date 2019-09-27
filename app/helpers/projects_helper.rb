@@ -122,18 +122,21 @@ module ProjectsHelper
   def allowed_filters(query)
     query
       .available_filters
-      .reject { |f| blacklisted_project_filter?(f) }
+      .select { |f| whitelisted_project_filter?(f) }
       .sort_by(&:human_name)
   end
 
-  def blacklisted_project_filter?(filter)
-    blacklist = [Queries::Projects::Filters::AncestorFilter,
-                 Queries::Projects::Filters::PrincipalFilter,
-                 Queries::Projects::Filters::IdFilter,
-                 Queries::Projects::Filters::ParentFilter]
-    blacklist << Queries::Filters::Shared::CustomFields::Base unless EnterpriseToken.allows_to?(:custom_fields_in_projects_list)
+  def whitelisted_project_filter?(filter)
+    whitelist = [
+      Queries::Projects::Filters::ActiveOrArchivedFilter,
+      Queries::Projects::Filters::CreatedOnFilter,
+      Queries::Projects::Filters::LatestActivityAtFilter,
+      Queries::Projects::Filters::NameAndIdentifierFilter,
+      Queries::Projects::Filters::TypeFilter
+    ]
+    whitelist << Queries::Filters::Shared::CustomFields::Base if EnterpriseToken.allows_to?(:custom_fields_in_projects_list)
 
-    blacklist.detect { |clazz| filter.is_a? clazz }
+    whitelist.detect { |clazz| filter.is_a? clazz }
   end
 
   def no_projects_result_box_params
