@@ -28,6 +28,8 @@
 
 import {Component, Injector} from "@angular/core";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 export const wpBaseSelector = 'work-packages-base';
 
@@ -37,7 +39,10 @@ export const wpBaseSelector = 'work-packages-base';
     <div class="work-packages-page--ui-view" wp-isolated-query-space>
       <ui-view></ui-view>
     </div>
-  `
+  `,
+  providers: [
+    { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },
+  ]
 })
 export class WorkPackagesBaseComponent {
 }

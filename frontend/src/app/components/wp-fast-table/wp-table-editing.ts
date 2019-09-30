@@ -3,11 +3,7 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {WorkPackageTable} from 'core-components/wp-fast-table/wp-fast-table';
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
-import {
-  activeFieldClassName,
-  activeFieldContainerClassName,
-  EditForm
-} from "core-app/modules/fields/edit/edit-form/edit-form";
+import {EditForm} from "core-app/modules/fields/edit/edit-form/edit-form";
 import {TableEditForm} from "core-components/wp-edit-form/table-edit-form";
 
 export class WorkPackageTableEditingContext {
