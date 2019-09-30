@@ -24,7 +24,7 @@ pt-BR:
           no_results: 'Nada de novo para relatar.'
         project_description:
           title: 'Descrição do projeto'
-          no_results: "Nenhuma descrição foi escrita ainda. Uma pode ser fornecida nas 'Configurações de Projeto'."
+          no_results: "Nenhuma descrição foi escrita. Uma pode ser fornecida nas 'Configurações do Projeto'."
         project_details:
           title: 'Detalhes do projeto'
           no_results: 'Nenhum campo personalizado foi definido para projetos.'
