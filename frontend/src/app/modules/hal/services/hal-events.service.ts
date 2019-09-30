@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {Observable, Subject} from "rxjs";
-import {buffer, debounceTime, scan} from "rxjs/operators";
+import {buffer, debounceTime, filter, map, scan} from "rxjs/operators";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 export interface HalEvent {
@@ -38,10 +38,11 @@ export class HalEventsService {
   public events$ = this._events.asObservable();
 
   /** Aggregated events */
-  public aggregated$(debounceTimeInMs = 500):Observable<HalEvent[]> {
+  public aggregated$(resourceType:string, debounceTimeInMs = 500):Observable<HalEvent[]> {
     return this
       .events$
       .pipe(
+        filter((event:HalEvent) => event.resourceType === resourceType),
         buffer(this.events$.pipe(debounceTime(debounceTimeInMs))),
         scan((acc, curr) => acc.concat(curr))
       );

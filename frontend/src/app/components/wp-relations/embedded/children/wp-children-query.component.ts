@@ -74,7 +74,7 @@ export class WorkPackageChildrenQueryComponent extends WorkPackageRelationQueryB
   constructor(protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
               protected PathHelper:PathHelperService,
               protected wpInlineCreate:WorkPackageInlineCreateService,
-              protected wpEvents:HalEventsService,
+              protected halEvents:HalEventsService,
               protected wpCacheService:WorkPackageCacheService,
               protected queryUrlParamsHelper:UrlParamsHelperService,
               readonly I18n:I18nService) {
@@ -92,7 +92,7 @@ export class WorkPackageChildrenQueryComponent extends WorkPackageRelationQueryB
     this.wpInlineCreate.newInlineWorkPackageCreated
       .pipe(untilComponentDestroyed(this))
       .subscribe((toId:string) => {
-        this.wpEvents.push(this.workPackage, {
+        this.halEvents.push(this.workPackage, {
           eventType: 'association',
           relatedWorkPackage: toId,
           relationType: 'child'

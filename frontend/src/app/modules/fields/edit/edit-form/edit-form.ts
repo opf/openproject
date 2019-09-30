@@ -48,7 +48,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
   protected readonly states:States = this.injector.get(States);
   protected readonly halEditing = this.injector.get(HalResourceEditingService);
   protected readonly halNotification = this.injector.get(HalResourceNotificationService);
-  protected readonly wpEvents = this.injector.get(HalEventsService);
+  protected readonly halEvents = this.injector.get(HalEventsService);
 
   // All current active (open) edit fields
   public activeFields:{ [fieldName:string]:EditFieldHandler } = {};
@@ -186,7 +186,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
           this.halNotification.showSave(result.resource, result.wasNew);
           this.editMode = false;
           this.onSaved(result.wasNew, result.resource);
-          this.wpEvents.push(result.resource, { eventType: 'updated' });
+          this.halEvents.push(result.resource, { eventType: 'updated' });
         })
         .catch((error:ErrorResource|Object) => {
           this.halNotification.handleRawError(error, this.resource);

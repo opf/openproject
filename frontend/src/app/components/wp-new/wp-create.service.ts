@@ -61,7 +61,7 @@ export class WorkPackageCreateService implements OnDestroy {
               protected readonly querySpace:IsolatedQuerySpace,
               protected halEditing:HalResourceEditingService,
               protected workPackageDmService:WorkPackageDmService,
-              protected readonly wpEvents:HalEventsService) {
+              protected readonly halEvents:HalEventsService) {
 
   this.halEditing
       .comittedChanges
@@ -87,7 +87,7 @@ export class WorkPackageCreateService implements OnDestroy {
   }
 
   protected newWorkPackageCreated(wp:WorkPackageResource) {
-    this.wpEvents.push(wp, { eventType: 'created' });
+    this.halEvents.push(wp, { eventType: 'created' });
     this.reset();
     this.newWorkPackageCreatedSubject.next(wp);
   }

@@ -191,6 +191,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
   }
 
   public registerTimeline(controller:WorkPackageTimelineTableController, timelineBody:HTMLElement) {
+    const tbody = this.$element.find('.work-package--results-tbody');
     const scrollContainer = this.$element.find('.work-package-table--container')[0];
     this.workPackageTable = new WorkPackageTable(
       this.injector,

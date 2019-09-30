@@ -31,7 +31,7 @@ import {StateService, TransitionService} from '@uirouter/core';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
-import {filter, withLatestFrom} from 'rxjs/operators';
+import {filter, map, withLatestFrom} from 'rxjs/operators';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageStaticQueriesService} from 'core-components/wp-query-select/wp-static-queries.service';
@@ -82,7 +82,7 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
   readonly wpStatesInitialization:WorkPackageStatesInitializationService = this.injector.get(WorkPackageStatesInitializationService);
   readonly cdRef:ChangeDetectorRef = this.injector.get(ChangeDetectorRef);
   readonly wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService = this.injector.get(WorkPackageViewDisplayRepresentationService);
-  readonly wpEvents:HalEventsService = this.injector.get(HalEventsService);
+  readonly halEvents:HalEventsService = this.injector.get(HalEventsService);
 
 
   constructor(protected injector:Injector) {
@@ -163,9 +163,8 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
    * through the refresh service.
    */
   protected setupRefreshObserver() {
-    (window as any).wpEvents = this.wpEvents;
-    this.wpEvents
-      .aggregated$()
+    this.halEvents
+      .aggregated$('WorkPackage')
       .pipe(
         untilComponentDestroyed(this),
         filter((events:HalEvent[]) => this.filterRefreshEvents(events))

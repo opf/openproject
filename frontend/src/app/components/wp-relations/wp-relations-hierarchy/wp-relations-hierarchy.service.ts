@@ -39,7 +39,7 @@ import {WorkPackageNotificationService} from "core-app/modules/work_packages/not
 export class WorkPackageRelationsHierarchyService {
   constructor(protected $state:StateService,
               protected states:States,
-              protected wpEvents:HalEventsService,
+              protected halEvents:HalEventsService,
               protected notificationService:WorkPackageNotificationService,
               protected pathHelper:PathHelperService,
               protected wpCacheService:WorkPackageCacheService) {
@@ -70,7 +70,7 @@ export class WorkPackageRelationsHierarchyService {
       .then((wp:WorkPackageResource) => {
         this.wpCacheService.updateWorkPackage(wp);
         this.notificationService.showSave(wp);
-        this.wpEvents.push(workPackage, {
+        this.halEvents.push(workPackage, {
           eventType: 'association',
           relatedWorkPackage: parentId,
           relationType: 'parent'
@@ -95,7 +95,7 @@ export class WorkPackageRelationsHierarchyService {
         return this.changeParent(wpToBecomeChild!, workPackage.id!)
           .then(wp => {
             this.wpCacheService.loadWorkPackage(workPackage.id!, true);
-            this.wpEvents.push(workPackage, {
+            this.halEvents.push(workPackage, {
               eventType: 'association',
               relatedWorkPackage: wpToBecomeChild!.id!,
               relationType: 'child'

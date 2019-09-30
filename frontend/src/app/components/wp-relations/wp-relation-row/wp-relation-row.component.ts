@@ -59,7 +59,7 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
   constructor(protected wpCacheService:WorkPackageCacheService,
               protected notificationService:WorkPackageNotificationService,
               protected wpRelations:WorkPackageRelationsService,
-              protected wpEvents:HalEventsService,
+              protected halEvents:HalEventsService,
               protected I18n:I18nService,
               protected cdRef:ChangeDetectorRef,
               protected PathHelper:PathHelperService) {
@@ -174,7 +174,7 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
   public removeRelation() {
     this.wpRelations.removeRelation(this.relation)
       .then(() => {
-        this.wpEvents.push(this.workPackage, {
+        this.halEvents.push(this.workPackage, {
           eventType: 'association',
           relatedWorkPackage: null,
           relationType: this.relation.normalizedType(this.workPackage)

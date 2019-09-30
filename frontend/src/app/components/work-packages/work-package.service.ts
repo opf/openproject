@@ -48,7 +48,7 @@ export class WorkPackageService {
               private readonly UrlParamsHelper:UrlParamsHelperService,
               private readonly NotificationsService:NotificationsService,
               private readonly I18n:I18nService,
-              private readonly wpEvents:HalEventsService) {
+              private readonly halEvents:HalEventsService) {
   }
 
   public performBulkDelete(ids:string[], defaultHandling:boolean) {
@@ -64,7 +64,7 @@ export class WorkPackageService {
         .then(() => {
           this.NotificationsService.addSuccess(this.text.successful_delete);
 
-          ids.forEach(id => this.wpEvents.push({type:'WorkPackage', id: id}, { eventType: 'deleted'} as HalDeletedEvent));
+          ids.forEach(id => this.halEvents.push({type:'WorkPackage', id: id}, { eventType: 'deleted'} as HalDeletedEvent));
 
           if (this.$state.includes('**.list.details.**')
             && ids.indexOf(this.$state.params.workPackageId) > -1) {

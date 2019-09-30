@@ -60,7 +60,7 @@ export class WpRelationInlineAddExistingComponent {
               protected wpCacheService:WorkPackageCacheService,
               protected wpRelations:WorkPackageRelationsService,
               protected notificationService:WorkPackageNotificationService,
-              protected wpEvents:HalEventsService,
+              protected halEvents:HalEventsService,
               protected urlParamsHelper:UrlParamsHelperService,
               protected querySpace:IsolatedQuerySpace,
               protected readonly I18n:I18nService) {
@@ -78,7 +78,7 @@ export class WpRelationInlineAddExistingComponent {
       .then(() => {
         this.wpCacheService.loadWorkPackage(this.workPackage.id!, true);
 
-        this.wpEvents.push(this.workPackage, {
+        this.halEvents.push(this.workPackage, {
           eventType: 'association',
           relatedWorkPackage: newRelationId,
           relationType: this.relationType,

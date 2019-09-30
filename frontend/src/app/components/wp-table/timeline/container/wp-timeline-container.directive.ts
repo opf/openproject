@@ -104,7 +104,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
               private notificationService:WorkPackageNotificationService,
               private wpRelations:WorkPackageRelationsService,
               private wpTableHierarchies:WorkPackageViewHierarchiesService,
-              private wpEvents:HalEventsService,
+              private halEvents:HalEventsService,
               readonly I18n:I18nService) {
   }
 
@@ -266,7 +266,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       this.wpRelations
         .addCommonRelation(start.id!, 'follows', end.id!)
         .then(() => {
-          this.wpEvents.push(start, {
+          this.halEvents.push(start, {
             eventType: 'association',
             relatedWorkPackage: end.id!,
             relationType: 'follows'
@@ -281,7 +281,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       this.wpRelations
         .addCommonRelation(start.id!, 'precedes', end.id!)
         .then(() => {
-          this.wpEvents.push(start, {
+          this.halEvents.push(start, {
             eventType: 'association',
             relatedWorkPackage: end.id!,
             relationType: 'precedes'

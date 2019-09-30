@@ -55,7 +55,7 @@ export class WpCustomActionComponent {
               private wpActivity:WorkPackagesActivityService,
               private notificationService:WorkPackageNotificationService,
               private halEditing:HalResourceEditingService,
-              private wpEvents:HalEventsService) {
+              private halEvents:HalEventsService) {
   }
 
   private fetchAction() {
@@ -87,7 +87,7 @@ export class WpCustomActionComponent {
         this.wpSchemaCacheService.ensureLoaded(savedWp).then(() => {
           this.wpCacheService.updateWorkPackage(savedWp, true);
           this.halEditing.stopEditing(savedWp.id!);
-          this.wpEvents.push(savedWp, { eventType: "updated" });
+          this.halEvents.push(savedWp, { eventType: "updated" });
         });
       }).catch((errorResource:any) => {
         this.notificationService.handleRawError(errorResource, this.workPackage);

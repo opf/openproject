@@ -58,7 +58,7 @@ export function registerWorkPackageMouseHandler(this:void,
                                                 workPackageTimeline:WorkPackageTimelineTableController,
                                                 wpCacheService:WorkPackageCacheService,
                                                 halEditing:HalResourceEditingService,
-                                                wpEvents:HalEventsService,
+                                                halEvents:HalEventsService,
                                                 notificationService:WorkPackageNotificationService,
                                                 loadingIndicator:LoadingIndicatorService,
                                                 cell:HTMLElement,
@@ -256,7 +256,7 @@ export function registerWorkPackageMouseHandler(this:void,
           queryDm.loadIdsUpdatedSince(ids, updatedAt).then(workPackageCollection => {
             wpCacheService.updateWorkPackageList(workPackageCollection.elements);
 
-            wpEvents.push(result.resource, { eventType: 'updated' });
+            halEvents.push(result.resource, { eventType: 'updated' });
           });
       })
       .catch((error) => {

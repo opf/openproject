@@ -30,7 +30,7 @@ export class WorkPackageRelationsCreateComponent {
   constructor(readonly I18n:I18nService,
               protected wpRelations:WorkPackageRelationsService,
               protected notificationService:WorkPackageNotificationService,
-              protected wpEvents:HalEventsService,
+              protected halEvents:HalEventsService,
               protected wpCacheService:WorkPackageCacheService) {
   }
 
@@ -59,7 +59,7 @@ export class WorkPackageRelationsCreateComponent {
       this.selectedRelationType,
       this.selectedWpId)
       .then(relation => {
-        this.wpEvents.push(this.workPackage, {
+        this.halEvents.push(this.workPackage, {
           eventType: 'association',
           relatedWorkPackage: relation.id!,
           relationType: this.selectedRelationType

@@ -55,7 +55,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
               protected halEditing:HalResourceEditingService,
               protected notificationService:NotificationsService,
               protected I18n:I18nService,
-              protected wpEvents:HalEventsService) {
+              protected halEvents:HalEventsService) {
 
     super(elementRef, opContextMenu);
   }
@@ -92,7 +92,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
         .save(change)
         .then(() => {
           this.workPackageNotificationService.showSave(this.workPackage);
-          this.wpEvents.push(this.workPackage, { eventType: 'updated' });
+          this.halEvents.push(this.workPackage, { eventType: 'updated' });
         });
     }
   }
