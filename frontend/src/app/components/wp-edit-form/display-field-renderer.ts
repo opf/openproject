@@ -14,8 +14,8 @@ export const requiredClassName = '-required';
 export const readOnlyClassName = '-read-only';
 export const placeholderClassName = '-placeholder';
 export const cellClassName = 'wp-table--cell-span';
-export const displayClassName = 'wp-edit-field--display-field';
-export const editFieldContainerClass = 'wp-edit-field--container';
+export const displayClassName = 'inline-edit--display-field';
+export const editFieldContainerClass = 'inline-edit--container';
 export const cellEmptyPlaceholder = '-';
 
 export class DisplayFieldRenderer<T extends HalResource = HalResource> {

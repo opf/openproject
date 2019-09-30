@@ -70,7 +70,7 @@ describe 'Work package table context menu', js: true do
         goto_context_menu list_view
         menu.choose('Create new child')
         expect(page).to have_selector('.wp-edit-field.subject input')
-        expect(page).to have_selector('.wp-inline-edit--field.type')
+        expect(page).to have_selector('.inline-edit--field.type')
 
         find('#work-packages--edit-actions-cancel').click
         expect(page).to have_no_selector('.wp-edit-field.subject input')

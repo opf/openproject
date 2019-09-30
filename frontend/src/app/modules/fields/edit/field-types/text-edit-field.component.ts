@@ -32,7 +32,7 @@ import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.compon
 @Component({
   template: `
     <input type="text"
-           class="wp-inline-edit--field"
+           class="inline-edit--field"
            [focus]="shouldFocus"
            [attr.aria-required]="required"
            [attr.required]="required"

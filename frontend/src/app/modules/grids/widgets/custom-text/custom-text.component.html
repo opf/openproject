@@ -35,7 +35,7 @@
 
     <div *ngIf="!active"
          class="inplace-edit--read -no-label"
-         [ngClass]="{'wp-edit-field--container': isTextEditable}">
+         [ngClass]="{'inline-edit--container': isTextEditable}">
       <div *ngIf="isTextEditable"
            (accessibleClick)="activate($event)"
            [accessibleClickStopEvent]="false"

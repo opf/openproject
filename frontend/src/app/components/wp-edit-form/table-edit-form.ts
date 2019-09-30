@@ -48,8 +48,8 @@ import {editModeClassName} from "core-app/modules/fields/edit/edit-field.compone
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 
-export const activeFieldContainerClassName = 'wp-inline-edit--active-field';
-export const activeFieldClassName = 'wp-inline-edit--field';
+export const activeFieldContainerClassName = 'inline-edit--active-field';
+export const activeFieldClassName = 'inline-edit--field';
 
 export class TableEditForm extends EditForm<WorkPackageResource> {
 

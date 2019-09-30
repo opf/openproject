@@ -88,7 +88,7 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
   }
 
   public focus(setClickOffset?:number) {
-    const target = this.element.querySelector('.wp-inline-edit--field') as HTMLElement;
+    const target = this.element.querySelector('.inline-edit--field') as HTMLElement;
 
     if (!target) {
       debugLog(`Tried to focus on ${this.fieldName}, but element does not (yet) exist.`);

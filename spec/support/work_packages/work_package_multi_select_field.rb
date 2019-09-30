@@ -3,7 +3,7 @@ require_relative './work_package_field'
 class WorkPackageMultiSelectField < WorkPackageField
 
   def multiselect?
-    field_container.has_selector?('.wp-inline-edit--toggle-multiselect .icon-minus2')
+    field_container.has_selector?('.inline-edit--toggle-multiselect .icon-minus2')
   end
 
   def expect_save_button(enabled: true)

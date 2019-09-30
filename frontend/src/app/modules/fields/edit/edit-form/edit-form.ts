@@ -39,8 +39,8 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 
-export const activeFieldContainerClassName = 'wp-inline-edit--active-field';
-export const activeFieldClassName = 'wp-inline-edit--field';
+export const activeFieldContainerClassName = 'inline-edit--active-field';
+export const activeFieldClassName = 'inline-edit--field';
 
 export abstract class EditForm<T extends HalResource = HalResource> {
 

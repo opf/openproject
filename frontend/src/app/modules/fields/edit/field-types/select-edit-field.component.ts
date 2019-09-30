@@ -50,7 +50,6 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
   public options:any[];
   public valueOptions:ValueOption[];
-  public template:string = '/components/wp-edit/field-types/wp-edit-select-field.directive.html';
   public text:{ requiredPlaceholder:string, placeholder:string };
 
   public appendTo:any = null;
