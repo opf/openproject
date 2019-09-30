@@ -160,6 +160,8 @@ import {HalEventsService} from "core-app/modules/hal/services/hal-events.service
 import {OpenprojectProjectsModule} from "core-app/modules/projects/openproject-projects.module";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {WorkPackageEditActionsBarComponent} from "core-app/modules/common/edit-actions-bar/wp-edit-actions-bar.component";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 
 
 @NgModule({
@@ -505,6 +507,15 @@ export class OpenprojectWorkPackagesModule {
 
       hookService.register('workPackageAttachmentListComponent', (workPackage:WorkPackageResource) => {
         return AttachmentListComponent;
+      });
+
+      /** Return specialized work package changeset for editing service */
+      hookService.register('halResourceChangesetClass', (resource:HalResource) => {
+        if (resource._type === 'WorkPackage') {
+          return WorkPackageChangeset;
+        }
+
+        return null;
       });
     };
   }

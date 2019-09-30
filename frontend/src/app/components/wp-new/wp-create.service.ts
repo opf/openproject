@@ -47,6 +47,8 @@ import {FormResource} from "core-app/modules/hal/resources/form-resource";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
 
+export const newWorkPackageHref = '/api/v3/work_packages/new';
+
 @Injectable()
 export class WorkPackageCreateService implements OnDestroy {
   protected form:Promise<FormResource>|undefined;
@@ -67,12 +69,14 @@ export class WorkPackageCreateService implements OnDestroy {
       .comittedChanges
       .pipe(
         untilComponentDestroyed(this),
-        filter(commit => commit.wasNew)
+        filter(commit => commit.resource._type === 'WorkPackage' && commit.wasNew)
       )
-      .subscribe((commit:ResourceChangesetCommit<WorkPackageResource>) => this.newWorkPackageCreated(commit.resource));
+      .subscribe((commit:ResourceChangesetCommit<WorkPackageResource>) => {
+        this.newWorkPackageCreated(commit.resource);
+      });
 
   this.halEditing
-    .changes$('/api/v3/work_packages/new')
+    .changes$(newWorkPackageHref)
     .pipe(
       untilComponentDestroyed(this),
       filter(changeset => !changeset)
@@ -156,14 +160,14 @@ export class WorkPackageCreateService implements OnDestroy {
   }
 
   public cancelCreation() {
-    this.halEditing.stopEditing('/api/v3/work_packages/new');
+    this.halEditing.stopEditing(newWorkPackageHref);
     this.reset();
   }
 
   public changesetUpdates$() {
     return this
       .halEditing
-      .state('new')
+      .state(newWorkPackageHref)
       .values$();
   }
 
@@ -175,7 +179,7 @@ export class WorkPackageCreateService implements OnDestroy {
     }
 
     return changePromise.then((change:WorkPackageChangeset) => {
-      this.halEditing.updateValue('/api/v3/work_packages/new', change);
+      this.halEditing.updateValue(newWorkPackageHref, change);
       this.wpCacheService.updateWorkPackage(change.pristineResource);
 
       return change;
@@ -188,7 +192,7 @@ export class WorkPackageCreateService implements OnDestroy {
   }
 
   protected continueExistingEdit(type?:number) {
-    const change = this.halEditing.state('/api/v3/work_packages/new').value as WorkPackageChangeset;
+    const change = this.halEditing.state(newWorkPackageHref).value as WorkPackageChangeset;
     if (change !== undefined) {
       const changeType = change.projectedResource.type;
 

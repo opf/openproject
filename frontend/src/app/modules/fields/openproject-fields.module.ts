@@ -49,8 +49,6 @@ import {OpenprojectEditorModule} from 'core-app/modules/editor/openproject-edito
 import {UserFieldPortalComponent} from "core-app/modules/fields/display/display-portal/display-user-field-portal/user-field-portal.component";
 import {UserFieldPortalService} from "core-app/modules/fields/display/display-portal/display-user-field-portal/user-field-portal-service";
 import {SelectAutocompleterRegisterService} from "core-app/modules/fields/edit/field-types/select-autocompleter-register.service";
-import {initializeChangesetMap} from "core-app/modules/fields/changeset/changeset.initializer";
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-form.component";
 import {WorkPackageEditFieldComponent} from "core-app/modules/fields/edit/field-types/work-package-edit-field.component";
 import {EditableAttributeFieldComponent} from "core-app/modules/fields/edit/field/editable-attribute-field.component";
@@ -73,11 +71,9 @@ import {EditableAttributeFieldComponent} from "core-app/modules/fields/edit/fiel
     UserFieldPortalService,
     DisplayFieldService,
     EditFieldService,
-    HalResourceEditingService,
     SelectAutocompleterRegisterService,
     { provide: APP_INITIALIZER, useFactory: initializeCoreEditFields, deps: [EditFieldService, SelectAutocompleterRegisterService], multi: true },
     { provide: APP_INITIALIZER, useFactory: initializeCoreDisplayFields, deps: [DisplayFieldService], multi: true },
-    { provide: APP_INITIALIZER, useFactory: initializeChangesetMap, deps: [HalResourceEditingService], multi: true },
   ],
   declarations: [
     EditFormPortalComponent,

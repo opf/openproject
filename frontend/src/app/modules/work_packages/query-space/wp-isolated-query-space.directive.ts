@@ -117,8 +117,8 @@ import {WorkPackageNotificationService} from "core-app/modules/work_packages/not
 
     WorkPackageCardViewService,
 
-    WorkPackageCreateService,
     HalResourceEditingService,
+    WorkPackageCreateService,
 
     WorkPackageStatesInitializationService,
     PortalCleanupService,

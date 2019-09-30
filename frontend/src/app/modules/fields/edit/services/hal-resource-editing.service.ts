@@ -38,6 +38,7 @@ import {ChangeMap} from "core-app/modules/fields/changeset/changeset";
 import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {StateCacheService} from "core-components/states/state-cache.service";
+import {HookService} from "core-app/modules/plugins/hook-service";
 
 class ChangesetStates extends StatesGroup {
   name = 'Changesets';
@@ -99,10 +100,8 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
   /** State group of changes to wrap */
   private stateGroup = new ChangesetStates();
 
-  public changesetClasses:{ [type:string]:ResourceChangesetClass } = {};
-
-  constructor(readonly injector:Injector,
-              readonly schemaCache:SchemaCacheService) {
+  constructor(protected readonly injector:Injector,
+              protected readonly hook:HookService) {
     super();
   }
 
@@ -179,7 +178,9 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
   }
 
   protected newChangeset<V extends HalResource, T extends ResourceChangeset<V>>(resource:V, state:InputState<T>, form?:FormResource):T {
-    const cls = this.changesetClasses[resource._type] || ResourceChangeset;
+    // we take the last registered group component which means that
+    // plugins will have their say if they register for it.
+    const cls = this.hook.call('halResourceChangesetClass', resource).pop() || ResourceChangeset;
     return new cls(resource, state, form) as T;
   }
 
@@ -226,16 +227,16 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
     const combined = combine(resource.state! as State<V>, this.typedState<V, T>(resource) as State<T>);
 
     return deriveRaw(combined,
-        ($) => $
-            .pipe(
-                map(([resource, change]) => {
-                  if (resource && change && !change.isEmpty()) {
-                    return change.projectedResource as V;
-                  } else {
-                    return resource;
-                  }
-                })
-            )
+      ($) => $
+        .pipe(
+          map(([resource, change]) => {
+            if (resource && change && !change.isEmpty()) {
+              return change.projectedResource as V;
+            } else {
+              return resource;
+            }
+          })
+        )
     );
   }
 
@@ -259,10 +260,6 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
 
   protected get multiState():MultiInputState<ResourceChangeset> {
     return this.stateGroup.changesets;
-  }
-
-  addChangesetClass(name:string, cls:ResourceChangesetClass) {
-    this.changesetClasses[name] = cls;
   }
 }
 

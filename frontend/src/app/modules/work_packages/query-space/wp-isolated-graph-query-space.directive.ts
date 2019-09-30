@@ -94,8 +94,8 @@ export const WpIsolatedGraphQuerySpaceProviders = [
   WpChildrenInlineCreateService,
   WpRelationInlineCreateService,
 
-  WorkPackageCreateService,
   HalResourceEditingService,
+  WorkPackageCreateService,
 
   WorkPackageStatesInitializationService,
 
