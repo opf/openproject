@@ -53,6 +53,8 @@ import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp
 import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import {WorkPackageViewDisplayRepresentationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 import {HalEvent, HalEventsService} from "core-app/modules/hal/services/hal-events.service";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
 
@@ -81,6 +83,7 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
   readonly cdRef:ChangeDetectorRef = this.injector.get(ChangeDetectorRef);
   readonly wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService = this.injector.get(WorkPackageViewDisplayRepresentationService);
   readonly wpEvents:HalEventsService = this.injector.get(HalEventsService);
+
 
   constructor(protected injector:Injector) {
   }

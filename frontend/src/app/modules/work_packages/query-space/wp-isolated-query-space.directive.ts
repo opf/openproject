@@ -63,6 +63,8 @@ import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates
 import {WorkPackageCardViewService} from "core-components/wp-card-view/services/wp-card-view.service";
 import {WorkPackageViewDisplayRepresentationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 import {WorkPackageViewHierarchyIdentationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 /**
  * Directive to open a work package query 'space', an isolated injector hierarchy
@@ -74,52 +76,55 @@ import {WorkPackageViewHierarchyIdentationService} from "core-app/modules/work_p
 @Directive({
   selector: '[wp-isolated-query-space]',
   providers: [
-  // Open the isolated space first, order is important here
-  IsolatedQuerySpace,
-  OpTableActionsService,
+    // Override the hal notification service
+    { provide: HalResourceNotificationService, useExisting: WorkPackageNotificationService },
 
-  // Work package table services
-  WorkPackagesListChecksumService,
-  WorkPackagesListService,
-  WorkPackageViewRelationColumnsService,
-  WorkPackageViewPaginationService,
-  WorkPackageViewGroupByService,
-  WorkPackageViewHierarchiesService,
-  WorkPackageViewSortByService,
-  WorkPackageViewColumnsService,
-  WorkPackageViewFiltersService,
-  WorkPackageViewTimelineService,
-  WorkPackageViewSelectionService,
-  WorkPackageViewSumService,
-  WorkPackageViewAdditionalElementsService,
-  WorkPackageViewFocusService,
-  WorkPackageViewHighlightingService,
-  WorkPackageViewDisplayRepresentationService,
-  WorkPackageViewOrderService,
-  WorkPackageViewHierarchyIdentationService,
-  CausedUpdatesService,
+    // Open the isolated space first, order is important here
+    IsolatedQuerySpace,
+    OpTableActionsService,
 
-  WorkPackageService,
-  WorkPackageRelationsHierarchyService,
-  WorkPackageFiltersService,
-  WorkPackageContextMenuHelperService,
+    // Work package table services
+    WorkPackagesListChecksumService,
+    WorkPackagesListService,
+    WorkPackageViewRelationColumnsService,
+    WorkPackageViewPaginationService,
+    WorkPackageViewGroupByService,
+    WorkPackageViewHierarchiesService,
+    WorkPackageViewSortByService,
+    WorkPackageViewColumnsService,
+    WorkPackageViewFiltersService,
+    WorkPackageViewTimelineService,
+    WorkPackageViewSelectionService,
+    WorkPackageViewSumService,
+    WorkPackageViewAdditionalElementsService,
+    WorkPackageViewFocusService,
+    WorkPackageViewHighlightingService,
+    WorkPackageViewDisplayRepresentationService,
+    WorkPackageViewOrderService,
+    WorkPackageViewHierarchyIdentationService,
+    CausedUpdatesService,
 
-  // Provide a separate service for creation events of WP Inline create
-  // This can be hierarchically injected to provide isolated events on an embedded table
-  WorkPackageInlineCreateService,
-  WpChildrenInlineCreateService,
-  WpRelationInlineCreateService,
+    WorkPackageService,
+    WorkPackageRelationsHierarchyService,
+    WorkPackageFiltersService,
+    WorkPackageContextMenuHelperService,
 
-  WorkPackageCardViewService,
+    // Provide a separate service for creation events of WP Inline create
+    // This can be hierarchically injected to provide isolated events on an embedded table
+    WorkPackageInlineCreateService,
+    WpChildrenInlineCreateService,
+    WpRelationInlineCreateService,
 
-  WorkPackageCreateService,
-  HalResourceEditingService,
+    WorkPackageCardViewService,
 
-  WorkPackageStatesInitializationService,
-  PortalCleanupService,
+    WorkPackageCreateService,
+    HalResourceEditingService,
 
-  // Table Drag & Drop actions
-  TableDragActionsRegistryService,
+    WorkPackageStatesInitializationService,
+    PortalCleanupService,
+
+    // Table Drag & Drop actions
+    TableDragActionsRegistryService,
   ]
 })
 export class WorkPackageIsolatedQuerySpaceDirective {

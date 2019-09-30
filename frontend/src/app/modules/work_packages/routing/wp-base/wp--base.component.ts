@@ -39,10 +39,7 @@ export const wpBaseSelector = 'work-packages-base';
     <div class="work-packages-page--ui-view" wp-isolated-query-space>
       <ui-view></ui-view>
     </div>
-  `,
-  providers: [
-    { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },
-  ]
+  `
 })
 export class WorkPackagesBaseComponent {
 }
