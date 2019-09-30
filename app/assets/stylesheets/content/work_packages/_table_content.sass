@@ -71,7 +71,7 @@
   display: table-cell
   width: auto
 
-  &:hover .wp-edit-field.-error:hover
+  &:hover .inline-edit--active-field.-error:hover
     border-color: $nm-color-error-border
 
 //
@@ -125,15 +125,8 @@ html:not(.-browser-mobile)
   .wp-table--cell-td.-editing &
     display: block
 
-  .inplace-edit
+  .inline-edit--display-field
     display: initial
-
-
-  &.id .inplace-edit
-//  pointer-events: none
-
-  a
-    pointer-events: all
 
 // Some padding for the inner cells of the display fields
 .inline-edit--display-field

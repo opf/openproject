@@ -118,7 +118,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
   }
 
   private setSpanAttributes(span:HTMLElement, field:DisplayField, name:string, resource:T):void {
-    span.classList.add(displayClassName, 'inplace-edit', 'wp-edit-field', name);
+    span.classList.add(displayClassName, name);
     span.dataset['fieldName'] = name;
 
     // Make span tabbable unless it's an id field

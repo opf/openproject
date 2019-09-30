@@ -64,8 +64,8 @@ describe 'Work Package table cost entries', type: :feature, js: true do
     parent_row = wp_table.row(parent)
     wp_row = wp_table.row(work_package)
 
-    expect(parent_row).to have_selector('.wp-edit-field.spentTime', text: '12.5 h')
-    expect(wp_row).to have_selector('.wp-edit-field.spentTime', text: '2.5 h')
+    expect(parent_row).to have_selector('.inline-edit--container.spentTime', text: '12.5 h')
+    expect(wp_row).to have_selector('.inline-edit--container.spentTime', text: '2.5 h')
   end
 
   it 'creates an activity' do

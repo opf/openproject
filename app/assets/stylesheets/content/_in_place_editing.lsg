@@ -57,10 +57,8 @@
     <accessible-by-keyboard class="inplace-editing--trigger-container">
       <a href="" class="inplace-editing--trigger-link">
         <span class="inplace-editing--container inline-edit--display-field">
-          <span class="inplace-edit--read-value -default">
-            <span>Comment and type @ to notify other people</span>
-          </span>
-          <span class="inplace-edit--icon-wrapper">
+          <span>Comment and type @ to notify other people</span>
+          <span class="inplace-editing--trigger-icon">
             <op-icon class="op-icon--wrapper">
               <i aria-hidden="true" class="icon-edit" title="Comment and type @ to notify other people"></i>
             </op-icon>

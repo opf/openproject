@@ -49,7 +49,7 @@ module Pages
     end
 
     def select_attribute(property, value)
-      element = page.first(".wp-edit-field.#{property.downcase} select")
+      element = page.first(".inline-edit--container.#{property.downcase} select")
 
       element.select(value)
       element

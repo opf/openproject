@@ -37,7 +37,7 @@ describe 'Work package table context menu', js: true do
         # Open full view
         goto_context_menu list_view
         menu.choose('Open fullscreen view')
-        expect(page).to have_selector('.work-packages--show-view .wp-edit-field.subject',
+        expect(page).to have_selector('.work-packages--show-view .inline-edit--container.subject',
                                       text: work_package.subject)
 
         # Open log time
@@ -69,11 +69,11 @@ describe 'Work package table context menu', js: true do
         # Open create new child
         goto_context_menu list_view
         menu.choose('Create new child')
-        expect(page).to have_selector('.wp-edit-field.subject input')
+        expect(page).to have_selector('.inline-edit--container.subject input')
         expect(page).to have_selector('.inline-edit--field.type')
 
         find('#work-packages--edit-actions-cancel').click
-        expect(page).to have_no_selector('.wp-edit-field.subject input')
+        expect(page).to have_no_selector('.inline-edit--container.subject input')
 
         # Timeline actions only shown when open
         wp_timeline.expect_timeline!(open: false)

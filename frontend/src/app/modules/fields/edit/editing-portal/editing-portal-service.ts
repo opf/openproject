@@ -1,5 +1,5 @@
 /**
- * A CDK portal implementation to wrap wp-edit-fields in non-angular contexts.
+ * A CDK portal implementation to wrap edit-fields in non-angular contexts.
  */
 import {ApplicationRef, ComponentFactoryResolver, Injectable, Injector} from "@angular/core";
 import {ComponentPortal, DomPortalOutlet} from "@angular/cdk/portal";

@@ -26,29 +26,29 @@ describe 'new work package', js: true, with_mail: false do
   # Changes in the description shall not be overridden.
   def change_type_and_expect_description(set_project: false)
     if !set_project
-      expect(page).to have_selector('.wp-edit-field.type', text: type_feature.name)
+      expect(page).to have_selector('.inline-edit--container.type', text: type_feature.name)
     end
-    expect(page).to have_selector('.wp-edit-field.description', text: '')
+    expect(page).to have_selector('.inline-edit--container.description', text: '')
 
     type_field.openSelectField
     type_field.set_value type_task
-    expect(page).to have_selector('.wp-edit-field.description h1', text: 'New Task template')
+    expect(page).to have_selector('.inline-edit--container.description h1', text: 'New Task template')
 
     type_field.openSelectField
     type_field.set_value type_bug
-    expect(page).to have_selector('.wp-edit-field.description h1', text: 'New Bug template')
+    expect(page).to have_selector('.inline-edit--container.description h1', text: 'New Bug template')
 
     description_field.set_value 'Something different than the default.'
 
     type_field.openSelectField
     type_field.set_value type_task
-    expect(page).to have_no_selector('.wp-edit-field.description h1', text: 'New Task template', wait: 5)
+    expect(page).to have_no_selector('.inline-edit--container.description h1', text: 'New Task template', wait: 5)
 
     description_field.set_value ''
 
     type_field.openSelectField
     type_field.set_value type_bug
-    expect(page).to have_selector('.wp-edit-field.description h1', text: 'New Bug template')
+    expect(page).to have_selector('.inline-edit--container.description h1', text: 'New Bug template')
 
     if set_project
       project_field.openSelectField

@@ -85,7 +85,7 @@ describe 'Moving a work package through Rails view', js: true do
 
       it 'moves parent and child wp to a new project' do
         expect_angular_frontend_initialized
-        expect(page).to have_selector('.wp-edit-field.subject', text: work_package.subject, wait: 10)
+        expect(page).to have_selector('.inline-edit--container.subject', text: work_package.subject, wait: 10)
         expect(page).to have_selector('#projects-menu', text: 'Target')
 
         # Should move its children
@@ -98,7 +98,7 @@ describe 'Moving a work package through Rails view', js: true do
 
         it 'does moves the work package and changes the type' do
           expect_angular_frontend_initialized
-          expect(page).to have_selector('.wp-edit-field.subject', text: work_package.subject, wait: 10)
+          expect(page).to have_selector('.inline-edit--container.subject', text: work_package.subject, wait: 10)
           expect(page).to have_selector('#projects-menu', text: 'Target')
 
           # Should NOT have moved

@@ -1,4 +1,4 @@
-.wp-edit-field
+.inline-edit--container
   &.-error,
   .wp-table--cell-td.-error &
     .inline-edit--display-field,
@@ -27,15 +27,6 @@
     border-radius: 2px
     border-color: darkblue
 
-  .inplace-edit--read-value
-    &:before
-      vertical-align: middle
-    .inline-edit--display-field
-      vertical-align: middle
-
-  &.inplace-edit .custom-option:not(.-multiple-lines)
-    display: inline
-
   .inline-label
     .form-label,
     .icon-context:before
@@ -46,8 +37,5 @@
 .inline-edit--container.-no-label:not(.-active)
   .inline-edit--display-field
     display: block
-    padding: 5px
-    padding-right: 0
+    padding: 5px 0 5px 5px
 
-.wp-edit-field.description.-no-label
-  margin-left: -0.375rem

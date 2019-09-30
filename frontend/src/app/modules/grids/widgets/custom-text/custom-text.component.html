@@ -10,7 +10,7 @@
 
 <ng-template #text>
   <span #displayContainer
-        class="inplace-edit--read-value -default">
+        class="inline-edit--formattable-display-text -default">
     <span
         *ngIf="!textEmpty"
         [innerHTML]="customText"></span>
@@ -21,7 +21,7 @@
 </ng-template>
 
 <div class="grid--widget-content -custom-text">
-  <div class="wp-edit-field inplace-edit">
+  <div class="inline-edit--container inplace-edit">
     <edit-form-portal *ngIf="active"
                       [schemaInput]="schema"
                       [changeInput]="changeset"

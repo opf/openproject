@@ -68,7 +68,7 @@
     <div class="attributes-key-value--key">Assignee</div>
     <div class="attributes-key-value--value-container">
       <div class="inline-edit--container">
-        <span class="inline-edit--display-field inline-edit--display-field inplace-edit wp-edit-field -editable" title="Jane Doe">Jane Doe</span>
+        <span class="inline-edit--display-field inline-edit--display-field inplace-edit -editable" title="Jane Doe">Jane Doe</span>
       </div>
     </div>
     <div class="attributes-key-value--key">
@@ -82,7 +82,7 @@
     </div>
     <div class="attributes-key-value--value-container">
       <div class="inline-edit--container">
-        <span class="inline-edit--display-field inline-edit--display-field inplace-edit wp-edit-field -editable" title="John Doe">John Doe</span>
+        <span class="inline-edit--display-field inline-edit--display-field inplace-edit -editable" title="John Doe">John Doe</span>
       </div>
     </div>
   </div>
@@ -99,7 +99,7 @@
     <div class="attributes-key-value--key">Progress (%)</div>
     <div class="attributes-key-value--value-container">
       <div class="inline-edit--container">
-        <span title="-" class="inline-edit--display-field inline-edit--display-field inplace-edit wp-edit-field -placeholder -editable">
+        <span title="-" class="inline-edit--display-field inline-edit--display-field inplace-edit -placeholder -editable">
           <span style="width: 80px" class="progress-bar">
               <span style="width: 60%" class="inner-progress closed"></span>
               <span style="width: 0%" class="inner-progress done"></span>
@@ -111,17 +111,17 @@
     <div class="attributes-key-value--key">Date</div>
     <div class="attributes-key-value--value-container">
       <div class="inline-edit--container">
-          <span class="inline-edit--display-field inline-edit--display-field inplace-edit wp-edit-field -editable" title="12/06/2018">12/06/2018</span>
+          <span class="inline-edit--display-field inline-edit--display-field inplace-edit -editable" title="12/06/2018">12/06/2018</span>
       </div>
       <span class="attributes-key-value--value-separator"></span>
       <div class="inline-edit--container">
-          <span class="inline-edit--display-field inline-edit--display-field inplace-edit wp-edit-field -placeholder -editable">no end date</span>
+          <span class="inline-edit--display-field inline-edit--display-field inplace-edit -placeholder -editable">no end date</span>
       </div>
     </div>
     <div class="attributes-key-value--key">Priority</div>
     <div class="attributes-key-value--value-container">
       <div class="inline-edit--container">
-        <span class="inline-edit--display-field inline-edit--display-field inplace-edit wp-edit-field -editable" title="Normal">Normal</span>
+        <span class="inline-edit--display-field inline-edit--display-field inplace-edit -editable" title="Normal">Normal</span>
       </div>
     </div>
   </div>
@@ -153,7 +153,7 @@
             <a href="">Task: Fix bug (#34)</a>
           </div>
           <div class="grid-content collapse">
-            <span class="inline-edit--display-field inplace-edit wp-edit-field -editable" title="new">new</span>
+            <span class="inline-edit--display-field inplace-edit -editable" title="new">new</span>
           </div>
           <div class="grid-content collapse wp-relations-controls-section">
             <a href="" title="Set or update description of this relation">
