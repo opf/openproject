@@ -24,8 +24,7 @@
         </editable-attribute-field>
         <editable-attribute-field *ngIf="!descriptor.field.isFormattable"
                        [resource]="workPackage"
-                       [fieldName]="descriptor.name"
-                       [ngClass]="descriptor.field!.schema.type === 'String' ? 'wp-edit-field--text' : ''">
+                       [fieldName]="descriptor.name">
         </editable-attribute-field>
       </div>
       <div

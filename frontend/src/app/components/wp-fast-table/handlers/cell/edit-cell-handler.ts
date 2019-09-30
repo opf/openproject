@@ -1,7 +1,7 @@
 import {Injector} from '@angular/core';
 import {debugLog} from '../../../../helpers/debug_output';
 import {States} from '../../../states.service';
-import {cellClassName, editableClassName, readOnlyClassName} from '../../../wp-edit-form/display-field-renderer';
+import {displayClassName, editableClassName, readOnlyClassName} from '../../../wp-edit-form/display-field-renderer';
 
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {tableRowClassName} from '../../builders/rows/single-row-builder';
@@ -23,7 +23,7 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
   }
 
   public get SELECTOR() {
-    return `.${cellClassName}.${editableClassName}`;
+    return `.${displayClassName}.${editableClassName}`;
   }
 
   public eventScope(table:WorkPackageTable) {
@@ -39,7 +39,7 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
     evt.preventDefault();
 
     // Locate the cell from event
-    let target = jQuery(evt.target).closest(`.${cellClassName}`);
+    let target = jQuery(evt.target).closest(`.${displayClassName}`);
     // Get the target field name
     let fieldName = target.data('fieldName');
 

@@ -13,7 +13,6 @@ export const editableClassName = '-editable';
 export const requiredClassName = '-required';
 export const readOnlyClassName = '-read-only';
 export const placeholderClassName = '-placeholder';
-export const cellClassName = 'wp-table--cell-span';
 export const displayClassName = 'inline-edit--display-field';
 export const editFieldContainerClass = 'inline-edit--container';
 export const cellEmptyPlaceholder = '-';
@@ -119,7 +118,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
   }
 
   private setSpanAttributes(span:HTMLElement, field:DisplayField, name:string, resource:T):void {
-    span.classList.add(cellClassName, displayClassName, 'inplace-edit', 'wp-edit-field', name);
+    span.classList.add(displayClassName, 'inplace-edit', 'wp-edit-field', name);
     span.dataset['fieldName'] = name;
 
     // Make span tabbable unless it's an id field

@@ -96,8 +96,8 @@ a.inplace-editing--trigger-link,
 
 
 // Editable fields cursor
-.-editable .wp-table--cell-span,
-.wp-table--cell-span.-editable
+.-editable .inline-edit--display-field,
+.inline-edit--display-field.-editable
   cursor: text
   border-color: transparent
   border-style: solid
@@ -126,7 +126,7 @@ a.inplace-editing--trigger-link,
 
 // Mark focused, non-editable read-values
 .inplace-edit--read-value.-read-only,
-.wp-table--cell-span:not(.id).-read-only
+.inline-edit--display-field:not(.id).-read-only
   &:focus, &:hover
     color: $inplace-edit--color--disabled
     background: $inplace-edit--bg-color--disabled
@@ -146,7 +146,7 @@ a.inplace-editing--trigger-link,
     opacity: 0
 
 // Allow horizontal scrolling in descripton field
-.work-packages--details--description .wp-table--cell-span .inplace-edit--read-value--value-span
+.work-packages--details--description .inline-edit--display-field .inplace-edit--read-value--value-span
   overflow-x: auto
 
 // Style the attachment hint label of the description field

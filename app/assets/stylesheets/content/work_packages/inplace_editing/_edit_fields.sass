@@ -1,7 +1,7 @@
 .wp-edit-field
   &.-error,
   .wp-table--cell-td.-error &
-    .wp-table--cell-span,
+    .inline-edit--display-field,
     .inline-edit--field
       background: $nm-color-error-background
       border-color: $nm-color-error-border
@@ -30,7 +30,7 @@
   .inplace-edit--read-value
     &:before
       vertical-align: middle
-    .wp-table--cell-span
+    .inline-edit--display-field
       vertical-align: middle
 
   &.inplace-edit .custom-option:not(.-multiple-lines)
@@ -44,7 +44,7 @@
 
 // Style no-label fields (long text, description, ..) with padding
 .inline-edit--container.-no-label:not(.-active)
-  .wp-table--cell-span
+  .inline-edit--display-field
     display: block
     padding: 5px
     padding-right: 0
