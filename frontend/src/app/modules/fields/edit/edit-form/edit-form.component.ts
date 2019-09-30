@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, EventEmitter, Injector, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Injector, Input, OnDestroy, OnInit, Optional, Output} from '@angular/core';
 import {StateService, Transition, TransitionService} from '@uirouter/core';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {EditableAttributeFieldComponent} from 'core-app/modules/fields/edit/field/editable-attribute-field.component';
@@ -44,6 +44,7 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 import {EditingPortalService} from "core-app/modules/fields/edit/editing-portal/editing-portal-service";
+import {EditFormRoutingService} from "core-app/modules/fields/edit/edit-form/edit-form-routing.service";
 
 @Component({
   selector: 'edit-form,[edit-form]',
@@ -68,9 +69,9 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
               protected readonly ConfigurationService:ConfigurationService,
               protected readonly editingPortalService:EditingPortalService,
               protected readonly $state:StateService,
-              protected readonly I18n:I18nService) {
+              protected readonly I18n:I18nService,
+              @Optional() protected readonly editFormRouting:EditFormRoutingService) {
     super(injector);
-
 
     const confirmText = I18n.t('js.work_packages.confirm_edit_cancel');
     const requiresConfirmation = ConfigurationService.warnOnLeavingUnsaved();
@@ -82,11 +83,7 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
 
       // Show confirmation message when transitioning to a new state
       // that's not withing the edit mode.
-      const toState = transition.to();
-      const fromState = transition.from();
-      const fromParams = transition.params('from');
-      const toParams = transition.params('to');
-      if (!this.allowedStateChange(toState, toParams, fromState, fromParams)) {
+      if (!this.editFormRouting || this.editFormRouting.blockedTransition(transition)) {
         if (requiresConfirmation && !window.confirm(confirmText)) {
           return false;
         }
@@ -116,12 +113,12 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
       ctrl.setActive(true);
       const container = ctrl.editContainer.nativeElement;
       return this.editingPortalService.create(
-          container,
-          this.injector,
-          form,
-          schema,
-          fieldName,
-          errors
+        container,
+        this.injector,
+        form,
+        schema,
+        fieldName,
+        errors
       );
     });
   }
@@ -158,7 +155,7 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
     this.registeredFields.putValue(_.keys(this.fields));
 
     const shouldActivate =
-        (this.editMode && !this.skipField(field) || this.activeFields[field.fieldName]);
+      (this.editMode && !this.skipField(field) || this.activeFields[field.fieldName]);
 
     if (shouldActivate) {
       field.activateOnForm(true);
@@ -167,13 +164,13 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
 
   public waitForField(name:string):Promise<EditableAttributeFieldComponent> {
     return this.registeredFields
-        .values$()
-        .pipe(
-            filter(keys => keys.indexOf(name) >= 0),
-            take(1),
-            map(() => this.fields[name])
-        )
-        .toPromise();
+      .values$()
+      .pipe(
+        filter(keys => keys.indexOf(name) >= 0),
+        take(1),
+        map(() => this.fields[name])
+      )
+      .toPromise();
   }
 
   public start() {
@@ -189,23 +186,23 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
   public save() {
     const isInitial = this.resource.isNew;
     return this
-        .submit()
-        .then((savedResource:HalResource) => {
-          this.stopEditingAndLeave(savedResource, isInitial);
-        });
+      .submit()
+      .then((savedResource:HalResource) => {
+        this.stopEditingAndLeave(savedResource, isInitial);
+      });
   }
 
   public stopEditingAndLeave(savedResource:HalResource, isInitial:boolean) {
     this.stop();
-    this.onSavedEmitter.emit({ savedResource, isInitial });
+    this.onSavedEmitter.emit({savedResource, isInitial});
   }
 
   protected focusOnFirstError():void {
     // Focus the first field that is erroneous
     jQuery(this.elementRef.nativeElement)
-        .find(`.${activeFieldContainerClassName}.-error .${activeFieldClassName}`)
-        .first()
-        .trigger('focus');
+      .find(`.${activeFieldContainerClassName}.-error .${activeFieldClassName}`)
+      .first()
+      .trigger('focus');
   }
 
   private skipField(field:EditableAttributeFieldComponent) {
@@ -223,21 +220,5 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
     const changed = this.change.changes[fieldName];
 
     return hasDefault && !changed;
-  }
-
-  private allowedStateChange(toState:any, toParams:any, fromState:any, fromParams:any) {
-    // ToDo Move to its own service
-    return true;
-
-    /*
-    // In new/copy mode, transitions to the same controller are allowed
-    if (fromState.name.match(/\.(new|copy)$/)) {
-      return toState.data && toState.data.allowMovingInEditMode;
-    }
-
-    // When editing an existing WP, transitions on the same WP id are allowed
-    return toParams.workPackageId !== undefined && toParams.workPackageId === fromParams.workPackageId;
-
-     */
   }
 }

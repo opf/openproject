@@ -26,25 +26,31 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Injector} from "@angular/core";
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import {Transition} from "@uirouter/core";
+import {Injectable} from "@angular/core";
 import {EditFormRoutingService} from "core-app/modules/fields/edit/edit-form/edit-form-routing.service";
-import {WorkPackageEditFormRoutingService} from "core-app/modules/work_packages/routing/wp-edit-form/wp-edit-form-routing.service";
 
-export const wpBaseSelector = 'work-packages-base';
+@Injectable()
+export class WorkPackageEditFormRoutingService extends EditFormRoutingService {
+  /**
+   * Return whether the given transition is cancelled during the editing of this form
+   *
+   * @param transition The transition that is underway.
+   * @return A boolean marking whether the transition should be blocked.
+   */
+  public blockedTransition(transition:Transition):boolean {
+    const toState = transition.to();
+    const fromState = transition.from();
+    const fromParams = transition.params('from');
+    const toParams = transition.params('to');
 
-@Component({
-  selector: wpBaseSelector,
-  template: `
-    <div class="work-packages-page--ui-view" wp-isolated-query-space>
-      <ui-view></ui-view>
-    </div>
-  `,
-  providers: [
-    { provide: EditFormRoutingService, useClass: WorkPackageEditFormRoutingService }
-  ]
-})
-export class WorkPackagesBaseComponent {
+    // In new/copy mode, transitions to the same controller are allowed
+    if (fromState.name && fromState.name.match(/\.(new|copy)$/)) {
+      return !(toState.data && toState.data.allowMovingInEditMode);
+    }
+
+    // When editing an existing WP, transitions on the same WP id are allowed
+    return toParams.workPackageId === undefined || toParams.workPackageId !== fromParams.workPackageId;
+  }
 }
+
