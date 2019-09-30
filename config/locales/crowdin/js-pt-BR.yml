@@ -41,7 +41,7 @@ pt-BR:
     button_open_details: "Abrir visão detalhada"
     button_close_details: "Fechar visão detalhada"
     button_open_fullscreen: "Abrir visualização em tela cheia"
-    button_show_cards: "Mostrar exibição de cartão"
+    button_show_cards: "Mostrar cartão"
     button_show_list: "Mostrar lista"
     button_quote: "Citar"
     button_save: "Salvar"
@@ -825,7 +825,7 @@ pt-BR:
         other: "%{count} pacotes de trabalho filhos"
       hour:
         one: "1 h"
-        other: "%{count} h"
+        other: "%{count} hs"
     zen_mode:
       button_activate: 'Ativar modo zen'
       button_deactivate: 'Desativar modo zen'
