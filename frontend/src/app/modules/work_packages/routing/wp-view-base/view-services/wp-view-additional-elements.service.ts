@@ -36,6 +36,7 @@ import {Injectable} from '@angular/core';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {RelationsStateValue, WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 @Injectable()
 export class WorkPackageViewAdditionalElementsService {
@@ -43,7 +44,7 @@ export class WorkPackageViewAdditionalElementsService {
   constructor(readonly querySpace:IsolatedQuerySpace,
               readonly wpTableHierarchies:WorkPackageViewHierarchiesService,
               readonly wpTableColumns:WorkPackageViewColumnsService,
-              readonly halNotification:HalResourceNotificationService,
+              readonly notificationService:WorkPackageNotificationService,
               readonly halResourceService:HalResourceService,
               readonly wpCacheService:WorkPackageCacheService,
               readonly wpRelations:WorkPackageRelationsService) {
@@ -66,7 +67,7 @@ export class WorkPackageViewAdditionalElementsService {
       })
       .catch((e) => {
         this.querySpace.additionalRequiredWorkPackages.putValue(null, 'Failure loading required work packages');
-        this.halNotification.handleRawError(e);
+        this.notificationService.handleRawError(e);
       });
   }
 

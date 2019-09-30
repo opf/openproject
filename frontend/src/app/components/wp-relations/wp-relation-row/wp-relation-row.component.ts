@@ -8,6 +8,7 @@ import {ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, View
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 
 @Component({
@@ -56,7 +57,7 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
   };
 
   constructor(protected wpCacheService:WorkPackageCacheService,
-              protected halNotification:HalResourceNotificationService,
+              protected notificationService:WorkPackageNotificationService,
               protected wpRelations:WorkPackageRelationsService,
               protected wpEvents:HalEventsService,
               protected I18n:I18nService,
@@ -130,7 +131,7 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
         this.relation = savedRelation;
         this.relatedWorkPackage.relatedBy = savedRelation;
         this.userInputs.showDescriptionEditForm = false;
-        this.halNotification.showSave(this.relatedWorkPackage);
+        this.notificationService.showSave(this.relatedWorkPackage);
         this.cdRef.detectChanges();
       });
   }
@@ -156,14 +157,14 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
       this.relation,
       this.selectedRelationType.name)
       .then((savedRelation:RelationResource) => {
-        this.halNotification.showSave(this.relatedWorkPackage);
+        this.notificationService.showSave(this.relatedWorkPackage);
         this.relatedWorkPackage.relatedBy = savedRelation;
         this.relation = savedRelation;
 
         this.userInputs.showRelationTypesForm = false;
         this.cdRef.detectChanges();
       })
-      .catch((error:any) => this.halNotification.handleRawError(error, this.workPackage));
+      .catch((error:any) => this.notificationService.handleRawError(error, this.workPackage));
   }
 
   public toggleUserDescriptionForm() {
@@ -180,9 +181,9 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
         });
 
         this.wpCacheService.updateWorkPackage(this.relatedWorkPackage);
-        this.halNotification.showSave(this.relatedWorkPackage);
+        this.notificationService.showSave(this.relatedWorkPackage);
       })
-      .catch((err:any) => this.halNotification.handleRawError(err,
+      .catch((err:any) => this.notificationService.handleRawError(err,
         this.relatedWorkPackage));
   }
 }

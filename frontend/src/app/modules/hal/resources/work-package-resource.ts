@@ -48,6 +48,7 @@ import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-packag
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
 import {InputState} from "reactivestates";
 import {WorkPackagesActivityService} from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 export interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
@@ -131,8 +132,8 @@ export class WorkPackageBaseResource extends HalResource {
   readonly wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
   readonly schemaCacheService:SchemaCacheService = this.injector.get(SchemaCacheService);
   readonly NotificationsService:NotificationsService = this.injector.get(NotificationsService);
-  readonly halNotification:HalResourceNotificationService = this.injector.get(
-    HalResourceNotificationService);
+  readonly workPackageNotificationService:WorkPackageNotificationService = this.injector.get(
+    WorkPackageNotificationService);
   readonly pathHelper:PathHelperService = this.injector.get(PathHelperService);
   readonly opFileUpload:OpenProjectFileUploadService = this.injector.get(OpenProjectFileUploadService);
 

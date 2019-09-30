@@ -1,11 +1,11 @@
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageRelationsService} from '../wp-relations.service';
-import {Component, ElementRef, Inject, Input, ViewChild} from "@angular/core";
+import {Component, Input} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 @Component({
   selector: 'wp-relations-create',
@@ -29,7 +29,7 @@ export class WorkPackageRelationsCreateComponent {
 
   constructor(readonly I18n:I18nService,
               protected wpRelations:WorkPackageRelationsService,
-              protected halNotification:HalResourceNotificationService,
+              protected notificationService:WorkPackageNotificationService,
               protected wpEvents:HalEventsService,
               protected wpCacheService:WorkPackageCacheService) {
   }
@@ -64,11 +64,11 @@ export class WorkPackageRelationsCreateComponent {
           relatedWorkPackage: relation.id!,
           relationType: this.selectedRelationType
         });
-        this.halNotification.showSave(this.workPackage);
+        this.notificationService.showSave(this.workPackage);
         this.toggleRelationsCreateForm();
       })
       .catch(err => {
-        this.halNotification.handleRawError(err, this.workPackage);
+        this.notificationService.handleRawError(err, this.workPackage);
         this.toggleRelationsCreateForm();
       });
   }

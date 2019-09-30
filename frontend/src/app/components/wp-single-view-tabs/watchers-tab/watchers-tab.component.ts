@@ -39,6 +39,7 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 @Component({
   templateUrl: './watchers-tab.html',
@@ -71,7 +72,7 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
                      readonly elementRef:ElementRef,
                      readonly wpWatchersService:WorkPackageWatchersService,
                      readonly $transition:Transition,
-                     readonly halNotification:HalResourceNotificationService,
+                     readonly notificationService:WorkPackageNotificationService,
                      readonly loadingIndicator:LoadingIndicatorService,
                      readonly wpCacheService:WorkPackageCacheService,
                      readonly cdRef:ChangeDetectorRef,
@@ -112,7 +113,7 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
         this.cdRef.detectChanges();
       })
       .catch((error:any) => {
-        this.halNotification.showError(error, this.workPackage);
+        this.notificationService.showError(error, this.workPackage);
       });
   }
 
@@ -130,7 +131,7 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
         this.wpCacheService.loadWorkPackage(this.workPackage.id!, true);
         this.cdRef.detectChanges();
       })
-      .catch((error:any) => this.halNotification.showError(error, this.workPackage));
+      .catch((error:any) => this.notificationService.showError(error, this.workPackage));
   }
 
   public removeWatcher(watcher:any) {
@@ -146,7 +147,7 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
         this.wpCacheService.loadWorkPackage(this.workPackage.id!, true);
         this.cdRef.detectChanges();
       })
-      .catch((error:any) => this.halNotification.showError(error, this.workPackage));
+      .catch((error:any) => this.notificationService.showError(error, this.workPackage));
   }
 
   ngOnDestroy() {

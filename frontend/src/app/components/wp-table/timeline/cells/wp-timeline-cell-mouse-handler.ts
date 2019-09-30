@@ -43,6 +43,8 @@ import {HalResourceEditingService} from "core-app/modules/fields/edit/services/h
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import Moment = moment.Moment;
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 
 export const classNameBar = 'bar';
 export const classNameLeftHandle = 'leftHandle';
@@ -57,7 +59,7 @@ export function registerWorkPackageMouseHandler(this:void,
                                                 wpCacheService:WorkPackageCacheService,
                                                 halEditing:HalResourceEditingService,
                                                 wpEvents:HalEventsService,
-                                                halNotification:HalResourceNotificationService,
+                                                notificationService:WorkPackageNotificationService,
                                                 loadingIndicator:LoadingIndicatorService,
                                                 cell:HTMLElement,
                                                 bar:HTMLDivElement,
@@ -246,9 +248,9 @@ export function registerWorkPackageMouseHandler(this:void,
     // Remember the time before saving the work package to know which work packages to update
     const updatedAt = moment().toISOString();
 
-    return loadingIndicator.table.promise = halEditing.save(change)
+    return loadingIndicator.table.promise = halEditing.save<WorkPackageResource, WorkPackageChangeset>(change)
       .then((result) => {
-        halNotification.showSave(result.resource);
+        notificationService.showSave(result.resource);
         const ids = _.map(querySpace.rendered.value!, row => row.workPackageId);
         loadingIndicator.table.promise =
           queryDm.loadIdsUpdatedSince(ids, updatedAt).then(workPackageCollection => {
@@ -258,7 +260,7 @@ export function registerWorkPackageMouseHandler(this:void,
           });
       })
       .catch((error) => {
-        halNotification.handleRawError(error, renderInfo.workPackage);
+        notificationService.handleRawError(error, renderInfo.workPackage);
       });
   }
 }

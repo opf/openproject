@@ -40,6 +40,7 @@ import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 @Directive({
   selector: '[wpStatusDropdown]'
@@ -50,7 +51,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
   constructor(readonly elementRef:ElementRef,
               readonly opContextMenu:OPContextMenuService,
               readonly $state:StateService,
-              protected halNotification:HalResourceNotificationService,
+              protected workPackageNotificationService:WorkPackageNotificationService,
               protected halEditing:HalResourceEditingService,
               protected notificationService:NotificationsService,
               protected I18n:I18nService,
@@ -90,7 +91,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
       this.halEditing
         .save(change)
         .then(() => {
-          this.halNotification.showSave(this.workPackage);
+          this.workPackageNotificationService.showSave(this.workPackage);
           this.wpEvents.push(this.workPackage, { eventType: 'updated' });
         });
     }

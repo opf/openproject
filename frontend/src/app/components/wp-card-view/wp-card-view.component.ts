@@ -36,6 +36,7 @@ import {CardViewHandlerRegistry} from "core-components/wp-card-view/event-handle
 import {WorkPackageCardViewService} from "core-components/wp-card-view/services/wp-card-view.service";
 import {WorkPackageCardDragAndDropService} from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";
 import {checkedClassName, uiStateLinkClass} from "core-components/wp-fast-table/builders/ui-state-link-builder";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 export type CardViewOrientation = 'horizontal'|'vertical';
 
@@ -99,7 +100,7 @@ export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
               readonly I18n:I18nService,
               readonly wpCreate:WorkPackageCreateService,
               readonly wpInlineCreate:WorkPackageInlineCreateService,
-              readonly halNotification:HalResourceNotificationService,
+              readonly notificationService:WorkPackageNotificationService,
               readonly authorisationService:AuthorisationService,
               readonly causedUpdates:CausedUpdatesService,
               readonly cdRef:ChangeDetectorRef,

@@ -59,6 +59,7 @@ import {selectorTimelineSide} from "core-components/wp-table/wp-table-scroll-syn
 import {debugLog, timeOutput} from "core-app/helpers/debug_output";
 import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 @Component({
   selector: 'wp-timeline-container',
@@ -100,7 +101,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
               public wpTableDirective:WorkPackagesTableController,
               private NotificationsService:NotificationsService,
               private wpTableTimeline:WorkPackageViewTimelineService,
-              private halNotification:HalResourceNotificationService,
+              private notificationService:WorkPackageNotificationService,
               private wpRelations:WorkPackageRelationsService,
               private wpTableHierarchies:WorkPackageViewHierarchiesService,
               private wpEvents:HalEventsService,
@@ -271,7 +272,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
             relationType: 'follows'
           });
         })
-        .catch((error:any) => this.halNotification.handleRawError(error, end));
+        .catch((error:any) => this.notificationService.handleRawError(error, end));
     });
   }
 
@@ -286,7 +287,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
             relationType: 'precedes'
           });
         })
-        .catch((error:any) => this.halNotification.handleRawError(error, end));
+        .catch((error:any) => this.notificationService.handleRawError(error, end));
     });
   }
 

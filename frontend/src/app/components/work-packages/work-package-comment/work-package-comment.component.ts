@@ -52,6 +52,7 @@ import {NotificationsService} from "core-app/modules/common/notifications/notifi
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageCommentFieldHandler} from "core-components/work-packages/work-package-comment/work-package-comment-field-handler";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 @Component({
   selector: 'work-package-comment',
@@ -83,7 +84,7 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
               protected ConfigurationService:ConfigurationService,
               protected loadingIndicator:LoadingIndicatorService,
               protected wpCacheService:WorkPackageCacheService,
-              protected halNotification:HalResourceNotificationService,
+              protected workPackageNotificationService:WorkPackageNotificationService,
               protected NotificationsService:NotificationsService,
               protected cdRef:ChangeDetectorRef,
               protected I18n:I18nService) {
@@ -164,7 +165,7 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
       .catch((error:any) => {
         this.inFlight = false;
         if (error instanceof ErrorResource) {
-          this.halNotification.showError(error, this.workPackage);
+          this.workPackageNotificationService.showError(error, this.workPackage);
         }
         else {
           this.NotificationsService.addError(this.I18n.t('js.work_packages.comment_send_failed'));

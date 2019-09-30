@@ -42,6 +42,7 @@ import {KeepTabService} from "core-components/wp-single-view-tabs/keep-tab/keep-
 
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 export class WorkPackageSingleViewBase implements OnDestroy {
 
@@ -52,7 +53,7 @@ export class WorkPackageSingleViewBase implements OnDestroy {
   public PathHelper:PathHelperService = this.injector.get(PathHelperService);
   protected halEditing:HalResourceEditingService = this.injector.get(HalResourceEditingService);
   protected wpTableFocus:WorkPackageViewFocusService = this.injector.get(WorkPackageViewFocusService);
-  protected halNotification:HalResourceNotificationService = this.injector.get(HalResourceNotificationService);
+  protected notificationService:WorkPackageNotificationService = this.injector.get(WorkPackageNotificationService);
   protected projectCacheService:ProjectCacheService = this.injector.get(ProjectCacheService);
   protected authorisationService:AuthorisationService = this.injector.get(AuthorisationService);
   protected cdRef:ChangeDetectorRef = this.injector.get(ChangeDetectorRef);
@@ -84,7 +85,7 @@ export class WorkPackageSingleViewBase implements OnDestroy {
   protected observeWorkPackage() {
     /** Require the work package once to ensure we're displaying errors */
     this.wpCacheService.require(this.workPackageId)
-      .catch((error) => this.halNotification.handleRawError(error));
+      .catch((error) => this.notificationService.handleRawError(error));
 
     /** Stream updates of the work package */
     this.wpCacheService.state(this.workPackageId)

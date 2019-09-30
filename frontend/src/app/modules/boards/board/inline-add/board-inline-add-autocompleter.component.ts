@@ -40,7 +40,6 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {Observable, of, Subject} from "rxjs";
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from "rxjs/operators";
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {NgSelectComponent} from "@ng-select/ng-select";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
@@ -50,6 +49,7 @@ import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-build
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 import {WorkPackageCardDragAndDropService} from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 @Component({
   selector: 'board-inline-add-autocompleter',
@@ -86,7 +86,7 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
 
   constructor(private readonly querySpace:IsolatedQuerySpace,
               private readonly pathHelper:PathHelperService,
-              private readonly halNotification:HalResourceNotificationService,
+              private readonly notificationService:WorkPackageNotificationService,
               private readonly CurrentProject:CurrentProjectService,
               private readonly halResourceService:HalResourceService,
               private readonly schemaCacheService:SchemaCacheService,
@@ -145,7 +145,7 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
       .pipe(
         map(collection => collection.elements),
         catchError((error:unknown) => {
-          this.halNotification.handleRawError(error);
+          this.notificationService.handleRawError(error);
           return of([]);
         }),
         tap(() => this.isLoading = false)

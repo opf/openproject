@@ -40,6 +40,7 @@ import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
 import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
 import {RelationResource} from "core-app/modules/hal/resources/relation-resource";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 @Component({
   templateUrl: './wp-relation-inline-add-existing.component.html'
@@ -58,7 +59,7 @@ export class WpRelationInlineAddExistingComponent {
               @Inject(WorkPackageInlineCreateService) protected readonly wpInlineCreate:WpRelationInlineCreateServiceInterface,
               protected wpCacheService:WorkPackageCacheService,
               protected wpRelations:WorkPackageRelationsService,
-              protected halNotification:HalResourceNotificationService,
+              protected notificationService:WorkPackageNotificationService,
               protected wpEvents:HalEventsService,
               protected urlParamsHelper:UrlParamsHelperService,
               protected querySpace:IsolatedQuerySpace,
@@ -88,7 +89,7 @@ export class WpRelationInlineAddExistingComponent {
         this.cancel();
       })
       .catch((err:any) => {
-        this.halNotification.handleRawError(err, this.workPackage);
+        this.notificationService.handleRawError(err, this.workPackage);
         this.isDisabled = false;
         this.cancel();
       });

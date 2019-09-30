@@ -49,6 +49,7 @@ import {CurrentProjectService} from "core-components/projects/current-project.se
 import {ApiV3Filter, ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 @Component({
   selector: 'wp-relations-autocomplete',
@@ -94,7 +95,7 @@ export class WorkPackageRelationsAutocomplete implements AfterContentInit {
 
   constructor(private readonly querySpace:IsolatedQuerySpace,
               private readonly pathHelper:PathHelperService,
-              private readonly halNotification:HalResourceNotificationService,
+              private readonly notificationService:WorkPackageNotificationService,
               private readonly CurrentProject:CurrentProjectService,
               private readonly halResourceService:HalResourceService,
               private readonly schemaCacheService:SchemaCacheService,
@@ -152,7 +153,7 @@ export class WorkPackageRelationsAutocomplete implements AfterContentInit {
     .pipe(
         map(collection => collection.elements),
         catchError((error:unknown) => {
-          this.halNotification.handleRawError(error);
+          this.notificationService.handleRawError(error);
           return of([]);
         }),
         tap(() => this.isLoading = false)

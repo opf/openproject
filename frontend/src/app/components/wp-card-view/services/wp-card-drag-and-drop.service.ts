@@ -11,6 +11,7 @@ import {DragAndDropHelpers} from "core-app/modules/common/drag-and-drop/drag-and
 import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card-view.component";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 @Injectable()
 export class WorkPackageCardDragAndDropService {
@@ -29,7 +30,7 @@ export class WorkPackageCardDragAndDropService {
                      readonly injector:Injector,
                      readonly reorderService:WorkPackageViewOrderService,
                      readonly wpCreate:WorkPackageCreateService,
-                     readonly halNotification:HalResourceNotificationService,
+                     readonly notificationService:WorkPackageNotificationService,
                      readonly wpCacheService:WorkPackageCacheService,
                      readonly currentProject:CurrentProjectService,
                      readonly wpInlineCreate:WorkPackageInlineCreateService) {
@@ -168,7 +169,7 @@ export class WorkPackageCardDragAndDropService {
       this.updateOrder(newOrder);
       return true;
     } catch (e) {
-      this.halNotification.handleRawError(e, workPackage);
+      this.notificationService.handleRawError(e, workPackage);
     }
 
     return false;

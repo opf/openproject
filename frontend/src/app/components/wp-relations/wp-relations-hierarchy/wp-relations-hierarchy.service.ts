@@ -28,19 +28,19 @@
 
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {States} from '../../states.service';
 import {StateService} from '@uirouter/core';
 import {Injectable} from '@angular/core';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 @Injectable()
 export class WorkPackageRelationsHierarchyService {
   constructor(protected $state:StateService,
               protected states:States,
               protected wpEvents:HalEventsService,
-              protected halNotification:HalResourceNotificationService,
+              protected notificationService:WorkPackageNotificationService,
               protected pathHelper:PathHelperService,
               protected wpCacheService:WorkPackageCacheService) {
 
@@ -69,7 +69,7 @@ export class WorkPackageRelationsHierarchyService {
       .changeParent(payload)
       .then((wp:WorkPackageResource) => {
         this.wpCacheService.updateWorkPackage(wp);
-        this.halNotification.showSave(wp);
+        this.notificationService.showSave(wp);
         this.wpEvents.push(workPackage, {
           eventType: 'association',
           relatedWorkPackage: parentId,
@@ -79,7 +79,7 @@ export class WorkPackageRelationsHierarchyService {
         return wp;
       })
       .catch((error) => {
-        this.halNotification.handleRawError(error, workPackage);
+        this.notificationService.handleRawError(error, workPackage);
         return Promise.reject(error);
       });
   }
@@ -139,7 +139,7 @@ export class WorkPackageRelationsHierarchyService {
         this.wpCacheService.updateWorkPackage(wp);
       })
         .catch((error) => {
-          this.halNotification.handleRawError(error, childWorkPackage);
+          this.notificationService.handleRawError(error, childWorkPackage);
           return Promise.reject(error);
         });
     });

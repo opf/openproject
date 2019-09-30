@@ -46,13 +46,14 @@ import {StateService} from "@uirouter/core";
 import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/op-file-upload.service";
 import {WorkPackageCreateService} from 'core-app/components/wp-new/wp-create.service';
 import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 describe('WorkPackage', () => {
   let halResourceService:HalResourceService;
   let injector:Injector;
   let wpCacheService:WorkPackageCacheService;
   let notificationsService:NotificationsService;
-  let halNotification:HalResourceNotificationService;
+  let workPackageNotificationService:WorkPackageNotificationService;
 
   let source:any;
   let workPackage:WorkPackageResource;
@@ -92,7 +93,7 @@ describe('WorkPackage', () => {
         injector = TestBed.get(Injector);
         wpCacheService = injector.get(WorkPackageCacheService);
         notificationsService = injector.get(NotificationsService);
-        halNotification = injector.get(HalResourceNotificationService);
+        workPackageNotificationService = injector.get(HalResourceNotificationService);
 
         halResourceService.registerResource('WorkPackage', { cls: WorkPackageResource });
       });
@@ -193,7 +194,7 @@ describe('WorkPackage', () => {
           attachment.delete = jasmine.createSpy('delete')
             .and.returnValue(Promise.reject({ foo: 'bar'}));
 
-          errorStub = spyOn(halNotifications, 'handleRawError');
+          errorStub = spyOn(workPackageNotificationService, 'handleRawError');
         });
 
         it('should call the handleRawError notification', (done) => {

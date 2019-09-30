@@ -15,6 +15,7 @@ import {
   WpGraphQueryParams
 } from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 @Injectable()
 export class WpGraphConfigurationService {
@@ -26,7 +27,7 @@ export class WpGraphConfigurationService {
   constructor(readonly I18n:I18nService,
               readonly queryFormDm:QueryFormDmService,
               protected readonly queryDm:QueryDmService,
-              readonly halNotification:HalResourceNotificationService,
+              readonly notificationService:WorkPackageNotificationService,
               readonly currentProject:CurrentProjectService) {
   }
 
@@ -168,7 +169,7 @@ export class WpGraphConfigurationService {
           .then((form:QueryFormResource) => {
             this._forms[query.id as string] = form;
           })
-          .catch((error) => this.halNotification.handleRawError(error));
+          .catch((error) => this.notificationService.handleRawError(error));
       });
 
       this._formsPromise = Promise.all(formPromises);

@@ -38,6 +38,7 @@ import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/a
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 @Component({
   selector: 'wp-custom-action',
@@ -52,7 +53,7 @@ export class WpCustomActionComponent {
               private wpCacheService:WorkPackageCacheService,
               private wpSchemaCacheService:SchemaCacheService,
               private wpActivity:WorkPackagesActivityService,
-              private halNotification:HalResourceNotificationService,
+              private notificationService:WorkPackageNotificationService,
               private halEditing:HalResourceEditingService,
               private wpEvents:HalEventsService) {
   }
@@ -78,7 +79,7 @@ export class WpCustomActionComponent {
     this.halResourceService.post<WorkPackageResource>(this.action.href + '/execute', payload)
       .toPromise()
       .then((savedWp:WorkPackageResource) => {
-        this.halNotification.showSave(savedWp, false);
+        this.notificationService.showSave(savedWp, false);
         this.workPackage = savedWp;
         this.wpActivity.clear(this.workPackage.id!);
         // Loading the schema might be necessary in cases where the button switches
@@ -89,7 +90,7 @@ export class WpCustomActionComponent {
           this.wpEvents.push(savedWp, { eventType: "updated" });
         });
       }).catch((errorResource:any) => {
-        this.halNotification.handleRawError(errorResource, this.workPackage);
+        this.notificationService.handleRawError(errorResource, this.workPackage);
       });
   }
 

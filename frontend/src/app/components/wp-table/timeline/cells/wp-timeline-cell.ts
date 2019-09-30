@@ -39,6 +39,7 @@ import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator
 
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 export const classNameLeftLabel = 'labelLeft';
 export const classNameRightContainer = 'containerRight';
@@ -66,7 +67,7 @@ export class WorkPackageTimelineCell {
   readonly wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
   readonly halEditing:HalResourceEditingService = this.injector.get(HalResourceEditingService);
   readonly wpEvents:HalEventsService = this.injector.get(HalEventsService);
-  readonly halNotification:HalResourceNotificationService = this.injector.get(HalResourceNotificationService);
+  readonly notificationService:WorkPackageNotificationService = this.injector.get(WorkPackageNotificationService);
   readonly states:States = this.injector.get(States);
   readonly loadingIndicator:LoadingIndicatorService = this.injector.get(LoadingIndicatorService);
 
@@ -164,7 +165,7 @@ export class WorkPackageTimelineCell {
         this.wpCacheService,
         this.halEditing,
         this.wpEvents,
-        this.halNotification,
+        this.notificationService,
         this.loadingIndicator,
         cell[0],
         this.wpElement,

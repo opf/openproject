@@ -46,6 +46,7 @@ import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changes
 import {WorkPackageViewFocusService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-form.component";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 
 @Injectable()
@@ -70,7 +71,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
               protected readonly I18n:I18nService,
               protected readonly titleService:OpTitleService,
               protected readonly injector:Injector,
-              protected readonly halNotification:HalResourceNotificationService,
+              protected readonly notificationService:WorkPackageNotificationService,
               protected readonly states:States,
               protected readonly wpCreate:WorkPackageCreateService,
               protected readonly wpViewFocus:WorkPackageViewFocusService,
@@ -120,7 +121,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
               window.location.href = url.toString();
             }
           });
-          this.halNotification.handleRawError(error);
+          this.notificationService.handleRawError(error);
         }
       });
   }
@@ -133,7 +134,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
     this.$state.go('work-packages.new', this.$state.params);
   }
 
-  public onSaved(params:{ savedResource:HalResource, isInitial:boolean }) {
+  public onSaved(params:{ savedResource:WorkPackageResource, isInitial:boolean }) {
     let {savedResource, isInitial} = params;
 
     // Shouldn't this always be true in create controller?
@@ -146,7 +147,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
       this.$state.go(this.successState, {workPackageId: savedResource.id})
         .then(() => {
           this.wpViewFocus.updateFocus(savedResource.id!);
-          this.halNotification.showSave(savedResource, isInitial);
+          this.notificationService.showSave(savedResource, isInitial);
         });
     }
   }
