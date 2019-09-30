@@ -483,8 +483,8 @@ ru:
               invalid_values: "Недопустимое значение."
               id_filter_required: "Требуется фильтр по 'Id'."
         project:
-          archived_ancestor: 'The project has an archived ancestor.'
-          foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
+          archived_ancestor: 'В проекте есть архивированный предок.'
+          foreign_wps_reference_version: 'Комплексы работ в проектах, не расположенных по убыванию, ссылаются на версии проекта или его производных.'
           attributes:
             types:
               in_use_by_work_packages: "всё ещё используются в пакетах работ: %{types}"
@@ -978,7 +978,7 @@ ru:
   enumeration_system_activity: "Активность системы"
   enumeration_reported_project_statuses: "Перечень отчетов о статусах проекта"
   error_auth_source_sso_failed: "Сбой единого входа (SSO) для пользователя «%{value}»"
-  error_can_not_archive_project: "This project cannot be archived: %{errors}"
+  error_can_not_archive_project: "Этот проект невозможно заархивировать: %{errors}"
   error_can_not_delete_entry: "Не удается удалить содержимое"
   error_can_not_delete_custom_field: "Не удается удалить настраиваемое поле"
   error_can_not_delete_type: "Этот тип содержит пакет работ и не может быть удален."
@@ -987,7 +987,7 @@ ru:
   error_can_not_remove_role: "Эта роль используется и не может быть удалена."
   error_can_not_reopen_work_package_on_closed_version: "Пакет работ закрытого этапа проекта не может быть открыт заново"
   error_can_not_find_all_resources: "Не удалось найти все связанные с этим запросом ресурсы."
-  error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
+  error_can_not_unarchive_project: "Этот проект невозможно разархивировать: %{errors}"
   error_check_user_and_role: "Пожалуйста, выберите пользователя и роль."
   error_code: "Ошибка %{code}"
   error_cookie_missing: 'Отсутствуют cookie OpenProject. Пожалуйста, убедитесь, что Cookie разрешены. Без них приложение не будет функционировать должным образом.'
@@ -1589,7 +1589,7 @@ ru:
   label_wiki_content_added: "Wiki-страница добавлена"
   label_wiki_content_updated: "Wiki-страница обновлена"
   label_wiki_toc: "Содержание"
-  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
+  label_wiki_toc_empty: "Содержание пусто, так как нет заголовков."
   label_wiki_dont_show_menu_item: "Не показывать эту Wiki-страницу в навигации по проектам"
   label_wiki_edit: "Редактировать Wiki"
   label_wiki_edit_plural: "Wiki редактируется"
@@ -1702,14 +1702,14 @@ ru:
   mail_body_lost_password: "Чтобы изменить пароль, щёлкните по следующей ссылке:"
   mail_body_register: "Для активации учетной записи щёлкните по следующей ссылке:"
   mail_body_reminder: "%{count} пакета(ов) работ, закрепленных за Вами, должны быть представлены в следующие  %{days}:"
-  mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
+  mail_body_group_reminder: "Срок выполнения комплексов работ (%{count}), назначенных группе \"%{group}\", истекает в следующие %{days} дн.:"
   mail_body_wiki_content_added: "%{author} добавил wiki-страницу '«%{id}»'."
   mail_body_wiki_content_updated: "%{author} обновил wiki-страницу '%{id}'."
   mail_subject_account_activation_request: "Запрос на активацию учетной записи %{value}"
   mail_subject_lost_password: "Ваш пароль %{value}"
   mail_subject_register: "Активация вашей учетной записи %{value}"
   mail_subject_reminder: "%{count}  пакет(-ов) работ на  следующие %{days}"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
+  mail_subject_group_reminder: "В группе \"%{group}\" есть комплексы работ (%{count}), срок выполнения которых истекает в следующие %{days} дн."
   mail_subject_wiki_content_added: "'%{id}' wiki-страница добавлена"
   mail_subject_wiki_content_updated: "'%{id}' wiki страница была обновлена"
   mail_user_activation_limit_reached:

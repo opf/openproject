@@ -13,7 +13,7 @@ class CleanCustomValues < ActiveRecord::Migration[5.2]
       end
 
       warn warn_string
-      invalid_cv.update_column(:value, '')
+      invalid_cv.update_all(value: '')
     end
   end
 

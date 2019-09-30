@@ -788,5 +788,15 @@ describe 'Projects index page',
                                child_project_z,
                                public_project)
     end
+
+    feature 'blacklisted filters' do
+      scenario 'are not visible' do
+        load_and_open_filters admin
+
+        expect(page).to_not have_select('add_filter_select', with_options: ["Principal"])
+        expect(page).to_not have_select('add_filter_select', with_options: ["ID"])
+        expect(page).to_not have_select('add_filter_select', with_options: ["Subproject of"])
+      end
+    end
   end
 end

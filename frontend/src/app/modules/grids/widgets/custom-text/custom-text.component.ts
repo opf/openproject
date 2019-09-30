@@ -63,10 +63,11 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
       return;
     }
 
-    // load the attachments so that they are displayed in the list;
-    this.resource.grid.updateAttachments();
-
-    this.handler.activate();
+    // Load the attachments so that they are displayed in the list.
+    // Once that is done, we can show the edit form.
+    this.resource.grid.updateAttachments().then(() => {
+      this.handler.activate();
+    });
   }
 
   public get placeholderText() {

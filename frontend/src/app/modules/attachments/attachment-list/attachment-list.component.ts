@@ -42,13 +42,15 @@ import {AngularTrackingHelpers} from "core-components/angular/tracking-functions
 })
 export class AttachmentListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() public resource:HalResource;
-  @Input() public selfDestroy:boolean = false;
+  @Input() public destroyImmediately:boolean = true;
 
   trackByHref = AngularTrackingHelpers.trackByHref;
 
   attachments:HalResource[] = [];
+  deletedAttachments:HalResource[] = [];
 
   public $element:JQuery;
+  public $formElement:JQuery;
 
   constructor(protected elementRef:ElementRef,
               protected states:States,
@@ -64,6 +66,10 @@ export class AttachmentListComponent implements OnInit, OnChanges, OnDestroy {
 
     this.attachments = this.resource.attachments.elements;
     this.setupResourceUpdateListener();
+
+    if (!this.destroyImmediately) {
+      this.setupAttachmentDeletionCallback();
+    }
   }
 
   public setupResourceUpdateListener() {
@@ -81,7 +87,9 @@ export class AttachmentListComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy():void {
-    // Nothing to do
+    if (!this.destroyImmediately) {
+      this.$formElement.off('submit.attachment-component');
+    }
   }
 
   ngOnChanges() {
@@ -91,12 +99,28 @@ export class AttachmentListComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public removeAttachment(attachment:HalResource) {
+    this.deletedAttachments.push(attachment);
     this.attachments = this.attachments.filter((el) => el !== attachment);
     this.cdRef.detectChanges();
   }
 
   private get attachmentsUpdatable() {
     return (this.resource.attachments && this.resource.attachmentsBackend);
+  }
+
+  public setupAttachmentDeletionCallback() {
+    this.$formElement = this.$element.closest('form');
+    this.$formElement.on('submit.attachment-component', () => {
+      this.destroyRemovedAttachments();
+    });
+  }
+
+  private destroyRemovedAttachments() {
+    this.deletedAttachments.forEach((attachment) => {
+      this
+        .resource
+        .removeAttachment(attachment);
+    });
   }
 }
 

@@ -29,6 +29,32 @@
 require 'spec_helper'
 
 describe AccountController, type: :controller do
+  # class AccountHook < Redmine::Hook::ViewListener; end
+
+  class UserHook < Redmine::Hook::ViewListener
+    attr_reader :registered_user
+    attr_reader :first_login_user
+
+    def user_registered(context)
+      @registered_user = context[:user]
+    end
+
+    def user_first_login(context)
+      @first_login_user = context[:user]
+    end
+
+    def reset!
+      @registered_user = nil
+      @first_login_user = nil
+    end
+  end
+
+  let(:hook) { UserHook.instance }
+
+  before do
+    hook.reset!
+  end
+
   after do
     User.delete_all
     User.current = nil
@@ -88,6 +114,36 @@ describe AccountController, type: :controller do
         expect(response).to be_successful
         expect(response).to render_template 'login'
         expect(flash[:error]).to include 'Invalid user or password'
+      end
+    end
+
+    context 'with first login' do
+      before do
+        admin.update first_login: true
+
+        post :login, params: { username: admin.login, password: 'adminADMIN!' }
+      end
+
+      it 'redirect to default path with ?first_time_user=true' do
+        expect(response).to redirect_to "/?first_time_user=true"
+      end
+
+      it 'calls the user_first_login hook' do
+        expect(hook.first_login_user).to eq admin
+      end
+    end
+
+    context 'without first login' do
+      before do
+        post :login, params: { username: admin.login, password: 'adminADMIN!' }
+      end
+
+      it 'redirect to the my page' do
+        expect(response).to redirect_to "/my/page"
+      end
+
+      it 'does not call the user_first_login hook' do
+        expect(hook.first_login_user).to be_nil
       end
     end
 
@@ -413,6 +469,10 @@ describe AccountController, type: :controller do
     it 'informs the user that registration is disabled' do
       expect(flash[:error]).to eq(I18n.t('account.error_self_registration_disabled'))
     end
+
+    it 'does not call the user_registered callback' do
+      expect(hook.registered_user).to be_nil
+    end
   end
 
   context 'GET #register' do
@@ -498,7 +558,7 @@ describe AccountController, type: :controller do
                  }
           end
 
-          it 'redirects to my page' do
+          it 'redirects to the expected path' do
             is_expected.to respond_with :redirect
             expect(assigns[:user]).not_to be_nil
             is_expected.to redirect_to(redirect_to_path)
@@ -509,6 +569,23 @@ describe AccountController, type: :controller do
             user = User.where(login: 'register').last
             expect(user).not_to be_nil
             expect(user.status).to eq(User::STATUSES[:active])
+          end
+
+          it 'calls the user_registered callback' do
+            user = hook.registered_user
+
+            expect(user.mail).to eq "register@example.com"
+            expect(user).to be_active
+          end
+        end
+
+        it_behaves_like 'automatic self registration succeeds' do
+          let(:redirect_to_path) { "/?first_time_user=true" }
+
+          it "calls the user_first_login callback" do
+            user = hook.first_login_user
+
+            expect(user.mail).to eq "register@example.com"
           end
         end
 
@@ -546,6 +623,10 @@ describe AccountController, type: :controller do
             expect(mail.subject).to match /limit reached/
             expect(mail.to.first).to eq admin.mail
             expect(mail.body.parts.first.to_s).to match /new user \(#{params[:user][:mail]}\)/
+          end
+
+          it 'does not call the user_registered callback' do
+            expect(hook.registered_user).to be_nil
           end
         end
       end
@@ -592,6 +673,13 @@ describe AccountController, type: :controller do
           expect(token.user.mail).to eq('register@example.com')
           expect(token).not_to be_expired
         end
+
+        it 'calls the user_registered callback' do
+          user = hook.registered_user
+
+          expect(user.mail).to eq "register@example.com"
+          expect(user).to be_registered
+        end
       end
 
       context 'with password login disabled' do
@@ -631,6 +719,13 @@ describe AccountController, type: :controller do
         it "doesn't activate the user" do
           expect(User.find_by_login('register')).not_to be_active
         end
+
+        it 'calls the user_registered callback' do
+          user = hook.registered_user
+
+          expect(user.mail).to eq "register@example.com"
+          expect(user).to be_registered
+        end
       end
 
       context 'with back_url' do
@@ -641,6 +736,13 @@ describe AccountController, type: :controller do
         it 'preserves the back url' do
           expect(response).to redirect_to(
             '/login?back_url=https%3A%2F%2Fexample.net%2Fsome_back_url')
+        end
+
+        it 'calls the user_registered callback' do
+          user = hook.registered_user
+
+          expect(user.mail).to eq "register@example.com"
+          expect(user).to be_registered
         end
       end
 

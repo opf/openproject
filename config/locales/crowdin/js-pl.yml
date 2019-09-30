@@ -295,7 +295,7 @@ pl:
     label_total_progress: "%{percent}% Całkowitego postępu"
     label_total_amount: "Łącznie: %{amount}"
     label_updated_on: "zaktualizowany"
-    label_value_derived_from_children: "(value derived from children)"
+    label_value_derived_from_children: "(wartość wyprowadzana z elementów podrzędnych)"
     label_warning: "Ostrzeżenie"
     label_work_package: "Zadanie"
     label_work_package_plural: "Pakiety robocze"
@@ -609,7 +609,7 @@ pl:
       message_successful_show_in_fullscreen: "Kliknij tutaj, aby otworzyć ten pakiet prac w trybie pełnoekranowym."
       message_view_spent_time: "Pokaż spędzony czas dla tych zadań"
       message_work_package_read_only: "Pakiet roboczy jest zablokowany w tym stanie. Nie można zmienić żadnego atrybutu innego niż stan."
-      message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
+      message_work_package_status_blocked: "Nie można zapisać stanu pakietu roboczego ze względu na jego zamknięty stan i przypisaną mu zamkniętą wersję."
       no_value: "Brak wartości"
       placeholder_filter_by_text: "Przedmiot, opis, komentarze, ..."
       inline_create:
@@ -735,7 +735,7 @@ pl:
           description: 'Wybierz tryb sortowania pakietów roboczych:'
           automatic: 'Automatycznie'
           manually: 'Ręcznie'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
+          warning: 'Wskutek aktywacji trybu automatycznego sortowania utracisz poprzednie sortowanie.'
         columns_help_text: "Użyj powyższych danych wejściowych, aby dodać lub usunąć kolumny w widoku tabeli. Możesz przeciągać i upuszczać kolumny, aby zmienić ich kolejność."
         upsale:
           attribute_highlighting: 'Czy określone pakiety robocze trzeba wyróżnić?'
@@ -851,6 +851,6 @@ pl:
         project_and_subprojects: "i wszystkie podprojekty"
         search_for: "Szukaj"
     views:
-      card: 'Cards'
-      list: 'Table'
+      card: 'Karty'
+      list: 'Tabela'
       timeline: 'Wykres Gantta'

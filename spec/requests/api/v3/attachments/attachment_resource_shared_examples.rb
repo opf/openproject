@@ -287,14 +287,14 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
       context 'for a local text file' do
         it_behaves_like 'for a local file' do
           let(:mock_file) { FileHelpers.mock_uploaded_file name: 'foobar.txt' }
-          let(:content_disposition) { "inline" }
+          let(:content_disposition) { "inline; filename=foobar.txt" }
         end
       end
 
       context 'for a local binary file' do
         it_behaves_like 'for a local file' do
           let(:mock_file) { FileHelpers.mock_uploaded_file name: 'foobar.dat', content_type: "application/octet-stream" }
-          let(:content_disposition) { "attachment" }
+          let(:content_disposition) { "attachment; filename=foobar.dat" }
         end
       end
 

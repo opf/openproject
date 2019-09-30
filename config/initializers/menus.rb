@@ -239,7 +239,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :announcements,
             { controller: '/announcements', action: 'edit' },
-            caption: 'Announcement',
+            caption: :label_announcement,
             icon: 'icon2 icon-news'
 
   menu.push :plugins,

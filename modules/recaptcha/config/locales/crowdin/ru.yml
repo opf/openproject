@@ -1,17 +1,17 @@
 ru:
   recaptcha:
     label_recaptcha: "reCAPTCHA"
-    button_please_wait: 'Please wait ...'
-    verify_account: "Verify your account"
-    error_captcha: "Your account could not be verified. Please contact an administrator."
+    button_please_wait: 'Пожалуйста, подождите...'
+    verify_account: "Подтвердить учетную запись"
+    error_captcha: "Невозможно подтвердить учетную запись. Пожалуйста, свяжитесь с администратором."
     settings:
-      website_key: 'Website key'
-      website_key_text: 'Enter the website key you created on the reCAPTCHA admin console for this domain.'
+      website_key: 'Ключ веб-сайта'
+      website_key_text: 'Введите ключ веб-сайта, который вы создали на консоли администратора reCAPTCHA для этого домена.'
       secret_key: 'Секретный ключ'
-      secret_key_text: 'Enter the secret key you created on the reCAPTCHA admin console.'
-      type: 'Use reCAPTCHA'
-      type_disabled: 'Disable reCAPTCHA'
+      secret_key_text: 'Введите секретный ключ, который вы создали на консоли администратора reCAPTCHA.'
+      type: 'Использовать reCAPTCHA'
+      type_disabled: 'Отключить reCAPTCHA'
       type_v2: 'reCAPTCHA v2'
       type_v3: 'reCAPTCHA v3'
       recaptcha_description_html: >
-        reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance. If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet. <br/> Please see the following link for more details on reCAPTCHA and their versions, and how to create the website and secret keys: %{recaptcha_link}
+        reCAPTCHA — это бесплатный сервис Google, который можно включить для OpenProject. Если он включен, форма ввода капчи будет отображаться при входе для всех пользователей, которые еще не подтвердили капчу. <br/>Пожалуйста, перейдите по следующей ссылке, чтобы узнать больше о reCAPTCHA и его версиях, а также о том, как создать веб-сайт и секретные ключи: %{recaptcha_link}

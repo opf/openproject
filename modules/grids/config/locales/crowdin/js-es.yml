@@ -1,11 +1,11 @@
 es:
   js:
     grid:
-      add_widget: 'Add widget'
-      remove: 'Remove widget'
+      add_widget: 'Agregar widget'
+      remove: 'Quitar widget'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the "
-        link: 'enterprise edition.'
+        text: "Algunos widgets, como el widget del gráfico de paquetes de trabajo, solo están disponibles en la "
+        link: 'edición Enterprise.'
       widgets:
         custom_text:
           title: 'Texto personalizado'
@@ -14,23 +14,23 @@ es:
           no_results: 'No hay documentos.'
         members:
           title: 'Miembros'
-          no_results: 'No visible members.'
+          no_results: 'No hay miembros visibles.'
           view_all_members: 'Ver todos los miembros'
           add: 'Miembro'
-          too_many: 'Displaying %{count} of %{total} members.'
+          too_many: 'Mostrando %{count} de %{total} miembros.'
         news:
           title: 'Noticias'
           at: 'en'
           no_results: 'Nada nuevo sobre lo que informar.'
         project_description:
           title: 'Descripción del proyecto'
-          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
+          no_results: "Aún no se ha escrito ninguna descripción. Puede proporcionar una descripción en la configuración del proyecto."
         project_details:
           title: 'Detalles del proyecto'
-          no_results: 'No custom fields have been defined for projects.'
+          no_results: 'No se han definido campos personalizados para los proyectos.'
         subprojects:
           title: 'Subproyectos'
-          no_results: 'No subprojects.'
+          no_results: 'No hay subproyectos.'
         time_entries_list:
           title: 'Tiempo de gastos (últimos 7 días)'
           no_results: 'Sin entradas temporales en los últimos 7 días.'
@@ -43,11 +43,11 @@ es:
         work_packages_watched:
           title: 'Paquetes de trabajo vigilados por mí'
         work_packages_table:
-          title: 'Work packages table'
+          title: 'Tabla de paquetes de trabajo'
         work_packages_graph:
-          title: 'Work packages graph'
+          title: 'Gráfico de paquetes de trabajo'
         work_packages_calendar:
           title: 'Calendario'
         work_packages_overview:
-          title: 'Work packages overview'
-          placeholder: 'Click to edit ...'
+          title: 'Información general sobre paquete de trabajo'
+          placeholder: 'Haga clic para editar…'

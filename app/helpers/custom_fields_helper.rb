@@ -52,9 +52,9 @@ module CustomFieldsHelper
 
     tag = case field_format.try(:edit_as)
           when 'date'
-            styled_text_field_tag(field_name, custom_value.value, id: field_id, class: '-augmented-datepicker', size: 10)
+            styled_text_field_tag(field_name, custom_value.value, id: field_id, class: '-augmented-datepicker', size: 10, container_class: '-slim')
           when 'text'
-            styled_text_area_tag(field_name, custom_value.value, id: field_id, rows: 3)
+            styled_text_area_tag(field_name, custom_value.value, id: field_id, rows: 3, container_class: '-middle')
           when 'bool'
             hidden_tag = hidden_field_tag(field_name, '0')
             checkbox_tag = styled_check_box_tag(field_name, '1', custom_value.typed_value, id: field_id)
@@ -70,12 +70,12 @@ module CustomFieldsHelper
 
             options = blank_option.html_safe + options_for_select(custom_field.possible_values_options(custom_value.customized), custom_value.value)
 
-            styled_select_tag(field_name, options, id: field_id)
+            styled_select_tag(field_name, options, id: field_id, container_class: '-middle')
           else
-            styled_text_field_tag(field_name, custom_value.value, id: field_id)
+            styled_text_field_tag(field_name, custom_value.value, id: field_id, container_class: '-middle')
     end
 
-    tag = content_tag :span, tag, lang: custom_field.name_locale
+    tag = content_tag :span, tag, lang: custom_field.name_locale, class: 'form--field-container'
 
     custom_value.errors.empty? ?
       tag :
