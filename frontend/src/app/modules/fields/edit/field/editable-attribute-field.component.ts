@@ -182,13 +182,6 @@ export class EditableAttributeFieldComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  // ToDo: Check once project fields exist
-  public overflowingSelector() {
-    return this.$element
-      .closest('.attributes-group')
-      .data ('groupIdentifier');
-  }
-
   public activateOnForm(noWarnings:boolean = false) {
     // Activate the field
     this.setActive(true);
