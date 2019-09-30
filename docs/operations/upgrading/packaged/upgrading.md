@@ -10,7 +10,7 @@ running the `openproject configure` command.
 
 We try to ensure your upgrade path is as smooth as possible. This means that the below update + configure step should be the only change needed to get up to date with our packaged installation.
 
-In the event of an error during the migrations, you will still want to have a recent backup you can restore to before reaching out to us. This is especially important for MySQL installations, since it does not support transactional migrations with changes to the table schema and you will have to rollback these changes manually. For PostgreSQL, if the Rails migrations fail, all previous changes will be rolled back for you to try again, or to install the older packages.
+In the event of an error during the migrations, you will still want to have a recent backup you can restore to before reaching out to us. If the Rails migrations fails, all previous changes will be rolled back for you to try again, or to install the older packages.
 
 To perform a backup, run the following command
 
@@ -67,12 +67,9 @@ The OpenProject community installation is now using the same repository as the O
 Please update your package source according to [our Download and Installation page](https://www.openproject.org/download-and-installation/).
 You will need to replace `opf/openproject-ce` with `opf/openproject` together with a change from `stable/8` to `stable/9` in order to perform the update.
 
-### MySQL is being deprecated
+### MySQL is deprecated
 
-OpenProject 9.0. is deprecating MySQL support. You can expect full MySQL support for the course of 9.0 releases, but we
-are likely going to be dropping MySQL completely in one of the following releases.
-
-For more information regarding motivation behind this and migration steps, please see https://www.openproject.org/deprecating-mysql-support/
+OpenProject 9.0. has deprecated MySQL support and intagration since version 10. For more information regarding motivation behind this and migration steps, please see https://www.openproject.org/deprecating-mysql-support/
 In this post, you will find documentation for a mostly-automated migration script to PostgreSQL to help you get up and running with PostgreSQL.
 
 ## Upgrade steps

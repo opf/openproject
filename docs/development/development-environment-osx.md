@@ -3,7 +3,6 @@
 To develop OpenProject a setup similar to that for using OpenProject in production is needed.
 
 This guide assumes that you have a Mac OS Xinstallation installation with administrative rights. 
-OpenProject will be installed with a PostgreSQL database. This guide will work analogous with a MySQL installation, though. 
 
 **Please note**: This guide is NOT suitable for a production setup, but only for developing with it!
 
@@ -55,7 +54,7 @@ You also need to install [bundler](https://github.com/bundler/bundler/), the rub
 
 ## Setup PostgreSQL database
 
-Next, install a PostgreSQL database. If you wish to use a MySQL database instead and have installed one, skip these steps.
+Next, install a PostgreSQL database.
 
 ```bash
 # Install postgres database
@@ -162,8 +161,6 @@ test:
   <<: *default
   database: openproject_test
 ```
-
-**NOTE:** If you want to use MySQL instead and have a database installed, simply use the MySQL section of the exemplary `database.yml.example` configuration file.
 
 ## Finish the Installation of OpenProject
 
