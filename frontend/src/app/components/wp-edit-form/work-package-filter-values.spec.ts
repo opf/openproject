@@ -55,6 +55,7 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {TimezoneService} from "core-components/datetime/timezone.service";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 describe('WorkPackageFilterValues', () => {
   let resource:WorkPackageResource;
@@ -90,6 +91,7 @@ describe('WorkPackageFilterValues', () => {
         NotificationsService,
         HalResourceNotificationService,
         SchemaCacheService,
+        WorkPackageNotificationService,
         WorkPackageCacheService,
         WorkPackageCreateService,
         HalResourceEditingService,

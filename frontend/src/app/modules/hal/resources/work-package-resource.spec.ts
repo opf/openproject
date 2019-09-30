@@ -47,13 +47,15 @@ import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/o
 import {WorkPackageCreateService} from 'core-app/components/wp-new/wp-create.service';
 import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import {WorkPackagesActivityService} from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
+import {TimezoneService} from "core-components/datetime/timezone.service";
 
 describe('WorkPackage', () => {
   let halResourceService:HalResourceService;
   let injector:Injector;
   let wpCacheService:WorkPackageCacheService;
   let notificationsService:NotificationsService;
-  let workPackageNotificationService:WorkPackageNotificationService;
+  let halResourceNotification:HalResourceNotificationService;
 
   let source:any;
   let workPackage:WorkPackageResource;
@@ -74,13 +76,16 @@ describe('WorkPackage', () => {
         States,
         TypeDmService,
         WorkPackageCacheService,
+        TimezoneService,
+        WorkPackagesActivityService,
         NotificationsService,
         ConfigurationService,
-        HalResourceNotificationService,
         OpenProjectFileUploadService,
         LoadingIndicatorService,
         PathHelperService,
         I18nService,
+        { provide: HalResourceNotificationService, useValue: { handleRawError: () => false } },
+        { provide: WorkPackageNotificationService, useValue: {} },
         { provide: WorkPackageDmService, useValue: {} },
         { provide: WorkPackageCreateService, useValue: {} },
         { provide: StateService, useValue: {} },
@@ -93,7 +98,7 @@ describe('WorkPackage', () => {
         injector = TestBed.get(Injector);
         wpCacheService = injector.get(WorkPackageCacheService);
         notificationsService = injector.get(NotificationsService);
-        workPackageNotificationService = injector.get(HalResourceNotificationService);
+        halResourceNotification = injector.get(HalResourceNotificationService);
 
         halResourceService.registerResource('WorkPackage', { cls: WorkPackageResource });
       });
@@ -194,7 +199,7 @@ describe('WorkPackage', () => {
           attachment.delete = jasmine.createSpy('delete')
             .and.returnValue(Promise.reject({ foo: 'bar'}));
 
-          errorStub = spyOn(workPackageNotificationService, 'handleRawError');
+          errorStub = spyOn(halResourceNotification, 'handleRawError');
         });
 
         it('should call the handleRawError notification', (done) => {
