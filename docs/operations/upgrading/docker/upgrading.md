@@ -17,6 +17,12 @@ This time, it will use the new image:
 
 # Upgrade Notes
 
+## OpenProject 10.x
+
+### MySQL has been dropped from sources
+
+See below for further details.
+
 ## OpenProject 9.x
 
 ### MySQL is being deprecated

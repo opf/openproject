@@ -30,14 +30,14 @@ The command will create backup files in the following location on your system
 /var/db/openproject/backup
 ```
 
-The content of that directory should look very similar to the following (depending on your used database,  you will see either a `mysql-dump-<date>.sql.gz` or a `postgresql-dump-<pgdump>` file).
+The content of that directory should look very similar to the following (depending on your used database,  you will see a postgresql-dump-<pgdump>` file).
 
 ```bash
 root@test-packager-backup:/opt/openproject# ls -l /var/db/openproject/backup/
 total 24
 -rw-r----- 1 openproject openproject  117 Apr  8 09:55 attachments-20150408095521.tar.gz
 -rw-r----- 1 openproject openproject  667 Apr  8 09:55 conf-20150408095521.tar.gz
--rw-r----- 1 openproject openproject 8298 Apr  8 09:55 mysql-dump-20150408095521.sql.gz
+-rw-r----- 1 openproject openproject 8298 Apr  8 09:55 postgresql-dump-20150408095521.sql.gz
 -rw-r----- 1 openproject openproject  116 Apr  8 09:55 svn-repositories-20150408095521.tar.gz
 ```
 
@@ -65,7 +65,7 @@ installation. This setting can be seen by running:
 
 ```
 openproject config:get DATABASE_URL
-#=> e.g.: mysql2://dbusername:dbpassword@dbhost:dbport/dbname
+#=> e.g.: postgresql://dbusername:dbpassword@dbhost:dbport/dbname
 ```
 
 
@@ -84,16 +84,3 @@ pg_restore -h <dbhost> -u <dbuser> -W <dbname>
 
 First the dump has to be extracted (unzipped) and then restored. The command
 used should look very similar to this:
-
-#### MySQL
-
-
-
-To restore the MySQL dump it is recommended to use the `mysql` command line client.
-
-First the dump has to be extracted (unzipped) and then restored. The command
-used should look very similar to this:
-
-```bash
-zcat mysql-dump-20150408095521.sql.gz | mysql -u <dbuser> -h <dbhost> -p <dbname>
-```

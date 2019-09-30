@@ -21,8 +21,8 @@ The package will set up:
 * Apache 2 (web server) – this component provides the external interface,
   handles SSL termination (if SSL is used) and distributes/forwards web
 requests to the Unicorn processes.
-* MySQL (database management system) – this component is used to store and
-  retrieve data. We do support PostgreSQL as well, but it is not part of the automatic wizard. To configure this instead, see below.
+* PostgreSQL (database management system) – this component is used to store and
+  retrieve data.
 * Unicorn (application server) – this component hosts the actual application.
   By default, there is two unicorn processes running in parallel on the app
 server machine.

@@ -286,7 +286,7 @@ You can list all of the environment variables accessible to the application by r
 
     sudo openproject config
     # this will return something like:
-    DATABASE_URL=mysql2://openproject:9ScapYA1MN7JQrPR7Wkmp7y99K6mRHGU@127.0.0.1:3306/openproject
+    DATABASE_URL=postgresql://openproject:9ScapYA1MN7JQrPR7Wkmp7y99K6mRHGU@127.0.0.1/openproject
     SECRET_TOKEN=c5aa99a90f9650404a885cf5ec7c28f7fe1379550bb811cb0b39058f9407eaa216b9b2b22d27f58fb15ac21adb3bd16494ebe89e39ec225ef4627db048a12530
     ADMIN_EMAIL=mail@example.com
     EMAIL_DELIVERY_METHOD=smtp
