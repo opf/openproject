@@ -34,7 +34,6 @@ import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HttpErrorResponse} from "@angular/common/http";
-import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 @Injectable()
@@ -42,7 +41,6 @@ export class HalResourceNotificationService {
 
   protected I18n = this.injector.get(I18nService);
   protected $state = this.injector.get(StateService);
-  protected wpCacheService = this.injector.get(WorkPackageCacheService);
   protected halResourceService = this.injector.get(HalResourceService);
   protected NotificationsService = this.injector.get(NotificationsService);
   protected loadingIndicator = this.injector.get(LoadingIndicatorService);
@@ -164,20 +162,7 @@ export class HalResourceNotificationService {
     ));
   }
 
-  private showCustomError(errorResource:any, resource:HalResource) {
-    if (errorResource.errorIdentifier === 'urn:openproject-org:api:v3:errors:UpdateConflict') {
-      this.NotificationsService.addError({
-        message: errorResource.message,
-        type: 'error',
-        link: {
-          text: this.I18n.t('js.hal.error.update_conflict_refresh'),
-          // ToDo: Remove Work Package dependency
-          target: () => this.wpCacheService.require(resource.id!, true)
-        }
-      });
-
-      return true;
-    }
+  protected showCustomError(errorResource:any, resource:HalResource) {
 
     if (errorResource.errorIdentifier === 'urn:openproject-org:api:v3:errors:PropertyFormatError') {
 
@@ -197,8 +182,8 @@ export class HalResourceNotificationService {
     return false;
   }
 
-  private showApiErrorMessages(errorResource:any) {
-    var messages = errorResource.errorMessages;
+  protected showApiErrorMessages(errorResource:any) {
+    let messages = errorResource.errorMessages;
 
     if (messages.length > 1) {
       this.NotificationsService.addError('', messages);

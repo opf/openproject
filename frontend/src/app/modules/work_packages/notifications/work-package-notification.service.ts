@@ -52,6 +52,23 @@ export class WorkPackageNotificationService extends HalResourceNotificationServi
     this.NotificationsService.addSuccess(message);
   }
 
+  protected showCustomError(errorResource:any, resource:WorkPackageResource):boolean {
+    if (errorResource.errorIdentifier === 'urn:openproject-org:api:v3:errors:UpdateConflict') {
+      this.NotificationsService.addError({
+        message: errorResource.message,
+        type: 'error',
+        link: {
+          text: this.I18n.t('js.hal.error.update_conflict_refresh'),
+          target: () => this.wpCacheService.require(resource.id!, true)
+        }
+      });
+
+      return true;
+    }
+
+    return super.showCustomError(errorResource, resource);
+  }
+
   private addWorkPackageFullscreenLink(message:INotification, resource:WorkPackageResource) {
     // Don't show the 'Show in full screen' link  if we're there already
     if (!this.$state.includes('work-packages.show')) {
