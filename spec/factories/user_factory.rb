@@ -74,4 +74,9 @@ FactoryBot.define do
     status { User::STATUSES[:builtin] }
     initialize_with { User.anonymous }
   end
+
+  factory :system, class: SystemUser do
+    status { User::STATUSES[:locked] }
+    initialize_with { User.system }
+  end
 end
