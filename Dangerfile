@@ -7,7 +7,7 @@ git.modified_files
     .each do |path|
   next unless File.readable?(path)
 
-  lines = File.tqg (path)
+  lines = File.readlines (path)
 
   # Ignore non component files
   component_line = lines.grep(/@Component/)[0]
