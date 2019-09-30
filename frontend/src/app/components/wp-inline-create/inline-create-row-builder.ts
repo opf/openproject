@@ -12,7 +12,7 @@ import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
 import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
 import {QueryColumn} from "core-components/wp-query/query-column";
-import {wpCellTdClassName} from "core-components/wp-fast-table/builders/cell-builder";
+import {tdClassName} from "core-components/wp-fast-table/builders/cell-builder";
 import {internalContextMenuColumn} from "core-components/wp-fast-table/builders/internal-sort-columns";
 import {EditForm} from "core-app/modules/fields/edit/edit-form/edit-form";
 
@@ -78,7 +78,7 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
 
   protected buildCancelButton() {
     const td = document.createElement('td');
-    td.classList.add(wpCellTdClassName, 'wp-table--cancel-create-td');
+    td.classList.add(tdClassName, 'wp-table--cancel-create-td');
 
     td.innerHTML = `
     <a

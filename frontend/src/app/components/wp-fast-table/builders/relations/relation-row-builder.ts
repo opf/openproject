@@ -4,7 +4,7 @@ import {RelationResource} from 'core-app/modules/hal/resources/relation-resource
 import {States} from '../../../states.service';
 import {isRelationColumn, QueryColumn} from '../../../wp-query/query-column';
 import {WorkPackageTable} from '../../wp-fast-table';
-import {wpCellTdClassName} from '../cell-builder';
+import {tdClassName} from '../cell-builder';
 import {commonRowClassName, SingleRowBuilder, tableRowClassName} from '../rows/single-row-builder';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {RelationColumnType} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
@@ -120,7 +120,7 @@ export class RelationRowBuilder extends SingleRowBuilder {
 
   protected emptyRelationCell(column:QueryColumn) {
     const cell = document.createElement('td');
-    cell.classList.add(relationCellClassName, wpCellTdClassName, column.id);
+    cell.classList.add(relationCellClassName, tdClassName, column.id);
 
     return cell;
   }
