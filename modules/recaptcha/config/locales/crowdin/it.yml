@@ -1,17 +1,17 @@
 it:
   recaptcha:
     label_recaptcha: "reCAPTCHA"
-    button_please_wait: 'Please wait ...'
-    verify_account: "Verify your account"
-    error_captcha: "Your account could not be verified. Please contact an administrator."
+    button_please_wait: 'Attendi ...'
+    verify_account: "Verifica il tuo account"
+    error_captcha: "Il tuo account non può essere verificato. Contatta un amministratore."
     settings:
-      website_key: 'Website key'
-      website_key_text: 'Enter the website key you created on the reCAPTCHA admin console for this domain.'
+      website_key: 'Chiave del sito'
+      website_key_text: 'Inserisci la chiave del sito web che hai creato sulla console di amministrazione reCAPTCHA per questo dominio.'
       secret_key: 'Chiave segreta'
-      secret_key_text: 'Enter the secret key you created on the reCAPTCHA admin console.'
-      type: 'Use reCAPTCHA'
-      type_disabled: 'Disable reCAPTCHA'
+      secret_key_text: 'Inserisci la chiave segreta che hai creato sulla console di amministrazione reCAPTCHA.'
+      type: 'Usa reCAPTCHA'
+      type_disabled: 'Disattiva reCAPTCHA'
       type_v2: 'reCAPTCHA v2'
       type_v3: 'reCAPTCHA v3'
       recaptcha_description_html: >
-        reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance. If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet. <br/> Please see the following link for more details on reCAPTCHA and their versions, and how to create the website and secret keys: %{recaptcha_link}
+        reCAPTCHA è un servizio gratuito di Google che può essere abilitato per la tua istanza OpenProject. Se abilitato, un modulo captcha verrà visualizzato al momento dell'accesso per tutti gli utenti che non hanno ancora verificato un captcha. <br/> Vedi il seguente link per maggiori dettagli su reCAPTCHA e le loro versioni, e su come creare il sito web e le chiavi segrete: %{recaptcha_link}

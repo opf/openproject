@@ -134,6 +134,8 @@ class AccountController < ApplicationController
       end
 
       self_registration!
+
+      call_hook :user_registered, { user: @user } if @user.persisted?
     end
   end
 

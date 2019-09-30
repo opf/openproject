@@ -1,61 +1,61 @@
 zh-CN:
   bcf:
     label_bcf: 'BCF'
-    label_imported_failed: 'Failed imports of BCF topics'
-    label_imported_successfully: 'Successfully imported BCF topics'
-    issues: "Issues"
-    recommended: 'recommended'
-    not_recommended: 'not recommended'
-    no_viewpoints: 'No viewpoints'
+    label_imported_failed: '导入 BCF 主题失败'
+    label_imported_successfully: '已成功导入 BCF 主题'
+    issues: "问题"
+    recommended: '推荐'
+    not_recommended: '不推荐'
+    no_viewpoints: '没有观点'
     new_badge: "新增"
     exceptions:
-      file_invalid: "BCF file invalid"
+      file_invalid: "BCF 文件无效"
     x_bcf_issues:
-      other: '%{count} BCF issues'
+      other: '%{count} 个 BCF 问题'
     bcf_xml:
-      xml_file: 'BCF XML File'
+      xml_file: 'BCF XML 文件'
       import_title: '导入'
       export: '导出'
-      import_update_comment: '(Updated in BCF import)'
-      import_failed: 'Cannot import BCF file: %{error}'
-      import_successful: 'Imported %{count} BCF issues'
-      import_canceled: 'BCF-XML import canceled.'
-      type_not_active: "The issue type is not activated for this project."
+      import_update_comment: '（在 BCF 导入中更新）'
+      import_failed: '无法导入 BCF 文件：%{error}'
+      import_successful: '已导入 %{count} 个 BCF 问题'
+      import_canceled: 'BCF-XML 导入已取消。'
+      type_not_active: "此项目未激活该问题类型。"
       import:
-        num_issues_found: '%{x_bcf_issues} are contained in the BCF-XML file, their details are listed below.'
-        button_prepare: 'Prepare import'
-        button_perform_import: 'Confirm import'
-        button_proceed: 'Proceed'
-        button_back_to_list: 'Back to list'
-        no_permission_to_add_members: 'You do not have sufficient permissions to add them as members to the project.'
-        contact_project_admin: 'Contact your project admin to add them as members and start this import again.'
-        continue_anyways: 'Do you want to proceed and finish the import anyways?'
-        description: "Provide a BCF-XML v2.1 file to import into this project. You can examine its contents before performing the import."
-        invalid_types_found: 'Invalid topic type names found'
-        invalid_statuses_found: 'Invalid status names found'
-        invalid_priorities_found: 'Invalid priority names found'
-        invalid_emails_found: 'Invalid email addresses found'
-        unknown_emails_found: 'Unknown email addresses found'
-        unknown_property: 'Unknown property'
-        non_members_found: 'Non project members found'
-        import_types_as: 'Set all these types to'
-        import_statuses_as: 'Set all these statuses to'
-        import_priorities_as: 'Set all these priorities to'
-        invite_as_members_with_role: 'Invite them as members to the project "%{project}" with role'
-        add_as_members_with_role: 'Add them as members to the project "%{project}" with role'
-        no_type_provided: 'No type provided'
-        no_status_provided: 'No status provided'
-        no_priority_provided: 'No priority provided'
-        perform_description: "Do you want to import or update the issues listed above?"
-        replace_with_system_user: 'Replace them with "System" user'
-        import_as_system_user: 'Import them as "System" user.'
+        num_issues_found: '%{x_bcf_issues} 包含在 BCF-XML 文件中，其详细信息在下面列出。'
+        button_prepare: '准备导入'
+        button_perform_import: '确认导入'
+        button_proceed: '继续'
+        button_back_to_list: '返回列表'
+        no_permission_to_add_members: '您没有足够的权限将它们添加为项目的成员。'
+        contact_project_admin: '请联系您的项目管理员将它们添加为成员，然后重新开始导入。'
+        continue_anyways: '仍要继续完成导入？'
+        description: "提供一个 BCF-XML v2.1 文件以导入到此项目中。您可以在执行导入之前检查其内容。"
+        invalid_types_found: '找到无效的主题类型名称'
+        invalid_statuses_found: '找到无效的状态名称'
+        invalid_priorities_found: '找到无效的优先级名称'
+        invalid_emails_found: '找到无效的电子邮件地址'
+        unknown_emails_found: '找到未知的电子邮件地址'
+        unknown_property: '未知属性'
+        non_members_found: '未找到项目成员'
+        import_types_as: '将所有这些类型设置为'
+        import_statuses_as: '将所有这些状态设置为'
+        import_priorities_as: '将所有这些优先级设置为'
+        invite_as_members_with_role: '使用以下角色邀请他们作为项目“%{project}”的成员'
+        add_as_members_with_role: '使用以下角色将他们添加为项目“%{project}”的成员'
+        no_type_provided: '未提供类型'
+        no_status_provided: '未提供状态'
+        no_priority_provided: '未提供优先级'
+        perform_description: "要导入或更新上面列出的问题吗？"
+        replace_with_system_user: '用“系统”用户替换他们'
+        import_as_system_user: '将他们导入为“系统”用户。'
         what_to_do: "你想做什么？"
-        work_package_has_newer_changes: "Outdated! This topic was not updated as the latest changes on the server were newer than the \"ModifiedDate\" of the imported topic. However, comments to the topic were imported."
+        work_package_has_newer_changes: "已过时！此主题未更新，因为服务器上的最新更改比导入主题的“ModifiedDate”更新。但是，已导入该主题的注释。"
   export:
     format:
       bcf: "BCF-XML"
   attributes:
-    bcf_thumbnail: "BCF snapshot"
+    bcf_thumbnail: "BCF 快照"
   project_module_bcf: "BCF"
-  permission_view_linked_issues: "View BCF issues"
-  permission_manage_bcf: "Import and manage BCF issues"
+  permission_view_linked_issues: "查看 BCF 问题"
+  permission_manage_bcf: "导入和管理 BCF 问题"

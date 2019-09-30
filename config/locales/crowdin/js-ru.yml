@@ -443,8 +443,8 @@ ru:
       set_parent: "Установить родителя"
       change_parent: "Сменить родителя"
       remove_parent: "Удалить родителя"
-      hierarchy_indent: "Indent hierarchy"
-      hierarchy_outdent: "Outdent hierarchy"
+      hierarchy_indent: "Иерархия с отступом"
+      hierarchy_outdent: "Иерархия с выступом"
       group_by_wp_type: "Группировать по типу комплекса работ"
       group_by_relation_type: "Группировать по типу связи"
       add_parent: "Добавить существующего родителя"
@@ -634,7 +634,7 @@ ru:
       no_results:
         title: Нет пакетов работ для показа.
         description: Ничего не найдено.
-      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering.
+      limited_results: В ручной сортировке можно отобразить только %{count} рабочих пакетов. Пожалуйста, уменьшите результаты фильтрацией.
       property_groups:
         details: "Детали"
         people: "Люди"

@@ -1,39 +1,39 @@
 pl:
-  label_avatar: "Avatar"
-  label_avatar_plural: "Avatars"
-  label_current_avatar: "Current Avatar"
-  label_choose_avatar: "Choose Avatar from file"
-  message_avatar_uploaded: "Avatar changed successfully."
-  error_image_upload: "Error saving the image."
-  error_image_size: "The image is too large."
-  button_change_avatar: "Change avatar"
-  are_you_sure_delete_avatar: "Are you sure you want to delete your avatar?"
-  avatar_deleted: "Avatar deleted successfully."
-  unable_to_delete_avatar: "Avatar could not be deleted."
-  wrong_file_format: "Allowed formats are jpg, png, gif"
-  empty_file_error: "Please upload a valid image (jpg, png, gif)"
+  label_avatar: "Awatar"
+  label_avatar_plural: "Awatary"
+  label_current_avatar: "Bieżący awatar"
+  label_choose_avatar: "Wybierz awatar z pliku"
+  message_avatar_uploaded: "Awatar został zmieniony."
+  error_image_upload: "Błąd podczas zapisywania obrazu."
+  error_image_size: "Obraz jest za duży."
+  button_change_avatar: "Zmień awatar"
+  are_you_sure_delete_avatar: "Czy na pewno chcesz usunąć ten awatar?"
+  avatar_deleted: "Awatar został usunięty."
+  unable_to_delete_avatar: "Nie można usunąć awatara."
+  wrong_file_format: "Dozwolone są formaty jpg, png, gif"
+  empty_file_error: "Prześlij prawidłowy obraz (jpg, png, gif)"
   avatars:
-    label_avatar: "Avatar"
+    label_avatar: "Awatar"
     label_gravatar: 'Gravatar'
-    label_current_avatar: 'Current avatar'
-    label_local_avatar: 'Custom avatar'
+    label_current_avatar: 'Bieżący awatar'
+    label_local_avatar: 'Awatar niestandardowy'
     text_current_avatar: |
-      The following image shows the current avatar.
+      Poniższy obraz przedstawia aktualny awatar.
     text_upload_instructions: |
-      Upload your own custom avatar of 128 by 128 pixels. Larger files will be resized and cropped to match.
-      A preview of your avatar will be shown before uploading, once you selected an image.
-    text_change_gravatar_html: 'To change or add the Gravatar for your mail address, go to %{gravatar_url}.'
+      Prześlij swój własny awatar 128 na 128 pikseli. Rozmiar większych plików zostanie zmieniony i zostaną one odpowiednio przycięte.
+      Podgląd awatara zostanie wyświetlony przed przesłaniem, po wybraniu obrazu.
+    text_change_gravatar_html: 'Aby zmienić lub dodać Gravatar dla tego adresu e-mail, przejdź na stronę %{gravatar_url}.'
     text_your_local_avatar: |
-      OpenProject allows you to upload your own custom avatar.
+      OpenProject umożliwia przesłanie własnego, niestandardowego awatara.
     text_local_avatar_over_gravatar: |
-      If you set one, this custom avatar is used in precedence over the gravatar above.
+      Jeśli go ustawisz, ten niestandardowy awatar będzie używany w pierwszej kolejności przed powyższym Gravatarem.
     text_your_current_gravatar: |
-      OpenProject uses your gravatar if you registered one, or a default image or icon if one exists.
-      The current gravatar is as follows:
+      OpenProject używa Gravatara, jeśli użytkownik go zarejestrował albo domyślnego obrazu lub ikony, jeśli taka istnieje.
+      Bieżący Gravatar jest następujący:
     settings:
-      enable_gravatars: 'Enable user gravatars'
+      enable_gravatars: 'Włącz Gravatary użytkownika'
       gravatar_default: "Domyślny obraz Gravatar"
-      enable_local_avatars: 'Enable user custom avatars'
+      enable_local_avatars: 'Włącz niestandardowe awatary użytkownika'
 
 
 

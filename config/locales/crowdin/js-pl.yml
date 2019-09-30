@@ -20,7 +20,7 @@ pl:
     button_back_to_list_view: "Wróć do widoku listy"
     button_cancel: "Anuluj"
     button_close: "Zamknij"
-    button_change_project: "Change project"
+    button_change_project: "Zmień projekt"
     button_check_all: "Zaznacz wszystko"
     button_configure-form: "Skonfiguruj formularz"
     button_confirm: "Potwierdź"
@@ -41,8 +41,8 @@ pl:
     button_open_details: "Otwórz szczegóły widoku"
     button_close_details: "Zamknij szczegóły widoku"
     button_open_fullscreen: "Otwórz widok pełnoekranowy"
-    button_show_cards: "Show card view"
-    button_show_list: "Show list view"
+    button_show_cards: "Pokaż widok karty"
+    button_show_list: "Pokaż widok listy"
     button_quote: "Cytat"
     button_save: "Zapisz"
     button_settings: "Ustawienia"
@@ -52,7 +52,7 @@ pl:
     button_export-atom: "Pobierz Atom"
     calendar:
       title: 'Kalendarz'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
+      too_many: 'Łącznie pakietów roboczych jest %{count}, ale pokazać można tylko %{max}.'
     card:
       add_new: 'Dodaj nową kartę'
       highlighting:
@@ -63,22 +63,22 @@ pl:
       browser_error: "Twoja przeglądarka nie obsługuje kopiowania do schowka. Skopiuj tekst ręcznie."
       copied_successful: "Skopiowano do schowka!"
     chart:
-      type: 'Chart type'
-      axis_criteria: 'Axis criteria'
-      modal_title: 'Work package graph configuration'
+      type: 'Typ wykresu'
+      axis_criteria: 'Kryteria osi'
+      modal_title: 'Konfiguracja wykresu pakietów roboczych'
       types:
-        line: 'Line'
-        horizontal_bar: 'Horizontal bar'
-        bar: 'Bar'
-        pie: 'Pie'
-        doughnut: 'Doughnut'
-        radar: 'Radar'
-        polar_area: 'Polar area'
+        line: 'Liniowy'
+        horizontal_bar: 'Słupkowy poziomy'
+        bar: 'Słupkowy'
+        pie: 'Kołowy'
+        doughnut: 'Pierścieniowy'
+        radar: 'Radarowy'
+        polar_area: 'Biegunowy'
       tabs:
         graph_settings: 'Ogólne'
-        dataset: 'Dataset %{number}'
+        dataset: 'Zestaw danych %{number}'
       errors:
-        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
+        could_not_load: 'Nie można załadować danych potrzebnych do wyświetlenia wykresu. Być może brakuje niezbędnych uprawnień.'
     description_available_columns: "Dostępne kolumny"
     description_current_position: "Jesteś tutaj: "
     description_select_work_package: "Zaznacz zestaw Zadań #%{id}"
@@ -138,7 +138,7 @@ pl:
         drag_to_activate: "Aby aktywować pola, przeciągaj je stąd"
         add_group: "Dodaj grupę atrybutów"
         add_table: "Dodaj tabelę powiązanych pakietów roboczych"
-        edit_query: 'Edit query'
+        edit_query: 'Edytuj zapytanie'
         new_group: 'Nowa Grupa'
         reset_to_defaults: 'Resetuj do ustawień domyślnych'
     custom_actions:
@@ -295,7 +295,7 @@ pl:
     label_total_progress: "%{percent}% Całkowitego postępu"
     label_total_amount: "Łącznie: %{amount}"
     label_updated_on: "zaktualizowany"
-    label_value_derived_from_children: "(value derived from children)"
+    label_value_derived_from_children: "(wartość wyprowadzana z elementów podrzędnych)"
     label_warning: "Ostrzeżenie"
     label_work_package: "Zadanie"
     label_work_package_plural: "Pakiety robocze"
@@ -331,7 +331,7 @@ pl:
     label_wait: "Proszę poczekaj na zakończenie konfiguracji..."
     label_upload_counter: "%{done} z %{count} plików ukończono"
     label_validation_error: "Zadania nie mogą być zapisane z powodu błędów:"
-    label_view_has_changed: "This view has unsaved changes. Click to save them."
+    label_view_has_changed: "Ten widok zawiera niezapisane zmiany. Kliknij, aby je zapisać."
     help_texts:
       show_modal: 'Pokaż atrybut wpisu tekstu pomocy'
     onboarding:
@@ -424,13 +424,13 @@ pl:
     relation_labels:
       parent: "Rodzic"
       children: "Dzieci"
-      relates: "Related To"
-      duplicates: "Duplicates"
-      duplicated: "Duplicated by"
+      relates: "Powiązany z"
+      duplicates: "Duplikaty"
+      duplicated: "Zduplikowany przez"
       blocks: "Bloki"
-      blocked: "Blocked by"
-      precedes: "Precedes"
-      follows: "Follows"
+      blocked: "Blokowany przez"
+      precedes: "Poprzedza"
+      follows: "Następuje po"
       includes: "Zawiera"
       partof: "Część"
       requires: "Wymaga"
@@ -444,8 +444,8 @@ pl:
       set_parent: "Ustaw element nadrzędny"
       change_parent: "Zmień nadrzędny"
       remove_parent: "Usuń nadrzędny"
-      hierarchy_indent: "Indent hierarchy"
-      hierarchy_outdent: "Outdent hierarchy"
+      hierarchy_indent: "Wcinaj hierarchię"
+      hierarchy_outdent: "Wsuwaj hierarchię"
       group_by_wp_type: "Grupuj wg typu zadań"
       group_by_relation_type: "Grupuj wg typu relacji"
       add_parent: "Dodaj do istniejącego nadrzędnego"
@@ -563,7 +563,7 @@ pl:
       strong: "Pogrubienie"
       italic: "Kursywa"
       underline: "Podkreślenie"
-      deleted: "Deleted"
+      deleted: "Usunięto"
       code: "Inline Code"
       heading1: "Nagłówek 1"
       heading2: "Nagłówek 2"
@@ -577,7 +577,7 @@ pl:
       image: "Obraz"
     work_packages:
       bulk_actions:
-        move: 'Bulk change of project'
+        move: 'Masowa zmiana projektu'
         edit: 'Masowa edycja'
         copy: 'Masowe kopiowanie'
         delete: 'Masowe usuwanie'
@@ -609,7 +609,7 @@ pl:
       message_successful_show_in_fullscreen: "Kliknij tutaj, aby otworzyć ten pakiet prac w trybie pełnoekranowym."
       message_view_spent_time: "Pokaż spędzony czas dla tych zadań"
       message_work_package_read_only: "Pakiet roboczy jest zablokowany w tym stanie. Nie można zmienić żadnego atrybutu innego niż stan."
-      message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
+      message_work_package_status_blocked: "Nie można zapisać stanu pakietu roboczego ze względu na jego zamknięty stan i przypisaną mu zamkniętą wersję."
       no_value: "Brak wartości"
       placeholder_filter_by_text: "Przedmiot, opis, komentarze, ..."
       inline_create:
@@ -635,7 +635,7 @@ pl:
       no_results:
         title: Brak pakietów prac do wyświetlenia.
         description: Pakiety prac nie zostały utworzone albo wszystkie są odfiltrowane.
-      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering.
+      limited_results: W trybie sortowania ręcznego można pokazać tylko ograniczoną liczbę pakietów roboczych (%{count}). Zmniejsz liczbę wyników filtrowania.
       property_groups:
         details: "Szczegóły"
         people: "Ludzie"
@@ -695,9 +695,9 @@ pl:
         confirm_edit_cancel: "Czy na pewno chcesz anulować edycję nazwy tego widoku? Przywrócona zostanie poprzednia wartość tytułu."
         click_to_edit_query_name: "Kliknij, aby edytować tytuł tego widoku."
         rename_query_placeholder: "Nazwa tego widoku"
-        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        star_text: "Oznacz ten widok jako ulubiony i dodaj do zapisanych widoków na pasku bocznym po lewej stronie."
         public_text: >
-          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+          Opublikuj ten widok, aby umożliwić dostęp do niego innym użytkownikom. Użytkownicy z uprawnieniami „Zarządzaj widokami publicznymi” mogą zmodyfikować lub usunąć zapytanie publiczne. Nie ma to wpływu na widoczność wyników pakietu roboczego w tym widoku, a użytkownicy mogą widzieć różne wyniki, w zależności od ich uprawnień.
         errors:
           unretrievable_query: "Nie można pobrać widoku z adresu URL"
           not_found: "Nie ma takiego widoku"
@@ -732,10 +732,10 @@ pl:
           priority: 'Priorytet'
           type: 'Typ'
         sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
+          description: 'Wybierz tryb sortowania pakietów roboczych:'
+          automatic: 'Automatycznie'
+          manually: 'Ręcznie'
+          warning: 'Wskutek aktywacji trybu automatycznego sortowania utracisz poprzednie sortowanie.'
         columns_help_text: "Użyj powyższych danych wejściowych, aby dodać lub usunąć kolumny w widoku tabeli. Możesz przeciągać i upuszczać kolumny, aby zmienić ich kolejność."
         upsale:
           attribute_highlighting: 'Czy określone pakiety robocze trzeba wyróżnić?'
@@ -760,7 +760,7 @@ pl:
         columns: "Kolumny ..."
         sort_by: "Sortuj według ..."
         group_by: "Grupuj według ..."
-        display_sums: "Display sums"
+        display_sums: "Wyświetl sumy"
         display_hierarchy: "Wyświetl hierarchię"
         hide_hierarchy: "Ukryj hierarchię"
         hide_sums: "Ukryj sumy"
@@ -851,6 +851,6 @@ pl:
         project_and_subprojects: "i wszystkie podprojekty"
         search_for: "Szukaj"
     views:
-      card: 'Cards'
-      list: 'Table'
+      card: 'Karty'
+      list: 'Tabela'
       timeline: 'Wykres Gantta'

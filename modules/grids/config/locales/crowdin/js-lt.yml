@@ -11,7 +11,7 @@ lt:
           title: 'Pritaikytas tekstas'
         documents:
           title: 'Dokumentai'
-          no_results: 'No documents yet.'
+          no_results: 'Dar nėra dokumentų.'
         members:
           title: 'Nariai'
           no_results: 'Nėra matomų narių.'
@@ -20,7 +20,7 @@ lt:
           too_many: 'Rodomi %{count} iš %{total} narių.'
         news:
           title: 'Naujienos'
-          at: 'at'
+          at: '>'
           no_results: 'Nėra jokių ataskaitų.'
         project_description:
           title: 'Projekto aprašymas'
@@ -32,16 +32,16 @@ lt:
           title: 'Sub-projektai'
           no_results: 'Nėra su-projektų.'
         time_entries_list:
-          title: 'Spent time (last 7 days)'
-          no_results: 'No time entries for the last 7 days.'
+          title: 'Sugaišta laiko (per paskutines 7 dienas)'
+          no_results: 'Nėra laiko įrašų per paskutines 7 dienas.'
         work_packages_accountable:
-          title: "Work packages I am accountable for"
+          title: "Darbo paketai, už kuriuos aš atsakingas"
         work_packages_assigned:
           title: 'Man priskirti darbų paketai'
         work_packages_created:
-          title: 'Work packages created by me'
+          title: 'Mano sukurti darbo paketai'
         work_packages_watched:
-          title: 'Work packages watched by me'
+          title: 'Mano stebimi darbo paketai'
         work_packages_table:
           title: 'Darbo paketų lentelė'
         work_packages_graph:
