@@ -46,7 +46,9 @@ export class BackRoutingService {
   }
 
   public goBack(preferListOverSplit:boolean = false) {
-    if (!this.backRoute) {
+    // Default: back to list
+    // When coming from a deep link or a create form
+    if (!this.backRoute || this.backRoute.name.includes('new')) {
       this.$state.go('work-packages.list', this.$state.params);
     } else {
       if (this.keepTab.isDetailsState(this.backRoute.parent)) {
