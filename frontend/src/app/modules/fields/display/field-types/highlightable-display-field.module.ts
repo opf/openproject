@@ -35,10 +35,11 @@ export class HighlightableDisplayField extends DisplayField {
   protected readonly viewHighlighting:WorkPackageViewHighlightingService = this.$injector.get(WorkPackageViewHighlightingService, null);
 
   public get shouldHighlight() {
-    if (this.context.options.colorize === false || this.context.container !== 'table') {
+    if (this.context.options.colorize === false) {
       return false;
     }
 
-    return !!this.viewHighlighting && this.viewHighlighting.shouldHighlightInline(this.name);
+    const shouldHighlight = !!this.viewHighlighting && this.viewHighlighting.shouldHighlightInline(this.name);
+    return this.context.container !== 'table' || shouldHighlight;
   }
 }
