@@ -106,7 +106,8 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
 
   public onFocusOut() {
     // In case of inline create or erroneous forms: do not save on focus loss
-    if (this.withErrors && this.withErrors!.length === 0) {
+    // const specialField = this.resource.shouldCloseOnFocusOut(this.fieldName);
+    if (this.resource.subject && this.withErrors && this.withErrors!.length === 0) {
       this.handleUserSubmit();
     }
   }

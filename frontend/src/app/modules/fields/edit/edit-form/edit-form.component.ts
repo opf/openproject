@@ -180,6 +180,7 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
 
   public stop() {
     this.editMode = false;
+    this.closeEditFields();
     this.halEditing.stopEditing(this.resource);
     this.destroy();
   }

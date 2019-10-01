@@ -29,7 +29,7 @@
 import {ChangeDetectorRef, Injectable, Injector, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {StateService, Transition} from '@uirouter/core';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {States} from '../states.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {RootResource} from 'core-app/modules/hal/resources/root-resource';
@@ -64,7 +64,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
     button_settings: this.I18n.t('js.button_settings')
   };
 
-  @ViewChild(EditFormComponent, { static: false }) private editForm:EditFormComponent|undefined;
+  @ViewChild(EditFormComponent, {static: false}) private editForm:EditFormComponent|undefined;
 
   constructor(protected readonly $transition:Transition,
               protected readonly $state:StateService,
@@ -84,6 +84,8 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
+    this.closeEditFormWhenNewWorkPackageSaved();
+
     this
       .createdWorkPackage()
       .then((changeset:WorkPackageChangeset) => {
@@ -95,7 +97,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
 
         if (this.stateParams['parent_id']) {
           this.newWorkPackage.parent =
-            { href: this.pathHelper.api.v3.work_packages.id(this.stateParams['parent_id']).path };
+            {href: this.pathHelper.api.v3.work_packages.id(this.stateParams['parent_id']).path};
         }
 
         // Load the parent simply to display the type name :-/
@@ -166,5 +168,14 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
     const project = this.stateParams.projectPath;
 
     return this.wpCreate.createOrContinueWorkPackage(project, type);
+  }
+
+  private closeEditFormWhenNewWorkPackageSaved() {
+    this.wpCreate
+      .onNewWorkPackage()
+      .pipe(untilComponentDestroyed(this))
+      .subscribe((wp:WorkPackageResource) => {
+        this.onSaved({savedResource: wp, isInitial: true});
+      });
   }
 }

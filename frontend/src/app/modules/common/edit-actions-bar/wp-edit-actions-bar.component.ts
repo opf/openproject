@@ -36,8 +36,6 @@ import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-for
   selector: 'wp-edit-actions-bar',
 })
 export class WorkPackageEditActionsBarComponent {
-  @Input('editForm') public editForm:EditFormComponent;
-
   @Output('onSave') public onSave = new EventEmitter<void>();
   @Output('onCancel') public onCancel = new EventEmitter<void>();
   public _saving:boolean = false;
@@ -48,6 +46,7 @@ export class WorkPackageEditActionsBarComponent {
   };
 
   constructor(private I18n:I18nService,
+              private editForm:EditFormComponent,
               private cdRef:ChangeDetectorRef) {
   }
 
