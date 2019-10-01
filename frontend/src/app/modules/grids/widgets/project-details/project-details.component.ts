@@ -40,32 +40,19 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {ProjectDmService} from "core-app/modules/hal/dm-services/project-dm.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
-import {PortalCleanupService} from 'core-app/modules/fields/display/display-portal/portal-cleanup.service';
-import {WorkPackageViewHighlightingService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {ProjectCacheService} from "core-components/projects/project-cache.service";
 import {Observable} from "rxjs";
-
-export const emptyPlaceholder = '-';
+import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 
 @Component({
   templateUrl: './project-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    // required by the displayField service to render the fields
-    PortalCleanupService,
-    WorkPackageViewHighlightingService,
-    IsolatedQuerySpace
-  ]
 })
 export class WidgetProjectDetailsComponent extends AbstractWidgetComponent implements OnInit {
   @ViewChild('contentContainer', { static: true }) readonly contentContainer:ElementRef;
 
   public customFields:{key:string, label:string}[] = [];
-  public project$:Observable<any>;
-  public text = {
-    noResults: this.i18n.t('js.grid.widgets.project_details.no_results'),
-  };
+  public project$:Observable<ProjectResource>;
 
   constructor(protected readonly i18n:I18nService,
               protected readonly injector:Injector,
@@ -104,6 +91,7 @@ export class WidgetProjectDetailsComponent extends AbstractWidgetComponent imple
         this.customFields.push({key: key, label: keySchema.name });
       }
     });
+
     this.cdRef.detectChanges();
   }
 }

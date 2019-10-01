@@ -48,9 +48,9 @@ export class HalEventsService {
       );
   }
 
-  public push(resourceReference:HalResource|{id:string, type:string}, event:Partial<HalEventTypes>) {
+  public push(resourceReference:HalResource|{id:string, _type:string}, event:Partial<HalEventTypes>) {
     event.id = resourceReference.id!;
-    event.resourceType = resourceReference.type!;
+    event.resourceType = resourceReference._type!;
 
     this._events.next(event as HalEvent);
   }
