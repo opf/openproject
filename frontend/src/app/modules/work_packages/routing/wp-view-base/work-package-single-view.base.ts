@@ -39,8 +39,11 @@ import {AuthorisationService} from "core-app/modules/common/model-auth/model-aut
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {States} from "core-components/states.service";
 import {KeepTabService} from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
-import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
-import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+
 export class WorkPackageSingleViewBase implements OnDestroy {
 
   public wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
@@ -48,9 +51,9 @@ export class WorkPackageSingleViewBase implements OnDestroy {
   public I18n:I18nService = this.injector.get(I18nService);
   public keepTab:KeepTabService = this.injector.get(KeepTabService);
   public PathHelper:PathHelperService = this.injector.get(PathHelperService);
-  protected wpEditing:WorkPackageEditingService = this.injector.get(WorkPackageEditingService);
+  protected halEditing:HalResourceEditingService = this.injector.get(HalResourceEditingService);
   protected wpTableFocus:WorkPackageViewFocusService = this.injector.get(WorkPackageViewFocusService);
-  protected wpNotifications:WorkPackageNotificationService = this.injector.get(WorkPackageNotificationService);
+  protected notificationService:WorkPackageNotificationService = this.injector.get(WorkPackageNotificationService);
   protected projectCacheService:ProjectCacheService = this.injector.get(ProjectCacheService);
   protected authorisationService:AuthorisationService = this.injector.get(AuthorisationService);
   protected cdRef:ChangeDetectorRef = this.injector.get(ChangeDetectorRef);
@@ -82,7 +85,7 @@ export class WorkPackageSingleViewBase implements OnDestroy {
   protected observeWorkPackage() {
     /** Require the work package once to ensure we're displaying errors */
     this.wpCacheService.require(this.workPackageId)
-      .catch((error) => this.wpNotifications.handleRawError(error));
+      .catch((error) => this.notificationService.handleRawError(error));
 
     /** Stream updates of the work package */
     this.wpCacheService.state(this.workPackageId)

@@ -215,6 +215,10 @@ module API
             "#{projects}/available_parent_projects"
           end
 
+          def self.projects_schema
+            "#{projects}/schema"
+          end
+
           resources :query
 
           def self.query_default

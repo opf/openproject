@@ -1,11 +1,11 @@
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
-import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 import {WorkPackageRelationsService} from '../wp-relations.service';
-import {Component, ElementRef, Inject, Input, ViewChild} from "@angular/core";
+import {Component, Input} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
+import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 @Component({
   selector: 'wp-relations-create',
@@ -29,8 +29,8 @@ export class WorkPackageRelationsCreateComponent {
 
   constructor(readonly I18n:I18nService,
               protected wpRelations:WorkPackageRelationsService,
-              protected wpNotificationsService:WorkPackageNotificationService,
-              protected wpEvents:WorkPackageEventsService,
+              protected notificationService:WorkPackageNotificationService,
+              protected halEvents:HalEventsService,
               protected wpCacheService:WorkPackageCacheService) {
   }
 
@@ -59,17 +59,16 @@ export class WorkPackageRelationsCreateComponent {
       this.selectedRelationType,
       this.selectedWpId)
       .then(relation => {
-        this.wpEvents.push({
-          type: 'association',
-          id: this.workPackage.id!,
+        this.halEvents.push(this.workPackage, {
+          eventType: 'association',
           relatedWorkPackage: relation.id!,
           relationType: this.selectedRelationType
         });
-        this.wpNotificationsService.showSave(this.workPackage);
+        this.notificationService.showSave(this.workPackage);
         this.toggleRelationsCreateForm();
       })
       .catch(err => {
-        this.wpNotificationsService.handleRawError(err, this.workPackage);
+        this.notificationService.handleRawError(err, this.workPackage);
         this.toggleRelationsCreateForm();
       });
   }

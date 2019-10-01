@@ -48,10 +48,10 @@
 
       <wp-breadcrumb [workPackage]="workPackage"></wp-breadcrumb>
 
-      <wp-edit-field-group [workPackage]="workPackage">
+      <edit-form [resource]="workPackage">
         <wp-subject></wp-subject>
         <div class="work-package-details-tab" ui-view></div>
-      </wp-edit-field-group>
+      </edit-form>
     </div>
 
     <div class="work-packages--details-toolbar-container" *ngIf="workPackage">

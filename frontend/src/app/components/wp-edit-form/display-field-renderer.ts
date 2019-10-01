@@ -1,24 +1,23 @@
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {Injector} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {DisplayFieldContext, DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
 import {DisplayField} from "core-app/modules/fields/display/display-field.module";
-import {MultipleLinesStringObjectsDisplayField} from "core-app/modules/fields/display/field-types/wp-display-multiple-lines-string-objects-field.module";
-import {ProgressTextDisplayField} from "core-app/modules/fields/display/field-types/wp-display-progress-text-field.module";
-import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
-import {MultipleLinesUserFieldModule} from "core-app/modules/fields/display/field-types/wp-display-multiple-lines-user-field.module";
+import {MultipleLinesStringObjectsDisplayField} from "core-app/modules/fields/display/field-types/multiple-lines-string-objects-display-field.module";
+import {ProgressTextDisplayField} from "core-app/modules/fields/display/field-types/progress-text-display-field.module";
+import {MultipleLinesUserFieldModule} from "core-app/modules/fields/display/field-types/multiple-lines-user-display-field.module";
+import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 export const editableClassName = '-editable';
 export const requiredClassName = '-required';
 export const readOnlyClassName = '-read-only';
 export const placeholderClassName = '-placeholder';
-export const cellClassName = 'wp-table--cell-span';
-export const displayClassName = 'wp-edit-field--display-field';
-export const editFieldContainerClass = 'wp-edit-field--container';
+export const displayClassName = 'inline-edit--display-field';
+export const editFieldContainerClass = 'inline-edit--container';
 export const cellEmptyPlaceholder = '-';
 
-export class DisplayFieldRenderer {
+export class DisplayFieldRenderer<T extends HalResource = HalResource> {
 
   readonly displayFieldService:DisplayFieldService = this.injector.get(DisplayFieldService);
   readonly I18n:I18nService = this.injector.get(I18nService);
@@ -27,70 +26,70 @@ export class DisplayFieldRenderer {
   private fieldCache:{ [key:string]:DisplayField } = {};
 
   constructor(public readonly injector:Injector,
-              public readonly container:'table' | 'single-view' | 'timeline',
-              public readonly options:{ [key:string]: any } = {}) {
+              public readonly container:'table'|'single-view'|'timeline',
+              public readonly options:{ [key:string]:any } = {}) {
   }
 
-  public render(workPackage:WorkPackageResource,
+  public render(resource:T,
                 name:string,
-                change:WorkPackageChangeset|null,
+                change:ResourceChangeset<T>|null,
                 placeholder = cellEmptyPlaceholder):HTMLSpanElement {
 
-    const [field, span] = this.renderFieldValue(workPackage, name, change, placeholder);
+    const [field, span] = this.renderFieldValue(resource, name, change, placeholder);
 
     if (field === null) {
       return span;
     }
 
-    this.setSpanAttributes(span, field, name, workPackage);
+    this.setSpanAttributes(span, field, name, resource);
 
     return span;
   }
 
-  public renderFieldValue(workPackage:WorkPackageResource,
+  public renderFieldValue(resource:T,
                           name:string,
-                          change:WorkPackageChangeset|null,
+                          change:ResourceChangeset<T>|null,
                           placeholder = cellEmptyPlaceholder):[DisplayField|null, HTMLSpanElement] {
     const span = document.createElement('span');
-    const schemaName = workPackage.getSchemaName(name);
-    const fieldSchema = workPackage.schema[schemaName];
+    const schemaName = this.getSchemaName(resource, change, name);
+    const fieldSchema = resource.schema[schemaName];
 
-    // If the work package does not have that field, return an empty
+    // If the resource does not have that field, return an empty
     // span (e.g., for the table).
     if (!fieldSchema) {
       return [null, span];
     }
 
-    const field = this.getField(workPackage, fieldSchema, schemaName, change);
+    const field = this.getField(resource, fieldSchema, schemaName, change);
     field.render(span, this.getText(field, placeholder));
 
     const title = field.title;
     if (title) {
       span.setAttribute('title', title);
     }
-    span.setAttribute('aria-label', this.getAriaLabel(field, workPackage));
+    span.setAttribute('aria-label', this.getAriaLabel(field, resource));
 
     return [field, span];
   }
 
-  public getField(workPackage:WorkPackageResource,
+  public getField(resource:T,
                   fieldSchema:IFieldSchema,
                   name:string,
-                  change:WorkPackageChangeset|null):DisplayField {
+                  change:ResourceChangeset<T>|null):DisplayField {
     let field = this.fieldCache[name];
 
     if (!field) {
-      field = this.fieldCache[name] = this.getFieldForCurrentContext(workPackage, name, fieldSchema);
+      field = this.fieldCache[name] = this.getFieldForCurrentContext(resource, name, fieldSchema);
     }
 
-    field.apply(workPackage, fieldSchema);
+    field.apply(resource, fieldSchema);
     field.activeChange = change;
 
     return field;
   }
 
-  private getFieldForCurrentContext(workPackage:WorkPackageResource, name:string, fieldSchema:IFieldSchema):DisplayField {
-    const context:DisplayFieldContext = { container: this.container, injector: this.injector, options: this.options };
+  private getFieldForCurrentContext(resource:T, name:string, fieldSchema:IFieldSchema):DisplayField {
+    const context:DisplayFieldContext = {container: this.container, injector: this.injector, options: this.options};
 
     // We handle multi value fields differently in the single view context
     const isCustomMultiLinesField = ['[]CustomOption'].indexOf(fieldSchema.type) >= 0;
@@ -107,7 +106,7 @@ export class DisplayFieldRenderer {
       return new ProgressTextDisplayField(name, context);
     }
 
-    return this.displayFieldService.getField(workPackage, name, fieldSchema, context);
+    return this.displayFieldService.getField(resource, name, fieldSchema, context);
   }
 
   private getText(field:DisplayField, placeholder:string):string {
@@ -118,8 +117,8 @@ export class DisplayFieldRenderer {
     }
   }
 
-  private setSpanAttributes(span:HTMLElement, field:DisplayField, name:string, workPackage:WorkPackageResource):void {
-    span.classList.add(cellClassName, displayClassName, 'inplace-edit', 'wp-edit-field', name);
+  private setSpanAttributes(span:HTMLElement, field:DisplayField, name:string, resource:T):void {
+    span.classList.add(displayClassName, name);
     span.dataset['fieldName'] = name;
 
     // Make span tabbable unless it's an id field
@@ -133,7 +132,7 @@ export class DisplayFieldRenderer {
       span.classList.add(placeholderClassName);
     }
 
-    if (field.writable && workPackage.isAttributeEditable(field.name)) {
+    if (field.writable) {
       span.classList.add(editableClassName);
       span.setAttribute('role', 'button');
     } else {
@@ -141,7 +140,7 @@ export class DisplayFieldRenderer {
     }
   }
 
-  private getAriaLabel(field:DisplayField, workPackage:WorkPackageResource):string {
+  private getAriaLabel(field:DisplayField, resource:T):string {
     let titleContent;
     let labelContent = this.getLabelContent(field);
 
@@ -157,8 +156,8 @@ export class DisplayFieldRenderer {
       titleContent = labelContent;
     }
 
-    if (field.writable && workPackage.isAttributeEditable(field.name)) {
-      return this.I18n.t('js.inplace.button_edit', { attribute: `${field.displayName} ${titleContent}` });
+    if (field.writable && resource.isAttributeEditable(field.name)) {
+      return this.I18n.t('js.inplace.button_edit', {attribute: `${field.displayName} ${titleContent}`});
     } else {
       return `${field.displayName} ${titleContent}`;
     }
@@ -170,5 +169,26 @@ export class DisplayFieldRenderer {
     } else {
       return field.valueString;
     }
+  }
+
+  /**
+   * Get the schema name from either the changeset, the resource (if available) or
+   * return the attribute itself.
+   *
+   * @param resource
+   * @param change
+   * @param name
+   */
+  private getSchemaName(resource:T, change:ResourceChangeset<T>|null, name:string) {
+    if (change) {
+      return change.getSchemaName(name);
+    }
+
+    if (!!resource.getSchemaName) {
+      return resource.getSchemaName(name);
+    }
+
+    return name;
+
   }
 }

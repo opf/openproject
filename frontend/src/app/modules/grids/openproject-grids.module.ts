@@ -63,6 +63,7 @@ import {WidgetTimeEntriesProjectComponent} from "core-app/modules/grids/widgets/
 import {WidgetSubprojectsComponent} from "core-app/modules/grids/widgets/subprojects/subprojects.component";
 import {OpenprojectAttachmentsModule} from "core-app/modules/attachments/openproject-attachments.module";
 import {WidgetMembersComponent} from "core-app/modules/grids/widgets/members/members.component";
+import {OpenprojectProjectsModule} from "core-app/modules/projects/openproject-projects.module";
 
 @NgModule({
   imports: [

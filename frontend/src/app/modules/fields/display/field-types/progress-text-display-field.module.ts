@@ -26,46 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {DisplayField} from "core-app/modules/fields/display/display-field.module";
-import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
-import {StateService} from '@uirouter/core';
-import {UiStateLinkBuilder} from "core-components/wp-fast-table/builders/ui-state-link-builder";
+import {ProgressDisplayField} from './progress-display-field.module';
 
-export class IdDisplayField extends DisplayField {
-
-  public text = {
-    linkTitle: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen')
-  };
-
-  private $state:StateService = this.$injector.get(StateService);
-  private keepTab:KeepTabService = this.$injector.get(KeepTabService);
-  private uiStateBuilder:UiStateLinkBuilder = new UiStateLinkBuilder(this.$state, this.keepTab);
-
-  public get value() {
-    if (this.resource.isNew) {
-      return null;
-    }
-    else {
-      return this.resource[this.name];
-    }
-  }
-
+export class ProgressTextDisplayField extends ProgressDisplayField {
   public render(element:HTMLElement, displayText:string):void {
-    if (!this.value) {
-      return;
-    }
-
-    let link = this.uiStateBuilder.linkToShow(
-      this.value,
-      displayText,
-      this.value
-    );
-
-    element.appendChild(link);
+    const label = this.percentLabel;
+    element.setAttribute('title', label);
+    element.innerHTML = '';
+    element.textContent = label;
   }
-
-  public isEmpty():boolean {
-    return false;
-  }
-
 }

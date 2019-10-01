@@ -37,7 +37,7 @@ import {BoardService} from "core-app/modules/boards/board/board.service";
 import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
-import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 
 @Component({
   templateUrl: './new-board-modal.html'
@@ -72,7 +72,7 @@ export class NewBoardModalComponent extends OpModalComponent {
               readonly boardService:BoardService,
               readonly boardActions:BoardActionsRegistryService,
               readonly boardCache:BoardCacheService,
-              readonly wpNotifications:WorkPackageNotificationService,
+              readonly halNotification:HalResourceNotificationService,
               readonly loadingIndicatorService:LoadingIndicatorService,
               readonly I18n:I18nService) {
 
@@ -100,7 +100,7 @@ export class NewBoardModalComponent extends OpModalComponent {
       })
       .catch((error:unknown) => {
         this.inFlight = false;
-        this.wpNotifications.handleRawError(error);
+        this.halNotification.handleRawError(error);
       });
   }
 }

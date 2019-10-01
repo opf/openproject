@@ -146,7 +146,6 @@ export function bootstrapModule(injector:Injector) {
     FocusWithinDirective,
     FocusDirective,
     AuthoringComponent,
-    WorkPackageEditActionsBarComponent,
 
     // Notifications
     NotificationsContainerComponent,
@@ -197,7 +196,6 @@ export function bootstrapModule(injector:Injector) {
     FocusWithinDirective,
     FocusDirective,
     AuthoringComponent,
-    WorkPackageEditActionsBarComponent,
 
     // Notifications
     NotificationsContainerComponent,

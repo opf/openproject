@@ -5,7 +5,9 @@ fail("jasmine fdescribe left in tests") if `grep --include '*.spec.ts' -rP 'fdes
 git.modified_files
     .select { |path| path.include?('frontend') && path.end_with?('.ts') }
     .each do |path|
-  lines = File.readlines(path)
+  next unless File.readable?(path)
+
+  lines = File.readlines (path)
 
   # Ignore non component files
   component_line = lines.grep(/@Component/)[0]

@@ -30,12 +30,13 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {WorkPackageViewColumnsService} from './wp-view-columns.service';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 import {WorkPackageViewHierarchiesService} from './wp-view-hierarchy.service';
-import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {RelationsStateValue, WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 @Injectable()
 export class WorkPackageViewAdditionalElementsService {
@@ -43,7 +44,7 @@ export class WorkPackageViewAdditionalElementsService {
   constructor(readonly querySpace:IsolatedQuerySpace,
               readonly wpTableHierarchies:WorkPackageViewHierarchiesService,
               readonly wpTableColumns:WorkPackageViewColumnsService,
-              readonly wpNotificationsService:WorkPackageNotificationService,
+              readonly notificationService:WorkPackageNotificationService,
               readonly halResourceService:HalResourceService,
               readonly wpCacheService:WorkPackageCacheService,
               readonly wpRelations:WorkPackageRelationsService) {
@@ -66,7 +67,7 @@ export class WorkPackageViewAdditionalElementsService {
       })
       .catch((e) => {
         this.querySpace.additionalRequiredWorkPackages.putValue(null, 'Failure loading required work packages');
-        this.wpNotificationsService.handleRawError(e);
+        this.notificationService.handleRawError(e);
       });
   }
 

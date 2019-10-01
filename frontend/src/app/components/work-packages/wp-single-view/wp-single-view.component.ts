@@ -44,7 +44,8 @@ import {debugLog} from '../../../helpers/debug_output';
 import {CurrentProjectService} from '../../projects/current-project.service';
 import {States} from '../../states.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
+
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {WorkPackageCacheService} from '../work-package-cache.service';
 import {input, InputState} from 'reactivestates';
 import {DisplayFieldService} from 'core-app/modules/fields/display/display-field.service';
@@ -142,7 +143,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
               protected currentProject:CurrentProjectService,
               protected PathHelper:PathHelperService,
               protected states:States,
-              protected wpEditing:WorkPackageEditingService,
+              protected halEditing:HalResourceEditingService,
               protected halResourceService:HalResourceService,
               protected displayFieldService:DisplayFieldService,
               protected wpCacheService:WorkPackageCacheService,
@@ -157,7 +158,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
   public ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
 
-    const change = this.wpEditing.changeFor(this.workPackage);
+    const change = this.halEditing.changeFor<WorkPackageResource, WorkPackageChangeset>(this.workPackage);
     this.resourceContextChange.next(this.contextFrom(change));
     this.refresh(change);
 
@@ -167,14 +168,14 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(componentDestroyed(this)),
         distinctUntilChanged<ResourceContextChange>((a, b) => _.isEqual(a, b)),
-        map(() => this.wpEditing.changeFor(this.workPackage))
+        map(() => this.halEditing.changeFor(this.workPackage))
       )
       .subscribe((change:WorkPackageChangeset) => this.refresh(change));
 
     // Update the resource context on every update to the temporary resource.
     // This allows detecting a changed type value in a new work package.
-    this.wpEditing
-      .state(this.workPackage.id!)
+    this.halEditing
+      .typedState<WorkPackageResource, WorkPackageChangeset>(this.workPackage)
       .values$()
       .pipe(
         takeUntil(componentDestroyed(this))

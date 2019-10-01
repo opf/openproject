@@ -62,6 +62,7 @@ import {NewsResource} from "core-app/modules/hal/resources/news-resource";
 import {VersionResource} from "core-app/modules/hal/resources/version-resource";
 import {MembershipResource} from "core-app/modules/hal/resources/membership-resource";
 import {RoleResource} from "core-app/modules/hal/resources/role-resource";
+import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 
 const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInterface } = {
   WorkPackage: {
@@ -180,6 +181,9 @@ const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInter
   },
   Post: {
     cls: PostResource
+  },
+  Project: {
+    cls: ProjectResource
   },
   Role: {
     cls: RoleResource

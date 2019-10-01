@@ -32,13 +32,14 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
-import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 @Component({
   templateUrl: './watchers-tab.html',
@@ -71,7 +72,7 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
                      readonly elementRef:ElementRef,
                      readonly wpWatchersService:WorkPackageWatchersService,
                      readonly $transition:Transition,
-                     readonly wpNotificationsService:WorkPackageNotificationService,
+                     readonly notificationService:WorkPackageNotificationService,
                      readonly loadingIndicator:LoadingIndicatorService,
                      readonly wpCacheService:WorkPackageCacheService,
                      readonly cdRef:ChangeDetectorRef,
@@ -112,7 +113,7 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
         this.cdRef.detectChanges();
       })
       .catch((error:any) => {
-        this.wpNotificationsService.showError(error, this.workPackage);
+        this.notificationService.showError(error, this.workPackage);
       });
   }
 
@@ -130,7 +131,7 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
         this.wpCacheService.loadWorkPackage(this.workPackage.id!, true);
         this.cdRef.detectChanges();
       })
-      .catch((error:any) => this.wpNotificationsService.showError(error, this.workPackage));
+      .catch((error:any) => this.notificationService.showError(error, this.workPackage));
   }
 
   public removeWatcher(watcher:any) {
@@ -146,7 +147,7 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
         this.wpCacheService.loadWorkPackage(this.workPackage.id!, true);
         this.cdRef.detectChanges();
       })
-      .catch((error:any) => this.wpNotificationsService.showError(error, this.workPackage));
+      .catch((error:any) => this.notificationService.showError(error, this.workPackage));
   }
 
   ngOnDestroy() {

@@ -28,19 +28,19 @@
 
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 import {States} from '../../states.service';
 import {StateService} from '@uirouter/core';
 import {Injectable} from '@angular/core';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
+import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 @Injectable()
 export class WorkPackageRelationsHierarchyService {
   constructor(protected $state:StateService,
               protected states:States,
-              protected wpEvents:WorkPackageEventsService,
-              protected wpNotificationsService:WorkPackageNotificationService,
+              protected halEvents:HalEventsService,
+              protected notificationService:WorkPackageNotificationService,
               protected pathHelper:PathHelperService,
               protected wpCacheService:WorkPackageCacheService) {
 
@@ -69,10 +69,9 @@ export class WorkPackageRelationsHierarchyService {
       .changeParent(payload)
       .then((wp:WorkPackageResource) => {
         this.wpCacheService.updateWorkPackage(wp);
-        this.wpNotificationsService.showSave(wp);
-        this.wpEvents.push({
-          type: 'association',
-          id: workPackage.id!,
+        this.notificationService.showSave(wp);
+        this.halEvents.push(workPackage, {
+          eventType: 'association',
           relatedWorkPackage: parentId,
           relationType: 'parent'
         });
@@ -80,7 +79,7 @@ export class WorkPackageRelationsHierarchyService {
         return wp;
       })
       .catch((error) => {
-        this.wpNotificationsService.handleRawError(error, workPackage);
+        this.notificationService.handleRawError(error, workPackage);
         return Promise.reject(error);
       });
   }
@@ -96,9 +95,8 @@ export class WorkPackageRelationsHierarchyService {
         return this.changeParent(wpToBecomeChild!, workPackage.id!)
           .then(wp => {
             this.wpCacheService.loadWorkPackage(workPackage.id!, true);
-            this.wpEvents.push({
-              type: 'association',
-              id: workPackage.id!,
+            this.halEvents.push(workPackage, {
+              eventType: 'association',
               relatedWorkPackage: wpToBecomeChild!.id!,
               relationType: 'child'
             });
@@ -141,7 +139,7 @@ export class WorkPackageRelationsHierarchyService {
         this.wpCacheService.updateWorkPackage(wp);
       })
         .catch((error) => {
-          this.wpNotificationsService.handleRawError(error, childWorkPackage);
+          this.notificationService.handleRawError(error, childWorkPackage);
           return Promise.reject(error);
         });
     });

@@ -33,14 +33,16 @@ import {RenderInfo} from '../wp-timeline';
 import {TimelineCellRenderer} from './timeline-cell-renderer';
 import {TimelineMilestoneCellRenderer} from './timeline-milestone-cell-renderer';
 import {WorkPackageTimelineCell} from './wp-timeline-cell';
-import {WorkPackageEditingService} from 'core-app/components/wp-edit-form/work-package-editing-service';
+
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
+import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 
 export class WorkPackageTimelineCellsRenderer {
 
   // Injections
   public states = this.injector.get(States);
-  public wpEditing = this.injector.get(WorkPackageEditingService);
+  public halEditing = this.injector.get(HalResourceEditingService);
 
   public cells:{ [classIdentifier:string]:WorkPackageTimelineCell } = {};
 
@@ -142,7 +144,7 @@ export class WorkPackageTimelineCellsRenderer {
     return {
       viewParams: this.wpTimeline.viewParameters,
       workPackage: wp,
-      change: this.wpEditing.changeFor(wp)
+      change: this.halEditing.changeFor(wp) as WorkPackageChangeset
     };
   }
 }

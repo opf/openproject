@@ -35,13 +35,13 @@
       Custom Field
     </div>
     <div class="attributes-key-value--value-container">
-      <wp-edit-field class="wp-edit-field--text">
-        <div class="wp-edit-field--container -small">
-          <span title="Editable text field" class="wp-table--cell-span inplace-edit -editable">
+      <editable-attribute-field>
+        <div class="inline-edit--container -small">
+          <span title="Editable text field" class="inline-edit--display-field inplace-edit -editable">
             Editable text field
           </span>
         </div>
-      </wp-edit-field>
+      </editable-attribute-field>
     </div>
   </div>
 </div>
@@ -56,11 +56,9 @@
   <div class="inplace-edit--read">
     <accessible-by-keyboard class="inplace-editing--trigger-container">
       <a href="" class="inplace-editing--trigger-link">
-        <span class="inplace-editing--container wp-edit-field--display-field">
-          <span class="inplace-edit--read-value -default">
-            <span>Comment and type @ to notify other people</span>
-          </span>
-          <span class="inplace-edit--icon-wrapper">
+        <span class="inplace-editing--container inline-edit--display-field">
+          <span>Comment and type @ to notify other people</span>
+          <span class="inplace-editing--trigger-icon">
             <op-icon class="op-icon--wrapper">
               <i aria-hidden="true" class="icon-edit" title="Comment and type @ to notify other people"></i>
             </op-icon>
@@ -86,10 +84,10 @@
       </div>
     </div>
   </div>
-  <wp-edit-field>
-    <div class="wp-edit-field--container description -no-label">
+  <editable-attribute-field>
+    <div class="inline-edit--container description -no-label">
       <div>
-        <span class="wp-table--cell-span inplace-edit -editable">
+        <span class="inline-edit--display-field inplace-edit -editable">
           <div class="read-value--html wiki highlight -multiline">
             <p>
               Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
@@ -100,7 +98,7 @@
         </span>
       </div>
     </div>
-  </wp-edit-field>
+  </editable-attribute-field>
 </div>
 ```
 

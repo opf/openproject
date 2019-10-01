@@ -3,7 +3,7 @@ import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-r
 import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import {States} from "core-components/states.service";
 import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
-import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
@@ -11,6 +11,7 @@ import {DragAndDropHelpers} from "core-app/modules/common/drag-and-drop/drag-and
 import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card-view.component";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 @Injectable()
 export class WorkPackageCardDragAndDropService {
@@ -29,7 +30,7 @@ export class WorkPackageCardDragAndDropService {
                      readonly injector:Injector,
                      readonly reorderService:WorkPackageViewOrderService,
                      readonly wpCreate:WorkPackageCreateService,
-                     readonly wpNotifications:WorkPackageNotificationService,
+                     readonly notificationService:WorkPackageNotificationService,
                      readonly wpCacheService:WorkPackageCacheService,
                      readonly currentProject:CurrentProjectService,
                      readonly wpInlineCreate:WorkPackageInlineCreateService) {
@@ -168,7 +169,7 @@ export class WorkPackageCardDragAndDropService {
       this.updateOrder(newOrder);
       return true;
     } catch (e) {
-      this.wpNotifications.handleRawError(e, workPackage);
+      this.notificationService.handleRawError(e, workPackage);
     }
 
     return false;

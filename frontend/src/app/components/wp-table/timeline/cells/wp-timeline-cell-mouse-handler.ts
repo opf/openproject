@@ -29,7 +29,7 @@
 import {Injector} from '@angular/core';
 import * as moment from 'moment';
 import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
-import {WorkPackageNotificationService} from '../../../wp-edit/wp-notification.service';
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import {RenderInfo} from '../wp-timeline';
 import {TimelineCellRenderer} from './timeline-cell-renderer';
@@ -38,10 +38,13 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
-import {WorkPackageEditingService} from 'core-app/components/wp-edit-form/work-package-editing-service';
+
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
-import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
+import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import Moment = moment.Moment;
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 
 export const classNameBar = 'bar';
 export const classNameLeftHandle = 'leftHandle';
@@ -54,9 +57,9 @@ export function registerWorkPackageMouseHandler(this:void,
                                                 getRenderInfo:() => RenderInfo,
                                                 workPackageTimeline:WorkPackageTimelineTableController,
                                                 wpCacheService:WorkPackageCacheService,
-                                                wpEditing:WorkPackageEditingService,
-                                                wpEvents:WorkPackageEventsService,
-                                                wpNotificationsService:WorkPackageNotificationService,
+                                                halEditing:HalResourceEditingService,
+                                                halEvents:HalEventsService,
+                                                notificationService:WorkPackageNotificationService,
                                                 loadingIndicator:LoadingIndicatorService,
                                                 cell:HTMLElement,
                                                 bar:HTMLDivElement,
@@ -67,7 +70,7 @@ export function registerWorkPackageMouseHandler(this:void,
   const querySpace:IsolatedQuerySpace = injector.get(IsolatedQuerySpace);
 
   let mouseDownStartDay:number | null = null; // also flag to signal active drag'n'drop
-  renderInfo.change = wpEditing.changeFor(renderInfo.workPackage);
+  renderInfo.change = halEditing.changeFor(renderInfo.workPackage) as WorkPackageChangeset;
 
   let dateStates:any;
   let placeholderForEmptyCell:HTMLElement;
@@ -245,19 +248,19 @@ export function registerWorkPackageMouseHandler(this:void,
     // Remember the time before saving the work package to know which work packages to update
     const updatedAt = moment().toISOString();
 
-    return loadingIndicator.table.promise = wpEditing.save(change)
+    return loadingIndicator.table.promise = halEditing.save<WorkPackageResource, WorkPackageChangeset>(change)
       .then((result) => {
-        wpNotificationsService.showSave(result.workPackage);
+        notificationService.showSave(result.resource);
         const ids = _.map(querySpace.rendered.value!, row => row.workPackageId);
         loadingIndicator.table.promise =
           queryDm.loadIdsUpdatedSince(ids, updatedAt).then(workPackageCollection => {
             wpCacheService.updateWorkPackageList(workPackageCollection.elements);
 
-            wpEvents.push({ type: 'updated', id: result.workPackage.id! });
+            halEvents.push(result.resource, { eventType: 'updated' });
           });
       })
       .catch((error) => {
-        wpNotificationsService.handleRawError(error, renderInfo.workPackage);
+        notificationService.handleRawError(error, renderInfo.workPackage);
       });
   }
 }

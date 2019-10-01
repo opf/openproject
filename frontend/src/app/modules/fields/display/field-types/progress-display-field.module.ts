@@ -26,11 +26,36 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {HighlightedResourceDisplayField} from "core-app/modules/fields/display/field-types/wp-display-highlighted-resource-field.module";
+import {DisplayField} from "core-app/modules/fields/display/display-field.module";
 
-export class TypeDisplayField extends HighlightedResourceDisplayField {
-  // Type will always be highlighted
-  public get shouldHighlight() {
-    return true;
+export class ProgressDisplayField extends DisplayField {
+  public get value() {
+    if (this.schema) {
+      return this.resource[this.name] || 0;
+    }
+    else {
+      return null;
+    }
+  }
+
+  public get percentLabel() {
+    return this.roundedProgress + '%';
+  }
+
+  public get roundedProgress() {
+    return Math.round(Number(this.value)) || 0;
+  }
+
+  public render(element:HTMLElement, displayText:string):void {
+    element.setAttribute('title', displayText);
+    element.innerHTML = `
+      <span>
+        <span style="width: 80px" class="progress-bar">
+          <span style="width: ${this.roundedProgress}%" class="inner-progress closed"></span>
+          <span style="width: 0%" class="inner-progress done"></span>
+        </span>
+        <span class="progress-bar-legend">${this.percentLabel}</span>
+      </span>
+    `;
   }
 }

@@ -41,7 +41,7 @@ import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.compon
       <input [ngModel]="formatter(value)"
              (ngModelChange)="value = parser($event);"
              type="text"
-             class="wp-inline-edit--field"
+             class="inline-edit--field"
              (keydown)="handler.handleUserKeydown($event)"
              [attr.required]="required"
              [disabled]="inFlight"

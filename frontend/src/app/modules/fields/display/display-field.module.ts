@@ -30,13 +30,15 @@ import {Field, IFieldSchema} from "core-app/modules/fields/field.base";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {DisplayFieldContext} from "core-app/modules/fields/display/display-field.service";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
+import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 export const cssClassCustomOption = 'custom-option';
 
-export class DisplayField extends Field {
+export class DisplayField<T extends HalResource = HalResource> extends Field {
   public static type:string;
   public mode:string | null = null;
-  public activeChange:WorkPackageChangeset|null = null;
+  public activeChange:ResourceChangeset<T>|null = null;
 
   protected I18n:I18nService = this.$injector.get(I18nService);
 
@@ -49,13 +51,13 @@ export class DisplayField extends Field {
    * @param resource
    * @param schema
    */
-  public apply(resource:any, schema:IFieldSchema) {
+  public apply(resource:T, schema:IFieldSchema) {
     this.resource = resource;
     this.schema = schema;
   }
 
   public texts = {
-    empty: this.I18n.t('js.work_packages.no_value'),
+    empty: this.I18n.t('js.label_no_value'),
     placeholder: this.I18n.t('js.placeholders.default')
   };
 

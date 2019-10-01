@@ -37,6 +37,8 @@ import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and
 import {BcfDetectorService} from "core-app/modules/bcf/helper/bcf-detector.service";
 import {wpDisplayCardRepresentation} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 import {WorkPackageTableConfigurationObject} from "core-components/wp-table/wp-table-configuration";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 @Component({
   selector: 'wp-list',
@@ -44,6 +46,8 @@ import {WorkPackageTableConfigurationObject} from "core-components/wp-table/wp-t
   styleUrls: ['./wp-list.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
+    /** We need to provide the wpNotification service here to get correct save notifications for WP resources */
+    { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },
     DragAndDropService,
     CausedUpdatesService
   ]

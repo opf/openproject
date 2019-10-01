@@ -1,5 +1,5 @@
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
-import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageRelationsService} from '../wp-relations.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
@@ -7,7 +7,8 @@ import {RelationResource} from 'core-app/modules/hal/resources/relation-resource
 import {ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
+import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 
 @Component({
@@ -56,9 +57,9 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
   };
 
   constructor(protected wpCacheService:WorkPackageCacheService,
-              protected wpNotificationsService:WorkPackageNotificationService,
+              protected notificationService:WorkPackageNotificationService,
               protected wpRelations:WorkPackageRelationsService,
-              protected wpEvents:WorkPackageEventsService,
+              protected halEvents:HalEventsService,
               protected I18n:I18nService,
               protected cdRef:ChangeDetectorRef,
               protected PathHelper:PathHelperService) {
@@ -130,7 +131,7 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
         this.relation = savedRelation;
         this.relatedWorkPackage.relatedBy = savedRelation;
         this.userInputs.showDescriptionEditForm = false;
-        this.wpNotificationsService.showSave(this.relatedWorkPackage);
+        this.notificationService.showSave(this.relatedWorkPackage);
         this.cdRef.detectChanges();
       });
   }
@@ -156,14 +157,14 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
       this.relation,
       this.selectedRelationType.name)
       .then((savedRelation:RelationResource) => {
-        this.wpNotificationsService.showSave(this.relatedWorkPackage);
+        this.notificationService.showSave(this.relatedWorkPackage);
         this.relatedWorkPackage.relatedBy = savedRelation;
         this.relation = savedRelation;
 
         this.userInputs.showRelationTypesForm = false;
         this.cdRef.detectChanges();
       })
-      .catch((error:any) => this.wpNotificationsService.handleRawError(error, this.workPackage));
+      .catch((error:any) => this.notificationService.handleRawError(error, this.workPackage));
   }
 
   public toggleUserDescriptionForm() {
@@ -173,17 +174,16 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
   public removeRelation() {
     this.wpRelations.removeRelation(this.relation)
       .then(() => {
-        this.wpEvents.push({
-          type: 'association',
-          id: this.workPackage.id!,
+        this.halEvents.push(this.workPackage, {
+          eventType: 'association',
           relatedWorkPackage: null,
           relationType: this.relation.normalizedType(this.workPackage)
         });
 
         this.wpCacheService.updateWorkPackage(this.relatedWorkPackage);
-        this.wpNotificationsService.showSave(this.relatedWorkPackage);
+        this.notificationService.showSave(this.relatedWorkPackage);
       })
-      .catch((err:any) => this.wpNotificationsService.handleRawError(err,
+      .catch((err:any) => this.notificationService.handleRawError(err,
         this.relatedWorkPackage));
   }
 }

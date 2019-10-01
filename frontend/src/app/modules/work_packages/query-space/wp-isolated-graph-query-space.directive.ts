@@ -44,7 +44,8 @@ import {WorkPackageViewHighlightingService} from "core-app/modules/work_packages
 import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
 import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";
 import {WorkPackageViewFocusService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
-import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
+
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
 import {WorkPackageService} from "core-components/work-packages/work-package.service";
 import {WorkPackageRelationsHierarchyService} from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
@@ -93,8 +94,8 @@ export const WpIsolatedGraphQuerySpaceProviders = [
   WpChildrenInlineCreateService,
   WpRelationInlineCreateService,
 
+  HalResourceEditingService,
   WorkPackageCreateService,
-  WorkPackageEditingService,
 
   WorkPackageStatesInitializationService,
 

@@ -26,23 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Inject,
-  Injectable,
-  Injector,
-  OnDestroy,
-  OnInit
-} from '@angular/core';
+import {ChangeDetectorRef, Injectable, Injector, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {StateService, Transition} from '@uirouter/core';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {States} from '../states.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {RootResource} from 'core-app/modules/hal/resources/root-resource';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
-import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageCreateService} from './wp-create.service';
 import {takeUntil} from 'rxjs/operators';
 import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
@@ -51,6 +43,10 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CurrentUserService} from "core-app/components/user/current-user.service";
 import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
+import {WorkPackageViewFocusService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-form.component";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 
 @Injectable()
@@ -68,24 +64,28 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
     button_settings: this.I18n.t('js.button_settings')
   };
 
-  constructor(readonly $transition:Transition,
-              readonly $state:StateService,
-              readonly I18n:I18nService,
-              readonly titleService:OpTitleService,
-              readonly injector:Injector,
-              readonly currentUser:CurrentUserService,
-              protected wpNotificationsService:WorkPackageNotificationService,
-              protected states:States,
-              protected wpCreate:WorkPackageCreateService,
-              protected wpTableFilters:WorkPackageViewFiltersService,
-              protected wpCacheService:WorkPackageCacheService,
-              protected pathHelper:PathHelperService,
-              protected cdRef:ChangeDetectorRef,
-              protected RootDm:RootDmService) {
+  @ViewChild(EditFormComponent, {static: false}) private editForm:EditFormComponent|undefined;
+
+  constructor(protected readonly $transition:Transition,
+              protected readonly $state:StateService,
+              protected readonly I18n:I18nService,
+              protected readonly titleService:OpTitleService,
+              protected readonly injector:Injector,
+              protected readonly notificationService:WorkPackageNotificationService,
+              protected readonly states:States,
+              protected readonly wpCreate:WorkPackageCreateService,
+              protected readonly wpViewFocus:WorkPackageViewFocusService,
+              protected readonly wpTableFilters:WorkPackageViewFiltersService,
+              protected readonly wpCacheService:WorkPackageCacheService,
+              protected readonly pathHelper:PathHelperService,
+              protected readonly cdRef:ChangeDetectorRef,
+              protected readonly RootDm:RootDmService) {
 
   }
 
   public ngOnInit() {
+    this.closeEditFormWhenNewWorkPackageSaved();
+
     this
       .createdWorkPackage()
       .then((changeset:WorkPackageChangeset) => {
@@ -97,7 +97,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
 
         if (this.stateParams['parent_id']) {
           this.newWorkPackage.parent =
-            { href: this.pathHelper.api.v3.work_packages.id(this.stateParams['parent_id']).path };
+            {href: this.pathHelper.api.v3.work_packages.id(this.stateParams['parent_id']).path};
         }
 
         // Load the parent simply to display the type name :-/
@@ -123,7 +123,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
               window.location.href = url.toString();
             }
           });
-          this.wpNotificationsService.handleRawError(error);
+          this.notificationService.handleRawError(error);
         }
       });
   }
@@ -134,6 +134,24 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
 
   public switchToFullscreen() {
     this.$state.go('work-packages.new', this.$state.params);
+  }
+
+  public onSaved(params:{ savedResource:WorkPackageResource, isInitial:boolean }) {
+    let {savedResource, isInitial} = params;
+
+    // Shouldn't this always be true in create controller?
+    // Close all edit fields when saving
+    if (isInitial && this.editForm && this.editForm.editMode) {
+      this.editForm.stop();
+    }
+
+    if (this.successState) {
+      this.$state.go(this.successState, {workPackageId: savedResource.id})
+        .then(() => {
+          this.wpViewFocus.updateFocus(savedResource.id!);
+          this.notificationService.showSave(savedResource, isInitial);
+        });
+    }
   }
 
   protected setTitle() {
@@ -150,5 +168,14 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
     const project = this.stateParams.projectPath;
 
     return this.wpCreate.createOrContinueWorkPackage(project, type);
+  }
+
+  private closeEditFormWhenNewWorkPackageSaved() {
+    this.wpCreate
+      .onNewWorkPackage()
+      .pipe(untilComponentDestroyed(this))
+      .subscribe((wp:WorkPackageResource) => {
+        this.onSaved({savedResource: wp, isInitial: true});
+      });
   }
 }

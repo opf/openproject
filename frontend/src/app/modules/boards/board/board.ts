@@ -50,7 +50,7 @@ export class Board {
   }
 
   public addQuery(widget:GridWidgetResource) {
-    widget.isNew = true;
+    widget.isNewWidget = true;
     this.grid.widgets.push(widget);
   }
 

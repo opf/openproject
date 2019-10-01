@@ -26,37 +26,32 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
 import {StateService} from '@uirouter/core';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {Injectable} from '@angular/core';
+import {Injectable, Injector} from '@angular/core';
 import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HttpErrorResponse} from "@angular/common/http";
-import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 @Injectable()
-export class WorkPackageNotificationService {
-  constructor(readonly I18n:I18nService,
-              protected $state:StateService,
-              protected wpCacheService:WorkPackageCacheService,
-              protected halResourceService:HalResourceService,
-              protected NotificationsService:NotificationsService,
-              protected loadingIndicator:LoadingIndicatorService) {
+export class HalResourceNotificationService {
+
+  protected I18n = this.injector.get(I18nService);
+  protected $state = this.injector.get(StateService);
+  protected halResourceService = this.injector.get(HalResourceService);
+  protected NotificationsService = this.injector.get(NotificationsService);
+  protected loadingIndicator = this.injector.get(LoadingIndicatorService);
+
+  constructor(protected injector:Injector) {
   }
 
-  public showSave(workPackage:WorkPackageResource, isCreate:boolean = false) {
-    var message:any = {
+  public showSave(resource:HalResource, isCreate:boolean = false) {
+    let message:any = {
       message: this.I18n.t('js.notice_successful_' + (isCreate ? 'create' : 'update')),
     };
-
-    // Don't show the 'Show in full screen' link  if we're there already
-    if (!this.$state.includes('work-packages.show')) {
-      message.link = this.showInFullScreenLink(workPackage);
-    }
 
     this.NotificationsService.addSuccess(message);
   }
@@ -69,24 +64,24 @@ export class WorkPackageNotificationService {
    * - String error messages
    *
    * @param response
-   * @param workPackage
+   * @param resource
    */
-  public handleRawError(response:unknown, workPackage?:WorkPackageResource) {
-    console.error("Handling error message %O for work package %O", response, workPackage);
+  public handleRawError(response:unknown, resource?:HalResource) {
+    console.error("Handling error message %O for work package %O", response, resource);
 
     // Some transformation may already have returned the error as a HAL resource,
     // which we will forward to handleErrorResponse
     if (response instanceof ErrorResource) {
-      return this.handleErrorResponse(response, workPackage);
+      return this.handleErrorResponse(response, resource);
     }
 
     const errorBody = this.retrieveError(response);
 
     if (errorBody instanceof HalResource) {
-      return this.handleErrorResponse(errorBody, workPackage);
+      return this.handleErrorResponse(errorBody, resource);
     }
 
-    if (typeof(response) === 'string') {
+    if (typeof (response) === 'string') {
       this.NotificationsService.addError(response);
       return;
     }
@@ -105,7 +100,7 @@ export class WorkPackageNotificationService {
       return error.message;
     }
 
-    if (typeof(error) === 'string') {
+    if (typeof (error) === 'string') {
       return error;
     }
 
@@ -134,26 +129,26 @@ export class WorkPackageNotificationService {
     return errorBody;
   }
 
-  protected handleErrorResponse(errorResource:any, workPackage?:WorkPackageResource) {
+  protected handleErrorResponse(errorResource:any, resource?:HalResource) {
     if (!(errorResource instanceof ErrorResource)) {
       return this.showGeneralError(errorResource);
     }
 
-    if (workPackage) {
-      return this.showError(errorResource, workPackage);
+    if (resource) {
+      return this.showError(errorResource, resource);
     }
 
     this.showApiErrorMessages(errorResource);
   }
 
-  public showError(errorResource:any, workPackage:WorkPackageResource) {
-    this.showCustomError(errorResource, workPackage) || this.showApiErrorMessages(errorResource);
+  public showError(errorResource:any, resource:HalResource) {
+    this.showCustomError(errorResource, resource) || this.showApiErrorMessages(errorResource);
   }
 
   public showGeneralError(message?:unknown) {
     let error = this.I18n.t('js.error.internal');
 
-    if (typeof(message) === 'string' || _.has(message, 'toString')) {
+    if (typeof (message) === 'string' || _.has(message, 'toString')) {
       error += ' ' + (message as any).toString();
     }
 
@@ -162,65 +157,40 @@ export class WorkPackageNotificationService {
 
   public showEditingBlockedError(attribute:string) {
     this.NotificationsService.addError(this.I18n.t(
-      'js.work_packages.error.edit_prohibited',
-      { attribute: attribute }
+      'js.hal.error.edit_prohibited',
+      {attribute: attribute}
     ));
   }
 
-  private showCustomError(errorResource:any, workPackage:WorkPackageResource) {
-    if (errorResource.errorIdentifier === 'urn:openproject-org:api:v3:errors:UpdateConflict') {
-      this.NotificationsService.addError({
-        message: errorResource.message,
-        type: 'error',
-        link: {
-          text: this.I18n.t('js.work_packages.error.update_conflict_refresh'),
-          target: () => this.wpCacheService.require(workPackage.id!, true)
-        }
-      });
-
-
-      return true;
-    }
-
+  protected showCustomError(errorResource:any, resource:HalResource) {
 
     if (errorResource.errorIdentifier === 'urn:openproject-org:api:v3:errors:PropertyFormatError') {
 
-      let attributeName = workPackage.schema[errorResource.details.attribute].name;
-      let attributeType = workPackage.schema[errorResource.details.attribute].type.toLowerCase();
-      let i18nString = 'js.work_packages.error.format.' + attributeType;
+      let attributeName = resource.schema[errorResource.details.attribute].name;
+      let attributeType = resource.schema[errorResource.details.attribute].type.toLowerCase();
+      let i18nString = 'js.hal.error.format.' + attributeType;
 
       if (this.I18n.lookup(i18nString) === undefined) {
         return false;
       }
 
       this.NotificationsService.addError(this.I18n.t(i18nString,
-        { attribute: attributeName }));
+        {attribute: attributeName}));
 
       return true;
     }
     return false;
   }
 
-  private showApiErrorMessages(errorResource:any) {
-    var messages = errorResource.errorMessages;
+  protected showApiErrorMessages(errorResource:any) {
+    let messages = errorResource.errorMessages;
 
     if (messages.length > 1) {
       this.NotificationsService.addError('', messages);
-    }
-    else {
+    } else {
       this.NotificationsService.addError(messages[0]);
     }
 
     return true;
-  }
-
-  private showInFullScreenLink(workPackage:WorkPackageResource) {
-    return {
-      target: () => {
-        this.loadingIndicator.table.promise =
-          this.$state.go('work-packages.show.activity', { workPackageId: workPackage.id });
-      },
-      text: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen')
-    };
   }
 }

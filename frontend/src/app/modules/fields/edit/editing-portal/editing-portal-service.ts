@@ -1,8 +1,6 @@
 /**
- * A CDK portal implementation to wrap wp-edit-fields in non-angular contexts.
+ * A CDK portal implementation to wrap edit-fields in non-angular contexts.
  */
-import {WorkPackageEditFieldHandler} from "core-components/wp-edit-form/work-package-edit-field-handler";
-import {WorkPackageEditForm} from "core-components/wp-edit-form/work-package-edit-form";
 import {ApplicationRef, ComponentFactoryResolver, Injectable, Injector} from "@angular/core";
 import {ComponentPortal, DomPortalOutlet} from "@angular/cdk/portal";
 import {EditFormPortalComponent} from "core-app/modules/fields/edit/editing-portal/edit-form-portal.component";
@@ -10,9 +8,12 @@ import {createLocalInjector} from "core-app/modules/fields/edit/editing-portal/e
 import {take} from "rxjs/operators";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {EditForm} from "core-app/modules/fields/edit/edit-form/edit-form";
+import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
+import {HalResourceEditFieldHandler} from "core-app/modules/fields/edit/field-handler/hal-resource-edit-field-handler";
 
 @Injectable()
-export class WorkPackageEditingPortalService {
+export class EditingPortalService {
 
   constructor(private readonly appRef:ApplicationRef,
               private readonly componentFactoryResolver:ComponentFactoryResolver,
@@ -22,16 +23,16 @@ export class WorkPackageEditingPortalService {
 
   public create(container:HTMLElement,
                 injector:Injector,
-                form:WorkPackageEditForm,
+                form:EditForm,
                 schema:IFieldSchema,
                 fieldName:string,
-                errors:string[]):Promise<WorkPackageEditFieldHandler> {
+                errors:string[]):Promise<EditFieldHandler> {
 
     // Create the portal outlet
     const outlet = this.createDomOutlet(container, injector);
 
     // Create a field handler for the newly active field
-    const fieldHandler = new WorkPackageEditFieldHandler(
+    const fieldHandler = new HalResourceEditFieldHandler(
       injector,
       form,
       fieldName,

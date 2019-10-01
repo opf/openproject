@@ -28,7 +28,7 @@
 
 import {TimezoneService} from 'core-components/datetime/timezone.service';
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
-import {HighlightableDisplayField} from "core-app/modules/fields/display/field-types/wp-display-highlightable-field.module";
+import {HighlightableDisplayField} from "core-app/modules/fields/display/field-types/highlightable-display-field.module";
 
 export class DateDisplayField extends HighlightableDisplayField {
   private timezoneService = this.$injector.get(TimezoneService);

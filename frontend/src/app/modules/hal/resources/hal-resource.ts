@@ -31,6 +31,7 @@ import {HalLinkInterface} from 'core-app/modules/hal/hal-link/hal-link';
 import {Injector} from '@angular/core';
 import {States} from 'core-components/states.service';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 
 
 export interface HalResourceClass<T extends HalResource = HalResource> {
@@ -42,10 +43,16 @@ export interface HalResourceClass<T extends HalResource = HalResource> {
 }
 
 export class HalResource {
+  // TODO this is the source of many issues in the frontend
+  // because it no longer properly type checks stuff
   [attribute:string]:any;
 
   // The API type reported from API
   public _type:string;
+
+  // Internal initialization time for objects
+  // created in the frontend
+  public __initialized_at:Number;
 
   // The HalResource that this type maps to
   // This will almost always be equal to _type, however may be different for dynamic types
@@ -79,8 +86,8 @@ export class HalResource {
     this.$initialize($source);
   }
 
-  public static getEmptyResource(self:{ href:string|null } = { href: null }):any {
-    return { _links: { self: self } };
+  public static getEmptyResource(self:{ href:string | null } = {href: null}):any {
+    return {_links: {self: self}};
   }
 
   public $links:any = {};
@@ -112,7 +119,7 @@ export class HalResource {
    *  - The embedded ID is actually set
    *  - The self link is terminated by a number.
    */
-  public get id():string|null {
+  public get id():string | null {
     if (this.$source.id) {
       return this.$source.id.toString();
     }
@@ -125,13 +132,40 @@ export class HalResource {
     return null;
   }
 
-  public set id(val:string|null) {
+  public set id(val:string | null) {
     this.$source.id = val;
+  }
+
+  public get isNew():boolean {
+    return this.id === 'new';
   }
 
   public get persisted() {
     return !!(this.id && this.id !== 'new');
   }
+
+  /**
+   * Return whether the work package is editable with the user's permission
+   * on the given work package attribute.
+   *
+   * @param property
+   */
+  public isAttributeEditable(property:string):boolean {
+    const fieldSchema = this.schema[property];
+    return fieldSchema && fieldSchema.writable;
+  }
+
+  /**
+   * Retain the internal tracking identifier from the given other work package.
+   * This is due to us needing to identify a work package beyond its actual ID,
+   * because that changes upon saving.
+   *
+   * @param other
+   */
+  public retainFrom(other:HalResource) {
+    this.__initialized_at = other.__initialized_at;
+  }
+
 
   /**
    * Create a HalResource from the copied source of the given, other HalResource.
@@ -140,7 +174,7 @@ export class HalResource {
    * @returns A HalResource with the identitical copied source of other.
    */
   public $copy<T extends HalResource = HalResource>(source:Object = {}):T {
-    let clone:HalResourceClass<T>  = this.constructor as any;
+    let clone:HalResourceClass<T> = this.constructor as any;
 
     return new clone(this.injector, _.merge(this.$plain(), source), this.$loaded, this.halInitializer, this.$halType);
   }
@@ -168,19 +202,36 @@ export class HalResource {
   /**
    * Alias for $href.
    */
-  public get href():string|null {
+  public get href():string | null {
     return this.$link.href;
   }
 
-  public get $href():string|null {
+  public get $href():string | null {
     return this.$link.href;
   }
 
   /**
    * Return the associated state to this HAL resource, if any.
    */
-  public get state():InputState<this>|null {
+  public get state():InputState<this> | null {
     return null;
+  }
+
+  /**
+   * Update the state
+   */
+  public push(newValue:this):void {
+    if (this.state) {
+      this.state.putValue(newValue);
+    }
+  }
+
+  public previewPath():string|undefined {
+    if (this.isNew && this.project) {
+      return this.project.href;
+    }
+
+    return undefined;
   }
 
   public $load(force = false):Promise<this> {
@@ -198,7 +249,7 @@ export class HalResource {
     // Otherwise, we risk returning a promise, that will never be resolved.
     state.putFromPromiseIfPristine(() => this.$loadResource(force));
 
-    return <Promise<this>> state.valuesPromise().then((source:any) => {
+    return <Promise<this>>state.valuesPromise().then((source:any) => {
       this.$initialize(source);
       this.$loaded = true;
       return this;
