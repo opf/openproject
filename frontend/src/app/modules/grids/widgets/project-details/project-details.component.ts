@@ -40,8 +40,6 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {ProjectDmService} from "core-app/modules/hal/dm-services/project-dm.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
-import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
-import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 import {PortalCleanupService} from 'core-app/modules/fields/display/display-portal/portal-cleanup.service';
 import {WorkPackageViewHighlightingService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";

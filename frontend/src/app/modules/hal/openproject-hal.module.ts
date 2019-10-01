@@ -55,6 +55,7 @@ import {QueryOrderDmService} from "core-app/modules/hal/dm-services/query-order-
 import {MembershipDmService} from "core-app/modules/hal/dm-services/membership-dm.service";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 
 @NgModule({
   imports: [
@@ -86,6 +87,7 @@ import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-
     VersionDmService,
 
     HalResourceNotificationService,
+    HalResourceEditingService,
     HalEventsService,
   ]
 })
