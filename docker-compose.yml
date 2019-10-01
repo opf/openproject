@@ -20,7 +20,7 @@ worker: &ruby
 web:
   <<: *ruby
   ports:
-    - "80:8080"
+    - "8080:8080"
   command: "./docker/web"
 
 frontend:
