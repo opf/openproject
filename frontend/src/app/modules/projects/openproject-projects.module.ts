@@ -30,7 +30,6 @@ import {OpenprojectCommonModule} from 'core-app/modules/common/openproject-commo
 import {OpenprojectFieldsModule} from 'core-app/modules/fields/openproject-fields.module';
 import {NgModule} from '@angular/core';
 import {OpenprojectHalModule} from "core-app/modules/hal/openproject-hal.module";
-import {ProjectSingleWidgetComponent} from "core-components/projects/project-single-view/project-single-widget.component";
 
 
 @NgModule({
@@ -45,13 +44,10 @@ import {ProjectSingleWidgetComponent} from "core-components/projects/project-sin
 
   ],
   declarations: [
-    ProjectSingleWidgetComponent,
   ],
   entryComponents: [
-    ProjectSingleWidgetComponent,
   ],
   exports: [
-    ProjectSingleWidgetComponent,
   ]
 })
 export class OpenprojectProjectsModule {
