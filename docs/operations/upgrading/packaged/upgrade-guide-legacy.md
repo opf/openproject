@@ -85,10 +85,6 @@ If you used autoinstall, the database name and database user name should equal `
 
     sudo openproject-ce config:get DATABASE_URL
    
-Which should output something of the form
-
-    mysql2://<username>:<password>@127.0.0.1:3306/<dbname>
-
 If the URI contains `openproject_ce` as the username and database name as the example above, we can simply continue.
 Otherwise, note user-, database name and password just to be sure.
 
@@ -141,30 +137,19 @@ Add the package source to your package manager, update the sources, and install 
 
 **Important:** Instead of running `openproject configure`, run `openproject reconfigure`, which will lead you through the complete wizard.
 
-In the first step *mysql/autoinstall*, select the **reuse**  option (Use an existing database).
-
-![](https://dl.dropboxusercontent.com/u/270758/op/mysql-reuse.png)
-
 Press OK for the following steps, which will simply take the existing values from your old configuration
 
- * MySQL IP or hostname
- * MySQL port
+ * PostgreSQL IP or hostname
+ * PostgreSQL port
  
-In the dialog `mysql/username`, enter `openproject_ce` if the Database URI from Step 4 contained it. If you chose a different user name in the original CE installation, it should already be set to this value.
+In the dialog `postgresql/username`, enter `openproject_ce` if the Database URI from Step 4 contained it. If you chose a different user name in the original CE installation, it should already be set to this value.
 
-![](https://dl.dropboxusercontent.com/u/270758/op/mysql-username.png)
+In the dialog `postgresql/password`, **leave the password empty**. It will use the value from your original installation. You can optionally enter the password you retrieved from the database URI from Step 4, but that should be identical.
 
-In the dialog `mysql/password`, **leave the password empty**. It will use the value from your original installation. You can optionally enter the password you retrieved from the database URI from Step 4, but that should be identical.
+And again, in the `postgresql/db_name` step,  enter `openproject_ce` if the Database URI from Step 4 contained it. If you chose a different database name in the original CE installation, it should already be set to this value.
 
-![](https://dl.dropboxusercontent.com/u/270758/op/mysql-password.png)
-
-And again, in the `mysql/db_name` step,  enter `openproject_ce` if the Database URI from Step 4 contained it. If you chose a different database name in the original CE installation, it should already be set to this value.
-
-The other installation steps (mysql/db_source_host, mysql/ssl) may again be skipped by pressing OK, as they should still contain the old values from the Community Edition.
+The other installation steps may again be skipped by pressing OK, as they should still contain the old values from the Community Edition.
 
 There will be other new steps in the installation wizard for which we will provide additional information in the packager installation guide.
 
 Once the wizard has completed, the OpenProject instance should be updated to 6.0.x while re-using your existing database.
-
-**Note:** This last step is a workaround for the package upgrading process. We are working on making this step optional.
-The workaround is necessary since since the package appname changed from `openproject-ce` to `openproject`, and the installer wizard automatically sets the database to the app name when selecting an automatic installation of MySQL. Instead, the updater should respect an existing database (user-) name in its configuration.

@@ -12,7 +12,7 @@ Execute the following command in a shell in the directory where OpenProject is i
 RAILS_ENV=production bundle exec rake backup:database:create
 ```
 
-The command will create dump of your database which can be found at `OPENPROJECT_DIRECTORY/backup/openproject-production-db-<DATE>.sql` (for MySQL) or `OPENPROJECT_DIRECTORY/backup/openproject-production-db-<DATE>.backup` (for PostgreSQL).
+The command will create dump of your database which can be found at `OPENPROJECT_DIRECTORY/backup/openproject-production-db-<DATE>.backup`.
 
 Optionally, you can specify the path of the backup file. Therefore you have to replace the `/path/to/file.backup` with the path of your choice
 
@@ -48,7 +48,7 @@ production:
   min_messages: warning
 ```
 
-Locate the database entry for your production database. If your adapter is postgresql, then you have a PostgreSQL database. If it is mysql2, you use a MySQL database. Now follow the steps for your database adapter.
+Locate the database entry for your production database.
 
 #### PostgreSQL
 You can backup your PostgreSQL database with the `pg_dump` command and restore backups with the `pg_restore` command. (There might be other (and more convenient) tools, like pgAdmin, depending on your specific setup.)
@@ -72,26 +72,6 @@ pg_restore --clean --no-owner --single-transaction
 ```
 
 Consult the man page of `pg_restore` for more advanced parameters, if necessary.
-
-#### MySQL
-You can backup your MySQL database for example with the mysqldump command and restore backups with the mysql command line client. (There might be other (and more convenient) tools, like phpMyAdmin, adminer, or other tools, depending on your specific setup.)
-
-An example backup command with `mysqldump` looks like this:
-
-```bash
-mysqldump --single-transaction --add-drop-table --add-locks --result-file=/path/to/your/backup/file.sql --host=HOST --user=MYSQL_USER --password DATABASE_NAME
-```
-
-Please, replace the path to your backup file, the MySQL username, host and database name with your actual data. You can find all relevant information in the `database.yml` file.
-
-Consult the man page of `mysqldump` for more advanced parameters, if necessary.
-
-The database dump can be restored similarly with `mysql` (on a \*nix compatible shell):
-
-```bash
-mysql --host=HOST --user=MYSQL_USER --password DATABASE_NAME < /path/to/your/backup/file.sql
-```
-Consult the man page of mysql for more advanced parameters, if necessary.
 
 ## Backup your Configuration Files
 Please make sure to create a backup copy of at least the following configuration files (all listed as a relative path from the OpenProject installation directory):
