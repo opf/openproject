@@ -146,16 +146,10 @@ my/apache2/conf:/etc/apache2`. This would entirely replace the configuration
 we're using.
 
 
-* Can I use an external (MySQL or PostgreSQL) database?
+* Can I use an external PostgreSQL database?
 
-Yes. You can simply pass a custom `DATABASE_URL` environment variable on the
-command-line, which could point to an external database. You can even choose to
-use MySQL instead of PostgreSQL if you wish. Here is how you would do it:
-
-    docker run -d ... -e DATABASE_URL=mysql2://user:pass@host:port/dbname openproject/community:8
-
-The container will make sure that the database gets the migrations and demo
-data as well.
+Yes. You can simply pass a custom DATABASE_URL` environment variable on the
+command-line, which could point to an external database. 
 
 * I don't want the all-in-one installation. Can I still use the image to launch a specific process?
 

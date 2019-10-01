@@ -58,7 +58,7 @@ sudo passwd openproject #(enter desired password)
 
 ## Installation of PostgreSQL
 
-We recommend you use PostgreSQL to serve OpenProject. We require PostgreSQL version of at least 9.5. Please check https://www.postgresql.org/download/ if your distributed package is too old.
+PostgreSQL is from version 10 of OpenProject the only available database to serve OpenProject. The rationales are explained here: https://www.openproject.org/deprecating-mysql-support/ . We require PostgreSQL version of at least 9.5. Please check https://www.postgresql.org/download/ if your distributed package is too old.
 
 ```bash
 [root@host] apt-get install postgresql postgresql-contrib libpq-dev
@@ -88,59 +88,6 @@ Lastly, exit the system user
 ```bash
 [postgres@host] exit
 # You will be root again now.
-```
-
-### Using MySQL instead
-
-We recommend against using MySQL. If you have to use MySQL instead, please ensure a version of >= 5.7 
-(MariaDB version >= 10.2) as it supports special characters such as emojis (emoticons) out of the box.
-
-If your Linux distribution only provides older versions of MySQL it is worth considering
-[adding MySQL as an `apt` source](https://dev.mysql.com/doc/mysql-apt-repo-quick-guide/en/).
-
-Once you have your `apt` sources nicely set up install the packages.
-
-```bash
-[root@host] apt-get install mysql-server libmysqlclient-dev mysql-client
-```
-
-During the installation you will be asked to set the root password.
-
-
-We use the following command to open a `mysql` console and create
-the OpenProject database.
-
-```bash
-[root@host] mysql -uroot -p
-```
-
-You may replace the string `openproject` with the desired username and
-database name. The password `my_password` should definitely be changed.
-
-**On MySQL version 5.7 (MariaDB 10.2) or greater (recommended)**
-
-```sql
-mysql> CREATE DATABASE openproject CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-```
-
-**On MySQL version 5.6 or older (not recommended)**
-
-(!!) No support for emojis (emoticons). See above! If you have to use
-5.6 or older and you need to support special unicode characters you can
-get there but we don't provide the instructions here as it would bloat
-this manual.  
-
-```sql
-mysql> CREATE DATABASE openproject CHARACTER SET utf8;
-```
-
-**Continue For all MySQL versions**
-
-```sql
-mysql> CREATE USER 'openproject'@'localhost' IDENTIFIED BY 'my_password';
-mysql> GRANT ALL PRIVILEGES ON openproject.* TO 'openproject'@'localhost';
-mysql> FLUSH PRIVILEGES;
-mysql> QUIT
 ```
 
 ## Installation of Ruby
@@ -209,8 +156,7 @@ with OpenProject. For more information, see https://github.com/opf/openproject.
 # Ensure rubygems is up-to-date for bundler 2
 [openproject@host] gem update --system
 [openproject@host] gem install bundler
-# Replace mysql with postgresql if you had to install MySQL
-[openproject@host] bundle install --deployment --without mysql2 sqlite development test therubyracer docker
+[openproject@host] bundle install --deployment --without sqlite development test therubyracer docker
 [openproject@host] npm install
 ```
 
@@ -236,54 +182,6 @@ production:
   username: openproject
   password: openproject
 ```
-
-** MySQL installation: version 5.7 (MariaDB 10.2) or greater (recommended)**
-
-The encoding should be set to `utf8mb4` as we created the DB with that encoding
-a few steps ago.
-
-```yaml
-production:
-  adapter: mysql2
-  database: openproject
-  host: localhost
-  username: openproject
-  password: my_password
-  encoding: utf8mb4
-
-development:
-  adapter: mysql2
-  database: openproject
-  host: localhost
-  username: openproject
-  password: my_password
-  encoding: utf8mb4
-```
-
-**MySQL installation: version 5.6 or older (not recommended)**
-
-The encoding should be set to `utf8` as we created the DB with that encoding a
-few steps ago.
-
-```yaml
-production:
-  adapter: mysql2
-  database: openproject
-  host: localhost
-  username: openproject
-  password: my_password
-  encoding: utf8
-
-development:
-  adapter: mysql2
-  database: openproject
-  host: localhost
-  username: openproject
-  password: my_password
-  encoding: utf8
-```
-
-Next we configure email notifications (this example uses a gmail account) by creating the `configuration.yml` in config directory.
 
 ```bash
 [openproject@host] cp config/configuration.yml.example config/configuration.yml

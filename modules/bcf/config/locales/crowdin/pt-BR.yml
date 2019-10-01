@@ -28,7 +28,7 @@ pt-BR:
         button_perform_import: 'Confirmar importação'
         button_proceed: 'Prosseguir'
         button_back_to_list: 'Voltar à lista'
-        no_permission_to_add_members: 'Você não tem permissões suficientes para adicioná-las como membros do projeto.'
+        no_permission_to_add_members: 'Você não tem permissões suficientes para adicioná-los como membros do projeto.'
         contact_project_admin: 'Contate seu administrador do projeto para adicioná-los como membros e iniciar esta importação novamente.'
         continue_anyways: 'Você quer prosseguir e concluir as consultas?'
         description: "Forneça um arquivo BCF-XML v2.1 para importar para este projeto. Você pode examinar seu conteúdo antes de realizar a importação."
@@ -45,13 +45,13 @@ pt-BR:
         invite_as_members_with_role: 'Convide-os como membros para o projeto "%{project}" com papel'
         add_as_members_with_role: 'Adicione-os como membros do projeto "%{project}" com papel'
         no_type_provided: 'Nenhum tipo fornecido'
-        no_status_provided: 'Nenhum status informado'
-        no_priority_provided: 'Nenhuma prioridade informada'
+        no_status_provided: 'Nenhum status fornecido'
+        no_priority_provided: 'Nenhuma prioridade fornecida'
         perform_description: "Você quer importar ou atualizar os problemas listados acima?"
         replace_with_system_user: 'Substituir por usuário "Sistema"'
-        import_as_system_user: 'Importar-los como usuário "Sistema".'
+        import_as_system_user: 'Importá-los como usuário "Sistema".'
         what_to_do: "O que você quer fazer?"
-        work_package_has_newer_changes: "Atualizado! Este tópico não foi atualizado porque as últimas alterações no servidor foram mais recentes do que a \"Modificada\" do tópico importado. No entanto, os comentários ao tópico foram importados."
+        work_package_has_newer_changes: "Desatualizado! Este tópico não foi atualizado, pois as últimas alterações no servidor eram mais recentes que a \"Data de modificação\" do tópico importado. No entanto, os comentários ao tópico foram importados."
   export:
     format:
       bcf: "BCF-XML"
