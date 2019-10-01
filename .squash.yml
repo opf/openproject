@@ -1,0 +1,11 @@
+deployments:
+  openproject:
+    filename:
+      ./docker-compose.yml
+    install:
+      - docker-compose -f docker-compose.yml up -d
+      - sleep 15s 
+    pre_launch:
+      - target: openproject
+        command:
+        options:
