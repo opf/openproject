@@ -175,7 +175,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
     // Update the resource context on every update to the temporary resource.
     // This allows detecting a changed type value in a new work package.
     this.halEditing
-      .state(this.workPackage.id!)
+      .typedState<WorkPackageResource, WorkPackageChangeset>(this.workPackage)
       .values$()
       .pipe(
         takeUntil(componentDestroyed(this))
