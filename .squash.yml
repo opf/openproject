@@ -1,10 +1,10 @@
 deployments:
   openproject:
     filename:
-      ./docker-compose.yml
+      ./docker-compose.pullpreview.yml
     install:
-      - docker-compose -f docker-compose.yml up -d
-      - sleep 15s 
+      - docker-compose -f docker-compose.pullpreview.yml up -d
+      - sleep 10s 
     pre_launch:
       - target: openproject
         command:

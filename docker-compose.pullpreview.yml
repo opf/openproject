@@ -6,7 +6,7 @@ db:
     POSTGRES_DB: app
   volumes:
     - ./export/db:/var/lib/postgresql/data
-  memory: 64
+  #memory: 64
   expose:
     - '5432'
 
@@ -24,7 +24,7 @@ web:
   ports:
     - "80:8080"
   command: "./docker/web"
-  memory: 1024
+  #memory: 1024
   volumes:
     - "/var/openproject/assets"
 
@@ -40,6 +40,6 @@ worker:
     - "HEROKU=true"
     - "OP_ADMIN_USER_SEEDER_FORCE_PASSWORD_CHANGE=off"
   command: "./docker/worker --seed --set attachment_max_size=262144"
-  memory: 384
+  #memory: 384
   volumes_from:
     - web
