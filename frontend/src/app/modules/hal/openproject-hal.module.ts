@@ -87,7 +87,6 @@ import {HalResourceEditingService} from "core-app/modules/fields/edit/services/h
     VersionDmService,
 
     HalResourceNotificationService,
-    HalResourceEditingService,
     HalEventsService,
   ]
 })
