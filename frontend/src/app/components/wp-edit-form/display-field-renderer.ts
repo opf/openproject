@@ -51,7 +51,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
                           change:ResourceChangeset<T>|null,
                           placeholder = cellEmptyPlaceholder):[DisplayField|null, HTMLSpanElement] {
     const span = document.createElement('span');
-    const schemaName = change ? change.getSchemaName(name) : name;
+    const schemaName = this.getSchemaName(resource, change, name);
     const fieldSchema = resource.schema[schemaName];
 
     // If the resource does not have that field, return an empty
@@ -169,5 +169,26 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     } else {
       return field.valueString;
     }
+  }
+
+  /**
+   * Get the schema name from either the changeset, the resource (if available) or
+   * return the attribute itself.
+   *
+   * @param resource
+   * @param change
+   * @param name
+   */
+  private getSchemaName(resource:T, change:ResourceChangeset<T>|null, name:string) {
+    if (change) {
+      return change.getSchemaName(name);
+    }
+
+    if (!!resource.getSchemaName) {
+      return resource.getSchemaName(name);
+    }
+
+    return name;
+
   }
 }
