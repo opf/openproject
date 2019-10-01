@@ -130,6 +130,7 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
   }
 
   public onSaved(isInitial:boolean, saved:HalResource) {
+    super.onSaved(isInitial, saved);
     this.stopEditingAndLeave(saved, isInitial);
   }
 
@@ -179,7 +180,7 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
 
   public stop() {
     this.editMode = false;
-    this.halEditing.stopEditing(this.resource.id!);
+    this.halEditing.stopEditing(this.resource);
     this.destroy();
   }
 

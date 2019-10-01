@@ -86,7 +86,7 @@ export class WpCustomActionComponent {
         // project or type.
         this.wpSchemaCacheService.ensureLoaded(savedWp).then(() => {
           this.wpCacheService.updateWorkPackage(savedWp, true);
-          this.halEditing.stopEditing(savedWp.id!);
+          this.halEditing.stopEditing(savedWp);
           this.halEvents.push(savedWp, { eventType: "updated" });
         });
       }).catch((errorResource:any) => {

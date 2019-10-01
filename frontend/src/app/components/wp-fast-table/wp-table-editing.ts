@@ -25,13 +25,14 @@ export class WorkPackageTableEditingContext {
     return this.halEditing.typedState<WorkPackageResource, WorkPackageChangeset>(workPackage).value;
   }
 
-  public stopEditing(workPackageId:string) {
-    this.halEditing.stopEditing(workPackageId);
+  // TODO
+  public stopEditing(workPackage:WorkPackageResource) {
+    this.halEditing.stopEditing(workPackage);
 
-    const existing = this.forms[workPackageId];
+    const existing = this.forms[workPackage.id!];
     if (existing) {
       existing.destroy();
-      delete this.forms[workPackageId];
+      delete this.forms[workPackage.id!];
     }
   }
 

@@ -240,8 +240,8 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
     );
   }
 
-  public stopEditing(href:string) {
-    this.multiState.get(href).clear();
+  public stopEditing(resource:HalResource|{ href:string }) {
+    this.multiState.get(resource.href!).clear();
   }
 
   protected load(href:string):Promise<ResourceChangeset> {

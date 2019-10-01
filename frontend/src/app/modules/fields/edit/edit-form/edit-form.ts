@@ -87,7 +87,8 @@ export abstract class EditForm<T extends HalResource = HalResource> {
    * Optional callback when the form is being saved
    */
   protected onSaved(isInitial:boolean, saved:HalResource):void {
-    // Nothing to do for this class
+    const eventType = isInitial ? 'created' : 'updated';
+    this.halEvents.push(saved, { eventType });
   }
 
   protected abstract focusOnFirstError():void;
@@ -186,7 +187,6 @@ export abstract class EditForm<T extends HalResource = HalResource> {
           this.halNotification.showSave(result.resource, result.wasNew);
           this.editMode = false;
           this.onSaved(result.wasNew, result.resource);
-          this.halEvents.push(result.resource, { eventType: 'updated' });
         })
         .catch((error:ErrorResource|Object) => {
           this.halNotification.handleRawError(error, this.resource);

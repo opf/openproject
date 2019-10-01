@@ -160,7 +160,7 @@ export class WorkPackageCreateService implements OnDestroy {
   }
 
   public cancelCreation() {
-    this.halEditing.stopEditing(newWorkPackageHref);
+    this.halEditing.stopEditing({ href: newWorkPackageHref });
     this.reset();
   }
 
