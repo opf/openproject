@@ -39,8 +39,24 @@ export class GridResizeService {
     this.resizedArea = resizedArea;
 
     let resizeTargets = this.layout.gridAreas.filter((area) => {
-      return area.startRow >= this.placeholderArea!.startRow &&
-        area.startColumn >= this.placeholderArea!.startColumn;
+      // All areas on the same row which are after the current column are valid targets.
+      let sameRow = area.startRow === this.placeholderArea!.startRow &&
+                     area.endRow === this.placeholderArea!.endRow &&
+                     area.startColumn >= this.placeholderArea!.startColumn;
+
+      // Areas that are on higher (number, they are printed below) rows
+      // are allowed as long as there is guaranteed to always be one widget
+      // before or after the resized to area.
+      let higherRow = area.startRow > this.placeholderArea!.startRow &&
+                      area.startColumn >= this.placeholderArea!.startColumn &&
+                      this.layout.widgetAreas.some((fixedArea) => {
+                        return fixedArea.startRow === area.startRow &&
+                        // before
+                        (fixedArea.endColumn <= this.placeholderArea!.startColumn ||
+                          // after
+                          fixedArea.startColumn >= area.endColumn);
+                      });
+       return sameRow || higherRow;
     });
 
     this.targetIds = resizeTargets
