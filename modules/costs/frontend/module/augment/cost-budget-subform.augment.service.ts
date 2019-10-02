@@ -97,7 +97,7 @@ export class CostBudgetSubformAugmentService {
   private buildRefreshRequest(row:JQuery, row_identifier:string) {
     let request:any = {
       element_id: row_identifier,
-      fixed_date: row.find('#cost_object_fixed_date').val()
+      fixed_date: jQuery('#cost_object_fixed_date').val()
     };
 
     // Augment common values with specific values for this type

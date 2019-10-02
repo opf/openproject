@@ -97,11 +97,18 @@ describe 'updating a budget', type: :feature, js: true do
       budget_page.visit!
       click_on 'Update'
 
+      budget_page.expect_planned_costs! type: :material, row: 1, expected: '150.00 EUR'
+      budget_page.expect_planned_costs! type: :labor, row: 1, expected: '125.00 EUR'
+
       budget_page.edit_unit_costs! material_budget_item.id, units: 5,
                                                      comment: 'updated num stimpaks'
       budget_page.edit_labor_costs! labor_budget_item.id, hours: 3,
                                                    user_name: user.name,
                                                    comment: 'updated treatment duration'
+
+      # Test for updated planned costs (Regression #31247)
+      budget_page.expect_planned_costs! type: :material, row: 1, expected: '250.00 EUR'
+      budget_page.expect_planned_costs! type: :labor, row: 1, expected: '75.00 EUR'
 
       click_on 'Submit'
       expect(budget_page).to have_content('Successful update')
