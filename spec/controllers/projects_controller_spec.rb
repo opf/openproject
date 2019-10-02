@@ -52,10 +52,10 @@ describe ProjectsController, type: :controller do
   end
 
   describe 'index.html' do
-    let(:project_a) { FactoryBot.create(:project, name: 'Project A', is_public: false, status: :active) }
-    let(:project_b) { FactoryBot.create(:project, name: 'Project B', is_public: false, status: :active) }
-    let(:project_c) { FactoryBot.create(:project, name: 'Project C', is_public: true, status: :active)  }
-    let(:project_d) { FactoryBot.create(:project, name: 'Project D', is_public: true, status: :archived) }
+    let(:project_a) { FactoryBot.create(:project, name: 'Project A', public: false, active: true) }
+    let(:project_b) { FactoryBot.create(:project, name: 'Project B', public: false, active: true) }
+    let(:project_c) { FactoryBot.create(:project, name: 'Project C', public: true, active: true)  }
+    let(:project_d) { FactoryBot.create(:project, name: 'Project D', public: true, active: false) }
 
     let(:projects) { [project_a, project_b, project_c, project_d] }
 

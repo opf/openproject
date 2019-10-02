@@ -1,0 +1,24 @@
+<widget-header
+    [name]="widgetName"
+    [icon]="'info1'"
+    [editable]="isEditable">
+
+  <widget-menu
+      [resource]="resource">
+  </widget-menu>
+</widget-header>
+
+<div class="grid--widget-content">
+  <ng-select [disabled]="true"
+             [items]="availableStatuses"
+             [(ngModel)]="currentStatusCode"
+             bindLabel="name"
+             bindValue="code"
+             class="traffic-lights">
+    <ng-template ng-label-tmp let-item="item">
+      <span class="bulb" [ngClass]="item.colorClass"></span>
+      <span class="status-name" [ngClass]="item.colorClass">{{item.name}}</span>
+    </ng-template>
+  </ng-select>
+  <div class="explanation" [innerHtml]="explanation"></div>
+</div>

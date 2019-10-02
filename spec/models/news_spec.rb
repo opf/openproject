@@ -66,7 +66,7 @@ describe News, type: :model do
     end
 
     it 'only includes news elements from projects that are visible to the user' do
-      private_project = FactoryBot.create(:project, is_public: false)
+      private_project = FactoryBot.create(:project, public: false)
       FactoryBot.create(:news, project: private_project)
 
       latest_news = News.latest(user: User.anonymous)

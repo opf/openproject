@@ -274,7 +274,7 @@ describe OpenProject::TextFormatting,
     end
 
     context 'Project links' do
-      let(:subproject) { FactoryBot.create :valid_project, parent: project, is_public: true }
+      let(:subproject) { FactoryBot.create :valid_project, parent: project, public: true }
       let(:project_url) { project_overview_path(subproject) }
 
       context 'Plain project link' do

@@ -82,31 +82,31 @@ describe Project::Copy, type: :model, with_mail: false do
       it { is_expected.to eq(project.work_package_custom_fields) }
     end
 
-    describe '#is_public' do
+    describe '#public' do
       describe '#non_public' do
         let(:project) do
           project = FactoryBot.create(:project_with_types)
-          project.is_public = false
+          project.public = false
           project.save
           project
         end
 
-        subject { copy.is_public }
+        subject { copy.public }
 
-        it { expect(copy.is_public?).to eq(project.is_public?) }
+        it { expect(copy.public?).to eq(project.public?) }
       end
 
       describe '#public' do
         let(:project) do
           project = FactoryBot.create(:project_with_types)
-          project.is_public = true
+          project.public = true
           project.save
           project
         end
 
-        subject { copy.is_public }
+        subject { copy.public }
 
-        it { expect(copy.is_public?).to eq(project.is_public?) }
+        it { expect(copy.public?).to eq(project.public?) }
       end
     end
   end

@@ -934,7 +934,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context 'if the project is updated' do
         it_behaves_like 'changes' do
-          let(:change) { work_package.project.updated_on += 1.hour }
+          let(:change) { work_package.project.updated_at += 1.hour }
         end
       end
 

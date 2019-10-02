@@ -34,7 +34,8 @@ describe ::API::V3::Projects::ProjectRepresenter do
   let(:project) do
     FactoryBot.build_stubbed(:project,
                              parent: parent_project,
-                             description: 'some description').tap do |p|
+                             description: 'some description',
+                             status: status).tap do |p|
       allow(p)
         .to receive(:available_custom_fields)
         .and_return([int_custom_field, version_custom_field])
@@ -48,6 +49,9 @@ describe ::API::V3::Projects::ProjectRepresenter do
         .with(version_custom_field)
         .and_return(version_custom_value)
     end
+  end
+  let(:status) do
+    FactoryBot.build_stubbed(:project_status)
   end
   let(:parent_project) { FactoryBot.build_stubbed(:project) }
   let(:representer) { described_class.create(project, current_user: user) }
@@ -103,25 +107,51 @@ describe ::API::V3::Projects::ProjectRepresenter do
         let(:value) { project.name }
       end
 
-      it_behaves_like 'property', :status do
-        let(:value) { project.status }
+      it_behaves_like 'property', :active do
+        let(:value) { project.active }
       end
 
       it_behaves_like 'property', :public do
-        let(:value) { project.is_public }
+        let(:value) { project.public }
       end
 
       it_behaves_like 'formattable property', :description do
         let(:value) { project.description }
       end
 
+      context 'status' do
+        it_behaves_like 'formattable property', :'status/explanation' do
+          let(:value) { status.explanation }
+        end
+
+        it 'includes the project status code' do
+          expect(subject)
+            .to be_json_eql(status.code.tr('_', ' ').to_json)
+            .at_path('status/code')
+        end
+
+        context 'if the status is nil' do
+          let(:status) { nil }
+
+          it_behaves_like 'formattable property', :'status/explanation' do
+            let(:value) { nil }
+          end
+
+          it 'includes the project status code' do
+            expect(subject)
+              .to be_json_eql(nil.to_json)
+              .at_path('status/code')
+          end
+        end
+      end
+
       it_behaves_like 'has UTC ISO 8601 date and time' do
-        let(:date) { project.created_on }
+        let(:date) { project.created_at }
         let(:json_path) { 'createdAt' }
       end
 
       it_behaves_like 'has UTC ISO 8601 date and time' do
-        let(:date) { project.updated_on }
+        let(:date) { project.updated_at }
         let(:json_path) { 'updatedAt' }
       end
 
@@ -423,7 +453,14 @@ describe ::API::V3::Projects::ProjectRepresenter do
         end
 
         it 'changes when the project is updated' do
-          project.updated_on = Time.now + 20.seconds
+          project.updated_at = Time.now + 20.seconds
+
+          expect(representer.json_cache_key)
+            .not_to eql former_cache_key
+        end
+
+        it 'changes when the project status is updated' do
+          project.status.updated_at = Time.now + 20.seconds
 
           expect(representer.json_cache_key)
             .not_to eql former_cache_key

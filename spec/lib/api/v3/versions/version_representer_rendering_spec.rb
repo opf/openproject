@@ -262,7 +262,7 @@ describe ::API::V3::Versions::VersionRepresenter, 'rendering' do
       end
 
       it 'changes when the version\'s project is updated' do
-        version.project.updated_on = Time.now + 20.seconds
+        version.project.updated_at = Time.now + 20.seconds
 
         expect(representer.json_cache_key)
           .not_to eql former_cache_key

@@ -1,0 +1,42 @@
+$gray: #CCCCCC
+$red: #E73E3D
+$orange: #FFB030
+$green: #00D12D
+
+.bulb
+  display: inline-block
+  width: 40px
+  height: 40px
+  border-radius: 50%
+  border-width: 10px
+  border-style: solid
+  margin-right: 7px
+  vertical-align: middle
+  &.-gray
+    border-color: $gray
+    background-color: adjust-color($gray, $alpha: -0.7)
+  &.-red
+    border-color: $red
+    background-color: adjust-color($red, $alpha: -0.7)
+  &.-orange
+    border-color: $orange
+    background-color: adjust-color($orange, $alpha: -0.7)
+  &.-green
+    border-color: $green
+    background-color: adjust-color($green, $alpha: -0.7)
+
+.status-name
+  text-transform: uppercase
+  font-weight: bold
+  &.-gray
+    color: $gray
+  &.-red
+    color: $red
+  &.-orange
+    color: $orange
+  &.-green
+    color: $green
+
+.explanation
+  margin-top: 9px
+

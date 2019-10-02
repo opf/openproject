@@ -35,14 +35,14 @@ describe 'backlogs onboarding tour', js: true do
     FactoryBot.create :project,
                       name: 'Demo project',
                       identifier: 'demo-project',
-                      is_public: true,
+                      public: true,
                       enabled_module_names: %w[work_package_tracking wiki]
   end
   let(:project) do
     FactoryBot.create :project,
                       name: 'Scrum project',
                       identifier: 'your-scrum-project',
-                      is_public: true,
+                      public: true,
                       enabled_module_names: %w[work_package_tracking wiki backlogs]
   end
   let(:sprint) { FactoryBot.create(:version, project: project, name: 'Sprint 1') }

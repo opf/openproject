@@ -36,7 +36,7 @@ describe 'API v3 Work package form resource', type: :request do
 
   shared_let(:all_allowed_permissions) { %i[view_work_packages edit_work_packages assign_versions] }
   shared_let(:assign_permissions) { %i[view_work_packages assign_versions] }
-  shared_let(:project) { FactoryBot.create(:project, is_public: false) }
+  shared_let(:project) { FactoryBot.create(:project, public: false) }
   shared_let(:work_package) { FactoryBot.create(:work_package, project: project) }
   shared_let(:authorized_user) do
     FactoryBot.create(:user, member_in_project: project, member_with_permissions: all_allowed_permissions)

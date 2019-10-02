@@ -159,7 +159,7 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
     end
 
     context 'when a project is archived' do
-      let(:project_1) { FactoryBot.create :project, status: Project::STATUS_ARCHIVED }
+      let(:project_1) { FactoryBot.create :project, active: false }
       let(:href) { "/api/v3/work_packages/#{wp_2.id}/available_relation_candidates?query=WP" }
 
       it 'does not return work packages from that project' do

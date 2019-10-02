@@ -397,6 +397,13 @@ en:
         types: "Types"
         versions: "Versions"
         work_packages: "Work Packages"
+      project/status:
+        code: 'Status'
+        explanation: 'Status description'
+        codes:
+          on_track: 'On track'
+          at_risk: 'At risk'
+          off_track: 'Off track'
       query:
         column_names: "Columns"
         relations_to_type_column: "Relations to %{type}"
@@ -729,6 +736,7 @@ en:
     password: "Password"
     priority: "Priority"
     project: "Project"
+    public: "Public"
     responsible: "Accountable"
     role: "Role"
     roles: "Roles"

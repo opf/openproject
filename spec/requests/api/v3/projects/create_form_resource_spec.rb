@@ -106,6 +106,10 @@ describe ::API::V3::Projects::CreateFormAPI, content_type: :json do
           "customField#{text_custom_field.id}": {
             "raw": "CF text"
           },
+          status: {
+            code: "on track",
+            explanation: "A magic dwells in each beginning."
+          },
           "_links": {
             "customField#{list_custom_field.id}": {
               "href": api_v3_paths.custom_option(list_custom_field.custom_options.first.id)
@@ -136,12 +140,49 @@ describe ::API::V3::Projects::CreateFormAPI, content_type: :json do
         expect(body)
           .to be_json_eql(api_v3_paths.custom_option(list_custom_field.custom_options.first.id).to_json)
           .at_path("_embedded/payload/_links/customField#{list_custom_field.id}/href")
+
+        expect(body)
+          .to be_json_eql(
+            {
+              code: "on track",
+              explanation: {
+                "format": "markdown",
+                "html": "<p>A magic dwells in each beginning.</p>",
+                "raw": "A magic dwells in each beginning."
+              }
+            }.to_json
+          ).at_path("_embedded/payload/status")
       end
 
       it 'has a commit link' do
         expect(subject.body)
           .to be_json_eql(api_v3_paths.projects.to_json)
           .at_path('_links/commit/href')
+      end
+    end
+
+    context 'with faulty status parameters' do
+      let(:params) do
+        {
+          identifier: 'new_project_identifier',
+          name: 'Project name',
+          status: {
+            code: "bogus"
+          }
+        }
+      end
+
+      it 'has 1 validation errors' do
+        expect(subject.body).to have_json_size(1).at_path('_embedded/validationErrors')
+      end
+
+      it 'has a validation error on status' do
+        expect(subject.body).to have_json_path('_embedded/validationErrors/status')
+      end
+
+      it 'has no commit link' do
+        expect(subject.body)
+          .not_to have_json_path('_links/commit')
       end
     end
 

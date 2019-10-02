@@ -990,47 +990,6 @@ describe PermittedParams, type: :model do
     end
   end
 
-  describe 'calendar_filter' do
-    let(:attribute) { :calendar_filter }
-    let(:flat) { true }
-
-    describe 'project_id' do
-      let(:hash) { { 'project_id' => 'some_identifier' } }
-
-      it_behaves_like 'allows params'
-    end
-
-    describe 'f' do
-      let(:hash) { { 'f' => ['assigned_to_id', 'subject'] } }
-
-      it_behaves_like 'allows params'
-    end
-
-    describe 'op' do
-      let(:hash) { { 'op' => { 'assigned_to_id' => '=', 'subject' => '~', 'cf_0815' => '=' } } }
-
-      it_behaves_like 'allows params'
-    end
-
-    describe 'v' do
-      let(:hash) { { 'v' => { 'assigned_to_id' => ['1'], 'subject' => ['blubs'], 'cf_0815' => ['a', 'b', 'c'] } } }
-
-      it_behaves_like 'allows params'
-    end
-
-    describe 'month' do
-      let(:hash) { { 'month' => '3' } }
-
-      it_behaves_like 'allows params'
-    end
-
-    describe 'year' do
-      let(:hash) { { 'year' => '3' } }
-
-      it_behaves_like 'allows params'
-    end
-  end
-
   describe '.add_permitted_attributes' do
     before do
       @original_permitted_attributes = PermittedParams.permitted_attributes.clone

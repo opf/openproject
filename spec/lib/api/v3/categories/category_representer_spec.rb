@@ -117,7 +117,7 @@ describe ::API::V3::Categories::CategoryRepresenter do
         end
 
         it 'changes when the category\'s project is updated' do
-          category.project.updated_on = Time.now + 20.seconds
+          category.project.updated_at = Time.now + 20.seconds
 
           expect(representer.json_cache_key)
             .not_to eql former_cache_key

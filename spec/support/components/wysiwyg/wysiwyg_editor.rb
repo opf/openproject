@@ -117,7 +117,7 @@ module Components
     end
 
     def insert_link(link)
-      click_toolbar_button 'Link (Ctrl+K)'
+      click_toolbar_button /Link \([^)]+\)/
       page.find('.ck-input-text').set link
       page.find('.ck-button-save').click
     end

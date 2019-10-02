@@ -63,7 +63,7 @@ describe 'API v3 Project available parents resource', type: :request, content_ty
     end
   end
   let!(:project) do
-    FactoryBot.create(:project, is_public: false)
+    FactoryBot.create(:project, public: false)
   end
   let(:permissions) { %i[edit_project add_subprojects] }
   let(:global_permissions) { %i[add_project] }

@@ -44,7 +44,7 @@ describe 'API v3 Work package resource',
                       description: 'lorem ipsum')
   end
   let(:project) do
-    FactoryBot.create(:project, identifier: 'test_project', is_public: false)
+    FactoryBot.create(:project, identifier: 'test_project', public: false)
   end
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
@@ -520,7 +520,7 @@ describe 'API v3 Work package resource',
 
       context 'project' do
         let(:target_project) do
-          FactoryBot.create(:project, is_public: false)
+          FactoryBot.create(:project, public: false)
         end
         let(:project_link) { api_v3_paths.project target_project.id }
         let(:project_parameter) { { _links: { project: { href: project_link } } } }

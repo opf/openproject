@@ -57,13 +57,17 @@ module API
                  visibility: false,
                  required: false
 
-          schema :is_public,
-                 as: :public,
+          schema :public,
                  type: 'Boolean',
                  visibility: false
 
-          schema_with_allowed_string_collection :status,
-                                                type: 'String'
+          schema :active,
+                 type: 'Boolean',
+                 visibility: false
+
+          schema :status,
+                 type: 'ProjectStatus',
+                 visibility: false
 
           schema_with_allowed_link :parent,
                                    type: 'Project',

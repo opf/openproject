@@ -46,7 +46,7 @@ describe WorkPackages::MovesController, type: :controller do
   let(:target_priority) { FactoryBot.create :priority }
   let(:project) do
     FactoryBot.create(:project,
-                      is_public: false,
+                      public: false,
                       types: [type, type_2])
   end
   let(:work_package) do
@@ -118,7 +118,7 @@ describe WorkPackages::MovesController, type: :controller do
   describe '#create' do
     let!(:source_member) { FactoryBot.create(:member, user: current_user, project: project, roles: [role]) }
     let!(:target_member) { FactoryBot.create(:member, user: current_user, project: target_project, roles: [role]) }
-    let(:target_project) { FactoryBot.create(:project, is_public: false) }
+    let(:target_project) { FactoryBot.create(:project, public: false) }
     let(:work_package_2) {
       FactoryBot.create(:work_package,
                         project_id: project.id,

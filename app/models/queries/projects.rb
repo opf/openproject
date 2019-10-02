@@ -36,10 +36,10 @@ module Queries::Projects
 
   register.filter query, filters::AncestorFilter
   register.filter query, filters::TypeFilter
-  register.filter query, filters::ActiveOrArchivedFilter
+  register.filter query, filters::ActiveFilter
   register.filter query, filters::NameAndIdentifierFilter
   register.filter query, filters::CustomFieldFilter
-  register.filter query, filters::CreatedOnFilter
+  register.filter query, filters::CreatedAtFilter
   register.filter query, filters::LatestActivityAtFilter
   register.filter query, filters::PrincipalFilter
   register.filter query, filters::ParentFilter

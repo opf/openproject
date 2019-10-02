@@ -36,12 +36,6 @@ class Project < ActiveRecord::Base
   include Project::Storage
   include Project::Activity
 
-  # Project statuses
-  STATUS_ACTIVE     = 1
-  STATUS_ARCHIVED   = 9
-
-  enum status: { active: STATUS_ACTIVE, archived: STATUS_ARCHIVED }
-
   # Maximum length for project identifiers
   IDENTIFIER_MAX_LENGTH = 100
 
@@ -144,15 +138,19 @@ class Project < ActiveRecord::Base
   }, class_name: 'WorkPackageCustomField',
      join_table: "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
      association_foreign_key: 'custom_field_id'
+  has_one :status, class_name: 'Project::Status', dependent: :destroy
 
   acts_as_nested_set order_column: :name, dependent: :destroy
 
   acts_as_customizable
-  acts_as_searchable columns: ["#{table_name}.name", "#{table_name}.identifier", "#{table_name}.description"], project_key: 'id', permission: nil
+  acts_as_searchable columns: %W(#{table_name}.name #{table_name}.identifier #{table_name}.description),
+                     date_column: "#{table_name}.created_at",
+                     project_key: 'id',
+                     permission: nil
   acts_as_event title: Proc.new { |o| "#{Project.model_name.human}: #{o.name}" },
                 url: Proc.new { |o| { controller: '/projects', action: 'show', id: o } },
                 author: nil,
-                datetime: :created_on
+                datetime: :created_at
 
   validates :name,
             presence: true,
@@ -179,12 +177,17 @@ class Project < ActiveRecord::Base
   scope :has_module, ->(mod) {
     where(["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s])
   }
-  scope :public_projects, -> { where(is_public: true) }
+  scope :public_projects, -> { where(public: true) }
   scope :visible, ->(user = User.current) { merge(Project.visible_by(user)) }
-  scope :newest, -> { order(created_on: :desc) }
+  scope :newest, -> { order(created_at: :desc) }
+  scope :active, -> { where(active: true) }
 
   def visible?(user = User.current)
-    active? and (is_public? or user.admin? or user.member_of?(self))
+    active? and (public? or user.admin? or user.member_of?(self))
+  end
+
+  def archived?
+    !active?
   end
 
   def copy_allowed?
@@ -453,7 +456,7 @@ class Project < ActiveRecord::Base
 
   # Returns an auto-generated project identifier based on the last identifier used
   def self.next_identifier
-    p = Project.order(Arel.sql('created_on DESC')).first
+    p = Project.newest.first
     p.nil? ? nil : p.identifier.to_s.succ
   end
 

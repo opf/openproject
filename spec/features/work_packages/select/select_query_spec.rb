@@ -30,17 +30,16 @@ require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
 describe 'Query selection', type: :feature do
-  let(:project) { FactoryBot.create :project, identifier: 'test_project', is_public: false }
+  let(:project) { FactoryBot.create :project, identifier: 'test_project', public: false }
   let(:role) { FactoryBot.create :role, permissions: [:view_work_packages] }
   let(:current_user) do
     FactoryBot.create :user, member_in_project: project,
-                              member_through_role: role
+                             member_through_role: role
   end
 
   let(:default_status) { FactoryBot.create(:default_status) }
   let(:wp_page) { ::Pages::WorkPackagesTable.new project }
   let(:filters) { ::Components::WorkPackages::Filters.new }
-
 
   let(:query) do
     FactoryBot.build(:query, project: project, is_public: true).tap do |query|

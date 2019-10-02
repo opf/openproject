@@ -51,7 +51,7 @@ module Projects
 
     def archive_project(project)
       # we do not care for validations
-      project.update_column(:status, Project::STATUS_ARCHIVED)
+      project.update_column(:active, false)
     end
   end
 end

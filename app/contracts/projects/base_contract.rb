@@ -36,16 +36,16 @@ module Projects
     attribute :name
     attribute :identifier
     attribute :description
-    attribute :is_public
-    attribute :status do
-      validate_status_not_nil
-      validate_status_included
+    attribute :public
+    attribute :active do
+      validate_active_present
     end
     attribute :parent do
       validate_parent_assignable
     end
-
-    attribute_alias :is_public, :public
+    attribute :status do
+      validate_status_code_included
+    end
 
     def validate
       validate_user_allowed_to_manage
@@ -57,10 +57,6 @@ module Projects
       Project
         .allowed_to(user, :add_subprojects)
         .where.not(id: model.self_and_descendants)
-    end
-
-    def assignable_statuses
-      Project.statuses.keys
     end
 
     def available_custom_fields
@@ -75,17 +71,11 @@ module Projects
       model.assignable_versions
     end
 
+    def assignable_status_codes
+      Project::Status.codes.keys
+    end
+
     private
-
-    def validate_status_not_nil
-      errors.add(:status, :blank) if model.status.nil?
-    end
-
-    def validate_status_included
-      if model.status.present? && !assignable_statuses.include?(model.status)
-        errors.add(:status, :inclusion)
-      end
-    end
 
     def validate_parent_assignable
       if model.parent &&
@@ -95,8 +85,18 @@ module Projects
       end
     end
 
+    def validate_active_present
+      if model.active.nil?
+        errors.add(:active, :blank)
+      end
+    end
+
     def validate_user_allowed_to_manage
       errors.add :base, :error_unauthorized unless user.allowed_to?(manage_permission, model)
+    end
+
+    def validate_status_code_included
+      errors.add :status, :inclusion if model.status&.code && !Project::Status.codes.keys.include?(model.status.code.to_s)
     end
 
     def manage_permission

@@ -36,10 +36,10 @@ FactoryBot.define do
 
     sequence(:name) { |n| "My Project No. #{n}" }
     sequence(:identifier) { |n| "myproject_no_#{n}" }
-    created_on { Time.now }
-    updated_on { Time.now }
+    created_at { Time.now }
+    updated_at { Time.now }
     enabled_module_names { OpenProject::AccessControl.available_project_modules }
-    is_public { false }
+    public { false }
 
     callback(:after_build) do |project, evaluator|
       disabled_modules = Array(evaluator.disable_modules)
@@ -51,7 +51,7 @@ FactoryBot.define do
     end
 
     factory :public_project do
-      is_public { true } # Remark: is_public defaults to true
+      public { true } # Remark: public defaults to true
     end
 
     factory :project_with_types do

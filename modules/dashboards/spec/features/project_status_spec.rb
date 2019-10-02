@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,12 +26,46 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Projects::Filters::CreatedOnFilter < Queries::Projects::Filters::ProjectFilter
-  def type
-    :datetime_past
+require 'spec_helper'
+
+require_relative '../support/pages/dashboard'
+
+describe 'Project status widget on dashboard', type: :feature, js: true do
+  let!(:project) { FactoryBot.create :project, status: project_status }
+  let!(:project_status) do
+    FactoryBot.create :project_status
+  end
+  let(:permissions) do
+    %i[view_dashboards manage_dashboards]
+  end
+  let(:user) do
+    FactoryBot.create(:user,
+                      member_in_project: project,
+                      member_with_permissions: permissions)
   end
 
-  def available?
-    User.current.admin?
+  let(:dashboard) do
+    Pages::Dashboard.new(project)
+  end
+
+  before do
+    login_as user
+
+    dashboard.visit!
+  end
+
+  it 'can add the widget and see the status' do
+    # within top-right area, add an additional widget
+    dashboard.add_widget(1, 1, :within, 'Project status')
+
+    status_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+
+    within status_widget.area do
+      expect(page)
+        .to have_content project_status.explanation
+
+      expect(page)
+        .to have_content 'ON TRACK'
+    end
   end
 end

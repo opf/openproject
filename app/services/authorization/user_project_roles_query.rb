@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -37,7 +38,7 @@ class Authorization::UserProjectRolesQuery < Authorization::UserRolesQuery
   end
 
   transformations.register roles_member_roles_join, :builtin_role do |statement, user, project|
-    if project.is_public?
+    if project.public?
       builtin_role = if user.logged?
                        Role::BUILTIN_NON_MEMBER
                      else

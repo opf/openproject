@@ -128,8 +128,8 @@ module ProjectsHelper
 
   def whitelisted_project_filter?(filter)
     whitelist = [
-      Queries::Projects::Filters::ActiveOrArchivedFilter,
-      Queries::Projects::Filters::CreatedOnFilter,
+      Queries::Projects::Filters::ActiveFilter,
+      Queries::Projects::Filters::CreatedAtFilter,
       Queries::Projects::Filters::LatestActivityAtFilter,
       Queries::Projects::Filters::NameAndIdentifierFilter,
       Queries::Projects::Filters::TypeFilter
@@ -210,6 +210,21 @@ module ProjectsHelper
        confirm_destroy_project_path(project),
        class: 'icon-context icon-delete',
        title: t(:button_delete)]
+    end
+  end
+
+  def project_options_for_status(project)
+    contract = if project.new_record?
+                 Projects::CreateContract
+               else
+                 Projects::UpdateContract
+               end
+
+    contract
+      .new(project, current_user)
+      .assignable_status_codes
+      .map do |code|
+      [I18n.t("activerecord.attributes.project/status.codes.#{code}"), code]
     end
   end
 

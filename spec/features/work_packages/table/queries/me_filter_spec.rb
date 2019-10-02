@@ -31,7 +31,7 @@ require 'spec_helper'
 describe 'filter me value', js: true do
   let(:status) { FactoryBot.create :default_status}
   let!(:priority) { FactoryBot.create :default_priority }
-  let(:project) { FactoryBot.create :project, is_public: true }
+  let(:project) { FactoryBot.create :project, public: true }
   let(:role) { FactoryBot.create :existing_role, permissions: [:view_work_packages] }
   let(:admin) { FactoryBot.create :admin }
   let(:user) { FactoryBot.create :user }

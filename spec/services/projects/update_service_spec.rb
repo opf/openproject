@@ -54,11 +54,16 @@ describe Projects::UpdateService, type: :model do
                       errors: set_attributes_errors
   end
   let!(:project) do
-    FactoryBot.build_stubbed(:project).tap do |p|
+    FactoryBot.build_stubbed(:project, status: project_status).tap do |p|
       allow(p)
         .to receive(:save)
         .and_return(project_valid)
+
+      project_status.clear_changes_information
     end
+  end
+  let(:project_status) do
+    FactoryBot.build_stubbed(:project_status)
   end
   let!(:set_attributes_service) do
     service = double('set_attributes_service_instance')
@@ -140,6 +145,21 @@ describe Projects::UpdateService, type: :model do
         expect(WorkPackage)
           .to receive(:update_versions_from_hierarchy_change)
           .with(project)
+
+        subject
+      end
+    end
+
+    context 'if the project status is altered' do
+      before do
+        allow(project_status)
+          .to receive(:changed?)
+          .and_return(true)
+      end
+
+      it 'persists the changes' do
+        expect(project_status)
+          .to receive(:save)
 
         subject
       end

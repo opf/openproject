@@ -3,6 +3,7 @@ module Grids::Configuration
     widgets 'work_packages_table',
             'work_packages_graph',
             'project_description',
+            'project_status',
             'project_details',
             'subprojects',
             'work_packages_calendar',

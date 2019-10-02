@@ -114,7 +114,7 @@ module Redmine
           #   User.active_or_registered.allowed_members(self.class.acts_as_watchable_permission, project)
           # compared to
           #   User.allowed_members(self.class.acts_as_watchable_permission, project).active_or_registered
-          scope = if project.is_public?
+          scope = if project.public?
                     User.allowed(self.class.acts_as_watchable_permission, project)
                   else
                     User.allowed_members(self.class.acts_as_watchable_permission, project)

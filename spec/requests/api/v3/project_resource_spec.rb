@@ -37,10 +37,13 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
     FactoryBot.create(:user, member_in_project: project, member_through_role: role)
   end
   let(:project) do
-    FactoryBot.create(:project, is_public: false)
+    FactoryBot.create(:project, public: false, status: project_status)
+  end
+  let(:project_status) do
+    FactoryBot.create(:project_status)
   end
   let(:other_project) do
-    FactoryBot.create(:project, is_public: false)
+    FactoryBot.create(:project, public: false)
   end
   let(:role) { FactoryBot.create(:role) }
   let(:custom_field) do
@@ -59,7 +62,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
   describe '#get /projects/:id' do
     let(:get_path) { api_v3_paths.project project.id }
     let!(:parent_project) do
-      FactoryBot.create(:project, is_public: false).tap do |p|
+      FactoryBot.create(:project, public: false).tap do |p|
         project.parent = p
         project.save!
       end
@@ -99,6 +102,16 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
         expect(subject.body)
           .to be_json_eql(custom_value.value.to_json)
           .at_path("customField#{custom_field.id}/raw")
+      end
+
+      it 'includes the project status' do
+        expect(subject.body)
+          .to be_json_eql(project_status.explanation.to_json)
+          .at_path("status/explanation/raw")
+
+        expect(subject.body)
+          .to be_json_eql(project_status.code.tr('_', ' ').to_json)
+          .at_path("status/code")
       end
 
       context 'requesting nonexistent project' do
@@ -172,7 +185,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       let(:projects) { [project, other_project, parent_project] }
 
       let(:parent_project) do
-        parent_project = FactoryBot.create(:project, is_public: false)
+        parent_project = FactoryBot.create(:project, public: false)
 
         project.update_attribute(:parent_id, parent_project.id)
 
@@ -281,6 +294,42 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
         .at_path('name')
     end
 
+    context 'with a status' do
+      let(:body) do
+        {
+          identifier: 'new_project_identifier',
+          name: 'Project name',
+          status: {
+            "code": "off track",
+            "explanation": "Some explanation."
+          }
+        }.to_json
+      end
+
+      it 'sets the status' do
+        expect(last_response.body)
+          .to be_json_eql(
+            {
+              "code": "off track",
+              "explanation": {
+                "format": "markdown",
+                "html": "<p>Some explanation.</p>",
+                "raw": "Some explanation."
+              }
+            }.to_json
+          )
+          .at_path("status")
+      end
+
+      it 'creates a project and a status' do
+        expect(Project.count)
+          .to eql(1)
+
+        expect(Project::Status.count)
+          .to eql(1)
+      end
+    end
+
     context 'with a custom field' do
       let(:body) do
         {
@@ -312,7 +361,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       end
     end
 
-    context 'with faulty params' do
+    context 'with missing name' do
       let(:body) do
         {
           identifier: 'some_identifier'
@@ -335,6 +384,38 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
 
         expect(last_response.body)
           .to be_json_eql("Name can't be blank.".to_json)
+          .at_path('message')
+      end
+    end
+
+    context 'with a faulty status' do
+      let(:body) do
+        {
+          identifier: 'new_project_identifier',
+          name: 'Project name',
+          status: {
+            "code": "faulty",
+            "explanation": "Some explanation."
+          }
+        }.to_json
+      end
+
+      it 'responds with 422' do
+        expect(last_response.status).to eq(422)
+      end
+
+      it 'creates no project' do
+        expect(Project.count)
+          .to eql(0)
+      end
+
+      it 'denotes the error' do
+        expect(last_response.body)
+          .to be_json_eql('Error'.to_json)
+          .at_path('_type')
+
+        expect(last_response.body)
+          .to be_json_eql("Status is not set to one of the allowed values.".to_json)
           .at_path('message')
       end
     end
@@ -403,7 +484,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       end
     end
 
-    context 'without permission to create projects' do
+    context 'without permission to patch projects' do
       let(:permissions) { [] }
 
       it 'responds with 403' do
@@ -418,7 +499,43 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       end
     end
 
-    context 'with faulty params' do
+    context 'with a status' do
+      let(:body) do
+        {
+          status: {
+            "code": "off track",
+            "explanation": "Some explanation."
+          }
+        }
+      end
+
+      it 'alters the status' do
+        expect(last_response.body)
+          .to be_json_eql(
+            {
+              "code": "off track",
+              "explanation": {
+                "format": "markdown",
+                "html": "<p>Some explanation.</p>",
+                "raw": "Some explanation."
+              }
+            }.to_json
+          )
+          .at_path("status")
+      end
+
+      it 'persists the altered status' do
+        project_status.reload
+
+        expect(project_status.code)
+          .to eql('off_track')
+
+        expect(project_status.explanation)
+          .to eql('Some explanation.')
+      end
+    end
+
+    context 'with faulty name' do
       let(:body) do
         {
           name: nil
@@ -444,6 +561,37 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
         expect(last_response.body)
           .to be_json_eql("Name can't be blank.".to_json)
           .at_path('message')
+      end
+    end
+
+    context 'with a faulty status' do
+      let(:body) do
+        {
+          status: {
+            "code": "bogus"
+          }
+        }
+      end
+
+      it 'responds with 422' do
+        expect(last_response.status).to eq(422)
+      end
+
+      it 'does not change the project status' do
+        code_before = project_status.code
+
+        expect(project_status.reload.code)
+          .to eql(code_before)
+      end
+
+      it 'denotes the error' do
+        expect(last_response.body)
+          .to be_json_eql('Error'.to_json)
+                .at_path('_type')
+
+        expect(last_response.body)
+          .to be_json_eql("Status is not set to one of the allowed values.".to_json)
+                .at_path('message')
       end
     end
   end

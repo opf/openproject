@@ -31,9 +31,9 @@ require 'spec_helper'
 describe Authorization::UserGlobalRolesQuery do
   let(:user) { FactoryBot.build(:user) }
   let(:anonymous) { FactoryBot.build(:anonymous) }
-  let(:project) { FactoryBot.build(:project, is_public: false) }
-  let(:project2) { FactoryBot.build(:project, is_public: false) }
-  let(:public_project) { FactoryBot.build(:project, is_public: true) }
+  let(:project) { FactoryBot.build(:project, public: false) }
+  let(:project2) { FactoryBot.build(:project, public: false) }
+  let(:public_project) { FactoryBot.build(:project, public: true) }
   let(:role) { FactoryBot.build(:role) }
   let(:role2) { FactoryBot.build(:role) }
   let(:anonymous_role) { FactoryBot.build(:anonymous_role) }

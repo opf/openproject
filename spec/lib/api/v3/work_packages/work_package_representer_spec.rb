@@ -752,8 +752,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       describe 'linked relations' do
-        let(:project) { FactoryBot.create(:project, is_public: false) }
-        let(:forbidden_project) { FactoryBot.create(:project, is_public: false) }
+        let(:project) { FactoryBot.create(:project, public: false) }
+        let(:forbidden_project) { FactoryBot.create(:project, public: false) }
         let(:user) { FactoryBot.create(:user, member_in_project: project) }
 
         before do

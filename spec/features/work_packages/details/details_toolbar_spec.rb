@@ -30,7 +30,7 @@ require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
 describe 'Work package details toolbar', js: true, selenium: true do
-  let(:project) { FactoryBot.create :project_with_types, is_public: true }
+  let(:project) { FactoryBot.create :project_with_types, public: true }
   let!(:work_package) { FactoryBot.create :work_package, project: project }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
 

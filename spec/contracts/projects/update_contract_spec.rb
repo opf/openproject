@@ -34,8 +34,9 @@ describe Projects::UpdateContract do
     let(:project) do
       FactoryBot.build_stubbed(:project,
                                identifier: project_identifier,
-                               status: project_status,
-                               is_public: project_public).tap do |p|
+                               active: project_active,
+                               public: project_public,
+                               status: project_status).tap do |p|
         # in order to actually have something changed
         p.name = project_name
         p.parent = project_parent

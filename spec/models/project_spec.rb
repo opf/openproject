@@ -32,26 +32,41 @@ require File.expand_path('../../support/shared/become_member', __FILE__)
 describe Project, type: :model do
   include BecomeMember
 
-  let(:project) { FactoryBot.create(:project, is_public: false) }
+  let(:active) { true }
+  let(:project) { FactoryBot.create(:project, active: active) }
+  let(:build_project) { FactoryBot.build_stubbed(:project, active: active) }
   let(:admin) { FactoryBot.create(:admin) }
   let(:user) { FactoryBot.create(:user) }
 
-  describe Project::STATUS_ACTIVE do
-    it 'equals 1' do
-      # spec that STATUS_ACTIVE has the correct value
-      expect(Project::STATUS_ACTIVE).to eq(1)
+  describe '#active?' do
+    context 'if active' do
+      it 'is true' do
+        expect(project).to be_active
+      end
+    end
+
+    context 'if not active' do
+      let(:active) { false }
+
+      it 'is false' do
+        expect(project).not_to be_active
+      end
     end
   end
 
-  describe '#active?' do
-    it 'is active when :status equals STATUS_ACTIVE' do
-      project = FactoryBot.build :project, status: :active
-      expect(project).to be_active
+  describe '#archived?' do
+    context 'if active' do
+      it 'is true' do
+        expect(project).not_to be_archived
+      end
     end
 
-    it "is not active when :status doesn't equal STATUS_ACTIVE" do
-      project = FactoryBot.build :project, status: :archived
-      expect(project).not_to be_active
+    context 'if not active' do
+      let(:active) { false }
+
+      it 'is false' do
+        expect(project).to be_archived
+      end
     end
   end
 
@@ -82,9 +97,9 @@ describe Project, type: :model do
     let(:project) { FactoryBot.create(:project, parent: parent_project) }
     let!(:subproject_member) do
       FactoryBot.create(:member,
-                         user: user,
-                         project: project,
-                         roles: [role_copy_projects])
+                        user: user,
+                        project: project,
+                        roles: [role_copy_projects])
     end
     before do
       login_as(user)
@@ -93,9 +108,9 @@ describe Project, type: :model do
     context 'with permission to add subprojects' do
       let!(:member_add_subproject) do
         FactoryBot.create(:member,
-                           user: user,
-                           project: parent_project,
-                           roles: [role_add_subproject])
+                          user: user,
+                          project: parent_project,
+                          roles: [role_add_subproject])
       end
 
       it 'should allow copy' do
@@ -154,6 +169,28 @@ describe Project, type: :model do
     end
   end
 
+  describe 'status' do
+    let(:status) { FactoryBot.build_stubbed(:project_status) }
+    let(:stubbed_project) do
+      FactoryBot.build_stubbed(:project,
+                               status: status)
+    end
+
+    it 'has a status' do
+      expect(stubbed_project.status)
+        .to eql status
+    end
+
+    it 'is destroyed along with the project' do
+      status = project.create_status explanation: 'some description'
+
+      project.destroy!
+
+      expect(Project::Status.where(id: status.id))
+        .not_to exist
+    end
+  end
+
   describe '#types_used_by_work_packages' do
     let(:project) { FactoryBot.create(:project_with_types) }
     let(:type) { project.types.first }
@@ -204,7 +241,7 @@ describe Project, type: :model do
     it 'should only check active projects' do
       subproject = FactoryBot.create(:project, parent: project)
       FactoryBot.create(:version, project: subproject)
-      subproject.archived!
+      subproject.update(active: false)
 
       project.reload
 

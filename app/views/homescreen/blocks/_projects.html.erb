@@ -10,7 +10,7 @@
     <% @newest_projects.each do |project| %>
     <li>
       <%= link_to project, project_path(project), title: short_project_description(project) %>
-      <small>(<%= format_date(project.created_on) %>)</small>
+      <small>(<%= format_date(project.created_at) %>)</small>
     </li>
     <% end %>
   </ul>

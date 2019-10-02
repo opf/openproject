@@ -155,24 +155,24 @@ describe Projects::SetAttributesService, type: :model do
         end
       end
 
-      context 'is_public default value', with_settings: { default_projects_public: true } do
+      context 'public default value', with_settings: { default_projects_public: true } do
         context 'with a value for is_public provided' do
           let(:call_attributes) do
             {
-              is_public: false
+              public: false
             }
           end
 
-          it 'does not alter the is_public value' do
-            expect(subject.result.is_public)
-              .to be_falsey
+          it 'does not alter the public value' do
+            expect(subject.result)
+              .not_to be_public
           end
         end
 
-        context 'with no value for is_public provided' do
+        context 'with no value for public provided' do
           it 'sets uses the default value' do
-            expect(subject.result.is_public)
-              .to be_truthy
+            expect(subject.result)
+              .to be_public
           end
         end
       end
@@ -251,6 +251,127 @@ describe Projects::SetAttributesService, type: :model do
           it 'does not alter the types modules' do
             expect(subject.result.types.map(&:name))
               .to match_array %w(lorem)
+          end
+        end
+      end
+
+      context 'project status' do
+        context 'with a value provided' do
+          let(:call_attributes) do
+            {
+              status: {
+                code: 'on_track',
+                explanation: 'A magic dwells in each beginning.'
+              }
+            }
+          end
+
+          it 'set the project status code' do
+            expect(subject.result.status.code)
+              .to eql 'on_track'
+          end
+
+          it 'set the project status explanation' do
+            expect(subject.result.status.explanation)
+              .to eql 'A magic dwells in each beginning.'
+          end
+
+          it 'does not persist the status' do
+            expect(subject.result.status)
+              .to be_new_record
+          end
+        end
+      end
+    end
+
+    context 'for an existing project' do
+      context 'project status' do
+        context 'with the project not having a status before' do
+          context 'with a value provided' do
+            let(:call_attributes) do
+              {
+                status: {
+                  code: 'on_track',
+                  explanation: 'A magic dwells in each beginning.'
+                }
+              }
+            end
+
+            it 'set the project status code' do
+              expect(subject.result.status.code)
+                .to eql 'on_track'
+            end
+
+            it 'set the project status explanation' do
+              expect(subject.result.status.explanation)
+                .to eql 'A magic dwells in each beginning.'
+            end
+
+            it 'does not persist the status' do
+              expect(subject.result.status)
+                .to be_new_record
+            end
+          end
+
+          context 'with an invalid code' do
+            let(:call_attributes) do
+              {
+                status: {
+                  code: 'bogus',
+                  explanation: 'A magic dwells in each beginning.'
+                }
+              }
+            end
+
+            it 'set the project status code' do
+              expect(subject.result.status.code)
+                .to eql 'bogus'
+            end
+
+            it 'set the project status explanation' do
+              expect(subject.result.status.explanation)
+                .to eql 'A magic dwells in each beginning.'
+            end
+
+            it 'does not persist the status' do
+              expect(subject.result.status)
+                .to be_new_record
+            end
+          end
+        end
+
+        context 'with the project having a status before' do
+          let(:project_status) do
+            FactoryBot.build_stubbed(:project_status)
+          end
+          let(:project) do
+            FactoryBot.build_stubbed(:project, status: project_status)
+          end
+
+          context 'with a value provided' do
+            let(:call_attributes) do
+              {
+                status: {
+                  code: 'at_risk',
+                  explanation: 'Still some magic there.'
+                }
+              }
+            end
+
+            it 'set the project status code' do
+              expect(subject.result.status.code)
+                .to eql 'at_risk'
+            end
+
+            it 'set the project status explanation' do
+              expect(subject.result.status.explanation)
+                .to eql 'Still some magic there.'
+            end
+
+            it 'does not persist the status' do
+              expect(subject.result.status)
+                .to be_changed
+            end
           end
         end
       end

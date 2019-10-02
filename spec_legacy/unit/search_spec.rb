@@ -56,7 +56,7 @@ describe 'Search' do # FIXME: naming (RSpec-port)
     assert !r.include?(@changeset)
 
     # Make the project private
-    @project.update_attribute :is_public, false
+    @project.update_attribute :public, false
     r = WorkPackage.search(@issue_keyword).first
     assert !r.include?(@issue)
     r = Changeset.search(@changeset_keyword).first
@@ -81,7 +81,7 @@ describe 'Search' do # FIXME: naming (RSpec-port)
     assert !r.include?(@changeset)
 
     # Make the project private
-    @project.update_attribute :is_public, false
+    @project.update_attribute :public, false
     r = WorkPackage.search(@issue_keyword).first
     assert !r.include?(@issue)
     r = Changeset.search(@changeset_keyword).first
@@ -98,7 +98,7 @@ describe 'Search' do # FIXME: naming (RSpec-port)
     assert r.include?(@changeset)
 
     # Make the project private
-    @project.update_attribute :is_public, false
+    @project.update_attribute :public, false
     r = WorkPackage.search(@issue_keyword).first
     assert r.include?(@issue)
     r = Changeset.search(@changeset_keyword).first
@@ -119,7 +119,7 @@ describe 'Search' do # FIXME: naming (RSpec-port)
     assert !r.include?(@changeset)
 
     # Make the project private
-    @project.update_attribute :is_public, false
+    @project.update_attribute :public, false
     r = WorkPackage.search(@issue_keyword).first
     assert r.include?(@issue)
     r = Changeset.search(@changeset_keyword).first

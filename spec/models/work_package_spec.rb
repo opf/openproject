@@ -562,7 +562,7 @@ describe WorkPackage, type: :model do
   describe '#on_active_project' do
     let(:project_archived) {
       FactoryBot.create(:project,
-                         status: Project::STATUS_ARCHIVED)
+                         active: false)
     }
     let!(:work_package) { FactoryBot.create(:work_package) }
     let(:work_package_in_archived_project) {
@@ -587,7 +587,7 @@ describe WorkPackage, type: :model do
     let(:user) { FactoryBot.create(:user) }
     let(:project_archived) {
       FactoryBot.create(:project,
-                         status: Project::STATUS_ARCHIVED)
+                         active: false)
     }
     let!(:work_package) { FactoryBot.create(:work_package, author: user) }
     let(:work_package_in_archived_project) {

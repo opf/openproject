@@ -47,7 +47,7 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
 
     allow(contract)
       .to receive(:writable?) do |attribute|
-      writable = %w(name identifier description is_public status parent)
+      writable = %w(name identifier description public status parent active)
 
       writable.include?(attribute.to_s)
     end
@@ -158,7 +158,20 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
 
       it_behaves_like 'has basic schema properties' do
         let(:type) { 'Boolean' }
-        let(:name) { I18n.t('attributes.is_public') }
+        let(:name) { I18n.t('attributes.public') }
+        let(:required) { true }
+        let(:writable) { true }
+      end
+
+      it_behaves_like 'has no visibility property'
+    end
+
+    describe 'active' do
+      let(:path) { 'active' }
+
+      it_behaves_like 'has basic schema properties' do
+        let(:type) { 'Boolean' }
+        let(:name) { I18n.t('attributes.active') }
         let(:required) { true }
         let(:writable) { true }
       end
@@ -170,7 +183,7 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
       let(:path) { 'status' }
 
       it_behaves_like 'has basic schema properties' do
-        let(:type) { 'String' }
+        let(:type) { 'ProjectStatus' }
         let(:name) { I18n.t('attributes.status') }
         let(:required) { true }
         let(:writable) { true }
@@ -181,12 +194,11 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
           .not_to have_json_path("#{path}/_links/allowedValues")
       end
 
-      it 'embeds the allowed values' do
+      it 'embeds no values' do
         allowed_path = "#{path}/_embedded/allowedValues"
 
         is_expected
-          .to be_json_eql(allowed_status.to_json)
-          .at_path(allowed_path)
+          .not_to have_json_path(allowed_path)
       end
     end
 
