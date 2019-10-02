@@ -83,7 +83,7 @@ de:
   caption_show_locked: "Gesperrte Typen anzeigen"
   cost_objects_title: "Budgets"
   label_cost_type_plural: "Kostentypen"
-  currency_delimiter: ";"
+  currency_delimiter: "."
   currency_separator: ","
   description_date_for_new_rate: "Datum für neuen Satz"
   events:
