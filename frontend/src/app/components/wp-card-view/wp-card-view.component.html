@@ -36,21 +36,21 @@
       </a>
     </div>
 
-    <wp-edit-field-group [workPackage]="wp"
+    <edit-form [resource]="wp"
                          [inEditMode]="wp.isNew"
                          *ngIf="wp.isNew">
       <div class="wp-card--content -new">
-        <wp-edit-field [workPackageId]="wp.id"
+        <editable-attribute-field [resource]="wp"
                        [wrapperClasses]="'work-packages--type-selector'"
                        [fieldName]="'type'"
                        class="wp-card--type">
-        </wp-edit-field>
-        <wp-edit-field [workPackageId]="wp.id"
+        </editable-attribute-field>
+        <editable-attribute-field [resource]="wp"
                        fieldName="subject"
                        class="wp-card--subject -bold">
-        </wp-edit-field>
+        </editable-attribute-field>
       </div>
-    </wp-edit-field-group>
+    </edit-form>
 
     <img *ngIf="this.bcfSnapshotPath(wp)" [src]="this.bcfSnapshotPath(wp)" class="wp-card--cover-image">
 

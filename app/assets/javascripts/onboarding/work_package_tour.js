@@ -6,7 +6,7 @@
                 'showSkip': false,
                 'nextButton': {text: I18n.t('js.onboarding.buttons.next')},
                 onNext: function () {
-                    $(".wp-table--cell-span.id a ")[0].click();
+                    $(".inline-edit--display-field.id a ")[0].click();
                 }
             },
             {

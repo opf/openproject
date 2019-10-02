@@ -63,7 +63,7 @@
   line-height: 24px
 
   // Avoid that the select field gets too small
-  .wp-inline-edit--field.ng-select
+  .inline-edit--field.ng-select
     min-width: 140px
 
 // Styles for inline editable attributes
@@ -71,7 +71,7 @@
   display: table-cell
   width: auto
 
-  &:hover .wp-edit-field.-error:hover
+  &:hover .inline-edit--active-field.-error:hover
     border-color: $nm-color-error-border
 
 //
@@ -125,23 +125,16 @@ html:not(.-browser-mobile)
   .wp-table--cell-td.-editing &
     display: block
 
-  .inplace-edit
+  .inline-edit--display-field
     display: initial
 
-
-  &.id .inplace-edit
-//  pointer-events: none
-
-  a
-    pointer-events: all
-
 // Some padding for the inner cells of the display fields
-.wp-table--cell-span
+.inline-edit--display-field
   padding: 2px
 
 body.-browser-edge
   // Ensure height is set in table
-  .work-package-table .wp-table--cell-span
+  .work-package-table .inline-edit--display-field
     height: 22px !important
     line-height: 22px !important
 

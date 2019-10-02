@@ -16,17 +16,16 @@
       <div *ngIf="!descriptor.multiple && descriptor.field"
            class="attributes-key-value--value-container">
 
-        <wp-edit-field *ngIf="descriptor.field!.isFormattable"
+        <editable-attribute-field *ngIf="descriptor.field!.isFormattable"
                        class="wp-edit-formattable-field"
-                       [workPackageId]="workPackage.id"
+                       [resource]="workPackage"
                        [isDropTarget]="true"
                        [fieldName]="descriptor.name">
-        </wp-edit-field>
-        <wp-edit-field *ngIf="!descriptor.field.isFormattable"
-                       [workPackageId]="workPackage.id"
-                       [fieldName]="descriptor.name"
-                       [ngClass]="descriptor.field!.schema.type === 'String' ? 'wp-edit-field--text' : ''">
-        </wp-edit-field>
+        </editable-attribute-field>
+        <editable-attribute-field *ngIf="!descriptor.field.isFormattable"
+                       [resource]="workPackage"
+                       [fieldName]="descriptor.name">
+        </editable-attribute-field>
       </div>
       <div
         class="attributes-key-value--key"
@@ -39,19 +38,19 @@
       <div
         *ngIf="descriptor.multiple"
         class="attributes-key-value--value-container -minimal">
-        <wp-edit-field [fieldName]="descriptor.fields[0].name"
-                       [workPackageId]="workPackage.id"
+        <editable-attribute-field [fieldName]="descriptor.fields[0].name"
+                       [resource]="workPackage"
                        [wrapperClasses]="'-small -shrink'"
                        [displayPlaceholder]="text[descriptor.name][descriptor.fields[0].name]">
-        </wp-edit-field>
+        </editable-attribute-field>
 
         <span class="attributes-key-value--value-separator"></span>
 
-        <wp-edit-field [fieldName]="descriptor.fields[1].name"
-                       [workPackageId]="workPackage.id"
+        <editable-attribute-field [fieldName]="descriptor.fields[1].name"
+                       [resource]="workPackage"
                        [wrapperClasses]="'-small -shrink'"
                        [displayPlaceholder]="text[descriptor.name][descriptor.fields[1].name]">
-        </wp-edit-field>
+        </editable-attribute-field>
       </div>
     </ng-template>
   </div>

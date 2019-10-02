@@ -151,10 +151,6 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
     return !(this.value && this.value.raw);
   }
 
-  public get isFormattable() {
-    return true;
-  }
-
   protected initialize() {
     if (this.resource.isNew && this.editor) {
       // Reset CKEditor when reloading after type/form changes

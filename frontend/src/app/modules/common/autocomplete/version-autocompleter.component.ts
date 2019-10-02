@@ -35,7 +35,7 @@ import {VersionResource} from "core-app/modules/hal/resources/version-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {CreateAutocompleterComponent} from "core-app/modules/common/autocomplete/create-autocompleter.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 
 @Component({
   template: `
@@ -71,7 +71,7 @@ export class VersionAutocompleterComponent extends CreateAutocompleterComponent 
               readonly currentProject:CurrentProjectService,
               readonly pathHelper:PathHelperService,
               readonly versionDm:VersionDmService,
-              readonly wpNotifications:WorkPackageNotificationService) {
+              readonly halNotification:HalResourceNotificationService) {
     super(I18n, currentProject, pathHelper);
   }
 
@@ -111,7 +111,7 @@ export class VersionAutocompleterComponent extends CreateAutocompleterComponent 
       })
       .catch(error =>  {
         this.createAutocompleter.closeSelect();
-        this.wpNotifications.handleRawError(error);
+        this.halNotification.handleRawError(error);
       });
   }
 

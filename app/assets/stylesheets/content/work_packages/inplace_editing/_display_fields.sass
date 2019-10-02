@@ -27,7 +27,7 @@
 //++
 
 // READ value of edit fields
-.wp-edit-field--display-field
+.inline-edit--display-field
   display: inline-block
   max-width: 100%
   @include text-shortener
@@ -35,6 +35,11 @@
 
   &.-placeholder
     font-style: italic
+
+  // Always render custom options as inline
+  // when only one line
+  .custom-option:not(.-multiple-lines)
+    display: inline
 
   &.split-time-field
     white-space: nowrap
@@ -58,6 +63,28 @@
       font-style: italic
       font-weight: bold
 
-.wp-edit-field--text,
-wp-edit-field
+// Editable fields cursor
+.inline-edit--display-field.-editable
+  cursor: text
+  border-color: transparent
+  border-style: solid
+  border-radius: 2px
+  border-width: 1px
+  line-height: normal
+
+  &:hover,
+  &:focus
+    border-color: $inplace-edit--border-color
+
+    &.-multiline
+      white-space: inherit
+
+// Mark focused, non-editable read-values
+.inline-edit--display-field:not(.id).-read-only
+  &:focus, &:hover
+    color: $inplace-edit--color--disabled
+    background: $inplace-edit--bg-color--disabled
+  cursor: not-allowed
+
+editable-attribute-field
   width: 100%

@@ -26,9 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageEditForm} from './work-package-edit-form';
-import {WorkPackageEditContext} from './work-package-edit-context';
 import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
@@ -37,22 +34,17 @@ import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 import {ClickPositionMapper} from "core-app/modules/common/set-click-position/set-click-position";
 import {debugLog} from "core-app/helpers/debug_output";
-import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {Subject} from 'rxjs';
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {EditForm} from "core-app/modules/fields/edit/edit-form/edit-form";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
-export class WorkPackageEditFieldHandler extends EditFieldHandler {
+export class HalResourceEditFieldHandler extends EditFieldHandler {
   // Injections
   readonly FocusHelper:FocusHelperService = this.injector.get(FocusHelperService);
   readonly ConfigurationService = this.injector.get(ConfigurationService);
   readonly I18n:I18nService = this.injector.get(I18nService);
-
-  // Other fields
-  public editContext:WorkPackageEditContext;
-
-  // Reference to the active component, if any
-  public componentInstance:EditFieldComponent;
 
   // Subject to fire when user demanded activation
   public $onUserActivate = new Subject<void>();
@@ -61,7 +53,7 @@ export class WorkPackageEditFieldHandler extends EditFieldHandler {
   public errors:string[];
 
   constructor(public injector:Injector,
-              public form:WorkPackageEditForm,
+              public form:EditForm,
               public fieldName:string,
               public schema:IFieldSchema,
               public element:HTMLElement,
@@ -69,7 +61,6 @@ export class WorkPackageEditFieldHandler extends EditFieldHandler {
               protected withErrors?:string[]) {
 
     super();
-    this.editContext = form.editContext;
 
     if (withErrors !== undefined) {
       this.setErrors(withErrors);
@@ -92,16 +83,12 @@ export class WorkPackageEditFieldHandler extends EditFieldHandler {
     return this.form.change.inFlight;
   }
 
-  public get context():WorkPackageEditContext {
-    return this.form.editContext;
-  }
-
   public get active() {
     return true;
   }
 
   public focus(setClickOffset?:number) {
-    const target = this.element.querySelector('.wp-inline-edit--field') as HTMLElement;
+    const target = this.element.querySelector('.inline-edit--field') as HTMLElement;
 
     if (!target) {
       debugLog(`Tried to focus on ${this.fieldName}, but element does not (yet) exist.`);
@@ -119,7 +106,8 @@ export class WorkPackageEditFieldHandler extends EditFieldHandler {
 
   public onFocusOut() {
     // In case of inline create or erroneous forms: do not save on focus loss
-    if (this.workPackage.subject && this.withErrors && this.withErrors!.length === 0) {
+    // const specialField = this.resource.shouldCloseOnFocusOut(this.fieldName);
+    if (this.resource.subject && this.withErrors && this.withErrors!.length === 0) {
       this.handleUserSubmit();
     }
   }
@@ -191,7 +179,7 @@ export class WorkPackageEditFieldHandler extends EditFieldHandler {
     delete this.form.activeFields[this.fieldName];
     this.onDestroy.next();
     this.onDestroy.complete();
-    this.editContext.reset(this.workPackage, this.fieldName, focus);
+    this.form.reset(this.fieldName, focus);
   }
 
   /**
@@ -209,10 +197,10 @@ export class WorkPackageEditFieldHandler extends EditFieldHandler {
   }
 
   /**
-   * Reference the form's work package
+   * Reference the form's resource
    */
-  public get workPackage():WorkPackageResource {
-    return this.form.workPackage;
+  public get resource():HalResource {
+    return this.form.resource;
   }
 
   /**
@@ -226,7 +214,7 @@ export class WorkPackageEditFieldHandler extends EditFieldHandler {
    * Return a unique ID for this edit field
    */
   public get htmlId() {
-    return `wp-${this.workPackage.id}-inline-edit--field-${this.fieldName}`;
+    return `wp-${this.resource.id}-inline-edit--field-${this.fieldName}`;
   }
 
   /**
@@ -254,11 +242,7 @@ export class WorkPackageEditFieldHandler extends EditFieldHandler {
     }
   }
 
-  public previewContext(resource:WorkPackageResource) {
-    if (resource.isNew && resource.project) {
-      return resource.project.href;
-    } else if (!resource.isNew) {
-      return this.pathHelper.api.v3.work_packages.id(resource.id!).path;
-    }
+  public previewContext(resource:HalResource) {
+    return resource.previewPath();
   }
 }

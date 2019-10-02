@@ -8,8 +8,8 @@ import {UserResource} from "core-app/modules/hal/resources/user-resource";
  * @returns {PortalInjector}
  */
 
-export const OpDisplayPortalUserToken = new InjectionToken('wp-display-portal--user');
-export const OpDisplayPortalLinesToken = new InjectionToken('wp-display-portal--multi-line');
+export const OpDisplayPortalUserToken = new InjectionToken('display-portal--user');
+export const OpDisplayPortalLinesToken = new InjectionToken('display-portal--multi-line');
 
 export function createLocalInjector(injector:Injector, users:UserResource[], multiLines:boolean):Injector {
   const injectorTokens = new WeakMap();

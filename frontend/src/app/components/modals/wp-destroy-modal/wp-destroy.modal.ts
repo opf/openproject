@@ -28,7 +28,7 @@
 
 import {WorkPackagesListService} from '../../wp-list/wp-list.service';
 import {States} from '../../states.service';
-import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {OpModalComponent} from "core-components/op-modals/op-modal.component";
 import {ChangeDetectorRef, Component, ElementRef, Inject, OnInit} from "@angular/core";
@@ -40,6 +40,7 @@ import {StateService} from '@uirouter/core';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageService} from "core-components/work-packages/work-package.service";
 import {BackRoutingService} from "core-app/modules/common/back-routing/back-routing.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 @Component({
   templateUrl: './wp-destroy.modal.html'
@@ -76,8 +77,7 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
               readonly states:States,
               readonly wpTableFocus:WorkPackageViewFocusService,
               readonly wpListService:WorkPackagesListService,
-              readonly wpNotificationsService:WorkPackageNotificationService,
-              readonly notificationsService:NotificationsService,
+              readonly notificationService:WorkPackageNotificationService,
               readonly backRoutingService:BackRoutingService) {
     super(locals, cdRef, elementRef);
   }

@@ -26,33 +26,41 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ResourcesDisplayField} from "./wp-display-resources-field.module";
-import {cssClassCustomOption} from "core-app/modules/fields/display/display-field.module";
+import {DurationDisplayField} from './duration-display-field.module';
+import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
+import {ProjectCacheService} from "core-components/projects/project-cache.service";
+import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 
-export class MultipleLinesStringObjectsDisplayField extends ResourcesDisplayField {
+export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
+  public text = {
+    linkTitle: this.I18n.t('js.work_packages.message_view_spent_time')
+  };
+
+  private PathHelper:PathHelperService = this.$injector.get(PathHelperService);
+  private projectCacheService:ProjectCacheService = this.$injector.get(ProjectCacheService);
 
   public render(element:HTMLElement, displayText:string):void {
-    const values = this.value;
-    element.setAttribute('title', displayText);
-    element.textContent = displayText;
+    if (!this.value) {
+      return;
+    }
+
+    const link = document.createElement('a');
+    link.textContent = displayText;
+    link.setAttribute('title', this.text.linkTitle);
+
+    if (this.resource.project) {
+      this.projectCacheService
+        .require(this.resource.project.idFromLink)
+        .then((project:ProjectResource) => {
+          const href = URI(this.PathHelper.projectTimeEntriesPath(project.identifier))
+            .search({work_package_id: this.resource.id})
+            .toString();
+
+          link.href = href;
+        });
+    }
 
     element.innerHTML = '';
-
-    if (values.length === 0) {
-      this.renderEmpty(element);
-    } else {
-      this.renderValues(values, element);
-    }
-  }
-
-  protected renderValues(values:string[], element:HTMLElement) {
-    values.forEach((value) => {
-      const div = document.createElement('div');
-      div.classList.add(cssClassCustomOption, '-multiple-lines');
-      div.setAttribute('title', value);
-      div.textContent = value;
-
-      element.appendChild(div);
-    });
+    element.appendChild(link);
   }
 }

@@ -101,13 +101,7 @@ export class CostsByTypeDisplayField extends DisplayField {
     link.textContent = val.spentUnits + ' ' + val.costType.name;
     element.appendChild(link);
 
-    if (i < this.value.elements.length - 1) {
-      const sep = document.createElement('span');
-      sep.textContent = ', ';
-
-      element.appendChild(sep);
-    }
-
+    this.addSeparator(element, i);
   }
 
   /**
@@ -117,13 +111,16 @@ export class CostsByTypeDisplayField extends DisplayField {
     const span = document.createElement('span');
     span.textContent = val.spentUnits + ' ' + val.costType.name;
 
+    this.addSeparator(element, i);
+  }
+
+  private addSeparator(element:HTMLElement, i:Number) {
     if (i < this.value.elements.length - 1) {
       const sep = document.createElement('span');
       sep.textContent = ', ';
 
       element.appendChild(sep);
     }
-
   }
 }
 

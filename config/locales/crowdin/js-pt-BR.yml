@@ -573,9 +573,9 @@ pt-BR:
     work_packages:
       bulk_actions:
         move: 'Mudança em massa de projeto'
-        edit: 'Editar vários'
-        copy: 'Copiar vários'
-        delete: 'Excluir vários'
+        edit: 'Edição em massa'
+        copy: 'Cópia em massa'
+        delete: 'Exclusão em massa'
       button_clear: "Limpar"
       comment_added: "O comentário foi adicionado com sucesso."
       comment_send_failed: "Ocorreu um erro. Não foi possível enviar o comentário."

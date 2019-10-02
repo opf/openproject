@@ -38,10 +38,14 @@ import {OpenProjectFileUploadService} from 'core-components/api/op-file-upload/o
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {States} from 'core-components/states.service';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
-import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {take, takeWhile} from 'rxjs/operators';
 import {WorkPackageCreateService} from '../wp-new/wp-create.service';
 import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
+import {WorkPackagesActivityService} from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
+import {TimezoneService} from "core-components/datetime/timezone.service";
+import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 describe('WorkPackageCacheService', () => {
   let injector:Injector;
@@ -58,14 +62,18 @@ describe('WorkPackageCacheService', () => {
       providers: [
         States,
         HalResourceService,
+        TimezoneService,
+        WorkPackagesActivityService,
         WorkPackageCacheService,
         SchemaCacheService,
         WorkPackageDmService,
+        {provide: ConfigurationService, useValue: {}},
         {provide: PathHelperService, useValue: {}},
         {provide: I18nService, useValue: {t: (...args:any[]) => 'translation'}},
         {provide: WorkPackageResource, useValue: {}},
         {provide: WorkPackageCreateService, useValue: {}},
         {provide: NotificationsService, useValue: {}},
+        {provide: HalResourceNotificationService, useValue: {handleRawError: () => false}},
         {provide: WorkPackageNotificationService, useValue: {}},
         {provide: OpenProjectFileUploadService, useValue: {}}
       ]
@@ -99,7 +107,7 @@ describe('WorkPackageCacheService', () => {
     dummyWorkPackages = [workPackage1 as any];
   });
 
-  it('returns a work package after the list has been initialized', function(done:any) {
+  it('returns a work package after the list has been initialized', function (done:any) {
     wpCacheService.loadWorkPackage('1').values$()
       .pipe(
         take(1)

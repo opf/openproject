@@ -26,36 +26,29 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {DisplayField} from "core-app/modules/fields/display/display-field.module";
+import {OpenprojectCommonModule} from 'core-app/modules/common/openproject-common.module';
+import {OpenprojectFieldsModule} from 'core-app/modules/fields/openproject-fields.module';
+import {NgModule} from '@angular/core';
+import {OpenprojectHalModule} from "core-app/modules/hal/openproject-hal.module";
 
-export class ProgressDisplayField extends DisplayField {
-  public get value() {
-    if (this.schema) {
-      return this.resource[this.name] || 0;
-    }
-    else {
-      return null;
-    }
-  }
 
-  public get percentLabel() {
-    return this.roundedProgress + '%';
-  }
+@NgModule({
+  imports: [
+    // Commons
+    OpenprojectCommonModule,
 
-  public get roundedProgress() {
-    return Math.round(Number(this.value)) || 0;
-  }
+    OpenprojectHalModule,
+    OpenprojectFieldsModule,
+  ],
+  providers: [
 
-  public render(element:HTMLElement, displayText:string): void {
-    element.setAttribute('title', displayText);
-    element.innerHTML = `
-      <span>
-        <span style="width: 80px" class="progress-bar">
-          <span style="width: ${this.roundedProgress}%" class="inner-progress closed"></span>
-          <span style="width: 0%" class="inner-progress done"></span>
-        </span>
-        <span class="progress-bar-legend">${this.percentLabel}</span>
-      </span>
-    `;
-  }
+  ],
+  declarations: [
+  ],
+  entryComponents: [
+  ],
+  exports: [
+  ]
+})
+export class OpenprojectProjectsModule {
 }

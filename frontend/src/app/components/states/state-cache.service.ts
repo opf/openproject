@@ -67,6 +67,13 @@ export abstract class StateCacheService<T> {
   }
 
   /**
+   * Observe the changes of the given id
+   */
+  public changes$(id:string):Observable<T|undefined> {
+    return this.state(id).changes$();
+  }
+
+  /**
    * Observe the entire set of loaded results
    */
   public observeAll():Observable<T[]> {

@@ -29,8 +29,9 @@
 import {Component, Input, EventEmitter, Output} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageRelationsHierarchyService} from 'core-app/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
-import {WorkPackageNotificationService} from 'core-app/components/wp-edit/wp-notification.service';
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 @Component({
   templateUrl: './wp-breadcrumb-parent.html',
@@ -53,7 +54,7 @@ export class WorkPackageBreadcrumbParentComponent {
   public constructor(
     protected readonly I18n:I18nService,
     protected readonly wpRelationsHierarchy:WorkPackageRelationsHierarchyService,
-    protected readonly wpNotifications:WorkPackageNotificationService
+    protected readonly notificationService:WorkPackageNotificationService
     ) {
   }
 
@@ -87,7 +88,7 @@ export class WorkPackageBreadcrumbParentComponent {
     this.isSaving = true;
     this.wpRelationsHierarchy.changeParent(this.workPackage, newParentId)
       .catch((error:any) => {
-        this.wpNotifications.handleRawError(error, this.workPackage);
+        this.notificationService.handleRawError(error, this.workPackage);
       })
       .then(() => this.isSaving = false); // Behaves as .finally()
   }

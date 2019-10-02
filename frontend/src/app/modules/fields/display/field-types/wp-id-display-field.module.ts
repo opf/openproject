@@ -26,13 +26,26 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ProgressDisplayField} from './wp-display-progress-field.module';
+import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
+import {StateService} from '@uirouter/core';
+import {UiStateLinkBuilder} from "core-components/wp-fast-table/builders/ui-state-link-builder";
+import {IdDisplayField} from "core-app/modules/fields/display/field-types/id-display-field.module";
 
-export class ProgressTextDisplayField extends ProgressDisplayField {
+export class WorkPackageIdDisplayField extends IdDisplayField {
+  private $state:StateService = this.$injector.get(StateService);
+  private keepTab:KeepTabService = this.$injector.get(KeepTabService);
+  private uiStateBuilder:UiStateLinkBuilder = new UiStateLinkBuilder(this.$state, this.keepTab);
+
   public render(element:HTMLElement, displayText:string):void {
-    const label = this.percentLabel;
-    element.setAttribute('title', label);
-    element.innerHTML = '';
-    element.textContent = label;
+    if (!this.value) {
+      return;
+    }
+    let link = this.uiStateBuilder.linkToShow(
+      this.value,
+      displayText,
+      this.value
+    );
+
+    element.appendChild(link);
   }
 }

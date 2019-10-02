@@ -165,10 +165,10 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
 
     context 'focus' do
       let(:first_link_selector) do
-        ".wp-row-#{work_package.id} .wp-table--cell-span.type"
+        ".wp-row-#{work_package.id} .inline-edit--display-field.type"
       end
       let(:second_link_selector) do
-        ".wp-row-#{another_work_package.id} .wp-table--cell-span.type"
+        ".wp-row-#{another_work_package.id} .inline-edit--display-field.type"
       end
 
       it 'navigates with J and K' do

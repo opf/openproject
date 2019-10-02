@@ -3,7 +3,8 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {timeOutput} from '../../../helpers/debug_output';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from '../../states.service';
-import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
+
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {WorkPackageTable} from '../wp-fast-table';
 import {RelationRenderInfo, RelationsRenderPass} from './relations/relations-render-pass';
 import {SingleRowBuilder} from './rows/single-row-builder';
@@ -36,7 +37,7 @@ export interface RowRenderInfo {
 
 export abstract class PrimaryRenderPass {
 
-  protected readonly wpEditing:WorkPackageEditingService = this.injector.get(WorkPackageEditingService);
+  protected readonly halEditing:HalResourceEditingService = this.injector.get(HalResourceEditingService);
   protected readonly states:States = this.injector.get(States);
   protected readonly I18n:I18nService = this.injector.get(I18nService);
 

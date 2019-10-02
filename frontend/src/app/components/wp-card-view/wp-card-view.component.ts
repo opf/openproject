@@ -21,7 +21,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
 import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
-import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import {CardHighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
@@ -36,6 +36,7 @@ import {CardViewHandlerRegistry} from "core-components/wp-card-view/event-handle
 import {WorkPackageCardViewService} from "core-components/wp-card-view/services/wp-card-view.service";
 import {WorkPackageCardDragAndDropService} from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";
 import {checkedClassName, uiStateLinkClass} from "core-components/wp-fast-table/builders/ui-state-link-builder";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 export type CardViewOrientation = 'horizontal'|'vertical';
 
@@ -99,7 +100,7 @@ export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
               readonly I18n:I18nService,
               readonly wpCreate:WorkPackageCreateService,
               readonly wpInlineCreate:WorkPackageInlineCreateService,
-              readonly wpNotifications:WorkPackageNotificationService,
+              readonly notificationService:WorkPackageNotificationService,
               readonly authorisationService:AuthorisationService,
               readonly causedUpdates:CausedUpdatesService,
               readonly cdRef:ChangeDetectorRef,

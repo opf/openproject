@@ -37,12 +37,12 @@ import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/w
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {WorkPackageRelationQueryBase} from "core-components/wp-relations/embedded/wp-relation-query.base";
 import {WpRelationInlineCreateService} from "core-components/wp-relations/embedded/relations/wp-relation-inline-create.service";
-import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
 import {filter} from "rxjs/operators";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {GroupDescriptor} from "core-components/work-packages/wp-single-view/wp-single-view.component";
-import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
+import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 @Component({
   selector: 'wp-relation-query',
@@ -65,7 +65,7 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
         this.embeddedTable.loadingIndicator = this.wpRelations.require(relatedTo.id!)
           .then(() => this.wpInlineCreate.remove(this.workPackage, relatedTo))
           .then(() => this.refreshTable())
-          .catch((error) => this.wpNotifications.handleRawError(error, this.workPackage));
+          .catch((error) => this.notificationService.handleRawError(error, this.workPackage));
       },
       (child:WorkPackageResource) => !!child.changeParent
     )
@@ -74,9 +74,9 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
   constructor(protected readonly PathHelper:PathHelperService,
               @Inject(WorkPackageInlineCreateService) protected readonly wpInlineCreate:WpRelationInlineCreateService,
               protected readonly wpRelations:WorkPackageRelationsService,
-              protected readonly wpEvents:WorkPackageEventsService,
+              protected readonly halEvents:HalEventsService,
               protected readonly queryUrlParamsHelper:UrlParamsHelperService,
-              protected readonly wpNotifications:WorkPackageNotificationService,
+              protected readonly notificationService:WorkPackageNotificationService,
               protected readonly I18n:I18nService) {
     super(queryUrlParamsHelper);
   }
@@ -113,14 +113,13 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
     this.wpInlineCreate
       .add(this.workPackage, toId)
       .then(() => {
-        this.wpEvents.push({
-          type: 'association',
-          id: this.workPackage.id!,
+        this.halEvents.push(this.workPackage, {
+          eventType: 'association',
           relatedWorkPackage: toId,
           relationType: this.getRelationTypeFromQuery()
         });
       })
-      .catch(error => this.wpNotifications.handleRawError(error, this.workPackage));
+      .catch(error => this.notificationService.handleRawError(error, this.workPackage));
   }
 
   private getRelationTypeFromQuery() {

@@ -27,24 +27,25 @@
 // ++
 
 import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
-import {TextDisplayField} from "core-app/modules/fields/display/field-types/wp-display-text-field.module";
-import {FloatDisplayField} from "core-app/modules/fields/display/field-types/wp-display-float-field.module";
-import {IntegerDisplayField} from "core-app/modules/fields/display/field-types/wp-display-integer-field.module";
-import {ResourceDisplayField} from "core-app/modules/fields/display/field-types/wp-display-resource-field.module";
-import {ResourcesDisplayField} from "core-app/modules/fields/display/field-types/wp-display-resources-field.module";
-import {FormattableDisplayField} from "core-app/modules/fields/display/field-types/wp-display-formattable-field.module";
-import {DurationDisplayField} from "core-app/modules/fields/display/field-types/wp-display-duration-field.module";
-import {DateDisplayField} from "core-app/modules/fields/display/field-types/wp-display-date-field.module";
-import {DateTimeDisplayField} from "core-app/modules/fields/display/field-types/wp-display-datetime-field.module";
-import {BooleanDisplayField} from "core-app/modules/fields/display/field-types/wp-display-boolean-field.module";
-import {ProgressDisplayField} from "core-app/modules/fields/display/field-types/wp-display-progress-field.module";
-import {WorkPackageDisplayField} from "core-app/modules/fields/display/field-types/wp-display-work-package-field.module";
-import {SpentTimeDisplayField} from "core-app/modules/fields/display/field-types/wp-display-spent-time-field.module";
-import {IdDisplayField} from "core-app/modules/fields/display/field-types/wp-display-id-field.module";
-import {HighlightedResourceDisplayField} from "core-app/modules/fields/display/field-types/wp-display-highlighted-resource-field.module";
-import {TypeDisplayField} from "core-app/modules/fields/display/field-types/wp-display-type-field.module";
-import {UserDisplayField} from "core-app/modules/fields/display/field-types/wp-display-user-field.modules";
-import {MultipleUserFieldModule} from "core-app/modules/fields/display/field-types/wp-display-multiple-user-field.module";
+import {TextDisplayField} from "core-app/modules/fields/display/field-types/text-display-field.module";
+import {FloatDisplayField} from "core-app/modules/fields/display/field-types/float-display-field.module";
+import {IntegerDisplayField} from "core-app/modules/fields/display/field-types/integer-display-field.module";
+import {ResourceDisplayField} from "core-app/modules/fields/display/field-types/resource-display-field.module";
+import {ResourcesDisplayField} from "core-app/modules/fields/display/field-types/resources-display-field.module";
+import {FormattableDisplayField} from "core-app/modules/fields/display/field-types/formattable-display-field.module";
+import {DurationDisplayField} from "core-app/modules/fields/display/field-types/duration-display-field.module";
+import {DateDisplayField} from "core-app/modules/fields/display/field-types/date-display-field.module";
+import {DateTimeDisplayField} from "core-app/modules/fields/display/field-types/datetime-display-field.module";
+import {BooleanDisplayField} from "core-app/modules/fields/display/field-types/boolean-display-field.module";
+import {ProgressDisplayField} from "core-app/modules/fields/display/field-types/progress-display-field.module";
+import {WorkPackageDisplayField} from "core-app/modules/fields/display/field-types/work-package-display-field.module";
+import {WorkPackageSpentTimeDisplayField} from "core-app/modules/fields/display/field-types/wp-spent-time-display-field.module";
+import {IdDisplayField} from "core-app/modules/fields/display/field-types/id-display-field.module";
+import {HighlightedResourceDisplayField} from "core-app/modules/fields/display/field-types/highlighted-resource-display-field.module";
+import {TypeDisplayField} from "core-app/modules/fields/display/field-types/type-display-field.module";
+import {UserDisplayField} from "core-app/modules/fields/display/field-types/user-display-field.module";
+import {MultipleUserFieldModule} from "core-app/modules/fields/display/field-types/multiple-user-display-field.module";
+import {WorkPackageIdDisplayField} from "core-app/modules/fields/display/field-types/wp-id-display-field.module";
 
 export function initializeCoreDisplayFields(displayFieldService:DisplayFieldService) {
   return () => {
@@ -72,8 +73,11 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
       .addFieldType(BooleanDisplayField, 'boolean', ['Boolean'])
       .addFieldType(ProgressDisplayField, 'progress', ['percentageDone'])
       .addFieldType(WorkPackageDisplayField, 'work_package', ['WorkPackage'])
-      .addFieldType(SpentTimeDisplayField, 'spentTime', ['spentTime'])
       .addFieldType(IdDisplayField, 'id', ['id'])
       .addFieldType(UserDisplayField, 'user', ['User']);
+
+    displayFieldService
+        .addSpecificFieldType('WorkPackage', WorkPackageIdDisplayField, 'id', ['id'])
+        .addSpecificFieldType('WorkPackage', WorkPackageSpentTimeDisplayField, 'spentTime', ['spentTime']);
   };
 }

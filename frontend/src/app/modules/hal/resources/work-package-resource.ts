@@ -40,13 +40,15 @@ import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
 import {States} from 'core-components/states.service';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
-import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {Attachable} from 'core-app/modules/hal/resources/mixins/attachable-mixin';
 import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
 import {InputState} from "reactivestates";
+import {WorkPackagesActivityService} from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 export interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
@@ -123,15 +125,14 @@ export class WorkPackageBaseResource extends HalResource {
   public attachments:AttachmentCollectionResource;
 
   public overriddenSchema:SchemaResource|undefined = undefined;
-  public __initialized_at:Number;
-
   readonly I18n:I18nService = this.injector.get(I18nService);
   readonly states:States = this.injector.get(States);
+  readonly wpActivity = this.injector.get(WorkPackagesActivityService);
   readonly workPackageDmService = this.injector.get(WorkPackageDmService);
   readonly wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
   readonly schemaCacheService:SchemaCacheService = this.injector.get(SchemaCacheService);
   readonly NotificationsService:NotificationsService = this.injector.get(NotificationsService);
-  readonly wpNotificationsService:WorkPackageNotificationService = this.injector.get(
+  readonly workPackageNotificationService:WorkPackageNotificationService = this.injector.get(
     WorkPackageNotificationService);
   readonly pathHelper:PathHelperService = this.injector.get(PathHelperService);
   readonly opFileUpload:OpenProjectFileUploadService = this.injector.get(OpenProjectFileUploadService);
@@ -170,10 +171,6 @@ export class WorkPackageBaseResource extends HalResource {
     return `${subject}${id}`;
   }
 
-  public get isNew():boolean {
-    return this.id === 'new';
-  }
-
   public get isMilestone():boolean {
     return this.schema.hasOwnProperty('date');
   }
@@ -191,6 +188,14 @@ export class WorkPackageBaseResource extends HalResource {
    */
   public get isEditable() {
     return this.isNew || !!this.$links.update;
+  }
+
+  public previewPath() {
+    if (!this.isNew) {
+      return this.pathHelper.api.v3.work_packages.id(this.id!).path;
+    } else {
+      return super.previewPath();
+    }
   }
 
   /**
@@ -278,17 +283,6 @@ export class WorkPackageBaseResource extends HalResource {
     };
   }
 
-  /**
-   * Retain the internal tracking identifier from the given other work package.
-   * This is due to us needing to identify a work package beyond its actual ID,
-   * because that changes upon saving.
-   *
-   * @param other
-   */
-  public retainFrom(other:WorkPackageResource) {
-    this.__initialized_at = other.__initialized_at;
-  }
-
   public $initialize(source:any) {
     super.$initialize(source);
 
@@ -336,6 +330,20 @@ export class WorkPackageBaseResource extends HalResource {
    */
   public get state():InputState<this> {
     return this.states.workPackages.get(this.id!) as any;
+  }
+
+  /**
+   * Update the state
+   */
+  public push(newValue:this):void {
+    this.wpActivity.clear(newValue.id!);
+
+    // If there is a parent, its view has to be updated as well
+    if (newValue.parent) {
+        this.wpCacheService.require(newValue.parent.id!, true);
+    }
+
+    this.wpCacheService.updateWorkPackage(newValue as any);
   }
 
   public get hasOverriddenSchema():boolean {

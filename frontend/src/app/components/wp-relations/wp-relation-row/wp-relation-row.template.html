@@ -16,9 +16,9 @@
                     [textContent]="relatedWorkPackage.type.name"></span>
               <span class="hidden-for-sighted" [textContent]="text.updateRelation"></span>
             </span>
-      <div class="wp-edit-field inplace-edit"
+      <div class="inline-edit--container inplace-edit"
            *ngIf="userInputs.showRelationTypesForm">
-        <select class="wp-inline-edit--field form--select"
+        <select class="inline-edit--field form--select"
                 [(ngModel)]="selectedRelationType"
                 (change)="saveRelationType()"
                 role="listbox"
@@ -42,9 +42,9 @@
     </div>
 
     <div class="grid-content medium-3 collapse wp-relations-status-field">
-      <wp-edit-field-group *ngIf="relatedWorkPackage" [workPackage]="relatedWorkPackage">
-        <wp-edit-field [workPackageId]="relatedWorkPackage.id" fieldName="status"></wp-edit-field>
-      </wp-edit-field-group>
+      <edit-form *ngIf="relatedWorkPackage" [resource]="relatedWorkPackage">
+        <editable-attribute-field [resource]="relatedWorkPackage" fieldName="status"></editable-attribute-field>
+      </edit-form>
     </div>
 
     <div class="grid-content medium-2 collapse wp-relations-controls-section"

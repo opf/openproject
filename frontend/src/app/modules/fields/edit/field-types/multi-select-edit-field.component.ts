@@ -123,11 +123,13 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   }
 
   public onOpen() {
-    jQuery(this.hiddenOverflowContainer).addClass('-hidden-overflow');
+    jQuery(this.hiddenOverflowContainer).one('scroll', () => {
+      this.ngSelectComponent.close();
+    });
   }
 
   public onClose() {
-    jQuery(this.hiddenOverflowContainer).removeClass('-hidden-overflow');
+    // Nothing to do
   }
 
   public repositionDropdown() {

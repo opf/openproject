@@ -181,7 +181,7 @@ module Pages
     def open_full_screen_by_doubleclick(work_package)
       loading_indicator_saveguard
       # The 'id' column should have enough space to be clicked
-      click_target = row(work_package).find('.wp-table--cell-span.id')
+      click_target = row(work_package).find('.inline-edit--display-field.id')
       page.driver.browser.action.double_click(click_target.native).perform
 
       FullWorkPackage.new(work_package, project)

@@ -206,6 +206,10 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
     return this.focused;
   }
 
+  setErrors(newErrors:string[]):void {
+    // interface
+  }
+
   public quotedText(rawComment:string) {
     let quoted = rawComment.split('\n')
       .map(function(line:string) {

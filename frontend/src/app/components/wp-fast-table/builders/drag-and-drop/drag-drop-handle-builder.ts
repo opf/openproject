@@ -1,5 +1,5 @@
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {wpCellTdClassName} from "core-components/wp-fast-table/builders/cell-builder";
+import {tdClassName} from "core-components/wp-fast-table/builders/cell-builder";
 import {Injector} from "@angular/core";
 import {TableDragActionsRegistryService} from "core-components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
 import {TableDragActionService} from "core-components/wp-table/drag-and-drop/actions/table-drag-action.service";
@@ -29,7 +29,7 @@ export class DragDropHandleBuilder {
       return td;
     }
 
-    td.classList.add(wpCellTdClassName, 'wp-table--sort-td', internalSortColumn.id,  'hide-when-print');
+    td.classList.add(tdClassName, 'wp-table--sort-td', internalSortColumn.id,  'hide-when-print');
 
     // Wrap handle as span
     let span = document.createElement('span');

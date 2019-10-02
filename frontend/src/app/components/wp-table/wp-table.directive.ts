@@ -61,6 +61,7 @@ import {WpTableHoverSync} from "core-components/wp-table/wp-table-hover-sync";
 import {WorkPackageTimelineTableController} from "core-components/wp-table/timeline/container/wp-timeline-container.directive";
 import {WorkPackageTable} from "core-components/wp-fast-table/wp-fast-table";
 import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 
 @Component({
   templateUrl: './wp-table.directive.html',

@@ -67,13 +67,11 @@ import {RevisionActivityComponent} from 'core-components/wp-activity/revision/re
 import {ActivityLinkComponent} from 'core-components/wp-activity/activity-link.component';
 import {WorkPackageActivityTabComponent} from 'core-components/wp-single-view-tabs/activity-panel/activity-tab.component';
 import {OpenprojectAttachmentsModule} from 'core-app/modules/attachments/openproject-attachments.module';
-import {WorkPackageEditFieldComponent} from 'core-app/components/wp-edit/wp-edit-field/wp-edit-field.component';
 import {WpCustomActionComponent} from 'core-components/wp-custom-actions/wp-custom-actions/wp-custom-action.component';
 import {WpCustomActionsComponent} from 'core-components/wp-custom-actions/wp-custom-actions.component';
 import {WorkPackageRelationsCountComponent} from 'core-components/work-packages/wp-relations-count/wp-relations-count.component';
 import {WorkPackageWatchersCountComponent} from 'core-components/work-packages/wp-relations-count/wp-watchers-count.component';
 import {WorkPackageBreadcrumbComponent} from 'core-components/work-packages/wp-breadcrumb/wp-breadcrumb.component';
-import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
 import {WorkPackageSplitViewToolbarComponent} from 'core-components/wp-details/wp-details-toolbar.component';
 import {WorkPackageWatcherButtonComponent} from 'core-components/work-packages/wp-watcher-button/wp-watcher-button.component';
 import {WorkPackageSubjectComponent} from 'core-components/work-packages/wp-subject/wp-subject.component';
@@ -132,7 +130,6 @@ import {WorkPackageCacheService} from 'core-components/work-packages/work-packag
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
-import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
@@ -159,9 +156,12 @@ import {WorkPackageIsolatedGraphQuerySpaceDirective} from "core-app/modules/work
 import {WorkPackageViewToggleButton} from "core-components/wp-buttons/wp-view-toggle-button/work-package-view-toggle-button.component";
 import {WorkPackagesGridComponent} from "core-components/wp-grid/wp-grid.component";
 import {WorkPackageViewDropdownMenuDirective} from "core-components/op-context-menu/handlers/wp-view-dropdown-menu.directive";
-import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
-import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
-import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
+import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
+import {OpenprojectProjectsModule} from "core-app/modules/projects/openproject-projects.module";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import {WorkPackageEditActionsBarComponent} from "core-app/modules/common/edit-actions-bar/wp-edit-actions-bar.component";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 
 
 @NgModule({
@@ -177,6 +177,8 @@ import {WorkPackageEditingService} from "core-components/wp-edit-form/work-packa
 
     OpenprojectBcfModule,
 
+    OpenprojectProjectsModule,
+
     // Work package custom actions
     //WpCustomActionsModule,
   ],
@@ -187,6 +189,9 @@ import {WorkPackageEditingService} from "core-components/wp-edit-form/work-packa
       deps: [Injector],
       multi: true
     },
+
+    // Notification service
+    WorkPackageNotificationService,
 
     // External query configuration
     ExternalQueryConfigurationService,
@@ -210,7 +215,6 @@ import {WorkPackageEditingService} from "core-components/wp-edit-form/work-packa
     SchemaCacheService,
 
     KeepTabService,
-    WorkPackageNotificationService,
     WorkPackageDmService,
 
     WorkPackagesActivityService,
@@ -218,7 +222,7 @@ import {WorkPackageEditingService} from "core-components/wp-edit-form/work-packa
     WorkPackageWatchersService,
 
     QueryFormDmService,
-    WorkPackageEventsService,
+    HalEventsService,
   ],
   declarations: [
     // Routing
@@ -233,6 +237,7 @@ import {WorkPackageEditingService} from "core-components/wp-edit-form/work-packa
     WorkPackageNewFullViewComponent,
     WorkPackageNewSplitViewComponent,
     WorkPackageTypeStatusComponent,
+    WorkPackageEditActionsBarComponent,
 
     // WP Copy
     WorkPackageCopyFullViewComponent,
@@ -259,9 +264,6 @@ import {WorkPackageEditingService} from "core-components/wp-edit-form/work-packa
     WpResizerDirective,
 
     WorkPackageTableSumsRowController,
-
-    // WP Edit Fields
-    WorkPackageEditFieldComponent,
 
     // Filters
     QueryFiltersComponent,
@@ -339,7 +341,6 @@ import {WorkPackageEditingService} from "core-components/wp-edit-form/work-packa
     WorkPackageRelationsCountComponent,
     WorkPackageWatchersCountComponent,
     WorkPackageBreadcrumbComponent,
-    WorkPackageEditFieldGroupComponent,
     WorkPackageSplitViewToolbarComponent,
     WorkPackageWatcherButtonComponent,
     WorkPackageSubjectComponent,
@@ -506,6 +507,15 @@ export class OpenprojectWorkPackagesModule {
 
       hookService.register('workPackageAttachmentListComponent', (workPackage:WorkPackageResource) => {
         return AttachmentListComponent;
+      });
+
+      /** Return specialized work package changeset for editing service */
+      hookService.register('halResourceChangesetClass', (resource:HalResource) => {
+        if (resource._type === 'WorkPackage') {
+          return WorkPackageChangeset;
+        }
+
+        return null;
       });
     };
   }

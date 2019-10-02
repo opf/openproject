@@ -200,7 +200,7 @@ describe 'form configuration', type: :feature, js: true do
         wp_page.click_create_wp_button(type)
 
         wp_page.expect_group('Estimates and time') do
-          expect(page).to have_selector('.wp-edit-field.estimatedTime')
+          expect(page).to have_selector('.inline-edit--container.estimatedTime')
         end
 
         find('#work-packages--edit-actions-cancel').click

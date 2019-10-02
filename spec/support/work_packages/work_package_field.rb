@@ -15,7 +15,7 @@ class WorkPackageField
     @property_name = property_name.to_s
     @context = context
 
-    @selector = selector || ".wp-edit-field--container.#{property_name}"
+    @selector = selector || ".inline-edit--container.#{property_name}"
   end
 
   def field_container
@@ -23,7 +23,7 @@ class WorkPackageField
   end
 
   def display_selector
-    '.wp-edit-field--display-field'
+    '.inline-edit--display-field'
   end
 
   def display_element
@@ -203,7 +203,7 @@ class WorkPackageField
     if property_name == 'description'
       '.op-ckeditor--wrapper'
     else
-      '.wp-inline-edit--field'
+      '.inline-edit--field'
     end
   end
 
