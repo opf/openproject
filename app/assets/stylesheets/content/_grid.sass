@@ -5,6 +5,13 @@ $grid--widget-padding: 20px
 
 @import openproject/mixins
 
+@mixin modifying_placeholder
+  border: 1px dashed $primary-color
+  pointer-events: none
+
+@mixin d_n_d_preview
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1)
+
 @mixin grid--commons
   display: grid
 
@@ -31,9 +38,8 @@ $grid--widget-padding: 20px
       visibility: visible
 
   &.-resizing
-    border: 1px dashed $primary-color
+    @include modifying_placeholder
     z-index: 1000
-    pointer-events: none
 
   &.-addable
     display: flex
@@ -42,7 +48,7 @@ $grid--widget-padding: 20px
     align-items: center
 
   &.-placeholder
-    pointer-events: none
+    @include modifying_placeholder
     z-index: 30
 
   &.-dragged
@@ -240,3 +246,4 @@ $grid--widget-padding: 20px
   @include widget-box--style
   margin-left: -$grid--widget-padding
   margin-top: -$grid--widget-padding
+  @include d_n_d_preview
