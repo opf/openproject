@@ -160,6 +160,18 @@ describe 'Projects index page',
             .to have_selector('td', text: news.created_on.strftime('%m/%d/%Y'))
         end
       end
+
+      scenario 'test that flash sortBy is being escaped' do
+        login_as(admin)
+        visit projects_path(sortBy: "[[\"><script src='/foobar.js'></script>\",\"\"]]")
+
+        error_text = "Orders ><script src='/foobar js'></script> is not set to one of the allowed values. and does not exist."
+        error_html = "Orders &gt;&lt;script src='/foobar js'&gt;&lt;/script&gt; is not set to one of the allowed values. and does not exist."
+        expect(page).to have_selector('.flash.error', text: error_text)
+
+        error_container = page.find('.flash.error')
+        expect(error_container['innerHTML']).to include error_html
+      end
     end
   end
 

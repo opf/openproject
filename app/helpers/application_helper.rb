@@ -137,14 +137,16 @@ module ApplicationHelper
 
   # Renders flash messages
   def render_flash_messages
-    flash
+    messages = flash
       .reject { |k,_| k.start_with? '_' }
-      .map { |k, v| render_flash_message(k, v) }.join.html_safe
+      .map { |k, v| render_flash_message(k, v) }
+
+    safe_join messages, "\n"
   end
 
   def join_flash_messages(messages)
     if messages.respond_to?(:join)
-      messages.join('<br />').html_safe
+      safe_join(messages, '<br />')
     else
       messages
     end
