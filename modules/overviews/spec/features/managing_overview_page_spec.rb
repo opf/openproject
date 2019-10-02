@@ -100,7 +100,7 @@ describe 'Overview page managing', type: :feature, js: true, with_mail: false do
     table_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(5)')
     table_area.expect_to_span(1, 1, 2, 2)
 
-    table_area.resize_to(2, 2)
+    table_area.resize_to(1, 2)
 
     overview_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
 
