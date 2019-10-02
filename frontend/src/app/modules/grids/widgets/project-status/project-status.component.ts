@@ -54,14 +54,30 @@ export const emptyPlaceholder = '-';
 export class WidgetProjectStatusComponent extends AbstractWidgetComponent implements OnInit {
   @ViewChild('contentContainer', { static: true }) readonly contentContainer:ElementRef;
 
-  public currentStatusCode:string = 'not_set';
+  public currentStatusCode:string = 'not set';
   public explanation:String = '';
-  public availableStatuses:any = {
-    on_track: this.i18n.t('js.grid.widgets.project_status.on_track'),
-    off_track: this.i18n.t('js.grid.widgets.project_status.off_track'),
-    at_risk: this.i18n.t('js.grid.widgets.project_status.at_risk'),
-    not_set: this.i18n.t('js.grid.widgets.project_status.not_set')
-  };
+  public availableStatuses:any[] = [
+    {
+      code: 'not set',
+      name: this.i18n.t('js.grid.widgets.project_status.not_set'),
+      colorClass: '-gray',
+    },
+    {
+      code: 'off track',
+      name: this.i18n.t('js.grid.widgets.project_status.off_track'),
+      colorClass: '-red',
+    },
+    {
+      code: 'on track',
+      name: this.i18n.t('js.grid.widgets.project_status.on_track'),
+      colorClass: '-green',
+    },
+    {
+      code: 'at risk',
+      name: this.i18n.t('js.grid.widgets.project_status.at_risk'),
+      colorClass: '-orange',
+    },
+  ];
 
   constructor(protected readonly i18n:I18nService,
               protected readonly injector:Injector,
@@ -86,13 +102,18 @@ export class WidgetProjectStatusComponent extends AbstractWidgetComponent implem
         this.loadProjectSchema()]
       )
       .then(([project, schema]) => {
-        if (project.status) {
+        if (project.status && project.status.code) {
           this.currentStatusCode = project.status.code;
+        } else {
+          this.currentStatusCode = 'not set';
+        }
+
+        if (project.status && project.status.explanation) {
           this.explanation = project.status.explanation.html;
         } else {
-          this.currentStatusCode = 'not_set';
           this.explanation = '';
         }
+
         this.redraw();
       });
   }

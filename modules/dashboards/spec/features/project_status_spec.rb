@@ -65,7 +65,7 @@ describe 'Project status widget on dashboard', type: :feature, js: true do
         .to have_content project_status.explanation
 
       expect(page)
-        .to have_selector(".bulb.-green.-active")
+        .to have_content 'ON TRACK'
     end
   end
 end

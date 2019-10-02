@@ -1,83 +1,42 @@
-.traffic-lights
-  width: 40px
-  height: 100px
-  padding: 5px
-  border: 1px solid gray
-  border-radius: 2px
-
-.light
-  width: 30px
-  height: 30px
-  padding: 5px
-  &:hover,
-  &.-active
-    padding: 0px
-    animation-name: shrink-padding
-    animation-duration: 200ms
-  &.-active
-    .-green
-      background-color: green
-    .-yellow
-      background-color: orange
-    .-red
-      background-color: red
+$gray: #CCCCCC
+$red: #E73E3D
+$orange: #FFB030
+$green: #00D12D
 
 .bulb
-  width: 20px
-  height: 20px
+  display: inline-block
+  width: 40px
+  height: 40px
   border-radius: 50%
-  border-width: 1px
+  border-width: 10px
   border-style: solid
-  &.-green
-    border-color: green
-  &.-yellow
-    border-color: orange
+  margin-right: 7px
+  vertical-align: middle
+  &.-gray
+    border-color: $gray
+    background-color: adjust-color($gray, $alpha: -0.7)
   &.-red
-    border-color: red
+    border-color: $red
+    background-color: adjust-color($red, $alpha: -0.7)
+  &.-orange
+    border-color: $orange
+    background-color: adjust-color($orange, $alpha: -0.7)
+  &.-green
+    border-color: $green
+    background-color: adjust-color($green, $alpha: -0.7)
 
-.light
-  &:hover,
-  &.-active
-    .bulb
-      width: 30px
-      height: 30px
-      border-width: 4px
-      animation-name: increase-size
-      animation-duration: 200ms
+.status-name
+  text-transform: uppercase
+  font-weight: bold
+  &.-gray
+    color: $gray
+  &.-red
+    color: $red
+  &.-orange
+    color: $orange
+  &.-green
+    color: $green
 
-.current-status
-  margin-top: 10px
+.explanation
+  margin-top: 9px
 
-.content-grid
-  display: flex
-  flex-direction: row
-  width: 100%
-
-.left-column
-  flex: 1
-  flex-direction: column
-  flex-basis: content
-  max-width: 100px
-  padding-right: 20px
-
-.right-column
-  flex: 2
-  flex-direction: column
-
-@keyframes shrink-padding
-  from
-    padding: 5px
-  to
-    padding: 0px
-
-@keyframes increase-size
-  from
-    width: 20px
-    height: 20px
-    border-width: 1px
-    background-color: transparent
-  to
-    width: 30px
-    height: 30px
-    border-width: 4px
-    background-color: transparent

@@ -9,21 +9,16 @@
 </widget-header>
 
 <div class="grid--widget-content">
-  <div class="content-grid">
-    <div class="left-column">
-      <div class="traffic-lights">
-        <div class="light" [ngClass]="{'-active':currentStatusCode === 'off track'}">
-          <div class="bulb -red" [attr.title]="availableStatuses['off_track']"></div>
-        </div>
-        <div class="light" [ngClass]="{'-active':currentStatusCode === 'at risk'}" >
-          <div class="bulb -yellow" [attr.title]="availableStatuses['at_risk']"></div>
-        </div>
-        <div class="light" [ngClass]="{'-active':currentStatusCode === 'on track'}">
-          <div class="bulb -green -active" [attr.title]="availableStatuses['on_track']"></div>
-        </div>
-      </div>
-      <div class="current-status" [innerHtml]="availableStatuses[currentStatusCode]"></div>
-    </div>
-    <div class="right-column" [innerHtml]="explanation"></div>
-  </div>
+  <ng-select [disabled]="true"
+             [items]="availableStatuses"
+             [(ngModel)]="currentStatusCode"
+             bindLabel="name"
+             bindValue="code"
+             class="traffic-lights">
+    <ng-template ng-label-tmp let-item="item">
+      <span class="bulb" [ngClass]="item.colorClass"></span>
+      <span class="status-name" [ngClass]="item.colorClass">{{item.name}}</span>
+    </ng-template>
+  </ng-select>
+  <div class="explanation" [innerHtml]="explanation"></div>
 </div>
