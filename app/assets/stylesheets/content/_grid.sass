@@ -5,20 +5,13 @@ $grid--widget-padding: 20px
 
 @import openproject/mixins
 
-@mixin modifying_placeholder
-  border: 1px dashed $primary-color
-  pointer-events: none
-
-@mixin d_n_d_preview
-  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1)
-
 @mixin grid--commons
   display: grid
 
 .grid--container
   @include grid--commons
 
-.grid--area, .cdk-drag-preview
+.grid--area
   overflow: hidden
   min-height: 30px
 
@@ -38,7 +31,7 @@ $grid--widget-padding: 20px
       visibility: visible
 
   &.-resizing
-    @include modifying_placeholder
+    @include modifying--placeholder
     z-index: 1000
 
   &.-addable
@@ -48,7 +41,7 @@ $grid--widget-padding: 20px
     align-items: center
 
   &.-placeholder
-    @include modifying_placeholder
+    @include modifying--placeholder
     z-index: 30
 
   &.-dragged
@@ -66,11 +59,6 @@ $grid--widget-padding: 20px
 
     &.-column
       width: $grid--gap-width
-
-  .cdk-drag-handle
-    cursor: grab
-    float: left
-    padding-top: 5px
 
   .widget-box--header
     display: flex
@@ -109,9 +97,11 @@ $grid--widget-padding: 20px
 .grid--area-drag-handle
   margin-left: -19px
   padding-right: 1px
+  padding-top: 5px
   margin-top: 3px
   opacity: 0
   cursor: grab
+  float: left
 
   &:before
     padding: 0
@@ -130,6 +120,14 @@ $grid--widget-padding: 20px
 
   input[type="text"].toolbar--editable-toolbar
     font-weight: normal
+
+  &.cdk-drag-preview
+    overflow: hidden
+    background: white
+    padding: $grid--widget-padding
+    @include widget-box--style
+    margin-left: -$grid--widget-padding
+    margin-top: -$grid--widget-padding
 
 .grid--widget-content
   height: 100%
@@ -239,11 +237,3 @@ $grid--widget-padding: 20px
 
   &:last-of-type
     border-bottom: none
-
-.cdk-drag-preview
-  background: white
-  padding: $grid--widget-padding
-  @include widget-box--style
-  margin-left: -$grid--widget-padding
-  margin-top: -$grid--widget-padding
-  @include d_n_d_preview

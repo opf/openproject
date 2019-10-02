@@ -1,0 +1,43 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See docs/COPYRIGHT.rdoc for more details.
+//++
+
+// The intend for this file is to become the place where all drag&drop styles are placed.
+// As there will hopefully also be a shared style for resizing, and as those two will hopefully also share some styles
+// there is also the 'modifying' grouping, which could serve as the basis for the two.
+
+@mixin modifying--placeholder
+  border: 1px dashed $primary-color
+  pointer-events: none
+
+@mixin d_n_d--preview
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1)
+
+// There does not seem to be a way to add a class to the preview element
+// added by cdk drag.
+.cdk-drag-preview
+  @include d_n_d--preview
