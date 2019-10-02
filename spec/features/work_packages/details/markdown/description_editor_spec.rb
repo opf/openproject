@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/work_packages/details/inplace_editor/shared_examples'
 require 'features/work_packages/shared_contexts'
-require 'support/work_packages/work_package_field'
+require 'support/edit_fields/edit_field'
 require 'features/work_packages/work_packages_page'
 
 describe 'description inplace editor', js: true, selenium: true do
@@ -45,7 +45,7 @@ describe 'description inplace editor', js: true, selenium: true do
     )
   end
   let(:user) { FactoryBot.create :admin }
-  let(:field) { WorkPackageEditorField.new wp_page, 'description' }
+  let(:field) { TextEditorField.new wp_page, 'description' }
   let(:wp_page) { Pages::SplitWorkPackage.new(work_package, project) }
 
   before do

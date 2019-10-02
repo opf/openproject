@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 require 'features/work_packages/work_packages_page'
-require 'support/work_packages/work_package_field'
+require 'support/edit_fields/edit_field'
 
 describe 'Activity tab', js: true, selenium: true do
   def alter_work_package_at(work_package, attributes:, at:, user: User.current)
@@ -153,9 +153,9 @@ describe 'Activity tab', js: true, selenium: true do
       it 'can quote a previous comment' do
         activity_tab.hover_action('1', :quote)
 
-        field = WorkPackageEditorField.new work_package_page,
-                                           'comment',
-                                           selector: '.work-packages--activity--add-comment'
+        field = TextEditorField.new work_package_page,
+                                    'comment',
+                                    selector: '.work-packages--activity--add-comment'
 
         field.expect_active!
 

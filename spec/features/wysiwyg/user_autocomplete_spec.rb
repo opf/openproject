@@ -48,9 +48,9 @@ describe 'Wysiwyg work package user mentions',
 
   let(:selector) { '.work-packages--activity--add-comment' }
   let(:comment_field) do
-    WorkPackageEditorField.new wp_page,
-                               'comment',
-                               selector: selector
+    TextEditorField.new wp_page,
+                        'comment',
+                        selector: selector
   end
 
   before do

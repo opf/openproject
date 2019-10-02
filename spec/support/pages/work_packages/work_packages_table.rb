@@ -259,7 +259,7 @@ module Pages
           row(work_package)
         end
 
-      ::WorkPackageField.new(context, attribute)
+      ::EditField.new(context, attribute)
     end
 
     def click_setting_item(label)
