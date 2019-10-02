@@ -38,6 +38,7 @@ class ForumsController < ApplicationController
   include SortHelper
   include WatchersHelper
   include PaginationHelper
+  include OpenProject::ClientPreferenceExtractor
 
   def index
     @forums = @project.forums

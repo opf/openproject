@@ -98,7 +98,9 @@ class UserPreference < ActiveRecord::Base
     return if time_zone.nil?
 
     zone = ActiveSupport::TimeZone.new(time_zone)
-    zone&.tzinfo&.canonical_identifier
+    unless zone.nil?
+      zone.tzinfo.canonical_identifier
+    end
   end
 
   private
