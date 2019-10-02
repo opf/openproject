@@ -100,6 +100,16 @@ module Pages
       @labor_rows = labor_rows + 1
     end
 
+    def expect_planned_costs!(type:, row:, expected:)
+      raise "Unknown type: #{type}, allowed: labor, material" unless %i[labor material].include? type.to_sym
+
+      retry_block do
+        container = page.all("##{type}_budget_items_fieldset td.currency.budget-table--fields")[row - 1]
+        actual = container.text
+        raise "Expected planned costs #{expected}, got #{actual}" unless expected == actual
+      end
+    end
+
     def unit_costs_at(num_row)
       unit_costs_container.all('tbody td.currency')[num_row - 1]
     end
