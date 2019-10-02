@@ -129,7 +129,6 @@ compiled with SBCL 1.4.5.debian
 ```
 
 
-
 ### Performing the migration
 
 You are now ready to use `pgloader`. You simply point it the old and new database URL while specifying the option
