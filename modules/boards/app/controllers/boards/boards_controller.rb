@@ -1,7 +1,5 @@
 module ::Boards
   class BoardsController < BaseController
-    include OpenProject::ClientPreferenceExtractor
-
     before_action :find_optional_project
     before_action :authorize
 
@@ -24,10 +22,6 @@ module ::Boards
     end
 
     private
-
-    def pass_gon
-      gon.settings = client_preferences
-    end
 
     def authorize_work_package_permission
       unless current_user.allowed_to?(:view_work_packages, @project, global: @project.nil?)

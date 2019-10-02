@@ -27,7 +27,6 @@
 //++
 
 
-import {IPaginationOptions} from 'core-components/table-pagination/pagination-service';
 export class PaginationInstance {
 
   constructor(public page:number,

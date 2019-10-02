@@ -31,7 +31,6 @@
 class WorkPackagesController < ApplicationController
   include QueriesHelper
   include PaginationHelper
-  include OpenProject::ClientPreferenceExtractor
   include Concerns::Layout
 
   accept_key_auth :index, :show
@@ -40,10 +39,8 @@ class WorkPackagesController < ApplicationController
   before_action :find_optional_project,
                 :protect_from_unauthorized_export, only: :index
 
-  before_action :load_and_validate_query, only: :index, unless: ->() { request.format.html? }
-  before_action :load_work_packages, only: :index, if: ->() { request.format.atom? }
-
-  before_action :set_gon_settings
+  before_action :load_and_validate_query, only: :index, unless: -> { request.format.html? }
+  before_action :load_work_packages, only: :index, if: -> { request.format.atom? }
 
   def show
     respond_to do |format|
@@ -83,11 +80,6 @@ class WorkPackagesController < ApplicationController
   end
 
   protected
-
-  def set_gon_settings
-    gon.settings = client_preferences
-    gon.settings[:enabled_modules] = project ? project.enabled_modules.collect(&:name) : []
-  end
 
   def export_list(mime_type)
     exporter = WorkPackage::Exporter.for_list(mime_type)
