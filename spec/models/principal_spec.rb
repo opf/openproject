@@ -118,4 +118,17 @@ describe Principal, type: :model do
       expect(Principal.active_or_registered_like(user.lastname[0, -1])).to eq([user])
     end
   end
+
+  describe '.not_builtin' do
+    let!(:anonymous_user) { FactoryBot.create(:anonymous) }
+    let!(:system_user) { FactoryBot.create(:system) }
+    let!(:deleted_user) { FactoryBot.create(:deleted_user) }
+    let!(:group) { FactoryBot.create(:group) }
+    let!(:user) { FactoryBot.create(:user) }
+
+    it 'returns only actual users and groups' do
+      expect(described_class.not_builtin)
+        .to match_array [user, group]
+    end
+  end
 end

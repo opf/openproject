@@ -73,9 +73,10 @@ class Principal < ActiveRecord::Base
     where.not(id: Member.of(project).select(:user_id))
   }
 
-  # Active non-anonymous principals scope
+  # Builtin status cannot be used here as the SystemUser is locked typically but
+  # is a builtin user anyway.
   scope :not_builtin, -> {
-    where("#{Principal.table_name}.status <> #{STATUSES[:builtin]}")
+    where.not(type: [SystemUser.name, AnonymousUser.name, DeletedUser.name])
   }
 
   scope :like, ->(q) {
