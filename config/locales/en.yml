@@ -2654,7 +2654,7 @@ en:
       messages:
         # Common error messages
         invalid_request: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
-        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
+        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
         unauthorized_client: 'The client is not authorized to perform this request using this method.'
         access_denied: 'The resource owner or authorization server denied the request.'
         invalid_scope: 'The requested scope is invalid, unknown, or malformed.'
