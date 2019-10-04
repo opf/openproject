@@ -9,16 +9,27 @@
 </widget-header>
 
 <div class="grid--widget-content">
-  <ng-select [disabled]="true"
-             [items]="availableStatuses"
-             [(ngModel)]="currentStatusCode"
-             bindLabel="name"
-             bindValue="code"
-             class="traffic-lights">
-    <ng-template ng-label-tmp let-item="item">
-      <span class="bulb" [ngClass]="item.colorClass"></span>
-      <span class="status-name" [ngClass]="item.colorClass">{{item.name}}</span>
-    </ng-template>
-  </ng-select>
-  <div class="explanation" [innerHtml]="explanation"></div>
+  <edit-form *ngIf="(project$ | async) as project" [resource]="project">
+    <editable-attribute-field [resource]="project"
+                              fieldName="statusCode">
+    </editable-attribute-field>
+    <editable-attribute-field [resource]="project"
+                              fieldName="statusExplanation">
+    </editable-attribute-field>
+  </edit-form>
+
+<!--  <ng-select [disabled]="true"-->
+<!--             [items]="availableStatuses"-->
+<!--             [(ngModel)]="currentStatusCode"-->
+<!--             bindLabel="name"-->
+<!--             bindValue="code"-->
+<!--             class="traffic-lights">-->
+<!--    <ng-template ng-label-tmp let-item="item">-->
+<!--      <span class="bulb" [ngClass]="item.colorClass"></span>-->
+<!--      <span class="status-name" [ngClass]="item.colorClass">{{item.name}}</span>-->
+<!--    </ng-template>-->
+<!--  </ng-select>-->
+<!--  <div class="explanation" [innerHtml]="explanation"></div>-->
+
 </div>
+

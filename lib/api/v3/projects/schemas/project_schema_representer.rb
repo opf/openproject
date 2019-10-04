@@ -65,9 +65,17 @@ module API
                  type: 'Boolean',
                  visibility: false
 
-          schema :status,
+          schema :status_code,
                  type: 'ProjectStatus',
-                 visibility: false
+                 visibility: false,
+                 required: false,
+                 writable: ->(*) { represented.writable?(:status) }
+
+          schema :status_explanation,
+                 type: 'Formattable',
+                 visibility: false,
+                 required: false,
+                 writable: ->(*) { represented.writable?(:status) }
 
           schema_with_allowed_link :parent,
                                    type: 'Project',

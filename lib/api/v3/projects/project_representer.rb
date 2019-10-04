@@ -66,11 +66,11 @@ module API
              cache_if: -> {
                current_user_allowed_to(:view_work_packages, context: represented)
              } do
-          { href: api_v3_paths.work_packages_by_project(represented.id) }
+          {href: api_v3_paths.work_packages_by_project(represented.id)}
         end
 
         link :categories do
-          { href: api_v3_paths.categories_by_project(represented.id) }
+          {href: api_v3_paths.categories_by_project(represented.id)}
         end
 
         link :versions,
@@ -78,7 +78,7 @@ module API
                current_user_allowed_to(:view_work_packages, context: represented) ||
                  current_user_allowed_to(:manage_versions, context: represented)
              } do
-          { href: api_v3_paths.versions_by_project(represented.id) }
+          {href: api_v3_paths.versions_by_project(represented.id)}
         end
 
         link :memberships,
@@ -86,7 +86,7 @@ module API
                current_user_allowed_to(:view_members, context: represented)
              } do
           {
-            href: api_v3_paths.path_for(:memberships, filters: [{ project: { operator: "=", values: [represented.id.to_s] } }]),
+            href: api_v3_paths.path_for(:memberships, filters: [{project: {operator: "=", values: [represented.id.to_s]}}]),
           }
         end
 
@@ -95,7 +95,7 @@ module API
                current_user_allowed_to(:view_work_packages, context: represented) ||
                  current_user_allowed_to(:manage_types, context: represented)
              } do
-          { href: api_v3_paths.types_by_project(represented.id) }
+          {href: api_v3_paths.types_by_project(represented.id)}
         end
 
         link :update,
@@ -162,25 +162,32 @@ module API
 
         date_time_property :updated_at
 
-        property :status,
+        formattable_property :status_explanation,
+                             getter: ->(*) {
+                               status = represented.status || Project::Status.new
+                               ::API::Decorators::Formattable.new(status.explanation,
+                                                                  object: represented,
+                                                                  plain: false)
+                             },
+                             setter: ->(fragment:, **) {
+                               represented.status ||= {}
+                               represented.status[:explanation] = fragment["raw"]
+                             }
+
+        property :status_code,
                  render_nil: true,
-                 exec_context: :decorator,
-                 getter: ->(*) {
-                   ::API::V3::Projects::Status::ProjectStatusRepresenter.create(represented.status || Project::Status.new,
-                                                                                current_user: current_user)
+                 getter: ->(represented:, **) {
+                   next unless represented.status&.code
+
+                   represented.status.code.to_s.tr('_', ' ')
                  },
                  setter: ->(fragment:, **) {
-                   status = fragment.with_indifferent_access.slice(:explanation)
-
-                   if fragment.key?('code')
-                     status[:code] = if fragment['code'].nil?
-                                       nil
-                                     else
-                                       fragment['code'].strip.tr(' ', '_').underscore.to_sym
-                                     end
-                   end
-
-                   represented.status = status
+                   represented.status ||= {}
+                   represented.status[:code] = if fragment.nil?
+                                   nil
+                                 else
+                                   fragment.strip.tr(' ', '_').underscore.to_sym
+                                 end
                  }
 
         def _type
