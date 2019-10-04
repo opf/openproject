@@ -181,7 +181,7 @@ module API
 
                    represented.status.code.to_s.tr('_', ' ')
                  },
-                 setter: ->(fragment:, **) {
+                 setter: ->(fragment:,represented:, **) {
                    represented.status ||= {}
                    represented.status[:code] = if fragment.nil?
                                    nil
