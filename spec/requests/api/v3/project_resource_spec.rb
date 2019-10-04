@@ -107,11 +107,11 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       it 'includes the project status' do
         expect(subject.body)
           .to be_json_eql(project_status.explanation.to_json)
-          .at_path("status/explanation/raw")
+          .at_path("statusExplanation/raw")
 
         expect(subject.body)
           .to be_json_eql(project_status.code.tr('_', ' ').to_json)
-          .at_path("status/code")
+          .at_path("statusCode")
       end
 
       context 'requesting nonexistent project' do
@@ -299,26 +299,25 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
         {
           identifier: 'new_project_identifier',
           name: 'Project name',
-          status: {
-            "code": "off track",
-            "explanation": "Some explanation."
-          }
+          statusCode: 'off track',
+          statusExplanation: { raw: "Some explanation." }
         }.to_json
       end
 
       it 'sets the status' do
         expect(last_response.body)
+          .to be_json_eql('off track'.to_json)
+          .at_path('statusCode')
+
+        expect(last_response.body)
           .to be_json_eql(
             {
-              "code": "off track",
-              "explanation": {
-                "format": "markdown",
-                "html": "<p>Some explanation.</p>",
-                "raw": "Some explanation."
-              }
+              "format": "markdown",
+              "html": "<p>Some explanation.</p>",
+              "raw": "Some explanation."
             }.to_json
           )
-          .at_path("status")
+          .at_path("statusExplanation")
       end
 
       it 'creates a project and a status' do
@@ -393,10 +392,8 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
         {
           identifier: 'new_project_identifier',
           name: 'Project name',
-          status: {
-            "code": "faulty",
-            "explanation": "Some explanation."
-          }
+          statusCode: 'faulty',
+          statusExplanation: "Some explanation."
         }.to_json
       end
 
@@ -502,26 +499,27 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
     context 'with a status' do
       let(:body) do
         {
-          status: {
-            "code": "off track",
-            "explanation": "Some explanation."
+          statusCode: 'off track',
+          statusExplanation: {
+            raw: "Some explanation."
           }
         }
       end
 
       it 'alters the status' do
         expect(last_response.body)
+          .to be_json_eql('off track'.to_json)
+          .at_path('statusCode')
+
+        expect(last_response.body)
           .to be_json_eql(
             {
-              "code": "off track",
-              "explanation": {
-                "format": "markdown",
-                "html": "<p>Some explanation.</p>",
-                "raw": "Some explanation."
-              }
+              "format": "markdown",
+              "html": "<p>Some explanation.</p>",
+              "raw": "Some explanation."
             }.to_json
           )
-          .at_path("status")
+          .at_path("statusExplanation")
       end
 
       it 'persists the altered status' do
@@ -567,9 +565,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
     context 'with a faulty status' do
       let(:body) do
         {
-          status: {
-            "code": "bogus"
-          }
+          statusCode: "bogus"
         }
       end
 
