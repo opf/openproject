@@ -1,0 +1,41 @@
+$gray: #CCCCCC
+$red: #E73E3D
+$orange: #FFB030
+$green: #00D12D
+
+.bulb
+  display: inline-block
+  width: 40px
+  height: 40px
+  border-radius: 50%
+  border-width: 10px
+  border-style: solid
+  margin-right: 7px
+  vertical-align: middle
+  &.-not-set
+    border-color: $gray
+    background-color: adjust-color($gray, $alpha: -0.7)
+  &.-off-track
+    border-color: $red
+    background-color: adjust-color($red, $alpha: -0.7)
+  &.-at-risk
+    border-color: $orange
+    background-color: adjust-color($orange, $alpha: -0.7)
+  &.-on-track
+    border-color: $green
+    background-color: adjust-color($green, $alpha: -0.7)
+
+.status-name
+  text-transform: uppercase
+  font-weight: bold
+  &.-not-set
+    color: $gray
+  &.-off-track
+    color: $red
+  &.-at-risk
+    color: $orange
+  &.-on-track
+    color: $green
+
+.explanation
+  margin-top: 9px

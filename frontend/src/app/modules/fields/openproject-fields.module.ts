@@ -52,6 +52,7 @@ import {SelectAutocompleterRegisterService} from "core-app/modules/fields/edit/f
 import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-form.component";
 import {WorkPackageEditFieldComponent} from "core-app/modules/fields/edit/field-types/work-package-edit-field.component";
 import {EditableAttributeFieldComponent} from "core-app/modules/fields/edit/field/editable-attribute-field.component";
+import {ProjectStatusEditFieldComponent} from "core-app/modules/fields/edit/field-types/project-status-edit-field.component";
 
 @NgModule({
   imports: [
@@ -91,6 +92,7 @@ import {EditableAttributeFieldComponent} from "core-app/modules/fields/edit/fiel
     WorkPackageEditFieldComponent,
     EditFormComponent,
     EditableAttributeFieldComponent,
+    ProjectStatusEditFieldComponent,
   ],
   entryComponents: [
     EditFormPortalComponent,
@@ -106,6 +108,7 @@ import {EditableAttributeFieldComponent} from "core-app/modules/fields/edit/fiel
     TextEditFieldComponent,
     WorkPackageEditFieldComponent,
     EditableAttributeFieldComponent,
+    ProjectStatusEditFieldComponent,
   ]
 })
 export class OpenprojectFieldsModule { }

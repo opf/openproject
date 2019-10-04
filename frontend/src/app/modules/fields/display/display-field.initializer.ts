@@ -46,6 +46,7 @@ import {TypeDisplayField} from "core-app/modules/fields/display/field-types/type
 import {UserDisplayField} from "core-app/modules/fields/display/field-types/user-display-field.module";
 import {MultipleUserFieldModule} from "core-app/modules/fields/display/field-types/multiple-user-display-field.module";
 import {WorkPackageIdDisplayField} from "core-app/modules/fields/display/field-types/wp-id-display-field.module";
+import {ProjectStatusDisplayField} from "core-app/modules/fields/display/field-types/project-status-display-field.module";
 
 export function initializeCoreDisplayFields(displayFieldService:DisplayFieldService) {
   return () => {
@@ -74,6 +75,7 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
       .addFieldType(ProgressDisplayField, 'progress', ['percentageDone'])
       .addFieldType(WorkPackageDisplayField, 'work_package', ['WorkPackage'])
       .addFieldType(IdDisplayField, 'id', ['id'])
+      .addFieldType(ProjectStatusDisplayField, 'project_status', ['ProjectStatus'])
       .addFieldType(UserDisplayField, 'user', ['User']);
 
     displayFieldService

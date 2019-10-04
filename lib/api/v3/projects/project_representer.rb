@@ -184,10 +184,10 @@ module API
                  setter: ->(fragment:,represented:, **) {
                    represented.status ||= {}
                    represented.status[:code] = if fragment.nil?
-                                   nil
-                                 else
-                                   fragment.strip.tr(' ', '_').underscore.to_sym
-                                 end
+                                                 nil
+                                               else
+                                                 fragment.strip.tr(' ', '_').underscore.to_sym
+                                               end
                  }
 
         def _type
