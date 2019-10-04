@@ -111,7 +111,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
 
         expect(subject.body)
           .to be_json_eql(project_status.code.tr('_', ' ').to_json)
-          .at_path("statusCode")
+          .at_path("status")
       end
 
       context 'requesting nonexistent project' do
@@ -299,7 +299,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
         {
           identifier: 'new_project_identifier',
           name: 'Project name',
-          statusCode: 'off track',
+          status: 'off track',
           statusExplanation: { raw: "Some explanation." }
         }.to_json
       end
@@ -307,7 +307,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       it 'sets the status' do
         expect(last_response.body)
           .to be_json_eql('off track'.to_json)
-          .at_path('statusCode')
+          .at_path('status')
 
         expect(last_response.body)
           .to be_json_eql(
@@ -392,7 +392,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
         {
           identifier: 'new_project_identifier',
           name: 'Project name',
-          statusCode: 'faulty',
+          status: 'faulty',
           statusExplanation: "Some explanation."
         }.to_json
       end
@@ -499,7 +499,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
     context 'with a status' do
       let(:body) do
         {
-          statusCode: 'off track',
+          status: 'off track',
           statusExplanation: {
             raw: "Some explanation."
           }
@@ -509,7 +509,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       it 'alters the status' do
         expect(last_response.body)
           .to be_json_eql('off track'.to_json)
-          .at_path('statusCode')
+          .at_path('status')
 
         expect(last_response.body)
           .to be_json_eql(
@@ -565,7 +565,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
     context 'with a faulty status' do
       let(:body) do
         {
-          statusCode: "bogus"
+          status: "bogus"
         }
       end
 

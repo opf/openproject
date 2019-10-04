@@ -65,7 +65,7 @@ module API
                  type: 'Boolean',
                  visibility: false
 
-          schema :status_code,
+          schema :status,
                  type: 'ProjectStatus',
                  name_source: ->(*) { I18n.t('activerecord.attributes.project/status.code') },
                  visibility: false,

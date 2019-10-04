@@ -183,14 +183,14 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
       let(:path) { 'statusExplanation' }
 
       it_behaves_like 'has basic schema properties' do
-        let(:type) { 'Formattible' }
+        let(:type) { 'Formattable' }
         let(:name) { I18n.t('activerecord.attributes.project/status.explanation') }
         let(:required) { false }
         let(:writable) { true }
       end
     end
 
-    describe 'statusCode' do
+    describe 'status' do
       let(:path) { 'status' }
 
       it_behaves_like 'has basic schema properties' do

@@ -167,8 +167,8 @@ describe ::API::V3::Projects::UpdateFormAPI, content_type: :json do
           "customField#{text_custom_field.id}": {
             "raw": "new CF text"
           },
-          statusCode: 'off track',
-          statusExplanation: 'Something goes awry.',
+          status: 'off track',
+          statusExplanation: { raw: 'Something goes awry.' },
           "_links": {
             "customField#{list_custom_field.id}": {
               "href": api_v3_paths.custom_option(list_custom_field.custom_options.last.id)
@@ -202,7 +202,7 @@ describe ::API::V3::Projects::UpdateFormAPI, content_type: :json do
 
         expect(body)
           .to be_json_eql('off track'.to_json)
-          .at_path("_embedded/payload/statusCcode")
+          .at_path("_embedded/payload/status")
 
         expect(body)
           .to be_json_eql('Something goes awry.'.to_json)
@@ -238,14 +238,14 @@ describe ::API::V3::Projects::UpdateFormAPI, content_type: :json do
     context 'with faulty status parameters' do
       let(:params) do
         {
-          statusCode: "bogus"
+          status: "bogus"
         }
       end
 
       it 'displays the faulty status in the payload' do
         expect(subject.body)
           .to be_json_eql('bogus'.to_json)
-          .at_path('_embedded/payload/statuCcode')
+          .at_path('_embedded/payload/status')
       end
 
       it 'has 1 validation errors' do
@@ -253,7 +253,7 @@ describe ::API::V3::Projects::UpdateFormAPI, content_type: :json do
       end
 
       it 'has a validation error on status' do
-        expect(subject.body).to have_json_path('_embedded/validationErrors/statusCode')
+        expect(subject.body).to have_json_path('_embedded/validationErrors/status')
       end
 
       it 'has no commit link' do

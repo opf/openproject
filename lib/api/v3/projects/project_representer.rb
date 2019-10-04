@@ -162,32 +162,33 @@ module API
 
         date_time_property :updated_at
 
-        formattable_property :status_explanation,
-                             getter: ->(*) {
-                               status = represented.status || Project::Status.new
-                               ::API::Decorators::Formattable.new(status.explanation,
-                                                                  object: represented,
-                                                                  plain: false)
-                             },
-                             setter: ->(fragment:, **) {
-                               represented.status ||= {}
-                               represented.status[:explanation] = fragment["raw"]
-                             }
-
-        property :status_code,
-                 render_nil: true,
-                 getter: ->(represented:, **) {
-                   next unless represented.status&.code
-
-                   represented.status.code.to_s.tr('_', ' ')
+        property :status_explanation,
+                 getter: ->(*) {
+                   status_obj = status || Project::Status.new
+                   ::API::Decorators::Formattable.new(status_obj.explanation,
+                                                      object: self,
+                                                      plain: false)
                  },
-                 setter: ->(fragment:,represented:, **) {
-                   represented.status ||= {}
-                   represented.status[:code] = if fragment.nil?
-                                                 nil
-                                               else
-                                                 fragment.strip.tr(' ', '_').underscore.to_sym
-                                               end
+                 setter: ->(fragment:, **) {
+                   self.status ||= {}
+                   status[:explanation] = fragment["raw"]
+                 }
+
+        property :status,
+                 render_nil: true,
+                 getter: ->(*) {
+                   next unless status&.code
+
+                   status.code.to_s.tr('_', ' ')
+                 },
+                 setter: ->(fragment:, **) {
+                   self.status ||= {}
+                   status[:code] =
+                     if fragment.nil?
+                       nil
+                     else
+                       fragment.strip.tr(' ', '_').underscore.to_sym
+                     end
                  }
 
         def _type
