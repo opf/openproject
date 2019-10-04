@@ -107,7 +107,7 @@ describe ::API::V3::Projects::CreateFormAPI, content_type: :json do
             "raw": "CF text"
           },
           status: 'on track',
-          statusExplanation: "A magic dwells in each beginning.",
+          statusExplanation: { raw: "A magic dwells in each beginning." },
           "_links": {
             "customField#{list_custom_field.id}": {
               "href": api_v3_paths.custom_option(list_custom_field.custom_options.first.id)

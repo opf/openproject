@@ -180,9 +180,7 @@ module API
                  }
 
         property :status_explanation,
-                 writable: -> do
-                   represented.writable?(:status)
-                 end,
+                 writable: -> { represented.writable?(:status) },
                  getter: ->(*) {
                    ::API::Decorators::Formattable.new(status&.explanation,
                                                       object: self,
