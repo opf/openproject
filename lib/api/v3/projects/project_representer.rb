@@ -162,18 +162,6 @@ module API
 
         date_time_property :updated_at
 
-        property :status_explanation,
-                 getter: ->(*) {
-                   status_obj = status || Project::Status.new
-                   ::API::Decorators::Formattable.new(status_obj.explanation,
-                                                      object: self,
-                                                      plain: false)
-                 },
-                 setter: ->(fragment:, **) {
-                   self.status ||= {}
-                   status[:explanation] = fragment["raw"]
-                 }
-
         property :status,
                  render_nil: true,
                  getter: ->(*) {
@@ -189,6 +177,20 @@ module API
                      else
                        fragment.strip.tr(' ', '_').underscore.to_sym
                      end
+                 }
+
+        property :status_explanation,
+                 writable: -> do
+                   represented.writable?(:status)
+                 end,
+                 getter: ->(*) {
+                   ::API::Decorators::Formattable.new(status&.explanation,
+                                                      object: self,
+                                                      plain: false)
+                 },
+                 setter: ->(fragment:, **) {
+                   self.status ||= {}
+                   status[:explanation] = fragment["raw"]
                  }
 
         def _type
