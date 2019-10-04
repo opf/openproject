@@ -56,9 +56,20 @@ module OpenProject::TextFormatting::Matchers
       private
 
       def render_work_package_link(wp_id)
+        wp_class = 'issue work_package preview-trigger'
+        wp = find_work_package(wp_id)
+        if !wp.nil? && wp.closed?
+          wp_class += ' closed'
+        end
         link_to("##{wp_id}",
                 work_package_path_or_url(id: wp_id, only_path: context[:only_path]),
-                class: 'issue work_package preview-trigger')
+                class: wp_class)
+      end
+
+      def find_work_package(wp_id)
+        WorkPackage
+          .visible
+          .find_by(id: wp_id)
       end
     end
   end
