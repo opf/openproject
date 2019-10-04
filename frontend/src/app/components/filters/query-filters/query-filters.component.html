@@ -68,13 +68,12 @@
                    appendTo="body">
         </ng-select>
       </div>
-
-      <enterprise-banner class="advanced-filters--add-filter-info"
-                         *ngIf="eeShowBanners"
-                         [linkMessage]="text.upsale_link"
-                         [textMessage]="text.upsale_for_more"
-                         opReferrer="wp-filter#filters">
-      </enterprise-banner>
     </li>
   </ul>
+  <enterprise-banner class="advanced-filters--add-filter-info"
+                     *ngIf="eeShowBanners"
+                     [linkMessage]="text.upsale_link"
+                     [textMessage]="text.upsale_for_more"
+                     opReferrer="wp-filter#filters">
+  </enterprise-banner>
 </fieldset>
