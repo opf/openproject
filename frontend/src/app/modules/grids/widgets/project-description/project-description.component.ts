@@ -32,55 +32,34 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {ProjectCacheService} from "core-components/projects/project-cache.service";
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import {Observable} from "rxjs";
+import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 
 @Component({
   templateUrl: './project-description.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    HalResourceEditingService
+  ]
 })
 export class WidgetProjectDescriptionComponent extends AbstractWidgetComponent implements OnInit {
-  public description:SafeHtml;
-
-  public text = {
-    noResults: this.i18n.t('js.grid.widgets.project_description.no_results')
-  };
+  public project$:Observable<ProjectResource>;
 
   constructor(protected readonly i18n:I18nService,
               protected readonly injector:Injector,
               protected readonly projectCache:ProjectCacheService,
-              protected readonly sanitization:DomSanitizer,
               protected readonly currentProject:CurrentProjectService,
-              protected readonly cdr:ChangeDetectorRef) {
+              protected readonly cdRef:ChangeDetectorRef) {
     super(i18n, injector);
   }
 
   ngOnInit() {
-    this.setDescription();
+    this.project$ = this.projectCache.requireAndStream(this.currentProject.id!);
+    this.cdRef.detectChanges();
   }
 
   public get isEditable() {
     return false;
-  }
-
-  private setDescription() {
-    this
-      .loadCurrentProject()
-      .then(project => {
-        if (project.description.html.length) {
-          this.description = this.sanitization.bypassSecurityTrustHtml(project.description.html);
-        }
-        this.cdr.detectChanges();
-      });
-  }
-
-  public get hasDescription() {
-    return this.isLoaded && this.description;
-  }
-
-  public get isLoaded() {
-    return this.projectCache.state(this.currentProject.id as string).value;
-  }
-
-  private loadCurrentProject() {
-    return this.projectCache.require(this.currentProject.id as string);
   }
 }

@@ -17,7 +17,7 @@ describe 'Upload attachment to work package', js: true do
   let(:work_package) { FactoryBot.create(:work_package, project: project, description: 'Initial description') }
   let(:wp_page) { ::Pages::FullWorkPackage.new(work_package, project) }
   let(:attachments) { ::Components::Attachments.new }
-  let(:field) { WorkPackageEditorField.new wp_page, 'description' }
+  let(:field) { TextEditorField.new wp_page, 'description' }
   let(:image_fixture) { Rails.root.join('spec/fixtures/files/image.png') }
   let(:editor) { Components::WysiwygEditor.new }
 
@@ -57,9 +57,9 @@ describe 'Upload attachment to work package', js: true do
         end
         let(:selector) { '.work-packages--activity--add-comment' }
         let(:comment_field) do
-          WorkPackageEditorField.new wp_page,
-                                     'comment',
-                                     selector: selector
+          TextEditorField.new wp_page,
+                              'comment',
+                              selector: selector
         end
         let(:editor) { Components::WysiwygEditor.new '.work-packages--activity--add-comment' }
 

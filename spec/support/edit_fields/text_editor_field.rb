@@ -1,6 +1,6 @@
-require_relative './work_package_field'
+require_relative './edit_field'
 
-class WorkPackageEditorField < WorkPackageField
+class TextEditorField < EditField
   def ckeditor
     @ckeditor ||= ::Components::WysiwygEditor.new @selector
   end

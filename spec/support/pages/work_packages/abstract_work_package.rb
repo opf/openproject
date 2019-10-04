@@ -196,16 +196,16 @@ module Pages
         cf = CustomField.find $1
 
         if cf.field_format == 'text'
-          WorkPackageEditorField.new container, key
+          TextEditorField.new container, key
         else
-          WorkPackageField.new container, key
+          EditField.new container, key
         end
       elsif key == :description
-        WorkPackageEditorField.new container, key
+        TextEditorField.new container, key
       elsif key == :status
         WorkPackageStatusField.new container
       else
-        WorkPackageField.new container, key
+        EditField.new container, key
       end
     end
 

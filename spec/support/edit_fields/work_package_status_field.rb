@@ -1,6 +1,6 @@
-require_relative './work_package_field'
+require_relative './edit_field'
 
-class WorkPackageStatusField < WorkPackageField
+class WorkPackageStatusField < EditField
   def initialize(context)
     @context = context
     @selector = ".wp-status-button"

@@ -53,7 +53,7 @@ shared_examples 'an auth aware field' do
 end
 
 shared_examples 'having a single validation point' do
-  let(:other_field) { WorkPackageField.new page, :type }
+  let(:other_field) { EditField.new page, :type }
   before do
     other_field.activate_edition
     field.activate_edition

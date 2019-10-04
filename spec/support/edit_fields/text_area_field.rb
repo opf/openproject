@@ -1,6 +1,6 @@
-require_relative './work_package_field'
+require_relative './edit_field'
 
-class WorkPackageTextAreaField < WorkPackageField
+class TextAreaField < EditField
 
   def input_selector
     'textarea'

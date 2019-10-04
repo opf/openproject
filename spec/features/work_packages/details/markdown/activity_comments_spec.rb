@@ -13,9 +13,9 @@ describe 'activity comments', js: true, with_mail: false do
   let(:wp_page) { Pages::SplitWorkPackage.new(work_package, project) }
   let(:selector) { '.work-packages--activity--add-comment' }
   let(:comment_field) do
-    WorkPackageEditorField.new wp_page,
-                               'comment',
-                               selector: selector
+    TextEditorField.new wp_page,
+                        'comment',
+                        selector: selector
   end
   let(:initial_comment) { 'the first comment in this WP' }
 
@@ -133,9 +133,9 @@ describe 'activity comments', js: true, with_mail: false do
           edit_button = activity.find('.icon-edit')
           scroll_to_element(edit_button)
           edit_button.click
-          edit = WorkPackageEditorField.new wp_page,
-                                            'comment',
-                                            selector: '.user-comment--form'
+          edit = TextEditorField.new wp_page,
+                                     'comment',
+                                     selector: '.user-comment--form'
 
           # Insert new text, need to do this separately.
           edit.input_element.click
