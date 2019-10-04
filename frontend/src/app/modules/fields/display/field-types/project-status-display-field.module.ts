@@ -28,31 +28,16 @@
 
 import {DisplayField} from "core-app/modules/fields/display/display-field.module";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {projectStatusCodeCssClass, projectStatusI18n} from "core-app/modules/fields/helpers/project-status-helper";
+
 
 export class ProjectStatusDisplayField extends DisplayField {
-  readonly I18n:I18nService = this.$injector.get(I18nService);
   public render(element:HTMLElement, displayText:string):void {
     const code = this.value;
 
     element.innerHTML = `
-      <span class="bulb ${this.projectStatusCodeCssClass(code)}"></span>
-      <span class="status-name ${this.projectStatusCodeCssClass(code)}">${this.projectStatusI18n(code)}</span>
+      <span class="bulb ${projectStatusCodeCssClass(code)}"></span>
+      <span class="status-name ${projectStatusCodeCssClass(code)}">${projectStatusI18n(code, this.I18n)}</span>
     `;
-  }
-
-  private projectStatusCodeCssClass(code:string|null|undefined):string {
-    code = this.ensureDefaultCode(code);
-
-    return '-' + code.replace(' ', '-');
-  }
-
-  private projectStatusI18n(code:string|null|undefined):string {
-    code = this.ensureDefaultCode(code);
-
-    return this.I18n.t('js.grid.widgets.project_status.' + code.replace(' ', '_'));
-  }
-
-  private ensureDefaultCode(code:string|null|undefined):string {
-    return code ? code : 'not set';
   }
 }
