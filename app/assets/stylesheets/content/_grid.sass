@@ -22,10 +22,10 @@ $grid--widget-padding: 20px
     z-index: 10
     @include widget-box--style
     margin: 0
-    padding: $grid--widget-padding
 
     .widget-box
       min-height: 200px
+      padding: $grid--widget-padding
 
     &:hover icon-triggered-context-menu
       visibility: visible
@@ -126,8 +126,7 @@ $grid--widget-padding: 20px
     background: white
     padding: $grid--widget-padding
     @include widget-box--style
-    margin-left: -$grid--widget-padding
-    margin-top: -$grid--widget-padding
+    margin: 0
 
 .grid--widget-content
   height: 100%
