@@ -8,7 +8,6 @@ import {GridDragAndDropService} from "core-app/modules/grids/grid/drag-and-drop.
 
 @Injectable()
 export class GridResizeService {
-  public placeholderArea:GridWidgetArea|null;
   private resizedArea:GridWidgetArea|null;
   private targetIds:string[];
 
@@ -17,42 +16,36 @@ export class GridResizeService {
               readonly drag:GridDragAndDropService) { }
 
   public end(area:GridWidgetArea, deltas:ResizeDelta) {
-    if (!this.placeholderArea ||
-      !this.resizedArea) {
+    if (!this.resizedArea) {
       return;
     }
-
-    this.resizedArea.endRow = this.placeholderArea.endRow;
-    this.resizedArea.endColumn = this.placeholderArea.endColumn;
 
     this.layout.writeAreaChangesToWidgets();
     this.layout.cleanupUnusedAreas();
 
     this.resizedArea = null;
-    this.placeholderArea = null;
 
     this.layout.rebuildAndPersist();
   }
 
   public start(resizedArea:GridWidgetArea) {
-    this.placeholderArea = new GridWidgetArea(resizedArea.widget);
     this.resizedArea = resizedArea;
 
     let resizeTargets = this.layout.gridAreas.filter((area) => {
       // All areas on the same row which are after the current column are valid targets.
-      let sameRow = area.startRow === this.placeholderArea!.startRow &&
-                     area.endRow === this.placeholderArea!.endRow &&
-                     area.startColumn >= this.placeholderArea!.startColumn;
+      let sameRow = area.startRow === this.resizedArea!.startRow &&
+                     area.endRow === this.resizedArea!.endRow &&
+                     area.startColumn >= this.resizedArea!.startColumn;
 
       // Areas that are on higher (number, they are printed below) rows
       // are allowed as long as there is guaranteed to always be one widget
       // before or after the resized to area.
-      let higherRow = area.startRow > this.placeholderArea!.startRow &&
-                      area.startColumn >= this.placeholderArea!.startColumn &&
+      let higherRow = area.startRow > this.resizedArea!.startRow &&
+                      area.startColumn >= this.resizedArea!.startColumn &&
                       this.layout.widgetAreas.some((fixedArea) => {
                         return fixedArea.startRow === area.startRow &&
                         // before
-                        (fixedArea.endColumn <= this.placeholderArea!.startColumn ||
+                        (fixedArea.endColumn <= this.resizedArea!.startColumn ||
                           // after
                           fixedArea.startColumn >= area.endColumn);
                       });
@@ -64,8 +57,7 @@ export class GridResizeService {
   }
 
   public moving(deltas:ResizeDelta) {
-    if (!this.placeholderArea ||
-      !this.resizedArea ||
+    if (!this.resizedArea ||
       !this.layout.mousedOverArea ||
       !this.targetIds.includes(this.layout.mousedOverArea.guid)) {
       return;
@@ -73,16 +65,16 @@ export class GridResizeService {
 
     this.layout.resetAreas();
 
-    this.placeholderArea.endRow = this.layout.mousedOverArea.endRow;
-    this.placeholderArea.endColumn = this.layout.mousedOverArea.endColumn;
+    this.resizedArea.endRow = this.layout.mousedOverArea.endRow;
+    this.resizedArea.endColumn = this.layout.mousedOverArea.endColumn;
 
-    this.move.down(this.placeholderArea, this.resizedArea);
+    this.move.down(this.resizedArea, this.resizedArea);
   }
 
   public isTarget(area:GridArea) {
     let areaId = area.guid;
 
-    return this.placeholderArea && this.targetIds.includes(areaId);
+    return this.resizedArea && this.targetIds.includes(areaId);
   }
 
   public isResized(area:GridWidgetArea) {
