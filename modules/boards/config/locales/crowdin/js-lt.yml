@@ -1,3 +1,4 @@
+#English strings go here
 lt:
   js:
     boards:
@@ -27,7 +28,7 @@ lt:
       add_card: 'Pridėti kortelę'
       error_attribute_not_writable: "Negalima perkelti darbų paketo, %{attribute} negali būti įrašytas."
       error_loading_the_list: "Sąrašo užkrovimo klaida: %{error_message}"
-      error_permission_missing: "The permission to create public queries is missing"
+      error_permission_missing: "Trūksta teisių kurti viešas užklausas"
       click_to_remove_list: "Spustelėkite sąrašo ištrynimui"
       board_type:
         free: 'Paprasta lenta'

@@ -28,6 +28,12 @@ nl:
         project_details:
           title: 'Projectdetails'
           no_results: 'No custom fields have been defined for projects.'
+        project_status:
+          title: 'Projectstatus'
+          on_track: 'On track'
+          off_track: 'Off track'
+          at_risk: 'At risk'
+          not_set: 'Not set'
         subprojects:
           title: 'Subprojecten'
           no_results: 'No subprojects.'

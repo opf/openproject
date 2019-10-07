@@ -28,6 +28,12 @@ pt-BR:
         project_details:
           title: 'Detalhes do projeto'
           no_results: 'Nenhum campo personalizado foi definido para projetos.'
+        project_status:
+          title: 'Situação do projeto'
+          on_track: 'On track'
+          off_track: 'Off track'
+          at_risk: 'At risk'
+          not_set: 'Not set'
         subprojects:
           title: 'Subprojetos'
           no_results: 'Nenhum subprojeto.'

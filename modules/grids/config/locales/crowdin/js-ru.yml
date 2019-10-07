@@ -28,6 +28,12 @@ ru:
         project_details:
           title: 'Детали проекта'
           no_results: 'Для проектов не определены настраиваемые поля.'
+        project_status:
+          title: 'Состояние проекта'
+          on_track: 'На треке'
+          off_track: 'Выключить трек'
+          at_risk: 'Под угрозой'
+          not_set: 'Не задано'
         subprojects:
           title: 'Подпроекты'
           no_results: 'Подпроектов нет.'

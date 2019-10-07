@@ -1,6 +1,0 @@
-tr:
-  js:
-    work_packages:
-      properties:
-        storyPoints: "Hikaye Puanları"
-        remainingTime: "Kalan Saatler"
