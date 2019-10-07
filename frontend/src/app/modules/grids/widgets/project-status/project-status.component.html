@@ -11,7 +11,8 @@
 <div class="grid--widget-content">
   <edit-form *ngIf="(project$ | async) as project" [resource]="project">
     <editable-attribute-field [resource]="project"
-                              fieldName="status">
+                              fieldName="status"
+                              wrapperClasses="project-status--display-field">
     </editable-attribute-field>
     <editable-attribute-field [resource]="project"
                               fieldName="statusExplanation">

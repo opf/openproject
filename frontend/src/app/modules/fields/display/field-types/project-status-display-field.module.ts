@@ -27,7 +27,6 @@
 // ++
 
 import {DisplayField} from "core-app/modules/fields/display/display-field.module";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {projectStatusCodeCssClass, projectStatusI18n} from "core-app/modules/fields/helpers/project-status-helper";
 
 
@@ -36,8 +35,9 @@ export class ProjectStatusDisplayField extends DisplayField {
     const code = this.value;
 
     element.innerHTML = `
-      <span class="bulb ${projectStatusCodeCssClass(code)}"></span>
-      <span class="status-name ${projectStatusCodeCssClass(code)}">${projectStatusI18n(code, this.I18n)}</span>
+      <span class="project-status--bulb ${projectStatusCodeCssClass(code)}"></span>
+      <span class="project-status--name ${projectStatusCodeCssClass(code)}">${projectStatusI18n(code, this.I18n)}</span>
+      <span class="project-status--pulldown-icon icon icon-pulldown"></span>
     `;
   }
 }

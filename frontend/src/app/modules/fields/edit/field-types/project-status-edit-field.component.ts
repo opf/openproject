@@ -26,14 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {Component, OnInit, ViewChild} from "@angular/core";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
-import {ValueOption} from "core-app/modules/fields/edit/field-types/select-edit-field.component";
 import {NgSelectComponent} from "@ng-select/ng-select";
-import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {projectStatusCodeCssClass, projectStatusI18n} from "core-app/modules/fields/helpers/project-status-helper";
 
 @Component({
   templateUrl: './project-status-edit-field.component.html',
@@ -44,101 +41,26 @@ export class ProjectStatusEditFieldComponent extends EditFieldComponent implemen
 
   readonly I18n:I18nService = this.injector.get(I18nService);
 
-  public currentStatusCode:string = 'not set';
-  public availableStatuses:any[] = [
-    {
-      code: 'not set',
-      name: this.I18n.t('js.grid.widgets.project_status.not_set'),
-      colorClass: '-gray',
-    },
-    {
-      code: 'off track',
-      name: this.I18n.t('js.grid.widgets.project_status.off_track'),
-      colorClass: '-red',
-    },
-    {
-      code: 'on track',
-      name: this.I18n.t('js.grid.widgets.project_status.on_track'),
-      colorClass: '-green',
-    },
-    {
-      code: 'at risk',
-      name: this.I18n.t('js.grid.widgets.project_status.at_risk'),
-      colorClass: '-orange',
-    },
-  ];
+  private _availableStatusCodes:string[] = ['not set', 'off track', 'at risk', 'on track'];
 
-  public options:any[] = [];
-  public valueOptions:ValueOption[];
+  public availableStatuses:any[] = this._availableStatusCodes.map((code:string):any => {
+    return {
+      code: code,
+      name: projectStatusI18n(code, this.I18n),
+      colorClass: projectStatusCodeCssClass(code),
+      value: code === 'not set' ? null : code,
+    };
+  });
 
-
-  public appendTo:any = null;
-  private hiddenOverflowContainer = '.__hidden_overflow_container';
-
-  public currentValueInvalid:boolean = false;
-  private nullOption:ValueOption;
-  private _selectedOption:ValueOption[];
-
-  /** Since we need to wait for values to be loaded, remember if the user activated this field*/
-  private requestFocus = false;
+  public hiddenOverflowContainer = 'body';
 
   ngOnInit() {
-    this.handler
-      .$onUserActivate
-      .pipe(
-        untilComponentDestroyed(this),
-      )
-      .subscribe(() => {
-        this.requestFocus = this.options.length === 0;
-
-        // If we already have all values loaded, open now.
-        if (!this.requestFocus) {
-          this.openAutocompleteSelectField();
-        }
-      });
-
-    super.ngOnInit();
-    this.appendTo = this.overflowingSelector;
-  }
-
-  public get value() {
-    const val = this.resource[this.name];
-    return val ? val[0] : val;
-  }
-
-  /**
-   * Map the selected hal resource(s) to the value options so that ngOptions will track them.
-   * We cannot pass the HalResources themselves as angular will copy them on every digest due to trackBy
-   * @returns {any}
-   */
-  public buildSelectedOption() {
-    const value:HalResource[] = this.resource[this.name];
-    return value ? value.map(val => this.findValueOption(val)) : [];
-  }
-
-  public get selectedOption() {
-    return this._selectedOption;
-  }
-
-  /**
-   * Map the ValueOption to the actual HalResource option
-   * @param val
-   */
-  public set selectedOption(val:ValueOption[]) {
-    // this._selectedOption = val;
-    // let mapper = (val:ValueOption) => {
-    //   let option = _.find(this.options, o => o.$href === val.$href) || this.nullOption;
-    //
-    //   // Special case 'null' value, which angular
-    //   // only understands in ng-options as an empty string.
-    //   if (option && option.$href === '') {
-    //     option.$href = null;
-    //   }
-    //
-    //   return option;
-    // };
-    //
-    // this.resource[this.name] = _.castArray(val).map(el => mapper(el));
+    // The timeout takes care that the opening is added to the end of the current call stack.
+    // Thus we can be sure that the autocompleter is rendered and ready to be opened.
+    let that = this;
+    window.setTimeout(function () {
+      that.ngSelectComponent.open();
+    }, 0);
   }
 
   public onOpen() {
@@ -150,76 +72,4 @@ export class ProjectStatusEditFieldComponent extends EditFieldComponent implemen
   public onClose() {
     // Nothing to do
   }
-
-  // public repositionDropdown() {
-  //   if (this.ngSelectComponent && this.ngSelectComponent.dropdownPanel) {
-  //     setTimeout(() => this.ngSelectComponent.dropdownPanel.adjustPosition(), 0);
-  //   }
-  // }
-
-  private openAutocompleteSelectField() {
-    // The timeout takes care that the opening is added to the end of the current call stack.
-    // Thus we can be sure that the autocompleter is rendered and ready to be opened.
-    let that = this;
-    window.setTimeout(function () {
-      that.ngSelectComponent.open();
-    }, 0);
-  }
-
-  private findValueOption(option?:HalResource):ValueOption {
-    let result;
-
-    if (option) {
-      result = _.find(this.valueOptions, (valueOption) => valueOption.$href === option.$href)!;
-    }
-
-    return result || this.nullOption;
-  }
-
-  // private setValues(availableValues:any[], sortValuesByName:boolean = false) {
-  //   if (sortValuesByName) {
-  //     availableValues.sort(function (a:any, b:any) {
-  //       let nameA = a.name.toLowerCase();
-  //       let nameB = b.name.toLowerCase();
-  //       return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
-  //     });
-  //   }
-  //
-  //   this.options = availableValues || [];
-  //   this.valueOptions = this.options.map(el => {
-  //     return { name: el.name, $href: el.$href };
-  //   });
-  //   this._selectedOption = this.buildSelectedOption();
-  //   this.checkCurrentValueValidity();
-  //
-  //   if (this.options.length > 0 && this.requestFocus) {
-  //     this.openAutocompleteSelectField();
-  //     this.requestFocus = false;
-  //   }
-  // }
-
-  protected initialize() {
-    super.initialize();
-    this.loadValues();
-  }
-
-  private loadValues() {
-    let allowedValues = this.schema.allowedValues;
-    // if (Array.isArray(allowedValues)) {
-    //   this.setValues(allowedValues);
-    // } else if (this.schema.allowedValues) {
-    //   return this.schema.allowedValues.$load().then((values:CollectionResource) => {
-    //     // The select options of the project shall be sorted
-    //     if (values.count > 0 && (values.elements[0] as any)._type === 'Project') {
-    //       this.setValues(values.elements, true);
-    //     } else {
-    //       this.setValues(values.elements);
-    //     }
-    //   });
-    // } else {
-    //   this.setValues([]);
-    // }
-    // return Promise.resolve();
-  }
-
 }
