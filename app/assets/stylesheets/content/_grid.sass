@@ -12,6 +12,7 @@ $grid--widget-padding: 20px
   @include grid--commons
 
 .grid--area
+  position: relative
   overflow: hidden
   min-height: 30px
 
@@ -78,17 +79,15 @@ $grid--widget-padding: 20px
     z-index: 1000
 
 .grid--resizer
-  position: relative
-  height: $grid--widget-padding
-  margin-bottom: -$grid--widget-padding
+  position: absolute
+  height: 20px
   color: #888
   cursor: nwse-resize
   opacity: 0
+  right: 0
+  bottom: 0
 
   i
-    position: absolute
-    bottom: 0
-    right: -$grid--widget-padding
     padding: 0 3px 3px 0
 
   .grid--area.-widgeted:hover &
