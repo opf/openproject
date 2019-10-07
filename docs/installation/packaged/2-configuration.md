@@ -250,13 +250,13 @@ The default from 9.0.3 onwards is four worker processes. Each worker will take r
 We recommend at least four workers. Please check your current worker count with
 
 ```bash
-    sudo openproject config:get WEB_CONCURRENCY
+    sudo openproject config:get OPENPROJECT_WEB_WORKERS
 ```
 
 If it returns nothing, the default worker count of `4` applies. To increase or decrease the worker count, call
 
 ```bash
-    sudo openproject config:set WEB_CONCURRENCY=number
+    sudo openproject config:set OPENPROJECT_WEB_WORKERS=number
 ```
 
 Where `number` is a positive number between 1 and `round(AVAILABLE_RAM * 1.5)`.
@@ -298,7 +298,7 @@ You can list all of the environment variables accessible to the application by r
     SMTP_USERNAME=mail
     SMTP_ENABLE_STARTTLS_AUTO=true
     SMTP_AUTHENTICATION=plain
-    WEB_CONCURRENCY=4
+    OPENPROJECT_WEB_WORKERS=4
     WEB_TIMEOUT=15
     RAILS_CACHE_STORE=memcache
     SESSION_STORE=cache_store
