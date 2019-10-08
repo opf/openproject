@@ -52,7 +52,7 @@ export class ProjectStatusEditFieldComponent extends EditFieldComponent implemen
     };
   });
 
-  public hiddenOverflowContainer = 'body';
+  public hiddenOverflowContainer = '#content-wrapper';
 
   ngOnInit() {
     // The timeout takes care that the opening is added to the end of the current call stack.
