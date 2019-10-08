@@ -88,15 +88,6 @@
     </div>
   </div>
 
-  <!-- Grid area to visualize resizing -->
-  <div class="grid--area -resizing"
-       *ngIf="resize.placeholderArea"
-       [style.grid-row-start]="resize.placeholderArea.gridStartRow"
-       [style.grid-row-end]="resize.placeholderArea.gridEndRow"
-       [style.grid-column-start]="resize.placeholderArea.gridStartColumn"
-       [style.grid-column-end]="resize.placeholderArea.gridEndColumn">
-  </div>
-
   <!-- Grid area used as a placeholder while dragging -->
   <div *ngIf="drag.placeholderArea"
        class="grid--area -widgeted -placeholder"
