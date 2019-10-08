@@ -31,9 +31,9 @@ pt-BR:
         project_status:
           title: 'Situação do projeto'
           on_track: 'On track'
-          off_track: 'Off track'
-          at_risk: 'At risk'
-          not_set: 'Not set'
+          off_track: 'Desativado'
+          at_risk: 'Em risco'
+          not_set: 'Não definido'
         subprojects:
           title: 'Subprojetos'
           no_results: 'Nenhum subprojeto.'
