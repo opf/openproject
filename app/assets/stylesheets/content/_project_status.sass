@@ -1,9 +1,12 @@
-
+$project-status-gray: #CCCCCC
+$project-status-red: #E73E3D
+$project-status-orange: #FFB030
+$project-status-green: #00D12D
 
 // Project status widget
 .ng-select
   &.project-status
-    max-width: 300px
+    max-width: 250px
     .ng-select-container
       min-height: 56px !important
       height: 56px !important
@@ -11,10 +14,6 @@
     .ng-input
       display: none
 
-$project-status-gray: #CCCCCC
-$project-status-red: #E73E3D
-$project-status-orange: #FFB030
-$project-status-green: #00D12D
 .project-status--bulb
   display: inline-block
   width: 40px
@@ -36,6 +35,9 @@ $project-status-green: #00D12D
   &.-on-track
     border-color: $project-status-green
     background-color: adjust-color($project-status-green, $alpha: -0.7)
+
+.project-status--container
+  display: inline-block
 
 .project-status--display-field
   height: 56px
