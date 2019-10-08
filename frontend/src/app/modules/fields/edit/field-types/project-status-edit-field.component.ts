@@ -56,7 +56,7 @@ export class ProjectStatusEditFieldComponent extends EditFieldComponent implemen
 
   ngOnInit() {
     // The timeout takes care that the opening is added to the end of the current call stack.
-    // Thus we can be sure that the autocompleter is rendered and ready to be opened.
+    // Thus we can be sure that the select box is rendered and ready to be opened.
     let that = this;
     window.setTimeout(function () {
       that.ngSelectComponent.open();

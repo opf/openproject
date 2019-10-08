@@ -5,6 +5,7 @@
            class="project-status"
            (open)="onOpen()"
            (close)="onClose()"
+           (change)="handler.handleUserSubmit()"
            [appendTo]="hiddenOverflowContainer"
            [hideSelected]="true"
            [disabled]="inFlight">
