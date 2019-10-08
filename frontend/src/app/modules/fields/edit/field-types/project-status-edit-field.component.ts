@@ -42,25 +42,32 @@ export class ProjectStatusEditFieldComponent extends EditFieldComponent implemen
   readonly I18n:I18nService = this.injector.get(I18nService);
 
   private _availableStatusCodes:string[] = ['not set', 'off track', 'at risk', 'on track'];
+  public currentStatusCode:string = 'not set';
 
   public availableStatuses:any[] = this._availableStatusCodes.map((code:string):any => {
     return {
       code: code,
       name: projectStatusI18n(code, this.I18n),
-      colorClass: projectStatusCodeCssClass(code),
-      value: code === 'not set' ? null : code,
+      colorClass: projectStatusCodeCssClass(code)
     };
   });
 
   public hiddenOverflowContainer = '#content-wrapper';
 
   ngOnInit() {
+    this.currentStatusCode = this.resource['status'] === null ? 'not set' : this.resource['status'];
+
     // The timeout takes care that the opening is added to the end of the current call stack.
     // Thus we can be sure that the select box is rendered and ready to be opened.
     let that = this;
     window.setTimeout(function () {
       that.ngSelectComponent.open();
     }, 0);
+  }
+
+  public onChange() {
+    this.resource['status'] = this.currentStatusCode === 'not set' ? null : this.currentStatusCode;
+    this.handler.handleUserSubmit();
   }
 
   public onOpen() {
