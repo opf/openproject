@@ -2,7 +2,7 @@ fr:
   export_to_excel: "Exporter sous un tableur Excel"
   print_with_description: "Imprimer l'aperçu avec une description"
   sentence_separator_or: "ou"
-  different_formats: Différents formats
+  different_formats: Formats différents
   export:
     format:
       xls: "XLS"

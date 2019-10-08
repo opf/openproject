@@ -1,6 +1,0 @@
-ar:
-  js:
-    work_packages:
-      properties:
-        storyPoints: "نقاط القصة"
-        remainingTime: "الساعات المتبقية"

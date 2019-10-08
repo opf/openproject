@@ -4,8 +4,8 @@ lt:
       add_widget: 'Pridėti valdiklį'
       remove: 'Išimti valdiklį'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the "
-        link: 'enterprise edition.'
+        text: "Kai kurie valdikliai, pavyzdžiui darbo paketų grafo valdiklis, galimi tik "
+        link: '„Enterprise edition“.'
       widgets:
         custom_text:
           title: 'Pritaikytas tekstas'
