@@ -66,11 +66,11 @@ module API
              cache_if: -> {
                current_user_allowed_to(:view_work_packages, context: represented)
              } do
-          {href: api_v3_paths.work_packages_by_project(represented.id)}
+          { href: api_v3_paths.work_packages_by_project(represented.id) }
         end
 
         link :categories do
-          {href: api_v3_paths.categories_by_project(represented.id)}
+          { href: api_v3_paths.categories_by_project(represented.id) }
         end
 
         link :versions,
@@ -78,7 +78,7 @@ module API
                current_user_allowed_to(:view_work_packages, context: represented) ||
                  current_user_allowed_to(:manage_versions, context: represented)
              } do
-          {href: api_v3_paths.versions_by_project(represented.id)}
+          { href: api_v3_paths.versions_by_project(represented.id) }
         end
 
         link :memberships,
@@ -86,7 +86,7 @@ module API
                current_user_allowed_to(:view_members, context: represented)
              } do
           {
-            href: api_v3_paths.path_for(:memberships, filters: [{project: {operator: "=", values: [represented.id.to_s]}}]),
+            href: api_v3_paths.path_for(:memberships, filters: [{ project: { operator: "=", values: [represented.id.to_s] }}]),
           }
         end
 
@@ -95,7 +95,7 @@ module API
                current_user_allowed_to(:view_work_packages, context: represented) ||
                  current_user_allowed_to(:manage_types, context: represented)
              } do
-          {href: api_v3_paths.types_by_project(represented.id)}
+          { href: api_v3_paths.types_by_project(represented.id) }
         end
 
         link :update,
