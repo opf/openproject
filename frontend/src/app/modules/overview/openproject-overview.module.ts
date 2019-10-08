@@ -54,7 +54,7 @@ export function uiRouterOverviewConfiguration(uiRouter:UIRouter) {
   // cf., https://community.openproject.com/wp/29754
   uiRouter.urlService.rules
     .when(
-      new RegExp("^/projects(?!/new)/([^/]+)$"),
+      new RegExp("^/projects(?!/new$)/([^/]+)$"),
       match => `/projects/${match[1]}/`
     );
 }
