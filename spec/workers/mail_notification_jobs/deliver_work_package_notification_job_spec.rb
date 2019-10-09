@@ -42,7 +42,8 @@ describe DeliverWorkPackageNotificationJob, type: :model do
                        author: author)
   }
   let(:journal) { work_package.journals.first }
-  subject { described_class.new(journal.id, recipient.id, author.id) }
+  let(:instance) { described_class.new }
+  subject { instance.perform(journal.id, recipient.id, author.id) }
 
   before do
     # make sure no actual calls make it into the UserMailer
@@ -55,7 +56,7 @@ describe DeliverWorkPackageNotificationJob, type: :model do
                             recipient,
                             an_instance_of(Journal::AggregatedJournal),
                             author)
-    subject.perform
+    subject
   end
 
   context 'non-existant journal' do
@@ -65,7 +66,7 @@ describe DeliverWorkPackageNotificationJob, type: :model do
 
     it 'sends no mail' do
       expect(UserMailer).not_to receive(:work_package_added)
-      subject.perform
+      subject
     end
   end
 
@@ -76,14 +77,14 @@ describe DeliverWorkPackageNotificationJob, type: :model do
 
     it 'sends a mail' do
       expect(UserMailer).to receive(:work_package_added)
-      subject.perform
+      subject
     end
 
     it 'uses the deleted user as author' do
       expect(UserMailer).to receive(:work_package_added)
                               .with(anything, anything, DeletedUser.first)
 
-      subject.perform
+      subject
     end
   end
 
@@ -95,7 +96,7 @@ describe DeliverWorkPackageNotificationJob, type: :model do
     end
 
     it 'raises no observable error' do
-      expect { subject.perform }.not_to raise_error
+      expect { subject }.not_to raise_error
     end
   end
 
@@ -109,7 +110,7 @@ describe DeliverWorkPackageNotificationJob, type: :model do
 
     it 'sends an update mail' do
       expect(UserMailer).to receive(:work_package_updated)
-      subject.perform
+      subject
     end
 
     it 'sends a mail for the aggregated journal' do
@@ -120,7 +121,7 @@ describe DeliverWorkPackageNotificationJob, type: :model do
 
         double('mail', deliver_now: nil)
       end
-      subject.perform
+      subject
     end
   end
 
@@ -133,7 +134,7 @@ describe DeliverWorkPackageNotificationJob, type: :model do
         end
       end
 
-      it { subject.perform }
+      it { subject }
     end
 
     context 'for a known current user' do
@@ -141,7 +142,7 @@ describe DeliverWorkPackageNotificationJob, type: :model do
 
       it 'resets to the previous current user after running' do
         User.current = current_user
-        subject.perform
+        subject
         expect(User.current).to eql(current_user)
       end
     end
@@ -155,7 +156,7 @@ describe DeliverWorkPackageNotificationJob, type: :model do
     end
 
     it 'raises the error' do
-      expect { subject.perform }.to raise_error(SocketError)
+      expect { subject }.to raise_error(SocketError)
     end
   end
 
@@ -165,7 +166,7 @@ describe DeliverWorkPackageNotificationJob, type: :model do
     end
 
     it 'swallows the error' do
-      expect { subject.perform }.not_to raise_error
+      expect { subject }.not_to raise_error
     end
   end
 end

@@ -1,26 +1,14 @@
 require 'open3'
 shared_examples_for 'is a countable repository' do
-  let(:job) { ::Scm::StorageUpdaterJob.new repository }
+  let(:job_call) { ::Scm::StorageUpdaterJob.perform_now repository }
   let(:cache_time) { 720 }
 
   before do
-    allow(::Scm::StorageUpdaterJob).to receive(:new).and_return(job)
     allow(Repository).to receive(:find).and_return(repository)
     allow(Setting).to receive(:repository_storage_cache_minutes).and_return(cache_time)
   end
   it 'is countable' do
     expect(repository.scm).to be_storage_available
-  end
-
-  context 'with vanished repository' do
-    before do
-      allow(Repository).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
-    end
-
-    it 'does not raise' do
-      expect(Rails.logger).to receive(:warn).with(/StorageUpdater requested for Repository/)
-      expect { job.perform }.not_to raise_error
-    end
   end
 
   context 'with patched counter' do
@@ -98,7 +86,7 @@ shared_examples_for 'is not a countable repository' do
   end
 
   it 'does not return or update the count' do
-    expect(::Scm::StorageUpdaterJob).not_to receive(:new)
+    expect(::Scm::StorageUpdaterJob).not_to receive(:perform_later)
     expect(repository.update_required_storage).to be false
   end
 end

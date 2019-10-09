@@ -1,5 +1,5 @@
 shared_examples_for 'repository can be relocated' do |vendor|
-  let(:job) { ::Scm::RelocateRepositoryJob.new repository }
+  let(:job_call) { ::Scm::RelocateRepositoryJob.perform_now repository }
   let(:project) { FactoryBot.build :project }
   let(:repository) {
     repo = FactoryBot.build("repository_#{vendor}".to_sym,
@@ -13,7 +13,6 @@ shared_examples_for 'repository can be relocated' do |vendor|
   }
 
   before do
-    allow(::Scm::RelocateRepositoryJob).to receive(:new).and_return(job)
     allow(Repository).to receive(:find).and_return(repository)
   end
 
@@ -30,7 +29,7 @@ shared_examples_for 'repository can be relocated' do |vendor|
       project.update!(identifier: 'somenewidentifier')
       repository.reload
 
-      job.perform
+      job_call
 
       # Confirm that all paths are updated
       expect(current_path).not_to eq(repository.managed_repository_path)
@@ -65,7 +64,8 @@ shared_examples_for 'repository can be relocated' do |vendor|
 
       # Rename the project
       project.identifier = 'somenewidentifier'
-      job.perform
+
+      job_call
 
       expect(WebMock)
         .to have_requested(:post, url)

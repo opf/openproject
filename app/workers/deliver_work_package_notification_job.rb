@@ -28,7 +28,9 @@
 #++
 
 class DeliverWorkPackageNotificationJob < DeliverNotificationJob
-  def initialize(journal_id, recipient_id, author_id)
+  queue_with_priority :notification
+
+  def perform(journal_id, recipient_id, author_id)
     @journal_id = journal_id
     super(recipient_id, author_id)
   end

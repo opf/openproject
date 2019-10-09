@@ -36,8 +36,6 @@ describe WatcherNotificationMailer do
   before do
     # make sure no other calls are made due to WP creation/update
     allow(OpenProject::Notifications).to receive(:send) # ... and do nothing
-
-    allow(Delayed::Job).to receive(:enqueue)
   end
 
   describe 'watcher setup' do
@@ -83,7 +81,7 @@ describe WatcherNotificationMailer do
         let(:self_notified) { true }
 
         it 'notifies the watcher' do
-          expect(Delayed::Job).to receive(:enqueue)
+          expect(DeliverWatcherNotificationJob).to receive(:perform_later)
           call_listener(watcher, watcher_setter)
         end
       end
@@ -93,7 +91,7 @@ describe WatcherNotificationMailer do
         let(:self_notified) { false }
 
         it 'notifies the watcher' do
-          expect(Delayed::Job).to receive(:enqueue)
+          expect(DeliverWatcherNotificationJob).to receive(:perform_later)
           call_listener(watcher, watcher_setter)
         end
       end
@@ -104,7 +102,7 @@ describe WatcherNotificationMailer do
         let(:self_notified) { false }
 
         it 'does not notify the watcher' do
-          expect(Delayed::Job).to_not receive(:enqueue)
+          expect(DeliverWatcherNotificationJob).not_to receive(:perform_later)
           call_listener(watcher, watcher_setter)
         end
       end
@@ -115,7 +113,7 @@ describe WatcherNotificationMailer do
         let(:self_notified) { true }
 
         it 'notifies the watcher' do
-          expect(Delayed::Job).to receive(:enqueue)
+          expect(DeliverWatcherNotificationJob).to receive(:perform_later)
           call_listener(watcher, watcher_setter)
         end
       end
@@ -126,7 +124,7 @@ describe WatcherNotificationMailer do
 
       context 'when added by a different user' do
         it 'does not notify the watcher' do
-          expect(Delayed::Job).to_not receive(:enqueue)
+          expect(DeliverWatcherNotificationJob).not_to receive(:perform_later)
           call_listener(watcher, watcher_setter)
         end
       end
@@ -136,7 +134,7 @@ describe WatcherNotificationMailer do
         let(:self_notified) { false }
 
         it 'does not notify the watcher' do
-          expect(Delayed::Job).to_not receive(:enqueue)
+          expect(DeliverWatcherNotificationJob).not_to receive(:perform_later)
           call_listener(watcher, watcher_setter)
         end
       end

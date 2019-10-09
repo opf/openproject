@@ -29,12 +29,12 @@
 
 # Enqueues
 class EnqueueWorkPackageNotificationJob < ApplicationJob
-  def initialize(journal_id, author_id)
+
+  def perform(journal_id, author_id)
+    # This is caused by a DJ job running as ActiveJob
     @journal_id = journal_id
     @author_id = author_id
-  end
 
-  def perform
     # if the WP has been deleted the unaggregated journal will have been deleted too
     # and our job here is done
     return nil unless raw_journal
@@ -46,7 +46,7 @@ class EnqueueWorkPackageNotificationJob < ApplicationJob
     # sending the notification. Our job here is done.
     return nil unless @journal
 
-    @author = User.find_by(id: @author_id) || DeletedUser.first
+    @author = User.find_by(id: author_id) || DeletedUser.first
 
     # Do not deliver notifications if a follow-up journal will already have sent a notification
     # on behalf of this job.
@@ -64,8 +64,7 @@ class EnqueueWorkPackageNotificationJob < ApplicationJob
 
   def deliver_notifications_for(journal)
     notification_receivers(work_package).each do |recipient|
-      job = DeliverWorkPackageNotificationJob.new(journal.id, recipient.id, @author_id)
-      Delayed::Job.enqueue job, priority: ::ApplicationJob.priority_number(:notification)
+      DeliverWorkPackageNotificationJob.perform_later(journal.id, recipient.id, @author_id)
     end
 
     OpenProject::Notifications.send(

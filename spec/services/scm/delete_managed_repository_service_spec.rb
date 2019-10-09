@@ -136,8 +136,9 @@ describe Scm::DeleteManagedRepositoryService do
       end
 
       it 'calls the callback' do
-        expect(Scm::DeleteRemoteRepositoryJob)
-          .to receive(:new).and_call_original
+        expect(::Scm::DeleteRemoteRepositoryJob)
+          .to receive(:perform_now)
+          .and_call_original
 
         expect(service.call).to be true
         expect(WebMock)
@@ -154,8 +155,10 @@ describe Scm::DeleteManagedRepositoryService do
       end
 
       it 'calls the callback' do
-        expect(Scm::DeleteRemoteRepositoryJob)
-          .to receive(:new).and_call_original
+        expect(::Scm::DeleteRemoteRepositoryJob)
+          .to receive(:perform_now)
+          .and_call_original
+
 
         expect(service.call).to be false
 

@@ -47,17 +47,14 @@ class JournalNotificationMailer
       if Journal::AggregatedJournal.hides_notifications?(aggregated, aggregated.predecessor)
         work_package = aggregated.predecessor.journable
         notification_receivers(work_package).each do |recipient|
-          job = DeliverWorkPackageNotificationJob.new(aggregated.predecessor.id,
-                                                      recipient.id,
-                                                      User.current.id)
-          Delayed::Job.enqueue job, priority: ::ApplicationJob.priority_number(:notification)
+          DeliverWorkPackageNotificationJob
+            .perform_later(aggregated.predecessor.id, recipient.id, User.current.id)
         end
       end
 
-      job = EnqueueWorkPackageNotificationJob.new(journal.id, User.current.id)
-      Delayed::Job.enqueue job,
-                           run_at: delivery_time,
-                           priority: ::ApplicationJob.priority_number(:notification)
+      EnqueueWorkPackageNotificationJob
+        .set(wait_until: delivery_time)
+        .perform_later(journal.id, User.current.id)
     end
 
     def send_notification?(journal)

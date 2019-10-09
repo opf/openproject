@@ -35,7 +35,9 @@
 # creation and deletion of repositories BOTH on the database and filesystem.
 # Until then, a synchronous process is more failsafe.
 class Scm::CreateLocalRepositoryJob < ApplicationJob
-  def initialize(repository)
+  def perform(repository)
+    @repository = repository
+
     # Cowardly refusing to override existing local repository
     if File.directory?(repository.root_url)
       raise OpenProject::Scm::Exceptions::ScmError.new(
@@ -43,13 +45,6 @@ class Scm::CreateLocalRepositoryJob < ApplicationJob
       )
     end
 
-    # TODO currently uses the full repository object,
-    # as the Job is performed synchronously.
-    # Change this to serialize the ID once its turned to process asynchronously.
-    @repository = repository
-  end
-
-  def perform
     # Create the repository locally.
     mode = (config[:mode] || default_mode)
 

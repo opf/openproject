@@ -112,7 +112,7 @@ class DocumentsController < ApplicationController
     if saved_attachments.present? && Setting.notified_events.include?('document_added')
       users = saved_attachments.first.container.recipients
       users.each do |user|
-        UserMailer.attachments_added(user, saved_attachments).deliver
+        UserMailer.attachments_added(user, saved_attachments).deliver_later
       end
     end
     redirect_to action: 'show', id: @document

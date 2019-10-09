@@ -45,6 +45,14 @@ class ApplicationJob < ::ActiveJob::Base
     end
   end
 
+  def self.queue_with_priority(value = :default)
+    if value.is_a?(Symbol)
+      super priority_number(value)
+    else
+      super value
+    end
+  end
+
   def self.inherited(child)
     child.prepend Setup
   end

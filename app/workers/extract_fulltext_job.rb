@@ -29,18 +29,18 @@
 #++
 
 class ExtractFulltextJob < ApplicationJob
-  def initialize(attachment_id)
+  queue_with_priority :low
+
+  def perform(attachment_id)
     @attachment_id = attachment_id
     @attachment = nil
     @text = nil
     @file = nil
     @filename = nil
     @language = OpenProject::Configuration.main_content_language
-  end
 
-  def perform
     return unless OpenProject::Database.allows_tsv?
-    return unless @attachment = find_attachment(@attachment_id)
+    return unless @attachment = find_attachment(attachment_id)
 
     init
     update

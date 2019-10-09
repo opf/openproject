@@ -30,7 +30,9 @@
 ##
 # Provides an asynchronous job to relocate a managed repository on the local or remote system
 class Scm::RelocateRepositoryJob < Scm::RemoteRepositoryJob
-  def perform
+  def perform(repository)
+    super(repository)
+
     if repository.class.manages_remote?
       relocate_remote
     else

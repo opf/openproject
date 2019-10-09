@@ -633,6 +633,9 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       setup
 
       delete path
+
+      # run the deletion job
+      perform_enqueued_jobs
     end
 
     subject { last_response }

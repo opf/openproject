@@ -28,12 +28,10 @@
 #++
 
 class DeliverNotificationJob < ApplicationJob
-  def initialize(recipient_id, sender_id)
+  def perform(recipient_id, sender_id)
     @recipient_id = recipient_id
     @sender_id = sender_id
-  end
 
-  def perform
     # nothing to do if recipient was deleted in the meantime
     return unless recipient
 

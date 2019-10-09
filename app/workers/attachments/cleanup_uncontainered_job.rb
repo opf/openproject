@@ -29,6 +29,8 @@
 #++
 
 class Attachments::CleanupUncontaineredJob < ApplicationJob
+  queue_with_priority :low
+
   def perform
     Attachment
       .where(container: nil)

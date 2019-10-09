@@ -82,6 +82,10 @@ describe Scm::CreateManagedRepositoryService do
       repo = Repository::Subversion.new(scm_type: :managed)
       repo.project = project
       repo.configure(:managed, nil)
+
+      # Ignore default creation
+      allow(repo).to receive(:create_managed_repository)
+      repo.save!
       repo
     }
 
@@ -201,14 +205,16 @@ describe Scm::CreateManagedRepositoryService do
           }
         }
 
-        let(:job) { Scm::CreateRemoteRepositoryJob.new(repository, perform_now: true) }
+        let(:instance) { Scm::CreateRemoteRepositoryJob.new }
+        let(:job_call) { instance.perform(repository) }
 
         context 'with insecure option' do
           let(:insecure) { true }
 
           it_behaves_like 'calls the callback'
           it 'uses the insecure option' do
-            expect(job.send(:configured_verification)).to eq(OpenSSL::SSL::VERIFY_NONE)
+            job_call
+            expect(instance.send(:configured_verification)).to eq(OpenSSL::SSL::VERIFY_NONE)
           end
         end
 
@@ -216,7 +222,8 @@ describe Scm::CreateManagedRepositoryService do
           let(:insecure) { false }
 
           it 'uses the insecure option' do
-            expect(job.send(:configured_verification)).to eq(OpenSSL::SSL::VERIFY_PEER)
+            job_call
+            expect(instance.send(:configured_verification)).to eq(OpenSSL::SSL::VERIFY_PEER)
           end
         end
       end

@@ -51,7 +51,7 @@ describe 'API v3 Work package resource',
   let(:current_user) do
     user = FactoryBot.create(:user, member_in_project: project, member_through_role: role)
 
-    FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
+    FactoryBot.create(:user_preference, user: user, others: {no_self_notified: false})
 
     user
   end
@@ -59,8 +59,8 @@ describe 'API v3 Work package resource',
     FactoryBot
       .create(:user, member_in_project: project, member_through_role: role)
       .tap do |user|
-        work_package.add_watcher(user)
-      end
+      work_package.add_watcher(user)
+    end
   end
   let(:unauthorize_user) { FactoryBot.create(:user) }
   let(:type) { FactoryBot.create(:type) }
@@ -91,7 +91,7 @@ describe 'API v3 Work package resource',
 
       expect(subject.body)
         .to be_json_eql(api_v3_paths.work_package_schema(project.id, work_package.type.id).to_json)
-        .at_path('_embedded/schemas/_embedded/elements/0/_links/self/href')
+              .at_path('_embedded/schemas/_embedded/elements/0/_links/self/href')
     end
 
     context 'user not seeing any work packages' do
@@ -133,11 +133,11 @@ describe 'API v3 Work package resource',
         subject(:parsed_response) { JSON.parse(last_response.body) }
         let!(:other_wp) do
           FactoryBot.create(:work_package, project_id: project.id,
-                                           status: closed_status)
+                            status: closed_status)
         end
         let(:work_package) do
           FactoryBot.create(:work_package, project_id: project.id,
-                                           description: description)
+                            description: description)
         end
         let(:description) do
           <<~DESCRIPTION
@@ -259,7 +259,7 @@ describe 'API v3 Work package resource',
       shared_examples_for 'lock version updated' do
         it {
           expect(subject.body).to be_json_eql(work_package.reload.lock_version)
-            .at_path('lockVersion')
+                                    .at_path('lockVersion')
         }
       end
 
@@ -269,31 +269,36 @@ describe 'API v3 Work package resource',
         before(:each) do
           allow(User).to receive(:current).and_return current_user
           work_package
-          ActionMailer::Base.deliveries.clear # throw away mails due to work package creation
         end
 
         include_context 'patch request'
 
-        subject { ActionMailer::Base.deliveries }
-
         context 'not set' do
           let(:params) { update_params }
 
-          it { expect(subject.count).to eq(1) }
+          it { expect(EnqueueWorkPackageNotificationJob).to have_been_enqueued.at_least(1) }
         end
 
         context 'disabled' do
           let(:patch_path) { "#{api_v3_paths.work_package work_package.id}?notify=false" }
           let(:params) { update_params }
 
-          it { expect(subject).to be_empty }
+          it do
+            expect(EnqueueWorkPackageNotificationJob)
+              .to have_been_enqueued
+              .at_least(1)
+          end
         end
 
         context 'enabled' do
           let(:patch_path) { "#{api_v3_paths.work_package work_package.id}?notify=Something" }
           let(:params) { update_params }
 
-          it { expect(subject.count).to eq(1) }
+          it do
+            expect(EnqueueWorkPackageNotificationJob)
+              .to have_been_enqueued
+              .at_least(1)
+          end
         end
       end
 
@@ -320,7 +325,7 @@ describe 'API v3 Work package resource',
           it 'has a readonly error' do
             expect(response.body)
               .to be_json_eql('urn:openproject-org:api:v3:errors:PropertyIsReadOnly'.to_json)
-              .at_path('errorIdentifier')
+                    .at_path('errorIdentifier')
           end
         end
       end
@@ -339,7 +344,7 @@ describe 'API v3 Work package resource',
         context 'w/o value (empty)' do
           let(:raw) { nil }
           let(:html) { '' }
-          let(:params) { valid_params.merge(description: { raw: nil }) }
+          let(:params) { valid_params.merge(description: {raw: nil}) }
 
           include_context 'patch request'
 
@@ -353,7 +358,7 @@ describe 'API v3 Work package resource',
           let(:html) do
             '<p><strong>Some text</strong> <em>describing</em> <strong>something</strong>...</p>'
           end
-          let(:params) { valid_params.merge(description: { raw: raw }) }
+          let(:params) { valid_params.merge(description: {raw: raw}) }
 
           include_context 'patch request'
 
@@ -396,7 +401,7 @@ describe 'API v3 Work package resource',
       context 'status' do
         let(:target_status) { FactoryBot.create(:status) }
         let(:status_link) { api_v3_paths.status target_status.id }
-        let(:status_parameter) { { _links: { status: { href: status_link } } } }
+        let(:status_parameter) { {_links: {status: {href: status_link}}} }
         let(:params) { valid_params.merge(status_parameter) }
 
         before { allow(User).to receive(:current).and_return current_user }
@@ -416,7 +421,7 @@ describe 'API v3 Work package resource',
 
           it 'should respond with updated work package status' do
             expect(subject.body).to be_json_eql(target_status.name.to_json)
-              .at_path('_embedded/status/name')
+                                      .at_path('_embedded/status/name')
           end
 
           it_behaves_like 'lock version updated'
@@ -452,7 +457,7 @@ describe 'API v3 Work package resource',
       context 'type' do
         let(:target_type) { FactoryBot.create(:type) }
         let(:type_link) { api_v3_paths.type target_type.id }
-        let(:type_parameter) { { _links: { type: { href: type_link } } } }
+        let(:type_parameter) { {_links: {type: {href: type_link}}} }
         let(:params) { valid_params.merge(type_parameter) }
 
         before { allow(User).to receive(:current).and_return current_user }
@@ -468,7 +473,7 @@ describe 'API v3 Work package resource',
 
           it 'should respond with updated work package type' do
             expect(subject.body).to be_json_eql(target_type.name.to_json)
-              .at_path('_embedded/type/name')
+                                      .at_path('_embedded/type/name')
           end
 
           it_behaves_like 'lock version updated'
@@ -476,7 +481,7 @@ describe 'API v3 Work package resource',
 
         context 'valid type changing custom fields' do
           let(:custom_field) { FactoryBot.create(:work_package_custom_field) }
-          let(:custom_field_parameter) { { :"customField#{custom_field.id}" => true } }
+          let(:custom_field_parameter) { {:"customField#{custom_field.id}" => true} }
           let(:params) { valid_params.merge(type_parameter).merge(custom_field_parameter) }
 
           before do
@@ -490,7 +495,7 @@ describe 'API v3 Work package resource',
           it 'responds with the new custom field having the desired value' do
             expect(subject.body)
               .to be_json_eql(true.to_json)
-              .at_path("customField#{custom_field.id}")
+                    .at_path("customField#{custom_field.id}")
           end
         end
 
@@ -523,7 +528,7 @@ describe 'API v3 Work package resource',
           FactoryBot.create(:project, public: false)
         end
         let(:project_link) { api_v3_paths.project target_project.id }
-        let(:project_parameter) { { _links: { project: { href: project_link } } } }
+        let(:project_parameter) { {_links: {project: {href: project_link}}} }
         let(:params) { valid_params.merge(project_parameter) }
 
         before do
@@ -555,7 +560,7 @@ describe 'API v3 Work package resource',
 
         context 'with a custom field defined on the target project' do
           let(:custom_field) { FactoryBot.create(:work_package_custom_field) }
-          let(:custom_field_parameter) { { :"customField#{custom_field.id}" => true } }
+          let(:custom_field_parameter) { {:"customField#{custom_field.id}" => true} }
           let(:params) { valid_params.merge(project_parameter).merge(custom_field_parameter) }
 
           before do
@@ -568,7 +573,7 @@ describe 'API v3 Work package resource',
           it 'responds with the new custom field having the desired value' do
             expect(subject.body)
               .to be_json_eql(true.to_json)
-              .at_path("customField#{custom_field.id}")
+                    .at_path("customField#{custom_field.id}")
           end
         end
       end
@@ -603,7 +608,7 @@ describe 'API v3 Work package resource',
         end
 
         shared_examples_for 'handling people' do |property|
-          let(:user_parameter) { { _links: { property => { href: user_href } } } }
+          let(:user_parameter) { {_links: {property => {href: user_href}}} }
           let(:href_path) { "_links/#{property}/href" }
 
           describe 'nil' do
@@ -626,7 +631,7 @@ describe 'API v3 Work package resource',
 
               it {
                 expect(response.body).to be_json_eql(title)
-                  .at_path("_links/#{property}/title")
+                                           .at_path("_links/#{property}/title")
               }
 
               it_behaves_like 'lock version updated'
@@ -724,7 +729,7 @@ describe 'API v3 Work package resource',
       context 'version' do
         let(:target_version) { FactoryBot.create(:version, project: project) }
         let(:version_link) { api_v3_paths.version target_version.id }
-        let(:version_parameter) { { _links: { version: { href: version_link } } } }
+        let(:version_parameter) { {_links: {version: {href: version_link}}} }
         let(:params) { valid_params.merge(version_parameter) }
 
         before { allow(User).to receive(:current).and_return current_user }
@@ -736,7 +741,7 @@ describe 'API v3 Work package resource',
 
           it 'should respond with the work package assigned to the version' do
             expect(subject.body).to be_json_eql(target_version.name.to_json)
-              .at_path('_embedded/version/name')
+                                      .at_path('_embedded/version/name')
           end
 
           it_behaves_like 'lock version updated'
@@ -752,7 +757,7 @@ describe 'API v3 Work package resource',
           it 'has a readonly error' do
             expect(response.body)
               .to be_json_eql('urn:openproject-org:api:v3:errors:PropertyIsReadOnly'.to_json)
-              .at_path('errorIdentifier')
+                    .at_path('errorIdentifier')
           end
         end
       end
@@ -760,7 +765,7 @@ describe 'API v3 Work package resource',
       context 'category' do
         let(:target_category) { FactoryBot.create(:category, project: project) }
         let(:category_link) { api_v3_paths.category target_category.id }
-        let(:category_parameter) { { _links: { category: { href: category_link } } } }
+        let(:category_parameter) { {_links: {category: {href: category_link}}} }
         let(:params) { valid_params.merge(category_parameter) }
 
         before { allow(User).to receive(:current).and_return current_user }
@@ -772,7 +777,7 @@ describe 'API v3 Work package resource',
 
           it 'should respond with the work package assigned to the category' do
             expect(subject.body).to be_json_eql(target_category.name.to_json)
-              .at_path('_embedded/category/name')
+                                      .at_path('_embedded/category/name')
           end
 
           it_behaves_like 'lock version updated'
@@ -782,7 +787,7 @@ describe 'API v3 Work package resource',
       context 'priority' do
         let(:target_priority) { FactoryBot.create(:priority) }
         let(:priority_link) { api_v3_paths.priority target_priority.id }
-        let(:priority_parameter) { { _links: { priority: { href: priority_link } } } }
+        let(:priority_parameter) { {_links: {priority: {href: priority_link}}} }
         let(:params) { valid_params.merge(priority_parameter) }
 
         before { allow(User).to receive(:current).and_return current_user }
@@ -794,7 +799,7 @@ describe 'API v3 Work package resource',
 
           it 'should respond with the work package assigned to the priority' do
             expect(subject.body).to be_json_eql(target_priority.name.to_json)
-              .at_path('_embedded/priority/name')
+                                      .at_path('_embedded/priority/name')
           end
 
           it_behaves_like 'lock version updated'
@@ -813,7 +818,7 @@ describe 'API v3 Work package resource',
         end
 
         let(:value_parameter) do
-          { _links: { custom_field.accessor_name.camelize(:lower) => { href: value_link } } }
+          {_links: {custom_field.accessor_name.camelize(:lower) => {href: value_link}}}
         end
         let(:params) { valid_params.merge(value_parameter) }
 
@@ -830,7 +835,7 @@ describe 'API v3 Work package resource',
 
           it 'should respond with the work package assigned to the new value' do
             expect(subject.body).to be_json_eql(value_link.to_json)
-              .at_path("_links/#{custom_field.accessor_name.camelize(:lower)}/href")
+                                      .at_path("_links/#{custom_field.accessor_name.camelize(:lower)}/href")
           end
 
           it_behaves_like 'lock version updated'
@@ -1040,7 +1045,7 @@ describe 'API v3 Work package resource',
       status.save!
       priority.save!
 
-      FactoryBot.create(:user_preference, user: current_user, others: { no_self_notified: false })
+      FactoryBot.create(:user_preference, user: current_user, others: {no_self_notified: false})
       post path, parameters.to_json, 'CONTENT_TYPE' => 'application/json'
     end
 
@@ -1048,14 +1053,16 @@ describe 'API v3 Work package resource',
       let(:permissions) { %i[add_work_packages view_project view_work_packages] }
 
       it 'sends a mail by default' do
-        expect(ActionMailer::Base.deliveries.count).to eq(1)
+        expect(EnqueueWorkPackageNotificationJob)
+          .to have_been_enqueued
+          .at_least(1)
       end
 
       context 'without notifications' do
         let(:path) { "#{api_v3_paths.work_packages}?notify=false" }
 
         it 'should not send a mail' do
-          expect(ActionMailer::Base.deliveries.count).to eq(0)
+          expect(EnqueueWorkPackageNotificationJob).not_to have_been_enqueued
         end
       end
 
@@ -1063,7 +1070,9 @@ describe 'API v3 Work package resource',
         let(:path) { "#{api_v3_paths.work_packages}?notify=true" }
 
         it 'should send a mail' do
-          expect(ActionMailer::Base.deliveries.count).to eq(1)
+          expect(EnqueueWorkPackageNotificationJob)
+            .to have_been_enqueued
+            .at_least(1)
         end
       end
     end

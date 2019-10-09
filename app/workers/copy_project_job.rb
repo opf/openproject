@@ -28,28 +28,32 @@
 #++
 
 class CopyProjectJob < ApplicationJob
+  queue_with_priority :low
   include OpenProject::LocaleHelper
 
   attr_reader :user_id,
               :source_project_id,
               :target_project_params,
+              :target_project_name,
+              :target_project,
+              :errors,
               :associations_to_copy,
               :send_mails
 
-  def initialize(user_id:, source_project_id:, target_project_params:,
+  def perform(user_id:, source_project_id:, target_project_params:,
                  associations_to_copy:, send_mails: false)
+    # Needs refactoring after moving to activejob
+
     @user_id               = user_id
     @source_project_id     = source_project_id
     @target_project_params = target_project_params.with_indifferent_access
     @associations_to_copy  = associations_to_copy
     @send_mails            = send_mails
-  end
 
-  def perform
     User.current = user
-    target_project_name = target_project_params[:name]
+    @target_project_name = target_project_params[:name]
 
-    target_project, errors = with_locale_for(user) do
+    @target_project, @errors = with_locale_for(user) do
       create_project_copy(source_project,
                           target_project_params,
                           associations_to_copy,
@@ -128,6 +132,6 @@ class CopyProjectJob < ApplicationJob
   end
 
   def logger
-    Delayed::Worker.logger
+    Rails.logger
   end
 end
