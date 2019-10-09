@@ -1,0 +1,867 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+es:
+  js:
+    ajax:
+      hide: "Ocultar"
+      loading: "Cargando ..."
+    attachments:
+      draggable_hint: |
+        Arrastre el campo del editor a una imagen alineada o un adjunto de referencia. Los campos del editor cerrados se abrirán mientras siga arrastrando elementos.
+    autocomplete_select:
+      placeholder:
+        multi: "Añadir \"%{name}\""
+        single: "Seleccione \"%{name}\""
+      remove: "Elimine \"%{name}\""
+      active: "Activo %{label} %{name}"
+    close_popup_title: "Cerrar ventana emergente"
+    close_filter_title: "Cerrar filtro"
+    close_form_title: "Cerrar formulario"
+    button_add_watcher: "Añadir observador"
+    button_back: "Atrás"
+    button_back_to_list_view: "Volver a la lista"
+    button_cancel: "Cancelar"
+    button_close: "Cerrar"
+    button_change_project: "Cambiar proyecto"
+    button_check_all: "Seleccionar Todos"
+    button_configure-form: "Configurar formulario"
+    button_confirm: "Confirmar"
+    button_continue: "Continuar"
+    button_copy: "Copiar"
+    button_custom-fields: "Campos Personalizados"
+    button_delete: "Borrar"
+    button_delete_watcher: "Eliminar los observadores"
+    button_details_view: "Vista detallada"
+    button_duplicate: "Duplicar"
+    button_edit: "Editar"
+    button_filter: "Filtro"
+    button_advanced_filter: "Filtro avanzado"
+    button_list_view: "Vista de lista"
+    button_show_view: "Vista de pantalla completa"
+    button_log_time: "Registro de tiempo"
+    button_more: "Más"
+    button_open_details: "Abrir vista detallada"
+    button_close_details: "Cerrar vista detallada"
+    button_open_fullscreen: "Ver pantalla completa"
+    button_show_cards: "Mostrar vista de tarjeta"
+    button_show_list: "Mostrar vista de lista"
+    button_quote: "Comentario"
+    button_save: "Guardar"
+    button_settings: "Configuración"
+    button_uncheck_all: "Deseleccionar todos"
+    button_update: "Actualizar"
+    button_export-pdf: "Descargar PDF"
+    button_export-atom: "Descargar Atom"
+    calendar:
+      title: 'Calendario'
+      too_many: 'Hay %{count} paquetes de trabajo en total, pero solo pueden mostrarse %{max}.'
+    card:
+      add_new: 'Añadir nueva tarjeta'
+      highlighting:
+        inline: 'Resaltar en línea:'
+        entire_card_by: 'Toda la tarjeta en'
+      remove_from_list: 'Eliminar tarjeta de la lista'
+    clipboard:
+      browser_error: "Su navegador no soporta copiar al portapapeles. Por favor, copie el texto seleccionado manualmente."
+      copied_successful: "¡Copiado correctamente en el portapapeles!"
+    chart:
+      type: 'Tipo de gráfico'
+      axis_criteria: 'Criterios de eje'
+      modal_title: 'Configuración del gráfico del paquete de trabajo'
+      types:
+        line: 'Línea'
+        horizontal_bar: 'Barra horizontal'
+        bar: 'Barra'
+        pie: 'Circular'
+        doughnut: 'Anillos'
+        radar: 'Radial'
+        polar_area: 'Área polar'
+      tabs:
+        graph_settings: 'General'
+        dataset: 'Conjunto de datos %{number}'
+      errors:
+        could_not_load: 'No se pueden cargar los datos necesarios para mostrar el gráfico. Puede que falten los permisos necesarios.'
+    description_available_columns: "Columnas disponibles"
+    description_current_position: "Usted está aquí: "
+    description_select_work_package: "Seleccione el paquete de trabajo #%{id}"
+    description_selected_columns: "Columnas seleccionadas"
+    description_subwork_package: "Hijo del paquete de trabajo #%{id}"
+    editor:
+      preview: 'Alternar modo de vista previa'
+      source_code: 'Alternar modo de visualización de Markdown'
+      error_saving_failed: 'No se pudo guardar el documento debido al siguiente error: %{error}'
+      error_initialization_failed: 'No se pudo inicializar CKEditor.'
+      mode:
+        manual: 'Cambiar a visualización de Markdown'
+        wysiwyg: 'Cambiar a editor WYSIWYG'
+      macro:
+        child_pages:
+          button: 'Vínculos a páginas secundarias'
+          include_parent: 'Incluir principal'
+          text: '[Placeholder] Vínculos a páginas secundarias de'
+          page: 'Página wiki'
+          this_page: 'esta página'
+          hint: |
+            Deje este campo en blanco para mostrar todas las páginas secundarias de la página actual. Para hacer referencia a otra página, especifique el título o slug.
+        code_block:
+          button: 'Insertar fragmento de código'
+          title: 'Insertar o editar fragmento de código'
+          language: 'Lenguaje de formato'
+          language_hint: 'Especifique el lenguaje de formato que se usará para resaltar (si se admite).'
+        dropdown:
+          macros: 'Macros'
+          chose_macro: 'Seleccionar macro'
+        toc: 'Índice'
+        toolbar_help: 'Haga clic para seleccionar un widget y mostrar la barra de herramientas. Haga doble clic para editar un widget'
+        wiki_page_include:
+          button: 'Incluir contenido de otra página wiki'
+          text: '[Placeholder] Se incluyó la página wiki de'
+          page: 'Página wiki'
+          not_set: '(Página no establecida aún)'
+          hint: |
+            Para incluir el contenido de otra página wiki, especifique el título o slug.
+            Para incluir la página wiki de otro proyecto, sepárelas con un signo de dos puntos, como en el ejemplo siguiente.
+        work_package_button:
+          button: 'Insertar botón para crear paquete de trabajo'
+          type: 'Tipo de paquete de trabajo'
+          button_style: 'Usar estilo de botón'
+          button_style_hint: 'Opcional: active esta opción para que la macro se muestre como un botón, en lugar de mostrarse como un vínculo.'
+          without_type: 'Crear paquete de trabajo'
+          with_type: 'Crear paquete de trabajo (escriba lo siguiente: %{typename})'
+        embedded_table:
+          button: 'Insertar tabla de paquetes de trabajo'
+          text: '[Placeholder] Tabla de paquetes de trabajo insertada'
+        embedded_calendar:
+          text: '[Placeholder] Calendario insertado'
+    admin:
+      type_form:
+        custom_field: 'Campo personalizado'
+        inactive: 'Inactivo'
+        drag_to_activate: "Arrastre campos desde aquí para activarlos"
+        add_group: "Agregar grupo de atributos"
+        add_table: "Agregar tabla de paquetes de trabajo relacionados"
+        edit_query: 'Editar consulta'
+        new_group: 'Nuevo grupo'
+        reset_to_defaults: 'Restablecer valores predeterminados'
+    custom_actions:
+      date:
+        specific: 'en'
+        current_date: 'Fecha actual'
+    error:
+      internal: "Ha ocurrido un error interno."
+      cannot_save_changes_with_message: "No se pueden guardar los cambios debido al siguiente error: %{error}"
+      query_saving: "No se pudo guardar la vista."
+      embedded_table_loading: "No se pudo cargar la vista insertada: %{message}"
+    filter:
+      description:
+        text_open_filter: "Abrir este filtro con 'ALT' y las flechas de dirección."
+        text_close_filter: "Para seleccionar una entrada, deje el foco por ejemplo pulsando Intro. Para abandonar sin filtro, seleccione la primera entrada (vacía)."
+      noneElement: "(ninguno)"
+      time_zone_converted:
+        two_values: "%{from} - %{to} de su hora local."
+        only_start: "Desde las %{from} de su hora local."
+        only_end: "Hasta las %{to} de su hora local."
+      value_spacer: "-"
+      sorting:
+        criteria:
+          one: "Primer criterio de ordenación"
+          two: "Segundo criterio de ordenación"
+          three: "Tercer criterio de ordenación"
+      upsale_for_more: "Para el uso de filtros más avanzados, consulte"
+      upsale_link: 'Edición empresarial.'
+    general_text_no: "no"
+    general_text_yes: "sí"
+    general_text_No: "No"
+    general_text_Yes: "Sí"
+    homescreen:
+      blocks:
+        new_features:
+          text_new_features: "Obtenga información sobre nuevas características y actualizaciones de productos."
+          current_new_feature_html: "OpenProject ahora ofrece la nueva <b>vista Panel</b> para la administración de proyectos ágil. </br> Para activar esta nueva característica para sus proyectos existentes, siga este procedimiento: <ul><li>Active el módulo Paneles en la configuración de los proyectos existentes.</li> <li>Configure los paneles en un proyecto.</li> <li>Verifique los roles y los permisos</li></ul>"
+          image_alt_text: "Imagen promocional de los paneles"
+          learn_about: "Obtenga más información sobre los paneles ágiles"
+    label_activate: "Activar"
+    label_activity_no: "Entrada de actividad número %{activityNo}"
+    label_activity_with_comment_no: "Entrada de actividad número %{activityNo} tiene un comentario."
+    label_add_column_after: "Añadir columna a la derecha"
+    label_add_column_before: "Añadir columna a la izquierda"
+    label_add_columns: "Añadir columnas"
+    label_add_comment: "Agregar comentario"
+    label_add_comment_title: "Escriba un comentario y agregue @ para notificar a otras personas"
+    label_add_row_after: "Añadir fila debajo"
+    label_add_row_before: "Añadir fila encima"
+    label_add_selected_columns: "Agregar columnas seleccionadas"
+    label_added_by: "agregado por"
+    label_added_time_by: "Agregado por %{author} %{age}"
+    label_ago: "días antes"
+    label_all: "todos"
+    label_all_work_packages: "todos los paquetes de trabajo"
+    label_and: "y"
+    label_ascending: "Ascendente"
+    label_author: "Autor: %{user}"
+    label_between: "entre"
+    label_board: "Tablero"
+    label_board_locked: "Bloqueado"
+    label_board_plural: "Tableros"
+    label_board_sticky: "Adhesivo"
+    label_create: "Crear"
+    label_create_work_package: "Crear un nuevo paquete de trabajo"
+    label_created_by: "Creado por"
+    label_date: "Fecha"
+    label_date_with_format: "Introduzca el %{date_attribute} usando el siguiente formato: %{format}"
+    label_deactivate: "Desactivar"
+    label_descending: "Descendente"
+    label_description: "Descripción"
+    label_cancel_comment: "Cancelar comentario"
+    label_closed_work_packages: "cerrado"
+    label_collapse: "Colapsar"
+    label_collapsed: "colapsado"
+    label_collapse_all: "Colapsar todo"
+    label_comment: "Comentario"
+    label_committed_at: "%{committed_revision_link} en %{date}"
+    label_committed_link: "revisión confirmada %{revision_identifier}"
+    label_contains: "contiene"
+    label_created_on: "creado en"
+    label_edit_comment: "Editar este comentario"
+    label_edit_status: "Edite el estado del paquete de trabajo"
+    label_equals: "es"
+    label_expand: "Expandir"
+    label_expanded: "expandido"
+    label_expand_all: "Expandir todos"
+    label_expand_project_menu: "Expandir menú de proyecto"
+    label_export: "Exportar"
+    label_filename: "Archivo"
+    label_filesize: "Tamaño"
+    label_greater_or_equal: ">="
+    label_group: 'Grupo'
+    label_group_by: "Agrupar por"
+    label_hide_attributes: "Mostrar menos"
+    label_hide_column: "Esconder Columna"
+    label_hide_project_menu: "Contraer menú de proyecto"
+    label_in: "en"
+    label_in_less_than: "en menos de"
+    label_in_more_than: "en más de"
+    label_import: "Importar"
+    label_latest_activity: "Actividad reciente"
+    label_last_updated_on: "Ultima actualizacion realizada el"
+    label_less_or_equal: "<="
+    label_less_than_ago: "menos que hace días"
+    label_loading: "Cargando..."
+    label_me: "mi"
+    label_menu_collapse: "colapsar"
+    label_menu_expand: "expandir"
+    label_more_than_ago: "más días atrás"
+    label_next: "Siguiente"
+    label_no_color: "Sin color"
+    label_no_data: "No hay datos disponibles"
+    label_no_due_date: "no hay fecha de finalización"
+    label_no_start_date: "sin fecha de inicio"
+    label_none: "ninguno"
+    label_not_contains: "no contiene"
+    label_not_equals: "no es"
+    label_on: "en"
+    label_open_menu: "Abrir menú"
+    label_open_context_menu: "Abrir menú contextual"
+    label_open_work_packages: "abierto"
+    label_password: "Contraseña"
+    label_previous: "Anterior"
+    label_per_page: "Por pagina:"
+    label_please_wait: "Por favor, espere"
+    label_visibility_settings: "Configuración de visibilidad"
+    label_quote_comment: "Citar este comentario"
+    label_reset: "Reiniciar"
+    label_remove_column: "Eliminar columna"
+    label_remove_columns: "Eliminar columnas seleccionadas"
+    label_remove_row: "Eliminar fila"
+    label_save_as: "Guardad como"
+    label_select_watcher: "Selecciona un observador..."
+    label_selected_filter_list: "Filtros seleccionados"
+    label_show_attributes: "Mostrar todos los atributos"
+    label_show_in_menu: "Mostrar vista en menú"
+    label_sort_by: "Ordenar por"
+    label_sorted_by: "ordenados por"
+    label_sort_higher: "Mover hacia arriba"
+    label_sort_lower: "Mover hacia abajo"
+    label_sorting: "Ordenando"
+    label_star_query: "Favorecido"
+    label_press_enter_to_save: "Presione Entrar para guardar los cambios."
+    label_public_query: "Público"
+    label_sum: "Suma"
+    label_sum_for: "Suma para"
+    label_subject: "Asunto"
+    label_this_week: "esta semana"
+    label_today: "hoy"
+    label_up: "Arriba"
+    label_activity_show_only_comments: "Solo mostrar las actividades con comentarios"
+    label_activity_show_all: "Mostrar todas las actividades"
+    label_total_progress: "Progreso total: %{percent}%"
+    label_total_amount: "Total: %{amount}"
+    label_updated_on: "actualizado el"
+    label_value_derived_from_children: "(valor derivado del elemento secundario)"
+    label_warning: "Alerta"
+    label_work_package: "Paquete de trabajo"
+    label_work_package_plural: "Paquetes de trabajo"
+    label_watch: "Controlar"
+    label_watch_work_package: "Ver paquetes de trabajo"
+    label_watcher_added_successfully: "Observador agregado exitosamente!"
+    label_watcher_deleted_successfully: "Observador borrado con éxito!"
+    label_work_package_details_you_are_here: "Te encuentras en la pestaña %{tab} para %{type}%{subject}."
+    label_unwatch: "No controlar más"
+    label_unwatch_work_package: "Ocultar paquetes de trabajo"
+    label_uploaded_by: "Subido por"
+    label_default_queries: "Vistas predeterminadas"
+    label_starred_queries: "Vistas favoritas"
+    label_global_queries: "Vistas públicas"
+    label_custom_queries: "Vistas privadas"
+    label_columns: "Columnas"
+    label_attachments: Archivos
+    label_drop_files: Suelta los archivos aquí
+    label_drop_files_hint: o haga clic en Agregar archivos
+    label_drop_folders_hint: No se pueden cargar carpetas como datos adjuntos. Seleccione archivos individuales.
+    label_add_attachments: "Añadir adjuntos"
+    label_formattable_attachment_hint: "Para adjuntar y vincular archivos, colóquelos en este campo o péguelos desde el Portapapeles."
+    label_remove_file: "Eliminar %{fileName}"
+    label_remove_watcher: "Eliminar observador %{name}"
+    label_remove_all_files: Borrar todos los archivos
+    label_add_description: "Añadir una descripción para %{file}"
+    label_upload_notification: "Cargando archivos…"
+    label_work_package_upload_notification: "Subiendo archivos para el paquete de trabajo #%{id}: %{subject}"
+    label_wp_id_added_by: "#%{id} añadido por %{author}"
+    label_files_to_upload: "Estos archivos se cargarán:"
+    label_rejected_files: "Estos archivos no pueden ser cargados:"
+    label_rejected_files_reason: "Estos archivos no pueden cargarse debido a que su tamaño es mayor a %{maximumFilesize}"
+    label_wait: "Por favor espere para la configuración..."
+    label_upload_counter: "%{done} de %{count} archivos terminados"
+    label_validation_error: "El paquete de trabajo no puede ser guardado debido a los errores siguientes:"
+    label_view_has_changed: "Esta vista tiene cambios sin guardar. Haga clic para guardarlos."
+    help_texts:
+      show_modal: 'Mostrar entrada de texto de ayuda para atributo'
+    onboarding:
+      buttons:
+        skip: 'Saltar'
+        next: 'Siguiente'
+        got_it: 'Entendido'
+      steps:
+        help_menu: 'En el menú <b>Ayuda</b>, encontrará una guía del usuario y recursos de ayuda adicionales. <br> ¡Disfrute de su trabajo con OpenProject!'
+        members: 'Invite a nuevos <b>Miembros</b> a unirse al proyecto.'
+        project_selection: 'Por favor, haga clic en uno de los proyectos con datos de demostración útiles para empezar. <br> El <b>proyecto Demo </b> se adapta mejor a la gestión clásica del proyecto, mientras que el <b>} proyecto Scrum </b> es mejor para la gestión del proyecto Agile.'
+        sidebar_arrow: "Con la flecha, puede volver al <b>Menú principal</b> del proyecto."
+        welcome: 'Realice un paseo de introducción de tres minutos para conocer las <b>características más importantes</b>. <br> Le recomendamos que complete todos los pasos. Puede volver a iniciar el paseo en cualquier momento.'
+        wiki: 'En la <b>Wiki</b>, puede elaborar documentos y compartir conocimientos con su equipo.'
+        backlogs:
+          overview: "Administre su trabajo en la vista <b>Trabajos pendientes</b> (Backlogs). <br> En la parte derecha, se muestran los trabajos pendientes de productos o los trabajos pendientes de errores de código, mientras que en la parte izquierda se mostrarán los sprints correspondientes. Aquí puede crear <b>epopeyas, historias de usuario y errores de código</b>, asignar prioridades mediante funciones de arrastrar y colocar, y agregar elementos a un sprint."
+          task_board_arrow: 'Para ver el <b>Panel de tareas</b>, abra el menú desplegable Sprint…'
+          task_board_select: '… y seleccione la entrada <b>Panel de tareas</b>.'
+          task_board: "En el <b>Panel de tareas</b>, se muestra el progreso de este sprint. Agregue nuevas tareas o impedimentos con el icono de + junto a una historia de usuario. Mediante funciones de arrastrar y colocar, puede actualizar el estado."
+        boards:
+          overview: 'Gestiona tu trabajo en una sección intuitiva de <b>Tableros</b>.'
+          lists: 'Puedes crear múltiples listas (columnas) contenidas en una única sección del Tablero, por ej. para crear un tablero KANBAN.'
+          add: 'Al hacer click en + <b>se añadirá una nueva tarjeta</b> a la lista dentro de un Tablero.'
+          drag: 'Arrastra y suelta tus cartas dentro de una lista para volver a ordenar, o para otra lista. Un doble clic abrirá la vista de detalles.'
+        wp:
+          toggler: "Ahora, veamos la sección <b>Paquete de trabajo</b>, que ofrece una vista más detallada de su trabajo."
+          list: 'Esta es la lista <b>Paquete de trabajo</b>, donde se muestra una lista del trabajo importante en el proyecto, como tareas, características, hitos, errores de código y más. <br> Puede crear o editar un paquete de trabajo directamente con esta lista. Para ver los detalles, haga doble clic en una fila.'
+          full_view: 'En los <b>Detalles del paquete de trabajo</b>, se muestra toda la información relevante, como la descripción, el estado y la prioridad, actividades, dependencias o comentarios.'
+          back_button: 'Con la flecha, puede volver a la lista de paquetes de trabajo.'
+          create_button: 'Use el botón <b>Crear</b> para agregar un nuevo paquete de trabajo al proyecto.'
+          timeline_button: 'Puede activar el <b>diagrama de Gantt</b> para crear una línea de tiempo del proyecto.'
+          timeline: 'Aquí puede editar el plan del proyecto. Cree nuevas fases e hitos, y agregue dependencias. Todos los miembros del equipo pueden ver y actualizar el último plan en cualquier momento.'
+    password_confirmation:
+      field_description: 'Necesitas introducir la contraseña de tu cuenta para confirmar este cambio.'
+      title: 'Confirma tu contraseña para continuar'
+    pagination:
+      no_other_page: "Usted está en la única página."
+      pages:
+        next: "Avanzar a la siguiente página"
+        previous: "Volver a la página anterior"
+    placeholders:
+      default: '-'
+      subject: 'Escriba aquí el asunto'
+      selection: 'Por favor, elija'
+      relation_description: 'Haga clic para añadir la descripción a esta relación'
+    project:
+      required_outside_context: >
+        Seleccione el proyecto donde quiera crear el paquete de trabajo para ver todos los atributos. Solo puede seleccionar proyectos que tengan activado el tipo anterior.
+      context: 'Contexto de proyecto'
+      work_package_belongs_to: 'Este paquete de trabajo pertenece al proyecto %{projectname}.'
+      click_to_switch_context: 'Abra este paquete de trabajo en ese proyecto.'
+      autocompleter:
+        label: 'Contexto | Solicitar contexto'
+    text_are_you_sure: "¿Estás seguro?"
+    types:
+      attribute_groups:
+        error_duplicate_group_name: "El nombre %{group} se ha usado más de una vez. Los nombres de grupos deben ser únicos."
+        error_no_table_configured: "Configure una tabla para %{group}."
+        reset_title: "Restablecer la configuración del formulario"
+        confirm_reset: >
+          Advertencia: ¿Está seguro de que quiere restablecer la configuración del formulario? Se restablecerán los atributos al grupo predeterminado y se deshabilitarán TODOS los campos personalizados.
+        upgrade_to_ee: "Actualizar hasta versión corporativa"
+        upgrade_to_ee_text: "¡Vaya! Si necesita está opción, entonces ¡es un usuario experto! ¿Le importaría apoyar a los desarrolladores de OpenSource convirtiéndose en un cliente de la versión corporativa?"
+        more_information: "Más información"
+        nevermind: "No importa"
+        filter_types:
+          parent: "es un elemento secundario de"
+          precedes: "anterior"
+          follows: "posterior"
+          relates: "relacionado con"
+          duplicates: "duplicado"
+          duplicated: "duplicado por"
+          blocks: "bloqueo"
+          blocked: "bloqueado por"
+          partof: "pertenece a"
+          includes: "incluido"
+          requires: "requiere"
+          required: "requerido por"
+    time_entry:
+      activity: 'Actividad'
+      comment: 'Comentario'
+      hours: 'Horas'
+    watchers:
+      label_loading: cargando observadores...
+      label_error_loading: Se ha producido un error al cargar los observadores
+      label_search_watchers: Buscar observadores
+      label_add: Agregar observadores
+      label_discard: Descartar selección
+      typeahead_placeholder: Buscar posibles observadores
+    relation_labels:
+      parent: "Padre"
+      children: "Subordinado"
+      relates: "Relacionado a"
+      duplicates: "Duplicados"
+      duplicated: "Duplicado por"
+      blocks: "Bloques"
+      blocked: "Bloqueado por"
+      precedes: "Precede"
+      follows: "Sigue"
+      includes: "Incluye"
+      partof: "Parte de"
+      requires: "Requiere"
+      required: "Requerido por"
+      relation_type: "tipo de relación"
+    relations_hierarchy:
+      parent_headline: "Padre"
+      hierarchy_headline: "Jerarquía"
+      children_headline: "Subordinado"
+    relation_buttons:
+      set_parent: "Establecer elemento primario"
+      change_parent: "Cambiar padre"
+      remove_parent: "Eliminar padre"
+      hierarchy_indent: "Aumentar sangría de jerarquía"
+      hierarchy_outdent: "Anular sangría de jerarquía"
+      group_by_wp_type: "Agrupar por tipo de paquete de trabajo"
+      group_by_relation_type: "Grupo por tipo de relación"
+      add_parent: "Añadir padre existente"
+      add_new_child: "Crear nuevo hijo"
+      create_new: "Crear nuevo"
+      add_existing: "Agregar existente"
+      add_existing_child: "Añadir hijo existente"
+      remove_child: "Eliminar hijo"
+      add_new_relation: "Crear nueva relación"
+      add_existing_relation: "Agregar relación existente"
+      update_description: "Establecer o actualizar la descripción de esta relación"
+      toggle_description: "Activar descripción de la relación"
+      update_relation: "Haga clic para cambiar el tipo de relación"
+      add_follower: "Añadir seguidor"
+      add_predecessor: "Añadir predecesor"
+      remove: "Eliminar la relación"
+      save: "Guardar relación"
+      abort: "Abandonar"
+    relations_autocomplete:
+      placeholder: "Escriba para buscar"
+      parent_placeholder: "Elija un nuevo padre ó presione escape para cancelar."
+    repositories:
+      select_tag: 'Seleccionar etiqueta'
+      select_branch: 'Seleccione Sucursal'
+    field_value_enter_prompt: "Introduzca un valor para '%{field}'"
+    select2:
+      input_too_short:
+        one: "Por favor introduzca un carácter más"
+        other: "Por favor, ingrese {{count}} caracteres más"
+      load_more: "Cargando mas resultados ..."
+      no_matches: "No se encontraron coincidencias"
+      searching: "Buscando ..."
+      selection_too_big:
+        one: "Solo puede seleccionar un objeto"
+        other: "Solo puede seleccionar {{limit}} objetos"
+    project_menu_details: "Detalles"
+    sort:
+      sorted_asc: 'Orden ascendiente aplicado '
+      sorted_dsc: 'Orden descendiente aplicado '
+      sorted_no: 'Ningún tipo de orden aplicado '
+      sorting_disabled: 'ordenación deshabilitada'
+      activate_asc: 'activar para aplicar orden ascendiente'
+      activate_dsc: 'activar para aplicar orden descendiente'
+      activate_no: 'activar para deshabilitar ordenación'
+    text_work_packages_destroy_confirmation: "¿Esta usted seguro que desea eliminar paquete(s) de trabajo seleccionado(s)?"
+    text_query_destroy_confirmation: "¿Estás seguro de que quiere eliminar la vista seleccionada?"
+    text_attachment_destroy_confirmation: "¿Está seguro que desea eliminar el archivo adjunto?"
+    timelines:
+      quarter_label: 'Q%{quarter_number}'
+      gantt_chart: 'Diagrama de Gantt'
+      labels:
+        title: 'Configuración de etiquetas'
+        bar: 'Etiquetas de barras'
+        left: 'Izquierda'
+        right: 'Derecha'
+        farRight: 'Extremo derecho'
+        showNone: '-- Sin etiqueta --'
+        description: >
+          Seleccione los atributos que quiera que se muestren en las posiciones correspondientes del diagrama de Gantt en todo momento. Tenga en cuenta que, al mantener el ratón sobre un elemento, se mostrarán las etiquetas de fecha, en lugar de estos atributos. 
+      button_activate: 'Mostrar diagrama de Gantt'
+      button_deactivate: 'Ocultar diagrama de Gantt'
+      cancel: Cancelar
+      change: "Cambio en la planificación"
+      due_date: "Fecha de finalización"
+      empty: "(vacío)"
+      error: "Ha ocurrido un error."
+      errors:
+        not_implemented: "La línea de tiempo no puede procesarse porque utiliza una característica que no se ha implementado todavía."
+        report_comparison: "La línea de tiempo no puede hacer las comparaciones configuradas. Consulte la sección pertinente en la configuración, re-iniciarla puede ayudar a resolver este problema."
+        report_epicfail: "No se pudo cargar la línea de tiempo debido a un error inesperado."
+        report_timeout: "No se pudo cargar la línea de tiempo en una cantidad razonable de tiempo."
+      filter:
+        grouping_other: "Otros"
+        noneSelection: "(ninguno)"
+      name: "Nombre"
+      outline: "Restablecer marco"
+      outlines:
+        aggregation: "Mostrar sólo las agregaciones"
+        level1: "Ampliar nivel 1"
+        level2: "Ampliar nivel 2"
+        level3: "Ampliar nivel 3"
+        level4: "Ampliar nivel 4"
+        level5: "Ampliar el nivel 5"
+        all: "Mostrar todo"
+      project_status: "Estado del proyecto"
+      really_close_dialog: "¿Quieres realmente cerrar el cuadro de diálogo y perder los datos introducidos?"
+      responsible: "Responsable"
+      save: Guardar
+      start_date: "Fecha de inicio"
+      tooManyProjects: "Mas de  %{count} proyectos. Por favor, use un mejor filtro!"
+      selection_mode:
+        notification: 'Haga clic en cualquier paquete de trabajo destacado para crear la relación. Pulse Esc para cancelar.'
+      zoom:
+        in: "Acercar"
+        out: "Alejar"
+        auto: "Zoom automático"
+        days: "Días"
+        weeks: "Semanas"
+        months: "Meses"
+        quarters: "Cuatrimestres"
+        years: "Años"
+        slider: "Deslizador del Zoom"
+        description: >
+          Seleccione el nivel de zoom inicial que debe mostrarse cuando el zoom automático no esté disponible.
+    tl_toolbar:
+      zooms: "nivel de Zoom"
+      outlines: "Nivel de jerarquía"
+    upsale:
+      ee_only: 'Característica exclusiva de Enterprise Edition'
+    wiki_formatting:
+      strong: "Negrita"
+      italic: "Cursiva"
+      underline: "Subrayado"
+      deleted: "Borrado"
+      code: "Codigo en línea"
+      heading1: "Cabecera 1"
+      heading2: "Cabecera 2"
+      heading3: "Cabecera 3"
+      unordered_list: "Lista Desordenada"
+      ordered_list: "Lista Ordenada"
+      quote: "Comentario"
+      unquote: "Quitar la Cita"
+      preformatted_text: "Texto Preformateado"
+      wiki_link: "Vincular a una página Wiki"
+      image: "Imagen"
+    work_packages:
+      bulk_actions:
+        move: 'Cambio masivo del proyecto'
+        edit: 'Edición en masa'
+        copy: 'Copia en masa'
+        delete: 'Eliminación en masa'
+      button_clear: "Eliminar"
+      comment_added: "El comentario fue agregado con éxito."
+      comment_send_failed: "Ha ocurrido un error. No se pudo enviar el comentario."
+      comment_updated: "El comentario se actualizó correctamente."
+      confirm_edit_cancel: "¿Está seguro que desea cancelar la edición del paquete de trabajo?"
+      description_filter: "Filtro"
+      description_enter_text: "Ingrese texto"
+      description_options_hide: "Ocultar opciones"
+      description_options_show: "Mostrar opciones"
+      error:
+        update_conflict_refresh: "Haga clic aquí para actualizar el paquete de trabajo y cambiar a la versión más reciente."
+        edit_prohibited: "La edición de %{attribute} está bloqueada para este paquete de trabajo. Ya sea que este atributo se derive de las relaciones (por ejemplo, niños) o de lo contrario que no sea configurable."
+        format:
+          date: "%{attribute} no es una fecha válida -se espera YYYY-MM-DD."
+        general: "Ha ocurrido un error."
+      edit_attribute: "%{attribute} - Editar"
+      key_value: "%{key}: %{value}"
+      label_enable_multi_select: "Habilitar selección múltiple"
+      label_disable_multi_select: "Deshabilitar selección múltiple"
+      label_filter_add: "Añadir filtro"
+      label_filter_by_text: "Filtrar por texto"
+      label_options: "Opciones"
+      label_column_multiselect: "Campo de lista desplegable combinada: seleccione con las teclas de flecha, confirme la selección con enter, elimine con retroceso"
+      message_error_during_bulk_delete: Ha ocurrido un error intentado eliminar los paquetes de trabajo.
+      message_successful_bulk_delete: Paquetes de trabajo eliminados exitosamente.
+      message_successful_show_in_fullscreen: "Haga clic aquí para abrir este paquete de trabajo en la vista de pantalla completa."
+      message_view_spent_time: "Mostrar el tiempo invertido en este paquete de trabajo"
+      message_work_package_read_only: "El paquete de trabajo está bloqueado en este estado. Excepto el estado, ningún otro atributo se puede modificar."
+      message_work_package_status_blocked: "El estado del paquete de trabajo no permite la escritura porque se asignarán el estado cerrado y la versión cerrada."
+      no_value: "Sin valor"
+      placeholder_filter_by_text: "Asunto, descripción, comentarios, ..."
+      inline_create:
+        title: 'Haga clic aquí para agregar un nuevo paquete de trabajo a esta lista'
+      create:
+        title: 'Nuevo paquete de trabajo'
+        header: 'Nuevo %{type}'
+        header_no_type: 'Nuevo paquete de trabajo (tipo aún no establecido)'
+        header_with_parent: 'Nuevo %{type} (Hijo de %{parent_type} #%{id})'
+        button: 'Crear'
+      copy:
+        title: 'Copiar paquete de trabajo'
+      hierarchy:
+        show: "Mostrar modo de jerarquía"
+        hide: "Ocultar modo de jerarquía"
+        toggle_button: 'Haga clic para activar el modo de jerarquía.'
+        leaf: 'Hoja de paquete de trabajo de nivel %{level}.'
+        children_collapsed: 'El nivel de jerarquía %{level} está minimizado. Haga clic para ver los elementos secundarios filtrados'
+        children_expanded: 'El nivel de jerarquía %{level} está ampliado. Haga clic para minimizar los elementos secundarios filtrados'
+      faulty_query:
+        title: No se han podido cargar paquetes de trabajo.
+        description: La vista es errónea y no se pudo procesar.
+      no_results:
+        title: No hay paquetes de trabajo para mostrar.
+        description: O bien no se han creado o se filtran todos los paquetes de trabajo.
+      limited_results: En el modo de ordenación manual, solo puede mostrarse un máximo de %{count} paquetes de trabajo. Filtre para reducir el número de resultados.
+      property_groups:
+        details: "Detalles"
+        people: "Participantes"
+        estimatesAndTime: "Estimados y tiempos"
+        other: "Otros"
+      properties:
+        assignee: "Asignado a"
+        author: "Autor"
+        createdAt: "Creado en"
+        description: "Descripción"
+        date: "Fecha"
+        dueDate: "Fecha de finalización"
+        estimatedTime: "Tiempo estimado"
+        spentTime: "Tiempo empleado"
+        category: "Categoría"
+        percentageDone: "Porcentaje realizado"
+        priority: "Prioridad"
+        projectName: "Proyecto"
+        responsible: "Responsable"
+        startDate: "Fecha de inicio"
+        status: "Estado"
+        subject: "Asunto"
+        title: "Título"
+        type: "Tipo"
+        updatedAt: "Actualizada el"
+        versionName: "Versión"
+        version: "Versión"
+      default_queries:
+        latest_activity: "Actividad reciente"
+        created_by_me: "Creado por mi usuario"
+        assigned_to_me: "Asignado a mi usuario"
+        recently_created: "Creado recientemente"
+        all_open: "Todo abierto"
+        summary: "Resumen"
+      jump_marks:
+        pagination: "Saltar a la paginación de la tabla"
+        label_pagination: "Haga clic aquí para omitir la tabla de paquetes de trabajo e ir a la paginación"
+        content: "Ir al contenido"
+        label_content: "Haga clic aquí para saltar el menú e ir al contenido"
+      placeholders:
+        default: "-"
+        description: "Pulse para introducir una descripción..."
+      query:
+        column_names: "Columnas"
+        group_by: "Resultados de grupo por"
+        group: "Agrupar por"
+        group_by_disabled_by_hierarchy: "La agrupación está deshabilitada, puesto que está activo el modo de jerarquía."
+        hierarchy_disabled_by_group_by: "El modo de jerarquía está deshabilitado, puesto que los resultados se agrupan por %{column}."
+        sort_ascending: "Ordenar ascendente"
+        sort_descending: "Ordenar descendente"
+        move_column_left: "Mover columna a la izquierda"
+        move_column_right: "Mover columna a la derecha"
+        hide_column: "Esconder Columna"
+        insert_columns: "Insertar columnas..."
+        filters: "Filtros"
+        display_sums: "Mostrar sumas"
+        confirm_edit_cancel: "¿Está seguro de que quiere cancelar la edición del nombre de esta vista? El título volverá a establecerse en el valor anterior."
+        click_to_edit_query_name: "Haga clic para editar el título de esta vista."
+        rename_query_placeholder: "Nombre de la vista"
+        star_text: "Marque esta vista como favorita y agréguela a la barra lateral de vistas guardadas de la izquierda."
+        public_text: >
+          Publique esta vista para que otros usuarios puedan acceder a esta. Los usuarios con el permiso “Administrar vistas públicas” puede modificar o quitar consultas públicas. Esto no afecta a la visibilidad de los resultados de paquetes de trabajo en esa vista y, según sus permisos, los usuarios pueden ver resultados distintos.
+        errors:
+          unretrievable_query: "No se puede recuperar la vista de la URL"
+          not_found: "No existe la vista"
+          duplicate_query_title: "El nombre de la vista ya existe. ¿Quiere cambiarlo de todos modos?"
+        text_no_results: "No se encontraron vistas que coincidan."
+      table:
+        configure_button: 'Configurar tabla de paquetes de trabajo'
+        summary: "Tabla con filas de paquetes de trabajo y columnas con sus atributos."
+        text_inline_edit: "Mayoría de las celdas de esta tabla son botones que activan la funcionalidad de edición de dicho atributo."
+        text_sort_hint: "Con los enlaces en los encabezamientos de las tablas puede ordenar, agrupar, reordenar, quitar y añadir columnas de las tablas."
+        text_select_hint: "Los cuadros de selección deben ser abiertos con 'ALT' y las teclas de cursor."
+      table_configuration:
+        button: 'Configurar esta tabla de paquetes de trabajo'
+        choose_display_mode: 'Mostrar paquetes de trabajo como'
+        modal_title: 'Configuración de tabla de paquetes de trabajo'
+        embedded_tab_disabled: "Esta pestaña de configuración no está disponible para la vista insertada que está editando."
+        default: "por defecto"
+        display_settings: 'Configuración de visualización'
+        default_mode: "Lista plana"
+        hierarchy_mode: "Jerarquía"
+        hierarchy_hint: "Todos los resultados de la tabla filtrada se aumentarán con sus antecesores. Las jerarquías se pueden expandir y contraer."
+        display_sums_hint: "Muestra las sumas de todos los atributos que pueden sumarse en una fila debajo de los resultados de la tabla."
+        show_timeline_hint: "Muestra un diagrama de Gantt interactivo en la parte derecha de la tabla. Para cambiar el ancho, arrastre la línea divisoria entre la tabla y el diagrama de Gantt."
+        highlighting: 'Resaltado'
+        highlighting_mode:
+          description: "Resaltar con color"
+          none: "Sin resaltado"
+          inline: 'Atributos resaltados'
+          inline_all: 'Todos los atributos'
+          entire_row_by: 'Toda la fila por'
+          status: 'Estado'
+          priority: 'Prioridad'
+          type: 'Tipo'
+        sorting_mode:
+          description: 'Seleccione el modo de ordenación de los paquetes de trabajo:'
+          automatic: 'Automático'
+          manually: 'Manual'
+          warning: 'Al activar el modo de ordenación automática, se perderá la ordenación actual.'
+        columns_help_text: "Use los datos anteriores para agregar o quitar columnas de la vista de tabla. Puede arrastrar y colocar las columnas para cambiar el orden."
+        upsale:
+          attribute_highlighting: '¿Necesita que algunos paquetes de trabajo destaquen del resto?'
+          relation_columns: '¿Necesita ver las relaciones en la lista del paquete de trabajo?'
+          check_out_link: 'Vea la versión Enterprise Edition.'
+        relation_filters:
+          first_part: "Mostrar todos los paquetes de trabajo"
+          second_part: "el paquete de trabajo actual"
+      tabs:
+        overview: Resumen
+        activity: Actividad
+        relations: Relaciones
+        watchers: Controladores
+        attachments: Archivos adjuntos
+      time_relative:
+        days: "días"
+        weeks: "semanas"
+        months: "meses"
+    toolbar:
+      settings:
+        configure_view: "Configurar vista…"
+        columns: "Columnas ..."
+        sort_by: "Ordenado por ..."
+        group_by: "Agrupar por ..."
+        display_sums: "Mostrar sumas"
+        display_hierarchy: "Mostrar jerarquía"
+        hide_hierarchy: "Ocultar jerarquía"
+        hide_sums: "Ocultar las sumas"
+        save: "Guardar"
+        save_as: "Guardar como ..."
+        export: "Exportar ..."
+        visibility_settings: "Configuración de visibilidad…"
+        page_settings: "Cambiar nombre de vista…"
+        delete: "Borrar"
+      filter: "Filtro"
+      unselected_title: "Paquete de trabajo"
+      search_query_label: "Buscar vistas guardadas"
+      search_query_title: "Haga clic para buscar las vistas guardadas"
+      placeholder_query_title: "Establecer un título para esta vista"
+    modals:
+      label_settings: "Cambiar nombre de vista"
+      label_name: "Nombre"
+      label_delete_page: "Borrar página actual"
+      button_apply: "Aplicar"
+      button_save: "Guardar"
+      button_submit: "Enviar"
+      button_cancel: "Cancelar"
+      form_submit:
+        title: 'Confirme para continuar'
+        text: '¿Estás seguro/a de que desea realizar esta acción?'
+      destroy_work_package:
+        title: "Confirmar la eliminación de %{label}"
+        text: "¿Está seguro de que quiere eliminar la siguiente %{label} ?"
+        has_children: "El paquete de trabajo tiene %{childUnits}:"
+        confirm_deletion_children: "Reconozco que TODOS los descendientes de los paquetes de trabajo enumerados se eliminarán recursivamente."
+        deletes_children: "También se eliminarán de forma recursiva todos los paquetes de trabajo secundarios y sus descendientes."
+    notice_no_results_to_display: "No se pueden mostrar resultados visibles."
+    notice_successful_create: "Creación exitosa."
+    notice_successful_delete: "Eliminado con éxito."
+    notice_successful_update: "Actualización correcta."
+    notice_bad_request: "Petición incorrecta."
+    relations:
+      empty: No existen relaciones
+      remove: Eliminar la relación
+    inplace:
+      button_edit: "%{attribute}: editar"
+      button_save: "%{attribute}: guardar"
+      button_cancel: "%{attribute}: cancelar"
+      button_save_all: "Guardar"
+      button_cancel_all: "Cancelar"
+      link_formatting_help: "Ayuda para el formato del texto"
+      btn_preview_enable: "Vista preliminar"
+      btn_preview_disable: "Desactivar la vista previa"
+      null_value_label: "Sin valor"
+      clear_value_label: "-"
+      errors:
+        required: '%{field} no puede estar vacío'
+        number: '%{field} no es un número válido'
+        maxlength: '%{field} no puede contener más de %{maxLength} dígito(s)'
+        minlength: '%{field} no puede contener menos de %{minLength} dígito(s)'
+        messages_on_field: 'Este campo no es válido: %{messages}'
+    error_could_not_resolve_version_name: "No se puede resolver el nombre de la versión"
+    error_could_not_resolve_user_name: "No se pudo identificar el nombre de usuario"
+    error_attachment_upload: "Error de subida de archivo: %{error}"
+    error_attachment_upload_permission: "No tiene permiso para cargar archivos en este recurso."
+    units:
+      workPackage:
+        one: "paquete de trabajo"
+        other: "paquetes de trabajo"
+      child_work_packages:
+        one: "un paquete de trabajo secundario"
+        other: "%{count} paquetes de trabajo secundarios"
+      hour:
+        one: "1 h"
+        other: "%{count} h"
+    zen_mode:
+      button_activate: 'Activar modo «zen»'
+      button_deactivate: 'Desactivar modo «zen»'
+    global_search:
+      all_projects: "En todos los proyectos"
+      search: "Buscar"
+      close_search: "Cerrar búsqueda"
+      current_project: "En este proyecto"
+      current_project_and_all_descendants: "En este proyecto + subproyectos"
+      title:
+        all_projects: "todos los proyectos"
+        project_and_subprojects: "y todos los subproyectos"
+        search_for: "Búsqueda por"
+    views:
+      card: 'Tarjetas'
+      list: 'Tabla'
+      timeline: 'Gantt'
