@@ -1,0 +1,172 @@
+#-- copyright
+#OpenProject Backlogs Plugin
+#Copyright (C)2013-2014 the OpenProject Foundation (OPF)
+#Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
+#Copyright (C)2010-2011 friflaj
+#Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns
+#Copyright (C)2009-2010 Mark Maglana
+#Copyright (C)2009 Joe Heck, Nate Lowrie
+#This program is free software; you can redistribute it and/or modify it under
+#the terms of the GNU General Public License version 3.
+#OpenProject Backlogs is a derivative work based on ChiliProject Backlogs.
+#The copyright follows:
+#Copyright (C) 2010-2011 - Emiliano Heyns, Mark Maglana, friflaj
+#Copyright (C) 2011 - Jens Ulferts, Gregor Schmidt - Finn GmbH - Berlin, Germany
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See doc/COPYRIGHT.rdoc for more details.
+#++
+#---
+lt:
+  activerecord:
+    attributes:
+      work_package:
+        position: "Vieta"
+        remaining_hours: "Liko valandų"
+        remaining_time: "Liko valandų"
+        story_points: "Istorijos taškai"
+        backlogs_work_package_type: "Backlog type"
+    errors:
+      models:
+        work_package:
+          attributes:
+            blocks_ids:
+              can_only_contain_work_packages_of_current_sprint: "galima įtraukti tik dabartinio sprinto darbo paketų ID."
+              must_block_at_least_one_work_package: "turi turėti bent vieną ID."
+            parent_id:
+              type_must_be_one_of_the_following: "Tipas turi būti vienas iš šių: %{type_names}."
+        sprint:
+          cannot_end_before_it_starts: "Sprintas negali baigtis prieš prasidėdamas."
+  activemodel:
+    errors:
+      models:
+        work_package:
+          attributes:
+            fixed_version_id:
+              task_version_must_be_the_same_as_story_version: "turi būti tokia pati kaip ir tėvinės istorijos versija."
+            parent_id:
+              parent_child_relationship_across_projects: "is invalid because the work package '%{work_package_name}' is a backlog task and therefore cannot have a parent outside of the current project."
+  backlogs:
+    add_new_story: "Nauja istorija"
+    any: "any"
+    backlog_settings: "Backlog Settings"
+    burndown_graph: "Burndown Graph"
+    card_paper_size: "Lapo dydis kortelių spausdinimui"
+    chart_options: "Diagramos parinktys"
+    close: "Uždaryti"
+    column_width: "Stulpelio plotis:"
+    date: "Diena"
+    definition_of_done: "Pabaigimo apibrėžimas"
+    generating_chart: "Kuriamas grafas..."
+    hours: "Valandų"
+    impediment: "Impediment"
+    label_versions_default_fold_state: "Rodyti suskleistas versijas"
+    work_package_is_closed: "Darbo paketas baigtas, kai"
+    label_is_done_status: "Būsena %{status_name} reiškia atlikta"
+    no_burndown_data: "No burndown data available. It is necessary to have the sprint start- and end dates set."
+    points: "Taškai"
+    positions_could_not_be_rebuilt: "Nepavyko perkurti pozicijų."
+    positions_rebuilt_successfully: "Pozicijos sėkmingai perkurtos."
+    properties: "Ypatybės"
+    rebuild: "Perkurti"
+    rebuild_positions: "Perkurti pozicijas"
+    remaining_hours: "Liko valandų"
+    remaining_hours_ideal: "Liko valandų (idealiai)"
+    show_burndown_chart: "Burndown Chart"
+    story: "Istorija"
+    story_points: "Istorijos taškai"
+    story_points_ideal: "Istorijos taškai (idealiai)"
+    task: "Užduotis"
+    task_color: "Užduoties spalva"
+    unassigned: "Nepriskirta"
+    x_more: "dar %{count}..."
+  backlogs_active: "aktyvus"
+  backlogs_any: "any"
+  backlogs_card_specification: "Label types for card printing"
+  backlogs_inactive: "Projekte nesimato aktyvumo"
+  backlogs_points_burn_direction: "Points burn up/down"
+  backlogs_product_backlog: "Product backlog"
+  backlogs_product_backlog_is_empty: "Product backlog is empty"
+  backlogs_product_backlog_unsized: "The top of the product backlog has unsized stories"
+  backlogs_sizing_inconsistent: "Story sizes vary against their estimates"
+  backlogs_sprint_notes_missing: "Closed sprints without retrospective/review notes"
+  backlogs_sprint_unestimated: "Closed or active sprints with unestimated stories"
+  backlogs_sprint_unsized: "Project has stories on active or recently closed sprints that were not sized"
+  backlogs_sprints: "Sprintai"
+  backlogs_story: "Istorija"
+  backlogs_story_type: "Istorijos tipas"
+  backlogs_task: "Užduotis"
+  backlogs_task_type: "Užduoties tipas"
+  backlogs_velocity_missing: "Šiam projektui negalima paskaičiuoti greičio"
+  backlogs_velocity_varies: "Velocity varies significantly over sprints"
+  backlogs_wiki_template: "Template for sprint wiki page"
+  backlogs_empty_title: "No versions are defined to be used in backlogs"
+  backlogs_empty_action_text: "To get started with backlogs, create a new version and assign it to a backlogs column."
+  button_edit_wiki: "Redaguoti wiki puslapį"
+  error_intro_plural: "Rastos tokios klaidos:"
+  error_intro_singular: "Rasta tokia klaida:"
+  error_outro: "Prašome pataisyti aukščiau nurodytas klaidas prieš pateikiant dar kartą."
+  event_sprint_description: "%{summary}: %{url}\n%{description}"
+  event_sprint_summary: "%{project}: %{summary}"
+  ideal: "idealus"
+  inclusion: "neįtraukta į sąrašą"
+  label_back_to_project: "Atgal į projekto puslapį"
+  label_backlog: "Backlog"
+  label_backlogs: "Backlogs"
+  label_backlogs_unconfigured: "You have not configured Backlogs yet. Please go to %{administration} > %{plugins}, then click on the %{configure} link for this plugin. Once you have set the fields, come back to this page to start using the tool."
+  label_blocks_ids: "Blokuotų darbų paketų ID reikšmės"
+  label_burndown: "Burndown"
+  label_column_in_backlog: "Column in backlog"
+  label_hours: "valandos (-a, -ų)"
+  label_work_package_hierarchy: "Work package Hierarchy"
+  label_master_backlog: "Master Backlog"
+  label_not_prioritized: "neprioritetizuota"
+  label_points: "taškai"
+  label_points_burn_down: "Down"
+  label_points_burn_up: "Aukštyn"
+  label_product_backlog: "product backlog"
+  label_select_all: "Pasirinkti viską"
+  label_sprint_backlog: "sprint backlog"
+  label_sprint_cards: "Eksportuoti korteles"
+  label_sprint_impediments: "Sprint Impediments"
+  label_sprint_name: "Sprintas „%{name}“"
+  label_sprint_velocity: "Greitis %{velocity}, pagal %{sprints} sprintus su vidutiniškai %{days} dienomis"
+  label_stories: "Istorijos"
+  label_stories_tasks: "Istorijos / Užduotys"
+  label_task_board: "Užduočių lenta"
+  label_version_setting: "Versijos"
+  label_version: 'Versija'
+  label_webcal: "Webcal srautas"
+  label_wiki: "Wiki"
+  permission_view_master_backlog: "View master backlog"
+  permission_view_taskboards: "View taskboards"
+  permission_update_sprints: "Atnaujinti sprintus"
+  points_accepted: "taškai priimti"
+  points_committed: "taškai patvirtinti"
+  points_resolved: "taškai išspręsti"
+  points_to_accept: "taškai nepriimti"
+  points_to_resolve: "taškai neišspręsti"
+  project_module_backlogs: "Backlogs"
+  rb_label_copy_tasks: "Nukopijuoti darbų paketus"
+  rb_label_copy_tasks_all: "Visi"
+  rb_label_copy_tasks_none: "Joks"
+  rb_label_copy_tasks_open: "Atidaryti"
+  rb_label_link_to_original: "Įtraukti nuorodą į originalią istoriją"
+  remaining_hours: "likę valandos"
+  required_burn_rate_hours: "required burn rate (hours)"
+  required_burn_rate_points: "required burn rate (points)"
+  todo_work_package_description: "%{summary}: %{url}\n%{description}"
+  todo_work_package_summary: "%{type}: %{summary}"
+  version_settings_display_label: "Column in backlog"
+  version_settings_display_option_left: "left"
+  version_settings_display_option_none: "joks"
+  version_settings_display_option_right: "right"
