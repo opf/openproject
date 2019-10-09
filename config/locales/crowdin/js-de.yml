@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 de:
   js:
     ajax:
@@ -170,6 +191,13 @@ de:
     general_text_yes: "ja"
     general_text_No: "Nein"
     general_text_Yes: "Ja"
+    hal:
+      error:
+        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
+        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        format:
+          date: "%{attribute} ist kein gültiges Datum - Erwartetes Format: YYY-MM-DD."
+        general: "Ein Fehler ist aufgetreten."
     homescreen:
       blocks:
         new_features:
@@ -253,6 +281,7 @@ de:
     label_no_data: "Es sind keine Daten vorhanden"
     label_no_due_date: "kein Abgabedatum"
     label_no_start_date: "kein Startdatum"
+    label_no_value: "Kein Wert"
     label_none: "keine"
     label_not_contains: "enthält nicht"
     label_not_equals: "ist nicht"
@@ -585,12 +614,6 @@ de:
       description_enter_text: "Text eingeben"
       description_options_hide: "Optionen ausblenden"
       description_options_show: "Optionen anzeigen"
-      error:
-        update_conflict_refresh: "Hier klicken um das Arbeitspaket auf die neueste Version zu aktualisieren."
-        edit_prohibited: "Bearbeitung von %{attribute} ist für dieses Arbeitspaket gesperrt. Entweder wird dieses Attribut von verwandten Arbeitspaketen (z.B. Unterelementen) abgeleitet oder es ist anderweitig nicht konfigurierbar."
-        format:
-          date: "%{attribute} ist kein gültiges Datum - Erwartetes Format: YYY-MM-DD."
-        general: "Ein Fehler ist aufgetreten."
       edit_attribute: "%{attribute} - Bearbeiten"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Mehrfachauswahl aktivieren"
@@ -605,7 +628,6 @@ de:
       message_view_spent_time: "Aufgewendete Zeit für dieses Arbeitspaket anzeigen"
       message_work_package_read_only: "Das Arbeitspaket ist in diesem Status gesperrt. Kein Attribut außer dem Status selbst kann darin verändert werden."
       message_work_package_status_blocked: "Das Arbeitspaket ist auf geschlossene Status- und Versions-Attribute gesetzt und der Status daher nicht veränderbar."
-      no_value: "Kein Wert"
       placeholder_filter_by_text: "Title, Beschreibung, Kommentare, ..."
       inline_create:
         title: 'Klicken Sie hier, um ein neues Arbeitspaket zu dieser Liste hinzufügen'

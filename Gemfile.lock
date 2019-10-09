@@ -58,7 +58,7 @@ GIT
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
-  revision: 35c677f634a56249921ddc79fca47b2e3c349d05
+  revision: db3a22f2aaa173cadb98494e001d75594c1ce70f
   branch: dev
   specs:
     openproject-translations (7.4.0)
@@ -692,7 +692,7 @@ GEM
       binding_of_caller (>= 0.7)
       pry (>= 0.9.11)
     public_suffix (4.0.1)
-    puma (4.1.0)
+    puma (4.2.0)
       nio4r (~> 2.0)
     rack (2.0.7)
     rack-accept (0.4.5)
@@ -1048,7 +1048,7 @@ DEPENDENCIES
   pry-rails (~> 0.3.6)
   pry-rescue (~> 1.5.0)
   pry-stack_explorer (~> 0.4.9.2)
-  puma (~> 4.1.0)
+  puma (~> 4.2.0)
   rack-attack (~> 6.1.0)
   rack-mini-profiler
   rack-protection (~> 2.0.0)

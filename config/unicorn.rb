@@ -26,8 +26,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-worker_processes Integer(ENV['WEB_CONCURRENCY'] || 4)
-timeout Integer(ENV['WEB_TIMEOUT'] || 300)
+worker_processes Integer(ENV['OPENPROJECT_WEB_WORKERS'] || 4)
+timeout Integer(ENV['OPENPROJECT_WEB_TIMEOUT'] || 300)
 preload_app true
 
 # Preloading the unicorn server to have all workers spawn the application

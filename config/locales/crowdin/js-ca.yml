@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 ca:
   js:
     ajax:
@@ -171,6 +192,13 @@ ca:
     general_text_yes: "sí"
     general_text_No: "No"
     general_text_Yes: "Sí"
+    hal:
+      error:
+        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
+        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        format:
+          date: "%{attribute} no és una data vàlida - s'espera en format AAAA-MM-DD."
+        general: "S'ha produït un error."
     homescreen:
       blocks:
         new_features:
@@ -254,6 +282,7 @@ ca:
     label_no_data: "No hi ha dades per mostrar"
     label_no_due_date: "no hi ha data de finalització"
     label_no_start_date: "no hi ha data d'inici"
+    label_no_value: "Cap valor"
     label_none: "cap"
     label_not_contains: "no conté"
     label_not_equals: "no és"
@@ -586,12 +615,6 @@ ca:
       description_enter_text: "Introduïu text"
       description_options_hide: "Amagar opcions"
       description_options_show: "Mostra opcions"
-      error:
-        update_conflict_refresh: "Click here to refresh the work package and update to the newest version."
-        edit_prohibited: "L'edició de %{attribute} està bloquejada per a aquest paquet de treball. Ja sigui perquè aquest atribut es deriva d'alguna relació (per exemple, els fills) o perquè no és configurable."
-        format:
-          date: "%{attribute} no és una data vàlida - s'espera en format AAAA-MM-DD."
-        general: "S'ha produït un error."
       edit_attribute: "%{attribute} - Edita"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Permetre sel·lecció múltiple"
@@ -606,7 +629,6 @@ ca:
       message_view_spent_time: "Show spent time for this work package"
       message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
-      no_value: "Cap valor"
       placeholder_filter_by_text: "Subject, description, comments, ..."
       inline_create:
         title: 'Feu clic aquí per afegir un nou paquet de treball a aquesta llista'

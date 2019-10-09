@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 bg:
   no_results_title_text: В момента няма нищо за показване.
   activities:
@@ -279,7 +300,7 @@ bg:
       changeset:
         repository: "Хранилище"
       comment:
-        commented: "Коментирани"
+        commented: "Коментирани" #an object that this comment belongs to
       custom_action:
         actions: "Actions"
       custom_field:
@@ -327,6 +348,13 @@ bg:
         types: "Видове"
         versions: "Версии"
         work_packages: "Работен пакет"
+      project/status:
+        code: 'Състояние'
+        explanation: 'Status description'
+        codes:
+          on_track: 'On track'
+          at_risk: 'At risk'
+          off_track: 'Off track'
       query:
         column_names: "Колони"
         relations_to_type_column: "Relations to %{type}"
@@ -611,6 +639,7 @@ bg:
   activity:
     created: "Създадено: %{title}"
     updated: "Актуализиран: %{title}"
+  #common attributes of all models
   attributes:
     active: "Активен"
     assigned_to: "Изпълнител"
@@ -643,6 +672,7 @@ bg:
     is_default: "Стойност по подразбиране"
     is_for_all: "За всички проекти"
     is_public: "Публичен"
+    #kept for backwards compatibility
     issue: "Работен пакет"
     lastname: "Фамилно име"
     login: "Username"
@@ -651,6 +681,7 @@ bg:
     password: "Парола"
     priority: "Приоритет"
     project: "Проект"
+    public: "Публичен"
     responsible: "Accountable"
     role: "Роля"
     roles: "Роли"
@@ -786,9 +817,13 @@ bg:
       - "Петък"
       - "Събота"
     formats:
+      #Use the strftime parameters for formats.
+      #When no format has been given, it uses default.
+      #You can provide other formats here if you like!
       default: "%m/%d/%Y"
       long: "%B %d, %Y"
       short: "%b %d"
+    #Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names:
       - null
       - "Януари"
@@ -803,6 +838,7 @@ bg:
       - "Октомври"
       - "Ноември"
       - "Декември"
+    #Used in date_select and datime_select.
     order:
       - ':година'
       - ': месец'
@@ -932,6 +968,7 @@ bg:
   description_sub_work_package: "Подработен пакет на настоящият"
   description_toc_toggle: "Покажи/Скрий съдържанието"
   description_wiki_subpages_reassign: "Изберете нова родителска страница"
+  #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: отляво надясно
   ee:
     upsale:
@@ -1679,8 +1716,8 @@ bg:
       The user cannot activate their account since the user limit has been reached.
     steps:
       label: "To allow the user to sign in you can either: "
-      a: "Upgrade your payment plan ([here](upgrade_url))"
-      b: "Lock or delete an existing user ([here](users_url))"
+      a: "Upgrade your payment plan ([here](upgrade_url))" #here turned into a link
+      b: "Lock or delete an existing user ([here](users_url))" #here turned into a link
   more_actions: "More functions"
   noscript_description: "Трябва да активирате JavaScript за да ползвате OpenProject!"
   noscript_heading: "JavaScript disabled"
@@ -1747,6 +1784,7 @@ bg:
   notice_project_cannot_update_custom_fields: "Не можете да актуализирате наличните потребителски полета на проекта. Проектът е невалиден: %{errors}"
   notice_attachment_migration_wiki_page: >
     This page was generated automatically during the update of OpenProject. It contains all attachments previously associated with the %{container_type} "%{container_name}".
+  #Default format for numbers
   number:
     format:
       delimiter: ""
@@ -1863,6 +1901,8 @@ bg:
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
+  #possible query parameters (e.g. issue queries),
+  #which are not attributes of an AR-Model.
   query_fields:
     active_or_archived: "Active or archived"
     assigned_to_role: "Assignee's role"
@@ -2106,6 +2146,7 @@ bg:
   status_invited: invited
   status_locked: locked
   status_registered: registered
+  #Used in array.to_sentence.
   support:
     array:
       sentence_connector: "и"
@@ -2494,18 +2535,22 @@ bg:
       status: 'Pre-authorization'
     errors:
       messages:
+        #Common error messages
         invalid_request: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
-        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
+        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
         unauthorized_client: 'The client is not authorized to perform this request using this method.'
         access_denied: 'The resource owner or authorization server denied the request.'
         invalid_scope: 'The requested scope is invalid, unknown, or malformed.'
         invalid_code_challenge_method: 'The code challenge method must be plain or S256.'
         server_error: 'The authorization server encountered an unexpected condition which prevented it from fulfilling the request.'
         temporarily_unavailable: 'The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server.'
+        #Configuration error messages
         credential_flow_not_configured: 'Resource Owner Password Credentials flow failed due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.'
         resource_owner_authenticator_not_configured: 'Resource Owner find failed due to Doorkeeper.configure.resource_owner_authenticator being unconfigured.'
         admin_authenticator_not_configured: 'Access to admin panel is forbidden due to Doorkeeper.configure.admin_authenticator being unconfigured.'
+        #Access grant errors
         unsupported_response_type: 'The authorization server does not support this response type.'
+        #Access token errors
         invalid_client: 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.'
         invalid_grant: 'The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.'
         unsupported_grant_type: 'The authorization grant type is not supported by the authorization server.'

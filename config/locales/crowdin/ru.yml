@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 ru:
   no_results_title_text: Показать нечего.
   activities:
@@ -281,7 +302,7 @@ ru:
       changeset:
         repository: "Репозиторий"
       comment:
-        commented: "Прокомментировано"
+        commented: "Прокомментировано" #an object that this comment belongs to
       custom_action:
         actions: "Действия"
       custom_field:
@@ -329,6 +350,13 @@ ru:
         types: "Типы"
         versions: "Этапы"
         work_packages: "Задачи"
+      project/status:
+        code: 'Состояние'
+        explanation: 'Описание статуса'
+        codes:
+          on_track: 'На треке'
+          at_risk: 'Под угрозой'
+          off_track: 'Выключить трек'
       query:
         column_names: "Столбцы"
         relations_to_type_column: "Отношения к %{type}"
@@ -619,6 +647,7 @@ ru:
   activity:
     created: "Создано: %{title}"
     updated: "Обновлено: %{title}"
+  #common attributes of all models
   attributes:
     active: "Активно"
     assigned_to: "Назначенный"
@@ -651,6 +680,7 @@ ru:
     is_default: "Значение по умолчанию"
     is_for_all: "Для всех проектов"
     is_public: "Общий"
+    #kept for backwards compatibility
     issue: "Пакет работ"
     lastname: "Фамилия"
     login: "Имя пользователя"
@@ -659,6 +689,7 @@ ru:
     password: "Пароль"
     priority: "Приоритет"
     project: "Проект"
+    public: "Общий"
     responsible: "Подотчетный"
     role: "Роль"
     roles: "Роль"
@@ -794,9 +825,13 @@ ru:
       - "Пятница"
       - "Суббота"
     formats:
+      #Use the strftime parameters for formats.
+      #When no format has been given, it uses default.
+      #You can provide other formats here if you like!
       default: "%m/%d/%Y"
       long: "%B %d, %Y"
       short: "%b %d"
+    #Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names:
       - null
       - "Январь"
@@ -811,6 +846,7 @@ ru:
       - "Октябрь"
       - "Ноябрь"
       - "Декабрь"
+    #Used in date_select and datime_select.
     order:
       - ':год'
       - ':месяц'
@@ -964,6 +1000,7 @@ ru:
   description_sub_work_package: "Вложенный пакет работ текущего"
   description_toc_toggle: "Показать/скрыть оглавление"
   description_wiki_subpages_reassign: "Укажите новую родительскую страницу"
+  #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: LTR
   ee:
     upsale:
@@ -1718,8 +1755,8 @@ ru:
       Новый пользователь (%{email}) попытался создать учетную запись в OpenProject (%{host}). Запись пользователя не может быть активирована, так как достигнут лимит разрешенного числа пользователей.
     steps:
       label: "Для разрешения пользователю подписаться к вам необходимо: "
-      a: "Обновите ваш платежный план ([here](upgrade_url))"
-      b: "Заблокировать или удалить существующего пользователя ([here](users_url))"
+      a: "Обновите ваш платежный план ([here](upgrade_url))" #here turned into a link
+      b: "Заблокировать или удалить существующего пользователя ([here](users_url))" #here turned into a link
   more_actions: "Больше функций"
   noscript_description: "Для правильной работы OpenProject JavaScript должен быть включён!"
   noscript_heading: "JavaScript отключён"
@@ -1786,6 +1823,7 @@ ru:
   notice_project_cannot_update_custom_fields: "Не удается обновить имеющиеся настраиваемые поля проекта. Этот проект является недопустимым: %{errors}"
   notice_attachment_migration_wiki_page: >
     Эта страница была автоматически создана во время обновления OpenProject. Она содержит все вложения, ранее связанные с %{container_type} «%{container_name}».
+  #Default format for numbers
   number:
     format:
       delimiter: ""
@@ -1904,6 +1942,8 @@ ru:
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
+  #possible query parameters (e.g. issue queries),
+  #which are not attributes of an AR-Model.
   query_fields:
     active_or_archived: "активно или в архиве"
     assigned_to_role: "Роль назначенного"
@@ -2145,6 +2185,7 @@ ru:
   status_invited: приглашено
   status_locked: заблокировано
   status_registered: Зарегистрирован
+  #Used in array.to_sentence.
   support:
     array:
       sentence_connector: "и"
@@ -2536,18 +2577,22 @@ ru:
       status: 'Предавторизация'
     errors:
       messages:
+        #Common error messages
         invalid_request: 'В запросе нет обязательного параметра, значение параметра не поддерживается или не соответствует требованиям.'
-        invalid_redirect_uri: "У запрашиваемого перенаправления uri неверный формат или оно не соответствует URI перенаправляемого клиента."
+        invalid_redirect_uri: "Запрашиваемый редирект URI является неверным или не соответствует URI перенаправления клиента."
         unauthorized_client: 'Клиент не авторизован для выполнения этого запроса с помощью этого метода.'
         access_denied: 'Владелец ресурса или сервер авторизации отклонил запрос.'
         invalid_scope: 'Запрашиваемая область является недопустимой, неизвестной или неправильной.'
         invalid_code_challenge_method: 'Метод вызова кода должен быть простым или S256.'
         server_error: 'Сервер авторизации столкнулся с непредвиденными обстоятельствами, препятствующими выполнению запроса.'
         temporarily_unavailable: 'Сервер авторизации в настоящее время не может обработать запрос из-за временной перегрузки или обслуживания сервера.'
+        #Configuration error messages
         credential_flow_not_configured: 'Поток учетных данных владельца ресурсов привел к сбою из-за некорректной конфигурации Doorkeeper.configure.resource_owner_from_credentials.'
         resource_owner_authenticator_not_configured: 'Не удалось найти владельца ресурсов, так как Doorkeeper.configure.resource_owner_authenticator не настроен.'
         admin_authenticator_not_configured: 'Доступ к панели администратора запрещен, так как Doorkeeper.configure.admin_authenticator не настроен.'
+        #Access grant errors
         unsupported_response_type: 'Сервер авторизации не поддерживает этот тип ответа.'
+        #Access token errors
         invalid_client: 'Проверка подлинности клиента не удалась из-за неизвестности клиента, отсутствия у клиента проверки подлинности, или не поддерживаемого метода проверки подлинности.'
         invalid_grant: 'Предоставленное разрешение недействительно, истекло, аннулировано, не соответствует URI перенаправления, используемому в запросе авторизации, или было выдано другому клиенту.'
         unsupported_grant_type: 'Тип разрешения не поддерживается сервером авторизации.'

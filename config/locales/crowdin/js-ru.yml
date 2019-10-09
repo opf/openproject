@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 ru:
   js:
     ajax:
@@ -170,6 +191,13 @@ ru:
     general_text_yes: "Да"
     general_text_No: "Нет"
     general_text_Yes: "да"
+    hal:
+      error:
+        update_conflict_refresh: "Кликните здесь для обновления ресурса и обновления до последней версии."
+        edit_prohibited: "Редактирование %{attribute} этого ресурса заблокировано. Либо этот атрибут является производным от отношений (например, потомков), или же не настраивается."
+        format:
+          date: "%{attribute} не соответствует дате - ожидается гггг-мм-дд."
+        general: "Произошла ошибка."
     homescreen:
       blocks:
         new_features:
@@ -253,6 +281,7 @@ ru:
     label_no_data: "Нет данных для отображения"
     label_no_due_date: "без даты окончания"
     label_no_start_date: "без даты начала"
+    label_no_value: "Значение отсутствует"
     label_none: "Ничего"
     label_not_contains: "не содержит"
     label_not_equals: "не"
@@ -589,12 +618,6 @@ ru:
       description_enter_text: "Введите текст"
       description_options_hide: "Скрыть параметры"
       description_options_show: "Показать параметры"
-      error:
-        update_conflict_refresh: "Кликните здесь для обновления пакета работ и обновления до последней версии."
-        edit_prohibited: "Редактирование %{attribute} этого пакета работ заблокировано. Либо этот атрибут является производным от отношений (например, потомков) или же не конфигурируется."
-        format:
-          date: "%{attribute} не соответствует дате - ожидается гггг-мм-дд."
-        general: "Произошла ошибка."
       edit_attribute: "%{attribute} - изменить"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Разрешить множественный выбор"
@@ -609,7 +632,6 @@ ru:
       message_view_spent_time: "Показать время, затраченное на этот комплекс работ"
       message_work_package_read_only: "В этом статусе пакет работ заблокирован. Никакой атрибут, отличный от статуса, изменен быть не может."
       message_work_package_status_blocked: "Статус пакета работ не доступен для записи из-за закрытого состояния и назначена закрытая версия."
-      no_value: "Значение отсутствует"
       placeholder_filter_by_text: "Тема, описание, комментарии, ..."
       inline_create:
         title: 'Кликните здесь, чтобы добавить новый пакет работ в этот список'

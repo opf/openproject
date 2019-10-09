@@ -4,13 +4,13 @@ lt:
       webhooks/webhook:
         url: 'Payload URL'
         secret: 'Signature secret'
-        events: 'Events'
+        events: 'Įvykiai'
         projects: 'Įgalinti projektai'
       webhooks/log:
-        event_name: 'Event name'
+        event_name: 'Įvykio pavadinimas'
         url: 'Payload URL'
-        response_code: 'Response code'
-        response_body: 'Response'
+        response_code: 'Atsako kodas'
+        response_body: 'Atsakas'
     models:
       webhooks/outgoing_webhook: "Outgoing webhook"
   webhooks:
@@ -43,7 +43,7 @@ lt:
           description: >
             When checked, the webhook will trigger on the selected events. Uncheck to disable the webhook.
         events:
-          title: 'Enabled events'
+          title: 'Įjungti įvykiai'
         project_ids:
           title: 'Įgalinti projektai'
           description: 'Select for which projects this webhook should be executed for.'

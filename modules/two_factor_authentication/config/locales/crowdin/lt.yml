@@ -1,3 +1,4 @@
+#English strings go here for Rails i18n
 lt:
   activerecord:
     attributes:
@@ -125,11 +126,11 @@ lt:
           Register an application authenticator for use with OpenProject using the time-based one-time password authentication standard.
           Common examples are Google Authenticator or Authy.
       sms:
-        title: 'Use your mobile phone'
-        redacted_identifier: 'Mobile device (%{redacted_number})'
-        request_2fa_identifier: '%{redacted_identifier}, we sent you an authentication code via %{delivery_channel}'
+        title: 'Naudoti jūsų mibilų telefoną'
+        redacted_identifier: 'Mobilus įrenginys (%{redacted_number})'
+        request_2fa_identifier: '%{redacted_identifier}, mes išsiuntėme jums autentikavimo kodą į %{delivery_channel}'
         description: |
-          Register your mobile phone number for delivery of OpenProject one-time passwords.
+          Registruokite savo mobilų telefoną OpenProject vienkartinių slaptažodžių siuntimui.
     sns:
       delivery_failed: 'SNS delivery failed:'
     message_bird:
@@ -141,15 +142,15 @@ lt:
       totp: 'Autentikatoriaus aplikacija'
       sns: 'Amazon SNS'
       resdt: 'SMS Rest API'
-    mobile_transmit_notification: "A one-time password has been sent to your cell phone."
-    label_two_factor_authentication: 'Two-factor authentication'
+    mobile_transmit_notification: "Vienkartinis slaptažodis buvo išsiųstas į jūsų mobilų telefoną."
+    label_two_factor_authentication: 'Dviejų veiksnių autentikavimas'
     forced_registration:
       required_to_add_device: 'An active security policy requires you to enable two-factor authentication. Please use the following form to register a device.'
     remember:
       active_session_notice: >
         Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
       other_active_session_notice: Your account has an active remember cookie on another session.
-      label: 'Remember'
+      label: 'Atsiminti'
       clear_cookie: 'Click here to remove all remembered 2FA sessions.'
       cookie_removed: 'All remembered 2FA sessions have been removed.'
       dont_ask_again: "Kurti slapuką, kad šiame kliente 2FA autentikacija būtų atsiminta %{days} dienų."

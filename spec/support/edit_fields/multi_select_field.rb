@@ -1,6 +1,6 @@
-require_relative './work_package_field'
+require_relative './edit_field'
 
-class WorkPackageMultiSelectField < WorkPackageField
+class MultiSelectField < EditField
 
   def multiselect?
     field_container.has_selector?('.inline-edit--toggle-multiselect .icon-minus2')

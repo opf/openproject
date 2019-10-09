@@ -1,4 +1,4 @@
-class WorkPackageField
+class EditField
   include Capybara::DSL
   include RSpec::Matchers
 
@@ -60,7 +60,7 @@ class WorkPackageField
       end
 
       if expect_open && !active?
-        raise "Expected WP field input type '#{field_type}' for attribute '#{property_name}'."
+        raise "Expected field input type '#{field_type}' for attribute '#{property_name}'."
       end
     end
   end
@@ -86,7 +86,7 @@ class WorkPackageField
   def expect_active!
     expect(field_container)
       .to have_selector(field_type, wait: 10),
-          "Expected WP field input type '#{field_type}' for attribute '#{property_name}'."
+          "Expected field input type '#{field_type}' for attribute '#{property_name}'."
 
     # Also ensure the element is not disabled
     expect_enabled!

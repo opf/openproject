@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 ko:
   no_results_title_text: 표시할 내용이 없습니다.
   activities:
@@ -277,7 +298,7 @@ ko:
       changeset:
         repository: "리포지토리"
       comment:
-        commented: "덧글을 달았습니다."
+        commented: "덧글을 달았습니다." #an object that this comment belongs to
       custom_action:
         actions: "작업"
       custom_field:
@@ -325,6 +346,13 @@ ko:
         types: "유형"
         versions: "버전"
         work_packages: "작업 패키지"
+      project/status:
+        code: '상태'
+        explanation: 'Status description'
+        codes:
+          on_track: 'On track'
+          at_risk: 'At risk'
+          off_track: 'Off track'
       query:
         column_names: "컬럼"
         relations_to_type_column: "%{type}에 대한 관계"
@@ -606,6 +634,7 @@ ko:
   activity:
     created: "작성: %{title}"
     updated: "업데이트: %{title}"
+  #common attributes of all models
   attributes:
     active: "활성"
     assigned_to: "담당자"
@@ -638,6 +667,7 @@ ko:
     is_default: "기본값"
     is_for_all: "모든 포로젝트를 위한"
     is_public: "공용"
+    #kept for backwards compatibility
     issue: "작업 패키지"
     lastname: "성"
     login: "사용자 이름"
@@ -646,6 +676,7 @@ ko:
     password: "암호"
     priority: "우선 순위"
     project: "프로젝트"
+    public: "공용"
     responsible: "담당"
     role: "역할"
     roles: "역할"
@@ -781,9 +812,13 @@ ko:
       - "금요일"
       - "토요일"
     formats:
+      #Use the strftime parameters for formats.
+      #When no format has been given, it uses default.
+      #You can provide other formats here if you like!
       default: "%m/%d/%Y"
       long: "%B %d, %Y"
       short: "%b %d"
+    #Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names:
       - null
       - "1월"
@@ -798,6 +833,7 @@ ko:
       - "10월"
       - "11월"
       - "12월"
+    #Used in date_select and datime_select.
     order:
       - ':년'
       - ':월'
@@ -915,6 +951,7 @@ ko:
   description_sub_work_package: "현재 항목의 하위 작업 패키지"
   description_toc_toggle: "목차 표시/숨기기"
   description_wiki_subpages_reassign: "새 부모 페이지 선택"
+  #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: ltr
   ee:
     upsale:
@@ -1658,8 +1695,8 @@ ko:
       사용자 제한에 도달한 후에는 해당 사용자가 계정을 활성화할 수 없습니다.
     steps:
       label: "사용자가 로그인하게 허용하려면 다음 중 하나를 수행할 수 있습니다. "
-      a: "결제 플랜([here](upgrade_url)) 업그레이드"
-      b: "기존 사용자([here](users_url)) 잠금 또는 삭제"
+      a: "결제 플랜([here](upgrade_url)) 업그레이드" #here turned into a link
+      b: "기존 사용자([here](users_url)) 잠금 또는 삭제" #here turned into a link
   more_actions: "추가 기능"
   noscript_description: "OpenProject를 사용하려면 JavaScript를 활성화해야 합니다!"
   noscript_heading: "JavaScript 사용 안 함"
@@ -1726,6 +1763,7 @@ ko:
   notice_project_cannot_update_custom_fields: "프로젝트의 사용 가능한 사용자 지정 필드를 업데이트할 수 없습니다. 프로젝트가 유효하지 않습니다: %{errors}"
   notice_attachment_migration_wiki_page: >
     이 페이지는 OpenProject 업데이트 중에 자동으로 생성되었습니다. 이 페이지에는 %{container_type} "%{container_name}"과(와) 이전에 연결된 모든 첨부 파일이 포함되어 있습니다.
+  #Default format for numbers
   number:
     format:
       delimiter: ""
@@ -1841,6 +1879,8 @@ ko:
   project_module_wiki: "위키"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
+  #possible query parameters (e.g. issue queries),
+  #which are not attributes of an AR-Model.
   query_fields:
     active_or_archived: "활성 또는 보관됨"
     assigned_to_role: "담당자의 역할"
@@ -2082,6 +2122,7 @@ ko:
   status_invited: 초대됨
   status_locked: 잠김
   status_registered: 등록됨
+  #Used in array.to_sentence.
   support:
     array:
       sentence_connector: "그리고"
@@ -2468,18 +2509,22 @@ ko:
       status: '사전 권한 부여'
     errors:
       messages:
+        #Common error messages
         invalid_request: '이 요청에는 필요한 매개 변수가 없거나, 지원되지 않는 매개 변수 값이 포함되어 있거나, 형식이 잘못되었습니다.'
-        invalid_redirect_uri: "요청한 리디렉션 URI가 잘못된 형식이거나 클라이언트 리디렉션 URI와 일치하지 않습니다."
+        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
         unauthorized_client: '클라이언트가 이 방법을 사용하여 해당 요청을 실행하도록 허용되지 않았습니다.'
         access_denied: '리소스 소유자 또는 권한 부여 서버가 요청을 거부했습니다.'
         invalid_scope: '요청한 범위가 유효하지 않거나, 알 수 없거나, 잘못된 형식입니다.'
         invalid_code_challenge_method: '코드 챌린지 방식은 일반 또는 S256이어야 합니다.'
         server_error: '권한 부여 서버에 예기치 않은 상태가 발생하여, 요청을 수행할 수 없습니다.'
         temporarily_unavailable: '권한 부여 서버가 일시적인 과부하 또는 유지 관리로 인해 요청을 현재 처리할 수 없습니다.'
+        #Configuration error messages
         credential_flow_not_configured: 'Doorkeeper.configure.resource_owner_from_credentials 구성이 되지 않아 리소스 소유자 암호 자격 증명 흐름이 실패했습니다.'
         resource_owner_authenticator_not_configured: 'Resource Owner find failed due to Doorkeeper.configure.resource_owner_authenticator 구성이 되지 않아 리소스 소유자 찾기에 실패했습니다.'
         admin_authenticator_not_configured: 'Doorkeeper.configure.admin_authenticator 구성이 되지 않아 관리자 패널에 대한 액세스가 금지되었습니다.'
+        #Access grant errors
         unsupported_response_type: '권한 부여 서버가 이 응답 유형을 지원하지 않습니다.'
+        #Access token errors
         invalid_client: '알 수 없는 클라이언트, 포함되지 않은 클라이언트 인증 또는 지원되지 않는 인증 방법으로 인해 클라이언트 인증이 실패했습니다.'
         invalid_grant: '제공된 권한 부여가 잘못되거나, 만료되거나, 취소되었거나, 권한 부여 요청에 사용된 리디렉션 URI와 일치하지 않거나, 다른 클라이언트에 지정되었습니다.'
         unsupported_grant_type: '권한 부여 유형이 권한 부여 서버에 의해 지원되지 않습니다.'

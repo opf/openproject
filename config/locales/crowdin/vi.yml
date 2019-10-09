@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 vi:
   no_results_title_text: Hiện không có nội dung.
   activities:
@@ -278,7 +299,7 @@ vi:
       changeset:
         repository: "Repository"
       comment:
-        commented: "Nhận xét"
+        commented: "Nhận xét" #an object that this comment belongs to
       custom_action:
         actions: "Actions"
       custom_field:
@@ -326,6 +347,13 @@ vi:
         types: "Các loại"
         versions: "Các phiên bản"
         work_packages: "Work Packages"
+      project/status:
+        code: 'Trạng thái'
+        explanation: 'Status description'
+        codes:
+          on_track: 'On track'
+          at_risk: 'At risk'
+          off_track: 'Off track'
       query:
         column_names: "Cột"
         relations_to_type_column: "Quan hệ với %{type}"
@@ -607,6 +635,7 @@ vi:
   activity:
     created: "Đã tạo: %{title}"
     updated: "Đã cập nhật: %{title}"
+  #common attributes of all models
   attributes:
     active: "Đang hoạt động"
     assigned_to: "Người được giao"
@@ -639,6 +668,7 @@ vi:
     is_default: "Giá trị mặc định"
     is_for_all: "Cho tất cả các dự án"
     is_public: "Công cộng"
+    #kept for backwards compatibility
     issue: "Work Package"
     lastname: "Họ"
     login: "Username"
@@ -647,6 +677,7 @@ vi:
     password: "Mật khẩu"
     priority: "Độ ưu tiên"
     project: "Dự án"
+    public: "Công cộng"
     responsible: "Trách nhiệm"
     role: "Vai trò"
     roles: "Vai trò"
@@ -782,9 +813,13 @@ vi:
       - "Thứ sáu"
       - "Thứ 7"
     formats:
+      #Use the strftime parameters for formats.
+      #When no format has been given, it uses default.
+      #You can provide other formats here if you like!
       default: "%d-%m-%Y"
       long: "%d %B, %Y"
       short: "%b %d"
+    #Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names:
       - null
       - "Tháng Một"
@@ -799,6 +834,7 @@ vi:
       - "Tháng mười"
       - "Tháng Mười một"
       - "Tháng mười hai"
+    #Used in date_select and datime_select.
     order:
       - ':năm'
       - ':tháng'
@@ -916,6 +952,7 @@ vi:
   description_sub_work_package: "Work package con hiện tại"
   description_toc_toggle: "Hiển thị/ẩn mục lục"
   description_wiki_subpages_reassign: "Chọn trang cha mới"
+  #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: ltr
   ee:
     upsale:
@@ -1659,8 +1696,8 @@ vi:
       The user cannot activate their account since the user limit has been reached.
     steps:
       label: "To allow the user to sign in you can either: "
-      a: "Upgrade your payment plan ([here](upgrade_url))"
-      b: "Lock or delete an existing user ([here](users_url))"
+      a: "Upgrade your payment plan ([here](upgrade_url))" #here turned into a link
+      b: "Lock or delete an existing user ([here](users_url))" #here turned into a link
   more_actions: "More functions"
   noscript_description: "You need to activate JavaScript in order to use OpenProject!"
   noscript_heading: "JavaScript disabled"
@@ -1727,6 +1764,7 @@ vi:
   notice_project_cannot_update_custom_fields: "Bạn không thể cập nhật các mục tùy chỉnh có sẵn của dự án. Dự án không hợp lệ: %{errors}"
   notice_attachment_migration_wiki_page: >
     Trang này được tạo ra tự động trong quá trình Cập Nhật của OpenProject. Nó chứa tất cả các tập tin đính kèm trước đó liên kết với %{container_type} "%{container_name}".
+  #Default format for numbers
   number:
     format:
       delimiter: ""
@@ -1842,6 +1880,8 @@ vi:
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
+  #possible query parameters (e.g. issue queries),
+  #which are not attributes of an AR-Model.
   query_fields:
     active_or_archived: "Active or archived"
     assigned_to_role: "Assignee's role"
@@ -2085,6 +2125,7 @@ vi:
   status_invited: invited
   status_locked: locked
   status_registered: registered
+  #Used in array.to_sentence.
   support:
     array:
       sentence_connector: "and"
@@ -2470,18 +2511,22 @@ vi:
       status: 'Xác thực'
     errors:
       messages:
+        #Common error messages
         invalid_request: 'Yêu cầu thiếu tham số bắt buộc, bao gồm giá trị tham số không được hỗ trợ hoặc không đúng định dạng.'
-        invalid_redirect_uri: "Uri chuyển hướng được yêu cầu không đúng định dạng hoặc không khớp với URI chuyển hướng máy khách."
+        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
         unauthorized_client: 'Máy khách không được phép thực hiện yêu cầu bằng phương pháp này.'
         access_denied: 'Chủ sở hữu tài nguyên hoặc máy chủ ủy quyền đã từ chối yêu cầu.'
         invalid_scope: 'Phạm vi yêu cầu không hợp lệ, không xác định hoặc không đúng định dạng.'
         invalid_code_challenge_method: 'Phương thức thử thách mã phải đơn giản hoặc S256.'
         server_error: 'Máy chủ ủy quyền đã gặp phải một điều kiện không mong muốn khiến nó không thể đáp ứng yêu cầu.'
         temporarily_unavailable: 'Máy chủ ủy quyền hiện không thể xử lý yêu cầu do quá tải tạm thời hoặc bảo trì máy chủ.'
+        #Configuration error messages
         credential_flow_not_configured: 'Resource Owner Password Credentials flow failed due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.'
         resource_owner_authenticator_not_configured: 'Resource Owner find failed due to Doorkeeper.configure.resource_owner_authenticator being unconfigured.'
         admin_authenticator_not_configured: 'Quyền truy cập vào bảng quản trị bị cấm do Doorkeeper.configure.admin_authenticator không được định cấu hình.'
+        #Access grant errors
         unsupported_response_type: 'Máy chủ ủy quyền không hỗ trợ loại phản hồi này.'
+        #Access token errors
         invalid_client: 'Xác thực ứng dụng khách không thành công do máy khách không xác định, không bao gồm xác thực ứng dụng khách hoặc phương thức xác thực không được hỗ trợ.'
         invalid_grant: 'Quyền được cung cấp không hợp lệ, hết hạn, bị thu hồi, không khớp với URI chuyển hướng được sử dụng trong yêu cầu ủy quyền hoặc được cấp cho một khách hàng khác.'
         unsupported_grant_type: 'Loại cấp quyền không được hỗ trợ bởi máy chủ ủy quyền.'

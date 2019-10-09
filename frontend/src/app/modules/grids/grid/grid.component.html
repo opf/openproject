@@ -102,12 +102,9 @@
        [style.grid-row-start]="drag.placeholderArea.gridStartRow"
        [style.grid-row-end]="drag.placeholderArea.gridEndRow"
        [style.grid-column-start]="drag.placeholderArea.gridStartColumn"
-       [style.grid-column-end]="drag.placeholderArea.gridEndColumn">
+       [style.grid-column-end]="drag.placeholderArea.gridEndColumn"
+       [style.min-height.px]="drag.draggedHeight">
     <div class="widget-box">
-      <ndc-dynamic [ndcDynamicComponent]="widgetComponent(drag.placeholderArea)"
-                   [ndcDynamicInputs]="widgetComponentInput(drag.placeholderArea)"
-                   [ndcDynamicOutputs]="{}">
-      </ndc-dynamic>
     </div>
   </div>
 </div>

@@ -9,6 +9,7 @@ import {GridMoveService} from "core-app/modules/grids/grid/move.service";
 export class GridDragAndDropService {
   public draggedArea:GridWidgetArea|null;
   public placeholderArea:GridWidgetArea|null;
+  public draggedHeight:number|null;
 
   constructor(readonly layout:GridAreaService,
               readonly move:GridMoveService) {
@@ -54,6 +55,8 @@ export class GridDragAndDropService {
   public start(area:GridWidgetArea) {
     this.draggedArea = area;
     this.placeholderArea = new GridWidgetArea(area.widget);
+    // TODO find an angular way to do this that ideally does not require passing the element from the grid component
+    this.draggedHeight = (document as any).getElementById(area.guid).offsetHeight - 2; // border width * 2
   }
 
   public stop(area:GridWidgetArea, event:CdkDragEnd) {

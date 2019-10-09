@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 zh-CN:
   js:
     ajax:
@@ -171,6 +192,13 @@ zh-CN:
     general_text_yes: "是"
     general_text_No: "否"
     general_text_Yes: "是"
+    hal:
+      error:
+        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
+        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        format:
+          date: "%{attribute} 不是有效日期 - 需要 YYYY-MM-DD。"
+        general: "发生错误。"
     homescreen:
       blocks:
         new_features:
@@ -254,6 +282,7 @@ zh-CN:
     label_no_data: "没有要显示的数据"
     label_no_due_date: "没有结束日期"
     label_no_start_date: "没有开始日期"
+    label_no_value: "无值"
     label_none: "无"
     label_not_contains: "不包含"
     label_not_equals: "不是"
@@ -584,12 +613,6 @@ zh-CN:
       description_enter_text: "输入文本"
       description_options_hide: "隐藏选项"
       description_options_show: "显示选项"
-      error:
-        update_conflict_refresh: "单击此处可刷新工作包并更新到最新版本。"
-        edit_prohibited: "已阻止对此工作包编辑 %{attribute}。此属性来源于关系（如儿童）或无法配置。"
-        format:
-          date: "%{attribute} 不是有效日期 - 需要 YYYY-MM-DD。"
-        general: "发生错误。"
       edit_attribute: "%{attribute} - 编辑"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "启用多选"
@@ -604,7 +627,6 @@ zh-CN:
       message_view_spent_time: "显示这个工作包所花费的时间"
       message_work_package_read_only: "工作包被锁定在此状态。除状态外，其他属性均不可更改。"
       message_work_package_status_blocked: "由于处于关闭状态并且分配了关闭版本，因此工作包状态不可写。"
-      no_value: "无值"
       placeholder_filter_by_text: "主题, 描述, 评论,..。"
       inline_create:
         title: '单击此处将新工作包添加至此列表'

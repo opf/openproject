@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 bg:
   js:
     ajax:
@@ -171,6 +192,13 @@ bg:
     general_text_yes: "Да"
     general_text_No: "Не"
     general_text_Yes: "Да"
+    hal:
+      error:
+        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
+        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        format:
+          date: "%{attribute} не е валидна дата - очаква се ГГГГ-ММ-ДД."
+        general: "Възникна грешка."
     homescreen:
       blocks:
         new_features:
@@ -254,6 +282,7 @@ bg:
     label_no_data: "Няма данни за показване"
     label_no_due_date: "Няма крайна дата"
     label_no_start_date: "няма начална дата"
+    label_no_value: "Няма стойност"
     label_none: "none"
     label_not_contains: "doesn't contain"
     label_not_equals: "is not"
@@ -586,12 +615,6 @@ bg:
       description_enter_text: "Въведи текст"
       description_options_hide: "Скрий опциите"
       description_options_show: "Покажи опциите"
-      error:
-        update_conflict_refresh: "Click here to refresh the work package and update to the newest version."
-        edit_prohibited: "Редактирането на %{attribute} е блокиран за този работен пакет. Или този атрибут е получен от свързани пакети (например, подпакети), или не са кофигурируеми по друга причина."
-        format:
-          date: "%{attribute} не е валидна дата - очаква се ГГГГ-ММ-ДД."
-        general: "Възникна грешка."
       edit_attribute: "%{attribute} - Редактиране"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Разреши множествено избиране"
@@ -606,7 +629,6 @@ bg:
       message_view_spent_time: "Show spent time for this work package"
       message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
-      no_value: "Няма стойност"
       placeholder_filter_by_text: "Subject, description, comments, ..."
       inline_create:
         title: 'Щракнете тук, за да добавите нов работен пакет към този списък'

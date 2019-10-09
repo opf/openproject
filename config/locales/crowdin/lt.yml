@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 lt:
   no_results_title_text: Nėra nieko rodytino.
   activities:
@@ -271,7 +292,7 @@ lt:
         account: "Paskyra"
         attr_firstname: "Vardo atributas"
         attr_lastname: "Pavardės atributas"
-        attr_login: "Username attribute"
+        attr_login: "Naudotojo atributas"
         attr_mail: "El. paštos atributas"
         base_dn: "Bazinis DN"
         host: "Hostas"
@@ -280,7 +301,7 @@ lt:
       changeset:
         repository: "Repozitorija"
       comment:
-        commented: "Komentavo"
+        commented: "Komentavo" #an object that this comment belongs to
       custom_action:
         actions: "Veiksmai"
       custom_field:
@@ -328,6 +349,13 @@ lt:
         types: "Tipai"
         versions: "Versijos"
         work_packages: "Darbų paketai"
+      project/status:
+        code: 'Būsena'
+        explanation: 'Status description'
+        codes:
+          on_track: 'On track'
+          at_risk: 'At risk'
+          off_track: 'Off track'
       query:
         column_names: "Stulpeliai"
         relations_to_type_column: "Ryšiai su %{type}"
@@ -482,7 +510,7 @@ lt:
               invalid_values: "Netinkama reikšmė."
               id_filter_required: "Reikalingas „id“ filtras."
         project:
-          archived_ancestor: 'The project has an archived ancestor.'
+          archived_ancestor: 'Projektas turi suarchyvuotą protėvį.'
           foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
             types:
@@ -618,6 +646,7 @@ lt:
   activity:
     created: "Sukūrė: %{title}"
     updated: "Atnaujino: %{title}"
+  #common attributes of all models
   attributes:
     active: "Aktyvus"
     assigned_to: "Paskirtas"
@@ -650,14 +679,16 @@ lt:
     is_default: "Numatytoji vertė"
     is_for_all: "Visiems projektams"
     is_public: "Viešas"
+    #kept for backwards compatibility
     issue: "Darbų paketas"
     lastname: "Pavardė"
-    login: "Username"
+    login: "Naudotojas"
     mail: "El. paštas"
     name: "Vardas"
     password: "Slaptažodis"
     priority: "Pirmenybė"
     project: "Projektas"
+    public: "Viešas"
     responsible: "Atsakingas"
     role: "Rolė"
     roles: "Rolės (-ė, -ių)"
@@ -793,9 +824,13 @@ lt:
       - "Penktadienis"
       - "Šeštadienis"
     formats:
+      #Use the strftime parameters for formats.
+      #When no format has been given, it uses default.
+      #You can provide other formats here if you like!
       default: "%Y-%m-%d"
       long: "%Y %d, %B"
       short: "%b %d"
+    #Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names:
       - null
       - "Sausis"
@@ -810,6 +845,7 @@ lt:
       - "Spalis"
       - "Lapkritis"
       - "Gruodis"
+    #Used in date_select and datime_select.
     order:
       - :metai
       - ':mėnuo'
@@ -963,6 +999,7 @@ lt:
   description_sub_work_package: "Esamo paketo vidinis darbų paketas"
   description_toc_toggle: "Rodyti/slėpti turinį"
   description_wiki_subpages_reassign: "Pasirinkti naują pagrindinį puslapį"
+  #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: ltr
   ee:
     upsale:
@@ -977,7 +1014,7 @@ lt:
   enumeration_system_activity: "Sistemos veikla"
   enumeration_reported_project_statuses: "Pranešta projekto būsena"
   error_auth_source_sso_failed: "Bendroji autentifikacija (SSO) vartotojui „%{value}“ nepavyko"
-  error_can_not_archive_project: "This project cannot be archived: %{errors}"
+  error_can_not_archive_project: "Projekto negalima suarchyvuoti: %{errors}"
   error_can_not_delete_entry: "Nepavyko ištrinti įrašo"
   error_can_not_delete_custom_field: "Neįmanoma ištrinti kliento laukelio"
   error_can_not_delete_type: "Šis tipas turi priklausomų darbų paketų ir todėl negali būti ištrintas."
@@ -986,7 +1023,7 @@ lt:
   error_can_not_remove_role: "Ši rolė naudojama, todėl negali būti ištrinta."
   error_can_not_reopen_work_package_on_closed_version: "Uždarytai versijai priskirtas darbų paketas negali būti atvertas"
   error_can_not_find_all_resources: "Nepavyko rasti visų su šia užklausa susijusių resursų."
-  error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
+  error_can_not_unarchive_project: "Projekto negalima išarchyvuoti: %{errors}"
   error_check_user_and_role: "Prašome pasirinkti vartotoją ir rolę."
   error_code: "Klaida %{code}"
   error_cookie_missing: 'OpenProject sausainėlis nerastas. Prašome patikrinti, ar sausainėliai yra įgalinti, nes kitaip aplikacija tinkamai neveiks.'
@@ -1701,14 +1738,14 @@ lt:
   mail_body_lost_password: "Norėdami pakeisti slaptažodį, spauskite nuorodą:"
   mail_body_register: "Norėdami aktyvuoti paskyrą, spauskite nuorodą:"
   mail_body_reminder: "%{count} darbų paketai, kurie yra jums priskirti, baigiasi per artimiausias %{days} dienų (-ą, -as):"
-  mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
+  mail_body_group_reminder: "%{count} darbo paketas(ai), kurie priskirti grupei „%{group}“ turi būti baigti per kitas %{days} dienas:"
   mail_body_wiki_content_added: "%{author} pridėjo '%{id}' wiki puslapį."
   mail_body_wiki_content_updated: "%{author} atnaujino '%{id}' wiki puslapį."
   mail_subject_account_activation_request: "%{value} paskyros aktyvavimo prašymas"
   mail_subject_lost_password: "Jūsų slaptažodis %{value}"
   mail_subject_register: "Jūsų %{value} paskyros aktyvavimas"
   mail_subject_reminder: "%{count} darbų paketas(-ai, -ų) baigiasi per ateinančias %{days} dienas(-ai, -ų)"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
+  mail_subject_group_reminder: "Grupės „%{group}“ %{count} darbo paketas(ai) turi būti baigti per kitas %{days} dienas"
   mail_subject_wiki_content_added: "Wiki puslapis '%{id}' buvo pridėtas"
   mail_subject_wiki_content_updated: "Wiki puslapis '%{id}' buvo atnaujintas"
   mail_user_activation_limit_reached:
@@ -1718,8 +1755,8 @@ lt:
       Vartotojas negali aktyvuoti savo paskyros, nes sistemoje pasiekta vartotojų riba.
     steps:
       label: "Norėdami leisti vartotojui prisijungti jūs galite: "
-      a: "Atnaujinti savo mokėjimo planą ([here](upgrade_url))"
-      b: "Užrakinti arba panaikinti esamo naudotojo paskyrą ([here](users_url))"
+      a: "Atnaujinti savo mokėjimo planą ([here](upgrade_url))" #here turned into a link
+      b: "Užrakinti arba panaikinti esamo naudotojo paskyrą ([here](users_url))" #here turned into a link
   more_actions: "Daugiau funkcijų"
   noscript_description: "Jums reikia įjungti JavaScript, kad galėtumėte naudoti OpenProject!"
   noscript_heading: "JavaScript išjungta"
@@ -1786,6 +1823,7 @@ lt:
   notice_project_cannot_update_custom_fields: "Jūs negalite atnaujinti projekto pasirinktinų laukų. Projektas yra netinkamas: %{errors}"
   notice_attachment_migration_wiki_page: >
     Šis puslapis buvo sugeneruotas automatiškai, kai buvo naujinama OpenProject. Jame yra visi prisegti failai, kurie buvo susieti su %{container_type} „%{container_name}“.
+  #Default format for numbers
   number:
     format:
       delimiter: ""
@@ -1904,6 +1942,8 @@ lt:
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
+  #possible query parameters (e.g. issue queries),
+  #which are not attributes of an AR-Model.
   query_fields:
     active_or_archived: "Aktyvus arba suarchyvuotas"
     assigned_to_role: "Priskirtojo asmens rolė"
@@ -2145,6 +2185,7 @@ lt:
   status_invited: pakviestas
   status_locked: užrakinti
   status_registered: registruotas
+  #Used in array.to_sentence.
   support:
     array:
       sentence_connector: "ir"
@@ -2536,18 +2577,22 @@ lt:
       status: 'Išankstinė autorizacija'
     errors:
       messages:
+        #Common error messages
         invalid_request: 'Užklausoje trūksta privalomo parametro, yra nepalaikoma parametro reikšmė arba jis kažkaip kitaip netinkamas.'
-        invalid_redirect_uri: "Paprašytas peradresavimo uri yra netinkamas arba neatitinka kliento peradresavimo URI."
+        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
         unauthorized_client: 'Klientui neleidžiama vykdyti šios užklausos naudojant šį metodą.'
         access_denied: 'Resurso savininkas arba autorizacijos serveris neleido užklausos.'
         invalid_scope: 'Užklausos apimtis yra netinkama, nežinoma arba blogai suformuota.'
         invalid_code_challenge_method: 'Kodo tikrinimo metodas turi būti paprastas arba S256.'
         server_error: 'Autorizacijos serveris pateko į netikėtą būseną, todėl jis nesugebėjo išpildyti užklausos.'
         temporarily_unavailable: 'Autorizacijos serveris šiuo metu negali išpildyti užklausos, nes laikinai yra perkrautas ar vykdoma jo priežiūra.'
+        #Configuration error messages
         credential_flow_not_configured: 'Resurso savininko slaptažodžio įgaliojimų eiga nepavyko, nes konfigūruojamas Doorkeeper.configure.resource_owner_from_credentials.'
         resource_owner_authenticator_not_configured: 'Resurso savininko paieška nepavyko, nes konfigūruojamas Doorkeeper.configure.resource_owner_authenticator.'
         admin_authenticator_not_configured: "Prieiga prie administravimo skydelio uždrausta, nes\nDoorkeeper.configure.admin_authenticator nėra sukonfigūruotas."
+        #Access grant errors
         unsupported_response_type: 'Autorizacijos serveris nepalaiko šito atsako tipo.'
+        #Access token errors
         invalid_client: 'Kliento autentikacija nepavyko, nes klientas nežinomas, neįtraukta kliento autentikacija arba nepalaikomas autentikacijos metodas.'
         invalid_grant: 'Pateikta autorizavimo teisė yra netinkama, pasibaigusi, atšaukta, neatitinka peradresavimo URI, naudojamo autorizacijos užklausoje, arba buvo išduota kitam klientui.'
         unsupported_grant_type: 'Autorizacijos serveris nepalaiko šio autorizavimo teisės tipo.'

@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 es:
   js:
     ajax:
@@ -171,6 +192,13 @@ es:
     general_text_yes: "sí"
     general_text_No: "No"
     general_text_Yes: "Sí"
+    hal:
+      error:
+        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
+        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        format:
+          date: "%{attribute} no es una fecha válida -se espera YYYY-MM-DD."
+        general: "Ha ocurrido un error."
     homescreen:
       blocks:
         new_features:
@@ -254,6 +282,7 @@ es:
     label_no_data: "No hay datos disponibles"
     label_no_due_date: "no hay fecha de finalización"
     label_no_start_date: "sin fecha de inicio"
+    label_no_value: "Sin valor"
     label_none: "ninguno"
     label_not_contains: "no contiene"
     label_not_equals: "no es"
@@ -586,12 +615,6 @@ es:
       description_enter_text: "Ingrese texto"
       description_options_hide: "Ocultar opciones"
       description_options_show: "Mostrar opciones"
-      error:
-        update_conflict_refresh: "Haga clic aquí para actualizar el paquete de trabajo y cambiar a la versión más reciente."
-        edit_prohibited: "La edición de %{attribute} está bloqueada para este paquete de trabajo. Ya sea que este atributo se derive de las relaciones (por ejemplo, niños) o de lo contrario que no sea configurable."
-        format:
-          date: "%{attribute} no es una fecha válida -se espera YYYY-MM-DD."
-        general: "Ha ocurrido un error."
       edit_attribute: "%{attribute} - Editar"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Habilitar selección múltiple"
@@ -606,7 +629,6 @@ es:
       message_view_spent_time: "Mostrar el tiempo invertido en este paquete de trabajo"
       message_work_package_read_only: "El paquete de trabajo está bloqueado en este estado. Excepto el estado, ningún otro atributo se puede modificar."
       message_work_package_status_blocked: "El estado del paquete de trabajo no permite la escritura porque se asignarán el estado cerrado y la versión cerrada."
-      no_value: "Sin valor"
       placeholder_filter_by_text: "Asunto, descripción, comentarios, ..."
       inline_create:
         title: 'Haga clic aquí para agregar un nuevo paquete de trabajo a esta lista'

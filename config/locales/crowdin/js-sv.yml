@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 sv:
   js:
     ajax:
@@ -170,6 +191,13 @@ sv:
     general_text_yes: "ja"
     general_text_No: "Nej"
     general_text_Yes: "Ja"
+    hal:
+      error:
+        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
+        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        format:
+          date: "%{attribute} är inget giltigt datum - förväntat format är åååå-mm-dd."
+        general: "Ett fel har inträffat."
     homescreen:
       blocks:
         new_features:
@@ -253,6 +281,7 @@ sv:
     label_no_data: "Ingen data att visa"
     label_no_due_date: "inget slutdatum"
     label_no_start_date: "inget startdatum"
+    label_no_value: "Inget värde"
     label_none: "inga"
     label_not_contains: "innehåller inte"
     label_not_equals: "är inte"
@@ -585,12 +614,6 @@ sv:
       description_enter_text: "Ange text"
       description_options_hide: "Dölj alternativ"
       description_options_show: "Visa alternativ"
-      error:
-        update_conflict_refresh: "Click here to refresh the work package and update to the newest version."
-        edit_prohibited: "Redigering av %{attribute} är låst för detta arbetspaket. Antingen härrör attributet från relationer eller så kan det inte redigeringsbart."
-        format:
-          date: "%{attribute} är inget giltigt datum - förväntat format är åååå-mm-dd."
-        general: "Ett fel har inträffat."
       edit_attribute: "%{attribute} - Redigera"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Aktivera multival"
@@ -605,7 +628,6 @@ sv:
       message_view_spent_time: "Visa loggad tid för detta arbetspaket"
       message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
-      no_value: "Inget värde"
       placeholder_filter_by_text: "Subject, description, comments, ..."
       inline_create:
         title: 'Klicka här för att lägga till ett nytt arbetspaket till listan'

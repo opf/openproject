@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 uk:
   no_results_title_text: Немає що виводити на екран.
   activities:
@@ -281,7 +302,7 @@ uk:
       changeset:
         repository: "Репозиторій"
       comment:
-        commented: "Коментар"
+        commented: "Коментар" #an object that this comment belongs to
       custom_action:
         actions: "Дії"
       custom_field:
@@ -329,6 +350,13 @@ uk:
         types: "Типи"
         versions: "Версії"
         work_packages: "Пакет робіт"
+      project/status:
+        code: 'Статус'
+        explanation: 'Status description'
+        codes:
+          on_track: 'On track'
+          at_risk: 'At risk'
+          off_track: 'Off track'
       query:
         column_names: "Стовпці"
         relations_to_type_column: "Відносини з %{type}"
@@ -619,6 +647,7 @@ uk:
   activity:
     created: "Створено: %{title}"
     updated: "Оновлено: %{title}"
+  #common attributes of all models
   attributes:
     active: "Активний"
     assigned_to: "Призначений"
@@ -651,6 +680,7 @@ uk:
     is_default: "Значення за замовчуванням"
     is_for_all: "Для усіх проектів"
     is_public: "Публічний"
+    #kept for backwards compatibility
     issue: "Пакет робіт"
     lastname: "Прізвище"
     login: "Username"
@@ -659,6 +689,7 @@ uk:
     password: "Пароль"
     priority: "Пріоритет"
     project: "Проект"
+    public: "Публічний"
     responsible: "Відповідальний"
     role: "роль"
     roles: "Роль"
@@ -794,9 +825,13 @@ uk:
       - "П'ятниця"
       - "Субота"
     formats:
+      #Use the strftime parameters for formats.
+      #When no format has been given, it uses default.
+      #You can provide other formats here if you like!
       default: "%d. %m. %Y"
       long: "%d %B %Y"
       short: "%d %b"
+    #Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names:
       - null
       - "Січень"
@@ -811,6 +846,7 @@ uk:
       - "Жовтень"
       - "Листопад"
       - "Грудень"
+    #Used in date_select and datime_select.
     order:
       - рік
       - місяць
@@ -964,6 +1000,7 @@ uk:
   description_sub_work_package: "Частина робочого пакету поточного"
   description_toc_toggle: "Показати/приховати зміст"
   description_wiki_subpages_reassign: "Виберіть батьківську сторінку"
+  #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: зліва направо
   ee:
     upsale:
@@ -1719,8 +1756,8 @@ uk:
       Користувач не може активувати свій обліковий запис після досягнення ліміту користувача.
     steps:
       label: "To allow the user to sign in you can either: "
-      a: "Оновіть план платежів ([here](upgrade_url))"
-      b: "Блокування або видалення існуючого користувача ([here](users_url))"
+      a: "Оновіть план платежів ([here](upgrade_url))" #here turned into a link
+      b: "Блокування або видалення існуючого користувача ([here](users_url))" #here turned into a link
   more_actions: "Додаткові функції"
   noscript_description: "Щоб використовувати OpenProject, потрібно ввімкнути підтримку JavaScript у Вашому браузері!"
   noscript_heading: "JavaScript відключений"
@@ -1787,6 +1824,7 @@ uk:
   notice_project_cannot_update_custom_fields: "Неможливо оновити доступні користувальницькі поля проекту. Проект недійсний: %{errors}"
   notice_attachment_migration_wiki_page: >
     Ця сторінка була створена автоматично під час оновлення OpenProject. Він містить усі вкладення, раніше пов'язані з %{container_type} %{container_name}.
+  #Default format for numbers
   number:
     format:
       delimiter: ""
@@ -1905,6 +1943,8 @@ uk:
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute}%{direction}"
+  #possible query parameters (e.g. issue queries),
+  #which are not attributes of an AR-Model.
   query_fields:
     active_or_archived: "Активний або архівований"
     assigned_to_role: "Роль виконавця"
@@ -2148,6 +2188,7 @@ uk:
   status_invited: запрошені
   status_locked: Заблоковано
   status_registered: Зареєстровано
+  #Used in array.to_sentence.
   support:
     array:
       sentence_connector: "і"
@@ -2539,18 +2580,22 @@ uk:
       status: 'Попередня авторизація'
     errors:
       messages:
+        #Common error messages
         invalid_request: 'У запиті відсутній необхідний параметр, він містить непідтримуваний параметр або інший варіант.'
-        invalid_redirect_uri: "Запитаний переспрямування uri неправильний або не відповідає URI клієнта."
+        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
         unauthorized_client: 'Клієнт не має права виконувати цей запит за допомогою цього методу.'
         access_denied: 'Власник ресурсів або сервер авторизації відхилив запит.'
         invalid_scope: 'Запитувана область дії є недійсною, невідомою або неправильною.'
         invalid_code_challenge_method: 'Метод виклику коду повинен бути простим або S256.'
         server_error: 'Сервер авторизації зіткнувся з несподіваною умовою, яка не дозволила виконати запит.'
         temporarily_unavailable: 'Сервер авторизації наразі не може обробити запит через тимчасове перевантаження або обслуговування сервера.'
+        #Configuration error messages
         credential_flow_not_configured: 'Потік облікових даних не вдався через Doorkeeper.configure.resource_owner_from_credentials being unconfigured.'
         resource_owner_authenticator_not_configured: 'Не вдалося знайти власника ресурсу через  Doorkeeper.configure.resource_owner_authenticator being unconfigured.'
         admin_authenticator_not_configured: 'Доступ до адміністративної панелі заборонений через Doorkeeper.configure.admin_authenticator being unconfigured.'
+        #Access grant errors
         unsupported_response_type: 'Сервер авторизації не підтримує цей тип відповіді.'
+        #Access token errors
         invalid_client: 'Аутентифікація клієнта не вдалася за відстуності клієнта, не було включено автентифікацію клієнта або непідтримувався метод автентифікації.'
         invalid_grant: 'Наданий дозвіл на авторизацію недійсний, минув, анульований, не відповідає URI перенаправлення, що використовується в запиті на авторизацію, або був виданий іншому клієнту.'
         unsupported_grant_type: 'Тип дозволу авторизації не підтримується сервером авторизації.'

@@ -28,6 +28,12 @@ ja:
         project_details:
           title: 'プロジェクトの詳細'
           no_results: 'プロジェクトにカスタムフィールドが定義されていません。'
+        project_status:
+          title: 'プロジェクトの進捗状況'
+          on_track: '順調'
+          off_track: '脱線'
+          at_risk: 'リスクあり'
+          not_set: '未設定'
         subprojects:
           title: '子プロジェクト'
           no_results: '子プロジェクトはありません。'

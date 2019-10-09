@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 sk:
   js:
     ajax:
@@ -171,6 +192,13 @@ sk:
     general_text_yes: "áno"
     general_text_No: "Nie"
     general_text_Yes: "Áno"
+    hal:
+      error:
+        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
+        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        format:
+          date: "%{attribute} nie je platný dátum - očakávaný formát je RRRR-MM-DD."
+        general: "Vyskytla sa chyba."
     homescreen:
       blocks:
         new_features:
@@ -254,6 +282,7 @@ sk:
     label_no_data: "Žiadne dáta na zobrazenie"
     label_no_due_date: "bez dátumu ukončenia"
     label_no_start_date: "žiadny dátum začatia"
+    label_no_value: "Žiadna hodnota"
     label_none: "žiadne"
     label_not_contains: "neobsahuje"
     label_not_equals: "nie je"
@@ -590,12 +619,6 @@ sk:
       description_enter_text: "Zadajte text"
       description_options_hide: "Skryť možnosti"
       description_options_show: "Zobraziť možnosti"
-      error:
-        update_conflict_refresh: "Kliknutím sem obnovíte pracovný balíček a aktualizujete na najnovšiu verziu."
-        edit_prohibited: "Úprava %{attribute} je blokovaná pre tento pracovný balík. Buď je tento atribút odvodený zo vzťahov (napr. z podriadených), alebo nie je konfigurovateľný."
-        format:
-          date: "%{attribute} nie je platný dátum - očakávaný formát je RRRR-MM-DD."
-        general: "Vyskytla sa chyba."
       edit_attribute: "%{attribute} - Upraviť"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Povoliť hromadný výber"
@@ -610,7 +633,6 @@ sk:
       message_view_spent_time: "Zobraziť strávený čas pre tento pracovný balíček"
       message_work_package_read_only: "Pracovný balíček je v tomto stave uzamknutý. Nie je možné zmeniť iný atribút ako stav."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
-      no_value: "Žiadna hodnota"
       placeholder_filter_by_text: "Predmet, popis, komentáre, ..."
       inline_create:
         title: 'Kliknutím sem pridajte nový pracovný balík do tohto zoznamu'

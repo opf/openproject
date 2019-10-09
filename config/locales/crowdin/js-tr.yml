@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 tr:
   js:
     ajax:
@@ -171,6 +192,13 @@ tr:
     general_text_yes: "evet"
     general_text_No: "Hayır"
     general_text_Yes: "Evet"
+    hal:
+      error:
+        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
+        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        format:
+          date: "%{attribute} geçerli tarih değil - YYYY-AA-GG formatında girilmeli."
+        general: "Bir hata oluştu."
     homescreen:
       blocks:
         new_features:
@@ -254,6 +282,7 @@ tr:
     label_no_data: "Görüntülenecek veri yok"
     label_no_due_date: "bitiş tarihi yok"
     label_no_start_date: "başlangıç tarihi yok"
+    label_no_value: "Değer yok"
     label_none: "hiçbiri"
     label_not_contains: "içermiyor"
     label_not_equals: "değildir"
@@ -586,12 +615,6 @@ tr:
       description_enter_text: "Metin girin"
       description_options_hide: "Seçenekleri gizle"
       description_options_show: "Seçenekleri göster"
-      error:
-        update_conflict_refresh: "İş paketini yenilemek ve en yeni sürüme güncellemek için buraya tıklayın."
-        edit_prohibited: "%{attribute} düzenleme bu iş paketi için bloke durumda. Ya bu öznitelik ilişkileri (ör, alt paket) ile tanımlanabilir ya da yapılandırılamaz."
-        format:
-          date: "%{attribute} geçerli tarih değil - YYYY-AA-GG formatında girilmeli."
-        general: "Bir hata oluştu."
       edit_attribute: "%{attribute} - Düzenle"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Çoklu seçimi etkinleştir"
@@ -606,7 +629,6 @@ tr:
       message_view_spent_time: "Bu iş paketi için harcanan zamanı göster"
       message_work_package_read_only: "İş paketi bu durum içinde kilitli. Durumu haricinde başka bir özelliği değiştirilemez."
       message_work_package_status_blocked: "İş paketi durumu, kapalı durum ve kapalı sürüm tahsis edildiğinden dolayı yazılamaz."
-      no_value: "Değer yok"
       placeholder_filter_by_text: "Konu, açıklama, yorumlar, ..."
       inline_create:
         title: 'Listeden yeni bir iş paketi eklemek için buraya tıklayınız'

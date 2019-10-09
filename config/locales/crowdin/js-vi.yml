@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 vi:
   js:
     ajax:
@@ -170,6 +191,13 @@ vi:
     general_text_yes: "có"
     general_text_No: "Không"
     general_text_Yes: "Có"
+    hal:
+      error:
+        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
+        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        format:
+          date: "%{attribute} không phải là ngày hợp lệ - phải là YYYY-MM-DD."
+        general: "Lỗi đã xảy ra."
     homescreen:
       blocks:
         new_features:
@@ -253,6 +281,7 @@ vi:
     label_no_data: "Không có dữ liệu để hiển thị"
     label_no_due_date: "không có ngày kết thúc"
     label_no_start_date: "không có ngày bắt đầu"
+    label_no_value: "No value"
     label_none: "không"
     label_not_contains: "không chứa"
     label_not_equals: "không là"
@@ -583,12 +612,6 @@ vi:
       description_enter_text: "Nhập văn bản"
       description_options_hide: "Hide options"
       description_options_show: "Show options"
-      error:
-        update_conflict_refresh: "Click here to refresh the work package and update to the newest version."
-        edit_prohibited: "Việc chỉnh sửa %{attribute} bị chặn cho work package này. Hoặc thuộc tính này bắt nguồn từ quan hệ (ví dụ, trẻ em) hoặc nếu không không thể cấu hình."
-        format:
-          date: "%{attribute} không phải là ngày hợp lệ - phải là YYYY-MM-DD."
-        general: "Lỗi đã xảy ra."
       edit_attribute: "%{attribute} - chỉnh sửa"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Enable multiselect"
@@ -603,7 +626,6 @@ vi:
       message_view_spent_time: "Show spent time for this work package"
       message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
-      no_value: "No value"
       placeholder_filter_by_text: "Chủ đề, mô tả, bình luận, ..."
       inline_create:
         title: 'Click vào đây để thêm một work package mới vào danh sách này'

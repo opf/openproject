@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 ja:
   js:
     ajax:
@@ -172,6 +193,13 @@ ja:
     general_text_yes: "はい"
     general_text_No: "いいえ"
     general_text_Yes: "はい"
+    hal:
+      error:
+        update_conflict_refresh: "リソースを更新して最新のバージョンに更新するには、ここをクリックしてください。"
+        edit_prohibited: "このリソースの %{attribute} の編集はブロックされます。この属性が関係から派生している (例えば、子供) か、あるいは構成できないため。"
+        format:
+          date: "%{attribute} は有効な日付ではありません - YYYY-MM-DDの形式で入力してください。"
+        general: "エラーが発生しました。"
     homescreen:
       blocks:
         new_features:
@@ -255,6 +283,7 @@ ja:
     label_no_data: "表示できるデータがありません。"
     label_no_due_date: "完了日なし"
     label_no_start_date: "開始日なし"
+    label_no_value: "値なし"
     label_none: "なし"
     label_not_contains: "含まない"
     label_not_equals: "等しくない"
@@ -587,12 +616,6 @@ ja:
       description_enter_text: "テキスト"
       description_options_hide: "オプションを非表示"
       description_options_show: "オプションを表示"
-      error:
-        update_conflict_refresh: "作業項目を更新して最新のバージョンに更新するには、ここをクリックしてください。"
-        edit_prohibited: "この作業項目の %{attribute} の編集はブロックされます。この属性が関係から派生している (例えば、子供) か、あるいは構成できないため。"
-        format:
-          date: "%{attribute} は有効な日付ではありません - YYYY-MM-DDの形式で入力してください。"
-        general: "エラーが発生しました。"
       edit_attribute: "%{attribute} - 編集"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "複数の選択を許可"
@@ -607,7 +630,6 @@ ja:
       message_view_spent_time: "このワークパッケージに費やした時間を表示する"
       message_work_package_read_only: "作業項目はこの状態でロックされています。 ステータス以外の属性は変更できません。"
       message_work_package_status_blocked: "ステータスがクローズでクローズされたバージョンが割り当てられているため、作業項目のステータスは書き込みできません。"
-      no_value: "値なし"
       placeholder_filter_by_text: "件名、説明、コメント、..."
       inline_create:
         title: 'クリックしてこのリストに新しい作業項目を追加します'

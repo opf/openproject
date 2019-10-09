@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 id:
   no_results_title_text: Tidak ada yang ditampilkan saat ini.
   activities:
@@ -277,7 +298,7 @@ id:
       changeset:
         repository: "Repositori"
       comment:
-        commented: "Komentar"
+        commented: "Komentar" #an object that this comment belongs to
       custom_action:
         actions: "Tindakan"
       custom_field:
@@ -325,6 +346,13 @@ id:
         types: "Tipe"
         versions: "Versi"
         work_packages: "Paket-Penugasan"
+      project/status:
+        code: 'Status'
+        explanation: 'Status description'
+        codes:
+          on_track: 'On track'
+          at_risk: 'At risk'
+          off_track: 'Off track'
       query:
         column_names: "Kolom"
         relations_to_type_column: "Relasi untuk %{type}"
@@ -606,6 +634,7 @@ id:
   activity:
     created: "Dibuat : %{title}"
     updated: "Diupdate : %{title}"
+  #common attributes of all models
   attributes:
     active: "Aktif"
     assigned_to: "Pelimpahan"
@@ -638,6 +667,7 @@ id:
     is_default: "Nilai default"
     is_for_all: "Untuk semua Project"
     is_public: "Publik"
+    #kept for backwards compatibility
     issue: "Paket-Penugasan"
     lastname: "Nama belakang"
     login: "Username"
@@ -646,6 +676,7 @@ id:
     password: "Password"
     priority: "Prioritas"
     project: "Project"
+    public: "Publik"
     responsible: "Accountable"
     role: "Role"
     roles: "Roles"
@@ -781,9 +812,13 @@ id:
       - "Jumat"
       - "Sabtu"
     formats:
+      #Use the strftime parameters for formats.
+      #When no format has been given, it uses default.
+      #You can provide other formats here if you like!
       default: "%m/%d/%Y"
       long: "%B %d, %Y"
       short: "%b %d"
+    #Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names:
       - null
       - "Januari"
@@ -798,6 +833,7 @@ id:
       - "Oktober"
       - "Nopember"
       - "Desember"
+    #Used in date_select and datime_select.
     order:
       - :tahun
       - :bulan
@@ -915,6 +951,7 @@ id:
   description_sub_work_package: "Sub Paket-Penugasan"
   description_toc_toggle: "Tampil/sembunyikan daftar isi"
   description_wiki_subpages_reassign: "Pilih halaman induk baru"
+  #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: ltr
   ee:
     upsale:
@@ -1658,8 +1695,8 @@ id:
       The user cannot activate their account since the user limit has been reached.
     steps:
       label: "To allow the user to sign in you can either: "
-      a: "Upgrade your payment plan ([here](upgrade_url))"
-      b: "Lock or delete an existing user ([here](users_url))"
+      a: "Upgrade your payment plan ([here](upgrade_url))" #here turned into a link
+      b: "Lock or delete an existing user ([here](users_url))" #here turned into a link
   more_actions: "Fungsi lainnya"
   noscript_description: "Aktifkan JavaScript di browser Anda untuk menjalankan Software ini!"
   noscript_heading: "JavaScript dinonaktifkan"
@@ -1726,6 +1763,7 @@ id:
   notice_project_cannot_update_custom_fields: "You cannot update the project's available custom fields. The project is invalid: %{errors}"
   notice_attachment_migration_wiki_page: >
     Halaman ini dihasilkan secara otomatis selama pembaharuan OpenProject. Ini berisi semua lampiran yang terkait sebelumnya dengan %{container_type} "%{container_name}".
+  #Default format for numbers
   number:
     format:
       delimiter: ""
@@ -1841,6 +1879,8 @@ id:
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
+  #possible query parameters (e.g. issue queries),
+  #which are not attributes of an AR-Model.
   query_fields:
     active_or_archived: "Aktif atau arsip"
     assigned_to_role: "Ditugaskan untuk Role"
@@ -2082,6 +2122,7 @@ id:
   status_invited: invited
   status_locked: terkunci
   status_registered: telah terdaftar
+  #Used in array.to_sentence.
   support:
     array:
       sentence_connector: "dan"
@@ -2468,18 +2509,22 @@ id:
       status: 'Pre-authorization'
     errors:
       messages:
+        #Common error messages
         invalid_request: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
-        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
+        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
         unauthorized_client: 'The client is not authorized to perform this request using this method.'
         access_denied: 'The resource owner or authorization server denied the request.'
         invalid_scope: 'The requested scope is invalid, unknown, or malformed.'
         invalid_code_challenge_method: 'The code challenge method must be plain or S256.'
         server_error: 'The authorization server encountered an unexpected condition which prevented it from fulfilling the request.'
         temporarily_unavailable: 'The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server.'
+        #Configuration error messages
         credential_flow_not_configured: 'Resource Owner Password Credentials flow failed due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.'
         resource_owner_authenticator_not_configured: 'Resource Owner find failed due to Doorkeeper.configure.resource_owner_authenticator being unconfigured.'
         admin_authenticator_not_configured: 'Access to admin panel is forbidden due to Doorkeeper.configure.admin_authenticator being unconfigured.'
+        #Access grant errors
         unsupported_response_type: 'The authorization server does not support this response type.'
+        #Access token errors
         invalid_client: 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.'
         invalid_grant: 'The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.'
         unsupported_grant_type: 'The authorization grant type is not supported by the authorization server.'

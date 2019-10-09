@@ -11,7 +11,8 @@ $grid--widget-padding: 20px
 .grid--container
   @include grid--commons
 
-.grid--area, .cdk-drag-preview
+.grid--area
+  position: relative
   overflow: hidden
   min-height: 30px
 
@@ -22,18 +23,17 @@ $grid--widget-padding: 20px
     z-index: 10
     @include widget-box--style
     margin: 0
-    padding: $grid--widget-padding
 
     .widget-box
       min-height: 200px
+      padding: $grid--widget-padding
 
     &:hover icon-triggered-context-menu
       visibility: visible
 
   &.-resizing
-    border: 1px dashed $primary-color
+    @include modifying--placeholder
     z-index: 1000
-    pointer-events: none
 
   &.-addable
     display: flex
@@ -42,7 +42,7 @@ $grid--widget-padding: 20px
     align-items: center
 
   &.-placeholder
-    pointer-events: none
+    @include modifying--placeholder
     z-index: 30
 
   &.-dragged
@@ -60,11 +60,6 @@ $grid--widget-padding: 20px
 
     &.-column
       width: $grid--gap-width
-
-  .cdk-drag-handle
-    cursor: grab
-    float: left
-    padding-top: 5px
 
   .widget-box--header
     display: flex
@@ -84,17 +79,15 @@ $grid--widget-padding: 20px
     z-index: 1000
 
 .grid--resizer
-  position: relative
-  height: $grid--widget-padding
-  margin-bottom: -$grid--widget-padding
+  position: absolute
+  height: 20px
   color: #888
   cursor: nwse-resize
   opacity: 0
+  right: 0
+  bottom: 0
 
   i
-    position: absolute
-    bottom: 0
-    right: -$grid--widget-padding
     padding: 0 3px 3px 0
 
   .grid--area.-widgeted:hover &
@@ -103,9 +96,11 @@ $grid--widget-padding: 20px
 .grid--area-drag-handle
   margin-left: -19px
   padding-right: 1px
+  padding-top: 5px
   margin-top: 3px
   opacity: 0
   cursor: grab
+  float: left
 
   &:before
     padding: 0
@@ -124,6 +119,13 @@ $grid--widget-padding: 20px
 
   input[type="text"].toolbar--editable-toolbar
     font-weight: normal
+
+  &.cdk-drag-preview
+    overflow: hidden
+    background: white
+    padding: $grid--widget-padding
+    @include widget-box--style
+    margin: 0
 
 .grid--widget-content
   height: 100%
@@ -233,10 +235,3 @@ $grid--widget-padding: 20px
 
   &:last-of-type
     border-bottom: none
-
-.cdk-drag-preview
-  background: white
-  padding: $grid--widget-padding
-  @include widget-box--style
-  margin-left: -$grid--widget-padding
-  margin-top: -$grid--widget-padding

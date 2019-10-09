@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 pl:
   js:
     ajax:
@@ -171,6 +192,13 @@ pl:
     general_text_yes: "tak"
     general_text_No: "Nie"
     general_text_Yes: "Tak"
+    hal:
+      error:
+        update_conflict_refresh: "Kliknij tutaj, aby odświeżyć pakiet roboczy i zaktualizować go do najnowszej wersji."
+        edit_prohibited: "Edytowanie atrybutu %{attribute} w tym pakiecie pracy jest zablokowane. Ten atrybut jest dziedziczony z relacji (np. dziecka) lub nie można go skonfigurować z innego powodu."
+        format:
+          date: "Atrybut %{attribute} jest nieprawidłową datą. Oczekiwany format: RRRR-MM-DD."
+        general: "Wystapił błąd."
     homescreen:
       blocks:
         new_features:
@@ -254,6 +282,7 @@ pl:
     label_no_data: "Brak danych do pokazania"
     label_no_due_date: "brak daty zakończenia"
     label_no_start_date: "brak daty rozpoczęcia"
+    label_no_value: "Brak wartości"
     label_none: "Brak"
     label_not_contains: "nie zawierają"
     label_not_equals: "nie jest"
@@ -590,12 +619,6 @@ pl:
       description_enter_text: "Wpisz tekst"
       description_options_hide: "Ukryj opcje"
       description_options_show: "Pokaż opcje"
-      error:
-        update_conflict_refresh: "Kliknij tutaj, aby odświeżyć pakiet roboczy i zaktualizować go do najnowszej wersji."
-        edit_prohibited: "Edytowanie atrybutu %{attribute} w tym pakiecie pracy jest zablokowane. Ten atrybut jest dziedziczony z relacji (np. dziecka) lub nie można go skonfigurować z innego powodu."
-        format:
-          date: "Atrybut %{attribute} jest nieprawidłową datą. Oczekiwany format: RRRR-MM-DD."
-        general: "Wystapił błąd."
       edit_attribute: "%{attribute} - Edytuj"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Włącz wybór wielokrotny"
@@ -610,7 +633,6 @@ pl:
       message_view_spent_time: "Pokaż spędzony czas dla tych zadań"
       message_work_package_read_only: "Pakiet roboczy jest zablokowany w tym stanie. Nie można zmienić żadnego atrybutu innego niż stan."
       message_work_package_status_blocked: "Nie można zapisać stanu pakietu roboczego ze względu na jego zamknięty stan i przypisaną mu zamkniętą wersję."
-      no_value: "Brak wartości"
       placeholder_filter_by_text: "Przedmiot, opis, komentarze, ..."
       inline_create:
         title: 'Kliknij tutaj, aby dodać nowy pakiet prac do tej listy'

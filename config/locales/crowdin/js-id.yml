@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 id:
   js:
     ajax:
@@ -171,6 +192,13 @@ id:
     general_text_yes: "yes"
     general_text_No: "No"
     general_text_Yes: "Yes"
+    hal:
+      error:
+        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
+        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        format:
+          date: "%{attribute} is no valid date - YYYY-MM-DD expected."
+        general: "An error has occurred."
     homescreen:
       blocks:
         new_features:
@@ -254,6 +282,7 @@ id:
     label_no_data: "Tidak ada data untuk ditampilkan"
     label_no_due_date: "tidak ada tanggal berakhir"
     label_no_start_date: "tidak ada tanggal mulai"
+    label_no_value: "Kosongkan"
     label_none: "kosong"
     label_not_contains: "tidak berisi"
     label_not_equals: "tidak"
@@ -584,12 +613,6 @@ id:
       description_enter_text: "Masukkan teks"
       description_options_hide: "Sembunyikan opsi"
       description_options_show: "Tampilkan opsi"
-      error:
-        update_conflict_refresh: "Click here to refresh the work package and update to the newest version."
-        edit_prohibited: "Editing %{attribute} is blocked for this work package. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
-        format:
-          date: "%{attribute} is no valid date - YYYY-MM-DD expected."
-        general: "An error has occurred."
       edit_attribute: "%{attribute} - Edit"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Enable multiselect"
@@ -604,7 +627,6 @@ id:
       message_view_spent_time: "Show spent time for this work package"
       message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
-      no_value: "Kosongkan"
       placeholder_filter_by_text: "Subject, description, comments, ..."
       inline_create:
         title: 'Click here to add a new work package to this list'

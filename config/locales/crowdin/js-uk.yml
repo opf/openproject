@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 uk:
   js:
     ajax:
@@ -171,6 +192,13 @@ uk:
     general_text_yes: "так"
     general_text_No: "Ні"
     general_text_Yes: "Так"
+    hal:
+      error:
+        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
+        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        format:
+          date: "%{attribute} не є дійсною датою - очікується YYYY-MM-DD."
+        general: "Сталася помилка."
     homescreen:
       blocks:
         new_features:
@@ -254,6 +282,7 @@ uk:
     label_no_data: "Немає даних для відображення"
     label_no_due_date: "немає дати завершення"
     label_no_start_date: "немає дати початку"
+    label_no_value: "Значення відсутнє"
     label_none: "нічого"
     label_not_contains: "не містить"
     label_not_equals: "немає"
@@ -590,12 +619,6 @@ uk:
       description_enter_text: "Введіть текст"
       description_options_hide: "Сховати опції"
       description_options_show: "Показати опції"
-      error:
-        update_conflict_refresh: "Натисніть тут, щоб оновити робочий пакет і оновити його до нової версії."
-        edit_prohibited: "Редагування %{attribute} заблоковано для цього пакету робіт. Цей атрибут або походить від зв'язку (наприклад, нащадки), або не налаштовується в інший спосіб."
-        format:
-          date: "%{attribute} не є дійсною датою - очікується YYYY-MM-DD."
-        general: "Сталася помилка."
       edit_attribute: "%{attribute} - Редагувати"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Дозволити мультивибір"
@@ -610,7 +633,6 @@ uk:
       message_view_spent_time: "Показувати час, витрачений на цей робочий пакет"
       message_work_package_read_only: "Робочий пакет заблоковано в цьому статусі. Атрибут, відмінний від статусу, може бути змінений."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
-      no_value: "Значення відсутнє"
       placeholder_filter_by_text: "Тема, опис, коментарі, ..."
       inline_create:
         title: 'Клацніть тут, щоб додати до цього списку новий пакет робіт'

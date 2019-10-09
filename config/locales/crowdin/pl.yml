@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 pl:
   no_results_title_text: Obecnie nie ma nic do wyświetlenia.
   activities:
@@ -281,7 +302,7 @@ pl:
       changeset:
         repository: "Repozytorium"
       comment:
-        commented: "Skomentował"
+        commented: "Skomentował" #an object that this comment belongs to
       custom_action:
         actions: "Akcje"
       custom_field:
@@ -329,6 +350,13 @@ pl:
         types: "Typy"
         versions: "Wersje"
         work_packages: "Zadania"
+      project/status:
+        code: 'Status'
+        explanation: 'Opis statusu'
+        codes:
+          on_track: 'Na ścieżce'
+          at_risk: 'Zagrożony'
+          off_track: 'Poza ścieżką'
       query:
         column_names: "Kolumny"
         relations_to_type_column: "Relacje %{type}"
@@ -619,6 +647,7 @@ pl:
   activity:
     created: "Utworzona: %{title}"
     updated: "Aktualizacja: %{title}"
+  #common attributes of all models
   attributes:
     active: "Aktywne"
     assigned_to: "Przypisany do"
@@ -651,6 +680,7 @@ pl:
     is_default: "Wartość domyślna"
     is_for_all: "Dla wszystkich projektów"
     is_public: "Publiczny"
+    #kept for backwards compatibility
     issue: "Zadanie"
     lastname: "Nazwisko"
     login: "Nazwa użytkownika"
@@ -659,6 +689,7 @@ pl:
     password: "Hasło"
     priority: "Priorytet"
     project: "Projekt"
+    public: "Publiczny"
     responsible: "Osoba odpowiedzialna"
     role: "Rola"
     roles: "Role"
@@ -794,9 +825,13 @@ pl:
       - "Piątek"
       - "Sobota"
     formats:
+      #Use the strftime parameters for formats.
+      #When no format has been given, it uses default.
+      #You can provide other formats here if you like!
       default: "%m/%d/%Y"
       long: "%B %d, %Y"
       short: "%b %d"
+    #Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names:
       - null
       - "Styczeń"
@@ -811,6 +846,7 @@ pl:
       - "Październik"
       - "Listopad"
       - "Grudzień"
+    #Used in date_select and datime_select.
     order:
       - :rok
       - ':miesiąc'
@@ -964,6 +1000,7 @@ pl:
   description_sub_work_package: "Potomny pakiet roboczy dla bieżącego"
   description_toc_toggle: "Pokaż/Ukryj spis treści"
   description_wiki_subpages_reassign: "Wybierz nową stronę nadrzędną"
+  #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: ltr
   ee:
     upsale:
@@ -1718,8 +1755,8 @@ pl:
       Nowy użytkownik (%{email}) próbował utworzyć konto w środowisku OpenProject na (%{host}). Użytkownik nie może aktywować swojego konta ponieważ został osiągnięty limit użytkowników.
     steps:
       label: "Aby zezwolić użytkownikowi na logowanie, możesz albo: "
-      a: "Zaktualizuj swój plan płatności ([here] (upgrade_url))"
-      b: "Zablokuj lub usuń istniejącego użytkownika ([here] (users_url))"
+      a: "Zaktualizuj swój plan płatności ([here] (upgrade_url))" #here turned into a link
+      b: "Zablokuj lub usuń istniejącego użytkownika ([here] (users_url))" #here turned into a link
   more_actions: "Więcej funkcji"
   noscript_description: "Musisz aktywować JavaScript, aby korzystać z OpenProject!"
   noscript_heading: "Wyłączona obsługa JavaScript"
@@ -1786,6 +1823,7 @@ pl:
   notice_project_cannot_update_custom_fields: "Nie można zaktualizować dostępnych niestandardowych pól projektu. Projekt jest nieprawidłowy: %{errors}"
   notice_attachment_migration_wiki_page: >
     Strona wygenerowana automatycznie podczas aktualizacji OpenProject. Zawiera on wszystkie załączniki poprzednio skojarzone z %{container_type} "%{container_name}".
+  #Default format for numbers
   number:
     format:
       delimiter: ""
@@ -1904,6 +1942,8 @@ pl:
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
+  #possible query parameters (e.g. issue queries),
+  #which are not attributes of an AR-Model.
   query_fields:
     active_or_archived: "Aktywne lub zarchiwizowane"
     assigned_to_role: "Przypisany do roli"
@@ -2145,6 +2185,7 @@ pl:
   status_invited: zaproszony
   status_locked: zablokowane
   status_registered: zarejestrowany
+  #Used in array.to_sentence.
   support:
     array:
       sentence_connector: "i"
@@ -2537,6 +2578,7 @@ pl:
       status: 'Pre-Autoryzacja'
     errors:
       messages:
+        #Common error messages
         invalid_request: 'Żądanie nie zawiera wymaganego parametru, zawiera nieobsługiwaną wartość parametru lub jest w inny sposób nieprawidłowo sformułowane.'
         invalid_redirect_uri: "Identyfikator URI żądanego przekierowania jest nieprawidłowo sformułowany lub niezgodny z identyfikatorem URI przekierowania klienta."
         unauthorized_client: 'Klient nie ma uprawnień do wykonania tego żądania przy użyciu tej metody.'
@@ -2545,10 +2587,13 @@ pl:
         invalid_code_challenge_method: 'Parametr metody wywołania kodu musi mieć wartość plain albo S256.'
         server_error: 'Serwer autoryzacji napotkał nieoczekiwany warunek, który uniemożliwia spełnienie żądania.'
         temporarily_unavailable: 'Serwer autoryzacji nie jest obecnie w stanie obsłużyć żądania z powodu tymczasowego przeciążenia lub konserwacji serwera.'
+        #Configuration error messages
         credential_flow_not_configured: 'Przepływ poświadczeń hasła właściciela zasobu nie powiódł się z powodu nieskonfigurowania ustawień Doorkeeper.configure.resource_owner_from_credentials.'
         resource_owner_authenticator_not_configured: 'Znalezienie właściciela zasobu nie powiodło się z powodu nieskonfigurowania ustawień Doorkeeper.configure.resource_owner_authenticator.'
         admin_authenticator_not_configured: 'Dostęp do panelu administratora jest zabroniony z powodu nieskonfigurowania ustawień Doorkeeper.configure.admin_authenticator.'
+        #Access grant errors
         unsupported_response_type: 'Serwer autoryzacji nie obsługuje tego typu odpowiedzi.'
+        #Access token errors
         invalid_client: 'Uwierzytelnianie klienta nie powiodło się z powodu nieznanego klienta, nieuwzględnienia uwierzytelniania klienta lub nieobsługiwanej metody uwierzytelniania.'
         invalid_grant: 'Udzielona autoryzacja jest nieprawidłowa, wygasła, unieważniona, nie odpowiada identyfikatorowi URI przekierowania użytemu w żądaniu autoryzacji lub została wydana innemu klientowi.'
         unsupported_grant_type: 'Typ udzielonej autoryzacji nie jest obsługiwany przez serwer autoryzacji.'

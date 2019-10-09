@@ -159,7 +159,7 @@ module Components
         container = find('.wp-relations--children')
         scroll_to_and_click(container.find('.wp-inline-create-button-row .wp-inline-create--add-link'))
 
-        subject = ::WorkPackageField.new(container, 'subject')
+        subject = ::EditField.new(container, 'subject')
         subject.expect_active!
         subject.update subject_text
       end

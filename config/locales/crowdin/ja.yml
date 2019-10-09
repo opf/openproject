@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 ja:
   no_results_title_text: 現在表示する対象がありません。
   activities:
@@ -276,7 +297,7 @@ ja:
       changeset:
         repository: "リポジトリ"
       comment:
-        commented: "コメントしました。"
+        commented: "コメントしました。" #an object that this comment belongs to
       custom_action:
         actions: "操作"
       custom_field:
@@ -324,6 +345,13 @@ ja:
         types: "作業項目の型"
         versions: "バージョン"
         work_packages: "作業項目"
+      project/status:
+        code: 'ステータス'
+        explanation: '状況の説明'
+        codes:
+          on_track: '順調'
+          at_risk: 'リスクあり'
+          off_track: '脱線'
       query:
         column_names: "列"
         relations_to_type_column: "%{type} との関係"
@@ -605,6 +633,7 @@ ja:
   activity:
     created: "作成: %{title}"
     updated: "更新: %{title}"
+  #common attributes of all models
   attributes:
     active: "アクティブ"
     assigned_to: "担当者"
@@ -637,6 +666,7 @@ ja:
     is_default: "デフォルト値"
     is_for_all: "全プロジェクト向け"
     is_public: "公開"
+    #kept for backwards compatibility
     issue: "ワーク パッケージ"
     lastname: "苗字"
     login: "ユーザー名"
@@ -645,6 +675,7 @@ ja:
     password: "パスワード"
     priority: "優先度"
     project: "プロジェクト"
+    public: "公開"
     responsible: "責任がある"
     role: "ロール"
     roles: "ロール"
@@ -780,9 +811,13 @@ ja:
       - "金曜日"
       - "土曜日"
     formats:
+      #Use the strftime parameters for formats.
+      #When no format has been given, it uses default.
+      #You can provide other formats here if you like!
       default: "%m/%d/%Y"
       long: "%B %d、%Y"
       short: "%b%d"
+    #Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names:
       - null
       - "1月"
@@ -797,6 +832,7 @@ ja:
       - "10月"
       - "11月"
       - "12月"
+    #Used in date_select and datime_select.
     order:
       - '：年'
       - '：月'
@@ -914,6 +950,7 @@ ja:
   description_sub_work_package: "子作業項目"
   description_toc_toggle: "目次の表示/非表示"
   description_wiki_subpages_reassign: "新しい親ページを選択してください。"
+  #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: 左から右
   ee:
     upsale:
@@ -1657,8 +1694,8 @@ ja:
       ユーザーの制限に達しているため、ユーザーは自分のアカウントをアクティブ化できません。
     steps:
       label: "ユーザーがサインインできるようにするには、次のいずれかを行います: "
-      a: "お支払いプランをアップグレードします。 ([ここ](upgrade_url))"
-      b: "既存のユーザーをロックまたは削除する ([ここ](users_url))"
+      a: "お支払いプランをアップグレードします。 ([ここ](upgrade_url))" #here turned into a link
+      b: "既存のユーザーをロックまたは削除する ([ここ](users_url))" #here turned into a link
   more_actions: "他の機能"
   noscript_description: "OpenProjectを使用するためにJavaScriptを有効にする必要があります！"
   noscript_heading: "JavaScriptは無効されています。"
@@ -1725,6 +1762,7 @@ ja:
   notice_project_cannot_update_custom_fields: "プロジェクトの有効なカスタムフィールドを更新できません。プロジェクトは無効です: %{errors}"
   notice_attachment_migration_wiki_page: >
     このページは、OpenProject の更新時に自動的に生成されました。%{container_type} "%{container_name}" と関連付けられていたすべての添付ファイルが含まれています。
+  #Default format for numbers
   number:
     format:
       delimiter: ""
@@ -1840,6 +1878,8 @@ ja:
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
+  #possible query parameters (e.g. issue queries),
+  #which are not attributes of an AR-Model.
   query_fields:
     active_or_archived: "アクティブまたはアーカイブ"
     assigned_to_role: "担当者のロール"
@@ -2083,6 +2123,7 @@ ja:
   status_invited: 招待済み
   status_locked: ロック済み
   status_registered: 登録済み
+  #Used in array.to_sentence.
   support:
     array:
       sentence_connector: "及び"
@@ -2469,6 +2510,7 @@ ja:
       status: '事前承認'
     errors:
       messages:
+        #Common error messages
         invalid_request: 'リクエストに必要なパラメーターがありません、サポートされていないパラメーター値が含まれているか、その他の形式に誤りがあります。'
         invalid_redirect_uri: "要求されたリダイレクトURIが不正な形式であるか、クライアントのリダイレクトURIと一致しません。"
         unauthorized_client: 'クライアントはこのメソッドを使用してリクエストを実行することが許可されていません。'
@@ -2477,10 +2519,13 @@ ja:
         invalid_code_challenge_method: 'コードチャレンジメソッドはプレーンまたはS256である必要があります。'
         server_error: '認証サーバーは予期しない状態を検出したため、要求を実行できませんでした。'
         temporarily_unavailable: '認証サーバーは現在一時的な過負荷または保守のためにリクエストを処理できません。'
+        #Configuration error messages
         credential_flow_not_configured: 'Doorkeeper.configure.resource_owner_from_credentialsの設定が解除されているため、リソース所有者のパスワード資格情報のフローが失敗しました。'
         resource_owner_authenticator_not_configured: 'Doorkeeper.configure.resource_owner_authenticatorの設定が解除されているため、リソース所有者の検索に失敗しました。'
         admin_authenticator_not_configured: 'Doorkeeper.configure.admin_authenticatorの設定が解除されているため、管理パネルへのアクセスは禁止されています。'
+        #Access grant errors
         unsupported_response_type: '認証サーバーはこのレスポンスタイプをサポートしません。'
+        #Access token errors
         invalid_client: '不明なクライアント、クライアント認証が含まれていない、またはサポートされていない認証方法のため、クライアント認証が失敗しました。'
         invalid_grant: '提供された許可付与が無効、期限切れ、取り消された、許可要求で使用されたリダイレクトURIと一致しない、または別のクライアントに発行されました。'
         unsupported_grant_type: '認証許可の種類は認証サーバーによってサポートされていません。'

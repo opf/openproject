@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 sk:
   no_results_title_text: Momentálne nič na zobrazenie.
   activities:
@@ -281,7 +302,7 @@ sk:
       changeset:
         repository: "Repozitár"
       comment:
-        commented: "Komentované"
+        commented: "Komentované" #an object that this comment belongs to
       custom_action:
         actions: "Akcie"
       custom_field:
@@ -329,6 +350,13 @@ sk:
         types: "Typy"
         versions: "Verzie"
         work_packages: "Pracovné balíčky"
+      project/status:
+        code: 'Stav'
+        explanation: 'Status description'
+        codes:
+          on_track: 'On track'
+          at_risk: 'At risk'
+          off_track: 'Off track'
       query:
         column_names: "Stĺpce"
         relations_to_type_column: "Vzťahy k %{type}"
@@ -619,6 +647,7 @@ sk:
   activity:
     created: "Vytvoril: %{title}"
     updated: "Aktualizované: %{title}"
+  #common attributes of all models
   attributes:
     active: "Aktívny"
     assigned_to: "Priradené"
@@ -651,6 +680,7 @@ sk:
     is_default: "Predvolená hodnota"
     is_for_all: "Pre všetky projekty"
     is_public: "Verejný"
+    #kept for backwards compatibility
     issue: "Pracovný balíček"
     lastname: "Priezvisko"
     login: "Username"
@@ -659,6 +689,7 @@ sk:
     password: "Heslo"
     priority: "Priorita"
     project: "Projekt"
+    public: "Verejný"
     responsible: "Zodpovedný"
     role: "Rola"
     roles: "Roly"
@@ -794,9 +825,13 @@ sk:
       - "Piatok"
       - "Sobota"
     formats:
+      #Use the strftime parameters for formats.
+      #When no format has been given, it uses default.
+      #You can provide other formats here if you like!
       default: "%m/%d/%Y"
       long: "%B %d, %Y"
       short: "%b %d"
+    #Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names:
       - null
       - "Január"
@@ -811,6 +846,7 @@ sk:
       - "Október"
       - "November"
       - "December"
+    #Used in date_select and datime_select.
     order:
       - :rok
       - :mesiac
@@ -964,6 +1000,7 @@ sk:
   description_sub_work_package: "Podriadený pracovný balíček aktuálneho"
   description_toc_toggle: "Zobraziť / skryť obsah"
   description_wiki_subpages_reassign: "Vybrať novú nadradenú stránku"
+  #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: zľava doprava
   ee:
     upsale:
@@ -1718,8 +1755,8 @@ sk:
       Nový užívateľ (%{email}) se pokúsil vytvoriť účet v prostredí OpenProject spravovanom Vami (%{host}). Užívateľ nemôže aktivovať svoj účet, pretože bol dosiahnutý limit počtu užívateľov.
     steps:
       label: "Môžete vykonať nasledujúce kroky, aby ste mohli používateľa prihlásiť: "
-      a: "Upgrade plánu platieb ([here](upgrade_url))"
-      b: "Zamknúť alebo odstrániť existujúceho používateľa ([here](users_url))"
+      a: "Upgrade plánu platieb ([here](upgrade_url))" #here turned into a link
+      b: "Zamknúť alebo odstrániť existujúceho používateľa ([here](users_url))" #here turned into a link
   more_actions: "Ďalšie funkcie"
   noscript_description: "Musíte aktivovať JavaScript, aby ste mohli používať OpenProject!"
   noscript_heading: "JavaScript vypnutý"
@@ -1786,6 +1823,7 @@ sk:
   notice_project_cannot_update_custom_fields: "Dostupné vlastné polia projektu sa nedajú aktualizovať. Projekt je neplatný: %{errors}"
   notice_attachment_migration_wiki_page: >
     Táto stránka bola vygenerovaná automaticky počas aktualizácie OpenProject. Obsahuje všetky prílohy, ktoré boli predtým priradené k %{container_type} "%{container_name}".
+  #Default format for numbers
   number:
     format:
       delimiter: ""
@@ -1904,6 +1942,8 @@ sk:
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
+  #possible query parameters (e.g. issue queries),
+  #which are not attributes of an AR-Model.
   query_fields:
     active_or_archived: "Aktívne alebo archivované"
     assigned_to_role: "Priradená rola"
@@ -2147,6 +2187,7 @@ sk:
   status_invited: pozvaný
   status_locked: zamknuté
   status_registered: registrovaný
+  #Used in array.to_sentence.
   support:
     array:
       sentence_connector: "a"
@@ -2540,18 +2581,22 @@ sk:
       status: 'Pre-Autorizácia'
     errors:
       messages:
+        #Common error messages
         invalid_request: 'V žiadosti chýba požadovaný parameter, obsahuje nepodporovanú hodnotu parametra alebo inak je chybný.'
-        invalid_redirect_uri: "Požadovane presmerovanie uri je poškodený alebo sa nezhoduje s URI presmerovania klienta."
+        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
         unauthorized_client: 'Klient nie je oprávnený vykonať túto požiadavku pomocou tejto metódy.'
         access_denied: 'Vlastník zdroja alebo autorizačný server žiadosť zamietol.'
         invalid_scope: 'Požadovaný rozsah je neplatný, neznámy alebo chybný.'
         invalid_code_challenge_method: 'Metóda kódovej výzvy musí byť jednoduchá alebo S256.'
         server_error: 'Autorizačný server narazil na neočakávaný stav, ktorý mu bránil v splnení požiadavky.'
         temporarily_unavailable: 'Autorizačný server momentálne nemôže spracovať žiadosť v dôsledku dočasného preťaženia alebo údržby servera.'
+        #Configuration error messages
         credential_flow_not_configured: 'Protokol poverení vlastníka prostriedkov narazil na chybu z dôvodu nesprávnej konfigurácie Doorkeeper.configure.resource_owner_from_credentials.'
         resource_owner_authenticator_not_configured: 'Vyhľadávanie vlastníkov zdrojov zlyhalo, pretože Doorkeeper.configure.resource_owner_authenticator nie je nakonfigurovaný.'
         admin_authenticator_not_configured: 'Prístup k administrátorskému panelu je zakázaný, pretože Doorkeeper.configure.admin_authenticator nie je nakonfigurovaný.'
+        #Access grant errors
         unsupported_response_type: 'Autorizačný server tento typ odpovede nepodporuje.'
+        #Access token errors
         invalid_client: 'Overenie klienta zlyhalo z dôvodu neznámeho klienta, nebolo zahrnuté overenie klienta, alebo nie je podporovaná metóda overovania.'
         invalid_grant: 'Poskytnutý grant na autorizáciu je neplatný, vypršal, zrušil, nezodpovedal URI presmerovania použitému v žiadosti o autorizáciu alebo bol vydaný inému klientovi.'
         unsupported_grant_type: 'Typ autorizácie nie je podporovaný autorizačným serverom.'

@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 zh-CN:
   no_results_title_text: 目前没有什么可显示。
   activities:
@@ -277,7 +298,7 @@ zh-CN:
       changeset:
         repository: "代码库"
       comment:
-        commented: "评论"
+        commented: "评论" #an object that this comment belongs to
       custom_action:
         actions: "操作"
       custom_field:
@@ -325,6 +346,13 @@ zh-CN:
         types: "类型"
         versions: "版本"
         work_packages: "工作包"
+      project/status:
+        code: '状态'
+        explanation: 'Status description'
+        codes:
+          on_track: 'On track'
+          at_risk: 'At risk'
+          off_track: 'Off track'
       query:
         column_names: "列"
         relations_to_type_column: "与%{type} 的关系"
@@ -606,6 +634,7 @@ zh-CN:
   activity:
     created: "创建: %{title}"
     updated: "更新: %{title}"
+  #common attributes of all models
   attributes:
     active: "激活"
     assigned_to: "指定人"
@@ -638,6 +667,7 @@ zh-CN:
     is_default: "默认值"
     is_for_all: "为所有项目"
     is_public: "公开"
+    #kept for backwards compatibility
     issue: "工作包"
     lastname: "姓氏"
     login: "用户名"
@@ -646,6 +676,7 @@ zh-CN:
     password: "密码"
     priority: "优先级"
     project: "项目"
+    public: "公开"
     responsible: "负责"
     role: "角色"
     roles: "角色"
@@ -781,9 +812,13 @@ zh-CN:
       - "星期五 "
       - "星期六 "
     formats:
+      #Use the strftime parameters for formats.
+      #When no format has been given, it uses default.
+      #You can provide other formats here if you like!
       default: "%m/%d/%Y"
       long: "%B %d, %Y"
       short: "%b %d"
+    #Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names:
       - null
       - "1月"
@@ -798,6 +833,7 @@ zh-CN:
       - "10月"
       - "11 月"
       - "12月"
+    #Used in date_select and datime_select.
     order:
       - '：年'
       - '：月'
@@ -915,6 +951,7 @@ zh-CN:
   description_sub_work_package: "当前的子工作包"
   description_toc_toggle: "显示/隐藏表的内容"
   description_wiki_subpages_reassign: "选择新的父页"
+  #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: 从左向右
   ee:
     upsale:
@@ -1657,8 +1694,8 @@ zh-CN:
       新用户 (%{email}) 试图在您管理的 OpenProject 环境 (%{host}) 上创建帐户。用户无法激活其帐户, 因为已达到用户限制。
     steps:
       label: "要允许用户登录, 您可以: "
-      a: "([在这里](upgrade_url)) 升级付款计划"
-      b: "([在这里](users_url)) 锁定或删除现有用户"
+      a: "([在这里](upgrade_url)) 升级付款计划" #here turned into a link
+      b: "([在这里](users_url)) 锁定或删除现有用户" #here turned into a link
   more_actions: "更多功能"
   noscript_description: "您需要激活JavaScript才能使用 OpenProject！"
   noscript_heading: "JavaScript 被禁用"
@@ -1725,6 +1762,7 @@ zh-CN:
   notice_project_cannot_update_custom_fields: "您无法更新项目的可用自定义字段。项目无效：%{errors}"
   notice_attachment_migration_wiki_page: >
     此页是在更新 OpenProject 时自动生成。它包含以前与 %{container_type} "%{container_name}" 关联的所有附件。
+  #Default format for numbers
   number:
     format:
       delimiter: ""
@@ -1840,6 +1878,8 @@ zh-CN:
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
+  #possible query parameters (e.g. issue queries),
+  #which are not attributes of an AR-Model.
   query_fields:
     active_or_archived: "激活或已存档"
     assigned_to_role: "指定人角色"
@@ -2081,6 +2121,7 @@ zh-CN:
   status_invited: 已邀请
   status_locked: 锁定
   status_registered: 已注册
+  #Used in array.to_sentence.
   support:
     array:
       sentence_connector: "和"
@@ -2466,18 +2507,22 @@ zh-CN:
       status: '预授权'
     errors:
       messages:
+        #Common error messages
         invalid_request: '请求缺少必要参数，包括不受支持的参数值，或者格式不正确。'
-        invalid_redirect_uri: "请求的重定向 URI 格式不正确，或者与客户端重定向 URI 不匹配。"
+        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
         unauthorized_client: '客户端无权使用此方法执行此请求。'
         access_denied: '资源所有者或授权服务器拒绝了此请求。'
         invalid_scope: '申请范围无效、未知或形式错误'
         invalid_code_challenge_method: '代码质询方法必须为普通或 S256。'
         server_error: '授权服务器遇到了意外情况，无法完成请求。'
         temporarily_unavailable: '由于暂时性过载或维护，授权服务器当前无法处理请求。'
+        #Configuration error messages
         credential_flow_not_configured: '由于未配置 Doorkeeper.configure.resource_owner_from_credentials，资源所有者密码凭据流失败。'
         resource_owner_authenticator_not_configured: '由于未配置 Doorkeeper.configure.resource_owner_authenticator，资源所有者查找失败。'
         admin_authenticator_not_configured: '由于未配置 Doorkeeper.configure.admin_authenticator，禁止访问管理面板。'
+        #Access grant errors
         unsupported_response_type: '授权服务不支持此响应类型。'
+        #Access token errors
         invalid_client: '由于未知客户端、未包含客户端身份验证或者不受支持的身份验证方法，客户端身份验证失败。'
         invalid_grant: '提供的授权无效、已过期或者已被撤销，与授权请求中使用的重定向 URI 不匹配，或者颁发给其他客户端。'
         unsupported_grant_type: '授权服务器不支持此授权类型。'
