@@ -1,4 +1,4 @@
-import {OnInit} from '@angular/core';
+import {ChangeDetectorRef, OnInit} from '@angular/core';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {Title} from '@angular/platform-browser';
 import {GridInitializationService} from "core-app/modules/grids/grid/initialization.service";
@@ -17,6 +17,7 @@ export abstract class GridPageComponent implements OnInit {
               readonly pathHelper:PathHelperService,
               readonly currentProject:CurrentProjectService,
               readonly i18n:I18nService,
+              readonly cdRef:ChangeDetectorRef,
               readonly title:Title,
               readonly addWidget:GridAddWidgetService,
               readonly areas:GridAreaService) {}
@@ -29,6 +30,7 @@ export abstract class GridPageComponent implements OnInit {
       .initialize(this.gridScopePath())
       .then((grid) => {
         this.grid = grid;
+        this.cdRef.detectChanges();
       });
 
     this.setHtmlTitle();
