@@ -64,12 +64,25 @@ describe 'Project details widget on dashboard', type: :feature, js: true do
        manage_dashboards]
   end
 
+  let(:editing_permissions) do
+    %i[view_dashboards
+       manage_dashboards
+       edit_project]
+  end
+
   let(:role) do
     FactoryBot.create(:role, permissions: permissions)
   end
 
   let(:user) do
     FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+  end
+  let(:second_user) do
+    FactoryBot.create(:user,
+                      member_in_project: project,
+                      member_with_permissions: editing_permissions,
+                      firstname: 'Cool',
+                      lastname: 'Guy')
   end
   let(:other_user) do
     FactoryBot.create(:user)
@@ -78,37 +91,84 @@ describe 'Project details widget on dashboard', type: :feature, js: true do
     Pages::Dashboard.new(project)
   end
 
-  before do
-    login_as user
-
+  def add_project_details_widget
     dashboard_page.visit!
-  end
-
-  it 'can add the widget and see the description in it' do
     dashboard_page.add_widget(1, 1, :within, "Project details")
 
     sleep(0.1)
+  end
 
-    # As the user lacks the manage_public_queries and save_queries permission, no other widget is present
-    details_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+  def change_cf_value(cf, old_value, new_value)
+    # Open description field
+    cf.activate!
+    sleep(0.1)
 
-    within(details_widget.area) do
-      expect(page)
-        .to have_content("#{int_cf.name}\n5")
-      expect(page)
-        .to have_content("#{bool_cf.name}\nyes")
-      expect(page)
-        .to have_content("#{version_cf.name}\n#{system_version.name}")
-      expect(page)
-        .to have_content("#{float_cf.name}\n4.5")
-      expect(page)
-        .to have_content("#{text_cf.name}\nSome long text")
-      expect(page)
-        .to have_content("#{string_cf.name}\nSome small text")
-      expect(page)
-        .to have_content("#{date_cf.name}\n#{Date.today.strftime('%m/%d/%Y')}")
-      expect(page)
-        .to have_content("#{user_cf.name}\n#{user.name.split.map(&:first).join}#{user.name}")
+    # Change the value
+    cf.expect_value(old_value)
+    cf.set_value new_value
+    cf.save! unless cf.field_type === 'create-autocompleter'
+
+    # The edit field is toggled and the value saved.
+    expect(page).to have_content(new_value)
+    expect(page).to have_selector(cf.selector)
+    expect(page).not_to have_selector(cf.input_selector)
+  end
+
+  context 'without editing permissions' do
+    before do
+      login_as user
+      add_project_details_widget
+    end
+
+    it 'can add the widget, but not edit the custom fields' do
+      # As the user lacks the manage_public_queries and save_queries permission, no other widget is present
+      details_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+
+      within(details_widget.area) do
+        # Expect values
+        expect(page)
+          .to have_content("#{int_cf.name}\n5")
+        expect(page)
+          .to have_content("#{bool_cf.name}\nyes")
+        expect(page)
+          .to have_content("#{version_cf.name}\n#{system_version.name}")
+        expect(page)
+          .to have_content("#{float_cf.name}\n4.5")
+        expect(page)
+          .to have_content("#{text_cf.name}\nSome long text")
+        expect(page)
+          .to have_content("#{string_cf.name}\nSome small text")
+        expect(page)
+          .to have_content("#{date_cf.name}\n#{Date.today.strftime('%m/%d/%Y')}")
+        expect(page)
+           .to have_content("#{user_cf.name}\n#{user.name.split.map(&:first).join}#{user.name}")
+
+        # The fields are not editable
+        field = EditField.new dashboard_page, "customField#{bool_cf.id}"
+        field.activate! expect_open: false
+      end
+    end
+  end
+
+  context 'with editing permissions' do
+    before do
+      user
+      login_as second_user
+      add_project_details_widget
+    end
+
+    it 'can edit the custom fields' do
+      int_field = EditField.new dashboard_page, "customField#{int_cf.id}"
+      change_cf_value int_field, "5", "3"
+
+      string_field = EditField.new dashboard_page, "customField#{string_cf.id}"
+      change_cf_value string_field, 'Some small text', 'Some new text'
+
+      text_field = TextEditorField.new dashboard_page, "customField#{text_cf.id}"
+      change_cf_value text_field, 'Some long text', 'Some very long text'
+
+      user_field = SelectField.new dashboard_page, "customField#{user_cf.id}"
+      change_cf_value user_field, user.name, second_user.name
     end
   end
 end
