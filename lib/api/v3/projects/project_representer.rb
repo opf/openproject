@@ -50,7 +50,10 @@ module API
           # Representable is broken when passing nil as parameters
           # it will set the property :status and :statusExplanation
           # regardless of what the setter actually does
-          super.except(:status, :statusExplanation)
+          super.tap do |result|
+            result.except!(:status, :statusExplanation)
+            result[:status] = result.delete(:status_attributes) if result.key?(:status_attributes)
+          end
         end
 
         link :createWorkPackage,

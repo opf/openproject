@@ -33,10 +33,7 @@ module Projects
     private
 
     def set_attributes(attributes)
-      # Delete the status attribute which gets set by representable
-      # IFF the status_code is given as null
-      attributes.delete(:status)
-      status_attributes = attributes.delete(:status_attributes) || {}
+      status_attributes = attributes.delete(:status) || {}
 
       ret = super(attributes)
 
