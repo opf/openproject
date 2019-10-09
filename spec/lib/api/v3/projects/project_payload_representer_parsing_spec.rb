@@ -49,11 +49,11 @@ describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
       end
 
       it 'updates code' do
-        project_obj = representer.from_hash(hash)
-        expect(project_obj.status_attributes[:code])
+        project = representer.from_hash(hash)
+        expect(project.status[:code])
           .to eql(:on_track)
 
-        expect(project_obj.status_attributes[:explanation])
+        expect(project.status[:explanation])
           .to eql('status code explanation')
       end
 
@@ -65,14 +65,14 @@ describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
         end
 
         it 'does not set code' do
-          project_obj = representer.from_hash(hash)
-          expect(project_obj.status_attributes[:code])
+          project = representer.from_hash(hash)
+          expect(project.status[:code])
             .to be_nil
         end
 
         it 'updates explanation' do
-          project_obj = representer.from_hash(hash)
-          expect(project_obj.status_attributes[:explanation])
+          project = representer.from_hash(hash)
+          expect(project.status[:explanation])
             .to eql('status code explanation')
         end
       end
@@ -85,14 +85,14 @@ describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
         end
 
         it 'does set code' do
-          project_obj = representer.from_hash(hash)
-          expect(project_obj.status_attributes[:code])
+          project = representer.from_hash(hash)
+          expect(project.status[:code])
             .to eql :off_track
         end
 
         it 'does not set explanation' do
-          project_obj = representer.from_hash(hash)
-          expect(project_obj.status_attributes[:explanation])
+          project = representer.from_hash(hash)
+          expect(project.status[:explanation])
             .to be_nil
         end
       end
@@ -105,19 +105,19 @@ describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
         end
 
         it 'does set status to nil' do
-          project_obj = representer.from_hash(hash).to_h
+          project = representer.from_hash(hash).to_h
 
-          expect(project_obj)
-            .to have_key(:status_attributes)
+          expect(project)
+            .to have_key(:status)
 
-          status_attributes = project_obj[:status_attributes]
-          expect(status_attributes)
+          status = project[:status]
+          expect(status)
             .to have_key(:code)
 
-          expect(status_attributes)
+          expect(status)
             .not_to have_key(:explanation)
 
-          expect(status_attributes[:code])
+          expect(status[:code])
             .to eq nil
         end
       end

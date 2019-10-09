@@ -40,13 +40,13 @@ module API
             next
           end
 
-          writable = property[:writable]
-          if writable == false
+          writeable = property[:writeable]
+          if writeable == false
             property.merge!(readable: false)
           end
 
           # Only filter unwritable if not a lambda
-          unless writable&.respond_to?(:call)
+          unless writeable&.respond_to?(:call)
             add_filter(property, UnwriteablePropertyFilter)
           end
         end

@@ -80,7 +80,7 @@ module Pages
     def within_add_widget_modal(row_number, column_number, location)
       area = area_of(row_number, column_number, location)
       area.hover
-      area.find('.grid--widget-add').click
+      area.find('.grid--widget-add', visible: :all).click
 
       within '.op-modal--portal' do
         yield

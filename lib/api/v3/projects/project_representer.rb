@@ -46,13 +46,24 @@ module API
 
         self_link
 
-        def to_h
+        def from_hash(body)
           # Representable is broken when passing nil as parameters
           # it will set the property :status and :statusExplanation
           # regardless of what the setter actually does
-          super.tap do |result|
-            result.except!(:status, :statusExplanation)
-            result[:status] = result.delete(:status_attributes) if result.key?(:status_attributes)
+          # Bug opened at https://github.com/trailblazer/representable/issues/234
+          super(body).tap do |struct|
+            next unless struct.respond_to?(:status_attributes)
+
+            # Set the status attribute properly
+            struct.status = struct.status_attributes
+
+            # Remove temporary attributes workaround
+            struct.delete_field(:status_attributes)
+
+            # Remove nil status_explanation when passed as nil
+            if struct.respond_to?(:status_explanation)
+              struct.delete_field(:status_explanation)
+            end
           end
         end
 
@@ -193,7 +204,7 @@ module API
                  }
 
         property :status_explanation,
-                 writable: -> { represented.writable?(:status) },
+                 writeable: -> { represented.writable?(:status) },
                  getter: ->(*) {
                    ::API::Decorators::Formattable.new(status&.explanation,
                                                       object: self,

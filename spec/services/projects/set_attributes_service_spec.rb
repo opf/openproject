@@ -259,7 +259,7 @@ describe Projects::SetAttributesService, type: :model do
         context 'with a value provided' do
           let(:call_attributes) do
             {
-              status_attributes: {
+              status: {
                 code: 'on_track',
                 explanation: 'A magic dwells in each beginning.'
               }
@@ -290,7 +290,7 @@ describe Projects::SetAttributesService, type: :model do
           context 'with a value provided' do
             let(:call_attributes) do
               {
-                status_attributes: {
+                status: {
                   code: 'on_track',
                   explanation: 'A magic dwells in each beginning.'
                 }
@@ -316,7 +316,7 @@ describe Projects::SetAttributesService, type: :model do
           context 'with an invalid code' do
             let(:call_attributes) do
               {
-                status_attributes: {
+                status: {
                   code: 'bogus',
                   explanation: 'A magic dwells in each beginning.'
                 }
@@ -351,7 +351,7 @@ describe Projects::SetAttributesService, type: :model do
           context 'with a value provided' do
             let(:call_attributes) do
               {
-                status_attributes: {
+                status: {
                   code: 'at_risk',
                   explanation: 'Still some magic there.'
                 }
