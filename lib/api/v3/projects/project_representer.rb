@@ -46,6 +46,13 @@ module API
 
         self_link
 
+        def to_h
+          # Representable is broken when passing nil as parameters
+          # it will set the property :status and :statusExplanation
+          # regardless of what the setter actually does
+          super.except(:status, :statusExplanation)
+        end
+
         link :createWorkPackage,
              cache_if: -> { current_user_allowed_to(:add_work_packages, context: represented) } do
           {
@@ -163,19 +170,22 @@ module API
         date_time_property :updated_at
 
         property :status,
+                 name_source: ->(*) { I18n.t('activerecord.attributes.project/status.code') },
                  render_nil: true,
                  getter: ->(*) {
                    next unless status&.code
 
                    status.code.to_s.tr('_', ' ')
                  },
-                 setter: ->(fragment:, **) {
-                   self.status ||= {}
-                   status[:code] =
-                     if fragment.nil?
+                 reader: ->(doc:, represented:, **) {
+                   next unless doc.key?('status')
+
+                   represented.status_attributes ||= {}
+                   represented.status_attributes[:code] =
+                     if doc['status'].nil?
                        nil
                      else
-                       fragment.strip.tr(' ', '_').underscore.to_sym
+                       doc['status'].strip.tr(' ', '_').underscore.to_sym
                      end
                  }
 
@@ -186,9 +196,9 @@ module API
                                                       object: self,
                                                       plain: false)
                  },
-                 setter: ->(fragment:, **) {
-                   self.status ||= {}
-                   status[:explanation] = fragment["raw"]
+                 setter: ->(fragment:, represented:, **) {
+                   represented.status_attributes ||= {}
+                   represented.status_attributes[:explanation] = fragment["raw"]
                  }
 
         def _type

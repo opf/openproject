@@ -72,4 +72,8 @@ export class ProjectStatusEditFieldComponent extends EditFieldComponent implemen
   public onClose() {
     // Nothing to do
   }
+
+  public handleKeyDown($event:KeyboardEvent) {
+    console.debug($event);
+  }
 }

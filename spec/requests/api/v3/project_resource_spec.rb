@@ -496,6 +496,37 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       end
     end
 
+    context 'with a nil status' do
+      let(:body) do
+        {
+          status: nil,
+          statusExplanation: {
+            raw: "Some explanation."
+          }
+        }
+      end
+
+      it 'alters the status' do
+        expect(last_response.body)
+          .to be_json_eql(nil.to_json)
+          .at_path('status')
+
+        status = project.status.reload
+        expect(status.code).to be_nil
+        expect(status.explanation).to eq 'Some explanation.'
+
+        expect(last_response.body)
+          .to be_json_eql(
+                {
+                  "format": "markdown",
+                  "html": "<p>Some explanation.</p>",
+                  "raw": "Some explanation."
+                }.to_json
+              )
+          .at_path("statusExplanation")
+      end
+    end
+
     context 'with a status' do
       let(:body) do
         {
