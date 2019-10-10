@@ -6,7 +6,8 @@
   <div *ngFor="let area of layout.widgetAreas; trackBy: identifyGridArea;"
        class="grid--area -widgeted"
        [ngClass]="{'-dragged': drag.isDragged(area),
-                   '-passive': drag.isPassive(area) || resize.isPassive(area) }"
+                   '-passive': drag.isPassive(area) || resize.isPassive(area),
+                   '-resizing' : resize.isResized(area) }"
        [style.grid-row-start]="area.gridStartRow"
        [style.grid-row-end]="area.gridEndRow"
        [style.grid-column-start]="area.gridStartColumn"
@@ -85,15 +86,6 @@
          [title]="add.addText"
          (click)="add.widget(gap, layout.schema)">
     </div>
-  </div>
-
-  <!-- Grid area to visualize resizing -->
-  <div class="grid--area -resizing"
-       *ngIf="resize.placeholderArea"
-       [style.grid-row-start]="resize.placeholderArea.gridStartRow"
-       [style.grid-row-end]="resize.placeholderArea.gridEndRow"
-       [style.grid-column-start]="resize.placeholderArea.gridStartColumn"
-       [style.grid-column-end]="resize.placeholderArea.gridEndColumn">
   </div>
 
   <!-- Grid area used as a placeholder while dragging -->
