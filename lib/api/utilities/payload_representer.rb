@@ -37,9 +37,16 @@ module API
         base.representable_attrs.each do |property|
           if property.name == 'links'
             add_filter(property, LinkRenderBlock)
-          elsif property[:writeable] == false
+            next
+          end
+
+          writeable = property[:writeable]
+          if writeable == false
             property.merge!(readable: false)
-          else
+          end
+
+          # Only filter unwritable if not a lambda
+          unless writeable&.respond_to?(:call)
             add_filter(property, UnwriteablePropertyFilter)
           end
         end

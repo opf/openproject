@@ -22,6 +22,9 @@ module Components
       end
 
       def click_menu_item(text)
+        # Ensure there are no active notifications
+        dismiss_notification!
+
         open_menu
 
         find('a.menu-item', text: text).click
@@ -128,6 +131,14 @@ module Components
         yield action
 
         action.perform
+      end
+
+      def dismiss_notification!
+        if page.has_selector?('.notification-box--close')
+          page.find('.notification-box--close').click
+        end
+
+        expect(page).to have_no_selector('.notification-box')
       end
     end
   end

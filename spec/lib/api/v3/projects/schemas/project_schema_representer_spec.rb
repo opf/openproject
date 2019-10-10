@@ -179,13 +179,24 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
       it_behaves_like 'has no visibility property'
     end
 
+    describe 'statusExplanation' do
+      let(:path) { 'statusExplanation' }
+
+      it_behaves_like 'has basic schema properties' do
+        let(:type) { 'Formattable' }
+        let(:name) { I18n.t('activerecord.attributes.project/status.explanation') }
+        let(:required) { false }
+        let(:writable) { true }
+      end
+    end
+
     describe 'status' do
       let(:path) { 'status' }
 
       it_behaves_like 'has basic schema properties' do
         let(:type) { 'ProjectStatus' }
-        let(:name) { I18n.t('attributes.status') }
-        let(:required) { true }
+        let(:name) { I18n.t('activerecord.attributes.project/status.code') }
+        let(:required) { false }
         let(:writable) { true }
       end
 

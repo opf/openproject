@@ -46,6 +46,27 @@ module API
 
         self_link
 
+        def from_hash(body)
+          # Representable is broken when passing nil as parameters
+          # it will set the property :status and :statusExplanation
+          # regardless of what the setter actually does
+          # Bug opened at https://github.com/trailblazer/representable/issues/234
+          super(body).tap do |struct|
+            next unless struct.respond_to?(:status_attributes)
+
+            # Set the status attribute properly
+            struct.status = struct.status_attributes
+
+            # Remove temporary attributes workaround
+            struct.delete_field(:status_attributes)
+
+            # Remove nil status_explanation when passed as nil
+            if struct.respond_to?(:status_explanation)
+              struct.delete_field(:status_explanation)
+            end
+          end
+        end
+
         link :createWorkPackage,
              cache_if: -> { current_user_allowed_to(:add_work_packages, context: represented) } do
           {
@@ -86,7 +107,7 @@ module API
                current_user_allowed_to(:view_members, context: represented)
              } do
           {
-            href: api_v3_paths.path_for(:memberships, filters: [{ project: { operator: "=", values: [represented.id.to_s] } }]),
+            href: api_v3_paths.path_for(:memberships, filters: [{ project: { operator: "=", values: [represented.id.to_s] }}]),
           }
         end
 
@@ -163,24 +184,35 @@ module API
         date_time_property :updated_at
 
         property :status,
+                 name_source: ->(*) { I18n.t('activerecord.attributes.project/status.code') },
                  render_nil: true,
-                 exec_context: :decorator,
                  getter: ->(*) {
-                   ::API::V3::Projects::Status::ProjectStatusRepresenter.create(represented.status || Project::Status.new,
-                                                                                current_user: current_user)
+                   next unless status&.code
+
+                   status.code.to_s.tr('_', ' ')
                  },
-                 setter: ->(fragment:, **) {
-                   status = fragment.with_indifferent_access.slice(:explanation)
+                 reader: ->(doc:, represented:, **) {
+                   next unless doc.key?('status')
 
-                   if fragment.key?('code')
-                     status[:code] = if fragment['code'].nil?
-                                       nil
-                                     else
-                                       fragment['code'].strip.tr(' ', '_').underscore.to_sym
-                                     end
-                   end
+                   represented.status_attributes ||= {}
+                   represented.status_attributes[:code] =
+                     if doc['status'].nil?
+                       nil
+                     else
+                       doc['status'].strip.tr(' ', '_').underscore.to_sym
+                     end
+                 }
 
-                   represented.status = status
+        property :status_explanation,
+                 writeable: -> { represented.writable?(:status) },
+                 getter: ->(*) {
+                   ::API::Decorators::Formattable.new(status&.explanation,
+                                                      object: self,
+                                                      plain: false)
+                 },
+                 setter: ->(fragment:, represented:, **) {
+                   represented.status_attributes ||= {}
+                   represented.status_attributes[:explanation] = fragment["raw"]
                  }
 
         def _type

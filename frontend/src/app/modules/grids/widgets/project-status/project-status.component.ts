@@ -37,6 +37,8 @@ import {PortalCleanupService} from 'core-app/modules/fields/display/display-port
 import {WorkPackageViewHighlightingService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {ProjectCacheService} from "core-components/projects/project-cache.service";
+import {from, Observable} from "rxjs";
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 
 export const emptyPlaceholder = '-';
 
@@ -48,89 +50,94 @@ export const emptyPlaceholder = '-';
     // required by the displayField service to render the fields
     PortalCleanupService,
     WorkPackageViewHighlightingService,
-    IsolatedQuerySpace
+    IsolatedQuerySpace,
+    HalResourceEditingService
   ]
 })
 export class WidgetProjectStatusComponent extends AbstractWidgetComponent implements OnInit {
+
   @ViewChild('contentContainer', { static: true }) readonly contentContainer:ElementRef;
 
   public currentStatusCode:string = 'not set';
   public explanation:String = '';
-  public availableStatuses:any[] = [
-    {
-      code: 'not set',
-      name: this.i18n.t('js.grid.widgets.project_status.not_set'),
-      colorClass: '-gray',
-    },
-    {
-      code: 'off track',
-      name: this.i18n.t('js.grid.widgets.project_status.off_track'),
-      colorClass: '-red',
-    },
-    {
-      code: 'on track',
-      name: this.i18n.t('js.grid.widgets.project_status.on_track'),
-      colorClass: '-green',
-    },
-    {
-      code: 'at risk',
-      name: this.i18n.t('js.grid.widgets.project_status.at_risk'),
-      colorClass: '-orange',
-    },
-  ];
+  public project$:Observable<ProjectResource>;
+  // public availableStatuses:any[] = [
+  //   {
+  //     code: 'not set',
+  //     name: this.i18n.t('js.grid.widgets.project_status.not_set'),
+  //     colorClass: '-gray',
+  //   },
+  //   {
+  //     code: 'off track',
+  //     name: this.i18n.t('js.grid.widgets.project_status.off_track'),
+  //     colorClass: '-red',
+  //   },
+  //   {
+  //     code: 'on track',
+  //     name: this.i18n.t('js.grid.widgets.project_status.on_track'),
+  //     colorClass: '-green',
+  //   },
+  //   {
+  //     code: 'at risk',
+  //     name: this.i18n.t('js.grid.widgets.project_status.at_risk'),
+  //     colorClass: '-orange',
+  //   },
+  // ];
 
   constructor(protected readonly i18n:I18nService,
               protected readonly injector:Injector,
               protected readonly projectDm:ProjectDmService,
               protected readonly projectCache:ProjectCacheService,
               protected readonly currentProject:CurrentProjectService,
-              protected readonly cdr:ChangeDetectorRef) {
+              protected readonly cdRef:ChangeDetectorRef) {
     super(i18n, injector);
   }
 
   ngOnInit() {
-    this.loadAndRender();
+    // this.loadAndRender();
+    this.project$ = this.projectCache.requireAndStream(this.currentProject.id!);
+    this.cdRef.detectChanges();
   }
 
   public get isEditable() {
     return false;
   }
 
-  private loadAndRender() {
-    Promise.all(
-        [this.loadCurrentProject(),
-        this.loadProjectSchema()]
-      )
-      .then(([project, schema]) => {
-        if (project.status && project.status.code) {
-          this.currentStatusCode = project.status.code;
-        } else {
-          this.currentStatusCode = 'not set';
-        }
+  // private loadAndRender() {
+  //   Promise.all(
+  //       [this.loadCurrentProject(),
+  //       this.loadProjectSchema()]
+  //     )
+  //     .then(([project, schema]) => {
+  //       if (project.status && project.status.code) {
+  //         this.currentStatusCode = project.status.code;
+  //       } else {
+  //         this.currentStatusCode = 'not set';
+  //       }
+  //
+  //       if (project.status && project.status.explanation) {
+  //         this.explanation = project.status.explanation.html;
+  //       } else {
+  //         this.explanation = '';
+  //       }
+  //
+  //       this.redraw();
+  //     });
+  // }
 
-        if (project.status && project.status.explanation) {
-          this.explanation = project.status.explanation.html;
-        } else {
-          this.explanation = '';
-        }
-
-        this.redraw();
-      });
-  }
-
-  private loadCurrentProject() {
-    return this.projectCache.require(this.currentProject.id as string);
-  }
-
-  public get isLoaded() {
-    return this.projectCache.state(this.currentProject.id as string).value;
-  }
-
-  private loadProjectSchema() {
-    return this.projectDm.schema();
-  }
-
-  private redraw() {
-    this.cdr.detectChanges();
-  }
+  // private loadCurrentProject() {
+  //   return this.projectCache.require(this.currentProject.id as string);
+  // }
+  //
+  // public get isLoaded() {
+  //   return this.projectCache.state(this.currentProject.id as string).value;
+  // }
+  //
+  // private loadProjectSchema() {
+  //   return this.projectDm.schema();
+  // }
+  //
+  // private redraw() {
+  //   this.cdRef.detectChanges();
+  // }
 }

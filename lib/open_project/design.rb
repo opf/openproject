@@ -204,7 +204,11 @@ module OpenProject
       'status-selector-bg-color'                             => '#F99601',
       'status-selector-bg-hover-color'                       => '#E08600',
       'card-font-size'                                       => '16px',
-      'board-teaser-image'                                   => '#{image-url("boards_video_teaser.png")}'
+      'board-teaser-image'                                   => '#{image-url("boards_video_teaser.png")}',
+      'project-status-gray'                                  => '#CCCCCC',
+      'project-status-red'                                   => '#E73E3D',
+      'project-status-orange'                                => '#FFB030',
+      'project-status-green'                                 => '#00D12D'
     }.freeze
 
     # Regular expression for references of other variables.

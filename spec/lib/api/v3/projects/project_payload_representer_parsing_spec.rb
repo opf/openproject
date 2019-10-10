@@ -43,10 +43,8 @@ describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
     context 'status' do
       let(:hash) do
         {
-          "status" => {
-            "code" => 'on track',
-            "explanation" => 'status code explanation'
-          }
+          'status' => 'on track',
+          'statusExplanation' => { 'raw' => 'status code explanation' }
         }
       end
 
@@ -54,10 +52,7 @@ describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
         project = representer.from_hash(hash)
         expect(project.status[:code])
           .to eql(:on_track)
-      end
 
-      it 'updates explanation' do
-        project = representer.from_hash(hash)
         expect(project.status[:explanation])
           .to eql('status code explanation')
       end
@@ -65,9 +60,7 @@ describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
       context 'with code not provided' do
         let(:hash) do
           {
-            "status" => {
-              "explanation" => 'status code explanation'
-            }
+            'statusExplanation' => { 'raw' => 'status code explanation' }
           }
         end
 
@@ -87,9 +80,7 @@ describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
       context 'with explanation not provided' do
         let(:hash) do
           {
-            "status" => {
-              "code" => 'off track'
-            }
+            'status' => 'off track'
           }
         end
 
@@ -109,23 +100,25 @@ describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
       context 'with null for a scope' do
         let(:hash) do
           {
-            "status" => {
-              "code" => nil
-            }
+            'status' => nil
           }
         end
 
-        it 'does set code to nil' do
+        it 'does set status to nil' do
           project = representer.from_hash(hash).to_h
 
           expect(project)
-            .to be_key(:status)
+            .to have_key(:status)
 
-          expect(project[:status])
-            .to be_key(:code)
+          status = project[:status]
+          expect(status)
+            .to have_key(:code)
 
-          expect(project[:status][:code])
-            .to eql nil
+          expect(status)
+            .not_to have_key(:explanation)
+
+          expect(status[:code])
+            .to eq nil
         end
       end
     end

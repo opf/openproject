@@ -67,7 +67,17 @@ module API
 
           schema :status,
                  type: 'ProjectStatus',
-                 visibility: false
+                 name_source: ->(*) { I18n.t('activerecord.attributes.project/status.code') },
+                 visibility: false,
+                 required: false,
+                 writable: ->(*) { represented.writable?(:status) }
+
+          schema :status_explanation,
+                 type: 'Formattable',
+                 name_source: ->(*) { I18n.t('activerecord.attributes.project/status.explanation') },
+                 visibility: false,
+                 required: false,
+                 writable: ->(*) { represented.writable?(:status) }
 
           schema_with_allowed_link :parent,
                                    type: 'Project',

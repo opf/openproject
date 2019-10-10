@@ -73,7 +73,7 @@ export class GridComponent implements OnDestroy, OnInit {
     let registration = this.widgetsService.registered.find((reg) => reg.identifier === widget.identifier);
 
     if (!registration) {
-      debugLog(`No widget registered with identifier ${widget.identifier}`);
+      // debugLog(`No widget registered with identifier ${widget.identifier}`);
 
       return null;
     } else {

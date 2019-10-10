@@ -37,8 +37,8 @@ describe Projects::SetAttributesService, type: :model do
 
     allow(contract)
       .to receive(:new)
-      .with(project, user)
-      .and_return(contract_instance)
+            .with(project, user)
+            .and_return(contract_instance)
 
     contract
   end
@@ -69,11 +69,11 @@ describe Projects::SetAttributesService, type: :model do
     before do
       allow(project)
         .to receive(:valid?)
-        .and_return(project_valid)
+              .and_return(project_valid)
 
       expect(contract_instance)
         .to receive(:validate)
-        .and_return(contract_valid)
+              .and_return(contract_valid)
     end
 
     subject { instance.call(call_attributes) }
@@ -102,7 +102,7 @@ describe Projects::SetAttributesService, type: :model do
       end
 
       context 'identifier default value' do
-        context 'with a default identifier configured', with_settings: { sequential_project_identifiers: true } do
+        context 'with a default identifier configured', with_settings: {sequential_project_identifiers: true} do
           context 'with an identifier provided' do
             let(:call_attributes) do
               {
@@ -120,7 +120,7 @@ describe Projects::SetAttributesService, type: :model do
             it 'sets a default identifier' do
               allow(Project)
                 .to receive(:next_identifier)
-                .and_return('ipsum')
+                      .and_return('ipsum')
 
               expect(subject.result.identifier)
                 .to eql 'ipsum'
@@ -128,7 +128,7 @@ describe Projects::SetAttributesService, type: :model do
           end
         end
 
-        context 'without a default identifier configured', with_settings: { sequential_project_identifiers: false } do
+        context 'without a default identifier configured', with_settings: {sequential_project_identifiers: false} do
           context 'with an identifier provided' do
             let(:call_attributes) do
               {
@@ -146,7 +146,7 @@ describe Projects::SetAttributesService, type: :model do
             it 'stays nil' do
               allow(Project)
                 .to receive(:next_identifier)
-                .and_return('ipsum')
+                      .and_return('ipsum')
 
               expect(subject.result.identifier)
                 .to be_nil
@@ -155,7 +155,7 @@ describe Projects::SetAttributesService, type: :model do
         end
       end
 
-      context 'public default value', with_settings: { default_projects_public: true } do
+      context 'public default value', with_settings: {default_projects_public: true} do
         context 'with a value for is_public provided' do
           let(:call_attributes) do
             {
@@ -177,7 +177,7 @@ describe Projects::SetAttributesService, type: :model do
         end
       end
 
-      context 'enabled_module_names default value', with_settings: { default_projects_modules: ['lorem', 'ipsum'] } do
+      context 'enabled_module_names default value', with_settings: {default_projects_modules: ['lorem', 'ipsum']} do
         context 'with a value for enabled_module_names provided' do
           let(:call_attributes) do
             {
@@ -220,7 +220,7 @@ describe Projects::SetAttributesService, type: :model do
         before do
           allow(Type)
             .to receive(:default)
-            .and_return default_types
+                  .and_return default_types
         end
 
         context 'with a value for types provided' do

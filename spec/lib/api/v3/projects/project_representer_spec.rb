@@ -120,27 +120,27 @@ describe ::API::V3::Projects::ProjectRepresenter do
       end
 
       context 'status' do
-        it_behaves_like 'formattable property', :'status/explanation' do
+        it_behaves_like 'formattable property', 'statusExplanation' do
           let(:value) { status.explanation }
         end
 
         it 'includes the project status code' do
           expect(subject)
             .to be_json_eql(status.code.tr('_', ' ').to_json)
-            .at_path('status/code')
+            .at_path('status')
         end
 
         context 'if the status is nil' do
           let(:status) { nil }
 
-          it_behaves_like 'formattable property', :'status/explanation' do
+          it_behaves_like 'formattable property', 'statusExplanation' do
             let(:value) { nil }
           end
 
           it 'includes the project status code' do
             expect(subject)
               .to be_json_eql(nil.to_json)
-              .at_path('status/code')
+              .at_path('status')
           end
         end
       end
