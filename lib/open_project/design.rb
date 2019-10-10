@@ -208,7 +208,8 @@ module OpenProject
       'project-status-gray'                                  => '#CCCCCC',
       'project-status-red'                                   => '#E73E3D',
       'project-status-orange'                                => '#FFB030',
-      'project-status-green'                                 => '#00D12D'
+      'project-status-green'                                 => '#00D12D',
+      'grid-background-color'                                => '#F3F6F8'
     }.freeze
 
     # Regular expression for references of other variables.
