@@ -24,6 +24,10 @@ in-depth [installation guides](https://www.openproject.org/download-and-installa
 If you're a developer wanting to set-up a local environment for contributing to OpenProject or
 developing plugins, you should refer instead to our [Quick Start for Developers](https://www.openproject.org/development/setting-up-development-environment/).
 
+## Reporting bugs
+
+You found a bug? Please report it to our [OpenProjet community](https://community.openproject.com/projects/openproject). Thank you!
+
 ## Contact
 
 OpenProject is supported by its community members, both companies and individuals.
