@@ -35,15 +35,20 @@
 # creation and deletion of repositories BOTH on the database and filesystem.
 # Until then, a synchronous process is more failsafe.
 class Scm::CreateLocalRepositoryJob < ApplicationJob
-  def perform(repository)
-    @repository = repository
 
+  def self.ensure_not_existing!(repository)
     # Cowardly refusing to override existing local repository
     if File.directory?(repository.root_url)
       raise OpenProject::Scm::Exceptions::ScmError.new(
         I18n.t('repositories.errors.exists_on_filesystem')
       )
     end
+  end
+
+  def perform(repository)
+    @repository = repository
+
+    self.class.ensure_not_existing!(repository)
 
     # Create the repository locally.
     mode = (config[:mode] || default_mode)

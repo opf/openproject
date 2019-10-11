@@ -59,7 +59,7 @@ describe 'API v3 Work package resource',
     FactoryBot
       .create(:user, member_in_project: project, member_through_role: role)
       .tap do |user|
-      work_package.add_watcher(user)
+        work_package.add_watcher(user)
     end
   end
   let(:unauthorize_user) { FactoryBot.create(:user) }
@@ -91,7 +91,7 @@ describe 'API v3 Work package resource',
 
       expect(subject.body)
         .to be_json_eql(api_v3_paths.work_package_schema(project.id, work_package.type.id).to_json)
-              .at_path('_embedded/schemas/_embedded/elements/0/_links/self/href')
+        .at_path('_embedded/schemas/_embedded/elements/0/_links/self/href')
     end
 
     context 'user not seeing any work packages' do
@@ -258,8 +258,9 @@ describe 'API v3 Work package resource',
     context 'user with needed permissions' do
       shared_examples_for 'lock version updated' do
         it {
-          expect(subject.body).to be_json_eql(work_package.reload.lock_version)
-                                    .at_path('lockVersion')
+          expect(subject.body)
+            .to be_json_eql(work_package.reload.lock_version)
+            .at_path('lockVersion')
         }
       end
 
@@ -325,7 +326,7 @@ describe 'API v3 Work package resource',
           it 'has a readonly error' do
             expect(response.body)
               .to be_json_eql('urn:openproject-org:api:v3:errors:PropertyIsReadOnly'.to_json)
-                    .at_path('errorIdentifier')
+              .at_path('errorIdentifier')
           end
         end
       end
@@ -573,7 +574,7 @@ describe 'API v3 Work package resource',
           it 'responds with the new custom field having the desired value' do
             expect(subject.body)
               .to be_json_eql(true.to_json)
-                    .at_path("customField#{custom_field.id}")
+              .at_path("customField#{custom_field.id}")
           end
         end
       end
@@ -740,8 +741,9 @@ describe 'API v3 Work package resource',
           it { expect(response.status).to eq(200) }
 
           it 'should respond with the work package assigned to the version' do
-            expect(subject.body).to be_json_eql(target_version.name.to_json)
-                                      .at_path('_embedded/version/name')
+            expect(subject.body)
+              .to be_json_eql(target_version.name.to_json)
+              .at_path('_embedded/version/name')
           end
 
           it_behaves_like 'lock version updated'
@@ -757,7 +759,7 @@ describe 'API v3 Work package resource',
           it 'has a readonly error' do
             expect(response.body)
               .to be_json_eql('urn:openproject-org:api:v3:errors:PropertyIsReadOnly'.to_json)
-                    .at_path('errorIdentifier')
+              .at_path('errorIdentifier')
           end
         end
       end
@@ -776,8 +778,9 @@ describe 'API v3 Work package resource',
           it { expect(response.status).to eq(200) }
 
           it 'should respond with the work package assigned to the category' do
-            expect(subject.body).to be_json_eql(target_category.name.to_json)
-                                      .at_path('_embedded/category/name')
+            expect(subject.body)
+              .to be_json_eql(target_category.name.to_json)
+              .at_path('_embedded/category/name')
           end
 
           it_behaves_like 'lock version updated'
@@ -798,8 +801,9 @@ describe 'API v3 Work package resource',
           it { expect(response.status).to eq(200) }
 
           it 'should respond with the work package assigned to the priority' do
-            expect(subject.body).to be_json_eql(target_priority.name.to_json)
-                                      .at_path('_embedded/priority/name')
+            expect(subject.body)
+              .to be_json_eql(target_priority.name.to_json)
+              .at_path('_embedded/priority/name')
           end
 
           it_behaves_like 'lock version updated'
@@ -834,8 +838,9 @@ describe 'API v3 Work package resource',
           it { expect(response.status).to eq(200) }
 
           it 'should respond with the work package assigned to the new value' do
-            expect(subject.body).to be_json_eql(value_link.to_json)
-                                      .at_path("_links/#{custom_field.accessor_name.camelize(:lower)}/href")
+            expect(subject.body)
+              .to be_json_eql(value_link.to_json)
+              .at_path("_links/#{custom_field.accessor_name.camelize(:lower)}/href")
           end
 
           it_behaves_like 'lock version updated'

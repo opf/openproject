@@ -84,7 +84,7 @@ class CopyProjectsController < ApplicationController
     CopyProjectJob.perform_later(user_id: User.current.id,
                                  source_project_id: @project.id,
                                  target_project_params: target_project_params,
-                                 associations_to_copy: params[:only].reject(&:blank?),
+                                 associations_to_copy: params[:only],
                                  send_mails: params[:notifications] == '1')
   end
 

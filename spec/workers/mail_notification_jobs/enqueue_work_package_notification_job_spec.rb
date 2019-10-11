@@ -244,7 +244,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
 
       allow(instance)
         .to receive(:text_for_mentions)
-              .and_return(added_text)
+        .and_return(added_text)
 
       instance.send(:mentioned)
     end

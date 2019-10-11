@@ -1,5 +1,7 @@
 shared_examples_for 'repository can be relocated' do |vendor|
-  let(:job_call) { ::Scm::RelocateRepositoryJob.perform_now repository }
+  let(:job_call) do
+    ::Scm::RelocateRepositoryJob.perform_now repository
+  end
   let(:project) { FactoryBot.build :project }
   let(:repository) {
     repo = FactoryBot.build("repository_#{vendor}".to_sym,
@@ -8,6 +10,7 @@ shared_examples_for 'repository can be relocated' do |vendor|
 
     repo.configure(:managed, nil)
     repo.save!
+    perform_enqueued_jobs
 
     repo
   }

@@ -87,15 +87,13 @@ describe JournalNotificationMailer do
         end
 
         it 'sends no notification' do
-          expect(EnqueueWorkPackageNotificationJob).not_to receive(:set)
-          call_listener
+          expect { call_listener }.not_to enqueue_job(EnqueueWorkPackageNotificationJob)
         end
       end
     end
 
     it 'sends no notification' do
-      expect(EnqueueWorkPackageNotificationJob).not_to receive(:set)
-      call_listener
+      expect { call_listener }.not_to enqueue_job(EnqueueWorkPackageNotificationJob)
     end
   end
 
@@ -124,15 +122,13 @@ describe JournalNotificationMailer do
           let(:journal) { FactoryBot.create(:work_package).journals.first }
 
           it 'sends no notification' do
-            expect(EnqueueWorkPackageNotificationJob).not_to receive(:set)
-            call_listener
+            expect { call_listener }.not_to enqueue_job(EnqueueWorkPackageNotificationJob)
           end
         end
       end
 
       it 'sends no notification' do
-        expect(EnqueueWorkPackageNotificationJob).not_to receive(:set)
-        call_listener
+        expect { call_listener }.not_to enqueue_job(EnqueueWorkPackageNotificationJob)
       end
     end
 
@@ -169,8 +165,7 @@ describe JournalNotificationMailer do
       let(:send_notification) { false }
 
       it 'sends no notification' do
-        expect(EnqueueWorkPackageNotificationJob).not_to receive(:set)
-        call_listener
+        expect { call_listener }.not_to enqueue_job(EnqueueWorkPackageNotificationJob)
       end
     end
   end

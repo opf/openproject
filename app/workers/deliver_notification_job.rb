@@ -28,6 +28,8 @@
 #++
 
 class DeliverNotificationJob < ApplicationJob
+  queue_with_priority :notification
+
   def perform(recipient_id, sender_id)
     @recipient_id = recipient_id
     @sender_id = sender_id

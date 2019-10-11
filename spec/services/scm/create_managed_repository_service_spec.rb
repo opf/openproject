@@ -98,6 +98,7 @@ describe Scm::CreateManagedRepositoryService do
 
     it 'creates the repository' do
       expect(service.call).to be true
+      perform_enqueued_jobs
       expect(File.directory?(repository.root_url)).to be true
     end
 

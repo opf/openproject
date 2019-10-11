@@ -64,19 +64,19 @@ describe 'API v3 User resource', type: :request, content_type: :json do
       it 'contains the user in the response' do
         expect(subject.body)
           .to be_json_eql(current_user.name.to_json)
-                .at_path('_embedded/elements/0/name')
+          .at_path('_embedded/elements/0/name')
       end
 
       it 'contains the current user in the response' do
         expect(subject.body)
           .to be_json_eql(user.name.to_json)
-                .at_path('_embedded/elements/1/name')
+          .at_path('_embedded/elements/1/name')
       end
 
       it 'has the users index path for link self href' do
         expect(subject.body)
           .to be_json_eql((api_v3_paths.users + '?offset=1&pageSize=30').to_json)
-                .at_path('_links/self/href')
+          .at_path('_links/self/href')
       end
 
       context 'if pageSize = 1 and offset = 2' do
@@ -85,7 +85,7 @@ describe 'API v3 User resource', type: :request, content_type: :json do
         it 'contains the current user in the response' do
           expect(subject.body)
             .to be_json_eql(user.name.to_json)
-                  .at_path('_embedded/elements/0/name')
+            .at_path('_embedded/elements/0/name')
         end
       end
 
@@ -102,13 +102,13 @@ describe 'API v3 User resource', type: :request, content_type: :json do
         it 'contains the filtered user in the response' do
           expect(subject.body)
             .to be_json_eql(user.name.to_json)
-                  .at_path('_embedded/elements/0/name')
+            .at_path('_embedded/elements/0/name')
         end
 
         it 'contains no more users' do
           expect(subject.body)
             .to be_json_eql(1.to_json)
-                  .at_path('total')
+            .at_path('total')
         end
       end
 
@@ -126,13 +126,13 @@ describe 'API v3 User resource', type: :request, content_type: :json do
         it 'contains the first user as the first element' do
           expect(subject.body)
             .to be_json_eql(users_by_name_order[0].name.to_json)
-                  .at_path('_embedded/elements/0/name')
+            .at_path('_embedded/elements/0/name')
         end
 
         it 'contains the first user as the second element' do
           expect(subject.body)
             .to be_json_eql(users_by_name_order[1].name.to_json)
-                  .at_path('_embedded/elements/1/name')
+            .at_path('_embedded/elements/1/name')
         end
       end
 

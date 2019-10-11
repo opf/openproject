@@ -641,6 +641,8 @@ describe SysController, type: :controller do
               expect(response.code).to eq('200')
               expect(response.body).to include('Updated: true')
 
+              perform_enqueued_jobs
+
               repository.reload
               expect(repository.required_storage_bytes).to be > 0
             end

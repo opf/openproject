@@ -618,6 +618,8 @@ describe AccountController, type: :controller do
           end
 
           it "notifies the admins about the issue" do
+            perform_enqueued_jobs
+
             mail = ActionMailer::Base.deliveries.last
 
             expect(mail.subject).to match /limit reached/
@@ -871,6 +873,8 @@ describe AccountController, type: :controller do
       end
 
       it "notifies the admins about the issue" do
+        perform_enqueued_jobs
+
         mail = ActionMailer::Base.deliveries.last
 
         expect(mail.subject).to match /limit reached/
@@ -973,8 +977,10 @@ describe AccountController, type: :controller do
 
         it 'sends out a new activation email' do
           new_token = Token::Invitation.find_by(user_id: token.user.id)
-          mail = ActionMailer::Base.deliveries.last
 
+          perform_enqueued_jobs
+
+          mail = ActionMailer::Base.deliveries.last
           expect(mail.parts.first.body.raw_source).to include "activate?token=#{new_token.value}"
         end
       end

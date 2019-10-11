@@ -28,6 +28,8 @@
 #++
 
 class DeliverInvitationJob < ApplicationJob
+  queue_with_priority :high
+
   def perform(token)
     if token
       UserMailer.user_signed_up(token).deliver_later

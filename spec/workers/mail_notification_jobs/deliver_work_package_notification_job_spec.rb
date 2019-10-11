@@ -52,10 +52,9 @@ describe DeliverWorkPackageNotificationJob, type: :model do
   end
 
   it 'sends a mail' do
-    expect(UserMailer).to receive(:work_package_added).with(
-                            recipient,
-                            an_instance_of(Journal::AggregatedJournal),
-                            author)
+    expect(UserMailer)
+      .to receive(:work_package_added)
+      .with(recipient, an_instance_of(Journal::AggregatedJournal), author)
     subject
   end
 
@@ -81,8 +80,9 @@ describe DeliverWorkPackageNotificationJob, type: :model do
     end
 
     it 'uses the deleted user as author' do
-      expect(UserMailer).to receive(:work_package_added)
-                              .with(anything, anything, DeletedUser.first)
+      expect(UserMailer)
+        .to receive(:work_package_added)
+        .with(anything, anything, DeletedUser.first)
 
       subject
     end
