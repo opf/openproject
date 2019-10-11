@@ -155,7 +155,6 @@ module OpenProject
       'user-avatar-mini-height'                              => "20px",
       'user-avatar-default-bg-color'                         => "#090952",
       'select-element-padding'                               => "3px, 24px, 3px, 3px",
-      'widget-box-content-bg-color'                          => "$body-background",
       'widget-box-block-bg-color'                            => "$body-background",
       'widget-box-block-border-color'                        => "$content-default-border-color",
       'homescreen-footer-bg-color'                           => "$gray-light",
