@@ -116,15 +116,14 @@ lt:
         time_based: 'Time based'
         account: 'Account name / Issuer'
         setup: |
-          For setting up two-factor authentication with Google Authenticator, download the application from the Apple App store or Google Play Store.
-          After opening the app, you can scan the following QR code to register the device.
+          Norėdami įjungti dviejų veiksnių autentikaciją su Google Authenticator, atsisiųskite aplikaciją iš Apple App ar Google Play Store.
+          Atidarę aplikaciją jūs galėsite nuskenuoti šį QR kodą ir priregistruoti įrenginį.
         question_cannot_scan: |
-          Unable to scan the code using your application?
+          Negalite nuskenuoti kodo su jūsų aplikacija?
         text_cannot_scan: |
-          If you can't scan the code, you can enter the entry manually using the following details:
+          Jei negalite nuskenuoti kodo, jūs galite jį įvesti rankomis naudodami šią informaciją:
         description: |
-          Register an application authenticator for use with OpenProject using the time-based one-time password authentication standard.
-          Common examples are Google Authenticator or Authy.
+          Registruokite aplikacijos autentikatorių OpenProject'e naudodami nuo laiko priklausančio ar vienkartinio slaptažodžio autentikavimo standartą. Pavyzdžiai yra Google Authenticator arba Authy.
       sms:
         title: 'Naudoti jūsų mibilų telefoną'
         redacted_identifier: 'Mobilus įrenginys (%{redacted_number})'
@@ -132,7 +131,7 @@ lt:
         description: |
           Registruokite savo mobilų telefoną OpenProject vienkartinių slaptažodžių siuntimui.
     sns:
-      delivery_failed: 'SNS delivery failed:'
+      delivery_failed: 'SNS pristatymas nepavyko:'
     message_bird:
       sms_delivery_failed: 'MessageBird SMS delivery failed.'
       voice_delivery_failed: 'MessageBird voice call failed.'

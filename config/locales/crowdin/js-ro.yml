@@ -142,7 +142,7 @@ ro:
         work_package_button:
           button: 'Insert create work package button'
           type: 'Tip pachet de lucru'
-          button_style: 'Use button style'
+          button_style: 'Folosește butonul de stil'
           button_style_hint: 'Optional: Bifați pentru a vedea comenzile macro sub formă de butoane, nu sub formă de link.'
           without_type: 'Creați pachet de lucru'
           with_type: 'Creați pachet de lucru (Tip: %{typename})'
