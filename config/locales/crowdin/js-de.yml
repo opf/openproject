@@ -193,8 +193,8 @@ de:
     general_text_Yes: "Ja"
     hal:
       error:
-        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
-        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        update_conflict_refresh: "Klicken Sie hier, um die Ressource auf die neueste Version zu aktualisieren."
+        edit_prohibited: "Die Bearbeitung von %{attribute} ist für diese Ressource blockiert. Entweder wird dieses Attribut aus Relationen abgeleitet (z. B. childs) oder es ist nicht konfigurierbar."
         format:
           date: "%{attribute} ist kein gültiges Datum - Erwartetes Format: YYY-MM-DD."
         general: "Ein Fehler ist aufgetreten."
