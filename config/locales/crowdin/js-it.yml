@@ -194,8 +194,8 @@ it:
     general_text_Yes: "Si"
     hal:
       error:
-        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
-        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        update_conflict_refresh: "Clicca qui per ricaricare il pacchetto di lavoro e aggiornare alla versione più recente."
+        edit_prohibited: "La modifica di %{attribute} è bloccata per questa macro-attività. Questo attributo o deriva da relazioni (ad es., con attività subordinate) oppure non è configurabile."
         format:
           date: "%{attribute} data non valida - atteso YYYY-MM-DD."
         general: "Si è verificato un errore."

@@ -349,11 +349,11 @@ it:
         work_packages: "Macro-attività"
       project/status:
         code: 'Stato'
-        explanation: 'Status description'
+        explanation: 'Descrizione stato'
         codes:
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
+          on_track: 'A posto'
+          at_risk: 'A rischio'
+          off_track: 'Fuori controllo'
       query:
         column_names: "Colonne"
         relations_to_type_column: "Relazioni con %{type}"
@@ -2536,7 +2536,7 @@ it:
       messages:
         #Common error messages
         invalid_request: 'Nella richiesta non è presente un parametro richiesto, include un valore di parametro non supportato, o non è valido.'
-        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
+        invalid_redirect_uri: "Il reindirizzamento dell'URI richiesto non è valido o non corrisponde all'URl di reindirizzamento del client."
         unauthorized_client: 'Il client non è autorizzato ad eseguire questa richiesta usando questo metodo.'
         access_denied: 'Il proprietario della risorsa o il server di autorizzazione hanno rifiutato la richiesta.'
         invalid_scope: 'Lo scopo richiesto non è non valido, sconosciuto o malformato.'
