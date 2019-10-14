@@ -49,11 +49,12 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
     link.setAttribute('title', this.text.linkTitle);
 
     if (this.resource.project) {
+      const wpID = this.resource.id.toString();
       this.projectCacheService
         .require(this.resource.project.idFromLink)
         .then((project:ProjectResource) => {
           const href = URI(this.PathHelper.projectTimeEntriesPath(project.identifier))
-            .search({work_package_id: this.resource.id})
+            .search({work_package_id: wpID})
             .toString();
 
           link.href = href;
