@@ -14,7 +14,7 @@
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5)
 
   display: grid
-  grid-template: auto auto auto / auto auto 1fr 1fr
+  grid-template: auto auto auto / 150px auto 1fr 1fr
   grid-column-gap: 5px
   grid-row-gap: 10px
   grid-template-areas: "type subject subject subject" "author author author author" "status status . assignee"
@@ -24,12 +24,14 @@
   padding: 0px 10px
 
 .type
+  @include text-shortener
   grid-area: type
 
 .author
   grid-area: author
 
 .subject
+  @include text-shortener
   grid-area: subject
 
 .assignee
