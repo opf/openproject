@@ -220,6 +220,7 @@ module API
         end
 
         self.to_eager_load = [:status,
+                              :parent,
                               :enabled_modules,
                               custom_values: :custom_field]
 
