@@ -30,18 +30,23 @@
 
 module API
   module V3
-    module Projects
-      class ProjectEagerLoadingWrapper < API::V3::Utilities::EagerLoading::EagerLoadingWrapper
-        include API::V3::Utilities::EagerLoading::CustomFieldAccessor
+    module Utilities
+      module EagerLoading
+        class EagerLoadingWrapper < SimpleDelegator
+          private_class_method :new
 
-        class << self
-          def wrap(projects)
-            custom_fields = if projects && !projects.empty?
-                              projects.first.available_custom_fields
-                            end
+          ##
+          # Workaround against warnings in flatten
+          # delegator does not forward private method #to_ary
+          def to_ary
+            __getobj__.send(:to_ary)
+          end
 
-            super
-              .each { |project| project.available_custom_fields = custom_fields }
+          class << self
+            def wrap(objects)
+              objects
+                .map { |object| new(object) }
+            end
           end
         end
       end
