@@ -50,7 +50,7 @@ class CopyProjectsController < ApplicationController
     @copy_project = Project.copy_attributes(@project)
 
     if @copy_project
-      @errors = project_copy(@copy_project).errors
+      project_copy(@copy_project, EmptyContract)
 
       render action: copy_action
     else
@@ -68,11 +68,11 @@ class CopyProjectsController < ApplicationController
     "copy_from_#{from}"
   end
 
-  def project_copy(nucleous)
+  def project_copy(nucleous, contract = Projects::CreateContract)
     Projects::SetAttributesService
       .new(user: current_user,
            model: nucleous,
-           contract_class: Projects::CreateContract)
+           contract_class: contract)
       .call(params[:project] ? permitted_params.project : {})
   end
 
