@@ -36,7 +36,11 @@ module API
 
         resources :available_projects do
           get &::API::V3::Utilities::Endpoints::Index.new(model: Project,
-                                                          scope: -> { Project.allowed_to(User.current, :manage_versions) })
+                                                          scope: -> {
+                                                            Project
+                                                              .allowed_to(User.current, :manage_versions)
+                                                              .includes(::API::V3::Projects::ProjectRepresenter.to_eager_load)
+                                                          })
                                                      .mount
         end
       end
