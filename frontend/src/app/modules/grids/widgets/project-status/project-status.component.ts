@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2019 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -40,8 +40,6 @@ import {ProjectCacheService} from "core-components/projects/project-cache.servic
 import {from, Observable} from "rxjs";
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 
-export const emptyPlaceholder = '-';
-
 @Component({
   templateUrl: './project-status.component.html',
   styleUrls: ['./project-status.component.sass'],
@@ -61,28 +59,6 @@ export class WidgetProjectStatusComponent extends AbstractWidgetComponent implem
   public currentStatusCode:string = 'not set';
   public explanation:String = '';
   public project$:Observable<ProjectResource>;
-  // public availableStatuses:any[] = [
-  //   {
-  //     code: 'not set',
-  //     name: this.i18n.t('js.grid.widgets.project_status.not_set'),
-  //     colorClass: '-gray',
-  //   },
-  //   {
-  //     code: 'off track',
-  //     name: this.i18n.t('js.grid.widgets.project_status.off_track'),
-  //     colorClass: '-red',
-  //   },
-  //   {
-  //     code: 'on track',
-  //     name: this.i18n.t('js.grid.widgets.project_status.on_track'),
-  //     colorClass: '-green',
-  //   },
-  //   {
-  //     code: 'at risk',
-  //     name: this.i18n.t('js.grid.widgets.project_status.at_risk'),
-  //     colorClass: '-orange',
-  //   },
-  // ];
 
   constructor(protected readonly i18n:I18nService,
               protected readonly injector:Injector,
@@ -94,7 +70,6 @@ export class WidgetProjectStatusComponent extends AbstractWidgetComponent implem
   }
 
   ngOnInit() {
-    // this.loadAndRender();
     this.project$ = this.projectCache.requireAndStream(this.currentProject.id!);
     this.cdRef.detectChanges();
   }
@@ -102,42 +77,4 @@ export class WidgetProjectStatusComponent extends AbstractWidgetComponent implem
   public get isEditable() {
     return false;
   }
-
-  // private loadAndRender() {
-  //   Promise.all(
-  //       [this.loadCurrentProject(),
-  //       this.loadProjectSchema()]
-  //     )
-  //     .then(([project, schema]) => {
-  //       if (project.status && project.status.code) {
-  //         this.currentStatusCode = project.status.code;
-  //       } else {
-  //         this.currentStatusCode = 'not set';
-  //       }
-  //
-  //       if (project.status && project.status.explanation) {
-  //         this.explanation = project.status.explanation.html;
-  //       } else {
-  //         this.explanation = '';
-  //       }
-  //
-  //       this.redraw();
-  //     });
-  // }
-
-  // private loadCurrentProject() {
-  //   return this.projectCache.require(this.currentProject.id as string);
-  // }
-  //
-  // public get isLoaded() {
-  //   return this.projectCache.state(this.currentProject.id as string).value;
-  // }
-  //
-  // private loadProjectSchema() {
-  //   return this.projectDm.schema();
-  // }
-  //
-  // private redraw() {
-  //   this.cdRef.detectChanges();
-  // }
 }
