@@ -144,8 +144,8 @@ shared_examples 'a principal autocomplete field' do
 
     it 'autocompletes links to user profiles' do
       field.activate!
-      field.input_element.set('', fill_options: { clear: :backspace })
-      field.input_element.send_keys(" @lau")
+      field.input_element.set(' ', fill_options: { clear: :backspace })
+      field.input_element.set(" @lau")
       expect(page).to have_selector('.mention-list-item', text: mentioned_user.name)
       expect(page).to have_selector('.mention-list-item', text: mentioned_group.name)
       expect(page).not_to have_selector('.mention-list-item', text: user.name)
@@ -153,10 +153,12 @@ shared_examples 'a principal autocomplete field' do
       # Close the autocompleter
       field.input_element.send_keys :escape
 
+      # Clear the field
       sleep(0.01)
-      field.input_element.set('', fill_options: { clear: :backspace })
+      field.input_element.set(' ', fill_options: { clear: :backspace })
       sleep(0.01)
-      field.input_element.send_keys(" @Laura Fo")
+
+      field.input_element.set(" @Laura Fo")
       expect(page).to have_selector('.mention-list-item', text: mentioned_user.name)
       expect(page).not_to have_selector('.mention-list-item', text: mentioned_group.name)
       expect(page).not_to have_selector('.mention-list-item', text: user.name)
