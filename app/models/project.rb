@@ -149,7 +149,7 @@ class Project < ActiveRecord::Base
   acts_as_customizable
   acts_as_searchable columns: ["#{table_name}.name", "#{table_name}.identifier", "#{table_name}.description"], project_key: 'id', permission: nil
   acts_as_event title: Proc.new { |o| "#{Project.model_name.human}: #{o.name}" },
-                url: Proc.new { |o| { controller: '/projects', action: 'show', id: o } },
+                url: Proc.new { |o| { controller: 'overviews/overviews', action: 'show', project_id: o } },
                 author: nil,
                 datetime: :created_on
 
