@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -27,24 +28,48 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json'
-require 'roar/json/collection'
-require 'roar/json/hal'
-
 module API
   module V3
     module Projects
-      class ProjectCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        element_decorator ::API::V3::Projects::ProjectRepresenter
+      class ProjectEagerLoadingWrapper < SimpleDelegator
+        private_class_method :new
 
-        self.to_eager_load = ::API::V3::Projects::ProjectRepresenter.to_eager_load
-        self.checked_permissions = ::API::V3::Projects::ProjectRepresenter.checked_permissions
-
-        def initialize(models, self_link, current_user:)
+        # Because of the ruby method lookup,
+        # wrapping the work_package here and define the
+        # available_custom_fields methods on the wrapper does not suffice.
+        # We thus extend each work package.
+        def initialize(project)
           super
+          project.extend(CustomFieldAccessorPatch)
+        end
 
-          @represented = ::API::V3::Projects::ProjectEagerLoadingWrapper.wrap(represented)
+        ##
+        # Workaround against warnings in flatten
+        # delegator does not forward private method #to_ary
+        def to_ary
+          __getobj__.send(:to_ary)
+        end
+
+        class << self
+          def wrap(projects)
+            custom_fields = if projects && !projects.empty?
+                              projects.first.available_custom_fields
+                            end
+
+            projects
+              .map { |project| new(project) }
+              .each { |project| project.available_custom_fields = custom_fields }
+          end
+        end
+
+        module CustomFieldAccessorPatch
+          def available_custom_fields
+            @available_custom_fields
+          end
+
+          def available_custom_fields=(fields)
+            @available_custom_fields = fields
+          end
         end
       end
     end
