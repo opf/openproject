@@ -50,7 +50,7 @@ class MailHandler < ActionMailer::Base
   end
 
   def self.with_options(options)
-    handler = self.new
+    handler = new
 
     handler.options = options
 
@@ -292,7 +292,7 @@ class MailHandler < ActionMailer::Base
     else
       @keywords[attr] = begin
         if (options[:override] || self.options[:allow_override].include?(attr)) &&
-          (v = extract_keyword!(plain_text_body, attr, options[:format]))
+           (v = extract_keyword!(plain_text_body, attr, options[:format]))
           v
         else
           # Return either default or nil
