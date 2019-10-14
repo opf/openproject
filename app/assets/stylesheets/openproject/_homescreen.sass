@@ -28,14 +28,13 @@
 
 @import openproject/mixins
 
-.controller-homescreen
-  #content-wrapper,
-  #content
-    background: $grid-background-color
+.controller-homescreen #content-wrapper
+  .widget-box
+    box-shadow: none
+    border: 1px solid $content-default-border-color
 
 .controller-homescreen #breadcrumb
   display: none
-
 
 .homescreen--links
   margin: 10px 0
@@ -43,8 +42,6 @@
   padding: 20px 20%
   align-items: center
   justify-content: center
-  background: $homescreen-footer-bg-color
-  border: 1px solid $content-default-border-color
 
   .icon-context:before
     padding-right: 0
@@ -55,16 +52,19 @@
     text-align: center
     color: $content-icon-link-color
 
-    &:hover,
-    &:hover span
-      text-decoration: none
-      color: $content-icon-link-hover-color
-
-    i
+    i::before
       display: block
       margin-bottom: 10px
       font-size: 3rem
-      color: $homescreen-footer-icon-color
+      color: $content-icon-link-color
+
+    &:hover,
+    &:hover span
+      text-decoration: none
+      @include varprop(color, content-link-color)
+      i::before
+        @include varprop(color, content-link-color)
+
 
 @include breakpoint(680px down)
   .homescreen--links
