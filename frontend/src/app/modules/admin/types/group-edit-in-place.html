@@ -1,8 +1,8 @@
-<span *ngIf="!editing"
+<div *ngIf="!editing"
       (click)="startEditing()"
       [textContent]="name"
       class="group-edit-handler">
-</span>
+</div>
 <input
     #nameInput
     *ngIf="editing"
