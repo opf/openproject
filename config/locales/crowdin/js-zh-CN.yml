@@ -194,8 +194,8 @@ zh-CN:
     general_text_Yes: "是"
     hal:
       error:
-        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
-        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        update_conflict_refresh: "点击此处刷新资源并更新到最新版本。"
+        edit_prohibited: "已阻止对此工作包编辑 %{attribute}。此属性来自于关系继承(如子项目)或其他无法配置的来源。"
         format:
           date: "%{attribute} 不是有效日期 - 需要 YYYY-MM-DD。"
         general: "发生错误。"

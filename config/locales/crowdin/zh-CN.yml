@@ -348,7 +348,7 @@ zh-CN:
         work_packages: "工作包"
       project/status:
         code: '状态'
-        explanation: 'Status description'
+        explanation: '状态描述'
         codes:
           on_track: 'On track'
           at_risk: 'At risk'
@@ -2509,7 +2509,7 @@ zh-CN:
       messages:
         #Common error messages
         invalid_request: '请求缺少必要参数，包括不受支持的参数值，或者格式不正确。'
-        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
+        invalid_redirect_uri: "请求的重定向 URI 格式不正确，或者与客户端重定向 URI 不匹配。"
         unauthorized_client: '客户端无权使用此方法执行此请求。'
         access_denied: '资源所有者或授权服务器拒绝了此请求。'
         invalid_scope: '申请范围无效、未知或形式错误'

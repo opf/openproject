@@ -33,7 +33,7 @@ zh-CN:
           on_track: 'On track'
           off_track: 'Off track'
           at_risk: 'At risk'
-          not_set: 'Not set'
+          not_set: '未设置'
         subprojects:
           title: '子项目'
           no_results: '无子项目。'
