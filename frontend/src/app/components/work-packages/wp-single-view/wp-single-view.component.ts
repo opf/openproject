@@ -127,9 +127,6 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
     fields: {
       description: this.I18n.t('js.work_packages.properties.description'),
     },
-    description: {
-      placeholder: this.I18n.t('js.work_packages.placeholders.description')
-    },
     infoRow: {
       createdBy: this.I18n.t('js.label_created_by'),
       lastUpdatedOn: this.I18n.t('js.label_last_updated_on')
