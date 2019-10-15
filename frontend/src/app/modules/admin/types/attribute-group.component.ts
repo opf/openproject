@@ -23,7 +23,7 @@ export class TypeFormAttributeGroupComponent {
 
   rename(newValue:string) {
     this.group.name = newValue;
-    this.group.key = null;
+    delete this.group.key;
     this.cdRef.detectChanges();
   }
 

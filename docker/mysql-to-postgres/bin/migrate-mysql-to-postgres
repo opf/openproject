@@ -179,7 +179,7 @@ if needs_fulltext_migration
 
   puts "Running full-text search migration"
 
-  _, redo_status = run "bundle exec rake db:migrate:up VERSION=20180122135443", record_output: false
+  _, redo_status = run "bundle exec rake db:migrate:redo VERSION=20180122135443", record_output: false
 
   if redo_status != 0
     puts "\nFull-text search migration failed. See above."
