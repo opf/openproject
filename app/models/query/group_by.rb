@@ -137,7 +137,7 @@ module ::Query::Grouping
   end
 
   def transform_association_property_keys(association, groups)
-    ar_keys = association.class_name.constantize.find(groups.keys)
+    ar_keys = association.class_name.constantize.find(groups.keys.compact)
 
     groups.map do |key, value|
       [ar_keys.detect { |ar_key| ar_key.id == key }, value]

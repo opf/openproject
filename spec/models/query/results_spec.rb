@@ -109,6 +109,35 @@ describe ::Query::Results, type: :model, with_mail: false do
       end
     end
 
+    context 'grouping by assigned_to' do
+      let(:group_by) { 'assigned_to' }
+
+      before do
+        work_package1
+        work_package2.update_column(:assigned_to_id, user_1.id)
+
+        login_as(user_1)
+      end
+
+      it 'returns a hash of counts by value' do
+        expect(query_results.work_package_count_by_group).to eql(nil => 1, user_1 => 1)
+      end
+    end
+
+    context 'grouping by assigned_to with only a nil group' do
+      let(:group_by) { 'assigned_to' }
+
+      before do
+        work_package1
+
+        login_as(user_1)
+      end
+
+      it 'returns a hash of counts by value' do
+        expect(query_results.work_package_count_by_group).to eql(nil => 1)
+      end
+    end
+
     context 'grouping by type' do
       let(:group_by) { 'type' }
 
