@@ -33,7 +33,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
   public render(resource:T,
                 name:string,
                 change:ResourceChangeset<T>|null,
-                placeholder = cellEmptyPlaceholder):HTMLSpanElement {
+                placeholder?:string):HTMLSpanElement {
 
     const [field, span] = this.renderFieldValue(resource, name, change, placeholder);
 
@@ -49,7 +49,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
   public renderFieldValue(resource:T,
                           name:string,
                           change:ResourceChangeset<T>|null,
-                          placeholder = cellEmptyPlaceholder):[DisplayField|null, HTMLSpanElement] {
+                          placeholder?:string):[DisplayField|null, HTMLSpanElement] {
     const span = document.createElement('span');
     const schemaName = this.getSchemaName(resource, change, name);
     const fieldSchema = resource.schema[schemaName];
@@ -61,7 +61,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     }
 
     const field = this.getField(resource, fieldSchema, schemaName, change);
-    field.render(span, this.getText(field, placeholder));
+    field.render(span, this.getText(field, fieldSchema, placeholder));
 
     const title = field.title;
     if (title) {
@@ -109,9 +109,9 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     return this.displayFieldService.getField(resource, name, fieldSchema, context);
   }
 
-  private getText(field:DisplayField, placeholder:string):string {
+  private getText(field:DisplayField, fieldSchema:IFieldSchema, placeholder?:string):string {
     if (field.isEmpty()) {
-      return placeholder;
+      return placeholder || this.getDefaultPlaceholder(fieldSchema);
     } else {
       return field.valueString;
     }
@@ -190,5 +190,13 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
 
     return name;
 
+  }
+
+  private getDefaultPlaceholder(fieldSchema:IFieldSchema):string {
+    if (fieldSchema.type === 'Formattable') {
+      return this.I18n.t('js.work_packages.placeholders.formattable', { name: fieldSchema.name });
+    }
+
+    return cellEmptyPlaceholder;
   }
 }
