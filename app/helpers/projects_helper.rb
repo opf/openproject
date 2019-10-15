@@ -129,6 +129,7 @@ module ProjectsHelper
   def whitelisted_project_filter?(filter)
     whitelist = [
       Queries::Projects::Filters::ActiveFilter,
+      Queries::Projects::Filters::ProjectStatusFilter,
       Queries::Projects::Filters::CreatedAtFilter,
       Queries::Projects::Filters::LatestActivityAtFilter,
       Queries::Projects::Filters::NameAndIdentifierFilter,

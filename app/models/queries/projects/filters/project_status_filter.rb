@@ -1,5 +1,4 @@
 #-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,23 +27,49 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module ProjectStatusHelper
-  def project_status_css_class(status)
-    code = project_status_ensure_default_code(status)
-    '-' + code.gsub('_', '-')
-  end
+module Queries
+  module Projects
+    module Filters
+      class ProjectStatusFilter < ::Queries::Projects::Filters::ProjectFilter
+        include ProjectStatusHelper
 
-  def project_status_name(status)
-    code = project_status_ensure_default_code(status)
-    project_status_name_for_code(code)
-  end
+        def allowed_values
+          @allowed_values ||= Project::Status.codes.map do |code, id|
+            [project_status_name_for_code(code), id.to_s]
+          end
+        end
 
-  def project_status_name_for_code(code)
-    code ||= 'not_set'
-    I18n.t('js.grid.widgets.project_status.' + code)
-  end
+        def left_outer_joins
+          :status
+        end
 
-  def project_status_ensure_default_code(status)
-    status.try(:code) || 'not_set'
+        def where
+          if operator == '*'
+            # The where condition should always be true
+            '1 = 1'
+          else
+            operator_strategy.sql_for_field(values, Project::Status.table_name, :code)
+          end
+        end
+
+        def type
+          :list
+        end
+
+        def self.key
+          :code
+        end
+
+        def human_name
+          I18n.t('js.grid.widgets.project_status.title')
+        end
+
+        private
+
+        def type_strategy
+          @type_strategy ||= ::Queries::Filters::Strategies::ListOptional.new(self)
+        end
+      end
+    end
   end
 end
