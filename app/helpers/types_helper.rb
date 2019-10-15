@@ -96,11 +96,12 @@ module ::TypesHelper
     type.attribute_groups.map do |group|
       {
         type: group.group_type,
-        key: group.key,
         name: group.translated_key,
         attributes: active_group_attributes_map(group, available, inactive),
         query: query_to_query_props(group)
-      }
+      }.tap do |group_obj|
+        group_obj[:key] = group.key if group.internal_key?
+      end
     end
   end
 

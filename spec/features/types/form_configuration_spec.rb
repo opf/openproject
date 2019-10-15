@@ -66,7 +66,7 @@ describe 'form configuration', type: :feature, js: true do
         dialog.expect_open
         dialog.cancel
 
-        expect(page).to have_selector('span.group-edit-handler', text: 'WHATEVER')
+        expect(page).to have_selector('.group-edit-handler', text: 'WHATEVER')
 
         # Click the dialog again after some time
         # Otherwise this may cause issues due to the animation,
