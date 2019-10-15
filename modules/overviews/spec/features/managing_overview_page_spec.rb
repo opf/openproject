@@ -98,16 +98,28 @@ describe 'Overview page managing', type: :feature, js: true, with_mail: false do
     # within top-left area, add an additional widget
     overview_page.add_widget(1, 1, :row, 'Work packages table')
 
+    # Actually there are two success messages displayed currently. One for the grid getting updated and one
+    # for the query assigned to the new widget being created. A user will not notice it but the automated
+    # browser can get confused. Therefore we wait.
+    sleep(1)
+
     overview_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
 
     table_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(6)')
+    table_area.expect_to_span(1, 1, 2, 2)
+
+    # A useless resizing shows no message and does not alter the size
+    table_area.resize_to(1, 1)
+
+    overview_page.expect_no_notification message: I18n.t('js.notice_successful_update')
+
     table_area.expect_to_span(1, 1, 2, 2)
 
     table_area.resize_to(1, 2)
 
     overview_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
 
-    # Resizing leads to the calendar area now spanning a larger area
+    # Resizing leads to the table area now spanning a larger area
     table_area.expect_to_span(1, 1, 2, 3)
 
     within table_area.area do

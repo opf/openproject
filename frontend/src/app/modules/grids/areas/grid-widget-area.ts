@@ -63,6 +63,13 @@ export class GridWidgetArea extends GridArea {
            this.rowOverlaps(otherArea);
   }
 
+  public get unchangedSize() {
+    return this.startColumn === this.widget.startColumn &&
+           this.endColumn === this.widget.endColumn &&
+           this.startRow === this.widget.startRow &&
+           this.endRow === this.widget.endRow;
+  }
+
   public writeAreaChangeToWidget() {
     this.widget.startRow = this.startRow;
     this.widget.endRow = this.endRow;

@@ -20,10 +20,15 @@ export class GridResizeService {
       return;
     }
 
+    this.resizedArea = null;
+
+    // user aborted dragging
+    if (area.unchangedSize) {
+      return;
+    }
+
     this.layout.writeAreaChangesToWidgets();
     this.layout.cleanupUnusedAreas();
-
-    this.resizedArea = null;
 
     this.layout.rebuildAndPersist();
   }
