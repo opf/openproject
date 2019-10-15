@@ -102,8 +102,10 @@ See docs/COPYRIGHT.rdoc for more details.
                 <%= link_to_project(project, {}, {}, false) %>
               </td>
               <td>
-                <span class="project-status--bulb -inline <%= project_status_css_class(project.status) %>"></span>
-                <span class="project-status--name <%= project_status_css_class(project.status) %>"><%= project_status_name(project.status) %></span>
+                <% if project.status.try(:code) %>
+                  <span class="project-status--bulb -inline <%= project_status_css_class(project.status) %>"></span>
+                  <span class="project-status--name <%= project_status_css_class(project.status) %>"><%= project_status_name(project.status) %></span>
+                <% end %>
               </td>
               <td><%= checked_image project.public? %></td>
               <% if EnterpriseToken.allows_to?(:custom_fields_in_projects_list) %>
