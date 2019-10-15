@@ -71,6 +71,13 @@ export class ProjectStatusEditFieldComponent extends EditFieldComponent implemen
   }
 
   public onOpen() {
+    setTimeout(() => {
+      const dropdown = document.getElementById(this.ngSelectComponent.dropdownId);
+      if (dropdown) {
+        dropdown.classList.remove('-hidden-until-positioned');
+      }
+    }, 25);
+
     jQuery(this.hiddenOverflowContainer).one('scroll', () => {
       this.ngSelectComponent.close();
     });
