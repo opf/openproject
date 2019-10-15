@@ -123,11 +123,13 @@ module DemoData
       status_code = project_data_for(key, 'status.code')
       status_explanation = project_data_for(key, 'status.description')
 
-      Project::Status.create!(
-        project: project,
-        code: status_code,
-        explanation: status_explanation) if status_code || status_explanation
-
+      if status_code || status_explanation
+        Project::Status.create!(
+          project: project,
+          code: status_code,
+          explanation: status_explanation
+        )
+      end
     end
 
     def set_members(project)
