@@ -93,11 +93,12 @@ describe "WorkPackageXlsExport" do
     # the first header row devides the sheet into work packages and relation columns
     expect(sheet.rows.first.take(8)).to eq ['Work packages', nil, nil, nil, nil, nil, nil, 'Relations']
 
-    # the second header row includes the column names for work packages and relations
+    # the second header row includes the column names for work packages and relations and the related work package
     expect(sheet.rows[1])
       .to eq [
         nil, 'Type', 'ID', 'Subject', 'Status', 'Assignee', 'Priority',
-        nil, 'Relation type', 'Delay', 'Description', 'ID', 'Type', 'Subject',
+        nil, 'Relation type', 'Delay', 'Description',
+        'Type', 'ID', 'Subject', 'Status', 'Assignee', 'Priority',
         nil
       ]
 
@@ -141,7 +142,8 @@ describe "WorkPackageXlsExport" do
     expect(sheet.row(PARENT))
       .to eq [
         nil, parent.type.name, parent.id, parent.subject, parent.status.name, parent.assigned_to, parent.priority.name,
-        nil, 'parent of', nil, nil, child_1.id, child_1.type.name, child_1.subject
+        nil, 'parent of', nil, nil,
+        child_1.type.name, child_1.id, child_1.subject, child_1.status.name, child_1.assigned_to, child_1.priority.name
       ] # delay nil as this is a parent-child relation not represented by an actual Relation record
 
     expect(sheet.row(SINGLE))
@@ -151,9 +153,10 @@ describe "WorkPackageXlsExport" do
 
     expect(sheet.row(FOLLOWED))
       .to eq [
-        nil, followed.type.name, followed.id, followed.subject, followed.status.name,
-          followed.assigned_to, followed.priority.name,
-        nil, 'Precedes', 0, relation.description, child_2.id,  child_2.type.name, child_2.subject
+        nil,
+        followed.type.name, followed.id, followed.subject, followed.status.name, followed.assigned_to, followed.priority.name,
+        nil, 'Precedes', 0, relation.description,
+        child_2.type.name, child_2.id, child_2.subject, child_2.status.name, child_2.assigned_to, child_2.priority.name
       ]
   end
 
