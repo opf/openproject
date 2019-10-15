@@ -47,7 +47,7 @@ en:
                     - demo_project_teaser.png
                 - identifier: 'custom_text'
                   start_row: 2
-                  end_row: 4
+                  end_row: 5
                   start_column: 1
                   end_column: 2
                   options:
@@ -68,23 +68,28 @@ en:
 
                       Here you will find our [User Guides](https://www.openproject.org/help/).
                       Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
-                - identifier: 'members'
+                - identifier: 'project_status'
                   start_row: 2
                   end_row: 3
                   start_column: 2
                   end_column: 3
-                  options:
-                    name: 'Members'
-                - identifier: 'work_packages_overview'
+                - identifier: 'members'
                   start_row: 3
                   end_row: 4
                   start_column: 2
                   end_column: 3
                   options:
-                    name: 'Work packages'
-                - identifier: 'work_packages_table'
+                    name: 'Members'
+                - identifier: 'work_packages_overview'
                   start_row: 4
                   end_row: 5
+                  start_column: 2
+                  end_column: 3
+                  options:
+                    name: 'Work packages'
+                - identifier: 'work_packages_table'
+                  start_row: 5
+                  end_row: 6
                   start_column: 1
                   end_column: 3
                   options:
@@ -107,7 +112,7 @@ en:
                     - scrum_project_teaser.png
                 - identifier: 'custom_text'
                   start_row: 2
-                  end_row: 4
+                  end_row: 5
                   start_column: 1
                   end_column: 2
                   options:
@@ -129,23 +134,28 @@ en:
 
                       Here you will find our [User Guides](https://www.openproject.org/help/).
                       Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
-                - identifier: 'members'
+                - identifier: 'project_status'
                   start_row: 2
                   end_row: 3
                   start_column: 2
                   end_column: 3
-                  options:
-                    name: 'Members'
-                - identifier: 'work_packages_overview'
+                - identifier: 'members'
                   start_row: 3
                   end_row: 4
                   start_column: 2
                   end_column: 3
                   options:
-                    name: 'Work packages'
-                - identifier: 'work_packages_table'
+                    name: 'Members'
+                - identifier: 'work_packages_overview'
                   start_row: 4
                   end_row: 5
+                  start_column: 2
+                  end_column: 3
+                  options:
+                    name: 'Work packages'
+                - identifier: 'work_packages_table'
+                  start_row: 5
+                  end_row: 6
                   start_column: 1
                   end_column: 3
                   options:
