@@ -46,7 +46,6 @@
         </li>
       <% end %>
 
-
       <li class="advanced-filters--spacer <%= query.filters.blank? ? 'hidden' : '' %>"></li>
 
       <li class="advanced-filters--add-filter">
@@ -74,22 +73,22 @@
                          focus: "false",
                          'aria-invalid': "false" %>
         </div>
-        <% unless EnterpriseToken.allows_to?(:custom_fields_in_projects_list)%>
-          <div class="advanced-filters--add-filter-info">
-            <div class="notification-box">
-              <div class="notification-box--content">
-                <%= t('ee.upsale.project_filters.description_html',
-                      link: link_to(t(:label_enterprise_edition),
-                                    "#{OpenProject::Static::Links.links[:upsale][:href]}/?utm_source=unknown&utm_medium=community-edition&utm_campaign=project-list-filter",
-                                    target: '_blank')) %>
-              </div>
-            </div>
-          </div>
-        <% end %>
       </li>
       <li class="advanced-filters--controls">
         <%= submit_tag t('button_apply'), class: 'button -small -highlight', name: nil %>
       </li>
     </ul>
+    <% unless EnterpriseToken.allows_to?(:custom_fields_in_projects_list)%>
+      <div class="advanced-filters--add-filter-info">
+        <div class="notification-box">
+          <div class="notification-box--content">
+            <%= t('ee.upsale.project_filters.description_html',
+                  link: link_to(t(:label_enterprise_edition),
+                                "#{OpenProject::Static::Links.links[:upsale][:href]}/?utm_source=unknown&utm_medium=community-edition&utm_campaign=project-list-filter",
+                                target: '_blank')) %>
+          </div>
+        </div>
+      </div>
+    <% end %>
   </fieldset>
 <% end %>
