@@ -122,7 +122,7 @@ class EditField
   # For fields of type select, will check for an option with that value.
   def set_value(content)
     scroll_to_element(input_element)
-    if field_type == 'create-autocompleter'
+    if field_type.end_with?('-autocompleter')
       page.find('.ng-dropdown-panel .ng-option', text: content).click
     else
       # A normal fill_in would cause the focus loss on the input for empty strings.
@@ -138,7 +138,7 @@ class EditField
   def unset_value(content, multi=false)
     scroll_to_element(input_element)
 
-    if field_type == 'create-autocompleter'
+    if field_type.end_with?('-autocompleter')
       if multi
         page.find('.ng-value-label', text: content).sibling('.ng-value-icon').click
       else
@@ -174,13 +174,13 @@ class EditField
       set_value value
 
       # select fields are saved on change
-      save! if save && field_type != 'create-autocompleter'
+      save! if save && !field_type.end_with?('-autocompleter')
       expect_state! open: expect_failure
     end
   end
 
   def submit_by_enter
-    if field_type == 'create-autocompleter'
+    if field_type.end_with? '-autocompleter'
       autocomplete_selector.send_keys :return
     else
       input_element.native.send_keys :return
@@ -188,7 +188,7 @@ class EditField
   end
 
   def cancel_by_escape
-    if field_type == 'create-autocompleter'
+    if field_type.end_with? '-autocompleter'
       autocomplete_selector.send_keys :escape
     else
       input_element.native.send_keys :escape
@@ -214,13 +214,14 @@ class EditField
   def field_type
     @field_type ||= begin
       case property_name.to_s
+      when 'version'
+        'version-autocompleter'
       when 'assignee',
            'responsible',
            'priority',
            'status',
            'project',
            'type',
-           'version',
            'category'
         'create-autocompleter'
       else
