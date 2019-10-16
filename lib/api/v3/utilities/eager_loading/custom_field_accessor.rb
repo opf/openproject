@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,20 +30,31 @@
 
 module API
   module V3
-    module Versions
-      class AvailableProjectsAPI < ::API::OpenProjectAPI
-        after_validation do
-          authorize :manage_versions, global: true
-        end
+    module Utilities
+      module EagerLoading
+        module CustomFieldAccessor
+          extend ActiveSupport::Concern
 
-        resources :available_projects do
-          get &::API::V3::Utilities::Endpoints::Index.new(model: Project,
-                                                          scope: -> {
-                                                            Project
-                                                              .allowed_to(User.current, :manage_versions)
-                                                              .includes(::API::V3::Projects::ProjectRepresenter.to_eager_load)
-                                                          })
-                                                     .mount
+          included do
+            # Because of the ruby method lookup,
+            # wrapping the work_package here and define the
+            # available_custom_fields methods on the wrapper does not suffice.
+            # We thus extend each work package.
+            def initialize(object)
+              super
+              object.extend(CustomFieldAccessorPatch)
+            end
+
+            module CustomFieldAccessorPatch
+              def available_custom_fields
+                @available_custom_fields
+              end
+
+              def available_custom_fields=(fields)
+                @available_custom_fields = fields
+              end
+            end
+          end
         end
       end
     end

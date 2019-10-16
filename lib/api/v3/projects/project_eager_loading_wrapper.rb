@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,20 +30,19 @@
 
 module API
   module V3
-    module Versions
-      class AvailableProjectsAPI < ::API::OpenProjectAPI
-        after_validation do
-          authorize :manage_versions, global: true
-        end
+    module Projects
+      class ProjectEagerLoadingWrapper < API::V3::Utilities::EagerLoading::EagerLoadingWrapper
+        include API::V3::Utilities::EagerLoading::CustomFieldAccessor
 
-        resources :available_projects do
-          get &::API::V3::Utilities::Endpoints::Index.new(model: Project,
-                                                          scope: -> {
-                                                            Project
-                                                              .allowed_to(User.current, :manage_versions)
-                                                              .includes(::API::V3::Projects::ProjectRepresenter.to_eager_load)
-                                                          })
-                                                     .mount
+        class << self
+          def wrap(projects)
+            custom_fields = if projects && !projects.empty?
+                              projects.first.available_custom_fields
+                            end
+
+            super
+              .each { |project| project.available_custom_fields = custom_fields }
+          end
         end
       end
     end

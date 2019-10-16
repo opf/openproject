@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,20 +30,24 @@
 
 module API
   module V3
-    module Versions
-      class AvailableProjectsAPI < ::API::OpenProjectAPI
-        after_validation do
-          authorize :manage_versions, global: true
-        end
+    module Utilities
+      module EagerLoading
+        class EagerLoadingWrapper < SimpleDelegator
+          private_class_method :new
 
-        resources :available_projects do
-          get &::API::V3::Utilities::Endpoints::Index.new(model: Project,
-                                                          scope: -> {
-                                                            Project
-                                                              .allowed_to(User.current, :manage_versions)
-                                                              .includes(::API::V3::Projects::ProjectRepresenter.to_eager_load)
-                                                          })
-                                                     .mount
+          ##
+          # Workaround against warnings in flatten
+          # delegator does not forward private method #to_ary
+          def to_ary
+            __getobj__.send(:to_ary)
+          end
+
+          class << self
+            def wrap(objects)
+              objects
+                .map { |object| new(object) }
+            end
+          end
         end
       end
     end

@@ -219,6 +219,11 @@ module API
           'Project'
         end
 
+        self.to_eager_load = [:status,
+                              :parent,
+                              :enabled_modules,
+                              custom_values: :custom_field]
+
         self.checked_permissions = [:add_work_packages]
       end
     end

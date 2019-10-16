@@ -32,7 +32,11 @@ module API
       class ProjectsAPI < ::API::OpenProjectAPI
         resources :projects do
           get &::API::V3::Utilities::Endpoints::Index.new(model: Project,
-                                                          scope: -> { Project.visible(User.current).includes(:enabled_modules) })
+                                                          scope: -> {
+                                                            Project
+                                                              .visible(User.current)
+                                                              .includes(ProjectRepresenter.to_eager_load)
+                                                          })
                                                      .mount
 
           post &::API::V3::Utilities::Endpoints::Create.new(model: Project)
