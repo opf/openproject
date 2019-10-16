@@ -146,7 +146,7 @@ module ApplicationHelper
 
   def join_flash_messages(messages)
     if messages.respond_to?(:join)
-      safe_join(messages, '<br />')
+      safe_join(messages, '<br />'.html_safe)
     else
       messages
     end

@@ -1,3 +1,4 @@
+require 'support/components/ng_select_autocomplete_helpers'
 require_relative './edit_field'
 
 class ProjectStatusField < EditField

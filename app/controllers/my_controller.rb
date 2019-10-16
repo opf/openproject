@@ -31,6 +31,7 @@
 class MyController < ApplicationController
   include Concerns::PasswordConfirmation
   include Concerns::UserPasswordChange
+  include ActionView::Helpers::TagHelper
   layout 'my'
 
   helper_method :gon
