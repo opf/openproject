@@ -50,8 +50,6 @@ $grid--widget-padding: 20px 20px 20px 20px
 
   &.-passive
     pointer-events: none
-    background: #EEEEEE
-    opacity: 0.5
 
   &.-gap
     &.-row
@@ -67,7 +65,9 @@ $grid--widget-padding: 20px 20px 20px 20px
   icon-triggered-context-menu
     visibility: hidden
 
-  &.-drop-target
+  &.-drop-target,
+  &.-passive
+    opacity: 0.5
     border-width: 1px
     border-style: solid
     border-color: $secondary-color
