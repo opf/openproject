@@ -35,7 +35,7 @@
     </div>
     <resizer *ngIf="resize.isResizable"
              [customHandler]="true"
-             (end)="resize.end(area, $event)"
+             (end)="resize.end(area)"
              (start)="resize.start(area)"
              (move)="resize.moving($event)">
       <div class="grid--resizer">

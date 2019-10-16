@@ -15,14 +15,14 @@ export class GridResizeService {
               readonly move:GridMoveService,
               readonly drag:GridDragAndDropService) { }
 
-  public end(area:GridWidgetArea, deltas:ResizeDelta) {
+  public end(area:GridWidgetArea) {
     if (!this.resizedArea) {
       return;
     }
 
     this.resizedArea = null;
 
-    // user aborted dragging
+    // user aborted resizing
     if (area.unchangedSize) {
       return;
     }
@@ -31,6 +31,13 @@ export class GridResizeService {
     this.layout.cleanupUnusedAreas();
 
     this.layout.rebuildAndPersist();
+  }
+
+  public abort() {
+    if (this.resizedArea) {
+      this.layout.resetAreas();
+      this.resizedArea = null;
+    }
   }
 
   public start(resizedArea:GridWidgetArea) {
