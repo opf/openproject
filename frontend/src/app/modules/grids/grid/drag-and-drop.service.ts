@@ -10,6 +10,7 @@ export class GridDragAndDropService {
   public draggedArea:GridWidgetArea|null;
   public placeholderArea:GridWidgetArea|null;
   public draggedHeight:number|null;
+  private aborted = false;
 
   constructor(readonly layout:GridAreaService,
               readonly move:GridMoveService) {
@@ -59,7 +60,12 @@ export class GridDragAndDropService {
     this.draggedHeight = (document as any).getElementById(area.guid).offsetHeight - 2; // border width * 2
   }
 
-  public stop(area:GridWidgetArea, event:CdkDragEnd) {
+  public abort() {
+    document.dispatchEvent(new Event('mouseup'));
+    this.aborted = true;
+  }
+
+  public stop() {
     if (!this.draggedArea) {
       return;
     }
@@ -69,6 +75,11 @@ export class GridDragAndDropService {
   }
 
   public drop(event:CdkDragDrop<GridArea>) {
+    if (this.aborted) {
+      this.aborted = false;
+      return;
+    }
+
     // this.draggedArea is already reset to null at this point
     let dropArea = event.container.data;
     let draggedArea = event.previousContainer.data as GridWidgetArea;

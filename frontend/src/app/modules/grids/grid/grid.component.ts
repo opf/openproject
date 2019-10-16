@@ -2,7 +2,8 @@ import {Component,
   ComponentRef,
   OnDestroy,
   OnInit,
-  Input} from "@angular/core";
+  Input,
+  HostListener} from "@angular/core";
 import {GridResource} from "app/modules/hal/resources/grid-resource";
 import {debugLog} from "app/helpers/debug_output";
 import {DomSanitizer} from "@angular/platform-browser";
@@ -61,6 +62,13 @@ export class GridComponent implements OnDestroy, OnInit {
 
   ngOnDestroy() {
     this.uiWidgets.forEach((widget) => widget.destroy());
+  }
+
+  @HostListener('window:keyup', ['$event'])
+  handleKeyboardEvent(event:KeyboardEvent) {
+    if (event.key === 'Escape' && this.drag.currentlyDragging) {
+      this.drag.abort();
+    }
   }
 
   public widgetComponent(area:GridWidgetArea) {
