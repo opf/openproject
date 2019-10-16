@@ -28,10 +28,27 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Projects::Filters::ProjectFilter < Queries::Filters::Base
-  self.model = Project
+require 'spec_helper'
 
-  def human_name
-    Project.human_attribute_name(name)
+describe Queries::Projects::Filters::ProjectStatusFilter, type: :model do
+  it_behaves_like 'basic query filter' do
+    let(:class_key) { :code }
+    let(:type) { :list }
+    let(:model) { Project }
+    let(:attribute) { :code }
+    let(:values) { ['On track'] }
+    let(:human_name) { 'Project status' }
+    let(:admin) { FactoryBot.build_stubbed(:admin) }
+    let(:user) { FactoryBot.build_stubbed(:user) }
+
+    # before do
+    #   allow(Type).to receive(:pluck).with(:name, :id).and_return([['Foo', '1234']])
+    # end
+
+    describe '#allowed_values' do
+      it 'is a list of the possible values' do
+        expect(instance.allowed_values).to match_array([["At risk", "1"], ["Off track", "2"], ["On track", "0"]])
+      end
+    end
   end
 end

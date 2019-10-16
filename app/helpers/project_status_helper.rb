@@ -31,7 +31,7 @@
 module ProjectStatusHelper
   def project_status_css_class(status)
     code = project_status_ensure_default_code(status)
-    '-' + code.gsub('_', '-')
+    '-' + code.tr('_', '-')
   end
 
   def project_status_name(status)

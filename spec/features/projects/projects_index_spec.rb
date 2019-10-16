@@ -394,6 +394,80 @@ describe 'Projects index page',
       end
     end
 
+    feature 'project status filter' do
+      let!(:no_status_project) do
+        # A project that never had project status associated.
+        FactoryBot.create(:project,
+                          name: 'No status project')
+      end
+
+      let!(:green_project) do
+        # A project that has a project status associated.
+        FactoryBot.create(:project,
+                          name: 'Green project',
+                          status: FactoryBot.create(:project_status))
+      end
+      let!(:gray_project) do
+        # A project that once had a project status associated, that was later unset.
+        FactoryBot.create(:project,
+                          name: 'Gray project',
+                          status: FactoryBot.create(:project_status, code: nil))
+      end
+
+      scenario 'filter on project status' do
+        load_and_open_filters admin
+
+        expect(page).to have_text(no_status_project.name)
+        expect(page).to have_text(gray_project.name)
+        expect(page).to have_text(green_project.name)
+
+        projects_page.set_filter('code',
+                                 'Project status',
+                                 'is',
+                                 ['On track'])
+
+        click_on 'Apply'
+
+        expect(page).to have_text(green_project.name)
+        expect(page).to_not have_text(gray_project.name)
+        expect(page).to_not have_text(no_status_project.name)
+
+        projects_page.set_filter('code',
+                                 'Project status',
+                                 'all',
+                                 [])
+
+        click_on 'Apply'
+
+        expect(page).to have_text(green_project.name)
+        expect(page).to have_text(gray_project.name)
+        expect(page).to have_text(no_status_project.name)
+
+        projects_page.set_filter('code',
+                                 'Project status',
+                                 'none',
+                                 [])
+
+        click_on 'Apply'
+
+        expect(page).to_not have_text(green_project.name)
+        expect(page).to have_text(gray_project.name)
+        expect(page).to have_text(no_status_project.name)
+
+        projects_page.set_filter('code',
+                                 'Project status',
+                                 'is not',
+                                 ['On track'])
+
+        click_on 'Apply'
+
+        expect(page).to_not have_text(green_project.name)
+        expect(page).to have_text(gray_project.name)
+        expect(page).to have_text(no_status_project.name)
+      end
+
+    end
+
     feature 'other filter types' do
       let!(:list_custom_field) { FactoryBot.create :list_project_custom_field }
       let!(:date_custom_field) { FactoryBot.create :date_project_custom_field }
