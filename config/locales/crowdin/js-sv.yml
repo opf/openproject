@@ -694,7 +694,7 @@ sv:
         label_content: "Klicka här för att hoppa över menyn och gå till innehållet"
       placeholders:
         default: "-"
-        description: "Klicka för att ange beskrivning..."
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Kolumner"
         group_by: "Gruppera resultat efter"

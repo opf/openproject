@@ -697,7 +697,7 @@ hr:
         label_content: "Click here to skip over the menu and go to the content"
       placeholders:
         default: "-"
-        description: "Odaberite za dodavanje opisa..."
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Stupci"
         group_by: "Grupiraj rezultate po"

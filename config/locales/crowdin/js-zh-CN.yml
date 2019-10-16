@@ -693,7 +693,7 @@ zh-CN:
         label_content: "单击此处跳过菜单，转到内容"
       placeholders:
         default: "-"
-        description: "点击此处输入描述......"
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "列"
         group_by: "汇总结果根据"

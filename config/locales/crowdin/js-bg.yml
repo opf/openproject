@@ -695,7 +695,7 @@ bg:
         label_content: "Click here to skip over the menu and go to the content"
       placeholders:
         default: "-"
-        description: "Щракнете, за да въведете описание..."
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Колони"
         group_by: "Групай резултатите по"

@@ -695,7 +695,7 @@ nl:
         label_content: "Klik hier om het menu overslaan en ga naar de inhoud"
       placeholders:
         default: "-"
-        description: "Klik om omschrijving in te geven..."
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Kolommen"
         group_by: "Groepeer resultaten op"

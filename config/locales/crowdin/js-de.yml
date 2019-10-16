@@ -694,7 +694,7 @@ de:
         label_content: "Klicken Sie hier, um über das Menü zu überspringen und zum Inhalt zu gelangen"
       placeholders:
         default: "-"
-        description: "Klicken um die Beschreibung einzugeben..."
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Spalten"
         group_by: "Gruppiere Ergebnisse nach"

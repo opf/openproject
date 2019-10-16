@@ -699,7 +699,7 @@ pl:
         label_content: "Kliknij tutaj, aby pominąć menu i przejść do treści"
       placeholders:
         default: "-"
-        description: "Kliknij, aby wprowadzić opis..."
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Kolumny"
         group_by: "Grupuj wyniki"

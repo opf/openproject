@@ -699,7 +699,7 @@ cs:
         label_content: "Click here to skip over the menu and go to the content"
       placeholders:
         default: "-"
-        description: "Kliknutím přidejte popis..."
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Sloupce"
         group_by: "Seskupit výsledky podle"

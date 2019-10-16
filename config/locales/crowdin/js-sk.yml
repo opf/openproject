@@ -699,7 +699,7 @@ sk:
         label_content: "Kliknite tu pre preskočenie menu a prejdite na obsah"
       placeholders:
         default: "-"
-        description: "Kliknutím zadajte popis..."
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Stĺpce"
         group_by: "zoskupiť výsledky podľa"

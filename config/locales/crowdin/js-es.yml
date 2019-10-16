@@ -695,7 +695,7 @@ es:
         label_content: "Haga clic aquí para saltar el menú e ir al contenido"
       placeholders:
         default: "-"
-        description: "Pulse para introducir una descripción..."
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Columnas"
         group_by: "Resultados de grupo por"

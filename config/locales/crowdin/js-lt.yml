@@ -699,7 +699,7 @@ lt:
         label_content: "Paspauskite čia, kad praleistumėte meniu ir pereitumėte prie turinio"
       placeholders:
         default: "-"
-        description: "Paspauskite, norėdami aprašyti..."
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Stulpeliai"
         group_by: "Grupuoti rezultatus pagal"

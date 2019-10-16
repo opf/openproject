@@ -694,7 +694,7 @@ da:
         label_content: "Click here to skip over the menu and go to the content"
       placeholders:
         default: "-"
-        description: "Klik for at indtaste beskrivelse..."
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Kolonner"
         group_by: "Gruppér resultater efter"

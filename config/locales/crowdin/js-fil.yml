@@ -695,7 +695,7 @@ fil:
         label_content: "Pindito dito upang laktawin ang pagppipilian at pumunta sa nilalaman"
       placeholders:
         default: "-"
-        description: "Pindutin uoang ipasok ang paglalarawan..."
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Mga hanay"
         group_by: "Mga resulta sa grupo sa pamamagitan ng"

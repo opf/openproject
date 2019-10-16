@@ -695,7 +695,7 @@ fi:
         label_content: "Paina tästä siirtyäksesi suoraan sisältöön"
       placeholders:
         default: "-"
-        description: "Paina kirjoittaaksesi kuvauksen..."
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Sarakkeet"
         group_by: "Ryhmittele tulokset"

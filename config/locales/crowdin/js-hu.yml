@@ -694,7 +694,7 @@ hu:
         label_content: "Kattintson ide a menü átugrásához és a tartalom megtekintéséhez"
       placeholders:
         default: "-"
-        description: "Kattintson a leírás megadásához..."
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Oszlopok"
         group_by: "Csoport szintű eredmények"

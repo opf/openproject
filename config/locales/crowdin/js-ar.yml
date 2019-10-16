@@ -703,7 +703,7 @@ ar:
         label_content: "Click here to skip over the menu and go to the content"
       placeholders:
         default: "-"
-        description: "اضغط لِتُدْخِل الوصف..."
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "الأعمدة"
         group_by: "نتائج المجموعة حسب"

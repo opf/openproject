@@ -693,7 +693,7 @@ ko:
         label_content: "메뉴를 건너뛰고 내용으로 이동하려면 여기를 클릭하세요."
       placeholders:
         default: "-"
-        description: "설명을 입력하려면 클릭하십시오..."
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "컬럼"
         group_by: "그룹 결과"

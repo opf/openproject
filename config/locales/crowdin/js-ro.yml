@@ -696,7 +696,7 @@ ro:
         label_content: "Click here to skip over the menu and go to the content"
       placeholders:
         default: "-"
-        description: "Click pentru a introduce descrierea..."
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Coloane"
         group_by: "Grupare rezultate"

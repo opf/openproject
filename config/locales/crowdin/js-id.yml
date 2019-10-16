@@ -693,7 +693,7 @@ id:
         label_content: "Klik di sini untuk melompati menu dan langsung ke isi"
       placeholders:
         default: "Hapus nilai"
-        description: "Klik untuk masukkan keterangan..."
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Kolom"
         group_by: "Group"

@@ -696,7 +696,7 @@ ja:
         label_content: "ここをクリックすると、メニューをスキップして、コンテンツへ移動します"
       placeholders:
         default: "-"
-        description: "クリックして説明を入力する..."
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "列"
         group_by: "グループ化"

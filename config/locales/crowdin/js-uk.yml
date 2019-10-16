@@ -699,7 +699,7 @@ uk:
         label_content: "Натисніть тут, щоб пропустити меню та перейти до вмісту"
       placeholders:
         default: "-"
-        description: "Клацніть, щоб ввести опис..."
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Стовпці"
         group_by: "Групувати результати по"

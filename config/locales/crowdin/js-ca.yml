@@ -695,7 +695,7 @@ ca:
         label_content: "Click here to skip over the menu and go to the content"
       placeholders:
         default: "-"
-        description: "Feu clic per entrar la descripció..."
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Columnes"
         group_by: "Agrupa els resultats per"
