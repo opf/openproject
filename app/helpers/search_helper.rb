@@ -60,6 +60,7 @@ module SearchHelper
 
   def has_tokens?(text, tokens)
     return false unless text && tokens && !tokens.empty?
+
     re_tokens = tokens.map { |t| Regexp.escape(t) }
     regexp = Regexp.new "(#{re_tokens.join('|')})", Regexp::IGNORECASE
     !!regexp.match(text)
@@ -74,7 +75,7 @@ module SearchHelper
   def notes_anchor(event)
     version = event.version.to_i
 
-    (version > 1) ? "note-#{version - 1}" : ''
+    version > 1 ? "note-#{version - 1}" : ''
   end
 
   def with_notes_anchor(event, tokens)
