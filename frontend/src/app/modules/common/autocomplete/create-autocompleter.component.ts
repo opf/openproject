@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {AfterViewInit, Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {NgSelectComponent} from "@ng-select/ng-select";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
@@ -35,53 +35,10 @@ import {PathHelperService} from "core-app/modules/common/path-helper/path-helper
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 @Component({
-  template: `
-    <ng-select *ngIf="createAllowed && finishedLoading"
-               #addActionAttributeSelect
-               [(ngModel)]="model"
-               [items]="availableValues"
-               [ngClass]="classes"
-               [addTag]="createNewElement.bind(this)"
-               [virtualScroll]="true"
-               [required]="required"
-               [clearable]="!required"
-               [disabled]="disabled"
-               [appendTo]="appendTo"
-               [id]="id"
-               (change)="changeModel($event)"
-               (open)="opened()"
-               (close)="closed()"
-               (keydown)="keyPressed($event)"
-               bindLabel="name">
-      <ng-template ng-tag-tmp let-search="searchTerm">
-        <b [textContent]="text.add_new_action"></b>: {{search}}
-      </ng-template>
-    </ng-select>
-
-    <ng-select *ngIf="!createAllowed && finishedLoading"
-               #actionAttributeSelect
-               [(ngModel)]="model"
-               [items]="availableValues"
-               [ngClass]="classes"
-               [virtualScroll]="true"
-               [required]="required"
-               [clearable]="!required"
-               [disabled]="disabled"
-               [appendTo]="appendTo"
-               [id]="id"
-               (change)="changeModel($event)"
-               (open)="opened()"
-               (close)="closed()"
-               (keydown)="keyPressed($event)"
-               bindLabel="name">
-    </ng-select>
-  `,
+  templateUrl: './create-autocompleter.component.html',
   selector: 'create-autocompleter'
 })
 export class CreateAutocompleterComponent implements AfterViewInit {
-  @ViewChild('addActionAttributeSelect', { static: false }) public addAutoCompleter:NgSelectComponent;
-  @ViewChild('actionAttributeSelect', { static: false }) public autoCompleter:NgSelectComponent;
-
   @Input() public availableValues:any[];
   @Input() public appendTo:string;
   @Input() public model:any;
@@ -90,8 +47,24 @@ export class CreateAutocompleterComponent implements AfterViewInit {
   @Input() public finishedLoading:boolean = false;
   @Input() public id:string = '';
   @Input() public classes:string = '';
-  @Input() public set createAllowed(val:boolean) {
-    this._createAllowed = val;
+
+  @Output() public onChange = new EventEmitter<HalResource>();
+  @Output() public onKeydown = new EventEmitter<JQuery.TriggeredEvent>();
+  @Output() public onOpen = new EventEmitter<void>();
+  @Output() public onClose = new EventEmitter<void>();
+  @Output() public onAfterViewInit = new EventEmitter<this>();
+
+
+  @ViewChild('ngSelectComponent', {static: false}) public ngSelectComponent:NgSelectComponent;
+
+  @Input()
+  public set createAllowed(val:boolean) {
+    if (val) {
+      this._createAllowed = this.createNewElement.bind(this);
+    } else {
+      this._createAllowed = false;
+    }
+
     setTimeout(() => {
       if (this.openDirectly) {
         this.openSelect();
@@ -99,13 +72,6 @@ export class CreateAutocompleterComponent implements AfterViewInit {
       this.ngAfterViewInit();
     });
   }
-
-  @Output() public create = new EventEmitter<string>();
-  @Output() public onChange = new EventEmitter<HalResource>();
-  @Output() public onKeydown = new EventEmitter<JQuery.TriggeredEvent>();
-  @Output() public onOpen = new EventEmitter<void>();
-  @Output() public onClose = new EventEmitter<void>();
-  @Output() public onAfterViewInit = new EventEmitter<CreateAutocompleterComponent>();
 
   public text:any = {
     add_new_action: this.I18n.t('js.label_create'),
@@ -115,6 +81,7 @@ export class CreateAutocompleterComponent implements AfterViewInit {
   private _openDirectly:boolean = false;
 
   constructor(readonly I18n:I18nService,
+              readonly cdRef:ChangeDetectorRef,
               readonly currentProject:CurrentProjectService,
               readonly pathHelper:PathHelperService) {
   }
@@ -124,10 +91,8 @@ export class CreateAutocompleterComponent implements AfterViewInit {
   }
 
   public openSelect() {
-    if (this.createAllowed && this.addAutoCompleter) {
-      this.addAutoCompleter.open();
-    } else if (this.autoCompleter) {
-      this.autoCompleter.open();
+    if (this.ngSelectComponent) {
+      this.ngSelectComponent.open();
     } else {
       // In case the autocompleter was not loaded,
       // do not reset the variable
@@ -138,15 +103,13 @@ export class CreateAutocompleterComponent implements AfterViewInit {
   }
 
   public closeSelect() {
-    if (this.createAllowed && this.addAutoCompleter) {
-      return this.addAutoCompleter.close();
-    } else if (this.autoCompleter) {
-      return this.autoCompleter.close();
-    }
+    this.ngSelectComponent && this.ngSelectComponent.close();
   }
 
   public createNewElement(newElement:string) {
-    this.create.emit(newElement);
+    if (this.createAllowed) {
+      this.performCreate(newElement);
+    }
   }
 
   public changeModel(element:HalResource) {
@@ -154,14 +117,14 @@ export class CreateAutocompleterComponent implements AfterViewInit {
   }
 
   public opened() {
-    this.onOpen.emit();
-
     // Force reposition as a workaround for BUG
     // https://github.com/ng-select/ng-select/issues/1259
     setTimeout(() => {
-      const component = (this.addAutoCompleter || this.autoCompleter) as any;
+      const component = this.ngSelectComponent as any;
       component.dropdownPanel._updatePosition();
     }, 25);
+
+    this.onOpen.emit();
   }
 
   public closed() {
@@ -183,16 +146,18 @@ export class CreateAutocompleterComponent implements AfterViewInit {
 
   public set openDirectly(val:boolean) {
     this._openDirectly = val;
-    if (val) { this.openSelect(); }
+    if (val) {
+      this.openSelect();
+    }
   }
 
   public focusInputField() {
-    if (this.createAllowed && this.addAutoCompleter) {
-      return this.addAutoCompleter.focus();
-    } else if (this.autoCompleter) {
-      return this.autoCompleter.focus();
-    }
+    this.ngSelectComponent && this.ngSelectComponent.focus();
+  }
+
+  protected performCreate(newElement:string) {
+    // Nothing to do in this base component.
   }
 }
 
-DynamicBootstrapper.register({ selector: 'add-attribute-autocompleter', cls: CreateAutocompleterComponent  });
+DynamicBootstrapper.register({selector: 'add-attribute-autocompleter', cls: CreateAutocompleterComponent});
