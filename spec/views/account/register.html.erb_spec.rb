@@ -114,4 +114,38 @@ describe 'account/register', type: :view do
       end
     end
   end
+
+  context "with consent required", with_settings: {
+    consent_required: true,
+    consent_info: {
+      en: "You must consent!",
+      de: "Du musst zustimmen!"
+    }
+  } do
+    let(:locale) { raise "you have to define the locale" }
+
+    before do
+      I18n.with_locale(locale) do
+        render
+      end
+    end
+
+    context "for English (locale: en) users" do
+      let(:locale) { :en }
+
+      it "shows the registration page and consent info in English" do
+        expect(rendered).to include "new account"
+        expect(rendered).to include "consent!"
+      end
+    end
+
+    context "for German (locale: de) users" do
+      let(:locale) { :de }
+
+      it "shows the registration page consent info in German" do
+        expect(rendered).to include "Neues Konto"
+        expect(rendered).to include "zustimmen!"
+      end
+    end
+  end
 end
