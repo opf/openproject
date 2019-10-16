@@ -4,8 +4,8 @@ tr:
       add_widget: 'Widget ekleyin'
       remove: 'Widget''ı kaldır'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the "
-        link: 'enterprise edition.'
+        text: "İş paketi grafik widget'ı gibi bazı widget’lar yalnızca"
+        link: 'kurumsal baskı.'
       widgets:
         custom_text:
           title: 'Özel metin'
@@ -24,7 +24,7 @@ tr:
           no_results: 'Rapor için yeni birşey bulunamadı.'
         project_description:
           title: 'Proje tanımı'
-          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
+          no_results: "Henüz bir açıklama yazılmadı. Biri 'Proje ayarları' içinde sağlanabilir."
         project_details:
           title: 'Proje detayları'
           no_results: 'Projeler için özel alan tanımlanmadı.'
