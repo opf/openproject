@@ -104,7 +104,6 @@ describe 'API v3 Work package form resource', type: :request do
               let(:target_budget) { FactoryBot.create(:cost_object, project: project) }
               let(:other_budget) { FactoryBot.create(:cost_object, project: project) }
               let(:budget_link) { api_v3_paths.budget target_budget.id }
-              let(:other_budget_link) { api_v3_paths.budget other_budget.id }
               let(:budget_parameter) { { _links: { costObject: { href: budget_link } } } }
               let(:params) { valid_params.merge(budget_parameter) }
 
@@ -116,10 +115,12 @@ describe 'API v3 Work package form resource', type: :request do
                 include_context 'post request'
 
                 it 'should list the budgets' do
-                  expect(subject.body).to be_json_eql(budget_link.to_json)
-                    .at_path("#{links_path}/allowedValues/1/href")
-                  expect(subject.body).to be_json_eql(other_budget_link.to_json)
-                    .at_path("#{links_path}/allowedValues/0/href")
+                  budgets = project.cost_objects
+
+                  budgets.each_with_index do |budget, index|
+                    expect(subject.body).to be_json_eql(api_v3_paths.budget(budget.id).to_json)
+                      .at_path("#{links_path}/allowedValues/#{index}/href")
+                  end
                 end
               end
 
