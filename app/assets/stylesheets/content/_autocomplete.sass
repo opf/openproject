@@ -179,6 +179,10 @@ mark.ui-autocomplete-match
 .ng-dropdown-panel
   z-index: 9500 !important
 
+  // Fix to avoid misplacing the ng-select container
+  &.-hidden-until-positioned
+    display: none
+
 .ng-option
   font-size: 14px
   line-height: 22px
