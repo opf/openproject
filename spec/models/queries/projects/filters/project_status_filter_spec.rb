@@ -32,18 +32,14 @@ require 'spec_helper'
 
 describe Queries::Projects::Filters::ProjectStatusFilter, type: :model do
   it_behaves_like 'basic query filter' do
-    let(:class_key) { :code }
-    let(:type) { :list }
+    let(:class_key) { :project_status_code }
+    let(:type) { :list_optional }
     let(:model) { Project }
-    let(:attribute) { :code }
+    let(:attribute) { :project_status_code }
     let(:values) { ['On track'] }
     let(:human_name) { 'Project status' }
     let(:admin) { FactoryBot.build_stubbed(:admin) }
     let(:user) { FactoryBot.build_stubbed(:user) }
-
-    # before do
-    #   allow(Type).to receive(:pluck).with(:name, :id).and_return([['Foo', '1234']])
-    # end
 
     describe '#allowed_values' do
       it 'is a list of the possible values' do

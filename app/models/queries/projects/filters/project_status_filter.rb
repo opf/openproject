@@ -45,30 +45,19 @@ module Queries
         end
 
         def where
-          if operator == '*'
-            # The where condition should always be true
-            '1 = 1'
-          else
-            operator_strategy.sql_for_field(values, Project::Status.table_name, :code)
-          end
+          operator_strategy.sql_for_field(values, Project::Status.table_name, :code)
         end
 
         def type
-          :list
+          :list_optional
         end
 
         def self.key
-          :code
+          :project_status_code
         end
 
         def human_name
           I18n.t('js.grid.widgets.project_status.title')
-        end
-
-        private
-
-        def type_strategy
-          @type_strategy ||= ::Queries::Filters::Strategies::ListOptional.new(self)
         end
       end
     end

@@ -65,7 +65,7 @@ See docs/COPYRIGHT.rdoc for more details.
           <tr>
             <%= render partial: 'hierarchy_header' %>
             <%= projects_sort_header_tag('name', caption: Project.human_attribute_name(:name), param: :json) %>
-            <%= projects_sort_header_tag('status', caption: Project.human_attribute_name(:status), param: :json) %>
+            <%= projects_sort_header_tag('project_status', caption: Project.human_attribute_name(:status), param: :json) %>
             <%= projects_sort_header_tag('public', caption: Project.human_attribute_name(:public), param: :json) %>
             <% if EnterpriseToken.allows_to?(:custom_fields_in_projects_list) %>
               <% @custom_fields.each do |custom_field| %>

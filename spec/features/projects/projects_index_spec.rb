@@ -76,6 +76,18 @@ describe 'Projects index page',
     page.find("li[filter-name='#{name}'] .filter_rem").click
   end
 
+  def expect_project_at_place(project, place)
+    expect(page)
+      .to have_selector("#project-table .project:nth-of-type(#{place}) td.name",
+                        text: project.name)
+  end
+
+  def expect_projects_in_order(*projects)
+    projects.each_with_index do |project, index|
+      expect_project_at_place(project, index + 1)
+    end
+  end
+
   feature 'restricts project visibility' do
     feature 'for a anonymous user' do
       scenario 'only public projects shall be visible' do
@@ -414,14 +426,23 @@ describe 'Projects index page',
                           status: FactoryBot.create(:project_status, code: nil))
       end
 
-      scenario 'filter on project status' do
-        load_and_open_filters admin
+      scenario 'sort and filter on project status' do
+        login_as(admin)
+        projects_page.visit!
 
-        expect(page).to have_text(no_status_project.name)
-        expect(page).to have_text(gray_project.name)
-        expect(page).to have_text(green_project.name)
+        click_link('Sort by "Status"')
 
-        projects_page.set_filter('code',
+        expect_project_at_place(green_project, 1)
+        expect(page).to have_text('(1 - 8/8)')
+
+        click_link('Ascending sorted by "Status"')
+
+        expect_project_at_place(green_project, 8)
+        expect(page).to have_text('(1 - 8/8)')
+
+        projects_page.open_filters
+
+        projects_page.set_filter('project_status_code',
                                  'Project status',
                                  'is',
                                  ['On track'])
@@ -432,7 +453,7 @@ describe 'Projects index page',
         expect(page).to_not have_text(gray_project.name)
         expect(page).to_not have_text(no_status_project.name)
 
-        projects_page.set_filter('code',
+        projects_page.set_filter('project_status_code',
                                  'Project status',
                                  'all',
                                  [])
@@ -440,10 +461,10 @@ describe 'Projects index page',
         click_on 'Apply'
 
         expect(page).to have_text(green_project.name)
-        expect(page).to have_text(gray_project.name)
-        expect(page).to have_text(no_status_project.name)
+        expect(page).to_not have_text(gray_project.name)
+        expect(page).to_not have_text(no_status_project.name)
 
-        projects_page.set_filter('code',
+        projects_page.set_filter('project_status_code',
                                  'Project status',
                                  'none',
                                  [])
@@ -454,7 +475,7 @@ describe 'Projects index page',
         expect(page).to have_text(gray_project.name)
         expect(page).to have_text(no_status_project.name)
 
-        projects_page.set_filter('code',
+        projects_page.set_filter('project_status_code',
                                  'Project status',
                                  'is not',
                                  ['On track'])
@@ -816,18 +837,6 @@ describe 'Projects index page',
       child_project_z.save!
       child_project_a.custom_field_values = { integer_custom_field.id => 4 }
       child_project_a.save!
-    end
-
-    def expect_project_at_place(project, place)
-      expect(page)
-        .to have_selector("#project-table .project:nth-of-type(#{place}) td.name",
-                          text: project.name)
-    end
-
-    def expect_projects_in_order(*projects)
-      projects.each_with_index do |project, index|
-        expect_project_at_place(project, index + 1)
-      end
     end
 
     scenario 'allows to alter the order in which projects are displayed' do
