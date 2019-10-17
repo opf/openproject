@@ -29,6 +29,7 @@ class SetLocalizationService
 
   def header_language
     return unless http_accept_header
+
     accept_lang = parse_qvalues(http_accept_header).first
     find_language_or_prefix accept_lang
   end
@@ -54,13 +55,15 @@ class SetLocalizationService
       tmp = tmp.sort_by { |_val, q| -q }
       tmp.map! { |val, _q| val }
     end
-    return tmp
+
+    tmp
   rescue
     nil
   end
 
   def find_language_or_prefix(language)
     return nil unless language
+
     language = language.to_s.downcase
     find_language(language) || find_language(language.split('-').first)
   end
