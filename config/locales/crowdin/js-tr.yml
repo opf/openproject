@@ -695,7 +695,7 @@ tr:
         label_content: "Menüyü geçerek içeriği görmek için tıklayın"
       placeholders:
         default: "-"
-        formattable: "%{name}: Click to edit..."
+        formattable: "%{name}: Düzenlemek için tıklayın ..."
       query:
         column_names: "Sütunlar"
         group_by: "Sonuçları grupla"

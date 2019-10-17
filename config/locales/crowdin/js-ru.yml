@@ -698,7 +698,7 @@ ru:
         label_content: "Кликните здесь, чтобы пропустить меню и перейти к содержанию"
       placeholders:
         default: "-"
-        formattable: "%{name}: Click to edit..."
+        formattable: "%{name}: Нажмите для редактирования..."
       query:
         column_names: "Столбцы"
         group_by: "Результаты группы по"

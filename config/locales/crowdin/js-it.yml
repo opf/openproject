@@ -695,7 +695,7 @@ it:
         label_content: "Clicca qui per saltare il menu ed andare al contenuto"
       placeholders:
         default: "-"
-        formattable: "%{name}: Click to edit..."
+        formattable: "%{name}: Clicca per modificare..."
       query:
         column_names: "Colonne"
         group_by: "Raggruppa i risultati per"
