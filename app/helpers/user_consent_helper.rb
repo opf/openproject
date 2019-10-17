@@ -38,10 +38,18 @@ module ::UserConsentHelper
     Setting.consent_required? && consent_configured?
   end
 
-  def user_consent_instructions(user)
-    language = user.try(:language) || Setting.default_language
+  ##
+  # Gets consent instructions for the given user.
+  #
+  # @param user [User] The user to get instructions for.
+  # @param locale [String] ISO-639-1 code for the desired locale (e.g. de, en, fr).
+  #                        `I18n.locale` is set for each request individually depending
+  #                        among other things on the user's Accept-Language headers.
+  # @return [String] Instructions in the respective language.
+  def user_consent_instructions(user, locale: I18n.locale)
     all = Setting.consent_info
-    all.fetch(language) { all.values.first }
+
+    all.fetch(locale) { all.values.first }
   end
 
   def consent_configured?
