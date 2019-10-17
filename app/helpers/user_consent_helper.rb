@@ -28,7 +28,6 @@
 #++
 
 module ::UserConsentHelper
-
   def consent_param?
     params[:consent_check].present?
   end
