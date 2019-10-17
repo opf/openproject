@@ -155,7 +155,6 @@ module OpenProject
       'user-avatar-mini-height'                              => "20px",
       'user-avatar-default-bg-color'                         => "#090952",
       'select-element-padding'                               => "3px, 24px, 3px, 3px",
-      'widget-box-content-bg-color'                          => "$body-background",
       'widget-box-block-bg-color'                            => "$body-background",
       'widget-box-block-border-color'                        => "$content-default-border-color",
       'homescreen-footer-bg-color'                           => "$gray-light",
@@ -208,7 +207,8 @@ module OpenProject
       'project-status-gray'                                  => '#CCCCCC',
       'project-status-red'                                   => '#E73E3D',
       'project-status-orange'                                => '#FFB030',
-      'project-status-green'                                 => '#00D12D'
+      'project-status-green'                                 => '#00D12D',
+      'grid-background-color'                                => '#F3F6F8'
     }.freeze
 
     # Regular expression for references of other variables.

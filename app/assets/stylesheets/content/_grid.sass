@@ -1,7 +1,7 @@
 $grid--gap-width: 20px
 $grid--header-width: 20px
 
-$grid--widget-padding: 20px
+$grid--widget-padding: 20px 20px 20px 20px
 
 @import openproject/mixins
 
@@ -50,8 +50,6 @@ $grid--widget-padding: 20px
 
   &.-passive
     pointer-events: none
-    background: #EEEEEE
-    opacity: 0.5
 
   &.-gap
     &.-row
@@ -67,7 +65,9 @@ $grid--widget-padding: 20px
   icon-triggered-context-menu
     visibility: hidden
 
-  &.-drop-target
+  &.-drop-target,
+  &.-passive
+    opacity: 0.5
     border-width: 1px
     border-style: solid
     border-color: $secondary-color
@@ -96,8 +96,8 @@ $grid--widget-padding: 20px
 .grid--area-drag-handle
   margin-left: -19px
   padding-right: 1px
-  padding-top: 5px
-  margin-top: 3px
+  padding-top: 4px
+  margin-top: 5px
   opacity: 0
   cursor: grab
   float: left
@@ -116,9 +116,6 @@ $grid--widget-padding: 20px
     display: flex
     flex-direction: column
     height: 100%
-
-  input[type="text"].toolbar--editable-toolbar
-    font-weight: normal
 
   &.cdk-drag-preview
     overflow: hidden
@@ -198,8 +195,7 @@ $grid--widget-padding: 20px
     align-items: center
     padding: 0
     border-radius: initial
-    border: 1px solid #FFFFFF
-
+    
     &:before
       font-size: 0.75rem
 

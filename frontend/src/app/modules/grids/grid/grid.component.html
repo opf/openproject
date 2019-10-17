@@ -39,7 +39,7 @@
              (start)="resize.start(area)"
              (move)="resize.moving($event)">
       <div class="grid--resizer">
-        <i class="icon-resizer-bottom-right"
+        <i class="icon-resizer-bottom-right hidden-for-mobile"
            aria-hidden="true">
         </i>
       </div>
@@ -64,7 +64,7 @@
        (cdkDropListDropped)="drag.drop($event)"
        (cdkDropListEntered)="drag.entered($event)"
        [cdkDropListConnectedTo]="layout.gridAreaIds">
-    <div class="grid--widget-add"
+    <div class="grid--widget-add hidden-for-mobile"
          [title]="add.addText"
          (click)="add.widget(area)">
     </div>
@@ -82,7 +82,7 @@
        [style.grid-column-end]="gap.gridEndColumn"
        [id]="gap.guid"
        (mouseover)="layout.setMousedOverArea(gap)">
-    <div class="grid--widget-add -gap"
+    <div class="grid--widget-add -gap hidden-for-mobile"
          [title]="add.addText"
          (click)="add.widget(gap, layout.schema)">
     </div>
