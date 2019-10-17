@@ -35,6 +35,11 @@ module API
         helpers ::API::Helpers::AttachmentRenderer
 
         get '/avatar' do
+          # Cache for one day
+          expire_in = 60 * 60 * 24
+          header "Cache-Control", "public, max-age=#{expire_in}"
+          header "Expires", CGI.rfc1123_date(Time.now.utc + expire_in)
+
           if local_avatar = local_avatar?(@user)
             respond_with_attachment(local_avatar)
           elsif avatar_manager.gravatar_enabled?
