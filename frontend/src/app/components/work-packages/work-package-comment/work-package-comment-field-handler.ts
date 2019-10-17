@@ -36,11 +36,6 @@ export abstract class WorkPackageCommentFieldHandler extends EditFieldHandler im
    */
   public abstract get htmlId():string;
 
-  /**
-   * Required field label translation
-   */
-  public abstract get fieldLabel():string;
-
   public abstract get workPackage():WorkPackageResource;
 
   public reset(withText:string = '') {
