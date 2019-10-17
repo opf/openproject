@@ -53,6 +53,7 @@ export class ProjectStatusEditFieldComponent extends EditFieldComponent implemen
   });
 
   public hiddenOverflowContainer = '#content-wrapper';
+  public appendToContainer = 'body';
 
   ngOnInit() {
     this.currentStatusCode = this.resource['status'] === null ? 'not set' : this.resource['status'];
@@ -71,19 +72,21 @@ export class ProjectStatusEditFieldComponent extends EditFieldComponent implemen
   }
 
   public onOpen() {
+    // Force reposition as a workaround for BUG
+    // https://github.com/ng-select/ng-select/issues/1259
     setTimeout(() => {
-      const dropdown = document.getElementById(this.ngSelectComponent.dropdownId);
-      if (dropdown) {
-        dropdown.classList.remove('-hidden-until-positioned');
+      const component = (this.ngSelectComponent) as any;
+      if (component.dropdownPanel) {
+        component.dropdownPanel._updatePosition();
       }
-    }, 25);
 
-    jQuery(this.hiddenOverflowContainer).one('scroll', () => {
-      this.ngSelectComponent.close();
-    });
+      jQuery(this.hiddenOverflowContainer).one('scroll.autocompleteContainer', () => {
+        this.ngSelectComponent.close();
+      });
+    }, 25);
   }
 
   public onClose() {
-    // Nothing to do
+    jQuery(this.hiddenOverflowContainer).off('scroll.autocompleteContainer');
   }
 }
