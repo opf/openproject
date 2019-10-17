@@ -19,7 +19,7 @@
     <div class="grid--area-content widget-box"
          cdkDrag
          (cdkDragStarted)="drag.start(area)"
-         (cdkDragEnded)="drag.stop(area, $event)">
+         (cdkDragEnded)="drag.stop()">
 
       <span *ngIf="drag.isDraggable"
             class="grid--area-drag-handle
@@ -35,7 +35,7 @@
     </div>
     <resizer *ngIf="resize.isResizable"
              [customHandler]="true"
-             (end)="resize.end(area, $event)"
+             (end)="resize.end(area)"
              (start)="resize.start(area)"
              (move)="resize.moving($event)">
       <div class="grid--resizer">
