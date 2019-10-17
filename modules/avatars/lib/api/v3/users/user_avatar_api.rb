@@ -34,11 +34,19 @@ module API
         helpers ::AvatarHelper
         helpers ::API::Helpers::AttachmentRenderer
 
+        helpers do
+          def set_cache_headers!
+            return if @user == current_user
+
+            # Cache for one day if not the current user
+            expire_in = 60 * 60 * 24
+            header "Cache-Control", "public, max-age=#{expire_in}"
+            header "Expires", CGI.rfc1123_date(Time.now.utc + expire_in)
+          end
+        end
+
         get '/avatar' do
-          # Cache for one day
-          expire_in = 60 * 60 * 24
-          header "Cache-Control", "public, max-age=#{expire_in}"
-          header "Expires", CGI.rfc1123_date(Time.now.utc + expire_in)
+          set_cache_headers!
 
           if local_avatar = local_avatar?(@user)
             respond_with_attachment(local_avatar)
