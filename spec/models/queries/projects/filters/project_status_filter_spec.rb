@@ -28,59 +28,23 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::BaseOrder
-  include ActiveModel::Validations
+require 'spec_helper'
 
-  VALID_DIRECTIONS = %i(asc desc).freeze
+describe Queries::Projects::Filters::ProjectStatusFilter, type: :model do
+  it_behaves_like 'basic query filter' do
+    let(:class_key) { :project_status_code }
+    let(:type) { :list_optional }
+    let(:model) { Project }
+    let(:attribute) { :project_status_code }
+    let(:values) { ['On track'] }
+    let(:human_name) { 'Project status' }
+    let(:admin) { FactoryBot.build_stubbed(:admin) }
+    let(:user) { FactoryBot.build_stubbed(:user) }
 
-  def self.i18n_scope
-    :activerecord
-  end
-
-  validates :direction, inclusion: { in: VALID_DIRECTIONS }
-
-  class_attribute :model
-  attr_accessor :direction,
-                :attribute
-
-  def initialize(attribute)
-    self.attribute = attribute
-  end
-
-  def self.key
-    raise NotImplementedError
-  end
-
-  def scope
-    scope = order
-    scope = scope.joins(joins) if joins
-    scope = scope.left_outer_joins(left_outer_joins) if left_outer_joins
-    scope
-  end
-
-  def name
-    attribute
-  end
-
-  private
-
-  def order
-    model.order(name => direction)
-  end
-
-  def joins
-    nil
-  end
-
-  def left_outer_joins
-    nil
-  end
-
-  def with_raise_on_invalid
-    if VALID_DIRECTIONS.include?(direction)
-      yield
-    else
-      raise ArgumentError, "Only one of #{VALID_DIRECTIONS} allowed. #{direction} is provided."
+    describe '#allowed_values' do
+      it 'is a list of the possible values' do
+        expect(instance.allowed_values).to match_array([["At risk", "1"], ["Off track", "2"], ["On track", "0"]])
+      end
     end
   end
 end

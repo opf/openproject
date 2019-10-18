@@ -28,59 +28,23 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::BaseOrder
-  include ActiveModel::Validations
-
-  VALID_DIRECTIONS = %i(asc desc).freeze
-
-  def self.i18n_scope
-    :activerecord
+module ProjectStatusHelper
+  def project_status_css_class(status)
+    code = project_status_ensure_default_code(status)
+    '-' + code.tr('_', '-')
   end
 
-  validates :direction, inclusion: { in: VALID_DIRECTIONS }
-
-  class_attribute :model
-  attr_accessor :direction,
-                :attribute
-
-  def initialize(attribute)
-    self.attribute = attribute
+  def project_status_name(status)
+    code = project_status_ensure_default_code(status)
+    project_status_name_for_code(code)
   end
 
-  def self.key
-    raise NotImplementedError
+  def project_status_name_for_code(code)
+    code ||= 'not_set'
+    I18n.t('js.grid.widgets.project_status.' + code)
   end
 
-  def scope
-    scope = order
-    scope = scope.joins(joins) if joins
-    scope = scope.left_outer_joins(left_outer_joins) if left_outer_joins
-    scope
-  end
-
-  def name
-    attribute
-  end
-
-  private
-
-  def order
-    model.order(name => direction)
-  end
-
-  def joins
-    nil
-  end
-
-  def left_outer_joins
-    nil
-  end
-
-  def with_raise_on_invalid
-    if VALID_DIRECTIONS.include?(direction)
-      yield
-    else
-      raise ArgumentError, "Only one of #{VALID_DIRECTIONS} allowed. #{direction} is provided."
-    end
+  def project_status_ensure_default_code(status)
+    status.try(:code) || 'not_set'
   end
 end

@@ -28,59 +28,38 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::BaseOrder
-  include ActiveModel::Validations
+module Queries
+  module Projects
+    module Filters
+      class ProjectStatusFilter < ::Queries::Projects::Filters::ProjectFilter
+        include ProjectStatusHelper
 
-  VALID_DIRECTIONS = %i(asc desc).freeze
+        def allowed_values
+          @allowed_values ||= Project::Status.codes.map do |code, id|
+            [project_status_name_for_code(code), id.to_s]
+          end
+        end
 
-  def self.i18n_scope
-    :activerecord
-  end
+        def left_outer_joins
+          :status
+        end
 
-  validates :direction, inclusion: { in: VALID_DIRECTIONS }
+        def where
+          operator_strategy.sql_for_field(values, Project::Status.table_name, :code)
+        end
 
-  class_attribute :model
-  attr_accessor :direction,
-                :attribute
+        def type
+          :list_optional
+        end
 
-  def initialize(attribute)
-    self.attribute = attribute
-  end
+        def self.key
+          :project_status_code
+        end
 
-  def self.key
-    raise NotImplementedError
-  end
-
-  def scope
-    scope = order
-    scope = scope.joins(joins) if joins
-    scope = scope.left_outer_joins(left_outer_joins) if left_outer_joins
-    scope
-  end
-
-  def name
-    attribute
-  end
-
-  private
-
-  def order
-    model.order(name => direction)
-  end
-
-  def joins
-    nil
-  end
-
-  def left_outer_joins
-    nil
-  end
-
-  def with_raise_on_invalid
-    if VALID_DIRECTIONS.include?(direction)
-      yield
-    else
-      raise ArgumentError, "Only one of #{VALID_DIRECTIONS} allowed. #{direction} is provided."
+        def human_name
+          I18n.t('js.grid.widgets.project_status.title')
+        end
+      end
     end
   end
 end

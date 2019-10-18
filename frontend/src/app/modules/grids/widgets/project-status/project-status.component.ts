@@ -42,7 +42,6 @@ import {HalResourceEditingService} from "core-app/modules/fields/edit/services/h
 
 @Component({
   templateUrl: './project-status.component.html',
-  styleUrls: ['./project-status.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     // required by the displayField service to render the fields

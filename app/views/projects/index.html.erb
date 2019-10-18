@@ -65,6 +65,7 @@ See docs/COPYRIGHT.rdoc for more details.
           <tr>
             <%= render partial: 'hierarchy_header' %>
             <%= projects_sort_header_tag('name', caption: Project.human_attribute_name(:name), param: :json) %>
+            <%= projects_sort_header_tag('project_status', caption: Project.human_attribute_name(:status), param: :json) %>
             <%= projects_sort_header_tag('public', caption: Project.human_attribute_name(:public), param: :json) %>
             <% if EnterpriseToken.allows_to?(:custom_fields_in_projects_list) %>
               <% @custom_fields.each do |custom_field| %>
@@ -99,6 +100,12 @@ See docs/COPYRIGHT.rdoc for more details.
                   <span class="archived-label"><%= t('project.archive.archived') %></span>
                 <% end %>
                 <%= link_to_project(project, {}, {}, false) %>
+              </td>
+              <td>
+                <% if project.status.try(:code) %>
+                  <span class="project-status--bulb -inline <%= project_status_css_class(project.status) %>"></span>
+                  <span class="project-status--name <%= project_status_css_class(project.status) %>"><%= project_status_name(project.status) %></span>
+                <% end %>
               </td>
               <td><%= checked_image project.public? %></td>
               <% if EnterpriseToken.allows_to?(:custom_fields_in_projects_list) %>
@@ -144,7 +151,7 @@ See docs/COPYRIGHT.rdoc for more details.
             <% unless project.description.blank? %>
               <tr class="project-description <%= project_css_classes(project) %> <%= level > 0 ? "idnt idnt-#{level}" : nil %> <%= params[:expand] == 'all' ? '-expanded' : '' %>">
                 <td></td>
-                <td colspan="<%= @custom_fields.size + (User.current.admin? ? 6 : 3) %>" class="project--hierarchy">
+                <td colspan="<%= @custom_fields.size + (User.current.admin? ? 7 : 4) %>" class="project--hierarchy">
                   <div class="description-container">
                     <span class="wiki"><%= format_text(short_project_description(project), project: project) %></span>
                   </div>
