@@ -206,8 +206,6 @@ de:
           image_alt_text: "Board Teaser-Bild"
           learn_about: "Erfahren Sie mehr über agile Boards"
     label_activate: "Aktiviere"
-    label_activity_no: "Aktivitäts-Nummer: %{activityNo}"
-    label_activity_with_comment_no: "Aktivitäts-Nummer: %{activityNo}. Hat einen Benutzerkommentar."
     label_add_column_after: "Spalte danach hinzufügen"
     label_add_column_before: "Spalte davor hinzufügen"
     label_add_columns: "Spalte hinzufügen"

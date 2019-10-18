@@ -207,8 +207,6 @@ pl:
           image_alt_text: "Obraz zapowiedzi tablic"
           learn_about: "Dowiedz się więcej o tablicach zwinnych"
     label_activate: "Aktywuj"
-    label_activity_no: "Aktywność %{activityNo}"
-    label_activity_with_comment_no: "Aktywność %{activityNo} została skomentowana."
     label_add_column_after: "Dodaj kolumnę po"
     label_add_column_before: "Dodaj kolumnę przed"
     label_add_columns: "Dodaj kolumny"

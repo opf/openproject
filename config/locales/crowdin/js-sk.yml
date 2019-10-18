@@ -207,8 +207,6 @@ sk:
           image_alt_text: "Board teaser image"
           learn_about: "Learn more about Agile Boards"
     label_activate: "Aktivovať"
-    label_activity_no: "Záznam aktivity číslo %{activityNo}"
-    label_activity_with_comment_no: "Záznam aktivity číslo %{activityNo} (obsahuje komentár)"
     label_add_column_after: "Pridať stĺpec po"
     label_add_column_before: "Pridať stĺpec pred"
     label_add_columns: "Pridať stĺpce"

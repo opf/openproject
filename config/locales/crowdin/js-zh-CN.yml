@@ -207,8 +207,6 @@ zh-CN:
           image_alt_text: "开发板宣传图像"
           learn_about: "详细了解敏捷开发板"
     label_activate: "激活"
-    label_activity_no: "活动条目编号 %{activityNo}"
-    label_activity_with_comment_no: "活动条目编号 %{activityNo}，有用户评论。"
     label_add_column_after: "之后添加列"
     label_add_column_before: "在之前添加列"
     label_add_columns: "增添列"

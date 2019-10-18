@@ -207,8 +207,6 @@ fil:
           image_alt_text: "Board teaser image"
           learn_about: "Learn more about Agile Boards"
     label_activate: "Aktibo"
-    label_activity_no: "Bilang ng aktibidad entry %{activityNo}"
-    label_activity_with_comment_no: "Bilang ng aktibidad entry %{activityNo}. Mayroong komento ng gumagamit."
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
     label_add_columns: "Magdagdag ng hanay"

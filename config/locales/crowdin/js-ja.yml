@@ -208,8 +208,6 @@ ja:
           image_alt_text: "ボードのティーザー画像"
           learn_about: "アジャイルボードについて知る"
     label_activate: "有効にする"
-    label_activity_no: "アクティビティのエントリ番号 %{activityNo}"
-    label_activity_with_comment_no: "アクティビティのエントリ番号 %{activityNo}。ユーザー コメントがあります。"
     label_add_column_after: "後に列を追加"
     label_add_column_before: "前に列を追加"
     label_add_columns: "列を追加"

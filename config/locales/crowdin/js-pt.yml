@@ -207,8 +207,6 @@ pt:
           image_alt_text: "Imagem de teaser Board"
           learn_about: "Saiba mais sobre os Quadros Agile"
     label_activate: "Ativar"
-    label_activity_no: "Número de entrada da atividade %{activityNo}"
-    label_activity_with_comment_no: "Número de entrada da atividade %{activityNo}. Tem um comentário de utilizador."
     label_add_column_after: "Adicionar coluna após"
     label_add_column_before: "Adicionar coluna antes"
     label_add_columns: "Adicionar colunas"

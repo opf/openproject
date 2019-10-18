@@ -207,8 +207,6 @@ ar:
           image_alt_text: "Board teaser image"
           learn_about: "Learn more about Agile Boards"
     label_activate: "تفعيل"
-    label_activity_no: "رقم إدخال النشاط%{activityNo}"
-    label_activity_with_comment_no: "رقم إدخال النشاط %{activityNo}. يمتلك تعليق مستخدم."
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
     label_add_columns: "Add columns"

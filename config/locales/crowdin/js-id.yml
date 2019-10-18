@@ -207,8 +207,6 @@ id:
           image_alt_text: "Board teaser image"
           learn_about: "Learn more about Agile Boards"
     label_activate: "Aktifkan"
-    label_activity_no: "Activity entry number %{activityNo}"
-    label_activity_with_comment_no: "Activity entry number %{activityNo}. Has a user comment."
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
     label_add_columns: "Tambah kolom"

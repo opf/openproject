@@ -206,8 +206,6 @@ ru:
           image_alt_text: "Тизер доски"
           learn_about: "Подробнее о Agile Boards"
     label_activate: "Активировать"
-    label_activity_no: "Деятельность номер %{activityNo}"
-    label_activity_with_comment_no: "Деятельность номер %{activityNo}. Есть комментарий пользователя."
     label_add_column_after: "Добавить столбец после"
     label_add_column_before: "Добавить столбец перед"
     label_add_columns: "Добавить столбец"

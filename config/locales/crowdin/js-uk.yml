@@ -207,8 +207,6 @@ uk:
           image_alt_text: "Зображення тизера дошки\n"
           learn_about: "Дізнайтеся більше про Agile Boards"
     label_activate: "Активувати"
-    label_activity_no: "Запис активності номер %{activityNo}"
-    label_activity_with_comment_no: "Запис активності номер %{activityNo}. Має коментар користувача."
     label_add_column_after: "Додати стовпець після"
     label_add_column_before: "Додати стовпець перед"
     label_add_columns: "Додати стовпці"

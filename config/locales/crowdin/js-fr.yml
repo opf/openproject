@@ -207,8 +207,6 @@ fr:
           image_alt_text: "Image teaser du Tableau"
           learn_about: "En savoir plus sur les Tableaux Agile"
     label_activate: "Activer"
-    label_activity_no: "Entrée d'activité numéro %{activityNo}"
-    label_activity_with_comment_no: "Entrée d'activité numéro %{activityNo}. A un commentaire utilisateur."
     label_add_column_after: "Ajouter une colonne au-dessus"
     label_add_column_before: "Ajouter une colonne avant"
     label_add_columns: "Ajouter des colonnes"

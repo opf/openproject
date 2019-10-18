@@ -207,8 +207,6 @@ it:
           image_alt_text: "Immagine di esempio di Tabellone"
           learn_about: "Ulteriori informazioni sui Tabelloni Agile"
     label_activate: "Attiva"
-    label_activity_no: "Voce attività numero %{activityNo}"
-    label_activity_with_comment_no: "Voce attività numero %{activityNo}. Ha un commento da un utente."
     label_add_column_after: "Aggiungi colonna dopo"
     label_add_column_before: "Aggiungi colonna prima"
     label_add_columns: "Aggiungi colonne"

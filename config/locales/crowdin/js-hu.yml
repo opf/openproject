@@ -206,8 +206,6 @@ hu:
           image_alt_text: "Board teaser image"
           learn_about: "Learn more about Agile Boards"
     label_activate: "Aktivál"
-    label_activity_no: "Tevékenységi bejegyzések száma %{activityNo}"
-    label_activity_with_comment_no: "Tevékenységi bejegyzések száma %{activityNo}. Felhasználói megjegyzéssel."
     label_add_column_after: "Oszlop hozzáadása utána"
     label_add_column_before: "Oszlop hozzáadása előtte"
     label_add_columns: "Oszlopok hozzáadása"

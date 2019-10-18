@@ -207,8 +207,6 @@ ko:
           image_alt_text: "보드 티저 이미지"
           learn_about: "애자일 보드에 대해 자세히 알아보기"
     label_activate: "활성화"
-    label_activity_no: "활동 항목 번호 %{activityNo}"
-    label_activity_with_comment_no: "활동 항목 번호 %{activityNo}. 사용자 의견 포함."
     label_add_column_after: "다음 뒤에 열 추가"
     label_add_column_before: "다음 앞에 열 추가"
     label_add_columns: "열 추가"

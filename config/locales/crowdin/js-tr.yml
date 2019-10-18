@@ -207,8 +207,6 @@ tr:
           image_alt_text: "Yönetim Kurulu teaser image"
           learn_about: "Çevik Kurullar hakkında daha fazla bilgi edinin"
     label_activate: "Etkinleştir"
-    label_activity_no: "Etkinlik giriş numarası %{activityNo}"
-    label_activity_with_comment_no: "Etkinlik giriş numarası %{activityNo}. Kullanıcı yorumu var."
     label_add_column_after: "Sonrasına sütun ekle"
     label_add_column_before: "Öncesine sütun ekle"
     label_add_columns: "Sütunlar ekle"

@@ -207,8 +207,6 @@ es:
           image_alt_text: "Imagen promocional de los paneles"
           learn_about: "Obtenga más información sobre los paneles ágiles"
     label_activate: "Activar"
-    label_activity_no: "Entrada de actividad número %{activityNo}"
-    label_activity_with_comment_no: "Entrada de actividad número %{activityNo} tiene un comentario."
     label_add_column_after: "Añadir columna a la derecha"
     label_add_column_before: "Añadir columna a la izquierda"
     label_add_columns: "Añadir columnas"

@@ -207,8 +207,6 @@ nl:
           image_alt_text: "Board teaser image"
           learn_about: "Learn more about Agile Boards"
     label_activate: "Activeren"
-    label_activity_no: "Activiteit ingangsnummer %{activityNo}"
-    label_activity_with_comment_no: "Activiteit ingangsnummer %{activityNo}. Bevat gebruikerscommentaar."
     label_add_column_after: "Kolom toevoegen na"
     label_add_column_before: "Kolom toevoegen voor"
     label_add_columns: "Kolommen toevoegen"
