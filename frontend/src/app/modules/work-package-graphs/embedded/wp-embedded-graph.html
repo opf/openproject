@@ -4,7 +4,10 @@
           [labels]="chartLabels"
           [chartType]="chartType"
           [options]="chartOptions"
-          *ngIf="chartData.length > 0">
+          *ngIf="hasDataToDisplay">
   </canvas>
+  <no-results *ngIf="!hasDataToDisplay && initialized"
+              [title]="text.noResults">
+  </no-results>
 </div>
 
