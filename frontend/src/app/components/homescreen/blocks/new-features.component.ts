@@ -26,13 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Injector} from '@angular/core';
+import {Component} from '@angular/core';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {boardTeaserWebsiteURL} from "core-app/modules/boards/board-constants.const";
-import {OpModalService} from "core-components/op-modals/op-modal.service";
-import {BoardVideoTeaserModalComponent} from "core-app/modules/boards/board/board-video-teaser-modal/board-video-teaser-modal.component";
 import {DomSanitizer} from "@angular/platform-browser";
+import {dashboardWebsiteUrl} from "core-app/modules/dashboards/dashboard-constants.const";
 
 @Component({
   template: `
@@ -43,10 +41,10 @@ import {DomSanitizer} from "@angular/platform-browser";
     <div class="widget-box--description">
       <p [innerHtml]="text.currentNewFeatureHtml"></p>
 
-      <a class="widget-box--teaser-image" (click)="showBoardTeaserVideo()"></a>
+      <a class="widget-box--teaser-image"></a>
     </div>
 
-    <a [href]="boardTeaserWebsiteUrl()" target="_blank">{{ text.learnAbout }}</a>
+    <a [href]="teaserWebsiteUrl()" target="_blank">{{ text.learnAbout }}</a>
   `,
   selector: 'homescreen-new-features-block',
   styleUrls: ['./new-features.component.sass'],
@@ -56,7 +54,6 @@ import {DomSanitizer} from "@angular/platform-browser";
  * Component for the homescreen block to promote new features.
  * When updating this for the next release, be sure to cleanup stuff is not needed any more:
  * Locals (js-en.yml), Styles (new-features.component.sass), HTML (above), TS (below)
- * Further cleanup additional stuff (and update this list): The boardVideoTeaserModal, the image shown as modalLink
  */
 export class HomescreenNewFeaturesBlockComponent {
   public text = {
@@ -64,24 +61,14 @@ export class HomescreenNewFeaturesBlockComponent {
     descriptionNewFeatures: this.i18n.t('js.homescreen.blocks.new_features.text_new_features'),
     currentNewFeatureHtml: this.i18n.t('js.homescreen.blocks.new_features.current_new_feature_html'),
     learnAbout: this.i18n.t('js.homescreen.blocks.new_features.learn_about'),
-    imageAltText: this.i18n.t('js.homescreen.blocks.new_features.image_alt_text'),
   };
 
   constructor(readonly i18n:I18nService,
-              readonly opModalService:OpModalService,
-              readonly injector:Injector,
               readonly domSanitizer:DomSanitizer) {
   }
 
-  public showBoardTeaserVideo() {
-    this.opModalService.show(
-      BoardVideoTeaserModalComponent,
-      this.injector
-    );
-  }
-
-  public boardTeaserWebsiteUrl() {
-    return this.domSanitizer.bypassSecurityTrustResourceUrl(boardTeaserWebsiteURL);
+  public teaserWebsiteUrl() {
+    return this.domSanitizer.bypassSecurityTrustResourceUrl(dashboardWebsiteUrl);
   }
 }
 
