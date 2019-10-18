@@ -203,9 +203,8 @@ it:
       blocks:
         new_features:
           text_new_features: "Informati sulle nuove funzionalità e sugli aggiornamenti dei prodotti."
-          current_new_feature_html: "OpenProject contiene una nuova <b>vista Tabellone</b> per la gestione di progetti Agile. </br> Per attivare questa nuova funzionalità sui progetti esistenti, effettua i seguenti passi: <ul><li>Attiva il modulo Schede nelle impostazioni dei progetti esistenti.</li> <li>Configura le tue Schede in un progetto.</li> <li>Verifica ruoli e permessi</li></ul>"
-          image_alt_text: "Immagine di esempio di Tabellone"
-          learn_about: "Ulteriori informazioni sui Tabelloni Agile"
+          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
+          learn_about: "Learn more about the new status widgets"
     label_activate: "Attiva"
     label_add_column_after: "Aggiungi colonna dopo"
     label_add_column_before: "Aggiungi colonna prima"

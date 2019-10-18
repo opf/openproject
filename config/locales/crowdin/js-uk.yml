@@ -203,9 +203,8 @@ uk:
       blocks:
         new_features:
           text_new_features: "Читайте про нові функції та оновлення продуктів."
-          current_new_feature_html: "OpenProject містить новий <b> Перегляд плати </b> для керування Agile проектом. </br> Щоб активувати цю нову функцію для існуючих проектів, виконайте такі дії: <ul> <li> Активуйте панелі модулів у налаштуваннях існуючих проектів. </li> <li> Налаштуйте плати в проекті. </li> <li> Перевірте ролі та дозволи </li> </ul>"
-          image_alt_text: "Зображення тизера дошки\n"
-          learn_about: "Дізнайтеся більше про Agile Boards"
+          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
+          learn_about: "Learn more about the new status widgets"
     label_activate: "Активувати"
     label_add_column_after: "Додати стовпець після"
     label_add_column_before: "Додати стовпець перед"

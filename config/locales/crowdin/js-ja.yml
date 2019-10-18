@@ -204,9 +204,8 @@ ja:
       blocks:
         new_features:
           text_new_features: "新しい機能と製品の更新について表示する"
-          current_new_feature_html: "OpenProject には、アジャイルプロジェクトを管理する新しい<b>ボードビュー</b>が含まれています。 </br>既存のプロジェクトに対してこの新機能を有効にするには、次の手順に従ってください。<ul><li>既存のプロジェクトの設定で、ボードのモジュールを有効にします。</li> <li>プロジェクトでボードを設定します。 </li> <li>役割と権限を確認してください</li></ul>"
-          image_alt_text: "ボードのティーザー画像"
-          learn_about: "アジャイルボードについて知る"
+          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
+          learn_about: "Learn more about the new status widgets"
     label_activate: "有効にする"
     label_add_column_after: "後に列を追加"
     label_add_column_before: "前に列を追加"

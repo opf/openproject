@@ -203,9 +203,8 @@ lt:
       blocks:
         new_features:
           text_new_features: "Skaitykite apie naujas savybes ir produkto atnaujinimus."
-          current_new_feature_html: "OpenProject yra naujas <b>Lentų rodinys</b> skirtas Agile projektų valdymui. </br> Norėdami aktyvuoti šią naują savybę esamiems projektams: <ul><li>Aktyvuokite modulį Lentos esamų projektų nustatymuose.</li> <li>Sukonfigūruokite jūsų Lentas projekte.</li> <li>Patikrinkite roles ir teises</li></ul>"
-          image_alt_text: "Lentos iliustracija"
-          learn_about: "Sužinokite daugiau apie Agile Lentas"
+          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
+          learn_about: "Learn more about the new status widgets"
     label_activate: "Aktyvuoti"
     label_add_column_after: "Pridėti stulpelį po"
     label_add_column_before: "Pridėti stulpelį prieš"
