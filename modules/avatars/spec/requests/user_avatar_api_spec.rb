@@ -37,6 +37,8 @@ describe 'API v3 User avatar resource', type: :request, content_type: :json do
 
   subject(:response) { last_response }
 
+  let(:setup) { nil }
+
   before do
     login_as user
   end
@@ -46,6 +48,8 @@ describe 'API v3 User avatar resource', type: :request, content_type: :json do
       allow(Setting)
         .to receive(:plugin_openproject_avatars)
         .and_return(enable_gravatars: gravatars, enable_local_avatars: local_avatars)
+
+      setup
 
       get api_v3_paths.user(user.id) + "/avatar"
     end
@@ -81,6 +85,25 @@ describe 'API v3 User avatar resource', type: :request, content_type: :json do
 
       it 'serves the attachment file' do
         expect(response.status).to eq 200
+      end
+
+      context 'with external file storage (S3)' do
+        let(:setup) do
+          allow_any_instance_of(Attachment).to receive(:external_storage?).and_return true
+
+          expect_any_instance_of(Attachment)
+            .to receive(:external_url)
+            .with(expires_in: 86400)
+            .and_return("external URL")
+        end
+
+        # we test that Attachment#external_url works in `attachments_spec.rb`
+        # so here we just make sue it's called accordingly when the external
+        # storage is configured
+        it 'redirects to temporary external URL' do
+          expect(response.status).to eq 302
+          expect(response.location).to eq "external URL"
+        end
       end
     end
   end

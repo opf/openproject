@@ -36,7 +36,7 @@ module API
 
         get '/avatar' do
           if local_avatar = local_avatar?(@user)
-            respond_with_attachment(local_avatar)
+            respond_with_attachment(local_avatar, external_link_expires_in: external_avatar_link_expires_in)
           elsif avatar_manager.gravatar_enabled?
             redirect build_gravatar_image_url(@user)
           else
