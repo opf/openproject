@@ -10,6 +10,10 @@ export interface WorkPackageEmbeddedGraphDataset {
   queryId?:number|string;
   groups?:GroupObject[];
 }
+interface ChartDataSet {
+  label:string;
+  data:number[];
+}
 
 @Component({
   selector: 'wp-embedded-graph',
@@ -21,14 +25,18 @@ export class WorkPackageEmbeddedGraphComponent {
   @Input('chartOptions') public inputChartOptions:ChartOptions;
   @Input('chartType') chartType:ChartType = 'horizontalBar';
 
-  public showTablePagination = false;
   public configuration:WorkPackageTableConfiguration;
   public error:string|null = null;
 
   public chartHeight = '100%';
   public chartLabels:string[] = [];
-  public chartData:any = [];
+  public chartData:ChartDataSet[] = [];
   public chartOptions:ChartOptions;
+  public initialized = false;
+
+  public text = {
+    noResults: this.i18n.t('js.work_packages.no_results.title'),
+  };
 
   constructor(readonly i18n:I18nService) {}
 
@@ -36,6 +44,11 @@ export class WorkPackageEmbeddedGraphComponent {
     if (changes.datasets) {
       this.setChartOptions();
       this.updateChartData();
+
+
+      if (!changes.datasets.firstChange) {
+        this.initialized = true;
+      }
     } else if (changes.chartType) {
       this.setChartOptions();
     }
@@ -112,6 +125,10 @@ export class WorkPackageEmbeddedGraphComponent {
     }
 
     this.chartOptions = Object.assign({}, defaults, chartTypeDefaults, this.inputChartOptions);
+  }
+
+  public get hasDataToDisplay() {
+    return this.chartData.length > 0 && this.chartData.some(set => set.data.length > 0);
   }
 
   private setHeight() {
