@@ -145,14 +145,16 @@ export class HalResource {
   }
 
   /**
-   * Return whether the work package is editable with the user's permission
-   * on the given work package attribute.
+   * Return whether the resource is editable with the user's permission
+   * on the given resource package attribute.
+   * In order to be editable, there needs to be an update link on the resource and the schema for
+   * the attribute needs to indicate the writability.
    *
    * @param property
    */
   public isAttributeEditable(property:string):boolean {
     const fieldSchema = this.schema[property];
-    return fieldSchema && fieldSchema.writable;
+    return this.$links.update && fieldSchema && fieldSchema.writable;
   }
 
   /**
