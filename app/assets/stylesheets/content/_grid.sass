@@ -8,6 +8,11 @@ $grid--widget-padding: 20px 20px 20px 20px
 @mixin grid--commons
   display: grid
 
+body.widget-grid-layout
+  #content-wrapper,
+  #content
+    background-color: $grid-background-color
+
 .grid--container
   @include grid--commons
 

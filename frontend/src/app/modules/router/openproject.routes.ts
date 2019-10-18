@@ -67,9 +67,15 @@ export const OPENPROJECT_ROUTES = [
  * @param className
  * @param action
  */
-export function bodyClass(className:string|null|undefined, action:'add'|'remove' = 'add') {
+export function bodyClass(className:string[]|string|null|undefined, action:'add'|'remove' = 'add') {
   if (className) {
-    document.body.classList[action](className);
+    if (Array.isArray(className)) {
+      className.forEach((cssClass:string) => {
+        document.body.classList[action](cssClass);
+      });
+    } else {
+      document.body.classList[action](className);
+    }
   }
 }
 export function updateMenuItem(menuItemClass:string|undefined, action:'add'|'remove' = 'add') {

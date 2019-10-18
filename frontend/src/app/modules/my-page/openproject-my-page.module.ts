@@ -38,7 +38,7 @@ export const MY_PAGE_ROUTES:Ng2StateDeclaration[] = [
     url: '/my/page',
     component: MyPageComponent,
     data: {
-      bodyClasses: 'router--work-packages-my-page',
+      bodyClasses: ['router--work-packages-my-page', 'widget-grid-layout'],
       parent: 'work-packages'
     }
   },
