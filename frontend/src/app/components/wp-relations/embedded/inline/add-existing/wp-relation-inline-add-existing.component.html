@@ -6,7 +6,8 @@
           [workPackage]="workPackage"
           (onSelected)="onSelected($event)"
           [additionalFilters]="queryFilters"
-          [filterCandidatesFor]="relationType">
+          [filterCandidatesFor]="relationType"
+          hiddenOverflowContainer=".work-packages-full-view--split-left">
       </wp-relations-autocomplete>
     </div>
     <div class="wp-relations-controls-section relation-row">

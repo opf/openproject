@@ -72,7 +72,7 @@ export class WorkPackageRelationsAutocomplete implements AfterContentInit {
   /** Do we take the current query filters into account? */
   @Input() additionalFilters:ApiV3Filter[] = [];
 
-  @Input() appendToContainer:string = 'body';
+  @Input() hiddenOverflowContainer:string = 'body';
   @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
 
   @Output() onCancel = new EventEmitter<undefined>();
@@ -84,6 +84,8 @@ export class WorkPackageRelationsAutocomplete implements AfterContentInit {
 
   // Search input from ng-select
   public searchInput$ = new Subject<string>();
+
+  public appendToContainer = 'body';
 
   // Search results mapped to input
   public results$:Observable<WorkPackageResource[]> = this.searchInput$.pipe(
@@ -165,7 +167,14 @@ export class WorkPackageRelationsAutocomplete implements AfterContentInit {
     // https://github.com/ng-select/ng-select/issues/1259
     setTimeout(() => {
       const component = (this.ngSelectComponent) as any;
-      component.dropdownPanel._updatePosition();
+      if (component) {
+        component.dropdownPanel._updatePosition();
+      }
+
+      jQuery(this.hiddenOverflowContainer).one('scroll', () => {
+        this.ngSelectComponent.close();
+      });
     }, 25);
+
   }
 }
