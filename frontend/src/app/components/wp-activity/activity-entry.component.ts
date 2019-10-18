@@ -44,7 +44,6 @@ export class ActivityEntryComponent implements OnInit {
 
   public projectId:string;
   public activityType:string;
-  public activityLabel:string;
 
   constructor(readonly PathHelper:PathHelperService,
               readonly I18n:I18nService) {
@@ -55,7 +54,6 @@ export class ActivityEntryComponent implements OnInit {
     this.projectId = this.workPackage.project.idFromLink;
 
     this.activityType = this.activity._type;
-    this.activityLabel = this.I18n.t('js.label_activity_no', {activityNo: this.activityNo});
   }
 }
 
