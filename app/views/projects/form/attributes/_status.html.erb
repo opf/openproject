@@ -42,6 +42,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <div class="form--field">
     <%= status_form.text_area :explanation,
                               with_text_formatting: true,
+                              macros: false,
                               preview_context: project_preview_context(project.status, project),
                               container_class: '-xxwide' %>
   </div>

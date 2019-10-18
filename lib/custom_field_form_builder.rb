@@ -68,7 +68,7 @@ class CustomFieldFormBuilder < TabularFormBuilder
       input_options[:class] = (input_options[:class] || '') << ' -augmented-datepicker'
       text_field(field, input_options)
     when 'text'
-      text_area(field, input_options.merge(rows: 3, with_text_formatting: true))
+      text_area(field, input_options.merge(with_text_formatting: true, macros: false))
     when 'bool'
       formatter = field_format.formatter.new(object)
       check_box(field, input_options.merge(checked: formatter.checked?))

@@ -32,7 +32,7 @@ require 'ostruct'
 describe CustomFieldFormBuilder do
   include Capybara::RSpecMatchers
 
-  let(:helper) { ActionView::Base.new }
+  let(:helper) { ActionView::Base.new(ActionView::LookupContext.new('')) }
   let(:builder) { described_class.new(:user, resource, helper, {}) }
 
   describe '#custom_field' do
@@ -103,8 +103,8 @@ describe CustomFieldFormBuilder do
           <textarea class="custom-class form--text-area"
                     id="user#{resource.custom_field_id}"
                     name="user[#{resource.custom_field_id}]"
-                    rows="3"
-                    with_text_formatting="true">
+                    with_text_formatting="true"
+                    macros="false">
           </textarea>
         }).at_path('textarea')
       end
