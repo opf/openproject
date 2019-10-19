@@ -54,7 +54,7 @@ sv:
     button_duplicate: "Duplicera"
     button_edit: "Redigera"
     button_filter: "Filter"
-    button_advanced_filter: "Advanced filter"
+    button_advanced_filter: "Avancerat filter"
     button_list_view: "Listvy"
     button_show_view: "Helskärmsläge"
     button_log_time: "Logga tid"
@@ -108,7 +108,7 @@ sv:
     editor:
       preview: 'Växla förhandsgranskningsläge'
       source_code: 'Toggle Markdown source mode'
-      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      error_saving_failed: 'Misslyckades med att spara dokumentet på grund av följande fel: %{error}'
       error_initialization_failed: 'Failed to initialize CKEditor!'
       mode:
         manual: 'Switch to Markdown source'
