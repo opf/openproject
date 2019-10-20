@@ -203,8 +203,8 @@ tr:
       blocks:
         new_features:
           text_new_features: "Yeni özellikler ve ürün güncellemeleri hakkında bilgi edinin."
-          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
-          learn_about: "Learn more about the new status widgets"
+          current_new_feature_html: "OpenProject, <b> önemli proje bilgilerini görüntülemek </b> ve projenin yolunda olup olmadığını göstermek için yeni bir <b> Genel bakış sayfası </b> içerir. </br> Şunlar gibi çeşitli yeni durum widget'ları ekleyebilirsiniz: <ul> <li> proje durumu, </li> <li> iş paketi durumuna genel bakış, </li> <li> görev ilerlemesi, </ li > <li> kullanıcılara atanan görevler. </li> </ul>"
+          learn_about: "Yeni durum widget'ları hakkında daha fazla bilgi edinin"
     label_activate: "Etkinleştir"
     label_add_column_after: "Sonrasına sütun ekle"
     label_add_column_before: "Öncesine sütun ekle"
