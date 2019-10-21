@@ -23,7 +23,8 @@ body.widget-grid-layout
   border-radius: 3px
 
   &.-drop-target
-    background-color: $gray-light
+    &.cdk-drop-list-dragging
+      border: none
 
   &.-widgeted
     z-index: 10
@@ -52,6 +53,7 @@ body.widget-grid-layout
 
   &.-placeholder
     @include modifying--placeholder
+    background: transparent
     z-index: 30
 
   &.-dragged
@@ -76,13 +78,11 @@ body.widget-grid-layout
 
   &.-drop-target,
   &.-passive
-    opacity: 0.5
     border-width: 1px
     border-style: solid
     border-color: $secondary-color
     transition: border-color 0.5s ease
     z-index: 20
-    background: transparent
 
   &.-resize-target
     z-index: 1000
