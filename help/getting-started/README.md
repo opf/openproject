@@ -2,7 +2,7 @@
 
 Welcome to the OpenProject **Getting Started guide**.
 
-Here you will learn about the **first steps with OpenProject**. If you need more detailed explanations of all features, please visit the respective section in our [user guide](/user-guide/).
+Here you will learn about the **first steps with OpenProject**. If you need more detailed explanations of all features, please visit the respective section in our [user guide](../user-guide/).
 
 ## Overview
 
@@ -20,4 +20,12 @@ Here you will learn about the **first steps with OpenProject**. If you need more
 
 ## 5 steps to get started
 
-<embed https://youtu.be/Fk4papnAzMw autostart="false" />
+Watch a short 3 minute video to get started with OpenProject in 5 easy steps:
+1. Create a project
+2. Add team members
+3. Create work packages
+4. Create a project plan
+5. Filter, group and create reports
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Fk4papnAzMw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
