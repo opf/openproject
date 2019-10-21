@@ -9,7 +9,7 @@ keywords: Sign in OpenProject, registration OpenProject
 
 Here you will get an overview how to sign in and register to an existing OpenProject installation.
 
-<div class="notice">
+<div class="alert alert-info" role="alert">
 
 **Note**: If you do not have an OpenProject installation yet, please visit our site: [create an OpenProject trial installation](./cloud-edition-guide/#create-an-openproject-trial-installation).
 
@@ -90,7 +90,7 @@ You are then asked to enter you email address with which you have registered to 
 
 You will then receive an email with a link to reset your password.
 
-<div class="notice">
+<div class="alert alert-info" role="alert">
 
 **Note**: If you have [signed-in with a Google account](#sign-in-with-a-google-account), your are not able to reset your password at this point.
 

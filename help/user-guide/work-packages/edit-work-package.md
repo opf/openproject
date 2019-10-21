@@ -33,7 +33,7 @@ The green message on top of the work packaage indicates a successful update.
 
 All changes of a work package are documented in the work package [Activity](#activity).
 
-<div class="notice">
+<div class="alert alert-info" role="alert">
 **Note**: There is no possibility to undo changes to work packages (Ctrl+Z).
 </div>
 

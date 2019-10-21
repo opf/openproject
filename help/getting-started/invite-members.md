@@ -9,7 +9,7 @@ keywords: invite members
 
 In order to see a project and work in it, you have to be a member of a project. Therefore, you have to add team members to a project.
 
-<div class="notice">
+<div class="alert alert-info" role="alert">
 
 **Note**: If you are not a member of a project, you do not see the project in the Project selection nor in the project list.
 

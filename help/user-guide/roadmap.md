@@ -26,6 +26,6 @@ The chart displays all work packages listed by a certain attribute. Select the d
 ![roadmap-workpackage-details](1567423371954.png)
 
 Note that a roadmap is only displayed when at least one [version ](https://www.openproject.org/help/manage-backlog-versions/)exists in a project.
-<div class="notice">
+<div class="alert alert-info" role="alert">
 **Note**: A roadmap is only displayed in the project menu when at least one [version](./project-admin-guide/#versions) exists in a project.
 </div>

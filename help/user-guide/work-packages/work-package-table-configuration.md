@@ -83,7 +83,7 @@ Click the blue **Apply** button will save your changes and display the results a
 
 ![sort-work-packages](sort-work-packages.png)
 
-<div class="notice">
+<div class="alert alert-info" role="alert">
 
 **Note**:  If you have the hierarchy mode activated, all filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed.
 

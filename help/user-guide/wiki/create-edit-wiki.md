@@ -22,7 +22,7 @@ To create a new wiki page in a project, navigate to the wiki module in your proj
 
 ![create-wiki-page](1568198706474.png)
 
-<div class="notice">
+<div class="alert alert-info" role="alert">
 **Note**: If you do not see the wiki module in your project menu, you first have to [activate the module in your project settings](./project-admin-guide/#modules).
 
 </div>
