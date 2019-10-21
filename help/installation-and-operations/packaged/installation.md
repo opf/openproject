@@ -494,7 +494,7 @@ As openproject is a system package, it will be automatically updated when you in
 
 After you have just updated your OpenProject version, you should run `openproject configure` (see section below), which would automatically reuse your previous configuration, and only asks for your input if new configuration options are available.
 
-For a complete guide on upgrading your OpenProject packaged installation, please visit our documentation at <https://www.openproject.org/operations/upgrading/upgrade-guide-packaged-installation/>.
+For a complete guide on upgrading your OpenProject packaged installation, [please see this guide](upgrading).
 
 #### Inspect the existing configuration
 
