@@ -36,7 +36,7 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
     FactoryBot.create :project, description: project_description
   end
 
-  let(:permissions) do
+  let(:read_only_permissions) do
     %i[view_dashboards
        manage_dashboards]
   end
@@ -47,11 +47,11 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
        edit_project]
   end
 
-  let(:user) do
-    FactoryBot.create(:user, member_in_project: project, member_with_permissions: permissions)
+  let(:read_only_user) do
+    FactoryBot.create(:user, member_in_project: project, member_with_permissions: read_only_permissions)
   end
 
-  let(:second_user) do
+  let(:editing_user) do
     FactoryBot.create(:user, member_in_project: project, member_with_permissions: editing_permissions)
   end
 
@@ -63,14 +63,16 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
     dashboard_page.visit!
     dashboard_page.add_widget(1, 1, :within, "Project description")
 
-    sleep(0.1)
+    dashboard_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+  end
+
+  before do
+    login_as current_user
+    add_project_description_widget
   end
 
   context 'without editing permissions' do
-    before do
-      login_as user
-      add_project_description_widget
-    end
+    let(:current_user) { read_only_user }
 
     it 'can add the widget, but not edit the description' do
       # As the user lacks the manage_public_queries and save_queries permission, no other widget is present
@@ -83,16 +85,14 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
 
         # The description is not editable
         field = TextEditorField.new dashboard_page, 'description'
+        field.expect_read_only
         field.activate! expect_open: false
       end
     end
   end
 
   context 'with editing permissions' do
-    before do
-      login_as second_user
-      add_project_description_widget
-    end
+    let(:current_user) { editing_user }
 
     it 'can edit the description' do
       # As the user lacks the manage_public_queries and save_queries permission, no other widget is present
@@ -114,8 +114,6 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
         expect(page).to have_selector(field.selector)
         expect(page).not_to have_selector(field.input_selector)
       end
-
     end
   end
-
 end

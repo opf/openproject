@@ -36,7 +36,7 @@ describe 'Project status widget on dashboard', type: :feature, js: true do
     FactoryBot.create :project_status
   end
 
-  let(:permissions) do
+  let(:read_only_permissions) do
     %i[view_dashboards manage_dashboards]
   end
 
@@ -46,10 +46,10 @@ describe 'Project status widget on dashboard', type: :feature, js: true do
        edit_project]
   end
 
-  let(:user) do
+  let(:read_only_user) do
     FactoryBot.create(:user,
                       member_in_project: project,
-                      member_with_permissions: permissions)
+                      member_with_permissions: read_only_permissions)
   end
 
   let(:editing_user) do
@@ -66,14 +66,16 @@ describe 'Project status widget on dashboard', type: :feature, js: true do
     dashboard_page.visit!
     dashboard_page.add_widget(1, 1, :within, "Project status")
 
-    sleep(0.1)
+    dashboard_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+  end
+
+  before do
+    login_as current_user
+    add_project_status_widget
   end
 
   context 'without editing permissions' do
-    before do
-      login_as user
-      add_project_status_widget
-    end
+    let(:current_user) { read_only_user }
 
     it 'can add the widget, but not edit the status' do
       # As the user lacks the manage_public_queries and save_queries permission, no other widget is present
@@ -89,20 +91,19 @@ describe 'Project status widget on dashboard', type: :feature, js: true do
 
         # The status selector does not open
         field = EditField.new(dashboard_page, 'status')
+        field.expect_read_only
         field.activate! expect_open: false
 
         # The explanation is not editable
         field = TextEditorField.new(dashboard_page, 'statusExplanation')
+        field.expect_read_only
         field.activate! expect_open: false
       end
     end
   end
 
   context 'with editing permissions' do
-    before do
-      login_as editing_user
-      add_project_status_widget
-    end
+    let(:current_user) { editing_user }
 
     it 'can edit the status and its explanation' do
       # As the user lacks the manage_public_queries and save_queries permission, no other widget is present

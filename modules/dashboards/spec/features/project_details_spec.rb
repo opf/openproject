@@ -74,10 +74,10 @@ describe 'Project details widget on dashboard', type: :feature, js: true do
     FactoryBot.create(:role, permissions: permissions)
   end
 
-  let(:user) do
+  let(:read_only_user) do
     FactoryBot.create(:user, member_in_project: project, member_through_role: role)
   end
-  let(:second_user) do
+  let(:editing_user) do
     FactoryBot.create(:user,
                       member_in_project: project,
                       member_with_permissions: editing_permissions,
@@ -85,7 +85,9 @@ describe 'Project details widget on dashboard', type: :feature, js: true do
                       lastname: 'Guy')
   end
   let(:other_user) do
-    FactoryBot.create(:user)
+    FactoryBot.create(:user,
+                      firstname: 'Other',
+                      lastname: 'User')
   end
   let(:dashboard_page) do
     Pages::Dashboard.new(project)
@@ -95,7 +97,7 @@ describe 'Project details widget on dashboard', type: :feature, js: true do
     dashboard_page.visit!
     dashboard_page.add_widget(1, 1, :within, "Project details")
 
-    sleep(0.1)
+    dashboard_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
   end
 
   def change_cf_value(cf, old_value, new_value)
@@ -114,11 +116,13 @@ describe 'Project details widget on dashboard', type: :feature, js: true do
     expect(page).not_to have_selector(cf.input_selector)
   end
 
+  before do
+    login_as current_user
+    add_project_details_widget
+  end
+
   context 'without editing permissions' do
-    before do
-      login_as user
-      add_project_details_widget
-    end
+    let(:current_user) { read_only_user }
 
     it 'can add the widget, but not edit the custom fields' do
       # As the user lacks the manage_public_queries and save_queries permission, no other widget is present
@@ -141,21 +145,18 @@ describe 'Project details widget on dashboard', type: :feature, js: true do
         expect(page)
           .to have_content("#{date_cf.name}\n#{Date.today.strftime('%m/%d/%Y')}")
         expect(page)
-           .to have_content("#{user_cf.name}\n#{user.name.split.map(&:first).join}#{user.name}")
+           .to have_content("#{user_cf.name}\n#{other_user.name.split.map(&:first).join}#{other_user.name}")
 
         # The fields are not editable
         field = EditField.new dashboard_page, "customField#{bool_cf.id}"
+        field.expect_read_only
         field.activate! expect_open: false
       end
     end
   end
 
   context 'with editing permissions' do
-    before do
-      user
-      login_as second_user
-      add_project_details_widget
-    end
+    let(:current_user) { editing_user }
 
     it 'can edit the custom fields' do
       int_field = EditField.new dashboard_page, "customField#{int_cf.id}"
@@ -168,7 +169,7 @@ describe 'Project details widget on dashboard', type: :feature, js: true do
       change_cf_value text_field, 'Some long text', 'Some very long text'
 
       user_field = SelectField.new dashboard_page, "customField#{user_cf.id}"
-      change_cf_value user_field, user.name, second_user.name
+      change_cf_value user_field, other_user.name, editing_user.name
     end
   end
 end
