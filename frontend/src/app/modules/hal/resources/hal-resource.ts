@@ -45,6 +45,8 @@ export interface HalResourceClass<T extends HalResource = HalResource> {
 export class HalResource {
   // TODO this is the source of many issues in the frontend
   // because it no longer properly type checks stuff
+  // Since 2019-10-21 I'm documenting what bugs this caused:
+  // https://community.openproject.com/wp/31462
   [attribute:string]:any;
 
   // The API type reported from API
