@@ -18,4 +18,6 @@ Here you will learn about the **first steps with OpenProject**. If you need more
 | [My account](my-account)                                    | How to configure My Account?                                   |
 | [My page](my-page)                                          | Find out more about a personal My page dashboard.              |
 
-<embed https://youtu.be/Fk4papnAzMw>
+## 5 steps to get started
+
+<embed https://youtu.be/Fk4papnAzMw autostart="false" />
