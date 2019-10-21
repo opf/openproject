@@ -62,8 +62,10 @@
 @mixin widget-box--style
   background: $widget-box-block-bg-color
   margin: 10px
-  box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.04)
+  box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.1)
 
+@mixin widget-box--hover-style
+  box-shadow: 0px 1px 20px 0px rgba(0,0,0,0.1)
 
 // These mixins are necessary so that other classes can inherit     the styles.
 // In future Sass versions a doubled inheritance like @extend classA.classB will not work any more.
