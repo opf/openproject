@@ -32,9 +32,8 @@ import {OpModalLocalsToken, OpModalService} from "core-components/op-modals/op-m
 import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
+import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 
 @Component({
   templateUrl: './wp-preview.modal.html',
@@ -52,29 +51,20 @@ export class WpPreviewModal extends OpModalComponent implements OnInit {
               @Inject(OpModalLocalsToken) readonly locals:OpModalLocalsMap,
               readonly cdRef:ChangeDetectorRef,
               readonly i18n:I18nService,
-              readonly workPackageDmService:WorkPackageDmService,
+              readonly wpCacheService:WorkPackageCacheService,
               readonly opModalService:OpModalService) {
     super(locals, cdRef, elementRef);
   }
-
 
   ngOnInit() {
     super.ngOnInit();
     const workPackageLink = this.locals.workPackageLink;
     const workPackageId = HalResource.idFromLink(workPackageLink);
 
-    this.workPackageDmService.loadWorkPackageById(workPackageId)
+    this.wpCacheService.require(workPackageId)
       .then((workPackage:WorkPackageResource) => {
         this.workPackage = workPackage;
         this.cdRef.detectChanges();
       });
-  }
-
-  highlightingColor(resource:HalResource, background:boolean = false) {
-    if (background) {
-      return Highlighting.backgroundClass(resource.$halType.toLowerCase(), resource.id!);
-    } else {
-      return Highlighting.inlineClass(resource.$halType.toLowerCase(), resource.id!);
-    }
   }
 }
