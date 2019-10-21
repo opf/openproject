@@ -1,6 +1,17 @@
-# Backup your OpenProject installation
+---
+nav:
+  title: Backup Guide
+  priority: 50
+---
 
-**Note:** this guide only applies if you've installed OpenProject using our DEB/RPM packages.
+# Packaged installation backup guide
+
+<div class="alert alert-info" role="alert">
+
+Note: this guide only applies if you've installed OpenProject using our DEB/RPM
+packages. [Please see the index](../) for guides on other installation methods.
+
+</div>
 
 We advise to backup your OpenProject installation regularly — especially before upgrading to a newer version.
 

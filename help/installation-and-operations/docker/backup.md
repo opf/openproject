@@ -1,3 +1,9 @@
+---
+nav:
+  title: Backup guide
+  priority: 100
+---
+
 # Backup your OpenProject installation (Docker)
 
 Note: this guide only applies if you've installed OpenProject with our Docker image.

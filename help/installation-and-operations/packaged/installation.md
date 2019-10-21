@@ -1,3 +1,9 @@
+---
+nav:
+  title: Installation Guide
+  priority: 200
+---
+
 # Packaged Installation Guide
 
 The packaged installation of OpenProject is the easiest way to install and maintain OpenProject, provided a supported distribution exists and you can allocate an isolated server for OpenProject. The package will:

@@ -1,7 +1,17 @@
-# Upgrading your OpenProject installation
+---
+nav:
+  title: Upgrade Guide
+  priority: 100
+---
+
+# Upgrading your packaged installation
+
+<div class="alert alert-info" role="alert">
 
 Note: this guide only applies if you've installed OpenProject using our DEB/RPM
-packages.
+packages. [Please see the index](../) for guides on other installation methods.
+
+</div>
 
 Upgrading OpenProject is as easy as installing a newer OpenProject package and
 running the `openproject configure` command.
