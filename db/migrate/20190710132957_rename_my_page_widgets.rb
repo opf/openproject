@@ -3,8 +3,14 @@ class RenameMyPageWidgets < ActiveRecord::Migration[5.2]
     reset_column_information
 
     Grids::MyPage.eager_load(:widgets, user: :preference).each do |page|
-      I18n.with_locale(page.user&.language.presence || 'en') do
+      begin
+        I18n.with_locale(page.user&.language.presence || 'en') do
+          page.widgets.each(&method(:update_widget))
+        end
+      rescue I18n::InvalidLocale => e
+        Rails.logger.warn "Failed to use user locale from #{page.user.inspect}: #{e} #{e.message}. Correcting"
         page.widgets.each(&method(:update_widget))
+        page.user&.update_column(:language, 'en')
       end
     end
   end
