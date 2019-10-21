@@ -112,7 +112,7 @@ export class TimelineCellRenderer {
 
     const now = moment().format('YYYY-MM-DD');
 
-    const startDate = moment(change.projectedResource.startdate);
+    const startDate = moment(change.projectedResource.startDate);
     const dueDate = moment(change.projectedResource.dueDate);
 
     let dates:CellDateMovement = {};
