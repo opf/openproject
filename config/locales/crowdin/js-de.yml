@@ -202,12 +202,9 @@ de:
       blocks:
         new_features:
           text_new_features: "Lesen Sie über neue Funktionen und Updates."
-          current_new_feature_html: "OpenProject enthält eine neue <b>Boards-Ansicht</b> für das agile Projektmanagement. </br> Um diese Funktion für Ihre bestehenden Projekte zu aktivieren, bitte folgende Schritte ausführen: <ul><li>Aktivieren Sie die Modul-Boards in den bestehenden Projekten-Einstellungen.</li> <li>Konfigurieren Sie Ihre Boards in einem Projekt.</li> <li>Überprüfen Sie die Rollen und Berechtigungen Ihres Systems</li></ul>"
-          image_alt_text: "Board Teaser-Bild"
-          learn_about: "Erfahren Sie mehr über agile Boards"
+          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
+          learn_about: "Learn more about the new status widgets"
     label_activate: "Aktiviere"
-    label_activity_no: "Aktivitäts-Nummer: %{activityNo}"
-    label_activity_with_comment_no: "Aktivitäts-Nummer: %{activityNo}. Hat einen Benutzerkommentar."
     label_add_column_after: "Spalte danach hinzufügen"
     label_add_column_before: "Spalte davor hinzufügen"
     label_add_columns: "Spalte hinzufügen"

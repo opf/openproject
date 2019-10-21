@@ -42,7 +42,7 @@ export const DASHBOARDS_ROUTES:Ng2StateDeclaration[] = [
     // cf., https://community.openproject.com/wp/29754
     url: '/dashboards/',
     data: {
-      bodyClasses: 'router--dashboards-view-base',
+      bodyClasses: ['router--dashboards-view-base', 'widget-grid-layout'],
       menuItem: menuItemClass
     },
     component: DashboardComponent

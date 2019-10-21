@@ -30,7 +30,7 @@
 def aggregate_mocked_configuration(example, config)
   # We have to manually check parent groups for with_config:,
   # since they are being ignored otherwise
-  example.example_group.parents.each do |parent|
+  example.example_group.module_parents.each do |parent|
     if parent.respond_to?(:metadata) && parent.metadata[:with_config]
       config.reverse_merge!(parent.metadata[:with_config])
     end

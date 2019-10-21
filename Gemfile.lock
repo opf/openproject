@@ -58,7 +58,7 @@ GIT
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
-  revision: db3a22f2aaa173cadb98494e001d75594c1ce70f
+  revision: b70a654ae018268cfddf57f444670f87b7bc31dc
   branch: dev
   specs:
     openproject-translations (7.4.0)
@@ -1109,4 +1109,4 @@ RUBY VERSION
    ruby 2.6.1p33
 
 BUNDLED WITH
-   2.0.1
+   2.0.2

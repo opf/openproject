@@ -202,12 +202,9 @@ ru:
       blocks:
         new_features:
           text_new_features: "Читайте о новых возможностях и обновлениях продуктов."
-          current_new_feature_html: "В OpenProject появилось новое <b>представление \"Доски\" (Boards)</b> для управления agile-проектами. </br> Чтобы включить эту функцию для уже существующих проектов, выполните следующее: <ul><li>Включите модуль \"Доски\" (Boards) в настройках существующих проектов.</li> <li>Настройте Доски в проектах.</li> <li>Проверьте роли и разрешения</li></ul>"
-          image_alt_text: "Тизер доски"
-          learn_about: "Подробнее о Agile Boards"
+          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
+          learn_about: "Learn more about the new status widgets"
     label_activate: "Активировать"
-    label_activity_no: "Деятельность номер %{activityNo}"
-    label_activity_with_comment_no: "Деятельность номер %{activityNo}. Есть комментарий пользователя."
     label_add_column_after: "Добавить столбец после"
     label_add_column_before: "Добавить столбец перед"
     label_add_columns: "Добавить столбец"
@@ -698,7 +695,7 @@ ru:
         label_content: "Кликните здесь, чтобы пропустить меню и перейти к содержанию"
       placeholders:
         default: "-"
-        formattable: "%{name}: Click to edit..."
+        formattable: "%{name}: Нажмите для редактирования..."
       query:
         column_names: "Столбцы"
         group_by: "Результаты группы по"

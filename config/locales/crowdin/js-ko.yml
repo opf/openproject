@@ -203,12 +203,9 @@ ko:
       blocks:
         new_features:
           text_new_features: "새로운 기능 및 제품 업데이트에 대해 읽어보십시오."
-          current_new_feature_html: "OpenProject에는 애자일 프로젝트 관리를 위한 새로운 <b>보드 보기</b>가 포함되어 있습니다. </br> 기존 프로젝트에서 이 새로운 기능을 활성화하려면 다음 단계를 따르십시오. <ul><li>기존 프로젝트 설정에서 보드 모듈을 활성화합니다.</li> <li>프로젝트에서 보드를 구성합니다.</li> <li>역할 및 사용 권한을 확인합니다.</li></ul>"
-          image_alt_text: "보드 티저 이미지"
-          learn_about: "애자일 보드에 대해 자세히 알아보기"
+          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
+          learn_about: "Learn more about the new status widgets"
     label_activate: "활성화"
-    label_activity_no: "활동 항목 번호 %{activityNo}"
-    label_activity_with_comment_no: "활동 항목 번호 %{activityNo}. 사용자 의견 포함."
     label_add_column_after: "다음 뒤에 열 추가"
     label_add_column_before: "다음 앞에 열 추가"
     label_add_columns: "열 추가"

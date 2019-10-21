@@ -59,7 +59,6 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   @Input() public workPackage:WorkPackageResource;
   @Input() public activity:HalResource;
   @Input() public activityNo:number;
-  @Input() public activityLabel:string;
   @Input() public isInitial:boolean;
 
   public userCanEdit = false;
@@ -71,7 +70,6 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   public userPath:string | null;
   public userLabel:string;
   public userAvatar:string;
-  public fieldLabel:string;
   public details:any[] = [];
   public isComment:boolean;
   public isBcfComment:boolean;
@@ -117,14 +115,6 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
     this.reset();
     this.userCanEdit = !!this.activity.update;
     this.userCanQuote = !!this.workPackage.addComment;
-
-    if (this.postedComment) {
-      this.fieldLabel = this.I18n.t('js.label_activity_with_comment_no', {
-        activityNo: this.activityNo
-      });
-    } else {
-      this.fieldLabel = this.I18n.t('js.label_activity_no', {activityNo: this.activityNo});
-    }
 
     this.$element.bind('focusin', this.focus.bind(this));
     this.$element.bind('focusout', this.blur.bind(this));

@@ -203,12 +203,9 @@ fr:
       blocks:
         new_features:
           text_new_features: "En savoir plus sur les nouvelles fonctionnalités et les mises à jour des produits."
-          current_new_feature_html: "OpenProject contient un nouvel <b>affichage de Tableaux</b> pour la gestion de projet Agile. </br> Afin d'activer cette nouvelle fonctionnalité pour vos projets existants, veuillez suivre les étapes suivantes : <ul><li>Activez le module Tableaux dans les paramètres des projets existants.</li> <li>Configurez vos Tableaux dans un projet.</li> <li>Vérifiez les rôles et les permissions</li></ul>"
-          image_alt_text: "Image teaser du Tableau"
-          learn_about: "En savoir plus sur les Tableaux Agile"
+          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
+          learn_about: "Learn more about the new status widgets"
     label_activate: "Activer"
-    label_activity_no: "Entrée d'activité numéro %{activityNo}"
-    label_activity_with_comment_no: "Entrée d'activité numéro %{activityNo}. A un commentaire utilisateur."
     label_add_column_after: "Ajouter une colonne au-dessus"
     label_add_column_before: "Ajouter une colonne avant"
     label_add_columns: "Ajouter des colonnes"

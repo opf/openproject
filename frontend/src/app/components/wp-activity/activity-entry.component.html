@@ -3,14 +3,12 @@
     <revision-activity *ngSwitchCase="'Revision'"
                        [workPackage]="workPackage"
                        [activity]="activity"
-                       [activityNo]="activityNo"
-                       [activityLabel]="activityLabel">
+                       [activityNo]="activityNo">
     </revision-activity>
     <user-activity *ngSwitchDefault
                    [workPackage]="workPackage"
                    [activity]="activity"
                    [activityNo]="activityNo"
-                   [activityLabel]="activityLabel"
                    [isInitial]="isInitial">
     </user-activity>
   </div>

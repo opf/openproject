@@ -2,7 +2,7 @@ FROM ruby:2.6-stretch
 MAINTAINER operations@openproject.com
 
 ENV NODE_VERSION "10.15.0"
-ENV BUNDLER_VERSION "2.0.1"
+ENV BUNDLER_VERSION "2.0.2"
 ENV APP_USER app
 ENV APP_PATH /app
 ENV APP_DATA_PATH /var/openproject/assets

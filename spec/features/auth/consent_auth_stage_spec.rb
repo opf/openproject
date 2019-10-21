@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Authentication Stages', type: :feature, js: true do
+describe 'Authentication Stages', type: :feature do
   let(:language) { 'en' }
   let(:user_password) { 'bob' * 4 }
   let(:user) do
@@ -84,12 +84,16 @@ describe 'Authentication Stages', type: :feature, js: true do
       expect_logged_in
     end
   end
+
   context 'when enabled, localized consent exists',
           with_settings: { consent_info: { de: '# Einwilligung', en: '# Consent header!' } } do
     let(:consent_required) { true }
-    let(:language) { 'de' }
 
-    it 'should show localized consent' do
+    before do
+      Capybara.current_session.driver.header('Accept-Language', 'de')
+    end
+
+    it 'should show localized consent as defined by the accept language header (ignoring users language)' do
       login_with user.login, user_password
 
       expect(page).to have_selector('.account-consent')
@@ -97,7 +101,7 @@ describe 'Authentication Stages', type: :feature, js: true do
     end
   end
 
-  context 'when enabled, but consent exists', with_settings: { consent_info: { en: '# Consent header!' } } do
+  context 'when enabled, but consent exists', js: true, with_settings: { consent_info: { en: '# Consent header!' } } do
     let(:consent_required) { true }
 
     after do

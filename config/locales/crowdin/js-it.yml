@@ -203,12 +203,9 @@ it:
       blocks:
         new_features:
           text_new_features: "Informati sulle nuove funzionalità e sugli aggiornamenti dei prodotti."
-          current_new_feature_html: "OpenProject contiene una nuova <b>vista Tabellone</b> per la gestione di progetti Agile. </br> Per attivare questa nuova funzionalità sui progetti esistenti, effettua i seguenti passi: <ul><li>Attiva il modulo Schede nelle impostazioni dei progetti esistenti.</li> <li>Configura le tue Schede in un progetto.</li> <li>Verifica ruoli e permessi</li></ul>"
-          image_alt_text: "Immagine di esempio di Tabellone"
-          learn_about: "Ulteriori informazioni sui Tabelloni Agile"
+          current_new_feature_html: "OpenProject contiene una nuova pagina di panoramica <b></b> per visualizzare <b>importanti informazioni del progetto</b> e mostrare se il progetto è sulla traccia. </br> Puoi inserire vari nuovi widget di stato, come: <ul><li>stato del progetto,</li> <li>panoramica dello stato del pacchetto di lavoro,</li> <li>progresso del task,</li> <li>attività assegnate agli utenti.</li></ul>"
+          learn_about: "Ulteriori informazioni sui nuovi widget di stato"
     label_activate: "Attiva"
-    label_activity_no: "Voce attività numero %{activityNo}"
-    label_activity_with_comment_no: "Voce attività numero %{activityNo}. Ha un commento da un utente."
     label_add_column_after: "Aggiungi colonna dopo"
     label_add_column_before: "Aggiungi colonna prima"
     label_add_columns: "Aggiungi colonne"
@@ -695,7 +692,7 @@ it:
         label_content: "Clicca qui per saltare il menu ed andare al contenuto"
       placeholders:
         default: "-"
-        formattable: "%{name}: Click to edit..."
+        formattable: "%{name}: Clicca per modificare..."
       query:
         column_names: "Colonne"
         group_by: "Raggruppa i risultati per"

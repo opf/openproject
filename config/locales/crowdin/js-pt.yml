@@ -203,12 +203,9 @@ pt:
       blocks:
         new_features:
           text_new_features: "Leia sobre novos recursos e atualizações de produtos."
-          current_new_feature_html: "O OpenProject contém uma nova <b>visualização de Quadro</b> para gestão de projetos Agile. </br> Para ativar esta nova função nos seus projetos existentes, por favor siga os seguintes passos: <ul><li>Ativar os Quadros de módulo dentro das configurações dos projetos existentes.</li> <li>Configure os seus Quadros num projeto.</li> <li>Verifique funções e permissões</li></ul>"
-          image_alt_text: "Imagem de teaser Board"
-          learn_about: "Saiba mais sobre os Quadros Agile"
+          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
+          learn_about: "Learn more about the new status widgets"
     label_activate: "Ativar"
-    label_activity_no: "Número de entrada da atividade %{activityNo}"
-    label_activity_with_comment_no: "Número de entrada da atividade %{activityNo}. Tem um comentário de utilizador."
     label_add_column_after: "Adicionar coluna após"
     label_add_column_before: "Adicionar coluna antes"
     label_add_columns: "Adicionar colunas"

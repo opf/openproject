@@ -203,12 +203,9 @@ es:
       blocks:
         new_features:
           text_new_features: "Obtenga información sobre nuevas características y actualizaciones de productos."
-          current_new_feature_html: "OpenProject ahora ofrece la nueva <b>vista Panel</b> para la administración de proyectos ágil. </br> Para activar esta nueva característica para sus proyectos existentes, siga este procedimiento: <ul><li>Active el módulo Paneles en la configuración de los proyectos existentes.</li> <li>Configure los paneles en un proyecto.</li> <li>Verifique los roles y los permisos</li></ul>"
-          image_alt_text: "Imagen promocional de los paneles"
-          learn_about: "Obtenga más información sobre los paneles ágiles"
+          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
+          learn_about: "Learn more about the new status widgets"
     label_activate: "Activar"
-    label_activity_no: "Entrada de actividad número %{activityNo}"
-    label_activity_with_comment_no: "Entrada de actividad número %{activityNo} tiene un comentario."
     label_add_column_after: "Añadir columna a la derecha"
     label_add_column_before: "Añadir columna a la izquierda"
     label_add_columns: "Añadir columnas"

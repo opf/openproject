@@ -203,12 +203,9 @@ pl:
       blocks:
         new_features:
           text_new_features: "Przeczytaj o nowych funkcjach i aktualizacjach produktów."
-          current_new_feature_html: "OpenProject zawiera nowy <b>widok Tablice</b> do zwinnego zarządzania projektami. </br> Aby aktywować tę nową funkcję w istniejących projektach, wykonaj następujące kroki: <ul><li>Aktywuj moduł Tablice w ustawieniach istniejących projektów.</li> <li>Skonfiguruj swoje tablice w projekcie.</li> <li>Zweryfikuj role i uprawnienia.</li></ul>"
-          image_alt_text: "Obraz zapowiedzi tablic"
-          learn_about: "Dowiedz się więcej o tablicach zwinnych"
+          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
+          learn_about: "Learn more about the new status widgets"
     label_activate: "Aktywuj"
-    label_activity_no: "Aktywność %{activityNo}"
-    label_activity_with_comment_no: "Aktywność %{activityNo} została skomentowana."
     label_add_column_after: "Dodaj kolumnę po"
     label_add_column_before: "Dodaj kolumnę przed"
     label_add_columns: "Dodaj kolumny"

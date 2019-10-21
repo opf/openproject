@@ -44,9 +44,11 @@ module Queries::Projects
   register.filter query, filters::PrincipalFilter
   register.filter query, filters::ParentFilter
   register.filter query, filters::IdFilter
+  register.filter query, filters::ProjectStatusFilter
 
   register.order query, orders::DefaultOrder
   register.order query, orders::LatestActivityAtOrder
   register.order query, orders::RequiredDiskSpaceOrder
   register.order query, orders::CustomFieldOrder
+  register.order query, orders::ProjectStatusOrder
 end

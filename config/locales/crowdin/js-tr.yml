@@ -203,12 +203,9 @@ tr:
       blocks:
         new_features:
           text_new_features: "Yeni özellikler ve ürün güncellemeleri hakkında bilgi edinin."
-          current_new_feature_html: "OpenProject, Çevik proje yönetimi için yeni bir <b> Pano görünümü </b> içerir. </br> Bu yeni özelliği mevcut projeleriniz için etkinleştirmek için lütfen aşağıdaki adımları uygulayın: <ul> <li> Modül Panolarını mevcut projelerin ayarları dahilinde etkinleştirin. </li> <li> Panolarınızı bir projede yapılandırın. </li> <li> Rolleri ve izinleri doğrula </li> </ul>"
-          image_alt_text: "Yönetim Kurulu teaser image"
-          learn_about: "Çevik Kurullar hakkında daha fazla bilgi edinin"
+          current_new_feature_html: "OpenProject, <b> önemli proje bilgilerini görüntülemek </b> ve projenin yolunda olup olmadığını göstermek için yeni bir <b> Genel bakış sayfası </b> içerir. </br> Şunlar gibi çeşitli yeni durum widget'ları ekleyebilirsiniz: <ul> <li> proje durumu, </li> <li> iş paketi durumuna genel bakış, </li> <li> görev ilerlemesi, </ li > <li> kullanıcılara atanan görevler. </li> </ul>"
+          learn_about: "Yeni durum widget'ları hakkında daha fazla bilgi edinin"
     label_activate: "Etkinleştir"
-    label_activity_no: "Etkinlik giriş numarası %{activityNo}"
-    label_activity_with_comment_no: "Etkinlik giriş numarası %{activityNo}. Kullanıcı yorumu var."
     label_add_column_after: "Sonrasına sütun ekle"
     label_add_column_before: "Öncesine sütun ekle"
     label_add_columns: "Sütunlar ekle"
@@ -695,7 +692,7 @@ tr:
         label_content: "Menüyü geçerek içeriği görmek için tıklayın"
       placeholders:
         default: "-"
-        formattable: "%{name}: Click to edit..."
+        formattable: "%{name}: Düzenlemek için tıklayın ..."
       query:
         column_names: "Sütunlar"
         group_by: "Sonuçları grupla"

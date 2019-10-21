@@ -203,12 +203,9 @@ zh-CN:
       blocks:
         new_features:
           text_new_features: "了解新功能和产品更新。"
-          current_new_feature_html: "OpenProject 包含一个用于敏捷项目管理的新<b>开发板视图</b>。</br>要为现有项目激活此新功能，请按以下步骤操作：<ul><li>在现有项目的设置中激活开发板模块。</li><li>在项目中配置您的开发板。</li><li>验证角色和权限</li></ul>"
-          image_alt_text: "开发板宣传图像"
-          learn_about: "详细了解敏捷开发板"
+          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
+          learn_about: "Learn more about the new status widgets"
     label_activate: "激活"
-    label_activity_no: "活动条目编号 %{activityNo}"
-    label_activity_with_comment_no: "活动条目编号 %{activityNo}，有用户评论。"
     label_add_column_after: "之后添加列"
     label_add_column_before: "在之前添加列"
     label_add_columns: "增添列"

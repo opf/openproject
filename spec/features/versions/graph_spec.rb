@@ -31,9 +31,13 @@ require 'spec_helper'
 describe 'version show graph', type: :feature, js: true do
   let(:user) { FactoryBot.create :admin }
   let(:project) { FactoryBot.create(:project) }
-  let(:version) { FactoryBot.create(:version) }
+  let(:version) { FactoryBot.create(:version, project: project) }
 
-  let!(:wp) { FactoryBot.create :work_package, fixed_version: version }
+  let!(:wp) do
+    FactoryBot.create :work_package,
+                      project: project,
+                      fixed_version: version
+  end
 
   before do
     login_as(user)
