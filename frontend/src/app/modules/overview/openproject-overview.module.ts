@@ -42,7 +42,7 @@ export const OVERVIEW_ROUTES:Ng2StateDeclaration[] = [
     // cf., https://community.openproject.com/wp/29754
     url: '/',
     data: {
-      bodyClasses: 'router--overview-view-base',
+      bodyClasses: ['router--overview-view-base', 'widget-grid-layout'],
       menuItem: menuItemClass
     },
     component: OverviewComponent
