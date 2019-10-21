@@ -30,7 +30,7 @@
 def aggregate_parent_array(example, acc)
   # We have to manually check parent groups for with_ee:,
   # since they are being ignored otherwise
-  example.example_group.parents.each do |parent|
+  example.example_group.module_parents.each do |parent|
     if parent.respond_to?(:metadata) && parent.metadata[:with_ee]
       acc.merge(parent.metadata[:with_ee])
     end
