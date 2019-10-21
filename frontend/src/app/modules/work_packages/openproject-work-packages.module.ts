@@ -162,6 +162,7 @@ import {WorkPackageNotificationService} from "core-app/modules/work_packages/not
 import {WorkPackageEditActionsBarComponent} from "core-app/modules/common/edit-actions-bar/wp-edit-actions-bar.component";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
+import {WorkPackageSingleCardComponent} from "core-components/wp-card-view/wp-single-card/wp-single-card.component";
 
 
 @NgModule({
@@ -375,6 +376,7 @@ import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changes
 
     // Card view
     WorkPackageCardViewComponent,
+    WorkPackageSingleCardComponent,
     WorkPackageViewToggleButton,
   ],
   entryComponents: [
@@ -451,6 +453,7 @@ import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changes
 
     // Card view
     WorkPackageCardViewComponent,
+    WorkPackageSingleCardComponent,
 
     CustomDateActionAdminComponent,
   ],
@@ -460,6 +463,7 @@ import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changes
     WorkPackageEmbeddedTableComponent,
     WorkPackageEmbeddedTableEntryComponent,
     WorkPackageCardViewComponent,
+    WorkPackageSingleCardComponent,
     WorkPackageFilterButtonComponent,
     WorkPackageFilterContainerComponent,
     WorkPackageIsolatedQuerySpaceDirective,
