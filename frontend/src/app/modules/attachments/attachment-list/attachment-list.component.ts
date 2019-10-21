@@ -100,7 +100,13 @@ export class AttachmentListComponent implements OnInit, OnChanges, OnDestroy {
 
   public removeAttachment(attachment:HalResource) {
     this.deletedAttachments.push(attachment);
-    this.attachments = this.attachments.filter((el) => el !== attachment);
+    // Keep the same object as we would otherwise loose the connection to the
+    // resource's attachments array. That way, attachments added after removing one would not be displayed.
+    // This is bad design.
+    let newAttachments = this.attachments.filter((el) => el !== attachment);
+    this.attachments.length = 0;
+    this.attachments.push(...newAttachments);
+
     this.cdRef.detectChanges();
   }
 
