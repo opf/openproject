@@ -355,7 +355,7 @@ class JournalManager
     self.send_notification = send_notifications
 
     result = block.call
-
+  ensure
     self.send_notification = old_value
 
     result
