@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, OnInit} from '@angular/core';
+import {ChangeDetectorRef, OnDestroy, OnInit, Renderer2} from '@angular/core';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {Title} from '@angular/platform-browser';
 import {GridInitializationService} from "core-app/modules/grids/grid/initialization.service";
@@ -8,7 +8,7 @@ import {GridAddWidgetService} from "core-app/modules/grids/grid/add-widget.servi
 import {GridAreaService} from "core-app/modules/grids/grid/area.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 
-export abstract class GridPageComponent implements OnInit {
+export abstract class GridPageComponent implements OnInit, OnDestroy {
   public text = { title: this.i18n.t(`js.${this.i18nNamespace()}.label`),
                   html_title: this.i18n.t(`js.${this.i18nNamespace()}.label`) };
 
@@ -20,11 +20,13 @@ export abstract class GridPageComponent implements OnInit {
               readonly cdRef:ChangeDetectorRef,
               readonly title:Title,
               readonly addWidget:GridAddWidgetService,
+              readonly renderer:Renderer2,
               readonly areas:GridAreaService) {}
 
   public grid:GridResource;
 
   ngOnInit() {
+    this.renderer.addClass(document.body, 'widget-grid-layout');
     this
       .gridInitialization
       .initialize(this.gridScopePath())
@@ -34,6 +36,10 @@ export abstract class GridPageComponent implements OnInit {
       });
 
     this.setHtmlTitle();
+  }
+
+  ngOnDestroy():void {
+    this.renderer.removeClass(document.body, 'widget-grid-layout');
   }
 
   private setHtmlTitle() {
