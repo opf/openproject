@@ -49,7 +49,8 @@ export class GridAreaService {
   }
 
   public cleanupUnusedAreas() {
-    let unusedRows = Array.from(Array(this.numRows + 1).keys()).slice(1);
+    // array containing Numbers from this.numRows to 1
+    let unusedRows = _.range(this.numRows, 0, -1);
 
     this.widgetAreas.forEach(widget => {
       unusedRows = unusedRows.filter(item => item !== widget.startRow);
@@ -61,7 +62,7 @@ export class GridAreaService {
       }
     });
 
-    let unusedColumns = Array.from(Array(this.numColumns + 1).keys()).slice(1);
+    let unusedColumns = _.range(this.numColumns, 0, -1);
 
     this.widgetAreas.forEach(widget => {
       unusedColumns = unusedColumns.filter(item => item !== widget.startColumn);
