@@ -20,14 +20,19 @@ body.widget-grid-layout
   position: relative
   overflow: hidden
   min-height: 30px
+  border-radius: 3px
 
   &.-drop-target
-    background-color: $gray-light
+    &.cdk-drop-list-dragging
+      border: none
 
   &.-widgeted
     z-index: 10
     @include widget-box--style
     margin: 0
+
+    &:hover
+      @include widget-box--hover-style
 
     .widget-box
       min-height: 200px
@@ -48,6 +53,7 @@ body.widget-grid-layout
 
   &.-placeholder
     @include modifying--placeholder
+    background: transparent
     z-index: 30
 
   &.-dragged
@@ -72,13 +78,11 @@ body.widget-grid-layout
 
   &.-drop-target,
   &.-passive
-    opacity: 0.5
     border-width: 1px
     border-style: solid
     border-color: $secondary-color
     transition: border-color 0.5s ease
     z-index: 20
-    background: transparent
 
   &.-resize-target
     z-index: 1000
@@ -127,6 +131,8 @@ body.widget-grid-layout
     background: white
     padding: $grid--widget-padding
     @include widget-box--style
+    @include widget-box--hover-style
+    border-radius: 3px
     margin: 0
 
 .grid--widget-content
