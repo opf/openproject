@@ -61,6 +61,7 @@ describe 'Projects status administration', type: :feature, js: true do
     fill_in 'Name', with: 'New project'
     select 'On track', from: 'Status'
     create_status_description.set_markdown 'Everything is fine at the start'
+    create_status_description.expect_supports_no_macros
 
     click_button 'Create'
 

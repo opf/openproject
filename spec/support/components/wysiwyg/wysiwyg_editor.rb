@@ -54,6 +54,11 @@ module Components
       expect(editor_element.text).to eq(value)
     end
 
+    def expect_supports_no_macros
+      expect(container)
+        .to have_no_selector('.ck-button', visible: :all, text: 'Macros')
+    end
+
     def within_enabled_preview
       click_toolbar_button 'Toggle preview mode'
       begin
