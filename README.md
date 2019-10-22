@@ -26,7 +26,7 @@ developing plugins, you should refer instead to our [Quick Start for Developers]
 
 ## Reporting bugs
 
-You found a bug? Please report it to our [OpenProjet community](https://community.openproject.com/projects/openproject). Thank you!
+You found a bug? Please report it to our [OpenProject community](https://community.openproject.com/projects/openproject). Thank you!
 
 ## Contact
 
