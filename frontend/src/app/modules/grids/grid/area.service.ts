@@ -10,6 +10,8 @@ import {WidgetChangeset} from "core-app/modules/grids/widgets/widget-changeset";
 import * as moment from 'moment';
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {GridDragAndDropService} from "core-app/modules/grids/grid/drag-and-drop.service";
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class GridAreaService {
@@ -23,7 +25,8 @@ export class GridAreaService {
   public gridGaps:GridArea[];
   public widgetAreas:GridWidgetArea[];
   public gridAreaIds:string[];
-  public mousedOverArea:GridArea|null;
+  public mousedOverArea:GridArea|null = null;
+  public $mousedOverArea = new BehaviorSubject(this.mousedOverArea);
   public helpMode = false;
 
   constructor (private gridDm:GridDmService,
@@ -46,6 +49,8 @@ export class GridAreaService {
 
   public setMousedOverArea(area:GridArea|null) {
     this.mousedOverArea = area;
+
+    this.$mousedOverArea.next(area);
   }
 
   public cleanupUnusedAreas() {

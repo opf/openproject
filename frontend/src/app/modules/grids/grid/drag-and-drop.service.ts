@@ -1,25 +1,45 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy, OnInit} from '@angular/core';
 import {GridWidgetArea} from "core-app/modules/grids/areas/grid-widget-area";
-import {CdkDragEnd, CdkDragEnter, CdkDragDrop} from '@angular/cdk/drag-drop';
+import {CdkDragDrop} from '@angular/cdk/drag-drop';
 import {GridArea} from "core-app/modules/grids/areas/grid-area";
 import {GridAreaService} from "core-app/modules/grids/grid/area.service";
 import {GridMoveService} from "core-app/modules/grids/grid/move.service";
+import { Subscription } from 'rxjs';
+import { switchMap, filter } from 'rxjs/operators';
 
 @Injectable()
-export class GridDragAndDropService {
+export class GridDragAndDropService implements OnDestroy {
   public draggedArea:GridWidgetArea|null;
   public placeholderArea:GridWidgetArea|null;
   public draggedHeight:number|null;
   private aborted = false;
+  private mousedOverAreaObserver:Subscription;
 
   constructor(readonly layout:GridAreaService,
               readonly move:GridMoveService) {
-
+    // ngOnInit is not called on services
+    this.setupMousedOverAreaSubscription();
   }
 
-  public entered(event:CdkDragEnter<GridArea>) {
-    if (this.draggedArea && !this.layout.isGap(event.container.data)) {
-      let dropArea = event.container.data;
+  ngOnDestroy():void {
+    this.mousedOverAreaObserver.unsubscribe();
+  }
+
+  private setupMousedOverAreaSubscription() {
+    this.mousedOverAreaObserver = this
+      .layout
+      .$mousedOverArea
+      .pipe(
+        filter(() => this.currentlyDragging)
+      ).subscribe(area => {
+        this.updateArea(area);
+      });
+  }
+
+  private updateArea(area:GridArea|null) {
+    let dropArea = area;
+
+    if (this.draggedArea && dropArea && !this.layout.isGap(dropArea)) {
       this.layout.resetAreas(this.draggedArea);
       this.moveAreasOnDragging(dropArea);
     }
