@@ -4,8 +4,8 @@ import {CdkDragDrop} from '@angular/cdk/drag-drop';
 import {GridArea} from "core-app/modules/grids/areas/grid-area";
 import {GridAreaService} from "core-app/modules/grids/grid/area.service";
 import {GridMoveService} from "core-app/modules/grids/grid/move.service";
-import { Subscription } from 'rxjs';
-import { switchMap, filter } from 'rxjs/operators';
+import { Subscription, interval } from 'rxjs';
+import { switchMap, filter, throttle, distinctUntilChanged } from 'rxjs/operators';
 
 @Injectable()
 export class GridDragAndDropService implements OnDestroy {
@@ -30,19 +30,17 @@ export class GridDragAndDropService implements OnDestroy {
       .layout
       .$mousedOverArea
       .pipe(
-        filter(() => this.currentlyDragging)
+        distinctUntilChanged(),
+        filter((area) => this.currentlyDragging && !!area && !this.layout.isGap(area)),
+        throttle(val => interval(10))
       ).subscribe(area => {
-        this.updateArea(area);
+        this.updateArea(area!);
       });
   }
 
-  private updateArea(area:GridArea|null) {
-    let dropArea = area;
-
-    if (this.draggedArea && dropArea && !this.layout.isGap(dropArea)) {
-      this.layout.resetAreas(this.draggedArea);
-      this.moveAreasOnDragging(dropArea);
-    }
+  private updateArea(area:GridArea) {
+    this.layout.resetAreas(this.draggedArea);
+    this.moveAreasOnDragging(area);
   }
 
   private moveAreasOnDragging(dropArea:GridArea) {
