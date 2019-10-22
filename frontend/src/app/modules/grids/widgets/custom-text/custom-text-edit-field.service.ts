@@ -123,6 +123,7 @@ export class CustomTextEditFieldService extends EditFieldHandler {
 
   private newEditResource(value:GridWidgetResource) {
     return { text: value.options.text,
+             getEditorTypeFor: () => 'full',
              canAddAttachments: value.grid.canAddAttachments,
              uploadAttachments: (files:UploadFile[]) => value.grid.uploadAttachments(files) };
   }

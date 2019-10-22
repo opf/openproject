@@ -137,10 +137,6 @@ export abstract class EditFieldHandler {
 
   public abstract setErrors(newErrors:string[]):void;
 
-  public get formattableEditorType() {
-    return 'constrained';
-  }
-
   public previewContext(resource:HalResource):string|undefined {
     return undefined;
   }

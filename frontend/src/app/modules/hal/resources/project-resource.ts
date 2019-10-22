@@ -38,6 +38,14 @@ export class ProjectResource extends HalResource {
     return this.states.projects.get(this.id!) as any;
   }
 
+  public getEditorTypeFor(fieldName:string):"full"|"constrained" {
+    if (['statusExplanation', 'description'].indexOf(fieldName) !== -1) {
+      return 'full';
+    }
+
+    return 'constrained';
+  }
+
   /**
    * Get the schema of the project
    * ensure that it's loaded

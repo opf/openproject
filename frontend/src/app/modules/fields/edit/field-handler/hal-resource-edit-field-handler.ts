@@ -234,14 +234,6 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
     }
   }
 
-  public get formattableEditorType() {
-    if (this.fieldName === 'description') {
-      return 'full';
-    } else {
-      return 'constrained';
-    }
-  }
-
   public previewContext(resource:HalResource) {
     return resource.previewPath();
   }

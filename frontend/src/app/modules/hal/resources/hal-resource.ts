@@ -238,6 +238,10 @@ export class HalResource {
     return undefined;
   }
 
+  public getEditorTypeFor(_fieldName:string):'full'|'constrained' {
+    return 'constrained';
+  }
+
   public $load(force = false):Promise<this> {
     if (!this.state) {
       return this.$loadResource(force);
