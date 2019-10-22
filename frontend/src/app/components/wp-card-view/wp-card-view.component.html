@@ -10,6 +10,9 @@
 
   <wp-single-card *ngFor="let wp of workPackages; trackBy:trackByHref"
                   [workPackage]="wp"
+                  [attr.data-is-new]="wp.isNew || undefined"
+                  [attr.data-work-package-id]="wp.id"
+                  [attr.data-class-identifier]="cardView.classIdentifier(wp)"
                   [showInfoButton]="showInfoButton"
                   [showStatusButton]="showStatusButton"
                   [showRemoveButton]="cardsRemovable"

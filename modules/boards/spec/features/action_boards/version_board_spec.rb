@@ -109,8 +109,8 @@ describe 'Version action board', type: :feature, js: true do
         queries = board.contained_queries
         expect(queries.count).to eq(2)
 
-        open = queries.first
-        second_open = queries.last
+        open = queries.detect { |q| q.name == 'Open version'}
+        second_open = queries.detect { |q| q.name == 'A second version'}
 
         expect(open.name).to eq 'Open version'
         expect(second_open.name).to eq 'A second version'
@@ -197,7 +197,7 @@ describe 'Version action board', type: :feature, js: true do
       board_page.remove_list 'Shared version'
       queries = board_page.board(reload: true).contained_queries
       expect(queries.count).to eq(2)
-      expect(queries.first.name).to eq 'Open version'
+      expect(queries.map(&:name)).to contain_exactly 'Open version', 'A second version'
 
       board_page.expect_card('Open version', 'Foo', present: false)
       board_page.expect_card('A second version', 'Task 1', present: true)

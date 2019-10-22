@@ -69,17 +69,17 @@ describe 'Work package timeline navigation',
     before do
       # Enable card representation
       display_representation.switch_to_card_layout
-      expect(page).to have_selector(".wp-card[data-work-package-id='#{wp_1.id}']")
-      expect(page).to have_selector(".wp-card[data-work-package-id='#{wp_2.id}']")
+      expect(page).to have_selector("wp-single-card[data-work-package-id='#{wp_1.id}']")
+      expect(page).to have_selector("wp-single-card[data-work-package-id='#{wp_2.id}']")
     end
 
     it 'can switch the representations and keep the configuration settings' do
       # Enable highlighting
       highlighting.switch_entire_row_highlight "Priority"
-      within ".wp-card[data-work-package-id='#{wp_1.id}']" do
+      within "wp-single-card[data-work-package-id='#{wp_1.id}']" do
         expect(page).to have_selector(".wp-card--highlighting.__hl_background_priority_#{priority1.id}")
       end
-      within ".wp-card[data-work-package-id='#{wp_2.id}']" do
+      within "wp-single-card[data-work-package-id='#{wp_2.id}']" do
         expect(page).to have_selector(".wp-card--highlighting.__hl_background_priority_#{priority2.id}")
       end
 
@@ -96,10 +96,10 @@ describe 'Work package timeline navigation',
 
       # Switch back to card representation & Highlighting is kept, too
       display_representation.switch_to_card_layout
-      within ".wp-card[data-work-package-id='#{wp_1.id}']" do
+      within "wp-single-card[data-work-package-id='#{wp_1.id}']" do
         expect(page).to have_selector(".wp-card--highlighting.__hl_background_status_#{status.id}")
       end
-      within ".wp-card[data-work-package-id='#{wp_2.id}']" do
+      within "wp-single-card[data-work-package-id='#{wp_2.id}']" do
         expect(page).to have_selector(".wp-card--highlighting.__hl_background_status_#{status.id}")
       end
     end
@@ -107,8 +107,8 @@ describe 'Work package timeline navigation',
     it 'saves the representation in the query' do
       # After refresh the WP are still disaplyed as cards
       page.driver.browser.navigate.refresh
-      expect(page).to have_selector(".wp-card[data-work-package-id='#{wp_1.id}']")
-      expect(page).to have_selector(".wp-card[data-work-package-id='#{wp_2.id}']")
+      expect(page).to have_selector("wp-single-card[data-work-package-id='#{wp_1.id}']")
+      expect(page).to have_selector("wp-single-card[data-work-package-id='#{wp_2.id}']")
     end
   end
 

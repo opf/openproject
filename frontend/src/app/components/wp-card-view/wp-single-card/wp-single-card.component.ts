@@ -39,7 +39,7 @@ export class WorkPackageSingleCardComponent {
               readonly I18n:I18nService,
               readonly $state:StateService,
               readonly wpTableSelection:WorkPackageViewSelectionService,
-              readonly cardView:WorkPackageCardViewService,) {
+              readonly cardView:WorkPackageCardViewService) {
   }
 
   public classIdentifier(wp:WorkPackageResource) {
