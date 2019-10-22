@@ -53,8 +53,8 @@ module API
         end
       end
 
-      def external_avatar_link_expires_in
-        seconds = external_avatar_link_expiry_seconds
+      def avatar_link_expires_in
+        seconds = avatar_link_expiry_seconds
 
         if seconds == 0
           nil
@@ -63,8 +63,8 @@ module API
         end
       end
 
-      def external_avatar_link_expiry_seconds
-        @external_avatar_link_expiry_seconds ||= OpenProject::Configuration.external_avatar_link_expiry_seconds.to_i
+      def avatar_link_expiry_seconds
+        @avatar_link_expiry_seconds ||= OpenProject::Configuration.avatar_link_expiry_seconds.to_i
       end
     end
   end
