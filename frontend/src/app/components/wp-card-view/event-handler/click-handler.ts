@@ -38,7 +38,7 @@ export class CardClickHandler implements CardEventHandler {
     }
 
     // Locate the card from event
-    let element = target.closest(this.SELECTOR);
+    let element = target.closest('wp-single-card');
     let wpId = element.data('workPackageId');
     let classIdentifier = element.data('classIdentifier');
 
