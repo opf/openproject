@@ -7,7 +7,7 @@
   </widget-menu>
 </widget-header>
 
-<div class="grid--widget-content">
+<div class="grid--widget-content -allow-inner-overflow">
   <edit-form *ngIf="(project$ | async) as project" [resource]="project">
     <div class="project-status--container">
       <editable-attribute-field [resource]="project"

@@ -145,6 +145,11 @@ body.widget-grid-layout
     overflow-y: hidden
     display: block
 
+  &.-allow-inner-overflow
+    .wiki
+      overflow-y: auto
+      @include styled-scroll-bar
+
   // styles specific to the custom-text widget
   &.-custom-text
     a.inplace-editing--trigger-link
