@@ -26,7 +26,6 @@
 // ++
 
 import {Component, OnInit, ViewChild, ChangeDetectionStrategy} from "@angular/core";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 import {OpCkeditorComponent} from "core-app/modules/common/ckeditor/op-ckeditor.component";
 import {ICKEditorContext, ICKEditorInstance} from "core-app/modules/common/ckeditor/ckeditor-setup.service";

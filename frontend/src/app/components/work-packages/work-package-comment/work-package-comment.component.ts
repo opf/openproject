@@ -160,7 +160,7 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
         this.wpLinkedActivities.require(this.workPackage, true);
         this.wpCacheService.updateWorkPackage(this.workPackage);
         this.inFlight = false;
-        this.focus();
+        this.deactivate(true);
       })
       .catch((error:any) => {
         this.inFlight = false;
