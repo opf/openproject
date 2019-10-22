@@ -350,9 +350,9 @@ zh-CN:
         code: '状态'
         explanation: '状态描述'
         codes:
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
+          on_track: '按计划进行'
+          at_risk: '有风险'
+          off_track: '偏离计划'
       query:
         column_names: "列"
         relations_to_type_column: "与%{type} 的关系"

@@ -194,8 +194,8 @@ ko:
     general_text_Yes: "예"
     hal:
       error:
-        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
-        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        update_conflict_refresh: "리소스를 새로 고치고 최신 버전으로 업데이트하려면 여기를 클릭하세요."
+        edit_prohibited: "%{attribute} 편집은 이 리소스에 대해 차단되었습니다. 이 특성은 관계(예: 자식)에서 파생되었거나 그렇지 않으면 구성할 수 없습니다."
         format:
           date: "%{attribute}은(는) 유효한 날짜가 아닙니다. YYYY-MM-DD여야 합니다."
         general: "오류가 발생했습니다."
@@ -203,8 +203,8 @@ ko:
       blocks:
         new_features:
           text_new_features: "새로운 기능 및 제품 업데이트에 대해 읽어보십시오."
-          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
-          learn_about: "Learn more about the new status widgets"
+          current_new_feature_html: "OpenProject에는 <b>중요 프로젝트 정보를 표시하고</b> 프로젝트가 정상 상태인지 나타내는 새로운 <b>요약 페이지</b>가 포함되어 있습니다. </br> 사용자는 다양한 새로운 상태 위젯을 삽입할 수 있습니다. 예: <ul><li>프로젝트 상태,</li> <li>작업 패키지 상태 개요,</li> <li>작업 진행률,</li> <li>사용자에게 할당된 작업.</li></ul>"
+          learn_about: "새로운 상태 위젯에 대해 자세히 알아보기"
     label_activate: "활성화"
     label_add_column_after: "다음 뒤에 열 추가"
     label_add_column_before: "다음 앞에 열 추가"
@@ -690,7 +690,7 @@ ko:
         label_content: "메뉴를 건너뛰고 내용으로 이동하려면 여기를 클릭하세요."
       placeholders:
         default: "-"
-        formattable: "%{name}: Click to edit..."
+        formattable: "%{name}: 클릭하여 편집..."
       query:
         column_names: "컬럼"
         group_by: "그룹 결과"

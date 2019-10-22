@@ -194,8 +194,8 @@ pt:
     general_text_Yes: "Sim"
     hal:
       error:
-        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
-        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        update_conflict_refresh: "Clique aqui para atualizar o recurso e atualizar para a versão mais recente."
+        edit_prohibited: "A edição de %{attribute} está bloqueada neste recurso. Ou este atributo deriva de relações (por exemplo, filhos) ou não é configurável."
         format:
           date: "%{attribute} não é data válida - AAAA-MM-DD esperado."
         general: "Ocorreu um erro."
@@ -203,8 +203,8 @@ pt:
       blocks:
         new_features:
           text_new_features: "Leia sobre novos recursos e atualizações de produtos."
-          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
-          learn_about: "Learn more about the new status widgets"
+          current_new_feature_html: "O OpenProject contém uma nova página de <b>visão geral</b> para <b>mostrar informações importantes do projeto</b> e mostrar se o projeto está sob controlo. </br> Pode inserir vários novos widgets de estado, tais como: <ul><li>estado do projeto,</li> <li>visão geral do estado do pacote de trabalho,</li> <li>progresso de tarefas,</li> <li>tarefas atribuídas aos utilizadores.</li></ul>"
+          learn_about: "Saiba mais sobre os novos widgets de estado"
     label_activate: "Ativar"
     label_add_column_after: "Adicionar coluna após"
     label_add_column_before: "Adicionar coluna antes"
@@ -692,7 +692,7 @@ pt:
         label_content: "Clique aqui para saltar o menu e ir para o conteúdo"
       placeholders:
         default: "-"
-        formattable: "%{name}: Click to edit..."
+        formattable: "%{name}: Clique para editar..."
       query:
         column_names: "Colunas"
         group_by: "Agrupar resultados por"

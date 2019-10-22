@@ -348,11 +348,11 @@ ko:
         work_packages: "작업 패키지"
       project/status:
         code: '상태'
-        explanation: 'Status description'
+        explanation: '상태 설명'
         codes:
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
+          on_track: '정상 상태'
+          at_risk: '위험 상태'
+          off_track: '비정상 상태'
       query:
         column_names: "컬럼"
         relations_to_type_column: "%{type}에 대한 관계"
@@ -2511,7 +2511,7 @@ ko:
       messages:
         #Common error messages
         invalid_request: '이 요청에는 필요한 매개 변수가 없거나, 지원되지 않는 매개 변수 값이 포함되어 있거나, 형식이 잘못되었습니다.'
-        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
+        invalid_redirect_uri: "요청한 리디렉션 URI가 잘못된 형식이거나 클라이언트 리디렉션 URI와 일치하지 않습니다."
         unauthorized_client: '클라이언트가 이 방법을 사용하여 해당 요청을 실행하도록 허용되지 않았습니다.'
         access_denied: '리소스 소유자 또는 권한 부여 서버가 요청을 거부했습니다.'
         invalid_scope: '요청한 범위가 유효하지 않거나, 알 수 없거나, 잘못된 형식입니다.'

@@ -349,11 +349,11 @@ pt-BR:
         work_packages: "Pacotes de Trabalho"
       project/status:
         code: 'Status'
-        explanation: 'Descrição do status'
+        explanation: 'Descrição do estado'
         codes:
-          on_track: 'On track'
+          on_track: 'Sob controle'
           at_risk: 'Em risco'
-          off_track: 'Desativado'
+          off_track: 'Fora de controle'
       query:
         column_names: "Colunas"
         relations_to_type_column: "Relações com %{type}"
@@ -2535,7 +2535,7 @@ pt-BR:
       messages:
         #Common error messages
         invalid_request: 'A solicitação não possui um parâmetro obrigatório, tem um valor de parâmetro não suportado ou está malformada.'
-        invalid_redirect_uri: "O uri de redirecionamento solicitado está malformado ou não corresponde à URI de redirecionamento do cliente."
+        invalid_redirect_uri: "A URI de redirecionamento solicitado está malformado ou não corresponde à URI de redirecionamento do cliente."
         unauthorized_client: 'O cliente não está autorizado a executar esta solicitação usando este método.'
         access_denied: 'O proprietário do recurso ou servidor de autorização negou o pedido.'
         invalid_scope: 'O escopo solicitado é inválido, desconhecido ou malformado.'

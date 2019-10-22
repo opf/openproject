@@ -203,7 +203,7 @@ it:
       blocks:
         new_features:
           text_new_features: "Informati sulle nuove funzionalità e sugli aggiornamenti dei prodotti."
-          current_new_feature_html: "OpenProject contiene una nuova pagina di panoramica <b></b> per visualizzare <b>importanti informazioni del progetto</b> e mostrare se il progetto è sulla traccia. </br> Puoi inserire vari nuovi widget di stato, come: <ul><li>stato del progetto,</li> <li>panoramica dello stato del pacchetto di lavoro,</li> <li>progresso del task,</li> <li>attività assegnate agli utenti.</li></ul>"
+          current_new_feature_html: "OpenProject contiene un nuovo <b>quadro di controllo</b> per <b>visualizzare importanti informazioni sul progetto</b> e mostrare se il progetto è in linea con le previsioni. </br> Puoi inserire vari nuovi widget di stato, come: <ul><li>stato del progetto,</li> <li>panoramica dello stato delle macro-attività,</li> <li>progresso delle attività,</li> <li>attività assegnate agli utenti.</li></ul>"
           learn_about: "Ulteriori informazioni sui nuovi widget di stato"
     label_activate: "Attiva"
     label_add_column_after: "Aggiungi colonna dopo"

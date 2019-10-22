@@ -30,8 +30,8 @@ it:
           no_results: 'Nessun campo personalizzato è stato definito per i progetti.'
         project_status:
           title: 'Stato del progetto'
-          on_track: 'A posto'
-          off_track: 'Fuori controllo'
+          on_track: 'Nei limiti'
+          off_track: 'Fuori limite'
           at_risk: 'A rischio'
           not_set: 'Non impostato'
         subprojects:

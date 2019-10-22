@@ -349,11 +349,11 @@ fr:
         work_packages: "Lots de Travaux"
       project/status:
         code: 'Statut'
-        explanation: 'Status description'
+        explanation: 'Description du statut'
         codes:
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
+          on_track: 'Sur la bonne voie'
+          at_risk: 'À risque'
+          off_track: 'Sur la mauvaise voie'
       query:
         column_names: "Colonnes"
         relations_to_type_column: "Relations avec %{type}"
@@ -2535,7 +2535,7 @@ fr:
       messages:
         #Common error messages
         invalid_request: 'Il manque à la requête un paramètre requis, inclut une valeur de paramètre non supportée ou est malformée d''une autre manière.'
-        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
+        invalid_redirect_uri: "L'URI de redirection demandée est mal formée ou ne correspond pas à l'URI de redirection client."
         unauthorized_client: 'Le client n''est pas autorisé à effectuer cette demande en utilisant cette méthode.'
         access_denied: 'Le propriétaire de la ressource ou le serveur d''autorisation a refusé la demande.'
         invalid_scope: 'La portée demandée est invalide, inconnue ou incorrecte.'

@@ -203,8 +203,8 @@ zh-CN:
       blocks:
         new_features:
           text_new_features: "了解新功能和产品更新。"
-          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
-          learn_about: "Learn more about the new status widgets"
+          current_new_feature_html: "OpenProject 包含一个新的<b>概览页面</b>，用于<b>显示重要的项目信息</b>并显示该项目是否按计划进行。</br> 您可以插入各种新的状态小部件，例如：<ul><li>项目状态、</li> <li>工作包状态概览、</li> <li>任务进度、</li> <li>分配给用户的任务。</li></ul>"
+          learn_about: "详细了解新的状态小部件"
     label_activate: "激活"
     label_add_column_after: "之后添加列"
     label_add_column_before: "在之前添加列"
@@ -690,7 +690,7 @@ zh-CN:
         label_content: "单击此处跳过菜单，转到内容"
       placeholders:
         default: "-"
-        formattable: "%{name}: Click to edit..."
+        formattable: "%{name}：点击以编辑…"
       query:
         column_names: "列"
         group_by: "汇总结果根据"

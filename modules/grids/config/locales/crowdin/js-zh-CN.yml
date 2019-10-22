@@ -30,9 +30,9 @@ zh-CN:
           no_results: '没有为项目定义自定义字段。'
         project_status:
           title: '项目状态'
-          on_track: 'On track'
-          off_track: 'Off track'
-          at_risk: 'At risk'
+          on_track: '按计划进行'
+          off_track: '偏离计划'
+          at_risk: '有风险'
           not_set: '未设置'
         subprojects:
           title: '子项目'

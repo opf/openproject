@@ -350,11 +350,11 @@ pt:
         work_packages: "Tarefas"
       project/status:
         code: 'Situação'
-        explanation: 'Status description'
+        explanation: 'Descrição do estado'
         codes:
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
+          on_track: 'Sob controlo'
+          at_risk: 'Em risco'
+          off_track: 'Fora de controlo'
       query:
         column_names: "Colunas"
         relations_to_type_column: "Relações com %{type}"
@@ -2535,7 +2535,7 @@ pt:
       messages:
         #Common error messages
         invalid_request: 'Falta um parâmetro obrigatório à solicitação, inclui um valor de parâmetro não suportado, ou está disforme de alguma forma.'
-        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
+        invalid_redirect_uri: "O URI de redirecionamento solicitado é disforme ou não corresponde ao URI de redirecionamento do cliente."
         unauthorized_client: 'O cliente não está autorizado a executar este pedido através deste método.'
         access_denied: 'O proprietário do recurso ou o servidor de autorização negou o pedido.'
         invalid_scope: 'O âmbito solicitado é inválido, desconhecido ou disforme.'
