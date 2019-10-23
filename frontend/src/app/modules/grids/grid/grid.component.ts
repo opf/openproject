@@ -42,6 +42,7 @@ export const GRID_PROVIDERS = [
 export class GridComponent implements OnDestroy, OnInit {
   public uiWidgets:ComponentRef<any>[] = [];
   public GRID_AREA_HEIGHT = 'auto';
+  public GRID_GAP_DIMENSION = '20px';
 
   public component = WidgetWpGraphComponent;
 
@@ -102,18 +103,13 @@ export class GridComponent implements OnDestroy, OnInit {
   }
 
   public get gridColumnStyle() {
-    let style = '';
-    for (let i = 0; i < this.layout.numColumns; i++) {
-      style += `20px calc((100% - 20px * ${this.layout.numColumns + 1}) / ${this.layout.numColumns}) `;
-    }
-
-    style += '20px';
-
-    return this.sanitization.bypassSecurityTrustStyle(style);
+    return this.gridStyle(this.layout.numColumns,
+                          `calc((100% - ${this.GRID_GAP_DIMENSION} * ${this.layout.numColumns + 1}) / ${this.layout.numColumns})`)
   }
 
   public get gridRowStyle() {
-    return this.sanitization.bypassSecurityTrustStyle(`repeat(${this.layout.numRows}, ${this.GRID_AREA_HEIGHT})`);
+    return this.gridStyle(this.layout.numRows,
+                         this.GRID_AREA_HEIGHT);
   }
 
   public identifyGridArea(index:number, area:GridArea) {
@@ -122,5 +118,16 @@ export class GridComponent implements OnDestroy, OnInit {
 
   public get isHeadersDisplayed() {
     return this.layout.isEditable;
+  }
+
+  private gridStyle(amount:number, itemStyle:string) {
+    let style = '';
+    for (let i = 0; i < amount; i++) {
+      style += `${this.GRID_GAP_DIMENSION} ${itemStyle} `;
+    }
+
+    style += `${this.GRID_GAP_DIMENSION}`;
+
+    return this.sanitization.bypassSecurityTrustStyle(style);
   }
 }
