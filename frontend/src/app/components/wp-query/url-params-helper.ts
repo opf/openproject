@@ -98,7 +98,7 @@ export class UrlParamsHelperService {
   }
 
   private encodeHighlightingMode(paramsData:any, query:QueryResource) {
-    if (query.highlightingMode && query.highlightingMode !== 'inline') {
+    if (query.highlightingMode && (query.persisted || query.highlightingMode !== 'inline')) {
       paramsData.hl = query.highlightingMode;
     }
     return paramsData;
@@ -154,6 +154,8 @@ export class UrlParamsHelperService {
       }
 
       paramsData.tzl = query.timelineZoomLevel;
+    } else {
+      paramsData.tv = false;
     }
     return paramsData;
   }
@@ -176,9 +178,10 @@ export class UrlParamsHelperService {
     if (!!properties.s) {
       queryData.showSums = properties.s;
     }
-    if (!!properties.tv) {
-      queryData.timelineVisible = properties.tv;
 
+    queryData.timelineVisible = properties.tv;
+
+    if (!!properties.tv) {
       if (!!properties.tll) {
         queryData.timelineLabels = properties.tll;
       }
