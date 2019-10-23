@@ -447,6 +447,8 @@ ro:
         confirmation: "nu se potrivește cu %{attribute}."
         could_not_be_copied: "nu poate fi (complet) copiat(ă)."
         does_not_exist: "nu există."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "nu poate fi gol."
         even: "trebuie să fie par."
         exclusion: "este rezervat."

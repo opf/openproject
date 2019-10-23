@@ -446,6 +446,8 @@ es:
         confirmation: "no coincide con %{attribute}."
         could_not_be_copied: "No pueden ser copiados (totalmente)."
         does_not_exist: "no existe."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "No puede estar vacío."
         even: "debe ser incluido."
         exclusion: "está reservado."

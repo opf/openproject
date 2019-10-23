@@ -447,6 +447,8 @@ lt:
         confirmation: "nesutampa su %{attribute}."
         could_not_be_copied: "negalima (pilnai) nukopijuoti."
         does_not_exist: "neegzistuoja."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "negali būti tuščia."
         even: "turi būti lyginis."
         exclusion: "yra rezervuotas."

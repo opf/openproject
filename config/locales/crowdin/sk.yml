@@ -448,6 +448,8 @@ sk:
         confirmation: "%{attribute} sa nezhoduje."
         could_not_be_copied: "Nepodarilo sa (úplne) skopírovať."
         does_not_exist: "neexistuje."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "nemôže byť prázdny."
         even: "musí byť párne."
         exclusion: "patrí medzi vyhradené výrazy."

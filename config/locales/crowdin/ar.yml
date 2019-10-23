@@ -450,6 +450,8 @@ ar:
         confirmation: "لا يتطابق مع %{attribute}."
         could_not_be_copied: "لا يمكن أن ينسخ بشكل كامل."
         does_not_exist: "غير موجود."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "لا يمكن أن تكون فارغة."
         even: "يجب أن يكون زوجي."
         exclusion: "محجوز."

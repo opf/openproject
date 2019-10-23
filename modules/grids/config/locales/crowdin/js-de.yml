@@ -31,7 +31,7 @@ de:
         project_status:
           title: 'Projekt-Status'
           on_track: 'Im Zeitplan'
-          off_track: 'Off track'
+          off_track: 'Verspätet'
           at_risk: 'Gefährdet'
           not_set: 'Nicht gesetzt'
         subprojects:

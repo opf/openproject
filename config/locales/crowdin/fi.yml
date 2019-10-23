@@ -446,6 +446,8 @@ fi:
         confirmation: "ei vastaa %{attribute}."
         could_not_be_copied: "kopioiminen ei onnistunut (täysimääräisesti)."
         does_not_exist: "ei ole olemassa."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "ei voi olla tyhjä."
         even: "täytyy olla parillinen."
         exclusion: "on jo varattu."

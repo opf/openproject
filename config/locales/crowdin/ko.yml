@@ -444,6 +444,8 @@ ko:
         confirmation: "%{attribute} 속성에 부합하지 않습니다."
         could_not_be_copied: "은(는) (완전히) 복제될 수 없습니다."
         does_not_exist: "존재하지 않음"
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "비워둘 수 없습니다."
         even: "에 짝수를 입력해 주세요"
         exclusion: "예약됨"

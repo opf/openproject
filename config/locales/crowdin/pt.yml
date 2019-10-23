@@ -446,6 +446,8 @@ pt:
         confirmation: "não coincide %{attribute}."
         could_not_be_copied: "não pode ser (totalmente) copiado."
         does_not_exist: "não existe."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "não pode estar em branco."
         even: "deve ser par."
         exclusion: "é reservado."

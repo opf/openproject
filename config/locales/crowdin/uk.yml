@@ -448,6 +448,8 @@ uk:
         confirmation: "не збігається %{attribute}"
         could_not_be_copied: "неможливо (повністю) скопіювати."
         does_not_exist: "не існує."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "не може бути порожнім."
         even: "має бути рівним."
         exclusion: "зарезервовано."

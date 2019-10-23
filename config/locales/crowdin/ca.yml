@@ -446,6 +446,8 @@ ca:
         confirmation: "no coincideix amb el %{attribute}."
         could_not_be_copied: "no pot ser (completament) copiat."
         does_not_exist: "no existeix."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "no pot estar buit."
         even: "ha de ser parell."
         exclusion: "està reservat."

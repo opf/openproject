@@ -446,6 +446,8 @@ fil:
         confirmation: "hindi tugma %{attribute}."
         could_not_be_copied: "dapat hindi masyado kinopya ang lahat."
         does_not_exist: "hindi umiiral."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "hindi pwedeng blanko."
         even: "dapat ay kapareho."
         exclusion: "ay nakareserba."

@@ -446,6 +446,8 @@ tr:
         confirmation: "%{attribute} eşleşmiyor."
         could_not_be_copied: "(tamamen) kopyalanamadı."
         does_not_exist: "mevcut değil."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "boş olamaz."
         even: "çift olmalı."
         exclusion: "ayrılmıştır."

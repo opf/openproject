@@ -448,6 +448,8 @@ ru:
         confirmation: "не совпадает со значением поля %{attribute}."
         could_not_be_copied: "не может быть скопировано (полностью)."
         does_not_exist: "не существует."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "не может быть пустым."
         even: "должно быть чётным."
         exclusion: "зарезервировано."

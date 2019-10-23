@@ -446,6 +446,8 @@ sv:
         confirmation: "matchar inte %{attribute}."
         could_not_be_copied: "kunde inte (fullständigt) kopieras."
         does_not_exist: "finns inte."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "kan inte vara tomt."
         even: "måste vara jämn."
         exclusion: "är reserverat."

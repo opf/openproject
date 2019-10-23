@@ -446,6 +446,8 @@ da:
         confirmation: "matcher ikke %{attribute}."
         could_not_be_copied: "kunne ikke (fuldt ud) kopieres."
         does_not_exist: "findes ikke."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "må ikke være tomt."
         even: "skal være lige."
         exclusion: "er reserveret."

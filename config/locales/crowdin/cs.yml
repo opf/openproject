@@ -448,6 +448,8 @@ cs:
         confirmation: "doesn't match %{attribute}."
         could_not_be_copied: "nelze (celé) zkopírovat."
         does_not_exist: "neexistuje."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "nemůže být prázdné."
         even: "musí být sudé."
         exclusion: "vyhrazeno."

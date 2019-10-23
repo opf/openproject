@@ -445,6 +445,8 @@ fr:
         confirmation: "ne correspond pas à %{attribute}."
         could_not_be_copied: "n'a pas pu être copié (entièrement)."
         does_not_exist: "n'existe pas."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "ne peut pas être vide."
         even: "doit être pair."
         exclusion: "est réservé."

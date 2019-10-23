@@ -448,6 +448,8 @@ pl:
         confirmation: "nie pasuje do %{attribute}."
         could_not_be_copied: "nie można skopiować (w całości)."
         does_not_exist: "nie istnieje."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "nie może być puste."
         even: "musi być takie samo."
         exclusion: "jest już zajęte."

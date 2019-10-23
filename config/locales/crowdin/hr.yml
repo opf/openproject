@@ -447,6 +447,8 @@ hr:
         confirmation: "ne odgovara %{attribute}."
         could_not_be_copied: "ne može biti (u potpunosti) kopirano."
         does_not_exist: "ne postoji."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "ne može biti prazan unos."
         even: "mora biti izjednačeno."
         exclusion: "je rezerviran."

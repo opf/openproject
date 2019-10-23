@@ -446,6 +446,8 @@ bg:
         confirmation: "не съвпада с %{attribute}."
         could_not_be_copied: "не можа да бъде копиран (изцяло)."
         does_not_exist: "не съществува."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "не може да бъде празно."
         even: "трябва да бъде четно число."
         exclusion: "е запазено."

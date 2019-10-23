@@ -444,6 +444,8 @@ id:
         confirmation: "tidak sesuai dengan %{attribute}."
         could_not_be_copied: "sebagian tidak dapat dicopy."
         does_not_exist: "tidak ditemukan."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "harus di isi."
         even: "harus imbang."
         exclusion: "telah dipesan."
