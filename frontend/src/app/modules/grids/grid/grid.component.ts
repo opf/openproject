@@ -104,7 +104,7 @@ export class GridComponent implements OnDestroy, OnInit {
 
   public get gridColumnStyle() {
     return this.gridStyle(this.layout.numColumns,
-                          `calc((100% - ${this.GRID_GAP_DIMENSION} * ${this.layout.numColumns + 1}) / ${this.layout.numColumns})`)
+                          `calc((100% - ${this.GRID_GAP_DIMENSION} * ${this.layout.numColumns + 1}) / ${this.layout.numColumns})`);
   }
 
   public get gridRowStyle() {

@@ -35,6 +35,8 @@ export class GridDragAndDropService implements OnDestroy {
         throttle(val => interval(10))
       ).subscribe(area => {
         this.updateArea(area!);
+
+        this.layout.scrollPlaceholderIntoView();
       });
   }
 
@@ -81,6 +83,7 @@ export class GridDragAndDropService implements OnDestroy {
   public abort() {
     document.dispatchEvent(new Event('mouseup'));
     this.aborted = true;
+    this.layout.resetAreas();
   }
 
   public stop() {
@@ -92,15 +95,14 @@ export class GridDragAndDropService implements OnDestroy {
     this.placeholderArea = null;
   }
 
-  public drop(event:CdkDragDrop<GridArea>) {
+  public drop(draggedArea:GridWidgetArea, event:CdkDragDrop<GridArea>) {
     if (this.aborted) {
       this.aborted = false;
       return;
     }
 
     // this.draggedArea is already reset to null at this point
-    let dropArea = event.container.data;
-    let draggedArea = event.previousContainer.data as GridWidgetArea;
+    let dropArea = this.layout.mousedOverArea!;
 
     // Set the draggedArea's startRow/startColumn properties
     // to the drop zone ones.

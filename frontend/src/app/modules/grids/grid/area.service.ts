@@ -131,6 +131,18 @@ export class GridAreaService {
     this.helpMode = !this.helpMode;
   }
 
+  // This is a hacky way to have the placeholder in the viewport.
+  // It is a noop for firefox and edge as both do not support scrollIntoViewIfNeeded.
+  // But as scrollIntoView will always readjust the viewport, the result would be an unbearable flicker
+  // which causes e.g. dragging to be impossible.
+  public scrollPlaceholderIntoView() {
+    let placeholder = jQuery('.grid--area.-placeholder');
+
+    if ((placeholder[0] as any).scrollIntoViewIfNeeded) {
+      setTimeout(() => (placeholder[0] as any).scrollIntoViewIfNeeded());
+    }
+  }
+
   private saveGrid(resource:GridWidgetResource|any, schema?:SchemaResource) {
     this
       .gridDm
