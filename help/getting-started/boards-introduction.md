@@ -5,20 +5,34 @@ robots: index, follow
 keywords: invite members
 ---
 
-# Introduction to agile Boards
+# Introduction to agile Boards (Premium feature)
 
-Enterprise Feature
+In this document you will get a first introduction to the Boards in OpenProject, i.e. to use a Kanban board to manage your tasks in an agile way.
 
-| Feature                                                      | Documentation for |
-| ------------------------------------------------------------ | ----------------- |
-| [Project concept and initiation](Project concept and initiation) |                   |
-|                                                              |                   |
-|                                                              |                   |
-|                                                              |                   |
-|                                                              |                   |
+To find out more about the functionalities for Boards, please visit our [user guide for Gantt charts](/user-guide/boards).
 
-## Boards terminology
+| Feature                                                    | Documentation for                          |
+| ---------------------------------------------------------- | ------------------------------------------ |
+| [What is a Board?](#what-is-a-board?)                      | Find out what is a Board in OpenProject.   |
+| [Manage your work in a Board](manage-your-work-in-a-board) | How to manage your work in an agile Board? |
 
-xxx
+## What is a Board?
 
-## Permissions
+Agile Boards in OpenProject support teams in their agile project management methodology, e.g. Scrum or Kanban.
+
+You can create as many flexible boards with lists and cards on it. A list usually represent a workflow, e.g. status or versions of a work package. The cards are work packages, e.g. tasks, on this list.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Z7iE_BNCDus" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+## Manage your work in a Board
+
+To manage your work in an agile board, open the Boards module in OpenProject in the project menu.
+
+1. Choose a board from the list where you want to work on. Open it by double click on the board's titel.
+2. You can prioritize cards within a list with drag and drop
+3. You can add a card to a new list with drag and drop.
+4. You can edit the details of a card by **double click** on the card.
+5. The arrow brings you back to the boards view.
+
+
+
+![edit-boards](edit-boards.gif)

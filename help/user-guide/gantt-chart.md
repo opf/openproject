@@ -17,11 +17,12 @@ The **Gantt chart** in OpenProject displays the work packages in a timeline. You
 | [Create a new element](#create-a-new-element-in-the-gantt-chart) | How to add a new item to the Gantt chart?                    |
 | [Relations in the Gantt chart](#relations-in-the-gantt-chart) | Create and display relations in the Gantt chart.             |
 | [Gantt chart configuration](#gantt-chart-cconfiguration)     | How to configure the view of your Gantt chart, e.g. add labels? |
-|                                                              |                                                              |
+| [Synchronize data from OpenProject to Excel](#synchronize-data-from-openproject-to-excel) | How to synchronize data from OpenProject to Excel?           |
+| [Gantt chart views](gantt-chart-views)                       | How to zoom in and out and activate the Zen mode?            |
 
 ## Activate the Gantt chart
 
-A Gantt chart can be activated in any work package list, to display the work packages in a timeline.
+A Gantt chart can be activated in any work package list, to display the work packages in a timeline view.
 
 To activate the Gantt chart, select the **Gantt** icon at the top right of the work package list.
 
@@ -110,3 +111,18 @@ You can synchronize your work packages data from OpenProject to Excel (and even 
 
 Follow our [Step by step guide how to synchronize your Excel Sheet with OpenProject](https://www.openproject.org/synchronize-excel-openproject/).
 
+## Gantt chart views
+
+### Zoom in the Gantt chart
+
+To zoom in and zoom out in the Gantt chart view, click on the button with the **+** and **- icon** on top of the chart.
+
+![Gantt-chart-zoom](Gantt-chart-zoom.png)
+
+### Auto zoom
+
+Select the **auto zoom button** on top of the Gantt chart to have the best view of your Gantt chart.
+
+![Gantt-chart-autozoom](Gantt-chart-autozoom.png)
+
+### Zen mode

@@ -16,7 +16,7 @@ For further documentation, please visit our [user guide for work packages](./use
 | [What is a work package?](#what-is-a-work-package?)          | Find out what is a work package in OpenProject.           |
 | [Create a new work package](#create-a-new-work-package)      | How to create a new work package in  a project?           |
 | [Open and edit a work package](#open-and-edit-a-work-package) | How to open and make changes to an existing work package? |
-| [Activity of work packages](#activity-of-work-packages)      | f                                                         |
+| [Activity of work packages](#activity-of-work-packages)      | See all changes in a work package.                        |
 
 ## What is a work package?
 
