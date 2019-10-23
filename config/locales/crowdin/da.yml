@@ -446,6 +446,8 @@ da:
         confirmation: "matcher ikke %{attribute}."
         could_not_be_copied: "kunne ikke (fuldt ud) kopieres."
         does_not_exist: "findes ikke."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "må ikke være tomt."
         even: "skal være lige."
         exclusion: "er reserveret."
@@ -977,7 +979,7 @@ da:
         add_groups: "Add new attribute groups"
         rename_groups: "Rename attributes groups"
       project_filters:
-        description_html: "Upgrade to %{link} to filter and sort on custom fields"
+        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
   enumeration_activities: "Aktiviteter (styring af tid)"
   enumeration_work_package_priorities: "Prioritering af arbejdspakker"
   enumeration_system_activity: "Systemaktivitet"

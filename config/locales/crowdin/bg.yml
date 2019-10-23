@@ -446,6 +446,8 @@ bg:
         confirmation: "не съвпада с %{attribute}."
         could_not_be_copied: "не можа да бъде копиран (изцяло)."
         does_not_exist: "не съществува."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "не може да бъде празно."
         even: "трябва да бъде четно число."
         exclusion: "е запазено."
@@ -977,7 +979,7 @@ bg:
         add_groups: "Add new attribute groups"
         rename_groups: "Rename attributes groups"
       project_filters:
-        description_html: "Upgrade to %{link} to filter and sort on custom fields"
+        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
   enumeration_activities: "Дейности (проследяване по време)"
   enumeration_work_package_priorities: "Приоритети на работни пакети"
   enumeration_system_activity: "Системна дейност"

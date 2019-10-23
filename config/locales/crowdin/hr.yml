@@ -447,6 +447,8 @@ hr:
         confirmation: "ne odgovara %{attribute}."
         could_not_be_copied: "ne može biti (u potpunosti) kopirano."
         does_not_exist: "ne postoji."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "ne može biti prazan unos."
         even: "mora biti izjednačeno."
         exclusion: "je rezerviran."
@@ -993,7 +995,7 @@ hr:
         add_groups: "Add new attribute groups"
         rename_groups: "Rename attributes groups"
       project_filters:
-        description_html: "Upgrade to %{link} to filter and sort on custom fields"
+        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
   enumeration_activities: "Aktivnosti (vremensko praćenje)"
   enumeration_work_package_priorities: "Prioriteti radnog paketa"
   enumeration_system_activity: "Aktivnost sustava"

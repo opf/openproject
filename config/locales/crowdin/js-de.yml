@@ -202,8 +202,8 @@ de:
       blocks:
         new_features:
           text_new_features: "Lesen Sie über neue Funktionen und Updates."
-          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
-          learn_about: "Learn more about the new status widgets"
+          current_new_feature_html: "OpenProject enthält eine neue <b>Übersicht-Seite</b>, um <b>wichtige Projektinformationen anzuzeigen</b> und zu zeigen, ob das Projekt im Zeitplan ist. </br> Sie können verschiedene neue Status-Widgets einfügen, wie: <ul><li>Projektstatus,</li> <li>Übersicht über Arbeitspaket-Status,</li> <li>Aufgabenfortschritt,</li> <li>Aufgaben zugewiesen an Benutzer.</li></ul>"
+          learn_about: "Erfahren Sie mehr über die neuen Status-Widgets"
     label_activate: "Aktiviere"
     label_add_column_after: "Spalte danach hinzufügen"
     label_add_column_before: "Spalte davor hinzufügen"
@@ -691,7 +691,7 @@ de:
         label_content: "Klicken Sie hier, um über das Menü zu überspringen und zum Inhalt zu gelangen"
       placeholders:
         default: "-"
-        formattable: "%{name}: Click to edit..."
+        formattable: "%{name}: Klicken zum Bearbeiten..."
       query:
         column_names: "Spalten"
         group_by: "Gruppiere Ergebnisse nach"

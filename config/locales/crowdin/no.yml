@@ -446,6 +446,8 @@
         confirmation: "doesn't match %{attribute}."
         could_not_be_copied: "could not be (fully) copied."
         does_not_exist: "does not exist."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "can't be empty."
         even: "must be even."
         exclusion: "is reserved."
@@ -977,7 +979,7 @@
         add_groups: "Add new attribute groups"
         rename_groups: "Rename attributes groups"
       project_filters:
-        description_html: "Upgrade to %{link} to filter and sort on custom fields"
+        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
   enumeration_activities: "Aktiviteter (tidsstyring)"
   enumeration_work_package_priorities: "Prioritering av arbeidspakker"
   enumeration_system_activity: "Systemaktivitet"

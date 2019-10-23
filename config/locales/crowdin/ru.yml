@@ -448,6 +448,8 @@ ru:
         confirmation: "не совпадает со значением поля %{attribute}."
         could_not_be_copied: "не может быть скопировано (полностью)."
         does_not_exist: "не существует."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "не может быть пустым."
         even: "должно быть чётным."
         exclusion: "зарезервировано."
@@ -1009,7 +1011,7 @@ ru:
         add_groups: "Добавить новую группу атрибутов"
         rename_groups: "Переименовать группу атрибутов"
       project_filters:
-        description_html: "Обновить до %{link} для фильтрации и сортировки по пользовательским полям"
+        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
   enumeration_activities: "Деятельность (отслеживание времени)"
   enumeration_work_package_priorities: "Приоритеты пакета работ"
   enumeration_system_activity: "Активность системы"

@@ -443,6 +443,8 @@ ja:
         confirmation: "は%{attribute} と一致しません。"
         could_not_be_copied: "（完全に）コピーできませんでした。"
         does_not_exist: "は存在しません。"
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "は空にすることができません。"
         even: "は偶数にしてください。"
         exclusion: "は予約されています。"
@@ -959,7 +961,7 @@ ja:
         add_groups: "新しい属性グループを追加"
         rename_groups: "属性グループの名前を変更"
       project_filters:
-        description_html: "%{link} にアップグレードして、カスタムフィールドをフィルターおよび並べ替え"
+        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
   enumeration_activities: "作業分類 (時間の追跡)"
   enumeration_work_package_priorities: "作業項目の優先度"
   enumeration_system_activity: "システム作業分類"

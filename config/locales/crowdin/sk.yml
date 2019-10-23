@@ -448,6 +448,8 @@ sk:
         confirmation: "%{attribute} sa nezhoduje."
         could_not_be_copied: "Nepodarilo sa (úplne) skopírovať."
         does_not_exist: "neexistuje."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "nemôže byť prázdny."
         even: "musí byť párne."
         exclusion: "patrí medzi vyhradené výrazy."
@@ -1009,7 +1011,7 @@ sk:
         add_groups: "Pridajte nové skupiny atribútov"
         rename_groups: "Premenovať skupiny atribútov"
       project_filters:
-        description_html: "Aktualizujte na %{link} ak chcete filtrovať a triediť podľa vlastných polí"
+        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
   enumeration_activities: "Činnosti (sledovanie času)"
   enumeration_work_package_priorities: "Priority Pracovného balíka"
   enumeration_system_activity: "Systémové aktivity"

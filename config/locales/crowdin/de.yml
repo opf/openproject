@@ -352,7 +352,7 @@ de:
         codes:
           on_track: 'Im Zeitplan'
           at_risk: 'Gefährdet'
-          off_track: 'Off track'
+          off_track: 'Verspätet'
       query:
         column_names: "Spalten"
         relations_to_type_column: "Beziehungen zu %{type}"
@@ -444,6 +444,8 @@ de:
         confirmation: "stimmt nicht mit %{attribute} überein."
         could_not_be_copied: "konnten nicht (vollständig) kopiert werden."
         does_not_exist: "existiert nicht."
+        error_unauthorized: "kann nicht zugegriffen werden."
+        error_readonly: "ist nicht beschreibbar."
         empty: "muss ausgefüllt werden."
         even: "muss gerade sein."
         exclusion: "ist nicht verfügbar."
@@ -975,7 +977,7 @@ de:
         add_groups: "Neue Attributgruppen hinzufügen"
         rename_groups: "Attributgruppen umbenennen"
       project_filters:
-        description_html: "Upgraden auf %{link} um nach benutzerdefinierten Felder zu filtern und sortieren"
+        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
   enumeration_activities: "Aktivitäten (Zeiterfassung)"
   enumeration_work_package_priorities: "Arbeitspaket-Prioritäten"
   enumeration_system_activity: "System-Aktivität"

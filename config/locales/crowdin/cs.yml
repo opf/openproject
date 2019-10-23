@@ -448,6 +448,8 @@ cs:
         confirmation: "doesn't match %{attribute}."
         could_not_be_copied: "nelze (celé) zkopírovat."
         does_not_exist: "neexistuje."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "nemůže být prázdné."
         even: "musí být sudé."
         exclusion: "vyhrazeno."
@@ -1009,7 +1011,7 @@ cs:
         add_groups: "Add new attribute groups"
         rename_groups: "Rename attributes groups"
       project_filters:
-        description_html: "Upgradujte na %{link} pro filtrování a řazení ve vlastních polích"
+        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
   enumeration_activities: "Aktivity (sledování času)"
   enumeration_work_package_priorities: "Priority pracovního balíčku"
   enumeration_system_activity: "Činnost systému"

@@ -446,6 +446,8 @@ tr:
         confirmation: "%{attribute} eşleşmiyor."
         could_not_be_copied: "(tamamen) kopyalanamadı."
         does_not_exist: "mevcut değil."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "boş olamaz."
         even: "çift olmalı."
         exclusion: "ayrılmıştır."
@@ -977,7 +979,7 @@ tr:
         add_groups: "Yeni öznitelik grubu ekleyin"
         rename_groups: "Öznitelik grubunun adını değiştirin"
       project_filters:
-        description_html: "Özel alanları filtrelemek ve sıralamak için %{link}} sayfasına geçin"
+        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
   enumeration_activities: "Etkinlikler (zaman izleme)"
   enumeration_work_package_priorities: "İş paketi öncelikleri"
   enumeration_system_activity: "Sistem Etkinliği"

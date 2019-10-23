@@ -445,6 +445,8 @@ it:
         confirmation: "non coincide con %{attribute}."
         could_not_be_copied: "non possono essere copiati (integralmente)."
         does_not_exist: "non esiste."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "non può essere vuoto."
         even: "deve essere pari."
         exclusion: "è riservato."
@@ -976,7 +978,7 @@ it:
         add_groups: "Aggiunta di gruppi di proprietà"
         rename_groups: "Rinominazione di gruppi di proprietà"
       project_filters:
-        description_html: "Aggiorna a %{link} per filtrare ed ordinare utilizzando i campi personalizzati"
+        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
   enumeration_activities: "Attività (monitoraggio tempi)"
   enumeration_work_package_priorities: "Priorità della macro-attività"
   enumeration_system_activity: "Attività del sistema"

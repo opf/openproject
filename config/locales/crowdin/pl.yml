@@ -448,6 +448,8 @@ pl:
         confirmation: "nie pasuje do %{attribute}."
         could_not_be_copied: "nie można skopiować (w całości)."
         does_not_exist: "nie istnieje."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "nie może być puste."
         even: "musi być takie samo."
         exclusion: "jest już zajęte."
@@ -1009,7 +1011,7 @@ pl:
         add_groups: "Dodaj nowe grupy atrybutów"
         rename_groups: "Zmień grupy atrybutów"
       project_filters:
-        description_html: "Zaktualizuj do %{link}, aby filtrować i sortować wg pól niestandardowych"
+        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
   enumeration_activities: "Działania"
   enumeration_work_package_priorities: "Priorytety pakietów roboczych"
   enumeration_system_activity: "Aktywność systemu"

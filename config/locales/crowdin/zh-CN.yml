@@ -444,6 +444,8 @@ zh-CN:
         confirmation: "不匹配 %{attribute}。"
         could_not_be_copied: "不能 (完全) 复制。"
         does_not_exist: "不存在。"
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "不能为空。"
         even: "必须是偶数。"
         exclusion: "是保留关键字。"
@@ -960,7 +962,7 @@ zh-CN:
         add_groups: "添加新属性群组"
         rename_groups: "重命名属性群组"
       project_filters:
-        description_html: "升级到 %{link} 以在自定义字段上筛选和排序"
+        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
   enumeration_activities: "活动 （时间跟踪）"
   enumeration_work_package_priorities: "工作包优先级"
   enumeration_system_activity: "系统活动"
