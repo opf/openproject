@@ -84,6 +84,7 @@ class MailHandler < ActionMailer::Base
         end
       end
     end
+
     @user = User.find_by_mail(sender_email) if sender_email.present?
     if @user && !@user.active?
       log "ignoring email from non-active user [#{@user.login}]"
@@ -547,8 +548,7 @@ class MailHandler < ActionMailer::Base
 
   def log(message, level = :info)
     message = "MailHandler: #{message}"
-
-    logger.send(level, message) if logger&.send(level)
+    logger.public_send(level, message)
   end
 
   def work_package_create_contract_class
