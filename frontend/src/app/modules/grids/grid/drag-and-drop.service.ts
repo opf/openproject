@@ -35,6 +35,8 @@ export class GridDragAndDropService implements OnDestroy {
         throttle(val => interval(10))
       ).subscribe(area => {
         this.updateArea(area!);
+
+        this.layout.scrollPlaceholderIntoView();
       });
   }
 
