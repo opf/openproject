@@ -1,3 +1,9 @@
+---
+nav:
+  title: Upgrade guide
+  priority: 200
+---
+
 # Upgrade your OpenProject installation (Docker)
 
 Upgrading a Docker container is easy. First, pull the latest version of the image:
