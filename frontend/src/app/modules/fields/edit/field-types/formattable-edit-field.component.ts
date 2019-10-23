@@ -68,6 +68,8 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   public previewHtml:string = '';
   public text:any = {};
 
+  public editorType = this.resource.getEditorTypeFor(this.field.name);
+
   ngOnInit() {
     super.ngOnInit();
 
@@ -116,10 +118,6 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
       macros: 'none' as 'none',
       previewContext: this.previewContext
     };
-  }
-
-  public get editorType() {
-    return this.handler.formattableEditorType;
   }
 
   private get previewContext() {

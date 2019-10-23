@@ -198,6 +198,10 @@ export class WorkPackageBaseResource extends HalResource {
     }
   }
 
+  public getEditorTypeFor(fieldName:string):"full"|"constrained" {
+    return fieldName === 'description' ? 'full' : 'constrained';
+  }
+
   /**
    * Return whether the work package is editable with the user's permission
    * on the given work package attribute.

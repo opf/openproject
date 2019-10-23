@@ -63,6 +63,7 @@ export class CkeditorAugmentedTextareaComponent implements OnInit, OnDestroy {
   public resource?:HalResource;
   public context:ICKEditorContext;
   public macros:boolean;
+  public editorType:string;
 
   // Reference to the actual ckeditor instance component
   @ViewChild(OpCkeditorComponent, { static: true }) private ckEditorInstance:OpCkeditorComponent;
@@ -86,6 +87,7 @@ export class CkeditorAugmentedTextareaComponent implements OnInit, OnDestroy {
     this.textareaSelector = this.$element.attr('textarea-selector')!;
     this.previewContext = this.$element.attr('preview-context')!;
     this.macros = this.$element.attr('macros') !== 'false';
+    this.editorType = this.$element.attr('editor-type') || 'full';
 
     // Parse the resource if any exists
     const source = this.$element.data('resource');

@@ -58,6 +58,7 @@ module OpenProject::TextFormatting::Formats
         helpers.content_tag 'ckeditor-augmented-textarea',
                             '',
                             'textarea-selector': "##{field_id}",
+                            'editor-type': context[:editor_type] || 'full',
                             'preview-context': context[:preview_context],
                             'data-resource': resource.to_json,
                             'macros': context.fetch(:macros, true)
