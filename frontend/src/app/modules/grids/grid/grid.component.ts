@@ -112,17 +112,8 @@ export class GridComponent implements OnDestroy, OnInit {
     return this.sanitization.bypassSecurityTrustStyle(style);
   }
 
-  // array containing Numbers from 1 to this.numColumns
-  public get columnNumbers() {
-    return Array.from(Array(this.layout.numColumns + 1).keys()).slice(1);
-  }
-
   public get gridRowStyle() {
     return this.sanitization.bypassSecurityTrustStyle(`repeat(${this.layout.numRows}, ${this.GRID_AREA_HEIGHT})`);
-  }
-
-  public get rowNumbers() {
-    return Array.from(Array(this.layout.numRows + 1).keys()).slice(1);
   }
 
   public identifyGridArea(index:number, area:GridArea) {
