@@ -51,6 +51,10 @@ module ::UserConsentHelper
     all.fetch(locale) { all.values.first }
   end
 
+  def consent_checkbox_label(locale: I18n.locale)
+    format_text I18n.t('consent.checkbox_label', locale: locale)
+  end
+
   def consent_configured?
     if Setting.consent_info.count == 0
       Rails.logger.error 'Instance is configured to require consent, but no consent_info has been set.'
