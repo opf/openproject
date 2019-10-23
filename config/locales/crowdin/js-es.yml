@@ -194,8 +194,8 @@ es:
     general_text_Yes: "Sí"
     hal:
       error:
-        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
-        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        update_conflict_refresh: "Haga clic aquí para actualizar el recurso y cambiar a la versión más reciente."
+        edit_prohibited: "La edición de %{attribute} está bloqueada para este recurso. Puede que el atributo se derive de relaciones (por ejemplo, elementos secundarios) o que no pueda configurarse."
         format:
           date: "%{attribute} no es una fecha válida -se espera YYYY-MM-DD."
         general: "Ha ocurrido un error."
@@ -203,8 +203,8 @@ es:
       blocks:
         new_features:
           text_new_features: "Obtenga información sobre nuevas características y actualizaciones de productos."
-          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
-          learn_about: "Learn more about the new status widgets"
+          current_new_feature_html: "OpenProject tiene una nueva <b>página de información general</b> para <b>mostrar información importante sobre el proyecto</b> e indicar si se completará según lo previsto. </br> Puede insertar nuevos widgets de estado, como: <ul><li>estado del proyecto,</li> <li>información general sobre el estado del paquete de trabajo,</li> <li>progreso de la tarea,</li> <li>tareas asignadas a usuarios.</li></ul>"
+          learn_about: "Más información sobre los nuevos widgets de estado"
     label_activate: "Activar"
     label_add_column_after: "Añadir columna a la derecha"
     label_add_column_before: "Añadir columna a la izquierda"
@@ -692,7 +692,7 @@ es:
         label_content: "Haga clic aquí para saltar el menú e ir al contenido"
       placeholders:
         default: "-"
-        formattable: "%{name}: Click to edit..."
+        formattable: "%{name}: haga clic para editar…"
       query:
         column_names: "Columnas"
         group_by: "Resultados de grupo por"

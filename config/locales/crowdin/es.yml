@@ -350,11 +350,11 @@ es:
         work_packages: "Paquetes de trabajo"
       project/status:
         code: 'Estado'
-        explanation: 'Status description'
+        explanation: 'Descripción del estado'
         codes:
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
+          on_track: 'Según lo previsto'
+          at_risk: 'En riesgo'
+          off_track: 'Fuera de lo previsto'
       query:
         column_names: "Columnas"
         relations_to_type_column: "Relaciones con %{type}"
@@ -2536,7 +2536,7 @@ es:
       messages:
         #Common error messages
         invalid_request: 'Falta un parámetro necesario en la petición, un valor de parámetro no compatible ha sido añadido, o se encuentra deformado.'
-        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
+        invalid_redirect_uri: "El URI de redireccionamiento solicitado tiene un formato incorrecto o no coincide con el URI de redireccionamiento del cliente."
         unauthorized_client: 'El cliente no está autorizado a realizar esta petición usando este método.'
         access_denied: 'El propietario de este recurso o servidor de autorización ha denegado la petición.'
         invalid_scope: 'El ámbito solicitado es inválido, desconocido, o está malformado.'
