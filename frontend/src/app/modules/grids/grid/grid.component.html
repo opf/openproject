@@ -62,7 +62,6 @@
        (mouseover)="layout.setMousedOverArea(area)"
        [cdkDropListData]="area"
        (cdkDropListDropped)="drag.drop($event)"
-       (cdkDropListEntered)="drag.entered($event)"
        [cdkDropListConnectedTo]="layout.gridAreaIds">
     <div class="grid--widget-add hidden-for-mobile"
          [title]="add.addText"
