@@ -19,6 +19,7 @@
     <div class="grid--area-content widget-box"
          cdkDrag
          (cdkDragStarted)="drag.start(area)"
+         (cdkDragDropped)="drag.drop(area, $event)"
          (cdkDragEnded)="drag.stop()">
 
       <span *ngIf="drag.isDraggable"
@@ -61,7 +62,6 @@
        [id]="area.guid"
        (mouseover)="layout.setMousedOverArea(area)"
        [cdkDropListData]="area"
-       (cdkDropListDropped)="drag.drop($event)"
        [cdkDropListConnectedTo]="layout.gridAreaIds">
     <div class="grid--widget-add hidden-for-mobile"
          [title]="add.addText"
