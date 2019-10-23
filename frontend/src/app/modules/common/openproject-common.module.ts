@@ -77,6 +77,7 @@ import {UserAvatarComponent} from "core-components/user/user-avatar/user-avatar.
 import {GonService} from "core-app/modules/common/gon/gon.service";
 import {BackRoutingService} from "core-app/modules/common/back-routing/back-routing.service";
 import {EnterpriseBannerComponent} from "core-components/enterprise-banner/enterprise-banner.component";
+import {EnterpriseBannerBootstrapComponent} from "core-components/enterprise-banner/enterprise-banner-bootstrap.component";
 import {DynamicModule} from "ng-dynamic-component";
 import {VersionAutocompleterComponent} from "core-app/modules/common/autocomplete/version-autocompleter.component";
 import {CreateAutocompleterComponent} from "core-app/modules/common/autocomplete/create-autocompleter.component";
@@ -247,6 +248,7 @@ export function bootstrapModule(injector:Injector) {
 
     // Enterprise Edition
     EnterpriseBannerComponent,
+    EnterpriseBannerBootstrapComponent,
 
     // Autocompleter
     CreateAutocompleterComponent,
@@ -281,6 +283,9 @@ export function bootstrapModule(injector:Injector) {
     RemoteFieldUpdaterComponent,
     AttributeHelpTextComponent,
     ShowSectionDropdownComponent,
+
+    // Enterprise Edition
+    EnterpriseBannerBootstrapComponent,
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: bootstrapModule, deps: [Injector], multi: true },
