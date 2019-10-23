@@ -46,7 +46,6 @@ export class GridResizeService {
     let resizeTargets = this.layout.gridAreas.filter((area) => {
       // All areas on the same row which are after the current column are valid targets.
       let sameRow = area.startRow === this.resizedArea!.startRow &&
-                     area.endRow === this.resizedArea!.endRow &&
                      area.startColumn >= this.resizedArea!.startColumn;
 
       // Areas that are on higher (number, they are printed below) rows
