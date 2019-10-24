@@ -19,8 +19,7 @@
     <div class="grid--area-content widget-box"
          cdkDrag
          (cdkDragStarted)="drag.start(area)"
-         (cdkDragDropped)="drag.drop(area, $event)"
-         (cdkDragEnded)="drag.stop()">
+         (cdkDragDropped)="drag.drop(area)">
 
       <span *ngIf="drag.isDraggable"
             class="grid--area-drag-handle
