@@ -31,10 +31,22 @@ import {Injectable} from "@angular/core";
 @Injectable()
 export class CurrentUserService {
   public get isLoggedIn() {
-    return jQuery('meta[name=current_user]').length > 0;
+    return this.userMeta.length > 0;
   }
 
   public get userId() {
-    return jQuery('meta[name=current_user]').data('id');
+    return this.userMeta.data('id');
+  }
+
+  public get name() {
+    return this.userMeta.data('name');
+  }
+
+  public get mail() {
+    return this.userMeta.data('mail');
+  }
+
+  private get userMeta():JQuery {
+    return jQuery('meta[name=current_user]');
   }
 }
