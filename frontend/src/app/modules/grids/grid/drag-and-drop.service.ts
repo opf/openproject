@@ -28,9 +28,10 @@ export class GridDragAndDropService implements OnDestroy {
       .layout
       .$mousedOverArea
       .pipe(
+        // avoid flickering of widgets as the grid gets resized by the placeholder movement
+        throttleTime(10),
         distinctUntilChanged(),
         filter((area) => this.currentlyDragging && !!area && !this.layout.isGap(area) && (this.placeholderArea!.startRow !== area.startRow || this.placeholderArea!.startColumn !== area.startColumn)),
-        throttleTime(10)
       ).subscribe(area => {
         this.updateArea(area!);
 
