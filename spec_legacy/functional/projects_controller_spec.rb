@@ -65,7 +65,8 @@ describe ProjectsController, type: :controller do
       end
 
       it 'should accept get' do
-        get :new, params: { parent_id: 'ecookbook' }
+        project = Project.find_by(identifier: 'ecookbook')
+        get :new, params: { parent_id: project.id }
         assert_response :success
         assert_template 'new'
         # parent project selected
