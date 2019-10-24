@@ -12,7 +12,6 @@ export class GridDragAndDropService implements OnDestroy {
   public draggedArea:GridWidgetArea|null;
   public placeholderArea:GridWidgetArea|null;
   public draggedHeight:number|null;
-  private aborted = false;
   private mousedOverAreaObserver:Subscription;
 
   constructor(readonly layout:GridAreaService,
@@ -82,41 +81,30 @@ export class GridDragAndDropService implements OnDestroy {
 
   public abort() {
     document.dispatchEvent(new Event('mouseup'));
-    this.aborted = true;
+    this.draggedArea = null;
+    this.placeholderArea = null;
     this.layout.resetAreas();
   }
 
-  public stop() {
+  public drop() {
     if (!this.draggedArea) {
       return;
     }
-
-    this.draggedArea = null;
-    this.placeholderArea = null;
-  }
-
-  public drop(draggedArea:GridWidgetArea, event:CdkDragDrop<GridArea>) {
-    if (this.aborted) {
-      this.aborted = false;
-      return;
-    }
-
-    // this.draggedArea is already reset to null at this point
-    let dropArea = this.layout.mousedOverArea!;
 
     // Set the draggedArea's startRow/startColumn properties
     // to the drop zone ones.
     // The dragged Area should keep it's height and width normally but will
     // shrink if the area would otherwise end outside the grid.
-    this.copyPositionButRestrict(dropArea, draggedArea);
+    this.copyPositionButRestrict(this.placeholderArea!, this.draggedArea!);
 
-    if (draggedArea.unchangedSize) {
-      return;
+    if (!this.draggedArea!.unchangedSize) {
+      this.layout.writeAreaChangesToWidgets();
+      this.layout.cleanupUnusedAreas();
+      this.layout.rebuildAndPersist();
     }
 
-    this.layout.writeAreaChangesToWidgets();
-    this.layout.cleanupUnusedAreas();
-    this.layout.rebuildAndPersist();
+    this.draggedArea = null;
+    this.placeholderArea = null;
   }
 
   private copyPositionButRestrict(source:GridArea, sink:GridWidgetArea) {
