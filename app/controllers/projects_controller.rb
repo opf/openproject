@@ -70,7 +70,7 @@ class ProjectsController < ApplicationController
 
     Projects::SetAttributesService
       .new(user: current_user, model: @project, contract_class: EmptyContract)
-      .call({})
+      .call(params.permit(:parent_id))
 
     render layout: 'no_menu'
   end

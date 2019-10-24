@@ -49,6 +49,17 @@ describe ProjectsController, type: :controller do
       expect(response).to be_successful
       expect(response).to render_template 'new'
     end
+
+    context 'with parent project' do
+      let!(:parent) { FactoryBot.create :project, name: 'Parent' }
+
+      it 'sets the parent of the project' do
+        get 'new', params: { parent_id: parent.id }
+        expect(response).to be_successful
+        expect(response).to render_template 'new'
+        expect(assigns(:project).parent).to eq parent
+      end
+    end
   end
 
   describe 'index.html' do
