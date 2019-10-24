@@ -7,10 +7,8 @@ import {GridResource} from "core-app/modules/hal/resources/grid-resource";
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 import {WidgetChangeset} from "core-app/modules/grids/widgets/widget-changeset";
-import * as moment from 'moment';
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {GridDragAndDropService} from "core-app/modules/grids/grid/drag-and-drop.service";
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
@@ -90,12 +88,12 @@ export class GridAreaService {
   }
 
   public rebuildAndPersist() {
-    this.buildAreas(false);
     this.persist();
+    this.buildAreas(false);
   }
 
   public persist() {
-    this.resource.rowCount = this.numRows;
+    this.resource.rowCount = this.numRows = (this.widgetAreas.map(area => area.endRow).sort().pop() || 2) - 1;
     this.resource.columnCount = this.numColumns;
 
     this.writeAreaChangesToWidgets();
@@ -176,7 +174,8 @@ export class GridAreaService {
   private buildGridAreas() {
     let cells:GridArea[] = [];
 
-    for (let row = 1; row <= this.numRows; row++) {
+    // the one extra row is added in case the user wants to drag a widget to the very bottom
+    for (let row = 1; row <= this.numRows + 1; row++) {
       cells.push(...this.buildGridAreasRow(row));
     }
 

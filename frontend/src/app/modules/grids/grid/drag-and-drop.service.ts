@@ -1,11 +1,10 @@
-import {Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {GridWidgetArea} from "core-app/modules/grids/areas/grid-widget-area";
-import {CdkDragDrop} from '@angular/cdk/drag-drop';
 import {GridArea} from "core-app/modules/grids/areas/grid-area";
 import {GridAreaService} from "core-app/modules/grids/grid/area.service";
 import {GridMoveService} from "core-app/modules/grids/grid/move.service";
-import { Subscription, interval } from 'rxjs';
-import { switchMap, filter, throttle, distinctUntilChanged } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { filter, distinctUntilChanged, throttleTime } from 'rxjs/operators';
 
 @Injectable()
 export class GridDragAndDropService implements OnDestroy {
@@ -30,8 +29,8 @@ export class GridDragAndDropService implements OnDestroy {
       .$mousedOverArea
       .pipe(
         distinctUntilChanged(),
-        filter((area) => this.currentlyDragging && !!area && !this.layout.isGap(area)),
-        throttle(val => interval(10))
+        filter((area) => this.currentlyDragging && !!area && !this.layout.isGap(area) && (this.placeholderArea!.startRow !== area.startRow || this.placeholderArea!.startColumn !== area.startColumn)),
+        throttleTime(10)
       ).subscribe(area => {
         this.updateArea(area!);
 
@@ -60,6 +59,10 @@ export class GridDragAndDropService implements OnDestroy {
     return !!this.draggedArea;
   }
 
+  public isDropOnlyArea(area:GridArea) {
+    return !this.currentlyDragging && area.endRow === this.layout.numRows + 2;
+  }
+
   public isDragged(area:GridWidgetArea) {
     return this.currentlyDragging && this.draggedArea!.guid === area.guid;
   }
@@ -73,10 +76,10 @@ export class GridDragAndDropService implements OnDestroy {
   }
 
   public start(area:GridWidgetArea) {
-    this.draggedArea = area;
     this.placeholderArea = new GridWidgetArea(area.widget);
     // TODO find an angular way to do this that ideally does not require passing the element from the grid component
     this.draggedHeight = (document as any).getElementById(area.guid).offsetHeight - 2; // border width * 2
+    this.draggedArea = area;
   }
 
   public abort() {
@@ -109,7 +112,12 @@ export class GridDragAndDropService implements OnDestroy {
 
   private copyPositionButRestrict(source:GridArea, sink:GridWidgetArea) {
     sink.startRow = source.startRow;
-    if (source.startRow + sink.widget.height > this.layout.numRows + 1) {
+
+    // The first condition is aimed at the case when the user drags an element to the very last row
+    // which is not reflected by the numRows.
+    if (source.startRow === this.layout.numRows + 1) {
+      sink.endRow = this.layout.numRows + 2;
+    } else if (source.startRow + sink.widget.height > this.layout.numRows + 1) {
       sink.endRow = this.layout.numRows + 1;
     } else {
       sink.endRow = source.startRow + sink.widget.height;

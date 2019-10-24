@@ -19,7 +19,7 @@
     <div class="grid--area-content widget-box"
          cdkDrag
          (cdkDragStarted)="drag.start(area)"
-         (cdkDragDropped)="drag.drop(area)">
+         (cdkDragDropped)="drag.drop()">
 
       <span *ngIf="drag.isDraggable"
             class="grid--area-drag-handle
@@ -50,6 +50,7 @@
   <div *ngFor="let area of layout.gridAreas; trackBy: identifyGridArea;"
        class="grid--area"
        [ngClass] = "{'-drop-target': drag.currentlyDragging,
+                     '-drop-only': drag.isDropOnlyArea(area),
                      '-resize-target': resize.isTarget(area),
                      '-addable': add.isAddable(area),
                      '-help-mode': layout.inHelpMode}"
