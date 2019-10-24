@@ -31,7 +31,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= toolbar title: l(:label_project_settings) do %>
   <% if User.current.allowed_to?(:add_subprojects, @project) %>
     <li class="toolbar-item">
-      <%= link_to new_project_path(parent_id: @project),
+      <%= link_to new_project_path(parent_id: @project.id),
           { class: 'button -alt-highlight',
             aria: {label: t(:label_subproject_new)},
             title: t(:label_subproject_new)} do %>

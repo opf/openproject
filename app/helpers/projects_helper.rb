@@ -160,7 +160,7 @@ module ProjectsHelper
   def project_more_menu_subproject_item(project)
     if User.current.allowed_to? :add_subprojects, project
       [t(:label_subproject_new),
-       new_project_path(parent_id: project),
+       new_project_path(parent_id: project.id),
        class: 'icon-context icon-add',
        title: t(:label_subproject_new)]
     end
