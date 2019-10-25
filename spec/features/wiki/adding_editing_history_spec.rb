@@ -98,5 +98,20 @@ describe 'wiki pages', type: :feature, js: true do
       expect(page).to have_selector('ins.diffmod', text: 'second')
       expect(page).to have_selector('del.diffmod', text: 'first')
     end
+
+    # Go back to history
+    find('.button', text: 'History').click
+
+    # Click on first version
+    # to determine text (Regression test #31531)
+    find('td.id a', text: 1).click
+
+    expect(page).to have_selector('.wiki-version--details', text: 'Version 1/2')
+    expect(page).to have_selector('.wiki-content', text: content_first_version)
+
+    find('.button', text: 'Next').click
+
+    expect(page).to have_selector('.wiki-version--details', text: 'Version 2/2')
+    expect(page).to have_selector('.wiki-content', text: content_second_version)
   end
 end
