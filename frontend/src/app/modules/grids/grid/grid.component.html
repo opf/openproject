@@ -19,8 +19,7 @@
     <div class="grid--area-content widget-box"
          cdkDrag
          (cdkDragStarted)="drag.start(area)"
-         (cdkDragDropped)="drag.drop(area, $event)"
-         (cdkDragEnded)="drag.stop()">
+         (cdkDragDropped)="drag.drop()">
 
       <span *ngIf="drag.isDraggable"
             class="grid--area-drag-handle
@@ -28,7 +27,6 @@
                    icon-drag-handle"
             cdkDragHandle></span>
 
-      <div *cdkDragPlaceholder></div>
       <ndc-dynamic [ndcDynamicComponent]="widgetComponent(area)"
                    [ndcDynamicInputs]="widgetComponentInput(area)"
                    [ndcDynamicOutputs]="widgetComponentOutput(area)">
@@ -51,6 +49,7 @@
   <div *ngFor="let area of layout.gridAreas; trackBy: identifyGridArea;"
        class="grid--area"
        [ngClass] = "{'-drop-target': drag.currentlyDragging,
+                     '-drop-only': drag.isDropOnlyArea(area),
                      '-resize-target': resize.isTarget(area),
                      '-addable': add.isAddable(area),
                      '-help-mode': layout.inHelpMode}"
@@ -83,7 +82,7 @@
        (mouseover)="layout.setMousedOverArea(gap)">
     <div class="grid--widget-add -gap hidden-for-mobile"
          [title]="add.addText"
-         (click)="add.widget(gap, layout.schema)">
+         (click)="add.widget(gap)">
     </div>
   </div>
 

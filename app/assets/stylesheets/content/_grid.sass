@@ -87,6 +87,9 @@ body.widget-grid-layout
   &.-resize-target
     z-index: 1000
 
+  &.-drop-only
+    display: none
+
 .grid--resizer
   position: absolute
   height: 20px
@@ -134,6 +137,9 @@ body.widget-grid-layout
     @include widget-box--hover-style
     border-radius: 3px
     margin: 0
+
+  &.cdk-drag-placeholder
+    visibility: hidden
 
 .grid--widget-content
   height: 100%

@@ -1,18 +1,16 @@
-import {Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {GridWidgetArea} from "core-app/modules/grids/areas/grid-widget-area";
-import {CdkDragDrop} from '@angular/cdk/drag-drop';
 import {GridArea} from "core-app/modules/grids/areas/grid-area";
 import {GridAreaService} from "core-app/modules/grids/grid/area.service";
 import {GridMoveService} from "core-app/modules/grids/grid/move.service";
-import { Subscription, interval } from 'rxjs';
-import { switchMap, filter, throttle, distinctUntilChanged } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { filter, distinctUntilChanged, throttleTime } from 'rxjs/operators';
 
 @Injectable()
 export class GridDragAndDropService implements OnDestroy {
   public draggedArea:GridWidgetArea|null;
   public placeholderArea:GridWidgetArea|null;
   public draggedHeight:number|null;
-  private aborted = false;
   private mousedOverAreaObserver:Subscription;
 
   constructor(readonly layout:GridAreaService,
@@ -30,9 +28,10 @@ export class GridDragAndDropService implements OnDestroy {
       .layout
       .$mousedOverArea
       .pipe(
+        // avoid flickering of widgets as the grid gets resized by the placeholder movement
+        throttleTime(10),
         distinctUntilChanged(),
-        filter((area) => this.currentlyDragging && !!area && !this.layout.isGap(area)),
-        throttle(val => interval(10))
+        filter((area) => this.currentlyDragging && !!area && !this.layout.isGap(area) && (this.placeholderArea!.startRow !== area.startRow || this.placeholderArea!.startColumn !== area.startColumn)),
       ).subscribe(area => {
         this.updateArea(area!);
 
@@ -51,6 +50,10 @@ export class GridDragAndDropService implements OnDestroy {
     }
     let widgetArea = this.draggedArea!;
 
+    // Set the draggedArea's startRow/startColumn properties
+    // to the drop zone ones.
+    // The dragged Area should keep it's height and width normally but will
+    // shrink if the area would otherwise end outside the grid.
     // we cannot use the widget's original area as moving it while dragging confuses cdkDrag
     this.copyPositionButRestrict(dropArea, this.placeholderArea);
 
@@ -59,6 +62,10 @@ export class GridDragAndDropService implements OnDestroy {
 
   public get currentlyDragging() {
     return !!this.draggedArea;
+  }
+
+  public isDropOnlyArea(area:GridArea) {
+    return !this.currentlyDragging && area.endRow === this.layout.numRows + 2;
   }
 
   public isDragged(area:GridWidgetArea) {
@@ -74,54 +81,44 @@ export class GridDragAndDropService implements OnDestroy {
   }
 
   public start(area:GridWidgetArea) {
-    this.draggedArea = area;
     this.placeholderArea = new GridWidgetArea(area.widget);
     // TODO find an angular way to do this that ideally does not require passing the element from the grid component
     this.draggedHeight = (document as any).getElementById(area.guid).offsetHeight - 2; // border width * 2
+    this.draggedArea = area;
   }
 
   public abort() {
     document.dispatchEvent(new Event('mouseup'));
-    this.aborted = true;
+    this.draggedArea = null;
+    this.placeholderArea = null;
     this.layout.resetAreas();
   }
 
-  public stop() {
+  public drop() {
     if (!this.draggedArea) {
       return;
+    }
+
+    this.placeholderArea!.copyDimensionsTo(this.draggedArea!)
+
+    if (!this.draggedArea!.unchangedSize) {
+      this.layout.writeAreaChangesToWidgets();
+      this.layout.cleanupUnusedAreas();
+      this.layout.rebuildAndPersist();
     }
 
     this.draggedArea = null;
     this.placeholderArea = null;
   }
 
-  public drop(draggedArea:GridWidgetArea, event:CdkDragDrop<GridArea>) {
-    if (this.aborted) {
-      this.aborted = false;
-      return;
-    }
-
-    // this.draggedArea is already reset to null at this point
-    let dropArea = this.layout.mousedOverArea!;
-
-    // Set the draggedArea's startRow/startColumn properties
-    // to the drop zone ones.
-    // The dragged Area should keep it's height and width normally but will
-    // shrink if the area would otherwise end outside the grid.
-    this.copyPositionButRestrict(dropArea, draggedArea);
-
-    if (draggedArea.unchangedSize) {
-      return;
-    }
-
-    this.layout.writeAreaChangesToWidgets();
-    this.layout.cleanupUnusedAreas();
-    this.layout.rebuildAndPersist();
-  }
-
   private copyPositionButRestrict(source:GridArea, sink:GridWidgetArea) {
     sink.startRow = source.startRow;
-    if (source.startRow + sink.widget.height > this.layout.numRows + 1) {
+
+    // The first condition is aimed at the case when the user drags an element to the very last row
+    // which is not reflected by the numRows.
+    if (source.startRow === this.layout.numRows + 1) {
+      sink.endRow = this.layout.numRows + 2;
+    } else if (source.startRow + sink.widget.height > this.layout.numRows + 1) {
       sink.endRow = this.layout.numRows + 1;
     } else {
       sink.endRow = source.startRow + sink.widget.height;
