@@ -40,7 +40,7 @@ import {AngularTrackingHelpers} from "core-components/angular/tracking-functions
   selector: 'attachment-list',
   templateUrl: './attachment-list.html'
 })
-export class AttachmentListComponent implements OnInit, OnChanges, OnDestroy {
+export class AttachmentListComponent implements OnInit, OnDestroy {
   @Input() public resource:HalResource;
   @Input() public destroyImmediately:boolean = true;
 
@@ -60,11 +60,7 @@ export class AttachmentListComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
 
-    if (this.attachmentsUpdatable) {
-      this.resource.updateAttachments();
-    }
-
-    this.attachments = this.resource.attachments.elements;
+    this.updateAttachments();
     this.setupResourceUpdateListener();
 
     if (!this.destroyImmediately) {
@@ -81,7 +77,8 @@ export class AttachmentListComponent implements OnInit, OnChanges, OnDestroy {
       )
       .subscribe((newResource:HalResource) => {
         this.resource = newResource || this.resource;
-        this.attachments = [...this.resource.attachments.elements];
+
+        this.updateAttachments();
         this.cdRef.detectChanges();
       });
   }
@@ -89,12 +86,6 @@ export class AttachmentListComponent implements OnInit, OnChanges, OnDestroy {
   ngOnDestroy():void {
     if (!this.destroyImmediately) {
       this.$formElement.off('submit.attachment-component');
-    }
-  }
-
-  ngOnChanges() {
-    if (this.attachmentsUpdatable) {
-      this.resource.attachments.updateElements();
     }
   }
 
@@ -127,6 +118,22 @@ export class AttachmentListComponent implements OnInit, OnChanges, OnDestroy {
         .resource
         .removeAttachment(attachment);
     });
+  }
+
+  private updateAttachments() {
+    if (!this.attachmentsUpdatable) {
+      this.attachments = this.resource.attachments.elements;
+      return;
+    }
+
+    this
+      .resource
+      .attachments
+      .updateElements()
+      .then(() => {
+        this.attachments = this.resource.attachments.elements;
+        this.cdRef.detectChanges();
+      });
   }
 }
 
