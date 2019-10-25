@@ -64,6 +64,7 @@ export class CreateAutocompleterComponent implements AfterViewInit {
     } else {
       this._createAllowed = false;
     }
+    this.cdRef.detectChanges();
 
     setTimeout(() => {
       if (this.openDirectly) {
