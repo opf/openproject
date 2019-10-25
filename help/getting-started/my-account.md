@@ -13,7 +13,8 @@ Change your personal settings in My Account. Here you can adapt, e.g. the langua
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Open My Account settings](#open-my-account-settings)        | How to open your personal settings in OpenProject?           |
 | [Edit your user information](#edit-your-user-information)    | How to change the name or email address in OpenProject?      |
-| [Profile settings: change your langue, time zone or display of comments](#profile-settings:-change-your-language,-time-zone-or-display-of-comments) | How to change the language, time zone or display of comments in Openproject? |
+| [Profile settings: change your language, time zone or display of comments](#profile-settings:-change-your-language,-time-zone-or-display-of-comments) | How to change the language, time zone or display of comments in OpenProject? |
+| [Two-factor authentication](#two-factor-authentication)      | How to set up a two-factor authentication?                   |
 | [Email notifications](#email-notifications)                  | How to change email notifications sent by OpenProject?       |
 | [Set an Avatar](#set-an-avatar)                              | How to set an Avatar in OpenProject to change the profile picture? |
 
@@ -31,19 +32,27 @@ To change your email address or your name, navigate to the **Profile** page in t
 
 Here you can adapt the information and **save** your changes with the blue button.
 
-## Profile settings: change your langue, time zone or display of comments
+## Profile settings: change your language, time zone or display of comments
 
-To change the language in OpenProject, naviagte to the My account settings and choose the menu point **Settings**.
+To change the language in OpenProject, navigate to the My account settings and choose the menu point **Settings**.
 
-Here you can choose between multiple lanuages.
+Here you can choose between multiple languages.
 
 You can choose a Time zone in which you work and how the comments and changes will be saved.
 
-Also, you can choose to receive a warning manssage when leaving an unsaved work package.
+Also, you can choose to receive a warning massage when leaving an unsaved work package.
 
 The auto-hide setting will hide the success notifications for changes automatically.
 
+The blue **Save** button will save your changes.
+
 ![my-account-settings](my-account-settings.png)
+
+## Two-factor authentication (Premium feature)
+
+In order to activate the two-factor authentication for your OpenProject installation, 
+
+
 
 ## Email notifications
 
@@ -66,7 +75,7 @@ To change your profile picture in OpenProject you can set an Avatar in your My a
 
 OpenProject uses Gravatar as default profile image. It displays a preview of your Avatar.
 
-Also, you can upload a **Custom Avatar** by choosing a Avatar to be uploaded from a file. Press the blue **Update** button to change your profile picutre.
+Also, you can upload a **Custom Avatar** by choosing a Avatar to be uploaded from a file. Press the blue **Update** button to change your profile picture.
 
 <div class="alert alert-info" role="alert">
 Note: The optimum size to upload a new profile picture is 128 by 128 pixel. Larger files will be cropped.
