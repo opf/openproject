@@ -23,7 +23,7 @@ id:
   no_results_title_text: Tidak ada yang ditampilkan saat ini.
   activities:
     index:
-      no_results_title_text: There has not been any activity for the project within this time frame.
+      no_results_title_text: Belum ada kegiatan untuk proyek dalam jangka waktu ini.
   admin:
     plugins:
       no_results_title_text: Tidak ada plugin yang tersedia saat ini.
@@ -66,14 +66,14 @@ id:
       no_results_content_title: Tidak ada mode otentikasi saat ini.
       no_results_content_text: Buat mode otentikasi baru
   ldap_auth_sources:
-    connection_encryption: 'Connection encryption'
+    connection_encryption: 'Enkripsi sambungan'
     tls_mode:
       plain: 'kosong'
       simple_tls: 'simple_tls'
       start_tls: 'start_tls'
-      plain_description: "Plain unencrypted connection, no TLS negotiation."
-      simple_tls_description: "Implicit TLS encryption, but no certificate validation. Use with caution and implicit trust of the LDAP connection."
-      start_tls_description: "Explicit TLS encryption with full validation. Use for LDAP over TLS/SSL."
+      plain_description: "Sambungan polos tidak terenkripsi, tidak ada negosiasi TLS."
+      simple_tls_description: "Enkripsi TLS implisit, tetapi tidak ada validasi sertifikat. Gunakan dengan hati-hati dan kepercayaan tersirat dari koneksi LDAP."
+      start_tls_description: "Enkripsi TLS eksplisit dengan validasi penuh. Gunakan untuk LDAP melalui TLS / SSL."
       section_more_info_link_html: >
         This section concerns the connection security of this LDAP authentication source. For more information, visit <a href="%{link}">the Net::LDAP documentation</a>.
   forums:
@@ -91,13 +91,13 @@ id:
       assigned_to:
         executing_user_value: '(Assign to executing user)'
     conditions: 'Kondisi'
-    plural: 'Custom actions'
+    plural: 'Tindakan khusus'
     new: 'New custom action'
     edit: 'Edit custom action %{name}'
     execute: 'Execute %{name}'
     upsale:
-      title: 'Custom actions is an Enterprise Edition feature'
-      description: 'Custom actions streamline everyday work by combining a set of individual steps into one button.'
+      title: 'Tindakan khusus adalah fitur Edisi Perusahaan'
+      description: 'Tindakan khusus merampingkan pekerjaan sehari-hari dengan menggabungkan satu set langkah individual menjadi satu tombol.'
   custom_fields:
     text_add_new_custom_field: >
       Untuk menambahkan kolom kustom baru untuk sebuah proyek, pertama-tama Anda harus membuatnya, sebelum Anda dapat menambahkannya ke proyek ini.
@@ -109,7 +109,7 @@ id:
       no_results_title_text: Tidak ada bidang kustom saat ini.
       no_results_content_text: Buat bidang kustom baru
   concatenation:
-    single: 'or'
+    single: 'atau'
   deprecations:
     time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
   global_search:
@@ -126,12 +126,12 @@ id:
       no_results_title_text: Saat ini tidak ada proyek yang menjadi bagian grup.
   incoming_mails:
     ignore_filenames: >
-      Specify a list of names to ignore when processing attachments for incoming mails (e.g., signatures or icons). Enter one filename per line.
+      Tentukan daftar nama yang harus diabaikan ketika memproses lampiran untuk surat masuk (mis., Tanda tangan atau ikon). Masukkan satu nama file per baris.
   projects:
     delete:
-      scheduled: "Deletion has been scheduled and is perfomed in the background. You will be notified of the result."
-      schedule_failed: "Project cannot be deleted: %{errors}"
-      failed: "Deletion of project %{name} has failed"
+      scheduled: "Penghapusan telah dijadwalkan dan dilakukan di latar belakang. Anda akan diberitahu hasilnya."
+      schedule_failed: "Proyek tidak dapat dihapus: %{errors}"
+      failed: "Penghapusan proyek %{name} telah gagal"
       failed_text: "The request to delete project %{name} has failed. The project was left archived."
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
