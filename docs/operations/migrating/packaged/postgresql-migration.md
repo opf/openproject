@@ -18,7 +18,14 @@ This guide should leave you with a set of archives that you can use to restore, 
 
 ## Installation of pgloader
 
-We ship a custom version of pgloader (named `pgloader-ccl`), which embeds some memory optimizations useful when you are migrating from a large MySQL database. This also allows us to provide a unified migration experience for all installation types. This package is available for all the currently supported distributions at https://packager.io/gh/opf/pgloader-ccl.
+We ship a custom version of pgloader (named `pgloader-ccl`), which embeds some memory optimizations useful when you are migrating from a large MySQL database.
+This also allows us to provide a unified migration experience for all installation types.
+This package is available for all the currently supported distributions at https://packager.io/gh/opf/pgloader-ccl.
+
+There are some reports that the contained pgloader-ccl might fail with an internal error. We are not yet quite sure what is causing this,
+but you can alternative compile or provide your own pgloader (see https://pgloader.io for more information).
+
+To do that, set the environment variable `PGLOADER_PATH` to the absolute path of your provided pgloader.
 
 ### Ubuntu 18.04
 

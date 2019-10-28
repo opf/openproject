@@ -7,7 +7,6 @@ import {Injector} from '@angular/core';
 import {QueryColumn} from "core-components/wp-query/query-column";
 export const tdClassName = 'wp-table--cell-td';
 export const editCellContainer = 'wp-table--cell-container';
-export const wpCellTdClassName = 'wp-table--cell-td';
 
 export class CellBuilder {
 
@@ -19,7 +18,7 @@ export class CellBuilder {
   public build(workPackage:WorkPackageResource, column:QueryColumn) {
     const td = document.createElement('td');
     const attribute = column.id;
-    td.classList.add(tdClassName, wpCellTdClassName, attribute);
+    td.classList.add(tdClassName, attribute);
 
     if (attribute === 'subject') {
       td.classList.add('-max');

@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 pt:
   js:
     ajax:
@@ -56,9 +77,9 @@ pt:
     card:
       add_new: 'Adicionar novo cartão'
       highlighting:
-        inline: 'Destacar inline:'
+        inline: 'Destaque em linha:'
         entire_card_by: 'Cartão inteiro por'
-      remove_from_list: 'Apagar cartão da lista'
+      remove_from_list: 'Eliminar cartão da lista'
     clipboard:
       browser_error: "O seu navegador não suporta o copiar para a área de transferência. Por favor, copie manualmente o texto selecionado."
       copied_successful: "Copiado com sucesso para área de transferência!"
@@ -171,16 +192,20 @@ pt:
     general_text_yes: "sim"
     general_text_No: "Não"
     general_text_Yes: "Sim"
+    hal:
+      error:
+        update_conflict_refresh: "Clique aqui para atualizar o recurso e atualizar para a versão mais recente."
+        edit_prohibited: "A edição de %{attribute} está bloqueada neste recurso. Ou este atributo deriva de relações (por exemplo, filhos) ou não é configurável."
+        format:
+          date: "%{attribute} não é data válida - AAAA-MM-DD esperado."
+        general: "Ocorreu um erro."
     homescreen:
       blocks:
         new_features:
           text_new_features: "Leia sobre novos recursos e atualizações de produtos."
-          current_new_feature_html: "O OpenProject contém uma nova <b>visualização de Quadro</b> para gestão de projetos Agile. </br> Para ativar esta nova função nos seus projetos existentes, por favor siga os seguintes passos: <ul><li>Ativar os Quadros de módulo dentro das configurações dos projetos existentes.</li> <li>Configure os seus Quadros num projeto.</li> <li>Verifique funções e permissões</li></ul>"
-          image_alt_text: "Imagem de teaser Board"
-          learn_about: "Saiba mais sobre os Quadros Agile"
+          current_new_feature_html: "O OpenProject contém uma nova página de <b>visão geral</b> para <b>mostrar informações importantes do projeto</b> e mostrar se o projeto está sob controlo. </br> Pode inserir vários novos widgets de estado, tais como: <ul><li>estado do projeto,</li> <li>visão geral do estado do pacote de trabalho,</li> <li>progresso de tarefas,</li> <li>tarefas atribuídas aos utilizadores.</li></ul>"
+          learn_about: "Saiba mais sobre os novos widgets de estado"
     label_activate: "Ativar"
-    label_activity_no: "Número de entrada da atividade %{activityNo}"
-    label_activity_with_comment_no: "Número de entrada da atividade %{activityNo}. Tem um comentário de utilizador."
     label_add_column_after: "Adicionar coluna após"
     label_add_column_before: "Adicionar coluna antes"
     label_add_columns: "Adicionar colunas"
@@ -254,6 +279,7 @@ pt:
     label_no_data: "Sem dados para apresentar"
     label_no_due_date: "sem data fim"
     label_no_start_date: "sem data inicio"
+    label_no_value: "Sem valor"
     label_none: "nenhum"
     label_not_contains: "não contém"
     label_not_equals: "não é"
@@ -586,12 +612,6 @@ pt:
       description_enter_text: "Digite o texto"
       description_options_hide: "Ocultar opções"
       description_options_show: "Mostrar opções"
-      error:
-        update_conflict_refresh: "Clique aqui para atualizar o pacote de trabalho para a versão mais recente."
-        edit_prohibited: "A edição de %{attribute} está bloqueada neste pacote de trabalho. Ou este atributo deriva de relações (por exemplo, filhos) ou não é configurável."
-        format:
-          date: "%{attribute} não é data válida - AAAA-MM-DD esperado."
-        general: "Ocorreu um erro."
       edit_attribute: "%{attribute} - Editar"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Ativar seleção múltipla"
@@ -606,7 +626,6 @@ pt:
       message_view_spent_time: "Mostrar o tempo gasto para este pacote de trabalho"
       message_work_package_read_only: "O pacote de trabalho está bloqueado no presente estado. Nenhum atributo que não seja o estado pode ser alterado."
       message_work_package_status_blocked: "O estado do pacote de trabalho não pode ser gravado devido ao estado fechado e à versão fechada estarem a ser atribuídas."
-      no_value: "Sem valor"
       placeholder_filter_by_text: "Assunto, descrição, comentários, ..."
       inline_create:
         title: 'Clique aqui para adicionar um novo pacote de trabalho a esta lista'
@@ -673,7 +692,7 @@ pt:
         label_content: "Clique aqui para saltar o menu e ir para o conteúdo"
       placeholders:
         default: "-"
-        description: "Clique para inserir a descrição..."
+        formattable: "%{name}: Clique para editar..."
       query:
         column_names: "Colunas"
         group_by: "Agrupar resultados por"
@@ -833,7 +852,7 @@ pt:
     global_search:
       all_projects: "Em todos os projetos"
       search: "Pesquisar"
-      close_search: "Fechar busca"
+      close_search: "Fechar pesquisa"
       current_project: "Neste projeto"
       current_project_and_all_descendants: "Neste projeto + subprojetos"
       title:

@@ -1,3 +1,18 @@
+#-- copyright
+#OpenProject Reporting Plugin
+#Copyright (C) 2010 - 2014 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#version 3.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#++
+#---
 lt:
   button_save_as: "Įrašyti ataskaitą kaip..."
   comments: "Komentaras"
@@ -9,7 +24,7 @@ lt:
   description_remove_filter: "Pašalinti filtrą"
   information_restricted_depending_on_permission: "Priklausomai nuo Jūsų teisių, šis puslapis gali turėti apribotos informacijos."
   label_click_to_edit: "Spustelėkite, kad redaguoti."
-  label_closed: "uždaryta"
+  label_closed: "uždarytas"
   label_columns: "Stulpeliai"
   label_cost_entry_attributes: "Kaštų įrašų atributai"
   label_days_ago: "per pastarąsias dienas"
@@ -25,7 +40,7 @@ lt:
   label_money: "Pinigų reikšmė"
   label_month_reporting: "Mėnuo (praleista)"
   label_new_report: "Nauja kaštų ataskaita"
-  label_open: "atverti"
+  label_open: "atidarytas"
   label_operator: "Operatorius"
   label_private_report_plural: "Privačių kaštų ataskaitos"
   label_progress_bar_explanation: "Generuojama ataskaita..."

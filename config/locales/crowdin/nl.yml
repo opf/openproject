@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 nl:
   no_results_title_text: Er is op dit moment niets om weer te geven.
   activities:
@@ -279,7 +300,7 @@ nl:
       changeset:
         repository: "Repository"
       comment:
-        commented: "Becommentarieerd"
+        commented: "Becommentarieerd" #an object that this comment belongs to
       custom_action:
         actions: "Acties"
       custom_field:
@@ -327,6 +348,13 @@ nl:
         types: "Typen"
         versions: "Versies"
         work_packages: "Werkpakketten"
+      project/status:
+        code: 'Status'
+        explanation: 'Status description'
+        codes:
+          on_track: 'On track'
+          at_risk: 'At risk'
+          off_track: 'Off track'
       query:
         column_names: "Kolommen"
         relations_to_type_column: "Betrekkingen %{type}"
@@ -418,6 +446,8 @@ nl:
         confirmation: "komt niet overeen met %{attribute}."
         could_not_be_copied: "kon niet (volledig) worden gekopieerd."
         does_not_exist: "bestaat niet."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "mag niet leeg zijn."
         even: "moet gelijk zijn."
         exclusion: "is gereserveerd."
@@ -481,6 +511,8 @@ nl:
               invalid_values: "Een waarde is ongeldig."
               id_filter_required: "Een ' id' filter is vereist."
         project:
+          archived_ancestor: 'The project has an archived ancestor.'
+          foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
             types:
               in_use_by_work_packages: "nog steeds in gebruik door werkpakketten: %{types}"
@@ -609,6 +641,7 @@ nl:
   activity:
     created: "Gemaakt: %{title}"
     updated: "Bijgewerkt: %{title}"
+  #common attributes of all models
   attributes:
     active: "Actief"
     assigned_to: "Toegewezene"
@@ -618,7 +651,7 @@ nl:
     base: "Algemene fout:"
     blocks_ids: "It's van geblokkeerde werkpakketten"
     category: "Categorie"
-    comment: "Reactie"
+    comment: "Commentaar"
     comments: "Commentaar"
     content: "Inhoud"
     color: "Kleur"
@@ -641,6 +674,7 @@ nl:
     is_default: "Standaardwaarde"
     is_for_all: "Voor alle projecten"
     is_public: "Publiek"
+    #kept for backwards compatibility
     issue: "Werkpakket"
     lastname: "Achternaam"
     login: "Username"
@@ -649,6 +683,7 @@ nl:
     password: "Wachtwoord"
     priority: "Prioriteit"
     project: "Project"
+    public: "Publiek"
     responsible: "Verantwoording afleggen"
     role: "Rol"
     roles: "Rollen"
@@ -784,9 +819,13 @@ nl:
       - "Vrijdag"
       - "Zaterdag"
     formats:
+      #Use the strftime parameters for formats.
+      #When no format has been given, it uses default.
+      #You can provide other formats here if you like!
       default: "%d-%m-%Y"
       long: "%B %d, %Y"
       short: "%b %d"
+    #Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names:
       - null
       - "Januari"
@@ -801,6 +840,7 @@ nl:
       - "Oktober"
       - "November"
       - "December"
+    #Used in date_select and datime_select.
     order:
       - :jaar
       - :maand
@@ -930,6 +970,7 @@ nl:
   description_sub_work_package: "Sub werkpakket van huidige"
   description_toc_toggle: "De inhoudsopgave weergeven/verbergen"
   description_wiki_subpages_reassign: "Kies nieuwe bovenliggende pagina"
+  #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: LTR
   ee:
     upsale:
@@ -944,7 +985,7 @@ nl:
   enumeration_system_activity: "Systeemactiviteit"
   enumeration_reported_project_statuses: "Gerapporteerde projectstatus"
   error_auth_source_sso_failed: "Single Sign-On (SSO) voor gebruiker '%{value}' is mislukt"
-  error_can_not_archive_project: "Dit project kan niet worden gearchiveerd: er is minstens één werkpakket toegewezen naar een versie die is gedefinieerd in dit project."
+  error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Niet in staat om ingave te verwijderen"
   error_can_not_delete_custom_field: "Aangepast veld kan niet verwijderd worden"
   error_can_not_delete_type: "Dit type bevat werkpakketten en kan niet worden verwijderd."
@@ -953,6 +994,7 @@ nl:
   error_can_not_remove_role: "Deze rol is in gebruik en kan niet worden verwijderd."
   error_can_not_reopen_work_package_on_closed_version: "Een werkpakket toegewezen aan een gesloten versie kan niet worden heropend"
   error_can_not_find_all_resources: "Could not find all related resources to this request."
+  error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Kies een gebruiker en een rol."
   error_code: "Error %{code}"
   error_cookie_missing: 'De cookie voor OpenProject ontbreekt. Zorg ervoor dat cookies zijn ingeschakeld aangezien deze toepassing anders niet goed zal functioneren.'
@@ -1659,12 +1701,14 @@ nl:
   mail_body_lost_password: "Om uw wachtwoord te wijzigen, klikt u op op de volgende link:"
   mail_body_register: "Om uw account te activeren, klikt u op op de volgende link:"
   mail_body_reminder: "%{count} werkpakket(ten) die aan u zijn toegewezen bereiken in de volgende %{days} dagen hun uiterste datum:"
+  mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
   mail_body_wiki_content_added: "De '%{id}' wikipagina is toegevoegd door %{author}."
   mail_body_wiki_content_updated: "De '%{id}' wikipagina is bijgewerkt door %{author}."
   mail_subject_account_activation_request: "%{value} account aanvraag dient geactiveerd te worden"
   mail_subject_lost_password: "Uw wachtwoord %{value}"
   mail_subject_register: "Uw %{value} account activatie"
   mail_subject_reminder: "%{count} werkpakket(ten) vervallen in de volgende %{days} dagen"
+  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "'%{id}' wikipagina is toegevoegd"
   mail_subject_wiki_content_updated: "'%{id}' wikipagina is bijgewerkt"
   mail_user_activation_limit_reached:
@@ -1673,8 +1717,8 @@ nl:
       Een nieuwe gebruiker (%{email}) heeft geprobeerd om een account in een OpenProject omgeving dat u beheerd (%{host}) te maken. De gebruiker kan het account niet activeren omdat het maximum aantal gebruikers is bereikt.
     steps:
       label: "Als u wilt dat de gebruiker ja inloggen kunt in u: "
-      a: "Upgrade uw abbonement ([here](upgrade_url))"
-      b: "Vergrendelen of verwijderen van een bestaande gebruiker ([here](users_url))"
+      a: "Upgrade uw abbonement ([here](upgrade_url))" #here turned into a link
+      b: "Vergrendelen of verwijderen van een bestaande gebruiker ([here](users_url))" #here turned into a link
   more_actions: "Meer functies"
   noscript_description: "U moet JavaScript activeren om OpenProject te kunnen gebruiken!"
   noscript_heading: "JavaScript uitgeschakeld"
@@ -1741,6 +1785,7 @@ nl:
   notice_project_cannot_update_custom_fields: "U kunt de beschikbare aangepaste projectvelden niet bijwerken. Het project is ongeldig: %{errors}"
   notice_attachment_migration_wiki_page: >
     Deze pagina is automatisch gegenereerd tijdens het bijwerken van OpenProject. Het bevat alle bijlagen die eerder gekoppeld waren aan de %{container_type} "%{container_name}".
+  #Default format for numbers
   number:
     format:
       delimiter: ""
@@ -1857,6 +1902,8 @@ nl:
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
+  #possible query parameters (e.g. issue queries),
+  #which are not attributes of an AR-Model.
   query_fields:
     active_or_archived: "Actieve of gearchiveerde"
     assigned_to_role: "Werknemer's rol"
@@ -2100,6 +2147,7 @@ nl:
   status_invited: uitgenodigd
   status_locked: geblokkeerd
   status_registered: geregistreerd
+  #Used in array.to_sentence.
   support:
     array:
       sentence_connector: "en"
@@ -2487,18 +2535,22 @@ nl:
       status: 'Pre-autorisatie'
     errors:
       messages:
+        #Common error messages
         invalid_request: 'De aanvraag ontbreekt een vereiste parameter, bevat een niet-ondersteunde parameter waarde, of is anders niet geconfigureerd.'
-        invalid_redirect_uri: "De gevraagde omleiding uri is ongeldig of komt niet overeen met client redirect URI."
+        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
         unauthorized_client: 'De client is niet gemachtigd voor het uitvoeren van dit verzoek met behulp van deze methode.'
         access_denied: 'De resource eigenaar of autorisatie server heeft het verzoek geweigerd.'
         invalid_scope: 'De gevraagde reikwijdte is ongeldig, onbekend of ongeldig.'
         invalid_code_challenge_method: 'De uitdaging van de code methode moet gewoon of S256.'
         server_error: 'De autorisatieserver heeft een onverwachte voorwaarde ondervonden die het onmogelijk maakte het verzoek te vervullen.'
         temporarily_unavailable: 'De autorisatieserver is momenteel niet in staat om het verzoek te behandelen vanwege een tijdelijke overbelasting of onderhoud van de server.'
+        #Configuration error messages
         credential_flow_not_configured: 'Resource Owner Password Credentials flow mislukt door Doorkeeper.configureer.resource_eigenaar_from_credentials die niet zijn geconfigureerd.'
         resource_owner_authenticator_not_configured: 'Resource eigenaar zoeken mislukt vanwege Doorkeeper.configure.resource_owner_authenticator wordt ongeconfigureerd.'
         admin_authenticator_not_configured: 'Toegang tot admin paneel is verboden omdat Doorkeeper.configure.admin_authenticator niet is geconfigureerd.'
+        #Access grant errors
         unsupported_response_type: 'De autorisatieserver ondersteunt dit reactietype niet.'
+        #Access token errors
         invalid_client: 'Client authenticatie is mislukt vanwege onbekende client, geen client authenticatie inbegrepen, of niet-ondersteunde authenticatie methode.'
         invalid_grant: 'De verstrekte machtiging is ongeldig, verlopen, ingetrokken, komt niet overeen met de omleiding URI die in het autorisatieverzoek wordt gebruikt, of is uitgegeven aan een andere client.'
         unsupported_grant_type: 'Het autorisatietype wordt niet ondersteund door de autorisatieserver.'

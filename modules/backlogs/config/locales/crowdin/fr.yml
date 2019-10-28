@@ -1,3 +1,31 @@
+#-- copyright
+#OpenProject Backlogs Plugin
+#Copyright (C)2013-2014 the OpenProject Foundation (OPF)
+#Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
+#Copyright (C)2010-2011 friflaj
+#Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns
+#Copyright (C)2009-2010 Mark Maglana
+#Copyright (C)2009 Joe Heck, Nate Lowrie
+#This program is free software; you can redistribute it and/or modify it under
+#the terms of the GNU General Public License version 3.
+#OpenProject Backlogs is a derivative work based on ChiliProject Backlogs.
+#The copyright follows:
+#Copyright (C) 2010-2011 - Emiliano Heyns, Mark Maglana, friflaj
+#Copyright (C) 2011 - Jens Ulferts, Gregor Schmidt - Finn GmbH - Berlin, Germany
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See doc/COPYRIGHT.rdoc for more details.
+#++
+#---
 fr:
   activerecord:
     attributes:
@@ -34,7 +62,7 @@ fr:
     burndown_graph: "Graphique d'avancement"
     card_paper_size: "Format de papier pour l'impression des cartes"
     chart_options: "Options du graphique"
-    close: "Clôturer"
+    close: "Fermer"
     column_width: "Largeur de la colonne :"
     date: "Jour"
     definition_of_done: "Définition de Fait"
@@ -95,7 +123,7 @@ fr:
   label_backlog: "Backlog"
   label_backlogs: "Backlogs"
   label_backlogs_unconfigured: "Vous n'avez pas encore configuré Backlogs. Veuillez vous rendre dans %{administration} > %{plugins}, puis cliquer sur le lien %{configure} pour ce plugin. Une fois que vous avez défini les champs, revenez sur cette page pour commencer à utiliser l'outil."
-  label_blocks_ids: "ID des lots de travaux bloqués"
+  label_blocks_ids: "IDs des lots de travaux bloqués"
   label_burndown: "Avancement"
   label_column_in_backlog: "Colonne dans le backlog"
   label_hours: "heures"
@@ -104,7 +132,7 @@ fr:
   label_not_prioritized: "non priorisé"
   label_points: "points"
   label_points_burn_down: "Vers le bas"
-  label_points_burn_up: "Vers le haut"
+  label_points_burn_up: "Haut"
   label_product_backlog: "carnet de produit"
   label_select_all: "Tout sélectionner"
   label_sprint_backlog: "carnet de sprint"
@@ -130,7 +158,7 @@ fr:
   project_module_backlogs: "Backlogs"
   rb_label_copy_tasks: "Copier lots de travaux"
   rb_label_copy_tasks_all: "Toutes"
-  rb_label_copy_tasks_none: "Aucune"
+  rb_label_copy_tasks_none: "Aucun"
   rb_label_copy_tasks_open: "Ouvertes"
   rb_label_link_to_original: "Inclure le lien vers l'histoire originale"
   remaining_hours: "heures restantes"

@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 pl:
   js:
     ajax:
@@ -24,7 +45,7 @@ pl:
     button_check_all: "Zaznacz wszystko"
     button_configure-form: "Skonfiguruj formularz"
     button_confirm: "Potwierdź"
-    button_continue: "Kontynuuj"
+    button_continue: "Dalej"
     button_copy: "Kopiuj"
     button_custom-fields: "Pola niestandardowe"
     button_delete: "Usuń"
@@ -171,16 +192,20 @@ pl:
     general_text_yes: "tak"
     general_text_No: "Nie"
     general_text_Yes: "Tak"
+    hal:
+      error:
+        update_conflict_refresh: "Kliknij tutaj, aby odświeżyć pakiet roboczy i zaktualizować go do najnowszej wersji."
+        edit_prohibited: "Edytowanie atrybutu %{attribute} w tym pakiecie pracy jest zablokowane. Ten atrybut jest dziedziczony z relacji (np. dziecka) lub nie można go skonfigurować z innego powodu."
+        format:
+          date: "Atrybut %{attribute} jest nieprawidłową datą. Oczekiwany format: RRRR-MM-DD."
+        general: "Wystapił błąd."
     homescreen:
       blocks:
         new_features:
           text_new_features: "Przeczytaj o nowych funkcjach i aktualizacjach produktów."
-          current_new_feature_html: "OpenProject zawiera nowy <b>widok Tablice</b> do zwinnego zarządzania projektami. </br> Aby aktywować tę nową funkcję w istniejących projektach, wykonaj następujące kroki: <ul><li>Aktywuj moduł Tablice w ustawieniach istniejących projektów.</li> <li>Skonfiguruj swoje tablice w projekcie.</li> <li>Zweryfikuj role i uprawnienia.</li></ul>"
-          image_alt_text: "Obraz zapowiedzi tablic"
-          learn_about: "Dowiedz się więcej o tablicach zwinnych"
+          current_new_feature_html: "OpenProject zawiera nową <b>stronę Przegląd</b>, <b>służącą do wyświetlania istotnych informacji o projekcie</b> i pokazującą, czy projekt przebiega prawidłowo. </br> Można wstawić różne nowe widżety stanu, takie jak: <ul><li>stan projektu,</li> <li>przegląd stanu pakietu roboczego,</li> <li>pozstęp zadania,</li> <li>zadania przypisane do użytkowników.</li></ul>"
+          learn_about: "Dowiedz się więcej o nowych widżetach stanu"
     label_activate: "Aktywuj"
-    label_activity_no: "Aktywność %{activityNo}"
-    label_activity_with_comment_no: "Aktywność %{activityNo} została skomentowana."
     label_add_column_after: "Dodaj kolumnę po"
     label_add_column_before: "Dodaj kolumnę przed"
     label_add_columns: "Dodaj kolumny"
@@ -254,6 +279,7 @@ pl:
     label_no_data: "Brak danych do pokazania"
     label_no_due_date: "brak daty zakończenia"
     label_no_start_date: "brak daty rozpoczęcia"
+    label_no_value: "Brak wartości"
     label_none: "Brak"
     label_not_contains: "nie zawierają"
     label_not_equals: "nie jest"
@@ -385,7 +411,7 @@ pl:
       click_to_switch_context: 'Otwórz ten pakiet roboczy w tym projekcie.'
       autocompleter:
         label: 'Autouzupełnianie projektu'
-    text_are_you_sure: "Jesteś pewny?"
+    text_are_you_sure: "Jesteś pewien?"
     types:
       attribute_groups:
         error_duplicate_group_name: "Nazwa  %{group} jest użyta więcej niż raz. Nazwy grup muszą być unikalne."
@@ -590,12 +616,6 @@ pl:
       description_enter_text: "Wpisz tekst"
       description_options_hide: "Ukryj opcje"
       description_options_show: "Pokaż opcje"
-      error:
-        update_conflict_refresh: "Kliknij tutaj, aby odświeżyć pakiet roboczy i zaktualizować go do najnowszej wersji."
-        edit_prohibited: "Edytowanie atrybutu %{attribute} w tym pakiecie pracy jest zablokowane. Ten atrybut jest dziedziczony z relacji (np. dziecka) lub nie można go skonfigurować z innego powodu."
-        format:
-          date: "Atrybut %{attribute} jest nieprawidłową datą. Oczekiwany format: RRRR-MM-DD."
-        general: "Wystapił błąd."
       edit_attribute: "%{attribute} - Edytuj"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Włącz wybór wielokrotny"
@@ -610,7 +630,6 @@ pl:
       message_view_spent_time: "Pokaż spędzony czas dla tych zadań"
       message_work_package_read_only: "Pakiet roboczy jest zablokowany w tym stanie. Nie można zmienić żadnego atrybutu innego niż stan."
       message_work_package_status_blocked: "Nie można zapisać stanu pakietu roboczego ze względu na jego zamknięty stan i przypisaną mu zamkniętą wersję."
-      no_value: "Brak wartości"
       placeholder_filter_by_text: "Przedmiot, opis, komentarze, ..."
       inline_create:
         title: 'Kliknij tutaj, aby dodać nowy pakiet prac do tej listy'
@@ -677,7 +696,7 @@ pl:
         label_content: "Kliknij tutaj, aby pominąć menu i przejść do treści"
       placeholders:
         default: "-"
-        description: "Kliknij, aby wprowadzić opis..."
+        formattable: "%{name}: kliknij, aby edytować..."
       query:
         column_names: "Kolumny"
         group_by: "Grupuj wyniki"

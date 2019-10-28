@@ -43,8 +43,8 @@ describe "API v3 project's versions resource" do
     user
   end
   let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
-  let(:project) { FactoryBot.create(:project, is_public: false) }
-  let(:other_project) { FactoryBot.create(:project, is_public: false) }
+  let(:project) { FactoryBot.create(:project, public: false) }
+  let(:other_project) { FactoryBot.create(:project, public: false) }
   let(:versions) { FactoryBot.create_list(:version, 4, project: project) }
   let(:other_versions) { FactoryBot.create_list(:version, 2) }
 

@@ -62,7 +62,7 @@ describe Authorization::UserAllowedService do
   shared_examples_for 'allowed to checked' do
     before do
       Array(context).each do |project|
-        project.status = Project::STATUS_ACTIVE
+        project.active = true
 
         allow(project)
           .to receive(:allows_to?)
@@ -130,7 +130,7 @@ describe Authorization::UserAllowedService do
     context 'with the project not being active' do
       before do
         Array(context).each do |project|
-          project.status = Project::STATUS_ARCHIVED
+          project.active = false
         end
       end
 

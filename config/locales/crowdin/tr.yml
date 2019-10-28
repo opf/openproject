@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 tr:
   no_results_title_text: Şu anda gösterilecek bir şey yok.
   activities:
@@ -279,7 +300,7 @@ tr:
       changeset:
         repository: "Depo"
       comment:
-        commented: "Yorumlananlar"
+        commented: "Yorumlananlar" #an object that this comment belongs to
       custom_action:
         actions: "Eylemler"
       custom_field:
@@ -327,6 +348,13 @@ tr:
         types: "Türler"
         versions: "Sürümler"
         work_packages: "İş Paketleri"
+      project/status:
+        code: 'Durum'
+        explanation: 'Durum tanımlaması'
+        codes:
+          on_track: 'Takipte'
+          at_risk: 'Riskli'
+          off_track: 'Kapalı parça'
       query:
         column_names: "Sütunlar"
         relations_to_type_column: "%{type} ile ilişkileri"
@@ -418,6 +446,8 @@ tr:
         confirmation: "%{attribute} eşleşmiyor."
         could_not_be_copied: "(tamamen) kopyalanamadı."
         does_not_exist: "mevcut değil."
+        error_unauthorized: "erişilemez."
+        error_readonly: "yazılabilir değil."
         empty: "boş olamaz."
         even: "çift olmalı."
         exclusion: "ayrılmıştır."
@@ -481,6 +511,8 @@ tr:
               invalid_values: "Bir değeri geçerli değil."
               id_filter_required: "Bir 'id' süzgeç gereklidir."
         project:
+          archived_ancestor: 'Projenin arşivlenmiş bir atası var.'
+          foreign_wps_reference_version: 'Soyundan gelmeyen projelerdeki iş paketleri, projenin veya soyundan gelenlerin referans versiyonlarını referans alır.'
           attributes:
             types:
               in_use_by_work_packages: "hala iş paketleri tarafından kullanılmaktadır:%{types}"
@@ -609,6 +641,7 @@ tr:
   activity:
     created: "Oluşturuldu: %{title}"
     updated: "Güncellendi: %{title}"
+  #common attributes of all models
   attributes:
     active: "Aktif"
     assigned_to: "Atanan"
@@ -641,6 +674,7 @@ tr:
     is_default: "Varsayılan değer"
     is_for_all: "Tüm projeler için"
     is_public: "Herkese Açık"
+    #kept for backwards compatibility
     issue: "İş paketi"
     lastname: "Soyisim"
     login: "Kullanıcı adı"
@@ -649,6 +683,7 @@ tr:
     password: "Parola"
     priority: "Öncelik"
     project: "Proje"
+    public: "Herkese Açık"
     responsible: "Sorumlu"
     role: "Rol"
     roles: "Yetkiler"
@@ -697,7 +732,7 @@ tr:
   button_generate: "Üretmek"
   button_list: "Liste"
   button_lock: "Kilitle"
-  button_log_time: "Log time"
+  button_log_time: "Zaman kaydet"
   button_login: "Oturum aç"
   button_move: "Taşı"
   button_move_and_follow: "Taşı ve takip et"
@@ -784,9 +819,13 @@ tr:
       - "Cuma"
       - "Cumartesi"
     formats:
+      #Use the strftime parameters for formats.
+      #When no format has been given, it uses default.
+      #You can provide other formats here if you like!
       default: "%m/%d/%Y"
       long: "%B %d, %Y"
       short: "%b %d"
+    #Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names:
       - null
       - "Ocak"
@@ -801,6 +840,7 @@ tr:
       - "Ekim"
       - "Kasım"
       - "Aralık"
+    #Used in date_select and datime_select.
     order:
       - ':yıl'
       - :ay
@@ -930,6 +970,7 @@ tr:
   description_sub_work_package: "Mevcut alt iş paketi"
   description_toc_toggle: "İçeriği göster/gizle"
   description_wiki_subpages_reassign: "Yeni üst sayfa seç"
+  #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: soldan sağa
   ee:
     upsale:
@@ -944,7 +985,7 @@ tr:
   enumeration_system_activity: "Sistem Etkinliği"
   enumeration_reported_project_statuses: "Bildirilen proje durumları"
   error_auth_source_sso_failed: "Çoklu oturum açma (SSO) için kullanıcı '%{value}' başarısız oldu"
-  error_can_not_archive_project: "Bu proje arşivlenemiyor: Bu projede tanımlanan bir sürüme atanmış en az bir iş paketi var."
+  error_can_not_archive_project: "Bu proje arşivlenemiyor: %{errors}"
   error_can_not_delete_entry: "Girdi silinemiyor"
   error_can_not_delete_custom_field: "Özel alan silinemiyor"
   error_can_not_delete_type: "Bu tür iş paketleri içeriyor ve silinemez."
@@ -953,6 +994,7 @@ tr:
   error_can_not_remove_role: "Bu rol kullanımda ve silinemez."
   error_can_not_reopen_work_package_on_closed_version: "Kapalı bir sürüme atanan bir iş paketi yeniden açılamaz"
   error_can_not_find_all_resources: "Bu istekle ilgili tüm kaynaklar bulunamadı."
+  error_can_not_unarchive_project: "Bu proje arşivlenemez: %{errors}"
   error_check_user_and_role: "Lütfen bir kullanıcı ve bir rol seçin."
   error_code: "Hata  %{code}"
   error_cookie_missing: 'OpenProject çerezi yok. Lütfen uygulamanın düzgün çalışabilmesi için, tarayıcınızda çerezlere izin verildiğine emin olun.'
@@ -1244,7 +1286,7 @@ tr:
   label_file_added: "Dosya eklendi"
   label_file_plural: "Dosyalar"
   label_filter_add: "Filtre ekle"
-  label_filter_plural: "Süzgeçler"
+  label_filter_plural: "Filtreler"
   label_filters_toggle: "Filtreleri göster / gizle"
   label_float: "Ondalık"
   label_folder: "Klasör"
@@ -1659,12 +1701,14 @@ tr:
   mail_body_lost_password: "Parolanızı değiştirmek için aşağıdaki bağlantıyı tıklayın:"
   mail_body_register: "Hesabınızı etkinleştirmek için aşağıdaki bağlantıyı tıklayın:"
   mail_body_reminder: "Size tahsis edilen(ler) %{count} iş paketinin bir sonraki %{days} gün içinde ödemesi gerekiyor:"
+  mail_body_group_reminder: "\"%{group}\" grubuna atanan %{count} çalışma paketi / paketleri sonraki %{days}  gününden kaynaklanmaktadır:"
   mail_body_wiki_content_added: "' %{id} ' wiki sayfası %{author} tarafından eklendi."
   mail_body_wiki_content_updated: "'%{id}' wiki sayfası, %{author} tarafından güncellendi."
   mail_subject_account_activation_request: "%{value} hesap etkinleştirme isteği"
   mail_subject_lost_password: "Sizin %{value} parola"
   mail_subject_register: "İşletme %{value} hesap etkinleştirme"
   mail_subject_reminder: "%{days} günde %{count} iş paketi(ler) geçecek"
+  mail_subject_group_reminder: "Bir sonraki %{days} günden itibaren \"%{group}\" %{count} iş paketi / grupları için"
   mail_subject_wiki_content_added: "'%{id}' viki sayfası eklendi"
   mail_subject_wiki_content_updated: "'%{id}' viki sayfası güncellendi"
   mail_user_activation_limit_reached:
@@ -1674,8 +1718,8 @@ tr:
       Kullanıcı sınırına ulaşıldığından beri kullanıcı hesaplarını etkinleştiremiyor.
     steps:
       label: "Kullanıcının oturum açmasına izin vermek için şunlardan birini yapabilirsiniz:"
-      a: "Ödeme planınızı yükseltin ([here](upgrade_url))"
-      b: "Mevcut bir kullanıcıyı kilitle veya sil ([buradan](users_url))"
+      a: "Ödeme planınızı yükseltin ([here](upgrade_url))" #here turned into a link
+      b: "Mevcut bir kullanıcıyı kilitle veya sil ([buradan](users_url))" #here turned into a link
   more_actions: "Daha fazla işlev"
   noscript_description: "OpenProject'i kullanmak için JavaScript'i etkinleştirmeniz gerekiyor!"
   noscript_heading: "JavaScript kapalı"
@@ -1742,6 +1786,7 @@ tr:
   notice_project_cannot_update_custom_fields: "Projenin kullanılabilir özel alanları güncelleştirilemiyor. Proje geçersiz: %{errors}"
   notice_attachment_migration_wiki_page: >
     Bu sayfa OpenProject güncelleme sırasında otomatik olarak yaratılır. Daha önce %{container_type} "%{container_name}" ile ilişkili tüm ekleri içerir.
+  #Default format for numbers
   number:
     format:
       delimiter: ""
@@ -1858,6 +1903,8 @@ tr:
   project_module_wiki: "Viki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
+  #possible query parameters (e.g. issue queries),
+  #which are not attributes of an AR-Model.
   query_fields:
     active_or_archived: "Etkin veya arşivlenmiş"
     assigned_to_role: "Görev alanının rolü"
@@ -2101,6 +2148,7 @@ tr:
   status_invited: davet
   status_locked: kilitli
   status_registered: kayıtlı
+  #Used in array.to_sentence.
   support:
     array:
       sentence_connector: "ve"
@@ -2488,18 +2536,22 @@ tr:
       status: 'Ön yetkilendirme'
     errors:
       messages:
+        #Common error messages
         invalid_request: 'İstekte gerekli bir parametre eksik, desteklenmeyen bir parametre değeri içeriyor veya başka türlü hatalı biçimlendirilmiş.'
-        invalid_redirect_uri: "İstenen yönlendirme uri hatalı biçimlendirilmiş veya müşteri yönlendirme URI'siyle eşleşmiyor."
+        invalid_redirect_uri: "İstenen yönlendirme URI'si hatalı biçimlendirilmiş veya müşteri yönlendirme URI'siyle eşleşmiyor."
         unauthorized_client: 'Müşterinin bu yöntemi kullanarak bu talebi gerçekleştirme yetkisi yok.'
         access_denied: 'Kaynak sahibi veya yetkilendirme sunucusu isteği reddetti.'
         invalid_scope: 'İstenen kapsam geçersiz, bilinmeyen veya hatalı biçimlendirilmiş.'
         invalid_code_challenge_method: 'Kod yükleme yöntemi düz veya S256 olmalıdır.'
         server_error: 'Yetkilendirme sunucusu, isteği yerine getirmesini engelleyen beklenmeyen bir koşulla karşılaştı.'
         temporarily_unavailable: 'Yetkilendirme sunucusu şu anda sunucunun geçici bir aşırı yüklenmesi veya bakımı nedeniyle isteği yerine getiremiyor.'
+        #Configuration error messages
         credential_flow_not_configured: 'Kaynak Sahibi Şifresi Kimlik Bilgileri akışı, Doorkeeper.configure.resource_owner_from_credentials''ın yapılandırılmamış olması nedeniyle başarısız oldu.'
         resource_owner_authenticator_not_configured: 'Kaynak Sahibi, Doorkeeper.configure.resource_owner_authenticator''ın yapılandırılmamış olması nedeniyle başarısız oldu.'
         admin_authenticator_not_configured: 'Doorkeeper.configure.admin_authenticator''ın yapılandırılmamış olması nedeniyle yönetici paneline erişim yasaktır.'
+        #Access grant errors
         unsupported_response_type: 'Yetkilendirme sunucusu bu yanıt türünü desteklemiyor.'
+        #Access token errors
         invalid_client: 'Müşteri kimlik doğrulaması, bilinmeyen müşteri, müşteri kimlik doğrulaması eklenmemiş veya desteklenmeyen kimlik doğrulama yöntemi nedeniyle başarısız oldu.'
         invalid_grant: 'Sağlanan yetkilendirme izni geçersiz, süresi dolmuş, iptal edilmiş, yetkilendirme isteğinde kullanılan yönlendirme URI''siyle eşleşmiyor veya başka bir müşteriye verilmiş.'
         unsupported_grant_type: 'Yetkilendirme izni türü, yetkilendirme sunucusu tarafından desteklenmiyor.'

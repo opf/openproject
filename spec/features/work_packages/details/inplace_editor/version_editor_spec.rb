@@ -1,11 +1,11 @@
 require 'spec_helper'
 require 'features/work_packages/details/inplace_editor/shared_examples'
 require 'features/work_packages/shared_contexts'
-require 'support/work_packages/work_package_field'
+require 'support/edit_fields/edit_field'
 require 'features/work_packages/work_packages_page'
 
 describe 'subject inplace editor', js: true, selenium: true do
-  let(:project) { FactoryBot.create :project_with_types, name: 'Root', is_public: true }
+  let(:project) { FactoryBot.create :project_with_types, name: 'Root', public: true }
   let(:subproject1) { FactoryBot.create :project_with_types, name: 'Child', parent: project }
   let(:subproject2) { FactoryBot.create :project_with_types, name: 'Aunt', parent: project }
 

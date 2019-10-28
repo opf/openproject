@@ -43,7 +43,6 @@ export class RevisionActivityComponent implements OnInit {
   @Input() public workPackage:WorkPackageResource;
   @Input() public activity:any;
   @Input() public activityNo:number;
-  @Input() public activityLabel:string;
 
   public userId:string | number;
   public userName:string;

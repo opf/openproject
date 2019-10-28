@@ -228,6 +228,9 @@ WordArray:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
+Style/NumericLiterals:
+  Enabled: false
+
 # Lint
 
 AmbiguousOperator:

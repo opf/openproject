@@ -44,10 +44,10 @@ describe 'Work Package cost fields', type: :feature, js: true do
     split_create.click_create_wp_button type_task
     split_create.expect_fully_loaded
 
-    expect(page).to have_selector('.wp-edit-field--container.costObject')
-    expect(page).to have_no_selector('.wp-edit-field--container.laborCosts')
-    expect(page).to have_no_selector('.wp-edit-field--container.materialCosts')
-    expect(page).to have_no_selector('.wp-edit-field--container.overallCosts')
+    expect(page).to have_selector('.inline-edit--container.costObject')
+    expect(page).to have_no_selector('.inline-edit--container.laborCosts')
+    expect(page).to have_no_selector('.inline-edit--container.materialCosts')
+    expect(page).to have_no_selector('.inline-edit--container.overallCosts')
 
     field = split_create.edit_field(:costObject)
     field.openSelectField

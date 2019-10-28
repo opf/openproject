@@ -26,31 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  Inject,
-  InjectionToken,
-  Injector,
-  OnDestroy,
-  OnInit,
-  Input,
-  Optional
-} from "@angular/core";
+import {ChangeDetectorRef, ElementRef, Inject, InjectionToken, Injector, OnDestroy, OnInit} from "@angular/core";
 import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
-import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {Field, IFieldSchema} from "core-app/modules/fields/field.base";
-import {WorkPackageChangeset} from "core-components/wp-edit-form/work-package-changeset";
-import {EditChangeset} from "core-app/modules/fields/changeset/edit-changeset";
+import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
-export const OpEditingPortalSchemaToken = new InjectionToken('wp-editing-portal--schema');
-export const OpEditingPortalHandlerToken = new InjectionToken('wp-editing-portal--handler');
-export const OpEditingPortalChangesetToken = new InjectionToken('wp-editing-portal--changeset');
+export const OpEditingPortalSchemaToken = new InjectionToken('editing-portal--schema');
+export const OpEditingPortalHandlerToken = new InjectionToken('editing-portal--handler');
+export const OpEditingPortalChangesetToken = new InjectionToken('editing-portal--changeset');
 
 export const overflowingContainerSelector = '.__overflowing_element_container';
 export const overflowingContainerAttribute = 'overflowingIdentifier';
@@ -66,34 +52,31 @@ export abstract class EditFieldComponent extends Field implements OnInit, OnDest
 
   constructor(readonly I18n:I18nService,
               readonly elementRef:ElementRef,
-              @Optional() @Inject(IWorkPackageEditingServiceToken) wpEditing:WorkPackageEditingService,
-              @Inject(OpEditingPortalChangesetToken) protected changeset:EditChangeset<HalResource>,
+              @Inject(OpEditingPortalChangesetToken) protected change:ResourceChangeset<HalResource>,
               @Inject(OpEditingPortalSchemaToken) public schema:IFieldSchema,
               @Inject(OpEditingPortalHandlerToken) readonly handler:EditFieldHandler,
               readonly cdRef:ChangeDetectorRef,
               readonly injector:Injector) {
     super();
-    this.schema = this.schema || this.changeset.schema[this.name];
+    this.schema = this.schema || this.change.schema[this.name];
 
-    if (wpEditing) {
-      wpEditing.state(this.changeset.resource.id!)
+    if (this.change.state) {
+      this.change.state
         .values$()
         .pipe(
           untilComponentDestroyed(this)
         )
-        .subscribe((changeset) => {
-          if (this.changeset.form) {
-            const fieldSchema = changeset.schema[this.name];
+        .subscribe((change) => {
+          const fieldSchema = change.schema[this.name];
 
-            if (!fieldSchema) {
-              return handler.deactivate(false);
-            }
-
-            this.changeset = changeset;
-            this.schema = this.changeset.schema[this.name];
-            this.initialize();
-            this.cdRef.markForCheck();
+          if (!fieldSchema) {
+            return handler.deactivate(false);
           }
+
+          this.change = change;
+          this.schema = change.schema[this.name];
+          this.initialize();
+          this.cdRef.markForCheck();
         });
     }
   }
@@ -122,17 +105,17 @@ export abstract class EditFieldComponent extends Field implements OnInit, OnDest
   }
 
   public get value() {
-    return this.changeset.value(this.name);
+    return this.resource[this.name];
   }
 
   public get name() {
     // Get the mapped schema name, as this is not always the attribute
     // e.g., startDate in table for milestone => date attribute
-    return this.changeset.getSchemaName(this.handler.fieldName);
+    return this.change.getSchemaName(this.handler.fieldName);
   }
 
   public set value(value:any) {
-    this.changeset.setValue(this.name, this.parseValue(value));
+    this.resource[this.name] = this.parseValue(value);
   }
 
   public get placeholder() {
@@ -144,7 +127,7 @@ export abstract class EditFieldComponent extends Field implements OnInit, OnDest
   }
 
   public get resource() {
-    return this.changeset.resource;
+    return this.change.projectedResource;
   }
 
   /**

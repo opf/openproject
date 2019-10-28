@@ -1,3 +1,31 @@
+#-- copyright
+#OpenProject Backlogs Plugin
+#Copyright (C)2013-2014 the OpenProject Foundation (OPF)
+#Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
+#Copyright (C)2010-2011 friflaj
+#Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns
+#Copyright (C)2009-2010 Mark Maglana
+#Copyright (C)2009 Joe Heck, Nate Lowrie
+#This program is free software; you can redistribute it and/or modify it under
+#the terms of the GNU General Public License version 3.
+#OpenProject Backlogs is a derivative work based on ChiliProject Backlogs.
+#The copyright follows:
+#Copyright (C) 2010-2011 - Emiliano Heyns, Mark Maglana, friflaj
+#Copyright (C) 2011 - Jens Ulferts, Gregor Schmidt - Finn GmbH - Berlin, Germany
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See doc/COPYRIGHT.rdoc for more details.
+#++
+#---
 tr:
   activerecord:
     attributes:
@@ -39,7 +67,7 @@ tr:
     date: "Gün"
     definition_of_done: "Bitti Tanımı"
     generating_chart: "Grafik Oluşturma..."
-    hours: "Saatler"
+    hours: "Saat"
     impediment: "Engel"
     label_versions_default_fold_state: "Katlanmış sürümleri göster"
     work_package_is_closed: "İş paketi, ne zaman"
@@ -48,7 +76,7 @@ tr:
     points: "Puanlar / Noktalar"
     positions_could_not_be_rebuilt: "Pozisyonlar yeniden oluşturulamadı."
     positions_rebuilt_successfully: "Pozisyonlar başarıyla yeniden oluşturuldu."
-    properties: "Özellikleri"
+    properties: "Özellikler"
     rebuild: "Yeniden inşa etmek"
     rebuild_positions: "Pozisyonu yeniden inşa et"
     remaining_hours: "Kalan saat"
@@ -95,7 +123,7 @@ tr:
   label_backlog: "Biriktirme listesi"
   label_backlogs: "Biriktirme listeleri"
   label_backlogs_unconfigured: "Backlog'ları henüz yapılandırmadınız. Lütfen% %{administration}> %{plugins} adresine gidin, ardından bu eklenti için %{configure} bağlantısını tıklayın. Alanları belirledikten sonra, aracı kullanmaya başlamak için bu sayfaya geri dönün."
-  label_blocks_ids: "Bloke iş paketleri kimlikleri"
+  label_blocks_ids: "Engellenen iş paketlerinin ID'leri"
   label_burndown: "Kalan zaman"
   label_column_in_backlog: "Sütununda birikim var"
   label_hours: "saatler"
@@ -118,7 +146,7 @@ tr:
   label_version_setting: "Sürümler"
   label_version: 'Sürüm'
   label_webcal: "Webcal Yemi"
-  label_wiki: "wiki"
+  label_wiki: "Viki"
   permission_view_master_backlog: "Ana bekleme günlüğünü görüntüleme"
   permission_view_taskboards: "Görev tahtalarını görüntüleme"
   permission_update_sprints: "Süratleri güncelle"

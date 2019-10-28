@@ -1,9 +1,24 @@
+#-- copyright
+#OpenProject Meeting Plugin
+#Copyright (C) 2011-2014 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See doc/COPYRIGHT.md for more details.
+#++
+#English strings go here for Rails i18n
 ru:
   activerecord:
     attributes:
       meeting:
         location: "Расположение"
-        duration: "Длительность"
+        duration: "Продолжительность"
         participants: "Участники"
         participants_attended: "Участники"
         participants_invited: "Приглашенные"
@@ -38,7 +53,7 @@ ru:
   label_meeting_diff: "Различия"
   label_notify: "Отправка на рецензию"
   label_icalendar: "Отправить iCalendar"
-  label_version: "Версия"
+  label_version: "Стадия"
   label_time_zone: "Часовой пояс"
   label_start_date: "Дата начала"
   notice_successful_notification: "Уведомление успешно отправленно"

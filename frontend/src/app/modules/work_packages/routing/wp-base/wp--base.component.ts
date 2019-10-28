@@ -26,8 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Injector} from "@angular/core";
+import {Component, Injector, OnDestroy, OnInit} from "@angular/core";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import {EditFormRoutingService} from "core-app/modules/fields/edit/edit-form/edit-form-routing.service";
+import {WorkPackageEditFormRoutingService} from "core-app/modules/work_packages/routing/wp-edit-form/wp-edit-form-routing.service";
 
 export const wpBaseSelector = 'work-packages-base';
 
@@ -37,7 +41,10 @@ export const wpBaseSelector = 'work-packages-base';
     <div class="work-packages-page--ui-view" wp-isolated-query-space>
       <ui-view></ui-view>
     </div>
-  `
+  `,
+  providers: [
+    { provide: EditFormRoutingService, useClass: WorkPackageEditFormRoutingService }
+  ]
 })
 export class WorkPackagesBaseComponent {
 }

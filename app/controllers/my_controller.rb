@@ -31,6 +31,8 @@
 class MyController < ApplicationController
   include Concerns::PasswordConfirmation
   include Concerns::UserPasswordChange
+  include ActionView::Helpers::TagHelper
+
   layout 'my'
 
   helper_method :gon
@@ -91,8 +93,8 @@ class MyController < ApplicationController
     if request.post?
       token = Token::Rss.create!(user: current_user)
       flash[:info] = [
-        t('my.access_token.notice_reset_token', type: 'RSS'),
-        "<strong>#{token.plain_value}</strong>".html_safe,
+        t('my.access_token.notice_reset_token', type: 'RSS').html_safe,
+        content_tag(:strong, token.plain_value),
         t('my.access_token.token_value_warning')
       ]
     end
@@ -108,8 +110,8 @@ class MyController < ApplicationController
     if request.post?
       token = Token::Api.create!(user: current_user)
       flash[:info] = [
-        t('my.access_token.notice_reset_token', type: 'API'),
-        "<strong>#{token.plain_value}</strong>".html_safe,
+        t('my.access_token.notice_reset_token', type: 'API').html_safe,
+        content_tag(:strong, token.plain_value),
         t('my.access_token.token_value_warning')
       ]
     end

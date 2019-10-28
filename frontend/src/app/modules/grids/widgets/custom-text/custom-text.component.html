@@ -1,6 +1,5 @@
 <widget-header
     [name]="widgetName"
-    [icon]="'quote'"
     (onRenamed)="renameWidget($event)">
 
   <widget-menu
@@ -10,7 +9,7 @@
 
 <ng-template #text>
   <span #displayContainer
-        class="inplace-edit--read-value -default">
+        class="inline-edit--formattable-display-text -default">
     <span
         *ngIf="!textEmpty"
         [innerHTML]="customText"></span>
@@ -20,11 +19,11 @@
   </span>
 </ng-template>
 
-<div class="grid--widget-content -custom-text">
-  <div class="wp-edit-field inplace-edit">
+<div class="grid--widget-content -custom-text -allow-inner-overflow">
+  <div class="inline-edit--container inplace-edit">
     <edit-form-portal *ngIf="active"
                       [schemaInput]="schema"
-                      [changesetInput]="changeset"
+                      [changeInput]="changeset"
                       [editFieldHandler]="handler">
     </edit-form-portal>
     <attachments *ngIf="active"
@@ -33,8 +32,8 @@
     </attachments>
 
     <div *ngIf="!active"
-         class="inplace-edit--read -no-label"
-         [ngClass]="{'wp-edit-field--container': isTextEditable}">
+         class="inplace-edit--read wiki -no-label"
+         [ngClass]="{'inline-edit--container': isTextEditable}">
       <div *ngIf="isTextEditable"
            (accessibleClick)="activate($event)"
            [accessibleClickStopEvent]="false"

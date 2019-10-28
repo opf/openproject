@@ -60,10 +60,10 @@ module BaseServices
     def set_attributes(params)
       model.attributes = params
 
-      set_default_attributes if model.new_record?
+      set_default_attributes(params) if model.new_record?
     end
 
-    def set_default_attributes
+    def set_default_attributes(_params)
       # nothing to do for now but a subclass may
     end
 

@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 it:
   js:
     ajax:
@@ -171,16 +192,20 @@ it:
     general_text_yes: "si"
     general_text_No: "No"
     general_text_Yes: "Si"
+    hal:
+      error:
+        update_conflict_refresh: "Clicca qui per ricaricare il pacchetto di lavoro e aggiornare alla versione più recente."
+        edit_prohibited: "La modifica di %{attribute} è bloccata per questa macro-attività. Questo attributo o deriva da relazioni (ad es., con attività subordinate) oppure non è configurabile."
+        format:
+          date: "%{attribute} data non valida - atteso YYYY-MM-DD."
+        general: "Si è verificato un errore."
     homescreen:
       blocks:
         new_features:
           text_new_features: "Informati sulle nuove funzionalità e sugli aggiornamenti dei prodotti."
-          current_new_feature_html: "OpenProject contiene una nuova <b>vista Tabellone</b> per la gestione di progetti Agile. </br> Per attivare questa nuova funzionalità sui progetti esistenti, effettua i seguenti passi: <ul><li>Attiva il modulo Schede nelle impostazioni dei progetti esistenti.</li> <li>Configura le tue Schede in un progetto.</li> <li>Verifica ruoli e permessi</li></ul>"
-          image_alt_text: "Immagine di esempio di Tabellone"
-          learn_about: "Ulteriori informazioni sui Tabelloni Agile"
+          current_new_feature_html: "OpenProject contiene un nuovo <b>quadro di controllo</b> per <b>visualizzare importanti informazioni sul progetto</b> e mostrare se il progetto è in linea con le previsioni. </br> Puoi inserire vari nuovi widget di stato, come: <ul><li>stato del progetto,</li> <li>panoramica dello stato delle macro-attività,</li> <li>progresso delle attività,</li> <li>attività assegnate agli utenti.</li></ul>"
+          learn_about: "Ulteriori informazioni sui nuovi widget di stato"
     label_activate: "Attiva"
-    label_activity_no: "Voce attività numero %{activityNo}"
-    label_activity_with_comment_no: "Voce attività numero %{activityNo}. Ha un commento da un utente."
     label_add_column_after: "Aggiungi colonna dopo"
     label_add_column_before: "Aggiungi colonna prima"
     label_add_columns: "Aggiungi colonne"
@@ -198,9 +223,9 @@ it:
     label_ascending: "Crescente"
     label_author: "Autore: %{user}"
     label_between: "tra"
-    label_board: "Tabellone"
+    label_board: "Scheda"
     label_board_locked: "Chiuso"
-    label_board_plural: "Tabelloni"
+    label_board_plural: "Schede"
     label_board_sticky: "In evidenza"
     label_create: "Crea"
     label_create_work_package: "Crea una nuova macro-attività"
@@ -254,6 +279,7 @@ it:
     label_no_data: "Nessun dato da visualizzare"
     label_no_due_date: "nessuna data terminale"
     label_no_start_date: "nessuna data di inizio"
+    label_no_value: "Nessun valore"
     label_none: "nessuno"
     label_not_contains: "non contiene"
     label_not_equals: "non è"
@@ -295,7 +321,7 @@ it:
     label_total_progress: "%{percent}% Progresso totale"
     label_total_amount: "Totale: %{amount}"
     label_updated_on: "aggiornato il"
-    label_value_derived_from_children: "(valore derivato dal figlio)"
+    label_value_derived_from_children: "(valore ottenuto dai figli)"
     label_warning: "Attenzione"
     label_work_package: "Macro-attività"
     label_work_package_plural: "Macro-attività"
@@ -385,7 +411,7 @@ it:
       click_to_switch_context: 'Apri questa macro-attività nel progetto.'
       autocompleter:
         label: 'Autocompletamento del progetto'
-    text_are_you_sure: "Sei sicuro/a?"
+    text_are_you_sure: "Sei sicuro?"
     types:
       attribute_groups:
         error_duplicate_group_name: "Il nome %{group} è usato più di una volta. I nomi dei gruppi devono essere univoci."
@@ -465,7 +491,7 @@ it:
       save: "Salva la relazione"
       abort: "Interrompi"
     relations_autocomplete:
-      placeholder: "Tipo di ricerca"
+      placeholder: "Ricerca..."
       parent_placeholder: "Scegli un nuovo genitore o premi il tasto Esc per annullare."
     repositories:
       select_tag: 'Selezionare tag'
@@ -586,12 +612,6 @@ it:
       description_enter_text: "Inserisci testo"
       description_options_hide: "Nascondi opzioni"
       description_options_show: "Mostra opzioni"
-      error:
-        update_conflict_refresh: "Clicca qui per ricaricare il pacchetto di lavoro e aggiornare alla versione più recente."
-        edit_prohibited: "La modifica di %{attribute} è bloccata per questa macro-attività. Questo attributo o deriva da relazioni (ad es., con attività subordinate) oppure non è configurabile."
-        format:
-          date: "%{attribute} data non valida - atteso YYYY-MM-DD."
-        general: "Si è verificato un errore."
       edit_attribute: "%{attribute} - Modifica"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Abilita multiseleziona"
@@ -606,7 +626,6 @@ it:
       message_view_spent_time: "Visualizza il tempo speso sulla macro-attività"
       message_work_package_read_only: "Il pacchetto di lavoro è bloccato in questo stato. Nessun attributo eccetto lo stato può essere alterato."
       message_work_package_status_blocked: "Lo stato della macro-attività non è scrivibile a causa dello stato chiuso e della versione chiusa assegnata."
-      no_value: "Nessun valore"
       placeholder_filter_by_text: "Oggetto, descrizione, commenti, ..."
       inline_create:
         title: 'Clicca qui per aggiungere un nuovo work package a questa lista'
@@ -673,7 +692,7 @@ it:
         label_content: "Clicca qui per saltare il menu ed andare al contenuto"
       placeholders:
         default: "-"
-        description: "Clicca per inserire la descrizione..."
+        formattable: "%{name}: Clicca per modificare..."
       query:
         column_names: "Colonne"
         group_by: "Raggruppa i risultati per"

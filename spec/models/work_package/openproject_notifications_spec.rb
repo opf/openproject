@@ -38,9 +38,9 @@ describe WorkPackage, type: :model do
     let(:project) { FactoryBot.create :project }
     let(:work_package) do
       FactoryBot.create :work_package,
-                         author: user,
-                         subject: 'I can see you',
-                         project: project
+                        author: user,
+                        subject: 'I can see you',
+                        project: project
     end
 
     let(:journal_ids) { [] }
@@ -67,7 +67,7 @@ describe WorkPackage, type: :model do
 
         journal_ids.clear
 
-        work_package.update_attributes subject: 'the wind of change'
+        work_package.update subject: 'the wind of change'
       end
 
       it "are triggered" do

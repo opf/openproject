@@ -35,7 +35,7 @@ export class CardDblClickHandler implements CardEventHandler {
     }
 
     // Locate the row from event
-    let element = target.closest(this.SELECTOR);
+    let element = target.closest('wp-single-card');
     let wpId = element.data('workPackageId');
 
     if (!wpId) {

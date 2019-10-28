@@ -1,0 +1,21 @@
+<ng-select #ngSelectComponent
+           [(ngModel)]="model"
+           [items]="availableValues"
+           [ngClass]="classes"
+           [addTag]="createAllowed"
+           [virtualScroll]="true"
+           [required]="required"
+           [clearable]="!required"
+           [disabled]="disabled"
+           [clearOnBackspace]="false"
+           [appendTo]="appendTo"
+           [id]="id"
+           (change)="changeModel($event)"
+           (open)="opened()"
+           (close)="closed()"
+           (keydown)="keyPressed($event)"
+           bindLabel="name">
+  <ng-template ng-tag-tmp let-search="searchTerm">
+    <b [textContent]="text.add_new_action"></b>: {{search}}
+  </ng-template>
+</ng-select>

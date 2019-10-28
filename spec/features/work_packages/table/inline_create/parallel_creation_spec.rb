@@ -19,7 +19,7 @@ describe 'Parallel work package creation spec', js: true do
                       role: role
   end
 
-  let!(:project) { FactoryBot.create(:project, is_public: true) }
+  let!(:project) { FactoryBot.create(:project, public: true) }
   let!(:priority) { FactoryBot.create :priority, is_default: true }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
 
@@ -37,7 +37,7 @@ describe 'Parallel work package creation spec', js: true do
 
     # Create in split screen
     split = wp_table.create_wp_split_screen type
-    description_field = WorkPackageEditorField.new split, 'description'
+    description_field = TextEditorField.new split, 'description'
     description_field.expect_active!
     description_field.set_value description
   end

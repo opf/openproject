@@ -82,18 +82,21 @@ describe 'Accountable widget on my page', type: :feature, js: true do
     # Add widget below existing widgets
     my_page.add_widget(2, 2, :row, "Work packages I am accountable for")
 
-    sleep(0.1)
+    # Actually there are two success messages displayed currently. One for the grid getting updated and one
+    # for the query assigned to the new widget being created. A user will not notice it but the automated
+    # browser can get confused. Therefore we wait.
+    sleep(1)
+
+    my_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
 
     accountable_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(3)')
 
     accountable_area.expect_to_span(2, 2, 3, 3)
 
-    sleep(0.2)
-
     assigned_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
     assigned_area.remove
 
-    sleep(0.1)
+    my_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
 
     created_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
     created_area.expect_to_span(1, 1, 2, 2)

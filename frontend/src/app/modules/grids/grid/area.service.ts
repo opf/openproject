@@ -7,9 +7,9 @@ import {GridResource} from "core-app/modules/hal/resources/grid-resource";
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 import {WidgetChangeset} from "core-app/modules/grids/widgets/widget-changeset";
-import * as moment from 'moment';
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class GridAreaService {
@@ -23,7 +23,8 @@ export class GridAreaService {
   public gridGaps:GridArea[];
   public widgetAreas:GridWidgetArea[];
   public gridAreaIds:string[];
-  public mousedOverArea:GridArea|null;
+  public mousedOverArea:GridArea|null = null;
+  public $mousedOverArea = new BehaviorSubject(this.mousedOverArea);
   public helpMode = false;
 
   constructor (private gridDm:GridDmService,
@@ -46,10 +47,13 @@ export class GridAreaService {
 
   public setMousedOverArea(area:GridArea|null) {
     this.mousedOverArea = area;
+
+    this.$mousedOverArea.next(area);
   }
 
   public cleanupUnusedAreas() {
-    let unusedRows = Array.from(Array(this.numRows + 1).keys()).slice(1);
+    // array containing Numbers from this.numRows to 1
+    let unusedRows = _.range(this.numRows, 0, -1);
 
     this.widgetAreas.forEach(widget => {
       unusedRows = unusedRows.filter(item => item !== widget.startRow);
@@ -61,7 +65,7 @@ export class GridAreaService {
       }
     });
 
-    let unusedColumns = Array.from(Array(this.numColumns + 1).keys()).slice(1);
+    let unusedColumns = _.range(this.numColumns, 0, -1);
 
     this.widgetAreas.forEach(widget => {
       unusedColumns = unusedColumns.filter(item => item !== widget.startColumn);
@@ -84,12 +88,12 @@ export class GridAreaService {
   }
 
   public rebuildAndPersist() {
-    this.buildAreas(false);
     this.persist();
+    this.buildAreas(false);
   }
 
   public persist() {
-    this.resource.rowCount = this.numRows;
+    this.resource.rowCount = this.numRows = (this.widgetAreas.map(area => area.endRow).sort().pop() || 2) - 1;
     this.resource.columnCount = this.numColumns;
 
     this.writeAreaChangesToWidgets();
@@ -100,7 +104,7 @@ export class GridAreaService {
   public saveWidgetChangeset(changeset:WidgetChangeset) {
     let payload = this.gridDm.extractPayload(this.resource, this.schema);
 
-    let payloadWidget = payload.widgets.find((w:any) => w.id === changeset.resource.id);
+    let payloadWidget = payload.widgets.find((w:any) => w.id === changeset.pristineResource.id);
     Object.assign(payloadWidget, changeset.changes);
 
     // Adding the id so that the url can be deduced
@@ -123,6 +127,18 @@ export class GridAreaService {
 
   public toggleHelpMode() {
     this.helpMode = !this.helpMode;
+  }
+
+  // This is a hacky way to have the placeholder in the viewport.
+  // It is a noop for firefox and edge as both do not support scrollIntoViewIfNeeded.
+  // But as scrollIntoView will always readjust the viewport, the result would be an unbearable flicker
+  // which causes e.g. dragging to be impossible.
+  public scrollPlaceholderIntoView() {
+    let placeholder = jQuery('.grid--area.-placeholder');
+
+    if ((placeholder[0] as any).scrollIntoViewIfNeeded) {
+      setTimeout(() => (placeholder[0] as any).scrollIntoViewIfNeeded());
+    }
   }
 
   private saveGrid(resource:GridWidgetResource|any, schema?:SchemaResource) {
@@ -158,7 +174,8 @@ export class GridAreaService {
   private buildGridAreas() {
     let cells:GridArea[] = [];
 
-    for (let row = 1; row <= this.numRows; row++) {
+    // the one extra row is added in case the user wants to drag a widget to the very bottom
+    for (let row = 1; row <= this.numRows + 1; row++) {
       cells.push(...this.buildGridAreasRow(row));
     }
 

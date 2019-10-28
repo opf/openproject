@@ -51,7 +51,7 @@ describe 'Custom text widget on my page', type: :feature, js: true do
   end
   let(:image_fixture) { Rails.root.join('spec/fixtures/files/image.png') }
   let(:editor) { ::Components::WysiwygEditor.new 'body' }
-  let(:field) { WorkPackageEditorField.new(page, 'description', selector: '.wp-inline-edit--active-field') }
+  let(:field) { TextEditorField.new(page, 'description', selector: '.inline-edit--active-field') }
 
   before do
     login_as user
@@ -76,7 +76,7 @@ describe 'Custom text widget on my page', type: :feature, js: true do
       field.save!
 
       expect(page)
-        .to have_selector('.wp-edit-field--display-field', text: 'My own little text')
+        .to have_selector('.inline-edit--display-field', text: 'My own little text')
 
       find('.inplace-editing--container').click
 
@@ -84,7 +84,7 @@ describe 'Custom text widget on my page', type: :feature, js: true do
       field.cancel_by_click
 
       expect(page)
-        .to have_selector('.wp-edit-field--display-field', text: 'My own little text')
+        .to have_selector('.inline-edit--display-field', text: 'My own little text')
 
       # adding an image
       find('.inplace-editing--container').click

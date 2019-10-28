@@ -35,8 +35,6 @@
 
 class Burndown
   def initialize(sprint, project, burn_direction = nil)
-    burn_direction ||= Setting.plugin_openproject_backlogs['points_burn_direction']
-
     @sprint_id = sprint.id
 
     make_date_series sprint

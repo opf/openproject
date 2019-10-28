@@ -19,7 +19,18 @@ the options that the package-based or manual installation provides.
 The fastest way to get an OpenProject instance up and running is to run the
 following command:
 
-    docker run -it -p 8080:80 -e SECRET_KEY_BASE=secret openproject/community:8
+    docker run -it -p 8080:80 -e SECRET_KEY_BASE=secret openproject/community:latest
+
+This assumes you want to run the latest stable version. Please see the docker tags listing for the tags we provide:
+https://hub.docker.com/r/openproject/community/tags
+
+In general, we provide the following tags:
+
+ - `latest`: Points to the latest stable version released
+ - `X`: The latest stable version for the given major release. e.g., (8) for 8.x.x release, (9) for 9.x.x -
+        You will never upgrade between major versions automatically with this
+ - `X.Y`: The latest stable version for the given major.minor release. e.g, (8.1) for 8.1.x releases
+ - `X.Y.Z`: The pinned version for one specific release version e.g., 9.0.3
 
 This will take a bit of time the first time you launch it, but after a few
 minutes you should see a success message indicating the default administration
@@ -35,7 +46,7 @@ the logs to your terminal, which helps with debugging if anything goes wrong.
 For normal usage you probably want to start it in the background, which can be
 achieved with the `-d` flag:
 
-    docker run -d -p 8080:80 -e SECRET_KEY_BASE=secret openproject/community:8
+    docker run -d -p 8080:80 -e SECRET_KEY_BASE=secret openproject/community:latest
 
 ### Recommended usage
 
@@ -56,7 +67,7 @@ those directories mounted:
     docker run -d -p 8080:80 --name openproject -e SECRET_KEY_BASE=secret \
       -v /var/lib/openproject/pgdata:/var/openproject/pgdata \
       -v /var/lib/openproject/static:/var/openproject/assets \
-      openproject/community:8
+      openproject/community:latest
 
 Since we named the container, you can now stop it by running:
 
@@ -146,5 +157,5 @@ Yes, you can do so by passing a command when you launch the container. By defaul
 
 Example:
 
-      docker run -d -e DATABASE_URL=xxx ... openproject/community:8 ./docker/web
-      docker run -d -e DATABASE_URL=xxx ... openproject/community:8 ./docker/worker
+      docker run -d -e DATABASE_URL=xxx ... openproject/community:latest ./docker/web
+      docker run -d -e DATABASE_URL=xxx ... openproject/community:latest ./docker/worker

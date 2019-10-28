@@ -153,12 +153,12 @@ module OpenProject::Backlogs
     end
 
     def blocks_backlogs_type_sql
-      all_types = (Story.types + [Task.type]).map(&:to_s).join(',')
+      all_types = (Story.types + [Task.type]).map(&:to_s)
 
       Relation
         .blocks
         .joins(:to)
-        .where(work_packages: { type_id: all_types } )
+        .where(work_packages: { type_id: all_types })
         .select(:to_id)
         .to_sql
     end

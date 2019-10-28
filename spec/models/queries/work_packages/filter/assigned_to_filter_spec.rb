@@ -99,8 +99,6 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       let(:values) { [assignee.id, user.id, 'me', assignee2.id] }
 
       before do
-        # Order is important here for ids,
-        # otherwise the value_objects will return <user> due to its id
         assignee
         assignee2
         user
@@ -114,7 +112,9 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       it 'returns the mapped value' do
         objects = instance.value_objects
 
-        expect(objects.map(&:id)).to eql ['me', assignee.id, assignee2.id]
+        # As no order is defined in the filter, we use the same method of fetching the values
+        # from the DB as the object under text expecting it to return the values in the same order
+        expect(objects.map(&:id)).to eql ['me'] + Principal.where(id: [assignee.id, assignee2.id]).pluck(:id)
       end
     end
 

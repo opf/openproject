@@ -3,7 +3,7 @@ import {WorkPackageTable} from '../../wp-fast-table';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {take, takeUntil} from "rxjs/operators";
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
-import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageViewSortByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
 import {TableDragActionsRegistryService} from "core-components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
 import {TableDragActionService} from "core-components/wp-table/drag-and-drop/actions/table-drag-action.service";
@@ -24,7 +24,7 @@ export class DragAndDropTransformer {
   private readonly querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
   private readonly dragService:DragAndDropService|null = this.injector.get(DragAndDropService, null);
   private readonly inlineCreateService = this.injector.get(WorkPackageInlineCreateService);
-  private readonly wpNotifications = this.injector.get(WorkPackageNotificationService);
+  private readonly halNotification = this.injector.get(HalResourceNotificationService);
   private readonly wpTableSortBy = this.injector.get(WorkPackageViewSortByService);
   private readonly wpTableOrder = this.injector.get(WorkPackageViewOrderService);
   private readonly browserDetector = this.injector.get(BrowserDetector);
@@ -85,7 +85,7 @@ export class DragAndDropTransformer {
             await this.wpListService.save(query);
           }
         } catch (e) {
-          this.wpNotifications.handleRawError(e);
+          this.halNotification.handleRawError(e);
 
           // Restore element in from container
           DragAndDropHelpers.reinsert(el, el.dataset.sourceIndex || -1, source);

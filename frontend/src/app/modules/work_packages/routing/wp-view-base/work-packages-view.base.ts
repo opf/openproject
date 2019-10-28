@@ -31,7 +31,7 @@ import {StateService, TransitionService} from '@uirouter/core';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
-import {filter, withLatestFrom} from 'rxjs/operators';
+import {filter, map, withLatestFrom} from 'rxjs/operators';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageStaticQueriesService} from 'core-components/wp-query-select/wp-static-queries.service';
@@ -52,10 +52,9 @@ import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service"
 import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";
 import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import {WorkPackageViewDisplayRepresentationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
-import {
-  WorkPackageEvent,
-  WorkPackageEventsService
-} from "core-app/modules/work_packages/events/work-package-events.service";
+import {HalEvent, HalEventsService} from "core-app/modules/hal/services/hal-events.service";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
 
@@ -83,7 +82,8 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
   readonly wpStatesInitialization:WorkPackageStatesInitializationService = this.injector.get(WorkPackageStatesInitializationService);
   readonly cdRef:ChangeDetectorRef = this.injector.get(ChangeDetectorRef);
   readonly wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService = this.injector.get(WorkPackageViewDisplayRepresentationService);
-  readonly wpEvents:WorkPackageEventsService = this.injector.get(WorkPackageEventsService);
+  readonly halEvents:HalEventsService = this.injector.get(HalEventsService);
+
 
   constructor(protected injector:Injector) {
   }
@@ -163,14 +163,13 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
    * through the refresh service.
    */
   protected setupRefreshObserver() {
-    (window as any).wpEvents = this.wpEvents;
-    this.wpEvents
-      .aggregated$()
+    this.halEvents
+      .aggregated$('WorkPackage')
       .pipe(
         untilComponentDestroyed(this),
-        filter((events:WorkPackageEvent[]) => this.filterRefreshEvents(events))
+        filter((events:HalEvent[]) => this.filterRefreshEvents(events))
       )
-      .subscribe((events:WorkPackageEvent[]) => {
+      .subscribe((events:HalEvent[]) => {
         this.refresh(false, false);
       });
   }
@@ -193,16 +192,16 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
 
   /**
    * Filter the given work package events for something interesting
-   * @param events WorkPackageEvent[]
+   * @param events HalEvent[]
    *
    * @return {boolean} whether any of these events should trigger the view reloading
    */
-  protected filterRefreshEvents(events:WorkPackageEvent[]):boolean {
+  protected filterRefreshEvents(events:HalEvent[]):boolean {
     let rendered = new Set(this.querySpace.renderedWorkPackageIds.getValueOr([]));
 
     for (let i = 0; i < events.length; i++) {
       const item = events[i];
-      if (rendered.has(item.id) || item.type === 'created') {
+      if (rendered.has(item.id) || item.eventType === 'created') {
         return true;
       }
     }

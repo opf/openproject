@@ -1,3 +1,31 @@
+#-- copyright
+#OpenProject Backlogs Plugin
+#Copyright (C)2013-2014 the OpenProject Foundation (OPF)
+#Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
+#Copyright (C)2010-2011 friflaj
+#Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns
+#Copyright (C)2009-2010 Mark Maglana
+#Copyright (C)2009 Joe Heck, Nate Lowrie
+#This program is free software; you can redistribute it and/or modify it under
+#the terms of the GNU General Public License version 3.
+#OpenProject Backlogs is a derivative work based on ChiliProject Backlogs.
+#The copyright follows:
+#Copyright (C) 2010-2011 - Emiliano Heyns, Mark Maglana, friflaj
+#Copyright (C) 2011 - Jens Ulferts, Gregor Schmidt - Finn GmbH - Berlin, Germany
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See doc/COPYRIGHT.rdoc for more details.
+#++
+#---
 ko:
   activerecord:
     attributes:
@@ -57,7 +85,7 @@ ko:
     story: "스토리"
     story_points: "스토리 포인트"
     story_points_ideal: "스토리 포인트(적합함)"
-    task: "작업"
+    task: "일감"
     task_color: "작업 색상"
     unassigned: "할당되지 않음"
     x_more: "%{count}개 이상..."
@@ -95,7 +123,7 @@ ko:
   label_backlog: "백로그"
   label_backlogs: "백로그"
   label_backlogs_unconfigured: "백로그를 아직 구성하지 않았습니다. %{administration} > %{plugins}(으)로 이동한 다음 이 플러그인의 %{configure} 링크를 클릭하세요. 필드를 설정한 후 이 페이지로 돌아가서 해당 도구 사용을 시작하세요."
-  label_blocks_ids: "차단된 작업 패키지의 ID"
+  label_blocks_ids: "차단 된 작업 패키지의 ID"
   label_burndown: "번다운"
   label_column_in_backlog: "백로그의 열"
   label_hours: "시간"

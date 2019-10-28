@@ -59,7 +59,7 @@ module OpenProject::GlobalRoles
     end
 
     config.to_prepare do
-      principal_roles_table = PrincipalRole.arel_table
+      principal_roles_table = PrincipalRole.arel_table.alias('global_role_principal_roles')
       query = Authorization::UserGlobalRolesQuery
       roles_table = query.roles_table
       users_table = query.users_table

@@ -33,7 +33,7 @@ require 'model_contract'
 module Grids
   class BaseContract < ::ModelContract
     include OpenProject::StaticRouting::UrlHelpers
-    include AssignableValuesContract
+    include Concerns::AssignableValuesContract
     include ::Attachments::ValidateReplacements
 
     attribute :row_count do

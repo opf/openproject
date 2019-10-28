@@ -36,10 +36,10 @@ import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
 import {BoardService} from "app/modules/boards/board/board.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {WorkPackageFilterValues} from "core-components/wp-edit-form/work-package-filter-values";
-import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
-import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
+
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
-import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
 import {BoardActionService} from "core-app/modules/boards/board/board-actions/board-action.service";
 import {ComponentType} from "@angular/cdk/portal";
@@ -48,6 +48,7 @@ import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates
 import {BoardListMenuComponent} from "core-app/modules/boards/board/board-list/board-list-menu.component";
 import {debugLog} from "core-app/helpers/debug_output";
 import {WorkPackageCardDragAndDropService} from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";
+import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 
 export interface DisabledButtonPlaceholder {
   text:string;
@@ -127,12 +128,12 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
               private readonly boardCache:BoardCacheService,
               private readonly notifications:NotificationsService,
               private readonly querySpace:IsolatedQuerySpace,
-              private readonly wpNotificationService:WorkPackageNotificationService,
+              private readonly halNotification:HalResourceNotificationService,
               private readonly wpStatesInitialization:WorkPackageStatesInitializationService,
               private readonly authorisationService:AuthorisationService,
               private readonly wpInlineCreate:WorkPackageInlineCreateService,
               protected readonly injector:Injector,
-              @Inject(IWorkPackageEditingServiceToken) private readonly wpEditing:WorkPackageEditingService,
+              private readonly halEditing:HalResourceEditingService,
               private readonly loadingIndicator:LoadingIndicatorService,
               private readonly wpCacheService:WorkPackageCacheService,
               private readonly boardService:BoardService,
@@ -143,8 +144,8 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   ngOnInit():void {
     // Unset the isNew flag
-    this.initiallyFocused = this.resource.isNew;
-    this.resource.isNew = false;
+    this.initiallyFocused = this.resource.isNewWidget;
+    this.resource.isNewWidget = false;
 
     // Update permission on model updates
     this.authorisationService
@@ -316,7 +317,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
    */
   private addWorkPackage(workPackage:WorkPackageResource) {
     let query = this.querySpace.query.value!;
-    const changeset = this.wpEditing.changesetFor(workPackage);
+    const changeset = this.halEditing.changeFor(workPackage) as WorkPackageChangeset;
 
     // Ensure attribute remains writable in the form
     const actionAttribute = this.board.actionAttribute;
@@ -330,12 +331,12 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     const filter = new WorkPackageFilterValues(this.injector, changeset, query.filters);
     filter.applyDefaultsFromFilters();
 
-    if (changeset.empty) {
+    if (changeset.isEmpty()) {
       // Ensure work package and its schema is loaded
       return this.wpCacheService.updateWorkPackage(workPackage);
     } else {
       // Save changes to the work package, which reloads it as well
-      return changeset.save();
+      return this.halEditing.save(changeset);
     }
   }
 
@@ -353,7 +354,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     observable
       .subscribe(
         query => this.wpStatesInitialization.updateQuerySpace(query, query.results),
-        error => this.loadingError = this.wpNotificationService.retrieveErrorMessage(error)
+        error => this.loadingError = this.halNotification.retrieveErrorMessage(error)
       );
   }
 

@@ -1,3 +1,18 @@
+#-- copyright
+#OpenProject Meeting Plugin
+#Copyright (C) 2011-2014 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See doc/COPYRIGHT.md for more details.
+#++
+#English strings go here for Rails i18n
 ja:
   activerecord:
     attributes:
@@ -31,7 +46,7 @@ ja:
   label_meeting_edit: "会議を編集"
   label_meeting_agenda: "アジェンダ"
   label_meeting_minutes: "議事録"
-  label_meeting_close: "終了する"
+  label_meeting_close: "閉じる"
   label_meeting_open: "開く"
   label_meeting_agenda_close: "議題を閉じて議事録を開始する"
   label_meeting_date_time: "日付/時刻"

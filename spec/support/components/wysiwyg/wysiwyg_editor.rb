@@ -54,6 +54,11 @@ module Components
       expect(editor_element.text).to eq(value)
     end
 
+    def expect_supports_no_macros
+      expect(container)
+        .to have_no_selector('.ck-button', visible: :all, text: 'Macros')
+    end
+
     def within_enabled_preview
       click_toolbar_button 'Toggle preview mode'
       begin
@@ -117,7 +122,7 @@ module Components
     end
 
     def insert_link(link)
-      click_toolbar_button 'Link (Ctrl+K)'
+      click_toolbar_button /Link \([^)]+\)/
       page.find('.ck-input-text').set link
       page.find('.ck-button-save').click
     end

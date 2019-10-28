@@ -35,7 +35,7 @@ import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.compon
   template: `
     <input type="number"
            step="0.01"
-           class="wp-inline-edit--field"
+           class="inline-edit--field"
            [attr.aria-required]="required"
            [ngModel]="formatter(value)"
            (ngModelChange)="value = parser($event)"

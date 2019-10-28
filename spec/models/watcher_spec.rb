@@ -28,22 +28,30 @@
 
 require 'spec_helper'
 
-describe Watcher, type: :model do
+describe Watcher, type: :model, with_mail: false do
   let(:project) { watchable.project }
   let(:user) { FactoryBot.build :user, admin: true }
   let(:watcher) do
     FactoryBot.build :watcher,
-                      watchable: watchable,
-                      user: user
+                     watchable: watchable,
+                     user: user
   end
-  let(:watchable) { FactoryBot.build :work_package }
+  let(:watchable) { FactoryBot.build :news }
   let(:other_watcher) do
     FactoryBot.build :watcher,
-                      watchable: watchable,
-                      user: other_user
+                     watchable: watchable,
+                     user: other_user
   end
   let(:other_project) { FactoryBot.create(:project) }
   let(:other_user) { FactoryBot.create(:user, admin: true) }
+  let(:mail_notification) { 'all' }
+  let(:saved_user) do
+    FactoryBot.create :user,
+                      member_in_project: saved_watchable.project,
+                      member_with_permissions: [],
+                      mail_notification: mail_notification
+  end
+  let(:saved_watchable) { FactoryBot.create :news }
 
   describe '#valid' do
     it 'is valid for an active user' do
@@ -182,6 +190,92 @@ describe Watcher, type: :model do
 
       it_behaves_like 'a pruned watchable'
       it_behaves_like 'no watcher exists'
+    end
+  end
+
+  describe '#add_watcher' do
+    it 'returns true when the watcher is added' do
+      expect(saved_watchable.add_watcher(saved_user))
+        .to be_truthy
+    end
+    it 'adds the user to watchers' do
+      saved_watchable.add_watcher(saved_user)
+
+      expect(saved_watchable.watchers.map(&:user))
+        .to match_array(saved_user)
+    end
+
+    it 'will not add the same user when called twice' do
+      saved_watchable.add_watcher(saved_user)
+      saved_watchable.add_watcher(saved_user)
+
+      expect(saved_watchable.watchers.map(&:user))
+        .to match_array(saved_user)
+    end
+  end
+
+  describe '#remove_watcher' do
+    before do
+      saved_watchable.watchers.create(user: saved_user)
+    end
+
+    it 'removes the watcher' do
+      saved_watchable.remove_watcher(saved_user)
+
+      expect(saved_watchable.watchers)
+        .to be_empty
+    end
+  end
+
+  describe '#watched_by' do
+    context 'for a watcher user' do
+      before do
+        saved_watchable.watchers.create!(user: saved_user)
+      end
+
+      it 'is truthy' do
+        expect(saved_watchable.watched_by?(saved_user))
+          .to be_truthy
+      end
+    end
+
+    context 'for a non watcher user' do
+      it 'is falsey' do
+        expect(saved_watchable.watched_by?(saved_user))
+          .to be_falsey
+      end
+    end
+  end
+
+  describe '#watcher_user_ids' do
+    it 'only adds unique users' do
+      saved_watchable.watcher_user_ids = [saved_user.id, saved_user.id]
+      expect(saved_watchable)
+        .to be_valid
+      expect(saved_watchable.watchers.map(&:user))
+        .to match_array([saved_user])
+    end
+  end
+
+  describe '#watcher_recipients' do
+    before do
+      saved_watchable.watchers.create(user: saved_user)
+    end
+
+    context 'for a user with `all` notification' do
+      it 'returns the user' do
+        expect(saved_watchable.watcher_recipients)
+          .to match_array([saved_user])
+      end
+    end
+
+    context 'for a user with `none` notification' do
+      let(:mail_notification) { 'none' }
+
+      it 'is empty' do
+        expect(saved_watchable.watcher_recipients)
+          .to be_empty
+      end
     end
   end
 end

@@ -31,7 +31,7 @@ require 'contracts/work_packages/shared_base_contract'
 
 describe WorkPackages::UpdateContract do
   let(:project) do
-    FactoryBot.build_stubbed(:project, is_public: false).tap do |p|
+    FactoryBot.build_stubbed(:project, public: false).tap do |p|
       allow(Project)
         .to receive(:find)
         .with(p.id)

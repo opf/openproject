@@ -38,7 +38,7 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
     set_static_attributes(attributes)
 
     work_package.change_by_system do
-      set_default_attributes
+      set_default_attributes(attributes)
       update_project_dependent_attributes
     end
 
@@ -59,7 +59,7 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
     work_package.attributes = assignable_attributes
   end
 
-  def set_default_attributes
+  def set_default_attributes(*)
     return unless work_package.new_record?
 
     work_package.priority ||= IssuePriority.active.default

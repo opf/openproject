@@ -30,13 +30,13 @@ require 'spec_helper'
 require 'features/page_objects/notification'
 require 'features/work_packages/details/inplace_editor/shared_examples'
 require 'features/work_packages/shared_contexts'
-require 'support/work_packages/work_package_field'
+require 'support/edit_fields/edit_field'
 require 'features/work_packages/work_packages_page'
 
 describe 'date inplace editor',
          with_settings: { date_format: '%Y-%m-%d' },
          js: true, selenium: true do
-  let(:project) { FactoryBot.create :project_with_types, is_public: true }
+  let(:project) { FactoryBot.create :project_with_types, public: true }
   let(:work_package) { FactoryBot.create :work_package, project: project, start_date: '2016-01-01' }
   let(:user) { FactoryBot.create :admin }
   let(:work_packages_page) { Pages::FullWorkPackage.new(work_package,project) }

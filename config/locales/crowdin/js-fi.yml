@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 fi:
   js:
     ajax:
@@ -171,16 +192,20 @@ fi:
     general_text_yes: "kyllä"
     general_text_No: "Ei"
     general_text_Yes: "Kyllä"
+    hal:
+      error:
+        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
+        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        format:
+          date: "%{attribute} ei ole kelvollinen päivämäärä - käytä muotoa VVVV-KK-PP."
+        general: "On tapahtunut virhe."
     homescreen:
       blocks:
         new_features:
           text_new_features: "Read about new features and product updates."
-          current_new_feature_html: "OpenProject contains a new <b>Boards view</b> for Agile project management. </br> To activate this new feature for your existing projects, please do the following steps: <ul><li>Activate the module Boards within existing projects' settings.</li> <li>Configure your Boards in a project.</li> <li>Verify roles and permissions</li></ul>"
-          image_alt_text: "Board teaser image"
-          learn_about: "Learn more about Agile Boards"
+          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
+          learn_about: "Learn more about the new status widgets"
     label_activate: "Aktivoi"
-    label_activity_no: "Aktiviteettimerkinnän numero %{activityNo}"
-    label_activity_with_comment_no: "Aktiviteettimerkinnän numero %{activityNo}. Sisältää käyttäjän kommentin."
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
     label_add_columns: "Lisää sarakkeita"
@@ -254,6 +279,7 @@ fi:
     label_no_data: "Ei tietoa näytettäväksi"
     label_no_due_date: "ei päättymispäivää"
     label_no_start_date: "ei aloituspäivää"
+    label_no_value: "Ei arvoa"
     label_none: "ei mitään"
     label_not_contains: "ei sisällä"
     label_not_equals: "eri kuin"
@@ -586,12 +612,6 @@ fi:
       description_enter_text: "Enter text"
       description_options_hide: "Piilota valinnat"
       description_options_show: "Näytä asetukset"
-      error:
-        update_conflict_refresh: "Click here to refresh the work package and update to the newest version."
-        edit_prohibited: "%{attribute} muokkaaminen on estetty tällä työpaketilla. Joko tämä arvo on peräisin suhteet (esim, alipaketti) tai se ei ole muuten muokattavissa."
-        format:
-          date: "%{attribute} ei ole kelvollinen päivämäärä - käytä muotoa VVVV-KK-PP."
-        general: "On tapahtunut virhe."
       edit_attribute: "%{attribute} - Muokkaa"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Ota monivalinta käyttöön"
@@ -606,7 +626,6 @@ fi:
       message_view_spent_time: "Näytä tähän työpakettiin käytetty aika"
       message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
-      no_value: "Ei arvoa"
       placeholder_filter_by_text: "Subject, description, comments, ..."
       inline_create:
         title: 'Napsauttamalla tätä voit lisätä luetteloon uuden työpaketin'
@@ -673,7 +692,7 @@ fi:
         label_content: "Paina tästä siirtyäksesi suoraan sisältöön"
       placeholders:
         default: "-"
-        description: "Paina kirjoittaaksesi kuvauksen..."
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Sarakkeet"
         group_by: "Ryhmittele tulokset"

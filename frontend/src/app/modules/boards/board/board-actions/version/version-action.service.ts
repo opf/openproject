@@ -14,7 +14,7 @@ import {VersionAutocompleterComponent} from "core-app/modules/common/autocomplet
 import {OpContextMenuItem} from "core-components/op-context-menu/op-context-menu.types";
 import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
 import {StateService} from "@uirouter/core";
-import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {VersionCacheService} from "core-components/versions/version-cache.service";
 import {VersionBoardHeaderComponent} from "core-app/modules/boards/board/board-actions/version/version-board-header.component";
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
@@ -29,7 +29,7 @@ export class BoardVersionActionService implements BoardActionService {
               protected versionDm:VersionDmService,
               protected versionCache:VersionCacheService,
               protected currentProject:CurrentProjectService,
-              protected wpNotifications:WorkPackageNotificationService,
+              protected halNotification:HalResourceNotificationService,
               protected state:StateService,
               protected formCache:FormsCacheService,
               protected pathHelper:PathHelperService) {
@@ -188,7 +188,7 @@ export class BoardVersionActionService implements BoardActionService {
         this.versionCache.updateValue(version.id!, version);
         this.state.go('.', {}, { reload: true });
       })
-      .catch(error => this.wpNotifications.handleRawError(error));
+      .catch(error => this.halNotification.handleRawError(error));
   }
 
   private buildItemsForVersion(version:VersionResource):OpContextMenuItem[] {

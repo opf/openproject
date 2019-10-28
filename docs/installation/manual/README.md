@@ -132,9 +132,9 @@ time to finish.
 [openproject@host] source ~/.profile
 [openproject@host] git clone git://github.com/OiNutter/node-build.git ~/.nodenv/plugins/node-build
 
-[openproject@host] nodenv install 8.12.0
+[openproject@host] nodenv install 12.11.1
 [openproject@host] nodenv rehash
-[openproject@host] nodenv global 8.12.0
+[openproject@host] nodenv global 12.11.1
 ```
 
 To check our Node installation we run `node --version`. It should output something very similar to:
@@ -151,7 +151,7 @@ with OpenProject. For more information, see https://github.com/opf/openproject.
 
 ```bash
 [openproject@host] cd ~
-[openproject@host] git clone https://github.com/opf/openproject.git --branch stable/9 --depth 1
+[openproject@host] git clone https://github.com/opf/openproject.git --branch stable/10 --depth 1
 [openproject@host] cd openproject
 # Ensure rubygems is up-to-date for bundler 2
 [openproject@host] gem update --system

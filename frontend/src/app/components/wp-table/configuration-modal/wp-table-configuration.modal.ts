@@ -1,12 +1,16 @@
 import {
-  ApplicationRef, ChangeDetectorRef,
+  ApplicationRef,
+  ChangeDetectorRef,
   Component,
   ComponentFactoryResolver,
-  ElementRef, EventEmitter,
-  Inject, InjectionToken,
+  ElementRef,
+  EventEmitter,
+  Inject,
+  InjectionToken,
   Injector,
   OnDestroy,
-  OnInit, Optional,
+  OnInit,
+  Optional,
   ViewChild
 } from '@angular/core';
 import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
@@ -16,7 +20,8 @@ import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
 import {WpTableConfigurationService} from 'core-components/wp-table/configuration-modal/wp-table-configuration.service';
 import {
   ActiveTabInterface,
-  TabComponent, TabInterface,
+  TabComponent,
+  TabInterface,
   TabPortalOutlet
 } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
@@ -24,10 +29,10 @@ import {WorkPackageStatesInitializationService} from 'core-components/wp-list/wp
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resource';
 import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
-import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 import {ComponentType} from "@angular/cdk/portal";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 export const WpTableConfigurationModalPrependToken = new InjectionToken<ComponentType<any>>('WpTableConfigurationModalPrependComponent');
 
@@ -80,7 +85,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
               readonly querySpace:IsolatedQuerySpace,
               readonly queryFormDm:QueryFormDmService,
               readonly wpStatesInitialization:WorkPackageStatesInitializationService,
-              readonly wpNotificationsService:WorkPackageNotificationService,
+              readonly notificationService:WorkPackageNotificationService,
               readonly wpTableColumns:WorkPackageViewColumnsService,
               readonly cdRef:ChangeDetectorRef,
               readonly ConfigurationService:ConfigurationService,
@@ -155,6 +160,6 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
 
           return form;
         })
-      .catch((error) => this.wpNotificationsService.handleRawError(error));
+      .catch((error) => this.notificationService.handleRawError(error));
   }
 }

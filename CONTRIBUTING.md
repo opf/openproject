@@ -115,10 +115,6 @@ If you notice a security issue in OpenProject, please send us a gpg encrypted em
 
 Please include a description on how to reproduce the issue if possible. Our security team will get your email and will attempt to reproduce and fix the issue as soon as possible.
 
-## Accessibility
-
-For our impaired users please have a look at our [accessibility-checklist](https://www.openproject.org/development/accessibility-checklist/).
-
 ## Contributor code of conduct
 
 As contributors and maintainers of this project, we pledge to respect all people

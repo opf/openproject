@@ -1,6 +1,21 @@
+#-- copyright
+#OpenProject Reporting Plugin
+#Copyright (C) 2010 - 2014 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#version 3.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#++
+#---
 zh-CN:
   button_save_as: "报告另存为..."
-  comments: "注释"
+  comments: "评论"
   cost_reports_title: "成本报告"
   label_cost_report: "成本报告"
   description_drill_down: "显示详情"
@@ -9,7 +24,7 @@ zh-CN:
   description_remove_filter: "删除筛选器"
   information_restricted_depending_on_permission: "根据您的权限，此页面可能包含受限的信息。"
   label_click_to_edit: "点击编辑。"
-  label_closed: "已关闭"
+  label_closed: "关闭"
   label_columns: "列"
   label_cost_entry_attributes: "成本条目属性"
   label_days_ago: "在过去几天"

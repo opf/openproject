@@ -40,7 +40,7 @@ module API
           end
 
           def self.module
-            CustomFieldAccessor
+            ::API::V3::Utilities::EagerLoading::CustomFieldAccessor
           end
 
           private
@@ -196,31 +196,6 @@ module API
                 by_type_hash[type_id] = Set.new
               end
             end
-          end
-        end
-
-        module CustomFieldAccessor
-          extend ActiveSupport::Concern
-
-          # Because of the ruby method lookup,
-          # wrapping the work_package here and define the
-          # available_custom_fields methods on the wrapper does not suffice.
-          # We thus extend each work package.
-          included do
-            def initialize(work_package)
-              super
-              work_package.extend(CustomFieldAccessorPatch)
-            end
-          end
-        end
-
-        module CustomFieldAccessorPatch
-          def available_custom_fields
-            @available_custom_fields
-          end
-
-          def available_custom_fields=(fields)
-            @available_custom_fields = fields
           end
         end
       end

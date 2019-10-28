@@ -105,6 +105,8 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
 
       if (i === 0) {
         this.appendFirstLabel(div);
+        // colspan 2 for the d&d column
+        td.setAttribute('colspan', '2');
       }
 
       td.appendChild(div);

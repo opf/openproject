@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'support/work_packages/work_package_field'
+require 'support/edit_fields/edit_field'
 require 'features/work_packages/work_packages_page'
 require 'features/page_objects/notification'
 
@@ -26,29 +26,29 @@ describe 'new work package', js: true, with_mail: false do
   # Changes in the description shall not be overridden.
   def change_type_and_expect_description(set_project: false)
     if !set_project
-      expect(page).to have_selector('.wp-edit-field.type', text: type_feature.name)
+      expect(page).to have_selector('.inline-edit--container.type', text: type_feature.name)
     end
-    expect(page).to have_selector('.wp-edit-field.description', text: '')
+    expect(page).to have_selector('.inline-edit--container.description', text: '')
 
     type_field.openSelectField
     type_field.set_value type_task
-    expect(page).to have_selector('.wp-edit-field.description h1', text: 'New Task template')
+    expect(page).to have_selector('.inline-edit--container.description h1', text: 'New Task template')
 
     type_field.openSelectField
     type_field.set_value type_bug
-    expect(page).to have_selector('.wp-edit-field.description h1', text: 'New Bug template')
+    expect(page).to have_selector('.inline-edit--container.description h1', text: 'New Bug template')
 
     description_field.set_value 'Something different than the default.'
 
     type_field.openSelectField
     type_field.set_value type_task
-    expect(page).to have_no_selector('.wp-edit-field.description h1', text: 'New Task template', wait: 5)
+    expect(page).to have_no_selector('.inline-edit--container.description h1', text: 'New Task template', wait: 5)
 
     description_field.set_value ''
 
     type_field.openSelectField
     type_field.set_value type_bug
-    expect(page).to have_selector('.wp-edit-field.description h1', text: 'New Bug template')
+    expect(page).to have_selector('.inline-edit--container.description h1', text: 'New Bug template')
 
     if set_project
       project_field.openSelectField
@@ -59,7 +59,7 @@ describe 'new work package', js: true, with_mail: false do
     scroll_to_and_click find('#work-packages--edit-actions-save')
     wp_page.expect_notification message: 'Successful creation.'
 
-    expect(page).to have_selector('.wp-edit-field--display-field.description h1', text: 'New Bug template')
+    expect(page).to have_selector('.inline-edit--display-field.description h1', text: 'New Bug template')
   end
 
   before do

@@ -4,8 +4,8 @@ lt:
       add_widget: 'Pridėti valdiklį'
       remove: 'Išimti valdiklį'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the "
-        link: 'enterprise edition.'
+        text: "Kai kurie valdikliai, pavyzdžiui darbo paketų grafo valdiklis, galimi tik "
+        link: '„Enterprise edition“.'
       widgets:
         custom_text:
           title: 'Pritaikytas tekstas'
@@ -28,6 +28,12 @@ lt:
         project_details:
           title: 'Projekto ypatybės'
           no_results: 'Projektui nenurodyti savi laukai.'
+        project_status:
+          title: 'Projekto būsena'
+          on_track: 'On track'
+          off_track: 'Off track'
+          at_risk: 'At risk'
+          not_set: 'Nenustatyta'
         subprojects:
           title: 'Sub-projektai'
           no_results: 'Nėra su-projektų.'

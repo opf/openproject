@@ -1,8 +1,23 @@
+#-- copyright
+#OpenProject Costs Plugin
+#Copyright (C) 2009 - 2014 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#version 3.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#++
+#---
 it:
   activerecord:
     attributes:
       cost_entry:
-        work_package: "Macro-attività (work package)"
+        work_package: "Macro-attività"
         overridden_costs: "Costi eccedenti"
         spent: "Trascorso"
         spent_on: "Data"
@@ -57,7 +72,7 @@ it:
     costs: "Costi"
     current_rate: "Tariffa attuale"
     hours: "Ore"
-    units: "Unità"
+    units: "Unità di misura"
     valid_from: "Valido dal"
   button_add_budget_item: "Aggiungi costi pianificati"
   button_add_cost_object: "Aggiungi bilancio"
@@ -66,7 +81,7 @@ it:
   button_cancel_edit_budget: "Annulla modifica budget"
   button_cancel_edit_costs: "Annulla modifica dei costi"
   button_log_costs: "Registra unità di costo"
-  button_log_time: "Registra tempi"
+  button_log_time: "Registra l'orario effettuato"
   caption_booked_on_project: "Prenotato su progetto"
   caption_default: "Predefinito"
   caption_default_rate_history_for: "Cronologia tariffe predefinite per %{user}"
@@ -170,4 +185,4 @@ it:
   text_warning_hidden_elements: "Alcune voci potrebbero essere state escluse dall'aggregazione."
   week: "settimana"
   js:
-    text_are_you_sure: "Sei sicuro/a?"
+    text_are_you_sure: "Sei sicuro?"

@@ -1,3 +1,31 @@
+#-- copyright
+#OpenProject Backlogs Plugin
+#Copyright (C)2013-2014 the OpenProject Foundation (OPF)
+#Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
+#Copyright (C)2010-2011 friflaj
+#Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns
+#Copyright (C)2009-2010 Mark Maglana
+#Copyright (C)2009 Joe Heck, Nate Lowrie
+#This program is free software; you can redistribute it and/or modify it under
+#the terms of the GNU General Public License version 3.
+#OpenProject Backlogs is a derivative work based on ChiliProject Backlogs.
+#The copyright follows:
+#Copyright (C) 2010-2011 - Emiliano Heyns, Mark Maglana, friflaj
+#Copyright (C) 2011 - Jens Ulferts, Gregor Schmidt - Finn GmbH - Berlin, Germany
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See doc/COPYRIGHT.rdoc for more details.
+#++
+#---
 ru:
   activerecord:
     attributes:
@@ -57,7 +85,7 @@ ru:
     story: "История"
     story_points: "Баллы описаний"
     story_points_ideal: "Точки истории (идеал)"
-    task: "Задача"
+    task: "Задание"
     task_color: "Цвет задачи"
     unassigned: "Нераспределенные"
     x_more: "Еще %{count}..."
@@ -115,8 +143,8 @@ ru:
   label_stories: "Истории"
   label_stories_tasks: "Истории/задачи"
   label_task_board: "Панель задач"
-  label_version_setting: "Версии"
-  label_version: 'Версия'
+  label_version_setting: "Этапы"
+  label_version: 'Стадия'
   label_webcal: "Лента Webcal"
   label_wiki: "Wiki"
   permission_view_master_backlog: "Просмотреть главную невыполненную работу"
@@ -140,5 +168,5 @@ ru:
   todo_work_package_summary: "%{type}: %{summary}"
   version_settings_display_label: "Колонка в невыполненной работе"
   version_settings_display_option_left: "влево"
-  version_settings_display_option_none: "нет"
+  version_settings_display_option_none: "Ничего"
   version_settings_display_option_right: "вправо"

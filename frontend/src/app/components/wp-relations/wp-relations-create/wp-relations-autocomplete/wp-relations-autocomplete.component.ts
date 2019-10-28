@@ -40,7 +40,7 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {from, Observable, of, Subject} from "rxjs";
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from "rxjs/operators";
-import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {NgSelectComponent} from "@ng-select/ng-select";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
@@ -49,6 +49,7 @@ import {CurrentProjectService} from "core-components/projects/current-project.se
 import {ApiV3Filter, ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 @Component({
   selector: 'wp-relations-autocomplete',
@@ -71,7 +72,7 @@ export class WorkPackageRelationsAutocomplete implements AfterContentInit {
   /** Do we take the current query filters into account? */
   @Input() additionalFilters:ApiV3Filter[] = [];
 
-  @Input() appendToContainer:string = 'body';
+  @Input() hiddenOverflowContainer:string = 'body';
   @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
 
   @Output() onCancel = new EventEmitter<undefined>();
@@ -84,6 +85,8 @@ export class WorkPackageRelationsAutocomplete implements AfterContentInit {
   // Search input from ng-select
   public searchInput$ = new Subject<string>();
 
+  public appendToContainer = 'body';
+
   // Search results mapped to input
   public results$:Observable<WorkPackageResource[]> = this.searchInput$.pipe(
     debounceTime(250),
@@ -94,7 +97,7 @@ export class WorkPackageRelationsAutocomplete implements AfterContentInit {
 
   constructor(private readonly querySpace:IsolatedQuerySpace,
               private readonly pathHelper:PathHelperService,
-              private readonly wpNotificationsService:WorkPackageNotificationService,
+              private readonly notificationService:WorkPackageNotificationService,
               private readonly CurrentProject:CurrentProjectService,
               private readonly halResourceService:HalResourceService,
               private readonly schemaCacheService:SchemaCacheService,
@@ -152,7 +155,7 @@ export class WorkPackageRelationsAutocomplete implements AfterContentInit {
     .pipe(
         map(collection => collection.elements),
         catchError((error:unknown) => {
-          this.wpNotificationsService.handleRawError(error);
+          this.notificationService.handleRawError(error);
           return of([]);
         }),
         tap(() => this.isLoading = false)
@@ -164,7 +167,14 @@ export class WorkPackageRelationsAutocomplete implements AfterContentInit {
     // https://github.com/ng-select/ng-select/issues/1259
     setTimeout(() => {
       const component = (this.ngSelectComponent) as any;
-      component.dropdownPanel._updatePosition();
+      if (component) {
+        component.dropdownPanel._updatePosition();
+      }
+
+      jQuery(this.hiddenOverflowContainer).one('scroll', () => {
+        this.ngSelectComponent.close();
+      });
     }, 25);
+
   }
 }

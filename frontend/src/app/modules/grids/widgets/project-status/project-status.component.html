@@ -1,0 +1,25 @@
+<widget-header
+  [name]="widgetName"
+  [editable]="isEditable">
+
+  <widget-menu
+    [resource]="resource">
+  </widget-menu>
+</widget-header>
+
+<div class="grid--widget-content -allow-inner-overflow">
+  <edit-form *ngIf="(project$ | async) as project" [resource]="project">
+    <div class="project-status--container">
+      <editable-attribute-field [resource]="project"
+                                fieldName="status"
+                                wrapperClasses="project-status--display-field">
+      </editable-attribute-field>
+    </div>
+    <div class="project-status-explanation--container">
+      <editable-attribute-field [resource]="project"
+                                fieldName="statusExplanation">
+      </editable-attribute-field>
+    </div>
+  </edit-form>
+</div>
+

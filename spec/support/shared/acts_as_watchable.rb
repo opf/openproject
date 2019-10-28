@@ -132,7 +132,7 @@ MESSAGE
 
     context 'when it is a public project' do
       before do
-        project.update_attributes is_public: true
+        project.update public: true
         model_instance.reload
       end
 
@@ -150,7 +150,7 @@ MESSAGE
 
     context 'when it is a private project' do
       before do
-        project.update_attributes is_public: false
+        project.update public: false
         model_instance.reload
       end
 
@@ -241,7 +241,7 @@ MESSAGE
 
     context 'when it is a public project' do
       before do
-        project.update_attributes is_public: true
+        project.update public: true
         model_instance.reload
       end
 
@@ -275,7 +275,7 @@ MESSAGE
 
     context 'when it is a private project' do
       before do
-        project.update_attributes is_public: false
+        project.update public: false
         model_instance.reload
       end
 

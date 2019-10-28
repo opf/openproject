@@ -1,6 +1,5 @@
 <widget-header
   [name]="widgetName"
-  icon="flag"
   [editable]="isEditable">
 
   <widget-menu
@@ -8,11 +7,11 @@
   </widget-menu>
 </widget-header>
 
-<div class="grid--widget-content">
-  <div *ngIf="hasDescription"
-       [innerHTML]="description">
-  </div>
-  <no-results *ngIf="!hasDescription && isLoaded"
-              [description]="text.noResults">
-  </no-results>
+<div class="grid--widget-content -allow-inner-overflow">
+  <edit-form *ngIf="(project$ | async) as project"
+             [resource]="project">
+    <editable-attribute-field [resource]="project"
+                              [fieldName]="'description'">
+    </editable-attribute-field>
+  </edit-form>
 </div>

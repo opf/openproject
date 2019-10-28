@@ -1,3 +1,21 @@
+#-- copyright
+#OpenProject PDF Export Plugin
+#Copyright (C)2014 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or modify it under
+#the terms of the GNU General Public License version 3.
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See doc/COPYRIGHT.md for more details.
+#++
 zh-TW:
   error_can_not_delete_export_card_configuration: "不能刪除設定。"
   error_can_not_change_name_of_default_configuration: "預設設定的名稱不能更改。"
@@ -6,7 +24,7 @@ zh-TW:
   label_export_card_configuration_new: "新匯出卡設定"
   label_export_card_configuration: "匯出卡設定"
   label_export_card_configuration_plural: "匯出卡設定"
-  label_export_card_activate: "啟動"
+  label_export_card_activate: "啟用"
   label_export_card_deactivate: "關閉"
   notice_export_card_configuration_activated: "設定成功啟動"
   notice_export_card_configuration_deactivated: "設定成功關閉"
@@ -20,7 +38,7 @@ zh-TW:
   export_config_per_page: "每頁"
   export_config_page_size: "頁面大小"
   export_config_orientation: "頁面方向"
-  export_config_rows: "行"
+  export_config_rows: "列"
   activerecord:
     attributes:
       export_card_configuration:

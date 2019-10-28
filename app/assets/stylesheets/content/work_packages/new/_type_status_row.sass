@@ -9,19 +9,22 @@
     margin-left: 5px
 
   // Fix display left padding of tpye
-  .wp-edit-field--display-field
+  .inline-edit--display-field
     padding-left: 0 !important
 
   // Disable text decoration from toolbar span
-  .wp-edit-field--display-field:hover
+  .inline-edit--display-field:hover
     text-decoration: none
 
   .wp-new-top-row--status,
   .wp-new-top-row--type
-    .wp-inline-edit--field
+    .inline-edit--field
       min-width: 125px
 
-.work-packages--type-selector,
-.work-packages--status-selector
-  .-active
-    margin: 6px 6px 6px 0px
+  .work-packages--type-selector,
+  .work-packages--status-selector
+    .-active
+      margin: 6px 6px 6px 0px
+
+.work-packages--type-selector .-active
+    margin: 6px 6px 0px 0px

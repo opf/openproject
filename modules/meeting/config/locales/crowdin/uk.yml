@@ -1,3 +1,18 @@
+#-- copyright
+#OpenProject Meeting Plugin
+#Copyright (C) 2011-2014 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See doc/COPYRIGHT.md for more details.
+#++
+#English strings go here for Rails i18n
 uk:
   activerecord:
     attributes:
@@ -16,7 +31,7 @@ uk:
       meeting_agenda: "Порядок денний"
       meeting_minutes: "Хвилини"
   description_attended: "Участь"
-  description_invite: "Запрошені"
+  description_invite: "запрошені"
   events:
     meeting: Нотатки до зустрічі
     meeting_agenda: Порядок денний зустрічі редагувався
@@ -40,7 +55,7 @@ uk:
   label_icalendar: "Надіслати iCalendar"
   label_version: "Версія"
   label_time_zone: "Часовий пояс"
-  label_start_date: "Дата початку"
+  label_start_date: "Початок"
   notice_successful_notification: "Повідомлення успішно надіслано"
   notice_timezone_missing: Часовий пояс не встановлено і %{zone} передбачається. Щоб вибрати часовий пояс, натисніть тут.
   permission_create_meetings: "Створюйте зустрічі"

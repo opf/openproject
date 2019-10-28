@@ -1,3 +1,31 @@
+#-- copyright
+#OpenProject Backlogs Plugin
+#Copyright (C)2013-2014 the OpenProject Foundation (OPF)
+#Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
+#Copyright (C)2010-2011 friflaj
+#Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns
+#Copyright (C)2009-2010 Mark Maglana
+#Copyright (C)2009 Joe Heck, Nate Lowrie
+#This program is free software; you can redistribute it and/or modify it under
+#the terms of the GNU General Public License version 3.
+#OpenProject Backlogs is a derivative work based on ChiliProject Backlogs.
+#The copyright follows:
+#Copyright (C) 2010-2011 - Emiliano Heyns, Mark Maglana, friflaj
+#Copyright (C) 2011 - Jens Ulferts, Gregor Schmidt - Finn GmbH - Berlin, Germany
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See doc/COPYRIGHT.rdoc for more details.
+#++
+#---
 hr:
   activerecord:
     attributes:
@@ -57,7 +85,7 @@ hr:
     story: "Scenarij"
     story_points: "Točke priče"
     story_points_ideal: "Točke scenarija (idealno)"
-    task: "Zadaća"
+    task: "Zadatak"
     task_color: "Boja zadaće"
     unassigned: "Nedodijeljeno"
     x_more: "%{count} više..."
@@ -95,7 +123,7 @@ hr:
   label_backlog: "Backlog"
   label_backlogs: "Backlogs"
   label_backlogs_unconfigured: "Niste još konfigurirali Backlog. Za konfiguraciju odaberite %{administration}>%{plugins}, zatim %{configure} Backlog dodatak. Nakon što ste uredili potrebna polja, vratite se na ovu stranicu da biste započeli s korištenjem ovog alata."
-  label_blocks_ids: "ID blokiranih radnih paketa"
+  label_blocks_ids: "ID-ovi onemogućenih radnih paketa"
   label_burndown: "Burndown"
   label_column_in_backlog: "Stupac u backlogu"
   label_hours: "sati"
@@ -130,7 +158,7 @@ hr:
   project_module_backlogs: "Backlogs"
   rb_label_copy_tasks: "Kopiraj radne pakete"
   rb_label_copy_tasks_all: "Svi"
-  rb_label_copy_tasks_none: "Nijedan"
+  rb_label_copy_tasks_none: "Bez"
   rb_label_copy_tasks_open: "Otvoren"
   rb_label_link_to_original: "Uključi poveznicu u orginalni scenarij"
   remaining_hours: "preostali sati"
@@ -140,5 +168,5 @@ hr:
   todo_work_package_summary: "%{type}: %{summary}"
   version_settings_display_label: "Stupac u backlogu"
   version_settings_display_option_left: "lijevo"
-  version_settings_display_option_none: "nijedan"
+  version_settings_display_option_none: "none"
   version_settings_display_option_right: "desno"

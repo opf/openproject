@@ -28,12 +28,12 @@
 
 import {Injectable} from "@angular/core";
 import {HttpClient} from '@angular/common/http';
-import {WorkPackageNotificationService} from "core-app/components/wp-edit/wp-notification.service";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 
 @Injectable()
 export class CostBudgetSubformAugmentService {
 
-  constructor(private wpNotifications:WorkPackageNotificationService,
+  constructor(private halNotification:HalResourceNotificationService,
               private http:HttpClient) {
   }
 
@@ -87,7 +87,7 @@ export class CostBudgetSubformAugmentService {
             jQuery('#' + selector).html(val);
           });
         },
-        (error:any) => this.wpNotifications.handleRawError(error)
+        (error:any) => this.halNotification.handleRawError(error)
       );
   }
 

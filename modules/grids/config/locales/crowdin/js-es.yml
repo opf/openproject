@@ -28,6 +28,12 @@ es:
         project_details:
           title: 'Detalles del proyecto'
           no_results: 'No se han definido campos personalizados para los proyectos.'
+        project_status:
+          title: 'Estado del proyecto'
+          on_track: 'Según lo previsto'
+          off_track: 'Fuera de lo previsto'
+          at_risk: 'En riesgo'
+          not_set: 'No establecido'
         subprojects:
           title: 'Subproyectos'
           no_results: 'No hay subproyectos.'

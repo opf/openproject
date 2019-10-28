@@ -133,6 +133,8 @@ module OpenProject
       # Allow in-context translations to be loaded with CSP
       'crowdin_in_context_translations' => true,
 
+      'avatar_link_expiry_seconds' => 24.hours.to_i,
+
       # Default gravatar image, set to something other than 404
       # to ensure a default is returned
       'gravatar_fallback_image' => '404',

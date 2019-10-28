@@ -59,7 +59,6 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   @Input() public workPackage:WorkPackageResource;
   @Input() public activity:HalResource;
   @Input() public activityNo:number;
-  @Input() public activityLabel:string;
   @Input() public isInitial:boolean;
 
   public userCanEdit = false;
@@ -71,7 +70,6 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   public userPath:string | null;
   public userLabel:string;
   public userAvatar:string;
-  public fieldLabel:string;
   public details:any[] = [];
   public isComment:boolean;
   public isBcfComment:boolean;
@@ -118,14 +116,6 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
     this.userCanEdit = !!this.activity.update;
     this.userCanQuote = !!this.workPackage.addComment;
 
-    if (this.postedComment) {
-      this.fieldLabel = this.I18n.t('js.label_activity_with_comment_no', {
-        activityNo: this.activityNo
-      });
-    } else {
-      this.fieldLabel = this.I18n.t('js.label_activity_no', {activityNo: this.activityNo});
-    }
-
     this.$element.bind('focusin', this.focus.bind(this));
     this.$element.bind('focusout', this.blur.bind(this));
 
@@ -162,7 +152,7 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   }
 
   public handleUserSubmit() {
-    if (this.changeset.inFlight || !this.rawComment) {
+    if (this.inFlight || !this.rawComment) {
       return Promise.resolve();
     }
     return this.updateComment();
@@ -173,6 +163,8 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   }
 
   public async updateComment() {
+    this.inFlight = true;
+
     await this.onSubmit();
     return this.commentService.updateComment(this.activity, this.rawComment || '')
       .then((newActivity:HalResource) => {
@@ -181,7 +173,8 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
         this.wpLinkedActivities.require(this.workPackage, true);
         this.wpCacheService.updateWorkPackage(this.workPackage);
         this.deactivate(true);
-      });
+      })
+      .catch(() => this.deactivate(true));
   }
 
   public focusEditIcon() {
@@ -201,6 +194,10 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
 
   public focussing() {
     return this.focused;
+  }
+
+  setErrors(newErrors:string[]):void {
+    // interface
   }
 
   public quotedText(rawComment:string) {

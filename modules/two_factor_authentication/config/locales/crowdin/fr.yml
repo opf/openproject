@@ -1,3 +1,4 @@
+#English strings go here for Rails i18n
 fr:
   activerecord:
     attributes:
@@ -150,7 +151,7 @@ fr:
       cookie_removed: 'Toutes les sessions 2FA mémorisées ont été supprimées.'
       dont_ask_again: "Créer le cookie de mémorisation de l'authentification 2FA sur ce client pour %{days} jours."
   field_phone: "Téléphone mobile"
-  field_otp: "Mot de passe unique"
+  field_otp: "Mot de passe à usage unique"
   notice_account_otp_invalid: "Mot de passe à usage unique non valide."
   notice_account_otp_expired: "Le mot de passe à usage unique que vous avez renseigné a expiré."
   notice_developer_strategy_otp: "La stratégie de développement à généré le mot de passe à usage unique suivant : %{token} (Channel: %{channel})"

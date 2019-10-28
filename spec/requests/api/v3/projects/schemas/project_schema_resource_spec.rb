@@ -60,9 +60,9 @@ describe 'API v3 Projects schema resource', type: :request, content_type: :json 
         .at_path '_type'
     end
 
-    #it 'does not embed' do
-    #  expect(subject.body)
-    #    .not_to have_json_path('page/_links/allowedValues')
-    #end
+    it 'does not embed' do
+      expect(subject.body)
+        .not_to have_json_path('parent/_links/allowedValues')
+    end
   end
 end

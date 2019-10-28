@@ -38,7 +38,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
   end
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:permissions) { [:view_work_packages] }
-  let(:project) { FactoryBot.create(:project_with_types, is_public: false) }
+  let(:project) { FactoryBot.create(:project_with_types, public: false) }
   let(:path) { api_v3_paths.work_packages_by_project project.id }
 
   before do

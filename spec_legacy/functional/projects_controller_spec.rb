@@ -42,57 +42,7 @@ describe ProjectsController, type: :controller do
     Setting.default_language = 'en'
   end
 
-  it 'should index' do
-    get :index
-    assert_response :success
-    assert_template 'index'
-    refute_nil assigns(:projects)
-
-    assert_select 'ul',
-                  child: {
-                    tag: 'li',
-                    descendant: { tag: 'a', content: 'eCookbook' },
-                    child: {
-                      tag: 'ul',
-                      descendant: {
-                        tag: 'a',
-                        content: 'Child of private child'
-                      }
-                    }
-                  }
-
-    assert_select('a', { content: /Private child of eCookbook/ }, false)
-  end
-
-  context '#index' do
-    context 'by non-admin user without view_time_entries permission' do
-      before do
-        Role.find(2).remove_permission! :view_time_entries
-        Role.non_member.remove_permission! :view_time_entries
-        Role.anonymous.remove_permission! :view_time_entries
-        session[:user_id] = 3
-      end
-      it 'should not show overall spent time link' do
-        get :index
-        assert_template 'index'
-        assert_select('a', { attributes: { href: '/time_entries' } }, false)
-      end
-    end
-  end
-
   context '#new' do
-    context 'by admin user' do
-      before do
-        session[:user_id] = 1
-      end
-
-      it 'should accept get' do
-        get :new
-        assert_response :success
-        assert_template 'new'
-      end
-    end
-
     context 'by non-admin user with add_project permission' do
       before do
         Role.non_member.add_permission! :add_project
@@ -115,7 +65,8 @@ describe ProjectsController, type: :controller do
       end
 
       it 'should accept get' do
-        get :new, params: { parent_id: 'ecookbook' }
+        project = Project.find_by(identifier: 'ecookbook')
+        get :new, params: { parent_id: project.id }
         assert_response :success
         assert_template 'new'
         # parent project selected
@@ -146,7 +97,7 @@ describe ProjectsController, type: :controller do
                  name: 'blog',
                  description: 'weblog',
                  identifier: 'blog',
-                 is_public: 1,
+                 public: 1,
                  custom_field_values: { '3': '5' },
                  type_ids: ['1', '3'],
                  # an issue custom field that is not for all project
@@ -160,7 +111,7 @@ describe ProjectsController, type: :controller do
         assert_kind_of Project, project
         assert project.active?
         assert_equal 'weblog', project.description
-        assert_equal true, project.is_public?
+        assert_equal true, project.public?
         assert_nil project.parent
         assert_equal 'Beta', project.custom_value_for(3).typed_value
         assert_equal [1, 3], project.types.map(&:id).sort
@@ -175,7 +126,7 @@ describe ProjectsController, type: :controller do
                  name: 'blog',
                  description: 'weblog',
                  identifier: 'blog',
-                 is_public: 1,
+                 public: 1,
                  custom_field_values: { '3' => '5' },
                  parent_id: 1
                }
@@ -201,7 +152,7 @@ describe ProjectsController, type: :controller do
                  name: 'blog',
                  description: 'weblog',
                  identifier: 'blog',
-                 is_public: 1,
+                 public: 1,
                  custom_field_values: { '3' => '5' },
                  type_ids: ['1', '3'],
                  enabled_module_names: ['work_package_tracking', 'news', 'repository']
@@ -213,7 +164,7 @@ describe ProjectsController, type: :controller do
         project = Project.find_by(name: 'blog')
         assert_kind_of Project, project
         assert_equal 'weblog', project.description
-        assert_equal true, project.is_public?
+        assert_equal true, project.public?
         assert_equal [1, 3], project.types.map(&:id).sort
         assert_equal ['news', 'repository', 'work_package_tracking'], project.enabled_module_names.sort
 
@@ -230,7 +181,7 @@ describe ProjectsController, type: :controller do
                    name: 'blog',
                    description: 'weblog',
                    identifier: 'blog',
-                   is_public: 1,
+                   public: 1,
                    custom_field_values: { '3' => '5' },
                    parent_id: 1
                  }
@@ -239,7 +190,8 @@ describe ProjectsController, type: :controller do
         assert_response :success
         project = assigns(:project)
         assert_kind_of Project, project
-        refute_empty project.errors[:parent_id]
+        errors = assigns(:errors)
+        refute_empty errors[:parent]
       end
     end
 
@@ -257,7 +209,7 @@ describe ProjectsController, type: :controller do
                  name: 'blog',
                  description: 'weblog',
                  identifier: 'blog',
-                 is_public: 1,
+                 public: 1,
                  custom_field_values: { '3' => '5' },
                  parent_id: 1
                }
@@ -273,7 +225,7 @@ describe ProjectsController, type: :controller do
                    name: 'blog',
                    description: 'weblog',
                    identifier: 'blog',
-                   is_public: 1,
+                   public: 1,
                    custom_field_values: { '3' => '5' }
                  }
                }
@@ -281,7 +233,9 @@ describe ProjectsController, type: :controller do
         assert_response :success
         project = assigns(:project)
         assert_kind_of Project, project
-        refute_empty project.errors[:parent_id]
+        errors = assigns(:errors)
+        expect(errors.symbols_for(:base))
+          .to match_array [:error_unauthorized]
       end
 
       it 'should fail with unauthorized parent_id' do
@@ -293,7 +247,7 @@ describe ProjectsController, type: :controller do
                    name: 'blog',
                    description: 'weblog',
                    identifier: 'blog',
-                   is_public: 1,
+                   public: 1,
                    custom_field_values: { '3' => '5' },
                    parent_id: 6
                  }
@@ -302,7 +256,8 @@ describe ProjectsController, type: :controller do
         assert_response :success
         project = assigns(:project)
         assert_kind_of Project, project
-        refute_empty project.errors[:parent_id]
+        errors = assigns(:errors)
+        refute_empty errors[:parent]
       end
     end
   end
@@ -363,12 +318,12 @@ describe ProjectsController, type: :controller do
     session[:user_id] = 1 # admin
     put :archive, params: { id: 1 }
     assert_redirected_to '/projects'
-    assert !Project.find(1).active?
+    assert Project.find(1).archived?
   end
 
   it 'should unarchive' do
     session[:user_id] = 1 # admin
-    Project.find(1).archive
+    Project.find(1).update(active: false)
     put :unarchive, params: { id: 1 }
     assert_redirected_to '/projects'
     assert Project.find(1).active?

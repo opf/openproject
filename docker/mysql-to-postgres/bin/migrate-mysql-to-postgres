@@ -3,6 +3,7 @@ require 'uri'
 
 db_url = URI(ENV.fetch("DATABASE_URL"))
 mysql_url = URI(ENV.fetch("MYSQL_DATABASE_URL")) if ENV.has_key?("MYSQL_DATABASE_URL")
+pgloader_path = ENV.fetch('PGLOADER_PATH', 'pgloader-ccl')
 
 if db_url.scheme.start_with?("mysql")
   puts "WARNING: You are running MySQL. OpenProject will drop support for MySQL in 10.0."
@@ -113,7 +114,7 @@ puts "Importing database ..."
 
 mysql_url.query = nil
 mysql_url.scheme = "mysql"
-_, pgloader_status = run "pgloader-ccl --with \"preserve index names\" --verbose #{mysql_url} #{db_url}", record_output: false
+_, pgloader_status = run "#{pgloader_path} --with \"preserve index names\" --verbose #{mysql_url} #{db_url}", record_output: false
 
 if pgloader_status != 0
   puts "\nFailed to import MySQL database into Postgres. See above."
@@ -178,7 +179,7 @@ if needs_fulltext_migration
 
   puts "Running full-text search migration"
 
-  _, redo_status = run "bundle exec rake db:migrate:up VERSION=20180122135443", record_output: false
+  _, redo_status = run "bundle exec rake db:migrate:redo VERSION=20180122135443", record_output: false
 
   if redo_status != 0
     puts "\nFull-text search migration failed. See above."

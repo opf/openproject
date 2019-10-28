@@ -65,6 +65,9 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   /** The selected attribute */
   public selectedAttribute:HalResource|undefined;
 
+  /** avoid double click */
+  public inFlight = false;
+
   public trackByHref = AngularTrackingHelpers.trackByHref;
 
   /* Do not close on outside click (because the select option are appended to the body */
@@ -122,14 +125,17 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   }
 
   create() {
+    this.inFlight = true;
     this.actionService
       .addActionQuery(this.board, this.selectedAttribute!)
       .then(board => this.boardService.save(board))
       .then((board) => {
+        this.inFlight = false;
         this.closeMe();
         this.boardCache.update(board);
         this.state.go('boards.show', { board_id: board.id, isNew: true });
-      });
+      })
+      .catch(() => this.inFlight = false);
   }
 
   onNewActionCreated(newValue:HalResource) {

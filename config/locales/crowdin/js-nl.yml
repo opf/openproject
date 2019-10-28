@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 nl:
   js:
     ajax:
@@ -24,7 +45,7 @@ nl:
     button_check_all: "Selecteer alles"
     button_configure-form: "Formulier configureren"
     button_confirm: "Accepteren"
-    button_continue: "Ga verder"
+    button_continue: "Verdergaan"
     button_copy: "Kopieer"
     button_custom-fields: "Aangepaste velden"
     button_delete: "Verwijderen"
@@ -171,16 +192,20 @@ nl:
     general_text_yes: "Ja"
     general_text_No: "Nee"
     general_text_Yes: "Ja"
+    hal:
+      error:
+        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
+        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        format:
+          date: "%{attribute} is geen geldige datum - JJJJ-MM-DD verwacht."
+        general: "Er is een fout opgetreden."
     homescreen:
       blocks:
         new_features:
           text_new_features: "Read about new features and product updates."
-          current_new_feature_html: "OpenProject contains a new <b>Boards view</b> for Agile project management. </br> To activate this new feature for your existing projects, please do the following steps: <ul><li>Activate the module Boards within existing projects' settings.</li> <li>Configure your Boards in a project.</li> <li>Verify roles and permissions</li></ul>"
-          image_alt_text: "Board teaser image"
-          learn_about: "Learn more about Agile Boards"
+          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
+          learn_about: "Learn more about the new status widgets"
     label_activate: "Activeren"
-    label_activity_no: "Activiteit ingangsnummer %{activityNo}"
-    label_activity_with_comment_no: "Activiteit ingangsnummer %{activityNo}. Bevat gebruikerscommentaar."
     label_add_column_after: "Kolom toevoegen na"
     label_add_column_before: "Kolom toevoegen voor"
     label_add_columns: "Kolommen toevoegen"
@@ -254,6 +279,7 @@ nl:
     label_no_data: "Geen gegevens om weer te geven"
     label_no_due_date: "geen einddatum"
     label_no_start_date: "geen startdatum"
+    label_no_value: "Geen waarde"
     label_none: "geen"
     label_not_contains: "bevat geen"
     label_not_equals: "is niet"
@@ -586,12 +612,6 @@ nl:
       description_enter_text: "Tekst invoeren"
       description_options_hide: "Verberg opties"
       description_options_show: "Toon opties"
-      error:
-        update_conflict_refresh: "Klik hier om het werkpakket vernieuwen en bijwerken naar de nieuwste versie."
-        edit_prohibited: "Het bewerken van %{attribute} is geblokkeerd voor dit werkpakket. Ofwel is dit attribuut afgeleid van relaties (bv. kinderen) of anders is het niet configureerbaar."
-        format:
-          date: "%{attribute} is geen geldige datum - JJJJ-MM-DD verwacht."
-        general: "Er is een fout opgetreden."
       edit_attribute: "%{attribute} - Bewerken"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Laat meerkeuze toe"
@@ -606,7 +626,6 @@ nl:
       message_view_spent_time: "Toon bestede tijd voor dit werkpakket"
       message_work_package_read_only: "Werkpakket is opgesloten in deze status. Geen kenmerk dan status kan worden gewijzigd."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
-      no_value: "Geen waarde"
       placeholder_filter_by_text: "Betreft, beschrijving, commentaar, ..."
       inline_create:
         title: 'Klik hier om een nieuw werkpakket aan deze lijst toe te voegen'
@@ -673,7 +692,7 @@ nl:
         label_content: "Klik hier om het menu overslaan en ga naar de inhoud"
       placeholders:
         default: "-"
-        description: "Klik om omschrijving in te geven..."
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Kolommen"
         group_by: "Groepeer resultaten op"

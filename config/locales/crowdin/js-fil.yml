@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 fil:
   js:
     ajax:
@@ -24,7 +45,7 @@ fil:
     button_check_all: "Suriin lahat"
     button_configure-form: "Configure form"
     button_confirm: "Kumpirmahin"
-    button_continue: "Magpatuloy"
+    button_continue: "Ipagpatuloy"
     button_copy: "Kopyahin"
     button_custom-fields: "Mga pasadyang patlang"
     button_delete: "Burahin"
@@ -171,16 +192,20 @@ fil:
     general_text_yes: "oo"
     general_text_No: "Hindi"
     general_text_Yes: "Oo"
+    hal:
+      error:
+        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
+        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        format:
+          date: "%{attribute} ay hindi wasto ang petsa YYYY-MM-DDi inaasahan."
+        general: "Isang mali ang naganap."
     homescreen:
       blocks:
         new_features:
           text_new_features: "Read about new features and product updates."
-          current_new_feature_html: "OpenProject contains a new <b>Boards view</b> for Agile project management. </br> To activate this new feature for your existing projects, please do the following steps: <ul><li>Activate the module Boards within existing projects' settings.</li> <li>Configure your Boards in a project.</li> <li>Verify roles and permissions</li></ul>"
-          image_alt_text: "Board teaser image"
-          learn_about: "Learn more about Agile Boards"
+          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
+          learn_about: "Learn more about the new status widgets"
     label_activate: "Aktibo"
-    label_activity_no: "Bilang ng aktibidad entry %{activityNo}"
-    label_activity_with_comment_no: "Bilang ng aktibidad entry %{activityNo}. Mayroong komento ng gumagamit."
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
     label_add_columns: "Magdagdag ng hanay"
@@ -254,6 +279,7 @@ fil:
     label_no_data: "Walang data upang ipakita"
     label_no_due_date: "walang katapusan petsa"
     label_no_start_date: "walang simulang petsa"
+    label_no_value: "Walang halaga"
     label_none: "wala"
     label_not_contains: "hindi naglalaman"
     label_not_equals: "ay hindi"
@@ -586,12 +612,6 @@ fil:
       description_enter_text: "Ipasok ang teksto"
       description_options_hide: "Itago ang mga opsyon"
       description_options_show: "Ipakita ang mga opsyon"
-      error:
-        update_conflict_refresh: "Click here to refresh the work package and update to the newest version."
-        edit_prohibited: "Ang pag-iedit ng %{attribute} ay naka-block para sa work package na ito. Alinman sa katangian ito ay nagmula sa relasyon (hal. mga bata) o kung hindi man hindi ito naka-configure."
-        format:
-          date: "%{attribute} ay hindi wasto ang petsa YYYY-MM-DDi inaasahan."
-        general: "Isang mali ang naganap."
       edit_attribute: "%{attribute} - I-edit"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Paganahin ang mga pagpipilian"
@@ -606,7 +626,6 @@ fil:
       message_view_spent_time: "Magpakita ng oras na nagamit para sa work package na ito"
       message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
-      no_value: "Walang halaga"
       placeholder_filter_by_text: "Subject, description, comments, ..."
       inline_create:
         title: 'Pindutin dito upang magdagdag ng bagong work package sa listahan na ito'
@@ -673,7 +692,7 @@ fil:
         label_content: "Pindito dito upang laktawin ang pagppipilian at pumunta sa nilalaman"
       placeholders:
         default: "-"
-        description: "Pindutin uoang ipasok ang paglalarawan..."
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Mga hanay"
         group_by: "Mga resulta sa grupo sa pamamagitan ng"

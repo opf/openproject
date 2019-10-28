@@ -32,8 +32,8 @@ DEVELOPER_PERMISSIONS = [:view_messages, :delete_own_messages, :edit_own_message
 
 describe MailHandler, type: :model do
   let(:anno_user) { User.anonymous }
-  let(:project) { FactoryBot.create(:valid_project, identifier: 'onlinestore', name: 'OnlineStore', is_public: false) }
-  let(:public_project) { FactoryBot.create(:valid_project, identifier: 'onlinestore', name: 'OnlineStore', is_public: true) }
+  let(:project) { FactoryBot.create(:valid_project, identifier: 'onlinestore', name: 'OnlineStore', public: false) }
+  let(:public_project) { FactoryBot.create(:valid_project, identifier: 'onlinestore', name: 'OnlineStore', public: true) }
   let(:priority_low) { FactoryBot.create(:priority_low, is_default: true) }
 
   before do
@@ -50,16 +50,19 @@ describe MailHandler, type: :model do
   end
 
   shared_context 'wp_on_given_project' do
-    let(:permissions) { %i[add_work_packages] }
+    let(:permissions) { %i[add_work_packages assign_versions] }
     let!(:user) do
       FactoryBot.create(:user,
                         mail: 'JSmith@somenet.foo',
+                        firstname: 'John',
+                        lastname: 'Smith',
                         member_in_project: project,
                         member_with_permissions: permissions)
     end
+    let(:submit_options) { {} }
 
     subject do
-      submit_email('wp_on_given_project.eml')
+      submit_email('wp_on_given_project.eml', **submit_options)
     end
   end
 
@@ -120,68 +123,221 @@ describe MailHandler, type: :model do
       end
     end
 
-    it 'should add a work_package by create user on public project' do
-      Role.non_member.update_attribute :permissions, [:add_work_packages]
-      project.update_attribute :is_public, true
-      expect do
-        work_package = submit_email('ticket_by_unknown_user.eml', issue: { project: 'onlinestore' }, unknown_user: 'create')
-        work_package_created(work_package)
-        expect(work_package.author.active?).to be_truthy
-        expect(work_package.author.mail).to eq('john.doe@somenet.foo')
-        expect(work_package.author.firstname).to eq('John')
-        expect(work_package.author.lastname).to eq('Doe')
+    context 'create work package' do
+      context 'in a given project' do
+        let!(:status) { FactoryBot.create(:status, name: 'Resolved') }
+        let!(:version) { FactoryBot.create(:version, name: 'alpha', project: project) }
 
-        # account information
-        email = ActionMailer::Base.deliveries.first
-        expect(email).not_to be_nil
-        expect(email.subject).to eq(I18n.t('mail_subject_register', value: Setting.app_title))
-        login = email.body.encoded.match(/\* Username: (\S+)\s?$/)[1]
-        password = email.body.encoded.match(/\* Password: (\S+)\s?$/)[1]
+        include_context 'wp_on_given_project' do
+          let(:submit_options) { {allow_override: 'fixed_version'} }
+        end
 
-        # Can't log in here since randomly assigned password must be changed
-        found_user = User.find_by_login(login)
-        expect(work_package.author).to eq(found_user)
-        expect(found_user.check_password?(password)).to be_truthy
-      end.to change(User, :count).by(1)
-    end
+        it_behaves_like 'work package created'
 
-    context 'email from emission address', with_settings: { mail_from: 'openproject@example.net' } do
-      before do
-        Role.non_member.add_permission!(:add_work_packages)
+        it 'sets the referenced project' do
+          expect(subject.project)
+            .to eql(project)
+        end
+
+        it 'sets the first type in the project' do
+          expect(subject.type)
+            .to eql(project.types.first)
+        end
+
+        it 'sets the subject' do
+          expect(subject.subject)
+            .to eql('New ticket on a given project')
+        end
+
+        it 'sets the sender as the author' do
+          expect(subject.author)
+            .to eql(user)
+        end
+
+        it 'set the description' do
+          expect(subject.description)
+            .to include('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
+        end
+
+        it 'sets the start date' do
+          expect(subject.start_date.to_s)
+            .to eql('2010-01-01')
+        end
+
+        it 'sets the due date' do
+          expect(subject.due_date.to_s)
+            .to eql('2010-12-31')
+        end
+
+        it 'sets the assignee' do
+          expect(subject.assigned_to)
+            .to eql(user)
+        end
+
+        it 'sets the status' do
+          expect(subject.status)
+            .to eql(status)
+        end
+
+        it 'sets the version' do
+          expect(subject.fixed_version)
+            .to eql(version)
+        end
+
+        it 'sets the estimated_hours' do
+          expect(subject.estimated_hours)
+            .to eql(2.5)
+        end
+
+        it 'sets the done_ratio' do
+          expect(subject.done_ratio)
+            .to eql(30)
+        end
+
+        it 'removes keywords' do
+          expect(subject.description)
+            .not_to match(/^Project:/i)
+
+          expect(subject.description)
+            .not_to match(/^Status:/i)
+
+          expect(subject.description)
+            .not_to match(/^Start Date:/i)
+        end
+
+        context 'with a user watching every creation' do
+          let!(:other_user) do
+            FactoryBot.create(:user,
+                              mail_notification: 'all',
+                              member_in_project: project,
+                              member_with_permissions: %i[view_work_packages])
+          end
+
+          it 'sends a mail as a work package has been created' do
+            subject
+            # Email notification should be sent
+            mail = ActionMailer::Base.deliveries.last
+
+            expect(mail)
+              .not_to be_nil
+            expect(mail.subject)
+              .to include('New ticket on a given project')
+          end
+        end
       end
 
-      subject do
-        submit_email('ticket_from_emission_address.eml',
-                     issue: { project: public_project.identifier },
-                     unknown_user: 'create')
+      context 'in given project with a default type' do
+        let(:default_type) do
+          FactoryBot.create(:type, is_default: true).tap do |t|
+            project.types << t
+          end
+        end
+
+        include_context 'wp_on_given_project' do
+          let(:submit_options) { {issue: {type: default_type.name}} }
+        end
+
+        it_behaves_like 'work package created'
+
+        it 'sets the default type' do
+          expect(subject.type.name)
+            .to eql(default_type.name)
+        end
       end
 
-      it 'returns false' do
-        expect(subject).to be_falsey
+      context 'email by unknown user' do
+        it 'adds a work_package by create user on public project' do
+          Role.non_member.update_attribute :permissions, [:add_work_packages]
+          project.update_attribute :public, true
+          expect do
+            work_package = submit_email('ticket_by_unknown_user.eml', issue: {project: 'onlinestore'}, unknown_user: 'create')
+            work_package_created(work_package)
+            expect(work_package.author.active?).to be_truthy
+            expect(work_package.author.mail).to eq('john.doe@somenet.foo')
+            expect(work_package.author.firstname).to eq('John')
+            expect(work_package.author.lastname).to eq('Doe')
+
+            # account information
+            email = ActionMailer::Base.deliveries.first
+            expect(email).not_to be_nil
+            expect(email.subject).to eq(I18n.t('mail_subject_register', value: Setting.app_title))
+            login = email.body.encoded.match(/\* Username: (\S+)\s?$/)[1]
+            password = email.body.encoded.match(/\* Password: (\S+)\s?$/)[1]
+
+            # Can't log in here since randomly assigned password must be changed
+            found_user = User.find_by_login(login)
+            expect(work_package.author).to eq(found_user)
+            expect(found_user.check_password?(password)).to be_truthy
+          end.to change(User, :count).by(1)
+        end
+
+        it 'rejects if unknown_user=accept and permission check is present' do
+
+          expected =
+            'MailHandler: work_package could not be created by Anonymous due to ' \
+          '#["may not be accessed.", "Type is not writable.", "Project is not writable.", ' \
+          '"Subject is not writable.", "Description is not writable."]'
+
+          expect(Rails.logger)
+            .to(receive(:error))
+            .with(expected)
+
+          result = submit_email 'ticket_by_unknown_user.eml',
+                                issue: {project: project.identifier},
+                                unknown_user: 'accept'
+
+          expect(result).to eq false
+        end
+
+        it 'accepts if unknown_user=accept and no_permission_check' do
+          work_package = submit_email 'ticket_by_unknown_user.eml',
+                                      issue: {project: project.identifier},
+                                      unknown_user: 'accept',
+                                      no_permission_check: 1
+
+          work_package_created(work_package)
+          expect(work_package.author).to eq(User.anonymous)
+        end
       end
 
-      it 'does not create the user' do
-        expect { subject }
-          .not_to(change { User.count })
+      context 'email from emission address', with_settings: {mail_from: 'openproject@example.net'} do
+        before do
+          Role.non_member.add_permission!(:add_work_packages)
+        end
+
+        subject do
+          submit_email('ticket_from_emission_address.eml',
+                       issue: {project: public_project.identifier},
+                       unknown_user: 'create')
+        end
+
+        it 'returns false' do
+          expect(subject).to be_falsey
+        end
+
+        it 'does not create the user' do
+          expect { subject }
+            .not_to(change { User.count })
+        end
+
+        it 'does not create the work_package' do
+          expect { subject }
+            .not_to(change { WorkPackage.count })
+        end
       end
 
-      it 'does not create the work_package' do
-        expect { subject }
-          .not_to(change { WorkPackage.count })
-      end
-    end
+      context 'wp with status' do
+        let!(:status) { FactoryBot.create(:status, name: 'Resolved') }
 
-    context 'wp with status' do
-      let!(:status) { FactoryBot.create(:status, name: 'Resolved') }
+        # This email contains: 'Project: onlinestore' and 'Status: Resolved'
+        include_context 'wp_on_given_project'
 
-      # This email contains: 'Project: onlinestore' and 'Status: Resolved'
-      include_context 'wp_on_given_project'
+        it_behaves_like 'work package created'
 
-      it_behaves_like 'work package created'
-
-      it 'assigns the status to the created work package' do
-        expect(subject.status)
-          .to eql(status)
+        it 'assigns the status to the created work package' do
+          expect(subject.status)
+            .to eql(status)
+        end
       end
     end
 
@@ -198,7 +354,7 @@ describe MailHandler, type: :model do
         expect(WorkPackage).to receive(:find_by).with(id: 123).and_return(work_package)
 
         # Mail with two attachemnts, one of which is skipped by signature.asc filename match
-        submit_email 'update_ticket_with_attachment_and_sig.eml', issue: { project: 'onlinestore' }
+        submit_email 'update_ticket_with_attachment_and_sig.eml', issue: {project: 'onlinestore'}
 
         work_package.reload
 
@@ -219,7 +375,7 @@ describe MailHandler, type: :model do
           expect(WorkPackage).to receive(:find_by).with(id: 123).and_return(work_package)
 
           # Mail with two attachemnts, one of which is skipped by signature.asc filename match
-          submit_email 'update_ticket_with_attachment_and_sig.eml', issue: { project: 'onlinestore' }
+          submit_email 'update_ticket_with_attachment_and_sig.eml', issue: {project: 'onlinestore'}
 
           expect(work_package.attachments.length).to eq 2
         end
@@ -243,7 +399,7 @@ describe MailHandler, type: :model do
           let(:custom_field) { FactoryBot.create :text_wp_custom_field, name: "Notes" }
 
           before do
-            submit_email 'work_package_with_text_custom_field.eml', issue: { project: project.identifier }
+            submit_email 'work_package_with_text_custom_field.eml', issue: {project: project.identifier}
 
             work_package.reload
           end
@@ -259,7 +415,7 @@ describe MailHandler, type: :model do
           let(:custom_field) { FactoryBot.create :list_wp_custom_field, name: "Letters", possible_values: %w(A B C) }
 
           before do
-            submit_email 'work_package_with_list_custom_field.eml', issue: { project: project.identifier }
+            submit_email 'work_package_with_list_custom_field.eml', issue: {project: project.identifier}
 
             work_package.reload
           end
@@ -275,7 +431,7 @@ describe MailHandler, type: :model do
     end
 
     context 'truncate emails based on the Setting' do
-      context 'with no setting', with_settings: { mail_handler_body_delimiters: '' } do
+      context 'with no setting', with_settings: {mail_handler_body_delimiters: ''} do
         include_context 'wp_on_given_project'
 
         it_behaves_like 'work package created'
@@ -289,7 +445,7 @@ describe MailHandler, type: :model do
         end
       end
 
-      context 'with a single string', with_settings: { mail_handler_body_delimiters: '---' } do
+      context 'with a single string', with_settings: {mail_handler_body_delimiters: '---'} do
         include_context 'wp_on_given_project'
 
         it_behaves_like 'work package created'
@@ -310,7 +466,7 @@ describe MailHandler, type: :model do
       end
 
       context 'with a single quoted reply (e.g. reply to a OpenProject email notification)',
-              with_settings: { mail_handler_body_delimiters: '--- Reply above. Do not remove this line. ---' } do
+              with_settings: {mail_handler_body_delimiters: '--- Reply above. Do not remove this line. ---'} do
         include_context 'wp_update_with_quoted_reply_above'
 
         it_behaves_like 'journal created'
@@ -328,7 +484,7 @@ describe MailHandler, type: :model do
       end
 
       context 'with multiple quoted replies (e.g. reply to a reply of a Redmine email notification)',
-              with_settings: { mail_handler_body_delimiters: '--- Reply above. Do not remove this line. ---' } do
+              with_settings: {mail_handler_body_delimiters: '--- Reply above. Do not remove this line. ---'} do
         include_context 'wp_update_with_quoted_reply_above'
 
         it_behaves_like 'journal created'
@@ -346,7 +502,7 @@ describe MailHandler, type: :model do
       end
 
       context 'with multiple strings',
-              with_settings: { mail_handler_body_delimiters: "---\nBREAK" } do
+              with_settings: {mail_handler_body_delimiters: "---\nBREAK"} do
         include_context 'wp_on_given_project'
 
         it_behaves_like 'work package created'
@@ -376,10 +532,10 @@ describe MailHandler, type: :model do
       it 'should add a work_package with category' do
         allow(Setting).to receive(:default_language).and_return('en')
         Role.non_member.update_attribute :permissions, [:add_work_packages]
-        project.update_attribute :is_public, true
+        project.update_attribute :public, true
 
         work_package = submit_email 'ticket_with_category.eml',
-                                    issue: { project: 'onlinestore' },
+                                    issue: {project: 'onlinestore'},
                                     allow_override: ['category'],
                                     unknown_user: 'create'
         work_package_created(work_package)

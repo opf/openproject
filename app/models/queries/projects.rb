@@ -36,17 +36,19 @@ module Queries::Projects
 
   register.filter query, filters::AncestorFilter
   register.filter query, filters::TypeFilter
-  register.filter query, filters::ActiveOrArchivedFilter
+  register.filter query, filters::ActiveFilter
   register.filter query, filters::NameAndIdentifierFilter
   register.filter query, filters::CustomFieldFilter
-  register.filter query, filters::CreatedOnFilter
+  register.filter query, filters::CreatedAtFilter
   register.filter query, filters::LatestActivityAtFilter
   register.filter query, filters::PrincipalFilter
   register.filter query, filters::ParentFilter
   register.filter query, filters::IdFilter
+  register.filter query, filters::ProjectStatusFilter
 
   register.order query, orders::DefaultOrder
   register.order query, orders::LatestActivityAtOrder
   register.order query, orders::RequiredDiskSpaceOrder
   register.order query, orders::CustomFieldOrder
+  register.order query, orders::ProjectStatusOrder
 end

@@ -128,8 +128,9 @@ module ProjectsHelper
 
   def whitelisted_project_filter?(filter)
     whitelist = [
-      Queries::Projects::Filters::ActiveOrArchivedFilter,
-      Queries::Projects::Filters::CreatedOnFilter,
+      Queries::Projects::Filters::ActiveFilter,
+      Queries::Projects::Filters::ProjectStatusFilter,
+      Queries::Projects::Filters::CreatedAtFilter,
       Queries::Projects::Filters::LatestActivityAtFilter,
       Queries::Projects::Filters::NameAndIdentifierFilter,
       Queries::Projects::Filters::TypeFilter
@@ -159,7 +160,7 @@ module ProjectsHelper
   def project_more_menu_subproject_item(project)
     if User.current.allowed_to? :add_subprojects, project
       [t(:label_subproject_new),
-       new_project_path(parent_id: project),
+       new_project_path(parent_id: project.id),
        class: 'icon-context icon-add',
        title: t(:label_subproject_new)]
     end
@@ -210,6 +211,21 @@ module ProjectsHelper
        confirm_destroy_project_path(project),
        class: 'icon-context icon-delete',
        title: t(:button_delete)]
+    end
+  end
+
+  def project_options_for_status(project)
+    contract = if project.new_record?
+                 Projects::CreateContract
+               else
+                 Projects::UpdateContract
+               end
+
+    contract
+      .new(project, current_user)
+      .assignable_status_codes
+      .map do |code|
+      [I18n.t("activerecord.attributes.project/status.codes.#{code}"), code]
     end
   end
 
@@ -292,5 +308,22 @@ module ProjectsHelper
 
   def sorted_by_lft?
     @sort_criteria.first_key == 'lft'
+  end
+
+  def allowed_parent_projects(project)
+    if project.persisted?
+      Projects::UpdateContract
+    else
+      Projects::CreateContract
+    end.new(project, current_user)
+       .assignable_parents
+  end
+
+  def short_project_description(project, length = 255)
+    unless project.description.present?
+      return ''
+    end
+
+    project.description.gsub(/\A(.{#{length}}[^\n\r]*).*\z/m, '\1...').strip
   end
 end

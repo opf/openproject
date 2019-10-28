@@ -28,6 +28,12 @@ zh-CN:
         project_details:
           title: '项目详细信息'
           no_results: '没有为项目定义自定义字段。'
+        project_status:
+          title: '项目状态'
+          on_track: '按计划进行'
+          off_track: '偏离计划'
+          at_risk: '有风险'
+          not_set: '未设置'
         subprojects:
           title: '子项目'
           no_results: '无子项目。'

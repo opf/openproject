@@ -32,9 +32,9 @@ describe 'WorkPackage-Visibility', type: :model do
   let(:admin) { FactoryBot.create(:admin) }
   let(:anonymous) { FactoryBot.create(:anonymous) }
   let(:user) { FactoryBot.create(:user) }
-  let(:public_project) { FactoryBot.create(:project, is_public: true) }
-  let(:private_project) { FactoryBot.create(:project, is_public: false) }
-  let(:other_project) { FactoryBot.create(:project, is_public: true) }
+  let(:public_project) { FactoryBot.create(:project, public: true) }
+  let(:private_project) { FactoryBot.create(:project, public: false) }
+  let(:other_project) { FactoryBot.create(:project, public: true) }
   let(:view_work_packages) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
   let(:view_work_packages_role2) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
 

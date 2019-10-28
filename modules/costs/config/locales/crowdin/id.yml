@@ -1,24 +1,39 @@
+#-- copyright
+#OpenProject Costs Plugin
+#Copyright (C) 2009 - 2014 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#version 3.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#++
+#---
 id:
   activerecord:
     attributes:
       cost_entry:
-        work_package: "Work Package"
+        work_package: "Paket-Penugasan"
         overridden_costs: "Overridden costs"
         spent: "Dihabiskan"
         spent_on: "Tanggal"
       cost_object:
-        author: "Pembuat"
+        author: "Penulis"
         available: "Tersedia"
         budget: "Terencana"
         budget_ratio: "Spent (rasio)"
-        created_on: "Dibuat pada"
+        created_on: "Dibuat"
         description: "Deskripsi"
         fixed_date: "Tanggal fix"
         spent: "Dihabiskan"
         status: "Status"
-        subject: "Subjek"
+        subject: "Perihal"
         type: "Jenis biaya"
-        updated_on: "Diperbaharui pada"
+        updated_on: "Diperbarui"
       cost_type:
         unit: "Nama unit"
         unit_plural: "Nama plural unit"
@@ -65,7 +80,7 @@ id:
   button_cancel_edit_budget: "Batalkan edit budget"
   button_cancel_edit_costs: "Batalkan edit biaya"
   button_log_costs: "Log biaya unit"
-  button_log_time: "Log waktu"
+  button_log_time: "Catatan waktu"
   caption_booked_on_project: "Telah dipesan pada proyek"
   caption_default: "Default"
   caption_default_rate_history_for: "Default rate history for %{user}"
@@ -169,4 +184,4 @@ id:
   text_warning_hidden_elements: "Beberapa entri mungkin tidak dipakai oleh agregasi yang dilakukan."
   week: "minggu"
   js:
-    text_are_you_sure: "Apakah anda yakin?"
+    text_are_you_sure: "Anda yakin?"

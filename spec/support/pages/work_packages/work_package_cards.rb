@@ -39,7 +39,7 @@ module Pages
 
     def expect_work_package_order(*ids)
       retry_block do
-        rows = page.all '.wp-card'
+        rows = page.all 'wp-single-card'
         expected = ids.map { |el| el.is_a?(WorkPackage) ? el.id.to_s : el.to_s }
         found = rows.map { |el| el['data-work-package-id'] }
 

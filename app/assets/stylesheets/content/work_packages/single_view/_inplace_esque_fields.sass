@@ -1,3 +1,31 @@
+// Add a border at all times to the inplace container
+.inplace-editing--container
+  position: relative
+
+// need to specify the a explicitly as otherwise
+// the default class will win
+a.inplace-editing--trigger-link,
+.inplace-editing--trigger-link,
+  &:hover,
+  &:focus,
+  &.-focus
+    text-decoration: none
+    color: $body-font-color
+
+    &.-active
+      border-color: transparent
+
+    .inplace-editing--container
+      border-color: $inplace-edit--border-color
+
+    .inplace-editing--trigger-icon
+      visibility: visible
+
+// Do not hover trigger-link when element is read-only
+.-read-only
+  .inplace-editing--trigger-link:hover .inplace-editing--container
+    border-color: transparent
+
 // Explicit styles for input-esque trigger appearance
 .work-packages--activity--add-comment,
 .work-package--watchers-lookup
@@ -15,29 +43,34 @@
     color: $body-font-color
     font-style: italic
 
-  .inplace-edit--read-value
-    padding-left: 5px
+// The trigger text left to the edit icon
+.inplace-editing--trigger-text
+  width: calc(100% - 42px)
+  padding: 3px
+  line-height: 2
+  display: inline-block
 
+// The edit icon to the right of the trigger text
+.inplace-editing--trigger-icon
+  position: absolute
+  height: 100%
+  top: 0
+  right: 0
+  text-align: center
+  width: 32px
+  background: $gray-light
+  border-left: 1px solid $inplace-edit--border-color
+  color: $body-font-color
+  visibility: hidden
 
-// Editing existing comments
-.comments-form
-  float: left
-  width: 100%
-  margin: 10px 0 100px 0
-  textarea
-    border: 1px solid #dddddd
-    padding: 8px
-    border-radius: 2px
-    font-size: 0.8125rem
-    width: 100%
-  button
-    float: right
-    font-size: 0.8125rem
-    background: linear-gradient(to bottom, white 0%, #eeeeee 74%, #eeeeee 100%) repeat scroll 0 0 rgba(0, 0, 0, 0)
-    border: 1px solid #CCCCCC
-    border-radius: 2px
-    color: #222222
-    margin: 10px 0 0 0
-    padding: 4px 10px 2px
-    cursor: pointer
-    height: 32px
+  i
+    position: relative
+    // Position the icon in the middle
+    top: calc(50% - 0.5rem)
+
+  .icon-context:before
+    // HACK: overriding default padding here
+    padding-right: 0
+
+  &:hover
+    text-decoration: none

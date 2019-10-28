@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 fil:
   no_results_title_text: Sa kasalukuyan ay walang maipakita.
   activities:
@@ -279,7 +300,7 @@ fil:
       changeset:
         repository: "Repositoryo"
       comment:
-        commented: "Ang komento"
+        commented: "Ang komento" #an object that this comment belongs to
       custom_action:
         actions: "Mga aksyon"
       custom_field:
@@ -327,6 +348,13 @@ fil:
         types: "Mga uri"
         versions: "Mga bersyon"
         work_packages: "Ang mga pakete na ginawa"
+      project/status:
+        code: 'Estado'
+        explanation: 'Status description'
+        codes:
+          on_track: 'On track'
+          at_risk: 'At risk'
+          off_track: 'Off track'
       query:
         column_names: "Mga hanay"
         relations_to_type_column: "Mga relasyon sa %{type}"
@@ -418,6 +446,8 @@ fil:
         confirmation: "hindi tugma %{attribute}."
         could_not_be_copied: "dapat hindi masyado kinopya ang lahat."
         does_not_exist: "hindi umiiral."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "hindi pwedeng blanko."
         even: "dapat ay kapareho."
         exclusion: "ay nakareserba."
@@ -481,6 +511,8 @@ fil:
               invalid_values: "Ang halaga ay hindi balido."
               id_filter_required: "Isang'id' filter ay kinakailangan."
         project:
+          archived_ancestor: 'The project has an archived ancestor.'
+          foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
             types:
               in_use_by_work_packages: "ginagamit pa sa mga work packages: %{types}"
@@ -609,6 +641,7 @@ fil:
   activity:
     created: "Nilikha: %{title}"
     updated: "Naka-update: %{title}"
+  #common attributes of all models
   attributes:
     active: "Aktibo"
     assigned_to: "Naitalaga"
@@ -641,6 +674,7 @@ fil:
     is_default: "Ang default na halaga"
     is_for_all: "Para sa lahat ng mga proyekto"
     is_public: "Publiko"
+    #kept for backwards compatibility
     issue: "Work package"
     lastname: "Huling pangalan"
     login: "Username"
@@ -649,6 +683,7 @@ fil:
     password: "Password"
     priority: "Ang prayoridad"
     project: "Proyekto"
+    public: "Publiko"
     responsible: "Accountable"
     role: "Tungkulin"
     roles: "Ang mga tungkulin"
@@ -784,9 +819,13 @@ fil:
       - "Biyernes"
       - "Sabado"
     formats:
+      #Use the strftime parameters for formats.
+      #When no format has been given, it uses default.
+      #You can provide other formats here if you like!
       default: "%m/%d/%Y"
       long: "%B %d, %Y"
       short: "%b%d"
+    #Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names:
       - null
       - "Enero"
@@ -801,6 +840,7 @@ fil:
       - "Oktubre"
       - "Nobyembre"
       - "Disyembre"
+    #Used in date_select and datime_select.
     order:
       - :taon
       - :buwan
@@ -930,6 +970,7 @@ fil:
   description_sub_work_package: "Kasulukuyang sub work package"
   description_toc_toggle: "Ipakita/Itago ang talaan ng nilalaman"
   description_wiki_subpages_reassign: "Pumili ng bagong pahina na magulang"
+  #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: ltr
   ee:
     upsale:
@@ -944,7 +985,7 @@ fil:
   enumeration_system_activity: "Sistema ng aktibidad"
   enumeration_reported_project_statuses: "Estado ng inuulat na proyekto"
   error_auth_source_sso_failed: "Single Sign-On (SSO) para sa gumagamit ng '%{value}' ay nabigo"
-  error_can_not_archive_project: "This project cannot be archived: There is at least one work package assigned to a version defined in this project."
+  error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Hindi mabura na entry"
   error_can_not_delete_custom_field: "Hindi mabura ang custom field"
   error_can_not_delete_type: "Itong uri ay naglalaman ng mga work package at hindi pwedeng burahin."
@@ -953,6 +994,7 @@ fil:
   error_can_not_remove_role: "Itong tungkulin ay ginamit pa at hindi pwedeng burahin."
   error_can_not_reopen_work_package_on_closed_version: "Ang work package ay nakatalaga sa isinarang bersyon na hindi pwede buksan muli"
   error_can_not_find_all_resources: "Could not find all related resources to this request."
+  error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Mangyaring pumili ng gumagamit at tungkulin."
   error_code: "Error %{code}"
   error_cookie_missing: 'Ang OpenProject cookie ay nawawala. Mangyaring siguraduhin na ang mga cookie ay pinagana, bilang aplikasyon na ito ay hindi gumagana ng maayos na hindi kasama ang.'
@@ -1659,12 +1701,14 @@ fil:
   mail_body_lost_password: "Upang baguhin ang iyong password, pindutin ang mga sumusunod na link:"
   mail_body_register: "Upang i-aktibo ang iyong akwant, pindutin ang sumusunod na link:"
   mail_body_reminder: "%{count} work package na nakatakaga sa iyo ay dapat isumite sa mga sumusunod na %{days} araw:"
+  mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
   mail_body_wiki_content_added: "Ang '%{id}' wiking pahina ay naidagdag sa %{author}."
   mail_body_wiki_content_updated: "Ang '%{id}' wiking pahina ay na i-update sa %{author}."
   mail_subject_account_activation_request: "%{value} kahilingan ng akwant aktibasyon"
   mail_subject_lost_password: "Ang iyong %{value} password"
   mail_subject_register: "Ang iyong %{value} akwant aktibasyon"
   mail_subject_reminder: "%{count} work package dahil sa susunod na mga %{days} araw"
+  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "Ang '%{id}' wikin pahina ay naidagdag"
   mail_subject_wiki_content_updated: "'%{id}' wiking pahina ay naka-update na"
   mail_user_activation_limit_reached:
@@ -1674,8 +1718,8 @@ fil:
       The user cannot activate their account since the user limit has been reached.
     steps:
       label: "To allow the user to sign in you can either: "
-      a: "Upgrade your payment plan ([here](upgrade_url))"
-      b: "Lock or delete an existing user ([here](users_url))"
+      a: "Upgrade your payment plan ([here](upgrade_url))" #here turned into a link
+      b: "Lock or delete an existing user ([here](users_url))" #here turned into a link
   more_actions: "Karagdagang functio"
   noscript_description: "Kailangan mong i-aktibo ang JavaScript upang gamitin sa OpenProject!"
   noscript_heading: "Ang JavaScript ay hindi pinagana"
@@ -1742,6 +1786,7 @@ fil:
   notice_project_cannot_update_custom_fields: "Hindi mo pwedeng i-update ang mga patlang ng project's available custom. Ang proyekto ay hindi balido: %{errors}"
   notice_attachment_migration_wiki_page: >
     Ang pahinang ito ay awtomatikong binuo sa panahon ng pag-update sa OpenProject. Ito ay naglalaman ng lahat na mga nakakalakip sa nakaraang nauugnay sa %{container_type} "%{container_name}".
+  #Default format for numbers
   number:
     format:
       delimiter: ""
@@ -1858,6 +1903,8 @@ fil:
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
+  #possible query parameters (e.g. issue queries),
+  #which are not attributes of an AR-Model.
   query_fields:
     active_or_archived: "Aktibo o naka-archieve"
     assigned_to_role: "Naitalagang tungkulin"
@@ -2099,6 +2146,7 @@ fil:
   status_invited: imbitado
   status_locked: nakakandado
   status_registered: narehistro
+  #Used in array.to_sentence.
   support:
     array:
       sentence_connector: "at"
@@ -2487,18 +2535,22 @@ fil:
       status: 'Pre-authorization'
     errors:
       messages:
+        #Common error messages
         invalid_request: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
-        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
+        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
         unauthorized_client: 'The client is not authorized to perform this request using this method.'
         access_denied: 'The resource owner or authorization server denied the request.'
         invalid_scope: 'The requested scope is invalid, unknown, or malformed.'
         invalid_code_challenge_method: 'The code challenge method must be plain or S256.'
         server_error: 'The authorization server encountered an unexpected condition which prevented it from fulfilling the request.'
         temporarily_unavailable: 'The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server.'
+        #Configuration error messages
         credential_flow_not_configured: 'Resource Owner Password Credentials flow failed due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.'
         resource_owner_authenticator_not_configured: 'Resource Owner find failed due to Doorkeeper.configure.resource_owner_authenticator being unconfigured.'
         admin_authenticator_not_configured: 'Access to admin panel is forbidden due to Doorkeeper.configure.admin_authenticator being unconfigured.'
+        #Access grant errors
         unsupported_response_type: 'The authorization server does not support this response type.'
+        #Access token errors
         invalid_client: 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.'
         invalid_grant: 'The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.'
         unsupported_grant_type: 'The authorization grant type is not supported by the authorization server.'

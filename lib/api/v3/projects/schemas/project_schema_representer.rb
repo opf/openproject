@@ -57,13 +57,40 @@ module API
                  visibility: false,
                  required: false
 
-          schema :is_public,
-                 as: :public,
+          schema :public,
                  type: 'Boolean',
                  visibility: false
 
-          schema_with_allowed_string_collection :status,
-                                                type: 'String'
+          schema :active,
+                 type: 'Boolean',
+                 visibility: false
+
+          schema :status,
+                 type: 'ProjectStatus',
+                 name_source: ->(*) { I18n.t('activerecord.attributes.project/status.code') },
+                 visibility: false,
+                 required: false,
+                 writable: ->(*) { represented.writable?(:status) }
+
+          schema :status_explanation,
+                 type: 'Formattable',
+                 name_source: ->(*) { I18n.t('activerecord.attributes.project/status.explanation') },
+                 visibility: false,
+                 required: false,
+                 writable: ->(*) { represented.writable?(:status) }
+
+          schema_with_allowed_link :parent,
+                                   type: 'Project',
+                                   required: false,
+                                   href_callback: ->(*) {
+                                     query_props = if represented.model.new_record?
+                                                     ''
+                                                   else
+                                                     "?of=#{represented.model.id}"
+                                                   end
+
+                                     api_v3_paths.projects_available_parents + query_props
+                                   }
 
           schema :created_at,
                  type: 'DateTime',

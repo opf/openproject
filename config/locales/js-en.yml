@@ -212,20 +212,26 @@ en:
     general_text_No: "No"
     general_text_Yes: "Yes"
 
+    hal:
+      error:
+        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
+        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        format:
+          date: "%{attribute} is no valid date - YYYY-MM-DD expected."
+        general: "An error has occurred."
+
     homescreen:
       blocks:
         new_features:
           text_new_features: "Read about new features and product updates."
-          current_new_feature_html: "OpenProject contains a new <b>Boards view</b> for Agile project management. </br>
-                                     To activate this new feature for your existing projects, please do the following steps:
-                                      <ul><li>Activate the module Boards within existing projects' settings.</li>
-                                      <li>Configure your Boards in a project.</li>
-                                      <li>Verify roles and permissions</li></ul>"
-          image_alt_text: "Board teaser image"
-          learn_about: "Learn more about Agile Boards"
+          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br>
+                                     You can insert various new status widgets, such as:
+                                      <ul><li>project status,</li>
+                                      <li>overview of work package status,</li>
+                                      <li>task progress,</li>
+                                      <li>tasks assigned to users.</li></ul>"
+          learn_about: "Learn more about the new status widgets"
     label_activate: "Activate"
-    label_activity_no: "Activity entry number %{activityNo}"
-    label_activity_with_comment_no: "Activity entry number %{activityNo}. Has a user comment."
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
     label_add_columns: "Add columns"
@@ -299,6 +305,7 @@ en:
     label_no_data: "No data to display"
     label_no_due_date: "no end date"
     label_no_start_date: "no start date"
+    label_no_value: "No value"
     label_none: "none"
     label_not_contains: "doesn't contain"
     label_not_equals: "is not"
@@ -660,12 +667,6 @@ en:
       description_enter_text: "Enter text"
       description_options_hide: "Hide options"
       description_options_show: "Show options"
-      error:
-        update_conflict_refresh: "Click here to refresh the work package and update to the newest version."
-        edit_prohibited: "Editing %{attribute} is blocked for this work package. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
-        format:
-          date: "%{attribute} is no valid date - YYYY-MM-DD expected."
-        general: "An error has occurred."
       edit_attribute: "%{attribute} - Edit"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Enable multiselect"
@@ -680,7 +681,6 @@ en:
       message_view_spent_time: "Show spent time for this work package"
       message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
-      no_value: "No value"
       placeholder_filter_by_text: "Subject, description, comments, ..."
       inline_create:
        title: 'Click here to add a new work package to this list'
@@ -748,7 +748,7 @@ en:
         label_content: "Click here to skip over the menu and go to the content"
       placeholders:
         default: "-"
-        description: "Click to enter description..."
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Columns"
         group_by: "Group results by"

@@ -1,29 +1,33 @@
 import {
-  ApplicationRef, ChangeDetectorRef,
+  ApplicationRef,
+  ChangeDetectorRef,
   Component,
   ComponentFactoryResolver,
-  ElementRef, Inject, InjectionToken,
+  ElementRef,
+  Inject,
+  InjectionToken,
   Injector,
   OnDestroy,
-  OnInit, Optional,
+  OnInit,
+  Optional,
   ViewChild
 } from '@angular/core';
 import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
 import {
-  ActiveTabInterface, TabComponent,
+  ActiveTabInterface,
+  TabComponent,
   TabInterface,
   TabPortalOutlet
 } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
-import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
 import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
-import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 import {ComponentType} from "@angular/cdk/portal";
-import { WpGraphConfigurationService } from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration.service";
+import {WpGraphConfigurationService} from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration.service";
 import {WpGraphConfiguration} from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 export const WpTableConfigurationModalPrependToken = new InjectionToken<ComponentType<any>>('WpTableConfigurationModalPrependComponent');
 
@@ -62,8 +66,7 @@ export class WpGraphConfigurationModalComponent extends OpModalComponent impleme
               readonly appRef:ApplicationRef,
               readonly componentFactoryResolver:ComponentFactoryResolver,
               readonly loadingIndicator:LoadingIndicatorService,
-              readonly queryFormDm:QueryFormDmService,
-              readonly wpNotificationsService:WorkPackageNotificationService,
+              readonly notificationService:WorkPackageNotificationService,
               readonly cdRef:ChangeDetectorRef,
               readonly ConfigurationService:ConfigurationService,
               readonly elementRef:ElementRef,

@@ -1,3 +1,4 @@
+#English strings go here for Rails i18n
 fil:
   recaptcha:
     label_recaptcha: "reCAPTCHA"

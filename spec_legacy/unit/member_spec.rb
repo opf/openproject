@@ -105,12 +105,12 @@ describe Member, type: :model do
   context 'removing permissions' do
     before do
       @private_project = FactoryBot.create :project_with_types,
-                                            is_public: true # has to be public first to successfully create things. Will be set to private later
+                                           public: true # has to be public first to successfully create things. Will be set to private later
       @watcher_user = FactoryBot.create(:user)
 
       # watchers for public issue
       public_issue = FactoryBot.create :work_package
-      public_issue.project.is_public = true
+      public_issue.project.public = true
       public_issue.project.save!
       Watcher.create!(watchable: public_issue, user: @watcher_user)
 
@@ -124,7 +124,7 @@ describe Member, type: :model do
       Watcher.create!(watchable: FactoryBot.create(:wiki_page, wiki: @private_project.wiki), user: @watcher_user)
       @private_role = FactoryBot.create :role, permissions: [:view_wiki_pages, :view_work_packages]
 
-      @private_project.is_public = false
+      @private_project.public = false
       @private_project.save
     end
 

@@ -1,3 +1,18 @@
+#-- copyright
+#OpenProject Meeting Plugin
+#Copyright (C) 2011-2014 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See doc/COPYRIGHT.md for more details.
+#++
+#English strings go here for Rails i18n
 sk:
   activerecord:
     attributes:
@@ -16,7 +31,7 @@ sk:
       meeting_agenda: "Agenda"
       meeting_minutes: "Zápisnica"
   description_attended: "sa zúčastnil"
-  description_invite: "pozvaní"
+  description_invite: "pozvaný"
   events:
     meeting: Stretnutie upravené
     meeting_agenda: Agenda stretnutia upravená
@@ -32,7 +47,7 @@ sk:
   label_meeting_agenda: "Agenda"
   label_meeting_minutes: "Zápisnica"
   label_meeting_close: "Zatvoriť"
-  label_meeting_open: "Otvoriť"
+  label_meeting_open: "Otvorené"
   label_meeting_agenda_close: "Uzavrieť agendu za účelom začatia logu stretnutia"
   label_meeting_date_time: "Dátum/čas"
   label_meeting_diff: "Rozdieľ"

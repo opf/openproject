@@ -43,7 +43,7 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
     project: {
       association: 'project',
       sortable: "name",
-      groupable: true
+      groupable: 'project_id'
     },
     subject: {
       sortable: "#{WorkPackage.table_name}.subject"
@@ -51,7 +51,7 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
     type: {
       association: 'type',
       sortable: "position",
-      groupable: true
+      groupable: 'type_id'
     },
     parent: {
       association: 'ancestors_relations',
@@ -62,35 +62,35 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
       association: 'status',
       sortable: "position",
       highlightable: true,
-      groupable: true
+      groupable: 'status_id'
     },
     priority: {
       association: 'priority',
       sortable: "position",
       default_order: 'desc',
       highlightable: true,
-      groupable: true
+      groupable: 'priority_id'
     },
     author: {
       association: 'author',
       sortable: ["lastname",
                  "firstname",
                  "id"],
-      groupable: true
+      groupable: 'author_id'
     },
     assigned_to: {
       association: 'assigned_to',
       sortable: ["lastname",
                  "firstname",
                  "id"],
-      groupable: true
+      groupable: 'assigned_to_id'
     },
     responsible: {
       association: 'responsible',
       sortable: ["lastname",
                  "firstname",
                  "id"],
-      groupable: true
+      groupable: 'responsible_id'
     },
     updated_at: {
       sortable: "#{WorkPackage.table_name}.updated_at",
@@ -99,13 +99,13 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
     category: {
       association: 'category',
       sortable: "name",
-      groupable: true
+      groupable: 'category_id'
     },
     fixed_version: {
       association: 'fixed_version',
       sortable: ["name"],
       default_order: 'desc',
-      groupable: true
+      groupable: 'fixed_version_id'
     },
     start_date: {
       # Put empty start_dates in the far future rather than in the far past

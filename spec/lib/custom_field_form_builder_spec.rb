@@ -32,11 +32,11 @@ require 'ostruct'
 describe CustomFieldFormBuilder do
   include Capybara::RSpecMatchers
 
-  let(:helper) { ActionView::Base.new }
+  let(:helper) { ActionView::Base.new(ActionView::LookupContext.new('')) }
   let(:builder) { described_class.new(:user, resource, helper, {}) }
 
   describe '#custom_field' do
-    let(:options) { { class: 'custom-class' } }
+    let(:options) { {class: 'custom-class'} }
 
     let(:custom_field) do
       FactoryBot.build_stubbed(:custom_field)
@@ -103,8 +103,9 @@ describe CustomFieldFormBuilder do
           <textarea class="custom-class form--text-area"
                     id="user#{resource.custom_field_id}"
                     name="user[#{resource.custom_field_id}]"
-                    rows="3"
-                    with_text_formatting="true">
+                    with_text_formatting="true"
+                    editor_type="constrained"
+                    macros="false">
           </textarea>
         }).at_path('textarea')
       end
@@ -170,7 +171,7 @@ describe CustomFieldFormBuilder do
     context 'for a list custom field' do
       let(:custom_field) do
         FactoryBot.build_stubbed(:list_wp_custom_field,
-                                  custom_options: [custom_option])
+                                 custom_options: [custom_option])
       end
       let(:custom_option) do
         FactoryBot.build_stubbed(:custom_option, value: 'my_option')
@@ -236,7 +237,7 @@ describe CustomFieldFormBuilder do
         resource.customized = project
         allow(project)
           .to receive(:users)
-          .and_return([user1, user2])
+                .and_return([user1, user2])
       end
 
       it_behaves_like 'wrapped in container', 'select-container' do
@@ -286,7 +287,7 @@ describe CustomFieldFormBuilder do
         resource.customized = project
         allow(project)
           .to receive(:shared_versions)
-          .and_return([version1, version2])
+                .and_return([version1, version2])
       end
 
       it_behaves_like 'wrapped in container', 'select-container' do

@@ -1,3 +1,4 @@
+#English strings go here for Rails i18n
 pl:
   activerecord:
     attributes:
@@ -30,7 +31,7 @@ pl:
     notice_pwd_confirmation: "Po wprowadzeniu zmian w tych ustawieniach musisz potwierdzić swoje hasło."
     label_device_type: "Rodzaj urządzenia"
     label_default_device: "Domyślne urządzenie 2FA"
-    label_device: "Urządzenie 2FA"
+    label_device: "Urządzenie 2FA (2 Factory Authenticator)"
     label_devices: "Urządzenie 2FA"
     label_one_time_password: 'Jednorazowe hasło'
     label_2fa_enabled: 'Uwierzytelnianie dwuskładnikowe jest aktywne'
@@ -138,7 +139,7 @@ pl:
     restdt:
       delivery_failed_with_code: 'Błąd dostarczania tokenu. (Kod błędu %{code})'
     strategies:
-      totp: 'Aplikacja do uwierzytelniania'
+      totp: 'Aplikacja Authenticator'
       sns: 'Amazon SNS'
       resdt: 'Interfejs API SMS Rest'
     mobile_transmit_notification: "Hasło jednorazowe zostało wysłane na Twój telefon komórkowy."
@@ -161,8 +162,8 @@ pl:
   notice_account_otp_send_failed: "Twoje jednorazowe hasło nie mogło zostać wysłane."
   notice_account_has_no_phone: "Żaden numer telefonu komórkowego nie jest powiązany z Twoim kontem."
   label_expiration_hint: "%{date} lub wylogowania"
-  label_actions: 'Działania'
-  label_confirmed: 'Zatwardziały'
+  label_actions: 'Akcje'
+  label_confirmed: 'Potwierdzone'
   button_continue: 'Dalej'
   button_make_default: 'Oznacz jako domyślny'
   label_unverified_phone: "Telefon komórkowy jeszcze niezweryfikowany"

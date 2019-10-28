@@ -33,7 +33,7 @@ describe 'API v3 Render resource', type: :request do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryBot.create(:project, is_public: false) }
+  let(:project) { FactoryBot.create(:project, public: false) }
   let(:work_package) { FactoryBot.create(:work_package, project: project) }
   let(:user) { FactoryBot.create(:user, member_in_project: project) }
   let(:content_type) { 'text/plain, charset=UTF-8' }

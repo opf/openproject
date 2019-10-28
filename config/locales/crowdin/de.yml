@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 de:
   no_results_title_text: Es gibt derzeit nichts anzuzeigen.
   activities:
@@ -277,7 +298,7 @@ de:
       changeset:
         repository: "Projektarchiv"
       comment:
-        commented: "Kommentiert"
+        commented: "Kommentiert" #an object that this comment belongs to
       custom_action:
         actions: "Aktionen"
       custom_field:
@@ -325,6 +346,13 @@ de:
         types: "Typen"
         versions: "Versionen"
         work_packages: "Arbeitspakete"
+      project/status:
+        code: 'Status'
+        explanation: 'Statusbeschreibung'
+        codes:
+          on_track: 'Im Zeitplan'
+          at_risk: 'Gefährdet'
+          off_track: 'Verspätet'
       query:
         column_names: "Spalten"
         relations_to_type_column: "Beziehungen zu %{type}"
@@ -340,7 +368,7 @@ de:
         activity: "Aktivität"
         hours: "Stunden"
         spent_on: "Datum"
-        type: "Art"
+        type: "Typ"
       type:
         description: "Standardtext für Beschreibung"
         attribute_groups: ''
@@ -393,13 +421,13 @@ de:
         spent_time: "Aufgewendete Zeit"
         subproject: "Unterprojekt"
         time_entries: "Zeit buchen"
-        type: "Art"
+        type: "Typ"
         watcher: "Beobachter"
       'doorkeeper/application':
         uid: "Client-ID"
         secret: "Clientschlüssel"
         owner: "Besitzer"
-        redirect_uri: "Redirect URI"
+        redirect_uri: "Weiterleitungs-URI"
         client_credentials_user_id: "Client Credentials User-ID"
         scopes: "Geltungsbereiche"
         confidential: "Vertraulich"
@@ -416,6 +444,8 @@ de:
         confirmation: "stimmt nicht mit %{attribute} überein."
         could_not_be_copied: "konnten nicht (vollständig) kopiert werden."
         does_not_exist: "existiert nicht."
+        error_unauthorized: "kann nicht zugegriffen werden."
+        error_readonly: "ist nicht beschreibbar."
         empty: "muss ausgefüllt werden."
         even: "muss gerade sein."
         exclusion: "ist nicht verfügbar."
@@ -443,7 +473,7 @@ de:
         too_long: "ist zu lang (nicht mehr als %{count} Zeichen)."
         too_short: "ist zu kurz (nicht weniger als %{count} Zeichen)."
         unchangeable: "kann nicht geändert werden."
-        unremovable: "kann nicht entfernt werden."
+        unremovable: "ann nicht entfernt werden."
         wrong_length: "hat die falsche Länge (muss genau %{count} Zeichen haben)."
       models:
         custom_field:
@@ -460,10 +490,10 @@ de:
           attributes:
             redirect_uri:
               fragment_present: 'kann kein Fragment enthalten.'
-              invalid_uri: 'muss eine gültige URI sein.'
-              relative_uri: 'muss eine absolute URI sein.'
-              secured_uri: 'muss eine HTTPS/SSL-URI sein.'
-              forbidden_uri: 'ist vom Server nicht erlaubt.'
+              invalid_uri: 'muss ein gültiger URI sein.'
+              relative_uri: 'muss ein absoluter URI sein.'
+              secured_uri: 'muss ein HTTPS/SSL-URI sein.'
+              forbidden_uri: 'ist vom Server verboten.'
             scopes:
               not_match_configured: "stimmt nicht mit verfügbaren Geltungsbereichen überein."
         enterprise_token:
@@ -479,6 +509,8 @@ de:
               invalid_values: "Ein Wert ist ungültig."
               id_filter_required: "Ein \"Id\" Filter ist erforderlich."
         project:
+          archived_ancestor: 'Das Projekt hat einen archivierten Vorgänger.'
+          foreign_wps_reference_version: 'Arbeitspakete in nicht verknüpften Projekten verweisen auf Versionen des Projekts oder seiner verknüpften Projekte.'
           attributes:
             types:
               in_use_by_work_packages: "wird noch genutzt von folgenden Arbeitspaketen: %{types}"
@@ -593,7 +625,7 @@ de:
       role:
         one: "Rollen"
         other: "Rollen"
-      type: "Art"
+      type: "Typ"
       user: "Benutzer"
       version: "Version"
       wiki: "Wiki"
@@ -607,6 +639,7 @@ de:
   activity:
     created: "Erstellt: %{title}"
     updated: "Aktualisiert: %{title}"
+  #common attributes of all models
   attributes:
     active: "Aktiv"
     assigned_to: "Zugewiesen an"
@@ -639,6 +672,7 @@ de:
     is_default: "Standardwert"
     is_for_all: "Für alle Projekte"
     is_public: "Öffentlich"
+    #kept for backwards compatibility
     issue: "Arbeitspaket"
     lastname: "Nachname"
     login: "Benutzername"
@@ -647,6 +681,7 @@ de:
     password: "Kennwort"
     priority: "Priorität"
     project: "Projekt"
+    public: "Öffentlich"
     responsible: "Verantwortlich"
     role: "Rollen"
     roles: "Rollen"
@@ -655,7 +690,7 @@ de:
     subject: "Thema"
     summary: "Zusammenfassung"
     title: "Titel"
-    type: "Art"
+    type: "Typ"
     updated_at: "Aktualisiert am"
     updated_on: "Aktualisiert am"
     user: "Benutzer"
@@ -674,7 +709,7 @@ de:
   button_change_password: "Kennwort ändern"
   button_check_all: "Alle auswählen"
   button_clear: "Zurücksetzen"
-  button_click_to_reveal: "Klicke, um anzuzeigen"
+  button_click_to_reveal: "Klicke um anzuzeigen"
   button_close: 'Schließen'
   button_collapse_all: "Alle zuklappen"
   button_configure: "Konfigurieren"
@@ -782,9 +817,13 @@ de:
       - "Freitag"
       - "Samstag"
     formats:
+      #Use the strftime parameters for formats.
+      #When no format has been given, it uses default.
+      #You can provide other formats here if you like!
       default: "%d.%m.%Y"
       long: "%d. %B %Y"
       short: "%d. %b"
+    #Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names:
       - null
       - "Januar"
@@ -799,6 +838,7 @@ de:
       - "Oktober"
       - "November"
       - "Dezember"
+    #Used in date_select and datime_select.
     order:
       - :day
       - :month
@@ -928,6 +968,7 @@ de:
   description_sub_work_package: "Untergeordnetes Arbeitspaket"
   description_toc_toggle: "Inhaltsverzeichnis ein-/ausblenden"
   description_wiki_subpages_reassign: "Neue Elternseite wählen"
+  #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: ltr
   ee:
     upsale:
@@ -942,7 +983,7 @@ de:
   enumeration_system_activity: "System-Aktivität"
   enumeration_reported_project_statuses: "Gemeldeter Projekt-Status"
   error_auth_source_sso_failed: "Single Sign-On (SSO) für Nutzer '%{value}' fehlgeschlagen"
-  error_can_not_archive_project: "Dieses Projekt kann nicht archiviert werden: Es gibt mindestens ein Arbeitspaket, das einer Version aus diesem Projekt zugeordnet ist."
+  error_can_not_archive_project: "Dieses Projekt kann nicht archiviert werden: %{errors}"
   error_can_not_delete_entry: "Eintrag kann nicht gelöscht werden"
   error_can_not_delete_custom_field: "Benutzerdefiniertes Feld kann nicht gelöscht werden."
   error_can_not_delete_type: "Dieser Typ enthält Arbeitspakete und kann nicht gelöscht werden."
@@ -951,6 +992,7 @@ de:
   error_can_not_remove_role: "Diese Rolle wird verwendet und kann nicht gelöscht werden."
   error_can_not_reopen_work_package_on_closed_version: "Das Arbeitspaket ist einer abgeschlossenen Version zugeordnet und kann daher nicht wieder geöffnet werden."
   error_can_not_find_all_resources: "Konnte nicht alle verwandten Ressourcen für diese Anfrage finden."
+  error_can_not_unarchive_project: "Dieses Projekt kann nicht ent-archiviert werden: %{errors}"
   error_check_user_and_role: "Bitte wählen Sie einen Nutzer und eine Rolle."
   error_code: "Fehler %{code}"
   error_cookie_missing: 'Das OpenProject Cookie fehlt. Bitte stellen Sie sicher, dass Cookies aktiviert sind, da diese Applikation ohne aktivierte Cookies nicht korrekt funktioniert.'
@@ -1266,7 +1308,7 @@ de:
   label_history: "Historie"
   label_hierarchy_leaf: "Hierarchie-Blatt"
   label_home: "Hauptseite"
-  label_subject_or_id: "Titel oder ID"
+  label_subject_or_id: "Betreff oder ID"
   label_impressum: "Impressum"
   label_in: "an"
   label_in_less_than: "in weniger als"
@@ -1657,12 +1699,14 @@ de:
   mail_body_lost_password: "Benutzen Sie den folgenden Link, um Ihr Kennwort zu ändern:"
   mail_body_register: "Um Ihr Konto zu aktivieren, benutzen Sie folgenden Link:"
   mail_body_reminder: "%{count} Arbeitspakete, die Ihnen zugewiesen sind, müssen in den nächsten %{days} Tagen abgegeben werden:"
+  mail_body_group_reminder: "%{count} Arbeitspaket(e), die der Gruppe \"%{group}\" zugewiesen sind, müssen in den nächsten %{days} Tagen abgegeben werden:"
   mail_body_wiki_content_added: "Die Wiki-Seite '%{id}' wurde von %{author} hinzugefügt."
   mail_body_wiki_content_updated: "Die Wiki-Seite '%{id}' wurde von %{author} aktualisiert."
   mail_subject_account_activation_request: "Antrag auf %{value} Kontoaktivierung"
   mail_subject_lost_password: "Ihr %{value} Kennwort"
   mail_subject_register: "Ihre %{value} Kontoaktivierung"
   mail_subject_reminder: "%{count} Arbeitspaket(e) müssen in den nächsten %{days} Tagen abgeschlossen werden"
+  mail_subject_group_reminder: "Für Gruppe \"%{group}\" sind/ist %{count} Arbeitspaket(e) fällig in den nächsten %{days} Tagen"
   mail_subject_wiki_content_added: "Wiki-Seite '%{id}' hinzugefügt"
   mail_subject_wiki_content_updated: "Wiki-Seite '%{id}' erfolgreich aktualisiert"
   mail_user_activation_limit_reached:
@@ -1672,8 +1716,8 @@ de:
       Der Nutzer kann seinen Account aufgrund des Nutzer Limits nicht aktivieren.
     steps:
       label: "Folgendes kannst du tuen um dem Nutzer das einloggen zu ermöglichen: "
-      a: "Upgraden Sie Ihren Zahlungsplan ([here](upgrade_url))"
-      b: "Sprerren oder löschen eines bestehenden Nutzers ([here](users_url))"
+      a: "Upgraden Sie Ihren Zahlungsplan ([here](upgrade_url))" #here turned into a link
+      b: "Sprerren oder löschen eines bestehenden Nutzers ([here](users_url))" #here turned into a link
   more_actions: "Weitere Funktionen"
   noscript_description: "Sie müssen JavaScript aktiveren, um OpenProject nutzen zu können!"
   noscript_heading: "JavaScript deaktiviert"
@@ -1740,6 +1784,7 @@ de:
   notice_project_cannot_update_custom_fields: "Sie können die benutzerdefinierten Felder dieses Projekts nicht aktualisieren. Das Projekt ist ungültig: %{errors}"
   notice_attachment_migration_wiki_page: >
     Diese Seite wurde automatisch während der Aktualisierung von OpenProject generiert. Es enthält alle Anhänge, die zuvor innerhalb %{container_type} "%{container_name}" zugeordnet waren.
+  #Default format for numbers
   number:
     format:
       delimiter: ""
@@ -1856,6 +1901,8 @@ de:
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
+  #possible query parameters (e.g. issue queries),
+  #which are not attributes of an AR-Model.
   query_fields:
     active_or_archived: "Aktiv oder archiviert"
     assigned_to_role: "Rolle der zugewiesenen Person"
@@ -2099,6 +2146,7 @@ de:
   status_invited: eingeladen
   status_locked: gesperrt
   status_registered: angemeldet
+  #Used in array.to_sentence.
   support:
     array:
       sentence_connector: "und"
@@ -2146,7 +2194,7 @@ de:
   text_work_package_category_destroy_assignments: "Kategorie-Zuordnung entfernen"
   text_work_package_category_destroy_question: "Einige Arbeitspakete (%{count}) sind dieser Kategorie zugeordnet. Was möchten Sie tun?"
   text_work_package_category_reassign_to: "Arbeitspakete dieser Kategorie zuordnen"
-  text_work_package_updated: "Arbeitspaket %{id} wurde aktualisiert von %{author}."
+  text_work_package_updated: "Arbeitspaket %{id} wurde von %{author} aktualisiert."
   text_work_package_watcher_added: "Sie wurden von %{watcher_setter} als Beobachter für das Arbeitspaket %{id} eingetragen."
   text_work_packages_destroy_confirmation: "Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete löschen möchten?"
   text_work_packages_ref_in_commit_messages: "Arbeitspaket-Beziehungen und -Status in Commit-Log-Meldungen"
@@ -2263,7 +2311,7 @@ de:
         default: "Standard"
       column:
         assigned_to: "Zugewiesen an"
-        type: "Art"
+        type: "Typ"
         due_date: "Abschlussdatum"
         name: "Name"
         status: "Status"
@@ -2486,18 +2534,22 @@ de:
       status: 'Vorab-Autorisierung'
     errors:
       messages:
+        #Common error messages
         invalid_request: 'Der Anfrage fehlt ein benötigten Parameter, enthält einen nicht unterstützten Parameter oder ist anderweitig fehlerhaft.'
-        invalid_redirect_uri: "Der angeforderte Redirect-URI ist fehlerhaft."
-        unauthorized_client: 'Der Client ist nicht berechtigt, einen Request mit dieser Methode durchzuführen.'
-        access_denied: 'Der Autorisierungsserver verweigerte die Anfrage.'
-        invalid_scope: 'Der angeforderte Geltungsbereich ist ungültig, unbekannt oder fehlerhaft.'
+        invalid_redirect_uri: "Der angeforderte Weiterleitungs-URI ist fehlerhaft oder passt nicht zur Client-Weiterleitungs-URI."
+        unauthorized_client: 'Der Kunde ist nicht berechtigt, diese Anfrage mit dieser Methode auszuführen.'
+        access_denied: 'Der Ressourcenbesitzer oder Autorisierungsserver verweigerte die Anfrage.'
+        invalid_scope: 'Der angeforderte Anwendungsbereich ist ungültig, unbekannt oder fehlerhaft.'
         invalid_code_challenge_method: 'Die Code-Challenge-Methode muss PLAIN oder S256 sein.'
         server_error: 'Der Autorisierungsserver kann den Request aufgrund eines Fehlers nicht beantworten.'
         temporarily_unavailable: 'Der Autorisierungsserver kann die Anfrage derzeit aufgrund einer temporären Überlastung oder Wartung des Servers nicht bearbeiten.'
+        #Configuration error messages
         credential_flow_not_configured: 'Resource Owner Password Credentials flow fehlgeschlagen, da Doorkeeper.configure.resource_owner_from_account nicht konfiguriert ist.'
         resource_owner_authenticator_not_configured: 'Resource Owner Password Credentials flow fehlgeschlagen, da Doorkeeper.configure.resource_owner_authenticator nicht konfiguriert ist.'
         admin_authenticator_not_configured: 'Der Zugriff auf das Admin-Panel ist verboten, da Doorkeeper.configure.admin_authenticator nicht konfiguriert ist.'
+        #Access grant errors
         unsupported_response_type: 'Der Autorisierungsserver unterstützt diesen Antworttyp nicht.'
+        #Access token errors
         invalid_client: 'Die Client-Authentifizierung ist aufgrund eines unbekannten Clients oder einer nicht unterstützten Anfrage fehlgeschlagen.'
         invalid_grant: 'Die bereitgestellte Genehmigung ist ungültig, abgelaufen, widerrufen, entspricht nicht der Redirect-URI, die in der Autorisierungsanfrage verwendet wird oder an einen anderen Client ausgegeben wurde.'
         unsupported_grant_type: 'Der Autorisierungs-Grant-Typ wird vom Autorisierungsserver nicht unterstützt.'
@@ -2531,7 +2583,7 @@ de:
     authorization_dialog:
       authorize: "Autorisieren"
       cancel: "Autorisierung abbrechen und verweigern."
-      prompt_html: "Zugriff auf den Account <em>%{login}</em> durch <strong>%{application_name}</strong> gewähren?"
+      prompt_html: "Autorisiere <strong>%{application_name}</strong> dein Konto <em>%{login}</em> zu verwenden?"
       title: "Autorisiere %{application_name}"
       wants_to_access_html: >
         Diese Anwendung bittet um Zugriff auf Ihr OpenProject-Konto. <br/> <strong>Es hat folgende Berechtigungen angefordert:</strong>
@@ -2539,10 +2591,10 @@ de:
       api_v3: "Vollständiger API-Zugriff"
       api_v3_text: "Die Anwendung erhält vollen Lese- und Schreibzugriff auf die OpenProject-API, um Aktionen in Ihrem Namen durchzuführen."
     grants:
-      created_date: "Genehmigt"
+      created_date: "Genehmigt am"
       scopes: "Berechtigungen"
       successful_application_revocation: "Widerrufen von %{application_name} erfolgreich."
-      none_given: "Keine OAuth-Anwendung erhalten Zugriff auf Ihr Benutzerkonto."
+      none_given: "Es wurde keiner OAuth-Anwendung Zugriff auf Ihr Benutzerkonto gewährt."
     x_active_tokens:
       one: 'ein aktiver Token'
       other: '%{count} aktive Token'
@@ -2553,7 +2605,7 @@ de:
     client_credentials_impersonation_set_to: "Client Credentials User-ID gesetzt auf"
     client_credentials_impersonation_warning: "Hinweis: Clients, die den 'Client-Credentials' Anmeldefluss in dieser Anwendung verwenden, erhalten die Rechte dieses Benutzers"
     client_credentials_impersonation_html: >
-      Standardmäßig bietet OpenProject OAuth 2.0 Autorisierung via %{authorization_code_flow_link}. Sie können optional %{client_credentials_flow_link} aktivieren, aber Sie müssen einen Benutzer angeben, in dessen Namen Anfragen ausgeführt werden.
+      Standardmäßig bietet OpenProject OAuth 2.0 Autorisierung via %{authorization_code_flow_link}. Sie können optional %{client_credentials_flow_link} aktivieren, aber Sie müssen einen Benutzer angeben, auf dessen Namen Anfragen ausgeführt werden.
     authorization_error: "Ein Autorisierungsfehler ist aufgetreten."
-    revoke_my_application_confirmation: "Möchten Sie diese Anwendung wirklich entfernen? Dies wird %{token_count} aktive Token widerrufen."
+    revoke_my_application_confirmation: "Möchtest du diese Anwendung wirklich entfernen? Dies wird %{token_count} aktive Token für sie widerrufen."
     my_registered_applications: "Registrierte OAuth-Anwendungen"

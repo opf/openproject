@@ -2,11 +2,11 @@ require 'spec_helper'
 require 'features/page_objects/notification'
 require 'features/work_packages/details/inplace_editor/shared_examples'
 require 'features/work_packages/shared_contexts'
-require 'support/work_packages/work_package_field'
+require 'support/edit_fields/edit_field'
 require 'features/work_packages/work_packages_page'
 
 describe 'subject inplace editor', js: true, selenium: true do
-  let(:project) { FactoryBot.create :project_with_types, is_public: true }
+  let(:project) { FactoryBot.create :project_with_types, public: true }
   let(:property_name) { :subject }
   let(:property_title) { 'Subject' }
   let(:work_package) { FactoryBot.create :work_package, project: project }

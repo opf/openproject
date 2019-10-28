@@ -40,7 +40,7 @@ See docs/COPYRIGHT.rdoc for more details.
 </fieldset>
 <% end %>
 
-<% if  @issue_custom_fields.any? %>
+<% if  @wp_custom_fields.any? %>
   <%= labelled_tabular_form_for @project,
                                 url: { controller: '/projects', action: 'custom_fields', id: @project },
                                 method: :put,
@@ -50,7 +50,7 @@ See docs/COPYRIGHT.rdoc for more details.
                 locals: {
                   project: @project,
                   form: form,
-                  work_package_custom_fields: @issue_custom_fields
+                  work_package_custom_fields: @wp_custom_fields
                 } %>
 
     <p><%= form.button l(:button_save), class: 'button -highlight -with-icon icon-checkmark' %></p>

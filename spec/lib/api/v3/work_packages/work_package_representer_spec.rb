@@ -752,8 +752,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       describe 'linked relations' do
-        let(:project) { FactoryBot.create(:project, is_public: false) }
-        let(:forbidden_project) { FactoryBot.create(:project, is_public: false) }
+        let(:project) { FactoryBot.create(:project, public: false) }
+        let(:forbidden_project) { FactoryBot.create(:project, public: false) }
         let(:user) { FactoryBot.create(:user, member_in_project: project) }
 
         before do
@@ -1054,7 +1054,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       it 'is based on the representer\'s cache_key' do
         allow(OpenProject::Cache)
           .to receive(:fetch)
-          .and_return("{}")
+          .and_return({_links: {}}.to_json)
         expect(OpenProject::Cache)
           .to receive(:fetch)
           .with(representer.json_cache_key)

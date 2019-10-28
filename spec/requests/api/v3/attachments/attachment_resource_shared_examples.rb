@@ -44,7 +44,7 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
     current_user
   end
 
-  let(:project) { FactoryBot.create(:project, is_public: false) }
+  let(:project) { FactoryBot.create(:project, public: false) }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
 
   let(:attachment) { FactoryBot.create(:attachment, container: container, author: author) }

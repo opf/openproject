@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 ca:
   no_results_title_text: Actualment hi ha res a mostrar.
   activities:
@@ -279,7 +300,7 @@ ca:
       changeset:
         repository: "Repositori"
       comment:
-        commented: "Comentat"
+        commented: "Comentat" #an object that this comment belongs to
       custom_action:
         actions: "Accions"
       custom_field:
@@ -327,6 +348,13 @@ ca:
         types: "Tipus"
         versions: "Versions"
         work_packages: "Paquets de treball"
+      project/status:
+        code: 'Estat'
+        explanation: 'Status description'
+        codes:
+          on_track: 'On track'
+          at_risk: 'At risk'
+          off_track: 'Off track'
       query:
         column_names: "Columnes"
         relations_to_type_column: "Relations to %{type}"
@@ -418,6 +446,8 @@ ca:
         confirmation: "no coincideix amb el %{attribute}."
         could_not_be_copied: "no pot ser (completament) copiat."
         does_not_exist: "no existeix."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "no pot estar buit."
         even: "ha de ser parell."
         exclusion: "està reservat."
@@ -481,6 +511,8 @@ ca:
               invalid_values: "A value is invalid."
               id_filter_required: "An 'id' filter is required."
         project:
+          archived_ancestor: 'The project has an archived ancestor.'
+          foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
             types:
               in_use_by_work_packages: "encara en ús pels paquets de treball: %{types}"
@@ -609,6 +641,7 @@ ca:
   activity:
     created: "Creat: %{title}"
     updated: "Actualitzat: %{title}"
+  #common attributes of all models
   attributes:
     active: "Actiu"
     assigned_to: "Assignat a"
@@ -641,6 +674,7 @@ ca:
     is_default: "Valor per defecte"
     is_for_all: "Per tots els projectes"
     is_public: "Públic"
+    #kept for backwards compatibility
     issue: "Paquet de treball"
     lastname: "Cognom"
     login: "Username"
@@ -649,6 +683,7 @@ ca:
     password: "Contrasenya"
     priority: "Prioritat"
     project: "Projecte"
+    public: "Públic"
     responsible: "Accountable"
     role: "Rol"
     roles: "Rol"
@@ -784,9 +819,13 @@ ca:
       - "Divendres"
       - "Dissabte"
     formats:
+      #Use the strftime parameters for formats.
+      #When no format has been given, it uses default.
+      #You can provide other formats here if you like!
       default: "%m/%d/%Y"
       long: "%B %d, %Y"
       short: "%b %d"
+    #Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names:
       - null
       - "Gener"
@@ -801,6 +840,7 @@ ca:
       - "Octubre"
       - "Novembre"
       - "Desembre"
+    #Used in date_select and datime_select.
     order:
       - :any
       - :mes
@@ -930,6 +970,7 @@ ca:
   description_sub_work_package: "Paquet de treball subordinat de l'actual"
   description_toc_toggle: "Mostra o amaga la taula de continguts"
   description_wiki_subpages_reassign: "Esculli la nova pagina pare"
+  #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: ltr
   ee:
     upsale:
@@ -944,7 +985,7 @@ ca:
   enumeration_system_activity: "Activitat del sistema"
   enumeration_reported_project_statuses: "Estats de projecte notificats"
   error_auth_source_sso_failed: "Single Sign-On (SSO) for user '%{value}' failed"
-  error_can_not_archive_project: "This project cannot be archived: There is at least one work package assigned to a version defined in this project."
+  error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Unable to delete entry"
   error_can_not_delete_custom_field: "No s'ha pogut suprimir el camp personalitat"
   error_can_not_delete_type: "Aquest tipus conté paquets de treball i no es pot suprimir."
@@ -953,6 +994,7 @@ ca:
   error_can_not_remove_role: "Aquest rol s'està utilitzant i no es pot suprimir."
   error_can_not_reopen_work_package_on_closed_version: "Un paquet de treball assignat a una versió tancada no es pot reobrir"
   error_can_not_find_all_resources: "Could not find all related resources to this request."
+  error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Trieu un usuari i un rol."
   error_code: "Error %{code}"
   error_cookie_missing: 'La cookie d''OpenProject no s''ha trobat. Assegureu-vos que les cookies estan habilitades, ja que aquesta aplicació no pot funcionar correctament sense.'
@@ -1022,7 +1064,7 @@ ca:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Català"
+  general_lang_name: "Anglès"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "no"
   general_text_yes: "sí"
@@ -1659,12 +1701,14 @@ ca:
   mail_body_lost_password: "Per a canviar la contrasenya, feu clic en l'enllaç següent:"
   mail_body_register: "Per a activar el compte, feu clic en l'enllaç següent:"
   mail_body_reminder: "%{count} paquet(s) de treball que teniu assignats venceran en els propers %{days} dies:"
+  mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
   mail_body_wiki_content_added: "En %{author} ha afegit la pàgina wiki «%{id}»."
   mail_body_wiki_content_updated: "L'autor %{author} ha actualitzat la pàgina wiki «%{id}»."
   mail_subject_account_activation_request: "Sol·licitud d'activació del compte de %{value}"
   mail_subject_lost_password: "La vostra contrasenya %{value}"
   mail_subject_register: "L'activació del compte %{value}"
   mail_subject_reminder: "%{count} paquet(s) de treball pendents en els següents %{days} dies"
+  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "S'ha afegit la pàgina wiki «%{id}»"
   mail_subject_wiki_content_updated: "S'ha actualitzat la pàgina wiki «%{id}»"
   mail_user_activation_limit_reached:
@@ -1674,8 +1718,8 @@ ca:
       The user cannot activate their account since the user limit has been reached.
     steps:
       label: "To allow the user to sign in you can either: "
-      a: "Upgrade your payment plan ([here](upgrade_url))"
-      b: "Lock or delete an existing user ([here](users_url))"
+      a: "Upgrade your payment plan ([here](upgrade_url))" #here turned into a link
+      b: "Lock or delete an existing user ([here](users_url))" #here turned into a link
   more_actions: "Més funcions"
   noscript_description: "Cal activar JavaScript per utilitzar OpenProject!"
   noscript_heading: "JavaScript desactivat"
@@ -1742,6 +1786,7 @@ ca:
   notice_project_cannot_update_custom_fields: "No pot actualitzar els camps personalitzats disponibles del projecte. El projecte no és vàlid: %{errors}"
   notice_attachment_migration_wiki_page: >
     This page was generated automatically during the update of OpenProject. It contains all attachments previously associated with the %{container_type} "%{container_name}".
+  #Default format for numbers
   number:
     format:
       delimiter: ""
@@ -1858,6 +1903,8 @@ ca:
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
+  #possible query parameters (e.g. issue queries),
+  #which are not attributes of an AR-Model.
   query_fields:
     active_or_archived: "Active or archived"
     assigned_to_role: "Rol de l'assignat"
@@ -2099,6 +2146,7 @@ ca:
   status_invited: convidat
   status_locked: bloquejat
   status_registered: registrat
+  #Used in array.to_sentence.
   support:
     array:
       sentence_connector: "i"
@@ -2487,18 +2535,22 @@ ca:
       status: 'Pre-authorization'
     errors:
       messages:
+        #Common error messages
         invalid_request: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
-        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
+        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
         unauthorized_client: 'The client is not authorized to perform this request using this method.'
         access_denied: 'The resource owner or authorization server denied the request.'
         invalid_scope: 'The requested scope is invalid, unknown, or malformed.'
         invalid_code_challenge_method: 'The code challenge method must be plain or S256.'
         server_error: 'The authorization server encountered an unexpected condition which prevented it from fulfilling the request.'
         temporarily_unavailable: 'The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server.'
+        #Configuration error messages
         credential_flow_not_configured: 'Resource Owner Password Credentials flow failed due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.'
         resource_owner_authenticator_not_configured: 'Resource Owner find failed due to Doorkeeper.configure.resource_owner_authenticator being unconfigured.'
         admin_authenticator_not_configured: 'Access to admin panel is forbidden due to Doorkeeper.configure.admin_authenticator being unconfigured.'
+        #Access grant errors
         unsupported_response_type: 'The authorization server does not support this response type.'
+        #Access token errors
         invalid_client: 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.'
         invalid_grant: 'The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.'
         unsupported_grant_type: 'The authorization grant type is not supported by the authorization server.'

@@ -1,3 +1,18 @@
+#-- copyright
+#OpenProject Costs Plugin
+#Copyright (C) 2009 - 2014 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#version 3.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#++
+#---
 ar:
   activerecord:
     attributes:
@@ -55,7 +70,7 @@ ar:
           nullify_is_not_valid_for_cost_entries: "لا يمكن تعيين إدخالات التكلفة للمشروع."
   attributes:
     budget: "التكاليف المخطط لها"
-    comment: "التعليق"
+    comment: "تعليق"
     cost_object: "الميزانية"
     cost_type: "أنواع التكلفة"
     costs: "التكاليف"
@@ -70,7 +85,7 @@ ar:
   button_cancel_edit_budget: "قُم بإلغاء تعديل الميزانية"
   button_cancel_edit_costs: "قُم بإلغاء تعديل التكاليف"
   button_log_costs: "سجل تكاليف الوحدة"
-  button_log_time: "وقت التسجيل"
+  button_log_time: "وقت السجل"
   caption_booked_on_project: "حُجِِز على المشروع"
   caption_default: "الافتراضي"
   caption_default_rate_history_for: "تاريخ المعدل الافتراضي ل %{user}"
@@ -110,7 +125,7 @@ ar:
   label_currency: "العملة"
   label_currency_format: "شكل العملة"
   label_current_default_rate: "المعدل الافتراضي الحالي"
-  label_date_on: "على"
+  label_date_on: "في"
   label_deleted_cost_types: "أنواع التكلفة المحذوفة"
   label_locked_cost_types: "أنواع التكلفة المغلقة"
   label_deliverable: "الميزانية"
@@ -131,7 +146,7 @@ ar:
   label_less_or_equal: "=>"
   label_log_costs: "سجل تكاليف الوحدة"
   label_no: "لا"
-  label_option_plural: "الخيارات"
+  label_option_plural: "خيارات"
   label_overall_costs: "التكاليف الإجمالية"
   label_rate: "المعدل"
   label_rate_plural: "الأسعار"

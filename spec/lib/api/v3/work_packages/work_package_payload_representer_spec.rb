@@ -421,6 +421,8 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
 
     describe 'caching' do
       it 'does not cache' do
+        representer.to_json
+
         expect(Rails.cache)
           .not_to receive(:fetch)
 

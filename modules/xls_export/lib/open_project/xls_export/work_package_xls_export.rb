@@ -67,6 +67,10 @@ module OpenProject
       end
 
       def row(work_package)
+        column_values(work_package)
+      end
+
+      def column_values(work_package)
         columns.collect do |column|
           column_value column, work_package
         end
@@ -139,15 +143,18 @@ module OpenProject
     module WithRelations
       def add_headers!(spreadsheet)
         headers_0 = [I18n.t(:label_work_package_plural)] +
-          columns.size.times.map { |_| "" } +
-          [I18n.t("js.work_packages.tabs.relations")]
+                    columns.size.times.map { |_| "" } +
+                    [I18n.t("js.work_packages.tabs.relations")]
 
         spreadsheet.add_headers headers_0, 0
         spreadsheet.add_headers headers, 1
       end
 
       def headers
-        [""] + super + [""] + with_relations_headers
+        # The filtered work packages columns +
+        # the relations columns +
+        # the columns of the work packages connected by the relations.
+        [""] + super + [""] + with_relations_headers + super
       end
 
       def rows
@@ -205,7 +212,7 @@ module OpenProject
         type = relation_type work_package, other, relation
         delay = relation ? relation.delay : ""
         description = relation ? relation.description : ""
-        relation_columns = ["", type, delay, description, other.id, other.type.name, other.subject]
+        relation_columns = ["", type, delay, description] + column_values(other)
 
         [""] + wp_columns + relation_columns
       end
@@ -225,10 +232,7 @@ module OpenProject
         [
           Relation.human_attribute_name(:relation_type),
           Relation.human_attribute_name(:delay),
-          Relation.human_attribute_name(:description),
-          WorkPackage.human_attribute_name(:id),
-          WorkPackage.human_attribute_name(:type),
-          WorkPackage.human_attribute_name(:subject)
+          Relation.human_attribute_name(:description)
         ]
       end
 

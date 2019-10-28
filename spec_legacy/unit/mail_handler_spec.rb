@@ -38,45 +38,6 @@ describe MailHandler, type: :model do
     allow(Setting).to receive(:notified_events).and_return(Redmine::Notifiable.all.map(&:name))
   end
 
-  it 'should add work package' do
-    # This email contains: 'Project: onlinestore'
-    issue = submit_email('ticket_on_given_project.eml', allow_override: 'fixed_version')
-    assert issue.is_a?(WorkPackage)
-    assert !issue.new_record?
-    issue.reload
-    assert_equal Project.find(2), issue.project
-    assert_equal issue.project.types.first, issue.type
-    assert_equal 'New ticket on a given project', issue.subject
-    assert_equal User.find_by_login('jsmith'), issue.author
-    assert_equal Status.find_by(name: 'Resolved'), issue.status
-    assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
-    assert_equal '2010-01-01', issue.start_date.to_s
-    assert_equal '2010-12-31', issue.due_date.to_s
-    assert_equal User.find_by_login('jsmith'), issue.assigned_to
-    assert_equal Version.find_by(name: 'alpha'), issue.fixed_version
-    assert_equal 2.5, issue.estimated_hours
-    assert_equal 30, issue.done_ratio
-    assert issue.root?
-    assert issue.leaf?
-    # keywords should be removed from the email body
-    assert !issue.description.match(/^Project:/i)
-    assert !issue.description.match(/^Status:/i)
-    assert !issue.description.match(/^Start Date:/i)
-    # Email notification should be sent
-    mail = ActionMailer::Base.deliveries.last
-    refute_nil mail
-    assert mail.subject.include?('New ticket on a given project')
-  end
-
-  it 'should add work package with default type' do
-    # This email contains: 'Project: onlinestore'
-    issue = submit_email('ticket_on_given_project.eml', issue: { type: 'Support request' })
-    assert issue.is_a?(WorkPackage)
-    assert !issue.new_record?
-    issue.reload
-    assert_equal 'Support request', issue.type.name
-  end
-
   it 'should add work package with attributes override' do
     issue = submit_email('ticket_with_attributes.eml', allow_override: 'type,category,priority')
     assert issue.is_a?(WorkPackage)
@@ -220,7 +181,7 @@ describe MailHandler, type: :model do
                              unknown_user: 'accept')
         assert issue.is_a?(WorkPackage)
         assert issue.author.anonymous?
-        assert !issue.project.is_public?
+        assert !issue.project.public?
         assert issue.root?
         assert issue.leaf?
       end

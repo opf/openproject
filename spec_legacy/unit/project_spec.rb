@@ -72,39 +72,6 @@ describe Project, type: :model do
     assert_equal 'eCookbook', @ecookbook.name
   end
 
-  context 'when default public', with_settings: { default_projects_public?: true } do
-    it 'should default attributes' do
-      assert_equal true, Project.new.is_public
-      assert_equal false, Project.new(is_public: false).is_public
-
-      assert_equal ::Type.all, Project.new.types
-      assert_equal ::Type.find(1, 3), Project.new(type_ids: [1, 3]).types
-    end
-  end
-
-  context 'when default private', with_settings: { default_projects_public?: false } do
-    it 'should default attributes' do
-      assert_equal false, Project.new.is_public
-      assert_equal true, Project.new(is_public: true).is_public
-    end
-  end
-
-  context 'with sequential identifiers',
-          with_settings: { sequential_project_identifiers?: true } do
-    it 'should default attributes' do
-      assert !Project.new.identifier.blank?
-      assert Project.new(identifier: '').identifier.blank?
-    end
-  end
-
-  context 'with no sequential identifiers',
-          with_settings: { sequential_project_identifiers?: false } do
-    it 'should default attributes' do
-      assert Project.new.identifier.blank?
-      assert !Project.new(identifier: 'test').blank?
-    end
-  end
-
   it 'should update' do
     assert_equal 'eCookbook', @ecookbook.name
     @ecookbook.name = 'eCook'
@@ -131,7 +98,7 @@ describe Project, type: :model do
 
   it 'should members should be active users' do
     Project.all.each do |project|
-      assert_nil project.members.detect { |m| !(m.user.is_a?(User) && m.user.active?) }
+      assert_nil project.members.detect { |m| !(m.principal.is_a?(User) && m.principal.active?) }
     end
   end
 
@@ -139,193 +106,6 @@ describe Project, type: :model do
     Project.all.each do |project|
       assert_nil project.users.detect { |u| !(u.is_a?(User) && u.active?) }
     end
-  end
-
-  it 'should archive' do
-    user = @ecookbook.members.first.user
-    @ecookbook.archive
-    @ecookbook.reload
-
-    assert !@ecookbook.active?
-    assert @ecookbook.archived?
-    assert !user.projects.include?(@ecookbook)
-    # Subproject are also archived
-    assert !@ecookbook.children.empty?
-    assert @ecookbook.descendants.active.empty?
-  end
-
-  it 'should archive should fail if versions are used by non descendant projects' do
-    # Assign an issue of a project to a version of a child project
-    WorkPackage.find(4).update_attribute :fixed_version_id, 4
-
-    assert_no_difference "Project.where('status = #{Project::STATUS_ARCHIVED}').count" do
-      assert_equal false, @ecookbook.archive
-    end
-    @ecookbook.reload
-    assert @ecookbook.active?
-  end
-
-  it 'should unarchive' do
-    user = @ecookbook.members.first.user
-    @ecookbook.archive
-    # A subproject of an archived project can not be unarchived
-    assert !@ecookbook_sub1.unarchive
-
-    # Unarchive project
-    assert @ecookbook.unarchive
-    @ecookbook.reload
-    assert @ecookbook.active?
-    assert !@ecookbook.archived?
-    assert user.projects.include?(@ecookbook)
-    # Subproject can now be unarchived
-    @ecookbook_sub1.reload
-    assert @ecookbook_sub1.unarchive
-  end
-
-  # fails because @ecookbook.issues[5 und 6].destroy fails
-  # because ActiveRecord::StaleObjectError
-  it 'should destroy' do
-    # 2 active members
-    assert_equal 2, @ecookbook.members.size
-    # and 1 is locked
-    assert_equal 3, Member.where(['project_id = ?', @ecookbook.id]).size
-    # some forums
-    assert @ecookbook.forums.any?
-
-    @ecookbook.destroy
-    # make sure that the project non longer exists
-    assert_raises(ActiveRecord::RecordNotFound) do Project.find(@ecookbook.id) end
-    # make sure related data was removed
-    assert_equal 0, Member.where(project_id: @ecookbook.id).count
-    assert_equal 0, Forum.where(project_id: @ecookbook.id).count
-    assert_equal 0, WorkPackage.where(project_id: @ecookbook.id).count
-  end
-
-  it 'should destroying root projects should clear data' do
-    Journal.destroy_all
-    WorkPackage.all.each(&:recreate_initial_journal!)
-
-    Project.roots.each(&:destroy)
-
-    assert_equal 0, Project.count, "Projects were not deleted: #{Project.all.inspect}"
-    assert_equal 0, Member.count, "Members were not deleted: #{Member.all.inspect}"
-    assert_equal 0, MemberRole.count
-    assert_equal 0, WorkPackage.count
-    assert_equal 0, Journal.count, "Journals were not deleted: #{Journal.all.inspect}"
-    assert_equal 0, EnabledModule.count
-    assert_equal 0, Category.count
-    assert_equal 0, Relation.count
-    assert_equal 0, Forum.count
-    assert_equal 0, Message.count
-    assert_equal 0, News.count
-    assert_equal 0, Query.where('project_id IS NOT NULL').count
-    assert_equal 0, Repository.count
-    assert_equal 0, Changeset.count
-    assert_equal 0, Change.count
-    assert_equal 0, Comment.count
-    assert_equal 0, TimeEntry.count
-    assert_equal 0, Version.count
-    assert_equal 0, Watcher.count
-    assert_equal 0, Wiki.count
-    assert_equal 0, WikiPage.count
-    assert_equal 0, WikiContent.count
-    assert_equal 0, Project.connection.select_all('SELECT * FROM custom_fields_projects').to_a.size
-    assert_equal 0, CustomValue.where(customized_type: ['Project', 'Issue', 'TimeEntry', 'Version']).count
-  end
-
-  it 'should move an orphan project to a root project' do
-    sub = Project.find(2)
-    sub.set_parent! @ecookbook
-    assert_equal @ecookbook.id, sub.parent.id
-    @ecookbook.reload
-    assert_equal 4, @ecookbook.children.size
-  end
-
-  it 'should move an orphan project to a subproject' do
-    sub = Project.find(2)
-    assert sub.set_parent!(@ecookbook_sub1)
-  end
-
-  it 'should move a root project to a project' do
-    sub = @ecookbook
-    assert sub.set_parent!(Project.find(2))
-  end
-
-  it 'should not move a project to its children' do
-    sub = @ecookbook
-    assert !(sub.set_parent!(Project.find(3)))
-  end
-
-  it 'should set parent should add roots in alphabetical order' do
-    ProjectCustomField.destroy_all
-    Project.delete_all
-    Project.create!(name: 'Project C', identifier: 'project-c').set_parent!(nil)
-    Project.create!(name: 'Project B', identifier: 'project-b').set_parent!(nil)
-    Project.create!(name: 'Project D', identifier: 'project-d').set_parent!(nil)
-    Project.create!(name: 'Project A', identifier: 'project-a').set_parent!(nil)
-
-    assert_equal 4, Project.count
-    assert_equal Project.all.sort_by(&:name), Project.all.sort_by(&:lft)
-  end
-
-  it 'should set parent should add children in alphabetical order' do
-    ProjectCustomField.destroy_all
-    parent = Project.create!(name: 'Parent', identifier: 'parent')
-    Project.create!(name: 'Project C', identifier: 'project-c').set_parent!(parent)
-    Project.create!(name: 'Project B', identifier: 'project-b').set_parent!(parent)
-    Project.create!(name: 'Project D', identifier: 'project-d').set_parent!(parent)
-    Project.create!(name: 'Project A', identifier: 'project-a').set_parent!(parent)
-
-    parent.reload
-    assert_equal 4, parent.children.size
-    assert_equal parent.children.sort_by(&:name), parent.children
-  end
-
-  it 'should rebuild should sort children alphabetically' do
-    ProjectCustomField.destroy_all
-    parent = Project.create!(name: 'Parent', identifier: 'parent')
-    Project.create!(name: 'Project C', identifier: 'project-c').move_to_child_of(parent)
-    Project.create!(name: 'Project B', identifier: 'project-b').move_to_child_of(parent)
-    Project.create!(name: 'Project D', identifier: 'project-d').move_to_child_of(parent)
-    Project.create!(name: 'Project A', identifier: 'project-a').move_to_child_of(parent)
-
-    Project.update_all('lft = NULL, rgt = NULL')
-    Project.rebuild!
-
-    parent.reload
-    assert_equal 4, parent.children.size
-    assert_equal parent.children.sort_by(&:name), parent.children
-  end
-
-  it 'should set parent should update issue fixed version associations when a fixed version is moved out of the hierarchy' do
-    # Parent issue with a hierarchy project's fixed version
-    parent_issue = WorkPackage.find(1)
-    parent_issue.update_attribute(:fixed_version_id, 4)
-    parent_issue.reload
-    assert_equal 4, parent_issue.fixed_version_id
-
-    # Should keep fixed versions for the issues
-    issue_with_local_fixed_version = WorkPackage.find(5)
-    issue_with_local_fixed_version.update_attribute(:fixed_version_id, 4)
-    issue_with_local_fixed_version.reload
-    assert_equal 4, issue_with_local_fixed_version.fixed_version_id
-
-    # Local issue with hierarchy fixed_version
-    issue_with_hierarchy_fixed_version = WorkPackage.find(13)
-    issue_with_hierarchy_fixed_version.update_attribute(:fixed_version_id, 6)
-    issue_with_hierarchy_fixed_version.reload
-    assert_equal 6, issue_with_hierarchy_fixed_version.fixed_version_id
-
-    # Move project out of the issue's hierarchy
-    moved_project = Project.find(3)
-    moved_project.set_parent!(Project.find(2))
-    parent_issue.reload
-    issue_with_local_fixed_version.reload
-    issue_with_hierarchy_fixed_version.reload
-
-    assert_equal 4, issue_with_local_fixed_version.fixed_version_id, 'Fixed version was not keep on an issue local to the moved project'
-    assert_nil issue_with_hierarchy_fixed_version.fixed_version_id, 'Fixed version is still set after moving the Project out of the hierarchy where the version is defined in'
-    assert_nil parent_issue.fixed_version_id, 'Fixed version is still set after moving the Version out of the hierarchy for the issue.'
   end
 
   it 'should parent' do
@@ -359,56 +139,6 @@ describe Project, type: :model do
     assert_equal [3,4,5,6], d.sort
   end
 
-  it 'should allowed parents should be empty for non member user' do
-    Role.non_member.add_permission!(:add_project)
-    user = User.find(9)
-    assert user.memberships.empty?
-    User.current = user
-    assert Project.new.allowed_parents.compact.empty?
-  end
-
-  it 'should allowed parents with add subprojects permission' do
-    Role.find(1).remove_permission!(:add_project)
-    Role.find(1).add_permission!(:add_subprojects)
-    User.current = User.find(2)
-    # new project
-    assert !Project.new.allowed_parents.include?(nil)
-    assert Project.new.allowed_parents.include?(Project.find(1))
-    # existing root project
-    assert Project.find(1).allowed_parents.include?(nil)
-    # existing child
-    assert Project.find(3).allowed_parents.include?(Project.find(1))
-    assert !Project.find(3).allowed_parents.include?(nil)
-  end
-
-  it 'should allowed parents with add project permission' do
-    Role.find(1).add_permission!(:add_project)
-    Role.find(1).remove_permission!(:add_subprojects)
-    User.current = User.find(2)
-    # new project
-    assert Project.new.allowed_parents.include?(nil)
-    assert !Project.new.allowed_parents.include?(Project.find(1))
-    # existing root project
-    assert Project.find(1).allowed_parents.include?(nil)
-    # existing child
-    assert Project.find(3).allowed_parents.include?(Project.find(1))
-    assert Project.find(3).allowed_parents.include?(nil)
-  end
-
-  it 'should allowed parents with add project and subprojects permission' do
-    Role.find(1).add_permission!(:add_project)
-    Role.find(1).add_permission!(:add_subprojects)
-    User.current = User.find(2)
-    # new project
-    assert Project.new.allowed_parents.include?(nil)
-    assert Project.new.allowed_parents.include?(Project.find(1))
-    # existing root project
-    assert Project.find(1).allowed_parents.include?(nil)
-    # existing child
-    assert Project.find(3).allowed_parents.include?(Project.find(1))
-    assert Project.find(3).allowed_parents.include?(nil)
-  end
-
   it 'should users by role' do
     users_by_role = Project.find(1).users_by_role
     assert_kind_of Hash, users_by_role
@@ -436,75 +166,14 @@ describe Project, type: :model do
     parent.types = ::Type.find([1, 2])
     child = parent.children.find(3)
     child.types = ::Type.find([1, 3])
-    parent.children.each(&:archive)
+    parent.children.each do |child|
+      child.update(active: false)
+      child.children.each do |grand_child|
+        grand_child.update(active: false)
+      end
+    end
 
     assert_equal [1, 2], parent.rolled_up_types.map(&:id)
-  end
-
-  context 'description' do
-    before do
-      # this block unfortunately isn't run
-      # move first two lines of next to specs up here
-      # when you know that it will work
-    end
-
-    it 'should short description returns shortened description' do
-      @project = FactoryBot.create(:project)
-      @project.description = ('Abcd ' * 5 + "\n") * 11
-      assert_equal (('Abcd ' * 5 + "\n") * 10)[0..-2] + '...', @project.short_description
-    end
-  end
-
-  context '#rolled_up_versions' do
-    before do
-      @project = FactoryBot.create(:project)
-      @parent_version_1 = FactoryBot.create(:version, project: @project)
-      @parent_version_2 = FactoryBot.create(:version, project: @project)
-    end
-
-    it 'should include the versions for the current project' do
-      assert_same_elements [@parent_version_1, @parent_version_2], @project.rolled_up_versions
-    end
-
-    it 'should include versions for a subproject' do
-      @subproject = FactoryBot.create(:project)
-      @subproject.set_parent!(@project)
-      @subproject_version = FactoryBot.create(:version, project: @subproject)
-
-      assert_same_elements [
-        @parent_version_1,
-        @parent_version_2,
-        @subproject_version
-      ], @project.rolled_up_versions
-    end
-
-    it 'should include versions for a sub-subproject' do
-      @subproject = FactoryBot.create(:project)
-      @subproject.set_parent!(@project)
-      @sub_subproject = FactoryBot.create(:project)
-      @sub_subproject.set_parent!(@subproject)
-      @sub_subproject_version = FactoryBot.create(:version, project: @sub_subproject)
-
-      @project.reload
-
-      assert_same_elements [
-        @parent_version_1,
-        @parent_version_2,
-        @sub_subproject_version
-      ], @project.rolled_up_versions
-    end
-
-    it 'should only check active projects' do
-      @subproject = FactoryBot.create(:project)
-      @subproject.set_parent!(@project)
-      @subproject_version = FactoryBot.create(:version, project: @subproject)
-      assert @subproject.archive
-
-      @project.reload
-
-      assert !@subproject.active?
-      assert_same_elements [@parent_version_1, @parent_version_2], @project.rolled_up_versions
-    end
   end
 
   it 'should shared versions none sharing' do
@@ -578,7 +247,7 @@ describe Project, type: :model do
   it 'should shared versions should ignore archived subprojects' do
     parent = Project.find(1)
     child = parent.children.find(3)
-    child.archive
+    child.update(active: false)
     parent.reload
 
     assert_equal [1, 2, 3], parent.version_ids.sort
@@ -654,7 +323,7 @@ describe Project, type: :model do
     assert_equal source_project.types, copied_project.types
 
     # Default attributes
-    assert_equal "active", copied_project.status
+    assert copied_project.active
   end
 
   it 'should activities should use the system activities' do
@@ -993,165 +662,6 @@ describe Project, type: :model do
       assert @project.members.any?
       assert @project.categories.any?
       assert @project.work_packages.empty?
-    end
-  end
-
-  context '#start_date' do
-    before do
-      ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
-      @project = FactoryBot.create(:project, identifier: 'test0')
-      @project.types << FactoryBot.create(:type)
-    end
-
-    it 'should be nil if there are no issues on the project' do
-      assert_nil @project.start_date
-    end
-
-    it "should be the earliest start date of it's issues" do
-      early = 7.days.ago.to_date
-      FactoryBot.create(:work_package, project: @project, start_date: Date.today)
-      FactoryBot.create(:work_package, project: @project, start_date: early)
-
-      assert_equal early, @project.start_date
-    end
-  end
-
-  context '#due_date' do
-    before do
-      ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
-      @project = FactoryBot.create(:project, identifier: 'test0')
-      @project.types << FactoryBot.create(:type)
-    end
-
-    it 'should be nil if there are no issues on the project' do
-      assert_nil @project.due_date
-    end
-
-    it "should be the latest finish date of it's issues" do
-      future = 7.days.from_now.to_date
-      FactoryBot.create(:work_package, project: @project, due_date: future)
-      FactoryBot.create(:work_package, project: @project, due_date: Date.today)
-
-      assert_equal future, @project.due_date
-    end
-
-    it "should be the latest finish date of it's versions" do
-      future = 7.days.from_now.to_date
-      @project.versions << FactoryBot.create(:version, effective_date: future)
-      @project.versions << FactoryBot.create(:version, effective_date: Date.today)
-
-      assert_equal future, @project.due_date
-    end
-
-    it "should pick the latest date from it's issues and versions" do
-      future = 7.days.from_now.to_date
-      far_future = 14.days.from_now.to_date
-      FactoryBot.create(:work_package, project: @project, due_date: far_future)
-      @project.versions << FactoryBot.create(:version, effective_date: future)
-
-      assert_equal far_future, @project.due_date
-    end
-  end
-
-  context 'Project#completed_percent' do
-    before do
-      ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
-      @project = FactoryBot.create(:project, identifier: 'test0')
-      @project.types << FactoryBot.create(:type)
-    end
-
-    context 'no versions' do
-      it 'should be 100' do
-        assert_equal 100, @project.completed_percent
-      end
-    end
-
-    context 'with versions' do
-      it 'should return 0 if the versions have no issues' do
-        FactoryBot.create(:version, project: @project)
-        FactoryBot.create(:version, project: @project)
-
-        assert_equal 0, @project.completed_percent
-      end
-
-      it 'should return 100 if the version has only closed issues' do
-        v1 = FactoryBot.create(:version, project: @project)
-        v2 = FactoryBot.create(:version, project: @project)
-        FactoryBot.create(:work_package, project: @project, status: Status.find_by_name('Closed'), fixed_version: v1)
-        FactoryBot.create(:work_package, project: @project, status: Status.find_by_name('Closed'), fixed_version: v2)
-
-        assert_equal 100, @project.completed_percent
-      end
-
-      it 'should return the averaged completed percent of the versions (not weighted)' do
-        v1 = FactoryBot.create(:version, project: @project)
-        v2 = FactoryBot.create(:version, project: @project)
-        FactoryBot.create(:work_package, project: @project, status: Status.find_by_name('New'), estimated_hours: 10, done_ratio: 50, fixed_version: v1)
-        FactoryBot.create(:work_package, project: @project, status: Status.find_by_name('New'), estimated_hours: 10, done_ratio: 50, fixed_version: v2)
-
-        assert_equal 50, @project.completed_percent
-      end
-    end
-  end
-
-  context '#notified_users' do
-    before do
-      @project = FactoryBot.create(:project)
-      @role = FactoryBot.create(:role)
-
-      @user_with_membership_notification = FactoryBot.create(:user, mail_notification: 'selected')
-      Member.create!(project: @project, principal: @user_with_membership_notification, mail_notification: true) do |member|
-        member.role_ids = [@role.id]
-      end
-
-      @all_events_user = FactoryBot.create(:user, mail_notification: 'all')
-      Member.create!(project: @project, principal: @all_events_user) do |member|
-        member.role_ids = [@role.id]
-      end
-
-      @no_events_user = FactoryBot.create(:user, mail_notification: 'none')
-      Member.create!(project: @project, principal: @no_events_user) do |member|
-        member.role_ids = [@role.id]
-      end
-
-      @only_my_events_user = FactoryBot.create(:user, mail_notification: 'only_my_events')
-      Member.create!(project: @project, principal: @only_my_events_user) do |member|
-        member.role_ids = [@role.id]
-      end
-
-      @only_assigned_user = FactoryBot.create(:user, mail_notification: 'only_assigned')
-      Member.create!(project: @project, principal: @only_assigned_user) do |member|
-        member.role_ids = [@role.id]
-      end
-
-      @only_owned_user = FactoryBot.create(:user, mail_notification: 'only_owner')
-      Member.create!(project: @project, principal: @only_owned_user) do |member|
-        member.role_ids = [@role.id]
-      end
-    end
-
-    it 'should include members with a mail notification' do
-      assert @project.notified_users.include?(@user_with_membership_notification)
-    end
-
-    it "should include users with the 'all' notification option" do
-      assert @project.notified_users.include?(@all_events_user)
-    end
-
-    it "should not include users with the 'none' notification option" do
-      assert !@project.notified_users.include?(@no_events_user)
-    end
-
-    it "should not include users with the 'only_my_events' notification option" do
-      assert !@project.notified_users.include?(@only_my_events_user)
-    end
-
-    it "should not include users with the 'only_assigned' notification option" do
-      assert !@project.notified_users.include?(@only_assigned_user)
-    end
-
-    it "should not include users with the 'only_owner' notification option" do
-      assert !@project.notified_users.include?(@only_owned_user)
     end
   end
 end

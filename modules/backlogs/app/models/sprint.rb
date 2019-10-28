@@ -51,7 +51,7 @@ class Sprint < Version
 
   scope :apply_to, lambda { |project|
     where("#{Version.table_name}.project_id = #{project.id}" +
-        " OR (#{Project.table_name}.status = #{Project::STATUS_ACTIVE} AND (" +
+        " OR (#{Project.table_name}.active = #{true} AND (" +
         " #{Version.table_name}.sharing = 'system'" +
         " OR (#{Project.table_name}.lft >= #{project.root.lft} AND #{Project.table_name}.rgt <= #{project.root.rgt} AND #{Version.table_name}.sharing = 'tree')" +
         " OR (#{Project.table_name}.lft < #{project.lft} AND #{Project.table_name}.rgt > #{project.rgt} AND #{Version.table_name}.sharing IN ('hierarchy', 'descendants'))" +

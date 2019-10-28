@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 pt-BR:
   js:
     ajax:
@@ -170,16 +191,20 @@ pt-BR:
     general_text_yes: "sim"
     general_text_No: "Não"
     general_text_Yes: "Sim"
+    hal:
+      error:
+        update_conflict_refresh: "Clique aqui para atualizar o software para a versão mais recente."
+        edit_prohibited: "A edição do %{attribute} está bloqueada neste pacote de trabalho. Ou este atributo é derivado de relações (por exemplo, filhas) ou não é configurável."
+        format:
+          date: "%{attribute} não é uma data válida - AAAA-MM-DD esperado."
+        general: "Ocorreu um erro."
     homescreen:
       blocks:
         new_features:
           text_new_features: "Ler sobre os novos recursos e atualizações de produtos."
-          current_new_feature_html: "O OpenProject contém uma nova <b>visualização de Quadros</b> para gestão de projetos Agile. </br> Para ativar este novo recurso em seus projetos existentes, por favor, siga as seguintes etapas: <ul><li>Ative os Quadros de módulo dentro das configurações dos projetos existentes.</li> <li>Configure os seus Quadros em um projeto.</li> <li>Verifique as funções e permissões</li></ul>"
-          image_alt_text: "Imagem teaser do Quadro"
-          learn_about: "Saiba mais sobre os Quadros Agile"
+          current_new_feature_html: "OpenProject contém uma nova <b>Página de visão geral</b> para <b>exibir informações importantes do projeto</b> e mostrar se ele está sob controle. </br> Você pode inserir vários novos widgets de estado, como: <ul><li>estado do projeto,</li> <li>visão geral do estado do pacote de trabalho,</li> <li>progresso da tarefa,</li> <li>tarefas atribuídas a usuários.</li></ul>"
+          learn_about: "Saiba mais sobre os novos widgets de estado"
     label_activate: "Ativar"
-    label_activity_no: "Número da atividade %{activityNo}"
-    label_activity_with_comment_no: "Atividade número %{activityNo}. Tem um comentário de um usuário."
     label_add_column_after: "Adicionar coluna depois"
     label_add_column_before: "Adicionar coluna antes"
     label_add_columns: "Adicionar colunas"
@@ -253,6 +278,7 @@ pt-BR:
     label_no_data: "Sem dados para exibir"
     label_no_due_date: "nenhuma data de término"
     label_no_start_date: "nenhuma data de início"
+    label_no_value: "Nenhum valor"
     label_none: "nenhum"
     label_not_contains: "não contém"
     label_not_equals: "não é"
@@ -349,7 +375,7 @@ pt-BR:
           overview: "Gerencie seu trabalho na visão de <b>Backlogs</b>.<br> À direita você possui o Backlog do produto ou um Backlog de Bug, à esquerda você terá sprints respectivos. Aqui você pode criar <b>épicos, histórias de usuários e bugs</b>, priorizar através de arrastar e soltar e adicioná-los a um sprint."
           task_board_arrow: 'Para visualizar seu <b>Quadro de tarefas</b>, abra o menu suspenso de Sprint...'
           task_board_select: '... e selecione <b>Quadro de tarefas</b>.'
-          task_board: "O <b>Quadro de tarefas</b> visualiza o progresso do sprint. Adicione novas tarefas ou impedimentos com o + ícone ao lado de uma história de usuário. Arrastando e soltando você pode atualizar a situação."
+          task_board: "O <b>Quadro de tarefas</b> visualiza o progresso do sprint. Adicione novas tarefas ou impedimentos com o + ícone ao lado de uma história de usuário. Arrastando e soltando você pode atualizar o status."
         boards:
           overview: 'Gerencie seu trabalho através de uma visão intuitiva de <b>Quadros</b>.'
           lists: 'Você pode criar várias listas (colunas) dentro de uma visão de um quadro, por exemplo, para criar um quadro KANBAN.'
@@ -358,7 +384,7 @@ pt-BR:
         wp:
           toggler: "Agora vamos dar uma olhada na seção <b>Pacotes de trabalho</b>, que lhe fornece uma visão mais detalhada do seu trabalho."
           list: 'Esta é a lista de <b>Pacotes de trabalho</b> com o trabalho importante dentro de seu projeto, tais como tarefas, recursos, marcos, bugs e muito mais. <br>Você pode criar ou editar um pacote de trabalho diretamente dentro desta lista. Para ver seus detalhes você pode clicar duas vezes em uma linha.'
-          full_view: 'Nos <b>detalhes do pacote de trabalho</b> você encontra todas as informações pertinentes, tais como descrição, situação e prioridade, atividades, dependências ou comentários.'
+          full_view: 'Nos <b>detalhes do pacote de trabalho</b> você encontra todas as informações pertinentes, tais como descrição, estado e prioridade, atividades, dependências ou comentários.'
           back_button: 'Com a seta você pode navegar de volta para a lista de pacotes de trabalho.'
           create_button: 'O botão <b>Criar</b> irá adicionar um novo pacote de trabalho ao seu projeto.'
           timeline_button: 'Você pode ativar o <b>gráfico de Gantt</b> para criar uma linha do tempo para o seu projeto.'
@@ -482,13 +508,13 @@ pt-BR:
         other: "Você pode selecionar somente {{limit}} itens"
     project_menu_details: "Detalhes"
     sort:
-      sorted_asc: 'Ordenação crescente aplicada, '
+      sorted_asc: 'Classificação crescente aplicada, '
       sorted_dsc: 'Ordenação decrescente aplicada, '
-      sorted_no: 'Sem ordenação aplicada, '
-      sorting_disabled: 'ordenação está desativada'
-      activate_asc: 'ative para aplicar ordenação decrescente'
+      sorted_no: 'Sem classificação aplicada, '
+      sorting_disabled: 'a classificação está desativada'
+      activate_asc: 'ative para aplicar uma classificação crescente'
       activate_dsc: 'ative para aplicar ordenação decrescente'
-      activate_no: 'ative para remover a ordenação'
+      activate_no: 'ative para remover a classificação'
     text_work_packages_destroy_confirmation: "Tem certeza que deseja excluir o(s) pacote(s) de trabalho selecionado(s)?"
     text_query_destroy_confirmation: "Tem certeza que deseja excluir a visão selecionada?"
     text_attachment_destroy_confirmation: "Tem certeza de que deseja excluir o anexo?"
@@ -573,9 +599,9 @@ pt-BR:
     work_packages:
       bulk_actions:
         move: 'Mudança em massa de projeto'
-        edit: 'Edição em massa'
-        copy: 'Cópia em massa'
-        delete: 'Exclusão em massa'
+        edit: 'Editar vários'
+        copy: 'Copiar vários'
+        delete: 'Excluir vários'
       button_clear: "Limpar"
       comment_added: "O comentário foi adicionado com sucesso."
       comment_send_failed: "Ocorreu um erro. Não foi possível enviar o comentário."
@@ -585,12 +611,6 @@ pt-BR:
       description_enter_text: "Digite o texto"
       description_options_hide: "Ocultar opções"
       description_options_show: "Mostrar opções"
-      error:
-        update_conflict_refresh: "Clique aqui para atualizar o pacote de trabalho para a versão mais recente."
-        edit_prohibited: "A edição de %{attribute} está bloqueada neste pacote de trabalho. Ou este atributo é derivado de relações (por exemplo, filhas) ou não é configurável."
-        format:
-          date: "%{attribute} não é uma data válida - AAAA-MM-DD esperado."
-        general: "Ocorreu um erro."
       edit_attribute: "%{attribute} - Editar"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Ativar seleção múltipla"
@@ -605,7 +625,6 @@ pt-BR:
       message_view_spent_time: "Mostrar o tempo gasto para este pacote de trabalho"
       message_work_package_read_only: "Pacote de trabalho está bloqueado na presente situação. Nenhum atributo que não seja a situação pode ser alterado."
       message_work_package_status_blocked: "A situação do pacote de trabalho não é gravável devido à situação fechada e à versão fechada sendo atribuída."
-      no_value: "Nenhum valor"
       placeholder_filter_by_text: "Assunto, descrição, comentários, ..."
       inline_create:
         title: 'Clique aqui para adicionar um novo pacote de trabalho a esta lista'
@@ -637,7 +656,7 @@ pt-BR:
         estimatesAndTime: "Estimativas e Tempo"
         other: "Outro"
       properties:
-        assignee: "Atribuição"
+        assignee: "Atribuído para"
         author: "Autor"
         createdAt: "Criado em"
         description: "Descrição"
@@ -651,7 +670,7 @@ pt-BR:
         projectName: "Projeto"
         responsible: "Responsável"
         startDate: "Data de início"
-        status: "Situação"
+        status: "Status"
         subject: "Assunto"
         title: "Título"
         type: "Tipo"
@@ -672,7 +691,7 @@ pt-BR:
         label_content: "Clique aqui para pular o menu e ir para o conteúdo"
       placeholders:
         default: "-"
-        description: "Clique para inserir a descrição..."
+        formattable: "%{name}: Clique para editar..."
       query:
         column_names: "Colunas"
         group_by: "Agrupar resultados por"
@@ -723,7 +742,7 @@ pt-BR:
           inline: 'Atributo(s) destacado(s)'
           inline_all: 'Todos atributos'
           entire_row_by: 'Toda linha por'
-          status: 'Situação'
+          status: 'Status'
           priority: 'Prioridade'
           type: 'Tipo'
         sorting_mode:
@@ -825,7 +844,7 @@ pt-BR:
         other: "%{count} pacotes de trabalho filhos"
       hour:
         one: "1 h"
-        other: "%{count} h"
+        other: "%{count} hs"
     zen_mode:
       button_activate: 'Ativar modo zen'
       button_deactivate: 'Desativar modo zen'

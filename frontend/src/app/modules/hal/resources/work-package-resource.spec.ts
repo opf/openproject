@@ -34,7 +34,7 @@ import {States} from 'core-components/states.service';
 import {TypeDmService} from 'core-app/modules/hal/dm-services/type-dm.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
-import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
@@ -43,16 +43,19 @@ import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {StateService} from "@uirouter/core";
-import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/op-file-upload.service";
+import {WorkPackageCreateService} from 'core-app/components/wp-new/wp-create.service';
 import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import {WorkPackagesActivityService} from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
+import {TimezoneService} from "core-components/datetime/timezone.service";
 
 describe('WorkPackage', () => {
   let halResourceService:HalResourceService;
   let injector:Injector;
   let wpCacheService:WorkPackageCacheService;
   let notificationsService:NotificationsService;
-  let wpNotificationsService:WorkPackageNotificationService;
+  let halResourceNotification:HalResourceNotificationService;
 
   let source:any;
   let workPackage:WorkPackageResource;
@@ -73,15 +76,18 @@ describe('WorkPackage', () => {
         States,
         TypeDmService,
         WorkPackageCacheService,
+        TimezoneService,
+        WorkPackagesActivityService,
         NotificationsService,
         ConfigurationService,
-        WorkPackageNotificationService,
         OpenProjectFileUploadService,
         LoadingIndicatorService,
         PathHelperService,
         I18nService,
+        { provide: HalResourceNotificationService, useValue: { handleRawError: () => false } },
+        { provide: WorkPackageNotificationService, useValue: {} },
         { provide: WorkPackageDmService, useValue: {} },
-        { provide: IWorkPackageCreateServiceToken, useValue: {} },
+        { provide: WorkPackageCreateService, useValue: {} },
         { provide: StateService, useValue: {} },
         { provide: SchemaCacheService, useValue: {} },
       ]
@@ -92,7 +98,7 @@ describe('WorkPackage', () => {
         injector = TestBed.get(Injector);
         wpCacheService = injector.get(WorkPackageCacheService);
         notificationsService = injector.get(NotificationsService);
-        wpNotificationsService = injector.get(WorkPackageNotificationService);
+        halResourceNotification = injector.get(HalResourceNotificationService);
 
         halResourceService.registerResource('WorkPackage', { cls: WorkPackageResource });
       });
@@ -193,7 +199,7 @@ describe('WorkPackage', () => {
           attachment.delete = jasmine.createSpy('delete')
             .and.returnValue(Promise.reject({ foo: 'bar'}));
 
-          errorStub = spyOn(wpNotificationsService, 'handleRawError');
+          errorStub = spyOn(halResourceNotification, 'handleRawError');
         });
 
         it('should call the handleRawError notification', (done) => {

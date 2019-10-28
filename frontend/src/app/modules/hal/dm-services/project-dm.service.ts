@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {Inject, Injectable} from '@angular/core';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
+import {Injectable} from '@angular/core';
 import {ProjectResource} from 'core-app/modules/hal/resources/project-resource';
 import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 import {Apiv3ProjectsPaths} from "core-app/modules/common/path-helper/apiv3/projects/apiv3-projects-paths";

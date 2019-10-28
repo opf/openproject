@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 pt-BR:
   no_results_title_text: Atualmente, não há o que exibir.
   activities:
@@ -278,7 +299,7 @@ pt-BR:
       changeset:
         repository: "Repositório"
       comment:
-        commented: "Comentado"
+        commented: "Comentado" #an object that this comment belongs to
       custom_action:
         actions: "Ações"
       custom_field:
@@ -326,6 +347,13 @@ pt-BR:
         types: "Tipos"
         versions: "Versões"
         work_packages: "Pacotes de Trabalho"
+      project/status:
+        code: 'Status'
+        explanation: 'Descrição do estado'
+        codes:
+          on_track: 'Sob controle'
+          at_risk: 'Em risco'
+          off_track: 'Fora de controle'
       query:
         column_names: "Colunas"
         relations_to_type_column: "Relações com %{type}"
@@ -417,6 +445,8 @@ pt-BR:
         confirmation: "não coincide com %{attribute}."
         could_not_be_copied: "não pode ser copiado (totalmente)."
         does_not_exist: "não existe."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "não pode ser vazio."
         even: "deve ser par."
         exclusion: "está reservado."
@@ -480,6 +510,8 @@ pt-BR:
               invalid_values: "Um valor é inválido."
               id_filter_required: "Um filtro de 'id' é necessário."
         project:
+          archived_ancestor: 'O projeto tem um ancestral arquivado.'
+          foreign_wps_reference_version: 'Pacotes de trabalho em versões de referência de projetos não descendentes do projeto ou de seus descendentes.'
           attributes:
             types:
               in_use_by_work_packages: "ainda em uso pelos pacotes de trabalho: %{types}"
@@ -608,9 +640,10 @@ pt-BR:
   activity:
     created: "Criado: %{title}"
     updated: "Atualizado: %{title}"
+  #common attributes of all models
   attributes:
     active: "Ativo"
-    assigned_to: "Atribuição"
+    assigned_to: "Atribuído para"
     assignee: "Atribuído para"
     attachments: "Anexos"
     author: "Autor"
@@ -640,6 +673,7 @@ pt-BR:
     is_default: "Valor padrão"
     is_for_all: "Para todos os projetos"
     is_public: "Público"
+    #kept for backwards compatibility
     issue: "Pacote de trabalho"
     lastname: "Sobrenome"
     login: "Nome de usuário"
@@ -648,6 +682,7 @@ pt-BR:
     password: "Senha"
     priority: "Prioridade"
     project: "Projeto"
+    public: "Público"
     responsible: "Responsável"
     role: "Papel"
     roles: "Papéis"
@@ -696,7 +731,7 @@ pt-BR:
   button_generate: "Gerar"
   button_list: "Lista"
   button_lock: "Bloquear"
-  button_log_time: "Registrar tempo"
+  button_log_time: "Registro de tempo"
   button_login: "Fazer login"
   button_move: "Mover"
   button_move_and_follow: "Mover e seguir"
@@ -783,9 +818,13 @@ pt-BR:
       - "Sexta"
       - "Sábado"
     formats:
+      #Use the strftime parameters for formats.
+      #When no format has been given, it uses default.
+      #You can provide other formats here if you like!
       default: "%d/%m/%Y"
       long: "%d de %B de %Y"
       short: "%d/%b"
+    #Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names:
       - null
       - "Janeiro"
@@ -800,6 +839,7 @@ pt-BR:
       - "Outubro"
       - "Novembro"
       - "Dezembro"
+    #Used in date_select and datime_select.
     order:
       - :ano
       - ':mês'
@@ -929,6 +969,7 @@ pt-BR:
   description_sub_work_package: "Sub pacote de trabalho (do atual)"
   description_toc_toggle: "Mostrar/Ocultar tabela de conteúdos"
   description_wiki_subpages_reassign: "Escolha a nova página pai"
+  #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: ltr
   ee:
     upsale:
@@ -943,7 +984,7 @@ pt-BR:
   enumeration_system_activity: "Atividade do Sistema"
   enumeration_reported_project_statuses: "Situação relatada do projeto"
   error_auth_source_sso_failed: "Single Sign-On (SSO) para o usuário '%{value}' falhou"
-  error_can_not_archive_project: "Este projeto não pode ser arquivado: Há, pelo menos, um pacote de trabalho atribuído a uma versão definida neste projeto."
+  error_can_not_archive_project: "Este projeto não pode ser arquivado: %{errors}"
   error_can_not_delete_entry: "Não é possível excluir a entrada"
   error_can_not_delete_custom_field: "Não é possível excluir o campo personalizado"
   error_can_not_delete_type: "Este tipo contém pacotes de trabalho e não pode ser excluído."
@@ -952,6 +993,7 @@ pt-BR:
   error_can_not_remove_role: "Este papel está em uso e não pode ser excluído."
   error_can_not_reopen_work_package_on_closed_version: "Um pacote de trabalho atribuído a uma versão fechada não pode ser reaberto"
   error_can_not_find_all_resources: "Não foi possível encontrar todos os recursos relacionados a esta solicitação."
+  error_can_not_unarchive_project: "Este projeto não pode ser desarquivado: %{errors}"
   error_check_user_and_role: "Por favor, escolha um usuário e um papel."
   error_code: "Erro %{code}"
   error_cookie_missing: 'Está faltando o cookie do OpenProject. Por favor, certifique-se de que os cookies estão habilitados, sem os quais esta função não funcionará adequadamente.'
@@ -1658,12 +1700,14 @@ pt-BR:
   mail_body_lost_password: "Para alterar sua senha, clique no link a seguir:"
   mail_body_register: "Para ativar sua conta, clique no link a seguir:"
   mail_body_reminder: "%{count} pacote(s) de trabalho foram atribuídos a você para os próximos %{days} dias:"
+  mail_body_group_reminder: "%{count} pacote(s) de trabalho que estão atribuídos ao grupo \"%{group}\" expiram nos próximos %{days} dias:"
   mail_body_wiki_content_added: "A página wiki '%{id}' foi adicionada por %{author}."
   mail_body_wiki_content_updated: "A página wiki '%{id}' foi atualizada por %{author}."
   mail_subject_account_activation_request: "solicitação de ativação de conta %{value}"
   mail_subject_lost_password: "Sua senha %{value}"
   mail_subject_register: "Sua ativação de conta: %{value}"
   mail_subject_reminder: "%{count} pacote(s) de trabalho finalizam nos próximos %{days} dias:"
+  mail_subject_group_reminder: "Para o grupo \"%{group}\" %{count} pacote(s) de trabalho expirarão nos próximos %{days} dias"
   mail_subject_wiki_content_added: "página de wiki '%{id}' foi adicionada"
   mail_subject_wiki_content_updated: "página de wiki '%{id}' foi atualizada"
   mail_user_activation_limit_reached:
@@ -1673,8 +1717,8 @@ pt-BR:
       O usuário não conseguiu ativar sua conta pois o limite máximo de usuários foi atingido.
     steps:
       label: "Para permitir que o usuário entre você pode: "
-      a: "Atualizar seu plano de pagamento ([here](upgrade_url))"
-      b: "Bloquear ou excluir um usuário existente ([here](users_url))"
+      a: "Atualizar seu plano de pagamento ([here](upgrade_url))" #here turned into a link
+      b: "Bloquear ou excluir um usuário existente ([here](users_url))" #here turned into a link
   more_actions: "Mais funções"
   noscript_description: "Você precisa ativar o JavaScript para usar o OpenProject!"
   noscript_heading: "JavaScript desativado"
@@ -1741,6 +1785,7 @@ pt-BR:
   notice_project_cannot_update_custom_fields: "Você não pode atualizar campos personalizados disponíveis do projeto. O projeto é inválido: %{errors}"
   notice_attachment_migration_wiki_page: >
     Esta página foi gerada automaticamente durante a atualização do OpenProject. Ela contém todos os anexos anteriormente associados a %{container_type} "%{container_name}".
+  #Default format for numbers
   number:
     format:
       delimiter: ""
@@ -1857,6 +1902,8 @@ pt-BR:
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
+  #possible query parameters (e.g. issue queries),
+  #which are not attributes of an AR-Model.
   query_fields:
     active_or_archived: "Ativo ou arquivado"
     assigned_to_role: "Atribuído ao papel"
@@ -2100,6 +2147,7 @@ pt-BR:
   status_invited: convidado
   status_locked: bloqueado
   status_registered: registrado
+  #Used in array.to_sentence.
   support:
     array:
       sentence_connector: "e"
@@ -2263,7 +2311,7 @@ pt-BR:
         date: "data"
         default: "padrão"
       column:
-        assigned_to: "Atribuição"
+        assigned_to: "Atribuído para"
         type: "Tipo"
         due_date: "Data de término"
         name: "Nome"
@@ -2487,18 +2535,22 @@ pt-BR:
       status: 'Pré-autorização'
     errors:
       messages:
+        #Common error messages
         invalid_request: 'A solicitação não possui um parâmetro obrigatório, tem um valor de parâmetro não suportado ou está malformada.'
-        invalid_redirect_uri: "O uri de redirecionamento solicitado está malformado ou não corresponde à URI de redirecionamento do cliente."
+        invalid_redirect_uri: "A URI de redirecionamento solicitado está malformado ou não corresponde à URI de redirecionamento do cliente."
         unauthorized_client: 'O cliente não está autorizado a executar esta solicitação usando este método.'
         access_denied: 'O proprietário do recurso ou servidor de autorização negou o pedido.'
         invalid_scope: 'O escopo solicitado é inválido, desconhecido ou malformado.'
         invalid_code_challenge_method: 'O método de desafio de código deve ser simples (plain) ou S256.'
         server_error: 'O servidor de autorização encontrou uma condição inesperada que impediu o cumprimento da solicitação.'
         temporarily_unavailable: 'O servidor de autorização não pode manipular a solicitação devido a uma sobrecarga ou manutenção temporária do servidor.'
+        #Configuration error messages
         credential_flow_not_configured: 'Fluxo de Credenciais de Senha do Proprietário de Recursos falhou devido a Doorkeeper.configure.resource_owner_de_credenciais não configuradas.'
         resource_owner_authenticator_not_configured: 'Busca do Proprietário de Recursos falhou devido a Doorkeeper.configure.resource_owner_de_credenciais não configuradas.'
         admin_authenticator_not_configured: 'O acesso ao painel de administração está proibido devido ao Doorkeeper.configure.admin_autenticator não configurado.'
+        #Access grant errors
         unsupported_response_type: 'O servidor de autorização não suporta este tipo de resposta.'
+        #Access token errors
         invalid_client: 'Autenticação do cliente falhou devido ao cliente desconhecido, nenhuma autenticação de cliente incluída ou método de autenticação não suportado.'
         invalid_grant: 'A concessão de autorização fornecida é inválida, expirada, revogada, não corresponde ao URI de redirecionamento usado na solicitação de autorização, ou foi emitida para outro cliente.'
         unsupported_grant_type: 'O tipo de autorização não é suportado pelo servidor de autorização.'

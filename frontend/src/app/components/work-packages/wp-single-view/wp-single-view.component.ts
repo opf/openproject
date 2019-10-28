@@ -44,14 +44,16 @@ import {debugLog} from '../../../helpers/debug_output';
 import {CurrentProjectService} from '../../projects/current-project.service';
 import {States} from '../../states.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
+
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {WorkPackageCacheService} from '../work-package-cache.service';
 import {input, InputState} from 'reactivestates';
 import {DisplayFieldService} from 'core-app/modules/fields/display/display-field.service';
 import {DisplayField} from 'core-app/modules/fields/display/display-field.module';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {IWorkPackageEditingServiceToken} from '../../wp-edit-form/work-package-editing.service.interface';
 import {HookService} from 'core-app/modules/plugins/hook-service';
+import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
+import {Subject} from "rxjs";
 import {randomString} from "core-app/helpers/random-string";
 import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
 import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
@@ -103,7 +105,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
 
   // State updated when structural changes to the single view may occur.
   // (e.g., when changing the type or project context).
-  public resourceContextChange:InputState<ResourceContextChange> = input<ResourceContextChange>();
+  public resourceContextChange = new Subject<ResourceContextChange>();
 
   // Project context as an indicator
   // when editing the work package in a different project
@@ -125,9 +127,6 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
     fields: {
       description: this.I18n.t('js.work_packages.properties.description'),
     },
-    description: {
-      placeholder: this.I18n.t('js.work_packages.placeholders.description')
-    },
     infoRow: {
       createdBy: this.I18n.t('js.label_created_by'),
       lastUpdatedOn: this.I18n.t('js.label_last_updated_on')
@@ -141,7 +140,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
               protected currentProject:CurrentProjectService,
               protected PathHelper:PathHelperService,
               protected states:States,
-              @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService,
+              protected halEditing:HalResourceEditingService,
               protected halResourceService:HalResourceService,
               protected displayFieldService:DisplayFieldService,
               protected wpCacheService:WorkPackageCacheService,
@@ -156,51 +155,58 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
   public ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
 
+    const change = this.halEditing.changeFor<WorkPackageResource, WorkPackageChangeset>(this.workPackage);
+    this.resourceContextChange.next(this.contextFrom(change));
+    this.refresh(change);
+
     // Whenever the resource context changes in any way,
     // update the visible fields.
     this.resourceContextChange
-      .values$()
       .pipe(
         takeUntil(componentDestroyed(this)),
         distinctUntilChanged<ResourceContextChange>((a, b) => _.isEqual(a, b)),
-        map(() => this.wpEditing.temporaryEditResource(this.workPackage.id!).value!)
+        map(() => this.halEditing.changeFor(this.workPackage))
       )
-      .subscribe((resource:WorkPackageResource) => {
-        // Prepare the fields that are required always
-        const isNew = this.workPackage.isNew;
-
-        if (!resource.project) {
-          this.projectContext = { matches: false, href: null };
-        } else {
-          this.projectContext = {
-            href: this.PathHelper.projectWorkPackagePath(resource.project.idFromLink, this.workPackage.id!),
-            matches: resource.project.href === this.currentProject.apiv3Path
-          };
-        }
-
-        if (isNew && (!this.currentProject.inProjectContext || this.showProject)) {
-          this.projectContext.field = this.getFields(resource, ['project']);
-        }
-
-        const attributeGroups = resource.schema._attributeGroups;
-        this.groupedFields = this.rebuildGroupedFields(resource, attributeGroups);
-        this.cdRef.detectChanges();
-      });
+      .subscribe((change:WorkPackageChangeset) => this.refresh(change));
 
     // Update the resource context on every update to the temporary resource.
     // This allows detecting a changed type value in a new work package.
-    this.wpEditing.temporaryEditResource(this.workPackage.id!)
+    this.halEditing
+      .typedState<WorkPackageResource, WorkPackageChangeset>(this.workPackage)
       .values$()
       .pipe(
         takeUntil(componentDestroyed(this))
       )
-      .subscribe((resource:WorkPackageResource) => {
-        this.resourceContextChange.putValue(this.contextFrom(resource));
+      .subscribe((change:WorkPackageChangeset) => {
+        this.resourceContextChange.next(this.contextFrom(change));
       });
   }
 
   ngOnDestroy() {
-    this.cleanupService.clear();
+    // Nothing to do
+  }
+
+  private refresh(change:WorkPackageChangeset) {
+    // Prepare the fields that are required always
+    const isNew = this.workPackage.isNew;
+    const resource = change.projectedResource;
+
+    if (!resource.project) {
+      this.projectContext = {matches: false, href: null};
+    } else {
+      this.projectContext = {
+        href: this.PathHelper.projectWorkPackagePath(resource.project.idFromLink, this.workPackage.id!),
+        matches: resource.project.href === this.currentProject.apiv3Path
+      };
+    }
+
+    if (isNew && !this.currentProject.inProjectContext) {
+      this.projectContext.field = this.getFields(resource, ['project']);
+    }
+
+    const attributeGroups = resource.schema._attributeGroups;
+    this.groupedFields = this.rebuildGroupedFields(resource, attributeGroups);
+    this.cdRef.detectChanges();
   }
 
   /**
@@ -359,14 +365,15 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
    * Used to identify changes in the schema or project that may result in visual changes
    * to the single view.
    *
-   * @param {WorkPackageResource} resource
+   * @param {WorkPackageChangeset} change
    * @returns {SchemaContext}
    */
-  private contextFrom(resource:WorkPackageResource):ResourceContextChange {
-    let schema = resource.schema;
+  private contextFrom(change:WorkPackageChangeset):ResourceContextChange {
+    let schema = change.schema;
+    let workPackage = change.projectedResource;
 
     let schemaHref:string|null = null;
-    let projectHref:string|null = resource.project && resource.project.href;
+    let projectHref:string|null = workPackage.project && workPackage.project.href;
 
     if (schema.baseSchema) {
       schemaHref = schema.baseSchema.href;
@@ -376,7 +383,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
 
 
     return {
-      isNew: resource.isNew,
+      isNew: workPackage.isNew,
       schema: schemaHref,
       project: projectHref
     };

@@ -38,7 +38,6 @@ import {GridAreaService} from "core-app/modules/grids/grid/area.service";
 export class WidgetHeaderComponent {
   @Input() name:string;
   @Input() editable:boolean = true;
-  @Input() icon:string;
   @Output() onRenamed = new EventEmitter<string>();
 
   constructor(readonly layout:GridAreaService) {
@@ -47,10 +46,6 @@ export class WidgetHeaderComponent {
 
   public renamed(name:string) {
     this.onRenamed.emit(name);
-  }
-
-  public get iconClass() {
-    return `icon-${this.icon}`;
   }
 
   public get isRenameable() {

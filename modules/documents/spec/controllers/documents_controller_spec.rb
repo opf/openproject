@@ -71,7 +71,7 @@ describe DocumentsController do
     }
 
     before do
-      document.update_attributes(description: long_description)
+      document.update(description: long_description)
       get :index,  params: { project_id: project.identifier }
     end
 

@@ -1,3 +1,18 @@
+#-- copyright
+#OpenProject Meeting Plugin
+#Copyright (C) 2011-2014 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See doc/COPYRIGHT.md for more details.
+#++
+#English strings go here for Rails i18n
 ko:
   activerecord:
     attributes:
@@ -40,7 +55,7 @@ ko:
   label_icalendar: "iCalendar 보내기"
   label_version: "버전"
   label_time_zone: "표준 시간대"
-  label_start_date: "시작일"
+  label_start_date: "시작 날짜"
   notice_successful_notification: "알림이 전송됨"
   notice_timezone_missing: 표준 시간대가 설정되지 않았으며 %{zone}(으)로 간주됩니다. 해당 표준 시간대를 선택하려면 여기를 클릭하세요.
   permission_create_meetings: "미팅 생성"

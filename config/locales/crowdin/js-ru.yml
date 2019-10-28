@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 ru:
   js:
     ajax:
@@ -170,23 +191,27 @@ ru:
     general_text_yes: "Да"
     general_text_No: "Нет"
     general_text_Yes: "да"
+    hal:
+      error:
+        update_conflict_refresh: "Кликните здесь для обновления ресурса и обновления до последней версии."
+        edit_prohibited: "Редактирование %{attribute} этого ресурса заблокировано. Либо этот атрибут является производным от отношений (например, потомков), или же не настраивается."
+        format:
+          date: "%{attribute} не соответствует дате - ожидается гггг-мм-дд."
+        general: "Произошла ошибка."
     homescreen:
       blocks:
         new_features:
           text_new_features: "Читайте о новых возможностях и обновлениях продуктов."
-          current_new_feature_html: "В OpenProject появилось новое <b>представление \"Доски\" (Boards)</b> для управления agile-проектами. </br> Чтобы включить эту функцию для уже существующих проектов, выполните следующее: <ul><li>Включите модуль \"Доски\" (Boards) в настройках существующих проектов.</li> <li>Настройте Доски в проектах.</li> <li>Проверьте роли и разрешения</li></ul>"
-          image_alt_text: "Тизер доски"
-          learn_about: "Подробнее о Agile Boards"
+          current_new_feature_html: "В OpenProject появилась новая <b>страница обзора</b>, где <b>собрана важная информация о проекте</b>, в том числе сведения о его отслеживании. </br>Кроме того, можно добавить множество новых виджетов состояния, таких как: <ul><li>состояние проекта;</li><li>обзор состояния пакета работ;</li><li>ход выполнения задач;</li><li>задачи, назначенные пользователям.</li></ul>"
+          learn_about: "Подробнее о новых виджетах состояния"
     label_activate: "Активировать"
-    label_activity_no: "Деятельность номер %{activityNo}"
-    label_activity_with_comment_no: "Деятельность номер %{activityNo}. Есть комментарий пользователя."
     label_add_column_after: "Добавить столбец после"
     label_add_column_before: "Добавить столбец перед"
     label_add_columns: "Добавить столбец"
     label_add_comment: "Добавить комментарий"
     label_add_comment_title: "Комментарий и тип @ для уведомления других людей"
     label_add_row_after: "Добавить строку после"
-    label_add_row_before: "Добавить строку перед"
+    label_add_row_before: "Добавить строку до"
     label_add_selected_columns: "Добавить выбранные столбцы"
     label_added_by: "Добавил(-а)"
     label_added_time_by: "Добавил(-а) %{author} %{age}"
@@ -253,6 +278,7 @@ ru:
     label_no_data: "Нет данных для отображения"
     label_no_due_date: "без даты окончания"
     label_no_start_date: "без даты начала"
+    label_no_value: "Значение отсутствует"
     label_none: "Ничего"
     label_not_contains: "не содержит"
     label_not_equals: "не"
@@ -323,7 +349,7 @@ ru:
     label_add_description: "Добавить описание для %{file}"
     label_upload_notification: "Загрузка файлов..."
     label_work_package_upload_notification: "Загрузка файлов для пакета работ #%{id}: %{subject}"
-    label_wp_id_added_by: "#%{id} добавлен %{author}"
+    label_wp_id_added_by: "#%{id} добавил(а) %{author}"
     label_files_to_upload: "Эти файлы будут загружены:"
     label_rejected_files: "Эти файлы не могут быть загружены:"
     label_rejected_files_reason: "Эти файлы не могут быть загружены, как их размер больше, чем %{maximumFilesize}"
@@ -384,7 +410,7 @@ ru:
       click_to_switch_context: 'Открыть пакет работ в этом проекте.'
       autocompleter:
         label: 'Автоматическое завершение проекта'
-    text_are_you_sure: "Уверены?"
+    text_are_you_sure: "Вы уверены?"
     types:
       attribute_groups:
         error_duplicate_group_name: "Имя %{group} используется более одного раза. Имена групп должны быть уникальными."
@@ -589,12 +615,6 @@ ru:
       description_enter_text: "Введите текст"
       description_options_hide: "Скрыть параметры"
       description_options_show: "Показать параметры"
-      error:
-        update_conflict_refresh: "Кликните здесь для обновления пакета работ и обновления до последней версии."
-        edit_prohibited: "Редактирование %{attribute} этого пакета работ заблокировано. Либо этот атрибут является производным от отношений (например, потомков) или же не конфигурируется."
-        format:
-          date: "%{attribute} не соответствует дате - ожидается гггг-мм-дд."
-        general: "Произошла ошибка."
       edit_attribute: "%{attribute} - изменить"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Разрешить множественный выбор"
@@ -609,7 +629,6 @@ ru:
       message_view_spent_time: "Показать время, затраченное на этот комплекс работ"
       message_work_package_read_only: "В этом статусе пакет работ заблокирован. Никакой атрибут, отличный от статуса, изменен быть не может."
       message_work_package_status_blocked: "Статус пакета работ не доступен для записи из-за закрытого состояния и назначена закрытая версия."
-      no_value: "Значение отсутствует"
       placeholder_filter_by_text: "Тема, описание, комментарии, ..."
       inline_create:
         title: 'Кликните здесь, чтобы добавить новый пакет работ в этот список'
@@ -676,7 +695,7 @@ ru:
         label_content: "Кликните здесь, чтобы пропустить меню и перейти к содержанию"
       placeholders:
         default: "-"
-        description: "Нажмите, чтобы ввести описание..."
+        formattable: "%{name}: Нажмите для редактирования..."
       query:
         column_names: "Столбцы"
         group_by: "Результаты группы по"

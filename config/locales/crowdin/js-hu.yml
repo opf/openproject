@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 hu:
   js:
     ajax:
@@ -170,16 +191,20 @@ hu:
     general_text_yes: "yes"
     general_text_No: "Nem"
     general_text_Yes: "Igen"
+    hal:
+      error:
+        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
+        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        format:
+          date: "A(z) %{attribute} nem felel meg az -ÉÉÉÉ-HH-NN- dátumformátumnak."
+        general: "Hiba történt."
     homescreen:
       blocks:
         new_features:
           text_new_features: "Read about new features and product updates."
-          current_new_feature_html: "OpenProject contains a new <b>Boards view</b> for Agile project management. </br> To activate this new feature for your existing projects, please do the following steps: <ul><li>Activate the module Boards within existing projects' settings.</li> <li>Configure your Boards in a project.</li> <li>Verify roles and permissions</li></ul>"
-          image_alt_text: "Board teaser image"
-          learn_about: "Learn more about Agile Boards"
+          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
+          learn_about: "Learn more about the new status widgets"
     label_activate: "Aktivál"
-    label_activity_no: "Tevékenységi bejegyzések száma %{activityNo}"
-    label_activity_with_comment_no: "Tevékenységi bejegyzések száma %{activityNo}. Felhasználói megjegyzéssel."
     label_add_column_after: "Oszlop hozzáadása utána"
     label_add_column_before: "Oszlop hozzáadása előtte"
     label_add_columns: "Oszlopok hozzáadása"
@@ -227,11 +252,11 @@ hu:
     label_expand_all: "Az összes kibontása"
     label_expand_project_menu: "Project menü kibontása"
     label_export: "Exportálás"
-    label_filename: "File"
+    label_filename: "Fájl"
     label_filesize: "Méret"
     label_greater_or_equal: ">="
     label_group: 'Csoport'
-    label_group_by: "Csoportosítás a következők szerint"
+    label_group_by: "Csoportosítás"
     label_hide_attributes: "Kevesebb mutatása"
     label_hide_column: "Oszlop elrejtése"
     label_hide_project_menu: "Projekt menü összecsukás"
@@ -253,6 +278,7 @@ hu:
     label_no_data: "Nincs megjelenítendő adat"
     label_no_due_date: "nincs záró dátuma"
     label_no_start_date: "nincs kezdő dátuma"
+    label_no_value: "Nincs érték"
     label_none: "Egyik sem"
     label_not_contains: "nem tartalmaz"
     label_not_equals: "nem"
@@ -585,12 +611,6 @@ hu:
       description_enter_text: "Írjon szöveget"
       description_options_hide: "Beállítások elrejtése"
       description_options_show: "Beállítások megjelenítése"
-      error:
-        update_conflict_refresh: "Kattintson ide, hogy a Feladatcsoportot legújabb verzióra történő frissítéséhez."
-        edit_prohibited: "A (z) %{attribute} attribútum nem szerkeszthető. Vagy azért mert ez valamelyik kapcsolatból származik (gyerekektől), vagy más okból nem módosítható."
-        format:
-          date: "A(z) %{attribute} nem felel meg az -ÉÉÉÉ-HH-NN- dátumformátumnak."
-        general: "Hiba történt."
       edit_attribute: "%{attribute} - szerkesztés"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Többszörös kijelölés engedélyezése"
@@ -605,7 +625,6 @@ hu:
       message_view_spent_time: "Feladatcsoporttal töltött idő megjelenítése"
       message_work_package_read_only: "Ez Feladatcsomag ebben a státuszban zárolt. Nem lehet más attribútum segítségével megváltoztatni."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
-      no_value: "Nincs érték"
       placeholder_filter_by_text: "Subject, description, comments, ..."
       inline_create:
         title: 'Ide kattintva adhatsz új munkacsomagot a listához'
@@ -672,11 +691,11 @@ hu:
         label_content: "Kattintson ide a menü átugrásához és a tartalom megtekintéséhez"
       placeholders:
         default: "-"
-        description: "Kattintson a leírás megadásához..."
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Oszlopok"
         group_by: "Csoport szintű eredmények"
-        group: "Csoportosítás a következők szerint"
+        group: "Csoportosítás"
         group_by_disabled_by_hierarchy: "A csoportosítás le van tiltva, mivel a hierarchia mód aktív."
         hierarchy_disabled_by_group_by: "A hierarchia mód le van tiltva az eredmények csoportosítása e-szerint %{column}."
         sort_ascending: "Növekvő sorrend"

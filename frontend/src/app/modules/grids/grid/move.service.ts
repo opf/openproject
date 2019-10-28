@@ -87,8 +87,7 @@ export class GridMoveService {
       let referenceArea = overlappingArea!;
 
       anchorAreas.forEach((anchorArea) => {
-        if (anchorArea.endRow > referenceArea.endRow &&
-          toMoveArea!.startColumn >= anchorArea.startColumn && toMoveArea!.startColumn < anchorArea.endColumn) {
+        if (anchorArea.endRow > referenceArea.endRow && toMoveArea!.columnOverlaps(anchorArea)) {
           referenceArea = anchorArea;
         }
       });

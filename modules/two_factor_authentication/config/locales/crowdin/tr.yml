@@ -1,3 +1,4 @@
+#English strings go here for Rails i18n
 tr:
   activerecord:
     attributes:
@@ -26,11 +27,11 @@ tr:
     error_invalid_backup_code: '2FA yedek kodu geçersiz'
     channel_unavailable: "Gönderim kanalı %{channel} kullanılamıyor."
     no_valid_phone_number: "Geçerli telefon numarası yok."
-    label_pwd_confirmation: "Şifre"
+    label_pwd_confirmation: "Parola"
     notice_pwd_confirmation: "Bu ayarlarda değişiklikler yaptıktan sonra şifrenizi onaylamanız gerekir."
     label_device_type: "Cihaz türü"
     label_default_device: "Varsayılan 2FA cihazı"
-    label_device: "2FA aygıtı"
+    label_device: "2FA cihazı"
     label_devices: "2FA cihazları"
     label_one_time_password: 'Tek kullanımlık şifre'
     label_2fa_enabled: 'İki faktörlü kimlik doğrulama aktif'
@@ -152,7 +153,7 @@ tr:
       cookie_removed: 'Tüm hatırlanan 2FA oturumları kaldırıldı.'
       dont_ask_again: "Bu kullanıcı da 2FA kimlik doğrulamasını %{days} gün boyunca hatırlamak için çerez oluştur."
   field_phone: "Cep telefonu"
-  field_otp: "Tek-kullanımlık Şifre"
+  field_otp: "Tek kullanımlık şifre"
   notice_account_otp_invalid: "Geçersiz tek kullanımlık şifre."
   notice_account_otp_expired: "Girdiğiniz tek kullanımlık şifrenin süresi dolmuş."
   notice_developer_strategy_otp: "Geliştirici stratejisi aşağıdaki tek seferlik şifreyi oluşturdu: %{token} (Kanal: %{channel})"

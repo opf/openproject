@@ -34,8 +34,8 @@ describe 'API v3 Category resource' do
   include API::V3::Utilities::PathHelper
 
   let(:role) { FactoryBot.create(:role, permissions: []) }
-  let(:private_project) { FactoryBot.create(:project, is_public: false) }
-  let(:public_project) { FactoryBot.create(:project, is_public: true) }
+  let(:private_project) { FactoryBot.create(:project, public: false) }
+  let(:public_project) { FactoryBot.create(:project, public: true) }
   let(:anonymous_user) { FactoryBot.create(:user) }
   let(:privileged_user) do
     FactoryBot.create(:user,

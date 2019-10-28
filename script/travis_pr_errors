@@ -30,6 +30,11 @@ results = Parallel.map(build.jobs, progress: 'Searching logs') do |job|
   errors = []
 
   log = job.log.session.get_raw("jobs/#{job.id}/log")
+
+  if log.is_a?(Hash)
+    log = log['log']['body']
+  end
+
   log.scan(/^rspec (\S+) #.+$/) do |match|
     errors << match
   end

@@ -45,13 +45,13 @@ describe SysController, type: :controller do
   let(:api_key) { '12345678' }
 
   let(:public) { false }
-  let(:project) { FactoryBot.create(:project, is_public: public) }
+  let(:project) { FactoryBot.create(:project, public: public) }
 
   before(:each) do
     FactoryBot.create(:non_member, permissions: [:browse_repository])
     DeletedUser.first # creating it first in order to avoid problems with should_receive
 
-    random_project = FactoryBot.create(:project, is_public: false)
+    random_project = FactoryBot.create(:project, public: false)
     FactoryBot.create(:member,
                        user: valid_user,
                        roles: [browse_role],
@@ -193,7 +193,7 @@ describe SysController, type: :controller do
         let(:public) { true }
 
         before(:each) do
-          random_project = FactoryBot.create(:project, is_public: false)
+          random_project = FactoryBot.create(:project, public: false)
           FactoryBot.create(:member,
                              user: valid_user,
                              roles: [browse_role],
@@ -391,7 +391,7 @@ describe SysController, type: :controller do
 
       context 'for valid login and user is not member for project' do
         before(:each) do
-          project = FactoryBot.create(:project, is_public: false)
+          project = FactoryBot.create(:project, public: false)
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               valid_user.login,
@@ -414,7 +414,7 @@ describe SysController, type: :controller do
       context 'for valid login and project is public' do
         let(:public) { true }
         before(:each) do
-          random_project = FactoryBot.create(:project, is_public: false)
+          random_project = FactoryBot.create(:project, public: false)
           FactoryBot.create(:member,
                              user: valid_user,
                              roles: [browse_role],

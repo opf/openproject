@@ -42,7 +42,7 @@ class Scm::StorageUpdaterJob < ApplicationJob
     repository = Repository.find @id
     bytes = repository.scm.count_repository!
 
-    repository.update_attributes!(
+    repository.update!(
       required_storage_bytes: bytes,
       storage_updated_at: Time.now,
     )

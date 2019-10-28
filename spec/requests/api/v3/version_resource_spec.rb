@@ -39,8 +39,8 @@ describe 'API v3 Version resource', content_type: :json do
                       member_with_permissions: permissions)
   end
   let(:permissions) { %i[view_work_packages manage_versions] }
-  let(:project) { FactoryBot.create(:project, is_public: false) }
-  let(:other_project) { FactoryBot.create(:project, is_public: false) }
+  let(:project) { FactoryBot.create(:project, public: false) }
+  let(:other_project) { FactoryBot.create(:project, public: false) }
   let!(:int_cf) { FactoryBot.create(:int_version_custom_field) }
   let(:version_in_project) { FactoryBot.build(:version, project: project, custom_field_values: { int_cf.id => 123 }) }
   let(:version_in_other_project) do

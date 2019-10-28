@@ -45,7 +45,7 @@ describe 'API v3 User resource', type: :request, content_type: :json do
   end
 
   describe '#index' do
-    let(:get_path) { api_v3_paths.users }
+    let(:get_path) { api_v3_paths.path_for(:users, sort_by: [%i[id asc]]) }
 
     before do
       user

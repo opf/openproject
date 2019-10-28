@@ -28,24 +28,28 @@
 
 import {Injector} from '@angular/core';
 import {States} from '../../../states.service';
-import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
 import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import {RenderInfo} from '../wp-timeline';
 import {TimelineCellRenderer} from './timeline-cell-renderer';
 import {TimelineMilestoneCellRenderer} from './timeline-milestone-cell-renderer';
 import {WorkPackageTimelineCell} from './wp-timeline-cell';
+
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
+import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 
 export class WorkPackageTimelineCellsRenderer {
 
   // Injections
   public states = this.injector.get(States);
+  public halEditing = this.injector.get(HalResourceEditingService);
 
   public cells:{ [classIdentifier:string]:WorkPackageTimelineCell } = {};
 
   private cellRenderers:{ milestone:TimelineMilestoneCellRenderer, generic:TimelineCellRenderer };
 
-  constructor(public readonly injector:Injector, private wpTimeline:WorkPackageTimelineTableController) {
+  constructor(readonly injector:Injector,
+              readonly wpTimeline:WorkPackageTimelineTableController) {
     this.cellRenderers = {
       milestone: new TimelineMilestoneCellRenderer(this.injector, wpTimeline),
       generic: new TimelineCellRenderer(this.injector, wpTimeline)
@@ -140,7 +144,7 @@ export class WorkPackageTimelineCellsRenderer {
     return {
       viewParams: this.wpTimeline.viewParameters,
       workPackage: wp,
-      changeset: new WorkPackageChangeset(this.injector, wp)
-    } as RenderInfo;
+      change: this.halEditing.changeFor(wp) as WorkPackageChangeset
+    };
   }
 }

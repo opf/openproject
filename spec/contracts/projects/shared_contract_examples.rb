@@ -30,26 +30,55 @@ require 'spec_helper'
 
 shared_examples_for 'project contract' do
   let(:current_user) do
-    FactoryBot.build_stubbed(:user) do |user|
-      allow(user)
-        .to receive(:allowed_to?) do |permission, permission_project|
-        permissions.include?(permission) && project == permission_project
-      end
+    FactoryBot.build_stubbed(:user)
+  end
+  let!(:allowed_to) do
+    allow(current_user)
+      .to receive(:allowed_to?) do |permission, permission_project|
+      permissions.include?(permission) && project == permission_project
     end
   end
   let(:project_name) { 'Project name' }
   let(:project_identifier) { 'project_identifier' }
   let(:project_description) { 'Project description' }
-  let(:project_status) { Project::STATUS_ACTIVE }
+  let(:project_active) { true }
   let(:project_public) { true }
+  let(:project_status) { FactoryBot.build_stubbed(:project_status) }
   let(:project_parent) do
-    FactoryBot.build_stubbed(:project).tap do |p|
-      allow(p)
-        .to receive(:visible?)
-        .and_return(parent_visible)
-    end
+    FactoryBot.build_stubbed(:project)
   end
-  let(:parent_visible) { true }
+  let(:parent_assignable) { true }
+  let!(:assignable_parents) do
+    assignable_parents_scope = double('assignable parents scope')
+    assignable_parents = double('assignable parents')
+
+    allow(Project)
+      .to receive(:allowed_to)
+      .with(current_user, :add_subprojects)
+      .and_return assignable_parents_scope
+
+    allow(assignable_parents_scope)
+      .to receive(:where)
+      .and_return(assignable_parents_scope)
+
+    allow(assignable_parents_scope)
+      .to receive(:not)
+      .with(id: project.self_and_descendants)
+      .and_return(assignable_parents)
+
+    if project_parent
+      allow(assignable_parents)
+        .to receive(:where)
+        .with(id: project_parent.id)
+        .and_return(assignable_parents_scope)
+
+      allow(assignable_parents_scope)
+        .to receive(:exists?)
+        .and_return(parent_assignable)
+    end
+
+    assignable_parents
+  end
 
   def expect_valid(valid, symbols = {})
     expect(contract.validate).to eq(valid)
@@ -79,7 +108,7 @@ shared_examples_for 'project contract' do
     let(:project_identifier) { nil }
 
     it 'is invalid' do
-      expect_valid(false, identifier: %i(blank too_short))
+      expect_valid(false, identifier: %i(blank))
     end
   end
 
@@ -95,19 +124,37 @@ shared_examples_for 'project contract' do
     it_behaves_like 'is valid'
   end
 
-  context 'if the parent is invisible to the user' do
-    let(:parent_visible) { false }
+  context 'if the parent is not in the set of assignable_parents' do
+    let(:parent_assignable) { false }
 
     it 'is invalid' do
       expect_valid(false, parent: %i(does_not_exist))
     end
   end
 
-  context 'if the status is nil' do
-    let(:project_status) { nil }
+  context 'if active is nil' do
+    let(:project_active) { nil }
 
     it 'is invalid' do
-      expect_valid(false, status: %i(blank))
+      expect_valid(false, active: %i(blank))
+    end
+  end
+
+  context 'if status is nil' do
+    let(:project_status) { nil }
+
+    it_behaves_like 'is valid'
+  end
+
+  context 'if status code is invalid' do
+    before do
+      allow(project_status)
+        .to receive(:code)
+        .and_return('bogus')
+    end
+
+    it 'is invalid' do
+      expect_valid(false, status: %i(inclusion))
     end
   end
 
@@ -121,32 +168,38 @@ shared_examples_for 'project contract' do
 
   describe 'assignable_values' do
     context 'for project' do
-      let(:visible_projects) { double('visible projects') }
       before do
-        allow(Project)
-          .to receive(:visible)
-          .and_return(visible_projects)
+        assignable_parents
       end
 
-      it 'is the list of visible projects' do
-        expect(subject.assignable_values(:parent, current_user))
-          .to eql visible_projects
+      it 'returns all projects the user has the add_subprojects permissions for' do
+        expect(contract.assignable_parents)
+          .to eql assignable_parents
       end
     end
 
-    context 'for status' do
-      it 'is a list of all available status' do
-        expect(subject.assignable_values(:status, current_user))
-          .to eql Project.statuses.keys
-      end
-    end
-
-    context 'for a custom field' do
+    context 'for a list custom field' do
       let(:custom_field) { FactoryBot.build_stubbed(:list_project_custom_field) }
 
       it 'is the list of custom field values' do
         expect(subject.assignable_custom_field_values(custom_field))
           .to eql custom_field.possible_values
+      end
+    end
+
+    context 'for a version custom field' do
+      let(:custom_field) { FactoryBot.build_stubbed(:version_project_custom_field) }
+      let(:versions) { double('versions') }
+
+      before do
+        allow(project)
+          .to receive(:assignable_versions)
+          .and_return(versions)
+      end
+
+      it 'is the list of versions for the project' do
+        expect(subject.assignable_custom_field_values(custom_field))
+          .to eql versions
       end
     end
   end

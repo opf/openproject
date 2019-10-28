@@ -1,3 +1,21 @@
+#-- copyright
+#OpenProject PDF Export Plugin
+#Copyright (C)2014 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or modify it under
+#the terms of the GNU General Public License version 3.
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See doc/COPYRIGHT.md for more details.
+#++
 hu:
   error_can_not_delete_export_card_configuration: "Ez az elrendezés nem törölhető."
   error_can_not_change_name_of_default_configuration: "Az alapértelmezett elrendezés neve nem módosítható."
@@ -6,7 +24,7 @@ hu:
   label_export_card_configuration_new: "Új export kártya elrendezés"
   label_export_card_configuration: "Export kártya elrendezés"
   label_export_card_configuration_plural: "Export kártya elrendezések"
-  label_export_card_activate: "Aktiválás"
+  label_export_card_activate: "Aktivál"
   label_export_card_deactivate: "Deaktiválás"
   notice_export_card_configuration_activated: "Beállítás sikeresen aktiválva"
   notice_export_card_configuration_deactivated: "Beállítás sikeresen deaktiválva"

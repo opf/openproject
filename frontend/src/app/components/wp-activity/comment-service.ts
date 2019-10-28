@@ -32,8 +32,9 @@ import {NotificationsService} from 'core-app/modules/common/notifications/notifi
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {input, InputState} from 'reactivestates';
-import {WorkPackageNotificationService} from './../wp-edit/wp-notification.service';
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {Subject} from "rxjs";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 @Injectable()
 export class CommentService {
@@ -44,14 +45,14 @@ export class CommentService {
 
   constructor(
     readonly I18n:I18nService,
-    private wpNotificationsService:WorkPackageNotificationService,
+    private workPackageNotificationService:WorkPackageNotificationService,
     private NotificationsService:NotificationsService) {
   }
 
-  public createComment(workPackage:WorkPackageResource, comment:string) {
+  public createComment(workPackage:WorkPackageResource, comment:{ raw:string }) {
     return workPackage.addComment(
-      {comment: comment},
-      {'Content-Type': 'application/json; charset=UTF-8'}
+      { comment: comment },
+      { 'Content-Type': 'application/json; charset=UTF-8' }
     )
       .catch((error:any) => this.errorAndReject(error, workPackage));
   }
@@ -60,14 +61,14 @@ export class CommentService {
     const options = {
       ajax: {
         method: 'PATCH',
-        data: JSON.stringify({comment: comment}),
+        data: JSON.stringify({ comment: comment }),
         contentType: 'application/json; charset=utf-8'
       }
     };
 
     return activity.update(
-      {comment: comment},
-      {'Content-Type': 'application/json; charset=UTF-8'}
+      { comment: comment },
+      { 'Content-Type': 'application/json; charset=UTF-8' }
     ).then((activity:HalResource) => {
       this.NotificationsService.addSuccess(
         this.I18n.t('js.work_packages.comment_updated')
@@ -78,7 +79,7 @@ export class CommentService {
   }
 
   private errorAndReject(error:HalResource, workPackage?:WorkPackageResource) {
-    this.wpNotificationsService.handleRawError(error, workPackage);
+    this.workPackageNotificationService.handleRawError(error, workPackage);
 
     // returning a reject will enable to correctly work with subsequent then/catch handlers.
     return Promise.reject(error);

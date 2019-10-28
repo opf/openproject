@@ -6,10 +6,10 @@
     <div class="work-package--details--long-field work-packages--activity--add-comment hide-when-print"
          #commentContainer
          *ngIf="canAddComment">
-      <div class="wp-edit-field inplace-edit">
+      <div class="inline-edit--container inplace-edit">
         <edit-form-portal *ngIf="active"
                           [schemaInput]="schema"
-                          [changesetInput]="changeset"
+                          [changeInput]="change"
                           [editFieldHandler]="handler">
         </edit-form-portal>
         <div *ngIf="!active"
@@ -17,16 +17,16 @@
              class="inplace-edit--read">
           <accessible-by-keyboard
             class="inplace-editing--trigger-container"
-            spanClass="inplace-editing--container wp-edit-field--display-field"
+            spanClass="inplace-editing--container inline-edit--display-field"
             linkClass="inplace-editing--trigger-link"
             [linkAriaLabel]="text.editTitle"
             (execute)="activate()">
 
-            <span class="inplace-edit--read-value -default">
+            <span class="inplace-editing--trigger-text inline-edit--formattable-display-text -default">
               <span [textContent]="text.placeholder"></span>
             </span>
 
-            <span class="inplace-edit--icon-wrapper">
+            <span class="inplace-editing--trigger-icon">
               <op-icon icon-classes="icon-edit" [icon-title]="text.editTitle"></op-icon>
             </span>
           </accessible-by-keyboard>

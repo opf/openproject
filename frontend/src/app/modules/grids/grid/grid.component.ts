@@ -2,7 +2,8 @@ import {Component,
   ComponentRef,
   OnDestroy,
   OnInit,
-  Input} from "@angular/core";
+  Input,
+  HostListener} from "@angular/core";
 import {GridResource} from "app/modules/hal/resources/grid-resource";
 import {debugLog} from "app/helpers/debug_output";
 import {DomSanitizer} from "@angular/platform-browser";
@@ -41,6 +42,7 @@ export const GRID_PROVIDERS = [
 export class GridComponent implements OnDestroy, OnInit {
   public uiWidgets:ComponentRef<any>[] = [];
   public GRID_AREA_HEIGHT = 'auto';
+  public GRID_GAP_DIMENSION = '20px';
 
   public component = WidgetWpGraphComponent;
 
@@ -63,6 +65,17 @@ export class GridComponent implements OnDestroy, OnInit {
     this.uiWidgets.forEach((widget) => widget.destroy());
   }
 
+  @HostListener('window:keyup', ['$event'])
+  handleKeyboardEvent(event:KeyboardEvent) {
+    if (event.key !== 'Escape') {
+      return;
+    } else if (this.drag.currentlyDragging) {
+      this.drag.abort();
+    } else if (this.resize.currentlyResizing) {
+      this.resize.abort();
+    }
+  }
+
   public widgetComponent(area:GridWidgetArea) {
     let widget = area.widget;
 
@@ -73,7 +86,7 @@ export class GridComponent implements OnDestroy, OnInit {
     let registration = this.widgetsService.registered.find((reg) => reg.identifier === widget.identifier);
 
     if (!registration) {
-      debugLog(`No widget registered with identifier ${widget.identifier}`);
+      // debugLog(`No widget registered with identifier ${widget.identifier}`);
 
       return null;
     } else {
@@ -90,27 +103,13 @@ export class GridComponent implements OnDestroy, OnInit {
   }
 
   public get gridColumnStyle() {
-    let style = '';
-    for (let i = 0; i < this.layout.numColumns; i++) {
-      style += `20px calc((100% - 20px * ${this.layout.numColumns + 1}) / ${this.layout.numColumns}) `;
-    }
-
-    style += '20px';
-
-    return this.sanitization.bypassSecurityTrustStyle(style);
-  }
-
-  // array containing Numbers from 1 to this.numColumns
-  public get columnNumbers() {
-    return Array.from(Array(this.layout.numColumns + 1).keys()).slice(1);
+    return this.gridStyle(this.layout.numColumns,
+                          `calc((100% - ${this.GRID_GAP_DIMENSION} * ${this.layout.numColumns + 1}) / ${this.layout.numColumns})`);
   }
 
   public get gridRowStyle() {
-    return this.sanitization.bypassSecurityTrustStyle(`repeat(${this.layout.numRows}, ${this.GRID_AREA_HEIGHT})`);
-  }
-
-  public get rowNumbers() {
-    return Array.from(Array(this.layout.numRows + 1).keys()).slice(1);
+    return this.gridStyle(this.layout.numRows,
+                         this.GRID_AREA_HEIGHT);
   }
 
   public identifyGridArea(index:number, area:GridArea) {
@@ -119,5 +118,16 @@ export class GridComponent implements OnDestroy, OnInit {
 
   public get isHeadersDisplayed() {
     return this.layout.isEditable;
+  }
+
+  private gridStyle(amount:number, itemStyle:string) {
+    let style = '';
+    for (let i = 0; i < amount; i++) {
+      style += `${this.GRID_GAP_DIMENSION} ${itemStyle} `;
+    }
+
+    style += `${this.GRID_GAP_DIMENSION}`;
+
+    return this.sanitization.bypassSecurityTrustStyle(style);
   }
 }

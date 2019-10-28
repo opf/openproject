@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 fr:
   js:
     ajax:
@@ -70,8 +91,8 @@ fr:
         line: 'Ligne'
         horizontal_bar: 'Barre horizontale'
         bar: 'Barre'
-        pie: 'Camembert'
-        doughnut: 'Anneau'
+        pie: 'Circulaire'
+        doughnut: 'Beignet'
         radar: 'Radar'
         polar_area: 'Aire polaire'
       tabs:
@@ -171,17 +192,21 @@ fr:
     general_text_yes: "oui"
     general_text_No: "Non"
     general_text_Yes: "Oui"
+    hal:
+      error:
+        update_conflict_refresh: "Cliquez ici pour actualiser la resource et mettre à jour vers la version la plus récente."
+        edit_prohibited: "L'édition de %{attribute} est bloquée pour cette ressource. Soit cet attribut est dérivé de relations (ex, enfants), soit autrement non configurable."
+        format:
+          date: "%{attribute} n’est pas une date valide. Format attendu : AAAA-MM-JJ."
+        general: "Une erreur s'est produite."
     homescreen:
       blocks:
         new_features:
           text_new_features: "En savoir plus sur les nouvelles fonctionnalités et les mises à jour des produits."
-          current_new_feature_html: "OpenProject contient un nouvel <b>affichage de Tableaux</b> pour la gestion de projet Agile. </br> Afin d'activer cette nouvelle fonctionnalité pour vos projets existants, veuillez suivre les étapes suivantes : <ul><li>Activez le module Tableaux dans les paramètres des projets existants.</li> <li>Configurez vos Tableaux dans un projet.</li> <li>Vérifiez les rôles et les permissions</li></ul>"
-          image_alt_text: "Image teaser du Tableau"
-          learn_about: "En savoir plus sur les Tableaux Agile"
+          current_new_feature_html: "OpenProject contient une nouvelle <b>page d'aperçu</b> pour <b>afficher les informations importantes du projet</b> et montrer si le projet est sur la bonne voie. </br> Vous pouvez insérer divers widgets de statut, comme : <ul><li>statut du projet,</li> <li> aperçu du statut du lot de travaux,</li> <li>progression de tâches,</li> <li>tâches assignées aux utilisateurs.</li></ul>"
+          learn_about: "En savoir plus sur les nouveaux widgets de statut"
     label_activate: "Activer"
-    label_activity_no: "Entrée d'activité numéro %{activityNo}"
-    label_activity_with_comment_no: "Entrée d'activité numéro %{activityNo}. A un commentaire utilisateur."
-    label_add_column_after: "Ajouter une colonne après"
+    label_add_column_after: "Ajouter une colonne au-dessus"
     label_add_column_before: "Ajouter une colonne avant"
     label_add_columns: "Ajouter des colonnes"
     label_add_comment: "Ajouter un commentaire"
@@ -254,6 +279,7 @@ fr:
     label_no_data: "Aucune donnée à afficher"
     label_no_due_date: "pas d'échéance"
     label_no_start_date: "pas de date de début"
+    label_no_value: "Aucune valeur"
     label_none: "aucune"
     label_not_contains: "ne contient pas"
     label_not_equals: "n'est pas"
@@ -586,12 +612,6 @@ fr:
       description_enter_text: "Saisir texte"
       description_options_hide: "Masquer les options"
       description_options_show: "Afficher les options"
-      error:
-        update_conflict_refresh: "Cliquez ici pour actualiser le paquet de travail et mettre à jour vers la version la plus récente."
-        edit_prohibited: "L'édition de %{attribute} est bloquée pour ce lot de travaux. Soit cet attribut découle d'une relation (par ex. enfants), soit il n'est pas configurable."
-        format:
-          date: "%{attribute} n’est pas une date valide. Format attendu : AAAA-MM-JJ."
-        general: "Une erreur s'est produite."
       edit_attribute: "%{attribute} - Éditer"
       key_value: "%{key} : %{value}"
       label_enable_multi_select: "Activer la sélection multiple"
@@ -606,7 +626,6 @@ fr:
       message_view_spent_time: "Afficher le temps passé pour ce lot de travaux"
       message_work_package_read_only: "Paquet de travail est verrouillé. Aucun attribut autre que l’État ne peut être modifié."
       message_work_package_status_blocked: "Le statut du lot de travail n'est pas modifiable en raison de la fermeture du statut et de la version assignés."
-      no_value: "Aucune valeur"
       placeholder_filter_by_text: "Objet, description, commentaires, ..."
       inline_create:
         title: 'Cliquez ici pour ajouter un nouveau lot de travaux à cette liste'
@@ -673,7 +692,7 @@ fr:
         label_content: "Cliquez ici pour passer le menu et aller au contenu"
       placeholders:
         default: "-"
-        description: "Cliquer pour entrer la description…"
+        formattable: "%{name} : Cliquez pour modifier…"
       query:
         column_names: "Colonnes"
         group_by: "Grouper les résultats par"

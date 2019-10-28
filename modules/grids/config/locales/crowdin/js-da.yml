@@ -28,6 +28,12 @@ da:
         project_details:
           title: 'Projektdetaljer'
           no_results: 'No custom fields have been defined for projects.'
+        project_status:
+          title: 'Projektstatus'
+          on_track: 'On track'
+          off_track: 'Off track'
+          at_risk: 'At risk'
+          not_set: 'Not set'
         subprojects:
           title: 'Underprojekter'
           no_results: 'No subprojects.'

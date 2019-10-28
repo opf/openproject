@@ -200,9 +200,8 @@ class MyProjectPageToGrid < ActiveRecord::Migration[5.2]
     query.add_filter(filter_name(identifier), '=', [::Queries::Filters::MeValue::KEY])
     query.column_names = %w(id type subject)
 
-    # execute_as as validations on the filters base on the current user
     User.execute_as(query.user) do
-      query.save!
+      query.save(validate: false)
     end
 
     query

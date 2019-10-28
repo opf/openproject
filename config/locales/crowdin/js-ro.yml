@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 ro:
   js:
     ajax:
@@ -121,7 +142,7 @@ ro:
         work_package_button:
           button: 'Insert create work package button'
           type: 'Tip pachet de lucru'
-          button_style: 'Use button style'
+          button_style: 'Folosește butonul de stil'
           button_style_hint: 'Optional: Bifați pentru a vedea comenzile macro sub formă de butoane, nu sub formă de link.'
           without_type: 'Creați pachet de lucru'
           with_type: 'Creați pachet de lucru (Tip: %{typename})'
@@ -170,16 +191,20 @@ ro:
     general_text_yes: "da"
     general_text_No: "Nu"
     general_text_Yes: "Da"
+    hal:
+      error:
+        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
+        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        format:
+          date: "%{attribute} nu este o dată validă - Este necesar formatul AAAA-LL-ZZ."
+        general: "A apărut o eroare."
     homescreen:
       blocks:
         new_features:
           text_new_features: "Read about new features and product updates."
-          current_new_feature_html: "OpenProject contains a new <b>Boards view</b> for Agile project management. </br> To activate this new feature for your existing projects, please do the following steps: <ul><li>Activate the module Boards within existing projects' settings.</li> <li>Configure your Boards in a project.</li> <li>Verify roles and permissions</li></ul>"
-          image_alt_text: "Board teaser image"
-          learn_about: "Learn more about Agile Boards"
+          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
+          learn_about: "Learn more about the new status widgets"
     label_activate: "Activare"
-    label_activity_no: "Acțiunea cu numărul %{activityNo}"
-    label_activity_with_comment_no: "Acțiunea cu numărul %{activityNo}. Are un comentariu de utilizator."
     label_add_column_after: "Adauga o coloana dupa"
     label_add_column_before: "Adauga o coloana inainte"
     label_add_columns: "Adaugați coloane"
@@ -253,6 +278,7 @@ ro:
     label_no_data: "Nu există date de afișat"
     label_no_due_date: "fără dată sfârșit"
     label_no_start_date: "fără dată început"
+    label_no_value: "Nici o valoare"
     label_none: "niciunul"
     label_not_contains: "nu conține"
     label_not_equals: "nu este"
@@ -587,12 +613,6 @@ ro:
       description_enter_text: "Introduceţi textul"
       description_options_hide: "Ascundere opțiuni"
       description_options_show: "Afișare opțiuni"
-      error:
-        update_conflict_refresh: "Click here to refresh the work package and update to the newest version."
-        edit_prohibited: "Editarea câmpului %{attribute} este blocată pentru acest pachet de lucru. Fie acest câmp este calculat indirect (de exemplu pe baza fiilor) sau nu este modificabil."
-        format:
-          date: "%{attribute} nu este o dată validă - Este necesar formatul AAAA-LL-ZZ."
-        general: "A apărut o eroare."
       edit_attribute: "%{attribute} - Editare"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Activare selecție multiplă"
@@ -607,7 +627,6 @@ ro:
       message_view_spent_time: "Arată timpul petrecut pentru acest pachet de lucru"
       message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
-      no_value: "Nici o valoare"
       placeholder_filter_by_text: "Subiect, descriere, comentarii, ..."
       inline_create:
         title: 'Click aici pentru a adăuga un nou pachet de lucru în listă'
@@ -674,7 +693,7 @@ ro:
         label_content: "Click here to skip over the menu and go to the content"
       placeholders:
         default: "-"
-        description: "Click pentru a introduce descrierea..."
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Coloane"
         group_by: "Grupare rezultate"

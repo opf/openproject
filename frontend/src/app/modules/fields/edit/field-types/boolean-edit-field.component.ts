@@ -33,7 +33,7 @@ import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.compon
 @Component({
   template: `
     <input type="checkbox"
-           class="wp-inline-edit--field wp-inline-edit--boolean-field"
+           class="inline-edit--field inline-edit--boolean-field"
            [attr.aria-required]="required"
            [checked]="value"
            (change)="updateValue(!value)"

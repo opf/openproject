@@ -172,26 +172,21 @@
     width: 100%
     margin: 0
 
-    .wp-table--cell-span
+    .inline-edit--display-field
       white-space: normal
       word-break: break-all
 
     li.inline-edit
       width: 100%
 
-    .inplace-edit--read-value
-      margin: 0
-      padding-top: 0
-      padding-bottom: 0
-
     .work-packages--subject-element,
-    .work-packages--details--subject .wp-inline-edit--field
+    .work-packages--details--subject .inline-edit--field
       font-size: 20px
       font-weight: bold
       line-height: 34px
 
-    .work-packages--subject-element
-      .wp-inline-edit--field
+    .work-packages--details--subject
+      .inline-edit--field
         height: 34px
 
       // Style edit field to look like the display field.
@@ -210,30 +205,17 @@
   display: flex
   position: relative
 
-  // Fix: align and size hover border like buttons in toolbar.
-  .wp-edit-field.-no-label:not(.-active) .wp-table--cell-span
-    padding-top: 3px
-    padding-bottom: 3px
-    margin-top: 2px
-
 .work-packages--type-selector:not(.wp-new-top-row--element)
-  .wp-table--cell-span
+  .inline-edit--display-field
     padding-right: 5px !important
 
   // Remove left padding from type
-  .wp-edit-field--display-field
+  .inline-edit--display-field
     padding-left: 0 !important
 
   @media only screen and (min-width: 679px)
-    .wp-edit-field--container.-active
-      margin-right: 80px !important
-      width: 95%
-
-  .inplace-edit--read-value--value-span
-    white-space: nowrap
-
-  .inplace-edit--read-value--value-span:after
-    content: ':'
+    .inline-edit--container.-active
+      width: 130px
 
 .edit-all-mode
   .subject-header .work-packages--details--subject .inplace-edit--text-field

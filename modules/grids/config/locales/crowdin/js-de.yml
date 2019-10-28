@@ -28,6 +28,12 @@ de:
         project_details:
           title: 'Projektdetails'
           no_results: 'Für Projekte wurden keine benutzerdefinierten Felder definiert.'
+        project_status:
+          title: 'Projekt-Status'
+          on_track: 'Im Zeitplan'
+          off_track: 'Verspätet'
+          at_risk: 'Gefährdet'
+          not_set: 'Nicht gesetzt'
         subprojects:
           title: 'Unterprojekte'
           no_results: 'Keine Unterprojekte.'

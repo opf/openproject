@@ -33,7 +33,7 @@
     <div class="op-modal--modal-footer">
       <button class="button -highlight"
               (click)="create()"
-              [disabled]="!this.selectedAttribute"
+              [disabled]="!this.selectedAttribute || inFlight"
               [textContent]="text.button_continue"
               [attr.title]="text.button_continue">
       </button>

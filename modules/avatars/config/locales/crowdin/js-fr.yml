@@ -1,3 +1,4 @@
+#English strings go here
 fr:
   js:
     label_preview: 'Aperçu'
@@ -10,5 +11,5 @@ fr:
         Un aperçu de votre avatar sera affiché avant le téléchargement, une fois que vous aurez sélectionné une image.
       error_image_too_large: "L'image est trop grande."
       wrong_file_format: "Les formats autorisés sont Jpg, Png et Gif"
-      empty_file_error: "Veuillez téléverser une image valide (Jpg, Png, Gif)"
+      empty_file_error: "Veuillez téléverser une image valide (jpg, png, gif)"
 

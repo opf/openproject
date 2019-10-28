@@ -1,3 +1,4 @@
+#English strings go here for Rails i18n
 it:
   activerecord:
     attributes:
@@ -30,7 +31,7 @@ it:
     notice_pwd_confirmation: "Devi confermare la tua password per poter effettuare delle modifiche a queste impostazioni."
     label_device_type: "Tipo di dispositivo"
     label_default_device: "Dispositivo 2FA predefinito"
-    label_device: "Dispositivo di 2FA"
+    label_device: "Dispositivo 2FA"
     label_devices: "Dispositivi 2FA"
     label_one_time_password: 'Password monouso'
     label_2fa_enabled: 'L'' autenticazione a due fattori è attiva'

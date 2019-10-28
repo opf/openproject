@@ -18,7 +18,7 @@ module OpenProject
         assigned_principals.each do |principal, issues|
           case principal
           when Group
-            group.users.each { |u| send_reminder_mail!(u, issues) }
+            principal.users.each { |user| send_reminder_mail!(user, issues, principal) }
           when User
             send_reminder_mail!(principal, issues)
           else
@@ -30,9 +30,9 @@ module OpenProject
       ##
       # Deliver the reminder mail now for the given user
       # assuming it is active
-      def send_reminder_mail!(user, issues)
+      def send_reminder_mail!(user, issues, group = nil)
         if user&.active?
-          UserMailer.reminder_mail(user, issues, due_date_in_days).deliver_now
+          UserMailer.reminder_mail(user, issues, due_date_in_days, group).deliver_now
           @notify_count += 1
         end
       rescue StandardError => e
@@ -44,7 +44,7 @@ module OpenProject
           .includes(:status, :assigned_to, :project, :type)
           .where("#{Status.table_name}.is_closed = false AND #{WorkPackage.table_name}.due_date <= ?", due_date)
           .where("#{WorkPackage.table_name}.assigned_to_id IS NOT NULL")
-          .where("#{Project.table_name}.status = #{Project::STATUS_ACTIVE}")
+          .where("#{Project.table_name}.active = #{true}")
 
         if user_ids.any?
           scope = scope.where("#{WorkPackage.table_name}.assigned_to_id IN (?)", user_ids)

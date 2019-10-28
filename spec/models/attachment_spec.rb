@@ -268,12 +268,35 @@ describe Attachment, type: :model do
       CarrierWave::Configuration.configure_fog! credentials: {}, directory: "my-bucket", public: false
     end
 
+    shared_examples "it has a temporary download link" do
+      let(:url_options) { {} }
+      let(:query) { attachment.external_url(url_options).to_s.split("?").last }
+
+      it "should have a default expiry time" do
+        expect(query).to include "X-Amz-Expires="
+        expect(query).not_to include "X-Amz-Expires=3600"
+      end
+
+      context "with a custom expiry time" do
+        let(:url_options) { { expires_in: 1.hour } }
+
+        it "should use that time" do
+          expect(query).to include "X-Amz-Expires=3600"
+        end
+      end
+    end
+
     describe "for an image file" do
       before { image_attachment.save! }
 
       it "should make S3 use content_disposition inline" do
         expect(image_attachment.content_disposition).to eq "inline"
         expect(image_attachment.external_url.to_s).to include "response-content-disposition=inline"
+      end
+
+      # this is independent from the type of file uploaded so we just test this for the first one
+      it_behaves_like "it has a temporary download link" do
+        let(:attachment) { image_attachment }
       end
     end
 

@@ -40,7 +40,7 @@ import {AngularTrackingHelpers} from "core-components/angular/tracking-functions
   selector: 'attachment-list',
   templateUrl: './attachment-list.html'
 })
-export class AttachmentListComponent implements OnInit, OnChanges, OnDestroy {
+export class AttachmentListComponent implements OnInit, OnDestroy {
   @Input() public resource:HalResource;
   @Input() public destroyImmediately:boolean = true;
 
@@ -60,11 +60,7 @@ export class AttachmentListComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
 
-    if (this.attachmentsUpdatable) {
-      this.resource.updateAttachments();
-    }
-
-    this.attachments = this.resource.attachments.elements;
+    this.updateAttachments();
     this.setupResourceUpdateListener();
 
     if (!this.destroyImmediately) {
@@ -81,7 +77,8 @@ export class AttachmentListComponent implements OnInit, OnChanges, OnDestroy {
       )
       .subscribe((newResource:HalResource) => {
         this.resource = newResource || this.resource;
-        this.attachments = [...this.resource.attachments.elements];
+
+        this.updateAttachments();
         this.cdRef.detectChanges();
       });
   }
@@ -92,15 +89,15 @@ export class AttachmentListComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  ngOnChanges() {
-    if (this.attachmentsUpdatable) {
-      this.resource.attachments.updateElements();
-    }
-  }
-
   public removeAttachment(attachment:HalResource) {
     this.deletedAttachments.push(attachment);
-    this.attachments = this.attachments.filter((el) => el !== attachment);
+    // Keep the same object as we would otherwise loose the connection to the
+    // resource's attachments array. That way, attachments added after removing one would not be displayed.
+    // This is bad design.
+    let newAttachments = this.attachments.filter((el) => el !== attachment);
+    this.attachments.length = 0;
+    this.attachments.push(...newAttachments);
+
     this.cdRef.detectChanges();
   }
 
@@ -121,6 +118,22 @@ export class AttachmentListComponent implements OnInit, OnChanges, OnDestroy {
         .resource
         .removeAttachment(attachment);
     });
+  }
+
+  private updateAttachments() {
+    if (!this.attachmentsUpdatable) {
+      this.attachments = this.resource.attachments.elements;
+      return;
+    }
+
+    this
+      .resource
+      .attachments
+      .updateElements()
+      .then(() => {
+        this.attachments = this.resource.attachments.elements;
+        this.cdRef.detectChanges();
+      });
   }
 }
 

@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 zh-CN:
   no_results_title_text: 目前没有什么可显示。
   activities:
@@ -277,7 +298,7 @@ zh-CN:
       changeset:
         repository: "代码库"
       comment:
-        commented: "评论"
+        commented: "评论" #an object that this comment belongs to
       custom_action:
         actions: "操作"
       custom_field:
@@ -325,6 +346,13 @@ zh-CN:
         types: "类型"
         versions: "版本"
         work_packages: "工作包"
+      project/status:
+        code: '状态'
+        explanation: '状态描述'
+        codes:
+          on_track: '按计划进行'
+          at_risk: '有风险'
+          off_track: '偏离计划'
       query:
         column_names: "列"
         relations_to_type_column: "与%{type} 的关系"
@@ -416,6 +444,8 @@ zh-CN:
         confirmation: "不匹配 %{attribute}。"
         could_not_be_copied: "不能 (完全) 复制。"
         does_not_exist: "不存在。"
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "不能为空。"
         even: "必须是偶数。"
         exclusion: "是保留关键字。"
@@ -479,6 +509,8 @@ zh-CN:
               invalid_values: "值无效。"
               id_filter_required: "“id”筛选器为必填字段。"
         project:
+          archived_ancestor: '该项目有一个已存档的上级。'
+          foreign_wps_reference_version: '非子级项目中的工作包会引用此项目或其子级的版本。'
           attributes:
             types:
               in_use_by_work_packages: "仍在使用的工作包: %{types}"
@@ -604,6 +636,7 @@ zh-CN:
   activity:
     created: "创建: %{title}"
     updated: "更新: %{title}"
+  #common attributes of all models
   attributes:
     active: "激活"
     assigned_to: "指定人"
@@ -613,7 +646,7 @@ zh-CN:
     base: "一般错误："
     blocks_ids: "被工作包屏蔽的IDs"
     category: "类别"
-    comment: "注释"
+    comment: "评论"
     comments: "评论"
     content: "内容"
     color: "颜色"
@@ -636,6 +669,7 @@ zh-CN:
     is_default: "默认值"
     is_for_all: "为所有项目"
     is_public: "公开"
+    #kept for backwards compatibility
     issue: "工作包"
     lastname: "姓氏"
     login: "用户名"
@@ -644,6 +678,7 @@ zh-CN:
     password: "密码"
     priority: "优先级"
     project: "项目"
+    public: "公开"
     responsible: "负责"
     role: "角色"
     roles: "角色"
@@ -779,9 +814,13 @@ zh-CN:
       - "星期五 "
       - "星期六 "
     formats:
+      #Use the strftime parameters for formats.
+      #When no format has been given, it uses default.
+      #You can provide other formats here if you like!
       default: "%m/%d/%Y"
       long: "%B %d, %Y"
       short: "%b %d"
+    #Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names:
       - null
       - "1月"
@@ -796,6 +835,7 @@ zh-CN:
       - "10月"
       - "11 月"
       - "12月"
+    #Used in date_select and datime_select.
     order:
       - '：年'
       - '：月'
@@ -913,6 +953,7 @@ zh-CN:
   description_sub_work_package: "当前的子工作包"
   description_toc_toggle: "显示/隐藏表的内容"
   description_wiki_subpages_reassign: "选择新的父页"
+  #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: 从左向右
   ee:
     upsale:
@@ -927,7 +968,7 @@ zh-CN:
   enumeration_system_activity: "系统活动"
   enumeration_reported_project_statuses: "报告的项目状态"
   error_auth_source_sso_failed: "用户 \"%{value}\" 的单次登录 (SSO) 失败"
-  error_can_not_archive_project: "无法归档这个项目: 有至少一个工作包被分配到了这个项目中定义的版本。"
+  error_can_not_archive_project: "此项目无法存档：%{errors}"
   error_can_not_delete_entry: "无法删除条目"
   error_can_not_delete_custom_field: "无法删除自定义字段"
   error_can_not_delete_type: "这种类型包含工作包，不能被删除。"
@@ -936,6 +977,7 @@ zh-CN:
   error_can_not_remove_role: "该角色正在使用，无法删除。"
   error_can_not_reopen_work_package_on_closed_version: "不能重新打开一个已经分配给已关闭版本的工作包"
   error_can_not_find_all_resources: "无法找到与请求相关的所有资源。"
+  error_can_not_unarchive_project: "此项目无法取消存档：%{errors}"
   error_check_user_and_role: "请选择用户和角色。"
   error_code: "错误 %{code}"
   error_cookie_missing: 'OpenProject cookie 丢失。请确保已启用 cookie，因为如果不启用，此应用程序将无法正常运行。'
@@ -1638,12 +1680,14 @@ zh-CN:
   mail_body_lost_password: "若要更改你的密码，请单击下面的链接："
   mail_body_register: "若要激活您的帐户，请单击下面的链接："
   mail_body_reminder: "%{count} 个分配给您的工作包将在 %{days} 天后到期："
+  mail_body_group_reminder: "%{count} 个分配给组“%{group}”的工作包将在 %{days} 天后到期："
   mail_body_wiki_content_added: "'%{id}' wiki页面已经由%{author} 添加。"
   mail_body_wiki_content_updated: "'%{id}' wiki页面已经由%{author} 更新。"
   mail_subject_account_activation_request: "%{value} 帐户激活请求"
   mail_subject_lost_password: "你的 %{value} 密码"
   mail_subject_register: "您的%{value}帐户激活"
   mail_subject_reminder: "%{count} 个工作包在 %{days} 天内到期"
+  mail_subject_group_reminder: "对于组“%{group}”，%{count} 个工作包将在 %{days} 天后到期"
   mail_subject_wiki_content_added: "'%{id}' wiki页面已添加"
   mail_subject_wiki_content_updated: "'%{id}' wiki页面已更新"
   mail_user_activation_limit_reached:
@@ -1652,8 +1696,8 @@ zh-CN:
       新用户 (%{email}) 试图在您管理的 OpenProject 环境 (%{host}) 上创建帐户。用户无法激活其帐户, 因为已达到用户限制。
     steps:
       label: "要允许用户登录, 您可以: "
-      a: "([在这里](upgrade_url)) 升级付款计划"
-      b: "([在这里](users_url)) 锁定或删除现有用户"
+      a: "([在这里](upgrade_url)) 升级付款计划" #here turned into a link
+      b: "([在这里](users_url)) 锁定或删除现有用户" #here turned into a link
   more_actions: "更多功能"
   noscript_description: "您需要激活JavaScript才能使用 OpenProject！"
   noscript_heading: "JavaScript 被禁用"
@@ -1720,6 +1764,7 @@ zh-CN:
   notice_project_cannot_update_custom_fields: "您无法更新项目的可用自定义字段。项目无效：%{errors}"
   notice_attachment_migration_wiki_page: >
     此页是在更新 OpenProject 时自动生成。它包含以前与 %{container_type} "%{container_name}" 关联的所有附件。
+  #Default format for numbers
   number:
     format:
       delimiter: ""
@@ -1835,6 +1880,8 @@ zh-CN:
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
+  #possible query parameters (e.g. issue queries),
+  #which are not attributes of an AR-Model.
   query_fields:
     active_or_archived: "激活或已存档"
     assigned_to_role: "指定人角色"
@@ -2076,6 +2123,7 @@ zh-CN:
   status_invited: 已邀请
   status_locked: 锁定
   status_registered: 已注册
+  #Used in array.to_sentence.
   support:
     array:
       sentence_connector: "和"
@@ -2461,6 +2509,7 @@ zh-CN:
       status: '预授权'
     errors:
       messages:
+        #Common error messages
         invalid_request: '请求缺少必要参数，包括不受支持的参数值，或者格式不正确。'
         invalid_redirect_uri: "请求的重定向 URI 格式不正确，或者与客户端重定向 URI 不匹配。"
         unauthorized_client: '客户端无权使用此方法执行此请求。'
@@ -2469,10 +2518,13 @@ zh-CN:
         invalid_code_challenge_method: '代码质询方法必须为普通或 S256。'
         server_error: '授权服务器遇到了意外情况，无法完成请求。'
         temporarily_unavailable: '由于暂时性过载或维护，授权服务器当前无法处理请求。'
+        #Configuration error messages
         credential_flow_not_configured: '由于未配置 Doorkeeper.configure.resource_owner_from_credentials，资源所有者密码凭据流失败。'
         resource_owner_authenticator_not_configured: '由于未配置 Doorkeeper.configure.resource_owner_authenticator，资源所有者查找失败。'
         admin_authenticator_not_configured: '由于未配置 Doorkeeper.configure.admin_authenticator，禁止访问管理面板。'
+        #Access grant errors
         unsupported_response_type: '授权服务不支持此响应类型。'
+        #Access token errors
         invalid_client: '由于未知客户端、未包含客户端身份验证或者不受支持的身份验证方法，客户端身份验证失败。'
         invalid_grant: '提供的授权无效、已过期或者已被撤销，与授权请求中使用的重定向 URI 不匹配，或者颁发给其他客户端。'
         unsupported_grant_type: '授权服务器不支持此授权类型。'

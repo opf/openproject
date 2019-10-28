@@ -47,7 +47,7 @@ describe Project::Storage, type: :model do
     FactoryBot.create(:attachment, filesize: 10000, container: wikipage)
 
     repo = FactoryBot.create(:repository_git, project: project2)
-    repo.update_attributes(required_storage_bytes: 1234)
+    repo.update(required_storage_bytes: 1234)
   end
 
   describe '#with_required_storage' do
@@ -80,7 +80,7 @@ describe Project::Storage, type: :model do
     context 'with a project with all modules' do
       let(:repository1) { FactoryBot.create(:repository_git, project: project1) }
       before do
-        repository1.update_attributes(required_storage_bytes: 543211234)
+        repository1.update(required_storage_bytes: 543211234)
       end
 
       it 'counts all projects correctly' do

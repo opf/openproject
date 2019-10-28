@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 hu:
   no_results_title_text: Nincs megjeleníthető adat.
   activities:
@@ -259,7 +280,7 @@ hu:
         attachment_file_name: "Melléklet fájl neve"
         downloads: "Letöltés"
         file: "Fájl"
-        filename: "File"
+        filename: "Fájl"
         filesize: "Méret"
       attribute_help_text:
         attribute_name: 'Attribútum'
@@ -277,7 +298,7 @@ hu:
       changeset:
         repository: "Csomagtároló"
       comment:
-        commented: "Hozzászólás"
+        commented: "Hozzászólás" #an object that this comment belongs to
       custom_action:
         actions: "Műveletek"
       custom_field:
@@ -325,6 +346,13 @@ hu:
         types: "Típus"
         versions: "Verzió"
         work_packages: "Feladatcsoportok"
+      project/status:
+        code: 'Állapot'
+        explanation: 'Status description'
+        codes:
+          on_track: 'On track'
+          at_risk: 'At risk'
+          off_track: 'Off track'
       query:
         column_names: "Oszlopok"
         relations_to_type_column: "Kapcsolatok %{type}-hoz"
@@ -416,6 +444,8 @@ hu:
         confirmation: "%{attribute} nem egyezik."
         could_not_be_copied: "nem lehet (teljesen) másolni."
         does_not_exist: "nem létezik."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "nem lehet üres."
         even: "kell még."
         exclusion: "foglalt."
@@ -479,6 +509,8 @@ hu:
               invalid_values: "Egy érték érvénytelen."
               id_filter_required: "Egy \"id\" szűrő szükséges."
         project:
+          archived_ancestor: 'The project has an archived ancestor.'
+          foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
             types:
               in_use_by_work_packages: "munkacsomagok használatban vannak: %{types}"
@@ -577,7 +609,7 @@ hu:
           one: "1 hiba miatt nem menthető a következő: %{model}"
           other: "%{count} hiba miatt nem menthető a következő: %{model}"
     models:
-      attachment: "File"
+      attachment: "Fájl"
       attribute_help_text: "Attribútum-súgószöveg"
       forum: "Fórum"
       comment: "Vélemény"
@@ -607,6 +639,7 @@ hu:
   activity:
     created: "Létrehozva: %{title}"
     updated: "Frissítve: %{title}"
+  #common attributes of all models
   attributes:
     active: "aktív"
     assigned_to: "Megbízott"
@@ -616,7 +649,7 @@ hu:
     base: "Általános hiba:"
     blocks_ids: "Lezárt munkacsomagok azonosítója"
     category: "Kategória"
-    comment: "Komment"
+    comment: "Vélemény"
     comments: "Vélemény"
     content: "Tartalom"
     color: "Szín"
@@ -639,6 +672,7 @@ hu:
     is_default: "Alap érték"
     is_for_all: "Minden projekthez"
     is_public: "Nyilvános"
+    #kept for backwards compatibility
     issue: "Feladatcsoport"
     lastname: "Vezetéknév"
     login: "Username"
@@ -647,6 +681,7 @@ hu:
     password: "Jelszó"
     priority: "Fontosság"
     project: "Projekt"
+    public: "Nyilvános"
     responsible: "Felelős"
     role: "Szerepkör"
     roles: "Szerepkörök"
@@ -695,7 +730,7 @@ hu:
   button_generate: "Generálás"
   button_list: "Lista"
   button_lock: "Tilt"
-  button_log_time: "Idő naplózása"
+  button_log_time: "Eltöltött idő rögzítése"
   button_login: "Bejelentkezés"
   button_move: "Mozgatás"
   button_move_and_follow: "Mozgatés és a következő"
@@ -782,9 +817,13 @@ hu:
       - "Péntek"
       - "Szombat"
     formats:
+      #Use the strftime parameters for formats.
+      #When no format has been given, it uses default.
+      #You can provide other formats here if you like!
       default: "%m/%d/%Y"
       long: "%B %d, %Y"
       short: "%b %d"
+    #Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names:
       - null
       - "Január"
@@ -799,6 +838,7 @@ hu:
       - "Október"
       - "November"
       - "December"
+    #Used in date_select and datime_select.
     order:
       - ':év'
       - ':hónap'
@@ -928,6 +968,7 @@ hu:
   description_sub_work_package: "Az al-feladatcsoport aktuális"
   description_toc_toggle: " A tartalomjegyzék mutatása/elrejtése"
   description_wiki_subpages_reassign: "Válassz új szülő oldalt"
+  #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: ltr
   ee:
     upsale:
@@ -942,7 +983,7 @@ hu:
   enumeration_system_activity: "Rendszer tevékenység"
   enumeration_reported_project_statuses: "Projekt állapot beszámoló"
   error_auth_source_sso_failed: "Single Sign-On (SSO) a '%{value}' felhasználóval sikertelen"
-  error_can_not_archive_project: "Ez a projekt nem archiválható: Legalább egy feladatcsoport van hozzárendelve a projektben definiált változathoz."
+  error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Bejegyzését nem lehet törölni"
   error_can_not_delete_custom_field: "Nem törölhető az egyéni mező"
   error_can_not_delete_type: "Ez a típus munkcsomagot  tartalmaz, és nem lehet törölni."
@@ -951,6 +992,7 @@ hu:
   error_can_not_remove_role: "Ez a szerepkör használatban van, nem lehet törölni"
   error_can_not_reopen_work_package_on_closed_version: "A feladatcsoport lezárt verzió, nem lehet újra nyitni"
   error_can_not_find_all_resources: "Nem található a kéréshez tartozó összes erőforrás."
+  error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Légy szíves válassz felhasználót és szerepkört"
   error_code: "Hibakód: %{code}"
   error_cookie_missing: 'Hiányzó OpenProject cookie. Ellenőrizze, hogy böngészőjében a cookie-k használata engedélyezve van, mert anélkül ez az alkalmazás nem tud megfelelően működni.'
@@ -1242,7 +1284,7 @@ hu:
   label_file_added: "Fájl hozzáadva"
   label_file_plural: "Fájlok"
   label_filter_add: "Szűrő hozzáadása"
-  label_filter_plural: "Szűrők"
+  label_filter_plural: "Szürő"
   label_filters_toggle: "Szűrők mutatása/elrejtése"
   label_float: "Mozgó"
   label_folder: "Mappa"
@@ -1657,12 +1699,14 @@ hu:
   mail_body_lost_password: "A jelszó módosításához kattintson az alábbi linkre:"
   mail_body_register: "A fiók aktiválásához kattintson az alábbi linkre:"
   mail_body_reminder: "Ön rendelt  %{count} munkacsomag(ok) a következő  %{days}  napokon esedékesek:"
+  mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
   mail_body_wiki_content_added: "A '%{id}' wiki oldal hozzáadva %{author} által."
   mail_body_wiki_content_updated: "A '%{id}' wiki oldal frissítve %{author} által."
   mail_subject_account_activation_request: "%{value} fiók aktiválásának kérése"
   mail_subject_lost_password: "A jelszavad %{value}"
   mail_subject_register: "A %{value} fiókód aktiválása"
   mail_subject_reminder: "%{count} munkacsomag(ok) miatt a következő %{days} nap"
+  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "'%{id}' wiki oldal hozzáadva"
   mail_subject_wiki_content_updated: "'%{id}' wiki oldal frissítve"
   mail_user_activation_limit_reached:
@@ -1671,8 +1715,8 @@ hu:
       Egy új felhasználó (%{email}) megpróbált létrehozni egy fiókot az Ön által kezelt OpenProject környezetben (%{host}). A felhasználó nem tudja aktiválni fiókját, mivel elérte a felhasználói korlátot.
     steps:
       label: "A felhasználó bejelentkezéséhez a következőket teheti: "
-      a: "Fizetés módjának frissítése ([here](upgrade_url))"
-      b: "Felhasználó zárolása vagy törlése ([here](users_url))"
+      a: "Fizetés módjának frissítése ([here](upgrade_url))" #here turned into a link
+      b: "Felhasználó zárolása vagy törlése ([here](users_url))" #here turned into a link
   more_actions: "További funkciók"
   noscript_description: "Engedélyezze a JavaScriptet, hogy használni tudja az OpenProjectet !"
   noscript_heading: "JavaScript le van tiltva"
@@ -1739,6 +1783,7 @@ hu:
   notice_project_cannot_update_custom_fields: "Nem tudod firssíteni a projekt egyedi mezőit. A projekt érvénytelen: %{errors}"
   notice_attachment_migration_wiki_page: >
     Ez az oldal automatikusan jött létre az OpenProject frissítésekor. Tartalmazza az összes mellékletet az alábbiakhoz: %{container_type} %{container_name}.
+  #Default format for numbers
   number:
     format:
       delimiter: ""
@@ -1855,6 +1900,8 @@ hu:
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
+  #possible query parameters (e.g. issue queries),
+  #which are not attributes of an AR-Model.
   query_fields:
     active_or_archived: "Aktív vagy archivált"
     assigned_to_role: "Hozzárendelt szerepkör"
@@ -2098,6 +2145,7 @@ hu:
   status_invited: meghívott
   status_locked: locked
   status_registered: regisztrált
+  #Used in array.to_sentence.
   support:
     array:
       sentence_connector: "és"
@@ -2229,8 +2277,8 @@ hu:
     delete_thing: "Törlés"
     duration: "Időtartam"
     duration_days:
-      one: "%{count} nap"
-      other: "%{count} nap"
+      one: "1 napja"
+      other: "%{count} napja"
     edit_color: "Színek szerkesztése"
     edit_thing: "Szerkesztés"
     edit_timeline: "A %{timeline} ütemterv jelentés szerkesztése"
@@ -2486,18 +2534,22 @@ hu:
       status: 'Pre-authorization'
     errors:
       messages:
+        #Common error messages
         invalid_request: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
-        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
+        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
         unauthorized_client: 'The client is not authorized to perform this request using this method.'
         access_denied: 'The resource owner or authorization server denied the request.'
         invalid_scope: 'The requested scope is invalid, unknown, or malformed.'
         invalid_code_challenge_method: 'The code challenge method must be plain or S256.'
         server_error: 'The authorization server encountered an unexpected condition which prevented it from fulfilling the request.'
         temporarily_unavailable: 'The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server.'
+        #Configuration error messages
         credential_flow_not_configured: 'Resource Owner Password Credentials flow failed due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.'
         resource_owner_authenticator_not_configured: 'Resource Owner find failed due to Doorkeeper.configure.resource_owner_authenticator being unconfigured.'
         admin_authenticator_not_configured: 'Access to admin panel is forbidden due to Doorkeeper.configure.admin_authenticator being unconfigured.'
+        #Access grant errors
         unsupported_response_type: 'The authorization server does not support this response type.'
+        #Access token errors
         invalid_client: 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.'
         invalid_grant: 'The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.'
         unsupported_grant_type: 'The authorization grant type is not supported by the authorization server.'

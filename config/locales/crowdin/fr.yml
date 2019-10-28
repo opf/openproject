@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 fr:
   no_results_title_text: Il n'y a actuellement rien à afficher.
   activities:
@@ -278,7 +299,7 @@ fr:
       changeset:
         repository: "Référentiel"
       comment:
-        commented: "Commenté"
+        commented: "Commenté" #an object that this comment belongs to
       custom_action:
         actions: "Actions"
       custom_field:
@@ -326,6 +347,13 @@ fr:
         types: "Types"
         versions: "Versions"
         work_packages: "Lots de Travaux"
+      project/status:
+        code: 'Statut'
+        explanation: 'Description du statut'
+        codes:
+          on_track: 'Sur la bonne voie'
+          at_risk: 'À risque'
+          off_track: 'Sur la mauvaise voie'
       query:
         column_names: "Colonnes"
         relations_to_type_column: "Relations avec %{type}"
@@ -400,10 +428,10 @@ fr:
         uid: "Id du client"
         secret: "Clé secrète du client"
         owner: "Propriétaire"
-        redirect_uri: "URL de redirection"
+        redirect_uri: "URI de redirection"
         client_credentials_user_id: "ID d'utilisateur d'informations d'identification client"
         scopes: "Portées"
-        confidential: "Confidentielle"
+        confidential: "Confidentiel"
     errors:
       messages:
         accepted: "doi(ven)t être accepté(e)(s)."
@@ -417,6 +445,8 @@ fr:
         confirmation: "ne correspond pas à %{attribute}."
         could_not_be_copied: "n'a pas pu être copié (entièrement)."
         does_not_exist: "n'existe pas."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "ne peut pas être vide."
         even: "doit être pair."
         exclusion: "est réservé."
@@ -461,7 +491,7 @@ fr:
           attributes:
             redirect_uri:
               fragment_present: 'ne peut pas contenir un fragment.'
-              invalid_uri: 'doit être une URL valide.'
+              invalid_uri: 'doit être une URI valide.'
               relative_uri: 'doit être une URI absolue.'
               secured_uri: 'doit être une URI HTTPS/SSL.'
               forbidden_uri: 'est interdit par le serveur.'
@@ -480,6 +510,8 @@ fr:
               invalid_values: "Une valeur est invalide."
               id_filter_required: "Un filtre sur l'id est requis."
         project:
+          archived_ancestor: 'Le projet possède un ancêtre archivé.'
+          foreign_wps_reference_version: 'Les lots de travaux dans les projets non-descendants font référence aux versions du projet ou de ses descendants.'
           attributes:
             types:
               in_use_by_work_packages: "toujours en cours d'utilisation par les lots de travaux : %{types}"
@@ -601,13 +633,14 @@ fr:
       wiki_page: "Page wiki"
       workflow: "Flux de travail"
       work_package: "Lot de travaux"
-      'doorkeeper/application': "Applications OAuth"
+      'doorkeeper/application': "Application OAuth"
   errors:
     header_invalid_fields: "Des problèmes ont été rencontrés avec les champs suivants :"
     field_erroneous_label: "Ce champ n'est pas valide : %{full_errors}\nVeuillez saisir une valeur correcte."
   activity:
     created: "Créé : %{title}"
     updated: "Mis à jour : %{title}"
+  #common attributes of all models
   attributes:
     active: "Actif"
     assigned_to: "Assigné à"
@@ -640,6 +673,7 @@ fr:
     is_default: "Valeur par défaut"
     is_for_all: "Pour tous les projets"
     is_public: "Public"
+    #kept for backwards compatibility
     issue: "Lot de travaux"
     lastname: "Nom de famille"
     login: "Nom d'utilisateur"
@@ -648,6 +682,7 @@ fr:
     password: "Mot de passe"
     priority: "Priorité"
     project: "Projet"
+    public: "Public"
     responsible: "Responsable"
     role: "Rôle"
     roles: "Rôles"
@@ -783,9 +818,13 @@ fr:
       - "Vendredi"
       - "Samedi"
     formats:
+      #Use the strftime parameters for formats.
+      #When no format has been given, it uses default.
+      #You can provide other formats here if you like!
       default: "%d/%m/%Y"
       long: "%d %B, %Y"
       short: "%b %d"
+    #Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names:
       - null
       - "Janvier"
@@ -800,6 +839,7 @@ fr:
       - "Octobre"
       - "Novembre"
       - "Décembre"
+    #Used in date_select and datime_select.
     order:
       - ':année'
       - :mois
@@ -929,6 +969,7 @@ fr:
   description_sub_work_package: "Sous-Lot de Travaux de l'actuel"
   description_toc_toggle: "Afficher/Masquer la table de matières"
   description_wiki_subpages_reassign: "Assigner une nouvelle page parente"
+  #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: de gauche à droite
   ee:
     upsale:
@@ -943,7 +984,7 @@ fr:
   enumeration_system_activity: "Activité du système"
   enumeration_reported_project_statuses: "Statuts de projet signalés"
   error_auth_source_sso_failed: "Single Sign-On (SSO) pour l’utilisateur '%{value}' a échoué"
-  error_can_not_archive_project: "Ce projet ne peut pas être archivé : au moins un lot de travaux est assigné à une version définie dans ce projet."
+  error_can_not_archive_project: "Ce projet ne peut être archivé : %{errors}"
   error_can_not_delete_entry: "Impossible de supprimer l’élément"
   error_can_not_delete_custom_field: "Impossible de supprimer le champ personnalisé"
   error_can_not_delete_type: "Ce type contient des Lots de Travaux et ne peut être supprimé."
@@ -952,6 +993,7 @@ fr:
   error_can_not_remove_role: "Ce rôle est utilisé et ne peut être supprimé."
   error_can_not_reopen_work_package_on_closed_version: "Un lot de travaux assigné à une version fermée ne peut être ré-ouvert"
   error_can_not_find_all_resources: "Impossible de trouver toutes les ressources liées à cette demande."
+  error_can_not_unarchive_project: "Ce projet ne peut être désarchivé : %{errors}"
   error_check_user_and_role: "Veuillez choisir un utilisateur et un rôle."
   error_code: "Erreur %{code}"
   error_cookie_missing: 'Le cookie OpenProject est manquant. Assurez-vous que les cookies sont activés, sans quoi cette application ne fonctionnera pas correctement.'
@@ -1548,7 +1590,7 @@ fr:
   label_view_diff: "Afficher les différences"
   label_view_revisions: "Afficher les révisions"
   label_watched_work_packages: "Lots de travaux suivis"
-  label_what_is_this: "Qu'est-ce que c est?"
+  label_what_is_this: "Qu'est-ce que c'est?"
   label_week: "Semaine"
   label_wiki_content_added: "Page wiki ajoutée"
   label_wiki_content_updated: "Page wiki mise à jour"
@@ -1658,12 +1700,14 @@ fr:
   mail_body_lost_password: "Pour changer votre mot de passe, cliquez sur le lien suivant:"
   mail_body_register: "Pour activer votre compte, cliquez sur le lien suivant:"
   mail_body_reminder: "%{count} lot(s) de travaux qui vous sont assignés arrivent à échéance dans les %{days} prochains jours:"
+  mail_body_group_reminder: "%{count} lot(s) de travaux assigné(s) au groupe \"%{group}\" arrive(nt) à échéance dans %{days} jours :"
   mail_body_wiki_content_added: "La page wiki '%{id}' a été ajouté par %{author}."
   mail_body_wiki_content_updated: "La page wiki '%{id}' a été mise à jour par %{author}."
   mail_subject_account_activation_request: "Requête pour l'activation du compte %{value}"
   mail_subject_lost_password: "Votre mot de passe %{value}"
   mail_subject_register: "Votre activation du compte %{value}"
   mail_subject_reminder: "%{count} lot(s) de travaux à échéance dans les %{days} prochains jours"
+  mail_subject_group_reminder: "Pour le groupe \"%{group}\", %{count} lot(s) de travaux arrive(nt) à échéance dans %{days} jours"
   mail_subject_wiki_content_added: "Page wiki '%{id}' a été ajouté"
   mail_subject_wiki_content_updated: "Page wiki '%{id}' a été mise à jour"
   mail_user_activation_limit_reached:
@@ -1673,8 +1717,8 @@ fr:
       L'utilisateur ne peut pas activer son compte puisque la limite d'utilisateurs a été atteinte.
     steps:
       label: "Pour permettre à l'utilisateur de se connecter, vous pouvez soit: "
-      a: "Mettez à jour votre plan de paiement ([here](upgrade_url))"
-      b: "Verrouiller ou supprimer un utilisateur existant ([here](users_url))"
+      a: "Mettez à jour votre plan de paiement ([here](upgrade_url))" #here turned into a link
+      b: "Verrouiller ou supprimer un utilisateur existant ([here](users_url))" #here turned into a link
   more_actions: "Plus de fonctions"
   noscript_description: "Vous devez activer JavaScript afin d'utiliser OpenProject!"
   noscript_heading: "JavaScript désactivé"
@@ -1741,6 +1785,7 @@ fr:
   notice_project_cannot_update_custom_fields: "Vous ne pouvez pas mettre à jour les champs personnalisés disponibles du projet. Le projet n’est pas valide : %{errors}"
   notice_attachment_migration_wiki_page: >
     Cette page a été générée automatiquement durant la mise à jour de OpenProject. Il contient toutes les pièces jointes précédemment associées à la %{container_type} « %{container_name} ».
+  #Default format for numbers
   number:
     format:
       delimiter: ""
@@ -1857,6 +1902,8 @@ fr:
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
+  #possible query parameters (e.g. issue queries),
+  #which are not attributes of an AR-Model.
   query_fields:
     active_or_archived: "Actif ou archivé"
     assigned_to_role: "Rôle du Destinataire"
@@ -2100,6 +2147,7 @@ fr:
   status_invited: invité
   status_locked: verrouillé
   status_registered: enregistré
+  #Used in array.to_sentence.
   support:
     array:
       sentence_connector: "et"
@@ -2487,20 +2535,24 @@ fr:
       status: 'Préautorisation'
     errors:
       messages:
+        #Common error messages
         invalid_request: 'Il manque à la requête un paramètre requis, inclut une valeur de paramètre non supportée ou est malformée d''une autre manière.'
-        invalid_redirect_uri: "L'uri de redirection demandée est malformée ou ne correspond pas à l'URI de redirection client."
+        invalid_redirect_uri: "L'URI de redirection demandée est mal formée ou ne correspond pas à l'URI de redirection client."
         unauthorized_client: 'Le client n''est pas autorisé à effectuer cette demande en utilisant cette méthode.'
         access_denied: 'Le propriétaire de la ressource ou le serveur d''autorisation a refusé la demande.'
         invalid_scope: 'La portée demandée est invalide, inconnue ou incorrecte.'
         invalid_code_challenge_method: 'La méthode de défi du code doit être simple ou S256.'
         server_error: 'Le serveur d''autorisation a rencontré une condition inattendue qui l''a empêché de remplir la requête.'
         temporarily_unavailable: 'Le serveur d''autorisation n''est pas en mesure de gérer la requête en raison d''une surcharge temporaire ou d''une maintenance du serveur.'
+        #Configuration error messages
         credential_flow_not_configured: 'Échec du flux des informations d''identification du mot de passe du propriétaire de la ressource car Doorkeeper.configure.resource_owner_from_credentials non configurés.'
         resource_owner_authenticator_not_configured: 'Impossible de trouver le propriétaire de la ressource car Doorkeeper.configure.resource_owner_authenticator non configuré.'
         admin_authenticator_not_configured: 'L''accès au panneau d''administration est interdit en raison de l''absence de configuration de Doorkeeper.configure.admin_authenticator.'
+        #Access grant errors
         unsupported_response_type: 'Le serveur d''autorisation ne supporte pas ce type de réponse.'
+        #Access token errors
         invalid_client: 'L''authentification du client a échoué en raison d''un client inconnu, d''une authentification du client non supportée ou d''une méthode d''authentification non supportée.'
-        invalid_grant: 'L''autorisation accordée est invalide, expirée, révoquée, ne correspond pas à l''URI de redirection utilisée dans la demande d''autorisation ou a été accordée à un autre client.'
+        invalid_grant: 'Le droit d’autorisation fourni n’est pas valide, a expiré, est révoqué, ne correspond pas à l’URI de redirection utilisée dans la requête d’autorisation, ou a été remis à un autre client.'
         unsupported_grant_type: 'Le type de subvention d''autorisation n''est pas supporté par le serveur d''autorisation.'
         invalid_token:
           revoked: "Le jeton d'accès a été révoqué"
@@ -2513,7 +2565,7 @@ fr:
     close_warning: "Ignorer cet avertissement."
   oauth:
     application:
-      singular: "Applications OAuth"
+      singular: "Application OAuth"
       plural: "Applications OAuth"
       named: "Application OAuth '%{name}'"
       new: "Nouvelle application Oauth"
@@ -2535,7 +2587,7 @@ fr:
       prompt_html: "Autoriser <strong>%{application_name}</strong> à utiliser votre compte <em>%{login}</em> ?"
       title: "Autoriser %{application_name}"
       wants_to_access_html: >
-        Cette application demande l'accès à votre compte OpenProject. <br/> <strong>Il a demandé les autorisations suivantes:</strong>Il a demandé les autorisations suivantes
+        Cette application demande l'accès à votre compte OpenProject. <br/> <strong>Il a demandé les autorisations suivantes:</strong>
     scopes:
       api_v3: "Accès API complet"
       api_v3_text: "L'application recevra un accès complet en lecture et écriture à l'API OpenProject pour effectuer des actions en votre nom."

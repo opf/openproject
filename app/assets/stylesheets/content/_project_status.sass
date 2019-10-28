@@ -1,0 +1,77 @@
+// Project status widget
+.ng-select
+  &.project-status
+    max-width: 250px
+    .ng-select-container
+      min-height: 56px !important
+      height: 56px !important
+
+    .ng-input
+      height: 44px
+      line-height: 44px
+      input
+        font-weight: bold
+        font-size: 16px
+        text-transform: uppercase
+
+    .ng-clear-wrapper
+      margin-left: 11px
+
+.project-status--bulb
+  display: inline-block
+  width: 40px
+  height: 40px
+  border-radius: 50%
+  border-width: 10px
+  border-style: solid
+  margin-right: 7px
+  vertical-align: middle
+  &.-not-set
+    border-color: $project-status-gray
+    background-color: adjust-color($project-status-gray, $alpha: -0.7)
+  &.-off-track
+    border-color: $project-status-red
+    background-color: adjust-color($project-status-red, $alpha: -0.7)
+  &.-at-risk
+    border-color: $project-status-orange
+    background-color: adjust-color($project-status-orange, $alpha: -0.7)
+  &.-on-track
+    border-color: $project-status-green
+    background-color: adjust-color($project-status-green, $alpha: -0.7)
+
+  &.-inline
+    height: 24px
+    width: 24px
+    border-width: 6px
+
+.project-status--container
+  display: inline-block
+
+.project-status--display-field
+  height: 56px
+  .status.-editable
+    line-height: 50px
+    border-radius: 4px
+  &:hover
+    cursor: pointer
+
+.project-status--name
+  text-transform: uppercase
+  font-weight: bold
+  &.-not-set
+    color: $project-status-gray
+  &.-off-track
+    color: $project-status-red
+  &.-at-risk
+    color: $project-status-orange
+  &.-on-track
+    color: $project-status-green
+
+.project-status--pulldown-icon
+  font-size: 10px
+  vertical-align: middle
+  &:before
+    color: lightgrey
+
+.project-status--explanation
+  margin-top: 9px

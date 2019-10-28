@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 cs:
   no_results_title_text: Momentálně není nic k zobrazení.
   activities:
@@ -281,7 +302,7 @@ cs:
       changeset:
         repository: "Repozitář"
       comment:
-        commented: "Komentované"
+        commented: "Komentované" #an object that this comment belongs to
       custom_action:
         actions: "Akce"
       custom_field:
@@ -329,6 +350,13 @@ cs:
         types: "Typy"
         versions: "Verze"
         work_packages: "Pracovní balíčky"
+      project/status:
+        code: 'Stav'
+        explanation: 'Status description'
+        codes:
+          on_track: 'On track'
+          at_risk: 'At risk'
+          off_track: 'Off track'
       query:
         column_names: "Sloupce"
         relations_to_type_column: "Relations to %{type}"
@@ -420,6 +448,8 @@ cs:
         confirmation: "doesn't match %{attribute}."
         could_not_be_copied: "nelze (celé) zkopírovat."
         does_not_exist: "neexistuje."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "nemůže být prázdné."
         even: "musí být sudé."
         exclusion: "vyhrazeno."
@@ -483,6 +513,8 @@ cs:
               invalid_values: "Hodnota není platná."
               id_filter_required: "An 'id' filter is required."
         project:
+          archived_ancestor: 'The project has an archived ancestor.'
+          foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
             types:
               in_use_by_work_packages: "stále používáno pracovními balíčky: %{types}"
@@ -617,6 +649,7 @@ cs:
   activity:
     created: "Vytvořeno: %{title}"
     updated: "Aktualizováno: %{title}"
+  #common attributes of all models
   attributes:
     active: "Aktivní"
     assigned_to: "Řešitel"
@@ -649,6 +682,7 @@ cs:
     is_default: "Výchozí hodnota"
     is_for_all: "Pro všechny projekty"
     is_public: "Veřejné"
+    #kept for backwards compatibility
     issue: "Pracovní balíček"
     lastname: "Příjmení"
     login: "Username"
@@ -657,6 +691,7 @@ cs:
     password: "Heslo"
     priority: "Priorita"
     project: "Projekt"
+    public: "Veřejné"
     responsible: "Odpovědný"
     role: "Role"
     roles: "Role"
@@ -792,9 +827,13 @@ cs:
       - "pátek"
       - "sobota"
     formats:
+      #Use the strftime parameters for formats.
+      #When no format has been given, it uses default.
+      #You can provide other formats here if you like!
       default: "%d. %m. %Y"
       long: "%d. %B %Y"
       short: "%d. %b"
+    #Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names:
       - null
       - "leden"
@@ -809,6 +848,7 @@ cs:
       - "říjen"
       - "listopad"
       - "prosinec"
+    #Used in date_select and datime_select.
     order:
       - :rok
       - ':měsíc'
@@ -962,6 +1002,7 @@ cs:
   description_sub_work_package: "Dílčí pracovní balíček aktuálního"
   description_toc_toggle: "Zobrazit/Skrýt obsah"
   description_wiki_subpages_reassign: "Vyberte si novou nadřízenou stránku"
+  #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: zleva doprava
   ee:
     upsale:
@@ -976,7 +1017,7 @@ cs:
   enumeration_system_activity: "Činnost systému"
   enumeration_reported_project_statuses: "Nahlášený stav projektu"
   error_auth_source_sso_failed: "Single Sign-On (SSO) for user '%{value}' failed"
-  error_can_not_archive_project: "This project cannot be archived: There is at least one work package assigned to a version defined in this project."
+  error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Unable to delete entry"
   error_can_not_delete_custom_field: "Nelze odstranit vlastní pole"
   error_can_not_delete_type: "Tento typ obsahuje pracovní balíčky a nedá sa odstrániť."
@@ -985,6 +1026,7 @@ cs:
   error_can_not_remove_role: "Tato role je používána a nelze ji odstranit."
   error_can_not_reopen_work_package_on_closed_version: "Pracovní balíček v uzavřené verzi nemůže být znovu otevřen"
   error_can_not_find_all_resources: "Could not find all related resources to this request."
+  error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Vyberte uživatele a roli."
   error_code: "Error %{code}"
   error_cookie_missing: 'The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without.'
@@ -1699,12 +1741,14 @@ cs:
   mail_body_lost_password: "Pro změnu vašeho hesla klikněte na následující odkaz:"
   mail_body_register: "Pro aktivaci vašeho účtu klikněte na následující odkaz:"
   mail_body_reminder: "%{count} pracovních balíčků, které máte přiřazeny, mají termín během následujících %{days} dnů:"
+  mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
   mail_body_wiki_content_added: "The '%{id}' wiki page has been added by %{author}."
   mail_body_wiki_content_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} account activation request"
   mail_subject_lost_password: "Your %{value} password"
   mail_subject_register: "Your %{value} account activation"
   mail_subject_reminder: "%{count} work package(s) due in the next %{days} days"
+  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
   mail_user_activation_limit_reached:
@@ -1713,8 +1757,8 @@ cs:
       Nový uživatel (%{email}) se pokusil vytvořit účet v prostředí OpenProject spravovaném vámi (%{host}). Uživatel nemůže aktivovat svůj účet, protože bylo dosaženo limitu v počtu uživatelů.
     steps:
       label: "Chcete-li umožnit uživateli přihlášení můžete buď: "
-      a: "Upgrade plánu plateb ([here](upgrade_url))"
-      b: "Zamknutí nebo odstranění existujícího uživatele ([here](users_url))"
+      a: "Upgrade plánu plateb ([here](upgrade_url))" #here turned into a link
+      b: "Zamknutí nebo odstranění existujícího uživatele ([here](users_url))" #here turned into a link
   more_actions: "Další funkce"
   noscript_description: "You need to activate JavaScript in order to use OpenProject!"
   noscript_heading: "Javascript zakázán"
@@ -1781,6 +1825,7 @@ cs:
   notice_project_cannot_update_custom_fields: "You cannot update the project's available custom fields. The project is invalid: %{errors}"
   notice_attachment_migration_wiki_page: >
     This page was generated automatically during the update of OpenProject. It contains all attachments previously associated with the %{container_type} "%{container_name}".
+  #Default format for numbers
   number:
     format:
       delimiter: ""
@@ -1899,6 +1944,8 @@ cs:
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
+  #possible query parameters (e.g. issue queries),
+  #which are not attributes of an AR-Model.
   query_fields:
     active_or_archived: "Aktivní nebo archivované"
     assigned_to_role: "Řešitelova role"
@@ -2142,6 +2189,7 @@ cs:
   status_invited: invited
   status_locked: uzamčeno
   status_registered: registrován
+  #Used in array.to_sentence.
   support:
     array:
       sentence_connector: "a"
@@ -2533,18 +2581,22 @@ cs:
       status: 'Pre-authorization'
     errors:
       messages:
+        #Common error messages
         invalid_request: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
-        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
+        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
         unauthorized_client: 'The client is not authorized to perform this request using this method.'
         access_denied: 'The resource owner or authorization server denied the request.'
         invalid_scope: 'The requested scope is invalid, unknown, or malformed.'
         invalid_code_challenge_method: 'The code challenge method must be plain or S256.'
         server_error: 'The authorization server encountered an unexpected condition which prevented it from fulfilling the request.'
         temporarily_unavailable: 'The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server.'
+        #Configuration error messages
         credential_flow_not_configured: 'Resource Owner Password Credentials flow failed due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.'
         resource_owner_authenticator_not_configured: 'Resource Owner find failed due to Doorkeeper.configure.resource_owner_authenticator being unconfigured.'
         admin_authenticator_not_configured: 'Access to admin panel is forbidden due to Doorkeeper.configure.admin_authenticator being unconfigured.'
+        #Access grant errors
         unsupported_response_type: 'The authorization server does not support this response type.'
+        #Access token errors
         invalid_client: 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.'
         invalid_grant: 'The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.'
         unsupported_grant_type: 'The authorization grant type is not supported by the authorization server.'

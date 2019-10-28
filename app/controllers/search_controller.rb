@@ -200,7 +200,7 @@ class SearchController < ApplicationController
           name: OpenProject::GlobalSearch.tab_name(search_type)
         }
       end,
-      current_tab: available_search_types.select { |search_type| search_params[search_type] }.first || 'all'
+      current_tab: available_search_types.detect { |search_type| search_params[search_type] } || 'all'
     }
   end
 end

@@ -32,13 +32,15 @@ require 'rack/test'
 describe 'BCF XML API v1 bcf_xml resource', type: :request do
   include Rack::Test::Methods
 
+  let!(:status) { FactoryBot.create(:status, name: 'New', is_default: true) }
+  let!(:type) { FactoryBot.create :type, name: 'Issue', is_standard: true, is_default: true }
+  let!(:priority) { FactoryBot.create(:issue_priority, name: "Mega high", is_default: true) }
+  let!(:project) { FactoryBot.create(:project, types: [type]) }
+
   let(:current_user) do
     FactoryBot.create(:user, member_in_project: project, member_through_role: role, firstname: "BIMjamin")
   end
-  let(:status) { FactoryBot.create(:status, name: 'New', is_default: true) }
-  let(:priority) { FactoryBot.create(:issue_priority, name: "Mega high", is_default: true)}
-  let(:work_package) { FactoryBot.create(:work_package, status: status, priority: priority) }
-  let(:project) { work_package.project }
+  let(:work_package) { FactoryBot.create(:work_package, status: status, priority: priority, project: project) }
   let(:bcf_issue) { FactoryBot.create(:bcf_issue_with_comment, work_package: work_package) }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:permissions) { %i(view_work_packages view_linked_issues) }
@@ -126,6 +128,8 @@ describe 'BCF XML API v1 bcf_xml resource', type: :request do
     end
 
     before do
+      work_package
+      
       expect(project.work_packages.count).to eql(1)
       post path, params, 'CONTENT_TYPE' => 'multipart/form-data'
     end

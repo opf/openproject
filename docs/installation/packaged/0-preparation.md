@@ -26,5 +26,5 @@ requests to the Unicorn processes.
 * Unicorn (application server) – this component hosts the actual application.
   By default, there is two unicorn processes running in parallel on the app
 server machine.
-* Ruby 2.2 (MRI) and necessary libraries to run the OpenProject source code.
+* Ruby 2.6 (MRI) and necessary libraries to run the OpenProject source code.
 

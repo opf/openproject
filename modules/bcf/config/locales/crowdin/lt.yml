@@ -1,11 +1,12 @@
+#English strings go here for Rails i18n
 lt:
   bcf:
     label_bcf: 'BCF'
     label_imported_failed: 'Failed imports of BCF topics'
     label_imported_successfully: 'Successfully imported BCF topics'
     issues: "Issues"
-    recommended: 'recommended'
-    not_recommended: 'not recommended'
+    recommended: 'rekomenduojama'
+    not_recommended: 'nerekomenduojama'
     no_viewpoints: 'No viewpoints'
     new_badge: "Naujas"
     exceptions:
@@ -40,18 +41,18 @@ lt:
         invalid_emails_found: 'Invalid email addresses found'
         unknown_emails_found: 'Unknown email addresses found'
         unknown_property: 'Unknown property'
-        non_members_found: 'Non project members found'
-        import_types_as: 'Set all these types to'
-        import_statuses_as: 'Set all these statuses to'
-        import_priorities_as: 'Set all these priorities to'
-        invite_as_members_with_role: 'Invite them as members to the project "%{project}" with role'
-        add_as_members_with_role: 'Add them as members to the project "%{project}" with role'
-        no_type_provided: 'No type provided'
-        no_status_provided: 'No status provided'
-        no_priority_provided: 'No priority provided'
-        perform_description: "Do you want to import or update the issues listed above?"
-        replace_with_system_user: 'Replace them with "System" user'
-        import_as_system_user: 'Import them as "System" user.'
+        non_members_found: 'Rasti ne projekto nariai'
+        import_types_as: 'Nustatyti visus šiuos tipus į'
+        import_statuses_as: 'Nustatyti visas būsenas į'
+        import_priorities_as: 'Nustatyti visus prioritetus į'
+        invite_as_members_with_role: 'Pakviesti juos kaip projekto „%{project}“ narius su role'
+        add_as_members_with_role: 'Pridėti juos kaip projekto „%{project}“ narius su role'
+        no_type_provided: 'Nenurodytas tipas'
+        no_status_provided: 'Nenurodyta būsena'
+        no_priority_provided: 'Nenurodytas prioritetas'
+        perform_description: "Norite importuoti ar atnaujinti aukščiau pateiktas problemas?"
+        replace_with_system_user: 'Pakeisti juos „Sistemos“ naudotoju'
+        import_as_system_user: 'Importuoti juos kaip „Sistemos“ naudotojus.'
         what_to_do: "Ką norite daryti?"
         work_package_has_newer_changes: "Outdated! This topic was not updated as the latest changes on the server were newer than the \"ModifiedDate\" of the imported topic. However, comments to the topic were imported."
   export:

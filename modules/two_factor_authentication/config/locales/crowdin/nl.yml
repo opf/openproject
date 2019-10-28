@@ -1,8 +1,9 @@
+#English strings go here for Rails i18n
 nl:
   activerecord:
     attributes:
       two_factor_authentication/device:
-        identifier: 'ID'
+        identifier: 'Identifier'
         default: 'Gebruik als standaard'
       two_factor_authentication/device/sms:
         phone_number: "Telefoonnummer"

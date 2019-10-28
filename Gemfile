@@ -28,14 +28,14 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 2.6.1'
+ruby '~> 2.6.5'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
-gem 'activerecord-import', '~> 0.28.1'
+gem 'activerecord-import', '~> 1.0.2'
 gem 'activerecord-session_store', '~> 1.1.0'
-gem 'rails', '~> 5.2.2.1'
-gem 'responders', '~> 2.4'
+gem 'rails', '~> 6.0.0'
+gem 'responders', '~> 3.0'
 
 gem 'rdoc', '>= 2.4.2'
 
@@ -50,15 +50,16 @@ gem 'warden-basic_auth', '~> 0.2.1'
 
 gem 'will_paginate', '~> 3.1.7'
 
-gem 'friendly_id', '~> 5.2.1'
+# Replace once friendly_id release supports rails 6
+gem 'friendly_id', git: 'https://github.com/norman/friendly_id', ref: '67422c04e1bfed4207b2a04826bc67ec0e231ce7'
 
 gem 'acts_as_list', '~> 0.9.9'
-gem 'acts_as_tree', '~> 2.8.0'
-gem 'awesome_nested_set', '~> 3.1.3'
-gem 'rubytree', git: 'https://github.com/dr0verride/RubyTree.git', ref: '06f53ee'
+gem 'acts_as_tree', '~> 2.9.0'
+gem 'awesome_nested_set', '~> 3.2.0'
+gem 'rubytree', '~> 1.0.0'
 gem 'typed_dag', '~> 2.0.2'
 
-gem 'addressable', '~> 2.6.0'
+gem 'addressable', '~> 2.7.0'
 
 # Provide timezone info for TZInfo used by AR
 gem 'tzinfo-data', '~> 1.2018.9'
@@ -74,7 +75,7 @@ gem 'commonmarker', '~> 0.20.1'
 
 # HTML pipeline for transformations on text formatter output
 # such as sanitization or additional features
-gem 'html-pipeline', '~> 2.8.0'
+gem 'html-pipeline', '~> 2.12.0'
 # Tasklist parsing and renderer
 gem 'deckar01-task_list', '2.2.0'
 # Requires escape-utils for faster escaping
@@ -82,7 +83,7 @@ gem 'escape_utils', '~> 1.0'
 # Syntax highlighting used in html-pipeline with rouge
 gem 'rouge', '~> 3.1.1'
 # HTML sanitization used for html-pipeline
-gem 'sanitize', '~> 5.0.0'
+gem 'sanitize', '~> 5.1.0'
 # HTML autolinking for mails and urls (replaces autolink)
 gem 'rinku', '~> 2.0.4'
 # Version parsing with semver
@@ -104,10 +105,10 @@ gem 'posix-spawn', '~> 0.3.13', require: false
 gem 'bcrypt', '~> 3.1.6'
 
 gem 'multi_json', '~> 1.13.1'
-gem 'oj', '~> 3.7.0'
+gem 'oj', '~> 3.9.1'
 
 gem 'daemons'
-gem 'delayed_job_active_record', '~> 4.1.1'
+gem 'delayed_job_active_record', '~> 4.1.4'
 
 gem 'rack-protection', '~> 2.0.0'
 
@@ -115,13 +116,13 @@ gem 'rack-protection', '~> 2.0.0'
 # It allows whitelisting, blacklisting, throttling, and tracking based
 # on arbitrary properties of the request.
 # https://github.com/kickstarter/rack-attack
-gem 'rack-attack', '~> 5.4.2'
+gem 'rack-attack', '~> 6.1.0'
 
 # CSP headers
-gem 'secure_headers', '~> 6.0.0'
+gem 'secure_headers', '~> 6.1.1'
 
 # Browser detection for incompatibility checks
-gem 'browser', '~> 2.5.3'
+gem 'browser', '~> 2.6.1'
 
 # Providing health checks
 gem 'okcomputer', '~> 1.17.3'
@@ -133,7 +134,7 @@ gem 'lograge', '~> 0.10.0'
 
 # catch exceptions and send them to any airbrake compatible backend
 # don't require by default, instead load on-demand when actually configured
-gem 'airbrake', '~> 8.0.1', require: false
+gem 'airbrake', '~> 9.4.3', require: false
 
 gem 'prawn', '~> 2.2'
 gem 'prawn-table', '~> 0.2.2'
@@ -146,18 +147,14 @@ gem 'meta-tags', '~> 2.11.0'
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
-  # see https://github.clientom/mperham/dalli
-  gem 'dalli',
-      git: 'https://github.com/petergoldstein/dalli',
-      ref: '0ff39199b5e91c6dbdaabc7c085b81938d0f08d2'
+  gem 'dalli', '~> 2.7.10'
 
   # Unicorn worker killer to restart unicorn child workers
   gem 'unicorn-worker-killer', require: false
 end
 
 gem 'autoprefixer-rails', '~> 9.4.5'
-# use until proper release no longer requiring sass exists
-gem 'bourbon', git: 'https://github.com/sikachu/bourbon', ref: 'a12ca168e74d3468c80500b21b525a4e12a19ef9'
+gem 'bourbon', '~> 6.0.0'
 gem 'i18n-js', '~> 3.2.0'
 gem 'sassc-rails', '~> 2.1.0'
 gem 'sprockets', '~> 3.7.0'
@@ -166,18 +163,18 @@ gem 'sprockets', '~> 3.7.0'
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
 
-gem 'puma', '~> 4.0.0' # used for development and optionally for production
+gem 'puma', '~> 4.2.0' # used for development and optionally for production
 
 gem 'nokogiri', '~> 1.10.4'
 
 gem 'carrierwave', '~> 1.3.1'
 gem 'fog-aws'
 
-gem 'aws-sdk-core', '~> 3.46.0'
+gem 'aws-sdk-core', '~> 3.66.0'
 # File upload via fog + screenshots on travis
-gem 'aws-sdk-s3', '~> 1.30.1'
+gem 'aws-sdk-s3', '~> 1.48.0'
 
-gem 'openproject-token', '~> 1.0.1'
+gem 'openproject-token', '~> 1.0.2'
 
 gem 'plaintext', '~> 0.3.2'
 
@@ -199,16 +196,16 @@ group :test do
 
   # Test prof provides factories from code
   # and other niceties
-  gem 'test-prof', '~> 0.7.3'
+  gem 'test-prof', '~> 0.10.0'
 
   gem 'cucumber', '~> 3.1.0'
-  gem 'cucumber-rails', '~> 1.6.0', require: false
+  gem 'cucumber-rails', '~> 1.8.0', require: false
   gem 'database_cleaner', '~> 1.6'
   gem 'rack_session_access'
   gem 'rspec', '~> 3.8.0'
   gem 'rspec-activemodel-mocks', '~> 1.1.0', git: 'https://github.com/rspec/rspec-activemodel-mocks'
   # also add to development group, so "spec" rake task gets loaded
-  gem 'rspec-rails', '~> 3.8.1', group: :development
+  gem 'rspec-rails', '~> 4.0.0beta2', group: :development
 
   # Retry failures within the same environment
   gem 'retriable', '~> 3.1.1'
@@ -219,7 +216,7 @@ group :test do
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'capybara', '~> 3.13.0'
+  gem 'capybara', '~> 3.29.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
   gem 'webdrivers', '~> 4.1.2', require: false
@@ -227,14 +224,13 @@ group :test do
 
   gem 'fuubar', '~> 2.3.2'
   gem 'timecop', '~> 0.9.0'
-  gem 'webmock', '~> 3.5.0', require: false
+  gem 'webmock', '~> 3.7.2', require: false
 
   gem 'equivalent-xml', '~> 0.6'
   gem 'json_spec', '~> 1.1.4'
   gem 'shoulda-matchers', '~> 3.1', require: nil
-  gem 'simplecov', '~> 0.16.0', require: false
 
-  gem 'parallel_tests', '~> 2.27.1'
+  gem 'parallel_tests', '~> 2.29.2'
 end
 
 group :ldap do
@@ -261,20 +257,20 @@ group :development, :test do
   gem 'ruby-prof', require: false
   gem 'stackprof', require: false
 
-  gem 'pry-byebug', '~> 3.6.0', platforms: [:mri]
+  gem 'pry-byebug', '~> 3.7.0', platforms: [:mri]
   gem 'pry-rails', '~> 0.3.6'
   gem 'pry-rescue', '~> 1.5.0'
   gem 'pry-stack_explorer', '~> 0.4.9.2'
 
   # Dangerfile scanner on travis and locally
-  gem 'danger', '~> 6.0.9'
+  gem 'danger', '~> 6.1.0'
 
   # Brakeman scanner
   gem 'brakeman', '~> 4.6.1'
   gem 'danger-brakeman'
 end
 
-gem 'bootsnap', '~> 1.3.2', require: false
+gem 'bootsnap', '~> 1.4.5', require: false
 
 # API gems
 gem 'grape', '~> 1.2.3'
@@ -289,7 +285,7 @@ platforms :mri, :mingw, :x64_mingw do
   end
 
   # Support application loading when no database exists yet.
-  gem 'activerecord-nulldb-adapter', '~> 0.3.9'
+  gem 'activerecord-nulldb-adapter', '~> 0.4.0'
 end
 
 group :opf_plugins do

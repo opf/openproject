@@ -28,6 +28,12 @@ ro:
         project_details:
           title: 'Project details'
           no_results: 'No custom fields have been defined for projects.'
+        project_status:
+          title: 'Stare proiect'
+          on_track: 'On track'
+          off_track: 'Off track'
+          at_risk: 'At risk'
+          not_set: 'Not set'
         subprojects:
           title: 'Subproiecte'
           no_results: 'No subprojects.'

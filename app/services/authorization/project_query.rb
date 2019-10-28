@@ -60,7 +60,7 @@ class Authorization::ProjectQuery < Authorization::AbstractQuery
   end
 
   def self.project_active_condition
-    projects_table[:status].eq(Project::STATUS_ACTIVE)
+    projects_table[:active].eq(true)
   end
 
   def self.members_member_roles_join
@@ -124,7 +124,7 @@ class Authorization::ProjectQuery < Authorization::AbstractQuery
                      Role::BUILTIN_ANONYMOUS
                    end
 
-    projects_table[:is_public]
+    projects_table[:public]
       .eq(true)
       .and(assigned_roles_table[:builtin].eq(builtin_role))
       .and(member_roles_table[:id].eq(nil))

@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 id:
   js:
     ajax:
@@ -24,7 +45,7 @@ id:
     button_check_all: "Cek semua"
     button_configure-form: "Mengkonfigurasi formulir"
     button_confirm: "Konfirmasi"
-    button_continue: "Lanjut"
+    button_continue: "Lanjutkan"
     button_copy: "Salin"
     button_custom-fields: "Isian kustom"
     button_delete: "Hapus"
@@ -171,16 +192,20 @@ id:
     general_text_yes: "yes"
     general_text_No: "No"
     general_text_Yes: "Yes"
+    hal:
+      error:
+        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
+        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        format:
+          date: "%{attribute} is no valid date - YYYY-MM-DD expected."
+        general: "An error has occurred."
     homescreen:
       blocks:
         new_features:
           text_new_features: "Read about new features and product updates."
-          current_new_feature_html: "OpenProject contains a new <b>Boards view</b> for Agile project management. </br> To activate this new feature for your existing projects, please do the following steps: <ul><li>Activate the module Boards within existing projects' settings.</li> <li>Configure your Boards in a project.</li> <li>Verify roles and permissions</li></ul>"
-          image_alt_text: "Board teaser image"
-          learn_about: "Learn more about Agile Boards"
+          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
+          learn_about: "Learn more about the new status widgets"
     label_activate: "Aktifkan"
-    label_activity_no: "Activity entry number %{activityNo}"
-    label_activity_with_comment_no: "Activity entry number %{activityNo}. Has a user comment."
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
     label_add_columns: "Tambah kolom"
@@ -232,7 +257,7 @@ id:
     label_filesize: "Size"
     label_greater_or_equal: ">="
     label_group: 'Grup'
-    label_group_by: "Grup oleh"
+    label_group_by: "Pengelompokan"
     label_hide_attributes: "Show less"
     label_hide_column: "Sembunyikan kolom"
     label_hide_project_menu: "Collapse project menu"
@@ -254,6 +279,7 @@ id:
     label_no_data: "Tidak ada data untuk ditampilkan"
     label_no_due_date: "tidak ada tanggal berakhir"
     label_no_start_date: "tidak ada tanggal mulai"
+    label_no_value: "Kosongkan"
     label_none: "kosong"
     label_not_contains: "tidak berisi"
     label_not_equals: "tidak"
@@ -385,7 +411,7 @@ id:
       click_to_switch_context: 'Buka paket kerja ini dalam proyek tersebut.'
       autocompleter:
         label: 'Penyelesaian Proyek secara otomatis'
-    text_are_you_sure: "Apakah anda yakin?"
+    text_are_you_sure: "Anda yakin?"
     types:
       attribute_groups:
         error_duplicate_group_name: "Nama %{group} digunakan lebih dari satu kali. Nama grup harus unik."
@@ -584,12 +610,6 @@ id:
       description_enter_text: "Masukkan teks"
       description_options_hide: "Sembunyikan opsi"
       description_options_show: "Tampilkan opsi"
-      error:
-        update_conflict_refresh: "Click here to refresh the work package and update to the newest version."
-        edit_prohibited: "Editing %{attribute} is blocked for this work package. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
-        format:
-          date: "%{attribute} is no valid date - YYYY-MM-DD expected."
-        general: "An error has occurred."
       edit_attribute: "%{attribute} - Edit"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Enable multiselect"
@@ -604,7 +624,6 @@ id:
       message_view_spent_time: "Show spent time for this work package"
       message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
-      no_value: "Kosongkan"
       placeholder_filter_by_text: "Subject, description, comments, ..."
       inline_create:
         title: 'Click here to add a new work package to this list'
@@ -671,11 +690,11 @@ id:
         label_content: "Klik di sini untuk melompati menu dan langsung ke isi"
       placeholders:
         default: "Hapus nilai"
-        description: "Klik untuk masukkan keterangan..."
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Kolom"
         group_by: "Group"
-        group: "Grup oleh"
+        group: "Pengelompokan"
         group_by_disabled_by_hierarchy: "Pengelompokan dengan, dinonaktifkan sehubungan dengan modus hirarki menjadi aktif."
         hierarchy_disabled_by_group_by: "Modus hirarki dinonaktifkan sehubungan dengan hasil yang dikelompokkan menurut %{column}."
         sort_ascending: "Urutkan askending"

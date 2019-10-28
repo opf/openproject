@@ -1,3 +1,18 @@
+#-- copyright
+#OpenProject Meeting Plugin
+#Copyright (C) 2011-2014 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See doc/COPYRIGHT.md for more details.
+#++
+#English strings go here for Rails i18n
 de:
   activerecord:
     attributes:
@@ -32,7 +47,7 @@ de:
   label_meeting_agenda: "Agenda"
   label_meeting_minutes: "Protokoll"
   label_meeting_close: "Schließen"
-  label_meeting_open: "Öffnen"
+  label_meeting_open: "Offene"
   label_meeting_agenda_close: "Agenda schließen um mit dem Protokoll zu beginnen"
   label_meeting_date_time: "Datum/Uhrzeit"
   label_meeting_diff: "Differenz"
@@ -40,7 +55,7 @@ de:
   label_icalendar: "ICalendar senden"
   label_version: "Version"
   label_time_zone: "Zeitzone"
-  label_start_date: "Beginn"
+  label_start_date: "Anfangstermin"
   notice_successful_notification: "Benachrichtigung erfolgreich gesendet"
   notice_timezone_missing: Keine Zeitzone eingestellt und daher %{zone} angenommen. Um Ihre Zeitzone einzustellen, klicken Sie bitte hier.
   permission_create_meetings: "Besprechungen erstellen"

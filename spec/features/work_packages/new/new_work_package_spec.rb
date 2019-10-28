@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'support/work_packages/work_package_field'
+require 'support/edit_fields/edit_field'
 require 'features/work_packages/work_packages_page'
 require 'features/page_objects/notification'
 

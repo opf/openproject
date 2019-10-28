@@ -31,8 +31,8 @@ require 'spec_helper'
 describe User, 'allowed_to?' do
   let(:user) { FactoryBot.build(:user) }
   let(:anonymous) { FactoryBot.build(:anonymous) }
-  let(:project) { FactoryBot.build(:project, is_public: false) }
-  let(:project2) { FactoryBot.build(:project, is_public: false) }
+  let(:project) { FactoryBot.build(:project, public: false) }
+  let(:project2) { FactoryBot.build(:project, public: false) }
   let(:role) { FactoryBot.build(:role) }
   let(:role2) { FactoryBot.build(:role) }
   let(:anonymous_role) { FactoryBot.build(:anonymous_role) }
@@ -59,7 +59,7 @@ describe User, 'allowed_to?' do
 
     context 'w/ the user being admin' do
       before do
-        user.update_attribute(:admin, true)
+        user.update(admin: true)
 
         project.save
 
@@ -74,8 +74,8 @@ describe User, 'allowed_to?' do
     context 'w/ the user being admin
              w/ the project being archived' do
       before do
-        user.update_attribute(:admin, true)
-        project.update_attribute(:status, Project::STATUS_ARCHIVED)
+        user.update(admin: true)
+        project.update(active: false)
 
         final_setup_step
       end
@@ -88,7 +88,7 @@ describe User, 'allowed_to?' do
     context 'w/ the user being admin
              w/ the project module the permission belongs to being inactive' do
       before do
-        user.update_attribute(:admin, true)
+        user.update(admin: true)
         project.enabled_module_names = []
 
         final_setup_step
@@ -170,7 +170,7 @@ describe User, 'allowed_to?' do
              w/o the role having the necessary permission
              w/ non members having the necessary permission' do
       before do
-        project.is_public = false
+        project.public = false
 
         non_member = Role.non_member
         non_member.add_permission! permission
@@ -191,7 +191,7 @@ describe User, 'allowed_to?' do
       let(:permission) { :view_project }
 
       before do
-        project.is_public = false
+        project.public = false
 
         member.save!
 
@@ -207,7 +207,7 @@ describe User, 'allowed_to?' do
              w/ non member being allowed the action
              w/ the project being private' do
       before do
-        project.is_public = false
+        project.public = false
         project.save!
 
         non_member = Role.non_member
@@ -226,7 +226,7 @@ describe User, 'allowed_to?' do
              w/ the project being public
              w/ non members being allowed the action' do
       before do
-        project.is_public = true
+        project.public = true
         project.save!
 
         non_member = Role.non_member
@@ -246,7 +246,7 @@ describe User, 'allowed_to?' do
              w/ non members being allowed the action
              w/o the role being allowed the action' do
       before do
-        project.is_public = true
+        project.public = true
         project.save!
 
         non_member = Role.non_member
@@ -266,7 +266,7 @@ describe User, 'allowed_to?' do
              w/ the project being public
              w/ anonymous being allowed the action' do
       before do
-        project.is_public = true
+        project.public = true
         project.save!
 
         anonymous_role.add_permission! permission
@@ -285,7 +285,7 @@ describe User, 'allowed_to?' do
       let(:permission) { :view_project }
 
       before do
-        project.is_public = true
+        project.public = true
         project.save!
 
         anonymous_role.save!
@@ -305,7 +305,7 @@ describe User, 'allowed_to?' do
       let(:permission) { { controller: '/project_settings', action: 'show' } }
 
       before do
-        project.is_public = true
+        project.public = true
         project.save!
 
         anonymous_role.add_permission! :manage_categories
@@ -323,7 +323,7 @@ describe User, 'allowed_to?' do
              w/ the project being public
              w/ anonymous being not allowed the action' do
       before do
-        project.is_public = true
+        project.public = true
         project.save!
 
         final_setup_step
@@ -374,8 +374,8 @@ describe User, 'allowed_to?' do
         non_member = Role.non_member
         non_member.add_permission! permission
 
-        project.update_attribute(:is_public, true)
-        project2.update_attribute(:is_public, true)
+        project.update(public: true)
+        project2.update(public: true)
 
         final_setup_step
       end
@@ -392,8 +392,8 @@ describe User, 'allowed_to?' do
         non_member = Role.non_member
         non_member.add_permission! permission
 
-        project.update_attribute(:is_public, true)
-        project2.update_attribute(:is_public, false)
+        project.update(public: true)
+        project2.update(public: false)
 
         final_setup_step
       end

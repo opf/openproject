@@ -147,7 +147,7 @@ describe "multi select custom values", clear_cache: true, js: true do
 
         # Open split view
         split_view = wp_table.open_split_view work_package
-        field = WorkPackageMultiSelectField.new(split_view.container, "customField#{custom_field.id}")
+        field = SelectField.new(split_view.container, "customField#{custom_field.id}")
 
         field.activate!
         field.unset_value "ham", true
@@ -224,21 +224,6 @@ describe "multi select custom values", clear_cache: true, js: true do
           wp_table.expect_work_package_listed(work_package)
           wp_table.expect_work_package_listed(work_package2)
           wp_table.expect_work_package_order work_package, work_package2
-        end
-
-        context 'when one of the custom_values is not numeric' do
-          it 'does not break the query (Regression #31123)' do
-            # Break one integer custom_value into something not castable
-            work_package2.custom_values.first.update_column(:value, 'string value')
-
-            wp_table.visit_query query
-            wp_table.expect_work_package_listed(work_package)
-            wp_table.expect_work_package_listed(work_package2)
-
-            expect(wp2_field.display_element).to have_text('string value not found')
-            expect(wp1_field.display_element).to have_text('pineapple')
-            expect(wp1_field.display_element).to have_text('ham')
-          end
         end
       end
 

@@ -36,6 +36,7 @@ import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
 import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 import {Observable} from "rxjs";
+import {buildApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
 
 @Injectable()
 export class VersionDmService {
@@ -72,6 +73,18 @@ export class VersionDmService {
     return this.halResourceService
       .get<CollectionResource<VersionResource>>(this.pathHelper.api.v3.projects.id(projectId).versions.toString())
       .toPromise();
+  }
+
+  public canCreateVersionInProject(id:string):Promise<boolean> {
+    return this.halResourceService
+      .get<CollectionResource<ProjectResource>>(
+        this.pathHelper.api.v3.versions.availableProjects.toString(),
+        { filters: buildApiV3Filter('id', '=', [id]).toJson() }
+      )
+      .toPromise()
+      .then((collection) => {
+        return collection.elements.length === 1;
+      });
   }
 
   public listProjectsAvailableForVersions():Promise<CollectionResource<ProjectResource>> {

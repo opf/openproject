@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 da:
   js:
     ajax:
@@ -170,16 +191,20 @@ da:
     general_text_yes: "ja"
     general_text_No: "Nej"
     general_text_Yes: "Ja"
+    hal:
+      error:
+        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
+        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        format:
+          date: "%{attribute} is no valid date - YYYY-MM-DD expected."
+        general: "Der opstod en fejl."
     homescreen:
       blocks:
         new_features:
           text_new_features: "Read about new features and product updates."
-          current_new_feature_html: "OpenProject contains a new <b>Boards view</b> for Agile project management. </br> To activate this new feature for your existing projects, please do the following steps: <ul><li>Activate the module Boards within existing projects' settings.</li> <li>Configure your Boards in a project.</li> <li>Verify roles and permissions</li></ul>"
-          image_alt_text: "Board teaser image"
-          learn_about: "Learn more about Agile Boards"
+          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
+          learn_about: "Learn more about the new status widgets"
     label_activate: "Aktivér"
-    label_activity_no: "Aktivitetsindlægsnummer %{activityNo}"
-    label_activity_with_comment_no: "Aktivitetsindlægsnummer %{activityNo}. Har en brugerkommentar."
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
     label_add_columns: "Add columns"
@@ -253,6 +278,7 @@ da:
     label_no_data: "Ingen data at vise"
     label_no_due_date: "ingen slutdato"
     label_no_start_date: "ingen startdato"
+    label_no_value: "Ingen værdi tildelt"
     label_none: "ingen"
     label_not_contains: "indeholder ikke"
     label_not_equals: "er ikke"
@@ -384,7 +410,7 @@ da:
       click_to_switch_context: 'Open this work package in that project.'
       autocompleter:
         label: 'Project autocompletion'
-    text_are_you_sure: "Sikker?"
+    text_are_you_sure: "Er du sikker?"
     types:
       attribute_groups:
         error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."
@@ -585,12 +611,6 @@ da:
       description_enter_text: "Indtast tekst"
       description_options_hide: "Gem muligheder"
       description_options_show: "Vis muligheder"
-      error:
-        update_conflict_refresh: "Click here to refresh the work package and update to the newest version."
-        edit_prohibited: "Editing %{attribute} is blocked for this work package. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
-        format:
-          date: "%{attribute} is no valid date - YYYY-MM-DD expected."
-        general: "Der opstod en fejl."
       edit_attribute: "%{attribute}: Redigér"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Tillad multimarkeringer"
@@ -605,7 +625,6 @@ da:
       message_view_spent_time: "Show spent time for this work package"
       message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
-      no_value: "Ingen værdi tildelt"
       placeholder_filter_by_text: "Subject, description, comments, ..."
       inline_create:
         title: 'Click here to add a new work package to this list'
@@ -672,7 +691,7 @@ da:
         label_content: "Click here to skip over the menu and go to the content"
       placeholders:
         default: "-"
-        description: "Klik for at indtaste beskrivelse..."
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Kolonner"
         group_by: "Gruppér resultater efter"

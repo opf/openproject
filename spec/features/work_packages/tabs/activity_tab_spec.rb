@@ -1,17 +1,17 @@
 require 'spec_helper'
 
 require 'features/work_packages/work_packages_page'
-require 'support/work_packages/work_package_field'
+require 'support/edit_fields/edit_field'
 
 describe 'Activity tab', js: true, selenium: true do
   def alter_work_package_at(work_package, attributes:, at:, user: User.current)
-    work_package.update_attributes(attributes.merge(updated_at: at))
+    work_package.update(attributes.merge(updated_at: at))
 
     note_journal = work_package.journals.last
-    note_journal.update_attributes(created_at: at, user: attributes[:user])
+    note_journal.update(created_at: at, user: attributes[:user])
   end
 
-  let(:project) { FactoryBot.create :project_with_types, is_public: true }
+  let(:project) { FactoryBot.create :project_with_types, public: true }
   let!(:work_package) do
     work_package = FactoryBot.create(:work_package,
                                      project: project,
@@ -20,7 +20,7 @@ describe 'Activity tab', js: true, selenium: true do
                                      journal_notes: initial_comment)
 
     note_journal = work_package.journals.last
-    note_journal.update_attributes(created_at: 5.days.ago.to_date.to_s)
+    note_journal.update(created_at: 5.days.ago.to_date.to_s)
 
     work_package
   end
@@ -153,9 +153,9 @@ describe 'Activity tab', js: true, selenium: true do
       it 'can quote a previous comment' do
         activity_tab.hover_action('1', :quote)
 
-        field = WorkPackageEditorField.new work_package_page,
-                                           'comment',
-                                           selector: '.work-packages--activity--add-comment'
+        field = TextEditorField.new work_package_page,
+                                    'comment',
+                                    selector: '.work-packages--activity--add-comment'
 
         field.expect_active!
 

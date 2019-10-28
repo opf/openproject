@@ -1,3 +1,4 @@
+#English strings go here for Rails i18n
 pt:
   activerecord:
     attributes:
@@ -26,7 +27,7 @@ pt:
     error_invalid_backup_code: 'Código de backup 2FA inválido'
     channel_unavailable: "O canal de entrega %{channel} não está disponível."
     no_valid_phone_number: "Não existe um número de telefone válido."
-    label_pwd_confirmation: "Palavra passe"
+    label_pwd_confirmation: "Senha"
     notice_pwd_confirmation: "Você precisa confirmar sua senha ao fazer alterações nessas configurações."
     label_device_type: "Tipo de dispositivo"
     label_default_device: "Dispositivo 2FA predefinido"
@@ -154,7 +155,7 @@ pt:
       cookie_removed: 'Todas as sessões 2FA lembradas foram removidas.'
       dont_ask_again: "Criar cookie para lembrar a autenticação 2FA neste cliente durante %{days} dias."
   field_phone: "Telemóvel"
-  field_otp: "Palavra-passe de utilização única"
+  field_otp: "Palavra-passe de uso único"
   notice_account_otp_invalid: "Palavra-passe de utilização única inválida."
   notice_account_otp_expired: "A senha única que você inseriu expirou."
   notice_developer_strategy_otp: "A estratégia do desenvolvedor gerou a seguinte senha única: %{token} (Canal: %{channel})"

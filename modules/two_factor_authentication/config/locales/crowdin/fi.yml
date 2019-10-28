@@ -1,8 +1,9 @@
+#English strings go here for Rails i18n
 fi:
   activerecord:
     attributes:
       two_factor_authentication/device:
-        identifier: 'Tunnistaa'
+        identifier: 'Tunniste'
         default: 'Käytä oletuksena'
       two_factor_authentication/device/sms:
         phone_number: "Puhelinnumero"
@@ -30,7 +31,7 @@ fi:
     notice_pwd_confirmation: "Sinun on vahvistettava salasanasi tehdessä muutoksia näihin asetuksiin."
     label_device_type: "Laitetyyppi"
     label_default_device: "Oletuksena 2FA-laite"
-    label_device: "2FA-laite"
+    label_device: "2FA laite"
     label_devices: "2FA laitteet"
     label_one_time_password: 'Kerta salasana'
     label_2fa_enabled: 'Kaksitasoinen todennus on aktiivinen'

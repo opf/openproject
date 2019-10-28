@@ -31,32 +31,19 @@
 class WorkPackages::DeleteService < ::BaseServices::Delete
   include ::WorkPackages::Shared::UpdateAncestors
 
-  def call
-    in_context(true) do
-      delete
-    end
-  end
-
   private
 
-  def delete
-    result = ServiceResult.new success: false,
-                               result: model
+  def persist(service_result)
+    descendants = model.descendants.to_a
 
-    WorkPackage.transaction do
-      descendants = model.descendants.to_a
+    result = super
 
-      result = super
-
-      if result.success?
-        update_ancestors_all_attributes(result.all_results).each do |ancestor_result|
-          result.merge!(ancestor_result)
-        end
-
-        destroy_descendants(descendants, result)
+    if result.success?
+      update_ancestors_all_attributes(result.all_results).each do |ancestor_result|
+        result.merge!(ancestor_result)
       end
 
-      result
+      destroy_descendants(descendants, result)
     end
 
     result

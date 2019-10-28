@@ -1,3 +1,18 @@
+#-- copyright
+#OpenProject Costs Plugin
+#Copyright (C) 2009 - 2014 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#version 3.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#++
+#---
 tr:
   activerecord:
     attributes:
@@ -7,11 +22,11 @@ tr:
         spent: "Harcanan"
         spent_on: "Tarih"
       cost_object:
-        author: "Yazar"
+        author: "Sahibi"
         available: "Uygun"
         budget: "Planlanmış"
         budget_ratio: "Harcanma (oranı)"
-        created_on: "Oluşturulma tarihi"
+        created_on: "Oluşturma tarihi"
         description: "Açıklama"
         fixed_date: "Düzenleme tarihi"
         spent: "Harcanan"
@@ -66,7 +81,7 @@ tr:
   button_cancel_edit_budget: "Bütçeyi düzenleme iptal et"
   button_cancel_edit_costs: "Düzenleme maliyetlerini iptal et"
   button_log_costs: "Günlük birim maliyetleri"
-  button_log_time: "Log time"
+  button_log_time: "Zaman kaydet"
   caption_booked_on_project: "Proje rezervasyonu yaptırdı"
   caption_default: "Varsayılan"
   caption_default_rate_history_for: "%{user} için varsayılan hızı geçmişi"

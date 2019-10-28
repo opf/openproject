@@ -60,7 +60,7 @@ class Journal < ActiveRecord::Base
     if attributes.is_a? Hash and attributes.values.first.is_a? Array
       attributes.each { |k, v| attributes[k] = v[1] }
     end
-    data.update_attributes attributes
+    data.update attributes
   end
 
   # In conjunction with the included Comparable module, allows comparison of journal records

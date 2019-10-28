@@ -31,7 +31,6 @@
 module OpenProject::TextFormatting::Formats
   module Markdown
     class Helper
-
       attr_reader :view_context
 
       def initialize(view_context)
@@ -57,10 +56,12 @@ module OpenProject::TextFormatting::Formats
         # Pass an optional resource to the CKEditor instance
         resource = context.fetch(:resource, {})
         helpers.content_tag 'ckeditor-augmented-textarea',
-                                 '',
-                                 'textarea-selector': "##{field_id}",
-                                 'preview-context': context[:preview_context],
-                                 'data-resource': resource.to_json
+                            '',
+                            'textarea-selector': "##{field_id}",
+                            'editor-type': context[:editor_type] || 'full',
+                            'preview-context': context[:preview_context],
+                            'data-resource': resource.to_json,
+                            'macros': context.fetch(:macros, true)
       end
 
       protected

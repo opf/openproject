@@ -1,3 +1,31 @@
+#-- copyright
+#OpenProject Backlogs Plugin
+#Copyright (C)2013-2014 the OpenProject Foundation (OPF)
+#Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
+#Copyright (C)2010-2011 friflaj
+#Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns
+#Copyright (C)2009-2010 Mark Maglana
+#Copyright (C)2009 Joe Heck, Nate Lowrie
+#This program is free software; you can redistribute it and/or modify it under
+#the terms of the GNU General Public License version 3.
+#OpenProject Backlogs is a derivative work based on ChiliProject Backlogs.
+#The copyright follows:
+#Copyright (C) 2010-2011 - Emiliano Heyns, Mark Maglana, friflaj
+#Copyright (C) 2011 - Jens Ulferts, Gregor Schmidt - Finn GmbH - Berlin, Germany
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See doc/COPYRIGHT.rdoc for more details.
+#++
+#---
 zh-TW:
   activerecord:
     attributes:
@@ -95,7 +123,7 @@ zh-TW:
   label_backlog: "待辦事項"
   label_backlogs: "待辦事項"
   label_backlogs_unconfigured: "您尚未設定待辦事項。請前往 '%{administration} -> %{plugins}' 然後在 %{configure} 連結上按一下。當你設定欄位後，再返回這個頁面使用這個工具。"
-  label_blocks_ids: "被禁止的工作項目 IDs"
+  label_blocks_ids: "已被限制的工作項目 IDs"
   label_burndown: "完成"
   label_column_in_backlog: "待辦事項的欄位"
   label_hours: "小時"
@@ -104,7 +132,7 @@ zh-TW:
   label_not_prioritized: "尚未安排優先順序"
   label_points: "點數"
   label_points_burn_down: "減少"
-  label_points_burn_up: "增加"
+  label_points_burn_up: "向上"
   label_product_backlog: "產品待辦事項"
   label_select_all: "全選"
   label_sprint_backlog: "進度待辦事項"
@@ -118,7 +146,7 @@ zh-TW:
   label_version_setting: "版本"
   label_version: '版本'
   label_webcal: "Webcal 串流"
-  label_wiki: "Wiki"
+  label_wiki: "維基"
   permission_view_master_backlog: "檢視主待辦事項"
   permission_view_taskboards: "檢視任務看板"
   permission_update_sprints: "更新進度"

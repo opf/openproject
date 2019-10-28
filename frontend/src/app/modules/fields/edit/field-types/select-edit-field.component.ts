@@ -39,7 +39,7 @@ import {SelectAutocompleterRegisterService} from "app/modules/fields/edit/field-
 
 export interface ValueOption {
   name:string;
-  $href:string | null;
+  $href:string|null;
 }
 
 @Component({
@@ -50,7 +50,6 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
   public options:any[];
   public valueOptions:ValueOption[];
-  public template:string = '/components/wp-edit/field-types/wp-edit-select-field.directive.html';
   public text:{ requiredPlaceholder:string, placeholder:string };
 
   public appendTo:any = null;
@@ -153,7 +152,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
   public onCreate(newElement:HalResource) {
     this.addValue(newElement);
-    this.selectedOption = { name: newElement.name, $href: newElement.$href };
+    this.selectedOption = {name: newElement.name, $href: newElement.$href};
     this.handler.handleUserSubmit();
   }
 
@@ -167,9 +166,19 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     // Nothing to do
   }
 
-  public onChange(value:HalResource) {
-    this.selectedOption = { name: value.name, $href: value.$href };
-    this.handler.handleUserSubmit();
+  public onChange(value:HalResource|undefined) {
+    if (value !== undefined) {
+      this.selectedOption = {name: value.name, $href: value.$href};
+      this.handler.handleUserSubmit();
+      return;
+    }
+
+    const emptyOption = this.getEmptyOption();
+
+    if (emptyOption) {
+      this.selectedOption = emptyOption;
+      this.handler.handleUserSubmit();
+    }
   }
 
   private addEmptyOption() {
@@ -180,12 +189,16 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
     // Since we use the original schema values, avoid adding
     // the option if one is returned / exists already.
-    const emptyOption = _.find(this.options, el => el.name === this.text.placeholder);
+    const emptyOption = this.getEmptyOption();
     if (emptyOption === undefined) {
       this.options.unshift({
         name: this.text.placeholder,
         $href: ''
       });
     }
+  }
+
+  private getEmptyOption():ValueOption|undefined {
+    return _.find(this.options, el => el.name === this.text.placeholder);
   }
 }

@@ -53,50 +53,55 @@ Since OpenProject 9.0.0 is a major upgrade, you will need to perform some basic 
 First, please check that the package repository is correct.
 Compare your local package repository with the one printed on your matching distribution on [our Download and Installation page](https://www.openproject.org/download-and-installation/)
 
-## Upgrade notes for OpenProject 9.0
+## Upgrade notes for OpenProject 10.0
 
-These following points are some known issues around the update to 9.0.
+These following points are some known issues around the update to 10.0.
 
 It does not contain the entire list of changes.
-To see all changes, [please browse the release notes](https://www.openproject.org/release-notes/openproject-9-0-0/).
+To see all changes, [please browse the release notes](https://www.openproject.org/release-notes/openproject-10-0-0/).
 
 ### Package repository moved into opf/openproject
 
 The OpenProject community installation is now using the same repository as the OpenProject development core.
 
 Please update your package source according to [our Download and Installation page](https://www.openproject.org/download-and-installation/).
-You will need to replace `opf/openproject-ce` with `opf/openproject` together with a change from `stable/8` to `stable/9` in order to perform the update.
+You will need to replace `stable/9` to `stable/10` in order to perform the update.
 
-### MySQL is deprecated
+### MySQL support was dropped
 
-OpenProject 9.0. has deprecated MySQL support and intagration since version 10. For more information regarding motivation behind this and migration steps, please see https://www.openproject.org/deprecating-mysql-support/
+After announcement in the previous major release, OpenProject 10.0 has dropped MySQL support.
+
+For more information regarding motivation behind this and migration steps, please see https://www.openproject.org/deprecating-mysql-support/
 In this post, you will find documentation for a mostly-automated migration script to PostgreSQL to help you get up and running with PostgreSQL.
 
 ## Upgrade steps
 
-If you have currently installed the stable 8.x release of OpenProject by using the `stable/8` package source,
-you will need to adjust that package source.
+If you have currently installed the stable 9.x release of OpenProject by using the `stable/9` package source,
+you will need to adjust that package source to `stable/10`
 
 ### APT-based systems (Debian, Ubuntu)
 
- - Update the reference to `opf/openproject-ce` in `/etc/apt/sources.list.d/openproject.list` to `opf/openproject`.
- - Update the reference to `stable/8` in `/etc/apt/sources.list.d/openproject.list` to `stable/9`.
+ - Update the reference to `stable/9` in `/etc/apt/sources.list.d/openproject.list` to `stable/10`.
  - Perform the Upgrade steps as mentioned above in *Upgrading your OpenProject installation*
 
 ### YUM-based systems (CentOS, RHEL)
 
- - Update the reference to `opf/openproject-ce` in `/etc/yum.repos.d/openproject.repo` to `opf/openproject`.
- - Update the reference to `stable/8` in `/etc/yum.repos.d/openproject.repo` to `stable/9`.
+ - Update the reference to `stable/9` in `/etc/yum.repos.d/openproject.repo` to `stable/10`.
  - Perform the Upgrade steps as mentioned above in *Upgrading your OpenProject installation*
 
 ### SUSE Linux Enterprise Server 12
 
- - Update the reference to `opf/openproject-ce` in `/etc/zypp/repos.d/openproject.repo` to `opf/openproject`.
- - Update the reference to `stable/8` in `/etc/zypp/repos.d/openproject.repo` to `stable/9`.
+ - Update the reference to `stable/9` in `/etc/zypp/repos.d/openproject.repo` to `stable/10`.
  - Perform the Upgrade steps as mentioned above in *Upgrading your OpenProject installation*
 
 
 ## Previous Upgrade notes
+
+### Upgrade notes for OpenProject 8.x. to 9.x
+
+The package source has changed from `openproject-ce` to `openproject`. Please upgrade your repository source entry
+appropriately.
+
 
 ### Upgrade notes for OpenProject 7.0. to 8.x
 

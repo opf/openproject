@@ -39,7 +39,7 @@ describe 'API v3 Work package resource', type: :request do
   }
 
   let(:project) do
-    FactoryBot.create(:project, identifier: 'test_project', is_public: false)
+    FactoryBot.create(:project, identifier: 'test_project', public: false)
   end
   let(:role) do
     FactoryBot.create(:role, permissions: [:view_work_packages, :edit_work_packages, :view_cost_objects])

@@ -40,6 +40,9 @@ module DemoData
         puts '   -Creating/Resetting project'
         project = reset_project key
 
+        puts '   -Setting project status.'
+        set_project_status(project, key)
+
         puts '   -Setting members.'
         set_members(project)
 
@@ -113,6 +116,19 @@ module DemoData
     def delete_project(key)
       if delete_me = find_project(key)
         delete_me.destroy
+      end
+    end
+
+    def set_project_status(project, key)
+      status_code = project_data_for(key, 'status.code')
+      status_explanation = project_data_for(key, 'status.description')
+
+      if status_code || status_explanation
+        Project::Status.create!(
+          project: project,
+          code: status_code,
+          explanation: status_explanation
+        )
       end
     end
 

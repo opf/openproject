@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe CopyProjectJob, type: :model do
-  let(:project) { FactoryBot.create(:project, is_public: false) }
+  let(:project) { FactoryBot.create(:project, public: false) }
   let(:user) { FactoryBot.create(:user) }
   let(:role) { FactoryBot.create(:role, permissions: [:copy_projects]) }
   let(:params) { { name: 'Copy', identifier: 'copy' } }
@@ -44,12 +44,12 @@ describe CopyProjectJob, type: :model do
     let(:source_project) { FactoryBot.create(:project) }
     let(:target_project) { FactoryBot.create(:project) }
 
-    let(:copy_job) {
+    let(:copy_job) do
       CopyProjectJob.new user_id: user_de.id,
                          source_project_id: source_project.id,
                          target_project_params: {},
                          associations_to_copy: []
-    }
+    end
 
     before do
       # 'Delayed Job' uses a work around to get Rails 3 mailers working with it
@@ -74,19 +74,19 @@ describe CopyProjectJob, type: :model do
     let(:source_project) { FactoryBot.create(:project, types: [type]) }
     let!(:work_package) { FactoryBot.create(:work_package, project: source_project, type: type) }
     let(:type) { FactoryBot.create(:type_bug) }
-    let (:custom_field) {
+    let(:custom_field) do
       FactoryBot.create(:work_package_custom_field,
-                         name: 'required_field',
-                         field_format: 'text',
-                         is_required: true,
-                         is_for_all: true)
-    }
-    let(:copy_job) {
+                        name: 'required_field',
+                        field_format: 'text',
+                        is_required: true,
+                        is_for_all: true)
+    end
+    let(:copy_job) do
       CopyProjectJob.new user_id: admin.id,
                          source_project_id: source_project.id,
                          target_project_params: params,
                          associations_to_copy: [:work_packages]
-    } # send mails
+    end # send mails
     let(:params) { { name: 'Copy', identifier: 'copy', type_ids: [type.id], work_package_custom_field_ids: [custom_field.id] } }
     let(:expected_error_message) { "#{WorkPackage.model_name.human} '#{work_package.type.name} #: #{work_package.subject}': #{custom_field.name} #{I18n.t('errors.messages.blank')}." }
 
@@ -161,12 +161,12 @@ describe CopyProjectJob, type: :model do
   describe 'copy project fails with internal error' do
     let(:admin) { FactoryBot.create(:admin) }
     let(:source_project) { FactoryBot.create(:project) }
-    let(:copy_job) {
+    let(:copy_job) do
       CopyProjectJob.new user_id: admin.id,
                          source_project_id: source_project.id,
                          target_project_params: params,
                          associations_to_copy: [:work_packages]
-    } # send mails
+    end # send mails
     let(:params) { { name: 'Copy', identifier: 'copy' } }
 
     before do
@@ -224,12 +224,12 @@ describe CopyProjectJob, type: :model do
 
       describe 'valid parent' do
         let(:role_add_subproject) { FactoryBot.create(:role, permissions: [:add_subprojects]) }
-        let(:member_add_subproject) {
+        let(:member_add_subproject) do
           FactoryBot.create(:member,
-                             user: user,
-                             project: project,
-                             roles: [role_add_subproject])
-        }
+                            user: user,
+                            project: project,
+                            roles: [role_add_subproject])
+        end
 
         before do
           member_add_subproject

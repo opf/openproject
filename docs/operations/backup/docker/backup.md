@@ -21,3 +21,19 @@ S3 or FTP).
 
 If at any point you want to restore from a backup, just put your backup in
 `/var/lib/openproject` on your local host, and re-launch the docker container.
+
+## Dumping the database
+
+**Note:** this only applies for the self-contained OpenProject container not using
+an external database but instead a database right in the container.
+
+If you need a SQL dump of your database straight from the container you can do the
+following to dump it into the current directory:
+
+```
+docker exec $CONTAINER_ID bash -c \
+  'export PGPASSWORD=openproject && pg_dump -U openproject -h 127.0.0.1' \
+  > openproject.sql
+```
+
+If you don't know the container id (or name) you can find it out using `docker ps`.

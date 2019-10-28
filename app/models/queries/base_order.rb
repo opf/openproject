@@ -54,6 +54,7 @@ class Queries::BaseOrder
   def scope
     scope = order
     scope = scope.joins(joins) if joins
+    scope = scope.left_outer_joins(left_outer_joins) if left_outer_joins
     scope
   end
 
@@ -68,6 +69,10 @@ class Queries::BaseOrder
   end
 
   def joins
+    nil
+  end
+
+  def left_outer_joins
     nil
   end
 

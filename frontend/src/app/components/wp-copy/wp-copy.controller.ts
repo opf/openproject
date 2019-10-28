@@ -28,13 +28,14 @@
 
 import {take} from 'rxjs/operators';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageChangeset} from 'core-components/wp-edit-form/work-package-changeset';
 import {WorkPackageCreateController} from 'core-components/wp-new/wp-create.controller';
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
-import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
+
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import {ChangeDetectionStrategy} from "@angular/core";
+import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
 
 export class WorkPackageCopyController extends WorkPackageCreateController {
   private __initialized_at:Number;
@@ -44,7 +45,8 @@ export class WorkPackageCopyController extends WorkPackageCreateController {
   public copying = true;
 
   private wpRelations:WorkPackageRelationsService = this.injector.get(WorkPackageRelationsService);
-  protected wpEditing:WorkPackageEditingService = this.injector.get<WorkPackageEditingService>(IWorkPackageEditingServiceToken);
+  protected halEditing:HalResourceEditingService = this.injector.get(HalResourceEditingService);
+  protected wpCreate:WorkPackageCreateService = this.injector.get(WorkPackageCreateService);
 
   ngOnInit() {
     super.ngOnInit();
@@ -79,15 +81,15 @@ export class WorkPackageCopyController extends WorkPackageCreateController {
   }
 
   private createCopyFrom(wp:WorkPackageResource) {
-    let sourceChangeset = this.wpEditing.changesetFor(wp);
+    let sourceChangeset = this.halEditing.changeFor(wp) as WorkPackageChangeset;
 
     return this.wpCreate
       .copyWorkPackage(sourceChangeset)
-      .then((copyChangeset) => {
-        this.__initialized_at = copyChangeset.resource.__initialized_at;
+      .then((copyChangeset:WorkPackageChangeset) => {
+        this.__initialized_at = copyChangeset.pristineResource.__initialized_at;
 
-        this.wpCacheService.updateWorkPackage(copyChangeset.resource);
-        this.wpEditing.updateValue('new', copyChangeset);
+        this.wpCacheService.updateWorkPackage(copyChangeset.pristineResource);
+        this.halEditing.updateValue('new', copyChangeset);
 
         return copyChangeset;
       });

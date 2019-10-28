@@ -63,6 +63,8 @@ import {WidgetTimeEntriesProjectComponent} from "core-app/modules/grids/widgets/
 import {WidgetSubprojectsComponent} from "core-app/modules/grids/widgets/subprojects/subprojects.component";
 import {OpenprojectAttachmentsModule} from "core-app/modules/attachments/openproject-attachments.module";
 import {WidgetMembersComponent} from "core-app/modules/grids/widgets/members/members.component";
+import {WidgetProjectStatusComponent} from "core-app/modules/grids/widgets/project-status/project-status.component";
+import {OpenprojectProjectsModule} from "core-app/modules/projects/openproject-projects.module";
 
 @NgModule({
   imports: [
@@ -88,6 +90,7 @@ import {WidgetMembersComponent} from "core-app/modules/grids/widgets/members/mem
                                   WidgetWpOverviewComponent,
                                   WidgetProjectDescriptionComponent,
                                   WidgetProjectDetailsComponent,
+                                  WidgetProjectStatusComponent,
                                   WidgetSubprojectsComponent,
                                   WidgetTimeEntriesCurrentUserComponent,
                                   WidgetTimeEntriesProjectComponent]),
@@ -121,6 +124,7 @@ import {WidgetMembersComponent} from "core-app/modules/grids/widgets/members/mem
     WidgetWpGraphComponent,
     WidgetProjectDescriptionComponent,
     WidgetProjectDetailsComponent,
+    WidgetProjectStatusComponent,
     WidgetSubprojectsComponent,
     WidgetTimeEntriesCurrentUserComponent,
     WidgetTimeEntriesProjectComponent,
@@ -315,6 +319,14 @@ export function registerWidgets(injector:Injector) {
           title: i18n.t(`js.grid.widgets.project_details.title`),
           properties: {
             name: i18n.t('js.grid.widgets.project_details.title')
+          }
+        },
+        {
+          identifier: 'project_status',
+          component: WidgetProjectStatusComponent,
+          title: i18n.t(`js.grid.widgets.project_status.title`),
+          properties: {
+            name: i18n.t('js.grid.widgets.project_status.title')
           }
         },
         {

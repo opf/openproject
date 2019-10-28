@@ -1,8 +1,29 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 id:
   no_results_title_text: Tidak ada yang ditampilkan saat ini.
   activities:
     index:
-      no_results_title_text: There has not been any activity for the project within this time frame.
+      no_results_title_text: Belum ada kegiatan untuk proyek dalam jangka waktu ini.
   admin:
     plugins:
       no_results_title_text: Tidak ada plugin yang tersedia saat ini.
@@ -45,14 +66,14 @@ id:
       no_results_content_title: Tidak ada mode otentikasi saat ini.
       no_results_content_text: Buat mode otentikasi baru
   ldap_auth_sources:
-    connection_encryption: 'Connection encryption'
+    connection_encryption: 'Enkripsi sambungan'
     tls_mode:
       plain: 'kosong'
       simple_tls: 'simple_tls'
       start_tls: 'start_tls'
-      plain_description: "Plain unencrypted connection, no TLS negotiation."
-      simple_tls_description: "Implicit TLS encryption, but no certificate validation. Use with caution and implicit trust of the LDAP connection."
-      start_tls_description: "Explicit TLS encryption with full validation. Use for LDAP over TLS/SSL."
+      plain_description: "Sambungan polos tidak terenkripsi, tidak ada negosiasi TLS."
+      simple_tls_description: "Enkripsi TLS implisit, tetapi tidak ada validasi sertifikat. Gunakan dengan hati-hati dan kepercayaan tersirat dari koneksi LDAP."
+      start_tls_description: "Enkripsi TLS eksplisit dengan validasi penuh. Gunakan untuk LDAP melalui TLS / SSL."
       section_more_info_link_html: >
         This section concerns the connection security of this LDAP authentication source. For more information, visit <a href="%{link}">the Net::LDAP documentation</a>.
   forums:
@@ -70,13 +91,13 @@ id:
       assigned_to:
         executing_user_value: '(Assign to executing user)'
     conditions: 'Kondisi'
-    plural: 'Custom actions'
+    plural: 'Tindakan khusus'
     new: 'New custom action'
     edit: 'Edit custom action %{name}'
     execute: 'Execute %{name}'
     upsale:
-      title: 'Custom actions is an Enterprise Edition feature'
-      description: 'Custom actions streamline everyday work by combining a set of individual steps into one button.'
+      title: 'Tindakan khusus adalah fitur Edisi Perusahaan'
+      description: 'Tindakan khusus merampingkan pekerjaan sehari-hari dengan menggabungkan satu set langkah individual menjadi satu tombol.'
   custom_fields:
     text_add_new_custom_field: >
       Untuk menambahkan kolom kustom baru untuk sebuah proyek, pertama-tama Anda harus membuatnya, sebelum Anda dapat menambahkannya ke proyek ini.
@@ -88,7 +109,7 @@ id:
       no_results_title_text: Tidak ada bidang kustom saat ini.
       no_results_content_text: Buat bidang kustom baru
   concatenation:
-    single: 'or'
+    single: 'atau'
   deprecations:
     time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
   global_search:
@@ -105,12 +126,12 @@ id:
       no_results_title_text: Saat ini tidak ada proyek yang menjadi bagian grup.
   incoming_mails:
     ignore_filenames: >
-      Specify a list of names to ignore when processing attachments for incoming mails (e.g., signatures or icons). Enter one filename per line.
+      Tentukan daftar nama yang harus diabaikan ketika memproses lampiran untuk surat masuk (mis., Tanda tangan atau ikon). Masukkan satu nama file per baris.
   projects:
     delete:
-      scheduled: "Deletion has been scheduled and is perfomed in the background. You will be notified of the result."
-      schedule_failed: "Project cannot be deleted: %{errors}"
-      failed: "Deletion of project %{name} has failed"
+      scheduled: "Penghapusan telah dijadwalkan dan dilakukan di latar belakang. Anda akan diberitahu hasilnya."
+      schedule_failed: "Proyek tidak dapat dihapus: %{errors}"
+      failed: "Penghapusan proyek %{name} telah gagal"
       failed_text: "The request to delete project %{name} has failed. The project was left archived."
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
@@ -277,7 +298,7 @@ id:
       changeset:
         repository: "Repositori"
       comment:
-        commented: "Komentar"
+        commented: "Komentar" #an object that this comment belongs to
       custom_action:
         actions: "Tindakan"
       custom_field:
@@ -325,6 +346,13 @@ id:
         types: "Tipe"
         versions: "Versi"
         work_packages: "Paket-Penugasan"
+      project/status:
+        code: 'Status'
+        explanation: 'Status description'
+        codes:
+          on_track: 'On track'
+          at_risk: 'At risk'
+          off_track: 'Off track'
       query:
         column_names: "Kolom"
         relations_to_type_column: "Relasi untuk %{type}"
@@ -416,6 +444,8 @@ id:
         confirmation: "tidak sesuai dengan %{attribute}."
         could_not_be_copied: "sebagian tidak dapat dicopy."
         does_not_exist: "tidak ditemukan."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "harus di isi."
         even: "harus imbang."
         exclusion: "telah dipesan."
@@ -479,6 +509,8 @@ id:
               invalid_values: "Nilai tidak valid."
               id_filter_required: "Sebuah pemilah 'id' dibutuhkan."
         project:
+          archived_ancestor: 'The project has an archived ancestor.'
+          foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
             types:
               in_use_by_work_packages: "still in use by work packages: %{types}"
@@ -604,6 +636,7 @@ id:
   activity:
     created: "Dibuat : %{title}"
     updated: "Diupdate : %{title}"
+  #common attributes of all models
   attributes:
     active: "Aktif"
     assigned_to: "Pelimpahan"
@@ -636,6 +669,7 @@ id:
     is_default: "Nilai default"
     is_for_all: "Untuk semua Project"
     is_public: "Publik"
+    #kept for backwards compatibility
     issue: "Paket-Penugasan"
     lastname: "Nama belakang"
     login: "Username"
@@ -644,6 +678,7 @@ id:
     password: "Password"
     priority: "Prioritas"
     project: "Project"
+    public: "Publik"
     responsible: "Accountable"
     role: "Role"
     roles: "Roles"
@@ -692,7 +727,7 @@ id:
   button_generate: "Generate"
   button_list: "List"
   button_lock: "Lock"
-  button_log_time: "Log waktu"
+  button_log_time: "Catatan waktu"
   button_login: "Login"
   button_move: "Pindahkan"
   button_move_and_follow: "Pindahkan dan amati"
@@ -779,9 +814,13 @@ id:
       - "Jumat"
       - "Sabtu"
     formats:
+      #Use the strftime parameters for formats.
+      #When no format has been given, it uses default.
+      #You can provide other formats here if you like!
       default: "%m/%d/%Y"
       long: "%B %d, %Y"
       short: "%b %d"
+    #Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names:
       - null
       - "Januari"
@@ -796,6 +835,7 @@ id:
       - "Oktober"
       - "Nopember"
       - "Desember"
+    #Used in date_select and datime_select.
     order:
       - :tahun
       - :bulan
@@ -913,6 +953,7 @@ id:
   description_sub_work_package: "Sub Paket-Penugasan"
   description_toc_toggle: "Tampil/sembunyikan daftar isi"
   description_wiki_subpages_reassign: "Pilih halaman induk baru"
+  #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: ltr
   ee:
     upsale:
@@ -927,7 +968,7 @@ id:
   enumeration_system_activity: "Sistem Activity"
   enumeration_reported_project_statuses: "Status Project yang di-Report"
   error_auth_source_sso_failed: "Single Sign-On (SSO) untuk pengguna '%{value}' gagal"
-  error_can_not_archive_project: "This project cannot be archived: There is at least one work package assigned to a version defined in this project."
+  error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Tidak dapat menghapus isian"
   error_can_not_delete_custom_field: "Tidak dapat menghapus isian kustom"
   error_can_not_delete_type: "Tipe ini berisi Work Package dan tidak dapat dihapus."
@@ -936,6 +977,7 @@ id:
   error_can_not_remove_role: "Role ini sedang dipakai dan tidak dapat dihapus."
   error_can_not_reopen_work_package_on_closed_version: "Paket-Penugasan yang telah berakhir tidak dapat dibuka kembali"
   error_can_not_find_all_resources: "Tidak dapat menemukan semua sumber daya terkait permintaan ini."
+  error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Silakan pilih user dan Role."
   error_code: "Error %{code}"
   error_cookie_missing: 'The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without.'
@@ -1638,12 +1680,14 @@ id:
   mail_body_lost_password: "Untuk mengubah password, klik link berikut :"
   mail_body_register: "Untuk mengaktifkan akun Anda, klik link berikut :"
   mail_body_reminder: "%{count} Paket-Penugasan yang dilimpahkan kepada Anda akan berakhir dalam %{days} hari :"
+  mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
   mail_body_wiki_content_added: "Halaman Wiki '%{id}' telah ditambahkan oleh %{author}."
   mail_body_wiki_content_updated: "Halaman Wiki '%{id}' telah diupdate oleh %{author}."
   mail_subject_account_activation_request: "Permintaan aktivasi akun %{value}"
   mail_subject_lost_password: "Password Anda %{value}"
   mail_subject_register: "Kode aktivasi Akun Anda %{value}"
   mail_subject_reminder: "%{count} Paket-Penugasan akan berakhir %{days} hari lagi"
+  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "Halaman Wiki '%{id}' telah ditambahkan"
   mail_subject_wiki_content_updated: "Halaman Wiki '%{id}' telah diupdate"
   mail_user_activation_limit_reached:
@@ -1653,8 +1697,8 @@ id:
       The user cannot activate their account since the user limit has been reached.
     steps:
       label: "To allow the user to sign in you can either: "
-      a: "Upgrade your payment plan ([here](upgrade_url))"
-      b: "Lock or delete an existing user ([here](users_url))"
+      a: "Upgrade your payment plan ([here](upgrade_url))" #here turned into a link
+      b: "Lock or delete an existing user ([here](users_url))" #here turned into a link
   more_actions: "Fungsi lainnya"
   noscript_description: "Aktifkan JavaScript di browser Anda untuk menjalankan Software ini!"
   noscript_heading: "JavaScript dinonaktifkan"
@@ -1721,6 +1765,7 @@ id:
   notice_project_cannot_update_custom_fields: "You cannot update the project's available custom fields. The project is invalid: %{errors}"
   notice_attachment_migration_wiki_page: >
     Halaman ini dihasilkan secara otomatis selama pembaharuan OpenProject. Ini berisi semua lampiran yang terkait sebelumnya dengan %{container_type} "%{container_name}".
+  #Default format for numbers
   number:
     format:
       delimiter: ""
@@ -1836,6 +1881,8 @@ id:
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
+  #possible query parameters (e.g. issue queries),
+  #which are not attributes of an AR-Model.
   query_fields:
     active_or_archived: "Aktif atau arsip"
     assigned_to_role: "Ditugaskan untuk Role"
@@ -2077,6 +2124,7 @@ id:
   status_invited: invited
   status_locked: terkunci
   status_registered: telah terdaftar
+  #Used in array.to_sentence.
   support:
     array:
       sentence_connector: "dan"
@@ -2463,18 +2511,22 @@ id:
       status: 'Pre-authorization'
     errors:
       messages:
+        #Common error messages
         invalid_request: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
-        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
+        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
         unauthorized_client: 'The client is not authorized to perform this request using this method.'
         access_denied: 'The resource owner or authorization server denied the request.'
         invalid_scope: 'The requested scope is invalid, unknown, or malformed.'
         invalid_code_challenge_method: 'The code challenge method must be plain or S256.'
         server_error: 'The authorization server encountered an unexpected condition which prevented it from fulfilling the request.'
         temporarily_unavailable: 'The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server.'
+        #Configuration error messages
         credential_flow_not_configured: 'Resource Owner Password Credentials flow failed due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.'
         resource_owner_authenticator_not_configured: 'Resource Owner find failed due to Doorkeeper.configure.resource_owner_authenticator being unconfigured.'
         admin_authenticator_not_configured: 'Access to admin panel is forbidden due to Doorkeeper.configure.admin_authenticator being unconfigured.'
+        #Access grant errors
         unsupported_response_type: 'The authorization server does not support this response type.'
+        #Access token errors
         invalid_client: 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.'
         invalid_grant: 'The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.'
         unsupported_grant_type: 'The authorization grant type is not supported by the authorization server.'

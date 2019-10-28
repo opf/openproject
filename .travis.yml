@@ -29,7 +29,7 @@
 language: ruby
 
 rvm:
-  - 2.6.1
+  - 2.6.5
 
 sudo: required
 dist: xenial
@@ -57,8 +57,8 @@ before_install:
 
   # work around https://github.com/travis-ci/travis-ci/issues/8969
   - travis_retry gem update --system
-  # Don't install 1.16.3
-  - gem install bundler -v 2.0.1 --no-document
+  # Install latest bundler
+  - gem install bundler
 
   # Install Node latest LTS
   # This should only be necessary when preparing the cache or for npm test runs

@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 fi:
   no_results_title_text: Ei ole tällä hetkellä näytettävää.
   activities:
@@ -279,7 +300,7 @@ fi:
       changeset:
         repository: "Tietovarasto"
       comment:
-        commented: "Kommentoitu"
+        commented: "Kommentoitu" #an object that this comment belongs to
       custom_action:
         actions: "Toiminnot"
       custom_field:
@@ -327,6 +348,13 @@ fi:
         types: "Tyypit"
         versions: "Versiot"
         work_packages: "Työpaketit"
+      project/status:
+        code: 'Tila'
+        explanation: 'Status description'
+        codes:
+          on_track: 'On track'
+          at_risk: 'At risk'
+          off_track: 'Off track'
       query:
         column_names: "Sarakkeet"
         relations_to_type_column: "Relations to %{type}"
@@ -418,6 +446,8 @@ fi:
         confirmation: "ei vastaa %{attribute}."
         could_not_be_copied: "kopioiminen ei onnistunut (täysimääräisesti)."
         does_not_exist: "ei ole olemassa."
+        error_unauthorized: "may not be accessed."
+        error_readonly: "is not writable."
         empty: "ei voi olla tyhjä."
         even: "täytyy olla parillinen."
         exclusion: "on jo varattu."
@@ -481,6 +511,8 @@ fi:
               invalid_values: "Virheellinen arvo."
               id_filter_required: "An 'id' filter is required."
         project:
+          archived_ancestor: 'The project has an archived ancestor.'
+          foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
             types:
               in_use_by_work_packages: "edelleen käytössä työpaketeissa: %{types}"
@@ -609,6 +641,7 @@ fi:
   activity:
     created: "Luotu: %{title}"
     updated: "Päivitetty: %{title}"
+  #common attributes of all models
   attributes:
     active: "Aktiivinen"
     assigned_to: "Vastuuhenkilö"
@@ -641,6 +674,7 @@ fi:
     is_default: "Oletusarvo"
     is_for_all: "Kaikille projekteille"
     is_public: "Julkinen"
+    #kept for backwards compatibility
     issue: "Työpaketti"
     lastname: "Sukunimi"
     login: "Username"
@@ -649,6 +683,7 @@ fi:
     password: "Salasana"
     priority: "Tärkeys"
     project: "Projekti"
+    public: "Julkinen"
     responsible: "Accountable"
     role: "Rooli"
     roles: "Roolit"
@@ -784,9 +819,13 @@ fi:
       - "Perjantai"
       - "Lauantai"
     formats:
+      #Use the strftime parameters for formats.
+      #When no format has been given, it uses default.
+      #You can provide other formats here if you like!
       default: "%e. %Bta %Y"
       long: "%A%e. %Bta %Y"
       short: "%e.%m.%Y"
+    #Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names:
       - null
       - "Tammikuu"
@@ -801,6 +840,7 @@ fi:
       - "Lokakuu"
       - "Marraskuu"
       - "Joulukuu"
+    #Used in date_select and datime_select.
     order:
       - :vuosi
       - :kuukausi
@@ -930,6 +970,7 @@ fi:
   description_sub_work_package: "Osa työstä paketti nykyinen"
   description_toc_toggle: "Show/Hide table of contents"
   description_wiki_subpages_reassign: "Valitse uusi pääsivun"
+  #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: ltr
   ee:
     upsale:
@@ -944,7 +985,7 @@ fi:
   enumeration_system_activity: "Järjestelmän toiminta"
   enumeration_reported_project_statuses: "Reported project status"
   error_auth_source_sso_failed: "Single Sign-On (SSO) for user '%{value}' failed"
-  error_can_not_archive_project: "This project cannot be archived: There is at least one work package assigned to a version defined in this project."
+  error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Unable to delete entry"
   error_can_not_delete_custom_field: "Mukautettua kenttää ei voi poistaa"
   error_can_not_delete_type: "Tämä tyyppinen työ sisältää pakettia ja ei voi poistaa."
@@ -953,6 +994,7 @@ fi:
   error_can_not_remove_role: "Tämä rooli on käytössä joten sitä ei voida poistaa."
   error_can_not_reopen_work_package_on_closed_version: "Työn paketti määritetty suljettu versio ei voi avata uudelleen"
   error_can_not_find_all_resources: "Could not find all related resources to this request."
+  error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Please choose a user and a role."
   error_code: "Error %{code}"
   error_cookie_missing: 'OpenProject evästeen puuttuu. Varmista, että evästeet ovat käytössä, koska tämä sovellus ei toimi oikein ilman evästeitä.'
@@ -1659,12 +1701,14 @@ fi:
   mail_body_lost_password: "Vaihtaaksesi salasanasi, napsauta seuraavaa linkkiä:"
   mail_body_register: "Aktivoidaksesi tilisi, napsauta seuraavaa linkkiä:"
   mail_body_reminder: "%{count} sinulle nimettyä tapahtuma(a) erääntyy %{days} päivä sisään:"
+  mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
   mail_body_wiki_content_added: "'%{id}' wiki-sivu on lisätty %{author}."
   mail_body_wiki_content_updated: "'%{id}' wiki-sivu on päivitetty %{author}."
   mail_subject_account_activation_request: "%{value} tilin aktivointipyyntö"
   mail_subject_lost_password: "Sinun %{value} salasanasi"
   mail_subject_register: "%{value} tilin aktivointi"
   mail_subject_reminder: "%{count} tapahtuma(a) erääntyy %{days} lähipäivinä"
+  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "'%{id}' wiki-sivu on poistettu"
   mail_subject_wiki_content_updated: "'%{id}' Wiki-sivu on päivitetty"
   mail_user_activation_limit_reached:
@@ -1674,8 +1718,8 @@ fi:
       The user cannot activate their account since the user limit has been reached.
     steps:
       label: "To allow the user to sign in you can either: "
-      a: "Upgrade your payment plan ([here](upgrade_url))"
-      b: "Lock or delete an existing user ([here](users_url))"
+      a: "Upgrade your payment plan ([here](upgrade_url))" #here turned into a link
+      b: "Lock or delete an existing user ([here](users_url))" #here turned into a link
   more_actions: "Enemmän toimintoja"
   noscript_description: "You need to activate JavaScript in order to use OpenProject!"
   noscript_heading: "JavaScript disabled"
@@ -1742,6 +1786,7 @@ fi:
   notice_project_cannot_update_custom_fields: "Et voi päivittää projektin käytettävissä olevia mukautettuja kenttiä. Projekti on virheellinen: %{errors}"
   notice_attachment_migration_wiki_page: >
     This page was generated automatically during the update of OpenProject. It contains all attachments previously associated with the %{container_type} "%{container_name}".
+  #Default format for numbers
   number:
     format:
       delimiter: ""
@@ -1858,6 +1903,8 @@ fi:
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
+  #possible query parameters (e.g. issue queries),
+  #which are not attributes of an AR-Model.
   query_fields:
     active_or_archived: "Active or archived"
     assigned_to_role: "Vastuuhenkilön rooli"
@@ -2101,6 +2148,7 @@ fi:
   status_invited: kutsuttu
   status_locked: lukittu
   status_registered: registered
+  #Used in array.to_sentence.
   support:
     array:
       sentence_connector: "and"
@@ -2489,18 +2537,22 @@ fi:
       status: 'Pre-authorization'
     errors:
       messages:
+        #Common error messages
         invalid_request: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
-        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
+        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
         unauthorized_client: 'The client is not authorized to perform this request using this method.'
         access_denied: 'The resource owner or authorization server denied the request.'
         invalid_scope: 'The requested scope is invalid, unknown, or malformed.'
         invalid_code_challenge_method: 'The code challenge method must be plain or S256.'
         server_error: 'The authorization server encountered an unexpected condition which prevented it from fulfilling the request.'
         temporarily_unavailable: 'The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server.'
+        #Configuration error messages
         credential_flow_not_configured: 'Resource Owner Password Credentials flow failed due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.'
         resource_owner_authenticator_not_configured: 'Resource Owner find failed due to Doorkeeper.configure.resource_owner_authenticator being unconfigured.'
         admin_authenticator_not_configured: 'Access to admin panel is forbidden due to Doorkeeper.configure.admin_authenticator being unconfigured.'
+        #Access grant errors
         unsupported_response_type: 'The authorization server does not support this response type.'
+        #Access token errors
         invalid_client: 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.'
         invalid_grant: 'The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.'
         unsupported_grant_type: 'The authorization grant type is not supported by the authorization server.'

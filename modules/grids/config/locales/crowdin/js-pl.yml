@@ -28,6 +28,12 @@ pl:
         project_details:
           title: 'Szczegóły Projektu'
           no_results: 'Nie zdefiniowano żadnych pól niestandardowych dla projektów.'
+        project_status:
+          title: 'Stan projektu'
+          on_track: 'Na ścieżce'
+          off_track: 'Poza ścieżką'
+          at_risk: 'Zagrożony'
+          not_set: 'Nie ustawione'
         subprojects:
           title: 'Podprojekty'
           no_results: 'Brak podprojektów.'

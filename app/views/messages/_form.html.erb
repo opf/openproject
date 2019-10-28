@@ -40,10 +40,10 @@ See docs/COPYRIGHT.rdoc for more details.
 </div>
 <% unless replying %>
   <div class="form--field">
-    <%= f.check_box :sticky, label: t(:label_board_sticky) %>
+    <%= f.check_box :sticky, label: I18n.t('js.label_board_sticky') %>
   </div>
   <div class="form--field">
-    <%= f.check_box :locked, label: t(:label_board_locked) %>
+    <%= f.check_box :locked, label: I18n.t('js.label_board_locked') %>
   </div>
 <% end %>
 <% if !replying && !@message.new_record? && User.current.allowed_to?(:edit_messages, @project) %>

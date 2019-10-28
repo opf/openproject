@@ -3,9 +3,9 @@
      [ngClass]="{'-can-have-columns' : enableTwoColumnLayout }">
   <div class="wp-new--subject-wrapper"
        *ngIf="workPackage.isNew">
-    <wp-edit-field [workPackageId]="workPackage.id"
+    <editable-attribute-field [resource]="workPackage"
                    [wrapperClasses]="'-no-label'"
-                   [fieldName]="'subject'"></wp-edit-field>
+                   [fieldName]="'subject'"></editable-attribute-field>
   </div>
 
   <div class="wp-info-wrapper">
@@ -34,7 +34,7 @@
   </div>
 
   <div class="attributes-group -project-context __overflowing_element_container __overflowing_project_context"
-       *ngIf="projectContext.field"
+       *ngIf="projectContext && projectContext.field"
        data-overflowing-identifier=".__overflowing_project_context">
     <div>
       <p class="wp-project-context--warning" [textContent]="text.project.required"></p>
@@ -51,14 +51,14 @@
                                [attributeScope]="'WorkPackage'"></attribute-help-text>
         </div>
         <div class="attributes-key-value--value-container">
-          <wp-edit-field [workPackageId]="workPackage.id"
-                         [fieldName]="descriptor.name"></wp-edit-field>
+          <editable-attribute-field [resource]="workPackage"
+                         [fieldName]="descriptor.name"></editable-attribute-field>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="attributes-group -project-context hide-when-print" *ngIf="!workPackage.isNew && !projectContext.matches">
+  <div class="attributes-group -project-context hide-when-print" *ngIf="!workPackage.isNew && projectContext && !projectContext.matches">
     <div>
       <p>
         <span [innerHTML]="projectContextText"></span>
@@ -83,12 +83,11 @@
       </div>
     </div>
     <div class="single-attribute work-packages--details--description">
-      <wp-edit-field [fieldName]="'description'"
-                     [workPackageId]="workPackage.id"
+      <editable-attribute-field [fieldName]="'description'"
+                     [resource]="workPackage"
                      [isDropTarget]="true"
-                     [wrapperClasses]="'-no-label'"
-                     [displayPlaceholder]="text.description.placeholder">
-      </wp-edit-field>
+                     [wrapperClasses]="'-no-label'">
+      </editable-attribute-field>
     </div>
   </div>
 

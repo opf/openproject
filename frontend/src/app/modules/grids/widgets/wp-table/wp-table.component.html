@@ -1,11 +1,8 @@
 <widget-header
-    [name]="widgetName"
-    [icon]="'view-timeline'"
-    (onRenamed)="renameWidget($event)">
-
-
+  [name]="widgetName"
+  (onRenamed)="renameWidget($event)">
   <widget-wp-table-menu
-      [resource]="resource">
+    [resource]="resource">
   </widget-wp-table-menu>
 </widget-header>
 

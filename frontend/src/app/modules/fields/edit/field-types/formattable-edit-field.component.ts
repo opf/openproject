@@ -26,7 +26,6 @@
 // ++
 
 import {Component, OnInit, ViewChild, ChangeDetectionStrategy} from "@angular/core";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 import {OpCkeditorComponent} from "core-app/modules/common/ckeditor/op-ckeditor.component";
 import {ICKEditorContext, ICKEditorInstance} from "core-app/modules/common/ckeditor/ckeditor-setup.service";
@@ -68,6 +67,8 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   public isPreview:boolean = false;
   public previewHtml:string = '';
   public text:any = {};
+
+  public editorType = this.resource.getEditorTypeFor(this.field.name);
 
   ngOnInit() {
     super.ngOnInit();
@@ -119,10 +120,6 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
     };
   }
 
-  public get editorType() {
-    return this.handler.formattableEditorType;
-  }
-
   private get previewContext() {
     return this.handler.previewContext(this.resource);
   }
@@ -149,10 +146,6 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
 
   public isEmpty():boolean {
     return !(this.value && this.value.raw);
-  }
-
-  public get isFormattable() {
-    return true;
   }
 
   protected initialize() {

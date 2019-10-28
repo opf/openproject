@@ -1,20 +1,20 @@
 import {Injector} from '@angular/core';
 import {debugLog} from '../../../../helpers/debug_output';
 import {States} from '../../../states.service';
-import {cellClassName, editableClassName, readOnlyClassName} from '../../../wp-edit-form/display-field-renderer';
-import {WorkPackageEditingService} from '../../../wp-edit-form/work-package-editing-service';
+import {displayClassName, editableClassName, readOnlyClassName} from '../../../wp-edit-form/display-field-renderer';
+
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {tableRowClassName} from '../../builders/rows/single-row-builder';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {ClickOrEnterHandler} from '../click-or-enter-handler';
 import {TableEventHandler} from '../table-handler-registry';
 import {ClickPositionMapper} from "core-app/modules/common/set-click-position/set-click-position";
-import {IWorkPackageEditingServiceToken} from "../../../wp-edit-form/work-package-editing.service.interface";
 
 export class EditCellHandler extends ClickOrEnterHandler implements TableEventHandler {
 
   // Injections
   public states:States = this.injector.get(States);
-  public wpEditing:WorkPackageEditingService = this.injector.get<WorkPackageEditingService>(IWorkPackageEditingServiceToken);
+  public halEditing:HalResourceEditingService = this.injector.get(HalResourceEditingService);
 
   // Keep a reference to all
 
@@ -23,7 +23,7 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
   }
 
   public get SELECTOR() {
-    return `.${cellClassName}.${editableClassName}`;
+    return `.${displayClassName}.${editableClassName}`;
   }
 
   public eventScope(table:WorkPackageTable) {
@@ -39,7 +39,7 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
     evt.preventDefault();
 
     // Locate the cell from event
-    let target = jQuery(evt.target).closest(`.${cellClassName}`);
+    let target = jQuery(evt.target).closest(`.${displayClassName}`);
     // Get the target field name
     let fieldName = target.data('fieldName');
 

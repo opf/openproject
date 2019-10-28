@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 de:
   js:
     ajax:
@@ -170,16 +191,20 @@ de:
     general_text_yes: "ja"
     general_text_No: "Nein"
     general_text_Yes: "Ja"
+    hal:
+      error:
+        update_conflict_refresh: "Klicken Sie hier, um die Ressource auf die neueste Version zu aktualisieren."
+        edit_prohibited: "Die Bearbeitung von %{attribute} ist für diese Ressource blockiert. Entweder wird dieses Attribut aus Relationen abgeleitet (z. B. childs) oder es ist nicht konfigurierbar."
+        format:
+          date: "%{attribute} ist kein gültiges Datum - Erwartetes Format: YYY-MM-DD."
+        general: "Ein Fehler ist aufgetreten."
     homescreen:
       blocks:
         new_features:
           text_new_features: "Lesen Sie über neue Funktionen und Updates."
-          current_new_feature_html: "OpenProject enthält eine neue <b>Boards-Ansicht</b> für das agile Projektmanagement. </br> Um diese Funktion für Ihre bestehenden Projekte zu aktivieren, bitte folgende Schritte ausführen: <ul><li>Aktivieren Sie die Modul-Boards in den bestehenden Projekten-Einstellungen.</li> <li>Konfigurieren Sie Ihre Boards in einem Projekt.</li> <li>Überprüfen Sie die Rollen und Berechtigungen Ihres Systems</li></ul>"
-          image_alt_text: "Board Teaser-Bild"
-          learn_about: "Erfahren Sie mehr über agile Boards"
+          current_new_feature_html: "OpenProject enthält eine neue <b>Übersicht-Seite</b>, um <b>wichtige Projektinformationen anzuzeigen</b> und zu zeigen, ob das Projekt im Zeitplan ist. </br> Sie können verschiedene neue Status-Widgets einfügen, wie: <ul><li>Projektstatus,</li> <li>Übersicht über Arbeitspaket-Status,</li> <li>Aufgabenfortschritt,</li> <li>Aufgaben zugewiesen an Benutzer.</li></ul>"
+          learn_about: "Erfahren Sie mehr über die neuen Status-Widgets"
     label_activate: "Aktiviere"
-    label_activity_no: "Aktivitäts-Nummer: %{activityNo}"
-    label_activity_with_comment_no: "Aktivitäts-Nummer: %{activityNo}. Hat einen Benutzerkommentar."
     label_add_column_after: "Spalte danach hinzufügen"
     label_add_column_before: "Spalte davor hinzufügen"
     label_add_columns: "Spalte hinzufügen"
@@ -231,11 +256,11 @@ de:
     label_filesize: "Größe"
     label_greater_or_equal: ">="
     label_group: 'Gruppe'
-    label_group_by: "Gruppieren nach"
+    label_group_by: "Gruppiere Ergebnisse"
     label_hide_attributes: "Weniger anzeigen"
     label_hide_column: "Spalte ausblenden"
     label_hide_project_menu: "Projektmenü einklappen"
-    label_in: "in"
+    label_in: "an"
     label_in_less_than: "in weniger als"
     label_in_more_than: "in mehr als"
     label_import: "Import"
@@ -253,6 +278,7 @@ de:
     label_no_data: "Es sind keine Daten vorhanden"
     label_no_due_date: "kein Abgabedatum"
     label_no_start_date: "kein Startdatum"
+    label_no_value: "Kein Wert"
     label_none: "keine"
     label_not_contains: "enthält nicht"
     label_not_equals: "ist nicht"
@@ -357,7 +383,7 @@ de:
           drag: 'Ziehen Sie Ihre Karten in eine Liste, um diese zu sortieren oder weisen Sie diese einer anderen Liste zu. Ein Doppelklick auf eine Karte öffnet die Detailansicht.'
         wp:
           toggler: "Hier sind die <b>Arbeitspakete</b>, die Ihnen eine detailliertere Sicht auf die Arbeit in Ihrem Projekt geben."
-          list: 'Dies ist die Liste der wichtigen <b>Arbeitspakete</b> in Ihrem Projekt, z.B. Aufgaben, Funktionen, Meilensteine, Fehler, und Vieles mehr. <br> Sie können neue Arbeitspakete direkt in der Liste anlegen und bearbeiten. Ein Doppelklick auf die Zeile öffnet die Detailansicht.'
+          list: 'Dies ist die Liste der wichtigen <b>Arbeitspakete</b> in Ihrem Projekt, z.B. Aufgaben, Funktionen, Meilensteine, Fehler, und Vieles mehr.  <br> Sie können neue Arbeitspakete direkt in der Liste anlegen und bearbeiten. Ein Doppelklick auf die Zeile öffnet die Detailansicht.'
           full_view: 'In der <b>Arbeitspaket-Detailansicht</b> finden Sie alle wichtigen Informationen, wie Beschreibung, Status und Priorität, Aktivitäten, Abhängigkeiten oder Kommentare.'
           back_button: 'Mit dem Pfeil kommen Sie zurück in die Listenansicht.'
           create_button: 'Mit <b>Anlegen</b> Können Sie neue Arbeitspakete Ihrem Projekt hinzufügen.'
@@ -465,7 +491,7 @@ de:
       abort: "Abbrechen"
     relations_autocomplete:
       placeholder: "Suchbegriff eintippen"
-      parent_placeholder: "Wählen Sie ein neues Eltern-Arbeitspaket oder drücken Sie Escape, um abzubrechen."
+      parent_placeholder: "Wählen Sie einen neuen Teil oder drücken sie Escape, um abzubrechen."
     repositories:
       select_tag: 'Tag auswählen'
       select_branch: 'Branch auswählen'
@@ -585,12 +611,6 @@ de:
       description_enter_text: "Text eingeben"
       description_options_hide: "Optionen ausblenden"
       description_options_show: "Optionen anzeigen"
-      error:
-        update_conflict_refresh: "Hier klicken um das Arbeitspaket auf die neueste Version zu aktualisieren."
-        edit_prohibited: "Bearbeitung von %{attribute} ist für dieses Arbeitspaket gesperrt. Entweder wird dieses Attribut von verwandten Arbeitspaketen (z.B. Unterelementen) abgeleitet oder es ist anderweitig nicht konfigurierbar."
-        format:
-          date: "%{attribute} ist kein gültiges Datum - Erwartetes Format: YYY-MM-DD."
-        general: "Ein Fehler ist aufgetreten."
       edit_attribute: "%{attribute} - Bearbeiten"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Mehrfachauswahl aktivieren"
@@ -605,7 +625,6 @@ de:
       message_view_spent_time: "Aufgewendete Zeit für dieses Arbeitspaket anzeigen"
       message_work_package_read_only: "Das Arbeitspaket ist in diesem Status gesperrt. Kein Attribut außer dem Status selbst kann darin verändert werden."
       message_work_package_status_blocked: "Das Arbeitspaket ist auf geschlossene Status- und Versions-Attribute gesetzt und der Status daher nicht veränderbar."
-      no_value: "Kein Wert"
       placeholder_filter_by_text: "Title, Beschreibung, Kommentare, ..."
       inline_create:
         title: 'Klicken Sie hier, um ein neues Arbeitspaket zu dieser Liste hinzufügen'
@@ -654,7 +673,7 @@ de:
         status: "Status"
         subject: "Thema"
         title: "Titel"
-        type: "Art"
+        type: "Typ"
         updatedAt: "Aktualisiert am"
         versionName: "Version"
         version: "Version"
@@ -672,11 +691,11 @@ de:
         label_content: "Klicken Sie hier, um über das Menü zu überspringen und zum Inhalt zu gelangen"
       placeholders:
         default: "-"
-        description: "Klicken um die Beschreibung einzugeben..."
+        formattable: "%{name}: Klicken zum Bearbeiten..."
       query:
         column_names: "Spalten"
         group_by: "Gruppiere Ergebnisse nach"
-        group: "Gruppieren nach"
+        group: "Gruppiere Ergebnisse"
         group_by_disabled_by_hierarchy: "Die Gruppierung ist deaktiviert, da der Hierarchie-Modus aktiv ist."
         hierarchy_disabled_by_group_by: "Der Hierarchie-Modus ist deaktiviert da die Ergebnisse nach %{column} gruppiert sind."
         sort_ascending: "Sortiere aufsteigend"
@@ -725,7 +744,7 @@ de:
           entire_row_by: 'Gesamte Zeile durch'
           status: 'Status'
           priority: 'Priorität'
-          type: 'Art'
+          type: 'Typ'
         sorting_mode:
           description: 'Wählen Sie den Sortiermodus für Arbeitspakete aus:'
           automatic: 'Automatisch'
@@ -787,7 +806,7 @@ de:
         has_children: "Dieses Arbeitspaket hat %{childUnits}:"
         confirm_deletion_children: "Ich bestätige, dass alle untergordneten Elemente der hier aufgeführten Arbeitspakete rekursiv entfernt werden."
         deletes_children: "Alle untergeordneten Arbeitspaketen und deren Nachkommen werden auch rekursiv gelöscht."
-    notice_no_results_to_display: "Keine sichtbaren Ergebnisse anzuzeigen."
+    notice_no_results_to_display: "Keine sichtbaren Ergebnisse."
     notice_successful_create: "Erfolgreich angelegt."
     notice_successful_delete: "Erfolgreich gelöscht."
     notice_successful_update: "Erfolgreich aktualisiert."
@@ -824,7 +843,7 @@ de:
         one: "ein untergeordnetes Arbeitspaket"
         other: "%{count} untergeordnete Arbeitspakete"
       hour:
-        one: "1 h"
+        one: "%{count} h"
         other: "%{count} h"
     zen_mode:
       button_activate: 'Zen-Modus aktivieren'

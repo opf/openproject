@@ -20,7 +20,7 @@ describe 'inline create work package', js: true do
                       role: role
   end
 
-  let!(:project) { FactoryBot.create(:project, is_public: true, types: types) }
+  let!(:project) { FactoryBot.create(:project, public: true, types: types) }
   let!(:existing_wp) { FactoryBot.create(:work_package, project: project) }
   let!(:priority) { FactoryBot.create :priority, is_default: true }
   let(:filters) { ::Components::WorkPackages::Filters.new }

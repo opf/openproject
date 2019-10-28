@@ -66,7 +66,7 @@ describe 'form configuration', type: :feature, js: true do
         dialog.expect_open
         dialog.cancel
 
-        expect(page).to have_selector('span.group-edit-handler', text: 'WHATEVER')
+        expect(page).to have_selector('.group-edit-handler', text: 'WHATEVER')
 
         # Click the dialog again after some time
         # Otherwise this may cause issues due to the animation,
@@ -200,7 +200,7 @@ describe 'form configuration', type: :feature, js: true do
         wp_page.click_create_wp_button(type)
 
         wp_page.expect_group('Estimates and time') do
-          expect(page).to have_selector('.wp-edit-field.estimatedTime')
+          expect(page).to have_selector('.inline-edit--container.estimatedTime')
         end
 
         find('#work-packages--edit-actions-cancel').click

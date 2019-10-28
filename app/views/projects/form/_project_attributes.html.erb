@@ -46,7 +46,9 @@ See docs/COPYRIGHT.rdoc for more details.
                locals: { form: form } %>
     <%= render partial: "projects/form/attributes/identifier",
                locals: { form: form } %>
-    <%= render partial: "projects/form/attributes/is_public",
+    <%= render partial: "projects/form/attributes/public",
+               locals: { form: form } %>
+    <%= render partial: "projects/form/attributes/status",
                locals: { form: form } %>
     <% unless all_fields %>
       <%= render partial: "customizable/form",

@@ -58,9 +58,10 @@ class Role < ActiveRecord::Base
 
   acts_as_list
 
-  validates_presence_of :name
-  validates_uniqueness_of :name
-  validates_length_of :name, maximum: 30
+  validates :name,
+            presence: true,
+            length: { maximum: 30 },
+            uniqueness: { case_sensitive: true }
 
   def self.givable
     where(builtin: NON_BUILTIN)
@@ -168,6 +169,13 @@ class Role < ActiveRecord::Base
 
   def self.paginated_search(search, options = {})
     paginate_scope! givable.like(search), options
+  end
+
+  def self.in_new_project
+    givable
+      .except(:order)
+      .order(Arel.sql("COALESCE(#{Setting.new_project_user_role_id.to_i} = id, false) DESC, position"))
+      .first
   end
 
   private

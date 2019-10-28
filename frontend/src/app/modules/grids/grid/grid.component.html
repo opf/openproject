@@ -6,7 +6,8 @@
   <div *ngFor="let area of layout.widgetAreas; trackBy: identifyGridArea;"
        class="grid--area -widgeted"
        [ngClass]="{'-dragged': drag.isDragged(area),
-                   '-passive': drag.isPassive(area) || resize.isPassive(area) }"
+                   '-passive': drag.isPassive(area) || resize.isPassive(area),
+                   '-resizing' : resize.isResized(area) }"
        [style.grid-row-start]="area.gridStartRow"
        [style.grid-row-end]="area.gridEndRow"
        [style.grid-column-start]="area.gridStartColumn"
@@ -18,7 +19,7 @@
     <div class="grid--area-content widget-box"
          cdkDrag
          (cdkDragStarted)="drag.start(area)"
-         (cdkDragEnded)="drag.stop(area, $event)">
+         (cdkDragDropped)="drag.drop()">
 
       <span *ngIf="drag.isDraggable"
             class="grid--area-drag-handle
@@ -26,7 +27,6 @@
                    icon-drag-handle"
             cdkDragHandle></span>
 
-      <div *cdkDragPlaceholder></div>
       <ndc-dynamic [ndcDynamicComponent]="widgetComponent(area)"
                    [ndcDynamicInputs]="widgetComponentInput(area)"
                    [ndcDynamicOutputs]="widgetComponentOutput(area)">
@@ -34,11 +34,11 @@
     </div>
     <resizer *ngIf="resize.isResizable"
              [customHandler]="true"
-             (end)="resize.end(area, $event)"
+             (end)="resize.end(area)"
              (start)="resize.start(area)"
              (move)="resize.moving($event)">
       <div class="grid--resizer">
-        <i class="icon-resizer-bottom-right"
+        <i class="icon-resizer-bottom-right hidden-for-mobile"
            aria-hidden="true">
         </i>
       </div>
@@ -49,6 +49,7 @@
   <div *ngFor="let area of layout.gridAreas; trackBy: identifyGridArea;"
        class="grid--area"
        [ngClass] = "{'-drop-target': drag.currentlyDragging,
+                     '-drop-only': drag.isDropOnlyArea(area),
                      '-resize-target': resize.isTarget(area),
                      '-addable': add.isAddable(area),
                      '-help-mode': layout.inHelpMode}"
@@ -60,10 +61,8 @@
        [id]="area.guid"
        (mouseover)="layout.setMousedOverArea(area)"
        [cdkDropListData]="area"
-       (cdkDropListDropped)="drag.drop($event)"
-       (cdkDropListEntered)="drag.entered($event)"
        [cdkDropListConnectedTo]="layout.gridAreaIds">
-    <div class="grid--widget-add"
+    <div class="grid--widget-add hidden-for-mobile"
          [title]="add.addText"
          (click)="add.widget(area)">
     </div>
@@ -81,19 +80,10 @@
        [style.grid-column-end]="gap.gridEndColumn"
        [id]="gap.guid"
        (mouseover)="layout.setMousedOverArea(gap)">
-    <div class="grid--widget-add -gap"
+    <div class="grid--widget-add -gap hidden-for-mobile"
          [title]="add.addText"
-         (click)="add.widget(gap, layout.schema)">
+         (click)="add.widget(gap)">
     </div>
-  </div>
-
-  <!-- Grid area to visualize resizing -->
-  <div class="grid--area -resizing"
-       *ngIf="resize.placeholderArea"
-       [style.grid-row-start]="resize.placeholderArea.gridStartRow"
-       [style.grid-row-end]="resize.placeholderArea.gridEndRow"
-       [style.grid-column-start]="resize.placeholderArea.gridStartColumn"
-       [style.grid-column-end]="resize.placeholderArea.gridEndColumn">
   </div>
 
   <!-- Grid area used as a placeholder while dragging -->
@@ -102,12 +92,9 @@
        [style.grid-row-start]="drag.placeholderArea.gridStartRow"
        [style.grid-row-end]="drag.placeholderArea.gridEndRow"
        [style.grid-column-start]="drag.placeholderArea.gridStartColumn"
-       [style.grid-column-end]="drag.placeholderArea.gridEndColumn">
+       [style.grid-column-end]="drag.placeholderArea.gridEndColumn"
+       [style.min-height.px]="drag.draggedHeight">
     <div class="widget-box">
-      <ndc-dynamic [ndcDynamicComponent]="widgetComponent(drag.placeholderArea)"
-                   [ndcDynamicInputs]="widgetComponentInput(drag.placeholderArea)"
-                   [ndcDynamicOutputs]="{}">
-      </ndc-dynamic>
     </div>
   </div>
 </div>

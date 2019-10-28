@@ -58,4 +58,4 @@
 
 ## Example of a feature request
 
-![Feature Request](https://openproject.org/wp-content/uploads/2016/10/FeatureRequest.png "Feature Request")
+![Feature Request](https://www.openproject.org/wp-content/uploads/2019/10/Feature-request.png "Feature Request")

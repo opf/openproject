@@ -1,4 +1,4 @@
-<div class="op-modal--portal ngdialog-theme-openproject grid--add-modal">
+<div class="op-modal--portal ngdialog-theme-openproject">
   <div class="op-modal--modal-container confirm-dialog--modal loading-indicator--location"
        data-indicator-name="modal"
        tabindex="0">
@@ -20,12 +20,13 @@
            [textContent]="widget.title"
            class="grid--addable-widget" >
       </div>
-    </div>
 
-    <enterprise-banner *ngIf="eeShowBanners"
-                       [linkMessage]="text.upsale_link"
-                       [textMessage]="text.upsale_text"
-                       opReferrer="grids#add-widget">
-    </enterprise-banner>
+      <enterprise-banner *ngIf="eeShowBanners"
+                         [linkMessage]="text.upsale_link"
+                         [textMessage]="text.upsale_text"
+                         class="grid--add-widget-ee"
+                         opReferrer="grids#add-widget">
+      </enterprise-banner>
+    </div>
   </div>
 </div>

@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 sv:
   js:
     ajax:
@@ -33,7 +54,7 @@ sv:
     button_duplicate: "Duplicera"
     button_edit: "Redigera"
     button_filter: "Filter"
-    button_advanced_filter: "Advanced filter"
+    button_advanced_filter: "Avancerat filter"
     button_list_view: "Listvy"
     button_show_view: "Helskärmsläge"
     button_log_time: "Logga tid"
@@ -87,7 +108,7 @@ sv:
     editor:
       preview: 'Växla förhandsgranskningsläge'
       source_code: 'Toggle Markdown source mode'
-      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      error_saving_failed: 'Misslyckades med att spara dokumentet på grund av följande fel: %{error}'
       error_initialization_failed: 'Failed to initialize CKEditor!'
       mode:
         manual: 'Switch to Markdown source'
@@ -170,16 +191,20 @@ sv:
     general_text_yes: "ja"
     general_text_No: "Nej"
     general_text_Yes: "Ja"
+    hal:
+      error:
+        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
+        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        format:
+          date: "%{attribute} är inget giltigt datum - förväntat format är åååå-mm-dd."
+        general: "Ett fel har inträffat."
     homescreen:
       blocks:
         new_features:
           text_new_features: "Read about new features and product updates."
-          current_new_feature_html: "OpenProject contains a new <b>Boards view</b> for Agile project management. </br> To activate this new feature for your existing projects, please do the following steps: <ul><li>Activate the module Boards within existing projects' settings.</li> <li>Configure your Boards in a project.</li> <li>Verify roles and permissions</li></ul>"
-          image_alt_text: "Board teaser image"
-          learn_about: "Learn more about Agile Boards"
+          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
+          learn_about: "Learn more about the new status widgets"
     label_activate: "Aktivera"
-    label_activity_no: "Aktivitetspost nummer %{activityNo}"
-    label_activity_with_comment_no: "Aktivitetspost nummer %{activityNo} har en användarkommentar."
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
     label_add_columns: "Lägg till kolumn"
@@ -253,6 +278,7 @@ sv:
     label_no_data: "Ingen data att visa"
     label_no_due_date: "inget slutdatum"
     label_no_start_date: "inget startdatum"
+    label_no_value: "Inget värde"
     label_none: "inga"
     label_not_contains: "innehåller inte"
     label_not_equals: "är inte"
@@ -585,12 +611,6 @@ sv:
       description_enter_text: "Ange text"
       description_options_hide: "Dölj alternativ"
       description_options_show: "Visa alternativ"
-      error:
-        update_conflict_refresh: "Click here to refresh the work package and update to the newest version."
-        edit_prohibited: "Redigering av %{attribute} är låst för detta arbetspaket. Antingen härrör attributet från relationer eller så kan det inte redigeringsbart."
-        format:
-          date: "%{attribute} är inget giltigt datum - förväntat format är åååå-mm-dd."
-        general: "Ett fel har inträffat."
       edit_attribute: "%{attribute} - Redigera"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Aktivera multival"
@@ -605,7 +625,6 @@ sv:
       message_view_spent_time: "Visa loggad tid för detta arbetspaket"
       message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
-      no_value: "Inget värde"
       placeholder_filter_by_text: "Subject, description, comments, ..."
       inline_create:
         title: 'Klicka här för att lägga till ett nytt arbetspaket till listan'
@@ -672,7 +691,7 @@ sv:
         label_content: "Klicka här för att hoppa över menyn och gå till innehållet"
       placeholders:
         default: "-"
-        description: "Klicka för att ange beskrivning..."
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Kolumner"
         group_by: "Gruppera resultat efter"

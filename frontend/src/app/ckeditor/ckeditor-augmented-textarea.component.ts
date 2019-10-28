@@ -62,6 +62,8 @@ export class CkeditorAugmentedTextareaComponent implements OnInit, OnDestroy {
   public initialContent:string;
   public resource?:HalResource;
   public context:ICKEditorContext;
+  public macros:boolean;
+  public editorType:string;
 
   // Reference to the actual ckeditor instance component
   @ViewChild(OpCkeditorComponent, { static: true }) private ckEditorInstance:OpCkeditorComponent;
@@ -84,6 +86,8 @@ export class CkeditorAugmentedTextareaComponent implements OnInit, OnDestroy {
     // Parse the attribute explicitly since this is likely a bootstrapped element
     this.textareaSelector = this.$element.attr('textarea-selector')!;
     this.previewContext = this.$element.attr('preview-context')!;
+    this.macros = this.$element.attr('macros') !== 'false';
+    this.editorType = this.$element.attr('editor-type') || 'full';
 
     // Parse the resource if any exists
     const source = this.$element.data('resource');
@@ -98,6 +102,9 @@ export class CkeditorAugmentedTextareaComponent implements OnInit, OnDestroy {
 
     this.$attachmentsElement = this.formElement.find('#attachments_fields');
     this.context = { resource: this.resource, previewContext: this.previewContext };
+    if (!this.macros) {
+      this.context['macros'] = 'none';
+    }
   }
 
   ngOnDestroy() {

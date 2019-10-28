@@ -268,7 +268,7 @@ fieldset.form--fieldset
   font-size:      1rem
   font-style:     italic
   line-height:    1.8
-  
+
   a:hover
     text-decoration: none
 
@@ -409,7 +409,7 @@ fieldset.form--fieldset
 
   &.-vertical
     display: block
-    
+
   .form--field.-visible-overflow &
     overflow: visible
 
@@ -791,6 +791,9 @@ input[readonly].-clickable
   clear:       both
   line-height: $base-line-height
   padding:  0 2rem 0 0
+
+  > p
+    display: inline
 
   &:not(.-no-ellipsis)
     @include text-shortener

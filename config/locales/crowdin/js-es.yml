@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 es:
   js:
     ajax:
@@ -171,16 +192,20 @@ es:
     general_text_yes: "sí"
     general_text_No: "No"
     general_text_Yes: "Sí"
+    hal:
+      error:
+        update_conflict_refresh: "Haga clic aquí para actualizar el recurso y cambiar a la versión más reciente."
+        edit_prohibited: "La edición de %{attribute} está bloqueada para este recurso. Puede que el atributo se derive de relaciones (por ejemplo, elementos secundarios) o que no pueda configurarse."
+        format:
+          date: "%{attribute} no es una fecha válida -se espera YYYY-MM-DD."
+        general: "Ha ocurrido un error."
     homescreen:
       blocks:
         new_features:
           text_new_features: "Obtenga información sobre nuevas características y actualizaciones de productos."
-          current_new_feature_html: "OpenProject ahora ofrece la nueva <b>vista Panel</b> para la administración de proyectos ágil. </br> Para activar esta nueva característica para sus proyectos existentes, siga este procedimiento: <ul><li>Active el módulo Paneles en la configuración de los proyectos existentes.</li> <li>Configure los paneles en un proyecto.</li> <li>Verifique los roles y los permisos</li></ul>"
-          image_alt_text: "Imagen promocional de los paneles"
-          learn_about: "Obtenga más información sobre los paneles ágiles"
+          current_new_feature_html: "OpenProject tiene una nueva <b>página de información general</b> para <b>mostrar información importante sobre el proyecto</b> e indicar si se completará según lo previsto. </br> Puede insertar nuevos widgets de estado, como: <ul><li>estado del proyecto,</li> <li>información general sobre el estado del paquete de trabajo,</li> <li>progreso de la tarea,</li> <li>tareas asignadas a usuarios.</li></ul>"
+          learn_about: "Más información sobre los nuevos widgets de estado"
     label_activate: "Activar"
-    label_activity_no: "Entrada de actividad número %{activityNo}"
-    label_activity_with_comment_no: "Entrada de actividad número %{activityNo} tiene un comentario."
     label_add_column_after: "Añadir columna a la derecha"
     label_add_column_before: "Añadir columna a la izquierda"
     label_add_columns: "Añadir columnas"
@@ -254,6 +279,7 @@ es:
     label_no_data: "No hay datos disponibles"
     label_no_due_date: "no hay fecha de finalización"
     label_no_start_date: "sin fecha de inicio"
+    label_no_value: "Sin valor"
     label_none: "ninguno"
     label_not_contains: "no contiene"
     label_not_equals: "no es"
@@ -586,12 +612,6 @@ es:
       description_enter_text: "Ingrese texto"
       description_options_hide: "Ocultar opciones"
       description_options_show: "Mostrar opciones"
-      error:
-        update_conflict_refresh: "Haga clic aquí para actualizar el paquete de trabajo y cambiar a la versión más reciente."
-        edit_prohibited: "La edición de %{attribute} está bloqueada para este paquete de trabajo. Ya sea que este atributo se derive de las relaciones (por ejemplo, niños) o de lo contrario que no sea configurable."
-        format:
-          date: "%{attribute} no es una fecha válida -se espera YYYY-MM-DD."
-        general: "Ha ocurrido un error."
       edit_attribute: "%{attribute} - Editar"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Habilitar selección múltiple"
@@ -606,7 +626,6 @@ es:
       message_view_spent_time: "Mostrar el tiempo invertido en este paquete de trabajo"
       message_work_package_read_only: "El paquete de trabajo está bloqueado en este estado. Excepto el estado, ningún otro atributo se puede modificar."
       message_work_package_status_blocked: "El estado del paquete de trabajo no permite la escritura porque se asignarán el estado cerrado y la versión cerrada."
-      no_value: "Sin valor"
       placeholder_filter_by_text: "Asunto, descripción, comentarios, ..."
       inline_create:
         title: 'Haga clic aquí para agregar un nuevo paquete de trabajo a esta lista'
@@ -673,7 +692,7 @@ es:
         label_content: "Haga clic aquí para saltar el menú e ir al contenido"
       placeholders:
         default: "-"
-        description: "Pulse para introducir una descripción..."
+        formattable: "%{name}: haga clic para editar…"
       query:
         column_names: "Columnas"
         group_by: "Resultados de grupo por"

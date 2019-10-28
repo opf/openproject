@@ -1,3 +1,4 @@
+#English strings go here
 fr:
   label_avatar: "Avatar"
   label_avatar_plural: "Avatars"
@@ -11,7 +12,7 @@ fr:
   avatar_deleted: "L'avatar a bien été supprimé."
   unable_to_delete_avatar: "L'avatar n'a pas pu être supprimé."
   wrong_file_format: "Les formats autorisés sont Jpg, Png et Gif"
-  empty_file_error: "Veuillez téléverser une image valide (Jpg, Png, Gif)"
+  empty_file_error: "Veuillez téléverser une image valide (jpg, png, gif)"
   avatars:
     label_avatar: "Avatar"
     label_gravatar: 'Gravatar'

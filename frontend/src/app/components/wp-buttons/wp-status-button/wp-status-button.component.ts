@@ -27,10 +27,10 @@
 // ++
 
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageEditingService} from 'core-components/wp-edit-form/work-package-editing-service';
+
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {ChangeDetectorRef, Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {IWorkPackageEditingServiceToken} from "../../wp-edit-form/work-package-editing.service.interface";
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
@@ -54,12 +54,13 @@ export class WorkPackageStatusButtonComponent implements OnInit, OnDestroy {
 
   constructor(readonly I18n:I18nService,
               readonly cdRef:ChangeDetectorRef,
-              @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService) {
+              readonly wpCacheService:WorkPackageCacheService,
+              readonly halEditing:HalResourceEditingService) {
   }
 
   ngOnInit() {
-    this.wpEditing
-      .temporaryEditResource(this.workPackage.id!)
+    this.halEditing
+      .temporaryEditResource(this.workPackage)
       .values$()
       .pipe(
         untilComponentDestroyed(this)
@@ -97,11 +98,11 @@ export class WorkPackageStatusButtonComponent implements OnInit, OnDestroy {
   }
 
   public get status():HalResource|undefined {
-    if (!this.wpEditing) {
+    if (!this.halEditing) {
       return;
     }
 
-    return this.changeset.value('status');
+    return this.changeset.projectedResource.status;
   }
 
   public get allowed() {
@@ -115,6 +116,6 @@ export class WorkPackageStatusButtonComponent implements OnInit, OnDestroy {
   }
 
   private get changeset() {
-    return this.wpEditing.changesetFor(this.workPackage);
+    return this.halEditing.changeFor(this.workPackage);
   }
 }

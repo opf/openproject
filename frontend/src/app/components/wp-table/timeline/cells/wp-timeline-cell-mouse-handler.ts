@@ -28,20 +28,23 @@
 
 import {Injector} from '@angular/core';
 import * as moment from 'moment';
-import {States} from '../../../states.service';
 import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
-import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
-import {WorkPackageNotificationService} from '../../../wp-edit/wp-notification.service';
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import {RenderInfo} from '../wp-timeline';
 import {TimelineCellRenderer} from './timeline-cell-renderer';
 import {WorkPackageCellLabels} from './wp-timeline-cell';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
-import Moment = moment.Moment;
 import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
-import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
+
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
+import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
+import Moment = moment.Moment;
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 
 export const classNameBar = 'bar';
 export const classNameLeftHandle = 'leftHandle';
@@ -54,8 +57,9 @@ export function registerWorkPackageMouseHandler(this:void,
                                                 getRenderInfo:() => RenderInfo,
                                                 workPackageTimeline:WorkPackageTimelineTableController,
                                                 wpCacheService:WorkPackageCacheService,
-                                                wpEvents:WorkPackageEventsService,
-                                                wpNotificationsService:WorkPackageNotificationService,
+                                                halEditing:HalResourceEditingService,
+                                                halEvents:HalEventsService,
+                                                notificationService:WorkPackageNotificationService,
                                                 loadingIndicator:LoadingIndicatorService,
                                                 cell:HTMLElement,
                                                 bar:HTMLDivElement,
@@ -65,8 +69,8 @@ export function registerWorkPackageMouseHandler(this:void,
 
   const querySpace:IsolatedQuerySpace = injector.get(IsolatedQuerySpace);
 
-  let mouseDownStartDay:number|null = null; // also flag to signal active drag'n'drop
-  renderInfo.changeset = new WorkPackageChangeset(injector, renderInfo.workPackage);
+  let mouseDownStartDay:number | null = null; // also flag to signal active drag'n'drop
+  renderInfo.change = halEditing.changeFor(renderInfo.workPackage) as WorkPackageChangeset;
 
   let dateStates:any;
   let placeholderForEmptyCell:HTMLElement;
@@ -85,7 +89,7 @@ export function registerWorkPackageMouseHandler(this:void,
 
   function applyDateValues(renderInfo:RenderInfo, dates:{ [name:string]:Moment }) {
     // Let the renderer decide which fields we change
-    renderer.assignDateValues(renderInfo.changeset, labels, dates);
+    renderer.assignDateValues(renderInfo.change, labels, dates);
   }
 
   function getCursorOffsetInDaysFromLeft(renderInfo:RenderInfo, ev:MouseEvent) {
@@ -127,7 +131,7 @@ export function registerWorkPackageMouseHandler(this:void,
       const offsetDayCurrent = Math.floor(ev.offsetX / renderInfo.viewParams.pixelPerDay);
       const dayUnderCursor = renderInfo.viewParams.dateDisplayStart.clone().add(offsetDayCurrent, 'days');
 
-      dateStates = renderer.onDaysMoved(renderInfo.changeset, dayUnderCursor, days, direction);
+      dateStates = renderer.onDaysMoved(renderInfo.change, dayUnderCursor, days, direction);
       applyDateValues(renderInfo, dateStates);
       renderer.update(bar, labels, renderInfo);
     };
@@ -185,8 +189,8 @@ export function registerWorkPackageMouseHandler(this:void,
         const offsetDayCurrent = Math.floor(ev.offsetX / renderInfo.viewParams.pixelPerDay);
         const dayUnderCursor = renderInfo.viewParams.dateDisplayStart.clone().add(offsetDayCurrent, 'days');
         const widthInDays = offsetDayCurrent - offsetDayStart;
-        const moved = renderer.onDaysMoved(renderInfo.changeset, dayUnderCursor, widthInDays, mouseDownType);
-        renderer.assignDateValues(renderInfo.changeset, labels, moved);
+        const moved = renderer.onDaysMoved(renderInfo.change, dayUnderCursor, widthInDays, mouseDownType);
+        renderer.assignDateValues(renderInfo.change, labels, moved);
         renderer.update(bar, labels, renderInfo);
       };
 
@@ -218,45 +222,45 @@ export function registerWorkPackageMouseHandler(this:void,
     dateStates = {};
 
     // const renderInfo = getRenderInfo();
-    if (cancelled || renderInfo.changeset.empty) {
-      renderInfo.changeset.clear();
+    if (cancelled || renderInfo.change.isEmpty()) {
+      renderInfo.change.clear();
       renderer.update(bar, labels, renderInfo);
-      renderer.onMouseDownEnd(labels, renderInfo.changeset);
+      renderer.onMouseDownEnd(labels, renderInfo.change);
       workPackageTimeline.refreshView();
     } else {
       const stopAndRefresh = () => {
-        renderInfo.changeset.clear();
-        renderer.onMouseDownEnd(labels, renderInfo.changeset);
+        renderInfo.change.clear();
+        renderer.onMouseDownEnd(labels, renderInfo.change);
         workPackageTimeline.refreshView();
       };
 
       // Persist the changes
-      saveWorkPackage(renderInfo.changeset)
+      saveWorkPackage(renderInfo.change)
         .then(stopAndRefresh)
         .catch(stopAndRefresh);
     }
 
   }
 
-  function saveWorkPackage(changeset:WorkPackageChangeset) {
+  function saveWorkPackage(change:WorkPackageChangeset) {
     const queryDm:QueryDmService = injector.get(QueryDmService);
-    const states:States = injector.get(States);
 
-    // Remmeber the time before saving the work package to know which work packages to update
+    // Remember the time before saving the work package to know which work packages to update
     const updatedAt = moment().toISOString();
 
-    return loadingIndicator.table.promise = changeset.save()
-      .then((wp) => {
-        wpNotificationsService.showSave(wp);
+    return loadingIndicator.table.promise = halEditing.save<WorkPackageResource, WorkPackageChangeset>(change)
+      .then((result) => {
+        notificationService.showSave(result.resource);
         const ids = _.map(querySpace.rendered.value!, row => row.workPackageId);
         loadingIndicator.table.promise =
           queryDm.loadIdsUpdatedSince(ids, updatedAt).then(workPackageCollection => {
             wpCacheService.updateWorkPackageList(workPackageCollection.elements);
-            wpEvents.push({ type: 'updated', id: wp.id! });
+
+            halEvents.push(result.resource, { eventType: 'updated' });
           });
       })
       .catch((error) => {
-        wpNotificationsService.handleRawError(error, renderInfo.workPackage);
+        notificationService.handleRawError(error, renderInfo.workPackage);
       });
   }
 }

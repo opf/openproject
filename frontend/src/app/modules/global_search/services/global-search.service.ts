@@ -82,9 +82,9 @@ export class GlobalSearchService {
   }
 
   private loadGonData():{available_search_types:string[],
-                                search_term:string,
-                                project_scope:string,
-                                current_tab:string}|null {
+                         search_term:string,
+                         project_scope:string,
+                         current_tab:string}|null {
     try {
       return (window as any).gon.global_search;
     } catch (e) {

@@ -62,7 +62,7 @@ export class Field {
   }
 
   public get writable():boolean {
-    return !!this.schema.writable;
+    return this.schema.writable && this.resource.isAttributeEditable(this.name);
   }
 
   public get hasDefault():boolean {

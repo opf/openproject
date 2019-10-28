@@ -28,6 +28,12 @@ uk:
         project_details:
           title: 'Деталі проекту'
           no_results: 'No custom fields have been defined for projects.'
+        project_status:
+          title: 'Статус Проекту'
+          on_track: 'On track'
+          off_track: 'Off track'
+          at_risk: 'At risk'
+          not_set: 'Not set'
         subprojects:
           title: 'Підпроекти'
           no_results: 'No subprojects.'

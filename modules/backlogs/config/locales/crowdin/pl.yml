@@ -1,3 +1,31 @@
+#-- copyright
+#OpenProject Backlogs Plugin
+#Copyright (C)2013-2014 the OpenProject Foundation (OPF)
+#Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
+#Copyright (C)2010-2011 friflaj
+#Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns
+#Copyright (C)2009-2010 Mark Maglana
+#Copyright (C)2009 Joe Heck, Nate Lowrie
+#This program is free software; you can redistribute it and/or modify it under
+#the terms of the GNU General Public License version 3.
+#OpenProject Backlogs is a derivative work based on ChiliProject Backlogs.
+#The copyright follows:
+#Copyright (C) 2010-2011 - Emiliano Heyns, Mark Maglana, friflaj
+#Copyright (C) 2011 - Jens Ulferts, Gregor Schmidt - Finn GmbH - Berlin, Germany
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See doc/COPYRIGHT.rdoc for more details.
+#++
+#---
 pl:
   activerecord:
     attributes:
@@ -61,7 +89,7 @@ pl:
     task_color: "Kolor zadania"
     unassigned: "Nieprzypisane"
     x_more: "%{count} więcej..."
-  backlogs_active: "aktywny"
+  backlogs_active: "aktywne"
   backlogs_any: "którekolwiek"
   backlogs_card_specification: "Typy etykiet do wydruku kart"
   backlogs_inactive: "Projekt pokazuje brak aktywności"
@@ -95,7 +123,7 @@ pl:
   label_backlog: "Backlog"
   label_backlogs: "Backlogi"
   label_backlogs_unconfigured: "Jeszcze nie skonfigurowałeś backlogów. Przejdź do %{administration} > %{plugins}, następnie kliknij link %{configure} dla otrzymania tego dodatku. Po ustawieniu pól, wróć na tę stronę, aby zacząć korzystanie z narzędzia."
-  label_blocks_ids: "Identyfikatory zablokowanych pakietów prac"
+  label_blocks_ids: "Identyfikatory zablokowanych pakietów roboczych"
   label_burndown: "Burndown"
   label_column_in_backlog: "Kolumna w backlogu"
   label_hours: "godziny"
@@ -130,7 +158,7 @@ pl:
   project_module_backlogs: "Backlogi"
   rb_label_copy_tasks: "Kopiuj Zestaw Zadań"
   rb_label_copy_tasks_all: "Wszystko"
-  rb_label_copy_tasks_none: "Żaden"
+  rb_label_copy_tasks_none: "Brak"
   rb_label_copy_tasks_open: "Otwórz"
   rb_label_link_to_original: "Podepnij łącze do oryginalnego wątku"
   remaining_hours: "pozostałe godziny"
@@ -140,5 +168,5 @@ pl:
   todo_work_package_summary: "%{type}: %{summary}"
   version_settings_display_label: "Kolumna w backlogu"
   version_settings_display_option_left: "w lewo"
-  version_settings_display_option_none: "żaden"
+  version_settings_display_option_none: "Brak"
   version_settings_display_option_right: "w prawo"

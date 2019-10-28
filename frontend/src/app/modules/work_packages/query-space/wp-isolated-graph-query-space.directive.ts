@@ -41,12 +41,11 @@ import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/ro
 import {WorkPackageViewSumService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sum.service";
 import {WorkPackageViewAdditionalElementsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-additional-elements.service";
 import {WorkPackageViewHighlightingService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
-import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
 import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";
 import {WorkPackageViewFocusService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
-import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
-import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
+
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
 import {WorkPackageService} from "core-components/work-packages/work-package.service";
 import {WorkPackageRelationsHierarchyService} from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
@@ -95,9 +94,8 @@ export const WpIsolatedGraphQuerySpaceProviders = [
   WpChildrenInlineCreateService,
   WpRelationInlineCreateService,
 
-  // Provide both serves with tokens to avoid tight dependency cycles
-  { provide: IWorkPackageCreateServiceToken, useClass: WorkPackageCreateService },
-  { provide: IWorkPackageEditingServiceToken, useClass: WorkPackageEditingService },
+  HalResourceEditingService,
+  WorkPackageCreateService,
 
   WorkPackageStatesInitializationService,
 
@@ -121,10 +119,4 @@ export const WpIsolatedGraphQuerySpaceProviders = [
   providers: WpIsolatedGraphQuerySpaceProviders
 })
 export class WorkPackageIsolatedGraphQuerySpaceDirective extends WorkPackageIsolatedQuerySpaceDirective {
-
-  //constructor(private elementRef:ElementRef,
-  //            public querySpace:IsolatedQuerySpace,
-  //            private injector:Injector) {
-  //  debugLog("Opening isolated query space %O in %O", injector, elementRef.nativeElement);
-  //}
 }

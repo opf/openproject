@@ -106,7 +106,7 @@ class ForumsController < ApplicationController
   def edit; end
 
   def update
-    if @forum.update_attributes(permitted_params.forum)
+    if @forum.update(permitted_params.forum)
       flash[:notice] = l(:notice_successful_update)
       redirect_to_settings_in_projects
     else
@@ -115,7 +115,7 @@ class ForumsController < ApplicationController
   end
 
   def move
-    if @forum.update_attributes(permitted_params.forum_move)
+    if @forum.update(permitted_params.forum_move)
       flash[:notice] = t(:notice_successful_update)
     else
       flash.now[:error] = t('forum_could_not_be_saved')

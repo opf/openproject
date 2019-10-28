@@ -30,16 +30,17 @@ import {StateService} from '@uirouter/core';
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 import {Directive, ElementRef, Inject, Input} from "@angular/core";
 import {OpContextMenuTrigger} from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
-import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
-import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
-import {IWorkPackageEditingServiceToken} from "../../wp-edit-form/work-package-editing.service.interface";
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
-import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
+import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
+import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 @Directive({
   selector: '[wpStatusDropdown]'
@@ -50,23 +51,23 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
   constructor(readonly elementRef:ElementRef,
               readonly opContextMenu:OPContextMenuService,
               readonly $state:StateService,
-              protected wpNotificationsService:WorkPackageNotificationService,
+              protected workPackageNotificationService:WorkPackageNotificationService,
+              protected halEditing:HalResourceEditingService,
               protected notificationService:NotificationsService,
-              @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService,
               protected I18n:I18nService,
-              protected wpEvents:WorkPackageEventsService) {
+              protected halEvents:HalEventsService) {
 
     super(elementRef, opContextMenu);
   }
 
   protected open(evt:JQuery.TriggeredEvent) {
-    const changeset = this.wpEditing.changesetFor(this.workPackage);
+    const change = this.halEditing.changeFor(this.workPackage);
 
-    changeset.getForm().then((form:any) => {
+    change.getForm().then((form:any) => {
       const statuses = form.schema.status.allowedValues;
       this.buildItems(statuses);
 
-      const writable = changeset.isWritable('status');
+      const writable = change.schema.status.writable;
       if (!writable) {
         this.notificationService.addError(this.I18n.t('js.work_packages.message_work_package_status_blocked'));
       } else {
@@ -83,15 +84,16 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
   }
 
   private updateStatus(status:HalResource) {
-    const changeset = this.wpEditing.changesetFor(this.workPackage);
-    changeset.setValue('status', status);
+    const change = this.halEditing.changeFor(this.workPackage);
+    change.projectedResource.status = status;
 
     if (!this.workPackage.isNew) {
-      changeset.save().then(() => {
-        this.wpNotificationsService.showSave(this.workPackage);
-
-        this.wpEvents.push({ type: 'updated', id: this.workPackage.id! });
-      });
+      this.halEditing
+        .save(change)
+        .then(() => {
+          this.workPackageNotificationService.showSave(this.workPackage);
+          this.halEvents.push(this.workPackage, { eventType: 'updated' });
+        });
     }
   }
 

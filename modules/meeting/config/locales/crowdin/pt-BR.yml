@@ -1,3 +1,18 @@
+#-- copyright
+#OpenProject Meeting Plugin
+#Copyright (C) 2011-2014 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See doc/COPYRIGHT.md for more details.
+#++
+#English strings go here for Rails i18n
 pt-BR:
   activerecord:
     attributes:
@@ -32,7 +47,7 @@ pt-BR:
   label_meeting_agenda: "Agenda"
   label_meeting_minutes: "Atas"
   label_meeting_close: "Fechar"
-  label_meeting_open: "Abrir"
+  label_meeting_open: "Aberto"
   label_meeting_agenda_close: "Fechar a agenda para iniciar a Ata"
   label_meeting_date_time: "Data/Horário"
   label_meeting_diff: "Diferenças"

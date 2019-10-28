@@ -19,9 +19,10 @@ This time, it will use the new image:
 
 ## OpenProject 10.x
 
-### MySQL has been dropped from sources
+### MySQL support dropped
 
-See below for further details.
+OpenProject 10.0 has dropped MySQL support. For more information regarding motivation behind this and migration steps, please see https://www.openproject.org/deprecating-mysql-support/
+In this post, you will find documentation for a mostly-automated migration script to PostgreSQL to help you get up and running with PostgreSQL.
 
 ## OpenProject 9.x
 

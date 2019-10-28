@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 lt:
   js:
     ajax:
@@ -171,16 +192,20 @@ lt:
     general_text_yes: "taip"
     general_text_No: "Ne"
     general_text_Yes: "Taip"
+    hal:
+      error:
+        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
+        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        format:
+          date: "%{attribute} nėra tinkama data - YYYY-MM-DD tikimasi."
+        general: "Įvyko klaida."
     homescreen:
       blocks:
         new_features:
           text_new_features: "Skaitykite apie naujas savybes ir produkto atnaujinimus."
-          current_new_feature_html: "OpenProject yra naujas <b>Lentų rodinys</b> skirtas Agile projektų valdymui. </br> Norėdami aktyvuoti šią naują savybę esamiems projektams: <ul><li>Aktyvuokite modulį Lentos esamų projektų nustatymuose.</li> <li>Sukonfigūruokite jūsų Lentas projekte.</li> <li>Patikrinkite roles ir teises</li></ul>"
-          image_alt_text: "Lentos iliustracija"
-          learn_about: "Sužinokite daugiau apie Agile Lentas"
+          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
+          learn_about: "Learn more about the new status widgets"
     label_activate: "Aktyvuoti"
-    label_activity_no: "Veiklos įrašo numeris %{activityNo}"
-    label_activity_with_comment_no: "Veiklos įrašo numeris %{activityNo}. Turintis vartotojo komentarą."
     label_add_column_after: "Pridėti stulpelį po"
     label_add_column_before: "Pridėti stulpelį prieš"
     label_add_columns: "Pridėti stulpelių"
@@ -254,6 +279,7 @@ lt:
     label_no_data: "Nėra rodytinų duomenų"
     label_no_due_date: "nėra pabaigos datos"
     label_no_start_date: "nėra pradžios datos"
+    label_no_value: "Nenurodytas dydis"
     label_none: "joks"
     label_not_contains: "neturi"
     label_not_equals: "nėra"
@@ -590,12 +616,6 @@ lt:
       description_enter_text: "Įveskite tekstą"
       description_options_hide: "Slėpti parinktis"
       description_options_show: "Rodyti parinktis"
-      error:
-        update_conflict_refresh: "Spauskite čia darbų paketo atnaujinimui iki naujausios versijos."
-        edit_prohibited: "%{attribute} redagavimas yra darbų paketo blokuojamas. Arba šis atributas atsiradęs iš ryšių (pvz., vaiko ryšio), arba jis nėra galimas konfigūruoti."
-        format:
-          date: "%{attribute} nėra tinkama data - YYYY-MM-DD tikimasi."
-        general: "Įvyko klaida."
       edit_attribute: "%{attribute} -Taisyti"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Įgalinti daugybinį pažymėjimą"
@@ -610,7 +630,6 @@ lt:
       message_view_spent_time: "Rodyti praleistą laiką su šiuo darbų paketu"
       message_work_package_read_only: "Šioje būsenoje darbų paketas yra užrakintas. Negali būti keičiamas joks atributas, išskyrus būseną."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
-      no_value: "Nenurodytas dydis"
       placeholder_filter_by_text: "Tema, aprašymas, komentarai, ..."
       inline_create:
         title: 'Paspauskite čia, kad pridėtumėte į sąrašą naują darbų paketą'
@@ -677,7 +696,7 @@ lt:
         label_content: "Paspauskite čia, kad praleistumėte meniu ir pereitumėte prie turinio"
       placeholders:
         default: "-"
-        description: "Paspauskite, norėdami aprašyti..."
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Stulpeliai"
         group_by: "Grupuoti rezultatus pagal"
@@ -833,10 +852,10 @@ lt:
         many: "%{count} darbų paketo vaikai"
         other: "%{count} darbų paketo vaikai"
       hour:
-        one: "1 h"
-        few: "%{count} h"
-        many: "%{count} h"
-        other: "%{count} h"
+        one: "1 val"
+        few: "%{count} val"
+        many: "%{count} val"
+        other: "%{count} val"
     zen_mode:
       button_activate: 'Įjungti Zen režimą'
       button_deactivate: 'Išjungti Zen režimą'

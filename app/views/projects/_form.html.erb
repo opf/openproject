@@ -27,7 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= error_messages_for(project, classes: '-inline') unless local_assigns[:no_error_messages] %>
+<%= error_messages_for_contract(project, errors) unless local_assigns[:no_error_messages] %>
 
 <!--[form:project]-->
 
@@ -66,7 +66,7 @@ See docs/COPYRIGHT.rdoc for more details.
                locals: {
                  form: f,
                  project: project,
-                 work_package_custom_fields: @issue_custom_fields
+                 work_package_custom_fields: @wp_custom_fields
                 } %>
   </section>
 <% end %>

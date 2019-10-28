@@ -1,11 +1,11 @@
 import {Injector} from '@angular/core';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageRelationsService} from '../../../wp-relations/wp-relations.service';
-import {WorkPackageTable} from '../../wp-fast-table';
 import {PrimaryRenderPass, RowRenderInfo} from '../primary-render-pass';
 import {relationGroupClass, RelationRowBuilder} from './relation-row-builder';
 import {QueryColumn} from 'core-components/wp-query/query-column';
+import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
+import {WorkPackageTable} from "core-components/wp-fast-table/wp-fast-table";
 import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
 import {
   RelationColumnType,

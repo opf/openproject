@@ -36,8 +36,8 @@ module Pages
       @work_package = work_package
       @project = project
 
-      @type_field_selector = '.wp-edit-field.type'
-      @subject_field_selector = '.wp-edit-field.subject'
+      @type_field_selector = '.inline-edit--container.type'
+      @subject_field_selector = '.inline-edit--container.subject'
     end
 
     def visit_tab!(tab)
@@ -80,7 +80,7 @@ module Pages
 
     def expect_hidden_field(attribute)
       page.within(container) do
-        expect(page).to have_no_selector(".inplace-edit.#{attribute}")
+        expect(page).to have_no_selector(".inline-edit--display-field.#{attribute}")
       end
     end
 
@@ -119,13 +119,13 @@ module Pages
         if label == 'status'
           expect(page).to have_selector(".wp-status-button .button", text: value, wait: 10)
         else
-          expect(page).to have_selector(".wp-edit-field.#{label.camelize(:lower)}", text: value, wait: 10)
+          expect(page).to have_selector(".inline-edit--container.#{label.camelize(:lower)}", text: value, wait: 10)
         end
       end
     end
 
     def expect_no_attribute(label)
-      expect(page).not_to have_selector(".wp-edit-field.#{label.downcase}")
+      expect(page).not_to have_selector(".inline-edit--container.#{label.downcase}")
     end
     alias :expect_attribute_hidden :expect_no_attribute
 
@@ -196,16 +196,16 @@ module Pages
         cf = CustomField.find $1
 
         if cf.field_format == 'text'
-          WorkPackageEditorField.new container, key
+          TextEditorField.new container, key
         else
-          WorkPackageField.new container, key
+          EditField.new container, key
         end
       elsif key == :description
-        WorkPackageEditorField.new container, key
+        TextEditorField.new container, key
       elsif key == :status
         WorkPackageStatusField.new container
       else
-        WorkPackageField.new container, key
+        EditField.new container, key
       end
     end
 

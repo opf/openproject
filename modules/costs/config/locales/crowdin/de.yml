@@ -1,3 +1,18 @@
+#-- copyright
+#OpenProject Costs Plugin
+#Copyright (C) 2009 - 2014 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#version 3.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#++
+#---
 de:
   activerecord:
     attributes:
@@ -18,7 +33,7 @@ de:
         status: "Status"
         subject: "Thema"
         type: "Kostentyp"
-        updated_on: "Aktualisiert"
+        updated_on: "Aktualisiert am"
       cost_type:
         unit: "Einheit"
         unit_plural: "Einheit plural"
@@ -57,7 +72,7 @@ de:
     costs: "Kosten"
     current_rate: "Aktueller Satz"
     hours: "Stunden"
-    units: "Stücke"
+    units: "Einheiten"
     valid_from: "Gültig ab"
   button_add_budget_item: "Budgetposition hinzufügen"
   button_add_cost_object: "Neues Budget anlegen"
@@ -123,7 +138,7 @@ de:
   label_hourly_rate: "Stundensatz"
   label_include_deleted: "Gelöschte anzeigen"
   label_work_package_filter_add: "Ticketfilter hinzufügen"
-  label_kind: "Art"
+  label_kind: "Typ"
   label_less_or_equal: "<="
   label_log_costs: "Stückkosten buchen"
   label_no: "Nein"

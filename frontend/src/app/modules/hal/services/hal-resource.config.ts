@@ -54,6 +54,7 @@ import {WikiPageResource} from "core-app/modules/hal/resources/wiki-page-resourc
 import {MeetingContentResource} from "core-app/modules/hal/resources/meeting-content-resource";
 import {PostResource} from "core-app/modules/hal/resources/post-resource";
 import {StatusResource} from "core-app/modules/hal/resources/status-resource";
+import {AttachmentCollectionResource} from "core-app/modules/hal/resources/attachment-collection-resource";
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
 import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
@@ -61,6 +62,7 @@ import {NewsResource} from "core-app/modules/hal/resources/news-resource";
 import {VersionResource} from "core-app/modules/hal/resources/version-resource";
 import {MembershipResource} from "core-app/modules/hal/resources/membership-resource";
 import {RoleResource} from "core-app/modules/hal/resources/role-resource";
+import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 
 const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInterface } = {
   WorkPackage: {
@@ -124,6 +126,9 @@ const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInter
   WorkPackageCollection: {
     cls: WorkPackageCollectionResource
   },
+  AttachmentCollection: {
+    cls: AttachmentCollectionResource
+  },
   Query: {
     cls: QueryResource,
     attrTypes: {
@@ -131,7 +136,16 @@ const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInter
     }
   },
   Form: {
-    cls: FormResource
+    cls: FormResource,
+    attrTypes: {
+      payload: 'FormPayload'
+    }
+  },
+  FormPayload: {
+    cls: HalResource,
+    attrTypes: {
+      attachments: 'AttachmentsCollection'
+    }
   },
   QueryFilterInstance: {
     cls: QueryFilterInstanceResource,
@@ -167,6 +181,9 @@ const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInter
   },
   Post: {
     cls: PostResource
+  },
+  Project: {
+    cls: ProjectResource
   },
   Role: {
     cls: RoleResource

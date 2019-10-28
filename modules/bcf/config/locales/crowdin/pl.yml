@@ -1,3 +1,4 @@
+#English strings go here for Rails i18n
 pl:
   bcf:
     label_bcf: 'BCF'

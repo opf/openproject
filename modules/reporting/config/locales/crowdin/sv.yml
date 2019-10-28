@@ -1,3 +1,18 @@
+#-- copyright
+#OpenProject Reporting Plugin
+#Copyright (C) 2010 - 2014 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#version 3.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#++
+#---
 sv:
   button_save_as: "Spara rapporten som..."
   comments: "Kommentar"
@@ -9,7 +24,7 @@ sv:
   description_remove_filter: "Ta bort filter"
   information_restricted_depending_on_permission: "Beroende på dina behörigheter kan denna sida innehålla begränsad information."
   label_click_to_edit: "Klicka för att ändra."
-  label_closed: "stängd"
+  label_closed: "stängt"
   label_columns: "Kolumner"
   label_cost_entry_attributes: "Kostnadspostattribut"
   label_days_ago: "under de senaste dagarna"
@@ -25,7 +40,7 @@ sv:
   label_money: "Kontantvärde"
   label_month_reporting: "Månad (spenderade)"
   label_new_report: "Nya kostnadsrapport"
-  label_open: "öppen"
+  label_open: "öppna"
   label_operator: "Operator"
   label_private_report_plural: "Privata kostnadsrapporter"
   label_progress_bar_explanation: "Genererar rapport..."

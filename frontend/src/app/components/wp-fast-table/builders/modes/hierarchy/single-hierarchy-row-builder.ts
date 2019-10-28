@@ -1,13 +1,13 @@
 import {Injector} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {States} from '../../../../states.service';
+import {SingleRowBuilder} from "core-components/wp-fast-table/builders/rows/single-row-builder";
+import {WorkPackageTable} from "core-components/wp-fast-table/wp-fast-table";
+import {States} from "core-components/states.service";
 import {
   collapsedGroupClass,
   hierarchyGroupClass,
   hierarchyRootClass
-} from '../../../helpers/wp-table-hierarchy-helpers';
-import {WorkPackageTable} from '../../../wp-fast-table';
-import {SingleRowBuilder} from '../../rows/single-row-builder';
+} from "core-components/wp-fast-table/helpers/wp-table-hierarchy-helpers";
 import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
 
 export const indicatorCollapsedClass = '-hierarchy-collapsed';
@@ -113,8 +113,8 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
   /**
    * Append to the row of hierarchy level <level> a hierarchy indicator.
    * @param workPackage
-   * @param row
-   * @param level
+   * @param jRow jQuery row element
+   * @param level Indentation level
    */
   private appendHierarchyIndicator(workPackage:WorkPackageResource, jRow:JQuery, level?:number):void {
     const hierarchyLevel = level === undefined || null ? workPackage.ancestors.length : level;

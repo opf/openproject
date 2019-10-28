@@ -1,3 +1,31 @@
+#-- copyright
+#OpenProject Backlogs Plugin
+#Copyright (C)2013-2014 the OpenProject Foundation (OPF)
+#Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
+#Copyright (C)2010-2011 friflaj
+#Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns
+#Copyright (C)2009-2010 Mark Maglana
+#Copyright (C)2009 Joe Heck, Nate Lowrie
+#This program is free software; you can redistribute it and/or modify it under
+#the terms of the GNU General Public License version 3.
+#OpenProject Backlogs is a derivative work based on ChiliProject Backlogs.
+#The copyright follows:
+#Copyright (C) 2010-2011 - Emiliano Heyns, Mark Maglana, friflaj
+#Copyright (C) 2011 - Jens Ulferts, Gregor Schmidt - Finn GmbH - Berlin, Germany
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See doc/COPYRIGHT.rdoc for more details.
+#++
+#---
 sk:
   activerecord:
     attributes:
@@ -61,7 +89,7 @@ sk:
     task_color: "Farba úlohy"
     unassigned: "Nepriradené"
     x_more: "ďalších %{count}..."
-  backlogs_active: "aktívne"
+  backlogs_active: "aktívny"
   backlogs_any: "akékoľvek"
   backlogs_card_specification: "Typy štítkov pre tlač karty"
   backlogs_inactive: "Projekt nevykazuje žiadne činnosti"
@@ -104,7 +132,7 @@ sk:
   label_not_prioritized: "bez priority"
   label_points: "body"
   label_points_burn_down: "Nadol"
-  label_points_burn_up: "Nahor"
+  label_points_burn_up: "Hore"
   label_product_backlog: "product backlog"
   label_select_all: "Vybrať všetko"
   label_sprint_backlog: "sprint backlog"
@@ -130,7 +158,7 @@ sk:
   project_module_backlogs: "Backlogs"
   rb_label_copy_tasks: "Skopírovať pracovné balíčky"
   rb_label_copy_tasks_all: "Všetky"
-  rb_label_copy_tasks_none: "Žiadne"
+  rb_label_copy_tasks_none: "Žiadny"
   rb_label_copy_tasks_open: "Otvorené"
   rb_label_link_to_original: "Obsahuje odkaz na pôvodný príbeh"
   remaining_hours: "zvyšné hodiny"

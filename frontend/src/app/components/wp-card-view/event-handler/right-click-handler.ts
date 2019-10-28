@@ -45,7 +45,7 @@ export class CardRightClickHandler implements CardEventHandler {
     evt.stopPropagation();
 
     // Locate the card from event
-    const element = target.closest(this.SELECTOR);
+    const element = target.closest('wp-single-card');
     const wpId = element.data('workPackageId');
 
     if (!wpId) {

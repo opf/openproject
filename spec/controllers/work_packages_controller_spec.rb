@@ -37,8 +37,8 @@ describe WorkPackagesController, type: :controller do
     allow(UserMailer).to receive(:new).and_return(double('mailer').as_null_object)
   end
 
-  let(:project) { FactoryBot.create(:project, identifier: 'test_project', is_public: false) }
-  let(:stub_project) { FactoryBot.build_stubbed(:project, identifier: 'test_project', is_public: false) }
+  let(:project) { FactoryBot.create(:project, identifier: 'test_project', public: false) }
+  let(:stub_project) { FactoryBot.build_stubbed(:project, identifier: 'test_project', public: false) }
   let(:stub_work_package) { double('work_package', id: 1337, project: stub_project).as_null_object }
 
   let(:current_user) { FactoryBot.create(:user) }

@@ -1,3 +1,24 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
 ca:
   js:
     ajax:
@@ -171,16 +192,20 @@ ca:
     general_text_yes: "sí"
     general_text_No: "No"
     general_text_Yes: "Sí"
+    hal:
+      error:
+        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
+        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        format:
+          date: "%{attribute} no és una data vàlida - s'espera en format AAAA-MM-DD."
+        general: "S'ha produït un error."
     homescreen:
       blocks:
         new_features:
           text_new_features: "Read about new features and product updates."
-          current_new_feature_html: "OpenProject contains a new <b>Boards view</b> for Agile project management. </br> To activate this new feature for your existing projects, please do the following steps: <ul><li>Activate the module Boards within existing projects' settings.</li> <li>Configure your Boards in a project.</li> <li>Verify roles and permissions</li></ul>"
-          image_alt_text: "Board teaser image"
-          learn_about: "Learn more about Agile Boards"
+          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
+          learn_about: "Learn more about the new status widgets"
     label_activate: "Activar"
-    label_activity_no: "Número d'entrada d'activitat %{activityNo}"
-    label_activity_with_comment_no: "Número d'entrada d'activitat %{activityNo}. Disposa d'un comentari d'usuari."
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
     label_add_columns: "Add columns"
@@ -254,6 +279,7 @@ ca:
     label_no_data: "No hi ha dades per mostrar"
     label_no_due_date: "no hi ha data de finalització"
     label_no_start_date: "no hi ha data d'inici"
+    label_no_value: "Cap valor"
     label_none: "cap"
     label_not_contains: "no conté"
     label_not_equals: "no és"
@@ -586,12 +612,6 @@ ca:
       description_enter_text: "Introduïu text"
       description_options_hide: "Amagar opcions"
       description_options_show: "Mostra opcions"
-      error:
-        update_conflict_refresh: "Click here to refresh the work package and update to the newest version."
-        edit_prohibited: "L'edició de %{attribute} està bloquejada per a aquest paquet de treball. Ja sigui perquè aquest atribut es deriva d'alguna relació (per exemple, els fills) o perquè no és configurable."
-        format:
-          date: "%{attribute} no és una data vàlida - s'espera en format AAAA-MM-DD."
-        general: "S'ha produït un error."
       edit_attribute: "%{attribute} - Edita"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Permetre sel·lecció múltiple"
@@ -606,7 +626,6 @@ ca:
       message_view_spent_time: "Show spent time for this work package"
       message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
-      no_value: "Cap valor"
       placeholder_filter_by_text: "Subject, description, comments, ..."
       inline_create:
         title: 'Feu clic aquí per afegir un nou paquet de treball a aquesta llista'
@@ -673,7 +692,7 @@ ca:
         label_content: "Click here to skip over the menu and go to the content"
       placeholders:
         default: "-"
-        description: "Feu clic per entrar la descripció..."
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Columnes"
         group_by: "Agrupa els resultats per"

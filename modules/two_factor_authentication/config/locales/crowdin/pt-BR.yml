@@ -1,3 +1,4 @@
+#English strings go here for Rails i18n
 pt-BR:
   activerecord:
     attributes:
@@ -138,7 +139,7 @@ pt-BR:
     restdt:
       delivery_failed_with_code: 'Falha ao entregar o token. (Código do erro %{code})'
     strategies:
-      totp: 'Aplicação autenticada'
+      totp: 'Aplicativo de autenticação'
       sns: 'SNS da Amazon'
       resdt: 'API Rest do SMS'
     mobile_transmit_notification: "Uma senha de uso único foi enviada para o seu celular."

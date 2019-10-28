@@ -4,7 +4,6 @@ import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {BehaviorSubject} from "rxjs";
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 import {CustomTextChangeset} from "core-app/modules/grids/widgets/custom-text/custom-text-changeset";
-import {Attachable} from "core-app/modules/hal/resources/mixins/attachable-mixin";
 import {UploadFile} from "core-components/api/op-file-upload/op-file-upload.service";
 
 @Injectable()
@@ -30,12 +29,12 @@ export class CustomTextEditFieldService extends EditFieldHandler {
   }
 
   public initialize(value:GridWidgetResource) {
-    this.changeset = new CustomTextChangeset(this.injector, this.newEditResource(value));
+    this.changeset = new CustomTextChangeset(this.newEditResource(value));
     this.valueChanged$ = new BehaviorSubject(value.options['text'] as string);
   }
 
   public reinitialize(value:GridWidgetResource) {
-    this.changeset = new CustomTextChangeset(this.injector, this.newEditResource(value));
+    this.changeset = new CustomTextChangeset(this.newEditResource(value));
   }
 
   /**
@@ -106,12 +105,16 @@ export class CustomTextEditFieldService extends EditFieldHandler {
     trigger && trigger.focus();
   }
 
+  setErrors(newErrors:string[]):void {
+    // interface
+  }
+
   handleUserKeydown(event:JQuery.TriggeredEvent, onlyCancel?:boolean):void {
     // interface
   }
 
   isChanged():boolean {
-    return !this.changeset.empty;
+    return !this.changeset.isEmpty();
   }
 
   stopPropagation(evt:JQuery.TriggeredEvent):boolean {
@@ -120,6 +123,7 @@ export class CustomTextEditFieldService extends EditFieldHandler {
 
   private newEditResource(value:GridWidgetResource) {
     return { text: value.options.text,
+             getEditorTypeFor: () => 'full',
              canAddAttachments: value.grid.canAddAttachments,
              uploadAttachments: (files:UploadFile[]) => value.grid.uploadAttachments(files) };
   }
