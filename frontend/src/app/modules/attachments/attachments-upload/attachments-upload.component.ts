@@ -65,9 +65,9 @@ export class AttachmentsUploadComponent implements OnInit {
   ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
 
-    this.ConfigurationService.api().then((settings:any) => {
-      this.maxFileSize = settings.maximumAttachmentFileSize;
-    });
+    this.ConfigurationService.initialized.then(() =>
+      this.maxFileSize = this.ConfigurationService.maximumAttachmentFileSize
+    );
   }
 
   public triggerFileInput(event:MouseEvent) {

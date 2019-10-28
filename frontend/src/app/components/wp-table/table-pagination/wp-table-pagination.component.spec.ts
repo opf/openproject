@@ -29,7 +29,6 @@
 import {HttpClientModule} from '@angular/common/http';
 
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {ConfigurationDmService} from 'core-app/modules/hal/dm-services/configuration-dm.service';
 import {async, inject, TestBed} from '@angular/core/testing';
 import {States} from 'core-components/states.service';
 import {PaginationInstance} from 'core-components/table-pagination/pagination-instance';
@@ -42,15 +41,26 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {OpenProject} from "core-app/globals/openproject";
 import {OpIcon} from "core-app/modules/common/icon/op-icon";
 import {WorkPackageViewSortByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
+import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
+import {ConfigurationDmService} from "core-app/modules/hal/dm-services/configuration-dm.service";
 
 function setupMocks(paginationService:PaginationService) {
+  const options:IPaginationOptions = {
+    perPage: 0,
+    perPageOptions: [10, 50],
+    maxVisiblePageOptions: 1,
+    optionsTruncationSize: 6
+  };
+
+  spyOn(paginationService, 'getMaxVisiblePageOptions').and.callFake(() => {
+    return options.maxVisiblePageOptions;
+  });
+
+  spyOn(paginationService, 'getOptionsTruncationSize').and.callFake(() => {
+    return options.optionsTruncationSize;
+  });
+
   spyOn(paginationService, 'loadPaginationOptions').and.callFake(() => {
-    const options:IPaginationOptions = {
-      perPage: 0,
-      perPageOptions: [10, 100, 500, 1000],
-      maxVisiblePageOptions: 0,
-      optionsTruncationSize: 0
-    };
     return Promise.resolve(options);
   });
 }
@@ -63,7 +73,6 @@ describe('wpTablePagination Directive', () => {
 
   beforeEach(async(() => {
     window.OpenProject = new OpenProject();
-    (window as any).gon = { settings: { pagination: { per_page_options: [20, 50] } } };
 
     // noinspection JSIgnoredPromiseFromCall
     TestBed.configureTestingModule({
@@ -81,6 +90,7 @@ describe('wpTablePagination Directive', () => {
         PathHelperService,
         WorkPackageViewPaginationService,
         HalResourceService,
+        ConfigurationService,
         ConfigurationDmService,
         IsolatedQuerySpace,
         I18nService

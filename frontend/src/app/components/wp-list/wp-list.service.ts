@@ -35,7 +35,6 @@ import {WorkPackagesListInvalidQueryService} from './wp-list-invalid-query.servi
 import {WorkPackageStatesInitializationService} from './wp-states-initialization.service';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {StateService} from '@uirouter/core';
-import {WorkPackagesListChecksumService} from 'core-components/wp-list/wp-list-checksum.service';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
 import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
@@ -43,10 +42,12 @@ import {PaginationObject, QueryDmService} from 'core-app/modules/hal/dm-services
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {BehaviorSubject, from, Observable, of} from 'rxjs';
+import {from, Observable, of} from 'rxjs';
 import {input} from "reactivestates";
-import {catchError, mergeMap, share, switchMap, take, tap} from "rxjs/operators";
+import {catchError, mergeMap, share, switchMap, take, delay, combineLatest} from "rxjs/operators";
 import {WorkPackageViewPaginationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service";
+import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
+import {PaginationService} from "core-components/table-pagination/pagination-service";
 
 export interface QueryDefinition {
   queryParams:{ query_id?:string, query_props?:string };
@@ -63,8 +64,13 @@ export class WorkPackagesListService {
   private queryLoading = this.queryRequests
     .values$()
     .pipe(
+      switchMap((q:QueryDefinition) => {
+        return from(this.ensurePerPageKnown().then(() => q));
+      }),
       // Stream the query request, switchMap will call previous requests to be cancelled
-      switchMap((q:QueryDefinition) => this.streamQueryRequest(q.queryParams, q.projectIdentifier)),
+      switchMap((q:QueryDefinition) =>
+        this.streamQueryRequest(q.queryParams, q.projectIdentifier)
+      ),
       // Map the observable from the stream to a new one that completes when states are loaded
       mergeMap((query:QueryResource) => {
         // load the form if needed
@@ -88,6 +94,8 @@ export class WorkPackagesListService {
               protected QueryFormDm:QueryFormDmService,
               protected states:States,
               protected querySpace:IsolatedQuerySpace,
+              protected pagination:PaginationService,
+              protected configuration:ConfigurationService,
               protected wpTablePagination:WorkPackageViewPaginationService,
               protected wpStatesInitialization:WorkPackageStatesInitializationService,
               protected wpListInvalidQueryService:WorkPackagesListInvalidQueryService) {
@@ -350,5 +358,13 @@ export class WorkPackagesListService {
         })
         .catch(reject);
     });
+  }
+
+  private async ensurePerPageKnown() {
+    if (this.pagination.isPerPageKnown) {
+      return true;
+    } else {
+      return this.configuration.initialized;
+    }
   }
 }

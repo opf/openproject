@@ -55,6 +55,7 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {TimezoneService} from "core-components/datetime/timezone.service";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
+import {ConfigurationDmService} from "core-app/modules/hal/dm-services/configuration-dm.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 describe('WorkPackageFilterValues', () => {
@@ -82,6 +83,7 @@ describe('WorkPackageFilterValues', () => {
         TimezoneService,
         PathHelperService,
         ConfigurationService,
+        ConfigurationDmService,
         CurrentUserService,
         HookService,
         OpenProjectFileUploadService,
