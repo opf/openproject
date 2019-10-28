@@ -50,13 +50,13 @@ The blue **Save** button will save your changes.
 
 ## Two-factor authentication (Premium feature)
 
-In order to activate the two-factor authentication for your OpenProject installation, 
+In order to activate the two-factor authentication for your OpenProject installation, navigate to your **My account** and choose the **Two-factor authentication** in the menu. 
 
-
+![Two-factor authentication](1571992032476.png)
 
 ## Email notifications
 
-To change the email notifications which you will receive from the system, navigate to My account and choose Email notifications in the menu.
+To change the email notifications which you will receive from the system, navigate to **My account** and choose **Email notifications** in the menu.
 
 You can choose between several email notifications. 
 **Default: Send email notifications Only for things I watch or I'm involved in.**
@@ -82,6 +82,4 @@ Note: The optimum size to upload a new profile picture is 128 by 128 pixel. Larg
 </div>
 
 ![Avatar](1571844887353.png)
-
-## Two-factor authentication
 

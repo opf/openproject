@@ -14,9 +14,9 @@ To find out more about the functionalities for Gantt charts, please visit our [u
 | Feature                                                    | Documentation for                                    |
 | ---------------------------------------------------------- | ---------------------------------------------------- |
 | [What is a Gantt chart?](#what-is-a-gantt-chart?)          | Find out what is a Gantt chart in OpenProject.       |
-| [Activate the Gantt chart](#activate-the-gantt-chart-view) | How to activate the Gantt chart view in Openproject? |
+| [Activate the Gantt chart](#activate-the-gantt-chart-view) | How to activate the Gantt chart view in OpenProject? |
 | [Create a project plan](#create-a-project-plan)            | How to create a project plan with the Gantt charts?  |
-| [Edit a project plan](#edit-a-project-plan)                | How to edit a project plan in Openproject?           |
+| [Edit a project plan](#edit-a-project-plan)                | How to edit a project plan in OpenProject?           |
 
 ## What is a Gantt chart?
 

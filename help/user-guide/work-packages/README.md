@@ -2,7 +2,6 @@
 
 <div class="glossary">
 **Work packages** are items in a project (such as tasks, features, risks, user stories, bugs, change requests). A work package captures important information and can be assigned to project members for execution. 
-
 </div>
 
 Work packages have a **type**, an **ID**, a **subject** and may have various additional attributes, such as **status**, **assignee**, **priority**, **due date**.
