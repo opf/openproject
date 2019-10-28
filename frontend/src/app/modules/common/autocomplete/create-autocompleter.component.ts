@@ -33,6 +33,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {AddTagFn} from "@ng-select/ng-select/lib/ng-select.component";
 
 @Component({
   templateUrl: './create-autocompleter.component.html',
@@ -57,28 +58,12 @@ export class CreateAutocompleterComponent implements AfterViewInit {
 
   @ViewChild('ngSelectComponent', {static: false}) public ngSelectComponent:NgSelectComponent;
 
-  @Input()
-  public set createAllowed(val:boolean) {
-    if (val) {
-      this._createAllowed = this.createNewElement.bind(this);
-    } else {
-      this._createAllowed = false;
-    }
-    this.cdRef.detectChanges();
-
-    setTimeout(() => {
-      if (this.openDirectly) {
-        this.openSelect();
-      }
-      this.ngAfterViewInit();
-    });
-  }
-
   public text:any = {
     add_new_action: this.I18n.t('js.label_create'),
   };
 
-  private _createAllowed:boolean = false;
+  public createAllowed:boolean|AddTagFn = false;
+
   private _openDirectly:boolean = false;
 
   constructor(readonly I18n:I18nService,
@@ -107,12 +92,6 @@ export class CreateAutocompleterComponent implements AfterViewInit {
     this.ngSelectComponent && this.ngSelectComponent.close();
   }
 
-  public createNewElement(newElement:string) {
-    if (this.createAllowed) {
-      this.performCreate(newElement);
-    }
-  }
-
   public changeModel(element:HalResource) {
     this.onChange.emit(element);
   }
@@ -137,10 +116,6 @@ export class CreateAutocompleterComponent implements AfterViewInit {
     this.onKeydown.emit(event);
   }
 
-  public get createAllowed() {
-    return this._createAllowed;
-  }
-
   public get openDirectly() {
     return this._openDirectly;
   }
@@ -154,10 +129,6 @@ export class CreateAutocompleterComponent implements AfterViewInit {
 
   public focusInputField() {
     this.ngSelectComponent && this.ngSelectComponent.focus();
-  }
-
-  protected performCreate(newElement:string) {
-    // Nothing to do in this base component.
   }
 }
 

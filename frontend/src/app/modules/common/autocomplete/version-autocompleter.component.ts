@@ -49,7 +49,7 @@ import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-
   templateUrl: './create-autocompleter.component.html',
   selector: 'version-autocompleter'
 })
-export class VersionAutocompleterComponent extends CreateAutocompleterComponent implements OnInit {
+export class VersionAutocompleterComponent extends CreateAutocompleterComponent implements AfterViewInit {
   @Input() public openDirectly:boolean = false;
   @Output() public onCreate = new EventEmitter<VersionResource>();
 
@@ -62,9 +62,14 @@ export class VersionAutocompleterComponent extends CreateAutocompleterComponent 
     super(I18n, cdRef, currentProject, pathHelper);
   }
 
-  ngOnInit() {
+  ngAfterViewInit() {
+    super.ngAfterViewInit();
+
     this.canCreateNewActionElements().then((val) => {
-      this.createAllowed = val;
+      if (val) {
+        this.createAllowed = (input:string) => this.createNewVersion(input);
+        this.cdRef.detectChanges();
+      }
     });
   }
 
@@ -79,7 +84,7 @@ export class VersionAutocompleterComponent extends CreateAutocompleterComponent 
       .catch(() => false);
   }
 
-  protected performCreate(name:string) {
+  protected createNewVersion(name:string) {
     this.versionDm.createVersion(this.getVersionPayload(name))
       .then((version) => {
         this.onCreate.emit(version);
