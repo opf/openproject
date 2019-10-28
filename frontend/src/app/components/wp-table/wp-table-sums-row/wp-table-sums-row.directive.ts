@@ -101,6 +101,7 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
     // build
     columns.forEach((column, i:number) => {
       const td = document.createElement('td');
+      td.classList.add('wp-table--sum-container');
       const div = this.renderContent(resource.totalSums!, column.id, schema[column.id]);
 
       if (i === 0) {
