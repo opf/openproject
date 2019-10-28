@@ -100,7 +100,11 @@ module API
         end
 
         def unmarked_roles
-          represented.member_roles.reject(&:marked_for_destruction?).map(&:role)
+          represented
+            .member_roles
+            .reject(&:marked_for_destruction?)
+            .map(&:role)
+            .uniq
         end
       end
     end
