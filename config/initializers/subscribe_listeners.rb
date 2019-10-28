@@ -28,7 +28,7 @@
 #++
 
 OpenProject::Notifications.subscribe('journal_created') do |payload|
-  JournalNotificationMailer.distinguish_journals(payload[:journal], payload[:send_notification])
+  Notifications::JournalNotificationService.call(payload[:journal], payload[:send_notification])
 end
 
 OpenProject::Notifications.subscribe('watcher_added') do |payload|

@@ -38,9 +38,9 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
   let(:author) { FactoryBot.create(:user, login: "marktwain") }
   let(:work_package) do
     FactoryBot.create(:work_package,
-                       project: project,
-                       author: author,
-                       assigned_to: recipient)
+                      project: project,
+                      author: author,
+                      assigned_to: recipient)
   end
   let(:journal) { work_package.journals.first }
   subject { described_class.new(journal.id, author.id) }
@@ -222,13 +222,14 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
   describe "#text_for_mentions" do
     it "returns a text" do
       subject.perform
-      expect(subject.send(:text_for_mentions)).to be_a String
+      expect(subject.send(:text_for_mentions, journal)).to be_a String
     end
 
     context "subject and description changed" do
       let(:title) { 'New subject' }
       let(:description) { 'New description' }
       let(:notes) { 'Nice notes!' }
+      let(:journal) { work_package.journals.last }
 
       subject { described_class.new(work_package.journals.last.id, author.id) }
 
@@ -244,10 +245,10 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
       end
 
       it "returns notes, subject and description" do
-        expect(subject.send(:text_for_mentions)).not_to be_blank
-        expect(subject.send(:text_for_mentions)).to match title
-        expect(subject.send(:text_for_mentions)).to match description
-        expect(subject.send(:text_for_mentions)).to match notes
+        expect(subject.send(:text_for_mentions, journal)).not_to be_blank
+        expect(subject.send(:text_for_mentions, journal)).to match title
+        expect(subject.send(:text_for_mentions, journal)).to match description
+        expect(subject.send(:text_for_mentions, journal)).to match notes
       end
     end
   end
@@ -261,7 +262,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
         .to receive(:text_for_mentions)
         .and_return(added_text)
 
-      instance.send(:mentioned)
+      instance.send(:mentioned, work_package, journal)
     end
 
     context 'for users' do
@@ -279,9 +280,9 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
           context "that is an email address" do
             let(:recipient) do
               FactoryBot.create(:user,
-                                 member_in_project: project,
-                                 member_through_role: role,
-                                 login: "foo@bar.com")
+                                member_in_project: project,
+                                member_through_role: role,
+                                login: "foo@bar.com")
             end
 
             it "detects the user" do
@@ -303,9 +304,9 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
         context "the recipient turned off all mail notifications" do
           let(:recipient) do
             FactoryBot.create(:user,
-                               member_in_project: project,
-                               member_through_role: role,
-                               mail_notification: 'none')
+                              member_in_project: project,
+                              member_through_role: role,
+                              mail_notification: 'none')
           end
 
           let(:added_text) do
@@ -322,7 +323,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
       context "mentioned user is not allowed to view the work package" do
         let(:recipient) do
           FactoryBot.create(:user,
-                             login: "foo@bar.com")
+                            login: "foo@bar.com")
         end
         let(:added_text) do
           "Hello user:#{recipient.login}, hey user##{recipient.id}"
@@ -343,9 +344,9 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
           group.users << group_member
 
           FactoryBot.create(:member,
-                             project: project,
-                             principal: group,
-                             roles: [role])
+                            project: project,
+                            principal: group,
+                            roles: [role])
         end
       end
 
@@ -382,9 +383,9 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
         context 'but group member is allowed individually' do
           before do
             FactoryBot.create(:member,
-                               project: project,
-                               principal: group_member,
-                               roles: [FactoryBot.create(:role, permissions: [:view_work_packages])])
+                              project: project,
+                              principal: group_member,
+                              roles: [FactoryBot.create(:role, permissions: [:view_work_packages])])
           end
 
           it "group member gets detected" do

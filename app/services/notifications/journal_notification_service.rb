@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -27,18 +28,20 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class JournalNotificationMailer
+class Notifications::JournalNotificationService
   class << self
-    def distinguish_journals(journal, send_notification)
-      if send_notification
-        if journal.journable_type == 'WorkPackage'
-          handle_work_package_journal(journal)
-        end
+    include Notifications::JournalNotifier
+
+    def call(journal, send_mails)
+      if journal.journable_type == 'WorkPackage'
+        handle_work_package_journal(journal, send_mails)
       end
     end
 
-    def handle_work_package_journal(journal)
-      return nil unless send_notification? journal
+    private
+
+    def handle_work_package_journal(journal, send_mails)
+      return nil unless send_notification?(journal) && send_mails
       return nil unless ::UserMailer.perform_deliveries
 
       aggregated = find_aggregated_journal_for(journal)
@@ -46,12 +49,7 @@ class JournalNotificationMailer
       # Send the notification on behalf of the predecessor in case it could not send it on its own
       if Journal::AggregatedJournal.hides_notifications?(aggregated, aggregated.predecessor)
         work_package = aggregated.predecessor.journable
-        notification_receivers(work_package).each do |recipient|
-          job = DeliverWorkPackageNotificationJob.new(aggregated.predecessor.id,
-                                                      recipient.id,
-                                                      User.current.id)
-          Delayed::Job.enqueue job, priority: ::ApplicationJob.priority_number(:notification)
-        end
+        notify_journal_complete(work_package, aggregated.predecessor)
       end
 
       job = EnqueueWorkPackageNotificationJob.new(journal.id, User.current.id)
@@ -84,15 +82,6 @@ class JournalNotificationMailer
 
     def delivery_time
       Setting.journal_aggregation_time_minutes.to_i.minutes.from_now
-    end
-
-    def find_aggregated_journal_for(raw_journal)
-      wp_journals = Journal::AggregatedJournal.aggregated_journals(journable: raw_journal.journable)
-      wp_journals.detect { |journal| journal.version == raw_journal.version }
-    end
-
-    def notification_receivers(work_package)
-      (work_package.recipients + work_package.watcher_recipients).uniq
     end
   end
 end

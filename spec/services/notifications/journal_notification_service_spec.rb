@@ -28,25 +28,25 @@
 #++
 require 'spec_helper'
 
-describe JournalNotificationMailer do
+describe Notifications::JournalNotificationService do
   let(:project) { FactoryBot.create(:project_with_types) }
   let(:user) do
     FactoryBot.build(:user,
-                      mail_notification: 'all',
-                      member_in_project: project)
+                     mail_notification: 'all',
+                     member_in_project: project)
   end
   let(:work_package) do
     FactoryBot.create(:work_package,
-                       project: project,
-                       author: user,
-                       type: project.types.first)
+                      project: project,
+                      author: user,
+                      type: project.types.first)
   end
   let(:journal) { work_package.journals.last }
   let(:send_notification) { true }
   let(:notifications) { [] }
 
   def call_listener
-    described_class.distinguish_journals(journal, send_notification)
+    described_class.call(journal, send_notification)
   end
 
   before do
@@ -273,9 +273,18 @@ describe JournalNotificationMailer do
         end
 
         it 'immediately delivers a mail on behalf of Journal 1' do
-          expect(Delayed::Job).to receive(:enqueue)
-                                    .with(
-                                      an_instance_of(DeliverWorkPackageNotificationJob), priority: anything)
+          expect(Delayed::Job)
+            .to receive(:enqueue)
+           .with(an_instance_of(DeliverWorkPackageNotificationJob), priority: anything)
+          call_listener
+        end
+
+        it 'immediately notifies on behalf of journal 1' do
+          expect(OpenProject::Notifications)
+            .to receive(:send)
+            .with(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY,
+                  journal_id: journal_1.id,
+                  initial: false)
           call_listener
         end
 
@@ -284,7 +293,8 @@ describe JournalNotificationMailer do
                                     .with(
                                       an_instance_of(EnqueueWorkPackageNotificationJob),
                                       priority: anything,
-                                      run_at: anything)
+                                      run_at: anything
+                                    )
           call_listener
         end
       end
@@ -325,7 +335,7 @@ end
 
 describe 'initialization' do
   it 'subscribes the listener' do
-    expect(JournalNotificationMailer).to receive(:distinguish_journals)
+    expect(Notifications::JournalNotificationService).to receive(:call)
     FactoryBot.create(:work_package)
   end
 end
