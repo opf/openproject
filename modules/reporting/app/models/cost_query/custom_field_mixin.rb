@@ -50,16 +50,16 @@ module CostQuery::CustomFieldMixin
   def generate_subclasses
     WorkPackageCustomField.where(field_format: SQL_TYPES.keys).map do |field|
       class_name = "CustomField#{field.id}"
-      parent.send(:remove_const, class_name) if parent.const_defined? class_name
-      parent.const_set class_name, Class.new(self)
-      parent.const_get(class_name).prepare(field, class_name)
+      module_parent.send(:remove_const, class_name) if module_parent.const_defined? class_name
+      module_parent.const_set class_name, Class.new(self)
+      module_parent.const_get(class_name).prepare(field, class_name)
     end
   end
 
   def remove_subclasses
-    parent.constants.each do |constant|
+    module_parent.constants.each do |constant|
       if constant.to_s.match /^CustomField\d+/
-        parent.send(:remove_const, constant)
+        module_parent.send(:remove_const, constant)
       end
     end
   end
