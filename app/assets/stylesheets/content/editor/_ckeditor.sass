@@ -109,8 +109,13 @@ ckeditor-augmented-textarea .op-ckeditor--wrapper
     box-shadow: 0 0 5px hsla( 0,0%,0%,.1 )
 
 // todolist override global label style
-label.todo-list__checkmark
+label.todo-list__label
   margin-bottom: 0
+  display: initial
+  font-size: initial
+
+  > input
+    margin-top: 0
 
 // todolist list-style
 .ck-editor__editable .todo-list li
