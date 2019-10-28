@@ -995,7 +995,7 @@ ro:
         add_groups: "Add new attribute groups"
         rename_groups: "Rename attributes groups"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
+        description_html: "Actualizați la %{link} pentru a filtra și sorta câmpuri personalizate"
   enumeration_activities: "Activități (durata de lucru)"
   enumeration_work_package_priorities: "Priorități pentru pachetele de lucru"
   enumeration_system_activity: "Activitate sistem"

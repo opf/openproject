@@ -995,7 +995,7 @@ hr:
         add_groups: "Add new attribute groups"
         rename_groups: "Rename attributes groups"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
+        description_html: "Upgrade to %{link} to filter and sort on custom fields"
   enumeration_activities: "Aktivnosti (vremensko praćenje)"
   enumeration_work_package_priorities: "Prioriteti radnog paketa"
   enumeration_system_activity: "Aktivnost sustava"

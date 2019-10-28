@@ -978,7 +978,7 @@ it:
         add_groups: "Aggiunta di gruppi di proprietà"
         rename_groups: "Rinominazione di gruppi di proprietà"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
+        description_html: "Aggiorna a %{link} per filtrare ed ordinare utilizzando i campi personalizzati"
   enumeration_activities: "Attività (monitoraggio tempi)"
   enumeration_work_package_priorities: "Priorità della macro-attività"
   enumeration_system_activity: "Attività del sistema"

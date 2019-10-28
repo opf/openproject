@@ -1011,7 +1011,7 @@ sk:
         add_groups: "Pridajte nové skupiny atribútov"
         rename_groups: "Premenovať skupiny atribútov"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
+        description_html: "Aktualizujte na %{link} ak chcete filtrovať a triediť podľa vlastných polí"
   enumeration_activities: "Činnosti (sledovanie času)"
   enumeration_work_package_priorities: "Priority Pracovného balíka"
   enumeration_system_activity: "Systémové aktivity"

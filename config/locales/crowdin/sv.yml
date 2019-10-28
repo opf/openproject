@@ -979,7 +979,7 @@ sv:
         add_groups: "Lägg till nya attributgrupper"
         rename_groups: "Byt namn på attributgrupper"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
+        description_html: "Upgrade to %{link} to filter and sort on custom fields"
   enumeration_activities: "Aktiviteter (tidredovisning)"
   enumeration_work_package_priorities: "Arbetspaketsprioritering"
   enumeration_system_activity: "Systemaktivitet"

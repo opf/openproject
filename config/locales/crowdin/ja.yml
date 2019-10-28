@@ -961,7 +961,7 @@ ja:
         add_groups: "新しい属性グループを追加"
         rename_groups: "属性グループの名前を変更"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
+        description_html: "%{link} にアップグレードして、カスタムフィールドをフィルターおよび並べ替え"
   enumeration_activities: "作業分類 (時間の追跡)"
   enumeration_work_package_priorities: "作業項目の優先度"
   enumeration_system_activity: "システム作業分類"

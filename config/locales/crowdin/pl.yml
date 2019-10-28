@@ -1011,7 +1011,7 @@ pl:
         add_groups: "Dodaj nowe grupy atrybutów"
         rename_groups: "Zmień grupy atrybutów"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
+        description_html: "Zaktualizuj do %{link}, aby filtrować i sortować wg pól niestandardowych"
   enumeration_activities: "Działania"
   enumeration_work_package_priorities: "Priorytety pakietów roboczych"
   enumeration_system_activity: "Aktywność systemu"

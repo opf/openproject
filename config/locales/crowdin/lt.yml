@@ -1010,7 +1010,7 @@ lt:
         add_groups: "Pridėti naujas atributų grupes"
         rename_groups: "Pervadinti atributų grupes"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
+        description_html: "Atnaujinti į %{link} siekiant filtruoti ir rūšiuoti stulpelius naudojant vartotojo laukelius"
   enumeration_activities: "Veikla (laiko sekimas)"
   enumeration_work_package_priorities: "Darbų paketo prioritetai"
   enumeration_system_activity: "Sistemos veikla"

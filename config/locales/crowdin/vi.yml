@@ -963,7 +963,7 @@ vi:
         add_groups: "Add new attribute groups"
         rename_groups: "Rename attributes groups"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
+        description_html: "Upgrade to %{link} to filter and sort on custom fields"
   enumeration_activities: "Hoạt động (theo dõi thời gian)"
   enumeration_work_package_priorities: "Độ ưu tiên của work package"
   enumeration_system_activity: "Hoạt động hệ thống"

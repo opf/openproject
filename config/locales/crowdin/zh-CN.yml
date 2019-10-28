@@ -962,7 +962,7 @@ zh-CN:
         add_groups: "添加新属性群组"
         rename_groups: "重命名属性群组"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
+        description_html: "升级到 %{link} 以在自定义字段上筛选和排序"
   enumeration_activities: "活动 （时间跟踪）"
   enumeration_work_package_priorities: "工作包优先级"
   enumeration_system_activity: "系统活动"
