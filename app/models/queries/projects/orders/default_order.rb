@@ -32,6 +32,6 @@ class Queries::Projects::Orders::DefaultOrder < Queries::BaseOrder
   self.model = Project
 
   def self.key
-    /id|name|created_on|public|lft/
+    /id|name|created_at|public|lft/
   end
 end
