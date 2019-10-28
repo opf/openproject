@@ -96,8 +96,6 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
   }
 
   private render(columns:QueryColumn[], resource:WorkPackageCollectionResource, schema:SchemaResource) {
-    this.elementRef.nativeElement.classList.add('sum', 'group', 'all', 'issue', 'work_package');
-
     // build
     columns.forEach((column, i:number) => {
       const td = document.createElement('td');
