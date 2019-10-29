@@ -26,6 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
+@mixin wp-table--time-values
+  display: inline-block
+  // deduct 10px to avoid ellipsis kicking in
+  width: calc(100% - 10px)
+  text-align: center
+  padding: 0
+
 // READ value of edit fields
 .inline-edit--display-field
   display: inline-block
@@ -48,11 +55,7 @@
     .wp-table--cell-container &
       .-actual-value,
       .-derived-value
-        display: inline-block
-        width: 48%
-
-      .-derived-value:not(.-with-actual-value)
-        margin-left: 48%
+        @include wp-table--time-values
 
     .-actual-value
       text-align: right
@@ -62,6 +65,13 @@
       @include varprop(color, gray-dark)
       font-style: italic
       font-weight: bold
+
+// Sums in wp table
+.wp-table--sum-container
+  .split-time-field
+    .-actual-value,
+    .-derived-value
+      @include wp-table--time-values
 
 // Editable fields cursor
 .inline-edit--display-field.-editable
