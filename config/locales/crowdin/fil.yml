@@ -979,7 +979,7 @@ fil:
         add_groups: "Magdgdag ng mga bagong attribute na grupo"
         rename_groups: "Palitan ng pangalan ang mga grupong attribute"
       project_filters:
-        description_html: "I-upgrade sa %{link} upang salain at isaayos sa mga custom na patlang"
+        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
   enumeration_activities: "Mga aktibidad (time tracking)"
   enumeration_work_package_priorities: "Ang mga prioridad ng work package"
   enumeration_system_activity: "Sistema ng aktibidad"

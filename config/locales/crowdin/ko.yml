@@ -962,7 +962,7 @@ ko:
         add_groups: "새로운 특성 그룹 추가"
         rename_groups: "특성 그룹 이름 바꾸기"
       project_filters:
-        description_html: "사용자 지정 필드에서 필터링하고 정렬하려면 %{link}(으)로 업그레이드"
+        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
   enumeration_activities: "작업(시간 추적)"
   enumeration_work_package_priorities: "작업 패키지 우선 순위"
   enumeration_system_activity: "시스템 작업"

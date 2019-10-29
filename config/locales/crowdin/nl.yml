@@ -979,7 +979,7 @@ nl:
         add_groups: "Toevoegen van nieuwe attribuutgroepen"
         rename_groups: "Attribuutgroepen hernoemen"
       project_filters:
-        description_html: "Upgrade naar %{link} om te filteren en sorteren op basis van aangepaste velden"
+        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
   enumeration_activities: "Activiteiten (tijdregistratie)"
   enumeration_work_package_priorities: "Werkpakket prioriteiten"
   enumeration_system_activity: "Systeemactiviteit"

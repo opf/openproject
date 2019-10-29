@@ -445,8 +445,8 @@ pt-BR:
         confirmation: "não coincide com %{attribute}."
         could_not_be_copied: "não pode ser copiado (totalmente)."
         does_not_exist: "não existe."
-        error_unauthorized: "may not be accessed."
-        error_readonly: "is not writable."
+        error_unauthorized: "não pode ser acessado."
+        error_readonly: "não é gravável."
         empty: "não pode ser vazio."
         even: "deve ser par."
         exclusion: "está reservado."
@@ -511,7 +511,7 @@ pt-BR:
               id_filter_required: "Um filtro de 'id' é necessário."
         project:
           archived_ancestor: 'O projeto tem um ancestral arquivado.'
-          foreign_wps_reference_version: 'Pacotes de trabalho em versões de referência de projetos não descendentes do projeto ou de seus descendentes.'
+          foreign_wps_reference_version: 'Pacotes de trabalho em projetos não descendentes referenciam versões do projeto ou de seus descendentes.'
           attributes:
             types:
               in_use_by_work_packages: "ainda em uso pelos pacotes de trabalho: %{types}"
@@ -978,7 +978,7 @@ pt-BR:
         add_groups: "Adicionar novos grupos de atributos"
         rename_groups: "Renomear grupos de atributos"
       project_filters:
-        description_html: "Atualizar para %{link} para filtrar e classificar em campos personalizados"
+        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
   enumeration_activities: "Atividades (controle de tempo)"
   enumeration_work_package_priorities: "Prioridades do pacote de trabalho"
   enumeration_system_activity: "Atividade do Sistema"

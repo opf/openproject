@@ -977,7 +977,7 @@ hu:
         add_groups: "Attribútum-csoport hozzáadása"
         rename_groups: "Attribútum-csoportok átnevezése"
       project_filters:
-        description_html: "Egyedi mezők szűrése és rendszerezése %{link}"
+        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
   enumeration_activities: "Tevékenységek (időkövetés)"
   enumeration_work_package_priorities: "Feladatcsoport fontosság"
   enumeration_system_activity: "Rendszer tevékenység"

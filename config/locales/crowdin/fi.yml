@@ -979,7 +979,7 @@ fi:
         add_groups: "Add new attribute groups"
         rename_groups: "Rename attributes groups"
       project_filters:
-        description_html: "Upgrade to %{link} to filter and sort on custom fields"
+        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
   enumeration_activities: "Historia (ajan seuranta)"
   enumeration_work_package_priorities: "Work package priorities"
   enumeration_system_activity: "Järjestelmän toiminta"
