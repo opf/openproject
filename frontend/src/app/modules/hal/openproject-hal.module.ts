@@ -44,7 +44,6 @@ import {OpenProjectHeaderInterceptor} from 'core-app/modules/hal/http/openprojec
 import {UserDmService} from 'core-app/modules/hal/dm-services/user-dm.service';
 import {ProjectDmService} from 'core-app/modules/hal/dm-services/project-dm.service';
 import {HalResourceSortingService} from "core-app/modules/hal/services/hal-resource-sorting.service";
-import {HalAwareErrorHandler} from "core-app/modules/hal/services/hal-aware-error-handler";
 import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
 import {TimeEntryDmService} from './dm-services/time-entry-dm.service';
 import {CommonModule} from "@angular/common";
@@ -55,7 +54,7 @@ import {QueryOrderDmService} from "core-app/modules/hal/dm-services/query-order-
 import {MembershipDmService} from "core-app/modules/hal/dm-services/membership-dm.service";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import {HalAwareErrorHandler} from "core-app/modules/hal/services/hal-aware-error-handler";
 
 @NgModule({
   imports: [
