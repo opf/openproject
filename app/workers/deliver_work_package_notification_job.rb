@@ -36,7 +36,7 @@ class DeliverWorkPackageNotificationJob < DeliverNotificationJob
   def render_mail(recipient:, sender:)
     return nil unless raw_journal # abort, assuming that the underlying WP was deleted
 
-    journal = find_aggregated_journal
+    journal = Journal::AggregatedJournal.with_version(raw_journal)
 
     # The caller should have ensured that the journal can't outdate anymore
     # before queuing a notification
@@ -53,11 +53,6 @@ class DeliverWorkPackageNotificationJob < DeliverNotificationJob
 
   def raw_journal
     @raw_journal ||= Journal.find_by(id: @journal_id)
-  end
-
-  def find_aggregated_journal
-    wp_journals = Journal::AggregatedJournal.aggregated_journals(journable: work_package)
-    wp_journals.detect { |journal| journal.version == raw_journal.version }
   end
 
   def work_package

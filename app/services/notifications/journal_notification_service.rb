@@ -44,14 +44,21 @@ class Notifications::JournalNotificationService
       return nil unless send_notification?(journal) && send_mails
       return nil unless ::UserMailer.perform_deliveries
 
+      notify_for_predecessor(journal)
+      enqueue_work_package_notification(journal)
+    end
+
+    # Send the notification on behalf of the predecessor in case it could not send it on its own
+    def notify_for_predecessor(journal)
       aggregated = find_aggregated_journal_for(journal)
 
-      # Send the notification on behalf of the predecessor in case it could not send it on its own
       if Journal::AggregatedJournal.hides_notifications?(aggregated, aggregated.predecessor)
         work_package = aggregated.predecessor.journable
         notify_journal_complete(work_package, aggregated.predecessor)
       end
+    end
 
+    def enqueue_work_package_notification(journal)
       job = EnqueueWorkPackageNotificationJob.new(journal.id, User.current.id)
       Delayed::Job.enqueue job,
                            run_at: delivery_time,

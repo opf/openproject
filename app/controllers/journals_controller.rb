@@ -64,7 +64,7 @@ class JournalsController < ApplicationController
   end
 
   def diff
-    journal = Journal::AggregatedJournal.for_journal(@journal)
+    journal = Journal::AggregatedJournal.containing_journal(@journal)
     field = params[:field].parameterize.underscore.to_sym
 
     unless valid_diff?

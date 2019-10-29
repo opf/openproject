@@ -32,18 +32,25 @@ module Notifications::JournalNotifier
   private
 
   def find_aggregated_journal_for(raw_journal)
-    wp_journals = Journal::AggregatedJournal.aggregated_journals(journable: raw_journal.journable)
-    wp_journals.detect { |journal| journal.version == raw_journal.version }
+    Journal::AggregatedJournal.with_version(raw_journal)
   end
 
   def notify_journal_complete(work_package, journal)
+    journal_complete_mail(work_package, journal)
+
+    journal_complete_notification(journal)
+  end
+
+  def journal_complete_mail(work_package, journal)
     notification_receivers(work_package, journal).each do |recipient|
       job = DeliverWorkPackageNotificationJob.new(journal.id,
                                                   recipient.id,
                                                   User.current.id)
       Delayed::Job.enqueue job, priority: ::ApplicationJob.priority_number(:notification)
     end
+  end
 
+  def journal_complete_notification(journal)
     OpenProject::Notifications.send(
       OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY,
       journal_id: journal.id,
@@ -83,8 +90,8 @@ module Notifications::JournalNotifier
                                               .each(&:compact!)
 
     base_scope = User
-                   .includes(:groups)
-                   .references(:groups_users)
+                 .includes(:groups)
+                 .references(:groups_users)
 
     by_id = base_scope.where(id: user_ids || [])
     by_login = base_scope.where(login: user_login_names || [])
