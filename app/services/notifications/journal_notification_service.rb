@@ -41,50 +41,25 @@ class Notifications::JournalNotificationService
     private
 
     def handle_work_package_journal(journal, send_mails)
-      return nil unless send_notification?(journal) && send_mails
-      return nil unless ::UserMailer.perform_deliveries
-
-      notify_for_predecessor(journal)
-      enqueue_work_package_notification(journal)
+      notify_for_wp_predecessor(journal, send_mails)
+      enqueue_work_package_notification(journal, send_mails)
     end
 
     # Send the notification on behalf of the predecessor in case it could not send it on its own
-    def notify_for_predecessor(journal)
+    def notify_for_wp_predecessor(journal, send_mails)
       aggregated = find_aggregated_journal_for(journal)
 
       if Journal::AggregatedJournal.hides_notifications?(aggregated, aggregated.predecessor)
         work_package = aggregated.predecessor.journable
-        notify_journal_complete(work_package, aggregated.predecessor)
+        notify_journal_complete(work_package, aggregated.predecessor, send_mails)
       end
     end
 
-    def enqueue_work_package_notification(journal)
-      job = EnqueueWorkPackageNotificationJob.new(journal.id, User.current.id)
+    def enqueue_work_package_notification(journal, send_mails)
+      job = EnqueueWorkPackageNotificationJob.new(journal.id, User.current.id, send_mails)
       Delayed::Job.enqueue job,
                            run_at: delivery_time,
                            priority: ::ApplicationJob.priority_number(:notification)
-    end
-
-    def send_notification?(journal)
-      (Setting.notified_events.include?('work_package_added') && journal.initial?) ||
-        (Setting.notified_events.include?('work_package_updated') && !journal.initial?) ||
-        notify_for_notes?(journal) ||
-        notify_for_status?(journal) ||
-        notify_for_priority(journal)
-    end
-
-    def notify_for_notes?(journal)
-      Setting.notified_events.include?('work_package_note_added') && journal.notes.present?
-    end
-
-    def notify_for_status?(journal)
-      Setting.notified_events.include?('status_updated') &&
-        journal.details.has_key?(:status_id)
-    end
-
-    def notify_for_priority(journal)
-      Setting.notified_events.include?('work_package_priority_updated') &&
-        journal.details.has_key?(:priority_id)
     end
 
     def delivery_time

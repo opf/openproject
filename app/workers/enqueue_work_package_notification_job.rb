@@ -31,9 +31,10 @@
 class EnqueueWorkPackageNotificationJob < ApplicationJob
   include Notifications::JournalNotifier
 
-  def initialize(journal_id, author_id)
+  def initialize(journal_id, author_id, send_mails)
     @journal_id = journal_id
     @author_id = author_id
+    @send_mails = send_mails
   end
 
   def perform
@@ -54,7 +55,7 @@ class EnqueueWorkPackageNotificationJob < ApplicationJob
 
     author = User.find_by(id: @author_id) || DeletedUser.first
     User.execute_as(author) do
-      notify_journal_complete(work_package, journal)
+      notify_journal_complete(work_package, journal, @send_mails)
     end
   end
 

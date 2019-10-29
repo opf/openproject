@@ -42,11 +42,11 @@ describe Notifications::JournalNotificationService do
                       type: project.types.first)
   end
   let(:journal) { work_package.journals.last }
-  let(:send_notification) { true }
+  let(:send_mails) { true }
   let(:notifications) { [] }
 
   def call_listener
-    described_class.call(journal, send_notification)
+    described_class.call(journal, send_mails)
   end
 
   before do
@@ -61,14 +61,22 @@ describe Notifications::JournalNotificationService do
 
   shared_examples_for 'enqueues a regular notification' do
     it do
-      expect(Delayed::Job).to receive(:enqueue)
-                                .with(
-                                  an_instance_of(EnqueueWorkPackageNotificationJob),
-                                  run_at: anything, priority: anything)
+      enqueue_job = double('enqueue job')
+
+      expect(EnqueueWorkPackageNotificationJob)
+        .to receive(:new)
+        .with(journal.id, user.id, send_mails)
+        .and_return(enqueue_job)
+      expect(Delayed::Job)
+        .to receive(:enqueue)
+        .with(enqueue_job,
+              run_at: anything,
+              priority: ::ApplicationJob.priority_number(:notification))
 
       # immediate delivery is not part of regular notfications, it only covers an edge-case
-      expect(Delayed::Job).not_to receive(:enqueue)
-                                    .with(an_instance_of(DeliverWorkPackageNotificationJob), anything)
+      expect(Delayed::Job)
+        .not_to receive(:enqueue)
+        .with(an_instance_of(DeliverWorkPackageNotificationJob), anything)
       call_listener
     end
   end
@@ -78,31 +86,10 @@ describe Notifications::JournalNotificationService do
       let(:notifications) { [notification_setting] }
 
       it_behaves_like 'enqueues a regular notification'
-
-      context 'insufficient work package changes' do
-        let(:journal) { another_work_package.journals.last }
-        let(:another_work_package) do
-          FactoryBot.create(:work_package,
-                            project: project,
-                            author: user,
-                            type: project.types.first)
-        end
-        before do
-          another_work_package.add_journal(user)
-          another_work_package.description = 'needs more changes'
-          another_work_package.save!(validate: false)
-        end
-
-        it 'sends no notification' do
-          expect(Delayed::Job).not_to receive(:enqueue)
-          call_listener
-        end
-      end
     end
 
-    it 'sends no notification' do
-      expect(Delayed::Job).not_to receive(:enqueue)
-      call_listener
+    context 'with setting specified to not send mails' do
+      it_behaves_like 'enqueues a regular notification'
     end
   end
 
@@ -126,20 +113,6 @@ describe Notifications::JournalNotificationService do
         let(:notifications) { ['work_package_updated'] }
 
         it_behaves_like 'enqueues a regular notification'
-
-        context 'WP creation' do
-          let(:journal) { FactoryBot.create(:work_package).journals.first }
-
-          it 'sends no notification' do
-            expect(Delayed::Job).not_to receive(:enqueue)
-            call_listener
-          end
-        end
-      end
-
-      it 'sends no notification' do
-        expect(Delayed::Job).not_to receive(:enqueue)
-        call_listener
       end
     end
 
@@ -170,15 +143,6 @@ describe Notifications::JournalNotificationService do
       end
 
       it_behaves_like 'handles deliveries', 'work_package_priority_updated'
-    end
-
-    context 'send_notification disabled' do
-      let(:send_notification) { false }
-
-      it 'sends no notification' do
-        expect(Delayed::Job).not_to receive(:enqueue)
-        call_listener
-      end
     end
   end
 
@@ -272,10 +236,17 @@ describe Notifications::JournalNotificationService do
           journal_3.update_attribute(:created_at, journal_1.created_at + timeout + 5.seconds)
         end
 
-        it 'immediately delivers a mail on behalf of Journal 1' do
+        it 'immediately delivers a mail on behalf of journal 1' do
+          deliver_job = double('deliver job')
+
+          expect(DeliverWorkPackageNotificationJob)
+            .to receive(:new)
+            .with(journal_1.id, user.id, user.id)
+            .and_return(deliver_job)
+
           expect(Delayed::Job)
             .to receive(:enqueue)
-           .with(an_instance_of(DeliverWorkPackageNotificationJob), priority: anything)
+           .with(deliver_job, priority: anything)
           call_listener
         end
 
@@ -288,14 +259,86 @@ describe Notifications::JournalNotificationService do
           call_listener
         end
 
-        it 'also enqueues a regular mail' do
-          expect(Delayed::Job).to receive(:enqueue)
-                                    .with(
-                                      an_instance_of(EnqueueWorkPackageNotificationJob),
-                                      priority: anything,
-                                      run_at: anything
-                                    )
+        it 'also enqueues a regular mail for journal 3' do
+          enqueue_job = double('enqueue job')
+
+          expect(EnqueueWorkPackageNotificationJob)
+            .to receive(:new)
+            .with(journal_3.id, user.id, send_mails)
+            .and_return(enqueue_job)
+
+          expect(Delayed::Job)
+            .to receive(:enqueue)
+            .with(
+              enqueue_job,
+              priority: anything,
+              run_at: anything
+            )
           call_listener
+        end
+
+        context 'with the settings not including updates' do
+          let(:notifications) { [] }
+
+          it 'does not deliver a mail on behalf of Journal 1' do
+            expect(DeliverWorkPackageNotificationJob)
+              .not_to receive(:new)
+              .with(journal_1.id, user.id, user.id)
+
+            call_listener
+          end
+
+          it 'immediately notifies on behalf of journal 1' do
+            expect(OpenProject::Notifications)
+              .to receive(:send)
+              .with(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY,
+                    journal_id: journal_1.id,
+                    initial: false)
+            call_listener
+          end
+
+          it 'also enqueues a regular mail' do
+            expect(Delayed::Job)
+              .to receive(:enqueue)
+              .with(
+                an_instance_of(EnqueueWorkPackageNotificationJob),
+                priority: anything,
+                run_at: anything
+              )
+            call_listener
+          end
+        end
+
+        context 'with send_mails = false provided' do
+          let(:send_mails) { false }
+
+          it 'does not deliver a mail on behalf of Journal 1' do
+            expect(DeliverWorkPackageNotificationJob)
+              .not_to receive(:new)
+                        .with(journal_1.id, user.id, user.id)
+
+            call_listener
+          end
+
+          it 'immediately notifies on behalf of journal 1' do
+            expect(OpenProject::Notifications)
+              .to receive(:send)
+              .with(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY,
+                    journal_id: journal_1.id,
+                    initial: false)
+            call_listener
+          end
+
+          it 'also enqueues a regular mail' do
+            expect(Delayed::Job)
+              .to receive(:enqueue)
+              .with(
+                an_instance_of(EnqueueWorkPackageNotificationJob),
+                priority: anything,
+                run_at: anything
+              )
+            call_listener
+          end
         end
       end
     end

@@ -42,41 +42,96 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
                       author: author,
                       assigned_to: recipient)
   end
-  let(:journal) { work_package.journals.first }
-  subject { described_class.new(journal.id, author.id) }
+  let(:journal) { journal_1 }
+  let(:journal_1) { work_package.journals.first }
+  let(:journal_2) do
+    work_package.add_journal author, 'something I have to say'
+    work_package.save(validate: false)
+    work_package.journals.last
+  end
+  let(:send_mail) { true }
+  let(:notification_setting) { %w(work_package_added work_package_updated work_package_note_added status_updated work_package_priority_updated) }
+  subject { described_class.new(journal.id, author.id, send_mail) }
 
   before do
     # make sure no other calls are made due to WP creation/update
     allow(OpenProject::Notifications).to receive(:send) # ... and do nothing
+
+    allow(Setting).to receive(:notified_events).and_return(notification_setting)
   end
 
-  it 'sends a mail' do
-    expect(Delayed::Job).to receive(:enqueue).with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
-    subject.perform
-  end
+  shared_examples_for 'sends notification' do
+    it 'sends a notification' do
+      expect(OpenProject::Notifications)
+        .to receive(:send)
+        .with(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY,
+              journal_id: journal.id,
+              initial: journal.initial?)
 
-  context 'non-existant journal' do
-    before do
-      journal.destroy
+      subject.perform
     end
+  end
 
+  shared_examples_for 'sends no notification' do
+    it 'sends no notification' do
+      expect(OpenProject::Notifications)
+        .not_to receive(:send)
+
+      subject.perform
+    end
+  end
+
+  shared_examples_for 'sends mail' do
+    let(:sender) { author }
+
+    it 'sends a mail' do
+      deliver_job = double('deliver job')
+
+      expect(DeliverWorkPackageNotificationJob)
+        .to receive(:new)
+        .with(journal.id, recipient.id, sender.id)
+        .and_return(deliver_job)
+
+      expect(Delayed::Job)
+        .to receive(:enqueue)
+        .with(deliver_job, priority: anything)
+
+      subject.perform
+    end
+  end
+
+  shared_examples_for 'sends no mail' do
     it 'sends no mail' do
       expect(Delayed::Job).not_to receive(:enqueue)
       subject.perform
     end
   end
 
+  it_behaves_like 'sends mail'
+
+  it_behaves_like 'sends notification'
+
+  context 'non-existant journal' do
+    before do
+      journal.destroy
+    end
+
+    it_behaves_like 'sends no mail'
+    it_behaves_like 'sends no notification'
+  end
+
   context 'non-existant author' do
     before do
+      allow(Delayed::Job).to receive(:enqueue)
+
       author.destroy
     end
 
-    it 'sends a mail' do
-      expect(Delayed::Job)
-        .to receive(:enqueue)
-        .with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
-      subject.perform
+    it_behaves_like 'sends mail' do
+      let(:sender) { DeletedUser.first }
     end
+
+    it_behaves_like 'sends notification'
   end
 
   context 'outdated journal' do
@@ -86,10 +141,26 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
       work_package.save!
     end
 
-    it 'does not send any mails' do
-      expect(Delayed::Job).not_to receive(:enqueue)
-      subject.perform
-    end
+    it_behaves_like 'sends no mail'
+    it_behaves_like 'sends no notification'
+  end
+
+  context 'notification for work_package_added disabled' do
+    let(:notification_setting) { %w(work_package_updated work_package_note_added) }
+
+    it_behaves_like 'sends no mail'
+
+    it_behaves_like 'sends notification'
+  end
+
+  context 'notification for work_package_updated disabled' do
+    let(:notification_setting) { %w(work_package_added status_updated work_package_priority_updated) }
+
+    let(:journal) { journal_2 }
+
+    it_behaves_like 'sends no mail'
+
+    it_behaves_like 'sends notification'
   end
 
   describe 'mail suppressing aggregation' do
@@ -138,12 +209,12 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
           .to receive(:enqueue)
           .with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
           .once
-        described_class.new(journal_1.id, author.id).perform
+        described_class.new(journal_1.id, author.id, send_mail).perform
       end
 
       it 'Job 2 sends no mails' do
         expect(Delayed::Job).not_to receive(:enqueue)
-        described_class.new(journal_2.id, author.id).perform
+        described_class.new(journal_2.id, author.id, send_mail).perform
       end
 
       it 'Job 3 sends one mail for journal (2,3)' do
@@ -151,7 +222,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
           .to receive(:enqueue)
           .with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
           .once
-        described_class.new(journal_3.id, author.id).perform
+        described_class.new(journal_3.id, author.id, send_mail).perform
       end
     end
 
@@ -171,12 +242,12 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
 
       it 'Job 1 sends no mails' do
         expect(Delayed::Job).not_to receive(:enqueue)
-        described_class.new(journal_1.id, author.id).perform
+        described_class.new(journal_1.id, author.id, send_mail).perform
       end
 
       it 'Job 2 sends no mails' do
         expect(Delayed::Job).not_to receive(:enqueue)
-        described_class.new(journal_2.id, author.id).perform
+        described_class.new(journal_2.id, author.id, send_mail).perform
       end
 
       it 'Job 3 sends one mail for (2,3)' do
@@ -184,7 +255,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
           .to receive(:enqueue)
           .with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
           .once
-        described_class.new(journal_3.id, author.id).perform
+        described_class.new(journal_3.id, author.id, send_mail).perform
       end
     end
 
@@ -200,21 +271,21 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
 
       it 'Job 1 sends no mails' do
         expect(Delayed::Job).not_to receive(:enqueue)
-        described_class.new(journal_1.id, author.id).perform
+        described_class.new(journal_1.id, author.id, send_mail).perform
       end
 
       it 'Job 2 sends one mail for journal (1, 2)' do
         expect(Delayed::Job).to receive(:enqueue)
                                   .with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
                                   .once
-        described_class.new(journal_2.id, author.id).perform
+        described_class.new(journal_2.id, author.id, send_mail).perform
       end
 
       it 'Job 3 sends one mail for journal 3' do
         expect(Delayed::Job).to receive(:enqueue)
                                   .with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
                                   .once
-        described_class.new(journal_3.id, author.id).perform
+        described_class.new(journal_3.id, author.id, send_mail).perform
       end
     end
   end
@@ -231,7 +302,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
       let(:notes) { 'Nice notes!' }
       let(:journal) { work_package.journals.last }
 
-      subject { described_class.new(work_package.journals.last.id, author.id) }
+      subject { described_class.new(work_package.journals.last.id, author.id, send_mail) }
 
       before do
         work_package.subject = title
@@ -255,7 +326,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
 
   describe "#mentioned" do
     subject do
-      instance = described_class.new(journal.id, author.id)
+      instance = described_class.new(journal.id, author.id, send_mail)
       instance.perform
 
       allow(instance)

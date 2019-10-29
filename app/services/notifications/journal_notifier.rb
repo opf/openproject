@@ -35,13 +35,15 @@ module Notifications::JournalNotifier
     Journal::AggregatedJournal.with_version(raw_journal)
   end
 
-  def notify_journal_complete(work_package, journal)
-    journal_complete_mail(work_package, journal)
+  def notify_journal_complete(work_package, journal, send_mails)
+    journal_complete_mail(work_package, journal, send_mails)
 
     journal_complete_notification(journal)
   end
 
-  def journal_complete_mail(work_package, journal)
+  def journal_complete_mail(work_package, journal, send_mails)
+    return nil unless send_mail?(journal, send_mails)
+
     notification_receivers(work_package, journal).each do |recipient|
       job = DeliverWorkPackageNotificationJob.new(journal.id,
                                                   recipient.id,
@@ -100,5 +102,31 @@ module Notifications::JournalNotifier
     by_id
       .or(by_login)
       .or(by_group)
+  end
+
+  def send_mail?(journal, send_mails)
+    send_mails && ::UserMailer.perform_deliveries && send_mail_setting?(journal)
+  end
+
+  def send_mail_setting?(journal)
+    (Setting.notified_events.include?('work_package_added') && journal.initial?) ||
+      (Setting.notified_events.include?('work_package_updated') && !journal.initial?) ||
+      notify_for_notes?(journal) ||
+      notify_for_status?(journal) ||
+      notify_for_priority(journal)
+  end
+
+  def notify_for_notes?(journal)
+    Setting.notified_events.include?('work_package_note_added') && journal.notes.present?
+  end
+
+  def notify_for_status?(journal)
+    Setting.notified_events.include?('status_updated') &&
+      journal.details.has_key?(:status_id)
+  end
+
+  def notify_for_priority(journal)
+    Setting.notified_events.include?('work_package_priority_updated') &&
+      journal.details.has_key?(:priority_id)
   end
 end
