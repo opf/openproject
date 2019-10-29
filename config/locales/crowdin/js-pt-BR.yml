@@ -193,8 +193,8 @@ pt-BR:
     general_text_Yes: "Sim"
     hal:
       error:
-        update_conflict_refresh: "Clique aqui para atualizar o software para a versão mais recente."
-        edit_prohibited: "A edição do %{attribute} está bloqueada neste pacote de trabalho. Ou este atributo é derivado de relações (por exemplo, filhas) ou não é configurável."
+        update_conflict_refresh: "Clique aqui para atualizar para a versão mais recente."
+        edit_prohibited: "A edição do %{attribute} está bloqueada para este recurso. Ou este atributo é derivado de relações (por exemplo, filhas) ou não é configurável."
         format:
           date: "%{attribute} não é uma data válida - AAAA-MM-DD esperado."
         general: "Ocorreu um erro."
