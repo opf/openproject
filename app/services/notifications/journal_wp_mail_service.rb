@@ -67,10 +67,10 @@ class Notifications::JournalWPMailService
       potential_text << journal.notes if journal.try(:notes)
 
       %i[description subject].each do |field|
-        if journal.details[field].try(:any?)
-          from = journal.details[field].first
-          to = journal.details[field].second
-          potential_text << "\n" + Redmine::Helpers::Diff.new(to, from).additions.join(' ')
+        details = journal.details[field]
+
+        if details.present?
+          potential_text << "\n" + Redmine::Helpers::Diff.new(*details).additions.join(' ')
         end
       end
       potential_text
