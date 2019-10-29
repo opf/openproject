@@ -31,9 +31,8 @@
 class EnqueueWorkPackageNotificationJob < ApplicationJob
   include Notifications::JournalNotifier
 
-  def initialize(journal_id, author_id, send_mails)
+  def initialize(journal_id, send_mails)
     @journal_id = journal_id
-    @author_id = author_id
     @send_mails = send_mails
   end
 
@@ -53,10 +52,7 @@ class EnqueueWorkPackageNotificationJob < ApplicationJob
     # on behalf of this job.
     return if Journal::AggregatedJournal.hides_notifications?(journal.successor, journal)
 
-    author = User.find_by(id: @author_id) || DeletedUser.first
-    User.execute_as(author) do
-      notify_journal_complete(work_package, journal, @send_mails)
-    end
+    notify_journal_complete(journal, @send_mails)
   end
 
   private

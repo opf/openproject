@@ -47,7 +47,7 @@ describe WorkPackage, type: :model do
 
     before do
       OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY) do |payload|
-        journal_ids << payload[:journal_id]
+        journal_ids << payload[:journal].id
       end
     end
 

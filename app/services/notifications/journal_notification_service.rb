@@ -50,13 +50,13 @@ class Notifications::JournalNotificationService
       aggregated = find_aggregated_journal_for(journal)
 
       if Journal::AggregatedJournal.hides_notifications?(aggregated, aggregated.predecessor)
-        work_package = aggregated.predecessor.journable
-        notify_journal_complete(work_package, aggregated.predecessor, send_mails)
+        aggregated_predecessor = find_aggregated_journal_for(aggregated.predecessor)
+        notify_journal_complete(aggregated_predecessor, send_mails)
       end
     end
 
     def enqueue_work_package_notification(journal, send_mails)
-      job = EnqueueWorkPackageNotificationJob.new(journal.id, User.current.id, send_mails)
+      job = EnqueueWorkPackageNotificationJob.new(journal.id, send_mails)
       Delayed::Job.enqueue job,
                            run_at: delivery_time,
                            priority: ::ApplicationJob.priority_number(:notification)

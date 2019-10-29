@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -29,6 +30,10 @@
 
 OpenProject::Notifications.subscribe('journal_created') do |payload|
   Notifications::JournalNotificationService.call(payload[:journal], payload[:send_notification])
+end
+
+OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY) do |payload|
+  Notifications::JournalWPMailService.call(payload[:journal], payload[:send_mail])
 end
 
 OpenProject::Notifications.subscribe('watcher_added') do |payload|
