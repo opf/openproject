@@ -145,14 +145,60 @@ describe 'Todolists in CKEditor', js: true do
     let(:field) { wp_page.edit_field :description }
     let(:ckeditor) { field.ckeditor }
 
-    it 'can add task list and edit them again' do
+    before do
       wp_page.visit!
 
       wp_page.edit_field(:subject).set_value 'Title'
 
       field.expect_active!
       ckeditor.clear
+    end
 
+    it 'can add a task list with links in them (Regression #30920)' do
+      ckeditor.click_toolbar_button 'To-do List'
+      ckeditor.type_slowly 'Todo item 1'
+      ckeditor.type_slowly :enter
+      ckeditor.insert_link 'https://community.openproject.com'
+      ckeditor.type_slowly :enter
+      ckeditor.type_slowly :tab
+      ckeditor.insert_link 'https://community.openproject.com/nested'
+
+      # Update the link text, no idea how to do this differently
+      ckeditor.in_editor do |_container, editable|
+        link = editable.find('.todo-list .todo-list a')
+        page.execute_script('arguments[0].textContent = "This is a link"', link.native)
+
+        sleep 0.5
+      end
+
+      # Select nested item
+      ckeditor.in_editor do |_container, editable|
+        editable.find('.todo-list .todo-list input[type=checkbox]', visible: :all).set true
+
+        sleep 0.5
+      end
+
+      wp_page.save!
+      wp_page.expect_and_dismiss_notification message: 'Successful creation.'
+
+      expect(page).to have_selector('.task-list-item-checkbox', count: 3)
+      expect(page).to have_selector('.task-list-item-checkbox[checked]', count: 1)
+
+      expect(page).to have_selector('.task-list-item a[href="https://community.openproject.com/"]')
+      nested_link = page.find('.task-list-item .task-list-item a[href="https://community.openproject.com/nested"]')
+      expect(nested_link.text).to eq 'This is a link'
+
+      description = WorkPackage.last.description
+      expected = <<~EOS
+        *   [ ] Todo item 1
+        *   [ ] [https://community.openproject.com](https://community.openproject.com/)
+            *   [x] [This is a link](https://community.openproject.com/nested)
+      EOS
+
+      expect(description.strip).to eq expected.strip
+    end
+
+    it 'can add task list and edit them again' do
       ckeditor.click_toolbar_button 'To-do List'
       ckeditor.type_slowly 'Todo item 1'
       ckeditor.type_slowly :enter
