@@ -125,5 +125,22 @@ describe Workflows::BulkUpdateService, 'integration', type: :model do
           .to eql 0
       end
     end
+
+    context 'with no params' do
+      let(:params) do
+        nil
+      end
+
+      before do
+        Workflow.create!(role_id: role.id, type_id: type.id, old_status_id: status3.id, new_status_id: status2.id)
+      end
+
+      it 'should clear all workflows' do
+        subject
+
+        expect(Workflow.where(type_id: type.id, role_id: role.id).count)
+          .to eql 0
+      end
+    end
   end
 end

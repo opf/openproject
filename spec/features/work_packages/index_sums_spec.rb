@@ -64,18 +64,14 @@ RSpec.feature 'Work package index sums', js: true do
 
     wp_table.expect_work_package_listed work_package_1, work_package_2
 
-    within('.sum.group.all') do
-      expect(page).to have_content('Sum')
-      expect(page).to have_content('25')
-    end
+    expect(page).to have_selector('.wp-table--sum-container', text: 'Sum')
+    expect(page).to have_selector('.wp-table--sum-container', text: '25')
 
     # Update the sum
     edit_field = wp_table.edit_field(work_package_1, :estimatedTime)
     edit_field.update '20'
 
-    within('.sum.group.all') do
-      expect(page).to have_content('Sum')
-      expect(page).to have_content('35')
-    end
+    expect(page).to have_selector('.wp-table--sum-container', text: 'Sum')
+    expect(page).to have_selector('.wp-table--sum-container', text: '35')
   end
 end
