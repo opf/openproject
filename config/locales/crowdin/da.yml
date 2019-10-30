@@ -23,59 +23,59 @@ da:
   no_results_title_text: Der er i øjeblikket ikke noget at vise.
   activities:
     index:
-      no_results_title_text: There has not been any activity for the project within this time frame.
+      no_results_title_text: Der har ikke været nogen aktivitet for projektet i tidsperioden.
   admin:
     plugins:
       no_results_title_text: Der er i øjeblikket ingen plugins installeret.
     custom_styles:
       custom_colors: "Brugerdefinerede farver"
       customize: "Tilpas din OpenProject installation med dit eget logo. Bemærk: Dette logo vil være offentligt tilgængeligt."
-      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny feature is only available for Enterprise Edition support subscribers."
-      manage_colors: "Edit color select options"
+      enterprise_notice: "Som tak for finansiel støtte til udviklingen af OpenProject, denne lille funktion er kun tilgængelig for Enterprise Edition support abonnenter."
+      manage_colors: "Redigér egenskaber for farvevalg"
       instructions:
-        alternative_color: "Strong accent color, typically used for most the important button on a screen."
-        content_link_color: "Font color of most of the links."
-        primary_color: "Main color."
-        primary_color_dark: "Typically a darker version of the main color used for hover effects."
-        header_bg_color: "Background color of the header."
-        header_item_bg_hover_color: "Background color of clickable header items when hovered with the mouse."
-        header_item_font_color: "Font color of clickable header items."
-        header_item_font_hover_color: "Font color of clickable header items when hovered with the mouse."
-        header_border_bottom_color: "Thin line under the header. Leave this field empty if you don't want any line."
-        main_menu_bg_color: "Left side menu's background color."
+        alternative_color: "Stærk accentfarve, typisk brugt til den vigtigste knap på en skærm."
+        content_link_color: "Tekst-farve på de fleste links."
+        primary_color: "Hovedfarve."
+        primary_color_dark: "Typisk en mørkere version af hovedfarven, brugt til hover effekter."
+        header_bg_color: "Baggrundsfarve på headeren."
+        header_item_bg_hover_color: "Baggrundsfarve på knapper i headeren, når musen føres over."
+        header_item_font_color: "Tekst-farve på knapper i headeren."
+        header_item_font_hover_color: "Tekst-farve på knapper i headeren, når musen føres over."
+        header_border_bottom_color: "Tynd linje under headeren. Efterlad dette felt tomt hvis du ikke ønsker en linje."
+        main_menu_bg_color: "Baggrundsfarve på venstre sidemenu."
     enterprise:
       upgrade_to_ee: "Opgradér til Enterprise Edition"
-      add_token: "Upload an Enterprise Edition support token"
-      replace_token: "Replace your current support token"
+      add_token: "Upload en Enterprise Edition support-token"
+      replace_token: "Erstat din nuværende support-token"
       order: "Bestil Enterprise Edition"
-      paste: "Paste your Enterprise Edition support token"
-      required_for_feature: "This feature is only available with an active Enterprise Edition support token."
+      paste: "Indsæt din Enterprise Edition support-token"
+      required_for_feature: "Denne funktion er kun tilgængelig med en aktiv Enterprise Edition support-token."
       enterprise_link: "For yderliger information, klik her."
   announcements:
     show_until: Vis indtil
-    is_active: currently displayed
-    is_inactive: currently not displayed
+    is_active: vises i øjeblikket
+    is_inactive: vises ikke i øjeblikket
   attribute_help_texts:
     text_overview: 'In this view, you can create custom help texts for attributes view. When defined, these texts can be shown by clicking the help icon next to its belonging attribute.'
     label_plural: 'Attribute help texts'
-    show_preview: 'Preview text'
-    add_new: 'Add help text'
-    edit: "Edit help text for %{attribute_caption}"
+    show_preview: 'Forhåndsvis tekst'
+    add_new: 'Tilføj hjælpetekst'
+    edit: "Redigér hjælpetekst til %{attribute_caption}"
   auth_sources:
     index:
       no_results_content_title: Der er i øjeblikket ingen godkendelse.
       no_results_content_text: Opret en ny godkendelse
   ldap_auth_sources:
-    connection_encryption: 'Connection encryption'
+    connection_encryption: 'Forbindelseskryptering'
     tls_mode:
       plain: 'ingen'
       simple_tls: 'simple_tls'
       start_tls: 'start_tls'
-      plain_description: "Plain unencrypted connection, no TLS negotiation."
-      simple_tls_description: "Implicit TLS encryption, but no certificate validation. Use with caution and implicit trust of the LDAP connection."
-      start_tls_description: "Explicit TLS encryption with full validation. Use for LDAP over TLS/SSL."
+      plain_description: "Almindelig ikke-krypteret forbindelse, ingen TLS-forhandling."
+      simple_tls_description: "Implicit TLS-kryptering, men ingen certifikatvalidering. Brug med forsigtighed og implicit tillid til LDAP-forbindelsen."
+      start_tls_description: "Eksplicit TLS-kryptering med fuld validering. Brug til LDAP over TLS / SSL."
       section_more_info_link_html: >
-        This section concerns the connection security of this LDAP authentication source. For more information, visit <a href="%{link}">the Net::LDAP documentation</a>.
+        Dette afsnit vedrører forbindelsessikkerheden for denne LDAP-godkendelseskilde. For mere information kan du besøge <a href="%{link}">Net::LDAP dokumentationen</a>.
   forums:
     show:
       no_results_title_text: There are currently no posts for the forum.
@@ -83,15 +83,15 @@ da:
     index:
       no_results_title_text: Der er i øjeblikket ingen farver.
       no_results_content_text: Opret en ny farve
-    label_no_color: 'No color'
+    label_no_color: 'Ingen farve'
   custom_actions:
     actions:
-      name: 'Actions'
-      add: 'Add action'
+      name: 'Handlinger'
+      add: 'Tilføj handling'
       assigned_to:
-        executing_user_value: '(Assign to executing user)'
-    conditions: 'Conditions'
-    plural: 'Custom actions'
+        executing_user_value: '(Tildel til den udførende bruger)'
+    conditions: 'Betingelser'
+    plural: 'Brugerdefinerede handlinger'
     new: 'New custom action'
     edit: 'Edit custom action %{name}'
     execute: 'Execute %{name}'
@@ -302,7 +302,7 @@ da:
       comment:
         commented: "Kommenterede" #an object that this comment belongs to
       custom_action:
-        actions: "Actions"
+        actions: "Handlinger"
       custom_field:
         default_value: "Forhåndsvalgt værdi"
         editable: "Redigerbar"
@@ -350,11 +350,11 @@ da:
         work_packages: "Arbejdspakker"
       project/status:
         code: 'Status'
-        explanation: 'Status description'
+        explanation: 'Statusbeskrivelse'
         codes:
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
+          on_track: 'På sporet'
+          at_risk: 'I fare'
+          off_track: 'Af sporet'
       query:
         column_names: "Kolonner"
         relations_to_type_column: "Relations to %{type}"
@@ -446,8 +446,8 @@ da:
         confirmation: "matcher ikke %{attribute}."
         could_not_be_copied: "kunne ikke (fuldt ud) kopieres."
         does_not_exist: "findes ikke."
-        error_unauthorized: "may not be accessed."
-        error_readonly: "is not writable."
+        error_unauthorized: "kan muligvis ikke tilgås."
+        error_readonly: "er ikke skrivebar."
         empty: "må ikke være tomt."
         even: "skal være lige."
         exclusion: "er reserveret."
@@ -511,8 +511,8 @@ da:
               invalid_values: "A value is invalid."
               id_filter_required: "An 'id' filter is required."
         project:
-          archived_ancestor: 'The project has an archived ancestor.'
-          foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
+          archived_ancestor: 'Projektet har en arkiveret forfader.'
+          foreign_wps_reference_version: 'Arbejdspakker i ikke-efterkommerprojekter refererer til versioner af projektet eller dets efterkommere.'
           attributes:
             types:
               in_use_by_work_packages: "still in use by work packages: %{types}"
@@ -985,7 +985,7 @@ da:
   enumeration_system_activity: "Systemaktivitet"
   enumeration_reported_project_statuses: "Rapporteret projektstatus"
   error_auth_source_sso_failed: "Single Sign-On (SSO) for user '%{value}' failed"
-  error_can_not_archive_project: "This project cannot be archived: %{errors}"
+  error_can_not_archive_project: "Dette projekt kan ikke arkiveres: %{errors}"
   error_can_not_delete_entry: "Unable to delete entry"
   error_can_not_delete_custom_field: "Kan ikke slette det selvvalgte felt"
   error_can_not_delete_type: "Denne type indeholder arbejdspakker og kan ikke slettes."
@@ -994,7 +994,7 @@ da:
   error_can_not_remove_role: "Denne rolle er i brug og kan ikke slettes."
   error_can_not_reopen_work_package_on_closed_version: "En arbejdspakke der er knyttet til en lukket version kan ikke åbnes igen"
   error_can_not_find_all_resources: "Could not find all related resources to this request."
-  error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
+  error_can_not_unarchive_project: "Dette projekt kan ikke fjernes fra arkivering: %{errors}"
   error_check_user_and_role: "Vælg venligst en bruger og en rolle."
   error_code: "Error %{code}"
   error_cookie_missing: 'The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without.'
@@ -1694,21 +1694,21 @@ da:
       link_name: 'Ny arbejdspakke'
       link_name_type: 'New %{type_name}'
   mail:
-    actions: 'Actions'
+    actions: 'Handlinger'
   mail_body_account_activation_request: "En ny bruger ( %{value}) har registreret sig. Kontoen afventer din godkendelse:"
   mail_body_account_information: "Din kontoinformation"
   mail_body_account_information_external: "Du kan bruge din %{value} konto til at logge ind."
   mail_body_lost_password: "Klik på dette link for at ændre din adgangskode:"
   mail_body_register: "Klik på dette link for at aktivere din konto:"
   mail_body_reminder: "%{count} arbejdspakke(r), der er tilknyttet dig, udløber indenfor de næste %{days} dage:"
-  mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
+  mail_body_group_reminder: "%{count} arbejdspakke(r) som er tildelt \"%{group}\" har deadline indenfor %{days} dage:"
   mail_body_wiki_content_added: "Wiki-siden '%{id}' er blevet tilføjet af %{author}."
   mail_body_wiki_content_updated: "Wiki-siden '%{id}' er blevet opdateret af %{author}."
   mail_subject_account_activation_request: "%{value} anmodninger om kontoaktivering"
   mail_subject_lost_password: "Din %{value} adgangskode"
   mail_subject_register: "Din %{value} kontoaktivering"
   mail_subject_reminder: "%{count} arbejdspakke(r) har deadline i de næste %{days} dage"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
+  mail_subject_group_reminder: "Gruppen \"%{group}\" har %{count} arbejdspakke(r) med deadline indenfor %{days} dage"
   mail_subject_wiki_content_added: "'%{id}' wikisider er blevet tilføjet"
   mail_subject_wiki_content_updated: "'%{id}' wikiside er blevet opdateret"
   mail_user_activation_limit_reached:
@@ -2537,7 +2537,7 @@ da:
       messages:
         #Common error messages
         invalid_request: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
-        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
+        invalid_redirect_uri: "Den anmodede omdirigerings-URI er misformet eller stemmer ikke overens med klient-omdirigerings-URI."
         unauthorized_client: 'The client is not authorized to perform this request using this method.'
         access_denied: 'The resource owner or authorization server denied the request.'
         invalid_scope: 'The requested scope is invalid, unknown, or malformed.'
