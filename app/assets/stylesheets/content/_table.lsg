@@ -356,7 +356,7 @@ Use `-no-ellipse` class to a TD element to disable the text-overflow applied usu
       <td>Member</td>
       <td>active</td>
       <td class="buttons">
-        <a href="#" class="icon icon-edit" title="Edit"></i></a>
+        <a href="#" class="icon icon-edit" title="Edit"></a>
         <a href="#" class="icon icon-delete" title="Remove"></a>
       </td>
     </tr>
@@ -367,7 +367,7 @@ Use `-no-ellipse` class to a TD element to disable the text-overflow applied usu
       <td>Member</td>
       <td>active</td>
       <td class="buttons">
-        <a href="#" class="icon icon-edit" title="Edit"></i></a>
+        <a href="#" class="icon icon-edit" title="Edit"></a>
         <a href="#" class="icon icon-delete" title="Remove"></a>
       </td>
     </tr>
@@ -378,7 +378,7 @@ Use `-no-ellipse` class to a TD element to disable the text-overflow applied usu
       <td>Admin</td>
       <td>active</td>
       <td class="buttons">
-        <a href="#" class="icon icon-edit" title="Edit"></i></a>
+        <a href="#" class="icon icon-edit" title="Edit"></a>
         <a href="#" class="icon icon-delete" title="Remove"></a>
       </td>
     </tr>
