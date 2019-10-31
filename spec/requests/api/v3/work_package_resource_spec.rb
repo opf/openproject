@@ -60,7 +60,7 @@ describe 'API v3 Work package resource',
       .create(:user, member_in_project: project, member_through_role: role)
       .tap do |user|
         work_package.add_watcher(user)
-    end
+      end
   end
   let(:unauthorize_user) { FactoryBot.create(:user) }
   let(:type) { FactoryBot.create(:type) }
