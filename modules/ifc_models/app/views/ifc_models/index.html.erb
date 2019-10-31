@@ -1,0 +1,107 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+<% html_title(t('ifc_models.label_ifc_models')) -%>
+
+<%= toolbar title: t('ifc_models.label_ifc_models') do %>
+  <% if User.current.allowed_to?(:manage_ifc_models, @project) %>
+    <li class="toolbar-item">
+      <%= link_to new_ifc_models_project_ifc_model_path,
+                  { class: 'button -alt-highlight',
+                    aria: { label: t(:label_project_new) },
+                    title: t(:label_project_new) } do %>
+        <%= op_icon('button--icon icon-add') %>
+        <span class="button--text"><%= IFCModels::IFCModel.model_name.human %></span>
+      <% end %>
+    </li>
+  <% end %>
+<% end %>
+
+<% if @ifc_models.any? %>
+  <table class="generic-table" id="project-table">
+    <thead>
+      <tr>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <%= IFCModels::IFCModel.human_attribute_name(:title) %>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <%= t('ifc_models.uploaded_at')%>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <%= t('ifc_models.uploader')%>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <%= t('ifc_models.processing_state.label')%>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+            </div>
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @ifc_models.each do |ifc_model| %>
+      <tr class="basics">
+        <td><%= link_to(ifc_model.title, ifc_models_project_ifc_model_path(@project, ifc_model)) %></td>
+        <td><%= format_date(ifc_model.created_at) %></td>
+        <td><%= link_to_user(ifc_model.uploader.name) %></td>
+        <td><%= ifc_model.xkt_attachment.present? ? t('ifc_models.processing_state.completed') : t('ifc_models.processing_state.in_progress') %></td>
+        <td class="buttons">
+          <% if authorize_for('ifc_models/ifc_models', :edit) %>
+            <%= link_to('', edit_ifc_models_project_ifc_model_path(@project, ifc_model), class: 'icon icon-edit', accesskey: accesskey(:edit)) %>
+          <% end %>
+          <% if authorize_for('ifc_models/ifc_models', :destroy) %>
+            <%= link_to('', ifc_models_project_ifc_model_path(@project,  ifc_model), class: 'icon icon-delete', data: { confirm: l(:text_are_you_sure) }, method: :delete) %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+  <%= pagination_links_full @ifc_models %>
+<% else %>
+  <%= no_results_box({}) %>
+<% end %>
