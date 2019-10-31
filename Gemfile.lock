@@ -152,6 +152,13 @@ PATH
     grids (1.0.0)
 
 PATH
+  remote: modules/ifc_models
+  specs:
+    openproject-ifc_models (1.0.0)
+      activerecord-import
+      rubyzip (~> 1.2)
+
+PATH
   remote: modules/ldap_groups
   specs:
     openproject-ldap_groups (1.0.0)
@@ -1025,6 +1032,7 @@ DEPENDENCIES
   openproject-documents!
   openproject-github_integration!
   openproject-global_roles!
+  openproject-ifc_models!
   openproject-ldap_groups!
   openproject-meeting!
   openproject-openid_connect!

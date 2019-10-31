@@ -47,4 +47,5 @@ group :opf_plugins do
 
 	gem 'openproject-bim_seeder',                path: 'modules/bim_seeder', require: !!(ENV['OPENPROJECT_EDITION'] == 'bim')
 	gem 'openproject-bcf',                       path: 'modules/bcf', require: !!(ENV['OPENPROJECT_EDITION'] == 'bim')
+	gem 'openproject-ifc_models',                path: 'modules/ifc_models', require: !!(ENV['OPENPROJECT_EDITION'] == 'bim')
 end

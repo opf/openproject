@@ -1,0 +1,13 @@
+# English strings go here for Rails i18n
+en:
+  ifc_models:
+    label_ifc_models: 'IFC models'
+    label_new_ifc_model: 'New IFC model'
+    could_not_save_file': 'Could not save the file.'
+    processing_state:
+      label: 'Processing?'
+      in_progress: 'In progress'
+      completed: 'Completed'
+  project_module_ifc_models: "IFC models"
+  permission_view_ifc_models: "View IFC models"
+  permission_manage_ifc_models: "Import and manage IFC models"
