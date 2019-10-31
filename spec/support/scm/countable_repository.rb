@@ -1,26 +1,13 @@
 require 'open3'
 shared_examples_for 'is a countable repository' do
-  let(:job) { ::Scm::StorageUpdaterJob.new repository }
   let(:cache_time) { 720 }
 
   before do
-    allow(::Scm::StorageUpdaterJob).to receive(:new).and_return(job)
     allow(Repository).to receive(:find).and_return(repository)
     allow(Setting).to receive(:repository_storage_cache_minutes).and_return(cache_time)
   end
   it 'is countable' do
     expect(repository.scm).to be_storage_available
-  end
-
-  context 'with vanished repository' do
-    before do
-      allow(Repository).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
-    end
-
-    it 'does not raise' do
-      expect(Rails.logger).to receive(:warn).with(/StorageUpdater requested for Repository/)
-      expect { job.perform }.not_to raise_error
-    end
   end
 
   context 'with patched counter' do
@@ -38,6 +25,9 @@ shared_examples_for 'is a countable repository' do
     it 'counts the repository storage automatically' do
       expect(repository.required_storage_bytes).to be == 0
       expect(repository.update_required_storage).to be true
+
+      perform_enqueued_jobs
+
       expect(repository.required_storage_bytes).to be == count
       expect(repository.update_required_storage).to be false
       expect(repository.storage_updated_at).to be >= 1.minute.ago
@@ -51,6 +41,9 @@ shared_examples_for 'is a countable repository' do
       it 'sucessfuly updates the count to what the adapter returns' do
         expect(repository.required_storage_bytes).to be == 0
         expect(repository.update_required_storage).to be true
+
+        perform_enqueued_jobs
+
         expect(repository.required_storage_bytes).to be == count
       end
     end
@@ -60,6 +53,9 @@ shared_examples_for 'is a countable repository' do
     it 'counts the repository storage automatically' do
       expect(repository.required_storage_bytes).to be == 0
       expect(repository.update_required_storage).to be true
+
+      perform_enqueued_jobs
+
       expect(repository.storage_updated_at).to be >= 1.minute.ago
       expect(repository.update_required_storage).to be false
     end
@@ -98,7 +94,7 @@ shared_examples_for 'is not a countable repository' do
   end
 
   it 'does not return or update the count' do
-    expect(::Scm::StorageUpdaterJob).not_to receive(:new)
+    expect(::Scm::StorageUpdaterJob).not_to receive(:perform_later)
     expect(repository.update_required_storage).to be false
   end
 end

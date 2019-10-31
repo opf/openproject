@@ -57,6 +57,8 @@ describe 'Projects#destroy',
 
     expect(page).to have_selector '.flash.notice', text: I18n.t('projects.delete.scheduled')
 
+    perform_enqueued_jobs
+
     expect { project.reload }.to raise_error(ActiveRecord::RecordNotFound)
   end
 end

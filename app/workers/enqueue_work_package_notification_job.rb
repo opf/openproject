@@ -29,14 +29,15 @@
 
 # Enqueues
 class EnqueueWorkPackageNotificationJob < ApplicationJob
+  queue_with_priority :notification
+
   include Notifications::JournalNotifier
 
-  def initialize(journal_id, send_mails)
+  def perform(journal_id, send_mails)
+    # This is caused by a DJ job running as ActiveJob
     @journal_id = journal_id
     @send_mails = send_mails
-  end
 
-  def perform
     # if the WP has been deleted the unaggregated journal will have been deleted too
     # and our job here is done
     return unless raw_journal

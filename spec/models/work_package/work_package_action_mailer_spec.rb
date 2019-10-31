@@ -54,7 +54,10 @@ describe WorkPackage, type: :model do
 
     subject { ActionMailer::Base.deliveries.size }
 
-    it { is_expected.to eq(2) }
+    it do
+      perform_enqueued_jobs
+      expect(subject).to eq 2
+    end
 
     context 'stale object' do
       before do

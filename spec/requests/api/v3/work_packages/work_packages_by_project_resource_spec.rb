@@ -295,20 +295,21 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
 
       FactoryBot.create(:user_preference, user: current_user, others: { no_self_notified: false })
       post path, parameters.to_json, 'CONTENT_TYPE' => 'application/json'
+      perform_enqueued_jobs
     end
 
     context 'notifications' do
       let(:permissions) { [:add_work_packages, :view_project, :view_work_packages] }
 
       it 'sends a mail by default' do
-        expect(ActionMailer::Base.deliveries.count).to eq(1)
+        expect(DeliverWorkPackageNotificationJob).to have_been_enqueued
       end
 
       context 'without notifications' do
         let(:path) { "#{api_v3_paths.work_packages_by_project(project.id)}?notify=false" }
 
         it 'should not send a mail' do
-          expect(ActionMailer::Base.deliveries.count).to eq(0)
+          expect(DeliverWorkPackageNotificationJob).not_to have_been_enqueued
         end
       end
 
@@ -316,7 +317,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
         let(:path) { "#{api_v3_paths.work_packages_by_project(project.id)}?notify=true" }
 
         it 'should send a mail' do
-          expect(ActionMailer::Base.deliveries.count).to eq(1)
+          expect(DeliverWorkPackageNotificationJob).to have_been_enqueued
         end
       end
     end

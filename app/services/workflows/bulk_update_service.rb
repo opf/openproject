@@ -58,7 +58,7 @@ class Workflows::BulkUpdateService < ::BaseServices::Update
   def build_workflows(status_transitions)
     new_workflows = []
 
-    status_transitions.each do |status_id, transitions|
+    (status_transitions || {}).each do |status_id, transitions|
       transitions.each do |new_status_id, options|
         new_workflows << Workflow.new(type: type,
                                       role: role,

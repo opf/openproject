@@ -104,20 +104,20 @@ da:
     description_current_position: "You are here: "
     description_select_work_package: "Vælg arbejds pakke #%{id}"
     description_selected_columns: "Valgte kolonner"
-    description_subwork_package: "Child of work package #%{id}"
+    description_subwork_package: "Barn af arbejds-pakke #%{id}"
     editor:
-      preview: 'Toggle preview mode'
-      source_code: 'Toggle Markdown source mode'
+      preview: 'Toggle forhåndsvisning'
+      source_code: 'Toggle Markdown kilde-visning'
       error_saving_failed: 'Lagring af dokumentet mislykkedes med følgende fejl: %{error}'
       error_initialization_failed: 'Opstart af CKEditor mislykkedes!'
       mode:
-        manual: 'Switch to Markdown source'
-        wysiwyg: 'Switch to WYSIWYG editor'
+        manual: 'Skift til Markdown kildekode'
+        wysiwyg: 'Skift til WYSIWYG redigering'
       macro:
         child_pages:
-          button: 'Links to child pages'
-          include_parent: 'Include parent'
-          text: '[Placeholder] Links to child pages of'
+          button: 'Links til undersider'
+          include_parent: 'Inkludér forælder'
+          text: '[Placeholder] Linker til under-sider af'
           page: 'Wiki-side'
           this_page: 'denne side'
           hint: |
@@ -128,8 +128,8 @@ da:
           language: 'Formaterings sprog'
           language_hint: 'Indtast det formateringssprog, der skal bruges til at fremhæve (hvis det understøttes).'
         dropdown:
-          macros: 'Macros'
-          chose_macro: 'Chose macro'
+          macros: 'Makroer'
+          chose_macro: 'Vælg makro'
         toc: 'Table of contents'
         toolbar_help: 'Klik for at vælge widget og vis værktøjslinjen. Dobbeltklik for at redigere widget'
         wiki_page_include:
@@ -193,8 +193,8 @@ da:
     general_text_Yes: "Ja"
     hal:
       error:
-        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
-        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        update_conflict_refresh: "Klik her for at opdatere til den nyeste version."
+        edit_prohibited: "Redigering af %{attribute} er blokeret for denne ressource. Enten er denne attribut afledt af relationer (f.eks. børn) eller på anden måde ikke konfigurerbar."
         format:
           date: "%{attribute} is no valid date - YYYY-MM-DD expected."
         general: "Der opstod en fejl."
@@ -202,8 +202,8 @@ da:
       blocks:
         new_features:
           text_new_features: "Read about new features and product updates."
-          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
-          learn_about: "Learn more about the new status widgets"
+          current_new_feature_html: "OpenProject indeholder en ny <b>Oversigts-side</b> til at <b>vise vigtige projektoplysninger</b> og vise, om projektet er på sporet. </br> Du kan indsætte forskellige nye statuswidgets, såsom: <ul><li> projektstatus,</li> <li>oversigt over arbejdspakkesstatus,</li> <li>opgaveforløb,</li> <li>opgaver, der er tildelt brugere.</li></ul>"
+          learn_about: "Lær mere om de nye status-widgets"
     label_activate: "Aktivér"
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
@@ -274,7 +274,7 @@ da:
     label_menu_expand: "Fold menu ud"
     label_more_than_ago: "mere end dage siden"
     label_next: "Næste"
-    label_no_color: "No color"
+    label_no_color: "Ingen farve"
     label_no_data: "Ingen data at vise"
     label_no_due_date: "ingen slutdato"
     label_no_start_date: "ingen startdato"
@@ -691,7 +691,7 @@ da:
         label_content: "Click here to skip over the menu and go to the content"
       placeholders:
         default: "-"
-        formattable: "%{name}: Click to edit..."
+        formattable: "%{name}: Klik for at redigere..."
       query:
         column_names: "Kolonner"
         group_by: "Gruppér resultater efter"

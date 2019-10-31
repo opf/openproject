@@ -51,7 +51,8 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
     work_package.journals.last
   end
   let(:send_mail) { true }
-  subject { described_class.new(journal.id, send_mail) }
+
+  subject { described_class.new.perform(journal.id, send_mail) }
 
   before do
     # make sure no other calls are made due to WP creation/update
@@ -66,7 +67,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
               journal: an_instance_of(Journal::AggregatedJournal),
               send_mail: send_mail)
 
-      subject.perform
+      subject
     end
   end
 
@@ -75,7 +76,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
       expect(OpenProject::Notifications)
         .not_to receive(:send)
 
-      subject.perform
+      subject
     end
   end
 

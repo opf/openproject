@@ -49,7 +49,12 @@ See docs/COPYRIGHT.rdoc for more details.
   <% unless User.current.anonymous? %>
     <meta name="current_user"
           data-name="<%= User.current.name %>"
+          data-mail="<%= User.current.mail %>"
           data-id="<%= User.current.id %>" />
+  <% end %>
+
+  <% if OpenProject::Configuration.sentry_dsn.present? %>
+    <%= tag :meta, name: 'openproject_sentry', data: { dsn: OpenProject::Configuration.sentry_dsn } %>
   <% end %>
 
   <meta name="openproject_initializer"

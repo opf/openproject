@@ -81,33 +81,21 @@ describe Notifications::JournalWPMailService do
 
     login_as(author)
     allow(Setting).to receive(:notified_events).and_return(notification_setting)
-
-    allow(Delayed::Job).to receive(:enqueue)
   end
 
   shared_examples_for 'sends mail' do
     let(:sender) { author }
 
     it 'sends a mail' do
-      deliver_job = double('deliver job')
-
-      expect(DeliverWorkPackageNotificationJob)
-        .to receive(:new)
+      expect { call }
+        .to enqueue_job(DeliverWorkPackageNotificationJob)
         .with(journal.id, recipient.id, sender.id)
-        .and_return(deliver_job)
-
-      expect(Delayed::Job)
-        .to receive(:enqueue)
-        .with(deliver_job, priority: anything)
-
-      call
     end
   end
 
   shared_examples_for 'sends no mail' do
     it 'sends no mail' do
-      expect(Delayed::Job).not_to receive(:enqueue)
-
+      expect { call }.to_not enqueue_job(DeliverWorkPackageNotificationJob)
       call
     end
   end

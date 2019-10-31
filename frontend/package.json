@@ -25,7 +25,6 @@
     "karma-jasmine-html-reporter": "^1.4.2",
     "karma-ng-html2js-preprocessor": "^1.0.0",
     "postcss-loader": "^3.0.0",
-    "protractor": "^5.4.2",
     "sorted-object": "^2.0.1",
     "ts-node": "~8.3.0",
     "tslint": "5.18.0"
@@ -45,6 +44,7 @@
     "@angular/router": "8.2.9",
     "@ng-select/ng-option-highlight": "0.0.2",
     "@ng-select/ng-select": "^3.0.6",
+    "@sentry/browser": "^5.7.1",
     "@types/assertion-error": "^1.0.30",
     "@types/chart.js": "^2.8.1",
     "@types/codemirror": "0.0.76",

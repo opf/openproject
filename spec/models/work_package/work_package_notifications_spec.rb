@@ -45,6 +45,7 @@ describe WorkPackage, type: :model do
 
     context 'after creation' do
       it "are sent to the work package's author" do
+        perform_enqueued_jobs
         mail = ActionMailer::Base.deliveries.detect { |m| m.subject.include? 'I can see you' }
 
         expect(mail).to be_present
@@ -76,6 +77,7 @@ describe WorkPackage, type: :model do
       end
 
       it "are sent to the work package's author" do
+        perform_enqueued_jobs
         mail = ActionMailer::Base.deliveries.detect { |m| m.subject.include? 'the wind of change' }
 
         expect(mail).to be_present

@@ -33,15 +33,15 @@ describe NewsController, type: :controller do
 
   include BecomeMember
 
-  let(:user)    {
+  let(:user) {
     user = FactoryBot.create(:admin)
 
-    FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
+    FactoryBot.create(:user_preference, user: user, others: {no_self_notified: false})
 
     user
   }
   let(:project) { FactoryBot.create(:project) }
-  let(:news)    { FactoryBot.create(:news)    }
+  let(:news) { FactoryBot.create(:news) }
 
   before do
     allow(User).to receive(:current).and_return user
@@ -59,7 +59,7 @@ describe NewsController, type: :controller do
     end
 
     it 'renders index with project' do
-      get :index, params: { project_id: project.id }
+      get :index, params: {project_id: project.id}
 
       expect(response).to be_successful
       expect(response).to render_template 'index'
@@ -69,7 +69,7 @@ describe NewsController, type: :controller do
 
   describe '#show' do
     it 'renders show' do
-      get :show, params: { id: news.id }
+      get :show, params: {id: news.id}
 
       expect(response).to be_successful
       expect(response).to render_template 'show'
@@ -78,7 +78,7 @@ describe NewsController, type: :controller do
     end
 
     it 'renders show with slug' do
-      get :show, params: { id: "#{news.id}-some-news-title" }
+      get :show, params: {id: "#{news.id}-some-news-title"}
 
       expect(response).to be_successful
       expect(response).to render_template 'show'
@@ -87,7 +87,7 @@ describe NewsController, type: :controller do
     end
 
     it 'renders error if news item is not found' do
-      get :show, params: { id: -1 }
+      get :show, params: {id: -1}
 
       expect(response).to be_not_found
     end
@@ -95,7 +95,7 @@ describe NewsController, type: :controller do
 
   describe '#new' do
     it 'renders new' do
-      get :new, params: { project_id: project.id }
+      get :new, params: {project_id: project.id}
 
       expect(response).to be_successful
       expect(response).to render_template 'new'
@@ -104,7 +104,7 @@ describe NewsController, type: :controller do
 
   describe '#create' do
     context 'with news_added notifications',
-            with_settings: { notified_events: %w(news_added) } do
+            with_settings: {notified_events: %w(news_added)} do
       it 'persists a news item and delivers email notifications' do
         become_member_with_permissions(project, user)
 
@@ -124,6 +124,9 @@ describe NewsController, type: :controller do
         expect(news.description).to eq 'This is the description'
         expect(news.author).to eq user
         expect(news.project).to eq project
+
+
+        perform_enqueued_jobs
 
         expect(ActionMailer::Base.deliveries.size).to eq(1)
       end
@@ -151,7 +154,7 @@ describe NewsController, type: :controller do
 
   describe '#edit' do
     it 'renders edit' do
-      get :edit, params: { id: news.id }
+      get :edit, params: {id: news.id}
       expect(response).to be_successful
       expect(response).to render_template 'edit'
     end
@@ -160,7 +163,7 @@ describe NewsController, type: :controller do
   describe '#update' do
     it 'updates the news element' do
       put :update,
-          params: { id: news.id, news: { description: 'Description changed by test_post_edit' } }
+          params: {id: news.id, news: {description: 'Description changed by test_post_edit'}}
 
       expect(response).to redirect_to news_path(news)
 
@@ -171,7 +174,7 @@ describe NewsController, type: :controller do
 
   describe '#destroy' do
     it 'deletes the news element and redirects to the news overview page' do
-      delete :destroy, params: { id: news.id }
+      delete :destroy, params: {id: news.id}
 
       expect(response).to redirect_to project_news_index_path(news.project)
       expect { news.reload }.to raise_error ActiveRecord::RecordNotFound

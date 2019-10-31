@@ -270,10 +270,10 @@ describe 'filter work packages', js: true do
 
       allow_any_instance_of(Plaintext::Resolver).to receive(:text).and_return('I am the first text $1.99.')
       wp_with_attachment_a
-      ExtractFulltextJob.new(attachment_a.id).perform
+      ExtractFulltextJob.perform_now(attachment_a.id)
       allow_any_instance_of(Plaintext::Resolver).to receive(:text).and_return('I am the second text.')
       wp_with_attachment_b
-      ExtractFulltextJob.new(attachment_b.id).perform
+      ExtractFulltextJob.perform_now(attachment_b.id)
       wp_without_attachment
     end
 

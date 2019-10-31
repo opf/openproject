@@ -58,6 +58,7 @@ describe 'Create repository', type: :feature, js: true do
       repo.project = project
       repo.configure(:managed, nil)
       repo.save!
+      perform_enqueued_jobs
 
       repo
     }

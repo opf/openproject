@@ -50,8 +50,7 @@ module Projects
     end
 
     def persist(call)
-      Delayed::Job.enqueue DeleteProjectJob.new(user_id: user.id, project_id: model.id),
-                           priority: ::ApplicationJob.priority_number(:low)
+      DeleteProjectJob.perform_later(user_id: user.id, project_id: model.id)
       call
     end
   end

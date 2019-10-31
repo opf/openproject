@@ -978,7 +978,7 @@ fr:
         add_groups: "Ajouter de nouveaux groupes d’attributs"
         rename_groups: "Renommer les groupes d’attributs"
       project_filters:
-        description_html: "Passez à %{link} pour filtrer et trier dans les champs personnalisés"
+        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
   enumeration_activities: "Activités (suivi de temps)"
   enumeration_work_package_priorities: "Priorités du Lot de Travaux"
   enumeration_system_activity: "Activité du système"

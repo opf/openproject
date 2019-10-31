@@ -38,7 +38,10 @@ describe 'create users', type: :feature, selenium: true do
   end
 
   shared_examples_for 'successful user creation' do
-    let(:mail) { ActionMailer::Base.deliveries.last }
+    let(:mail) do
+      perform_enqueued_jobs
+      ActionMailer::Base.deliveries.last
+    end
     let(:mail_body) { mail.body.parts.first.to_s }
     let(:token) { mail_body.scan(/token=(.*)$/).first.first }
 

@@ -1011,7 +1011,7 @@ uk:
         add_groups: "Додати нові групи атрибутів"
         rename_groups: "Перейменувати групи атрибутів"
       project_filters:
-        description_html: "Upgrade to %{link} для фільтрації та сортування на спеціальні поля"
+        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
   enumeration_activities: "Дії (облік часу)"
   enumeration_work_package_priorities: "Пріоритети робочого пакету"
   enumeration_system_activity: "Системна активність"

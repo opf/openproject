@@ -55,23 +55,12 @@ describe Notifications::JournalNotificationService do
 
     login_as(user)
     allow(Setting).to receive(:notified_events).and_return(notifications)
-
-    allow(Delayed::Job).to receive(:enqueue)
   end
 
   shared_examples_for 'enqueues a regular notification' do
     it do
-      enqueue_job = double('enqueue job')
-
       expect(EnqueueWorkPackageNotificationJob)
-        .to receive(:new)
-        .with(journal.id, send_mails)
-        .and_return(enqueue_job)
-      expect(Delayed::Job)
-        .to receive(:enqueue)
-        .with(enqueue_job,
-              run_at: anything,
-              priority: ::ApplicationJob.priority_number(:notification))
+        .to receive_message_chain(:set, :perform_later)
 
       call_listener
     end
@@ -81,9 +70,9 @@ describe Notifications::JournalNotificationService do
     it 'sends a notification' do
       expect(OpenProject::Notifications)
         .to receive(:send)
-        .with(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY,
-              journal: an_instance_of(Journal::AggregatedJournal),
-              send_mail: send_mails)
+              .with(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY,
+                    journal: an_instance_of(Journal::AggregatedJournal),
+                    send_mail: send_mails)
 
       call_listener
     end

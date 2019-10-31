@@ -963,7 +963,7 @@ zh-TW:
         add_groups: "增加新的屬性群組"
         rename_groups: "重新命名屬性群组"
       project_filters:
-        description_html: "升級到 %{link} 以篩選和排序自訂欄位"
+        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
   enumeration_activities: "活動 (時間追蹤)"
   enumeration_work_package_priorities: "工作項目優先等級"
   enumeration_system_activity: "系統活動"

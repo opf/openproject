@@ -35,6 +35,9 @@ class BaseMailer < ActionMailer::Base
 
   include OpenProject::LocaleHelper
 
+  # Send all delayed mails with the following job
+  self.delivery_job = ::MailerJob
+
   # wrap in a lambda to allow changing at run-time
   default from: Proc.new { Setting.mail_from }
 

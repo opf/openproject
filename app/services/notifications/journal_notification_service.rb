@@ -56,10 +56,9 @@ class Notifications::JournalNotificationService
     end
 
     def enqueue_work_package_notification(journal, send_mails)
-      job = EnqueueWorkPackageNotificationJob.new(journal.id, send_mails)
-      Delayed::Job.enqueue job,
-                           run_at: delivery_time,
-                           priority: ::ApplicationJob.priority_number(:notification)
+      EnqueueWorkPackageNotificationJob
+        .set(wait_until: delivery_time)
+        .perform_later(journal.id, send_mails)
     end
 
     def delivery_time

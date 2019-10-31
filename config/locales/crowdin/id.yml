@@ -962,7 +962,7 @@ id:
         add_groups: "Menambahkan atribut kelompok-kelompok baru"
         rename_groups: "Menamai ulang atribut kelompok-kelompok"
       project_filters:
-        description_html: "Tingkatkan ke %{link} untuk menyaring dan mengurutkan menurut field-field kustom"
+        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
   enumeration_activities: "Activity (pelacakan waktu)"
   enumeration_work_package_priorities: "Paket-Penugasan prioritas"
   enumeration_system_activity: "Sistem Activity"

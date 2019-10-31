@@ -26,7 +26,9 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class ApplicationJob
+require 'active_job'
+
+class ApplicationJob < ::ActiveJob::Base
 
   ##
   # Return a priority number on the given payload
@@ -43,12 +45,20 @@ class ApplicationJob
     end
   end
 
+  def self.queue_with_priority(value = :default)
+    if value.is_a?(Symbol)
+      super priority_number(value)
+    else
+      super value
+    end
+  end
+
   def self.inherited(child)
     child.prepend Setup
   end
 
   module Setup
-    def perform
+    def perform(*args)
       before_perform!
       with_clean_request_store { super }
     end

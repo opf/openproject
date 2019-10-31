@@ -36,13 +36,11 @@ class WorkPackageWebhookJob < WebhookJob
   attr_reader :journal_id
   attr_reader :event_name
 
-  def initialize(webhook_id, journal_id, event_name)
+  def perform(webhook_id, journal_id, event_name)
     @webhook_id = webhook_id
     @journal_id = journal_id
     @event_name = event_name
-  end
 
-  def perform
     return unless webhook.enabled_for_project?(work_package.project_id)
 
     body = request_body

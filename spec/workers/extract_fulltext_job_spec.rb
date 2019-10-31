@@ -34,7 +34,17 @@ describe ExtractFulltextJob, type: :job do
   # These jobs only get created when TSVector is supported by the DB.
   if OpenProject::Database.allows_tsv?
     let(:text) { 'lorem ipsum' }
-    let(:attachment) { FactoryBot.create(:attachment) }
+    let(:attachment) do
+      FactoryBot.create(:attachment).tap do |attachment|
+        expect(ExtractFulltextJob)
+          .to have_been_enqueued
+          .with(attachment.id)
+
+        perform_enqueued_jobs
+
+        attachment.reload
+      end
+    end
 
     context "with successful text extraction" do
       before do

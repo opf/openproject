@@ -44,11 +44,7 @@ class Notifications::JournalWPMailService
       author = User.find_by(id: journal.user_id) || DeletedUser.first
 
       notification_receivers(journal.journable, journal).each do |recipient|
-        job = DeliverWorkPackageNotificationJob.new(journal.id,
-                                                    recipient.id,
-                                                    author.id)
-        Delayed::Job.enqueue job,
-                             priority: ::ApplicationJob.priority_number(:notification)
+        DeliverWorkPackageNotificationJob.perform_later(journal.id, recipient.id, author.id)
       end
     end
 

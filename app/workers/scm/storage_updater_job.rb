@@ -28,26 +28,20 @@
 #++
 
 class Scm::StorageUpdaterJob < ApplicationJob
-  def initialize(repository)
-    @id = repository.id
+  queue_with_priority :low
 
+  def perform(repository)
     unless repository.scm.storage_available?
-      raise OpenProject::Scm::Exceptions::ScmError.new(
-        I18n.t('repositories.storage.not_available')
-      )
+      Rails.logger.warn "Storage is not available for repository #{repository.id}"
+      return
     end
-  end
 
-  def perform
-    repository = Repository.find @id
     bytes = repository.scm.count_repository!
 
     repository.update!(
       required_storage_bytes: bytes,
       storage_updated_at: Time.now,
     )
-  rescue ActiveRecord::RecordNotFound
-    Rails.logger.warn("StorageUpdater requested for Repository ##{@id}, which could not be found.")
   end
 
   ##
