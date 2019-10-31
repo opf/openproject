@@ -1,3 +1,7 @@
+---
+sidebar_navigation: false
+---
+
 # Manual installation of OpenProject with Apache on Ubuntu 18.04 LTS
 
 **IMPORTANT: We strongly recommend to use one of the officially supported [installation methods](../installation). This guide is simply provided as a reference, and is most likely NOT up to date wit relation to the latest OpenProject releases.**
