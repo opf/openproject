@@ -1052,13 +1052,14 @@ describe 'API v3 Work package resource',
 
       FactoryBot.create(:user_preference, user: current_user, others: {no_self_notified: false})
       post path, parameters.to_json, 'CONTENT_TYPE' => 'application/json'
+      perform_enqueued_jobs
     end
 
     context 'notifications' do
       let(:permissions) { %i[add_work_packages view_project view_work_packages] }
 
       it 'sends a mail by default' do
-        expect(EnqueueWorkPackageNotificationJob)
+        expect(DeliverWorkPackageNotificationJob)
           .to have_been_enqueued
           .at_least(1)
       end
@@ -1067,7 +1068,7 @@ describe 'API v3 Work package resource',
         let(:path) { "#{api_v3_paths.work_packages}?notify=false" }
 
         it 'should not send a mail' do
-          expect(EnqueueWorkPackageNotificationJob).not_to have_been_enqueued
+          expect(DeliverWorkPackageNotificationJob).not_to have_been_enqueued
         end
       end
 
@@ -1075,7 +1076,7 @@ describe 'API v3 Work package resource',
         let(:path) { "#{api_v3_paths.work_packages}?notify=true" }
 
         it 'should send a mail' do
-          expect(EnqueueWorkPackageNotificationJob)
+          expect(DeliverWorkPackageNotificationJob)
             .to have_been_enqueued
             .at_least(1)
         end

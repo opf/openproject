@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -27,42 +28,18 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Enqueues
-class EnqueueWorkPackageNotificationJob < ApplicationJob
-  queue_with_priority :notification
-
-  include Notifications::JournalNotifier
-
-  def perform(journal_id, send_mails)
-    # This is caused by a DJ job running as ActiveJob
-    @journal_id = journal_id
-    @send_mails = send_mails
-
-    # if the WP has been deleted the unaggregated journal will have been deleted too
-    # and our job here is done
-    return unless raw_journal
-
-    journal = find_aggregated_journal_for(raw_journal)
-
-    # If we can't find the aggregated journal, it was superseded by a journal that aggregated ours.
-    # In that case a job for the new journal will have been enqueued that is now responsible for
-    # sending the notification. Our job here is done.
-    return unless journal
-
-    # Do not deliver notifications if a follow-up journal will already have sent a notification
-    # on behalf of this job.
-    return if Journal::AggregatedJournal.hides_notifications?(journal.successor, journal)
-
-    notify_journal_complete(journal, @send_mails)
-  end
-
+module Notifications::JournalNotifier
   private
 
-  def raw_journal
-    @raw_journal ||= Journal.find_by(id: @journal_id)
+  def find_aggregated_journal_for(raw_journal)
+    Journal::AggregatedJournal.with_version(raw_journal)
   end
 
-  def work_package
-    @work_package ||= raw_journal.journable
+  def notify_journal_complete(journal, send_mails)
+    OpenProject::Notifications.send(
+      OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY,
+      journal: journal,
+      send_mail: send_mails
+    )
   end
 end

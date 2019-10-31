@@ -28,25 +28,25 @@
 #++
 require 'spec_helper'
 
-describe JournalNotificationMailer do
+describe Notifications::JournalNotificationService do
   let(:project) { FactoryBot.create(:project_with_types) }
   let(:user) do
     FactoryBot.build(:user,
-                      mail_notification: 'all',
-                      member_in_project: project)
+                     mail_notification: 'all',
+                     member_in_project: project)
   end
-  let(:work_package) {
+  let(:work_package) do
     FactoryBot.create(:work_package,
-                       project: project,
-                       author: user,
-                       type: project.types.first)
-  }
+                      project: project,
+                      author: user,
+                      type: project.types.first)
+  end
   let(:journal) { work_package.journals.last }
-  let(:send_notification) { true }
+  let(:send_mails) { true }
   let(:notifications) { [] }
 
   def call_listener
-    described_class.distinguish_journals(journal, send_notification)
+    described_class.call(journal, send_mails)
   end
 
   before do
@@ -66,34 +66,15 @@ describe JournalNotificationMailer do
     end
   end
 
-  shared_examples_for 'handles deliveries' do |notification_setting|
-    context 'setting enabled' do
-      let(:notifications) { [notification_setting] }
+  shared_examples_for 'sends notification' do
+    it 'sends a notification' do
+      expect(OpenProject::Notifications)
+        .to receive(:send)
+              .with(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY,
+                    journal: an_instance_of(Journal::AggregatedJournal),
+                    send_mail: send_mails)
 
-      it_behaves_like 'enqueues a regular notification'
-
-      context 'insufficient work package changes' do
-        let(:journal) { another_work_package.journals.last }
-        let(:another_work_package) {
-          FactoryBot.create(:work_package,
-                             project: project,
-                             author: user,
-                             type: project.types.first)
-        }
-        before do
-          another_work_package.add_journal(user)
-          another_work_package.description = 'needs more changes'
-          another_work_package.save!(validate: false)
-        end
-
-        it 'sends no notification' do
-          expect { call_listener }.not_to enqueue_job(EnqueueWorkPackageNotificationJob)
-        end
-      end
-    end
-
-    it 'sends no notification' do
-      expect { call_listener }.not_to enqueue_job(EnqueueWorkPackageNotificationJob)
+      call_listener
     end
   end
 
@@ -103,7 +84,7 @@ describe JournalNotificationMailer do
         FactoryBot.create(:work_package, project: project)
       end
 
-      it_behaves_like 'handles deliveries', 'work_package_added'
+      it_behaves_like 'enqueues a regular notification'
     end
 
     context 'work_package_updated' do
@@ -113,23 +94,7 @@ describe JournalNotificationMailer do
         work_package.save!(validate: false)
       end
 
-      context 'setting enabled' do
-        let(:notifications) { ['work_package_updated'] }
-
-        it_behaves_like 'enqueues a regular notification'
-
-        context 'WP creation' do
-          let(:journal) { FactoryBot.create(:work_package).journals.first }
-
-          it 'sends no notification' do
-            expect { call_listener }.not_to enqueue_job(EnqueueWorkPackageNotificationJob)
-          end
-        end
-      end
-
-      it 'sends no notification' do
-        expect { call_listener }.not_to enqueue_job(EnqueueWorkPackageNotificationJob)
-      end
+      it_behaves_like 'enqueues a regular notification'
     end
 
     context 'work_package_note_added' do
@@ -138,35 +103,7 @@ describe JournalNotificationMailer do
         work_package.save!(validate: false)
       end
 
-      it_behaves_like 'handles deliveries', 'work_package_note_added'
-    end
-
-    context 'status_updated' do
-      before do
-        work_package.add_journal(user)
-        work_package.status = FactoryBot.build(:status)
-        work_package.save!(validate: false)
-      end
-
-      it_behaves_like 'handles deliveries', 'status_updated'
-    end
-
-    context 'work_package_priority_updated' do
-      before do
-        work_package.add_journal(user)
-        work_package.priority = FactoryBot.create(:issue_priority)
-        work_package.save!(validate: false)
-      end
-
-      it_behaves_like 'handles deliveries', 'work_package_priority_updated'
-    end
-
-    context 'send_notification disabled' do
-      let(:send_notification) { false }
-
-      it 'sends no notification' do
-        expect { call_listener }.not_to enqueue_job(EnqueueWorkPackageNotificationJob)
-      end
+      it_behaves_like 'enqueues a regular notification'
     end
   end
 
@@ -190,7 +127,6 @@ describe JournalNotificationMailer do
     #   This is important since late exec of a Job might cause it to _not_ skip notifications
 
     let(:author) { user }
-    let(:notifications) { ['work_package_updated'] }
     let(:timeout) { Setting.journal_aggregation_time_minutes.to_i.minutes }
 
     let(:journal_1) { work_package.journals[1] }
@@ -260,15 +196,8 @@ describe JournalNotificationMailer do
           journal_3.update_attribute(:created_at, journal_1.created_at + timeout + 5.seconds)
         end
 
-        it 'immediately delivers a mail on behalf of Journal 1' do
-          expect(EnqueueWorkPackageNotificationJob).to receive_message_chain(:set, :perform_later)
-          call_listener
-        end
-
-        it 'also enqueues a regular mail' do
-          expect(EnqueueWorkPackageNotificationJob).to receive_message_chain(:set, :perform_later)
-          call_listener
-        end
+        it_behaves_like 'sends notification' # for journal 1
+        it_behaves_like 'enqueues a regular notification' # for journal 3
       end
     end
 
@@ -307,7 +236,7 @@ end
 
 describe 'initialization' do
   it 'subscribes the listener' do
-    expect(EnqueueWorkPackageNotificationJob).to receive_message_chain(:set, :perform_later)
+    expect(Notifications::JournalNotificationService).to receive(:call)
     FactoryBot.create(:work_package)
   end
 end

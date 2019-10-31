@@ -41,8 +41,13 @@
 #    be dropped
 class Journal::AggregatedJournal
   class << self
+    def with_version(pure_journal)
+      wp_journals = Journal::AggregatedJournal.aggregated_journals(journable: pure_journal.journable)
+      wp_journals.detect { |journal| journal.version == pure_journal.version }
+    end
+
     # Returns the aggregated journal that contains the specified (vanilla/pure) journal.
-    def for_journal(pure_journal)
+    def containing_journal(pure_journal)
       raw = Journal::AggregatedJournal.query_aggregated_journals(journable: pure_journal.journable)
             .where("#{version_projection} >= ?", pure_journal.version)
             .first

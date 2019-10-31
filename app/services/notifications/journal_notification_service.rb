@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -27,42 +28,41 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Enqueues
-class EnqueueWorkPackageNotificationJob < ApplicationJob
-  queue_with_priority :notification
+class Notifications::JournalNotificationService
+  class << self
+    include Notifications::JournalNotifier
 
-  include Notifications::JournalNotifier
+    def call(journal, send_mails)
+      if journal.journable_type == 'WorkPackage'
+        handle_work_package_journal(journal, send_mails)
+      end
+    end
 
-  def perform(journal_id, send_mails)
-    # This is caused by a DJ job running as ActiveJob
-    @journal_id = journal_id
-    @send_mails = send_mails
+    private
 
-    # if the WP has been deleted the unaggregated journal will have been deleted too
-    # and our job here is done
-    return unless raw_journal
+    def handle_work_package_journal(journal, send_mails)
+      notify_for_wp_predecessor(journal, send_mails)
+      enqueue_work_package_notification(journal, send_mails)
+    end
 
-    journal = find_aggregated_journal_for(raw_journal)
+    # Send the notification on behalf of the predecessor in case it could not send it on its own
+    def notify_for_wp_predecessor(journal, send_mails)
+      aggregated = find_aggregated_journal_for(journal)
 
-    # If we can't find the aggregated journal, it was superseded by a journal that aggregated ours.
-    # In that case a job for the new journal will have been enqueued that is now responsible for
-    # sending the notification. Our job here is done.
-    return unless journal
+      if Journal::AggregatedJournal.hides_notifications?(aggregated, aggregated.predecessor)
+        aggregated_predecessor = find_aggregated_journal_for(aggregated.predecessor)
+        notify_journal_complete(aggregated_predecessor, send_mails)
+      end
+    end
 
-    # Do not deliver notifications if a follow-up journal will already have sent a notification
-    # on behalf of this job.
-    return if Journal::AggregatedJournal.hides_notifications?(journal.successor, journal)
+    def enqueue_work_package_notification(journal, send_mails)
+      EnqueueWorkPackageNotificationJob
+        .set(wait_until: delivery_time)
+        .perform_later(journal.id, send_mails)
+    end
 
-    notify_journal_complete(journal, @send_mails)
-  end
-
-  private
-
-  def raw_journal
-    @raw_journal ||= Journal.find_by(id: @journal_id)
-  end
-
-  def work_package
-    @work_package ||= raw_journal.journable
+    def delivery_time
+      Setting.journal_aggregation_time_minutes.to_i.minutes.from_now
+    end
   end
 end

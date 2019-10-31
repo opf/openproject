@@ -1,19 +1,16 @@
 module OpenProject::Webhooks::EventResources
   class Base
     class << self
-
       ##
       # Subscribe for events on this resource schedule the respective
       # webhooks, if any.
       def subscribe!
         notification_names.each do |key|
           OpenProject::Notifications.subscribe(key) do |payload|
-            begin
-              Rails.logger.debug { "[Webhooks Plugin] Handling notification for '#{key}'." }
-              handle_notification(payload, key)
-            rescue => e
-              Rails.logger.error { "[Webhooks Plugin] Failed notification handling for '#{key}': #{e}" }
-            end
+            Rails.logger.debug { "[Webhooks Plugin] Handling notification for '#{key}'." }
+            handle_notification(payload, key)
+          rescue StandardError => e
+            Rails.logger.error { "[Webhooks Plugin] Failed notification handling for '#{key}': #{e}" }
           end
         end
       end
@@ -35,7 +32,6 @@ module OpenProject::Webhooks::EventResources
       def prefixed_event_name(action)
         "#{prefix_key}:#{action}"
       end
-
 
       def available_actions
         raise NotImplementedError
