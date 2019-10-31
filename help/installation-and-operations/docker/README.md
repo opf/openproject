@@ -1,5 +1,5 @@
 ---
-nav:
+sidebar_navigation:
   title: Docker installation
   priority: 200
 ---

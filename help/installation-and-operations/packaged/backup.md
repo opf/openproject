@@ -1,5 +1,5 @@
 ---
-nav:
+sidebar_navigation:
   title: Backup Guide
   priority: 50
 ---

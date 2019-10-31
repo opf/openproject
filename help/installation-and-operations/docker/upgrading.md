@@ -1,5 +1,5 @@
 ---
-nav:
+sidebar_navigation:
   title: Upgrade guide
   priority: 200
 ---

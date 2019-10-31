@@ -1,5 +1,5 @@
 ---
-nav:
+sidebar_navigation:
   title: Installation Guide
   priority: 200
 ---
