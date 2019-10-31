@@ -189,8 +189,8 @@ class ModelContract < Reform::Contract
   def attributes_changed_by_user
     changed = model.changed
 
-    if model.respond_to?(:changed_by_system)
-      changed -= model.changed_by_system
+    if options[:changed_by_system]
+      changed -= options[:changed_by_system]
     end
 
     changed

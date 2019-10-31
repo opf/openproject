@@ -43,10 +43,30 @@ module Concerns::Contracted
       @contract_class = cls
     end
 
+    def changed_by_system(attributes = nil)
+      @changed_by_system ||= []
+
+      if attributes
+        @changed_by_system += Array(attributes)
+      end
+
+      @changed_by_system
+    end
+
+    def change_by_system
+      prior_changes = non_no_op_changes
+
+      ret = yield
+
+      changed_by_system(changed_compared_to(prior_changes))
+
+      ret
+    end
+
     private
 
     def instantiate_contract(object, user, options: {})
-      contract_class.new(object, user, options: options)
+      contract_class.new(object, user, options: { changed_by_system: changed_by_system }.merge(options))
     end
 
     def validate_and_save(object, user, options: {})
@@ -76,6 +96,14 @@ module Concerns::Contracted
         # as object.valid? is already called in the contract
         true
       end
+    end
+
+    def non_no_op_changes
+      model.changes.reject { |_, (old, new)| old == 0 && new.nil? }
+    end
+
+    def changed_compared_to(prior_changes)
+      model.changed.select { |c| !prior_changes[c] || prior_changes[c].last != model.changes[c].last }
     end
   end
 end
