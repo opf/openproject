@@ -30,17 +30,16 @@
 
 module Projects
   class DeleteProjectJob < ApplicationJob
+    queue_with_priority :low
     include OpenProject::LocaleHelper
 
     attr_reader :user_id,
                 :project_id
 
-    def initialize(user_id:, project_id:)
+    def perform(user_id:, project_id:)
       @user_id = user_id
       @project_id = project_id
-    end
 
-    def perform
       service_call = delete_project
 
       if service_call.failure?

@@ -55,20 +55,13 @@ describe JournalNotificationMailer do
 
     login_as(user)
     allow(Setting).to receive(:notified_events).and_return(notifications)
-
-    allow(Delayed::Job).to receive(:enqueue)
   end
 
   shared_examples_for 'enqueues a regular notification' do
     it do
-      expect(Delayed::Job).to receive(:enqueue)
-                                .with(
-                                  an_instance_of(EnqueueWorkPackageNotificationJob),
-                                  run_at: anything, priority: anything)
+      expect(EnqueueWorkPackageNotificationJob)
+        .to receive_message_chain(:set, :perform_later)
 
-      # immediate delivery is not part of regular notfications, it only covers an edge-case
-      expect(Delayed::Job).not_to receive(:enqueue)
-                                    .with(an_instance_of(DeliverWorkPackageNotificationJob), anything)
       call_listener
     end
   end
@@ -94,15 +87,13 @@ describe JournalNotificationMailer do
         end
 
         it 'sends no notification' do
-          expect(Delayed::Job).not_to receive(:enqueue)
-          call_listener
+          expect { call_listener }.not_to enqueue_job(EnqueueWorkPackageNotificationJob)
         end
       end
     end
 
     it 'sends no notification' do
-      expect(Delayed::Job).not_to receive(:enqueue)
-      call_listener
+      expect { call_listener }.not_to enqueue_job(EnqueueWorkPackageNotificationJob)
     end
   end
 
@@ -131,15 +122,13 @@ describe JournalNotificationMailer do
           let(:journal) { FactoryBot.create(:work_package).journals.first }
 
           it 'sends no notification' do
-            expect(Delayed::Job).not_to receive(:enqueue)
-            call_listener
+            expect { call_listener }.not_to enqueue_job(EnqueueWorkPackageNotificationJob)
           end
         end
       end
 
       it 'sends no notification' do
-        expect(Delayed::Job).not_to receive(:enqueue)
-        call_listener
+        expect { call_listener }.not_to enqueue_job(EnqueueWorkPackageNotificationJob)
       end
     end
 
@@ -176,8 +165,7 @@ describe JournalNotificationMailer do
       let(:send_notification) { false }
 
       it 'sends no notification' do
-        expect(Delayed::Job).not_to receive(:enqueue)
-        call_listener
+        expect { call_listener }.not_to enqueue_job(EnqueueWorkPackageNotificationJob)
       end
     end
   end
@@ -273,18 +261,12 @@ describe JournalNotificationMailer do
         end
 
         it 'immediately delivers a mail on behalf of Journal 1' do
-          expect(Delayed::Job).to receive(:enqueue)
-                                    .with(
-                                      an_instance_of(DeliverWorkPackageNotificationJob), priority: anything)
+          expect(EnqueueWorkPackageNotificationJob).to receive_message_chain(:set, :perform_later)
           call_listener
         end
 
         it 'also enqueues a regular mail' do
-          expect(Delayed::Job).to receive(:enqueue)
-                                    .with(
-                                      an_instance_of(EnqueueWorkPackageNotificationJob),
-                                      priority: anything,
-                                      run_at: anything)
+          expect(EnqueueWorkPackageNotificationJob).to receive_message_chain(:set, :perform_later)
           call_listener
         end
       end
@@ -325,7 +307,7 @@ end
 
 describe 'initialization' do
   it 'subscribes the listener' do
-    expect(JournalNotificationMailer).to receive(:distinguish_journals)
+    expect(EnqueueWorkPackageNotificationJob).to receive_message_chain(:set, :perform_later)
     FactoryBot.create(:work_package)
   end
 end

@@ -40,17 +40,8 @@ require 'net/http'
 class Scm::RemoteRepositoryJob < ApplicationJob
   attr_reader :repository
 
-  ##
-  # Initialize the job, optionally saving the whole repository object
-  # (use only when not serializing the job.)
-  # As we're using the jobs majorly synchronously for the time being, it saves a db trip.
-  # When we have error handling for asynchronous tasks, refactor this.
-  def initialize(repository, perform_now: false)
-    if perform_now
-      @repository = repository
-    else
-      @repository_id = repository.id
-    end
+  def perform(repository)
+    @repository = repository
   end
 
   protected
@@ -103,10 +94,6 @@ class Scm::RemoteRepositoryJob < ApplicationJob
         identifier: project.identifier,
       }
     }
-  end
-
-  def repository
-    @repository ||= Repository.find(@repository_id)
   end
 
   ##

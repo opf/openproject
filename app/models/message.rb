@@ -153,7 +153,7 @@ class Message < ActiveRecord::Base
               forum.watcher_recipients
 
     to_mail.uniq.each do |user|
-      UserMailer.message_posted(user, self, User.current).deliver_now
+      UserMailer.message_posted(user, self, User.current).deliver_later
     end
   end
 end

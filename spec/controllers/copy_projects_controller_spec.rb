@@ -99,6 +99,7 @@ describe CopyProjectsController, type: :controller do
            id: project.id,
            project: copy_project_params.merge(identifier: 'copy', name: 'copy')
          }
+    perform_enqueued_jobs
   end
 
   describe 'copy creates a new project' do

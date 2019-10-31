@@ -146,6 +146,8 @@ describe 'Projects copy',
                                                                target_project_name: 'Copied project'),
                                                type: 'notice'
 
+    perform_enqueued_jobs
+
     copied_project = Project.find_by(name: 'Copied project')
 
     expect(copied_project)

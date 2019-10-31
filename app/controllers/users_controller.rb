@@ -173,7 +173,7 @@ class UsersController < ApplicationController
         end
 
         if @user.active? && send_information
-          UserMailer.account_information(@user, @user.password).deliver_now
+          UserMailer.account_information(@user, @user.password).deliver_later
         end
       end
 
@@ -235,7 +235,7 @@ class UsersController < ApplicationController
     elsif @user.save
       flash[:notice] = I18n.t(:notice_successful_update)
       if was_activated
-        UserMailer.account_activated(@user).deliver_now
+        UserMailer.account_activated(@user).deliver_later
       end
     else
       flash[:error] = I18n.t(:error_status_change_failed,

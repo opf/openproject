@@ -30,6 +30,8 @@
 
 module OAuth
   class CleanupJob < ::RakeJob
+    queue_with_priority :low
+
     def initialize
       super 'doorkeeper:db:cleanup'
     end

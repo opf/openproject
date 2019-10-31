@@ -29,7 +29,7 @@
 
 class DeliverWatcherNotificationJob < DeliverNotificationJob
 
-  def initialize(watcher_id, recipient_id, watcher_setter_id)
+  def perform(watcher_id, recipient_id, watcher_setter_id)
     @watcher_id = watcher_id
 
     super(recipient_id, watcher_setter_id)

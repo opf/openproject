@@ -33,11 +33,9 @@ require 'rake'
 class RakeJob < ApplicationJob
   attr_reader :task_name
 
-  def initialize(task_name)
+  def perform(task_name)
     @task_name = task_name
-  end
 
-  def perform
     Rails.logger.info { "Invoking Rake task #{task_name}." }
     invoke
   end

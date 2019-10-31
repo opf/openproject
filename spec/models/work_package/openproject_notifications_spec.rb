@@ -54,6 +54,7 @@ describe WorkPackage, type: :model do
     context 'after creation' do
       before do
         work_package
+        perform_enqueued_jobs
       end
 
       it "are triggered" do
@@ -68,6 +69,8 @@ describe WorkPackage, type: :model do
         journal_ids.clear
 
         work_package.update subject: 'the wind of change'
+
+        perform_enqueued_jobs
       end
 
       it "are triggered" do

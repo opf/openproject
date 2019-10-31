@@ -176,9 +176,7 @@ describe Attachment, type: :model do
     end
 
     it 'adds no cleanup job' do
-      expect(Delayed::Job)
-        .not_to receive(:enqueue)
-        .with an_instance_of(Attachments::CleanupUncontaineredJob)
+      expect(Attachments::CleanupUncontaineredJob).not_to receive(:perform_later)
 
       attachment.save!
     end
@@ -187,13 +185,7 @@ describe Attachment, type: :model do
       let(:container) { nil }
 
       it 'adds a cleanup job' do
-        allow(Delayed::Job)
-          .to receive(:enqueue)
-
-        expect(Delayed::Job)
-          .to receive(:enqueue)
-          .with(an_instance_of(Attachments::CleanupUncontaineredJob), any_args)
-
+        expect(Attachments::CleanupUncontaineredJob).to receive(:perform_later)
         attachment.save!
       end
     end

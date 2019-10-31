@@ -38,12 +38,13 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
   let(:author) { FactoryBot.create(:user, login: "marktwain") }
   let(:work_package) do
     FactoryBot.create(:work_package,
-                       project: project,
-                       author: author,
-                       assigned_to: recipient)
+                      project: project,
+                      author: author,
+                      assigned_to: recipient)
   end
   let(:journal) { work_package.journals.first }
-  subject { described_class.new(journal.id, author.id) }
+  let(:instance) { described_class.new }
+  subject { instance.perform(journal.id, author.id) }
 
   before do
     # make sure no other calls are made due to WP creation/update
@@ -51,8 +52,8 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
   end
 
   it 'sends a mail' do
-    expect(Delayed::Job).to receive(:enqueue).with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
-    subject.perform
+    expect(DeliverNotificationJob).to receive(:perform_later)
+    subject
   end
 
   context 'non-existant journal' do
@@ -61,8 +62,8 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
     end
 
     it 'sends no mail' do
-      expect(Delayed::Job).not_to receive(:enqueue)
-      subject.perform
+      expect(DeliverNotificationJob).not_to receive(:perform_later)
+      subject
     end
   end
 
@@ -72,10 +73,8 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
     end
 
     it 'sends a mail' do
-      expect(Delayed::Job)
-        .to receive(:enqueue)
-        .with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
-      subject.perform
+      expect(DeliverNotificationJob).to receive(:perform_later)
+      subject
     end
   end
 
@@ -87,8 +86,8 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
     end
 
     it 'does not send any mails' do
-      expect(Delayed::Job).not_to receive(:enqueue)
-      subject.perform
+      expect(DeliverNotificationJob).not_to receive(:perform_later)
+      subject
     end
   end
 
@@ -112,8 +111,8 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
     #   This is important since late exec of a Job might cause it to _not_ skip notifications
 
     before do
-      change = { subject: 'new subject' }
-      note = { journal_notes: 'a comment' }
+      change = {subject: 'new subject'}
+      note = {journal_notes: 'a comment'}
 
       allow(WorkPackages::UpdateContract).to receive(:new).and_return(NoopContract.new)
       service = WorkPackages::UpdateService.new(user: author, model: work_package)
@@ -134,24 +133,18 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
       #  -> no special behaviour required
 
       it 'Job 1 sends one mail for journal 1' do
-        expect(Delayed::Job)
-          .to receive(:enqueue)
-          .with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
-          .once
-        described_class.new(journal_1.id, author.id).perform
+        expect(DeliverNotificationJob).to receive(:perform_later).once
+        instance.perform(journal_1.id, author.id)
       end
 
       it 'Job 2 sends no mails' do
-        expect(Delayed::Job).not_to receive(:enqueue)
-        described_class.new(journal_2.id, author.id).perform
+        expect(DeliverNotificationJob).not_to receive(:perform_later)
+        instance.perform(journal_2.id, author.id)
       end
 
       it 'Job 3 sends one mail for journal (2,3)' do
-        expect(Delayed::Job)
-          .to receive(:enqueue)
-          .with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
-          .once
-        described_class.new(journal_3.id, author.id).perform
+        expect(DeliverNotificationJob).to receive(:perform_later).once
+        instance.perform(journal_3.id, author.id)
       end
     end
 
@@ -170,21 +163,18 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
       end
 
       it 'Job 1 sends no mails' do
-        expect(Delayed::Job).not_to receive(:enqueue)
-        described_class.new(journal_1.id, author.id).perform
+        expect(DeliverNotificationJob).not_to receive(:perform_later)
+       instance.perform(journal_1.id, author.id)
       end
 
       it 'Job 2 sends no mails' do
-        expect(Delayed::Job).not_to receive(:enqueue)
-        described_class.new(journal_2.id, author.id).perform
+        expect(DeliverNotificationJob).not_to receive(:perform_later)
+       instance.perform(journal_2.id, author.id)
       end
 
       it 'Job 3 sends one mail for (2,3)' do
-        expect(Delayed::Job)
-          .to receive(:enqueue)
-          .with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
-          .once
-        described_class.new(journal_3.id, author.id).perform
+        expect(DeliverNotificationJob).to receive(:perform_later).once
+       instance.perform(journal_3.id, author.id)
       end
     end
 
@@ -199,30 +189,26 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
       end
 
       it 'Job 1 sends no mails' do
-        expect(Delayed::Job).not_to receive(:enqueue)
-        described_class.new(journal_1.id, author.id).perform
+        expect(DeliverNotificationJob).not_to receive(:perform_later)
+        instance.perform(journal_1.id, author.id)
       end
 
       it 'Job 2 sends one mail for journal (1, 2)' do
-        expect(Delayed::Job).to receive(:enqueue)
-                                  .with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
-                                  .once
-        described_class.new(journal_2.id, author.id).perform
+        expect(DeliverNotificationJob).to receive(:perform_later).once
+        instance.perform(journal_2.id, author.id)
       end
 
       it 'Job 3 sends one mail for journal 3' do
-        expect(Delayed::Job).to receive(:enqueue)
-                                  .with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
-                                  .once
-        described_class.new(journal_3.id, author.id).perform
+        expect(DeliverNotificationJob).to receive(:perform_later).once
+        instance.perform(journal_3.id, author.id)
       end
     end
   end
 
   describe "#text_for_mentions" do
     it "returns a text" do
-      subject.perform
-      expect(subject.send(:text_for_mentions)).to be_a String
+      subject
+      expect(instance.send(:text_for_mentions)).to be_a String
     end
 
     context "subject and description changed" do
@@ -230,7 +216,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
       let(:description) { 'New description' }
       let(:notes) { 'Nice notes!' }
 
-      subject { described_class.new(work_package.journals.last.id, author.id) }
+      subject { instance.perform(work_package.journals.last.id, author.id) }
 
       before do
         work_package.subject = title
@@ -240,22 +226,21 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
         work_package.journals.last.notes = notes
         work_package.journals.last.save
 
-        subject.perform
+        subject
       end
 
       it "returns notes, subject and description" do
-        expect(subject.send(:text_for_mentions)).not_to be_blank
-        expect(subject.send(:text_for_mentions)).to match title
-        expect(subject.send(:text_for_mentions)).to match description
-        expect(subject.send(:text_for_mentions)).to match notes
+        expect(instance.send(:text_for_mentions)).not_to be_blank
+        expect(instance.send(:text_for_mentions)).to match title
+        expect(instance.send(:text_for_mentions)).to match description
+        expect(instance.send(:text_for_mentions)).to match notes
       end
     end
   end
 
   describe "#mentioned" do
     subject do
-      instance = described_class.new(journal.id, author.id)
-      instance.perform
+      instance.perform(journal.id, author.id)
 
       allow(instance)
         .to receive(:text_for_mentions)
@@ -279,9 +264,9 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
           context "that is an email address" do
             let(:recipient) do
               FactoryBot.create(:user,
-                                 member_in_project: project,
-                                 member_through_role: role,
-                                 login: "foo@bar.com")
+                                member_in_project: project,
+                                member_through_role: role,
+                                login: "foo@bar.com")
             end
 
             it "detects the user" do
@@ -303,9 +288,9 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
         context "the recipient turned off all mail notifications" do
           let(:recipient) do
             FactoryBot.create(:user,
-                               member_in_project: project,
-                               member_through_role: role,
-                               mail_notification: 'none')
+                              member_in_project: project,
+                              member_through_role: role,
+                              mail_notification: 'none')
           end
 
           let(:added_text) do
@@ -322,7 +307,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
       context "mentioned user is not allowed to view the work package" do
         let(:recipient) do
           FactoryBot.create(:user,
-                             login: "foo@bar.com")
+                            login: "foo@bar.com")
         end
         let(:added_text) do
           "Hello user:#{recipient.login}, hey user##{recipient.id}"
@@ -343,9 +328,9 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
           group.users << group_member
 
           FactoryBot.create(:member,
-                             project: project,
-                             principal: group,
-                             roles: [role])
+                            project: project,
+                            principal: group,
+                            roles: [role])
         end
       end
 
@@ -382,9 +367,9 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
         context 'but group member is allowed individually' do
           before do
             FactoryBot.create(:member,
-                               project: project,
-                               principal: group_member,
-                               roles: [FactoryBot.create(:role, permissions: [:view_work_packages])])
+                              project: project,
+                              principal: group_member,
+                              roles: [FactoryBot.create(:role, permissions: [:view_work_packages])])
           end
 
           it "group member gets detected" do

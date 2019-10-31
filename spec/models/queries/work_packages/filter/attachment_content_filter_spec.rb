@@ -55,6 +55,8 @@ describe Queries::WorkPackages::Filter::AttachmentContentFilter, type: :model do
       end
 
       it 'finds WP through attachment content' do
+        perform_enqueued_jobs
+
         expect(WorkPackage.joins(instance.joins).where(instance.where))
           .to match_array [work_package]
       end

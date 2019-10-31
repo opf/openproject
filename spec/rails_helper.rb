@@ -60,12 +60,14 @@ RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
-
   # Filter lines from Rails gems in backtraces.
   config.filter_rails_from_backtrace!
 
   # Add helpers to parse json-responses
   config.include JsonSpec::Helpers
+
+  # Add job helper
+  config.include ::ActiveJob::TestHelper
 
   OpenProject::Configuration['attachments_storage_path'] = 'tmp/files'
 
