@@ -33,6 +33,7 @@ module Concerns::Contracted
 
   included do
     attr_reader :contract_class
+    attr_accessor :contract_options
 
     def contract_class=(cls)
       unless cls <= ::ModelContract
@@ -44,12 +45,12 @@ module Concerns::Contracted
 
     private
 
-    def instantiate_contract(object, user)
-      contract_class.new(object, user)
+    def instantiate_contract(object, user, options: {})
+      contract_class.new(object, user, options: options)
     end
 
-    def validate_and_save(object, user)
-      validate_and_yield(object, user) do
+    def validate_and_save(object, user, options: {})
+      validate_and_yield(object, user, options: options) do
         object.save
       end
     end
@@ -57,8 +58,8 @@ module Concerns::Contracted
     ##
     # Call the given block and assume object is erroneous if
     # it does not return truthy
-    def validate_and_yield(object, user)
-      contract = instantiate_contract(object, user)
+    def validate_and_yield(object, user, options: {})
+      contract = instantiate_contract(object, user, options: options)
 
       if !contract.validate
         [false, contract.errors]
@@ -69,8 +70,8 @@ module Concerns::Contracted
       end
     end
 
-    def validate(object, user)
-      validate_and_yield(object, user) do
+    def validate(object, user, options: {})
+      validate_and_yield(object, user, options: options) do
         # No object validation is necessary at this point
         # as object.valid? is already called in the contract
         true

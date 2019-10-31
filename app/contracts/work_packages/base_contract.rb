@@ -119,8 +119,8 @@ module WorkPackages
     validate :validate_category
     validate :validate_estimated_hours
 
-    def initialize(work_package, user)
-      super(work_package, user)
+    def initialize(work_package, user, options: {})
+      super
 
       @can = WorkPackagePolicy.new(user)
     end

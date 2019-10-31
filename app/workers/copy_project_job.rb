@@ -40,8 +40,11 @@ class CopyProjectJob < ApplicationJob
               :associations_to_copy,
               :send_mails
 
-  def perform(user_id:, source_project_id:, target_project_params:,
-                 associations_to_copy:, send_mails: false)
+  def perform(user_id:,
+              source_project_id:,
+              target_project_params:,
+              associations_to_copy:,
+              send_mails: false)
     # Needs refactoring after moving to activejob
 
     @user_id               = user_id
@@ -54,10 +57,7 @@ class CopyProjectJob < ApplicationJob
     @target_project_name = target_project_params[:name]
 
     @target_project, @errors = with_locale_for(user) do
-      create_project_copy(source_project,
-                          target_project_params,
-                          associations_to_copy,
-                          send_mails)
+      create_project_copy
     end
 
     if target_project
@@ -81,41 +81,22 @@ class CopyProjectJob < ApplicationJob
     @project ||= Project.find source_project_id
   end
 
-  def create_project_copy(source_project,
-                          target_project_params,
-                          associations_to_copy,
-                          send_mails)
-    target_project = nil
-    errors         = []
+  def create_project_copy
+    errors = []
 
     ProjectMailer.with_deliveries(send_mails) do
-      target_project = Project.copy_attributes(source_project)
-
-      service_call = Projects::SetAttributesService
-                     .new(user: user,
-                          model: target_project,
-                          contract_class: Projects::CreateContract)
-                     .call(target_project_params)
+      service_call = copy_project_attributes
+      target_project = service_call.result
 
       if service_call.success? && target_project.save
-        target_project.copy_associations(source_project, only: associations_to_copy)
-
-        # Project was created
-        # But some objects might not have been copied due to validation failures
-        error_objects = (target_project.compiled_errors.flatten + [target_project.errors]).flatten
-        error_objects.each do |error_object|
-          base = error_object.instance_variable_get(:@base)
-          error_prefix = base.is_a?(Project) ? '' : "#{base.class.model_name.human} '#{base}': "
-
-          error_object.full_messages.flatten.each do |error|
-            errors << error_prefix + error
-          end
-        end
+        errors = copy_project_associations(target_project)
       else
-        errors         = service_call.errors.merge(target_project.errors).full_messages
+        errors = service_call.errors.merge(target_project.errors).full_messages
         target_project = nil
         logger.error("Copying project fails with validation errors: #{errors.join("\n")}")
       end
+
+      return target_project, errors
     end
   rescue ActiveRecord::RecordNotFound => e
     logger.error("Entity missing: #{e.message} #{e.backtrace.join("\n")}")
@@ -127,11 +108,62 @@ class CopyProjectJob < ApplicationJob
       logger.error('Encountered an errors while trying to copy related objects for '\
                    "project '#{source_project_id}': #{errors.inspect}")
     end
-
-    return target_project, errors
   end
 
   def logger
     Rails.logger
+  end
+
+  def copy_project_attributes
+    target_project = Project.copy_attributes(source_project)
+
+    cleanup_target_project_attributes(target_project)
+    cleanup_target_project_params
+
+    Projects::SetAttributesService
+      .new(user: user,
+           model: target_project,
+           contract_class: Projects::CopyContract,
+           contract_options: { copied_from: source_project })
+      .call(target_project_params)
+  end
+
+  def cleanup_target_project_params
+    if (parent_id = target_project_params["parent_id"]) && (parent = Project.find_by(id: parent_id))
+      target_project_params.delete("parent_id") unless user.allowed_to?(:add_subprojects, parent)
+    end
+  end
+
+  def cleanup_target_project_attributes(target_project)
+    if target_project.parent
+      target_project.parent = nil unless user.allowed_to?(:add_subprojects, target_project.parent)
+    end
+  end
+
+  def copy_project_associations(target_project)
+    target_project.copy_associations(source_project, only: associations_to_copy)
+    errors = []
+
+    # Project was created
+    # But some objects might not have been copied due to validation failures
+    error_objects = project_errors(target_project)
+    error_objects.each do |error_object|
+      error_prefix = error_prefix_for(error_object)
+
+      error_object.full_messages.flatten.each do |error|
+        errors << error_prefix + error
+      end
+    end
+
+    errors
+  end
+
+  def project_errors(project)
+    (project.compiled_errors.flatten + [project.errors]).flatten
+  end
+
+  def error_prefix_for(error_object)
+    base = error_object.instance_variable_get(:@base)
+    base.is_a?(Project) ? '' : "#{base.class.model_name.human} '#{base}': "
   end
 end

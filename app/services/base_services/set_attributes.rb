@@ -32,7 +32,7 @@ module BaseServices
   class SetAttributes
     include Concerns::Contracted
 
-    def initialize(user:, model:, contract_class:)
+    def initialize(user:, model:, contract_class:, contract_options: {})
       self.user = user
       self.model = model
 
@@ -43,9 +43,10 @@ module BaseServices
       model.extend(Mixins::ChangedBySystem)
 
       self.contract_class = contract_class
+      self.contract_options = contract_options
     end
 
-    def call(params)
+    def call(params, contract_options: {})
       set_attributes(params)
 
       validate_and_result
@@ -68,7 +69,7 @@ module BaseServices
     end
 
     def validate_and_result
-      success, errors = validate(model, user)
+      success, errors = validate(model, user, options: contract_options)
 
       ServiceResult.new(success: success,
                         errors: errors,

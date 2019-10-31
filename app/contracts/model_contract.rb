@@ -96,11 +96,13 @@ class ModelContract < Reform::Contract
   end
 
   attr_reader :user
+  attr_accessor :options
 
-  def initialize(model, user)
+  def initialize(model, user, options: {})
     super(model)
 
     @user = user
+    @options = options
   end
 
   # we want to add a validation error whenever someone sets a property that we don't know.
