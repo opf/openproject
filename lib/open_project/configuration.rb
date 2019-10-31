@@ -406,15 +406,21 @@ module OpenProject
       # using YAML.
       #
       # @param key [String] The key of the input within the source hash.
-      # @param value [String] The string from which to extract the actual value.
+      # @param original_value [String] The string from which to extract the actual value.
       # @return A ruby object (e.g. Integer, Float, String, Hash, Boolean, etc.)
       # @raise [ArgumentError] If the string could not be parsed.
-      def extract_value(key, value)
+      def extract_value(key, original_value)
         # YAML parses '' as false, but empty ENV variables will be passed as that.
         # To specify specific values, one can use !!str (-> '') or !!null (-> nil)
-        return value if value == ''
+        return original_value if original_value == ''
 
-        YAML.load(value)
+        parsed = YAML.load(original_value)
+
+        if parsed.is_a?(String)
+          original_value
+        else
+          parsed
+        end
       rescue StandardError => e
         raise ArgumentError, "Configuration value for '#{key}' is invalid: #{e.message}"
       end

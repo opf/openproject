@@ -99,6 +99,7 @@ describe OpenProject::Configuration do
         'nil' => 'foobar',
         'str_empty' => 'foobar',
         'somesetting' => 'foo',
+        'invalid_yaml' => nil,
         'some_list_entry' => nil,
         'nested' => {
           'key' => 'value',
@@ -120,7 +121,7 @@ describe OpenProject::Configuration do
         'SOMEEMPTYSETTING' => '',
         'SOMESETTING' => 'bar',
         'NIL' => '!!null',
-        'STR_EMPTY' => '!!str',
+        'INVALID_YAML' => "'foo'! #234@@½%%%",
         'OPTEST_SOME__LIST__ENTRY' => '[foo, bar , xyz, whut wat]',
         'OPTEST_NESTED_KEY' => 'baz',
         'OPTEST_NESTED_DEEPLY__NESTED_KEY' => '42',
@@ -135,16 +136,16 @@ describe OpenProject::Configuration do
       OpenProject::Configuration.send :override_config!, config, env_vars
     end
 
+    it 'returns the original string, not the invalid YAML one' do
+      expect(config['invalid_yaml']).to eq env_vars['INVALID_YAML']
+    end
+
     it 'should not parse the empty value' do
       expect(config['someemptysetting']).to eq('')
     end
 
     it 'should parse the null identifier' do
       expect(config['nil']).to be_nil
-    end
-
-    it 'should parse the empty string' do
-      expect(config['str_empty']).to eq('')
     end
 
     it 'should override the previous setting value' do
