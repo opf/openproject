@@ -32,30 +32,28 @@ module ::IFCModels
   class IFCModelsController < BaseController
     include PaginationHelper
 
-    before_action :find_project_by_project_id, only: [:index, :new, :create, :show, :edit, :update, :destroy]
-    before_action :find_ifc_model_object, except: [:index, :new, :create]
+    before_action :find_project_by_project_id, only: %i[index new create show edit update destroy]
+    before_action :find_ifc_model_object, except: %i[index new create]
 
     before_action :authorize
 
     menu_item :ifc_models
 
     def index
-      @ifc_models = @project.ifc_models.order('created_at DESC').page(page_param).per_page(per_page_param)
-      render 'ifc_models/index'
+      @ifc_models = @project
+        .ifc_models
+        .order('created_at DESC')
+        .includes(:uploader, :project)
+        .page(page_param)
+        .per_page(per_page_param)
     end
 
     def new
       @ifc_model = @project.ifc_models.build(ifc_model_params)
-      render 'ifc_models/new'
     end
 
-    def edit
-      render 'ifc_models/edit'
-    end
-
-    def show
-      render 'ifc_models/show'
-    end
+    def edit; end
+    def show; end
 
     def create
       @ifc_model = @project.ifc_models.build(uploader: User.current)
@@ -63,7 +61,7 @@ module ::IFCModels
       if add_attachment && @ifc_model.save
         redirect_to action: :show, id: @ifc_model.id
       else
-        render 'ifc_models/new'
+        render action: :new
       end
     end
 
@@ -71,7 +69,7 @@ module ::IFCModels
       if @ifc_model.update(ifc_model_params)
         redirect_to action: :show, id: @ifc_model.id
       else
-        render 'ifc_models/new'
+        render action: :edit
       end
     end
 
@@ -85,9 +83,9 @@ module ::IFCModels
     def add_attachment
       if (file = ifc_model_params['ifc_attachment']) && file && file.size.positive?
         @ifc_model.attachments.build(file: file,
-                          container: @ifc_model,
-                          description: 'IFC attachment',
-                          author: User.current)
+                                     container: @ifc_model,
+                                     description: 'IFC attachment',
+                                     author: User.current)
         @ifc_model.title = file.original_filename
       else
         flash[:error] = t('ifc_models.could_not_save_file')

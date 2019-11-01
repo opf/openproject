@@ -29,9 +29,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= toolbar title: t('ifc_models.label_new_ifc_model') %>
 
-<%= labelled_tabular_form_for @ifc_model, url: ifc_models_project_ifc_models_path(@project), html: { multipart: true } do |f| -%>
-  <%= render :partial => 'ifc_models/form', locals: { f: f } %>
-  <%= styled_button_tag l(:button_create), class: "-highlight -with-icon icon-checkmark" %>
+<%= toolbar title: IFCModels::IFCModel.model_name.human %>
+
+<%= labelled_tabular_form_for @ifc_model, url: ifc_models_project_ifc_model_path(@project, @ifc_model), method: 'PATCH' do |f| -%>
+  <%= render partial: 'form', locals: { f: f } %>
+  <%= styled_button_tag t(:button_save), class: "-highlight -with-icon icon-checkmark" %>
 <% end %>
