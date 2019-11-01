@@ -34,7 +34,7 @@ describe ::Projects::ScheduleDeletionService, type: :model do
 
     allow(contract)
       .to receive(:new)
-      .with(project, user)
+      .with(project, user, options: { changed_by_system: [] })
       .and_return(contract_instance)
 
     contract

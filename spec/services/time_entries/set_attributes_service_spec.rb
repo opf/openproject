@@ -61,7 +61,7 @@ describe TimeEntries::SetAttributesService, type: :model do
   let(:contract_class) do
     allow(TimeEntries::CreateContract)
       .to receive(:new)
-      .with(anything, user)
+      .with(anything, user, options: { changed_by_system: [] })
       .and_return(contract_instance)
 
     TimeEntries::CreateContract
