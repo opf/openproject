@@ -216,7 +216,13 @@ class ModelContract < Reform::Contract
 
   def collect_ancestor_attributes_by(attribute_to_collect, combination_method, cleanup_method)
     klass = self.class
-    attributes = klass.send(attribute_to_collect)
+    # `dup` is very important here.
+    # As the array/hash queried for here is memoized in the class (e.g. writable_conditions) and that
+    # object is later on combined (e.g. with #concat which alters the called on object) with a
+    # similar object from the superclass, every call would alter the memoized object as an unwanted side effect.
+    # Not only would that lead to the subclass now having all the attributes of the superclass,
+    # but those attributes would also be duplicated so that performance suffers significantly.
+    attributes = klass.send(attribute_to_collect).dup
 
     while klass.superclass != ModelContract
       # Collect all the attribute_to_collect from ancestors
