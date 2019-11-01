@@ -42,13 +42,13 @@ describe WorkPackages::CreateNoteContract do
   let(:user) { FactoryBot.build_stubbed(:user) }
   let(:policy_instance) { double('WorkPackagePolicyInstance') }
 
-  subject(:contract) {
+  subject(:contract) do
     contract = described_class.new(work_package, user)
 
-    contract.policy = policy_instance
+    contract.send(:'policy=', policy_instance)
 
     contract
-  }
+  end
 
   describe 'note' do
     before do

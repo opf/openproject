@@ -43,7 +43,7 @@ module Users
     ##
     # Users can only be updated by Admins
     def user_allowed_to_update
-      unless current_user.admin?
+      unless user.admin?
         errors.add :base, :error_unauthorized
       end
     end

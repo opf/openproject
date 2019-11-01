@@ -32,17 +32,12 @@ module BaseServices
   class SetAttributes
     include Concerns::Contracted
 
-    def initialize(user:, model:, contract_class:)
+    def initialize(user:, model:, contract_class:, contract_options: {})
       self.user = user
       self.model = model
 
-      # Allow tracking changes caused by a user but done for him by the system.
-      # E.g. fixed_version of a work package might need to be changed as the user changed the project.
-      # This is currently used for permission checks where the changed project is checked but the fixed_version
-      # is not if it is done by the system.
-      model.extend(Mixins::ChangedBySystem)
-
       self.contract_class = contract_class
+      self.contract_options = contract_options
     end
 
     def call(params)
@@ -68,7 +63,7 @@ module BaseServices
     end
 
     def validate_and_result
-      success, errors = validate(model, user)
+      success, errors = validate(model, user, options: contract_options)
 
       ServiceResult.new(success: success,
                         errors: errors,

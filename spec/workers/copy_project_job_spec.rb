@@ -127,7 +127,6 @@ describe CopyProjectJob, type: :model do
                     associations_to_copy: [:work_packages]
       end
     end
-    let(:params) { {name: 'Copy', identifier: 'copy'} }
 
     before do
       allow(User).to receive(:current).and_return(admin)
@@ -193,28 +192,40 @@ describe CopyProjectJob, type: :model do
     end
 
     describe 'subproject' do
-      let(:params) { {name: 'Copy', identifier: 'copy', parent_id: project.id} }
-      let(:subproject) { FactoryBot.create(:project, parent: project) }
+      let(:params) { { name: 'Copy', identifier: 'copy', parent_id: project.id } }
+      let(:subproject) do
+        FactoryBot.create(:project, parent: project).tap do |p|
+          FactoryBot.create(:member,
+                            principal: user,
+                            roles: [role],
+                            project: p)
+        end
+      end
 
-      describe 'invalid parent' do
+      subject { Project.find_by(identifier: 'copy') }
+
+      describe 'user without add_subprojects permission in parent' do
         include_context 'copy project' do
           let(:project_to_copy) { subproject }
         end
 
-        it "creates no new project" do
-          expect(Project.all).to match_array([project, subproject])
+        it 'copies the project without the parent being set' do
+          expect(subject).not_to be_nil
+          expect(subject.parent).to be_nil
+
+          expect(subproject.reload.enabled_module_names).not_to be_empty
         end
 
-        it "notifies the user of the failure" do
+        it "notifies the user of the success" do
           mail = ActionMailer::Base.deliveries
-            .find { |m| m.message_id.start_with? "openproject.project-#{user.id}-#{subproject.id}" }
+                   .find { |m| m.message_id.start_with? "openproject.project-#{user.id}-#{subject.id}" }
 
           expect(mail).to be_present
-          expect(mail.subject).to eq "Cannot copy project #{subproject.name}"
+          expect(mail.subject).to eq "Created project #{subject.name}"
         end
       end
 
-      describe 'valid parent' do
+      describe 'user with add_subprojects permission in parent' do
         let(:role_add_subproject) { FactoryBot.create(:role, permissions: [:add_subprojects]) }
         let(:member_add_subproject) do
           FactoryBot.create(:member,
@@ -230,8 +241,6 @@ describe CopyProjectJob, type: :model do
         include_context 'copy project' do
           let(:project_to_copy) { subproject }
         end
-
-        subject { Project.find_by(identifier: 'copy') }
 
         it 'copies the project' do
           expect(subject).not_to be_nil

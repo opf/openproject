@@ -224,7 +224,7 @@ describe WorkPackages::SetAttributesService, type: :model do
           it 'notes the author to be system changed' do
             subject
 
-            expect(work_package.changed_by_system)
+            expect(instance.changed_by_system)
               .to include('author_id')
           end
         end
@@ -529,7 +529,7 @@ describe WorkPackages::SetAttributesService, type: :model do
             it 'adds change to system changes' do
               subject
 
-              expect(work_package.changed_by_system)
+              expect(instance.changed_by_system)
                 .to include('category_id')
             end
           end
@@ -558,7 +558,7 @@ describe WorkPackages::SetAttributesService, type: :model do
             it 'adds change to system changes' do
               subject
 
-              expect(work_package.changed_by_system)
+              expect(instance.changed_by_system)
                 .to include('type_id')
             end
           end
@@ -576,7 +576,7 @@ describe WorkPackages::SetAttributesService, type: :model do
             it 'adds change to system changes' do
               subject
 
-              expect(work_package.changed_by_system)
+              expect(instance.changed_by_system)
                 .to include('type_id')
             end
           end
@@ -594,7 +594,7 @@ describe WorkPackages::SetAttributesService, type: :model do
             it 'does not set the change to system changes' do
               subject
 
-              expect(work_package.changed_by_system)
+              expect(instance.changed_by_system)
                 .not_to include('type_id')
             end
           end

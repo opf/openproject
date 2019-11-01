@@ -48,12 +48,6 @@ module Users
       User
     end
 
-    def initialize(user, current_user)
-      super(user, current_user)
-
-      @current_user = current_user
-    end
-
     def validate
       existing_auth_source
 
@@ -61,8 +55,6 @@ module Users
     end
 
     private
-
-    attr_reader :current_user
 
     def existing_auth_source
       if auth_source_id && AuthSource.find_by_unique(auth_source_id).nil?

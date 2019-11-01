@@ -32,9 +32,9 @@ module BaseServices
   class Update < Write
     attr_reader :model
 
-    def initialize(user:, model:, contract_class: nil)
+    def initialize(user:, model:, contract_class: nil, contract_options: {})
       @model = model
-      super(user: user, contract_class: contract_class)
+      super(user: user, contract_class: contract_class, contract_options: contract_options)
     end
 
     private

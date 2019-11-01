@@ -58,14 +58,6 @@ module Queries
       Query
     end
 
-    attr_reader :user
-
-    def initialize(query, user)
-      super(query, user)
-
-      @user = user
-    end
-
     def validate
       validate_project
       user_allowed_to_make_public

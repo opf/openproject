@@ -96,11 +96,13 @@ class ModelContract < Reform::Contract
   end
 
   attr_reader :user
+  attr_accessor :options
 
-  def initialize(model, user)
+  def initialize(model, user, options: {})
     super(model)
 
     @user = user
+    @options = options
   end
 
   # we want to add a validation error whenever someone sets a property that we don't know.
@@ -187,8 +189,8 @@ class ModelContract < Reform::Contract
   def attributes_changed_by_user
     changed = model.changed
 
-    if model.respond_to?(:changed_by_system)
-      changed -= model.changed_by_system
+    if options[:changed_by_system]
+      changed -= options[:changed_by_system]
     end
 
     changed

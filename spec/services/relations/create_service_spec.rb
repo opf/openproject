@@ -86,7 +86,7 @@ describe Relations::CreateService do
 
     allow(Relations::CreateContract)
       .to receive(:new)
-      .with(relation, user)
+      .with(relation, user, options: { changed_by_system: [] })
       .and_return(contract)
     allow(contract)
       .to receive(:validate)
