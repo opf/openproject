@@ -3,6 +3,7 @@ en:
   ifc_models:
     label_ifc_models: 'IFC models'
     label_new_ifc_model: 'New IFC model'
+    no_results: "No IFC models have been uploaded in this project."
     could_not_save_file': 'Could not save the file.'
     processing_state:
       label: 'Processing?'

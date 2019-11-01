@@ -1,15 +1,12 @@
 <%#-- copyright
-OpenProject Documents Plugin
-
-Former OpenProject Core functionality extracted into a plugin.
-
-Copyright (C) 2009-2014 the OpenProject Foundation (OPF)
+OpenProject is a project management system.
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
 
 OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2006-2017 Jean-Philippe Lang
 Copyright (C) 2010-2013 the ChiliProject Team
 
 This program is free software; you can redistribute it and/or
@@ -26,13 +23,23 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See doc/COPYRIGHT.rdoc for more details.
+See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
+<% html_title(t('ifc_models.label_ifc_models')) -%>
 
-<%= toolbar title: IFCModels::IFCModel.model_name.human %>
-
-<%= labelled_tabular_form_for @ifc_model, url: ifc_models_project_ifc_model_path(@project, @ifc_model), method: 'PATCH' do |f| -%>
-  <%= render partial: "ifc_models/form", locals: { f: f } %>
-  <%= styled_button_tag t(:button_save), class: "-highlight -with-icon icon-checkmark" %>
+<%= toolbar title: t('ifc_models.label_ifc_models') do %>
+  <% if User.current.allowed_to?(:manage_ifc_models, @project) %>
+    <li class="toolbar-item">
+      <%= link_to new_ifc_models_project_ifc_model_path,
+                  { class: 'button -alt-highlight',
+                    aria: { label: t(:label_project_new) },
+                    title: t(:label_project_new) } do %>
+        <%= op_icon('button--icon icon-add') %>
+        <span class="button--text"><%= ::IFCModels::IFCModel.model_name.human %></span>
+      <% end %>
+    </li>
+  <% end %>
 <% end %>
+
+<%= cell ::IFCModels::Models::TableCell, @ifc_models %>
