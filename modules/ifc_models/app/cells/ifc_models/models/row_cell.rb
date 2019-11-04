@@ -51,12 +51,6 @@ module IFCModels
                 class: 'icon icon-edit',
                 accesskey: accesskey(:edit)
       end
-
-      def deletion_blocked?
-        return false if table.admin_table?
-
-        device.default && table.enforced?
-      end
     end
   end
 end
