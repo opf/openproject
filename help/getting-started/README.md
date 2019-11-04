@@ -9,7 +9,7 @@ Here you will learn about the **first steps with OpenProject**. If you need more
 | Popular Topics                                          | Description                                                  |
 | ------------------------------------------------------- | :----------------------------------------------------------- |
 | [Introduction to OpenProject](openproject-introduction) | Get an introduction about project management with OpenProject. |
-| [Sign in and registration](sign-in-and-registration)    | Find out how you can register and sign in to OpenProject.    |
+| [Sign in and registration](sign-in-registration)        | Find out how you can register and sign in to OpenProject.    |
 | [Create a project](projects)                            | How to create and set up a new project?                      |
 | [Invite team members](invite-members)                   | How to invite new members?                                   |
 | [Work packages](work-packages-introduction)             | Learn how to create and edit work packages.                  |
