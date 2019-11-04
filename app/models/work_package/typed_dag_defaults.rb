@@ -38,6 +38,11 @@ module WorkPackage::TypedDagDefaults
     # Can't use .alias here
     # as the dag methods are mixed in later
 
+    def reload(*args)
+      @is_leaf = nil
+      super
+    end
+
     def leaves
       hierarchy_leaves
     end
@@ -47,7 +52,11 @@ module WorkPackage::TypedDagDefaults
     end
 
     def leaf?
-      hierarchy_leaf?
+      # The leaf? implementation relies on the children relations. If that relation is not loaded,
+      # rails will attempt to do the performant check on whether such a relation exists at all. While
+      # This is performant for one call, subsequent calls have to again fetch from the db (cached admittedly)
+      # as the relations are still not loaded.
+      @is_leaf ||= hierarchy_leaf?
     end
 
     def root
