@@ -75,16 +75,19 @@ class Queries::WorkPackages::Columns::CustomFieldColumn < Queries::WorkPackages:
 
   def sum_of(work_packages)
     if work_packages.respond_to?(:joins)
-      # we can't perform the aggregation on the SQL side. Try to filter useless rows to reduce work.
-      work_packages = work_packages
-                      .joins(:custom_values)
-                      .where(custom_values: { custom_field: @cf })
-                      .where("#{CustomValue.table_name}.value IS NOT NULL")
-                      .where("#{CustomValue.table_name}.value != ''")
-    end
+      cast = @cf.field_format == 'int' ? 'INTEGER' : 'FLOAT'
 
-    # TODO: eliminate calls of this method with an Array and drop the :compact call below
-    work_packages.map { |wp| value(wp) }.compact.reduce(:+)
+      CustomValue
+        .where(customized: work_packages, custom_field: @cf)
+        .where.not(value: nil)
+        .where.not(value: '')
+        .pluck("SUM(value::#{cast})")
+        .first
+    else
+      # TODO: eliminate calls of this method with an Array and drop the :compact call below
+      ActiveSupport::Deprecation.warn('Passing an array of work packages is deprecated. Pass an AR-relation instead.')
+      work_packages.map { |wp| value(wp) }.compact.reduce(:+)
+    end
   end
 
   def self.instances(context = nil)
