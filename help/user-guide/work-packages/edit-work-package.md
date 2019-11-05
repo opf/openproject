@@ -1,8 +1,8 @@
 ---
-title: Create work packages
-description: How to create work packages in OpenProject?
+title: Edit work packages
+description: How to edit work packages in OpenProject?
 robots: index, follow
-keywords: create work packages
+keywords: edit work packages
 ---
 
 # Edit work packages
