@@ -38,11 +38,6 @@ module WorkPackage::TypedDagDefaults
     # Can't use .alias here
     # as the dag methods are mixed in later
 
-    def reload(*args)
-      @is_leaf = nil
-      super
-    end
-
     def leaves
       hierarchy_leaves
     end
@@ -56,6 +51,8 @@ module WorkPackage::TypedDagDefaults
       # rails will attempt to do the performant check on whether such a relation exists at all. While
       # This is performant for one call, subsequent calls have to again fetch from the db (cached admittedly)
       # as the relations are still not loaded.
+      # For reasons I could not find out, adding a #reload method here lead to the virtual attribute management for parent
+      # to no longer work. Resetting the @is_leaf method was hence moved to the WorkPackage::Parent module
       @is_leaf ||= hierarchy_leaf?
     end
 
@@ -69,6 +66,12 @@ module WorkPackage::TypedDagDefaults
 
     def root?
       hierarchy_root?
+    end
+
+    private
+
+    def reset_is_leaf
+      @is_leaf = nil
     end
   end
 end
