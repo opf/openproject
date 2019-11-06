@@ -59,11 +59,6 @@ describe Status, type: :model do
     assert_raises(RuntimeError, "Can't delete status") { status.destroy }
   end
 
-  it 'should default' do
-    status = Status.default
-    assert_kind_of Status, status
-  end
-
   it 'should change default' do
     status = Status.find(2)
     assert !status.is_default
@@ -80,41 +75,5 @@ describe Status, type: :model do
     status.move_to_bottom
     status.reload
     assert status.is_default?
-  end
-
-  context '#update_done_ratios' do
-    before do
-      @issue = WorkPackage.find(1)
-      @status = Status.find(1)
-      @status.update_attribute(:default_done_ratio, 50)
-    end
-
-    context 'with Setting.work_package_done_ratio using the field' do
-      before do
-        Setting.work_package_done_ratio = 'field'
-      end
-
-      it 'should change nothing' do
-        Status.update_work_package_done_ratios
-
-        assert_equal 0, WorkPackage.where(done_ratio: 50).count
-      end
-    end
-
-    context 'with Setting.work_package_done_ratio using the status' do
-      before do
-        Setting.work_package_done_ratio = 'status'
-      end
-
-      it "should update all of the issue's done_ratios to match their Issue Status" do
-        Status.update_work_package_done_ratios
-
-        issues = WorkPackage.find([1, 3, 4, 5, 6, 7, 9, 10])
-        issues.each do |issue|
-          assert_equal @status, issue.status
-          assert_equal 50, issue.read_attribute(:done_ratio)
-        end
-      end
-    end
   end
 end

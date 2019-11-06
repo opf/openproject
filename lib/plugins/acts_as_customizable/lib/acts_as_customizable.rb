@@ -63,7 +63,7 @@ module Redmine
         end
 
         def available_custom_fields
-          CustomField.where(type: "#{self.class.name}CustomField").order(:position)
+          self.class.available_custom_fields(self)
         end
 
         # Sets the values of the object's custom fields
@@ -321,6 +321,11 @@ module Redmine
         end
 
         module ClassMethods
+          def available_custom_fields(_model)
+            RequestStore.fetch(:"#{name.underscore}_custom_fields") do
+              CustomField.where(type: "#{name}CustomField").order(:position)
+            end
+          end
         end
       end
     end

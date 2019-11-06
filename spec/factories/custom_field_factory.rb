@@ -39,6 +39,11 @@ FactoryBot.define do
     visible { true }
     field_format { 'bool' }
 
+    callback(:after_create) do
+      # As the request store keeps track of the created custom fields
+      RequestStore.clear!
+    end
+
     factory :project_custom_field, class: ProjectCustomField do
       sequence(:name) { |n| "Project custom field #{n}" }
 

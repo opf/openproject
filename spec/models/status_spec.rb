@@ -129,4 +129,28 @@ describe Status, type: :model do
         .not_to eql old_cache_key
     end
   end
+
+  context '.update_done_ratios' do
+    let(:status) { FactoryBot.create(:status, default_done_ratio: 50) }
+    let(:work_package) { FactoryBot.create(:work_package, status: status) }
+
+    context 'with Setting.work_package_done_ratio using the field', with_settings: { work_package_done_ratio: 'field' } do
+      it 'changes nothing' do
+        done_ratio_before = work_package.done_ratio
+        Status.update_work_package_done_ratios
+
+        expect(work_package.reload.done_ratio)
+          .to eql done_ratio_before
+      end
+    end
+
+    context 'with Setting.work_package_done_ratio using the status', with_settings: { work_package_done_ratio: 'status' } do
+      it "should update all of the issue's done_ratios to match their Issue Status" do
+        Status.update_work_package_done_ratios
+
+        expect(work_package.reload.done_ratio)
+          .to eql status.default_done_ratio
+      end
+    end
+  end
 end

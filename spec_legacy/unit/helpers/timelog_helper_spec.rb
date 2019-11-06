@@ -26,7 +26,7 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
+require_relative '../../legacy_spec_helper'
 
 describe TimelogHelper, type: :helper do
   include TimelogHelper

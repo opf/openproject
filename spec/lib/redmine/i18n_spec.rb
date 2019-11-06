@@ -190,5 +190,21 @@ module OpenProject
         end
       end
     end
+
+    describe '#format_date' do
+      context 'without a date_format setting', with_settings: { date_format: '' } do
+        it 'uses the locale formate' do
+          expect(format_date(Date.today))
+            .to eql I18n.l(Date.today)
+        end
+      end
+
+      context 'with a date_format setting', with_settings: { date_format: '%d %m %Y' } do
+        it 'adheres to the format' do
+          expect(format_date(Date.today))
+            .to eql Date.today.strftime('%d %m %Y')
+        end
+      end
+    end
   end
 end
