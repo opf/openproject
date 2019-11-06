@@ -89,38 +89,31 @@ describe Project, type: :model do
     end
   end
 
-  describe 'copy_allowed?' do
-    let(:user) { FactoryBot.create(:user) }
-    let(:role_add_subproject) { FactoryBot.create(:role, permissions: [:add_subprojects]) }
-    let(:role_copy_projects) { FactoryBot.create(:role, permissions: [:edit_project, :copy_projects, :add_project]) }
-    let(:parent_project) { FactoryBot.create(:project) }
-    let(:project) { FactoryBot.create(:project, parent: parent_project) }
-    let!(:subproject_member) do
-      FactoryBot.create(:member,
-                        user: user,
-                        project: project,
-                        roles: [role_copy_projects])
-    end
+  describe '#copy_allowed?' do
+    let(:user) { FactoryBot.build_stubbed(:user) }
+    let(:project) { FactoryBot.build_stubbed(:project) }
+    let(:permission_granted) { true }
+
     before do
+      allow(user)
+        .to receive(:allowed_to?)
+        .with(:copy_projects, project)
+        .and_return(permission_granted)
+
       login_as(user)
     end
 
-    context 'with permission to add subprojects' do
-      let!(:member_add_subproject) do
-        FactoryBot.create(:member,
-                          user: user,
-                          project: parent_project,
-                          roles: [role_add_subproject])
-      end
-
-      it 'should allow copy' do
-        expect(project.copy_allowed?).to eq(true)
+    context 'with copy project permission' do
+      it 'is true' do
+        expect(project.copy_allowed?).to be_truthy
       end
     end
 
-    context 'with permission to add subprojects' do
-      it 'should not allow copy' do
-        expect(project.copy_allowed?).to eq(false)
+    context 'without copy project permission' do
+      let(:permission_granted) { false }
+
+      it 'is false' do
+        expect(project.copy_allowed?).to be_falsey
       end
     end
   end
