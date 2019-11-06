@@ -5,21 +5,35 @@ module IFCModels
     belongs_to :project
     belongs_to :uploader, class_name: 'User', foreign_key: 'uploader_id'
 
-    def ifc_attachment
-      attachments.first
+    %i(ifc xkt metadata).each do |name|
+      define_method "#{name}_attachment" do
+        get_attached_type(name)
+      end
+
+      define_method "#{name}_attachment=" do |file|
+        if name == :ifc
+          # Also delete xkt and metadata
+          delete_attachment :xkt
+          delete_attachment :metadata
+        end
+
+        delete_attachment :ifc
+        attach_files('first' => { 'file' => file, 'description' => name })
+      end
     end
 
-    def xkt_attachment
-      attachments.second
+    private
+
+    ##
+    # Delete the given named description
+    def get_attached_type(key)
+      attachments.find_by_description(key.to_s)
     end
 
-    def delete_ifc_attachment
-      delete_xkt_attachment
-      ifc_attachment&.destroy
-    end
-
-    def delete_xkt_attachment
-      xkt_attachment&.destroy
+    ##
+    # Delete the given named description
+    def delete_attachment(key)
+      get_attached_type(key)&.destroy
     end
   end
 end

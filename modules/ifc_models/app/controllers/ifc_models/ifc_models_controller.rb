@@ -78,10 +78,7 @@ module ::IFCModels
 
     def add_attachment
       if (file = ifc_model_params['ifc_attachment']) && file && file.size.positive?
-        @ifc_model.attachments.build(file: file,
-                                     container: @ifc_model,
-                                     description: 'IFC attachment',
-                                     author: User.current)
+        @ifc_model.ifc_attachment = file
         @ifc_model.title = file.original_filename
       else
         flash[:error] = t('ifc_models.could_not_save_file')

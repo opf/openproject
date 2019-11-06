@@ -62,6 +62,10 @@ module OpenProject::IFCModels
       end
     end
 
+    config.to_prepare do
+      require 'open_project/ifc_models/hooks'
+    end
+
     patches %i[Project]
   end
 end

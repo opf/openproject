@@ -91,6 +91,10 @@ class AdminController < ApplicationController
       @checklist += plaintext_extraction_checks
     end
 
+    call_hook(:admin_information_checklist).each do |result|
+      @checklist += result
+    end
+
     @storage_information = OpenProject::Storage.mount_information
   end
 
