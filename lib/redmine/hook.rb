@@ -68,9 +68,11 @@ module Redmine
       # Returns the listeners response.
       def call_hook(hook, context = {})
         [].tap do |response|
-          hls = hook_listeners(hook)
-          if hls.any?
-            hls.each { |listener| response << listener.send(hook, context) }
+          hook_listeners(hook).each do |listener|
+            response << listener.send(hook, context)
+          rescue StandardError => e
+            msg = "Failed to collect hook response for #{hook} from #{listener.inspect}"
+            ::OpenProject.logger.error(msg, exception: e, extra: { hook_name: hook })
           end
         end
       end
