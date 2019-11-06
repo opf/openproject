@@ -191,7 +191,7 @@ class Project < ActiveRecord::Base
   end
 
   def copy_allowed?
-    User.current.allowed_to?(:copy_projects, self) && (parent.nil? || User.current.allowed_to?(:add_subprojects, parent))
+    User.current.allowed_to?(:copy_projects, self)
   end
 
   def self.selectable_projects
