@@ -324,7 +324,7 @@ class User < Principal
   end
 
   def active?
-    status == STATUSES[:active]
+    [STATUSES[:active], STATUSES[:builtin]].include? status
   end
 
   def registered?
