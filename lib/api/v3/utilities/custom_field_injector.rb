@@ -351,8 +351,7 @@ module API
 
         def allowed_users_static_filters
           [{ status: { operator: '!',
-                       values: [Principal::STATUSES[:builtin].to_s,
-                                Principal::STATUSES[:locked].to_s] } },
+                       values: [Principal::STATUSES[:locked].to_s] } },
            { type: { operator: '=', values: ['User'] } }]
         end
 

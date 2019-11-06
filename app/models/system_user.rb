@@ -42,6 +42,8 @@ class SystemUser < User
   # Overrides a few properties
   def logged?; false end
 
+  def builtin?; true end
+
   def name(*_args); 'System' end
 
   def mail; nil end
@@ -54,12 +56,10 @@ class SystemUser < User
 
   def grant_privileges
     self.admin = true
-    self.status = STATUSES[:builtin]
   end
 
   def remove_privileges
     self.admin = false
-    self.status = STATUSES[:locked]
   end
 
   def run_given(&_block)

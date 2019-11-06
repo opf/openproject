@@ -320,11 +320,11 @@ class User < Principal
   end
 
   def status_name
-    STATUSES.keys[status].to_s
+    STATUSES.invert[status].to_s
   end
 
   def active?
-    [STATUSES[:active], STATUSES[:builtin]].include? status
+    status == STATUSES[:active]
   end
 
   def registered?
@@ -702,7 +702,7 @@ class User < Principal
         login: "",
         mail: "",
         admin: false,
-        status: User::STATUSES[:locked],
+        status: User::STATUSES[:active],
         first_login: false
       )
 
@@ -869,6 +869,8 @@ class AnonymousUser < User
   # Overrides a few properties
   def logged?; false end
 
+  def builtin?; true end
+
   def admin; false end
 
   def name(*_args); I18n.t(:label_user_anonymous) end
@@ -885,19 +887,19 @@ end
 class DeletedUser < User
   validate :validate_unique_deleted_user, on: :create
 
-  default_scope { where(status: STATUSES[:builtin]) }
-
   # There should be only one DeletedUser in the database
   def validate_unique_deleted_user
     errors.add :base, 'A DeletedUser already exists.' if DeletedUser.any?
   end
 
   def self.first
-    super || create(type: to_s, status: STATUSES[:builtin])
+    super || create(type: to_s, status: STATUSES[:active])
   end
 
   # Overrides a few properties
   def logged?; false end
+
+  def builtin?; true end
 
   def admin; false end
 

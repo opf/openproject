@@ -44,7 +44,7 @@ describe('PathHelper', function() {
 
       expect(
         PathHelper.api.v3.principals(projectId, term)
-      ).toEqual('/api/v3/principals?filters=' +  encodeURI('[{"status":{"operator":"!","values":["0","3"]}},{"member":{"operator":"=","values":["1"]}},{"type":{"operator":"=","values":["User","Group"]}},{"id":{"operator":"!","values":["me"]}},{"name":{"operator":"~","values":["Maria"]}}]&sortBy=[["name","asc"]]&offset=1&pageSize=10'));
+      ).toEqual('/api/v3/principals?filters=' +  encodeURI('[{"status":{"operator":"!","values":["3"]}},{"member":{"operator":"=","values":["1"]}},{"type":{"operator":"=","values":["User","Group"]}},{"id":{"operator":"!","values":["me"]}},{"name":{"operator":"~","values":["Maria"]}}]&sortBy=[["name","asc"]]&offset=1&pageSize=10'));
     });
 
     it('should provide a path to work package query on subject or ID ', function() {

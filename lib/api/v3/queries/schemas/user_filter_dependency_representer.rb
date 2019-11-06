@@ -45,8 +45,7 @@ module API
             params = [{ type: { operator: '=',
                                 values: ['User'] } },
                       { status: { operator: '!',
-                                  values: [Principal::STATUSES[:builtin].to_s,
-                                           Principal::STATUSES[:locked].to_s] } }]
+                                  values: [Principal::STATUSES[:locked].to_s] } }]
 
             if filter.project
               params << { member: { operator: '=', values: [filter.project.id.to_s] } }

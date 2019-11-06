@@ -51,7 +51,7 @@ module UsersHelper
   # Format user status, including brute force prevention status
   def full_user_status(user, include_num_failed_logins = false)
     user_status = ''
-    unless [User::STATUSES[:active], User::STATUSES[:builtin]].include?(user.status)
+    unless user.active?
       user_status = translate_user_status(user.status_name)
     end
     brute_force_status = ''
