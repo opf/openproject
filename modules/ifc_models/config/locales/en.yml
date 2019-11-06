@@ -9,6 +9,11 @@ en:
       label: 'Processing?'
       in_progress: 'In progress'
       completed: 'Completed'
+    conversion:
+      missing_commands: "The following IFC converter commands are missing on this system: %{names}"
   project_module_ifc_models: "IFC models"
   permission_view_ifc_models: "View IFC models"
   permission_manage_ifc_models: "Import and manage IFC models"
+  extraction:
+    available:
+      ifc_convert: "IFC conversion pipeline available"
