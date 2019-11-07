@@ -38,9 +38,8 @@ module OpenProject
         OpenProject::Notifications.subscribe('project_renamed') do |payload|
           repository = payload[:project].repository
 
-          if repository && repository.managed?
-            Delayed::Job.enqueue ::Scm::RelocateRepositoryJob.new(repository),
-                                 priority: ::ApplicationJob.priority_number(:low)
+          if repository&.managed?
+            ::Scm::RelocateRepositoryJob.perform_later(repository)
           end
         end
       end

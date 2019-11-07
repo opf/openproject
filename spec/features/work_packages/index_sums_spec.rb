@@ -29,18 +29,35 @@
 require 'spec_helper'
 
 RSpec.feature 'Work package index sums', js: true do
-
   let(:admin) { FactoryBot.create(:admin) }
-  let(:project) {
+  let(:project) do
     FactoryBot.create(:project, name: 'project1', identifier: 'project1')
-  }
-
-  let!(:work_package_1) {
-    FactoryBot.create(:work_package, project: project, estimated_hours: 10)
-  }
-  let!(:work_package_2) {
-    FactoryBot.create(:work_package, project: project, estimated_hours: 15)
-  }
+  end
+  let(:type) { FactoryBot.create(:type) }
+  let!(:int_cf) do
+    FactoryBot.create(:int_wp_custom_field).tap do |cf|
+      project.work_package_custom_fields << cf
+      type.custom_fields << cf
+    end
+  end
+  let!(:float_cf) do
+    FactoryBot.create(:float_wp_custom_field).tap do |cf|
+      project.work_package_custom_fields << cf
+      type.custom_fields << cf
+    end
+  end
+  let!(:work_package_1) do
+    FactoryBot.create(:work_package, project: project, type: type, estimated_hours: 10).tap do |wp|
+      wp.custom_field_values = { int_cf.id => 5, float_cf.id => 5.5 }
+      wp.save!
+    end
+  end
+  let!(:work_package_2) do
+    FactoryBot.create(:work_package, project: project, type: type, estimated_hours: 15).tap do |wp|
+      wp.custom_field_values = { int_cf.id => 7, float_cf.id => 7.7 }
+      wp.save!
+    end
+  end
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:columns) { ::Components::WorkPackages::Columns.new }
@@ -48,6 +65,10 @@ RSpec.feature 'Work package index sums', js: true do
 
   before do
     login_as(admin)
+
+    allow(Setting)
+      .to receive(:work_package_list_summable_columns)
+      .and_return(%W(estimated_hours cf_#{int_cf.id} cf_#{float_cf.id}))
 
     visit project_work_packages_path(project)
     expect(current_path).to eq('/projects/project1/work_packages')
@@ -58,6 +79,10 @@ RSpec.feature 'Work package index sums', js: true do
 
     # Add estimated time column
     columns.add 'Estimated time'
+    # Add int cf column
+    columns.add int_cf.name
+    # Add float cf column
+    columns.add float_cf.name
 
     # Trigger action from action menu dropdown
     modal.set_display_sums enable: true
@@ -66,6 +91,8 @@ RSpec.feature 'Work package index sums', js: true do
 
     expect(page).to have_selector('.wp-table--sum-container', text: 'Sum')
     expect(page).to have_selector('.wp-table--sum-container', text: '25')
+    expect(page).to have_selector('.wp-table--sum-container', text: '12')
+    expect(page).to have_selector('.wp-table--sum-container', text: '13.2')
 
     # Update the sum
     edit_field = wp_table.edit_field(work_package_1, :estimatedTime)
@@ -73,5 +100,7 @@ RSpec.feature 'Work package index sums', js: true do
 
     expect(page).to have_selector('.wp-table--sum-container', text: 'Sum')
     expect(page).to have_selector('.wp-table--sum-container', text: '35')
+    expect(page).to have_selector('.wp-table--sum-container', text: '12')
+    expect(page).to have_selector('.wp-table--sum-container', text: '13.2')
   end
 end

@@ -39,7 +39,7 @@ tr:
           no_results: 'Alt proje yok.'
         time_entries_list:
           title: 'Harcanan zaman (son 7 gün)'
-          no_results: 'Son 7 güne zaman girişi yok.'
+          no_results: 'Son 7 günde zaman girişi yok.'
         work_packages_accountable:
           title: "Sorumlusu olduğum iş paketleri"
         work_packages_assigned:

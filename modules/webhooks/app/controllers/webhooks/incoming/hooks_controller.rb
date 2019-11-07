@@ -37,7 +37,7 @@ module Webhooks
       end
 
       def handle_hook
-        hook = OpenProject::Webhooks.find(params.require 'hook_name')
+        hook = OpenProject::Webhooks.find(params.require('hook_name'))
 
         if hook
           code = hook.handle(request, params, find_current_user)

@@ -32,7 +32,7 @@
           <th class="wp-table--configuration-modal--trigger wp-table--context-menu-th -short hide-when-print"
               *ngIf="configuration.columnMenuEnabled || configuration.actionsColumnEnabled">
             <div class="generic-table--sort-header-outer">
-              <wp-table-config-menu>
+              <wp-table-config-menu *ngIf="configuration.columnMenuEnabled">
               </wp-table-config-menu>
             </div>
           </th>

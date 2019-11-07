@@ -51,7 +51,7 @@ describe ::API::V3::Queries::Schemas::UserFilterDependencyRepresenter, clear_cac
         let(:type) { '[]User' }
         let(:filter_query) do
           [{ type: { operator: '=', values: ['User'] } },
-           { status: { operator: '!', values: ['0', '3'] } },
+           { status: { operator: '!', values: ['3'] } },
            { member: { operator: '=', values: [project.id.to_s] } }]
         end
         let(:href) do
@@ -74,7 +74,7 @@ describe ::API::V3::Queries::Schemas::UserFilterDependencyRepresenter, clear_cac
           let(:project) { nil }
           let(:filter_query) do
             [{ type: { operator: '=', values: ['User'] } },
-             { status: { operator: '!', values: ['0', '3'] } }]
+             { status: { operator: '!', values: ['3'] } }]
           end
 
           context "for operator 'Queries::Operators::Equals'" do

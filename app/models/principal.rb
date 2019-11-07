@@ -32,7 +32,6 @@ class Principal < ActiveRecord::Base
   # Account statuses
   # Code accessing the keys assumes they are ordered, which they are since Ruby 1.9
   STATUSES = {
-    builtin: 0,
     active: 1,
     registered: 2,
     locked: 3,
@@ -73,8 +72,6 @@ class Principal < ActiveRecord::Base
     where.not(id: Member.of(project).select(:user_id))
   }
 
-  # Builtin status cannot be used here as the SystemUser is locked typically but
-  # is a builtin user anyway.
   scope :not_builtin, -> {
     where.not(type: [SystemUser.name, AnonymousUser.name, DeletedUser.name])
   }
@@ -136,6 +133,11 @@ class Principal < ActiveRecord::Base
 
   def active_or_registered?
     [STATUSES[:active], STATUSES[:registered], STATUSES[:invited]].include?(status)
+  end
+
+  # Helper method to identify internal users
+  def builtin?
+    false
   end
 
   ##

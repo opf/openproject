@@ -32,6 +32,6 @@ class Queries::News::Orders::DefaultOrder < Queries::BaseOrder
   self.model = News
 
   def self.key
-    /id|created_on/
+    /\A(id|created_on)\z/
   end
 end

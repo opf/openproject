@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -38,45 +39,55 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
   let(:author) { FactoryBot.create(:user, login: "marktwain") }
   let(:work_package) do
     FactoryBot.create(:work_package,
-                       project: project,
-                       author: author,
-                       assigned_to: recipient)
+                      project: project,
+                      author: author,
+                      assigned_to: recipient)
   end
-  let(:journal) { work_package.journals.first }
-  subject { described_class.new(journal.id, author.id) }
+  let(:journal) { journal_1 }
+  let(:journal_1) { work_package.journals.first }
+  let(:journal_2) do
+    work_package.add_journal author, 'something I have to say'
+    work_package.save(validate: false)
+    work_package.journals.last
+  end
+  let(:send_mail) { true }
+
+  subject { described_class.new.perform(journal.id, send_mail) }
 
   before do
     # make sure no other calls are made due to WP creation/update
     allow(OpenProject::Notifications).to receive(:send) # ... and do nothing
   end
 
-  it 'sends a mail' do
-    expect(Delayed::Job).to receive(:enqueue).with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
-    subject.perform
+  shared_examples_for 'sends notification' do
+    it 'sends a notification' do
+      expect(OpenProject::Notifications)
+        .to receive(:send)
+        .with(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY,
+              journal: an_instance_of(Journal::AggregatedJournal),
+              send_mail: send_mail)
+
+      subject
+    end
   end
+
+  shared_examples_for 'sends no notification' do
+    it 'sends no notification' do
+      expect(OpenProject::Notifications)
+        .not_to receive(:send)
+
+      subject
+    end
+  end
+
+  it_behaves_like 'sends notification'
 
   context 'non-existant journal' do
     before do
       journal.destroy
     end
 
-    it 'sends no mail' do
-      expect(Delayed::Job).not_to receive(:enqueue)
-      subject.perform
-    end
-  end
-
-  context 'non-existant author' do
-    before do
-      author.destroy
-    end
-
-    it 'sends a mail' do
-      expect(Delayed::Job)
-        .to receive(:enqueue)
-        .with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
-      subject.perform
-    end
+    it_behaves_like 'sends no notification'
   end
 
   context 'outdated journal' do
@@ -86,10 +97,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
       work_package.save!
     end
 
-    it 'does not send any mails' do
-      expect(Delayed::Job).not_to receive(:enqueue)
-      subject.perform
-    end
+    it_behaves_like 'sends no notification'
   end
 
   describe 'mail suppressing aggregation' do
@@ -133,25 +141,22 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
       # The job for 2 will know, that it has become part of Journal 3.
       #  -> no special behaviour required
 
-      it 'Job 1 sends one mail for journal 1' do
-        expect(Delayed::Job)
-          .to receive(:enqueue)
-          .with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
-          .once
-        described_class.new(journal_1.id, author.id).perform
+      context 'for journal 1' do
+        let(:journal) { journal_1 }
+
+        it_behaves_like 'sends notification' # for journal 1
       end
 
-      it 'Job 2 sends no mails' do
-        expect(Delayed::Job).not_to receive(:enqueue)
-        described_class.new(journal_2.id, author.id).perform
+      context 'for journal 2' do
+        let(:journal) { journal_2 }
+
+        it_behaves_like 'sends no notification'
       end
 
-      it 'Job 3 sends one mail for journal (2,3)' do
-        expect(Delayed::Job)
-          .to receive(:enqueue)
-          .with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
-          .once
-        described_class.new(journal_3.id, author.id).perform
+      context 'for journal 3' do
+        let(:journal) { journal_3 }
+
+        it_behaves_like 'sends notification' # for journals 2 and 3
       end
     end
 
@@ -169,22 +174,22 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
         journal_3.save!
       end
 
-      it 'Job 1 sends no mails' do
-        expect(Delayed::Job).not_to receive(:enqueue)
-        described_class.new(journal_1.id, author.id).perform
+      context 'for journal 1' do
+        let(:journal) { journal_1 }
+
+        it_behaves_like 'sends no notification'
       end
 
-      it 'Job 2 sends no mails' do
-        expect(Delayed::Job).not_to receive(:enqueue)
-        described_class.new(journal_2.id, author.id).perform
+      context 'for journal 2' do
+        let(:journal) { journal_2 }
+
+        it_behaves_like 'sends no notification'
       end
 
-      it 'Job 3 sends one mail for (2,3)' do
-        expect(Delayed::Job)
-          .to receive(:enqueue)
-          .with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
-          .once
-        described_class.new(journal_3.id, author.id).perform
+      context 'for journal 3' do
+        let(:journal) { journal_3 }
+
+        it_behaves_like 'sends notification' # for journals 1, 2 and 3
       end
     end
 
@@ -198,200 +203,22 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
         journal_3.save!
       end
 
-      it 'Job 1 sends no mails' do
-        expect(Delayed::Job).not_to receive(:enqueue)
-        described_class.new(journal_1.id, author.id).perform
+      context 'for journal 1' do
+        let(:journal) { journal_1 }
+
+        it_behaves_like 'sends no notification'
       end
 
-      it 'Job 2 sends one mail for journal (1, 2)' do
-        expect(Delayed::Job).to receive(:enqueue)
-                                  .with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
-                                  .once
-        described_class.new(journal_2.id, author.id).perform
+      context 'for journal 2' do
+        let(:journal) { journal_2 }
+
+        it_behaves_like 'sends notification' # for journals 1 and 2
       end
 
-      it 'Job 3 sends one mail for journal 3' do
-        expect(Delayed::Job).to receive(:enqueue)
-                                  .with(an_instance_of(DeliverWorkPackageNotificationJob), any_args)
-                                  .once
-        described_class.new(journal_3.id, author.id).perform
-      end
-    end
-  end
+      context 'for journal 3' do
+        let(:journal) { journal_3 }
 
-  describe "#text_for_mentions" do
-    it "returns a text" do
-      subject.perform
-      expect(subject.send(:text_for_mentions)).to be_a String
-    end
-
-    context "subject and description changed" do
-      let(:title) { 'New subject' }
-      let(:description) { 'New description' }
-      let(:notes) { 'Nice notes!' }
-
-      subject { described_class.new(work_package.journals.last.id, author.id) }
-
-      before do
-        work_package.subject = title
-        work_package.description = description
-        work_package.save!
-
-        work_package.journals.last.notes = notes
-        work_package.journals.last.save
-
-        subject.perform
-      end
-
-      it "returns notes, subject and description" do
-        expect(subject.send(:text_for_mentions)).not_to be_blank
-        expect(subject.send(:text_for_mentions)).to match title
-        expect(subject.send(:text_for_mentions)).to match description
-        expect(subject.send(:text_for_mentions)).to match notes
-      end
-    end
-  end
-
-  describe "#mentioned" do
-    subject do
-      instance = described_class.new(journal.id, author.id)
-      instance.perform
-
-      allow(instance)
-        .to receive(:text_for_mentions)
-        .and_return(added_text)
-
-      instance.send(:mentioned)
-    end
-
-    context 'for users' do
-      context "mentioned is allowed to view the work package" do
-        context "The added text contains a login name" do
-          let(:added_text) { "Hello user:\"#{recipient.login}\"" }
-
-          context "that is pretty normal word" do
-            it "detects the user" do
-              is_expected
-                .to match_array [recipient]
-            end
-          end
-
-          context "that is an email address" do
-            let(:recipient) do
-              FactoryBot.create(:user,
-                                 member_in_project: project,
-                                 member_through_role: role,
-                                 login: "foo@bar.com")
-            end
-
-            it "detects the user" do
-              is_expected
-                .to match_array [recipient]
-            end
-          end
-        end
-
-        context "The added text contains a user ID" do
-          let(:added_text) { "Hello user##{recipient.id}" }
-
-          it "detects the user" do
-            is_expected
-              .to match_array [recipient]
-          end
-        end
-
-        context "the recipient turned off all mail notifications" do
-          let(:recipient) do
-            FactoryBot.create(:user,
-                               member_in_project: project,
-                               member_through_role: role,
-                               mail_notification: 'none')
-          end
-
-          let(:added_text) do
-            "Hello user:\"#{recipient.login}\", hey user##{recipient.id}"
-          end
-
-          it "no user gets detected" do
-            is_expected
-              .to be_empty
-          end
-        end
-      end
-
-      context "mentioned user is not allowed to view the work package" do
-        let(:recipient) do
-          FactoryBot.create(:user,
-                             login: "foo@bar.com")
-        end
-        let(:added_text) do
-          "Hello user:#{recipient.login}, hey user##{recipient.id}"
-        end
-
-        it "no user gets detected" do
-          is_expected
-            .to be_empty
-        end
-      end
-    end
-
-    context 'for groups' do
-      let(:group_member) { FactoryBot.create(:user) }
-
-      let(:group) do
-        FactoryBot.create(:group) do |group|
-          group.users << group_member
-
-          FactoryBot.create(:member,
-                             project: project,
-                             principal: group,
-                             roles: [role])
-        end
-      end
-
-      let(:added_text) do
-        "Hello group##{group.id}"
-      end
-
-      context 'group member is allowed to view the work package' do
-        context 'user wants to receive notifications' do
-          it "group member gets detected" do
-            is_expected
-              .to match_array([group_member])
-          end
-        end
-
-        context 'user disabled notifications' do
-          let(:group_member) { FactoryBot.create(:user, mail_notification: User::USER_MAIL_OPTION_NON.first) }
-
-          it "group member is ignored" do
-            is_expected
-              .to be_empty
-          end
-        end
-      end
-
-      context 'group is not allowed to view the work package' do
-        let(:role) { FactoryBot.create(:role, permissions: []) }
-
-        it "group member is ignored" do
-          is_expected
-            .to be_empty
-        end
-
-        context 'but group member is allowed individually' do
-          before do
-            FactoryBot.create(:member,
-                               project: project,
-                               principal: group_member,
-                               roles: [FactoryBot.create(:role, permissions: [:view_work_packages])])
-          end
-
-          it "group member gets detected" do
-            is_expected
-              .to match_array([group_member])
-          end
-        end
+        it_behaves_like 'sends notification' # for journal 3
       end
     end
   end

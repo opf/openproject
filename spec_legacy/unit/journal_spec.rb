@@ -31,32 +31,8 @@ require_relative '../legacy_spec_helper'
 
 describe Journal,
          type: :model,
-         with_settings: { notified_events: %w(work_package_updated) } do
+         with_settings: { notified_events: %w(work_package_added work_package_updated) } do
   fixtures :all
-
-  it 'create should send email notification' do
-    issue = WorkPackage.first
-    if issue.journals.empty?
-      issue.add_journal(User.current, 'This journal represents the creationa of journal version 1')
-      issue.save
-    end
-
-    issue.reload
-    issue.update_attribute(:subject, 'New subject to trigger automatic journal entry')
-    assert_equal 2, ActionMailer::Base.deliveries.size
-  end
-
-  it 'create should not send email notification if told not to' do
-    issue = WorkPackage.first
-    user = User.first
-    issue.add_journal(user, 'A note')
-    JournalManager.send_notification = false
-
-    assert_difference('Journal.count') do
-      assert issue.save
-    end
-    assert_equal 0, ActionMailer::Base.deliveries.size
-  end
 
   specify 'creating a journal should update the updated_on value of the parent record (touch)' do
     @user = FactoryBot.create(:user)

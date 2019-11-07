@@ -41,11 +41,14 @@ describe 'Lost password', type: :feature do
 
     expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_account_lost_email_sent))
 
+    perform_enqueued_jobs
     expect(ActionMailer::Base.deliveries.size).to eql 0
 
     fill_in 'mail', with: user.mail
     click_on 'Submit'
     expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_account_lost_email_sent))
+
+    perform_enqueued_jobs
     expect(ActionMailer::Base.deliveries.size).to eql 1
 
     # mimick the user clicking on the link in the mail

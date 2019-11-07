@@ -193,7 +193,7 @@ Doorkeeper.configure do
   #
   after_successful_authorization do |controller|
     # Schedule a cleanup job to clean out over-TTL tokens and grants
-    Delayed::Job.enqueue ::OAuth::CleanupJob.new, priority: ::ApplicationJob.priority_number(:low)
+    ::OAuth::CleanupJob.perform_later
   end
 
   # Under some circumstances you might want to have applications auto-approved,

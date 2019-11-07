@@ -30,9 +30,9 @@ module BaseServices
   class Delete < BaseContracted
     attr_accessor :model
 
-    def initialize(user:, model:, contract_class: nil)
+    def initialize(user:, model:, contract_class: nil, contract_options: {})
       self.model = model
-      super(user: user, contract_class: contract_class)
+      super(user: user, contract_class: contract_class, contract_options: contract_options)
     end
 
     def persist(service_result)

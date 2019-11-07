@@ -119,21 +119,23 @@ describe WorkPackages::CreateContract do
       work_package.project = project
     end
 
-    it 'is valid if the user is set by the sytem and the user is the user the contract is evaluated for' do
-      work_package.extend(Mixins::ChangedBySystem)
+    context 'if the user is set by the sytem and the user is the user the contract is evaluated for' do
+      subject(:contract) { described_class.new(work_package, user, options: { changed_by_system: ['author_id'] }) }
 
-      work_package.change_by_system do
+      it 'is valid' do
         work_package.author = user
-      end
 
-      expect(validated_contract.errors[:author_id]).to be_empty
+        expect(validated_contract.errors[:author_id]).to be_empty
+      end
     end
 
-    it 'is invalid if the user is different from the user the contract is evaluated for' do
-      work_package.author = FactoryBot.build_stubbed(:user)
+    context 'if the user is different from the user the contract is evaluated for' do
+      it 'is invalid' do
+        work_package.author = FactoryBot.build_stubbed(:user)
 
-      expect(validated_contract.errors.symbols_for(:author_id))
-        .to match_array %i[invalid error_readonly]
+        expect(validated_contract.errors.symbols_for(:author_id))
+          .to match_array %i[invalid error_readonly]
+      end
     end
   end
 end

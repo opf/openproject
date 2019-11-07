@@ -38,7 +38,7 @@ class Scm::DeleteManagedRepositoryService < Scm::BaseRepositoryService
     return false unless repository.managed?
 
     if repository.class.manages_remote?
-      Scm::DeleteRemoteRepositoryJob.new(repository, perform_now: true).perform
+      Scm::DeleteRemoteRepositoryJob.perform_now(repository)
       true
     else
       delete_local_repository
@@ -61,7 +61,7 @@ class Scm::DeleteManagedRepositoryService < Scm::BaseRepositoryService
       # Instead, this will be refactored into a single service wrapper for
       # creating and deleting repositories, which provides transactional DB access
       # as well as filesystem access.
-      Scm::DeleteLocalRepositoryJob.new(managed_path).perform
+      Scm::DeleteLocalRepositoryJob.perform_now(managed_path)
     end
 
     true

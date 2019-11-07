@@ -112,7 +112,7 @@ class AccountController < ApplicationController
       # create a new token for password recovery
       token = Token::Recovery.new(user_id: user.id)
       if token.save
-        UserMailer.password_lost(token).deliver_now
+        UserMailer.password_lost(token).deliver_later
         flash[:notice] = l(:notice_account_lost_email_sent)
         redirect_to action: 'login', back_url: home_url
         return
@@ -462,7 +462,7 @@ class AccountController < ApplicationController
   end
 
   def send_activation_email!(token)
-    UserMailer.user_signed_up(token).deliver_now
+    UserMailer.user_signed_up(token).deliver_later
   end
 
   def pending_auth_source_registration?
@@ -581,7 +581,7 @@ class AccountController < ApplicationController
       # Sends an email to the administrators
       admins = User.admin.active
       admins.each do |admin|
-        UserMailer.account_activation_requested(admin, user).deliver_now
+        UserMailer.account_activation_requested(admin, user).deliver_later
       end
       account_pending
     elsif block_given?

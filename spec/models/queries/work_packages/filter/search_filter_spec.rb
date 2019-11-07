@@ -114,12 +114,16 @@ describe Queries::WorkPackages::Filter::SearchFilter, type: :model do
           end
 
           it "finds in attachment content" do
+            perform_enqueued_jobs
+
             instance.values = ['ipsum']
             expect(WorkPackage.joins(instance.joins).where(instance.where))
               .to match_array [work_package]
           end
 
           it "finds in attachment file name" do
+            perform_enqueued_jobs
+
             instance.values = [filename]
             expect(WorkPackage.joins(instance.joins).where(instance.where))
               .to match_array [work_package]
