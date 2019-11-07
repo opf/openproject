@@ -34,33 +34,24 @@ describe SystemUser, type: :model do
   describe '#grant_privileges' do
     before do
       expect(system_user.admin).to be_falsey
-      expect(system_user.status).to eq(User::STATUSES[:locked])
+      expect(system_user.status).to eq(User::STATUSES[:active])
       system_user.grant_privileges
     end
 
     it 'grant admin rights' do
       expect(system_user.admin).to be_truthy
     end
-
-    it 'unlocks the user' do
-      expect(system_user.status).to eq(User::STATUSES[:builtin])
-    end
   end
 
   describe '#remove_privileges' do
     before do
       system_user.admin = true
-      system_user.status = User::STATUSES[:active]
       system_user.save
       system_user.remove_privileges
     end
 
     it 'removes admin rights' do
       expect(system_user.admin).to be_falsey
-    end
-
-    it 'locks the user' do
-      expect(system_user.status).to eq(User::STATUSES[:locked])
     end
   end
 

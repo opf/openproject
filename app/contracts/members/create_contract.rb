@@ -37,8 +37,10 @@ module Members
     private
 
     def principal_assignable
-      if principal &&
-         [Principal::STATUSES[:builtin], Principal::STATUSES[:locked]].include?(principal.status)
+      return if principal.nil?
+
+      # Only users have the `locked?` shorthand
+      if principal.builtin? || principal.status == Principal::STATUSES[:locked]
         errors.add(:principal, :unassignable)
       end
     end
