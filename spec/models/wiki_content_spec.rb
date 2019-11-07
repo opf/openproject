@@ -57,7 +57,10 @@ describe WikiContent, type: :model do
     it 'sends mails to the wiki`s watchers', with_settings: { notified_events: ['wiki_content_added'] } do
       wiki_watcher
 
-      expect { content.save! }
+      expect {
+        content.save!
+        perform_enqueued_jobs
+      }
         .to change { ActionMailer::Base.deliveries.size }
         .by(1)
     end
@@ -69,7 +72,10 @@ describe WikiContent, type: :model do
       wiki_watcher
       content.text = 'My new content'
 
-      expect { content.save! }
+      expect {
+        content.save!
+        perform_enqueued_jobs
+      }
         .to change { ActionMailer::Base.deliveries.size }
         .by(3)
     end
