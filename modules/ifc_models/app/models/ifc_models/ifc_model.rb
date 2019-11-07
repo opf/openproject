@@ -17,7 +17,7 @@ module IFCModels
           delete_attachment :metadata
         end
 
-        delete_attachment :ifc
+        delete_attachment name
         attach_files('first' => { 'file' => file, 'description' => name })
       end
     end
