@@ -29,56 +29,36 @@ require 'open3'
 
 module IFCModels
   class ViewConverterService
-
-    ##
-    # Check availability of the pipeline
-    def self.available?
-      available_commands.length == pipeline_commands.length
-    end
-
-    def self.pipeline_commands
-      %w[IfcConvert COLLADA2GLTF gltf2xkt xeokit-metadata]
-    end
-
-    def self.available_commands
-      @available ||= begin
-        pipeline_commands.select do |command|
-          _, status = Open3.capture2e('which', command)
-          status.exitstatus == 0
-        end
-      end
-    end
-
     attr_reader :ifc_model, :errors
+
+    PIPELINE_COMMANDS ||= %w[IfcConvert COLLADA2GLTF gltf2xkt xeokit-metadata].freeze
+
 
     def initialize(ifc_model)
       @errors = ActiveModel::Errors.new(self)
       @ifc_model = ifc_model
     end
 
+    ##
+    # Check availability of the pipeline
+    def available?
+      available_commands.length == PIPELINE_COMMANDS.length
+    end
+
+    def available_commands
+      @available ||= begin
+        PIPELINE_COMMANDS.select do |command|
+          _, status = Open3.capture2e('which', command)
+          status.exitstatus == 0
+        end
+      end
+    end
+
     def call
       validate!
 
       Dir.mktmpdir do |dir|
-        # Step 1: IfcConvert
-        Rails.logger.debug { "Converting #{ifc_model.inspect} to DAE"}
-        ifc_file = ifc_model.ifc_attachment.diskfile.path
-        collada_file = convert_to_collada(ifc_file, dir)
-
-        # Step 2: Collada2GLTF
-        Rails.logger.debug { "Converting #{ifc_model.inspect} to GLTF"}
-        gltf_file = convert_to_gltf(collada_file, dir)
-
-        # Step 3: Convert to XKT
-        Rails.logger.debug { "Converting #{ifc_model.inspect} to XKT"}
-        xkt_file = convert_to_xkt(gltf_file, dir)
-        ifc_model.xkt_attachment = File.new xkt_file
-
-        # Convert metadata
-        Rails.logger.debug { "Retrieving metadata of #{ifc_model.inspect}"}
-        metadata_file = convert_metadata(ifc_file, dir)
-        ifc_model.metadata_attachment = File.new metadata_file
-
+        perform_conversion!(dir)
         if ifc_model.save
           ServiceResult.new(success: true, result: ifc_model)
         else
@@ -88,6 +68,27 @@ module IFCModels
     rescue StandardError => e
       OpenProject.logger.error("Failed to convert IFC to XKT", exception: e)
       ServiceResult.new(success: false).tap { |r| r.errors.add(:base, e.message) }
+    end
+
+    def perform_conversion!(dir)
+      # Step 1: IfcConvert
+      Rails.logger.debug { "Converting #{ifc_model.inspect} to DAE"}
+      ifc_file = ifc_model.ifc_attachment.diskfile.path
+      collada_file = convert_to_collada(ifc_file, dir)
+
+      # Step 2: Collada2GLTF
+      Rails.logger.debug { "Converting #{ifc_model.inspect} to GLTF"}
+      gltf_file = convert_to_gltf(collada_file, dir)
+
+      # Step 3: Convert to XKT
+      Rails.logger.debug { "Converting #{ifc_model.inspect} to XKT"}
+      xkt_file = convert_to_xkt(gltf_file, dir)
+      ifc_model.xkt_attachment = File.new xkt_file
+
+      # Convert metadata
+      Rails.logger.debug { "Retrieving metadata of #{ifc_model.inspect}"}
+      metadata_file = convert_metadata(ifc_file, dir)
+      ifc_model.metadata_attachment = File.new metadata_file
     end
 
     ##
@@ -152,8 +153,8 @@ module IFCModels
     end
 
     def validate!
-      unless self.class.available?
-        missing = self.class.pipeline_commands - self.class.available_commands
+      unless available?
+        missing = PIPELINE_COMMANDS - available_commands
         raise I18n.t('ifc_models.conversion.missing_commands', names: missing.join(", "))
       end
 
