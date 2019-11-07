@@ -42,7 +42,6 @@ module OpenProject::Bcf
                default: {
                }
              } do
-
       project_module :bcf do
         permission :view_linked_issues,
                    { 'bcf/issues': %i[index] },
