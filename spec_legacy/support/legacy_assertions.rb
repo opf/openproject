@@ -35,6 +35,7 @@ module LegacyAssertionsAndHelpers
   def reset_global_state!
     User.current = User.anonymous # reset current user in case it was changed in a test
     ActionMailer::Base.deliveries.clear
+    RequestStore.clear!
   end
 
   ##

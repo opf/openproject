@@ -279,7 +279,10 @@ module WorkPackages
       old_parent_id = model.parent_id_was
 
       if old_parent_id.present?
-        query.where.not(hierarchy: 1, from_id: old_parent_id, to_id: model.id)
+        query
+          .where.not(hierarchy: 1)
+          .where.not(from_id: old_parent_id)
+          .where.not(to_id: model.id)
       else
         query
       end

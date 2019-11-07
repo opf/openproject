@@ -29,7 +29,6 @@ describe 'Upload attachment to work package', js: true do
 
   describe 'wysiwyg editor' do
     context 'on an existing page' do
-
       before do
         wp_page.visit!
         wp_page.ensure_page_loaded
@@ -38,7 +37,6 @@ describe 'Upload attachment to work package', js: true do
       it 'can upload an image via drag & drop' do
         # Activate the edit field
         field.activate!
-        target = find('.ck-content')
 
         editor.expect_button 'Insert image'
 
@@ -109,6 +107,7 @@ describe 'Upload attachment to work package', js: true do
         # so that the image is properly embedded
         caption = page.find('figure.image figcaption')
         caption.click
+        sleep 0.2
         caption.base.send_keys('Some image caption')
 
         sleep 2

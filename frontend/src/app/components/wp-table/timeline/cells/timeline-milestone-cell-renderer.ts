@@ -77,7 +77,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
                      delta:number,
                      direction:'left' | 'right' | 'both' | 'create' | 'dragright') {
 
-    const initialDate = change.projectedResource.date;
+    const initialDate = change.pristineResource.date;
     let dates:CellDateMovement = {};
 
     if (initialDate) {

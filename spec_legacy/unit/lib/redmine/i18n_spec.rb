@@ -36,20 +36,6 @@ describe Redmine::I18n do
     @hook_module = Redmine::Hook
   end
 
-  it 'should date format default' do
-    set_language_if_valid 'en'
-    today = Date.today
-    Setting.date_format = ''
-    assert_equal I18n.l(today), format_date(today)
-  end
-
-  it 'should date format' do
-    set_language_if_valid 'en'
-    today = Date.today
-    Setting.date_format = '%d %m %Y'
-    assert_equal today.strftime('%d %m %Y'), format_date(today)
-  end
-
   it 'should date and time for each language' do
     Setting.date_format = ''
     valid_languages.each do |lang|

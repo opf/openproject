@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::UpdateService, 'integration tests', type: :model do
+describe WorkPackages::UpdateService, 'integration tests', type: :model, with_mail: false do
   let(:user) do
     FactoryBot.create(:user,
                       member_in_project: project,
