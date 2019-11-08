@@ -35,8 +35,8 @@ describe 'BCF 2.1 projects resource', type: :request do
   let(:project) { FactoryBot.create(:project) }
   subject(:response) { last_response }
 
-  describe 'GET /bcf/2.1/projects/:project_id' do
-    let(:path) { "/bcf/2.1/projects/#{project.id}" }
+  describe 'GET /api/bcf/2.1/projects/:project_id' do
+    let(:path) { "/api/bcf/2.1/projects/#{project.id}" }
 
     before do
       get path
@@ -55,6 +55,11 @@ describe 'BCF 2.1 projects resource', type: :request do
 
       expect(subject.body)
         .to be_json_eql(expected.to_json)
+    end
+
+    it 'is has a json content type header' do
+      expect(subject.headers['Content-Type'])
+        .to eql 'application/json; charset=utf-8'
     end
   end
 end

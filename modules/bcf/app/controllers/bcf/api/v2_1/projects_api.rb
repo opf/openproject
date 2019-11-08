@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,8 +30,6 @@
 
 module Bcf::API::V2_1
   class ProjectsAPI < ::API::OpenProjectAPI
-    include OpenProject::StaticRouting::UrlHelpers
-
     resources :projects do
       route_param :id, regexp: /\A(\d+)\z/ do
         after_validation do

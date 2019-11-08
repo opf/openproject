@@ -30,50 +30,36 @@
 
 # Root class of the API
 # This is the place for all API wide configuration, helper methods, exceptions
-# rescuing, mounting of different API versions etc.
+# rescuing, mounting of differnet API versions etc.
 
 require 'open_project/authentication'
 
-module Bcf::API::V2_1
-  class Root < Grape::API
-    extend ::API::Utilities::GrapeHelper
+module API
+  class RootAPI < Grape::API
+    include OpenProject::Authentication::Scope
+    extend API::Utilities::GrapeHelper
 
-    class Formatter
-      def call(object, _env)
-        object.respond_to?(:to_json) ? object.to_json : MultiJson.dump(object)
-      end
-    end
+    content_type 'hal+json', 'application/hal+json; charset=utf-8'
+    content_type :json,      'application/json; charset=utf-8'
 
-    class Parser
-      def call(object, _env)
-        MultiJson.load(object)
-      rescue MultiJson::ParseError => e
-        error = ::API::Errors::ParseError.new(details: e.message)
-        representer = ::API::V3::Errors::ErrorRepresenter.new(error)
+    use OpenProject::Authentication::Manager
 
-        throw :error, status: 400, message: representer.to_json
-      end
-    end
-
-    content_type :json, 'application/json; charset=utf-8'
-    format 'json'
-    formatter 'json', Formatter.new
-
-    parser :json, Parser.new
-
-    use ::OpenProject::Authentication::Manager
-
+    helpers API::Caching::Helpers
     helpers do
       def current_user
         User.current
       end
 
-      def declared_param(key)
-        declared(params)[key.to_s]
-      end
-
       def warden
         env['warden']
+      end
+
+      ##
+      # Helper to access only the declared
+      # params to avoid unvalidated access
+      # (e.g., in before blocks)
+      def declared_params
+        declared(params)
       end
 
       def request_body
@@ -97,7 +83,7 @@ module Bcf::API::V2_1
       # Global helper to set allowed content_types
       # This may be overriden when multipart is allowed (file uploads)
       def allowed_content_types
-        %w(application/json)
+        %w(application/json application/hal+json)
       end
 
       def enforce_content_type
@@ -227,6 +213,17 @@ module Bcf::API::V2_1
     error_response ::API::Errors::Unauthenticated, headers: auth_headers, log: false
     error_response ::API::Errors::ErrorBase, rescue_subclasses: true, log: false
 
+    # Handle grape validation errors
+    error_response ::Grape::Exceptions::ValidationErrors, ::API::Errors::BadRequest, log: false
+
+    # Handle connection timeouts with appropriate payload
+    error_response ActiveRecord::ConnectionTimeoutError,
+                   ::API::Errors::InternalError,
+                   log: ->(exception) do
+                     payload = ::OpenProject::Logging::ThreadPoolContextBuilder.build!
+                     ::OpenProject.logger.error exception, reference: :APIv3, payload: payload
+                   end
+
     # hide internal errors behind the same JSON response as all other errors
     # only doing it in production to allow for easier debugging
     if Rails.env.production?
@@ -234,20 +231,10 @@ module Bcf::API::V2_1
     end
 
     # run authentication before each request
-    before do
-      # authenticate
-      User.current = User.find_by login: 'admin'
+    after_validation do
+      authenticate
       set_localization
       enforce_content_type
-    end
-
-    version '2.1', using: :path do
-      ## /auth
-      #mount ::OpenProject::Bcf::API::AuthEndpoint
-      ## /current-user
-      #mount ::OpenProject::Bcf::API::CurrentUserEndpoint
-      # /projects
-      mount ::Bcf::API::V2_1::ProjectsAPI
     end
   end
 end

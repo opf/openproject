@@ -30,19 +30,27 @@
 
 # Root class of the API
 # This is the place for all API wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
+# rescuing, mounting of different API versions etc.
 
-module API
+require 'open_project/authentication'
+
+module Bcf::API
   class Root < ::API::RootAPI
-    #content_type 'hal+json', 'application/hal+json; charset=utf-8'
-    #content_type :json,      'application/json; charset=utf-8'
-    format 'hal+json'
-    formatter 'hal+json', API::Formatter.new
+    format :json
+    formatter :json, API::Formatter.new
 
-    parser :json, API::V3::Parser.new
+    # run authentication before each request
+    before do
+      # authenticate
+      # TODO: proper authentication
+      User.current = User.find_by login: 'admin'
+      set_localization
+      enforce_content_type
+    end
 
-    version 'v3', using: :path do
-      mount API::V3::Root
+    version '2.1', using: :path do
+      # /projects
+      mount ::Bcf::API::V2_1::ProjectsAPI
     end
   end
 end

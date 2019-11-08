@@ -28,21 +28,15 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Root class of the API
-# This is the place for all API wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
+module API::V3
+  class Parser
+    def call(object, _env)
+      MultiJson.load(object)
+    rescue MultiJson::ParseError => e
+      error = ::API::Errors::ParseError.new(details: e.message)
+      representer = ::API::V3::Errors::ErrorRepresenter.new(error)
 
-module API
-  class Root < ::API::RootAPI
-    #content_type 'hal+json', 'application/hal+json; charset=utf-8'
-    #content_type :json,      'application/json; charset=utf-8'
-    format 'hal+json'
-    formatter 'hal+json', API::Formatter.new
-
-    parser :json, API::V3::Parser.new
-
-    version 'v3', using: :path do
-      mount API::V3::Root
+      throw :error, status: 400, message: representer.to_json
     end
   end
 end
