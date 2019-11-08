@@ -89,6 +89,8 @@
     "glob": "^7.1.4",
     "hammerjs": "^2.0.8",
     "happypack": "^5.0.1",
+    "inspire-tree": "^5.0.1",
+    "inspire-tree-dom": "^4.0.4",
     "jquery": "^3.4.1",
     "jquery-ui": "git+https://github.com/jquery/jquery-ui.git#74f8a0ac952f6f45f773312292baef1c26d81300",
     "jquery-ujs": "^1.2.2",

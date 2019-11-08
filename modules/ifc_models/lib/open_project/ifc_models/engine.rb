@@ -52,6 +52,8 @@ module OpenProject::IFCModels
       end
     end
 
+    assets %w(ifc_models/ifc_models.css)
+
     initializer 'ifc_models.menu' do
       ::Redmine::MenuManager.map(:project_menu) do |menu|
         menu.push(:ifc_models,

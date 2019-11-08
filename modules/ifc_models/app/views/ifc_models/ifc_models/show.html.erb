@@ -31,6 +31,12 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% html_title h(@ifc_model.title) -%>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag "ifc_models/ifc_models", media: 'all' %>
+<% end %>
+
+
 <%= toolbar title: @ifc_model.title do %>
   <% if authorize_for('ifc_models/ifc_models', :edit) %>
     <li class="toolbar-item">
@@ -47,4 +53,10 @@ See doc/COPYRIGHT.rdoc for more details.
     </li>
   <% end %>
 <% end %>
+
+<div class="ifc-model-viewer-container">
+  <ifc-viewer-entry data-ifc-model-id="<%= @ifc_model.id %>"
+                    data-xkt-file-url="<%= attachment_content_url(@ifc_model.xkt_attachment) %>"
+                    data-metadata-file-url="<%= attachment_content_url(@ifc_model.metadata_attachment) %>"></ifc-viewer-entry>
+</div>
 
